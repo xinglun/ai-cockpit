@@ -1,0 +1,342 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.preflight-review.c684f01337a5fa107a9786bf2fd5c953419d3e9b8c236c07e84f24f4f6c4c0d9.json",
+    ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.recovery.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-human-approval.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-toolchain.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/command-runner.py",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/conditional-preflight-binding-check.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/confirm-review.input.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/formal-runner.py",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/historical-original-contract.verification.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/local-preparation-recovery-note.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/process-health-during-recovery.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/raydot-material-review.request.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.input.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stdout",
+    ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+  ],
+  "checkpointAt": "2026-10-15T07:29:45Z",
+  "checkpointContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "recorded": true,
+      "recordedAt": "2026-10-15T07:29:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:050f46229610a43f64ba4f56265f653e4f72cc0a4153368dd515577511b92ce4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "previousContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "reason": "Complete the user-authorized draft Contract for Raydot review: required tri-language documentation projection paths, exact unsplit exclusions, explicit isolated serial worker boundary and preserved verification strength. No source implementation or human review is recorded.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T07:31:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "previousContractHash": "sha256:050f46229610a43f64ba4f56265f653e4f72cc0a4153368dd515577511b92ce4",
+      "reason": "Declare supported exact/subtree output paths and the requested unverified RED/compatibility scenarios before Raydot review. Preserve the rejected compatibility observation and earlier amendment as history.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T07:32:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "previousContractHash": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+      "reason": "Proposed only: enable the supported self-declared review of the exact readable committed Rust syntax Unknown after independent technical review and real verification. Preserve the raw Unknown and all bindings. Required authority and fresh policy review must precede recording a material decision.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T11:12:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "createdAt": "2026-10-15T07:27:55Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e1770338bfc0b1bac50fc0f4b3040c5e58fbc9d82256b3d8c550f897a93c944f",
+    "reason": "Ray explicitly selected confirm_review in direct user reply call_283d0f39bf3b4f62a228739c48b0c4bc for approved request raw sha256:c6e552ac1904da3226d3ecaba6f47c6c04882db9b5a794f570adecdec045b931. Actual fresh preflight is conditionally bound only after checking unchanged Contract, repository/source snapshot, material profile, amendment journal, Findings and authority; all match. See actual-human-approval.json and conditional-preflight-binding-check.json in the human-recovery-20261015 evidence phase. Approval excludes close, Ready, merge and cleanup.",
+    "recordedAt": "2026-10-15T11:30:13.792441+00:00",
+    "recordedBy": "Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+    "schemaVersion": 1,
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-summary.md",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/implementation-result.md"
+    ],
+    "reason": "The actual receipt-only deletion RED and P2 Retained-to-Deleted RED are preserved; current Linux Native full workspace verification passed 13/13 with immutable-proof, retry, compatibility, historical-verification, and published-path assertions. This projection records those local scenario checks, not Windows CI acceptance, human acceptance, merge, archive, or close.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-15T11:53:23.878999732Z",
+      "recordedAt": "2026-10-15T11:53:23.878999732Z",
+      "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T07:29:42.809950572Z",
+      "recordedAt": "2026-10-15T07:29:42.809950572Z",
+      "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:0853382f125e288333c58fde55d9348b53d72db459ee954fd5f0eab03cc05e7e",
+    "path": ".ai/evidence/material-inspection-review/WI-1084-cross-checkout-closeout-receipt-integrity/2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501.json",
+    "receiptDigest": "sha256:e25498de06f90e08727d130f7b06e582661fced95d54f1fd31f1e54366d0b24a",
+    "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-15T11:41:55Z",
+  "preflightContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-15T11:41:55Z",
+    "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "decisionDigest": "sha256:850fead45c5bbe35b5f8b2756cce098620ff1ff7a939373fb306df6cc86ccbe6",
+    "decisionPath": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.recovery.json",
+    "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout"
+      ],
+      "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+      "required": true,
+      "scenario": "receipt_only_deletion",
+      "status": "verified",
+      "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
+      "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+      "required": true,
+      "scenario": "bound_recovery_integrity",
+      "status": "verified",
+      "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
+      "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+      "required": true,
+      "scenario": "valid_recovery_and_retry",
+      "status": "verified",
+      "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout"
+      ],
+      "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
+      "required": true,
+      "scenario": "ordinary_and_historical_compatibility",
+      "status": "verified",
+      "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
+      "expectedOutcome": "Historical not_ready and historical_evidence_not_revalidated persist; no historical tests are represented as rerun.",
+      "required": true,
+      "scenario": "historical_verification_fidelity",
+      "status": "verified",
+      "verificationPlan": "Use distinct historical and current Runtime identities through repository, CLI and MCP recovery/status."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
+      "expectedOutcome": "Original close/Contract/archive/verification/payload bytes remain exact; conflicting published paths are preserved.",
+      "required": true,
+      "scenario": "published_path_preservation",
+      "status": "verified",
+      "verificationPlan": "Run existing no-destructive-rollback, racing-target, source immutability and interruption cases."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-15T11:53:23.878999732Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

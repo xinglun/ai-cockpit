@@ -1,0 +1,1531 @@
+﻿2026-10-15T09:15:12.0221386Z Current runner version: '2.337.0'
+2026-10-15T09:15:12.0291327Z ##[group]Runner Image Provisioner
+2026-10-15T09:15:12.0292519Z Hosted Compute Agent
+2026-10-15T09:15:12.0293430Z Version: 20260901.588
+2026-10-15T09:15:12.0315729Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-15T09:15:12.0317239Z Build Date: 2026-09-01T19:56:44Z
+2026-10-15T09:15:12.0318522Z Worker ID: {2e52dd6c-f8eb-4536-9258-a4ee8eaf0bea}
+2026-10-15T09:15:12.0321349Z Azure Region: northcentralus
+2026-10-15T09:15:12.0322623Z ##[endgroup]
+2026-10-15T09:15:12.0325115Z ##[group]Operating System
+2026-10-15T09:15:12.0326141Z Microsoft Windows Server 2025
+2026-10-15T09:15:12.0327225Z 10.0.26100
+2026-10-15T09:15:12.0327913Z Datacenter
+2026-10-15T09:15:12.0328695Z ##[endgroup]
+2026-10-15T09:15:12.0330327Z ##[group]Runner Image
+2026-10-15T09:15:12.0331819Z Image: windows-2025-vs2026
+2026-10-15T09:15:12.0332696Z Version: 20260925.250.1
+2026-10-15T09:15:12.0335136Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260925.250/images/windows/Windows2025-VS2026-Readme.md
+2026-10-15T09:15:12.0337882Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260925.250
+2026-10-15T09:15:12.0339473Z ##[endgroup]
+2026-10-15T09:15:12.0341391Z ##[group]GITHUB_TOKEN Permissions
+2026-10-15T09:15:12.0344243Z Contents: read
+2026-10-15T09:15:12.0352593Z Metadata: read
+2026-10-15T09:15:12.0353694Z ##[endgroup]
+2026-10-15T09:15:12.0361866Z Secret source: Actions
+2026-10-15T09:15:12.0381011Z Cache mode: write
+2026-10-15T09:15:12.0382534Z Prepare workflow directory
+2026-10-15T09:15:12.6671664Z Prepare all required actions
+2026-10-15T09:15:12.6735815Z Getting action download info
+2026-10-15T09:15:12.8900459Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-15T09:15:13.2891015Z Download action repository 'dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772' (SHA:6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772)
+2026-10-15T09:15:13.4419041Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-15T09:15:14.1068507Z Complete job name: windows-runtime
+2026-10-15T09:15:15.7110087Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-15T09:15:15.7111865Z with:
+2026-10-15T09:15:15.7112538Z   fetch-depth: 0
+2026-10-15T09:15:15.7113308Z   persist-credentials: false
+2026-10-15T09:15:15.7114196Z   repository: xinglun/ai-cockpit
+2026-10-15T09:15:15.7122780Z   token: ***
+2026-10-15T09:15:15.7123501Z   ssh-strict: true
+2026-10-15T09:15:15.7124237Z   ssh-user: git
+2026-10-15T09:15:15.7124935Z   clean: true
+2026-10-15T09:15:15.7125684Z   sparse-checkout-cone-mode: true
+2026-10-15T09:15:15.7126576Z   fetch-tags: false
+2026-10-15T09:15:15.7127308Z   show-progress: true
+2026-10-15T09:15:15.7128047Z   lfs: false
+2026-10-15T09:15:15.7128718Z   submodules: false
+2026-10-15T09:15:15.7129481Z   set-safe-directory: true
+2026-10-15T09:15:15.7130319Z   allow-unsafe-pr-checkout: false
+2026-10-15T09:15:15.7131503Z ##[endgroup]
+2026-10-15T09:15:15.8838611Z Syncing repository: xinglun/ai-cockpit
+2026-10-15T09:15:15.8842195Z ##[group]Getting Git version info
+2026-10-15T09:15:15.8843523Z Working directory is 'D:\a\ai-cockpit\ai-cockpit'
+2026-10-15T09:15:16.0866288Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-15T09:15:17.8278203Z git version 2.55.0.windows.5
+2026-10-15T09:15:17.8329007Z ##[endgroup]
+2026-10-15T09:15:17.8347765Z Temporarily overriding HOME='D:\a\_temp\fcd81d9a-2d73-4638-b921-b5b12ef1bc6d' before making global git config changes
+2026-10-15T09:15:17.8358588Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-15T09:15:17.8359857Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\ai-cockpit\ai-cockpit
+2026-10-15T09:15:18.0066928Z Deleting the contents of 'D:\a\ai-cockpit\ai-cockpit'
+2026-10-15T09:15:18.0072659Z ##[group]Determining repository object format
+2026-10-15T09:15:18.0075307Z ##[endgroup]
+2026-10-15T09:15:18.0075827Z ##[group]Initializing the repository
+2026-10-15T09:15:18.0087987Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\ai-cockpit\ai-cockpit
+2026-10-15T09:15:18.0911742Z Initialized empty Git repository in D:/a/ai-cockpit/ai-cockpit/.git/
+2026-10-15T09:15:18.0968444Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/xinglun/ai-cockpit
+2026-10-15T09:15:18.1605375Z ##[endgroup]
+2026-10-15T09:15:18.1623372Z ##[group]Disabling automatic garbage collection
+2026-10-15T09:15:18.1624503Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-15T09:15:18.1941224Z ##[endgroup]
+2026-10-15T09:15:18.1941886Z ##[group]Setting up auth
+2026-10-15T09:15:18.1942422Z Removing SSH command configuration
+2026-10-15T09:15:18.1954300Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-15T09:15:18.2289130Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-15T09:15:21.4710640Z Removing HTTP extra header
+2026-10-15T09:15:21.4722678Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-15T09:15:21.5081619Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-15T09:15:22.0809029Z Removing includeIf entries pointing to credentials config files
+2026-10-15T09:15:22.0825857Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-15T09:15:22.1195046Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-15T09:15:22.7986955Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-15T09:15:22.8398905Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path D:\a\_temp\git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:22.8767773Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path D:\a\_temp\git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:22.9198765Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:22.9577614Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:23.0001279Z ##[endgroup]
+2026-10-15T09:15:23.0002045Z ##[group]Fetching the repository
+2026-10-15T09:15:23.0003704Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +9f68a7eed200e4527844a57c1e2e4c82bfad779f:refs/remotes/pull/1040/merge
+2026-10-15T09:15:30.6108365Z From https://github.com/xinglun/ai-cockpit
+2026-10-15T09:15:30.6109292Z  * [new branch]        codex/wi-1059-input-trust-context -> origin/codex/wi-1059-input-trust-context
+2026-10-15T09:15:30.6110450Z  * [new branch]        codex/wi1051-mac-prerelease-v1-0-1-rc-1 -> origin/codex/wi1051-mac-prerelease-v1-0-1-rc-1
+2026-10-15T09:15:30.6111479Z  * [new branch]        codex/wi1056-retry-amend-preflight -> origin/codex/wi1056-retry-amend-preflight
+2026-10-15T09:15:30.6113687Z  * [new branch]        codex/wi1059-input-trust-context -> origin/codex/wi1059-input-trust-context
+2026-10-15T09:15:30.6114650Z  * [new branch]        codex/wi1068-v1-0-1-stable-release -> origin/codex/wi1068-v1-0-1-stable-release
+2026-10-15T09:15:30.6115582Z  * [new branch]        codex/wi1069-v1-0-1-release-publication -> origin/codex/wi1069-v1-0-1-release-publication
+2026-10-15T09:15:30.6116301Z  * [new branch]        codex/wi1070-wi1068-parity-repair-20261010 -> origin/codex/wi1070-wi1068-parity-repair-20261010
+2026-10-15T09:15:30.6117499Z  * [new branch]        codex/wi1071-release-source-quality-binding -> origin/codex/wi1071-release-source-quality-binding
+2026-10-15T09:15:30.6118789Z  * [new branch]        codex/wi1072-n-minus-one-finish-admission-20261010 -> origin/codex/wi1072-n-minus-one-finish-admission-20261010
+2026-10-15T09:15:30.6119758Z  * [new branch]        codex/wi1073-composition-hosted-diagnostic -> origin/codex/wi1073-composition-hosted-diagnostic
+2026-10-15T09:15:30.6120683Z  * [new branch]        codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011 -> origin/codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011
+2026-10-15T09:15:30.6121601Z  * [new branch]        codex/wi1074-v1-0-1-close-only-jq-filter-20261011 -> origin/codex/wi1074-v1-0-1-close-only-jq-filter-20261011
+2026-10-15T09:15:30.6122385Z  * [new branch]        codex/wi1075-wi1068-close-sync-20261011 -> origin/codex/wi1075-wi1068-close-sync-20261011
+2026-10-15T09:15:30.6123151Z  * [new branch]        codex/wi1078-evidence-recovery-20261014 -> origin/codex/wi1078-evidence-recovery-20261014
+2026-10-15T09:15:30.6123946Z  * [new branch]        codex/wi1081-post-merge-lifecycle-layout -> origin/codex/wi1081-post-merge-lifecycle-layout
+2026-10-15T09:15:30.6124678Z  * [new branch]        codex/wi1084-closeout-receipt-integrity -> origin/codex/wi1084-closeout-receipt-integrity
+2026-10-15T09:15:30.6125317Z  * [new branch]        main        -> origin/main
+2026-10-15T09:15:30.6125622Z  * [new tag]           v0.1.0      -> v0.1.0
+2026-10-15T09:15:30.6125889Z  * [new tag]           v0.1.1      -> v0.1.1
+2026-10-15T09:15:30.6126148Z  * [new tag]           v0.2.0      -> v0.2.0
+2026-10-15T09:15:30.6127289Z  * [new tag]           v0.2.1      -> v0.2.1
+2026-10-15T09:15:30.6127718Z  * [new tag]           v0.2.10     -> v0.2.10
+2026-10-15T09:15:30.6128578Z  * [new tag]           v0.2.100    -> v0.2.100
+2026-10-15T09:15:30.6128982Z  * [new tag]           v0.2.101    -> v0.2.101
+2026-10-15T09:15:30.6129259Z  * [new tag]           v0.2.102    -> v0.2.102
+2026-10-15T09:15:30.6129532Z  * [new tag]           v0.2.103    -> v0.2.103
+2026-10-15T09:15:30.6129809Z  * [new tag]           v0.2.104    -> v0.2.104
+2026-10-15T09:15:30.6130079Z  * [new tag]           v0.2.105    -> v0.2.105
+2026-10-15T09:15:30.6130343Z  * [new tag]           v0.2.106    -> v0.2.106
+2026-10-15T09:15:30.6130605Z  * [new tag]           v0.2.107    -> v0.2.107
+2026-10-15T09:15:30.6130881Z  * [new tag]           v0.2.108    -> v0.2.108
+2026-10-15T09:15:30.6131140Z  * [new tag]           v0.2.109    -> v0.2.109
+2026-10-15T09:15:30.6131409Z  * [new tag]           v0.2.11     -> v0.2.11
+2026-10-15T09:15:30.6131686Z  * [new tag]           v0.2.110    -> v0.2.110
+2026-10-15T09:15:30.6131949Z  * [new tag]           v0.2.111    -> v0.2.111
+2026-10-15T09:15:30.6132205Z  * [new tag]           v0.2.112    -> v0.2.112
+2026-10-15T09:15:30.6132464Z  * [new tag]           v0.2.113    -> v0.2.113
+2026-10-15T09:15:30.6132733Z  * [new tag]           v0.2.12     -> v0.2.12
+2026-10-15T09:15:30.6132992Z  * [new tag]           v0.2.13     -> v0.2.13
+2026-10-15T09:15:30.6133247Z  * [new tag]           v0.2.14     -> v0.2.14
+2026-10-15T09:15:30.6133524Z  * [new tag]           v0.2.15     -> v0.2.15
+2026-10-15T09:15:30.6133825Z  * [new tag]           v0.2.16     -> v0.2.16
+2026-10-15T09:15:30.6134095Z  * [new tag]           v0.2.17     -> v0.2.17
+2026-10-15T09:15:30.6134359Z  * [new tag]           v0.2.18     -> v0.2.18
+2026-10-15T09:15:30.6134923Z  * [new tag]           v0.2.19     -> v0.2.19
+2026-10-15T09:15:30.6135197Z  * [new tag]           v0.2.2      -> v0.2.2
+2026-10-15T09:15:30.6135461Z  * [new tag]           v0.2.20     -> v0.2.20
+2026-10-15T09:15:30.6135718Z  * [new tag]           v0.2.21     -> v0.2.21
+2026-10-15T09:15:30.6135977Z  * [new tag]           v0.2.22     -> v0.2.22
+2026-10-15T09:15:30.6136229Z  * [new tag]           v0.2.23     -> v0.2.23
+2026-10-15T09:15:30.6136479Z  * [new tag]           v0.2.24     -> v0.2.24
+2026-10-15T09:15:30.6136733Z  * [new tag]           v0.2.25     -> v0.2.25
+2026-10-15T09:15:30.6137304Z  * [new tag]           v0.2.26     -> v0.2.26
+2026-10-15T09:15:30.6137606Z  * [new tag]           v0.2.27     -> v0.2.27
+2026-10-15T09:15:30.6137873Z  * [new tag]           v0.2.28     -> v0.2.28
+2026-10-15T09:15:30.6138157Z  * [new tag]           v0.2.29     -> v0.2.29
+2026-10-15T09:15:30.6138420Z  * [new tag]           v0.2.3      -> v0.2.3
+2026-10-15T09:15:30.6138686Z  * [new tag]           v0.2.30     -> v0.2.30
+2026-10-15T09:15:30.6138947Z  * [new tag]           v0.2.31     -> v0.2.31
+2026-10-15T09:15:30.6139199Z  * [new tag]           v0.2.32     -> v0.2.32
+2026-10-15T09:15:30.6139452Z  * [new tag]           v0.2.33     -> v0.2.33
+2026-10-15T09:15:30.6139706Z  * [new tag]           v0.2.34     -> v0.2.34
+2026-10-15T09:15:30.6139959Z  * [new tag]           v0.2.35     -> v0.2.35
+2026-10-15T09:15:30.6140213Z  * [new tag]           v0.2.36     -> v0.2.36
+2026-10-15T09:15:30.6140472Z  * [new tag]           v0.2.37     -> v0.2.37
+2026-10-15T09:15:30.6140721Z  * [new tag]           v0.2.38     -> v0.2.38
+2026-10-15T09:15:30.6140970Z  * [new tag]           v0.2.39     -> v0.2.39
+2026-10-15T09:15:30.6141219Z  * [new tag]           v0.2.4      -> v0.2.4
+2026-10-15T09:15:30.6141480Z  * [new tag]           v0.2.40     -> v0.2.40
+2026-10-15T09:15:30.6141741Z  * [new tag]           v0.2.41     -> v0.2.41
+2026-10-15T09:15:30.6141996Z  * [new tag]           v0.2.42     -> v0.2.42
+2026-10-15T09:15:30.6142252Z  * [new tag]           v0.2.43     -> v0.2.43
+2026-10-15T09:15:30.6142506Z  * [new tag]           v0.2.44     -> v0.2.44
+2026-10-15T09:15:30.6142944Z  * [new tag]           v0.2.45     -> v0.2.45
+2026-10-15T09:15:30.6143201Z  * [new tag]           v0.2.46     -> v0.2.46
+2026-10-15T09:15:30.6143458Z  * [new tag]           v0.2.47     -> v0.2.47
+2026-10-15T09:15:30.6143711Z  * [new tag]           v0.2.48     -> v0.2.48
+2026-10-15T09:15:30.6144031Z  * [new tag]           v0.2.49     -> v0.2.49
+2026-10-15T09:15:30.6144404Z  * [new tag]           v0.2.5      -> v0.2.5
+2026-10-15T09:15:30.6144829Z  * [new tag]           v0.2.50     -> v0.2.50
+2026-10-15T09:15:30.6145226Z  * [new tag]           v0.2.51     -> v0.2.51
+2026-10-15T09:15:30.6145610Z  * [new tag]           v0.2.52     -> v0.2.52
+2026-10-15T09:15:30.6145997Z  * [new tag]           v0.2.53     -> v0.2.53
+2026-10-15T09:15:30.6146385Z  * [new tag]           v0.2.54     -> v0.2.54
+2026-10-15T09:15:30.6146802Z  * [new tag]           v0.2.55     -> v0.2.55
+2026-10-15T09:15:30.6147192Z  * [new tag]           v0.2.56     -> v0.2.56
+2026-10-15T09:15:30.6147567Z  * [new tag]           v0.2.57     -> v0.2.57
+2026-10-15T09:15:30.6147975Z  * [new tag]           v0.2.58     -> v0.2.58
+2026-10-15T09:15:30.6148349Z  * [new tag]           v0.2.59     -> v0.2.59
+2026-10-15T09:15:30.6148733Z  * [new tag]           v0.2.6      -> v0.2.6
+2026-10-15T09:15:30.6149121Z  * [new tag]           v0.2.60     -> v0.2.60
+2026-10-15T09:15:30.6149496Z  * [new tag]           v0.2.61     -> v0.2.61
+2026-10-15T09:15:30.6149898Z  * [new tag]           v0.2.62     -> v0.2.62
+2026-10-15T09:15:30.6150283Z  * [new tag]           v0.2.63     -> v0.2.63
+2026-10-15T09:15:30.6150672Z  * [new tag]           v0.2.64     -> v0.2.64
+2026-10-15T09:15:30.6151076Z  * [new tag]           v0.2.65     -> v0.2.65
+2026-10-15T09:15:30.6151465Z  * [new tag]           v0.2.66     -> v0.2.66
+2026-10-15T09:15:30.6151874Z  * [new tag]           v0.2.67     -> v0.2.67
+2026-10-15T09:15:30.6152565Z  * [new tag]           v0.2.68     -> v0.2.68
+2026-10-15T09:15:30.6152948Z  * [new tag]           v0.2.69     -> v0.2.69
+2026-10-15T09:15:30.6153363Z  * [new tag]           v0.2.7      -> v0.2.7
+2026-10-15T09:15:30.6153789Z  * [new tag]           v0.2.70     -> v0.2.70
+2026-10-15T09:15:30.6154191Z  * [new tag]           v0.2.71     -> v0.2.71
+2026-10-15T09:15:30.6154593Z  * [new tag]           v0.2.72     -> v0.2.72
+2026-10-15T09:15:30.6155018Z  * [new tag]           v0.2.73     -> v0.2.73
+2026-10-15T09:15:30.6155447Z  * [new tag]           v0.2.74     -> v0.2.74
+2026-10-15T09:15:30.6155865Z  * [new tag]           v0.2.75     -> v0.2.75
+2026-10-15T09:15:30.6156286Z  * [new tag]           v0.2.76     -> v0.2.76
+2026-10-15T09:15:30.6156708Z  * [new tag]           v0.2.77     -> v0.2.77
+2026-10-15T09:15:30.6157099Z  * [new tag]           v0.2.78     -> v0.2.78
+2026-10-15T09:15:30.6157848Z  * [new tag]           v0.2.79     -> v0.2.79
+2026-10-15T09:15:30.6158280Z  * [new tag]           v0.2.8      -> v0.2.8
+2026-10-15T09:15:30.6158712Z  * [new tag]           v0.2.80     -> v0.2.80
+2026-10-15T09:15:30.6159132Z  * [new tag]           v0.2.81     -> v0.2.81
+2026-10-15T09:15:30.6159556Z  * [new tag]           v0.2.82     -> v0.2.82
+2026-10-15T09:15:30.6159970Z  * [new tag]           v0.2.83     -> v0.2.83
+2026-10-15T09:15:30.6160393Z  * [new tag]           v0.2.84     -> v0.2.84
+2026-10-15T09:15:30.6160819Z  * [new tag]           v0.2.85     -> v0.2.85
+2026-10-15T09:15:30.6161232Z  * [new tag]           v0.2.86     -> v0.2.86
+2026-10-15T09:15:30.6161628Z  * [new tag]           v0.2.87     -> v0.2.87
+2026-10-15T09:15:30.6162042Z  * [new tag]           v0.2.88     -> v0.2.88
+2026-10-15T09:15:30.6162456Z  * [new tag]           v0.2.89     -> v0.2.89
+2026-10-15T09:15:30.6162887Z  * [new tag]           v0.2.9      -> v0.2.9
+2026-10-15T09:15:30.6163303Z  * [new tag]           v0.2.90     -> v0.2.90
+2026-10-15T09:15:30.6163738Z  * [new tag]           v0.2.91     -> v0.2.91
+2026-10-15T09:15:30.6164154Z  * [new tag]           v0.2.92     -> v0.2.92
+2026-10-15T09:15:30.6164580Z  * [new tag]           v0.2.93     -> v0.2.93
+2026-10-15T09:15:30.6165279Z  * [new tag]           v0.2.94     -> v0.2.94
+2026-10-15T09:15:30.6165705Z  * [new tag]           v0.2.95     -> v0.2.95
+2026-10-15T09:15:30.6166108Z  * [new tag]           v0.2.96     -> v0.2.96
+2026-10-15T09:15:30.6166519Z  * [new tag]           v0.2.97     -> v0.2.97
+2026-10-15T09:15:30.6166913Z  * [new tag]           v0.2.98     -> v0.2.98
+2026-10-15T09:15:30.6167322Z  * [new tag]           v0.2.99     -> v0.2.99
+2026-10-15T09:15:30.6167739Z  * [new tag]           v1.0.0      -> v1.0.0
+2026-10-15T09:15:30.6168174Z  * [new tag]           v1.0.1      -> v1.0.1
+2026-10-15T09:15:30.6168606Z  * [new tag]           v1.0.1-rc.1 -> v1.0.1-rc.1
+2026-10-15T09:15:30.6169098Z  * [new tag]           v1.0.1-rc.2 -> v1.0.1-rc.2
+2026-10-15T09:15:30.6169726Z  * [new ref]           9f68a7eed200e4527844a57c1e2e4c82bfad779f -> pull/1040/merge
+2026-10-15T09:15:30.6175836Z ##[endgroup]
+2026-10-15T09:15:30.6176259Z ##[group]Determining the checkout info
+2026-10-15T09:15:30.6176866Z ##[endgroup]
+2026-10-15T09:15:30.6187833Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-10-15T09:15:30.6648811Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-10-15T09:15:30.6963692Z ##[group]Checking out the ref
+2026-10-15T09:15:30.6973360Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/1040/merge
+2026-10-15T09:15:31.7942422Z Updating files:  18% (3282/17420)
+2026-10-15T09:15:31.9797336Z Updating files:  19% (3310/17420)
+2026-10-15T09:15:32.1084165Z Updating files:  20% (3484/17420)
+2026-10-15T09:15:32.2017628Z Updating files:  21% (3659/17420)
+2026-10-15T09:15:32.2459697Z Updating files:  22% (3833/17420)
+2026-10-15T09:15:32.2957065Z Updating files:  23% (4007/17420)
+2026-10-15T09:15:32.3378404Z Updating files:  24% (4181/17420)
+2026-10-15T09:15:32.3894154Z Updating files:  25% (4355/17420)
+2026-10-15T09:15:32.4288080Z Updating files:  26% (4530/17420)
+2026-10-15T09:15:32.4712679Z Updating files:  27% (4704/17420)
+2026-10-15T09:15:32.5191923Z Updating files:  28% (4878/17420)
+2026-10-15T09:15:32.5588537Z Updating files:  29% (5052/17420)
+2026-10-15T09:15:32.5944820Z Updating files:  30% (5226/17420)
+2026-10-15T09:15:32.6449327Z Updating files:  31% (5401/17420)
+2026-10-15T09:15:32.6916365Z Updating files:  32% (5575/17420)
+2026-10-15T09:15:32.7489398Z Updating files:  33% (5749/17420)
+2026-10-15T09:15:32.7688200Z Updating files:  34% (5923/17420)
+2026-10-15T09:15:32.7869869Z Updating files:  34% (6013/17420)
+2026-10-15T09:15:32.8282302Z Updating files:  35% (6097/17420)
+2026-10-15T09:15:32.8871715Z Updating files:  36% (6272/17420)
+2026-10-15T09:15:32.9926476Z Updating files:  37% (6446/17420)
+2026-10-15T09:15:33.1193816Z Updating files:  38% (6620/17420)
+2026-10-15T09:15:33.1838646Z Updating files:  39% (6794/17420)
+2026-10-15T09:15:33.2763588Z Updating files:  40% (6968/17420)
+2026-10-15T09:15:33.3116051Z Updating files:  41% (7143/17420)
+2026-10-15T09:15:33.3485483Z Updating files:  42% (7317/17420)
+2026-10-15T09:15:33.3935745Z Updating files:  43% (7491/17420)
+2026-10-15T09:15:33.4430634Z Updating files:  44% (7665/17420)
+2026-10-15T09:15:33.5062081Z Updating files:  45% (7839/17420)
+2026-10-15T09:15:33.5437437Z Updating files:  46% (8014/17420)
+2026-10-15T09:15:33.5829452Z Updating files:  47% (8188/17420)
+2026-10-15T09:15:33.6239743Z Updating files:  48% (8362/17420)
+2026-10-15T09:15:33.6640315Z Updating files:  49% (8536/17420)
+2026-10-15T09:15:33.7016152Z Updating files:  50% (8710/17420)
+2026-10-15T09:15:33.7413911Z Updating files:  51% (8885/17420)
+2026-10-15T09:15:33.7708886Z Updating files:  52% (9059/17420)
+2026-10-15T09:15:33.7790368Z Updating files:  52% (9197/17420)
+2026-10-15T09:15:33.8168681Z Updating files:  53% (9233/17420)
+2026-10-15T09:15:33.8554757Z Updating files:  54% (9407/17420)
+2026-10-15T09:15:33.8933557Z Updating files:  55% (9581/17420)
+2026-10-15T09:15:33.9314884Z Updating files:  56% (9756/17420)
+2026-10-15T09:15:33.9696832Z Updating files:  57% (9930/17420)
+2026-10-15T09:15:34.0079023Z Updating files:  58% (10104/17420)
+2026-10-15T09:15:34.0449560Z Updating files:  59% (10278/17420)
+2026-10-15T09:15:34.0825178Z Updating files:  60% (10452/17420)
+2026-10-15T09:15:34.1205457Z Updating files:  61% (10627/17420)
+2026-10-15T09:15:34.1580196Z Updating files:  62% (10801/17420)
+2026-10-15T09:15:34.1958663Z Updating files:  63% (10975/17420)
+2026-10-15T09:15:34.2332369Z Updating files:  64% (11149/17420)
+2026-10-15T09:15:34.2733277Z Updating files:  65% (11323/17420)
+2026-10-15T09:15:34.3123551Z Updating files:  66% (11498/17420)
+2026-10-15T09:15:34.3495601Z Updating files:  67% (11672/17420)
+2026-10-15T09:15:34.3862704Z Updating files:  68% (11846/17420)
+2026-10-15T09:15:34.4251722Z Updating files:  69% (12020/17420)
+2026-10-15T09:15:34.4630372Z Updating files:  70% (12194/17420)
+2026-10-15T09:15:34.5008469Z Updating files:  71% (12369/17420)
+2026-10-15T09:15:34.5387472Z Updating files:  72% (12543/17420)
+2026-10-15T09:15:34.5772564Z Updating files:  73% (12717/17420)
+2026-10-15T09:15:34.6161545Z Updating files:  74% (12891/17420)
+2026-10-15T09:15:34.6539678Z Updating files:  75% (13065/17420)
+2026-10-15T09:15:34.6922309Z Updating files:  76% (13240/17420)
+2026-10-15T09:15:34.7306031Z Updating files:  77% (13414/17420)
+2026-10-15T09:15:34.7717734Z Updating files:  78% (13588/17420)
+2026-10-15T09:15:34.7837447Z Updating files:  79% (13762/17420)
+2026-10-15T09:15:34.8128738Z Updating files:  79% (13817/17420)
+2026-10-15T09:15:34.8525352Z Updating files:  80% (13936/17420)
+2026-10-15T09:15:34.8909226Z Updating files:  81% (14111/17420)
+2026-10-15T09:15:34.9621685Z Updating files:  82% (14285/17420)
+2026-10-15T09:15:35.0136161Z Updating files:  83% (14459/17420)
+2026-10-15T09:15:35.0650576Z Updating files:  84% (14633/17420)
+2026-10-15T09:15:35.1064446Z Updating files:  85% (14807/17420)
+2026-10-15T09:15:35.1435025Z Updating files:  86% (14982/17420)
+2026-10-15T09:15:35.1787845Z Updating files:  87% (15156/17420)
+2026-10-15T09:15:35.2148004Z Updating files:  88% (15330/17420)
+2026-10-15T09:15:35.2533879Z Updating files:  89% (15504/17420)
+2026-10-15T09:15:35.2925523Z Updating files:  90% (15678/17420)
+2026-10-15T09:15:35.3291360Z Updating files:  91% (15853/17420)
+2026-10-15T09:15:35.3705782Z Updating files:  92% (16027/17420)
+2026-10-15T09:15:35.4099393Z Updating files:  93% (16201/17420)
+2026-10-15T09:15:35.4567106Z Updating files:  94% (16375/17420)
+2026-10-15T09:15:35.4959512Z Updating files:  95% (16549/17420)
+2026-10-15T09:15:35.5336811Z Updating files:  96% (16724/17420)
+2026-10-15T09:15:35.5747747Z Updating files:  97% (16898/17420)
+2026-10-15T09:15:35.6124880Z Updating files:  98% (17072/17420)
+2026-10-15T09:15:35.6660732Z Updating files:  99% (17246/17420)
+2026-10-15T09:15:35.6661629Z Updating files: 100% (17420/17420)
+2026-10-15T09:15:35.6661961Z Updating files: 100% (17420/17420), done.
+2026-10-15T09:15:35.6998379Z Note: switching to 'refs/remotes/pull/1040/merge'.
+2026-10-15T09:15:35.6998827Z 
+2026-10-15T09:15:35.6999191Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-15T09:15:35.6999918Z changes and commit them, and you can discard any commits you make in this
+2026-10-15T09:15:35.7000669Z state without impacting any branches by switching back to a branch.
+2026-10-15T09:15:35.7001092Z 
+2026-10-15T09:15:35.7001375Z If you want to create a new branch to retain commits you create, you may
+2026-10-15T09:15:35.7002202Z do so (now or later) by using -c with the switch command. Example:
+2026-10-15T09:15:35.7002465Z 
+2026-10-15T09:15:35.7002581Z   git switch -c <new-branch-name>
+2026-10-15T09:15:35.7002764Z 
+2026-10-15T09:15:35.7002863Z Or undo this operation with:
+2026-10-15T09:15:35.7003022Z 
+2026-10-15T09:15:35.7003111Z   git switch -
+2026-10-15T09:15:35.7003244Z 
+2026-10-15T09:15:35.7003455Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-15T09:15:35.7003750Z 
+2026-10-15T09:15:35.7004411Z HEAD is now at 9f68a7ee Merge a4680c25f7ead5c30fefb0864056d761fe6afaae into bcd76ae76f61650a890267f511099c96dc6a47fd
+2026-10-15T09:15:35.7236545Z ##[endgroup]
+2026-10-15T09:15:35.7725541Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-10-15T09:15:35.8030314Z 9f68a7eed200e4527844a57c1e2e4c82bfad779f
+2026-10-15T09:15:35.8080186Z ##[group]Removing auth
+2026-10-15T09:15:35.8080540Z Removing SSH command configuration
+2026-10-15T09:15:35.8090652Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-15T09:15:35.8438853Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-15T09:15:36.4409586Z Removing HTTP extra header
+2026-10-15T09:15:36.4422280Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-15T09:15:36.4775732Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-15T09:15:37.0723204Z Removing includeIf entries pointing to credentials config files
+2026-10-15T09:15:37.0733226Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-15T09:15:37.1001922Z includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path
+2026-10-15T09:15:37.1002615Z includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path
+2026-10-15T09:15:37.1003156Z includeif.gitdir:/github/workspace/.git.path
+2026-10-15T09:15:37.1003639Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-15T09:15:37.1047774Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path
+2026-10-15T09:15:37.1329407Z D:\a\_temp\git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:37.1378720Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path D\:\\a\\_temp\\git\-credentials\-c238a2c9\-28de\-4179\-858c\-c9b5cc76fde3\.config
+2026-10-15T09:15:37.1685877Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path
+2026-10-15T09:15:37.1958476Z D:\a\_temp\git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:37.2009886Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-c238a2c9\-28de\-4179\-858c\-c9b5cc76fde3\.config
+2026-10-15T09:15:37.2405020Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-15T09:15:37.2687358Z /github/runner_temp/git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:37.2740256Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-c238a2c9\-28de\-4179\-858c\-c9b5cc76fde3\.config
+2026-10-15T09:15:37.3068986Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-15T09:15:37.3345085Z /github/runner_temp/git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config
+2026-10-15T09:15:37.3395930Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-c238a2c9\-28de\-4179\-858c\-c9b5cc76fde3\.config
+2026-10-15T09:15:37.3735827Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-15T09:15:37.9741209Z Removing credentials config 'D:\a\_temp\git-credentials-c238a2c9-28de-4179-858c-c9b5cc76fde3.config'
+2026-10-15T09:15:37.9752494Z ##[endgroup]
+2026-10-15T09:15:38.1173584Z ##[group]Run $ErrorActionPreference = 'Stop'
+2026-10-15T09:15:38.1175058Z [36;1m$ErrorActionPreference = 'Stop'[0m
+2026-10-15T09:15:38.1175497Z [36;1mNew-Item -ItemType Directory -Force -Path target | Out-Null[0m
+2026-10-15T09:15:38.1175891Z [36;1mfunction Invoke-GitText {[0m
+2026-10-15T09:15:38.1176216Z [36;1m  param([string]$Repository, [string[]]$Arguments)[0m
+2026-10-15T09:15:38.1176587Z [36;1m  $output = & git -C $Repository @Arguments 2>&1[0m
+2026-10-15T09:15:38.1176917Z [36;1m  if ($LASTEXITCODE -ne 0) {[0m
+2026-10-15T09:15:38.1177305Z [36;1m    throw "git command failed: $($Arguments -join ' ') ($($output -join ' '))"[0m
+2026-10-15T09:15:38.1177714Z [36;1m  }[0m
+2026-10-15T09:15:38.1177963Z [36;1m  return [string]::Join("`n", @($output)).Trim()[0m
+2026-10-15T09:15:38.1178253Z [36;1m}[0m
+2026-10-15T09:15:38.1178463Z [36;1mfunction Resolve-GitCommit {[0m
+2026-10-15T09:15:38.1178821Z [36;1m  param([string]$Repository, [string]$Revision)[0m
+2026-10-15T09:15:38.1179210Z [36;1m  if ($Revision -notmatch '^(?:[0-9a-f]{40}|[0-9a-f]{64})$') {[0m
+2026-10-15T09:15:38.1179656Z [36;1m    throw 'pull_request event base and head must be full commit IDs'[0m
+2026-10-15T09:15:38.1180014Z [36;1m  }[0m
+2026-10-15T09:15:38.1180481Z [36;1m  return Invoke-GitText -Repository $Repository -Arguments @('rev-parse', '--verify', "$Revision^{commit}")[0m
+2026-10-15T09:15:38.1180975Z [36;1m}[0m
+2026-10-15T09:15:38.1181193Z [36;1mfunction Get-CiRevisionBinding {[0m
+2026-10-15T09:15:38.1181471Z [36;1m  param([0m
+2026-10-15T09:15:38.1182046Z [36;1m    [string]$Repository,[0m
+2026-10-15T09:15:38.1182315Z [36;1m    [string]$EventName,[0m
+2026-10-15T09:15:38.1182935Z [36;1m    [string]$GithubSha,[0m
+2026-10-15T09:15:38.1183167Z [36;1m    [string]$EventPath,[0m
+2026-10-15T09:15:38.1183397Z [36;1m    [string]$PrHeadSha,[0m
+2026-10-15T09:15:38.1183625Z [36;1m    [string]$PrBaseSha,[0m
+2026-10-15T09:15:38.1183861Z [36;1m    [string]$BindingPath[0m
+2026-10-15T09:15:38.1184126Z [36;1m  )[0m
+2026-10-15T09:15:38.1184498Z [36;1m  $testedRevision = Resolve-GitCommit -Repository $Repository -Revision $GithubSha[0m
+2026-10-15T09:15:38.1185137Z [36;1m  $checkoutRevision = Invoke-GitText -Repository $Repository -Arguments @('rev-parse', 'HEAD')[0m
+2026-10-15T09:15:38.1185886Z [36;1m  $parentText = Invoke-GitText -Repository $Repository -Arguments @('show', '-s', '--format=%P', $testedRevision)[0m
+2026-10-15T09:15:38.1186506Z [36;1m  $testedParents = @($parentText -split '\s+' | Where-Object { $_ })[0m
+2026-10-15T09:15:38.1186883Z [36;1m  $testedBaseRevision = ''[0m
+2026-10-15T09:15:38.1187277Z [36;1m  if ($testedParents.Count -gt 0) { $testedBaseRevision = $testedParents[0] }[0m
+2026-10-15T09:15:38.1187676Z [36;1m  $eventBaseRevision = ''[0m
+2026-10-15T09:15:38.1187955Z [36;1m  $sourceRevision = $testedRevision[0m
+2026-10-15T09:15:38.1188258Z [36;1m  if ($EventName -eq 'pull_request') {[0m
+2026-10-15T09:15:38.1188605Z [36;1m    if (-not (Test-Path -LiteralPath $EventPath)) {[0m
+2026-10-15T09:15:38.1189043Z [36;1m      throw 'GitHub event payload is unavailable for pull_request binding'[0m
+2026-10-15T09:15:38.1189417Z [36;1m    }[0m
+2026-10-15T09:15:38.1189760Z [36;1m    $eventPayload = Get-Content -LiteralPath $EventPath -Raw | ConvertFrom-Json[0m
+2026-10-15T09:15:38.1190215Z [36;1m    $pullRequest = $eventPayload.pull_request[0m
+2026-10-15T09:15:38.1190741Z [36;1m    if ($null -eq $pullRequest -or $null -eq $pullRequest.base -or $null -eq $pullRequest.head) {[0m
+2026-10-15T09:15:38.1191322Z [36;1m      throw 'GitHub event payload does not contain a pull_request base and head'[0m
+2026-10-15T09:15:38.1191714Z [36;1m    }[0m
+2026-10-15T09:15:38.1191966Z [36;1m    $eventBaseSha = [string]$pullRequest.base.sha[0m
+2026-10-15T09:15:38.1192312Z [36;1m    $eventHeadSha = [string]$pullRequest.head.sha[0m
+2026-10-15T09:15:38.1192630Z [36;1m    if ($PrBaseSha -ne $eventBaseSha) {[0m
+2026-10-15T09:15:38.1195269Z [36;1m      throw 'PR base context does not match the trusted event payload'[0m
+2026-10-15T09:15:38.1195721Z [36;1m    }[0m
+2026-10-15T09:15:38.1195972Z [36;1m    if ($PrHeadSha -ne $eventHeadSha) {[0m
+2026-10-15T09:15:38.1196394Z [36;1m      throw 'PR head context does not match the trusted event payload'[0m
+2026-10-15T09:15:38.1196755Z [36;1m    }[0m
+2026-10-15T09:15:38.1197158Z [36;1m    $eventBaseRevision = Resolve-GitCommit -Repository $Repository -Revision $eventBaseSha[0m
+2026-10-15T09:15:38.1197794Z [36;1m    $sourceRevision = Resolve-GitCommit -Repository $Repository -Revision $eventHeadSha[0m
+2026-10-15T09:15:38.1198212Z [36;1m  }[0m
+2026-10-15T09:15:38.1198437Z [36;1m  $binding = [ordered]@{[0m
+2026-10-15T09:15:38.1198696Z [36;1m    schemaVersion = 1[0m
+2026-10-15T09:15:38.1198955Z [36;1m    kind = 'ci_revision_binding'[0m
+2026-10-15T09:15:38.1199228Z [36;1m    eventName = $EventName[0m
+2026-10-15T09:15:38.1199516Z [36;1m    sourceHeadRevision = $sourceRevision[0m
+2026-10-15T09:15:38.1199828Z [36;1m    routeHeadRevision = $sourceRevision[0m
+2026-10-15T09:15:38.1200139Z [36;1m    testedRevision = $testedRevision[0m
+2026-10-15T09:15:38.1200450Z [36;1m    eventBaseRevision = $eventBaseRevision[0m
+2026-10-15T09:15:38.1200779Z [36;1m    testedBaseRevision = $testedBaseRevision[0m
+2026-10-15T09:15:38.1201093Z [36;1m    testedParents = $testedParents[0m
+2026-10-15T09:15:38.1201360Z [36;1m  }[0m
+2026-10-15T09:15:38.1201561Z [36;1m  if ($BindingPath) {[0m
+2026-10-15T09:15:38.1202355Z [36;1m    $binding | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 -LiteralPath $BindingPath[0m
+2026-10-15T09:15:38.1202796Z [36;1m  }[0m
+2026-10-15T09:15:38.1203706Z [36;1m  if ($testedRevision -ne $checkoutRevision) {[0m
+2026-10-15T09:15:38.1204089Z [36;1m    throw 'checked-out commit does not match GITHUB_SHA'[0m
+2026-10-15T09:15:38.1204408Z [36;1m  }[0m
+2026-10-15T09:15:38.1204629Z [36;1m  if ($EventName -eq 'pull_request') {[0m
+2026-10-15T09:15:38.1204945Z [36;1m    if ($testedParents.Count -ne 2) {[0m
+2026-10-15T09:15:38.1205324Z [36;1m      throw 'tested PR merge commit must have exactly two parents'[0m
+2026-10-15T09:15:38.1205671Z [36;1m    }[0m
+2026-10-15T09:15:38.1205919Z [36;1m    if ($testedParents[1] -ne $sourceRevision) {[0m
+2026-10-15T09:15:38.1206326Z [36;1m      throw 'tested PR merge commit does not bind the declared source head'[0m
+2026-10-15T09:15:38.1206697Z [36;1m    }[0m
+2026-10-15T09:15:38.1207086Z [36;1m    & git -C $Repository merge-base --is-ancestor $eventBaseRevision $testedBaseRevision 2>$null[0m
+2026-10-15T09:15:38.1207554Z [36;1m    if ($LASTEXITCODE -ne 0) {[0m
+2026-10-15T09:15:38.1207960Z [36;1m      throw 'declared event base is not an ancestor of the tested base revision'[0m
+2026-10-15T09:15:38.1208354Z [36;1m    }[0m
+2026-10-15T09:15:38.1208532Z [36;1m  }[0m
+2026-10-15T09:15:38.1208734Z [36;1m  return $binding[0m
+2026-10-15T09:15:38.1208957Z [36;1m}[0m
+2026-10-15T09:15:38.1209186Z [36;1mfunction Write-TestPullRequestEvent {[0m
+2026-10-15T09:15:38.1209537Z [36;1m  param([string]$Path, [string]$Base, [string]$Head)[0m
+2026-10-15T09:15:38.1209857Z [36;1m  $payload = [ordered]@{[0m
+2026-10-15T09:15:38.1210112Z [36;1m    pull_request = [ordered]@{[0m
+2026-10-15T09:15:38.1210386Z [36;1m      base = [ordered]@{ sha = $Base }[0m
+2026-10-15T09:15:38.1210668Z [36;1m      head = [ordered]@{ sha = $Head }[0m
+2026-10-15T09:15:38.1210917Z [36;1m    }[0m
+2026-10-15T09:15:38.1211094Z [36;1m  }[0m
+2026-10-15T09:15:38.1211441Z [36;1m  $payload | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 -LiteralPath $Path[0m
+2026-10-15T09:15:38.1211844Z [36;1m}[0m
+2026-10-15T09:15:38.1212096Z [36;1mfunction Assert-CiRevisionBindingRejected {[0m
+2026-10-15T09:15:38.1212427Z [36;1m  param([0m
+2026-10-15T09:15:38.1212656Z [36;1m    [string]$CaseName,[0m
+2026-10-15T09:15:38.1212904Z [36;1m    [string]$Repository,[0m
+2026-10-15T09:15:38.1213730Z [36;1m    [string]$EventPath,[0m
+2026-10-15T09:15:38.1214001Z [36;1m    [string]$CheckoutRevision,[0m
+2026-10-15T09:15:38.1214259Z [36;1m    [string]$GithubSha,[0m
+2026-10-15T09:15:38.1214498Z [36;1m    [string]$EventBase,[0m
+2026-10-15T09:15:38.1214729Z [36;1m    [string]$EventHead,[0m
+2026-10-15T09:15:38.1214968Z [36;1m    [string]$ContextBase,[0m
+2026-10-15T09:15:38.1215214Z [36;1m    [string]$ContextHead,[0m
+2026-10-15T09:15:38.1215468Z [36;1m    [string]$ExpectedMessage[0m
+2026-10-15T09:15:38.1215722Z [36;1m  )[0m
+2026-10-15T09:15:38.1216150Z [36;1m  $null = Invoke-GitText -Repository $Repository -Arguments @('checkout', '--detach', $CheckoutRevision)[0m
+2026-10-15T09:15:38.1216827Z [36;1m  Write-TestPullRequestEvent -Path $EventPath -Base $EventBase -Head $EventHead[0m
+2026-10-15T09:15:38.1217251Z [36;1m  try {[0m
+2026-10-15T09:15:38.1217922Z [36;1m    $null = Get-CiRevisionBinding -Repository $Repository -EventName 'pull_request' -GithubSha $GithubSha -EventPath $EventPath -PrBaseSha $ContextBase -PrHeadSha $ContextHead[0m
+2026-10-15T09:15:38.1218637Z [36;1m  } catch {[0m
+2026-10-15T09:15:38.1218945Z [36;1m    if ($_.Exception.Message -like "*$ExpectedMessage*") { return }[0m
+2026-10-15T09:15:38.1219304Z [36;1m    throw[0m
+2026-10-15T09:15:38.1219500Z [36;1m  }[0m
+2026-10-15T09:15:38.1219776Z [36;1m  throw "Windows binding test accepted invalid case: $CaseName"[0m
+2026-10-15T09:15:38.1220113Z [36;1m}[0m
+2026-10-15T09:15:38.1220339Z [36;1mfunction Test-CiRevisionBindingCases {[0m
+2026-10-15T09:15:38.1220824Z [36;1m  $testRoot = Join-Path $env:RUNNER_TEMP ("ci-revision-binding-" + [guid]::NewGuid().ToString('N'))[0m
+2026-10-15T09:15:38.1221386Z [36;1m  New-Item -ItemType Directory -Force -Path $testRoot | Out-Null[0m
+2026-10-15T09:15:38.1222383Z [36;1m  try {[0m
+2026-10-15T09:15:38.1222646Z [36;1m    $repository = Join-Path $testRoot 'repo'[0m
+2026-10-15T09:15:38.1223057Z [36;1m    New-Item -ItemType Directory -Force -Path $repository | Out-Null[0m
+2026-10-15T09:15:38.1223630Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('init', '-q', '-b', 'main')[0m
+2026-10-15T09:15:38.1224413Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('config', 'user.name', 'CI Revision Binding Test')[0m
+2026-10-15T09:15:38.1225182Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('config', 'user.email', 'ci-revision@example.invalid')[0m
+2026-10-15T09:15:38.1225873Z [36;1m    Set-Content -LiteralPath (Join-Path $repository 'README.txt') -Value 'base' -NoNewline[0m
+2026-10-15T09:15:38.1226454Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('add', 'README.txt')[0m
+2026-10-15T09:15:38.1227060Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'event base')[0m
+2026-10-15T09:15:38.1227676Z [36;1m    $eventBase = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')[0m
+2026-10-15T09:15:38.1228292Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('switch', '-q', '-c', 'feature')[0m
+2026-10-15T09:15:38.1228918Z [36;1m    Set-Content -LiteralPath (Join-Path $repository 'feature.txt') -Value 'feature' -NoNewline[0m
+2026-10-15T09:15:38.1229516Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('add', 'feature.txt')[0m
+2026-10-15T09:15:38.1230113Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'PR head')[0m
+2026-10-15T09:15:38.1230729Z [36;1m    $sourceHead = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')[0m
+2026-10-15T09:15:38.1231382Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('switch', '-q', '-c', 'alternate', $eventBase)[0m
+2026-10-15T09:15:38.1232075Z [36;1m    Set-Content -LiteralPath (Join-Path $repository 'alternate.txt') -Value 'alternate' -NoNewline[0m
+2026-10-15T09:15:38.1232853Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('add', 'alternate.txt')[0m
+2026-10-15T09:15:38.1233494Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'alternate PR head')[0m
+2026-10-15T09:15:38.1234160Z [36;1m    $alternateHead = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')[0m
+2026-10-15T09:15:38.1234763Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('switch', '-q', 'main')[0m
+2026-10-15T09:15:38.1235362Z [36;1m    Set-Content -LiteralPath (Join-Path $repository 'main.txt') -Value 'advance main' -NoNewline[0m
+2026-10-15T09:15:38.1235962Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('add', 'main.txt')[0m
+2026-10-15T09:15:38.1236591Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'advance main after event')[0m
+2026-10-15T09:15:38.1237252Z [36;1m    $testedBase = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')[0m
+2026-10-15T09:15:38.1237952Z [36;1m    $null = Invoke-GitText -Repository $repository -Arguments @('merge', '--no-ff', '-q', '-m', 'synthetic PR merge', 'feature')[0m
+2026-10-15T09:15:38.1238650Z [36;1m    $testedMerge = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')[0m
+2026-10-15T09:15:38.1239273Z [36;1m    $mergeTree = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD^{tree}')[0m
+2026-10-15T09:15:38.1240115Z [36;1m    $wrongHeadMerge = Invoke-GitText -Repository $repository -Arguments @('commit-tree', $mergeTree, '-p', $testedBase, '-p', $alternateHead, '-m', 'wrong PR head')[0m
+2026-10-15T09:15:38.1241232Z [36;1m    $threeParentMerge = Invoke-GitText -Repository $repository -Arguments @('commit-tree', $mergeTree, '-p', $testedBase, '-p', $sourceHead, '-p', $alternateHead, '-m', 'three-parent merge')[0m
+2026-10-15T09:15:38.1243049Z [36;1m    $unrelatedBase = Invoke-GitText -Repository $repository -Arguments @('commit-tree', $mergeTree, '-m', 'unrelated event base')[0m
+2026-10-15T09:15:38.1243695Z [36;1m    $eventPath = Join-Path $testRoot 'pull-request-event.json'[0m
+2026-10-15T09:15:38.1244215Z [36;1m    Write-TestPullRequestEvent -Path $eventPath -Base $eventBase -Head $sourceHead[0m
+2026-10-15T09:15:38.1245110Z [36;1m    $valid = Get-CiRevisionBinding -Repository $repository -EventName 'pull_request' -GithubSha $testedMerge -EventPath $eventPath -PrBaseSha $eventBase -PrHeadSha $sourceHead[0m
+2026-10-15T09:15:38.1246023Z [36;1m    if ($valid.eventBaseRevision -ne $eventBase -or $valid.testedBaseRevision -ne $testedBase) {[0m
+2026-10-15T09:15:38.1246671Z [36;1m      throw 'stale event base did not preserve eventBaseRevision and testedBaseRevision separately'[0m
+2026-10-15T09:15:38.1247126Z [36;1m    }[0m
+2026-10-15T09:15:38.1248381Z [36;1m    Assert-CiRevisionBindingRejected -CaseName 'caller-supplied base' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $testedMerge -EventBase $eventBase -EventHead $sourceHead -ContextBase $testedBase -ContextHead $sourceHead -ExpectedMessage 'PR base context does not match the trusted event payload'[0m
+2026-10-15T09:15:38.1250823Z [36;1m    Assert-CiRevisionBindingRejected -CaseName 'non-ancestor event base' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $testedMerge -EventBase $unrelatedBase -EventHead $sourceHead -ContextBase $unrelatedBase -ContextHead $sourceHead -ExpectedMessage 'declared event base is not an ancestor of the tested base revision'[0m
+2026-10-15T09:15:38.1253207Z [36;1m    Assert-CiRevisionBindingRejected -CaseName 'wrong PR head' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $testedMerge -EventBase $eventBase -EventHead $alternateHead -ContextBase $eventBase -ContextHead $alternateHead -ExpectedMessage 'tested PR merge commit does not bind the declared source head'[0m
+2026-10-15T09:15:38.1255658Z [36;1m    Assert-CiRevisionBindingRejected -CaseName 'checkout/GITHUB_SHA mismatch' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $sourceHead -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'checked-out commit does not match GITHUB_SHA'[0m
+2026-10-15T09:15:38.1257965Z [36;1m    Assert-CiRevisionBindingRejected -CaseName 'one-parent commit' -Repository $repository -EventPath $eventPath -CheckoutRevision $sourceHead -GithubSha $sourceHead -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'tested PR merge commit must have exactly two parents'[0m
+2026-10-15T09:15:38.1260275Z [36;1m    Assert-CiRevisionBindingRejected -CaseName 'three-parent commit' -Repository $repository -EventPath $eventPath -CheckoutRevision $threeParentMerge -GithubSha $threeParentMerge -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'tested PR merge commit must have exactly two parents'[0m
+2026-10-15T09:15:38.1262957Z [36;1m    Assert-CiRevisionBindingRejected -CaseName 'wrong merge second parent' -Repository $repository -EventPath $eventPath -CheckoutRevision $wrongHeadMerge -GithubSha $wrongHeadMerge -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'tested PR merge commit does not bind the declared source head'[0m
+2026-10-15T09:15:38.1264289Z [36;1m  } finally {[0m
+2026-10-15T09:15:38.1264676Z [36;1m    Remove-Item -LiteralPath $testRoot -Recurse -Force -ErrorAction SilentlyContinue[0m
+2026-10-15T09:15:38.1265092Z [36;1m  }[0m
+2026-10-15T09:15:38.1265284Z [36;1m}[0m
+2026-10-15T09:15:38.1266180Z [36;1m$binding = Get-CiRevisionBinding -Repository $env:GITHUB_WORKSPACE -EventName $env:EVENT_NAME -GithubSha $env:GITHUB_SHA -EventPath $env:GITHUB_EVENT_PATH -PrHeadSha $env:PR_HEAD_SHA -PrBaseSha $env:PR_BASE_SHA -BindingPath 'target/ci-revision-binding.json'[0m
+2026-10-15T09:15:38.1267596Z [36;1mTest-CiRevisionBindingCases[0m
+2026-10-15T09:15:38.1533463Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-15T09:15:38.1533862Z env:
+2026-10-15T09:15:38.1534081Z   EVENT_NAME: pull_request
+2026-10-15T09:15:38.1534373Z   PR_HEAD_SHA: a4680c25f7ead5c30fefb0864056d761fe6afaae
+2026-10-15T09:15:38.1534726Z   PR_BASE_SHA: bcd76ae76f61650a890267f511099c96dc6a47fd
+2026-10-15T09:15:38.1535413Z ##[endgroup]
+2026-10-15T09:15:41.9532464Z ##[group]Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+2026-10-15T09:15:41.9532989Z with:
+2026-10-15T09:15:41.9533190Z   toolchain: 1.98.1
+2026-10-15T09:15:41.9533402Z ##[endgroup]
+2026-10-15T09:15:41.9727081Z ##[start-action display=Parse toolchain version;id=__dtolnay_rust-toolchain.parse]
+2026-10-15T09:15:41.9988934Z ##[group]Run if [[ -z $toolchain ]]; then
+2026-10-15T09:15:41.9989290Z [36;1mif [[ -z $toolchain ]]; then[0m
+2026-10-15T09:15:41.9989797Z [36;1m  # GitHub does not enforce `required: true` inputs itself. https://github.com/actions/runner/issues/1070[0m
+2026-10-15T09:15:41.9990336Z [36;1m  echo "'toolchain' is a required input" >&2[0m
+2026-10-15T09:15:41.9990618Z [36;1m  exit 1[0m
+2026-10-15T09:15:41.9990940Z [36;1melif [[ $toolchain =~ ^stable' '[0-9]+' '(year|month|week|day)s?' 'ago$ ]]; then[0m
+2026-10-15T09:15:41.9991344Z [36;1m  if [[ Windows == macOS ]]; then[0m
+2026-10-15T09:15:41.9991927Z [36;1m    echo "toolchain=1.$((($(date -v-$(sed 's/stable \([0-9]*\) \(.\).*/\1\2/' <<< $toolchain) +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:41.9992421Z [36;1m  else[0m
+2026-10-15T09:15:41.9992815Z [36;1m    echo "toolchain=1.$((($(date --date "${toolchain#stable }" +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:41.9993266Z [36;1m  fi[0m
+2026-10-15T09:15:41.9993559Z [36;1melif [[ $toolchain =~ ^stable' 'minus' '[0-9]+' 'releases?$ ]]; then[0m
+2026-10-15T09:15:41.9994066Z [36;1m  echo "toolchain=1.$((($(date +%s)/60/60/24-16569)/7/6-${toolchain//[^0-9]/}))" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:41.9994501Z [36;1melif [[ $toolchain =~ ^1\.[0-9]+$ ]]; then[0m
+2026-10-15T09:15:41.9995012Z [36;1m  echo "toolchain=1.$((i=${toolchain#1.}, c=($(date +%s)/60/60/24-16569)/7/6, i+9*i*(10*i<=c)+90*i*(100*i<=c)))" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:41.9995478Z [36;1melse[0m
+2026-10-15T09:15:41.9995719Z [36;1m  echo "toolchain=$toolchain" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:41.9996012Z [36;1mfi[0m
+2026-10-15T09:15:42.0009884Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:42.0027098Z env:
+2026-10-15T09:15:42.0027478Z   toolchain: 1.98.1
+2026-10-15T09:15:42.0027787Z ##[endgroup]
+2026-10-15T09:15:42.1724557Z ##[end-action id=__dtolnay_rust-toolchain.parse;outcome=success;conclusion=success;duration_ms=199]
+2026-10-15T09:15:42.1809865Z ##[start-action display=Construct rustup command line;id=__dtolnay_rust-toolchain.flags]
+2026-10-15T09:15:42.2079800Z ##[group]Run echo "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT
+2026-10-15T09:15:42.2080471Z [36;1mecho "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:42.2081101Z [36;1mecho "components=$(for c in ${components//,/ }; do echo -n ' --component' $c; done)" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:42.2081581Z [36;1mecho "downgrade=" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:42.2095613Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:42.2096021Z env:
+2026-10-15T09:15:42.2096207Z   targets: 
+2026-10-15T09:15:42.2096394Z   components: 
+2026-10-15T09:15:42.2096592Z ##[endgroup]
+2026-10-15T09:15:42.2937818Z ##[end-action id=__dtolnay_rust-toolchain.flags;outcome=success;conclusion=success;duration_ms=112]
+2026-10-15T09:15:42.3003625Z ##[start-action display=Set $CARGO_HOME;id=__dtolnay_rust-toolchain.__run]
+2026-10-15T09:15:42.3275995Z ##[group]Run echo CARGO_HOME=${CARGO_HOME:-"$USERPROFILE\.cargo"} >> $GITHUB_ENV
+2026-10-15T09:15:42.3276531Z [36;1mecho CARGO_HOME=${CARGO_HOME:-"$USERPROFILE\.cargo"} >> $GITHUB_ENV[0m
+2026-10-15T09:15:42.3292046Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:42.3292500Z ##[endgroup]
+2026-10-15T09:15:42.3790955Z ##[end-action id=__dtolnay_rust-toolchain.__run;outcome=success;conclusion=success;duration_ms=78]
+2026-10-15T09:15:42.3860986Z ##[start-action display=Install rustup if needed;id=__dtolnay_rust-toolchain.__run_2]
+2026-10-15T09:15:42.3921610Z ##[end-action id=__dtolnay_rust-toolchain.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-15T09:15:42.4032053Z ##[start-action display=Install rustup if needed on windows;id=__dtolnay_rust-toolchain.__run_3]
+2026-10-15T09:15:42.4254901Z ##[group]Run if ! command -v rustup &>/dev/null; then
+2026-10-15T09:15:42.4255308Z [36;1mif ! command -v rustup &>/dev/null; then[0m
+2026-10-15T09:15:42.4256080Z [36;1m  curl --proto '=https' --tlsv1.2 --retry 10 --retry-connrefused --location --silent --show-error --fail https://win.rustup.rs/x86_64 --output 'D:\a\_temp\rustup-init.exe'[0m
+2026-10-15T09:15:42.4256902Z [36;1m  'D:\a\_temp\rustup-init.exe' --default-toolchain none --no-modify-path -y[0m
+2026-10-15T09:15:42.4257326Z [36;1m  echo "$CARGO_HOME\bin" >> $GITHUB_PATH[0m
+2026-10-15T09:15:42.4257603Z [36;1mfi[0m
+2026-10-15T09:15:42.4271257Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:42.4271642Z env:
+2026-10-15T09:15:42.4271852Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:42.4272117Z ##[endgroup]
+2026-10-15T09:15:42.4776152Z ##[end-action id=__dtolnay_rust-toolchain.__run_3;outcome=success;conclusion=success;duration_ms=74]
+2026-10-15T09:15:42.4863911Z ##[start-action display=rustup toolchain install 1.98.1;id=__dtolnay_rust-toolchain.__run_4]
+2026-10-15T09:15:42.5103884Z ##[group]Run rustup toolchain install 1.98.1 --profile minimal --no-self-update
+2026-10-15T09:15:42.5104779Z [36;1mrustup toolchain install 1.98.1 --profile minimal --no-self-update[0m
+2026-10-15T09:15:42.5121897Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:42.5122556Z env:
+2026-10-15T09:15:42.5122901Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:42.5123369Z   RUSTUP_PERMIT_COPY_RENAME: 1
+2026-10-15T09:15:42.5123760Z ##[endgroup]
+2026-10-15T09:15:43.1790649Z info: syncing channel updates for 1.98.1-x86_64-pc-windows-msvc
+2026-10-15T09:15:43.7443621Z info: latest update on 2026-09-03 for version 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T09:15:43.7530273Z info: downloading 3 components
+2026-10-15T09:15:52.8482139Z 
+2026-10-15T09:15:52.8846925Z   1.98.1-x86_64-pc-windows-msvc installed - rustc 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T09:15:52.8847575Z 
+2026-10-15T09:15:52.8951705Z ##[end-action id=__dtolnay_rust-toolchain.__run_4;outcome=success;conclusion=success;duration_ms=10408]
+2026-10-15T09:15:52.9022598Z ##[start-action display=rustup default 1.98.1;id=__dtolnay_rust-toolchain.__run_5]
+2026-10-15T09:15:52.9258994Z ##[group]Run rustup default 1.98.1
+2026-10-15T09:15:52.9259288Z [36;1mrustup default 1.98.1[0m
+2026-10-15T09:15:52.9273302Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:52.9273686Z env:
+2026-10-15T09:15:52.9273893Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:52.9274173Z ##[endgroup]
+2026-10-15T09:15:52.9971827Z info: using existing install for 1.98.1-x86_64-pc-windows-msvc
+2026-10-15T09:15:53.0059500Z info: default toolchain set to 1.98.1-x86_64-pc-windows-msvc
+2026-10-15T09:15:53.0059937Z 
+2026-10-15T09:15:53.0271987Z   1.98.1-x86_64-pc-windows-msvc unchanged - rustc 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T09:15:53.0272952Z 
+2026-10-15T09:15:53.0276187Z info: note that the toolchain '1.98.1-x86_64-pc-windows-msvc' is currently in use (overridden by 'D:\a\ai-cockpit\ai-cockpit\rust-toolchain.toml')
+2026-10-15T09:15:53.0359281Z ##[end-action id=__dtolnay_rust-toolchain.__run_5;outcome=success;conclusion=success;duration_ms=133]
+2026-10-15T09:15:53.0423676Z ##[start-action display=Create cachekey;id=__dtolnay_rust-toolchain.rustc-version]
+2026-10-15T09:15:53.0657460Z ##[group]Run DATE=$(rustc +1.98.1 --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+2026-10-15T09:15:53.0659854Z [36;1mDATE=$(rustc +1.98.1 --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')[0m
+2026-10-15T09:15:53.0660980Z [36;1mHASH=$(rustc +1.98.1 --version --verbose | sed -ne 's/^commit-hash: //p')[0m
+2026-10-15T09:15:53.0661792Z [36;1mecho "cachekey=$(echo $DATE$HASH | head -c12)" >> $GITHUB_OUTPUT[0m
+2026-10-15T09:15:53.0682999Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:53.0683630Z env:
+2026-10-15T09:15:53.0683950Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:53.0684375Z ##[endgroup]
+2026-10-15T09:15:53.9420126Z ##[end-action id=__dtolnay_rust-toolchain.rustc-version;outcome=success;conclusion=success;duration_ms=899]
+2026-10-15T09:15:53.9484717Z ##[start-action display=Disable incremental compilation;id=__dtolnay_rust-toolchain.__run_6]
+2026-10-15T09:15:53.9709734Z ##[group]Run if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+2026-10-15T09:15:53.9710166Z [36;1mif [ -z "${CARGO_INCREMENTAL+set}" ]; then[0m
+2026-10-15T09:15:53.9710506Z [36;1m  echo CARGO_INCREMENTAL=0 >> $GITHUB_ENV[0m
+2026-10-15T09:15:53.9710787Z [36;1mfi[0m
+2026-10-15T09:15:53.9725426Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:53.9725833Z env:
+2026-10-15T09:15:53.9726057Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:53.9726353Z ##[endgroup]
+2026-10-15T09:15:54.0175348Z ##[end-action id=__dtolnay_rust-toolchain.__run_6;outcome=success;conclusion=success;duration_ms=68]
+2026-10-15T09:15:54.0240377Z ##[start-action display=Enable colors in Cargo output;id=__dtolnay_rust-toolchain.__run_7]
+2026-10-15T09:15:54.0498024Z ##[group]Run if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+2026-10-15T09:15:54.0498435Z [36;1mif [ -z "${CARGO_TERM_COLOR+set}" ]; then[0m
+2026-10-15T09:15:54.0498777Z [36;1m  echo CARGO_TERM_COLOR=always >> $GITHUB_ENV[0m
+2026-10-15T09:15:54.0499060Z [36;1mfi[0m
+2026-10-15T09:15:54.0512053Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:54.0512455Z env:
+2026-10-15T09:15:54.0512669Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:54.0512940Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:15:54.0513147Z ##[endgroup]
+2026-10-15T09:15:54.0963100Z ##[end-action id=__dtolnay_rust-toolchain.__run_7;outcome=success;conclusion=success;duration_ms=72]
+2026-10-15T09:15:54.1027278Z ##[start-action display=Enable Cargo sparse registry;id=__dtolnay_rust-toolchain.__run_8]
+2026-10-15T09:15:54.1301027Z ##[group]Run # implemented in 1.66, stabilized in 1.68, made default in 1.70
+2026-10-15T09:15:54.1301563Z [36;1m# implemented in 1.66, stabilized in 1.68, made default in 1.70[0m
+2026-10-15T09:15:54.1302216Z [36;1mif [ -z "${CARGO_REGISTRIES_CRATES_IO_PROTOCOL+set}" -o -f "D:\a\_temp"/.implicit_cargo_registries_crates_io_protocol ]; then[0m
+2026-10-15T09:15:54.1302857Z [36;1m  if rustc +1.98.1 --version --verbose | grep -q '^release: 1\.6[89]\.'; then[0m
+2026-10-15T09:15:54.1303357Z [36;1m    touch "D:\a\_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-15T09:15:54.1303831Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse >> $GITHUB_ENV[0m
+2026-10-15T09:15:54.1304305Z [36;1m  elif rustc +1.98.1 --version --verbose | grep -q '^release: 1\.6[67]\.'; then[0m
+2026-10-15T09:15:54.1304997Z [36;1m    touch "D:\a\_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-15T09:15:54.1305437Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=git >> $GITHUB_ENV[0m
+2026-10-15T09:15:54.1305774Z [36;1m  fi[0m
+2026-10-15T09:15:54.1305963Z [36;1mfi[0m
+2026-10-15T09:15:54.1320132Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:54.1320545Z env:
+2026-10-15T09:15:54.1320764Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:54.1321048Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:15:54.1321273Z   CARGO_TERM_COLOR: always
+2026-10-15T09:15:54.1321502Z ##[endgroup]
+2026-10-15T09:15:54.3221219Z ##[end-action id=__dtolnay_rust-toolchain.__run_8;outcome=success;conclusion=success;duration_ms=219]
+2026-10-15T09:15:54.3285955Z ##[start-action display=Work around spurious network errors in curl 8.0;id=__dtolnay_rust-toolchain.__run_9]
+2026-10-15T09:15:54.3517014Z ##[group]Run # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+2026-10-15T09:15:54.3517770Z [36;1m# https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation[0m
+2026-10-15T09:15:54.3518401Z [36;1mif rustc +1.98.1 --version --verbose | grep -q '^release: 1\.7[01]\.'; then[0m
+2026-10-15T09:15:54.3518886Z [36;1m  echo CARGO_HTTP_MULTIPLEXING=false >> $GITHUB_ENV[0m
+2026-10-15T09:15:54.3519192Z [36;1mfi[0m
+2026-10-15T09:15:54.3533187Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:54.3533775Z env:
+2026-10-15T09:15:54.3533989Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:54.3534258Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:15:54.3534488Z   CARGO_TERM_COLOR: always
+2026-10-15T09:15:54.3534711Z ##[endgroup]
+2026-10-15T09:15:54.4788392Z ##[end-action id=__dtolnay_rust-toolchain.__run_9;outcome=success;conclusion=success;duration_ms=150]
+2026-10-15T09:15:54.4899040Z ##[start-action display=rustc +1.98.1 --version --verbose;id=__dtolnay_rust-toolchain.__run_10]
+2026-10-15T09:15:54.5098104Z ##[group]Run rustc +1.98.1 --version --verbose
+2026-10-15T09:15:54.5098446Z [36;1mrustc +1.98.1 --version --verbose[0m
+2026-10-15T09:15:54.5110674Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-15T09:15:54.5111064Z env:
+2026-10-15T09:15:54.5111266Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:54.5111532Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:15:54.5111749Z   CARGO_TERM_COLOR: always
+2026-10-15T09:15:54.5111962Z ##[endgroup]
+2026-10-15T09:15:54.5967293Z rustc 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T09:15:54.5967758Z binary: rustc
+2026-10-15T09:15:54.5968152Z commit-hash: 48a229ceaefd4985c50990b14116b6d856af0985
+2026-10-15T09:15:54.5968654Z commit-date: 2026-09-01
+2026-10-15T09:15:54.5969071Z host: x86_64-pc-windows-msvc
+2026-10-15T09:15:54.5969650Z release: 1.98.1
+2026-10-15T09:15:54.5970836Z LLVM version: 22.1.8
+2026-10-15T09:15:54.6111759Z ##[end-action id=__dtolnay_rust-toolchain.__run_10;outcome=success;conclusion=success;duration_ms=121]
+2026-10-15T09:15:54.6640798Z ##[group]Run cargo test -p cockpit-agent --all-targets
+2026-10-15T09:15:54.6641539Z [36;1mcargo test -p cockpit-agent --all-targets[0m
+2026-10-15T09:15:54.6716576Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-15T09:15:54.6716970Z env:
+2026-10-15T09:15:54.6717204Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:15:54.6717486Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:15:54.6717704Z   CARGO_TERM_COLOR: always
+2026-10-15T09:15:54.6717930Z ##[endgroup]
+2026-10-15T09:15:55.6514513Z info: syncing channel updates for 1.98.1-x86_64-pc-windows-msvc
+2026-10-15T09:15:56.1682216Z info: latest update on 2026-09-03 for version 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T09:15:56.1988147Z info: downloading 2 components
+2026-10-15T09:15:57.3897001Z [1m[92m    Updating[0m crates.io index
+2026-10-15T09:15:58.0123535Z [1m[92m Downloading[0m crates ...
+2026-10-15T09:15:58.1260897Z [1m[92m  Downloaded[0m anstyle-parse v1.0.0
+2026-10-15T09:15:58.1418392Z [1m[92m  Downloaded[0m cap-fs-ext v4.0.3
+2026-10-15T09:15:58.1592661Z [1m[92m  Downloaded[0m once_cell v1.21.4
+2026-10-15T09:15:58.1885391Z [1m[92m  Downloaded[0m ambient-authority v0.0.2
+2026-10-15T09:15:58.1995182Z [1m[92m  Downloaded[0m anstyle-wincon v3.0.11
+2026-10-15T09:15:58.2100172Z [1m[92m  Downloaded[0m toml v0.9.12+spec-1.1.0
+2026-10-15T09:15:58.2493241Z [1m[92m  Downloaded[0m anstream v1.0.0
+2026-10-15T09:15:58.2664891Z [1m[92m  Downloaded[0m anstyle-query v1.1.5
+2026-10-15T09:15:58.2763542Z [1m[92m  Downloaded[0m anstyle v1.0.14
+2026-10-15T09:15:58.2874264Z [1m[92m  Downloaded[0m block-buffer v0.10.4
+2026-10-15T09:15:58.2968110Z [1m[92m  Downloaded[0m bitflags v2.13.1
+2026-10-15T09:15:58.3425131Z [1m[92m  Downloaded[0m cap-primitives v4.0.3
+2026-10-15T09:15:58.4749387Z [1m[92m  Downloaded[0m colorchoice v1.0.5
+2026-10-15T09:15:58.4830497Z [1m[92m  Downloaded[0m getrandom v0.4.3
+2026-10-15T09:15:58.5195624Z [1m[92m  Downloaded[0m digest v0.10.7
+2026-10-15T09:15:58.5363272Z [1m[92m  Downloaded[0m clap_lex v1.1.0
+2026-10-15T09:15:58.5452368Z [1m[92m  Downloaded[0m io-extras v0.19.0
+2026-10-15T09:15:58.5671765Z [1m[92m  Downloaded[0m crypto-common v0.1.7
+2026-10-15T09:15:58.5756914Z [1m[92m  Downloaded[0m equivalent v1.0.2
+2026-10-15T09:15:58.5873304Z [1m[92m  Downloaded[0m cfg-if v1.0.4
+2026-10-15T09:15:58.5989464Z [1m[92m  Downloaded[0m generic-array v0.14.7
+2026-10-15T09:15:58.6131982Z [1m[92m  Downloaded[0m cap-std v4.0.3
+2026-10-15T09:15:58.6410891Z [1m[92m  Downloaded[0m clap v4.6.7
+2026-10-15T09:15:58.7438414Z [1m[92m  Downloaded[0m itoa v1.0.18
+2026-10-15T09:15:58.7555398Z [1m[92m  Downloaded[0m fs-set-times v0.20.3
+2026-10-15T09:15:58.7679275Z [1m[92m  Downloaded[0m cpufeatures v0.2.17
+2026-10-15T09:15:58.7820143Z [1m[92m  Downloaded[0m sha2 v0.10.9
+2026-10-15T09:15:58.8116799Z [1m[92m  Downloaded[0m thiserror v2.0.20
+2026-10-15T09:15:59.1953325Z [1m[92m  Downloaded[0m windows-targets v0.52.6
+2026-10-15T09:15:59.2028580Z [1m[92m  Downloaded[0m fastrand v2.5.0
+2026-10-15T09:15:59.2140778Z [1m[92m  Downloaded[0m clap_derive v4.6.7
+2026-10-15T09:15:59.2324860Z [1m[92m  Downloaded[0m serde_spanned v1.1.1
+2026-10-15T09:16:00.2253729Z [1m[92m  Downloaded[0m strsim v0.11.1
+2026-10-15T09:16:00.2364616Z [1m[92m  Downloaded[0m utf8parse v0.2.2
+2026-10-15T09:16:00.2450809Z [1m[92m  Downloaded[0m windows-targets v0.53.5
+2026-10-15T09:16:00.2535885Z [1m[92m  Downloaded[0m hex v0.4.3
+2026-10-15T09:16:00.2747152Z [1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
+2026-10-15T09:16:00.3077790Z [1m[92m  Downloaded[0m serde_core v1.0.229
+2026-10-15T09:16:00.3336003Z [1m[92m  Downloaded[0m heck v0.5.0
+2026-10-15T09:16:00.3481023Z [1m[92m  Downloaded[0m version_check v0.9.5
+2026-10-15T09:16:00.3595677Z [1m[92m  Downloaded[0m once_cell_polyfill v1.70.2
+2026-10-15T09:16:00.3705641Z [1m[92m  Downloaded[0m quote v1.0.47
+2026-10-15T09:16:00.3996387Z [1m[92m  Downloaded[0m thiserror-impl v2.0.20
+2026-10-15T09:16:00.4146533Z [1m[92m  Downloaded[0m toml_datetime v0.7.5+spec-1.1.0
+2026-10-15T09:16:00.4247527Z [1m[92m  Downloaded[0m toml_parser v1.1.3+spec-1.1.0
+2026-10-15T09:16:00.4441314Z [1m[92m  Downloaded[0m toml_writer v1.1.2+spec-1.1.0
+2026-10-15T09:16:00.4552846Z [1m[92m  Downloaded[0m winx v0.36.4
+2026-10-15T09:16:00.4715443Z [1m[92m  Downloaded[0m zmij v1.0.23
+2026-10-15T09:16:00.4849314Z [1m[92m  Downloaded[0m io-lifetimes v2.0.4
+2026-10-15T09:16:00.5006344Z [1m[92m  Downloaded[0m io-lifetimes v3.0.1
+2026-10-15T09:16:00.5159605Z [1m[92m  Downloaded[0m ipnet v2.12.1
+2026-10-15T09:16:00.5315722Z [1m[92m  Downloaded[0m maybe-owned v0.3.4
+2026-10-15T09:16:00.5426913Z [1m[92m  Downloaded[0m tempfile v3.27.0
+2026-10-15T09:16:00.5662338Z [1m[92m  Downloaded[0m serde_derive v1.0.229
+2026-10-15T09:16:00.5961638Z [1m[92m  Downloaded[0m proc-macro2 v1.0.107
+2026-10-15T09:16:00.6248381Z [1m[92m  Downloaded[0m unicode-ident v1.0.24
+2026-10-15T09:16:00.6491523Z [1m[92m  Downloaded[0m serde v1.0.229
+2026-10-15T09:16:00.6776276Z [1m[92m  Downloaded[0m indexmap v2.14.0
+2026-10-15T09:16:00.7124177Z [1m[92m  Downloaded[0m typenum v1.20.1
+2026-10-15T09:16:00.7342467Z [1m[92m  Downloaded[0m memchr v2.8.3
+2026-10-15T09:16:00.7791984Z [1m[92m  Downloaded[0m hashbrown v0.17.1
+2026-10-15T09:16:00.8173781Z [1m[92m  Downloaded[0m winnow v1.0.4
+2026-10-15T09:16:00.9038065Z [1m[92m  Downloaded[0m clap_builder v4.6.7
+2026-10-15T09:16:00.9596876Z [1m[92m  Downloaded[0m serde_json v1.0.151
+2026-10-15T09:16:01.0344050Z [1m[92m  Downloaded[0m winnow v0.7.15
+2026-10-15T09:16:01.1216858Z [1m[92m  Downloaded[0m syn v3.0.3
+2026-10-15T09:16:01.2032857Z [1m[92m  Downloaded[0m windows_x86_64_msvc v0.53.1
+2026-10-15T09:16:01.2271727Z [1m[92m  Downloaded[0m windows_x86_64_msvc v0.52.6
+2026-10-15T09:16:01.2499203Z [1m[92m  Downloaded[0m windows-sys v0.59.0
+2026-10-15T09:16:01.5418726Z [1m[92m  Downloaded[0m windows-sys v0.60.2
+2026-10-15T09:16:03.7754339Z [1m[92m   Compiling[0m windows_x86_64_msvc v0.53.1
+2026-10-15T09:16:03.7755611Z [1m[92m   Compiling[0m proc-macro2 v1.0.107
+2026-10-15T09:16:03.7756079Z [1m[92m   Compiling[0m quote v1.0.47
+2026-10-15T09:16:03.7756582Z [1m[92m   Compiling[0m unicode-ident v1.0.24
+2026-10-15T09:16:03.8965934Z [1m[92m   Compiling[0m serde_core v1.0.229
+2026-10-15T09:16:05.6513216Z [1m[92m   Compiling[0m windows-targets v0.53.5
+2026-10-15T09:16:05.6575603Z [1m[92m   Compiling[0m windows_x86_64_msvc v0.52.6
+2026-10-15T09:16:05.6770208Z [1m[92m   Compiling[0m version_check v0.9.5
+2026-10-15T09:16:05.7192859Z [1m[92m   Compiling[0m windows-sys v0.60.2
+2026-10-15T09:16:06.0965230Z [1m[92m   Compiling[0m generic-array v0.14.7
+2026-10-15T09:16:06.9084801Z [1m[92m   Compiling[0m syn v3.0.3
+2026-10-15T09:16:07.0647995Z [1m[92m   Compiling[0m typenum v1.20.1
+2026-10-15T09:16:09.1742193Z [1m[92m   Compiling[0m windows-targets v0.52.6
+2026-10-15T09:16:09.2275731Z [1m[92m   Compiling[0m windows-sys v0.59.0
+2026-10-15T09:16:09.5677388Z [1m[92m   Compiling[0m cfg-if v1.0.4
+2026-10-15T09:16:09.6197086Z [1m[92m   Compiling[0m io-lifetimes v3.0.1
+2026-10-15T09:16:09.9574022Z [1m[92m   Compiling[0m utf8parse v0.2.2
+2026-10-15T09:16:10.0665347Z [1m[92m   Compiling[0m once_cell_polyfill v1.70.2
+2026-10-15T09:16:10.1586554Z [1m[92m   Compiling[0m serde v1.0.229
+2026-10-15T09:16:10.3475624Z [1m[92m   Compiling[0m anstyle v1.0.14
+2026-10-15T09:16:10.5520554Z [1m[92m   Compiling[0m io-lifetimes v2.0.4
+2026-10-15T09:16:10.6767519Z [1m[92m   Compiling[0m anstyle-wincon v3.0.11
+2026-10-15T09:16:11.0094480Z [1m[92m   Compiling[0m anstyle-parse v1.0.0
+2026-10-15T09:16:11.0958885Z [1m[92m   Compiling[0m anstyle-query v1.1.5
+2026-10-15T09:16:11.2643022Z [1m[92m   Compiling[0m block-buffer v0.10.4
+2026-10-15T09:16:11.2988078Z [1m[92m   Compiling[0m crypto-common v0.1.7
+2026-10-15T09:16:11.4043034Z [1m[92m   Compiling[0m zmij v1.0.23
+2026-10-15T09:16:11.4398222Z [1m[92m   Compiling[0m thiserror v2.0.20
+2026-10-15T09:16:11.7251377Z [1m[92m   Compiling[0m colorchoice v1.0.5
+2026-10-15T09:16:11.8252778Z [1m[92m   Compiling[0m io-extras v0.19.0
+2026-10-15T09:16:11.8370629Z [1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
+2026-10-15T09:16:11.9121373Z [1m[92m   Compiling[0m anstream v1.0.0
+2026-10-15T09:16:12.1913354Z [1m[92m   Compiling[0m digest v0.10.7
+2026-10-15T09:16:12.5755849Z [1m[92m   Compiling[0m serde_json v1.0.151
+2026-10-15T09:16:12.7127731Z [1m[92m   Compiling[0m heck v0.5.0
+2026-10-15T09:16:12.7406016Z [1m[92m   Compiling[0m strsim v0.11.1
+2026-10-15T09:16:13.0042798Z [1m[92m   Compiling[0m cpufeatures v0.2.17
+2026-10-15T09:16:13.1177255Z [1m[92m   Compiling[0m bitflags v2.13.1
+2026-10-15T09:16:13.1289507Z [1m[92m   Compiling[0m clap_lex v1.1.0
+2026-10-15T09:16:13.4418716Z [1m[92m   Compiling[0m serde_derive v1.0.229
+2026-10-15T09:16:13.5294614Z [1m[92m   Compiling[0m thiserror-impl v2.0.20
+2026-10-15T09:16:13.6919369Z [1m[92m   Compiling[0m cap-primitives v4.0.3
+2026-10-15T09:16:13.6984542Z [1m[92m   Compiling[0m clap_derive v4.6.7
+2026-10-15T09:16:15.4019773Z [1m[92m   Compiling[0m clap_builder v4.6.7
+2026-10-15T09:16:16.6739575Z [1m[92m   Compiling[0m winx v0.36.4
+2026-10-15T09:16:17.5241922Z [1m[92m   Compiling[0m sha2 v0.10.9
+2026-10-15T09:16:17.9525408Z [1m[92m   Compiling[0m fs-set-times v0.20.3
+2026-10-15T09:16:19.2398119Z [1m[92m   Compiling[0m cap-std v4.0.3
+2026-10-15T09:16:19.7091753Z [1m[92m   Compiling[0m maybe-owned v0.3.4
+2026-10-15T09:16:19.9635646Z [1m[92m   Compiling[0m winnow v1.0.4
+2026-10-15T09:16:20.4003172Z [1m[92m   Compiling[0m itoa v1.0.18
+2026-10-15T09:16:20.6205525Z [1m[92m   Compiling[0m getrandom v0.4.3
+2026-10-15T09:16:20.6953421Z [1m[92m   Compiling[0m ambient-authority v0.0.2
+2026-10-15T09:16:20.7655614Z [1m[92m   Compiling[0m memchr v2.8.3
+2026-10-15T09:16:20.9752166Z [1m[92m   Compiling[0m ipnet v2.12.1
+2026-10-15T09:16:22.1786358Z [1m[92m   Compiling[0m hex v0.4.3
+2026-10-15T09:16:22.7722149Z [1m[92m   Compiling[0m toml_parser v1.1.3+spec-1.1.0
+2026-10-15T09:16:24.0236903Z [1m[92m   Compiling[0m clap v4.6.7
+2026-10-15T09:16:24.1009729Z [1m[92m   Compiling[0m serde_spanned v1.1.1
+2026-10-15T09:16:24.2699907Z [1m[92m   Compiling[0m toml_datetime v0.7.5+spec-1.1.0
+2026-10-15T09:16:24.4028466Z [1m[92m   Compiling[0m winnow v0.7.15
+2026-10-15T09:16:24.7938576Z [1m[92m   Compiling[0m toml_writer v1.1.2+spec-1.1.0
+2026-10-15T09:16:24.8802244Z [1m[92m   Compiling[0m cap-fs-ext v4.0.3
+2026-10-15T09:16:24.8979420Z [1m[92m   Compiling[0m cockpit-interface v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-interface)
+2026-10-15T09:16:25.3237478Z [1m[92m   Compiling[0m cockpit-core v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-core)
+2026-10-15T09:16:25.7028397Z [1m[92m   Compiling[0m fastrand v2.5.0
+2026-10-15T09:16:26.0766953Z [1m[92m   Compiling[0m once_cell v1.21.4
+2026-10-15T09:16:26.3528644Z [1m[92m   Compiling[0m tempfile v3.27.0
+2026-10-15T09:16:26.6880907Z [1m[92m   Compiling[0m cockpit-git v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-git)
+2026-10-15T09:16:27.1948711Z [1m[92m   Compiling[0m toml v0.9.12+spec-1.1.0
+2026-10-15T09:16:28.5398722Z [1m[92m   Compiling[0m cockpit-protocol v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-protocol)
+2026-10-15T09:16:35.9510325Z [1m[92m   Compiling[0m cockpit-agent v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-agent)
+2026-10-15T09:16:41.0216576Z [1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 43.73s
+2026-10-15T09:16:41.0540328Z [1m[92m     Running[0m unittests src\lib.rs (target\debug\deps\cockpit_agent-985f09359805b6f1.exe)
+2026-10-15T09:16:41.0645564Z 
+2026-10-15T09:16:41.0645937Z running 0 tests
+2026-10-15T09:16:41.0646177Z 
+2026-10-15T09:16:41.0646962Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-15T09:16:41.0647503Z 
+2026-10-15T09:16:41.0663969Z [1m[92m     Running[0m tests\context.rs (target\debug\deps\context-04e86260eaad1696.exe)
+2026-10-15T09:16:41.0757298Z 
+2026-10-15T09:16:41.0757543Z running 5 tests
+2026-10-15T09:16:41.0768607Z test checked_in_manifest_advertises_coordination_and_parallel_capabilities ... ok
+2026-10-15T09:16:41.1813256Z test sha256_file_is_bounded_and_streaming ... ok
+2026-10-15T09:16:41.2194657Z test missing_manifest_is_unattached ... ok
+2026-10-15T09:16:41.2203570Z test manifest_repository_mismatch_fails_closed ... ok
+2026-10-15T09:16:41.2222929Z test manifest_parent_resolves_repository_context ... ok
+2026-10-15T09:16:41.2223966Z 
+2026-10-15T09:16:41.2224377Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+2026-10-15T09:16:41.2224955Z 
+2026-10-15T09:16:41.2245216Z [1m[92m     Running[0m tests\detection.rs (target\debug\deps\detection-b26e331c792b6d2f.exe)
+2026-10-15T09:16:41.2353205Z 
+2026-10-15T09:16:41.2353598Z running 7 tests
+2026-10-15T09:16:41.3804021Z test cursor_legacy_managed_md_remains_discoverable ... ok
+2026-10-15T09:16:41.3814913Z test detection_is_read_only ... ok
+2026-10-15T09:16:41.3998122Z test cursor_uses_provider_native_mdc_target ... ok
+2026-10-15T09:16:41.4196531Z test auto_lists_only_safe_surfaces ... ok
+2026-10-15T09:16:41.5090259Z test duplicate_marker_is_a_conflict ... ok
+2026-10-15T09:16:41.5123226Z test provider_target_is_repository_relative ... ok
+2026-10-15T09:16:41.5284539Z test unsupported_host_surface_is_not_selected ... ok
+2026-10-15T09:16:41.5284999Z 
+2026-10-15T09:16:41.5285442Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+2026-10-15T09:16:41.5286051Z 
+2026-10-15T09:16:41.5307664Z [1m[92m     Running[0m tests\doctor.rs (target\debug\deps\doctor-c7f1637959c2d170.exe)
+2026-10-15T09:16:41.5414453Z 
+2026-10-15T09:16:41.5414768Z running 10 tests
+2026-10-15T09:16:41.6302696Z test doctor_does_not_follow_unknown_surface_symlink ... ok
+2026-10-15T09:16:41.7505223Z test doctor_reports_unattached_and_attached ... ok
+2026-10-15T09:16:41.7507358Z test exit_codes_match_state ... ok
+2026-10-15T09:16:41.8182022Z test doctor_reports_expected_and_actual_adapter_digests ... ok
+2026-10-15T09:16:41.8182769Z test doctor_reports_degraded_without_mcp ... ok
+2026-10-15T09:16:41.9643464Z test doctor_requires_matching_repository_probe_for_verified ... ok
+2026-10-15T09:16:42.0603909Z test modified_section_blocks_detach ... ok
+2026-10-15T09:16:42.2149538Z test repair_rejects_managed_section_repository_identity_mismatch ... ok
+2026-10-15T09:16:42.2297354Z test repair_rebinds_explicitly_authorized_managed_section_drift ... ok
+2026-10-15T09:16:42.2718294Z test unchanged_section_detaches_only_owned_bytes ... ok
+2026-10-15T09:16:42.2718672Z 
+2026-10-15T09:16:42.2718947Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.73s
+2026-10-15T09:16:42.2719337Z 
+2026-10-15T09:16:42.2740589Z [1m[92m     Running[0m tests\install.rs (target\debug\deps\install-aaa65f90296e630c.exe)
+2026-10-15T09:16:42.2837671Z 
+2026-10-15T09:16:42.2837931Z running 8 tests
+2026-10-15T09:16:42.5323096Z test cursor_install_writes_mdc_and_preserves_user_owned_legacy_md ... ok
+2026-10-15T09:16:42.5332945Z test install_creates_only_owned_managed_section ... ok
+2026-10-15T09:16:42.6025703Z test cursor_legacy_managed_adapter_detaches_only_owned_bytes ... ok
+2026-10-15T09:16:42.6561344Z test cursor_legacy_managed_adapter_is_repaired_in_place ... ok
+2026-10-15T09:16:42.7779866Z test install_rejects_duplicate_or_malformed_markers ... ok
+2026-10-15T09:16:42.7803757Z test install_preserves_unrelated_bytes ... ok
+2026-10-15T09:16:42.8195016Z test repeated_install_is_byte_stable ... ok
+2026-10-15T09:16:42.9996321Z test repository_a_and_b_have_independent_ownership_records ... ok
+2026-10-15T09:16:42.9996730Z 
+2026-10-15T09:16:42.9997279Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.72s
+2026-10-15T09:16:42.9997640Z 
+2026-10-15T09:16:43.0020267Z [1m[92m     Running[0m tests\isolation.rs (target\debug\deps\isolation-acb092cb20e879df.exe)
+2026-10-15T09:16:43.0129226Z 
+2026-10-15T09:16:43.0129739Z running 1 test
+2026-10-15T09:16:43.2276108Z test parallel_agent_operations_keep_repository_ids_and_records_separate ... ok
+2026-10-15T09:16:43.2276503Z 
+2026-10-15T09:16:43.2276768Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+2026-10-15T09:16:43.2277340Z 
+2026-10-15T09:16:43.2299718Z [1m[92m     Running[0m tests\outcome_delivery.rs (target\debug\deps\outcome_delivery-bb220661c80090e9.exe)
+2026-10-15T09:16:43.2406733Z 
+2026-10-15T09:16:43.2407057Z running 12 tests
+2026-10-15T09:16:43.2415546Z test assistant_message_events_preserve_each_segment_without_reconstruction ... ok
+2026-10-15T09:16:43.2421928Z test consecutive_work_items_keep_delivery_identity_separate ... ok
+2026-10-15T09:16:43.2429429Z test display_capability_does_not_promote_missing_per_message_confirmation ... ok
+2026-10-15T09:16:43.2430452Z test application_service_preserves_return_only_handoff_and_unknown_host_facts ... ok
+2026-10-15T09:16:43.2434847Z test host_acceptance_is_not_display_confirmation_and_messages_are_real_events ... ok
+2026-10-15T09:16:43.2436868Z test empty_progress_cannot_claim_completion_without_attempting_the_first_segment ... ok
+2026-10-15T09:16:43.2442655Z test interrupted_delivery_resumes_same_body_without_new_lifecycle_execution ... ok
+2026-10-15T09:16:43.2443613Z test non_contiguous_progress_cannot_skip_to_the_end_without_receipts ... ok
+2026-10-15T09:16:43.2448403Z test stale_delivery_identity_is_rejected_before_host_message ... ok
+2026-10-15T09:16:43.2449298Z test return_only_adapter_reports_segments_without_host_confirmation ... ok
+2026-10-15T09:16:43.2455097Z test application_service_prefers_explicit_progress_over_stale_persisted_bytes ... ok
+2026-10-15T09:16:43.2501102Z test application_service_persists_interruption_and_retries_from_accepted_progress ... ok
+2026-10-15T09:16:43.2501780Z 
+2026-10-15T09:16:43.2502191Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+2026-10-15T09:16:43.2502729Z 
+2026-10-15T09:16:43.2523012Z [1m[92m     Running[0m tests\outcome_host_command.rs (target\debug\deps\outcome_host_command-a3899cde49be89cd.exe)
+2026-10-15T09:16:43.2626110Z 
+2026-10-15T09:16:43.2626482Z running 1 test
+2026-10-15T09:16:43.5949025Z test command_host_emits_and_confirms_real_assistant_message_events ... ok
+2026-10-15T09:16:43.5949395Z 
+2026-10-15T09:16:43.5949653Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+2026-10-15T09:16:43.5949985Z 
+2026-10-15T09:16:43.7533476Z ##[group]Run cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1
+2026-10-15T09:16:43.7534643Z [36;1mcargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1[0m
+2026-10-15T09:16:43.7613836Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-15T09:16:43.7614199Z env:
+2026-10-15T09:16:43.7614415Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:16:43.7614689Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:16:43.7614907Z   CARGO_TERM_COLOR: always
+2026-10-15T09:16:43.7615128Z ##[endgroup]
+2026-10-15T09:16:44.2085588Z [1m[92m   Compiling[0m windows-sys v0.60.2
+2026-10-15T09:16:44.2113663Z [1m[92m   Compiling[0m cockpit-evidence v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-evidence)
+2026-10-15T09:16:45.2275708Z [1m[92m   Compiling[0m anstyle-wincon v3.0.11
+2026-10-15T09:16:45.2276592Z [1m[92m   Compiling[0m anstyle-query v1.1.5
+2026-10-15T09:16:45.3560133Z [1m[92m   Compiling[0m anstream v1.0.0
+2026-10-15T09:16:45.5600487Z [1m[92m   Compiling[0m clap_builder v4.6.7
+2026-10-15T09:16:47.3042155Z [1m[92m   Compiling[0m clap v4.6.7
+2026-10-15T09:16:47.3445713Z [1m[92m   Compiling[0m cockpit-interface v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-interface)
+2026-10-15T09:16:48.0008207Z [1m[92m   Compiling[0m cockpit-protocol v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-protocol)
+2026-10-15T09:16:55.4504938Z [1m[92m   Compiling[0m cockpit-verification v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-verification)
+2026-10-15T09:17:01.8472917Z [1m[93mwarning[0m[1m[97m: unused import: `reap_composition_supervisor_descendants`[0m
+2026-10-15T09:17:01.8474386Z   [1m[96m--> [0mcrates\cockpit-verification\tests\composition.rs:11:44
+2026-10-15T09:17:01.8475104Z    [1m[96m|[0m
+2026-10-15T09:17:01.8476049Z [1m[96m11[0m [1m[96m|[0m     new_supervised_composition_attempt_id, reap_composition_supervisor_descendants,
+2026-10-15T09:17:01.8477269Z    [1m[96m|[0m                                            [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-10-15T09:17:01.8478360Z    [1m[96m|[0m
+2026-10-15T09:17:01.8479168Z    [1m[96m= [0m[1m[97mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-10-15T09:17:01.8479921Z 
+2026-10-15T09:17:01.8480349Z [1m[93mwarning[0m[1m[97m: unused import: `AtomicBool`[0m
+2026-10-15T09:17:01.8481209Z   [1m[96m--> [0mcrates\cockpit-verification\tests\composition.rs:23:25
+2026-10-15T09:17:01.8481924Z    [1m[96m|[0m
+2026-10-15T09:17:01.8489509Z [1m[96m23[0m [1m[96m|[0m use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
+2026-10-15T09:17:01.8490568Z    [1m[96m|[0m                         [1m[93m^^^^^^^^^^[0m
+2026-10-15T09:17:01.8491037Z 
+2026-10-15T09:17:01.8491421Z [1m[93mwarning[0m[1m[97m: unused import: `Instant`[0m
+2026-10-15T09:17:01.8492304Z   [1m[96m--> [0mcrates\cockpit-verification\tests\composition.rs:25:27
+2026-10-15T09:17:01.8493023Z    [1m[96m|[0m
+2026-10-15T09:17:01.8493724Z [1m[96m25[0m [1m[96m|[0m use std::time::{Duration, Instant};
+2026-10-15T09:17:01.8494470Z    [1m[96m|[0m                           [1m[93m^^^^^^^[0m
+2026-10-15T09:17:01.8494905Z 
+2026-10-15T09:17:01.9320806Z [1m[93mwarning[0m[1m[97m: unreachable statement[0m
+2026-10-15T09:17:01.9321905Z     [1m[96m--> [0mcrates\cockpit-verification\tests\composition.rs:1036:13
+2026-10-15T09:17:01.9322679Z      [1m[96m|[0m
+2026-10-15T09:17:01.9323943Z [1m[96m1035[0m [1m[96m|[0m             panic!("only the exact Linux procfs cwd EACCES outcome is accepted: {failure}");
+2026-10-15T09:17:01.9325652Z      [1m[96m|[0m             [1m[96m-------------------------------------------------------------------------------[0m [1m[96many code following this expression is unreachable[0m
+2026-10-15T09:17:01.9330165Z [1m[96m1036[0m [1m[96m|[0m             assert!(worktree.is_dir(), "unknown worktree must be retained");
+2026-10-15T09:17:01.9331708Z      [1m[96m|[0m             [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[93munreachable statement[0m
+2026-10-15T09:17:01.9332583Z      [1m[96m|[0m
+2026-10-15T09:17:01.9333389Z      [1m[96m= [0m[1m[97mnote[0m: `#[warn(unreachable_code)]` (part of `#[warn(unused)]`) on by default
+2026-10-15T09:17:01.9334126Z 
+2026-10-15T09:17:02.1865318Z [1m[93mwarning[0m[1m[97m: function `run_composition_with_test_supervisor` is never used[0m
+2026-10-15T09:17:02.1986646Z    [1m[96m--> [0mcrates\cockpit-verification\tests\composition.rs:303:4
+2026-10-15T09:17:02.2183101Z     [1m[96m|[0m
+2026-10-15T09:17:02.2183876Z [1m[96m303[0m [1m[96m|[0m fn run_composition_with_test_supervisor(
+2026-10-15T09:17:02.2323338Z     [1m[96m|[0m    [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-10-15T09:17:02.2502060Z     [1m[96m|[0m
+2026-10-15T09:17:02.2630550Z     [1m[96m= [0m[1m[97mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-10-15T09:17:02.2640856Z 
+2026-10-15T09:17:02.3077180Z [1m[93mwarning[0m[1m[97m: unused imports: `CompositionBinding`, `CompositionCommand`, `CompositionIdentity`, `CompositionInput`, `Digest`, `observed_node_identity`, and `resolve_executable`[0m
+2026-10-15T09:17:02.3142623Z     [1m[96m--> [0mcrates\cockpit-verification\src\composition.rs:7645:9
+2026-10-15T09:17:02.3153595Z      [1m[96m|[0m
+2026-10-15T09:17:02.3200718Z [1m[96m7645[0m [1m[96m|[0m         CompositionBinding, CompositionCommand, CompositionIdentity, CompositionInput, Digest,
+2026-10-15T09:17:02.3202807Z      [1m[96m|[0m         [1m[93m^^^^^^^^^^^^^^^^^^[0m  [1m[93m^^^^^^^^^^^^^^^^^^[0m  [1m[93m^^^^^^^^^^^^^^^^^^^[0m  [1m[93m^^^^^^^^^^^^^^^^[0m  [1m[93m^^^^^^[0m
+2026-10-15T09:17:02.3204452Z [1m[96m7646[0m [1m[96m|[0m         observe_runtime_toolchain_digest, observed_node_identity, parse_rustup_default_toolchain,
+2026-10-15T09:17:02.3262737Z      [1m[96m|[0m                                           [1m[93m^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-10-15T09:17:02.3263984Z [1m[96m7647[0m [1m[96m|[0m         parse_rustup_settings, resolve_executable, resolve_rustup_toolchain_directory,
+2026-10-15T09:17:02.3472004Z      [1m[96m|[0m                                [1m[93m^^^^^^^^^^^^^^^^^^[0m
+2026-10-15T09:17:02.3472694Z      [1m[96m|[0m
+2026-10-15T09:17:02.3532688Z      [1m[96m= [0m[1m[97mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-10-15T09:17:02.3677688Z 
+2026-10-15T09:17:02.3680175Z [1m[93mwarning[0m[1m[97m: unused import: `cockpit_protocol::RuntimeCapabilityBinding`[0m
+2026-10-15T09:17:02.3681832Z     [1m[96m--> [0mcrates\cockpit-verification\src\composition.rs:7650:9
+2026-10-15T09:17:02.3683620Z      [1m[96m|[0m
+2026-10-15T09:17:02.3684893Z [1m[96m7650[0m [1m[96m|[0m     use cockpit_protocol::RuntimeCapabilityBinding;
+2026-10-15T09:17:02.3808656Z      [1m[96m|[0m         [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-10-15T09:17:02.3845457Z 
+2026-10-15T09:17:04.0623948Z [1m[93mwarning[0m: `cockpit-verification` (test "composition") generated 5 warnings (run `cargo fix --test "composition" -p cockpit-verification` to apply 3 suggestions)
+2026-10-15T09:17:07.7744341Z [1m[93mwarning[0m: `cockpit-verification` (lib test) generated 2 warnings (run `cargo fix --lib -p cockpit-verification --tests` to apply 2 suggestions)
+2026-10-15T09:17:07.7745513Z [1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 23.68s
+2026-10-15T09:17:07.7820675Z [1m[92m     Running[0m unittests src\lib.rs (target\debug\deps\cockpit_verification-068d2b66c58fc426.exe)
+2026-10-15T09:17:07.7936455Z 
+2026-10-15T09:17:07.7936949Z running 24 tests
+2026-10-15T09:17:07.7945188Z test composition::composition_parent_tests::concurrent_composition_parents_remain_unique_at_the_same_clock_tick ... ok
+2026-10-15T09:17:07.8031844Z test composition::path_containment_tests::controlled_composition_environment_can_resolve_windows_powershell ... ok
+2026-10-15T09:17:07.8033084Z test composition::path_containment_tests::trusted_windows_path_prefix_ignores_case_but_respects_component_boundaries ... ok
+2026-10-15T09:17:07.8036795Z test composition::rustup_default_host_settings_tests::default_host_triple_alias_is_supported ... ok
+2026-10-15T09:17:07.8039471Z test composition::rustup_default_host_settings_tests::default_host_tuple_is_supported ... ok
+2026-10-15T09:17:07.8041913Z test composition::rustup_default_host_settings_tests::duplicate_host_keys_and_alias_conflicts_are_rejected ... ok
+2026-10-15T09:17:07.8044519Z test composition::rustup_default_host_settings_tests::duplicate_known_settings_keys_are_rejected ... ok
+2026-10-15T09:17:07.8113222Z test composition::rustup_default_host_settings_tests::explicit_host_channel_does_not_require_default_host_metadata ... ok
+2026-10-15T09:17:07.8207512Z test composition::rustup_default_host_settings_tests::explicit_toolchain_host_can_differ_from_settings_host ... ok
+2026-10-15T09:17:07.8210024Z test composition::rustup_default_host_settings_tests::malformed_host_tuple_is_rejected ... ok
+2026-10-15T09:17:07.8273834Z test composition::rustup_default_host_settings_tests::missing_settings_file_remains_unknown ... ok
+2026-10-15T09:17:07.8370901Z test composition::rustup_default_host_settings_tests::short_channel_without_default_host_remains_unresolvable ... ok
+2026-10-15T09:17:07.8466289Z test composition::rustup_default_host_settings_tests::short_toolchain_selects_only_the_configured_host_directory ... ok
+2026-10-15T09:17:07.8484122Z test composition::rustup_default_host_settings_tests::unique_toolchain_prefix_does_not_prove_host_identity ... ok
+2026-10-15T09:17:07.8487001Z test composition::rustup_default_host_settings_tests::unknown_keys_and_nonempty_overrides_remain_fail_closed ... ok
+2026-10-15T09:17:07.8494593Z test gate_plan::tests::dependency_closure_escalates_a_route_before_execution ... ok
+2026-10-15T09:17:07.8497126Z test gate_plan::tests::lifecycle_boundary_rejects_future_or_stale_states ... ok
+2026-10-15T09:17:07.8501141Z test gate_plan::tests::manifest_dependencies_are_known_unique_and_acyclic ... ok
+2026-10-15T09:17:07.8510059Z test gate_plan::tests::receipt_digest_is_stable_and_validation_reuses_same_facts ... ok
+2026-10-15T09:17:07.8512708Z test gate_plan::tests::rejects_unsafe_paths_before_rule_selection ... ok
+2026-10-15T09:17:07.8518005Z test gate_plan::tests::selects_highest_path_profile_and_gate_ids_in_manifest_order ... ok
+2026-10-15T09:17:07.8521097Z test tests::failed_dependency_is_not_made_ready ... ok
+2026-10-15T09:17:07.8526908Z test tests::plan_reports_the_bound_fields_that_make_cached_evidence_stale ... ok
+2026-10-15T09:17:07.8533675Z test tests::process_start_gate_rejection_does_not_spawn_the_child ... ok
+2026-10-15T09:17:07.8534216Z 
+2026-10-15T09:17:07.8534953Z test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+2026-10-15T09:17:07.8535698Z 
+2026-10-15T09:17:07.8558037Z [1m[92m     Running[0m tests\composition.rs (target\debug\deps\composition-814912c6088dfdb3.exe)
+2026-10-15T09:17:07.8660132Z 
+2026-10-15T09:17:07.8660388Z running 27 tests
+2026-10-15T09:17:10.7743217Z test actual_command_environment_change_invalidates_reuse_even_when_json_identity_is_stale ... ok
+2026-10-15T09:17:11.4522884Z test attempt_record_filename_is_portable_and_preserves_logical_identity ... ok
+2026-10-15T09:17:12.7758463Z test changed_command_only_reexecutes_the_affected_node ... ok
+2026-10-15T09:17:14.8205987Z test changed_source_file_only_reexecutes_nodes_that_observe_that_file ... ok
+2026-10-15T09:17:19.5298881Z test changed_upstream_receipt_reexecutes_transitive_dependents_only ... ok
+2026-10-15T09:17:24.1110894Z test coherent_supervisor_receipt_is_required_for_a_successful_terminal ... ok
+2026-10-15T09:17:29.7275903Z test composition_attempt_reports_execution_and_cleanup_separately ... ok
+2026-10-15T09:17:32.7849261Z test composition_attempt_without_schema_version_is_not_reused ... ok
+2026-10-15T09:17:32.7851465Z test composition_commands_accept_explicit_upstream_dependencies ... ok
+2026-10-15T09:17:32.7853605Z test composition_pure_cache_supervisor_run_test_helper ... ok
+2026-10-15T09:17:35.1293730Z test composition_rejects_dependencies_that_are_not_prior_nodes_before_spawn ... ok
+2026-10-15T09:17:35.1295865Z test composition_supervisor_run_test_helper ... ok
+2026-10-15T09:17:36.6078502Z test composition_v2_attempt_reads_but_does_not_reuse_v1_history ... ok
+2026-10-15T09:17:37.0781137Z test empty_required_checks_fail_closed_without_a_worktree_or_process ... ok
+2026-10-15T09:18:08.7136112Z test exact_composition_uses_real_linked_worktree_and_finds_interface_error ... ok
+2026-10-15T09:18:09.7280779Z test execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable ... ok
+2026-10-15T09:18:11.0650375Z test failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag ... ok
+2026-10-15T09:18:12.4333211Z test failed_attempts_are_append_only_and_exact_identity_controls_reuse ... ok
+2026-10-15T09:18:12.9023697Z test failed_precondition_spawns_zero_expensive_processes_and_persists_attempt ... ok
+2026-10-15T09:18:14.3975883Z test inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse ... ok
+2026-10-15T09:18:14.3980850Z test process_group_backend_does_not_claim_linux_echild_proof ... ok
+2026-10-15T09:18:15.3981909Z test process_start_gate_rejection_is_persisted_without_running_the_node ... ok
+2026-10-15T09:18:16.8991876Z test repeated_exact_composition_reuses_only_when_inputs_are_observable ... ok
+2026-10-15T09:18:17.8529081Z test retry_does_not_remove_a_worktree_owned_by_a_live_process ... ok
+2026-10-15T09:18:18.6691526Z test successful_exact_identity_allows_reuse_but_command_change_reexecutes ... ok
+2026-10-15T09:18:20.5968039Z test timed_out_node_is_durable_and_reports_cleanup ... ok
+2026-10-15T09:18:22.3883415Z test unbounded_external_reads_execute_again_but_independent_node_reuses ... ok
+2026-10-15T09:18:22.3884034Z 
+2026-10-15T09:18:22.3884414Z test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 74.52s
+2026-10-15T09:18:22.3885259Z 
+2026-10-15T09:18:22.3910206Z [1m[92m     Running[0m tests\execution.rs (target\debug\deps\execution-75a6f55b4fc70bed.exe)
+2026-10-15T09:18:22.4016184Z 
+2026-10-15T09:18:22.4016659Z running 24 tests
+2026-10-15T09:18:22.4592333Z test bounded_execution_reports_plan_and_process_telemetry ... ok
+2026-10-15T09:18:24.4754194Z test bounded_executor_starts_a_dependent_only_after_its_dependency_finishes ... ok
+2026-10-15T09:18:24.5572785Z test bounded_executor_still_runs_independent_nodes_in_parallel ... ok
+2026-10-15T09:18:24.6677316Z test dependency_rerun_forces_an_otherwise_fresh_downstream_command_to_execute ... ok
+2026-10-15T09:18:28.3582613Z test descendant_cannot_escape_the_windows_job_before_assignment ... ok
+2026-10-15T09:18:28.3814165Z test execution_receipt_preserves_command_identity_exit_status_and_bounded_logs ... ok
+2026-10-15T09:18:28.4315650Z test failed_dependency_is_reported_without_running_dependents_or_blocking_independent_nodes ... ok
+2026-10-15T09:18:28.4334209Z test failed_spawn_is_not_reported_as_a_spawned_or_executed_protected_process ... ok
+2026-10-15T09:18:28.5079906Z test failed_spawn_nonzero_exit_and_truncated_output_create_no_passed_candidate ... ok
+2026-10-15T09:18:28.5086847Z test fresh_typed_receipt_skips_the_actual_failing_process ... ok
+2026-10-15T09:18:28.5428228Z test never_reuse_policy_cannot_be_overridden_by_a_fresh_candidate ... ok
+2026-10-15T09:18:28.6334974Z test output_identity_changes_when_successful_command_output_changes ... ok
+2026-10-15T09:18:28.6338000Z test pinned_execution_paths_do_not_change_the_logical_command_identity ... ok
+2026-10-15T09:18:28.6678873Z test planner_derives_identity_from_the_final_actual_command ... ok
+2026-10-15T09:18:28.7023019Z test planner_includes_actual_arguments_in_command_identity ... ok
+2026-10-15T09:18:28.7469455Z test protected_fresh_candidate_executes_and_cannot_be_reported_skipped ... ok
+2026-10-15T09:18:28.8144312Z test resource_budget_allows_weighted_commands_within_bound ... ok
+2026-10-15T09:18:28.8146065Z test resource_budget_rejects_zero_and_overweight_commands_fail_closed ... ok
+2026-10-15T09:18:28.8794354Z test single_flight_coalesces_same_repository_work_item_and_runtime_identity ... ok
+2026-10-15T09:18:28.8796080Z test single_flight_rejects_unbound_repository_identity ... ok
+2026-10-15T09:18:28.9350843Z test stale_and_missing_receipts_execute_and_report_rerun_state ... ok
+2026-10-15T09:18:28.9805075Z test successful_reusable_execution_returns_an_output_bound_receipt_candidate ... ok
+2026-10-15T09:18:28.9807226Z test timeout_above_runtime_cap_is_rejected_before_spawn ... ok
+2026-10-15T09:18:29.0143550Z test timeout_is_bound_into_command_and_execution_receipt_identity ... ok
+2026-10-15T09:18:29.0143920Z 
+2026-10-15T09:18:29.0144230Z test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.61s
+2026-10-15T09:18:29.0144969Z 
+2026-10-15T09:18:29.1677016Z ##[group]Run cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
+2026-10-15T09:18:29.1678002Z [36;1mcargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service[0m
+2026-10-15T09:18:29.1755063Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-15T09:18:29.1755435Z env:
+2026-10-15T09:18:29.1755660Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:18:29.1755948Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:18:29.1756171Z   CARGO_TERM_COLOR: always
+2026-10-15T09:18:29.1756398Z ##[endgroup]
+2026-10-15T09:18:29.5798917Z [1m[92m Downloading[0m crates ...
+2026-10-15T09:18:29.6394537Z [1m[92m  Downloaded[0m autocfg v1.5.1
+2026-10-15T09:18:29.6623786Z [1m[92m  Downloaded[0m phf_shared v0.12.1
+2026-10-15T09:18:29.6733262Z [1m[92m  Downloaded[0m phf v0.12.1
+2026-10-15T09:18:29.6923724Z [1m[92m  Downloaded[0m windows-link v0.2.1
+2026-10-15T09:18:29.7018714Z [1m[92m  Downloaded[0m siphasher v1.0.4
+2026-10-15T09:18:29.7193739Z [1m[92m  Downloaded[0m num-traits v0.2.19
+2026-10-15T09:18:29.7539712Z [1m[92m  Downloaded[0m chrono v0.4.45
+2026-10-15T09:18:29.8090864Z [1m[92m  Downloaded[0m syn v2.0.119
+2026-10-15T09:18:29.9099472Z [1m[92m  Downloaded[0m chrono-tz v0.10.4
+2026-10-15T09:18:30.1129229Z [1m[92m   Compiling[0m unicode-ident v1.0.24
+2026-10-15T09:18:30.1154463Z [1m[92m   Compiling[0m windows-sys v0.60.2
+2026-10-15T09:18:30.1196114Z [1m[92m   Compiling[0m autocfg v1.5.1
+2026-10-15T09:18:30.1203639Z [1m[92m   Compiling[0m proc-macro2 v1.0.107
+2026-10-15T09:18:30.7109018Z [1m[92m   Compiling[0m num-traits v0.2.19
+2026-10-15T09:18:30.8231369Z [1m[92m   Compiling[0m siphasher v1.0.4
+2026-10-15T09:18:30.9765919Z [1m[92m   Compiling[0m quote v1.0.47
+2026-10-15T09:18:31.2764160Z [1m[92m   Compiling[0m syn v3.0.3
+2026-10-15T09:18:31.7573046Z [1m[92m   Compiling[0m phf_shared v0.12.1
+2026-10-15T09:18:32.6042901Z [1m[92m   Compiling[0m windows-link v0.2.1
+2026-10-15T09:18:32.6652480Z [1m[92m   Compiling[0m chrono-tz v0.10.4
+2026-10-15T09:18:33.4825562Z [1m[92m   Compiling[0m chrono v0.4.45
+2026-10-15T09:18:34.1535151Z [1m[92m   Compiling[0m anstyle-query v1.1.5
+2026-10-15T09:18:34.3435573Z [1m[92m   Compiling[0m anstyle-wincon v3.0.11
+2026-10-15T09:18:34.7278606Z [1m[92m   Compiling[0m anstream v1.0.0
+2026-10-15T09:18:34.9596760Z [1m[92m   Compiling[0m io-extras v0.19.0
+2026-10-15T09:18:35.3896015Z [1m[92m   Compiling[0m clap_builder v4.6.7
+2026-10-15T09:18:35.5003286Z [1m[92m   Compiling[0m cap-primitives v4.0.3
+2026-10-15T09:18:36.0763846Z [1m[92m   Compiling[0m phf v0.12.1
+2026-10-15T09:18:36.2679925Z [1m[92m   Compiling[0m cap-std v4.0.3
+2026-10-15T09:18:36.7079335Z [1m[92m   Compiling[0m cap-fs-ext v4.0.3
+2026-10-15T09:18:36.8988250Z [1m[92m   Compiling[0m syn v2.0.119
+2026-10-15T09:18:38.0946201Z [1m[92m   Compiling[0m serde_derive v1.0.229
+2026-10-15T09:18:43.6358310Z [1m[92m   Compiling[0m serde v1.0.229
+2026-10-15T09:18:44.4845477Z [1m[92m   Compiling[0m thiserror-impl v2.0.20
+2026-10-15T09:18:44.6445283Z [1m[92m   Compiling[0m clap_derive v4.6.7
+2026-10-15T09:18:46.6556009Z [1m[92m   Compiling[0m thiserror v2.0.20
+2026-10-15T09:18:46.9416212Z [1m[92m   Compiling[0m cockpit-core v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-core)
+2026-10-15T09:18:46.9551446Z [1m[92m   Compiling[0m cockpit-git v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-git)
+2026-10-15T09:18:47.8929722Z [1m[92m   Compiling[0m clap v4.6.7
+2026-10-15T09:18:47.9464962Z [1m[92m   Compiling[0m cockpit-interface v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-interface)
+2026-10-15T09:18:48.5216137Z [1m[92m   Compiling[0m cockpit-evidence v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-evidence)
+2026-10-15T09:18:49.0188174Z [1m[92m   Compiling[0m cockpit-protocol v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-protocol)
+2026-10-15T09:18:56.7465614Z [1m[92m   Compiling[0m cockpit-knowledge v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-knowledge)
+2026-10-15T09:18:56.7467133Z [1m[92m   Compiling[0m cockpit-verification v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-verification)
+2026-10-15T09:19:00.8644101Z [1m[92m   Compiling[0m cockpit-repository v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-repository)
+2026-10-15T09:19:02.0219610Z [1m[93mwarning[0m[1m[97m: unused import: `File`[0m
+2026-10-15T09:19:02.0302671Z   [1m[96m--> [0mcrates\cockpit-repository\src\contract_amendment.rs:12:21
+2026-10-15T09:19:02.0336046Z    [1m[96m|[0m
+2026-10-15T09:19:02.0382136Z [1m[96m12[0m [1m[96m|[0m use std::fs::{self, File, OpenOptions};
+2026-10-15T09:19:02.0669422Z    [1m[96m|[0m                     [1m[93m^^^^[0m
+2026-10-15T09:19:02.0709286Z    [1m[96m|[0m
+2026-10-15T09:19:02.0767238Z    [1m[96m= [0m[1m[97mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-10-15T09:19:02.0768930Z 
+2026-10-15T09:19:30.3024636Z [1m[93mwarning[0m: `cockpit-repository` (lib) generated 1 warning (run `cargo fix --lib -p cockpit-repository` to apply 1 suggestion)
+2026-10-15T09:19:33.2747893Z [1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 1m 03s
+2026-10-15T09:19:33.2853658Z [1m[92m     Running[0m tests\receipt_store.rs (target\debug\deps\receipt_store-0dd985cb67412de3.exe)
+2026-10-15T09:19:33.2966712Z 
+2026-10-15T09:19:33.2967158Z running 9 tests
+2026-10-15T09:19:33.5399238Z test existing_hardlinked_commit_marker_is_never_truncated ... ok
+2026-10-15T09:19:33.5991680Z test empty_store_is_unavailable_and_valid_store_loads_only_the_indexed_receipt ... ok
+2026-10-15T09:19:33.6916822Z test concurrent_writers_preserve_both_node_mappings ... ok
+2026-10-15T09:19:34.0764917Z test malformed_tampered_and_missing_referenced_receipts_fail_closed ... ok
+2026-10-15T09:19:34.1643215Z test released_store_rename_preserves_both_receipts_and_index_bindings ... ok
+2026-10-15T09:19:34.1778591Z test orphaned_temporary_receipt_does_not_poison_later_publication ... ok
+2026-10-15T09:19:34.1781749Z test oversized_index_and_receipt_fail_closed_without_unbounded_reads ... ok
+2026-10-15T09:19:34.2093386Z test uncertain_index_commit_marker_fails_closed ... ok
+2026-10-15T09:19:34.2640747Z test wrong_repository_profile_or_index_binding_never_returns_a_candidate ... ok
+2026-10-15T09:19:34.2641334Z 
+2026-10-15T09:19:34.2641744Z test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.97s
+2026-10-15T09:19:34.2642296Z 
+2026-10-15T09:19:34.2667961Z [1m[92m     Running[0m tests\verification_context.rs (target\debug\deps\verification_context-cc358b51059cb2c3.exe)
+2026-10-15T09:19:34.2774324Z 
+2026-10-15T09:19:34.2774626Z running 10 tests
+2026-10-15T09:19:34.4079910Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:34.4273815Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:34.4490447Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:34.4491621Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:34.4513307Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:34.4563306Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:34.4803894Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:34.4866822Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:35.3161385Z test batch_commands_fail_closed_instead_of_reusing_unbound_cmd_runtime ... ok
+2026-10-15T09:19:35.4280347Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:35.4858689Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.0076927Z test pr_base_revision_and_resolved_executable_bytes_are_independent_bindings ... ok
+2026-10-15T09:19:36.1105663Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.1358599Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.2927352Z test calibrated_verified_command_derives_one_stable_profile_bound_context ... ok
+2026-10-15T09:19:36.4007476Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.4382325Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.4500712Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.4919631Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.5266830Z test governance_only_receipts_do_not_invalidate_source_content_identity ... ok
+2026-10-15T09:19:36.7530411Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:36.8175182Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:37.0954784Z test oversized_governance_identity_files_fail_closed_with_bounded_reads ... ok
+2026-10-15T09:19:37.2483744Z test reparse_point_executable_fails_closed_instead_of_reusing_a_movable_target ... ok
+2026-10-15T09:19:37.2554460Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:37.2935528Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:37.4167104Z warning: in the working copy of 'Cargo.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:37.4437889Z warning: in the working copy of 'src/lib.rs', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:37.5385251Z test profile_authorized_verification_reuses_exact_receipt_without_source_changes ... ok
+2026-10-15T09:19:38.2199730Z test source_runtime_and_scope_changes_invalidate_their_context_dimensions ... ok
+2026-10-15T09:19:38.2206235Z test unknown_profile_command_and_config_fields_deny_reuse ... ok
+2026-10-15T09:19:38.4567941Z test uncalibrated_unverified_headless_and_tampered_profiles_deny_reuse ... ok
+2026-10-15T09:19:38.4568555Z 
+2026-10-15T09:19:38.4568952Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.18s
+2026-10-15T09:19:38.4571143Z 
+2026-10-15T09:19:38.4595151Z [1m[92m     Running[0m tests\verification_service.rs (target\debug\deps\verification_service-39efe34e22c5b0d3.exe)
+2026-10-15T09:19:38.4702768Z 
+2026-10-15T09:19:38.4703267Z running 9 tests
+2026-10-15T09:19:38.5893956Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:38.6003664Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:38.6201966Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:38.6204052Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:38.6225589Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:38.7020507Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.2122365Z test invalid_stage_fails_closed_before_reuse_or_identity_access ... ok
+2026-10-15T09:19:39.3707936Z test implicit_cargo_package_test_deadline_is_bounded_without_changing_other_defaults ... ok
+2026-10-15T09:19:39.4553467Z test missing_profile_executes_as_never_reuse_instead_of_blocking_verification ... ok
+2026-10-15T09:19:39.4696022Z test cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_manifest ... ok
+2026-10-15T09:19:39.4732839Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.5447713Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.6887932Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.6889489Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.6891570Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.7319639Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.7322089Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:39.7341015Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:40.2593520Z test timeout_override_requires_policy_and_cap_is_rejected_before_spawn ... ok
+2026-10-15T09:19:40.3778863Z warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:40.4000810Z warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:19:40.5765761Z test protected_service_commands_execute_on_every_invocation ... ok
+2026-10-15T09:19:40.6087255Z test repository_timeout_is_bound_into_plan_and_execution_receipts ... ok
+2026-10-15T09:19:40.7925448Z test verification_planning_rejects_invalid_stage_and_missing_release_base ... ok
+2026-10-15T09:19:40.9371745Z test repository_receipt_projects_the_typed_route_stage ... ok
+2026-10-15T09:19:40.9372099Z 
+2026-10-15T09:19:40.9372383Z test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.47s
+2026-10-15T09:19:40.9372758Z 
+2026-10-15T09:19:41.0856110Z ##[group]Run cargo test --locked -p cockpit-repository --lib
+2026-10-15T09:19:41.0856647Z [36;1mcargo test --locked -p cockpit-repository --lib[0m
+2026-10-15T09:19:41.0933436Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-10-15T09:19:41.0933785Z env:
+2026-10-15T09:19:41.0933993Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:19:41.0934265Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:19:41.0934478Z   CARGO_TERM_COLOR: always
+2026-10-15T09:19:41.0934691Z ##[endgroup]
+2026-10-15T09:19:41.5896494Z [1m[92m   Compiling[0m cockpit-repository v1.0.1 (D:\a\ai-cockpit\ai-cockpit\crates\cockpit-repository)
+2026-10-15T09:19:42.6603623Z [1m[93mwarning[0m[1m[97m: unused import: `File`[0m
+2026-10-15T09:19:42.6604442Z   [1m[96m--> [0mcrates\cockpit-repository\src\contract_amendment.rs:12:21
+2026-10-15T09:19:42.6605034Z    [1m[96m|[0m
+2026-10-15T09:19:42.6605567Z [1m[96m12[0m [1m[96m|[0m use std::fs::{self, File, OpenOptions};
+2026-10-15T09:19:42.6606054Z    [1m[96m|[0m                     [1m[93m^^^^[0m
+2026-10-15T09:19:42.6606358Z    [1m[96m|[0m
+2026-10-15T09:19:42.6606795Z    [1m[96m= [0m[1m[97mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+2026-10-15T09:19:42.6607140Z 
+2026-10-15T09:19:51.8140127Z [1m[93mwarning[0m[1m[97m: field `candidate_loaded` is never read[0m
+2026-10-15T09:19:51.8140775Z     [1m[96m--> [0mcrates\cockpit-repository\src\lib.rs:1142:5
+2026-10-15T09:19:51.8141133Z      [1m[96m|[0m
+2026-10-15T09:19:51.8141539Z [1m[96m1131[0m [1m[96m|[0m struct PreparedRepositoryVerificationCommand {
+2026-10-15T09:19:51.8142154Z      [1m[96m|[0m        [1m[96m-------------------------------------[0m [1m[96mfield in this struct[0m
+2026-10-15T09:19:51.8142604Z [1m[96m...[0m
+2026-10-15T09:19:51.8142913Z [1m[96m1142[0m [1m[96m|[0m     candidate_loaded: bool,
+2026-10-15T09:19:51.8143298Z      [1m[96m|[0m     [1m[93m^^^^^^^^^^^^^^^^[0m
+2026-10-15T09:19:51.8143600Z      [1m[96m|[0m
+2026-10-15T09:19:51.8144013Z      [1m[96m= [0m[1m[97mnote[0m: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+2026-10-15T09:19:51.8144316Z 
+2026-10-15T09:19:51.8144677Z [1m[93mwarning[0m[1m[97m: function `run_repository_verification_with_post_prepare` is never used[0m
+2026-10-15T09:19:51.8145231Z     [1m[96m--> [0mcrates\cockpit-repository\src\lib.rs:1371:4
+2026-10-15T09:19:51.8145559Z      [1m[96m|[0m
+2026-10-15T09:19:51.8145914Z [1m[96m1371[0m [1m[96m|[0m fn run_repository_verification_with_post_prepare<H>(
+2026-10-15T09:19:51.8146395Z      [1m[96m|[0m    [1m[93m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+2026-10-15T09:19:51.8146641Z 
+2026-10-15T09:20:11.1840704Z [1m[93mwarning[0m: `cockpit-repository` (lib test) generated 3 warnings (run `cargo fix --lib -p cockpit-repository --tests` to apply 1 suggestion)
+2026-10-15T09:20:11.1842768Z [1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 29.74s
+2026-10-15T09:20:11.1934487Z [1m[92m     Running[0m unittests src\lib.rs (target\debug\deps\cockpit_repository-da54425050f4d64c.exe)
+2026-10-15T09:20:11.2064990Z 
+2026-10-15T09:20:11.2065457Z running 114 tests
+2026-10-15T09:20:11.2073404Z test audit_query::lifecycle_elapsed_tests::wall_elapsed_includes_wait_and_rejects_clock_rollback ... ok
+2026-10-15T09:20:11.2152223Z test collaboration::registered_worktree_file_windows_tests::opened_directory_handles_prevent_swap_back_even_without_timestamp_resolution ... ok
+2026-10-15T09:20:11.2156753Z test coordination_store::lock_recovery_tests::coordination_lock_child_helper ... ok
+2026-10-15T09:20:11.4818515Z warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:11.5143551Z warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:11.5149337Z warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:11.5161682Z warning: in the working copy of 'target/outcome.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:11.5815238Z warning: in the working copy of 'target/outcome.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:17.7998552Z warning: in the working copy of '.ai/agent-interface.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:17.8289174Z warning: in the working copy of '.ai/cockpit.toml', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:17.8585272Z warning: in the working copy of '.ai/decisions/profile-v1.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:17.8893916Z warning: in the working copy of '.ai/project.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:17.9220656Z warning: in the working copy of '.ai/work-items/active/WI-LOCK-RECOVERY.contract.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:17.9490419Z warning: in the working copy of '.ai/work-items/active/WI-LOCK-RECOVERY.summary.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:17.9931745Z warning: in the working copy of 'changed.txt', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:19.1066366Z test collaboration::outcome_publication_tests::pause_committed_after_initial_admission_blocks_the_process_start_boundary ... ok
+2026-10-15T09:20:19.1085275Z test environment_identity_tests::cargo_executable_case_variant_keeps_package_deadline_and_target_isolation ... ok
+2026-10-15T09:20:19.1110974Z test environment_identity_tests::cargo_verification_defaults_to_checkout_specific_home_target_when_not_declared ... ok
+2026-10-15T09:20:19.1234913Z test environment_identity_tests::cargo_verification_preserves_explicit_non_incremental_target ... ok
+2026-10-15T09:20:19.1465311Z test environment_identity_tests::command_environment_changes_still_invalidate_exact_reuse ... ok
+2026-10-15T09:20:19.1582403Z test environment_identity_tests::empty_home_still_gets_an_absolute_checkout_specific_cargo_target ... ok
+2026-10-15T09:20:19.1589320Z test environment_identity_tests::mise_session_metadata_does_not_invalidate_exact_reuse ... ok
+2026-10-15T09:20:19.1593520Z test environment_identity_tests::non_cargo_verification_keeps_declared_environment ... ok
+2026-10-15T09:20:19.1597624Z test environment_identity_tests::pinned_cargo_execution_preserves_inherited_target_directory ... ok
+2026-10-15T09:20:19.1624728Z test environment_identity_tests::windows_mixed_case_explicit_cargo_target_takes_precedence ... ok
+2026-10-15T09:20:19.1637976Z WI1083_NATIVE {"args":["--exact","evidence_store::windows_parent_replacement_tests::parent_replacement_after_lock_open_cannot_redirect_store_writes","--nocapture","--test-threads=1"],"os":"windows","phase":"native_exact_selection","program":"D:\\a\\ai-cockpit\\ai-cockpit\\target\\debug\\deps\\cockpit_repository-da54425050f4d64c.exe"}
+2026-10-15T09:20:19.3822836Z 
+2026-10-15T09:20:19.3823974Z running 1 test
+2026-10-15T09:20:19.3826472Z test evidence_store::windows_parent_replacement_tests::parent_replacement_after_lock_open_cannot_redirect_store_writes ... WI1083_NATIVE {"directory":"Identity { volume: 742408122, file: 3940649675311830 }","lock":"Identity { volume: 742408122, file: 4503599628733145 }","phase":"handles_open_before_lock_acquisition"}
+2026-10-15T09:20:19.3829248Z WI1083_NATIVE {"exactIndexMappings":2,"exactReceipts":2,"noRedirection":true,"phase":"complete","rawRenameErrno":32,"renameAfterAllHandlesReleased":true}
+2026-10-15T09:20:19.3830382Z ok
+2026-10-15T09:20:19.3830533Z 
+2026-10-15T09:20:19.3830962Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 113 filtered out; finished in 0.20s
+2026-10-15T09:20:19.3831578Z 
+2026-10-15T09:20:19.3832246Z test evidence_store::windows_parent_replacement_tests::parent_replacement_after_lock_open_cannot_redirect_store_writes ... ok
+2026-10-15T09:20:19.3834976Z test evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix ... ok
+2026-10-15T09:20:19.3836181Z test historical_compatibility::tests::canonical_close_vocabulary_remains_explicit_and_finite ... ok
+2026-10-15T09:20:19.3881387Z test historical_compatibility::tests::legacy_evidence_projection_rejects_current_schema_and_malformed_records ... ok
+2026-10-15T09:20:20.9354546Z warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:20.9710732Z warning: in the working copy of 'target/outcome.json', LF will be replaced by CRLF the next time Git touches it
+2026-10-15T09:20:21.1467625Z test contract_amendment::tests::amendment_recovers_exactly_once_at_every_durable_boundary ... ok
+2026-10-15T09:20:21.1469189Z test lifecycle::cross_checkout_closeout_tests::crash_child ... ok
+2026-10-15T09:20:26.7240241Z test collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append ... ok
+2026-10-15T09:20:31.7716306Z test coordination_store::lock_recovery_tests::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event ... ok
+2026-10-15T09:20:39.6111366Z test lifecycle::cross_checkout_closeout_tests::detected_destination_addition_preserves_partial_recovery_and_user_file ... ok
+2026-10-15T09:20:43.2733640Z test lifecycle::cross_checkout_closeout_tests::abrupt_exit_before_close_is_pending_and_retry_completes ... ok
+2026-10-15T09:20:50.5282249Z test lifecycle::cross_checkout_closeout_tests::failed_recovery_preserves_installed_payload_for_safe_retry ... ok
+2026-10-15T09:20:50.9013476Z test lifecycle::cross_checkout_closeout_tests::modified_racing_target_and_other_payloads_are_never_unlinked ... ok
+2026-10-15T09:21:01.2340587Z test lifecycle::cross_checkout_closeout_tests::postcommit_reporting_error_preserves_close_marker_for_read_only_recheck ... ok
+2026-10-15T09:21:07.1823246Z test lifecycle::cross_checkout_closeout_tests::ordinary_close_and_existing_v1_recovery_keep_legacy_semantics_and_bytes ... ok
+2026-10-15T09:21:09.4311546Z test lifecycle::cross_checkout_closeout_tests::postcommit_status_read_failure_reports_commit_without_unlinking_marker ... ok
+2026-10-15T09:21:11.1936220Z test lifecycle::cross_checkout_closeout_tests::preexisting_payload_deleted_before_commit_cannot_leave_close_marker ... ok
+2026-10-15T09:21:24.8686413Z test lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_only_receipt_disappears ... ok
+2026-10-15T09:21:28.4157444Z test lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_payload_disappears ... ok
+2026-10-15T09:21:47.6592178Z test lifecycle::cross_checkout_closeout_tests::source_change_during_recovery_preserves_pending_destination_writes ... ok
+2026-10-15T09:22:01.6697425Z test lifecycle::cross_checkout_closeout_tests::required_proof_loss_before_close_preserves_partial_recovery_and_retry ... ok
+2026-10-15T09:22:03.7639343Z test lifecycle::cross_checkout_closeout_tests::required_origin_and_receipt_reject_invalid_bindings_without_fallback ... ok
+2026-10-15T09:22:19.6713009Z test lifecycle::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification ... ok
+2026-10-15T09:22:19.6767304Z test lifecycle::recovery_retry_consumption_tests::explicit_supersession_overrides_tied_attempt_digest_order ... ok
+2026-10-15T09:22:19.6809419Z test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded ... ok
+2026-10-15T09:22:19.6843939Z test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded_for_rejected_projection ... ok
+2026-10-15T09:22:23.0044863Z test lifecycle::cross_checkout_closeout_tests::tampered_recovery_receipt_cannot_omit_missing_archived_payload ... ok
+2026-10-15T09:22:23.0277566Z test material_review::tests::checkout_source_open_refuses_parent_directory_junctions ... ok
+2026-10-15T09:22:23.0290284Z test material_review::tests::implementation_digest_is_build_independent_and_source_sensitive ... ok
+2026-10-15T09:22:23.0300376Z test material_review::tests::material_request_digest_binds_finding_categories ... ok
+2026-10-15T09:22:23.0306287Z test material_review::tests::material_review_amendment_anchor_requires_adjacent_unique_receipt_edges ... ok
+2026-10-15T09:22:23.0312392Z test material_review::tests::material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract ... ok
+2026-10-15T09:22:23.0318015Z test material_review::tests::material_review_amendment_chain_rejects_duplicate_receipt_anchor ... ok
+2026-10-15T09:22:23.0328923Z test material_review::tests::material_review_initial_base_anchor_requires_a_unique_origin ... ok
+2026-10-15T09:22:23.0386434Z test observation_ledger::tests::detects_file_and_candidate_set_drift ... ok
+2026-10-15T09:22:23.0443594Z test observation_ledger::tests::request_cache_deduplicates_initial_reads_but_refreshes_at_boundary ... ok
+2026-10-15T09:22:23.0479708Z test outcome_render::render_tests::archive_delivery_segments_reassemble_without_truncation ... ok
+2026-10-15T09:22:23.0501327Z test outcome_render::render_tests::archived_unclosed_recommends_close_decision ... ok
+2026-10-15T09:22:23.0511872Z test outcome_render::render_tests::cleanup_summary_lists_evidence_bound_objects_counts_reason_and_action_in_all_languages ... ok
+2026-10-15T09:22:23.0526914Z test outcome_render::render_tests::finalization_recovery_actions_follow_classified_facts ... ok
+2026-10-15T09:22:23.0533342Z test outcome_render::render_tests::human_renderer_preserves_blockers_and_unknowns_in_summary ... ok
+2026-10-15T09:22:23.0544610Z test outcome_render::render_tests::invalid_decision_is_visible_as_unknown ... ok
+2026-10-15T09:22:24.8730686Z test lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes has been running for over 60 seconds
+2026-10-15T09:22:26.5399752Z test outcome_render::render_tests::outcome_assembly_registers_event_stream_drift ... ok
+2026-10-15T09:22:29.1137794Z test lifecycle::recovery_retry_consumption_tests::verification_after_failed_finish_requires_retry ... ok
+2026-10-15T09:22:29.8628953Z test outcome_render::render_tests::outcome_assembly_retries_once_after_deterministic_record_change ... ok
+2026-10-15T09:22:29.8634908Z test outcome_render::render_tests::receipt_next_action_is_executable_and_retained_action_is_non_destructive ... ok
+2026-10-15T09:22:29.8664085Z test outcome_render::render_tests::renderer_is_driven_by_in_memory_facts_for_missing_decision ... ok
+2026-10-15T09:22:29.8669912Z test outcome_render::render_tests::renderer_preserves_valid_decision_and_assurance ... ok
+2026-10-15T09:22:29.8675149Z test outcome_render::render_tests::reobserve_action_is_executable_and_repository_bound ... ok
+2026-10-15T09:22:29.8680127Z test outcome_render::render_tests::resource_facts_are_read_once_and_reused_by_boundary_digests ... ok
+2026-10-15T09:22:29.8685483Z test outcome_render::render_tests::superseded_history_is_not_rendered_as_current_failure ... ok
+2026-10-15T09:22:32.4327061Z test outcome_render::render_tests::outcome_assembly_stops_after_bounded_record_changes ... ok
+2026-10-15T09:22:32.4354082Z test outcome_render::render_tests::validated_receipt_projection_classifies_deleted_retained_and_unknown_without_guessing ... ok
+2026-10-15T09:22:33.4956329Z test outcome_render::render_tests::timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read ... ok
+2026-10-15T09:22:34.4469647Z test lifecycle::cross_checkout_closeout_tests::supported_retry_restores_each_required_proof_and_accepts_a_recovered_source ... FAILED
+2026-10-15T09:22:35.8761268Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration ... ok
+2026-10-15T09:22:36.1551147Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_absent_projection_rejects_existing_pages_parity_and_active_refs ... ok
+2026-10-15T09:22:38.1781680Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_nested_checkout_uses_local_paths_with_spaces ... ok
+2026-10-15T09:22:40.4691326Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_merge_proof_rejects_wrong_base_extra_content_and_conflict ... ok
+2026-10-15T09:23:33.5019792Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close has been running for over 60 seconds
+2026-10-15T09:23:38.1914549Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid has been running for over 60 seconds
+2026-10-15T09:23:40.4711619Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts has been running for over 60 seconds
+2026-10-15T09:23:53.2755897Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close ... ok
+2026-10-15T09:24:53.2775415Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent has been running for over 60 seconds
+2026-10-15T09:25:55.0902379Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid ... ok
+2026-10-15T09:25:55.0908862Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_recipe_comparison_accepts_only_platform_line_endings ... ok
+2026-10-15T09:26:03.2379820Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts ... ok
+2026-10-15T09:26:55.1012316Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss has been running for over 60 seconds
+2026-10-15T09:26:59.4516467Z test lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes ... ok
+2026-10-15T09:27:03.2411605Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material has been running for over 60 seconds
+2026-10-15T09:27:59.4581320Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent has been running for over 60 seconds
+2026-10-15T09:28:33.7666258Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent ... ok
+2026-10-15T09:29:33.7686028Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_rejects_wrong_m1_parents_non_ancestor_base_and_tampered_tree has been running for over 60 seconds
+2026-10-15T09:30:18.7731685Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent ... ok
+2026-10-15T09:30:19.4426051Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_accepts_the_real_archive_pending_close_projection ... ok
+2026-10-15T09:30:28.4929896Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_rejects_wrong_m1_parents_non_ancestor_base_and_tampered_tree ... ok
+2026-10-15T09:30:32.9430151Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes ... ok
+2026-10-15T09:30:33.5015660Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_current_archive_must_match_the_selected_archive_commit ... ok
+2026-10-15T09:30:33.5031760Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_document_projection_preserves_pending_state ... ok
+2026-10-15T09:30:45.4439822Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code ... ok
+2026-10-15T09:30:53.9464887Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_success_with_truncated_output ... ok
+2026-10-15T09:30:54.2342080Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes ... ok
+2026-10-15T09:30:54.7148152Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record ... ok
+2026-10-15T09:30:55.5006155Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code ... ok
+2026-10-15T09:30:55.8650270Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt ... ok
+2026-10-15T09:31:04.0246662Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_accepts_only_append_only_attempt_commits ... ok
+2026-10-15T09:31:04.8555188Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes ... ok
+2026-10-15T09:31:08.1660351Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_historical_json_is_read_from_the_committed_revision ... ok
+2026-10-15T09:31:09.5360871Z test resource_lifecycle::post_merge_sync_tests::record_resource_finalization_accepts_tempdir_bound_initial_contract ... ok
+2026-10-15T09:31:14.3694533Z test resource_lifecycle::post_merge_sync_tests::post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence ... ok
+2026-10-15T09:31:15.6574834Z test resource_lifecycle::post_merge_sync_tests::schema_v2_deleted_requires_branch_worktree_and_gitdir_absence ... ok
+2026-10-15T09:31:15.6609046Z test resource_lifecycle::post_merge_sync_tests::schema_v2_first_root_must_be_retained ... ok
+2026-10-15T09:31:17.8081943Z test resource_lifecycle::post_merge_sync_tests::schema_v2_retained_requires_exact_local_worktree_identity ... ok
+2026-10-15T09:31:39.9657873Z test resource_lifecycle::post_merge_sync_tests::record_resource_finalization_accepts_tempdir_bound_schema_v3_history ... ok
+2026-10-15T09:31:39.9694866Z test resource_lifecycle::post_merge_sync_tests::schema_v4_deleted_transition_preserves_source_selectors_and_appends_remote_selector ... ok
+2026-10-15T09:32:16.4416328Z test resource_lifecycle::post_merge_sync_tests::schema_v4_rejects_source_sync_observation_selector_role_swap ... ok
+2026-10-15T09:32:16.4483867Z test resource_lifecycle::post_merge_sync_tests::schema_v4_requires_explicit_versioned_observation_selectors_and_keeps_v3_closed ... ok
+2026-10-15T09:32:17.8160010Z test resource_lifecycle::post_merge_sync_tests::schema_v4_deleted_head_revalidates_retained_remote_observation has been running for over 60 seconds
+2026-10-15T09:32:20.1401308Z test resource_lifecycle::post_merge_sync_tests::schema_v4_uses_the_selected_corrected_observation_when_raw_digest_is_ambiguous ... ok
+2026-10-15T09:32:20.1416947Z test rust_material::diagnosis_tests::direct_malicious_literal_remains_finding ... ok
+2026-10-15T09:32:20.1565555Z test rust_material::diagnosis_tests::typed_causes_do_not_turn_missing_or_invalid_evidence_into_reviewable_syntax ... ok
+2026-10-15T09:32:20.1571305Z test status_projection::human_decision_tests::admitted_verification_does_not_reopen_an_ordinary_preflight_decision ... ok
+2026-10-15T09:32:20.1579707Z test status_projection::human_decision_tests::pending_amendment_review_stays_human_required_during_preflight_recovery ... ok
+2026-10-15T09:32:20.1615552Z test status_projection::pending_retry_amendment_preflight_tests::only_unreviewed_amendment_with_pending_retry_recovers_preflight ... ok
+2026-10-15T09:32:20.1697645Z test status_projection::transition_index_tests::historical_finalization_transition_is_parsed_once_per_observation ... ok
+2026-10-15T09:32:20.1742218Z test status_projection::transition_index_tests::indexed_resolution_preserves_canonical_error_precedence ... ok
+2026-10-15T09:32:20.1749789Z test usage::lifecycle_clock_tests::injectable_lifecycle_clock_keeps_same_second_order_and_utc ... ok
+2026-10-15T09:32:55.6920388Z test usage::lifecycle_clock_tests::injected_clock_drives_real_lifecycle_transitions_and_negative_wall_is_unknown ... ok
+2026-10-15T09:32:59.2096009Z test resource_lifecycle::post_merge_sync_tests::schema_v4_deleted_head_revalidates_retained_remote_observation ... ok
+2026-10-15T09:33:24.3493110Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material ... ok
+2026-10-15T09:33:45.0506362Z test resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss ... ok
+2026-10-15T09:33:45.0507249Z 
+2026-10-15T09:33:45.0507369Z failures:
+2026-10-15T09:33:45.0507555Z 
+2026-10-15T09:33:45.0508008Z ---- lifecycle::cross_checkout_closeout_tests::supported_retry_restores_each_required_proof_and_accepts_a_recovered_source stdout ----
+2026-10-15T09:33:45.0508564Z 
+2026-10-15T09:33:45.0509452Z thread 'lifecycle::cross_checkout_closeout_tests::supported_retry_restores_each_required_proof_and_accepts_a_recovered_source' (1404) panicked at crates\cockpit-repository\src\lifecycle.rs:10501:14:
+2026-10-15T09:33:45.0511217Z called `Result::unwrap()` on an `Err` value: State { path: "\\\\?\\C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmpSSLzbn\\clone\\.ai\\decisions", message: "closeout_recovery_destination_conflict: destination already has different bytes: .ai/evidence/WI-CLOSEOUT-TRANSACTION-TEST.verification.json" }
+2026-10-15T09:33:45.0512569Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-15T09:33:45.0512927Z 
+2026-10-15T09:33:45.0512931Z 
+2026-10-15T09:33:45.0513036Z failures:
+2026-10-15T09:33:45.0513582Z     lifecycle::cross_checkout_closeout_tests::supported_retry_restores_each_required_proof_and_accepts_a_recovered_source
+2026-10-15T09:33:45.0514177Z 
+2026-10-15T09:33:45.0514601Z test result: FAILED. 113 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 813.82s
+2026-10-15T09:33:45.0514985Z 
+2026-10-15T09:33:45.0556750Z [1m[91merror[0m: test failed, to rerun pass `-p cockpit-repository --lib`
+2026-10-15T09:33:45.2024873Z ##[error]Process completed with exit code 1.
+2026-10-15T09:33:45.3230450Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-15T09:33:45.3230953Z with:
+2026-10-15T09:33:45.3231178Z   name: ci-revision-binding-windows
+2026-10-15T09:33:45.3231467Z   path: target/ci-revision-binding.json
+2026-10-15T09:33:45.3231739Z   if-no-files-found: warn
+2026-10-15T09:33:45.3231965Z   retention-days: 7
+2026-10-15T09:33:45.3232178Z   compression-level: 6
+2026-10-15T09:33:45.3232385Z   overwrite: false
+2026-10-15T09:33:45.3232599Z   include-hidden-files: false
+2026-10-15T09:33:45.3232825Z   archive: true
+2026-10-15T09:33:45.3233018Z env:
+2026-10-15T09:33:45.3233217Z   CARGO_HOME: C:\Users\runneradmin\.cargo
+2026-10-15T09:33:45.3233482Z   CARGO_INCREMENTAL: 0
+2026-10-15T09:33:45.3233688Z   CARGO_TERM_COLOR: always
+2026-10-15T09:33:45.3233902Z ##[endgroup]
+2026-10-15T09:33:45.5248500Z With the provided path, there will be 1 file uploaded
+2026-10-15T09:33:45.5254649Z Artifact name is valid!
+2026-10-15T09:33:45.5255956Z Root directory input is valid!
+2026-10-15T09:33:45.7796863Z Uploading artifact: ci-revision-binding-windows.zip
+2026-10-15T09:33:45.7838440Z Beginning upload of artifact content to blob storage
+2026-10-15T09:33:45.9160132Z Uploaded bytes 396
+2026-10-15T09:33:45.9475350Z Finished uploading artifact content to blob storage!
+2026-10-15T09:33:45.9476232Z SHA256 digest of uploaded artifact is 31e2e2fcc8e5a1ee72e5bf7bf62156c7e1b508d538653807d5797bbd83479013
+2026-10-15T09:33:45.9476899Z Finalizing artifact upload
+2026-10-15T09:33:46.2002932Z Artifact ci-revision-binding-windows successfully finalized. Artifact ID 11961189692
+2026-10-15T09:33:46.2004166Z Artifact ci-revision-binding-windows has been successfully uploaded! Final size is 396 bytes. Artifact ID is 11961189692
+2026-10-15T09:33:46.2012817Z Artifact download URL: https://github.com/xinglun/ai-cockpit/actions/runs/38710974986/artifacts/11961189692
+2026-10-15T09:33:46.3990207Z Post job cleanup.
+2026-10-15T09:33:46.5907710Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-15T09:33:46.6191284Z git version 2.55.0.windows.5
+2026-10-15T09:33:46.6262776Z Temporarily overriding HOME='D:\a\_temp\20876591-d041-4cc1-a0c6-1912dd9dd721' before making global git config changes
+2026-10-15T09:33:46.6263592Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-15T09:33:46.6274868Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\ai-cockpit\ai-cockpit
+2026-10-15T09:33:46.6597676Z Removing SSH command configuration
+2026-10-15T09:33:46.6609838Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-15T09:33:46.6929402Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-15T09:33:47.2712682Z Removing HTTP extra header
+2026-10-15T09:33:47.2724032Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-15T09:33:47.3042507Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-15T09:33:47.8800593Z Removing includeIf entries pointing to credentials config files
+2026-10-15T09:33:47.8812476Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-15T09:33:47.9133567Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-15T09:33:48.4307791Z Cleaning up orphan processes
+2026-10-15T09:33:48.4529023Z Terminate orphan process: pid (2552) (vctip)
+

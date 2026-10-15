@@ -1,0 +1,14 @@
+{
+  "recordedAtUTC": "2026-10-15T12:52:09.461804+00:00",
+  "source": "Actual incoming Raydot cloud_threads delegation in this conversation, source_thread_id 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "actualInstructionVerbatim": "独立源码发现关键区别：status_projection.rs 1371–1384 将 material_review_projection_unavailable、新 Finding/governance_red、未 close 列 blocker；material_review_receipt_stale 只进入 Unknown（material_review.rs 1318–1319），不能把尚未发生的 stale 当成禁止后续提交。请核对实际命令准入；若没有明确禁止普通受限 git commit 的门禁，按 Ray 已批准的 v3 形成仅允许路径的本地 C，再实际查询 status/admission。诚实保留 stale Unknown，不新造材料receipt、不改归档。只有 post-commit 实际状态和权限允许才正常 push 并等待 C 必需CI；发现真实阻塞再给完整结果。禁止为此扩scope或放宽生产检查。",
+  "verifiedSourceFacts": {
+    "dirtyGuard": "material_review.rs:939-946 rejects dirty non-.ai sources",
+    "statusBlockers": "status_projection.rs:1371-1384 adds projection_unavailable, new Finding/governance_red, and pending close",
+    "staleUnknown": "material_review.rs:1318-1319 adds material_review_receipt_stale to effectiveUnknowns, not an explicit blocker here",
+    "commitAdmission": "No dedicated ordinary git commit admission or denial was found. No git commit or hook had been executed/rejected. Project and Contract governancePolicy are null."
+  },
+  "correctionToPriorAgentStop": "The prior local AssertionError was an agent-authored expectation of not-blocking dirty state, not an executed Runtime/Git/CI refusal of the approved C. Future stale was only an inference. Original observations and stop report retained unchanged.",
+  "authority": "Existing actual Ray v3 approval plus this technical direction permits normal bounded local C; no new material receipt, archive mutation, source/gate change or broader approval inferred.",
+  "futureCommitCReview": "This direction is not acceptance of future C or its CI."
+}

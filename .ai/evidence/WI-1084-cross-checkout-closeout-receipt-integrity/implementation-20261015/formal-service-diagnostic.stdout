@@ -1,0 +1,27 @@
+
+running 17 tests
+test cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_manifest ... ok
+test drift_after_an_initial_fresh_plan_forces_a_real_execution_fallback ... ok
+test executable_path_swap_cannot_change_the_bytes_that_are_executed ... ok
+test formatting_only_config_change_between_calls_preserves_semantic_reuse ... ok
+test fresh_plan_with_persistent_executable_drift_executes_and_receipts_new_bytes ... ok
+test implicit_cargo_package_test_deadline_is_bounded_without_changing_other_defaults ... ok
+test invalid_stage_fails_closed_before_reuse_or_identity_access ... ok
+test linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory ... FAILED
+test linked_worktrees_do_not_execute_cargo_with_the_same_implicit_target ... ok
+test missing_profile_executes_as_never_reuse_instead_of_blocking_verification ... ok
+test never_reuse_execution_preserves_the_requested_executable_path ... ok
+test post_command_repository_drift_discards_the_passed_receipt_candidate ... ok
+test protected_service_commands_execute_on_every_invocation ... ok
+test repository_receipt_projects_the_typed_route_stage ... ok
+test repository_timeout_is_bound_into_plan_and_execution_receipts ... ok
+test timeout_override_requires_policy_and_cap_is_rejected_before_spawn ... ok
+test verification_planning_rejects_invalid_stage_and_missing_release_base ... ok
+
+failures:
+
+failures:
+    linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory
+
+test result: FAILED. 16 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.63s
+

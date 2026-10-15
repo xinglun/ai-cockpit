@@ -1,0 +1,33 @@
+{
+  "repository": "xinglun/ai-cockpit",
+  "head": "bdcf6eca604dd81659370133ca40d5d5e8fcf48c",
+  "runId": 38726687202,
+  "observedAtUTC": "2026-10-15T11:44:29.990Z",
+  "jobs": [
+    {
+      "id": 116394172214,
+      "name": "route",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 116395911266,
+      "name": "windows-runtime",
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "id": 116395911338,
+      "name": "v1-behavioral-oracle",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 116395911543,
+      "name": "quality",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "claim": "Observed automatic run only; Windows in progress. This is not complete CI acceptance or the later recovery checkpoint CI."
+}

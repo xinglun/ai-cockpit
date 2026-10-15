@@ -1,0 +1,546 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "First preserve a RED regression on the bcd76ae7 source: after an independent-checkout Native recovery succeeds, deleting only the required recovery receipt keeps status query success permissible but must project lifecyclePhase=archived and blocking=true with an integrity diagnostic; overlapping new work must not be falsely admitted.",
+      "A newly recorded recovery durably binds its provenance and exact required recovery receipt without changing the imported historical close, archived Contract, manifest, payload or verification bytes. Missing, malformed, mismatched or non-regular required records fail closed.",
+      "Valid recovery, identical retry, interrupted recovery and source immutability retain current behavior. Restore through the supported recovery path without destructive rollback or replacing conflicting published files.",
+      "Ordinary current closes and readable legacy historical closes remain compatible. Existing v1 recovery records are retained without silent migration; any legacy ambiguity is reported explicitly rather than fabricated as detectable.",
+      "CLI and MCP use the shared repository validator, preserve verification=not_ready and historical_evidence_not_revalidated for foreign historical Runtime evidence, and do not invent time-based expiry.",
+      "Run focused RED/GREEN recovery regressions plus the Contract-declared workspace verification and repository required gates under the existing 900-second verification bound; retain actual commands, Runtime/source/toolchain identities and failed evidence.",
+      "Commit and push only the independent WI branch and keep its PR Draft for Raydot review; integration is serialized and no human closure or resource deletion is authorized."
+    ],
+    "createdAt": "2026-10-15T11:53:23.878999732Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+        ],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+        "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.preflight-review.c684f01337a5fa107a9786bf2fd5c953419d3e9b8c236c07e84f24f4f6c4c0d9.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.recovery.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-human-approval.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-toolchain.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/command-runner.py"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/conditional-preflight-binding-check.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/confirm-review.input.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/formal-runner.py"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/historical-original-contract.verification.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/local-preparation-recovery-note.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/process-health-during-recovery.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/raydot-material-review.request.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.input.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.execution.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stderr"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stdout"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+            ],
+            "inference": false,
+            "text": "Persist a bounded recovery-origin dependency and reject missing or invalid recovery evidence while preserving exact historical payload bytes and ordinary-close compatibility."
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "usage": {
+        "coverage": "unknown",
+        "cutoff": "2026-10-15T11:53:23.878999732Z",
+        "receiptRefs": [],
+        "schemaVersion": 1,
+        "subtotals": [],
+        "totals": {
+          "cachedInputTokens": null,
+          "inputTokens": null,
+          "outputTokens": null,
+          "reasoningTokens": null
+        },
+        "unknownReasons": [
+          "no_usage_receipts"
+        ],
+        "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+      },
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    "taskReportDigest": "sha256:b48ffe3a4fe163fd4615c05667581ec323a7415c22ab1f0059fc167c9a3f900c",
+    "taskReportMarkdownDigest": "sha256:447e7e3089b156c4c24692c68cfacdc3b820ce8cc34c36c3f1cda4612cb8c4a9",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+  },
+  "state": "closed",
+  "timestamp": "2026-10-15T12:42:57Z",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

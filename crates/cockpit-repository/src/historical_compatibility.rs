@@ -85,17 +85,23 @@ pub(crate) fn close_decision_is_valid_for_status(
     historical_legacy_close_decision_is_valid(root, &value, work_item_id, repository_id)
 }
 
-/// A recovery receipt is written before its close marker. If present, it
-/// binds every imported file to exact bytes; a marker alone must not project
-/// `closed` after a concurrent deletion or later evidence loss. Ordinary
-/// closes have no cross-checkout recovery receipt and keep their old behavior.
+/// New recoveries leave an independent origin requiring their v2 receipt.
+/// Missing proof cannot fall back to ordinary-close or legacy-v1 semantics.
+/// With no origin, the existing ordinary/v1 compatibility boundary is kept.
 fn recovered_closeout_files_valid(root: &Path, work_item_id: &str, repository_id: &str) -> bool {
-    let receipt_path = root.join(format!(
-        ".ai/decisions/{work_item_id}.cross-checkout-closeout-recovery.json"
-    ));
+    let receipt_relative =
+        format!(".ai/decisions/{work_item_id}.cross-checkout-closeout-recovery.json");
+    let origin_relative =
+        format!(".ai/decisions/{work_item_id}.cross-checkout-closeout-origin.json");
+    let origin_present = match fs::symlink_metadata(root.join(&origin_relative)) {
+        Ok(_) => true,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => false,
+        Err(_) => return false,
+    };
+    let receipt_path = root.join(&receipt_relative);
     let metadata = match fs::symlink_metadata(&receipt_path) {
         Ok(metadata) => metadata,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return true,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return !origin_present,
         Err(_) => return false,
     };
     if metadata.file_type().is_symlink()
@@ -107,12 +113,99 @@ fn recovered_closeout_files_valid(root: &Path, work_item_id: &str, repository_id
     let Ok(receipt) = read_json(&receipt_path) else {
         return false;
     };
-    if receipt["schemaVersion"] != 1
-        || receipt["kind"] != "cross_checkout_closeout_recovery"
+    if receipt["kind"] != "cross_checkout_closeout_recovery"
         || receipt["workItemId"] != work_item_id
         || receipt["destinationRepositoryId"] != repository_id
     {
         return false;
+    }
+    if origin_present || receipt["schemaVersion"] != 1 || receipt.get("originBinding").is_some() {
+        if receipt["schemaVersion"] != 2 || !origin_present {
+            return false;
+        }
+        // Read through the same scoped, bounded, non-symlink path boundary
+        // as the payload; hash the persisted origin bytes, not reserialized JSON.
+        let origin_path = root.join(&origin_relative);
+        let Ok(metadata) = fs::symlink_metadata(&origin_path) else {
+            return false;
+        };
+        if metadata.file_type().is_symlink()
+            || !metadata.is_file()
+            || metadata.len() > MAX_EXTERNAL_EVIDENCE_BYTES as u64
+        {
+            return false;
+        }
+        for parent in [root.join(".ai"), root.join(".ai/decisions")] {
+            if !fs::symlink_metadata(parent)
+                .is_ok_and(|m| m.is_dir() && !m.file_type().is_symlink())
+            {
+                return false;
+            }
+        }
+        let Ok(bytes) = fs::read(&origin_path) else {
+            return false;
+        };
+        if reject_duplicate_json_keys(&bytes).is_err() {
+            return false;
+        }
+        let Ok(origin) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+            return false;
+        };
+        if origin["schemaVersion"] != 1
+            || origin["kind"] != "cross_checkout_closeout_origin"
+            || origin["requiredRecoveryReceipt"]
+                != serde_json::json!({"path": receipt_relative, "schemaVersion": 2})
+            || receipt["originBinding"]
+                != serde_json::json!({"path": origin_relative, "digest": Digest::sha256_bytes(&bytes)})
+            || origin["sourceRepositoryId"] != repository_id
+            || ![
+                "workItemId",
+                "sourceRepositoryId",
+                "destinationRepositoryId",
+                "sourceSnapshotDigest",
+                "contractDigest",
+                "providerFacts",
+                "runtimeVersion",
+                "runtimeDigest",
+                "fileDigests",
+            ]
+            .iter()
+            .all(|key| origin.get(*key).is_some() && origin.get(*key) == receipt.get(*key))
+            || ![
+                "sourceSnapshotDigest",
+                "contractDigest",
+                "runtimeDigest",
+                "destinationSnapshotDigest",
+            ]
+            .iter()
+            .all(|key| {
+                receipt[*key]
+                    .as_str()
+                    .is_some_and(super::valid_sha256_digest)
+            })
+            || !receipt["runtimeVersion"]
+                .as_str()
+                .is_some_and(|v| !v.trim().is_empty())
+            || !receipt["createdAt"]
+                .as_str()
+                .is_some_and(|v| DateTime::parse_from_rfc3339(v).is_ok())
+            || origin["closeDecision"]["path"] != format!(".ai/decisions/{work_item_id}.close.json")
+            || !origin["fileDigests"].as_array().is_some_and(|files| {
+                files
+                    .iter()
+                    .filter(|file| **file == origin["closeDecision"])
+                    .count()
+                    == 1
+            })
+            || !super::lifecycle::closeout_recovery_payload_matches(
+                root,
+                work_item_id,
+                repository_id,
+                &origin,
+            )
+        {
+            return false;
+        }
     }
     let Some(files) = receipt["fileDigests"].as_array() else {
         return false;

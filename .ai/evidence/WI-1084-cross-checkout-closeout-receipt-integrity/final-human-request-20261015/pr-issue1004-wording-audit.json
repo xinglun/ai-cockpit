@@ -1,0 +1,14 @@
+{
+  "observedAtUTC": "2026-10-15T12:20:59.205Z",
+  "head": "b148751722994816d5ed5fc49edf75b72580a82c",
+  "title": "fix(WI-1084): receipt integrity (archived; CI pending)",
+  "issueNumber": 1004,
+  "issueStateBefore": "open",
+  "scope": "PR title/body plus all branch commit messages; manual GraphQL closing-link metadata is not exposed by this connector",
+  "automaticClosingWordingFound": [],
+  "wordingRemoved": [],
+  "reasonNoRemoval": "No automatic-closing wording was present; retained neutral reference and added explicit OPEN/bounded-v2 residual notice.",
+  "explicitBoundaryAdded": true,
+  "actualUpdateSucceeded": true,
+  "sourceCommentURL": "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813"
+}

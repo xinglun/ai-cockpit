@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "immutableContractBaseRevision": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "sourceSnapshotDigest": "sha256:b59af48b57fbe7f6498a36db2b52488aed33a55bbe91053ad364787480e14a3e",
+  "materialManifestDigest": "sha256:82e95774a5ef741ce56983f8b152121923083aa459c31c64160afcab555b2be0",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:6a6a0069fcc7c2394bd90728a9838e8093d854fdb219e965d2b02e94f2da9a16",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:8282c7d0f7780af966e90e681f972e9c5a18be5892e95f4832c600590c0aa4b0",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-cli/tests/closeout_recovery.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3c42f18707b54521598d228c2660a3bb7c6d31c88a69e8dd76c56870b3973a65",
+      "afterBlobDigest": "sha256:8c8bb2985965c690af3a641f741b27de25993b53c7da8c7116e3d78a653e0ce2"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/closeout_recovery.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:673ee5ea151355903e6058ad841dd594eb9968ed331edfb233dafe17a366bda2",
+      "afterBlobDigest": "sha256:603833b0045a2a64bfd3b4ddfab2355bc0cd1a426e3787473d51b5daddf0ff6b"
+    },
+    {
+      "path": "crates/cockpit-repository/src/historical_compatibility.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:477f6cfd82dd6dd222f6a1ddf7776d92103da2a89a4b177f9226a51d66850f56",
+      "afterBlobDigest": "sha256:717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:de1026a792c30318eb6105ead56e341121cf1179b394096186674c458696b2f7",
+      "afterBlobDigest": "sha256:f419fbda545df202d37da645d7d0ed6bcbf9f5c058c7818d2d313d9243e7e2b1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:38b599cb53fe461263ca1534e01eb357f2e5c06c081e58ba03856705ffb536e0",
+      "afterBlobDigest": "sha256:943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:cc564a48e7bd39e890a682f99e303bd36daaac51b8fa1a489a2201d5e7f3c1e8",
+      "afterBlobDigest": "sha256:d8ef084d378761f95fe021e4874c0559e6391c60f6500a859fd11b6b0f007fea"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:e6011f2ba79651335d4e4fe36d1137a4674d6127d171a2fa5d49d734a06df60a",
+      "afterBlobDigest": "sha256:27fc0fe9c3d4c7e14515c0f9de9194567b0c19553ddaf0c9354c412d4c20ff5a"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:ac024c90c2c4b04157e45b5cab6fc5c306f86ee0d941c4894b76b4f082a5bfeb",
+      "afterBlobDigest": "sha256:f76ed026285929f8731928a778b7fef0deb4f0a89395aea1658515e908b807e6"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:6e8260facee8852bd64444a43f802a5c3a6fc40fafea5f0d2b90f00b24859096",
+      "afterBlobDigest": "sha256:d1b71ede6d7fdec9a615a594f295d3541336a2f6cfe20f73291fbe7221fbd244"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:af4b0934c2a4a7d91e553e644dc32ef2f35e572e7b77bad3e30bd0ff7a8f140f",
+      "afterBlobDigest": "sha256:e90dbee07da46210c6d9875b1792b6960a79304110c8de43e5205d51e8d1bfda"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:dc69b70966d715c6608bd370494b9c174f2f7953575909e9aa58a8d4cd473cf1",
+      "afterBlobDigest": "sha256:43b476d66a90ee44fbfcb77abe182e7a16bc262fc836518abfc38e6ef4c86682"
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:da9b991db85e4653f4644def84bd037e35d90bb2b62e0537762fd12776cdd8f8",
+      "afterBlobDigest": "sha256:26c1bf060fc623e9f3ea83f3be75d609abdb73d3fb831b8fab42257e623ff2a2"
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:873cc13d2aaf3101f02149797b03b19aabff2483e7e971785b8ae3c329d3efe2",
+      "afterBlobDigest": "sha256:f8db5958c722adba2a6201095a2b7aadaaf5d870a8bf797ff9cee69a7d68cf26"
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:b948bd5d23fbe5ad19eef00934c0d45bca898eae394e20914a8604c6be6a8f6d",
+      "afterBlobDigest": "sha256:fa2882e40475a5551741d8d4c54b523fbfeef2a547ba2ff5fb15cb3030c73339"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+  "reviewedSourceHead": "b41dfbdc081b951c6882a6413af54837dac4a0b4"
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "exitCode": 2,
+  "diagnostic": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:74: trailing whitespace.\n+- \u63d0\u4f9b\u65b9: \n.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:75: trailing whitespace.\n+- \u6d88\u8d39\u8005: \n.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:76: trailing whitespace.\n+- \u7b49\u5f85\u8fb9: \n.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:77: trailing whitespace.\n+- \u5f71\u54cd\u4e8b\u4ef6: \n.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:78: trailing whitespace.\n+- \u963b\u585e: \n.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:79: trailing whitespace.\n+- \u672a\u77e5: \n.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:82: trailing whitespace.\n+- \u53ef\u590d\u7528\u68c0\u67e5: \n.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout:85: new blank line at EOF.\n",
+  "affectedArtifact": "draft-outcome-human.stdout",
+  "artifactRawSha256": "de97216dc38b3817f1da2d081431d121454ceb367b80892db2c83b98d0c36aa5",
+  "ruling": "Only original Native human Outcome whitespace was reported; preserve its exact bytes. No Git/hook configuration or Runtime output is changed."
+}

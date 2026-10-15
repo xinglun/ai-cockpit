@@ -1,0 +1,7 @@
+error: unrecognized subcommand 'archive'
+
+  tip: a similar subcommand exists: 'recover'
+
+Usage: ai-cockpit work-item <COMMAND>
+
+For more information, try '--help'.

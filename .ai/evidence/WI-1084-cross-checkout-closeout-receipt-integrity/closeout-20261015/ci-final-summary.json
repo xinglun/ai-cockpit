@@ -1,0 +1,61 @@
+{
+  "recordedAtUTC": "2026-10-15T10:42:43.028937+00:00",
+  "head": "7f723bfb7a6dab4c07952f3fca1a7fe701e91faf",
+  "runId": 38718628905,
+  "workflowConclusion": "success",
+  "jobs": [
+    {
+      "name": "route",
+      "id": 116367745537,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "windows-runtime",
+      "id": 116369446478,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "v1-behavioral-oracle",
+      "id": 116369446552,
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "quality",
+      "id": 116369446554,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "gateCounts": {
+    "not_applicable": 2,
+    "passed": 40
+  },
+  "notApplicableGates": [
+    "docs_closed_work_item_promotion",
+    "docs_work_item_status_consistency"
+  ],
+  "windowsLibrary": {
+    "passed": 114,
+    "failed": 0,
+    "elapsedSeconds": 905.94,
+    "requiredSecondHopCase": "ok"
+  },
+  "localNative": {
+    "nodesPassed": 13,
+    "nodesReused": 0,
+    "outerElapsedSeconds": 645.2455785274506,
+    "outerBoundSeconds": 900,
+    "perNodeSeconds": 600
+  },
+  "timingReviewNote": "Windows existing automatic CI library step took905.94 seconds; local Native outer run took645.2456 seconds within its900-second bound. No workflow assertion, timeout or gate was changed. Preserve this actual difference for Raydot review.",
+  "decodedLogUtf8Sha256": {
+    "route": "22c0d20a61ace98ecbda0f038b8e3249dfa1600ce40f738f72ce264c7f92fc18",
+    "quality": "595ac5bf0075912b29b75cb56c573691831c213768c510bc51a616f0fbca70dc",
+    "windows": "9a17ec7fad4bd1d17195cb9c49687992558062cd544cb6c12a229b3c04f3e1f6"
+  },
+  "branchWorktreeClean": true,
+  "prDraft": true
+}

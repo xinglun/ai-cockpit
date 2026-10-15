@@ -1,0 +1,3 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 16.87s
+     Running unittests src/lib.rs (target/wi1084-closeout-receipt-integrity/debug/deps/cockpit_repository-5063e98527cc9fb0)

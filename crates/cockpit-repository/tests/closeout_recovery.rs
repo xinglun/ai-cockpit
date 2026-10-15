@@ -393,6 +393,43 @@ fn provider_finalization_uses_raw_contract_bytes_while_recovery_plan_keeps_canon
             == destination_close_before,
         "planning remains read-only"
     );
+    cockpit_repository::recover_cross_checkout_closeout(
+        &destination,
+        source.path(),
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("recover actual provider-bound close");
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(status.lifecycle_phase, "closed");
+    assert!(!status.blocking);
+    assert_eq!(
+        fs::read(&destination_close).unwrap(),
+        destination_close_before
+    );
+    let origin_path = destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json"
+    ));
+    let origin: Value = serde_json::from_slice(&fs::read(&origin_path).unwrap()).unwrap();
+    assert_eq!(
+        origin["contractDigest"],
+        canonical_contract_digest.to_string()
+    );
+    assert_eq!(origin["providerFacts"], plan["providerFacts"]);
+    assert!(
+        origin["fileDigests"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|file| file["path"]
+                == format!(".ai/work-items/archive/{WORK_ITEM_ID}.contract.json")
+                && file["digest"] == raw_contract_digest.to_string())
+    );
 }
 
 #[test]
@@ -524,4 +561,389 @@ fn provider_bound_recovery_rejects_canonical_digest_and_tampered_archive_or_prov
             "tampering {mutation} must not write a recovery receipt"
         );
     }
+}
+
+struct RetainedCloseRecoveryFixture {
+    source: tempfile::TempDir,
+    _destination_parent: tempfile::TempDir,
+    destination: std::path::PathBuf,
+    original_files: Vec<(String, Vec<u8>)>,
+    transition: cockpit_protocol::ResourceFinalizationTransitionReceipt,
+    appended_path: std::path::PathBuf,
+}
+
+fn recovered_retained_fixture() -> RetainedCloseRecoveryFixture {
+    let source = repository();
+    let context = ResourceFinalizationContext {
+        branch: "feature/recovered-retained-close".into(),
+        worktree: source
+            .path()
+            .join("removed-retained-worktree")
+            .display()
+            .to_string(),
+        base_branch: "develop".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: "https://github.com/example/sentinel/pull/123".into(),
+    };
+    build_provider_bound_closed_source(source.path(), &context);
+    let finalization = format!(".ai/decisions/{WORK_ITEM_ID}.finalize.json");
+    let close = format!(".ai/decisions/{WORK_ITEM_ID}.close.json");
+    let mut retained: Value =
+        serde_json::from_slice(&fs::read(source.path().join(&finalization)).unwrap()).unwrap();
+    // Model the supported older Retained-close history in this disposable
+    // fixture. Modern close correctly requires deletion; no real history is edited.
+    retained["after"]["branch"] = "present".into();
+    retained["after"]["worktree"] = "clean".into();
+    retained["result"]["disposition"] = "retained".into();
+    let retained_digest = cockpit_protocol::digest_json(&retained).unwrap();
+    fs::write(
+        source.path().join(&finalization),
+        serde_json::to_vec_pretty(&retained).unwrap(),
+    )
+    .unwrap();
+    let mut legacy_close: Value =
+        serde_json::from_slice(&fs::read(source.path().join(&close)).unwrap()).unwrap();
+    legacy_close["resourceFinalizationHeadDigest"] = retained_digest.to_string().into();
+    fs::write(
+        source.path().join(&close),
+        serde_json::to_vec_pretty(&legacy_close).unwrap(),
+    )
+    .unwrap();
+    git(source.path(), &["add", "-A"]);
+    git(
+        source.path(),
+        &["commit", "--quiet", "-m", "legacy Retained close fixture"],
+    );
+    let parent = tempfile::tempdir().unwrap();
+    let destination = parent.path().join("clone");
+    git(
+        source.path(),
+        &[
+            "clone",
+            "--quiet",
+            "--no-hardlinks",
+            source.path().to_str().unwrap(),
+            destination.to_str().unwrap(),
+        ],
+    );
+    cockpit_repository::recover_cross_checkout_closeout(
+        &destination,
+        source.path(),
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("recover valid older Retained close");
+    let baseline = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(baseline.lifecycle_phase, "closed");
+    assert!(!baseline.blocking);
+    let origin = format!(".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json");
+    let receipt = format!(".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json");
+    let frozen = [&close, &finalization, &origin, &receipt]
+        .into_iter()
+        .map(|p| (p.clone(), fs::read(destination.join(p)).unwrap()))
+        .collect::<Vec<_>>();
+    let previous: cockpit_protocol::ResourceFinalizationReceipt =
+        serde_json::from_value(retained).unwrap();
+    let mut deleted = previous.clone();
+    deleted.receipt_id = "post-close-deleted".into();
+    deleted.operation_id = "post-close-cleanup".into();
+    deleted.before = previous.after.clone();
+    deleted.after.branch = cockpit_protocol::ResourceFinalizationBranchState::Deleted;
+    deleted.after.worktree = cockpit_protocol::ResourceFinalizationWorktreeState::Removed;
+    deleted.result.disposition = cockpit_protocol::ResourceFinalizationDisposition::Deleted;
+    let transition = cockpit_protocol::ResourceFinalizationTransitionReceipt {
+        schema_version: 1,
+        transition_id: "recovered-post-close-deleted".into(),
+        sequence: 1,
+        predecessor_receipt_digest: retained_digest,
+        governance_append_revision: None,
+        receipt: deleted,
+    };
+    let input = tempfile::NamedTempFile::new().unwrap();
+    fs::write(
+        input.path(),
+        serde_json::to_vec_pretty(&transition).unwrap(),
+    )
+    .unwrap();
+    let appended =
+        record_resource_finalization(&destination, WORK_ITEM_ID, input.path(), &runtime())
+            .expect("supported Native post-close Deleted transition");
+    assert_eq!(appended["state"], "appended");
+    let appended_path = destination.join(appended["path"].as_str().unwrap());
+    RetainedCloseRecoveryFixture {
+        source,
+        _destination_parent: parent,
+        destination,
+        original_files: frozen,
+        transition,
+        appended_path,
+    }
+}
+
+fn assert_retained_originals_unchanged(fixture: &RetainedCloseRecoveryFixture) {
+    for (path, bytes) in &fixture.original_files {
+        assert_eq!(&fs::read(fixture.destination.join(path)).unwrap(), bytes);
+    }
+}
+
+fn assert_recovered_close_integrity(fixture: &RetainedCloseRecoveryFixture, closed: bool) {
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &fixture.destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(
+        status.lifecycle_phase,
+        if closed { "closed" } else { "archived" }
+    );
+    assert_eq!(status.blocking, !closed);
+    assert_eq!(
+        status.unknowns.contains(&"close_decision_invalid".into()),
+        !closed
+    );
+    assert_retained_originals_unchanged(fixture);
+}
+
+#[test]
+fn recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history() {
+    let fixture = recovered_retained_fixture();
+    cockpit_repository::verify_resource_finalization(
+        &fixture.destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("the appended cleanup chain verifies");
+    assert_recovered_close_integrity(&fixture, true);
+}
+
+#[test]
+fn recovered_close_rejects_unsupported_finalization_extensions() {
+    let fixture = recovered_retained_fixture();
+    assert_recovered_close_integrity(&fixture, true);
+    let original = fs::read(&fixture.appended_path).unwrap();
+    let transition = serde_json::to_value(&fixture.transition).unwrap();
+    let wrong = serde_json::json!(Digest::sha256_bytes(b"unrelated binding"));
+    for (pointer, value) in [
+        ("/sequence", serde_json::json!(2)),
+        ("/predecessorReceiptDigest", wrong.clone()),
+        ("/receipt/runtimeDigest", wrong.clone()),
+        (
+            "/receipt/runtimeVersion",
+            serde_json::json!("unrelated-runtime"),
+        ),
+        ("/receipt/repositoryId", wrong.clone()),
+        ("/receipt/workItemId", serde_json::json!("WI-OTHER")),
+        ("/receipt/provider", serde_json::json!("other-provider")),
+        ("/receipt/contractDigest", wrong),
+    ] {
+        fs::remove_file(&fixture.appended_path).unwrap();
+        let mut changed = transition.clone();
+        *changed.pointer_mut(pointer).unwrap() = value;
+        let digest = cockpit_protocol::digest_json(&changed).unwrap();
+        let path = fixture.destination.join(format!(
+            ".ai/decisions/{WORK_ITEM_ID}.finalize.{}.json",
+            digest.as_str().trim_start_matches("sha256:")
+        ));
+        fs::write(&path, serde_json::to_vec_pretty(&changed).unwrap()).unwrap();
+        assert_recovered_close_integrity(&fixture, false);
+        fs::remove_file(path).unwrap();
+        fs::write(&fixture.appended_path, &original).unwrap();
+    }
+    // A structurally valid Retained successor is not the permitted Deleted cleanup.
+    fs::remove_file(&fixture.appended_path).unwrap();
+    let mut retained = fixture.transition.clone();
+    retained.receipt.after = retained.receipt.before.clone();
+    retained.receipt.result.disposition =
+        cockpit_protocol::ResourceFinalizationDisposition::Retained;
+    let value = serde_json::to_value(&retained).unwrap();
+    let digest = cockpit_protocol::digest_json(&value).unwrap();
+    let path = fixture.destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.finalize.{}.json",
+        digest.as_str().trim_start_matches("sha256:")
+    ));
+    fs::write(&path, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+    assert_recovered_close_integrity(&fixture, false);
+    fs::remove_file(path).unwrap();
+    fs::write(&fixture.appended_path, &original).unwrap();
+    // Two valid next members form a fork rather than an alternative latest head.
+    let mut fork = transition;
+    fork["transitionId"] = "forked-cleanup".into();
+    let digest = cockpit_protocol::digest_json(&fork).unwrap();
+    let path = fixture.destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.finalize.{}.json",
+        digest.as_str().trim_start_matches("sha256:")
+    ));
+    fs::write(&path, serde_json::to_vec_pretty(&fork).unwrap()).unwrap();
+    assert_recovered_close_integrity(&fixture, false);
+    fs::remove_file(path).unwrap();
+    // Additional applicable history cannot be ignored just because cleanup is valid.
+    let path = fixture.destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.ordinary-cleanup.json"
+    ));
+    fs::write(&path, b"{\"kind\":\"unrelated\"}").unwrap();
+    assert_recovered_close_integrity(&fixture, false);
+    fs::remove_file(path).unwrap();
+    // Valid claimed cleanup does not excuse contradictory actual local resources.
+    git(
+        &fixture.destination,
+        &["branch", "feature/recovered-retained-close"],
+    );
+    assert_recovered_close_integrity(&fixture, false);
+    git(
+        &fixture.destination,
+        &["branch", "-d", "feature/recovered-retained-close"],
+    );
+    assert_recovered_close_integrity(&fixture, true);
+}
+
+#[test]
+fn extended_recovered_close_preserves_retry_and_complete_next_source_inventory() {
+    let fixture = recovered_retained_fixture();
+    assert_recovered_close_integrity(&fixture, true);
+    let receipt = fixture.destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+    ));
+    fs::remove_file(&receipt).unwrap();
+    // The original receipt is intentionally missing, so check status separately
+    // from the other immutable originals until normal recovery restores it.
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &fixture.destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(status.lifecycle_phase, "archived");
+    assert!(status.blocking);
+    cockpit_repository::recover_cross_checkout_closeout(
+        &fixture.destination,
+        fixture.source.path(),
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("restore required receipt with the supported path after legitimate cleanup");
+    assert_eq!(
+        cockpit_repository::work_item_status_snapshot_with_runtime(
+            &fixture.destination,
+            WORK_ITEM_ID,
+            &runtime()
+        )
+        .unwrap()
+        .lifecycle_phase,
+        "closed"
+    );
+    // Recreated receipt has an honest new createdAt; other original bytes stay exact.
+    for (path, bytes) in &fixture.original_files {
+        if !path.ends_with(".cross-checkout-closeout-recovery.json") {
+            assert_eq!(&fs::read(fixture.destination.join(path)).unwrap(), bytes);
+        }
+    }
+    let parent = tempfile::tempdir().unwrap();
+    let later = parent.path().join("clone");
+    git(
+        fixture.source.path(),
+        &[
+            "clone",
+            "--quiet",
+            "--no-hardlinks",
+            fixture.source.path().to_str().unwrap(),
+            later.to_str().unwrap(),
+        ],
+    );
+    cockpit_repository::recover_cross_checkout_closeout(
+        &later,
+        &fixture.destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("recover from a validated extended historical source");
+    let origin_path = later.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json"
+    ));
+    let origin: Value = serde_json::from_slice(&fs::read(&origin_path).unwrap()).unwrap();
+    assert_eq!(origin["providerFacts"]["finalizationSequence"], 1);
+    let appended_relative = fixture
+        .appended_path
+        .strip_prefix(&fixture.destination)
+        .unwrap();
+    assert!(
+        origin["fileDigests"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|file| file["path"] == appended_relative.to_str().unwrap())
+    );
+    let copied = later.join(appended_relative);
+    assert_eq!(
+        fs::read(&copied).unwrap(),
+        fs::read(&fixture.appended_path).unwrap()
+    );
+    fs::remove_file(&copied).unwrap();
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &later,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(status.lifecycle_phase, "archived");
+    assert!(status.blocking);
+    cockpit_repository::recover_cross_checkout_closeout(
+        &later,
+        &fixture.destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    let retry = cockpit_repository::recover_cross_checkout_closeout(
+        &later,
+        &fixture.destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(retry["changedPaths"], serde_json::json!([]));
+    // When the source already included cleanup, the new origin must bind it.
+    // Two matching truncated lists cannot disguise its omission.
+    let receipt_path = later.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+    ));
+    let origin_bytes = fs::read(&origin_path).unwrap();
+    let receipt_bytes = fs::read(&receipt_path).unwrap();
+    let mut changed = origin;
+    changed["fileDigests"]
+        .as_array_mut()
+        .unwrap()
+        .retain(|file| file["path"] != appended_relative.to_str().unwrap());
+    let bytes = serde_json::to_vec_pretty(&changed).unwrap();
+    let mut paired: Value = serde_json::from_slice(&receipt_bytes).unwrap();
+    paired["fileDigests"] = changed["fileDigests"].clone();
+    paired["originBinding"]["digest"] = Digest::sha256_bytes(&bytes).to_string().into();
+    fs::write(&origin_path, bytes).unwrap();
+    fs::write(&receipt_path, serde_json::to_vec_pretty(&paired).unwrap()).unwrap();
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &later,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(status.lifecycle_phase, "archived");
+    assert!(status.blocking);
+    fs::write(&origin_path, origin_bytes).unwrap();
+    fs::write(&receipt_path, receipt_bytes).unwrap();
+    assert_eq!(
+        cockpit_repository::work_item_status_snapshot_with_runtime(
+            &later,
+            WORK_ITEM_ID,
+            &runtime()
+        )
+        .unwrap()
+        .lifecycle_phase,
+        "closed"
+    );
 }

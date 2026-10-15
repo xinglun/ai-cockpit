@@ -1,0 +1,20 @@
+
+running 1 test
+test recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history ... FAILED
+
+failures:
+
+---- recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history stdout ----
+
+thread 'recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history' (3695732) panicked at crates/cockpit-repository/tests/closeout_recovery.rs:681:5:
+assertion `left == right` failed: legitimate append-only cleanup must preserve the historical close
+  left: "archived"
+ right: "closed"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.90s
+

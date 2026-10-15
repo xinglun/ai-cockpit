@@ -1,0 +1,90 @@
+{
+  "head": "23d031a72028df834b2a2bf00a47c4883aacf1f7",
+  "files": [
+    {
+      "path": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.preflight-review.json",
+      "sha256": "1b83db1cc8ae0fdedbb8f3d60a96a4681db53d1171c66063068a80dc4867d45f",
+      "sizeBytes": 1005
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/confirm-review.input.json",
+      "sha256": "59945e0fc7aa6d487e1063b15443caa83ea1984b0ddeecebd84c7ff9aa15349c",
+      "sizeBytes": 1056
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/confirm-review.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/confirm-review.stdout.json",
+      "sha256": "8df6e8c396ccd3947a64bc7a6be40b5df85e227d6dba72ad8c1f4b85fba2ed80",
+      "sizeBytes": 8597
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/post-confirm-preflight.stderr",
+      "sha256": "0729ba8e9387aa2bc9b6e22842e3bb869ffe4b9a31535763ba80add904d89659",
+      "sizeBytes": 684
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/post-confirm-preflight.stdout.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/post-confirm-status.stdout.json",
+      "sha256": "9eb0476c2fafb36aa7ef623bc99df374e76b1d9cf14a2a256112e04cdec8a561",
+      "sizeBytes": 3678
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/progress.md",
+      "sha256": "92a1ecffabc3ab32ee2288d0215ad61355e0dbf3c32ec7f5ac2f5e54cb48098a",
+      "sizeBytes": 1802
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/ray-confirm-review.txt",
+      "sha256": "6493e8484057dfe968b44bcf40240eb6f7098ddf6e3d0f7cc0dc38e26c464f2b",
+      "sizeBytes": 613
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/red.execution.json",
+      "sha256": "709711e8d0ac9eab15278eb14b2a63136af89610dc5df04c10015a9ed6786609",
+      "sizeBytes": 959
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/red.stderr",
+      "sha256": "4f6b50c34c7321a1230add116df0f02d98fb39e17a1ec542f3bef60df11ff139",
+      "sizeBytes": 3427
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/red.stdout",
+      "sha256": "81105ac3fabe73b2506076e16e685f9548178421f13835c6bc5167b26966b3f7",
+      "sizeBytes": 910
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+      "sha256": "f9e70958a8fe25c171debf174b68eedaf0d82a6ac53fe0f476545a4b9d4e7823",
+      "sizeBytes": 8596
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "sha256": "5b3ad6280fce3e8a22ce900b5fa2de65fd13f88108679b2ba359dd81b413b12d",
+      "sizeBytes": 408658
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "sha256": "8d8cdb9bee803dadfba0945131c2e444ee6ca49871922d3eb8bc0b3bc8cd54ea",
+      "sizeBytes": 379483
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "sha256": "828823117bead6ca4414799b9149f7323b5db5c7e25a608096596ab6c5e8b3f8",
+      "sizeBytes": 371118
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "sha256": "a732434e522546bf31938d57ef2264cce380a63d559e06084152a319021b6d8f",
+      "sizeBytes": 361922
+    }
+  ]
+}

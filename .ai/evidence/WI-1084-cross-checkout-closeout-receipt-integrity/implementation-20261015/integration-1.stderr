@@ -1,0 +1,10 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-repository)
+   Compiling cockpit-agent v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-agent)
+   Compiling anyhow v1.0.104
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-mcp)
+   Compiling cockpit-isolation v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-isolation)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 24.44s
+     Running tests/closeout_recovery.rs (target/wi1084-closeout-receipt-integrity/debug/deps/closeout_recovery-6f68b587e7b889c8)
+     Running tests/closeout_recovery.rs (target/wi1084-closeout-receipt-integrity/debug/deps/closeout_recovery-3f1bde3b219113d5)
+     Running tests/closeout_recovery.rs (target/wi1084-closeout-receipt-integrity/debug/deps/closeout_recovery-efd65d00d8e5811e)

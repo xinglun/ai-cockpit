@@ -1,0 +1,11 @@
+{
+  "deletedExactPath": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/incremental",
+  "deletedAllocatedDirectoryBytes": 659779584,
+  "entryCount": 1733,
+  "workspaceAvailableBytesBefore": 83058688,
+  "workspaceAvailableBytesAfter": 720248832,
+  "actualAvailableBytesIncrease": 637190144,
+  "workspaceInodesIncrease": 1661,
+  "otherPathsDeleted": [],
+  "sourceHead": "405b525a3aa2b6666417cf4a2f44ca85be9c436d"
+}

@@ -1,0 +1,127 @@
+{
+  "recordedAtUTC": "2026-10-15T11:43:16.461451+00:00",
+  "sourceHead": "bdcf6eca604dd81659370133ca40d5d5e8fcf48c",
+  "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "receiptPath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+  "receiptDigest": "sha256:d175a92572fd3d6e3033633aeb913e1183adcd56fc5ccf099a0713e4901734e4",
+  "receiptRawSha256": "db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314",
+  "verificationEvidenceDigest": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41",
+  "attemptPath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification-attempt.241cd804880a8c50f72004e90cfa5cc54b4f5f64a6be775b13e9b712bab0d6ab.json",
+  "passed": true,
+  "nodesPlanned": 13,
+  "nodesExecuted": 13,
+  "nodesReused": 0,
+  "processesSpawned": 13,
+  "processSpawnFailures": 0,
+  "maxConcurrentProcesses": 1,
+  "outerElapsedSeconds": 600.6570720672607,
+  "outerTimeoutSeconds": 900,
+  "nativeElapsedMs": 597100,
+  "defaultPerNodeTimeoutSeconds": 600,
+  "timedOutNodeCount": 0,
+  "truncatedStdoutNodeIds": [
+    "project-command-0-package-cockpit-repository"
+  ],
+  "truncatedStderrNodeIds": [],
+  "nativeStatus": {
+    "lifecyclePhase": "checkpointed",
+    "verification": "verified",
+    "evidenceFreshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "blockers": [],
+    "humanDecisionRequired": false,
+    "safeActions": [
+      "finish",
+      "record_governance_controls",
+      "record_material_review_decision",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "reviewReceiptDigest": null
+  },
+  "storageMinimumSamples": [
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+      "minAvailableBytes": 2862608384,
+      "minAvailableInodes": 1992122
+    },
+    {
+      "path": "/tmp",
+      "minAvailableBytes": 2056056832,
+      "minAvailableInodes": 2219916
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+      "minAvailableBytes": 2862608384,
+      "minAvailableInodes": 1992122
+    },
+    {
+      "path": "/workspace/.cargo",
+      "minAvailableBytes": 2862608384,
+      "minAvailableInodes": 1992122
+    },
+    {
+      "path": "/workspace/.rustup",
+      "minAvailableBytes": 2862608384,
+      "minAvailableInodes": 1992122
+    },
+    {
+      "path": "/tmp/wi1084-runtime-home-20261015",
+      "minAvailableBytes": 2056056832,
+      "minAvailableInodes": 2219916
+    }
+  ],
+  "storageAfter": {
+    "recordedAtUTC": "2026-10-15T11:41:55.859076+00:00",
+    "filesystems": [
+      {
+        "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+        "device": 27,
+        "availableBytes": 2862608384,
+        "availableInodes": 1992122
+      },
+      {
+        "path": "/tmp",
+        "device": 33,
+        "availableBytes": 2896203776,
+        "availableInodes": 2252188
+      },
+      {
+        "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+        "device": 27,
+        "availableBytes": 2862608384,
+        "availableInodes": 1992122
+      },
+      {
+        "path": "/workspace/.cargo",
+        "device": 27,
+        "availableBytes": 2862608384,
+        "availableInodes": 1992122
+      },
+      {
+        "path": "/workspace/.rustup",
+        "device": 27,
+        "availableBytes": 2862608384,
+        "availableInodes": 1992122
+      },
+      {
+        "path": "/tmp/wi1084-runtime-home-20261015",
+        "device": 33,
+        "availableBytes": 2896203776,
+        "availableInodes": 2252188
+      }
+    ]
+  },
+  "materialReviewRequestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+  "materialDecisionRecorded": false,
+  "finishOrArchiveAttemptedThisPhase": false
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUTC": "2026-10-15T11:28:16.352096+00:00",
+  "timestampMeaning": "Actual approval capture/record time; the human reply supplied no decision timestamp.",
+  "actor": "Ray",
+  "questionItemId": "[\"request_user_input_async\",\"call_283d0f39bf3b4f62a228739c48b0c4bc\",0]",
+  "exactAnswer": "我本人 Ray 批准此绑定的 retry，并选择 confirm_review",
+  "authoritySource": "direct-user-reply:Ray; questionItemId=[\"request_user_input_async\",\"call_283d0f39bf3b4f62a228739c48b0c4bc\",0]; exact approved request at bdcf6eca604dd81659370133ca40d5d5e8fcf48c raw sha256:c6e552ac1904da3226d3ecaba6f47c6c04882db9b5a794f570adecdec045b931",
+  "approvedRequestPath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-profile-amendment-20261015/pending-human-retry-confirm.request.json",
+  "approvedRequestCommit": "bdcf6eca604dd81659370133ca40d5d5e8fcf48c",
+  "approvedRequestRawSha256": "c6e552ac1904da3226d3ecaba6f47c6c04882db9b5a794f570adecdec045b931",
+  "approvedScope": [
+    "record the actual approved same-WI retry with these predecessor identities",
+    "follow refreshed admission to generate a genuine new policyReview request",
+    "record confirm_review only within the exact conditional scope above",
+    "named agent:Raydot evaluates and records the separately bound self_declared material decision under admission",
+    "restore any invalidated checks, using local900-second bound, serial worker and isolated target",
+    "finish/archive only after their real gates pass"
+  ],
+  "excludedScope": [
+    "human close",
+    "Draft-to-Ready",
+    "merge",
+    "branch/worktree cleanup",
+    "additional cache cleanup",
+    "source or assertion expansion",
+    "clearing unrelated Unknowns",
+    "new Work Item or Task9"
+  ],
+  "conditionalPolicyReviewScope": "Confirm only this exact amended Contract/profile and amendment journal against the bound repository/source snapshot. After the approved retry, generate the real new preflight under admission and bind the confirmation to that generated digest only if Contract/source/profile/Findings/authority scope stay identical to this request. If new review facts, a new Finding, or any binding changes, stop and present the difference rather than applying this confirmation.",
+  "sourceHeadAtCapture": "bdcf6eca604dd81659370133ca40d5d5e8fcf48c"
+}

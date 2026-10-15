@@ -1,0 +1,27 @@
+{
+  "recordedAtUTC": "2026-10-15T11:30:13.792320+00:00",
+  "actualApprovalPath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-human-approval.json",
+  "approvedRequestRawSha256": "c6e552ac1904da3226d3ecaba6f47c6c04882db9b5a794f570adecdec045b931",
+  "allConditionalInputsMatch": true,
+  "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "actualNewPreflightDecisionDigest": "sha256:e1770338bfc0b1bac50fc0f4b3040c5e58fbc9d82256b3d8c550f897a93c944f",
+  "sourceSnapshotDigest": "sha256:b59af48b57fbe7f6498a36db2b52488aed33a55bbe91053ad364787480e14a3e",
+  "materialRequestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+  "profileDigest": "sha256:8282c7d0f7780af966e90e681f972e9c5a18be5892e95f4832c600590c0aa4b0",
+  "amendmentJournalDigest": "sha256:23503ecd09559ac30da58efb7f1285c5ec503a4717c5eb7832827e7035020473",
+  "authority": "authorized",
+  "findingCodes": [],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "preservedFileCount": 322,
+  "allPriorFilesByteExact": true,
+  "expectedPreflightRecoveryUnknowns": [
+    "contract_amendment_policy_review_required",
+    "evidence_stale",
+    "preflight_decision_evidence_invalid",
+    "repository_material_inspection_unavailable"
+  ],
+  "bindingExplanation": "Stale prior receipt and missing new decision evidence are expected inputs of the approved recovery. No new material Finding, profile, authority, source, or Contract change was observed."
+}

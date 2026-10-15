@@ -1,0 +1,5 @@
+    Checking cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-repository)
+    Checking cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-mcp)
+    Checking cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-cli)
+    Checking cockpit-protocol v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-protocol)
+    Finished `dev` profile [unoptimized] target(s) in 25.36s

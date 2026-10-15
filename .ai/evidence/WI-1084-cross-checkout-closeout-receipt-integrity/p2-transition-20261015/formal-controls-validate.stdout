@@ -1,0 +1,10 @@
+{
+  "state": "verified",
+  "scenarioCoverage": "verified",
+  "acceptanceEvidence": "not_applicable",
+  "evidenceClasses": "verified",
+  "intentAlignment": "resolved",
+  "finalDimensions": "not_applicable",
+  "unknowns": [],
+  "findings": []
+}

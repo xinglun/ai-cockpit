@@ -1,0 +1,430 @@
+{
+  "recordedAtUTC": "2026-10-15T12:52:10.443484+00:00",
+  "parentHead": "b148751722994816d5ed5fc49edf75b72580a82c",
+  "approvedRequestRawSha256": "sha256:82a4fdb4ef4af4e010c96e9e5c17b55061777208f9c003ba453c0ce1bac16bdb",
+  "allPriorTrackedFilesByteChecked": 17736,
+  "onlySixHelperProjectionFilesModified": [
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md"
+  ],
+  "allPriorGovernanceEvidenceAndProductionBytesUnchanged": true,
+  "secretShapeFindings": 0,
+  "normalGitCommitOnly": true,
+  "configuredHooksNotBypassed": true,
+  "availableBytes": 2853588992,
+  "filesBeforeThisAudit": [
+    {
+      "path": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.close.json",
+      "change": "A",
+      "sizeBytes": 28077,
+      "rawSha256": "27367f5783e8c41535822c1445808cc24bc5fcaafa1e4a81a1ff604e1bb3da8b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/Raydot-review-and-single-confirmation.v3.md",
+      "change": "A",
+      "sizeBytes": 6812,
+      "rawSha256": "8a153414d7feb107e2c88398d03a61de4dfa1dd156b22be9d231b10ba6698fa9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/WI-1084-final-human-approval.request.v3.json",
+      "change": "A",
+      "sizeBytes": 25221,
+      "rawSha256": "82a4fdb4ef4af4e010c96e9e5c17b55061777208f9c003ba453c0ce1bac16bdb"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/actual-Ray-approval-and-Raydot-route-review.json",
+      "change": "A",
+      "sizeBytes": 4903,
+      "rawSha256": "72adcaf8a92c692342d5cbfb647eab7f495ead9cf3a0803b97572880fccde3ba"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/final-ci-38731302895-metadata.json",
+      "change": "A",
+      "sizeBytes": 12157,
+      "rawSha256": "0c238d2b87e7c9b536b79283b451b7bb208ae3368855c5badec58bf3bc25a5f1"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/final-ci-38731302895-summary.json",
+      "change": "A",
+      "sizeBytes": 2520,
+      "rawSha256": "b3b983e408126d6e54780244cbcb6097792fc11b6f183d87e4f58d24b5e51682"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/legacy-v1-followup-proposal.v2.md",
+      "change": "A",
+      "sizeBytes": 4756,
+      "rawSha256": "244ee60cb2d077a06458555fa442e77ed0c8a6731d0a174247952d852f54a555"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/mac-acceptance-comment-6191800813.json",
+      "change": "A",
+      "sizeBytes": 5346,
+      "rawSha256": "9c4783643fe40808205958fd60c9d15f8cae8e4b4f98647edab91a8226d75cd2"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/mac-source-correction-6191899624.json",
+      "change": "A",
+      "sizeBytes": 2566,
+      "rawSha256": "6f9ab825b68c704fe5151257e549dd016b64bff0d29e8870975594bfda533918"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/original-contract-legacy-boundary.json",
+      "change": "A",
+      "sizeBytes": 775,
+      "rawSha256": "4274935239717079d81d6f94ea2e1b2ffedaab281cd2086ba3ed0bfa0d1dd088"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/pr-issue1004-wording-audit.json",
+      "change": "A",
+      "sizeBytes": 729,
+      "rawSha256": "0dd18fad79b2bce8c342fabd9dc48de5b10dbe3f8da6682e762cc22783cbfaf1"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/Raydot-bounded-C-direction-and-agent-correction.json",
+      "change": "A",
+      "sizeBytes": 2092,
+      "rawSha256": "c7fbaa7dbe08a613b28dbd85fce15c181a44d7c574984cd55ed3fb197dbdbeb1"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/actual-human-close.execution.json",
+      "change": "A",
+      "sizeBytes": 5159,
+      "rawSha256": "2f324e2b93cfd6524443e76eb250b65876a6113c3d746e7a0c8340471a108c75"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/actual-human-close.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/actual-human-close.stdout",
+      "change": "A",
+      "sizeBytes": 27279,
+      "rawSha256": "5508966d2173375f9357c8d2a863e2d4cc055622a156793ddb806276ce4c48ce"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-human-close-status.execution.json",
+      "change": "A",
+      "sizeBytes": 2918,
+      "rawSha256": "407c4687d02151934d1ae5f0bf7eee0c9b3e2de69aaf2027c5c1e0fac1f018a9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-human-close-status.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-human-close-status.stdout",
+      "change": "A",
+      "sizeBytes": 3207,
+      "rawSha256": "f4cd21de0d86a75f861359e20e3b5d9d886d08c75ff244e5c56adc1847af4955"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-human-outcome.execution.json",
+      "change": "A",
+      "sizeBytes": 2935,
+      "rawSha256": "52332ece4d20bea2e724d33fd0ff4d2572014566cd9c078e963361d47e4fe74a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-human-outcome.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-human-outcome.stdout",
+      "change": "A",
+      "sizeBytes": 4050,
+      "rawSha256": "020faf3253ea110432c44cccfe535ef6dd62db75513286d47453706599966b33"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-status.execution.json",
+      "change": "A",
+      "sizeBytes": 2917,
+      "rawSha256": "38213d2b0884fdc7afc95d58ffab4404135dcd53a0743ef6c020b26357f98d54"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-status.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-status.stdout",
+      "change": "A",
+      "sizeBytes": 3216,
+      "rawSha256": "7a868abd92156c1a01d3ca572729323206a8ca9797c2e8b5d8babd67bd5e8b57"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/b148-jobs-before-close.json",
+      "change": "A",
+      "sizeBytes": 11672,
+      "rawSha256": "c43bbd7ff3b252d1a3f7370cde43654a6369d619b1c9771731b2289d0ab73363"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/b148-required-workflow-before-close.json",
+      "change": "A",
+      "sizeBytes": 578,
+      "rawSha256": "1b720e1d678cf77dd8be3d1e8a390c979ff8ac19a78d880ef54827b6fe28eaf2"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-agent-doctor.execution.json",
+      "change": "A",
+      "sizeBytes": 2846,
+      "rawSha256": "f504653a2ed232731a87158c97d7bf506034ca90ef50c4463097f894b292d4a7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-agent-doctor.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-agent-doctor.stdout",
+      "change": "A",
+      "sizeBytes": 455,
+      "rawSha256": "5ea7c40439c055f01da089a30dab2b62f6207847e70f36489ee2c7e20c91d0f2"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-doctor.execution.json",
+      "change": "A",
+      "sizeBytes": 2832,
+      "rawSha256": "3f043948337d3e325f86b9d5c5b5554448dfe11a494e252e127a93bf3cc9da86"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-doctor.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-doctor.stdout",
+      "change": "A",
+      "sizeBytes": 632,
+      "rawSha256": "43c3d1c2b38d2c8bc793a7d2afc82bbd280e62458632ed94976ac18c92f607bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-inspect.execution.json",
+      "change": "A",
+      "sizeBytes": 2832,
+      "rawSha256": "92613fa99b111a7d8e007e2a01bf99a2c5f8a608e67dc4864abdeca1fc615301"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-inspect.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-inspect.stdout",
+      "change": "A",
+      "sizeBytes": 838,
+      "rawSha256": "7ca08a06a0b64ae46862e132c6603eb8580c0a12ef8e2d17202690b0658de5fe"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-status.execution.json",
+      "change": "A",
+      "sizeBytes": 2831,
+      "rawSha256": "ca255423c6dbd547082c3ad4f2c0aea96d0d6ccacd43906b810a60948404d3c8"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-status.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-status.stdout",
+      "change": "A",
+      "sizeBytes": 340344,
+      "rawSha256": "5a66869355e9cadb06fa8a502c5b34fdf3fcfe58c4da82f09d09ae7d6b136639"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-wi-status.execution.json",
+      "change": "A",
+      "sizeBytes": 2918,
+      "rawSha256": "c60e99553521fc1d49a9d253a5a79600c7209087862e8cc881426ed37bfe40c4"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-wi-status.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-wi-status.stdout",
+      "change": "A",
+      "sizeBytes": 3567,
+      "rawSha256": "389a1b7586f1d9c631ae0c2ef181b9cb4b8aef8d3de9c12bf2c68012ce1eb26b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/close-help.execution.json",
+      "change": "A",
+      "sizeBytes": 2756,
+      "rawSha256": "99c473248491ce0bb3a4d661148707530b27c955828ebd14f075159d67d8b924"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/close-help.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/close-help.stdout",
+      "change": "A",
+      "sizeBytes": 767,
+      "rawSha256": "7b4b821f4cc60a0e06b56d2bc8329ee669221ac5d5e6283c19b169fb76cf5b52"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/command-runner.py",
+      "change": "A",
+      "sizeBytes": 2401,
+      "rawSha256": "8050dbd426f9dfda06842a8c7bbb398db627d5d8c1a212d3362f06e171ea562e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/git-diff-check.json",
+      "change": "A",
+      "sizeBytes": 109,
+      "rawSha256": "ed9e979d5a415a6c581f84e4a4b80caced8a0ead051a0529949e75fac0df567e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/issue1004-at-blocked-handoff.json",
+      "change": "A",
+      "sizeBytes": 1537,
+      "rawSha256": "8cfa7f2dfee514f8e8d2503e140620b195aa0b1dcdd925fcd3dc09133b9bb2bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/issue1004-before-close.json",
+      "change": "A",
+      "sizeBytes": 1537,
+      "rawSha256": "8cfa7f2dfee514f8e8d2503e140620b195aa0b1dcdd925fcd3dc09133b9bb2bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/outcome-help.execution.json",
+      "change": "A",
+      "sizeBytes": 2775,
+      "rawSha256": "00e5001b6b99ae4553c62316b97b22a16df9ea429e8d67160a49ab4be98e3581"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/outcome-help.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/outcome-help.stdout",
+      "change": "A",
+      "sizeBytes": 1175,
+      "rawSha256": "7da687ff620f943f89e4f4b83148fe2286c035aa875bbb12333ee1f8773efd04"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/post-close-blocked-handoff.json",
+      "change": "A",
+      "sizeBytes": 8050,
+      "rawSha256": "fff0ab3063d6b82999c70016a3b6b855d58bc1437bed6b21980302c2a9669372"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/pr1040-at-blocked-handoff.json",
+      "change": "A",
+      "sizeBytes": 39479,
+      "rawSha256": "f1a30fcbf310499842cfe72b7656ed2bcf95748815c514af0a1a7bdc3af77b4d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/pr1040-before-close.json",
+      "change": "A",
+      "sizeBytes": 39479,
+      "rawSha256": "f1a30fcbf310499842cfe72b7656ed2bcf95748815c514af0a1a7bdc3af77b4d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/six-file-terminal-projection.patch",
+      "change": "A",
+      "sizeBytes": 16276,
+      "rawSha256": "5ede193469a96c67271467b3ce028a0eaa1ee12778895c1c9bb3d58151941d62"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection-check.execution.json",
+      "change": "A",
+      "sizeBytes": 363,
+      "rawSha256": "d7d5c8f4cb98666c975c5f214079d5fe1490639f98815840308391c358b5c087"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection-check.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection-check.stdout",
+      "change": "A",
+      "sizeBytes": 489,
+      "rawSha256": "7bedb810d632d6834d7ab4df4fbd975bf20c4cb5e7bbc1a179e926d528632f2a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection.execution.json",
+      "change": "A",
+      "sizeBytes": 349,
+      "rawSha256": "da76d169087fa5b854cc97b2e6fa8b4ca7144f4388baab29c2910ed21b1ba98d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection.stderr",
+      "change": "A",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection.stdout",
+      "change": "A",
+      "sizeBytes": 864,
+      "rawSha256": "74f84495691d35ea107213736cae71b95a50ef616356f6e448a12729fa8d4cca"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/tracked-byte-baseline-b148.json",
+      "change": "A",
+      "sizeBytes": 3728856,
+      "rawSha256": "fc608324b38354fba100f73b047edb7f1a619d0dc8b84661274871cead5f39c1"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "change": "M",
+      "sizeBytes": 378941,
+      "rawSha256": "63ee7f26523ed7251e974d705e466e940b565bb22a105964c75c0853d66a6276"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "change": "M",
+      "sizeBytes": 370636,
+      "rawSha256": "e7c1f83fcfaf92d10a09a2cab1a8f57c5c0da9b5e235b409e8177198a0fca9de"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "change": "M",
+      "sizeBytes": 361461,
+      "rawSha256": "2ba4d3bdeccfe6a80a4a3a915761dd20e0dddffe3c1095fe8787180ef742fc24"
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+      "change": "M",
+      "sizeBytes": 5558,
+      "rawSha256": "d105cbff3681b8d1918c90eead542801e1813d2a7c67903b227715d56dfeadd3"
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+      "change": "M",
+      "sizeBytes": 5239,
+      "rawSha256": "05e379928504c1f8a9acafe0a37e9ce316f921b01842d38ed271fee803ffeaec"
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+      "change": "M",
+      "sizeBytes": 4682,
+      "rawSha256": "7bb4a0d0f85a7fb10780b91b78e7d76815be8be3163ba1e38f95efc2ce031b99"
+    }
+  ],
+  "selfExcludedToAvoidRecursiveDigest": true
+}

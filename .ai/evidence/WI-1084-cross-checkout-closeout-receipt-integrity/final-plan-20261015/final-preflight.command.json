@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "preflight",
+    "--repo",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "--contract",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/.ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+  ],
+  "startedAt": "2026-10-15T08:02:42.833117+00:00",
+  "endedAt": "2026-10-15T08:02:45.054406+00:00",
+  "exitCode": 0
+}

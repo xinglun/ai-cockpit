@@ -1,0 +1,9 @@
+{
+  "observedAt": "2026-10-15T07:37:45.685635+00:00",
+  "protectedWI1078Files": 14,
+  "allExact": true,
+  "WI1078Action": "No resource, Contract, archive, close or evidence mutation; new WI has its own worktree",
+  "sourceTrackedDiff": [],
+  "candidateBuildStarted": false,
+  "regressionsWrittenOrRun": false
+}

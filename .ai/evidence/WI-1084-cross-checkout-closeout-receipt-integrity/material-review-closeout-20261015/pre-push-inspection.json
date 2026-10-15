@@ -1,0 +1,386 @@
+{
+  "recordedAtUTC": "2026-10-15T11:58:21.995194+00:00",
+  "onlyOwnGovernancePaths": true,
+  "credentialShapedMatches": [],
+  "inspectionScope": "raw and structured strings plus hex child output; no credential environment variables logged",
+  "changedPathCount": 65,
+  "sourceChanges": false,
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/actual-raydot-decision.json",
+      "state": "regular_file",
+      "sizeBytes": 4058,
+      "rawSha256": "e71ac6e0c8675b990fe3ec6a9beb31239d7a37f174f5675ba31c1f79b1f7cf99"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-archive-status.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2917,
+      "rawSha256": "d21f1aa1d6166b419324339c3271da15c699bdfa30eaea11ac3ae40a2180eb14"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-archive-status.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-archive-status.stdout",
+      "state": "regular_file",
+      "sizeBytes": 3567,
+      "rawSha256": "389a1b7586f1d9c631ae0c2ef181b9cb4b8aef8d3de9c12bf2c68012ce1eb26b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-finish-status.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2917,
+      "rawSha256": "6b536798da2eef481ea9c44ea6b32fac30268c35a41596e8a13096ff9f625dd8"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-finish-status.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-finish-status.stdout",
+      "state": "regular_file",
+      "sizeBytes": 3342,
+      "rawSha256": "4235c18abbe8d0e174f36e2c6ce3cc096a09e278e32d4b5fdbe81b646f205c98"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-material-status.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2918,
+      "rawSha256": "aa8b8f42eb2f26a8a1f436ff8d4fc84f927490aef2a6ee47d748eea137a87b5f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-material-status.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-material-status.stdout",
+      "state": "regular_file",
+      "sizeBytes": 3315,
+      "rawSha256": "94b1c56fac3c58c2abe498eff71e1f9228ac6646b37af1dffd82034ace865b68"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-material-validate.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2921,
+      "rawSha256": "e0b06029a0b88161ac00d9bb03b3cfa8b95f2307692af906ba43862f40a196d2"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-material-validate.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/after-material-validate.stdout",
+      "state": "regular_file",
+      "sizeBytes": 243,
+      "rawSha256": "6262f75a23f6705d87015fb43615713b1c8c8770b8f10d04cb4d6bea62dbf002"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive-help.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2775,
+      "rawSha256": "03b4ba0a19b99cd6a566cf75238bf5304ed442e242299aa495b9db0d6f34b432"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive-help.stderr",
+      "state": "regular_file",
+      "sizeBytes": 164,
+      "rawSha256": "4be5d3ef5839d4e3c0b3e90158e537af72868d8978e89b477072028d3db5b45c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive-help.stdout",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive-root-help.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2758,
+      "rawSha256": "9c673e0ade2cf3c713b9720c85eb34d161cb90fc23a963b21caece0af6795db5"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive-root-help.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive-root-help.stdout",
+      "state": "regular_file",
+      "sizeBytes": 445,
+      "rawSha256": "56d0bd5d24e7a44191a648db072e19cd0248233a9fd66237634493e2a0f74921"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2932,
+      "rawSha256": "a7afc2385e71307f29a0e092b740794f68133d6c33a7c4d6cea1340bec0cf0f4"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archive.stdout",
+      "state": "regular_file",
+      "sizeBytes": 122460,
+      "rawSha256": "942e6b043fdce4d8d4909bcb54a3a9a7dca28f98c7b81788ffa6c0d6877fe0e0"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archived-human-outcome.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2936,
+      "rawSha256": "3763ae5483294c016657f2167a7f9ddb5579184fdc640fbe9dc7eec95a9a534f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archived-human-outcome.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/archived-human-outcome.stdout",
+      "state": "regular_file",
+      "sizeBytes": 2603,
+      "rawSha256": "cf293ad923058b3c1a3b5ae071c2f330f9e6697908e8a4e2459c9bf04fbee89b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/before-material-plan.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2925,
+      "rawSha256": "b441af2aa48a23160579ae23101eb6dc99e365a082a47ec1748b29e8a4c4a117"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/before-material-plan.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/before-material-plan.stdout",
+      "state": "regular_file",
+      "sizeBytes": 7358,
+      "rawSha256": "0826d34fb4cdb09044f93578fcdc2385df3ae5d03bf22da3edbc95d5346ef065"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/before-material-status.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2917,
+      "rawSha256": "f8ef9dbd5769a690f07e9b462211b3a06ed8f6d99cd835f3c420febf826e156b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/before-material-status.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/before-material-status.stdout",
+      "state": "regular_file",
+      "sizeBytes": 3467,
+      "rawSha256": "5cd4054fb100cb098cc86ed13f817c6563f7e7fb283ba9a9faf366174ceda961"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/closeout-binding-summary.json",
+      "state": "regular_file",
+      "sizeBytes": 6630,
+      "rawSha256": "640acaaa336ef9dc9d03307bc4ccdc664d8e662da78ee509513948ff07cd5493"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/command-runner.py",
+      "state": "regular_file",
+      "sizeBytes": 4562,
+      "rawSha256": "45640daac4230c1cd123faf8b448c7a39364a98df11840369490d2dc6a29b23f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/finish-help.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2755,
+      "rawSha256": "2fc62c376d930db8b50636f855e6571fedb9363c01b23c9b12e32e2ba1942f8c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/finish-help.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/finish-help.stdout",
+      "state": "regular_file",
+      "sizeBytes": 430,
+      "rawSha256": "022b508d742acbf9494f4be0cc931a83bc874bedfd0466ac1d0639e87f5df4db"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/finish.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2932,
+      "rawSha256": "7453e1690b1b2f72446caea03fbd7eeecdf29e5c09c11b049a33f407bf857ae7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/finish.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/finish.stdout",
+      "state": "regular_file",
+      "sizeBytes": 27236,
+      "rawSha256": "76700cddae546e2bf1a6753c53b24f28ba4559818a92667fa04a5c940b88ebe7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/handoff.md",
+      "state": "regular_file",
+      "sizeBytes": 5362,
+      "rawSha256": "e4a772d3d7eaa9ca1d530ca299c5b99a06e7122134fa8dee46366e7819671353"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/material-decision.input.json",
+      "state": "regular_file",
+      "sizeBytes": 3197,
+      "rawSha256": "fb5c8d59d9263fe8e0690fece5360f68b6ad051eb88fe69ab1c3ea8627bafd53"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/material-record.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 3075,
+      "rawSha256": "017c6f5ac7e2ef03c6ef747875e4d53e15bcf33f0baac5a6d51d5aa689f9e549"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/material-record.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/material-record.stdout",
+      "state": "regular_file",
+      "sizeBytes": 3958,
+      "rawSha256": "94d49ee33b82bacc7d33a469a7287c1be272f917e6461f508e3ac2b5c7fa93b4"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/pre-record-binding-check.json",
+      "state": "regular_file",
+      "sizeBytes": 1018,
+      "rawSha256": "530c8156f20cf1766f896b3b922ed0e35a9a3e431f557a7b4edd657edbca5454"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/preexisting-evidence-and-source-preserved.json",
+      "state": "regular_file",
+      "sizeBytes": 103217,
+      "rawSha256": "5f828159668e0114d59c771eeab971d66fdce4ff88918c8941f4b3f2a2a48133"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/runtime-help.execution.json",
+      "state": "regular_file",
+      "sizeBytes": 2744,
+      "rawSha256": "a110b9d21e843c587154cd39c0d4862ac7b8587cc1215487d67284deb3fcacd9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/runtime-help.stderr",
+      "state": "regular_file",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/runtime-help.stdout",
+      "state": "regular_file",
+      "sizeBytes": 1818,
+      "rawSha256": "bdaf59e9e365426da9b3e6b2196c1a4b9f64b16293253402a90b5f6679df8c65"
+    },
+    {
+      "path": ".ai/evidence/material-inspection-review/WI-1084-cross-checkout-closeout-receipt-integrity/2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501.json",
+      "state": "regular_file",
+      "sizeBytes": 3957,
+      "rawSha256": "0853382f125e288333c58fde55d9348b53d72db459ee954fd5f0eab03cc05e7e"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+      "state": "removed_by_normal_archive"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.events.jsonl",
+      "state": "removed_by_normal_archive"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.intelligence.json",
+      "state": "removed_by_normal_archive"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.outcome.json",
+      "state": "removed_by_normal_archive"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+      "state": "removed_by_normal_archive"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.json",
+      "state": "removed_by_normal_archive"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.md",
+      "state": "removed_by_normal_archive"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.archive.json",
+      "state": "regular_file",
+      "sizeBytes": 2054,
+      "rawSha256": "d781bacebb53b33d600e70bd354dec291b5296d4110eb15009741df1b9df781e"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+      "state": "regular_file",
+      "sizeBytes": 11669,
+      "rawSha256": "82e182ef7af265afef737f945a9c4cc5f77ef25473a05dbaee83e5a0196eb3c8"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.events.jsonl",
+      "state": "regular_file",
+      "sizeBytes": 3129,
+      "rawSha256": "b1f57b579330730374e07ca46d72496581b30b2412171f97ac332f72343a5456"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.intelligence.json",
+      "state": "regular_file",
+      "sizeBytes": 272,
+      "rawSha256": "48dc8906464bfbbcd4b56da49fc757e6b5048b0ee91c4fa16b533c2ed25e8210"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.outcome.json",
+      "state": "regular_file",
+      "sizeBytes": 26052,
+      "rawSha256": "cf600b7d80f276670169c1c466225d5364697347f76b7764a30d1f35694745cc"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+      "state": "regular_file",
+      "sizeBytes": 23100,
+      "rawSha256": "8e6e0e2459eedeceaad16238eceeb80fd8242215e1b5b637fb7d7984a43d96c4"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.json",
+      "state": "regular_file",
+      "sizeBytes": 21826,
+      "rawSha256": "b48ffe3a4fe163fd4615c05667581ec323a7415c22ab1f0059fc167c9a3f900c"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.md",
+      "state": "regular_file",
+      "sizeBytes": 8491,
+      "rawSha256": "447e7e3089b156c4c24692c68cfacdc3b820ce8cc34c36c3f1cda4612cb8c4a9"
+    }
+  ]
+}

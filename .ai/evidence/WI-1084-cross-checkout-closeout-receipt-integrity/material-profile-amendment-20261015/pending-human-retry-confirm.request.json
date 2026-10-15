@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "requestId": "WI-1084-retry-confirm-review-20261015",
+  "status": "awaiting_actual_human_decision",
+  "recordedAtUTC": "2026-10-15T11:19:45.721903+00:00",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "originalAcceptedSourceCIHead": "7f723bfb7a6dab4c07952f3fca1a7fe701e91faf",
+  "preAmendRecordHead": "8bec4367e1a19517e312ff331cc384da913d7a99",
+  "newContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "newContractRawSha256": "sha256:82e182ef7af265afef737f945a9c4cc5f77ef25473a05dbaee83e5a0196eb3c8",
+  "previousContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+  "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "materialSourceSnapshotDigest": "sha256:b59af48b57fbe7f6498a36db2b52488aed33a55bbe91053ad364787480e14a3e",
+  "environmentObservationDigest": "sha256:b40c62572f9f9cfe8d347f09f59588f1fe189c022d38f4826c13ce01d23c4195",
+  "typedAmendment": {
+    "sequence": 4,
+    "requestDigest": "sha256:ad579700c13a8fc71d2c5546b8317c7638577cc79fdaf2696501931b7342dd8b",
+    "journalDigest": "sha256:23503ecd09559ac30da58efb7f1285c5ec503a4717c5eb7832827e7035020473",
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "changedValues": [
+      {
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1084 opt-in proposal requires approval before application",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:Raydot",
+            "schemaVersion": 1
+          }
+        },
+        "oldValue": null,
+        "operation": "set",
+        "path": "/governanceProfile"
+      },
+      {
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "operation": "set",
+        "path": "/requiredRuntimeCapabilities"
+      }
+    ]
+  },
+  "policyReview": {
+    "decisionId": "contract-preflight-review",
+    "requestedDecision": "confirm_review",
+    "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+    "preflightDecisionDigest": null,
+    "preflightDecisionState": "not_yet_generated_for_new_contract; current admission requires human retry before run_preflight",
+    "oldPreflightDigestIsNotReused": true,
+    "conditionalApprovalScope": "Confirm only this exact amended Contract/profile and amendment journal against the bound repository/source snapshot. After the approved retry, generate the real new preflight under admission and bind the confirmation to that generated digest only if Contract/source/profile/Findings/authority scope stay identical to this request. If new review facts, a new Finding, or any binding changes, stop and present the difference rather than applying this confirmation."
+  },
+  "retryReceiptTemplate": {
+    "schemaVersion": 1,
+    "decisionId": "work-item-recovery",
+    "decision": "retry",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "predecessorWorkItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "predecessorContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "predecessorSummaryDigest": "sha256:9c2dd4c91eda4fce4473bff5e6aa01ac3f8b28ecf980e98e1293ae500836e49f",
+    "predecessorOutcomeDigest": "sha256:a1c0ab49eec7a94c3fcf86ffce9e04ae700ec06c4f86401674e0bde583931bb9",
+    "predecessorEventsDigest": "sha256:6a2d38e7439761e4ac6f82f6d94d854d2d49b4720bf678255d1d1687ffe227e7",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "actor": null,
+    "authoritySource": null,
+    "decidedAt": null,
+    "reason": "Proposed human retry of the preserved finish.lifecycle failure after applying only the accepted explicit material-review profile; source and historical evidence remain unchanged.",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/closeout-20261015/finish.stderr",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.contract-amendments/00000004.committed.json"
+    ],
+    "policyRefs": [
+      ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+    ],
+    "resumeCondition": "Resume this same WI only through fresh admitted preflight, policy review and exact agent:Raydot material-review evidence, then the required bounded verification and finish/archive. Preserve raw Unknown and all earlier bytes; stop for changed bindings, new Findings, unsupported actions or insufficient resources. This authorizes no close, Ready, merge or resource deletion."
+  },
+  "unfilledHumanFields": [
+    "actor",
+    "authoritySource",
+    "decidedAt"
+  ],
+  "templateIsNotAnExecutableApprovedReceipt": true,
+  "materialReview": {
+    "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+    "materialManifestDigest": "sha256:82e95774a5ef741ce56983f8b152121923083aa459c31c64160afcab555b2be0",
+    "materialInspectionReviewProfileDigest": "sha256:8282c7d0f7780af966e90e681f972e9c5a18be5892e95f4832c600590c0aa4b0",
+    "analysisImplementationDigest": "sha256:6a6a0069fcc7c2394bd90728a9838e8093d854fdb219e965d2b02e94f2da9a16",
+    "rawUnknownCodes": [
+      "repository_material_inspection_unavailable"
+    ],
+    "findingCodes": [],
+    "reviewEnabled": true
+  },
+  "declaredReviewer": {
+    "acceptResidualRisk": true,
+    "assurance": "self_declared",
+    "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1084 opt-in proposal requires approval before application",
+    "permittedCause": "readable_committed_rust_syntax_unknown",
+    "permittedUnknown": "repository_material_inspection_unavailable",
+    "reviewerActor": "agent:Raydot",
+    "schemaVersion": 1
+  },
+  "agentReviewRecorded": false,
+  "currentAdmission": {
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "stop"
+    ],
+    "blockers": [
+      "governance_red"
+    ],
+    "humanDecisionRequired": true,
+    "verification": "unknown",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "unknowns": [
+      "lifecycle_gate_failed",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ]
+  },
+  "preservation": {
+    "priorEvidenceAndSourceFileCount": 322,
+    "allExact": true,
+    "oldFormalReceiptRawSha256": "sha256:3e50cfff0224aaf40694b75be5d315364dcdf37ee1a0ba15913cd05ca9a19554",
+    "oldVerificationRemainsHistoricalForPreviousContract": true,
+    "oldFinishFailurePreserved": true,
+    "checkpointCount": 1,
+    "newWorkItemCreated": false
+  },
+  "authorizedFollowupOnly": [
+    "record the actual approved same-WI retry with these predecessor identities",
+    "follow refreshed admission to generate a genuine new policyReview request",
+    "record confirm_review only within the exact conditional scope above",
+    "named agent:Raydot evaluates and records the separately bound self_declared material decision under admission",
+    "restore any invalidated checks, using local900-second bound, serial worker and isolated target",
+    "finish/archive only after their real gates pass"
+  ],
+  "notAuthorized": [
+    "human close",
+    "Draft-to-Ready",
+    "merge",
+    "branch/worktree cleanup",
+    "additional cache cleanup",
+    "source or assertion expansion",
+    "clearing unrelated Unknowns",
+    "new Work Item or Task9"
+  ],
+  "knownUnknowns": [
+    "raw repository_material_inspection_unavailable remains until the supported review; no machine Clean claim",
+    "user_visible_benefit_not_declared",
+    "usage coverage unavailable",
+    "host display acknowledgement unavailable"
+  ]
+}

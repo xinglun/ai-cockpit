@@ -1,0 +1,8 @@
+{
+  "sourceCommit": "994a065a29b6e0d48c9aa423242dd1dbf18fd602",
+  "sourcePath": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+  "rawSha256": "sha256:c010fb6d9794535bf056afa75a97f8a7f1aa0574b8b10bbd1c2df888029342ec",
+  "canonicalDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+  "legacyAcceptanceCriterionVerbatim": "Ordinary current closes and readable legacy historical closes remain compatible. Existing v1 recovery records are retained without silent migration; any legacy ambiguity is reported explicitly rather than fabricated as detectable.",
+  "interpretation": "Legacy v1 ambiguity and no silent migration were in the first Contract; this follow-up observation does not expand WI1084."
+}

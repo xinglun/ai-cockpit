@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "actor": "Ray",
+  "decision": "approved",
+  "authoritySource": "Direct Ray user replies in current delegated Codex conversation; source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "capturedAtUTC": "2026-10-15T12:42:41.443085+00:00",
+  "sourceMessageTimestampSupplied": false,
+  "decidedAtSemantics": "Runtime decidedAt uses the capture time of the already received direct human approval; it is not an asserted original message timestamp.",
+  "approvedRequestPath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/WI-1084-final-human-approval.request.v3.json",
+  "approvedRequestRawSha256": "sha256:82a4fdb4ef4af4e010c96e9e5c17b55061777208f9c003ba453c0ce1bac16bdb",
+  "actualHumanRepliesVerbatim": [
+    "我本人 Ray 批准上述 v3 完整绑定请求，知悉旧 v1 残余及 #1004 保持 OPEN，同意按各阶段检查和 Raydot 审阅结果执行关闭、条件合并、对应清理及受限回执持久化。",
+    "我本人 Ray 批准上述完整绑定请求，知悉旧 v1 残余及 #1004 保持 OPEN；同意在各阶段必需检查和 Raydot 审阅通过后，执行精确普通关闭、受限证据与文档追加、PR1040 Ready／条件合并、对应原分支和干净工作树清理，以及上述受限治理回执持久化。"
+  ],
+  "RaydotTechnicalReview": {
+    "source": "Previously received parent cloud_threads coordination message retained in delegated conversation context",
+    "verbatim": "Raydot 已读到 v3 全文并接受技术路线，包括受限治理提交 R：仅本 WI 新增 cleanup receipt/必要证据，父为实际M，远端main仍M，正常非强制push，现有保护不允许则停止。v3 SHA256 82a4fdb4...16bdb。已向 Ray 请求直接在核心确认。此消息仅技术定稿，不是真人批准。等实际本人回复后按准确v3执行，C须真实必需CI与Raydot审阅通过再Ready/merge；#1004保持open。",
+    "acceptsFutureCommitC": false
+  },
+  "copiedSourceFiles": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/WI-1084-final-human-approval.request.v3.json",
+      "rawSha256": "82a4fdb4ef4af4e010c96e9e5c17b55061777208f9c003ba453c0ce1bac16bdb",
+      "sizeBytes": 25221
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/Raydot-review-and-single-confirmation.v3.md",
+      "rawSha256": "8a153414d7feb107e2c88398d03a61de4dfa1dd156b22be9d231b10ba6698fa9",
+      "sizeBytes": 6812
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/final-ci-38731302895-summary.json",
+      "rawSha256": "b3b983e408126d6e54780244cbcb6097792fc11b6f183d87e4f58d24b5e51682",
+      "sizeBytes": 2520
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/final-ci-38731302895-metadata.json",
+      "rawSha256": "0c238d2b87e7c9b536b79283b451b7bb208ae3368855c5badec58bf3bc25a5f1",
+      "sizeBytes": 12157
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/mac-acceptance-comment-6191800813.json",
+      "rawSha256": "9c4783643fe40808205958fd60c9d15f8cae8e4b4f98647edab91a8226d75cd2",
+      "sizeBytes": 5346
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/mac-source-correction-6191899624.json",
+      "rawSha256": "6f9ab825b68c704fe5151257e549dd016b64bff0d29e8870975594bfda533918",
+      "sizeBytes": 2566
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/original-contract-legacy-boundary.json",
+      "rawSha256": "4274935239717079d81d6f94ea2e1b2ffedaab281cd2086ba3ed0bfa0d1dd088",
+      "sizeBytes": 775
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/pr-issue1004-wording-audit.json",
+      "rawSha256": "0dd18fad79b2bce8c342fabd9dc48de5b10dbe3f8da6682e762cc22783cbfaf1",
+      "sizeBytes": 729
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/legacy-v1-followup-proposal.v2.md",
+      "rawSha256": "244ee60cb2d077a06458555fa442e77ed0c8a6731d0a174247952d852f54a555",
+      "sizeBytes": 4756
+    }
+  ],
+  "residuals": [
+    "Old unanchored v1 sole-receipt loss remains closed/blocking=false; intact v1 retry conflicts. No migration or fabricated origin authorized.",
+    "#1004 must remain OPEN.",
+    "Mac original local files not independently read in cloud.",
+    "Raw scanner Unknown remains; material review assurance self_declared. Host display and usage coverage unknown."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:b8c5c08ee7b1cf672f7d4c8df4ddba1356d05808770e561b28e4bf7cbcb7abb1",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "sequence": 1,
+    "changeId": "legacy-1293fa9ec1f73c0ee5f9ffde0fb9669df23eebcbf38b297315f9757b14b97e80",
+    "requestDigest": "sha256:bcd6be0ae09f4286e0b804e519f7637fe5a080da85a8f83d428690a9489b1459",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:1293fa9ec1f73c0ee5f9ffde0fb9669df23eebcbf38b297315f9757b14b97e80",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658",
+          "https://github.com/xinglun/ai-cockpit/pull/1006"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658",
+          "https://github.com/xinglun/ai-cockpit/pull/1006"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658",
+          "https://github.com/xinglun/ai-cockpit/pull/1006",
+          "Raydot-delegation:01a11856-d6ba-72e0-9aab-25a34cd2f018:bounded-WI-1004-fix-20261015:user-authorized-independent-WI-and-draft-PR"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:7e659431f2e474c4f18657a024307f579a97f5fdda4c1892bf776b732e5290e0",
+    "newContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+    "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+    "environmentObservationDigest": "sha256:95f66d391ee26318d4f13d0ccae581d00266203ef518e648e1f505b79bbd6c38",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:8d08ffd78637164c69f937bf36fcbaa365077e4d691aa58d2110715940ad9d28",
+    "recordedAt": "2026-10-15T07:29:42Z"
+  }
+}

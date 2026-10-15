@@ -1,0 +1,101 @@
+{
+  "compatibility": {
+    "compatible": false,
+    "conflicts": [],
+    "dependenciesSatisfied": true,
+    "reasons": [
+      "concurrency_boundary_unknown:WI-1074-v1-0-1-close-only-jq-filter",
+      "parallel_compatibility_not_declared:WI-1074-v1-0-1-close-only-jq-filter",
+      "concurrency_boundary_unknown:WI-1072-n-minus-one-finish-admission",
+      "parallel_compatibility_not_declared:WI-1072-n-minus-one-finish-admission",
+      "concurrency_boundary_unknown:WI-1073-v1-0-1-release-retry-artifact-guard",
+      "parallel_compatibility_not_declared:WI-1073-v1-0-1-release-retry-artifact-guard",
+      "concurrency_boundary_unknown:WI-1070-v1-0-1-release-successor",
+      "parallel_compatibility_not_declared:WI-1070-v1-0-1-release-successor",
+      "concurrency_boundary_unknown:WI-1071-v1-0-1-release-source-quality-binding",
+      "parallel_compatibility_not_declared:WI-1071-v1-0-1-release-source-quality-binding"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+  },
+  "implementationApproach": {
+    "derivations": [
+      {
+        "confidence": "medium",
+        "evidenceRefs": [
+          "repository-snapshot"
+        ],
+        "inputFactKeys": [
+          "buildSystems"
+        ],
+        "key": "verificationCapability",
+        "rule": "observer.quality_commands_from_detected_build_system",
+        "value": [
+          {
+            "args": [
+              "test",
+              "--workspace"
+            ],
+            "program": "cargo",
+            "state": "detected"
+          }
+        ]
+      }
+    ],
+    "evidenceRefs": [
+      ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity",
+      "repository-snapshot"
+    ],
+    "facts": [
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          "git:HEAD"
+        ],
+        "key": "baseRevision",
+        "origin": "observed",
+        "value": "bcd76ae76f61650a890267f511099c96dc6a47fd"
+      },
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          "repository-snapshot"
+        ],
+        "key": "buildSystems",
+        "origin": "observed",
+        "value": [
+          "Cargo"
+        ]
+      },
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          "repository-snapshot"
+        ],
+        "key": "languages",
+        "origin": "observed",
+        "value": [
+          "Python",
+          "Rust"
+        ]
+      },
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          ".ai/cockpit.toml"
+        ],
+        "key": "repositoryId",
+        "origin": "observed",
+        "value": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b"
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+    "schemaVersion": 2,
+    "unknowns": [],
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+  },
+  "parallelSlots": [],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

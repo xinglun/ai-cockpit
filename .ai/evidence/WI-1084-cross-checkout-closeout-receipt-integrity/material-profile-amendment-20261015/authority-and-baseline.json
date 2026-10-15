@@ -1,0 +1,67 @@
+{
+  "recordedAtUTC": "2026-10-15T11:12:42.847563+00:00",
+  "directUserInstruction": "Raydot 已接受 WI-1084 的最小材料 profile 提案，请通过现有 typed amend 应用，再整理新 Contract、policyReview 和 finish 失败恢复的精确绑定，提交一次真人 retry / confirm_review 请求。保留旧证据，不扩代码范围，并继续检查磁盘余量。",
+  "sourceHead": "8bec4367e1a19517e312ff331cc384da913d7a99",
+  "proposalRawSha256": "7b8d0430168a272a0980d7ab416340bdb18129d6ad9eb0042c20d4e50f16b30a",
+  "priorActiveRecords": [
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+      "sha256": "c010fb6d9794535bf056afa75a97f8a7f1aa0574b8b10bbd1c2df888029342ec",
+      "sizeBytes": 11135
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+      "sha256": "7559bd7d40aec61eaad89c1cff611c70c4d86e04bb344da485f7dc3837993658",
+      "sizeBytes": 15946
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.outcome.json",
+      "sha256": "90169265c2cf2b746c9969197f9e15b8dfabe4375b334bc58d0a11b2cbabd009",
+      "sizeBytes": 13744
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.events.jsonl",
+      "sha256": "6a2d38e7439761e4ac6f82f6d94d854d2d49b4720bf678255d1d1687ffe227e7",
+      "sizeBytes": 571
+    }
+  ],
+  "storage": [
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+      "device": 27,
+      "availableBytes": 2865410048,
+      "availableInodes": 1992244
+    },
+    {
+      "path": "/tmp",
+      "device": 33,
+      "availableBytes": 2899517440,
+      "availableInodes": 2254093
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+      "device": 27,
+      "availableBytes": 2865410048,
+      "availableInodes": 1992244
+    },
+    {
+      "path": "/workspace/.cargo",
+      "device": 27,
+      "availableBytes": 2865410048,
+      "availableInodes": 1992244
+    },
+    {
+      "path": "/workspace/.rustup",
+      "device": 27,
+      "availableBytes": 2865410048,
+      "availableInodes": 1992244
+    },
+    {
+      "path": "/tmp/wi1084-runtime-home-20261015",
+      "device": 33,
+      "availableBytes": 2899517440,
+      "availableInodes": 2254093
+    }
+  ],
+  "nextOperationEstimate": "small typed-amend and read-only request preparation; ample measured byte/inode headroom; no build or full verification started"
+}

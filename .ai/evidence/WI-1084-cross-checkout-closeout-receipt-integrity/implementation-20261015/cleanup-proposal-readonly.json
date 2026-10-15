@@ -1,0 +1,28 @@
+{
+  "observedAtUTC": "2026-10-15T08:43:23.809732+00:00",
+  "proposedOnly": true,
+  "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/incremental",
+  "boundCheckout": "/workspace/ai-cockpit",
+  "checkoutPathSha256": "ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773",
+  "allocatedFileBytes": 661028864,
+  "duAllocatedDirectoryBytes": 659779584,
+  "fileKinds": {
+    ".lock": 14,
+    ".o": 1639,
+    ".rmeta": 11,
+    ".bin": 42
+  },
+  "symlinkCount": 0,
+  "latestFileModifiedAtUTC": "2026-10-13T07:59:43.307345+00:00",
+  "currentActiveTarget": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+  "excludedFromProposedCleanup": [
+    "all source trees",
+    ".ai",
+    "all evidence and uncommitted modifications",
+    "all Runtime executables",
+    "all debug/deps",
+    "all WI1078 resources",
+    "the active WI1084 target"
+  ],
+  "note": "Regenerable Rust incremental artifacts only. No deletion performed; parent explicitly requested read-only inventory first."
+}

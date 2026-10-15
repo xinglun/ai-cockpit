@@ -108,11 +108,31 @@ Runtime 归档的 resource-context record 中存在 provider binding，也必须
 
 `work-item closeout-recover` 接受相同参数，是单独的显式写入操作。它会重新验证 source 和
 destination 状态，只导入已验证的 Work Item evidence，不修改 source bytes，拒绝冲突的 destination
-文件，并最后写入 close decision。检测到竞态或写入失败时，只回滚本次新建且 inode 与 bytes 仍一致
-的文件；已被修改或无法确认 identity 的路径会保留并报告 incomplete。close decision 写入前进程
+文件，并最后写入 close decision。检测到竞态或写入失败时，保留所有已发布的规范路径供检查及同字节重试，
+不通过删除已发布文件回滚。close marker 后的失败报告已提交或状态未知，必须重新读取 status。close decision 写入前进程
 中断时，可能留下精确的 immutable 文件，但 Work Item 仍未关闭，重试可幂等续作。这不是多文件
 filesystem transaction。`allowed: true` 不授予写入权限；还需要针对准确 destination 的最新
 Runtime admission 和授权。
+
+新恢复先写 `.ai/decisions/<id>.cross-checkout-closeout-origin.json`（schemaVersion1），
+再写 `.ai/decisions/<id>.cross-checkout-closeout-recovery.json`（schemaVersion2）。origin 声明
+必需收据的准确路径和版本，绑定 repository/WI、canonical Contract、source snapshot、
+provider/Runtime、原 close 和完整原始 payload 清单；收据单向绑定实际 origin 摘要，没有循环
+哈希或时间过期机制。必需证明缺失、格式错误、错绑或非普通文件时投影为 `archived`、blocking
+和 `close_decision_invalid`；status 退出0不代表关闭成功。支持从同一已验证 source 重试恢复
+缺失证明，不改历史字节。恢复后的 checkout 经校验可作为后续 source；destination 按自己的
+已验证事实生成证明。
+
+普通 close 和无 origin 的旧 v1 收据保留原校验及不可变重试语义，不自动迁移。旧唯一收据若
+早已删除，无法反推来源；全部新来源证明也被删除后没有独立可信锚点，不声称检测任意证据
+丢失。历史 `not_ready` 与 `historical_evidence_not_revalidated` 保持可见，恢复不重跑或提升历史验证。
+
+不可变 close 指定的历史 provider head 继续保持绑定。旧 Retained close 之后，仅按既有
+post-close reconciliation 规则允许追加下一条 Deleted transition：完整链、前驱、序号、
+repository/WI/provider/resource/Contract、历史 Runtime 和实际清理后置条件都必须有效。
+仅该解析验证通过的精确路径可作为原清单之外新增的适用 decision。若后续 source 在采集前已
+存在清理 transition，其新 origin 必须将它纳入完整清单。原证据缺失或改写、分叉、无关新增
+记录或不支持的 head 仍拒绝关闭投影。
 
 MCP 提供对应的只读 `work_item_closeout_recovery_plan` 和显式写入
 `work_item_closeout_recover`。两者都必须提供 `workItemId` 和绝对路径 `sourceRepo`；MCP server

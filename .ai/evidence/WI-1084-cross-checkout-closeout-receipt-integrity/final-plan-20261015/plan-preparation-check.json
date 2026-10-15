@@ -1,0 +1,27 @@
+{
+  "observedAt": "2026-10-15T08:02:41.017892+00:00",
+  "canonicalContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+  "contractRawSha256": "c010fb6d9794535bf056afa75a97f8a7f1aa0574b8b10bbd1c2df888029342ec",
+  "checkpointCount": 1,
+  "scenarioResults": "6 unverified; no evidence",
+  "documentation": [
+    {
+      "page": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+      "rawSha256": "63b8caa315ad27d554e00d408c90e51925570dec0b85c1118a7f3978eb5bb962",
+      "state": "in_progress; no terminal or verification claim"
+    },
+    {
+      "page": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+      "rawSha256": "f36e83f664d65ef3fad0a81521acb1286ea8e72bcdaf55c9d761220162f16aaf",
+      "state": "in_progress; no terminal or verification claim"
+    },
+    {
+      "page": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+      "rawSha256": "6905177a02a479c608157e8601e789c7e2b9b476004adcf7d71407f163f849d8",
+      "state": "in_progress; no terminal or verification claim"
+    }
+  ],
+  "sourceImplementationAndTestsUnchanged": true,
+  "parallelWorkers": 0,
+  "plannedSerialWorkers": 1
+}

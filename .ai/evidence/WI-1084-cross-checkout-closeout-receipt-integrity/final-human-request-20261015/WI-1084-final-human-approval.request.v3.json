@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "requestId": "WI-1084-bound-human-close-ready-merge-cleanup-b1487517-v3-corrected-source",
+  "status": "prepared_for_Raydot_review_not_submitted_not_approved",
+  "recordedAtUTC": "2026-10-15T12:29:07.600476+00:00",
+  "purpose": "One complete, conditional human authorization for this WI ordinary close, bounded closeout delivery, PR1040 Ready/merge and exact original resource cleanup. Preparation creates no approval or Runtime decision.",
+  "repository": {
+    "fullName": "xinglun/ai-cockpit",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "gitCommonDir": "/workspace/ai-cockpit/.git",
+    "defaultRemote": "origin",
+    "defaultBranch": "main",
+    "observedDefaultHead": "bcd76ae76f61650a890267f511099c96dc6a47fd"
+  },
+  "immutableBindings": {
+    "currentStablePRHead": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "pullRequest": 1040,
+    "pullRequestURL": "https://github.com/xinglun/ai-cockpit/pull/1040",
+    "pullRequestState": "open/draft/unmerged at preparation",
+    "contractPath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+    "contractCanonicalDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "contractRawSha256": "sha256:82e182ef7af265afef737f945a9c4cc5f77ef25473a05dbaee83e5a0196eb3c8",
+    "archivePath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.archive.json",
+    "archiveIdentityRawSha256": "sha256:d781bacebb53b33d600e70bd354dec291b5296d4110eb15009741df1b9df781e",
+    "archiveManifestCanonicalDigest": "sha256:60b8672c4bbeb82321db0a7494e9fe1c6884c0e4e824c1f3cc651295064bca18",
+    "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "materialReviewReceiptDigest": "sha256:e25498de06f90e08727d130f7b06e582661fced95d54f1fd31f1e54366d0b24a",
+    "materialReviewRequestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+    "verificationReceiptDigest": "sha256:d175a92572fd3d6e3033633aeb913e1183adcd56fc5ccf099a0713e4901734e4",
+    "verificationRawSha256": "sha256:db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314",
+    "verificationCanonicalDigest": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41",
+    "localVerification": {
+      "actualNodesPassed": 13,
+      "nodesReused": 0,
+      "outerElapsedSeconds": 600.6570720672607,
+      "outerLimitSeconds": 900,
+      "stateAtPreparation": "verified/fresh"
+    },
+    "humanPolicyReviewDigestActuallyApproved": "sha256:e1770338bfc0b1bac50fc0f4b3040c5e58fbc9d82256b3d8c550f897a93c944f",
+    "archivedComputedGreenPreflightDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "preflightMeaning": "The actual human confirmation is bound to e177...; later computed green projection 8798... is a distinct Runtime fact, never substituted as the original human approval.",
+    "preflightState": "green"
+  },
+  "mandatoryGateBeforeAnyHumanAction": {
+    "allMustBeTrue": true,
+    "actualRayApprovalForThisExactRequest": true,
+    "RaydotTechnicalAcceptanceOfThisRequest": true,
+    "exactRun": 38731302895,
+    "workflowURL": "https://github.com/xinglun/ai-cockpit/actions/runs/38731302895",
+    "expectedHead": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "requiredConclusion": "completed/success",
+    "expectedJobs": [
+      "route",
+      "v1-behavioral-oracle",
+      "quality",
+      "windows-runtime"
+    ],
+    "everyAdditionalProviderRequiredCheckMustPass": true,
+    "ciStatusAtPreparation": "actual completed/success,4/4; execution still requires unchanged exact head, all provider-required checks and real approval",
+    "currentArchiveContractSourceProfileEvidenceAndTargetBindingsMustMatch": true,
+    "noFailedOrMissingRequiredCheckMayBeBorrowedOrWaived": true,
+    "RayExplicitlyAcknowledgesLegacyV1ResidualAndOpenIssue": true,
+    "noIssue1004AutomaticClosureWordingOrAction": true,
+    "requiredCurrentHeadCIObservedSatisfied": true
+  },
+  "exactOriginalCleanupTargets": {
+    "remoteBranch": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+    "localBranch": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+    "worktreePath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "worktreeId": "sha256:ce8cc6c55819353e470af25878d70487e2978d449d72d80eba13223963b76e5b",
+    "headAtHumanCloseCapture": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "gitCommonDir": "/workspace/ai-cockpit/.git",
+    "closeCapturesBindingThroughRuntime": true,
+    "resourceContextDeclared": false,
+    "ordinaryCleanupRecordCommand": [
+      "ai-cockpit",
+      "work-item",
+      "ordinary-cleanup",
+      "--repo",
+      "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "--id",
+      "WI-1084-cross-checkout-closeout-receipt-integrity"
+    ]
+  },
+  "boundedPostCloseDelivery": {
+    "newHeadSymbol": "C; must be generated only after actual approval, never guessed",
+    "requiredParent": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "commitCount": "one consolidated close/projection/request/authority evidence commit unless a real rejected operation needs a separate preserved recovery record",
+    "permittedAddedPaths": [
+      ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.close.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/**",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/**"
+    ],
+    "permittedModifiedPaths": [
+      "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+      "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+      "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md",
+      "docs/reference/reference-parity.ja.md"
+    ],
+    "projectionMethod": [
+      "python3",
+      "tests/docs/promote_closed_work_item.py",
+      "--repo",
+      "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+      "--work-item",
+      "WI-1084-cross-checkout-closeout-receipt-integrity"
+    ],
+    "projectionConstraint": "Only the helper-produced terminal fields and this WI parity rows; unrelated page/row/content changes rejected. Request explicitly includes this bounded six-file terminal projection in closeout delivery. No new WI is authorized.",
+    "archiveContractAllPriorEvidenceAndMaterialReceiptImmutable": true,
+    "productionTestScannerGateWorkflowChangesPermitted": false,
+    "afterCreatingC": "Preserve exact file diff and actual SHA; normal push only this branch, full required C checks and Raydot review must pass before Ready/merge. C is accepted only by this bounded derivation; any other change requires renewed review, not an assumed approval.",
+    "currentB148CIIsNotAcceptanceOfC": true,
+    "externalAcceptanceStatementConstraint": "State bounded new origin/v2 acceptance and explicit old-v1 residual; never promote WI1084 delivery to universal legacy protection or issue1004 resolution."
+  },
+  "orderedConditionalExecution": [
+    {
+      "step": 1,
+      "action": "After the mandatory gate, capture actual Ray actor/source/time and record structured approved close in the original dedicated worktree at b148 using this immutable archive and current Runtime admission. Do not prefill a human decision or invent its time.",
+      "nativeHumanDecisionToken": "approved"
+    },
+    {
+      "step": 2,
+      "action": "Verify Runtime-created close and ordinaryCleanupBinding; apply only the six deterministic terminal projections and append exact authority/request/execution evidence. Consolidate as C, push normal branch, verify all required C checks and Raydot acceptance. Preserve original close binding headRevision=b148; do not rewrite it to C."
+    },
+    {
+      "step": 3,
+      "action": "Convert only PR1040 Draft to Ready and merge by normal merge commit using provider expected_head_sha=C; no squash/rebase/force or auto-merge. Stop for changed base/head or incompatible required checks. Obtain the actual merge SHA M from provider, fetch normally, prove merged=true and accepted C is contained in remote main M.",
+      "mergeMethod": "merge",
+      "expectedHead": "actual accepted C, not a guessed SHA"
+    },
+    {
+      "step": 4,
+      "action": "Copy the existing Runtime outside the cleanup target to the exact retained path and verify raw digest/mode/readability; normally create the new detached control at actual fetched M in the same common-dir. Verify HEAD==origin/main==M, clean checkout and applicable main checks. Preserve the old dirty main checkout/local main ref; do not claim global ready_on_base from a detached control."
+    },
+    {
+      "step": 5,
+      "action": "Only after successful merge/default-branch synchronization and admitted exact cleanup conditions: prove the original branch still points to accepted C, original worktree/Git-dir identity matches, all tracked/untracked deliverables are committed/persisted and worktree is clean. Remove only the named remote branch if still present, the named linked worktree with normal git worktree remove, then the named local branch with normal git branch -d. No --force, -D, reset, clean, batch prune or unrelated deletion. If provider already removed the exact remote branch after successful merge, record that actual fact and still perform all local checks."
+    },
+    {
+      "step": 6,
+      "action": "From the new retained control using the retained exact Runtime, call supported ordinary-cleanup only after actual removal. Require observation.branch=removed, observation.worktree=removed, result.state=verified; retain the generated append-only cleanup receipt and real provider/Git outputs."
+    },
+    {
+      "step": 7,
+      "action": "Persist the cleanup receipt through the narrow default-branch governance append described below, verify remote bytes and actual configured post-merge checks, query final Runtime Outcome. Keep the new control and retained Runtime/evidence as recovery resources; no authority to delete them."
+    }
+  ],
+  "newRetainedExecutionResources": {
+    "createOnlyAfterActualApproval": true,
+    "controlWorktreePath": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+    "controlInitialRevision": "actual successful PR merge SHA M on origin/main",
+    "controlMode": "detached; no reuse or mutation of protected old controls",
+    "gitCommonDir": "/workspace/ai-cockpit/.git",
+    "retainedRuntimeDirectory": "/tmp/wi1084-closeout-execution-retained-b1487517",
+    "retainedRuntimePath": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "runtimeSourcePath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/debug/ai-cockpit",
+    "requiredRuntimeRawSha256": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "runtimeBytes": 52094536,
+    "noNewBuildOrPermissionConfigurationChange": true,
+    "retainRequestDirectory": "/workspace/wi1084-final-approval-b1487517"
+  },
+  "postCleanupReceiptPersistenceRequestedForRaydotReview": {
+    "requestedAuthority": "One ordinary fast-forward governance-only append commit R from the new control to origin/main, only if existing branch protection/permissions allow it without bypass; explicitly part of the single requested human scope.",
+    "requiredParent": "actual verified M; remote main must still equal M",
+    "allowedAddedPaths": [
+      ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.cleanup.<Runtime-sequence>.<Runtime-digest>.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/**"
+    ],
+    "allowedModifiedPaths": [],
+    "operation": "normal git push of R:refs/heads/main, never force, no branch-protection override, no direct main source change",
+    "checks": "R diff must be A-only regular own-WI evidence, with Runtime receipt identity/sequence verified; require configured checks/main CI and remote byte readback.",
+    "ifNormalAppendIsForbiddenOrMainMoved": "Stop, retain the actual receipt in the retained control/request/evidence locations and report exact policy/conflict. Do not create another PR/branch/WI or broaden permission automatically. Raydot must choose a supported persistence route before human submission if this conditional path is unacceptable."
+  },
+  "preserve": {
+    "allOtherWorktrees": [
+      {
+        "path": "/workspace/ai-cockpit",
+        "head": "707ba00c99b96b060df3b8ba997e1aad03431ea1",
+        "disposition": "retain exact checkout; shared common-dir persists"
+      },
+      {
+        "path": "/tmp/wi1078-main-bcd76ae7-20261015/source",
+        "head": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+        "disposition": "retain"
+      },
+      {
+        "path": "/workspace/ai-cockpit-control",
+        "head": "508a0a0f47dcbb957aacb8b03220f6234a87549d",
+        "disposition": "retain dirty main checkout and its local branch untouched"
+      },
+      {
+        "path": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+        "head": "62427bce7e332d0e3a5741fa405ad62bac3718dc",
+        "disposition": "retain"
+      },
+      {
+        "path": "/workspace/ai-cockpit-main37cc-review",
+        "head": "feafd0fe72dc44c41107a85840f93bffc060a5ca",
+        "disposition": "retain dirty code checkout"
+      }
+    ],
+    "dirtyOriginalBytes": [
+      {
+        "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+        "rawSha256": "sha256:ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916"
+      },
+      {
+        "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+        "rawSha256": "sha256:f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5"
+      }
+    ],
+    "allWI1078ResourcesAndEvidence": true,
+    "allPriorArchivesContractsReceiptsREDsFailuresHistory": true,
+    "allHistoricalRecoveryRefsAndLibraryPackages": true,
+    "allOtherBranchesAndUnrelatedResources": true,
+    "oldEnvironmentAndLocalSentinel": true,
+    "newRetainedControlRuntimeAndRequest": true,
+    "prior2112FileCleanupDoesNotGrantNewCacheDeletion": true
+  },
+  "stopConditions": [
+    "Any different Contract/archive/source/profile/request/material/evidence identity or new Finding",
+    "Any missing, failed, cancelled or stale required CI or Raydot acceptance",
+    "Unexpected PR head/base/merge topology or unsupported merge method",
+    "Dirty or different branch/worktree/Git-dir target, unpreserved deliverables or normal deletion refusal",
+    "Insufficient byte/inode margin, missing retained Runtime or digest mismatch",
+    "Need for a source/gate/assertion change, forced Git action, system/security/permission change, new WI/PR/branch, or modification of protected resources",
+    "Required external permission/approval or an unsupported receipt persistence route; preserve evidence and report exact blocker",
+    "Automatic-closing linkage/wording or an attempt to alter issue1004 state",
+    "Any claim that old unanchored v1 deletion is protected, or any unsupported origin fabrication/migration"
+  ],
+  "humanDecisionTemplateNotAReceipt": {
+    "decision": "approved",
+    "actor": null,
+    "authoritySource": null,
+    "reason": "Close only the exact approved WI1084 archive, then perform only the bounded Ready/merge/original-resource cleanup and proof-persistence sequence after all gates. WI-1084从最初Contract就限定新origin/v2完整性范围并保留旧v1歧义。本次关闭仅认可该既定范围；旧无origin v1删除唯一receipt仍closed/blocking=false，完整旧v1原地重试仍closeout_recovery_receipt_conflict。此次不宣称旧v1整体问题解决，不批准迁移或伪造origin，#1004保持OPEN。Mac验收为固定b148候选的外部现场回报；Deleted摘要已由追加来源更正为完整64hex，不再要求补正，云端未独立读取Mac本地原始文件。",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.archive.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/closeout-binding-summary.json",
+      "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813",
+      "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191899624"
+    ],
+    "policyRefs": [
+      ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+    ],
+    "decidedAt": null,
+    "resumeCondition": "All exact gates/bindings remain satisfied; otherwise stop without inferring expanded approval."
+  },
+  "storageAtPreparation": {
+    "filesystems": [
+      {
+        "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+        "availableBytes": 2860142592,
+        "availableInodes": 1991929
+      },
+      {
+        "path": "/tmp",
+        "availableBytes": 2890297344,
+        "availableInodes": 2252151
+      },
+      {
+        "path": "/workspace/.cargo",
+        "availableBytes": 2860142592,
+        "availableInodes": 1991929
+      },
+      {
+        "path": "/workspace/.rustup",
+        "availableBytes": 2860142592,
+        "availableInodes": 1991929
+      }
+    ],
+    "trackedTreeFileCount": 17736,
+    "trackedTreeBytes": 421106359,
+    "newControlConservativeCheckoutBudgetBytes": 909321582,
+    "retainedRuntimeAndSmallEvidenceTemporaryBudgetBytes": 250000000,
+    "recheckBeforeEveryWriteBuildOrCleanup": true,
+    "monitoringGrantsNoExtraDeletionAuthority": true
+  },
+  "notExecuted": [
+    "human close",
+    "post-close projection",
+    "Draft-to-Ready",
+    "merge",
+    "branch/worktree deletion",
+    "ordinary-cleanup receipt",
+    "new control checkout",
+    "retained Runtime copy",
+    "main governance append",
+    "issue1004 closure",
+    "legacy v1 migration",
+    "origin fabrication",
+    "new WI or implementation expansion"
+  ],
+  "humanApprovalAlreadyRecorded": false,
+  "revision": 3,
+  "supersedesPreparedDraftOnly": {
+    "path": "WI-1084-final-human-approval.request.v2.json",
+    "rawSha256": "sha256:2ea7583dd79f4efe35d526645bf32a18d63894b0a42ec1691f7d658b11c3ffbe",
+    "previousDraftPreserved": true,
+    "previousDraftWasNeverHumanApproval": true
+  },
+  "externalMacAcceptance": {
+    "sourceURL": "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813",
+    "sourceCommentId": 6191800813,
+    "commentSnapshotPath": "/workspace/wi1084-final-approval-b1487517/mac-acceptance-comment-6191800813.json",
+    "commentSnapshotRawSha256": "sha256:9c4783643fe40808205958fd60c9d15f8cae8e4b4f98647edab91a8226d75cd2",
+    "reportingAccount": "RayIori",
+    "head": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "platform": "Mac arm64",
+    "reportedRuntimeRawSha256": "sha256:d5017faf8a84d5d11fc0a479f1cbcb14aa88c18b19e3d614d2fbb74000429c43",
+    "reportedBoundedV2Results": [
+      "new origin/v2 recovery passed",
+      "idempotent retry changedPaths=[]",
+      "receipt-only deletion/tamper project archived/blocking=true",
+      "supported restore recovers closed",
+      "real Retained-to-Deleted sequence verified as historical_low",
+      "repository closeout integration 6/6",
+      "CLI closeout integration 6/6"
+    ],
+    "originalMacFilesReadByCloud": false,
+    "localMacPathsAreNotAssumedPresentInCloud": true,
+    "reportedLegacyV1ReceiptRawSha256": "sha256:620206b501eaf315cc0512eaa14d177b654c48b962e303921690106151afcd0a",
+    "reportedLegacyV1LossResult": "closed/blocking=false after sole receipt deletion without origin",
+    "reportedIntactV1RetryResult": "exit1 closeout_recovery_receipt_conflict",
+    "sourceDigestGap": {
+      "reportedSeq2DeletedDigestVerbatim": "84afc073492b30366068e15f74a86060696915076b1a351115916804bac",
+      "hexCharacters": 59,
+      "validCompleteSha256": false,
+      "handling": "Original59hex text retained as history; complete64hex correction recorded separately. No further correction requested; not a claim of cloud reading Mac bytes.",
+      "state": "resolved_by_explicit_source_correction_6191899624"
+    },
+    "sourceCorrection": {
+      "sourceURL": "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191899624",
+      "snapshotPath": "/workspace/wi1084-final-approval-b1487517/mac-source-correction-6191899624.json",
+      "snapshotRawSha256": "sha256:6f9ab825b68c704fe5151257e549dd016b64bff0d29e8870975594bfda533918",
+      "correctedSeq2DeletedFileSha256": "sha256:84afc073492b30366068e15f74a860606969150ae15076b1a351115916804bac",
+      "hexCharacters": 64,
+      "reportedManifestEntryRawSha256": "sha256:237dc82103030c0f65127d5c9da178daca9a6c6b7eb02cea590bf06dc1cc463e",
+      "originalCommentAndSnapshotsPreserved": true,
+      "noFurtherCorrectionRequested": true,
+      "cloudVerifiedFormatAndSourceCommentOnly": true
+    }
+  },
+  "explicitResidualAcknowledgementRequired": "WI-1084从最初Contract就限定新origin/v2完整性范围并保留旧v1歧义。本次关闭仅认可该既定范围；旧无origin v1删除唯一receipt仍closed/blocking=false，完整旧v1原地重试仍closeout_recovery_receipt_conflict。此次不宣称旧v1整体问题解决，不批准迁移或伪造origin，#1004保持OPEN。Mac验收为固定b148候选的外部现场回报；Deleted摘要已由追加来源更正为完整64hex，不再要求补正，云端未独立读取Mac本地原始文件。",
+  "trackingIssue1004": {
+    "url": "https://github.com/xinglun/ai-cockpit/issues/1004",
+    "observedState": "open",
+    "mustRemainOpen": true,
+    "closeOrAutoCloseAuthorized": false,
+    "automaticClosingWordingPermittedInPRCommitMergeMetadata": false,
+    "prAuditPath": "/workspace/wi1084-final-approval-b1487517/pr-issue1004-wording-audit.json",
+    "prAuditRawSha256": "sha256:0dd18fad79b2bce8c342fabd9dc48de5b10dbe3f8da6682e762cc22783cbfaf1",
+    "broaderLegacyFollowupPlan": "/workspace/wi1084-final-approval-b1487517/legacy-v1-followup-proposal.v2.md",
+    "broaderLegacyFollowupPlanRawSha256": "sha256:244ee60cb2d077a06458555fa442e77ed0c8a6731d0a174247952d852f54a555",
+    "implementationMigrationNewWIAuthorized": false
+  },
+  "originalContractLegacyBoundary": {
+    "sourceCommit": "994a065a29b6e0d48c9aa423242dd1dbf18fd602",
+    "sourcePath": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+    "rawSha256": "sha256:c010fb6d9794535bf056afa75a97f8a7f1aa0574b8b10bbd1c2df888029342ec",
+    "canonicalDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+    "legacyAcceptanceCriterionVerbatim": "Ordinary current closes and readable legacy historical closes remain compatible. Existing v1 recovery records are retained without silent migration; any legacy ambiguity is reported explicitly rather than fabricated as detectable.",
+    "interpretation": "Legacy v1 ambiguity and no silent migration were in the first Contract; this follow-up observation does not expand WI1084."
+  },
+  "finalCurrentHeadCIEvidence": {
+    "summaryPath": "/workspace/wi1084-final-approval-b1487517/final-ci-38731302895-summary.json",
+    "summaryRawSha256": "sha256:b3b983e408126d6e54780244cbcb6097792fc11b6f183d87e4f58d24b5e51682",
+    "runId": 38731302895,
+    "head": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "actualState": "completed/success",
+    "jobs": [
+      {
+        "id": 116410073489,
+        "name": "route",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 116411866299,
+        "name": "quality",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 116411866337,
+        "name": "v1-behavioral-oracle",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "id": 116411866708,
+        "name": "windows-runtime",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "quality": {
+      "uniqueGates": 42,
+      "passed": 40,
+      "not_applicable": 2,
+      "failed": 0,
+      "notApplicable": [
+        "docs_closed_work_item_promotion",
+        "docs_work_item_status_consistency"
+      ]
+    },
+    "windows": {
+      "libraryPassed": 114,
+      "libraryFailed": 0,
+      "libraryElapsedSeconds": 688.29,
+      "previousSecondHopRegressionPassed": true
+    },
+    "sourceMetadataAndFullDecodedLogsRetainedOutsideRepository": true,
+    "doesNotAuthorizeHumanActionsOrReplaceFutureCChecks": true
+  },
+  "communicationBoundary": {
+    "aiCockpitCoordinator": "Raydot",
+    "SentinelCommunication": "Ray relays; cloud must not directly operate or contact local Sentinel",
+    "legacyFollowup": "read-only requirement proposal only; no new implementation, migration or WI"
+  }
+}

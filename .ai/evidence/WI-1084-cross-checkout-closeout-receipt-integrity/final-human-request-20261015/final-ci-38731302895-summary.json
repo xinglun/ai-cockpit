@@ -1,0 +1,80 @@
+{
+  "recordedAtUTC": "2026-10-15T12:27:58.874501+00:00",
+  "head": "b148751722994816d5ed5fc49edf75b72580a82c",
+  "runId": 38731302895,
+  "state": "completed/success",
+  "jobs": [
+    {
+      "id": 116410073489,
+      "name": "route",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 116411866299,
+      "name": "quality",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 116411866337,
+      "name": "v1-behavioral-oracle",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 116411866708,
+      "name": "windows-runtime",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "quality": {
+    "uniqueGates": 42,
+    "passed": 40,
+    "not_applicable": 2,
+    "failed": 0,
+    "notApplicable": [
+      "docs_closed_work_item_promotion",
+      "docs_work_item_status_consistency"
+    ]
+  },
+  "windows": {
+    "libraryPassed": 114,
+    "libraryFailed": 0,
+    "libraryElapsedSeconds": 688.29,
+    "previousSecondHopRegressionPassed": true
+  },
+  "oldHeadTimingNotReused": true,
+  "noManualRerun": true,
+  "evidenceFiles": [
+    {
+      "path": "/workspace/wi1084-final-approval-b1487517/final-ci-38731302895-metadata.json",
+      "rawSha256": "sha256:0c238d2b87e7c9b536b79283b451b7bb208ae3368855c5badec58bf3bc25a5f1"
+    },
+    {
+      "path": "/workspace/wi1084-final-approval-b1487517/final-ci-job-116411866299.json",
+      "rawSha256": "sha256:a60039c71644e85c63214b7b4261db3a61689a2954fab1a611d5d348d4213c65"
+    },
+    {
+      "path": "/workspace/wi1084-final-approval-b1487517/final-ci-job-116411866299.log",
+      "rawSha256": "sha256:73269d35fc391c6e2e1d0f2d5946617bdf08f4cebd52758ef42d0ac25888d73b"
+    },
+    {
+      "path": "/workspace/wi1084-final-approval-b1487517/final-ci-job-116411866337.json",
+      "rawSha256": "sha256:95fb917554d8f6ba7e4e91eb267db53b9ba57f211cb3432e301a8d81ba4806fb"
+    },
+    {
+      "path": "/workspace/wi1084-final-approval-b1487517/final-ci-job-116411866337.log",
+      "rawSha256": "sha256:e36167750f47e83261405f9ffd09e6727e1402f0c7dab69ba65f2797c5019d3e"
+    },
+    {
+      "path": "/workspace/wi1084-final-approval-b1487517/final-ci-job-116411866708.json",
+      "rawSha256": "sha256:23b3e3c8b47eda2bf68aa343e931c48bcdeaffdcadd46ff0b86503627e901bd5"
+    },
+    {
+      "path": "/workspace/wi1084-final-approval-b1487517/final-ci-job-116411866708.log",
+      "rawSha256": "sha256:47a5fc77549e378178685446d1787116e24c6831025ddce26f598c23daff1f5c"
+    }
+  ]
+}

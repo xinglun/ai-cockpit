@@ -143,14 +143,43 @@ still be validated and reported.
 `work-item closeout-recover` accepts the same arguments and is the explicit
 write operation. It revalidates source and destination state, imports only the
 validated Work Item files, preserves source bytes, rejects conflicting
-destination files, and installs the close decision last. A detected race or
-write failure rolls back only files newly installed by this attempt whose
-inode and bytes still match; changed or unidentifiable paths are preserved and
-reported as incomplete. A process interruption before the close decision may
+destination files, and installs the close decision last. A detected race or write failure preserves every published canonical path
+for inspection and same-byte retry; no published file is unlinked as rollback.
+A postcommit failure reports committed or uncertain state and requires a fresh
+status read. A process interruption before the close decision may
 leave exact immutable files for recovery, but the item remains unclosed and a
 retry is idempotent. This is not a multi-file filesystem transaction.
 Neither `allowed: true` nor a successful plan grants write authority; require
 fresh Runtime admission and authorization for the exact destination.
+
+New recovery writes `.ai/decisions/<id>.cross-checkout-closeout-origin.json`
+(schemaVersion1), then `.ai/decisions/<id>.cross-checkout-closeout-recovery.json`
+(schemaVersion2). Origin requires that exact receipt path/version and binds
+repository/WI, canonical Contract, source snapshot, provider/Runtime, original
+close and the complete raw payload inventory. The receipt binds the persisted
+origin digest without a cyclic hash or time-based expiry. Missing, malformed,
+mismatched or non-regular required proof projects `archived`, blocking and
+`close_decision_invalid`; status exit0 alone does not prove closure. Supported
+same-source retry restores missing proof without changing historical bytes.
+A validated recovered checkout can be a later source; the destination creates
+its own proof from its validated facts.
+
+Ordinary closes and existing v1 recovery receipts without origin retain prior
+validation and immutable retry semantics, without migration. An already removed
+old sole receipt is not inferable. Removing all new provenance also leaves no
+independent trusted anchor; arbitrary evidence-loss detection is not claimed.
+Historical `not_ready` and `historical_evidence_not_revalidated` remain visible;
+recovery does not rerun or promote historical verification.
+
+The exact historical provider head named by the immutable close remains bound.
+After an older Retained close, only the existing post-close reconciliation lane
+may add the next Deleted transition: full chain, predecessor, sequence,
+repository/WI/provider/resource/Contract, historical Runtime and actual cleanup
+postconditions must validate. Its exact resolved path is the only extra
+applicable decision allowed beyond the original inventory. If cleanup already
+existed when a later source was captured, that source's new origin must include
+it in its complete inventory. Missing/changed original evidence, forks,
+unrelated additions or unsupported heads still reject closed.
 
 MCP provides the matching `work_item_closeout_recovery_plan` (read-only) and
 `work_item_closeout_recover` (explicit write) tools. Both require

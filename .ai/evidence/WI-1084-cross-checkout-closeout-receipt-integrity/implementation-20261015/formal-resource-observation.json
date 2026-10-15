@@ -1,0 +1,9 @@
+{
+  "observedAt": "2026-10-15T08:37:21.640898+00:00",
+  "diskFreeBytes": 1620541440,
+  "/sys/fs/cgroup/pids.current": "16858\n",
+  "/sys/fs/cgroup/pids.max": "max\n",
+  "/proc/sys/kernel/pid_max": "4194304\n",
+  "/proc/sys/kernel/threads-max": "143911\n",
+  "/proc/self/limits": "Limit                     Soft Limit           Hard Limit           Units     \nMax cpu time              unlimited            unlimited            seconds   \nMax file size             unlimited            unlimited            bytes     \nMax data size             unlimited            unlimited            bytes     \nMax stack size            8388608              unlimited            bytes     \nMax core file size        0                    unlimited            bytes     \nMax resident set          unlimited            unlimited            bytes     \nMax processes             71955                71955                processes \nMax open files            16384                16384                files     \nMax locked memory         8388608              8388608              bytes     \nMax address space         unlimited            unlimited            bytes     \nMax file locks            unlimited            unlimited            locks     \nMax pending signals       71955                71955                signals   \nMax msgqueue size         819200               819200               bytes     \nMax nice priority         0                    0                    \nMax realtime priority     0                    0                    \nMax realtime timeout      unlimited            unlimited            us        \n"
+}

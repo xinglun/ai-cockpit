@@ -1,0 +1,714 @@
+[
+  {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "sequence": 1,
+    "changeId": "legacy-1293fa9ec1f73c0ee5f9ffde0fb9669df23eebcbf38b297315f9757b14b97e80",
+    "requestDigest": "sha256:bcd6be0ae09f4286e0b804e519f7637fe5a080da85a8f83d428690a9489b1459",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:1293fa9ec1f73c0ee5f9ffde0fb9669df23eebcbf38b297315f9757b14b97e80",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658",
+          "https://github.com/xinglun/ai-cockpit/pull/1006"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658",
+          "https://github.com/xinglun/ai-cockpit/pull/1006"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658",
+          "https://github.com/xinglun/ai-cockpit/pull/1006",
+          "Raydot-delegation:01a11856-d6ba-72e0-9aab-25a34cd2f018:bounded-WI-1004-fix-20261015:user-authorized-independent-WI-and-draft-PR"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:7e659431f2e474c4f18657a024307f579a97f5fdda4c1892bf776b732e5290e0",
+    "newContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+    "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+    "environmentObservationDigest": "sha256:95f66d391ee26318d4f13d0ccae581d00266203ef518e648e1f505b79bbd6c38",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:8d08ffd78637164c69f937bf36fcbaa365077e4d691aa58d2110715940ad9d28",
+    "recordedAt": "2026-10-15T07:29:42Z"
+  },
+  {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "sequence": 2,
+    "changeId": "wi1084-review-draft-boundaries-20261015",
+    "requestDigest": "sha256:7a7110f6461b24311be5c2e0c2c0763124d5f14b6341e7deffc253e21efd4d93",
+    "reason": "Complete the user-authorized draft Contract for Raydot review: required tri-language documentation projection paths, exact unsplit exclusions, explicit isolated serial worker boundary and preserved verification strength. No source implementation or human review is recorded.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [
+          "crates/cockpit-repository/src/historical_compatibility.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/closeout_recovery.rs",
+          "crates/cockpit-cli/tests/closeout_recovery.rs",
+          "crates/cockpit-mcp/tests/closeout_recovery.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/reference/commands.ja.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+          ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+          ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+          ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+          ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/historical_compatibility.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/closeout_recovery.rs",
+          "crates/cockpit-cli/tests/closeout_recovery.rs",
+          "crates/cockpit-mcp/tests/closeout_recovery.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/reference/commands.ja.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+          ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+          ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+          ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+          ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md"
+        ]
+      },
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [
+          "Sentinel business code or original acceptance checkout",
+          "WI-1078 resources",
+          " Contract",
+          " archive",
+          " evidence",
+          " or closure",
+          "Task9",
+          " new time TTL requirements",
+          " release publication",
+          " mechanism refactoring",
+          "Human close decisions",
+          " PR Ready/merge",
+          " branch/worktree deletion",
+          "Rewriting historical close/archive/Contract/verification bytes or claiming historical verification was rerun"
+        ],
+        "newValue": [
+          "Sentinel business code or original acceptance checkout",
+          "WI-1078 resources, Contract, archive, evidence, or closure",
+          "Task9, new time TTL requirements, release publication, mechanism refactoring",
+          "Human close decisions, PR Ready/merge, branch/worktree deletion",
+          "Rewriting historical close/archive/Contract/verification bytes or claiming historical verification was rerun"
+        ]
+      },
+      {
+        "path": "/concurrencyBoundary",
+        "operation": "replace",
+        "oldValue": null,
+        "newValue": {
+          "generatedEvidencePaths": [
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+            ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*"
+          ],
+          "implementationPaths": [
+            "crates/cockpit-repository/src/historical_compatibility.rs",
+            "crates/cockpit-repository/src/lifecycle.rs",
+            "crates/cockpit-repository/tests/closeout_recovery.rs",
+            "crates/cockpit-cli/tests/closeout_recovery.rs",
+            "crates/cockpit-mcp/tests/closeout_recovery.rs",
+            "docs/reference/commands.md",
+            "docs/reference/commands.zh-CN.md",
+            "docs/reference/commands.ja.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md"
+          ],
+          "maxWorkers": 1,
+          "reason": "One implementation/test worker for WI-1084 with an isolated target; shared documentation projections and provider integration are serialized. WI-1078 Retained review has no shared resource writes. Other current active declarations must pass fresh compatibility; a missing declaration is not bypassed.",
+          "schemaVersion": 1,
+          "serializedProjectionPaths": [
+            "docs/reference/reference-parity.md",
+            "docs/reference/reference-parity.zh-CN.md",
+            "docs/reference/reference-parity.ja.md"
+          ],
+          "verificationOutputPaths": [
+            "target/wi1084-closeout-receipt-integrity/**"
+          ]
+        }
+      },
+      {
+        "path": "/requiredEvidenceClasses",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "verification"
+        ]
+      },
+      {
+        "path": "/problemStatement",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": "Issue #1004 comment 6186749658 reports that deleting only the recovery receipt leaves a recovered historical close projected as closed and non-blocking on source bcd76ae76f61650a890267f511099c96dc6a47fd. Static tracing found NotFound accepted in recovered_closeout_files_valid and no independent persistent provenance in the exact-copy close commit point; a fixture RED still must prove the full path."
+      }
+    ],
+    "previousContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+    "newContractDigest": "sha256:050f46229610a43f64ba4f56265f653e4f72cc0a4153368dd515577511b92ce4",
+    "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+    "environmentObservationDigest": "sha256:95f66d391ee26318d4f13d0ccae581d00266203ef518e648e1f505b79bbd6c38",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/concurrencyBoundary",
+      "/outOfScope",
+      "/requiredEvidenceClasses",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:8d08ffd78637164c69f937bf36fcbaa365077e4d691aa58d2110715940ad9d28",
+    "journalDigest": "sha256:e949b7544548af9af4311634f3945ba8d1ccc762daf7556c7de74d360fe4174d",
+    "recordedAt": "2026-10-15T07:31:32Z"
+  },
+  {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "sequence": 3,
+    "changeId": "wi1084-normalize-boundary-and-red-scenarios-20261015",
+    "requestDigest": "sha256:d204dab590e9639b62ba5a636574ce3d6c7df5c2b360d02f8e0c7b580a067a0e",
+    "reason": "Declare supported exact/subtree output paths and the requested unverified RED/compatibility scenarios before Raydot review. Preserve the rejected compatibility observation and earlier amendment as history.",
+    "changedValues": [
+      {
+        "path": "/concurrencyBoundary",
+        "operation": "replace",
+        "oldValue": {
+          "generatedEvidencePaths": [
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+            ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*"
+          ],
+          "implementationPaths": [
+            "crates/cockpit-repository/src/historical_compatibility.rs",
+            "crates/cockpit-repository/src/lifecycle.rs",
+            "crates/cockpit-repository/tests/closeout_recovery.rs",
+            "crates/cockpit-cli/tests/closeout_recovery.rs",
+            "crates/cockpit-mcp/tests/closeout_recovery.rs",
+            "docs/reference/commands.md",
+            "docs/reference/commands.zh-CN.md",
+            "docs/reference/commands.ja.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md"
+          ],
+          "maxWorkers": 1,
+          "reason": "One implementation/test worker for WI-1084 with an isolated target; shared documentation projections and provider integration are serialized. WI-1078 Retained review has no shared resource writes. Other current active declarations must pass fresh compatibility; a missing declaration is not bypassed.",
+          "schemaVersion": 1,
+          "serializedProjectionPaths": [
+            "docs/reference/reference-parity.md",
+            "docs/reference/reference-parity.zh-CN.md",
+            "docs/reference/reference-parity.ja.md"
+          ],
+          "verificationOutputPaths": [
+            "target/wi1084-closeout-receipt-integrity/**"
+          ]
+        },
+        "newValue": {
+          "generatedEvidencePaths": [
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/**",
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.contract-amendments/**",
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.intelligence.json",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.approach.json",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.outcome.json",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.events.jsonl",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.json",
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.md",
+            ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.preflight-review.json"
+          ],
+          "implementationPaths": [
+            "crates/cockpit-repository/src/historical_compatibility.rs",
+            "crates/cockpit-repository/src/lifecycle.rs",
+            "crates/cockpit-repository/tests/closeout_recovery.rs",
+            "crates/cockpit-cli/tests/closeout_recovery.rs",
+            "crates/cockpit-mcp/tests/closeout_recovery.rs",
+            "docs/reference/commands.md",
+            "docs/reference/commands.zh-CN.md",
+            "docs/reference/commands.ja.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+            "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md"
+          ],
+          "maxWorkers": 1,
+          "reason": "One implementation/test worker for WI-1084 with an isolated target; shared documentation projections and provider integration are serialized. WI-1078 Retained review has no shared resource writes. Other current active declarations must pass fresh compatibility; a missing declaration is not bypassed.",
+          "schemaVersion": 1,
+          "serializedProjectionPaths": [
+            "docs/reference/reference-parity.md",
+            "docs/reference/reference-parity.zh-CN.md",
+            "docs/reference/reference-parity.ja.md"
+          ],
+          "verificationOutputPaths": [
+            "target/wi1084-closeout-receipt-integrity/**"
+          ]
+        }
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+            "required": true,
+            "scenario": "valid_recovery_and_retry",
+            "status": "unverified",
+            "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+            "required": true,
+            "scenario": "valid_recovery_and_retry",
+            "status": "unverified",
+            "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+            "required": true,
+            "scenario": "valid_recovery_and_retry",
+            "status": "unverified",
+            "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
+            "required": true,
+            "scenario": "ordinary_and_historical_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+            "required": true,
+            "scenario": "valid_recovery_and_retry",
+            "status": "unverified",
+            "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
+            "required": true,
+            "scenario": "ordinary_and_historical_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+            "required": true,
+            "scenario": "valid_recovery_and_retry",
+            "status": "unverified",
+            "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
+            "required": true,
+            "scenario": "ordinary_and_historical_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Historical not_ready and historical_evidence_not_revalidated persist; no historical tests are represented as rerun.",
+            "required": true,
+            "scenario": "historical_verification_fidelity",
+            "status": "unverified",
+            "verificationPlan": "Use distinct historical and current Runtime identities through repository, CLI and MCP recovery/status."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+            "required": true,
+            "scenario": "valid_recovery_and_retry",
+            "status": "unverified",
+            "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
+            "required": true,
+            "scenario": "ordinary_and_historical_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Historical not_ready and historical_evidence_not_revalidated persist; no historical tests are represented as rerun.",
+            "required": true,
+            "scenario": "historical_verification_fidelity",
+            "status": "unverified",
+            "verificationPlan": "Use distinct historical and current Runtime identities through repository, CLI and MCP recovery/status."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+            "required": true,
+            "scenario": "receipt_only_deletion",
+            "status": "unverified",
+            "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+            "required": true,
+            "scenario": "bound_recovery_integrity",
+            "status": "unverified",
+            "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+            "required": true,
+            "scenario": "valid_recovery_and_retry",
+            "status": "unverified",
+            "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
+            "required": true,
+            "scenario": "ordinary_and_historical_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Historical not_ready and historical_evidence_not_revalidated persist; no historical tests are represented as rerun.",
+            "required": true,
+            "scenario": "historical_verification_fidelity",
+            "status": "unverified",
+            "verificationPlan": "Use distinct historical and current Runtime identities through repository, CLI and MCP recovery/status."
+          },
+          {
+            "evidence": [],
+            "expectedOutcome": "Original close/Contract/archive/verification/payload bytes remain exact; conflicting published paths are preserved.",
+            "required": true,
+            "scenario": "published_path_preservation",
+            "status": "unverified",
+            "verificationPlan": "Run existing no-destructive-rollback, racing-target, source immutability and interruption cases."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:050f46229610a43f64ba4f56265f653e4f72cc0a4153368dd515577511b92ce4",
+    "newContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+    "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+    "environmentObservationDigest": "sha256:95f66d391ee26318d4f13d0ccae581d00266203ef518e648e1f505b79bbd6c38",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/concurrencyBoundary",
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:e949b7544548af9af4311634f3945ba8d1ccc762daf7556c7de74d360fe4174d",
+    "journalDigest": "sha256:689e4c31b100d3d8ba4b7d2730673e9c87854a1888f3d038d39e8b8a750297c9",
+    "recordedAt": "2026-10-15T07:32:45Z"
+  },
+  {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "sequence": 4,
+    "changeId": "wi1084-explicit-material-review-opt-in-proposal-20261015",
+    "requestDigest": "sha256:ad579700c13a8fc71d2c5546b8317c7638577cc79fdaf2696501931b7342dd8b",
+    "reason": "Proposed only: enable the supported self-declared review of the exact readable committed Rust syntax Unknown after independent technical review and real verification. Preserve the raw Unknown and all bindings. Required authority and fresh policy review must precede recording a material decision.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1084 opt-in proposal requires approval before application",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:Raydot",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+    "newContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+    "environmentObservationDigest": "sha256:b40c62572f9f9cfe8d347f09f59588f1fe189c022d38f4826c13ce01d23c4195",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:689e4c31b100d3d8ba4b7d2730673e9c87854a1888f3d038d39e8b8a750297c9",
+    "journalDigest": "sha256:23503ecd09559ac30da58efb7f1285c5ec503a4717c5eb7832827e7035020473",
+    "recordedAt": "2026-10-15T11:12:44Z"
+  }
+]

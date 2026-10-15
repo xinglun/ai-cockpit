@@ -1,0 +1,6 @@
+
+running 1 test
+test recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.91s
+

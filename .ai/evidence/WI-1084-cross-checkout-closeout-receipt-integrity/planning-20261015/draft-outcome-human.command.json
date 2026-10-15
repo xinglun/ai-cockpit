@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "work-item",
+    "outcome",
+    "--repo",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "--id",
+    "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "--view",
+    "full",
+    "--language",
+    "zh-CN",
+    "--display-timezone",
+    "Asia/Tokyo"
+  ],
+  "exitCode": 0,
+  "observedAt": "2026-10-15T07:37:45.683793+00:00"
+}

@@ -1,0 +1,8 @@
+Usage: ai-cockpit archive [OPTIONS] --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>          
+      --id <ID>              
+      --json                 Emit valid JSON; the full Outcome remains in outcomeDelivery while the separate human handoff on stderr is suppressed
+      --language <LANGUAGE>  Conversation language for the archived human Outcome delivery [possible values: en, zh, zh-CN, ja]
+  -h, --help                 Print help

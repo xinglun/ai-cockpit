@@ -1,0 +1,161 @@
+{
+  "head": "a4680c25f7ead5c30fefb0864056d761fe6afaae",
+  "base": "405b525a",
+  "checkedAtUTC": "2026-10-15T09:25:07.186857+00:00",
+  "connector": "authorized GitHub App",
+  "authenticatedLogin": "xinglun",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-retained-deleted.execution.json",
+      "sizeBytes": 1629,
+      "sha256": "edf5852171e9edb8031ab1e73d78b285461109185b3c04af238bc1a224f12786",
+      "gitBlobSha": "97525fafa1cde7cdb5cf74ff282ebbfb1f99980c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-retained-deleted.stderr",
+      "sizeBytes": 396,
+      "sha256": "49e27b8246b8666006f7fc9289dfbb059ac33bd7773e2c578ee64e6004d81601",
+      "gitBlobSha": "0e75d35594be0a140c97e4f0f5416e69808a3b93"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-retained-deleted.stdout",
+      "sizeBytes": 823,
+      "sha256": "68c6ac6333fbf9abf6570aa3714af5863bcb33f9efec2fdc17f684d662d83613",
+      "gitBlobSha": "8a9264b0b51aeb778814428f72755735ffd06a1d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-summary.md",
+      "sizeBytes": 1287,
+      "sha256": "f0556688f974298dcecfb60ab0734fc0e35ace7164b79cc50c30f6272b770652",
+      "gitBlobSha": "0b74f9f439e3ffe7d007711690220eb78641244f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df-i.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df-i.stdout",
+      "sizeBytes": 159,
+      "sha256": "7eae2a6745e7744efc71419fceb5f56430129c7eb6e34b9acb302a9f209defcc",
+      "gitBlobSha": "3875f5dd25b9cc7280bd253ba7c9ed5a4cb711ee"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df.stdout",
+      "sizeBytes": 192,
+      "sha256": "063015a71665e56e3cea0d5772d19722cc663b74d2ef7c643b934fb34b150d79",
+      "gitBlobSha": "f15d6615af401801ff8a6ceca90bc6f2f79cbae8"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.json",
+      "sizeBytes": 408,
+      "sha256": "3d4d1f021232f1db3b5912ab567cf271c1cb27e28c476518a8ed899ebeada42c",
+      "gitBlobSha": "9b30e1a6db9548b70e12d54bb5448c21087aa63f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.df-i.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.df-i.stdout",
+      "sizeBytes": 159,
+      "sha256": "e154f49d40a7b91660ee3b3dadf3a714508e23263b4e735bb8b9d7a523532961",
+      "gitBlobSha": "73cc82e2ca7771380355ba72b9825184d00d6531"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.df.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.df.stdout",
+      "sizeBytes": 192,
+      "sha256": "a8e3296ba9dc5ba9b9e1191b076ce44d408bbe3f2bba3e082762e58e77e39085",
+      "gitBlobSha": "cc89a8f646c8f844e9d4e499d185ca649f612b12"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.json",
+      "sizeBytes": 407,
+      "sha256": "ac636c42c6928dcb785f6e5b67e1c05ade98bd5ba54726ff0d10c8b2396b059c",
+      "gitBlobSha": "e824c2b6b86218e8f1cebfc6749aa8c73ad94d5a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/directory-list-after.json",
+      "sizeBytes": 184,
+      "sha256": "eae3be3ef5d233911100cee5d84ecac52f39cda62b887d491632636fcd300cf9",
+      "gitBlobSha": "13e808730c86a96aea04d1da882e3b17041862d9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/directory-list-before.json",
+      "sizeBytes": 552081,
+      "sha256": "730e6c2b362da149185b5d4e3a2741bb4b892e4389f8f5890006c1a9a607d3ce",
+      "gitBlobSha": "4da608ad50ed71458331e3773f9d4123cc3f8211"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/human-authorization.json",
+      "sizeBytes": 895,
+      "sha256": "f2b4c4fde28bcb23dc918b3b8b826673bd8121b68d637cb6f4d840013f859a29",
+      "gitBlobSha": "bdf2ab63843d8cf49e9c1fec6e1e68e37aadbeaf"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/result.json",
+      "sizeBytes": 486,
+      "sha256": "c1c1abaffd921c87bd0b8d1a16b69b1e0d93c3ebaf4cfb89d04da92d5cfc4be8",
+      "gitBlobSha": "593e91818d362c72c9881db521deb59e0b1e61fc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/resume-preflight.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/resume-preflight.stdout.json",
+      "sizeBytes": 5096,
+      "sha256": "9e6454222967de73f2d6da6630af6e0f7af0668e4edecb22334606529b61c1ff",
+      "gitBlobSha": "d5a0aa113cc4fa03fe02c890981060f3bf71cc98"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/resume-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/resume-status.stdout.json",
+      "sizeBytes": 4027,
+      "sha256": "d05bf522664f71fab61b7a6b55e32515c160364f249a2fa5dcb45b65677e9556",
+      "gitBlobSha": "77d73e816a0555b3e8f02e53fe2cb00315b9de6f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/resume-validate.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/resume-validate.stdout.json",
+      "sizeBytes": 629,
+      "sha256": "7203765b1060ddd72bd7eaaafb0c0f1e1906403ebe572fcf184f9d342770e2de",
+      "gitBlobSha": "3a71142f9da64d4de32d9a6cd1aa3301f9ac192e"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+      "sizeBytes": 8596,
+      "sha256": "7453ef14281f41ee429b0ed551123c7022e1ffe6b421f4b711251f9f0392898c",
+      "gitBlobSha": "f4208d2554d347b3ba8bd4228d4a0e8f99f667f1"
+    }
+  ],
+  "allExactBytesMatch": true,
+  "priorGhRestFailurePreserved": true
+}

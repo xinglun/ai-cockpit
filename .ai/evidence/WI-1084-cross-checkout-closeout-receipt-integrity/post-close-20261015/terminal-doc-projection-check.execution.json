@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python3",
+    "tests/docs/promote_closed_work_item.py",
+    "--repo",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "--work-item",
+    "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "--check"
+  ],
+  "capturedAtUTC": "2026-10-15T12:43:28.737795+00:00",
+  "elapsedSeconds": 0.0649423599243164,
+  "exitCode": 0
+}

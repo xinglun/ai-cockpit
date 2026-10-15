@@ -1,0 +1,20 @@
+
+running 1 test
+test lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_only_receipt_disappears ... FAILED
+
+failures:
+
+---- lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_only_receipt_disappears stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_only_receipt_disappears' (3396827) panicked at crates/cockpit-repository/src/lifecycle.rs:9999:9:
+assertion `left == right` failed: sole receipt deletion must revoke closed projection
+  left: "closed"
+ right: "archived"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_only_receipt_disappears
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 117 filtered out; finished in 0.84s
+

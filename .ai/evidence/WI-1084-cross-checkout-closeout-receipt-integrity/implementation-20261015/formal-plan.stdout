@@ -1,0 +1,15 @@
+{
+  "attempt": {
+    "attemptId": "sha256:1de75226f62a8d0499af53e3dcb6a9ed1c24aaf445b3c4428d6b5b70bc94d4a6",
+    "passed": false,
+    "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification-attempt.1de75226f62a8d0499af53e3dcb6a9ed1c24aaf445b3c4428d6b5b70bc94d4a6.json",
+    "processesSpawned": 0,
+    "state": "precondition_rejected"
+  },
+  "diagnostic": "repository protocol state error at /workspace/ai-cockpit-wi1084-closeout-receipt-integrity/.ai/policy.json: explicit verification timeout override 900s requires finite Contract or repository policy authorization",
+  "gate": "verification_plan",
+  "plannedNodes": [],
+  "processesSpawned": 0,
+  "state": "blocked",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

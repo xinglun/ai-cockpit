@@ -1,0 +1,322 @@
+{
+  "observedAtUTC": "2026-10-15T09:27:39.246928+00:00",
+  "roots": [
+    {
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773",
+      "device": 27,
+      "duAllocatedBytes": 23054213120,
+      "categories": {
+        "other": {
+          "allocatedBytes": 206929920,
+          "fileCount": 2292
+        },
+        "deps.d": {
+          "allocatedBytes": 2682880,
+          "fileCount": 529
+        },
+        "deps.rlib": {
+          "allocatedBytes": 1179418624,
+          "fileCount": 171
+        },
+        "deps_executable": {
+          "allocatedBytes": 21330280448,
+          "fileCount": 351
+        },
+        "deps.rmeta": {
+          "allocatedBytes": 201621504,
+          "fileCount": 176
+        },
+        "build": {
+          "allocatedBytes": 130383872,
+          "fileCount": 174
+        }
+      },
+      "runtimeCandidates": [
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/ai-cockpit",
+          "allocatedBytes": 159731712,
+          "sizeBytes": 160190000,
+          "inode": 801303,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3ca647d2e2b0e165.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 704,
+          "inode": 794439,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-10e4b8f3207cfb06.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 704,
+          "inode": 796425,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3338cdbeef2aef6b",
+          "allocatedBytes": 120737792,
+          "sizeBytes": 120864256,
+          "inode": 796681,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-15b26c462b5ea273.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 774,
+          "inode": 794496,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-15b26c462b5ea273",
+          "allocatedBytes": 120778752,
+          "sizeBytes": 120907016,
+          "inode": 794520,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-6ffc6a9b892fbb8e.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 704,
+          "inode": 795187,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3338cdbeef2aef6b.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 774,
+          "inode": 796843,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-10e4b8f3207cfb06",
+          "allocatedBytes": 164904960,
+          "sizeBytes": 165366232,
+          "inode": 796660,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3ca647d2e2b0e165",
+          "allocatedBytes": 159703040,
+          "sizeBytes": 160163904,
+          "inode": 794469,
+          "device": 27
+        }
+      ]
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015",
+      "device": 27,
+      "duAllocatedBytes": 3157508096,
+      "categories": {
+        "other": {
+          "allocatedBytes": 176259072,
+          "fileCount": 1919
+        },
+        "deps_executable": {
+          "allocatedBytes": 1904898048,
+          "fileCount": 181
+        },
+        "deps.rmeta": {
+          "allocatedBytes": 226275328,
+          "fileCount": 220
+        },
+        "deps.d": {
+          "allocatedBytes": 2371584,
+          "fileCount": 403
+        },
+        "deps.rlib": {
+          "allocatedBytes": 717221888,
+          "fileCount": 215
+        },
+        "build": {
+          "allocatedBytes": 127668224,
+          "fileCount": 310
+        }
+      },
+      "runtimeCandidates": [
+        {
+          "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/ai-cockpit",
+          "allocatedBytes": 159707136,
+          "sizeBytes": 160158944,
+          "inode": 1059733,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-11bb2e5a7fd7aa33",
+          "allocatedBytes": 16293888,
+          "sizeBytes": 16440904,
+          "inode": 1053462,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-11bb2e5a7fd7aa33.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 681,
+          "inode": 1052414,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-6ffc6a9b892fbb8e.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 572,
+          "inode": 1059711,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-3be839e3f5de64f3.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 572,
+          "inode": 1053360,
+          "device": 27
+        },
+        {
+          "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-3be839e3f5de64f3",
+          "allocatedBytes": 51208192,
+          "sizeBytes": 51669808,
+          "inode": 1053334,
+          "device": 27
+        }
+      ]
+    },
+    {
+      "path": "/tmp/wi1081-build-00461714-20261014",
+      "device": 33,
+      "duAllocatedBytes": 3202707456,
+      "categories": {
+        "other": {
+          "allocatedBytes": 177610752,
+          "fileCount": 1924
+        },
+        "build": {
+          "allocatedBytes": 127676416,
+          "fileCount": 310
+        },
+        "deps_executable": {
+          "allocatedBytes": 1947881472,
+          "fileCount": 182
+        },
+        "deps.rlib": {
+          "allocatedBytes": 720093184,
+          "fileCount": 215
+        },
+        "deps.rmeta": {
+          "allocatedBytes": 227069952,
+          "fileCount": 220
+        },
+        "deps.d": {
+          "allocatedBytes": 2375680,
+          "fileCount": 404
+        }
+      },
+      "runtimeCandidates": [
+        {
+          "path": "/tmp/wi1081-build-00461714-20261014/debug/ai-cockpit",
+          "allocatedBytes": 160944128,
+          "sizeBytes": 160941392,
+          "inode": 6629451,
+          "device": 33
+        },
+        {
+          "path": "/tmp/wi1081-build-00461714-20261014/debug/deps/ai_cockpit-3be839e3f5de64f3",
+          "allocatedBytes": 51998720,
+          "sizeBytes": 51995512,
+          "inode": 6629145,
+          "device": 33
+        },
+        {
+          "path": "/tmp/wi1081-build-00461714-20261014/debug/deps/ai_cockpit-11bb2e5a7fd7aa33",
+          "allocatedBytes": 16470016,
+          "sizeBytes": 16468104,
+          "inode": 6629015,
+          "device": 33
+        },
+        {
+          "path": "/tmp/wi1081-build-00461714-20261014/debug/deps/ai_cockpit-6ffc6a9b892fbb8e.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 548,
+          "inode": 6045229,
+          "device": 33
+        },
+        {
+          "path": "/tmp/wi1081-build-00461714-20261014/debug/deps/ai_cockpit-3be839e3f5de64f3.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 548,
+          "inode": 5995491,
+          "device": 33
+        },
+        {
+          "path": "/tmp/wi1081-build-00461714-20261014/debug/deps/ai_cockpit-11bb2e5a7fd7aa33.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 659,
+          "inode": 5994969,
+          "device": 33
+        }
+      ]
+    },
+    {
+      "path": "/tmp/wi1078-retained-00461714-target",
+      "device": 33,
+      "duAllocatedBytes": 1444552704,
+      "categories": {
+        "other": {
+          "allocatedBytes": 167366656,
+          "fileCount": 483
+        },
+        "build": {
+          "allocatedBytes": 102518784,
+          "fileCount": 136
+        },
+        "incremental": {
+          "allocatedBytes": 644976640,
+          "fileCount": 1575
+        },
+        "deps.d": {
+          "allocatedBytes": 622592,
+          "fileCount": 86
+        },
+        "deps.rlib": {
+          "allocatedBytes": 432762880,
+          "fileCount": 82
+        },
+        "deps.rmeta": {
+          "allocatedBytes": 67313664,
+          "fileCount": 71
+        },
+        "deps_executable": {
+          "allocatedBytes": 28991488,
+          "fileCount": 3
+        }
+      },
+      "runtimeCandidates": [
+        {
+          "path": "/tmp/wi1078-retained-00461714-target/debug/ai-cockpit",
+          "allocatedBytes": 165400576,
+          "sizeBytes": 165397384,
+          "inode": 5938431,
+          "device": 33
+        },
+        {
+          "path": "/tmp/wi1078-retained-00461714-target/debug/deps/ai_cockpit-10e4b8f3207cfb06.d",
+          "allocatedBytes": 4096,
+          "sizeBytes": 550,
+          "inode": 5938193,
+          "device": 33
+        }
+      ]
+    }
+  ],
+  "activeBuildProcesses": [],
+  "filesystems": {
+    "/workspace": {
+      "availableBytes": 637317120,
+      "availableInodes": 1990447,
+      "device": 27
+    },
+    "/tmp": {
+      "availableBytes": 2912124928,
+      "availableInodes": 2256019,
+      "device": 33
+    }
+  }
+}

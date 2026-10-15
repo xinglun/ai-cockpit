@@ -1,0 +1,30 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-15T11:53:57Z",
+  "files": {
+    "contractDigest": "sha256:82e182ef7af265afef737f945a9c4cc5f77ef25473a05dbaee83e5a0196eb3c8",
+    "contractPath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+    "eventsDigest": "sha256:b1f57b579330730374e07ca46d72496581b30b2412171f97ac332f72343a5456",
+    "eventsPath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.events.jsonl",
+    "intelligenceDigest": "sha256:48dc8906464bfbbcd4b56da49fc757e6b5048b0ee91c4fa16b533c2ed25e8210",
+    "intelligencePath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.intelligence.json",
+    "outcomeDigest": "sha256:cf600b7d80f276670169c1c466225d5364697347f76b7764a30d1f35694745cc",
+    "outcomePath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.outcome.json",
+    "summaryDigest": "sha256:8e6e0e2459eedeceaad16238eceeb80fd8242215e1b5b637fb7d7984a43d96c4",
+    "summaryPath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+    "taskReportDigest": "sha256:b48ffe3a4fe163fd4615c05667581ec323a7415c22ab1f0059fc167c9a3f900c",
+    "taskReportMarkdownDigest": "sha256:447e7e3089b156c4c24692c68cfacdc3b820ce8cc34c36c3f1cda4612cb8c4a9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-15T11:53:57.849930064Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-15T11:53:57.849930064Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

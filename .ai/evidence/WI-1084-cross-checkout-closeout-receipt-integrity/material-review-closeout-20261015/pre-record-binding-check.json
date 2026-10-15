@@ -1,0 +1,19 @@
+{
+  "recordedAtUTC": "2026-10-15T11:52:50.026569+00:00",
+  "allActualReviewBindingsMatch": true,
+  "exactEvidenceRefsVerified": 8,
+  "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+  "materialManifestDigest": "sha256:82e95774a5ef741ce56983f8b152121923083aa459c31c64160afcab555b2be0",
+  "sourceSnapshotDigest": "sha256:b59af48b57fbe7f6498a36db2b52488aed33a55bbe91053ad364787480e14a3e",
+  "reviewedSourceHead": "b41dfbdc081b951c6882a6413af54837dac4a0b4",
+  "profileDigest": "sha256:8282c7d0f7780af966e90e681f972e9c5a18be5892e95f4832c600590c0aa4b0",
+  "findingCodes": [],
+  "recordActionAdmitted": true,
+  "verification": "verified",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  }
+}

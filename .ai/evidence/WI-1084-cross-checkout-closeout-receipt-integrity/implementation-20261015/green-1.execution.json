@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-repository",
+    "--lib",
+    "lifecycle::cross_checkout_closeout_tests",
+    "--",
+    "--test-threads=1"
+  ],
+  "exitCode": 101,
+  "elapsedSeconds": 44.586424350738525,
+  "timeoutSeconds": 900
+}

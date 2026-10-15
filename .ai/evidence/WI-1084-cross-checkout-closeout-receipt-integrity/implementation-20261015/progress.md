@@ -1,0 +1,9 @@
+# WI-1084 implementation admission and RED
+
+Ray directly selected confirm_review for Contract 507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107, preflight f9c8f1505202f789a20764aa0cb3995d1623904ccfbb3485eb008e1f2b1d6a89 and snapshot d1bfa0388ffc586ddf1a10fc7b70d7a376dc4a1a79cc2f660e7169f36624321f. Native controls recorded the real direct decision. The subsequent preflight attempt was rejected because current admission already recommends run_verification; current status permits that action and requires no repeated human approval. This is implementation admission only, with no merge/close authority.
+
+The first new regression ran against unchanged bcd76ae7 production source on planning head 268a7a15. It recovered successfully through Native repository APIs in independent Git repositories, confirmed closed/non-blocking, removed only the recovery receipt, and confirmed all source/destination planned historical bytes unchanged. The assertion then failed: actual closed, expected archived. Raw stdout, stderr, command, environment, toolchain and exit101 are retained. No production implementation existed at this RED point. All Contract scenarios remain unverified pending GREEN and complete required verification.
+
+The three parity rows now follow the existing WI-1070 planned registration form, listing all four expected paths and explicitly not asserting file existence. Earlier CI quality failure is retained as documentation registration failure, not a failed business implementation result.
+
+Single implementer/build job, isolated target, no incremental compilation, no debug information. Fresh baseline: PID1=tail,16590 processes,16580 PPID1 zombies,2483343360 workspace bytes free. No system config, process cleanup, old worktree, resource or historical evidence changes.

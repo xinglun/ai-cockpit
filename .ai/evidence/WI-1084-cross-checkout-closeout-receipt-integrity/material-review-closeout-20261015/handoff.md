@@ -1,0 +1,41 @@
+# WI-1084：材料决定已记录，finish/archive 实际成功
+
+## 本轮实际动作
+
+收到父协调 agent:Raydot 的真实决定后，保留其原文 rationale/residualRisk 与来源线程，重新查询 material plan/status，逐一验证 b41dfbdc 审阅包的8项原始路径和digest。Contract、request、唯一cause、blob、hunk、profile、Findings和准入均未变化。通过现有 typed material-review record 记录了真实 accept_permitted_unknowns，assurance只为self_declared，没有冒称身份认证或机器Clean。
+
+材料receiptDigest：`sha256:e25498de06f90e08727d130f7b06e582661fced95d54f1fd31f1e54366d0b24a`；requestDigest：`sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501`。原始scanner Unknown `repository_material_inspection_unavailable`仍在；仅许可的effective材料Unknown由支持的回执消解。其余未知项不被清除。
+
+随后status保持verified/fresh、无blocker，validate无Finding，正常finish实际exit0，状态finish_ready；刷新status后准入archive_when_reviewed，根命令archive实际exit0，于2026-10-15T11:53:57Z归档。没有再做checkpoint，没有重跑已有效的13/13验证，没有修改任何源码、测试、文档、断言、扫描器或门禁。一次对不存在work-item archive的help查询exit2，保留原始输出；通过Runtime根help发现真实archive接口后才执行归档，未进行错误归档 mutation。
+
+## 精确归档绑定
+
+- Contract canonical：`sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159`
+- Contract raw：`sha256:82e182ef7af265afef737f945a9c4cc5f77ef25473a05dbaee83e5a0196eb3c8`
+- archiveIdentity（manifest原始字节SHA-256）：`sha256:d781bacebb53b33d600e70bd354dec291b5296d4110eb15009741df1b9df781e`
+- archive manifest canonical JSON digest（不同用途，不能替代上述raw身份）：`sha256:60b8672c4bbeb82321db0a7494e9fe1c6884c0e4e824c1f3cc651295064bca18`
+- repositorySnapshot：`sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e`
+- Runtime：`sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38`，version1.0.1
+- 新Contract的正式receiptDigest：`sha256:d175a92572fd3d6e3033633aeb913e1183adcd56fc5ccf099a0713e4901734e4`
+- 正式verificationEvidence canonical：`sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41`
+- 正式canonical回执raw：`sha256:db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314`
+
+归档manifest的7个payload路径及raw digest全部实读匹配，active目录中该WI的完整生成记录已由Runtime正常搬到archive。原先433个已跟踪的本WI证据、决定和相关源码路径仍逐字节相同，包括旧RED、所有失败/成功attempt、原finish拒绝、原Contract和两轮13/13证据。新归档文件只能按其真实冻结字节核验，不手写修补。
+
+详见 `closeout-binding-summary.json`、`pre-record-binding-check.json`、`actual-raydot-decision.json`、material-record/finish/archive的原始stdout/stderr及execution元数据。标准archive manifest内contractDigest是raw字节摘要，与人类/Runtime使用的Contract canonical摘要明确区分。
+
+## 当前真实状态与交付
+
+归档后status：lifecyclePhase=archived、verification=verified/fresh、blocker=`archived_work_item_pending_close`、safeAction=close_after_review，checkpointCount仍1。close尚未授权，故不调用。`humanDecisionRequired=false`不替代会话授权。user_visible_benefit_not_declared、close_decision_pending仍如实存在，usage覆盖未知。
+
+archive返回的已声明验证人类handoff为green；随后真实work-item outcome查询为yellow，显示archived/pending_close，并保留其通用verification_or_human_input/governance_gate_failed文案。这不推翻实际成功的finish/archive；两份原始输出分开保留，不将yellow或未知状态涂绿。Outcome delivery已生成并返回，但host acceptance/display确认仍unknown，不能声称人类已看见或批准。正式repository子stdout截断这一限制继续保留。
+
+Outcome: 🟡 WI-1084已真实归档，待当前最终记录head的完整CI、Raydot收尾审阅及后续精确真人关闭授权。Finding0；本轮材料问题已按实际代理决定解决。未声明的用户收益、用量和host显示未知。保留完整历史。
+
+## 后续边界
+
+集中提交本次材料/finish/archive/必要说明，推送后逐字节读回关键记录并核验新head的必需CI；不借用之前head的CI，也不手动重跑旧CI。新记录提交与验证执行head bdcf6eca、审阅head b41dfbdc分别记录。新提交后的status仍需真实读取，不能假定fresh。
+
+PR1040保持Draft。真人close、Ready、merge、分支或worktree删除、额外缓存清理和其他WI/Task9均未执行，也未因材料决定获得授权。潜在对象仅PR1040、codex/wi1084-closeout-receipt-integrity、当前WI工作树及其现有common-dir；Contract没有resourceContext，没有补造provider finalization或cleanup receipt，尚未选择control checkout。后续精确关闭/集成/清理提案必须交Raydot按当前Runtime路径审阅，再取得必要真人批准；旧dirty controls和WI1078资源保持。
+
+本轮没有构建/长验证；每个命令仍保存空间和inode前后读数，无新清理。仅收尾记录占用少量空间。

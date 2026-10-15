@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUTC": "2026-10-15T11:52:28.205576+00:00",
+  "timestampMeaning": "Actual capture/record time of the delegated agent decision; no reviewer-supplied decision timestamp was present.",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "source": "actual incoming codex_delegation from agent:Raydot",
+  "reviewerActor": "agent:Raydot",
+  "decision": "accept_permitted_unknowns",
+  "assurance": "self_declared",
+  "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+  "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "acceptedPath": "crates/cockpit-repository/tests/closeout_recovery.rs",
+  "acceptedCause": "readable_committed_rust_syntax_unknown",
+  "afterBlobDigest": "sha256:943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a",
+  "changedHunkDigest": "sha256:38b599cb53fe461263ca1534e01eb357f2e5c06c081e58ba03856705ffb536e0",
+  "exactEightEvidenceRefs": [
+    {
+      "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "digest": "sha256:943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-human-approval.json",
+      "digest": "sha256:6379340b344c2a1d7ccb99f7a12934325379b3619507dd179611cfee02175f59"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/conditional-preflight-binding-check.json",
+      "digest": "sha256:6e2635371edb1272ac972f8602ba9db4e4dcffc100e3ca97aa531582f4a5476c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stdout",
+      "digest": "sha256:31d72f972990951df955e2112657429f342502653fa02e0086f3464d5a0a97bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract.verification.receipt.json",
+      "digest": "sha256:db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-formal-result.json",
+      "digest": "sha256:5aaadc0044c77f26265080959952e56e1295811a2a1b66531741d6b4618c933b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-status.stdout",
+      "digest": "sha256:5cd4054fb100cb098cc86ed13f817c6563f7e7fb283ba9a9faf366174ceda961"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/preservation-after-new-formal.json",
+      "digest": "sha256:798ba273d5af8df8236ca827a42e4e2b3622d253fcbc7f132826b7389285b1a5"
+    }
+  ],
+  "rationaleVerbatim": "已完成精确 Rust 集成测试材料及对应生产 P2 修复、真实回归证据的技术审阅。测试在独立临时仓库中构造旧 Retained close，调用真实恢复、资源收尾、验证与状态流程；覆盖合法 Deleted 延伸、错序号/前驱/Runtime/repo/WI/provider/Contract、分叉、额外历史、实际分支仍存在、receipt 缺失及清单篡改拒绝。旧历史修改仅限明确标注的 disposable fixture，未发现生产门禁放宽。该 Unknown 属于可读已提交测试材料的扫描能力限制，Finding 为空，接受仅限上述请求。",
+  "residualRiskVerbatim": "此决定为 agent self_declared，不等于机器扫描 Clean 或独立身份认证；原始 scanner Unknown 必须保留。有限测试不证明所有平台和竞态，正式仓库节点 stdout 截断已披露。其他 Unknown、新 Finding 或任何绑定变化不在接受范围。",
+  "directedContinuation": "Refresh real material plan/status, check unchanged bindings, record this actual decision, normally continue finish/archive. Keep Draft; human close, Ready, merge and cleanup remain unauthorized. Concentrate necessary records into one checkpoint."
+}

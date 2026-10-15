@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1084-review-draft-boundaries-20261015",
+  "expectedContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+  "reason": "Complete the user-authorized draft Contract for Raydot review: required tri-language documentation projection paths, exact unsplit exclusions, explicit isolated serial worker boundary and preserved verification strength. No source implementation or human review is recorded.",
+  "changes": [
+    {
+      "path": "/scope",
+      "operation": "replace",
+      "value": [
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/closeout_recovery.rs",
+        "crates/cockpit-cli/tests/closeout_recovery.rs",
+        "crates/cockpit-mcp/tests/closeout_recovery.rs",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+        ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+        ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+        ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*",
+        "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+        "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ]
+    },
+    {
+      "path": "/outOfScope",
+      "operation": "replace",
+      "value": [
+        "Sentinel business code or original acceptance checkout",
+        "WI-1078 resources, Contract, archive, evidence, or closure",
+        "Task9, new time TTL requirements, release publication, mechanism refactoring",
+        "Human close decisions, PR Ready/merge, branch/worktree deletion",
+        "Rewriting historical close/archive/Contract/verification bytes or claiming historical verification was rerun"
+      ]
+    },
+    {
+      "path": "/concurrencyBoundary",
+      "operation": "replace",
+      "value": {
+        "schemaVersion": 1,
+        "implementationPaths": [
+          "crates/cockpit-repository/src/historical_compatibility.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/closeout_recovery.rs",
+          "crates/cockpit-cli/tests/closeout_recovery.rs",
+          "crates/cockpit-mcp/tests/closeout_recovery.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/reference/commands.ja.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md"
+        ],
+        "generatedEvidencePaths": [
+          ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+          ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+          ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*"
+        ],
+        "verificationOutputPaths": [
+          "target/wi1084-closeout-receipt-integrity/**"
+        ],
+        "serializedProjectionPaths": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md"
+        ],
+        "maxWorkers": 1,
+        "reason": "One implementation/test worker for WI-1084 with an isolated target; shared documentation projections and provider integration are serialized. WI-1078 Retained review has no shared resource writes. Other current active declarations must pass fresh compatibility; a missing declaration is not bypassed."
+      }
+    },
+    {
+      "path": "/requiredEvidenceClasses",
+      "operation": "replace",
+      "value": [
+        "verification"
+      ]
+    },
+    {
+      "path": "/problemStatement",
+      "operation": "set",
+      "value": "Issue #1004 comment 6186749658 reports that deleting only the recovery receipt leaves a recovered historical close projected as closed and non-blocking on source bcd76ae76f61650a890267f511099c96dc6a47fd. Static tracing found NotFound accepted in recovered_closeout_files_valid and no independent persistent provenance in the exact-copy close commit point; a fixture RED still must prove the full path."
+    }
+  ]
+}

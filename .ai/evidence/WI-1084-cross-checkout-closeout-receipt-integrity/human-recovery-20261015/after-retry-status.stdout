@@ -1,0 +1,6 @@
+Status: WI-1084-cross-checkout-closeout-receipt-integrity
+Lifecycle: checkpointed
+Governance: red
+Activity health: degraded
+Unknowns: lifecycle_gate_failed, repository_material_inspection_unavailable, user_visible_benefit_not_declared, verification_action_preconditions_blocked
+Next action: read `work-item outcome --repo <path> --id WI-1084-cross-checkout-closeout-receipt-integrity`

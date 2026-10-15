@@ -1,0 +1,13 @@
+{
+  "binaryPath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/debug/ai-cockpit",
+  "sha256": "cc19a27ae67f0b59763c2766dfeed309c295c0efcd5a5e58dd6832ad0dd15d16",
+  "sourceHead": "23d031a72028df834b2a2bf00a47c4883aacf1f7",
+  "sourceFiles": {
+    "crates/cockpit-repository/src/lifecycle.rs": "3145219701b658d4af09038e16d4e7e37ab934cee00ddb4475fb1e0d83ebd8a2",
+    "crates/cockpit-repository/src/historical_compatibility.rs": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49",
+    "crates/cockpit-repository/tests/closeout_recovery.rs": "08efa7b7ead27791c3a45688413641000c93b484d8184962fc8ebad9ab958f0d",
+    "crates/cockpit-cli/tests/closeout_recovery.rs": "50287d6e668c8225e211d89e1f6761c987f847805f4e9497548c1efb2a9e710d",
+    "crates/cockpit-mcp/tests/closeout_recovery.rs": "c76e658115c38c49179e8b8d7c5f8c4fb4351e9b3a19ce2e504dd5a5213225c5"
+  },
+  "note": "Built from the recorded uncommitted source fingerprints; next commit will identify the same source bytes. Shared installed Runtime was not replaced."
+}

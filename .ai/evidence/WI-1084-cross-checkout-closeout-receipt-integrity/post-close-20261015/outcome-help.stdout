@@ -1,0 +1,35 @@
+Actual CLI parser arguments for the discoverable Outcome query.
+
+The CLI flattens this type into `work-item outcome`; interface discovery reads the same Clap command model.  Keep transport-specific MCP-only parameters outside this type.
+
+Usage: ai-cockpit work-item outcome [OPTIONS] --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>
+          
+
+      --id <ID>
+          Canonical Work Item identifier.
+
+      --delivery
+          Request the immutable full archive delivery payload.
+
+      --json
+          Emit machine-readable JSON instead of the human handoff.
+
+      --view <VIEW>
+          Select the reader-first summary or complete human view.
+          
+          [default: summary]
+          [possible values: summary, full]
+
+      --language <LANGUAGE>
+          Active conversation language for the human Outcome; adapters should pass it explicitly, with locale fallback only when omitted.
+          
+          [possible values: en, zh, zh-CN, ja]
+
+      --display-timezone <DISPLAY_TIMEZONE>
+          Optional IANA timezone for the human lifecycle display; persisted UTC facts remain unchanged.
+
+  -h, --help
+          Print help (see a summary with '-h')

@@ -1,0 +1,16 @@
+{
+  "recordedAtUTC": "2026-10-15T10:12:05.476529+00:00",
+  "pid1": "tail",
+  "zombies": 19682,
+  "activeBuildProcesses": [],
+  "disk": {
+    "/workspace": {
+      "availableBytes": 2867027968,
+      "availableInodes": 1992343
+    },
+    "/tmp": {
+      "availableBytes": 2903658496,
+      "availableInodes": 2254124
+    }
+  }
+}

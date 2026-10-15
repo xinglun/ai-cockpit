@@ -1,0 +1,21 @@
+{
+  "recordedAtUTC": "2026-10-15T09:53:38.446211+00:00",
+  "disk": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 633966592,
+      "freeInodes": 1990336
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 2908168192,
+      "freeInodes": 2256006
+    }
+  },
+  "health": {
+    "activeBuildProcesses": [],
+    "zombies": 18277,
+    "pid1": "tail"
+  },
+  "verifiedCandidateCount": 2112
+}

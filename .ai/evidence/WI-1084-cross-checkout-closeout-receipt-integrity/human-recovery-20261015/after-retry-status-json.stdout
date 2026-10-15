@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "baseCommit": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "red",
+  "activityHealth": "degraded",
+  "blocking": true,
+  "humanDecisionRequired": true,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 7,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 21,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "governance_red"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "unknown",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "unknown",
+    "workResult": "unknown"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "materialManifest": "sha256:82e95774a5ef741ce56983f8b152121923083aa459c31c64160afcab555b2be0",
+    "repositorySnapshot": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+    "summary": "sha256:a80a5c0efb22132219831c92487f87bdab827a4c67b32b890cdab91ce8a19f05",
+    "verificationEvidence": "sha256:4b89ec1bfd19c123dfb927d5e18830ec6828575d71794ba0a2e5a5b4b54ec32e"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:82e95774a5ef741ce56983f8b152121923083aa459c31c64160afcab555b2be0",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "lifecycle_gate_failed",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked"
+  ],
+  "diagnostics": [
+    "repository protocol state error at /workspace/ai-cockpit-wi1084-closeout-receipt-integrity/.ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json: contract_amendment_policy_review_required: verification waits for identity-bound human review of the current amended Contract"
+  ],
+  "snapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-15T10:08:59Z",
+  "updatedAt": "2026-10-15T10:45:35Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_preflight"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "lifecycle_gate_failed",
+        "message": "current projection reports lifecycle_gate_failed"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "unknown",
+        "code": "verification_action_preconditions_blocked",
+        "message": "current projection reports verification_action_preconditions_blocked"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [],
+    "admissionDigest": "sha256:0d711b74d9bd55f1eacfd523b2abd617ef3582aa5f42e028588962b44e7e3ada"
+  },
+  "statusDigest": "sha256:df0cac039cdfc2eae8490b5383f41d02197c6a10ce7ff77b0325c231c8b9893b",
+  "historical": false
+}

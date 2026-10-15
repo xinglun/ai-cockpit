@@ -1,0 +1,29 @@
+{
+  "recordedAtUTC": "2026-10-15T11:34:39.908701+00:00",
+  "pid1Command": "tail",
+  "processCount": 19853,
+  "zombieCount": 19833,
+  "ppid1ZombieCount": 19833,
+  "ownedVerificationProcessGroup": 4037723,
+  "activeBuildAndRuntimeProcessRows": [
+    [
+      "4037723",
+      "4037719",
+      "Ssl",
+      "ai-cockpit"
+    ],
+    [
+      "4038349",
+      "4037723",
+      "Sl",
+      "cargo"
+    ],
+    [
+      "4096468",
+      "4093587",
+      "Sl",
+      "ai-cockpit"
+    ]
+  ],
+  "scope": "read-only process health sample; no process cleanup or global configuration mutation"
+}

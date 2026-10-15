@@ -1,0 +1,7 @@
+{
+  "scope": "new WI draft records and planning evidence",
+  "filesChecked": 67,
+  "matchingPaths": [],
+  "patternsCover": "common provider tokens, OpenAI tokens, private-key headers and Authorization credentials",
+  "claim": "bounded check, not a general proof that arbitrary content contains no secrets"
+}

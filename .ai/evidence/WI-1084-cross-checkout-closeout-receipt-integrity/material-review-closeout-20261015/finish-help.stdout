@@ -1,0 +1,8 @@
+Usage: ai-cockpit finish [OPTIONS] --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>          
+      --id <ID>              
+      --json                 Emit machine-only output without the human Outcome handoff on stderr
+      --language <LANGUAGE>  Conversation language for the human Outcome; when omitted the adapter locale/environment is used [possible values: en, zh, zh-CN, ja]
+  -h, --help                 Print help

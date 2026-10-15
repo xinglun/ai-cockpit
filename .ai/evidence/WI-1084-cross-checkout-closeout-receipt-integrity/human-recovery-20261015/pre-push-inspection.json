@@ -1,0 +1,411 @@
+{
+  "recordedAtUTC": "2026-10-15T11:46:18.039263+00:00",
+  "scope": "changed and newly created regular files for this WI only; raw text, structured strings, and hex-encoded child output checked for concrete credential-shaped patterns; selected environment logs contain no credential variables",
+  "inspectedFileCount": 80,
+  "credentialPatternMatches": [],
+  "onlyOwnGovernancePaths": true,
+  "sourceDocsAssertionsGatesChanged": false,
+  "largestFileBytes": 828928,
+  "files": [
+    {
+      "path": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.preflight-review.c684f01337a5fa107a9786bf2fd5c953419d3e9b8c236c07e84f24f4f6c4c0d9.json",
+      "sizeBytes": 1213,
+      "sha256": "1f6175228c0476f40181f5c4307b3701ce9f374e3a4e2abbac051d2d4b3db914"
+    },
+    {
+      "path": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.recovery.json",
+      "sizeBytes": 2328,
+      "sha256": "ff743f0e2dda2dd457eb812944d597c7286edde7abdabc0406947c8605c71327"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification-attempt.241cd804880a8c50f72004e90cfa5cc54b4f5f64a6be775b13e9b712bab0d6ab.json",
+      "sizeBytes": 828928,
+      "sha256": "9e9a67cb570a2137f3af793be572ab0918e1ef74143dda382d326bb918e12ffa"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+      "sizeBytes": 417286,
+      "sha256": "db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-human-approval.json",
+      "sizeBytes": 2360,
+      "sha256": "6379340b344c2a1d7ccb99f7a12934325379b3619507dd179611cfee02175f59"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-toolchain.json",
+      "sizeBytes": 1072,
+      "sha256": "87f6c378da22b1a6e223ce7ca86276226c756f5bac2c3e10644feb19cda185bb"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.execution.json",
+      "sizeBytes": 2918,
+      "sha256": "52e660661217c632a43d36681d320ecc26cd8e8e9547d3798d7fab502f668dc1"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-confirm-status.stdout",
+      "sizeBytes": 3656,
+      "sha256": "7f0e451816f5321e71787eef2d18c8e1aa7b30a69aa44573083826cf0120fbdb"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-material-plan.execution.json",
+      "sizeBytes": 2925,
+      "sha256": "72e04ff0d945492bcef717306c2776b5fad38a0994925f462c97ff0628303f73"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-material-plan.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-material-plan.stdout",
+      "sizeBytes": 7358,
+      "sha256": "31d72f972990951df955e2112657429f342502653fa02e0086f3464d5a0a97bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-status.execution.json",
+      "sizeBytes": 2918,
+      "sha256": "eddf2db2669bd4be8c48ab93dc16b7701dcf16024f91759bf7f8af83a0377d20"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-status.stdout",
+      "sizeBytes": 3467,
+      "sha256": "5cd4054fb100cb098cc86ed13f817c6563f7e7fb283ba9a9faf366174ceda961"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-validate.execution.json",
+      "sizeBytes": 2921,
+      "sha256": "eb10e193dc83196bdd33a0665296c89fd4e4eea3c927b87bb1f4292f402327bb"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-validate.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-new-formal-validate.stdout",
+      "sizeBytes": 243,
+      "sha256": "6262f75a23f6705d87015fb43615713b1c8c8770b8f10d04cb4d6bea62dbf002"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.execution.json",
+      "sizeBytes": 2918,
+      "sha256": "9c6cd2efdb5b084ec790c6fec1cbcc3dd511429a253048486dc75b7680fe7813"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status-json.stdout",
+      "sizeBytes": 4239,
+      "sha256": "bba9b0c8d91314e31d8f4630db86ffab938000eb9e6d376bcae9e54b89fbfc62"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.execution.json",
+      "sizeBytes": 2903,
+      "sha256": "6fc4513dc3b560040dea62afe7e05e9d198737206827c069f693b9aa035812eb"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/after-retry-status.stdout",
+      "sizeBytes": 385,
+      "sha256": "f96041b91fbda4fd206fa0dcea91e2f57f8379310f1ee11d9cc8e409e2ef8871"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/command-runner.py",
+      "sizeBytes": 4552,
+      "sha256": "63d863cfbea82fcfd66aec9b5f7f77b261d50275083ab5930e434385b7a25610"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/conditional-preflight-binding-check.json",
+      "sizeBytes": 1660,
+      "sha256": "6e2635371edb1272ac972f8602ba9db4e4dcffc100e3ca97aa531582f4a5476c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/confirm-review.input.json",
+      "sizeBytes": 1264,
+      "sha256": "f7393b3da159080b6f79b0e5e048828c0c0069e0e0b960b5d4ac4d6845dc06bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/formal-runner.py",
+      "sizeBytes": 5192,
+      "sha256": "e057b8ea1177ad4e7ddf2d00e1f58bb6f9d5a6a9d564004206ac30a535a37a96"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.execution.json",
+      "sizeBytes": 2925,
+      "sha256": "87d9d6d9a5cd692e286b396e9c7ab333f9d201204646b9d0f73690e798500ec0"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stdout",
+      "sizeBytes": 7358,
+      "sha256": "31d72f972990951df955e2112657429f342502653fa02e0086f3464d5a0a97bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.execution.json",
+      "sizeBytes": 2932,
+      "sha256": "fa04359a4e63353a9d4f288903ad431d6577dccd8522e2b92756e05df65a5f6e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-preflight.stdout",
+      "sizeBytes": 6601,
+      "sha256": "1400385ce7a868c3008b038852d6736faf3628c9945c2492fb68be4b6d7ee94f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/handoff.md",
+      "sizeBytes": 6207,
+      "sha256": "7223786f99831c48ce174d423657ab892c2db3e4237c798b44be22e780d3dd9a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/historical-original-contract.verification.json",
+      "sizeBytes": 418227,
+      "sha256": "3e50cfff0224aaf40694b75be5d315364dcdf37ee1a0ba15913cd05ca9a19554"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/local-preparation-recovery-note.json",
+      "sizeBytes": 981,
+      "sha256": "90a94f27a70123fad78afe2003e1acefa6813ca4d5c201bed2d74743f1b806be"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.execution.json",
+      "sizeBytes": 28757,
+      "sha256": "f7ee773fd284fecd045889898f5dc69767e90bbdbca41c117d45b3db368421f9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.stderr",
+      "sizeBytes": 2759,
+      "sha256": "53083df0bf8ff1a9b637d3b7ac1d661a9b9d82a141343a53c935aa45794af126"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-formal-full.stdout",
+      "sizeBytes": 428794,
+      "sha256": "ba83adba3d9c7efcaf9d427d032b979e08a02d54efb68a5aa4dd9c6528a42691"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.execution.json",
+      "sizeBytes": 2939,
+      "sha256": "80670d2abd7fc2c3810499cfba679c36675bcf265d83682e3d41a5ac3815f4ae"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract-verification-plan.stdout",
+      "sizeBytes": 19871,
+      "sha256": "b0c764fe97aabb27474028fbe204d580d73a34d2020b1c7d4135830f8c4031bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-contract.verification.receipt.json",
+      "sizeBytes": 417286,
+      "sha256": "db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-formal-human-outcome.execution.json",
+      "sizeBytes": 2935,
+      "sha256": "1e9a686e0c7d2ff6c80ad517fef74798b1946964fd2f9ad928db1778d072984c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-formal-human-outcome.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-formal-human-outcome.stdout",
+      "sizeBytes": 2237,
+      "sha256": "2340c594451ea59d705364952d2b737a5114a5e7b67ac29d776582e919e23ba7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/new-formal-result.json",
+      "sizeBytes": 4279,
+      "sha256": "5aaadc0044c77f26265080959952e56e1295811a2a1b66531741d6b4618c933b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/predecessor-record-ci-observation.json",
+      "sizeBytes": 826,
+      "sha256": "34f240c8b108f3d430533ef1791c036c8f8641f5840632c7bf5a5d2e63bca1a3"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/preservation-after-new-formal.json",
+      "sizeBytes": 964,
+      "sha256": "798ba273d5af8df8236ca827a42e4e2b3622d253fcbc7f132826b7389285b1a5"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/process-health-during-recovery.json",
+      "sizeBytes": 578,
+      "sha256": "c475692d85852e8a7fb9cb88d2f13822abb9c10b5b6fdb993fcf6281efadcda2"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/protected-runtimes-post-recovery.json",
+      "sizeBytes": 3476,
+      "sha256": "5bc8ffb61575d02964f7c9bf592fba3d6f2a46df6e85f2c5b3cb1078233c0ded"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/raydot-material-review.request.json",
+      "sizeBytes": 4928,
+      "sha256": "ab9764af9f0264af812a324fabef2d8ae075c2788a6e89d02f42e76322e75144"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/raydot-review-ready.json",
+      "sizeBytes": 16740,
+      "sha256": "43ecb092559fe729c3332733cb6950bdfee504e564a269a95b739ddc53934fdf"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.execution.json",
+      "sizeBytes": 3041,
+      "sha256": "6e2a32ea503d629fc308c402cc2469e234f7af8fcf907339264433e983d5f9d9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review-bound.stdout",
+      "sizeBytes": 17893,
+      "sha256": "7e1d47a5f209e0ebb771122bd0715ee0b94a9ca7ed0ce3d86b141b6d3ec5a0ce"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.execution.json",
+      "sizeBytes": 3043,
+      "sha256": "d9d636867ef6024a1a77226e2eaaa7581ead3e049e139d9f34816a7537804eba"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.stderr",
+      "sizeBytes": 71,
+      "sha256": "f90bf9e93eaccde1767f7eee35652fe4530a66dc07c0ec1c92e51eb5c7fb171d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/record-confirm-review.stdout",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.execution.json",
+      "sizeBytes": 3032,
+      "sha256": "7f8732aaae9ab9a60c7f9e621b309cea5893c7e0c936f73ede671752c39200bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.input.json",
+      "sizeBytes": 2329,
+      "sha256": "8f678fa3fd50c2907e621f7bba3294dc4545f78b891643afd2c7721c7c6a2fca"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/retry.stdout",
+      "sizeBytes": 2329,
+      "sha256": "fe805bf36b8e39cf1c26bf1ab7e6edd0806a3c9b8dfbce96615dbdafe4bd3c2f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.execution.json",
+      "sizeBytes": 2817,
+      "sha256": "149c97697bb31d7ad28f3bb2a1abb209fd3d861abfa27f1f316dbece07312c2f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/status-before-retry.stdout",
+      "sizeBytes": 339969,
+      "sha256": "2860b40de469691991d95a1e2f1f86a2308aff7a86e0d5e14ac9a20d2d90823e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.execution.json",
+      "sizeBytes": 2921,
+      "sha256": "838401857b306582466a60419a5d92fa0b73ca3d5567441459e9f0920b294591"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/validate-before-recovery-verification.stdout",
+      "sizeBytes": 243,
+      "sha256": "6262f75a23f6705d87015fb43615713b1c8c8770b8f10d04cb4d6bea62dbf002"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.execution.json",
+      "sizeBytes": 2757,
+      "sha256": "04d3808d11c5d92bda7a19172bdbafc32bade53420facdc5a9e3e7ba93ac953c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/verify-help.stdout",
+      "sizeBytes": 1172,
+      "sha256": "4a239518099c49891b6b24030fd07736c0bb24e4cf99192f417cc863fa9832b7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.execution.json",
+      "sizeBytes": 2760,
+      "sha256": "de99db89f8ae9c6c08a4aa40d8667e020c23b32309a5c5e04ffc07cc71f3b219"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stdout",
+      "sizeBytes": 3317,
+      "sha256": "e4bbf786f9a47ae5fda0168216b8fe01ddd5c66a0fe8d6597d9ff804b953a4b3"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.outcome.json",
+      "sizeBytes": 28601,
+      "sha256": "8148163d5b7761798d92b5432122e68ab11c2436d7302164dcdcf8f884bcba56"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+      "sizeBytes": 22388,
+      "sha256": "0fb844c9b2ccae871536b15a68927ef1701c5683a45687063942cf27745a9c1a"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.json",
+      "sizeBytes": 21793,
+      "sha256": "9aafc6bd2854bf60f82388223ecbc99e299a0de1608d25f35c50586a2fd6da36"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.md",
+      "sizeBytes": 8453,
+      "sha256": "c76172019b9f3017e80320a1ec0fd41d0c0dd6164e948a027696001fe9d9393e"
+    }
+  ]
+}

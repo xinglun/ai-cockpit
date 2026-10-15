@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "status": "awaiting_actual_named_agent_review_not_a_decision",
+  "recordedAtUTC": "2026-10-15T11:33:16.995875+00:00",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "preflightDecisionDigest": "sha256:e1770338bfc0b1bac50fc0f4b3040c5e58fbc9d82256b3d8c550f897a93c944f",
+  "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+  "sourceSnapshotDigest": "sha256:b59af48b57fbe7f6498a36db2b52488aed33a55bbe91053ad364787480e14a3e",
+  "materialManifestDigest": "sha256:82e95774a5ef741ce56983f8b152121923083aa459c31c64160afcab555b2be0",
+  "profileDigest": "sha256:8282c7d0f7780af966e90e681f972e9c5a18be5892e95f4832c600590c0aa4b0",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "analysisImplementationDigest": "sha256:6a6a0069fcc7c2394bd90728a9838e8093d854fdb219e965d2b02e94f2da9a16",
+  "reviewableEntries": [
+    {
+      "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:38b599cb53fe461263ca1534e01eb357f2e5c06c081e58ba03856705ffb536e0",
+      "afterBlobDigest": "sha256:943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a"
+    }
+  ],
+  "findingCodes": [],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "profile": {
+    "acceptResidualRisk": true,
+    "assurance": "self_declared",
+    "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1084 opt-in proposal requires approval before application",
+    "permittedCause": "readable_committed_rust_syntax_unknown",
+    "permittedUnknown": "repository_material_inspection_unavailable",
+    "reviewerActor": "agent:Raydot",
+    "schemaVersion": 1
+  },
+  "decisionInputTemplate": {
+    "schemaVersion": 1,
+    "decision": "accept_permitted_unknowns",
+    "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+    "reviewerActor": "agent:Raydot",
+    "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1084 opt-in proposal requires approval before application",
+    "assurance": "self_declared",
+    "evidenceRefs": [
+      {
+        "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+        "digest": "sha256:943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a"
+      },
+      {
+        "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-human-approval.json",
+        "digest": "sha256:6379340b344c2a1d7ccb99f7a12934325379b3619507dd179611cfee02175f59"
+      },
+      {
+        "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/conditional-preflight-binding-check.json",
+        "digest": "sha256:6e2635371edb1272ac972f8602ba9db4e4dcffc100e3ca97aa531582f4a5476c"
+      },
+      {
+        "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/fresh-material-plan.stdout",
+        "digest": "sha256:31d72f972990951df955e2112657429f342502653fa02e0086f3464d5a0a97bc"
+      }
+    ],
+    "rationale": null,
+    "residualRisk": null
+  },
+  "unfilledReviewerFields": [
+    "rationale",
+    "residualRisk"
+  ],
+  "instructions": [
+    "Raydot must evaluate the exact current material request and provide the actual bounded decision/rationale/residual risk, including whether the unchanged committed test source and full required evidence are sufficient. This request template is not an approval and must not be passed to the record command.",
+    "Preserve raw scanner Unknown; self_declared review can address only the permitted syntax cause, cannot claim machine Clean or authenticated human/release approval.",
+    "Refresh material plan and current Runtime admission before recording; require identical bindings and the record_material_review_decision safeAction.",
+    "The recovered full verification is executing under the amended Contract; read its actual terminal evidence before accepting it. No finish/archive until the real material decision is supplied and admission allows them."
+  ],
+  "verificationPhase": "new-contract-formal-full.execution.json (in progress at request creation)",
+  "authorizationExclusions": [
+    "human close",
+    "Ready",
+    "merge",
+    "resource deletion",
+    "source/assertion/gate changes"
+  ]
+}

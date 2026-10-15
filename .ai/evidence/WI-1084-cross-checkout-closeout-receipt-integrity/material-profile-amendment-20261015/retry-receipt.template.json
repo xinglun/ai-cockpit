@@ -1,0 +1,34 @@
+{
+  "status": "awaiting_actual_human_approval_not_a_receipt",
+  "unfilledHumanFields": [
+    "actor",
+    "authoritySource",
+    "decidedAt"
+  ],
+  "receiptTemplate": {
+    "schemaVersion": 1,
+    "decisionId": "work-item-recovery",
+    "decision": "retry",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "predecessorWorkItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "predecessorContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "predecessorSummaryDigest": "sha256:9c2dd4c91eda4fce4473bff5e6aa01ac3f8b28ecf980e98e1293ae500836e49f",
+    "predecessorOutcomeDigest": "sha256:a1c0ab49eec7a94c3fcf86ffce9e04ae700ec06c4f86401674e0bde583931bb9",
+    "predecessorEventsDigest": "sha256:6a2d38e7439761e4ac6f82f6d94d854d2d49b4720bf678255d1d1687ffe227e7",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "actor": null,
+    "authoritySource": null,
+    "decidedAt": null,
+    "reason": "Proposed human retry of the preserved finish.lifecycle failure after applying only the accepted explicit material-review profile; source and historical evidence remain unchanged.",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/closeout-20261015/finish.stderr",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.contract-amendments/00000004.committed.json"
+    ],
+    "policyRefs": [
+      ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+    ],
+    "resumeCondition": "Resume this same WI only through fresh admitted preflight, policy review and exact agent:Raydot material-review evidence, then the required bounded verification and finish/archive. Preserve raw Unknown and all earlier bytes; stop for changed bindings, new Findings, unsupported actions or insufficient resources. This authorizes no close, Ready, merge or resource deletion."
+  }
+}
