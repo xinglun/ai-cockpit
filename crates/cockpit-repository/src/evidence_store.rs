@@ -881,3 +881,33 @@ fn replace_cap_entry(
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod windows_rename_refusal_tests {
+    // A numeric Win32 assertion model. Running this on another OS is not
+    // evidence that the native Windows store scenario ran.
+    pub(super) fn supported_rename_refusal(raw_os_error: Option<i32>) -> bool {
+        raw_os_error == Some(32)
+    }
+
+    #[test]
+    fn windows_rename_refusal_code_matrix() {
+        assert!(supported_rename_refusal(Some(32)));
+        assert!(supported_rename_refusal(Some(5)));
+        for code in [
+            None,
+            Some(0),
+            Some(2),
+            Some(3),
+            Some(13),
+            Some(33),
+            Some(87),
+            Some(130),
+        ] {
+            assert!(
+                !supported_rename_refusal(code),
+                "unexpected accepted code: {code:?}"
+            );
+        }
+    }
+}
