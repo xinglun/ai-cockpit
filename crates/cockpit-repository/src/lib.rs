@@ -14503,25 +14503,78 @@ fn atomic_json(path: &Path, value: &serde_json::Value) -> Result<(), ObserverErr
 /// runtime directory so a later caller cannot replace the inode while an
 /// older waiter still holds it. The operating-system lock is released when
 /// the handle is dropped, including after a process crash.
-fn acquire_lifecycle_lock(root: &Path, work_item_id: &str) -> Result<fs::File, ObserverError> {
-    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
-        ObserverError::Read {
-            path: root.to_path_buf(),
-            source,
+mod lifecycle_lock_guard {
+    use super::*;
+    /// Only acquire constructs this type, and it retains the OS lock handle.
+    /// Fields are private to this module so sibling writers cannot fabricate it.
+    pub(crate) struct LifecycleLockGuard {
+        _file: fs::File,
+        root: PathBuf,
+        repository_id: String,
+        work_item_id: String,
+    }
+    impl LifecycleLockGuard {
+        pub(crate) fn require_subject(
+            &self,
+            root: &Path,
+            work_item_id: &str,
+        ) -> Result<(), ObserverError> {
+            let actual = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?;
+            if actual != self.root
+                || work_item_id != self.work_item_id
+                || repository_id(root).to_string() != self.repository_id
+            {
+                return Err(ObserverError::State {
+                    path: root.into(),
+                    message: "lifecycle_lock_subject_mismatch".into(),
+                });
+            }
+            Ok(())
         }
-    })?;
-    let ai_path = root.join(".ai");
-    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
-    let locks_path = ai_path.join("locks");
-    let locks = create_and_open_cap_directory(&ai, "locks", &locks_path)?;
-    let lock_name = format!("{work_item_id}.lifecycle.lock");
-    let lock_path = locks_path.join(&lock_name);
-    let lock = open_or_create_cap_nofollow(&locks, &lock_name, &lock_path)?;
-    lock.lock().map_err(|source| ObserverError::Read {
-        path: lock_path,
-        source,
-    })?;
-    Ok(lock)
+    }
+    pub(super) fn acquire(
+        root: &Path,
+        work_item_id: &str,
+    ) -> Result<LifecycleLockGuard, ObserverError> {
+        let root_dir =
+            Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+                ObserverError::Read {
+                    path: root.to_path_buf(),
+                    source,
+                }
+            })?;
+        let ai_path = root.join(".ai");
+        let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+        let locks_path = ai_path.join("locks");
+        let locks = create_and_open_cap_directory(&ai, "locks", &locks_path)?;
+        let lock_name = format!("{work_item_id}.lifecycle.lock");
+        let lock_path = locks_path.join(&lock_name);
+        let lock = open_or_create_cap_nofollow(&locks, &lock_name, &lock_path)?;
+        lock.lock().map_err(|source| ObserverError::Read {
+            path: lock_path,
+            source,
+        })?;
+        Ok(LifecycleLockGuard {
+            _file: lock,
+            root: fs::canonicalize(root).map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?,
+            repository_id: repository_id(root).to_string(),
+            work_item_id: work_item_id.into(),
+        })
+    }
+}
+pub(crate) use lifecycle_lock_guard::LifecycleLockGuard;
+fn acquire_lifecycle_lock(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<LifecycleLockGuard, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    lifecycle_lock_guard::acquire(root, work_item_id)
 }
 
 fn now() -> String {

@@ -392,4 +392,183 @@ mod complete_source {
             "aggregate index must union canonical proof names: {value}"
         );
     }
+
+    #[test]
+    fn delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let raw = b"provider observation fixture\n";
+        let raw_ref = format!(".ai/evidence/external/{ID}.provider.raw");
+        let evidence = cockpit_protocol::DelegatedEvidence {
+            provider: "fixture".into(),
+            subject: "complete legacy dependency".into(),
+            origin: "isolated fixture API".into(),
+            assurance: cockpit_protocol::EvidenceAssurance::SelfDeclared,
+            collected_at: "2026-10-01T00:00:00Z".into(),
+            digest: Digest::sha256_bytes(raw),
+            validity: cockpit_protocol::EvidenceValidity::Valid,
+            raw_evidence_ref: raw_ref.clone(),
+        };
+        cockpit_repository::import_delegated_evidence(&dest, ID, &evidence, raw, &old_runtime())
+            .unwrap();
+        let observation = cockpit_repository::import_delegated_evidence_observation(
+            &dest,
+            ID,
+            &evidence,
+            raw,
+            &old_runtime(),
+        )
+        .unwrap();
+        commit(&dest, "retain full delegated and observation dependencies");
+        git(&source, &["pull", "--ff-only", "--quiet"]);
+        let plan = original_plan(&dest, &source);
+        let registration: Value = serde_json::from_str(&plan.registration_bytes).unwrap();
+        let bindings = registration["dependencyBindings"].as_array().unwrap();
+        assert!(
+            bindings.iter().any(|entry| entry["path"] == raw_ref),
+            "raw bytes must be an explicit dependency"
+        );
+        assert!(
+            bindings.iter().any(|entry| entry["path"]
+                .as_str()
+                .unwrap()
+                .contains(&observation.receipt.observation_digest.to_string()[7..])),
+            "exact observation selector must be retained"
+        );
+        cockpit_repository::record_legacy_closeout_source(&dest, ID, &plan, &current_runtime())
+            .unwrap();
+        fs::remove_file(dest.join(raw_ref)).unwrap();
+        let status = work_item_status_snapshot_with_runtime(&dest, ID, &current_runtime()).unwrap();
+        assert_ne!(status.lifecycle_phase, "closed");
+        assert!(status.blocking);
+    }
+
+    #[test]
+    fn malformed_delegated_digest_returns_error_without_panicking() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        fs::create_dir_all(dest.join(".ai/evidence/external")).unwrap();
+        let bad = json!({"schemaVersion":1,"repositoryId":cockpit_repository::repository_id(&dest).to_string(),"workItemId":ID,"runtimeVersion":"historical","runtimeDigest":Digest::sha256_bytes(b"historical"),"boundAt":"2026-10-01T00:00:00Z","evidence":{"provider":"fixture","subject":"bad digest","origin":"isolated fixture","assurance":"self_declared","collectedAt":"2026-10-01T00:00:00Z","digest":"x","validity":"valid","rawEvidenceRef":format!(".ai/evidence/external/{ID}.raw")}});
+        fs::write(
+            dest.join(format!(".ai/evidence/external/{ID}.bad.delegated.json")),
+            serde_json::to_vec_pretty(&bad).unwrap(),
+        )
+        .unwrap();
+        commit(&dest, "malformed dependency fixture");
+        git(&source, &["pull", "--ff-only", "--quiet"]);
+        let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+            .unwrap()
+            .trim()
+            .to_owned();
+        let request:cockpit_protocol::LegacyCloseoutSourceRequest=serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"fixture","authoritySource":"fixture","reason":"malformed input must be an error","sourceAccepted":true})).unwrap();
+        let result = std::panic::catch_unwind(|| {
+            cockpit_repository::plan_legacy_closeout_source(
+                &dest,
+                Some(&source),
+                ID,
+                &request,
+                &current_runtime(),
+            )
+        });
+        assert!(result.is_ok(), "malformed untrusted digests must not panic");
+        assert!(result.unwrap().is_err());
+    }
+
+    #[test]
+    fn partial_root_resume_preserves_first_exact_bytes_with_independent_binding() {
+        for removed in ["requirement", "registration"] {
+            let (_destination, dest, source_owner, source) = legacy_pair();
+            let original = original_plan(&dest, &source);
+            cockpit_repository::record_legacy_closeout_source(
+                &dest,
+                ID,
+                &original,
+                &current_runtime(),
+            )
+            .unwrap();
+            let path = dest.join(format!(
+                ".ai/decisions/{ID}.legacy-closeout-source-{removed}.json"
+            ));
+            fs::remove_file(&path).unwrap();
+            drop(source_owner);
+            let request:cockpit_protocol::LegacyCloseoutSourceRequest=serde_json::from_value(json!({"schemaVersion":1,"operation":"resume","originalRegistrationBytes":original.registration_bytes,"originalRequirementRawDigest":original.requirement_raw_digest})).unwrap();
+            let resume = cockpit_repository::plan_legacy_closeout_source(
+                &dest,
+                None,
+                ID,
+                &request,
+                &current_runtime(),
+            )
+            .unwrap();
+            let result = cockpit_repository::record_legacy_closeout_source(
+                &dest,
+                ID,
+                &resume,
+                &current_runtime(),
+            )
+            .unwrap();
+            assert_eq!(result["state"], "committed");
+            assert_eq!(
+                fs::read(dest.join(format!(
+                    ".ai/decisions/{ID}.legacy-closeout-source-requirement.json"
+                )))
+                .unwrap(),
+                original.requirement_bytes.as_bytes()
+            );
+            assert_eq!(
+                fs::read(dest.join(format!(
+                    ".ai/decisions/{ID}.legacy-closeout-source-registration.json"
+                )))
+                .unwrap(),
+                original.registration_bytes.as_bytes()
+            );
+        }
+    }
+
+    #[test]
+    fn damaged_survivor_cannot_become_original_through_a_fresh_plan() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let original = original_plan(&dest, &source);
+        cockpit_repository::record_legacy_closeout_source(&dest, ID, &original, &current_runtime())
+            .unwrap();
+        fs::remove_file(dest.join(format!(
+            ".ai/decisions/{ID}.legacy-closeout-source-registration.json"
+        )))
+        .unwrap();
+        let path = dest.join(format!(
+            ".ai/decisions/{ID}.legacy-closeout-source-requirement.json"
+        ));
+        let mut requirement: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        let mut changed: Value =
+            serde_json::from_str(requirement["registrationBytes"].as_str().unwrap()).unwrap();
+        changed["actor"] = json!("changed actor");
+        let changed_bytes = serde_json::to_vec_pretty(&changed).unwrap();
+        requirement["registrationBytes"] = String::from_utf8(changed_bytes.clone()).unwrap().into();
+        requirement["registrationRawDigest"] =
+            Digest::sha256_bytes(&changed_bytes).to_string().into();
+        let changed_requirement = serde_json::to_vec_pretty(&requirement).unwrap();
+        fs::write(&path, &changed_requirement).unwrap();
+        let request:cockpit_protocol::LegacyCloseoutSourceRequest=serde_json::from_value(json!({"schemaVersion":1,"operation":"resume","originalRegistrationBytes":original.registration_bytes,"originalRequirementRawDigest":original.requirement_raw_digest})).unwrap();
+        assert!(
+            cockpit_repository::plan_legacy_closeout_source(
+                &dest,
+                None,
+                ID,
+                &request,
+                &current_runtime()
+            )
+            .is_err()
+        );
+        let no_original: cockpit_protocol::LegacyCloseoutSourceRequest =
+            serde_json::from_value(json!({"schemaVersion":1,"operation":"resume"})).unwrap();
+        assert!(
+            cockpit_repository::plan_legacy_closeout_source(
+                &dest,
+                None,
+                ID,
+                &no_original,
+                &current_runtime()
+            )
+            .is_err()
+        );
+        assert_eq!(fs::read(path).unwrap(), changed_requirement);
+    }
 }

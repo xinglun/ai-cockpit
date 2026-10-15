@@ -1556,7 +1556,7 @@ pub fn record_historical_finalization_recovery(
         path: root.into(),
         source,
     })?;
-    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    let lifecycle_guard = acquire_lifecycle_lock(&root, work_item_id)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     let expected_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
@@ -1572,7 +1572,13 @@ pub fn record_historical_finalization_recovery(
                 Some(HistoricalFinalizationKind::DirectMergeNoPr)
             )
         {
-            return record_resource_finalization(&root, work_item_id, input_path, runtime);
+            return record_resource_finalization_locked(
+                &root,
+                work_item_id,
+                input_path,
+                runtime,
+                &lifecycle_guard,
+            );
         }
         return Err(ObserverError::State {
             path: predecessor_path,
@@ -1960,6 +1966,25 @@ pub fn record_resource_finalization(
     receipt_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let guard = acquire_lifecycle_lock(&root, work_item_id)?;
+    record_resource_finalization_locked(&root, work_item_id, receipt_path, runtime, &guard)
+}
+
+/// The single finalization writer. Callers already holding the same Work Item
+/// lock use this crate-private core rather than recursively acquiring it.
+pub(crate) fn record_resource_finalization_locked(
+    root: &Path,
+    work_item_id: &str,
+    receipt_path: &Path,
+    runtime: &RuntimeContext,
+    guard: &super::LifecycleLockGuard,
+) -> Result<serde_json::Value, ObserverError> {
+    guard.require_subject(root, work_item_id)?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -11069,5 +11094,84 @@ mod post_merge_sync_tests {
 
         std::fs::write(worktree.join("untracked.txt"), "dirty\n").unwrap();
         assert!(validate_post_merge_sync_local_state(&root, &receipt, &sync).is_err());
+    }
+}
+
+#[cfg(test)]
+mod legacy_source_lock_tests {
+    use super::*;
+    #[test]
+    fn public_finalization_waits_for_the_same_work_item_lifecycle_lock() {
+        let directory = tempfile::tempdir().unwrap();
+        Command::new("git")
+            .args(["init", "--quiet"])
+            .current_dir(directory.path())
+            .output()
+            .unwrap();
+        crate::attach(directory.path()).unwrap();
+        let root = directory.path().to_path_buf();
+        let id = "WI-LEGACY-LOCK";
+        let held = acquire_lifecycle_lock(&root, id).unwrap();
+        let (started_tx, started_rx) = std::sync::mpsc::channel();
+        let (done_tx, done_rx) = std::sync::mpsc::channel();
+        let worker = std::thread::spawn(move || {
+            started_tx.send(()).unwrap();
+            let runtime = RuntimeContext {
+                runtime_version: "fixture".into(),
+                protocol_version: 1,
+                runtime_digest: Digest::sha256_bytes(b"fixture"),
+            };
+            let result =
+                record_resource_finalization(&root, id, &root.join("missing-input.json"), &runtime);
+            done_tx.send(result.is_err()).unwrap();
+        });
+        started_rx
+            .recv_timeout(std::time::Duration::from_secs(5))
+            .unwrap();
+        let returned_while_locked = done_rx
+            .recv_timeout(std::time::Duration::from_millis(100))
+            .is_ok();
+        drop(held);
+        if !returned_while_locked {
+            assert!(
+                done_rx
+                    .recv_timeout(std::time::Duration::from_secs(5))
+                    .unwrap()
+            );
+        }
+        worker.join().unwrap();
+        assert!(
+            !returned_while_locked,
+            "public finalization must acquire the same lifecycle lock before observing or publishing"
+        );
+    }
+    #[test]
+    fn held_finalization_core_rejects_a_different_work_item_guard() {
+        let directory = tempfile::tempdir().unwrap();
+        Command::new("git")
+            .args(["init", "--quiet"])
+            .current_dir(directory.path())
+            .output()
+            .unwrap();
+        crate::attach(directory.path()).unwrap();
+        let guard = acquire_lifecycle_lock(directory.path(), "WI-LOCK-OWNER").unwrap();
+        let runtime = RuntimeContext {
+            runtime_version: "fixture".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"fixture"),
+        };
+        let error = record_resource_finalization_locked(
+            directory.path(),
+            "WI-OTHER",
+            &directory.path().join("missing.json"),
+            &runtime,
+            &guard,
+        )
+        .unwrap_err();
+        assert!(
+            error
+                .to_string()
+                .contains("lifecycle_lock_subject_mismatch")
+        );
     }
 }

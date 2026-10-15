@@ -192,6 +192,146 @@ fn requirement(
     )
 }
 
+fn scoped_dependency_paths(
+    root: &Path,
+    id: &str,
+    repo: &str,
+) -> Result<Vec<String>, ObserverError> {
+    let mut paths = BTreeSet::new();
+    for (relative, suffix) in [
+        (".ai/evidence/external", ".delegated.json"),
+        (".ai/evidence/observations", ".observation.json"),
+    ] {
+        match fs::symlink_metadata(root.join(relative)) {
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: root.join(relative),
+                    source,
+                });
+            }
+            Ok(_) => {}
+        }
+        let mut dir =
+            Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+                ObserverError::Read {
+                    path: root.into(),
+                    source,
+                }
+            })?;
+        let mut display = root.to_path_buf();
+        for part in relative_parts(root, relative)? {
+            display.push(&part);
+            dir = open_cap_directory_nofollow_strict(&dir, &part, &display)?;
+        }
+        let entries = dir.entries().map_err(|source| ObserverError::Read {
+            path: display.clone(),
+            source,
+        })?;
+        let mut scanned = 0usize;
+        for entry in entries {
+            scanned += 1;
+            if scanned > 4096 {
+                return Err(error(root, "dependency_directory_budget_exceeded"));
+            }
+            let entry = entry.map_err(|source| ObserverError::Read {
+                path: display.clone(),
+                source,
+            })?;
+            let name = entry.file_name().to_string_lossy().into_owned();
+            if !name.starts_with(&format!("{id}.")) || !name.ends_with(suffix) {
+                continue;
+            }
+            let path = format!("{relative}/{name}");
+            let bytes = safe_read(root, &path, MAX_BYTES)?;
+            let evidence = if suffix == ".delegated.json" {
+                let receipt: cockpit_protocol::DelegatedEvidenceReceipt = parse(root, &bytes)?;
+                if receipt.schema_version != 1
+                    || receipt.repository_id != repo
+                    || receipt.work_item_id != id
+                    || receipt.runtime_version.trim().is_empty()
+                    || chrono::DateTime::parse_from_rfc3339(&receipt.bound_at).is_err()
+                    || receipt
+                        .evidence
+                        .digest
+                        .to_string()
+                        .parse::<Digest>()
+                        .is_err()
+                    || receipt
+                        .runtime_digest
+                        .to_string()
+                        .parse::<Digest>()
+                        .is_err()
+                    || name
+                        != format!(
+                            "{id}.{}.delegated.json",
+                            &receipt.evidence.digest.to_string()[7..]
+                        )
+                {
+                    return Err(error(root, "delegated_dependency_invalid"));
+                }
+                receipt.evidence
+            } else {
+                let receipt: cockpit_protocol::DelegatedEvidenceObservationReceipt =
+                    parse(root, &bytes)?;
+                if receipt
+                    .observation_digest
+                    .to_string()
+                    .parse::<Digest>()
+                    .is_err()
+                    || receipt
+                        .evidence
+                        .digest
+                        .to_string()
+                        .parse::<Digest>()
+                        .is_err()
+                    || receipt
+                        .runtime_digest
+                        .to_string()
+                        .parse::<Digest>()
+                        .is_err()
+                {
+                    return Err(error(root, "observation_dependency_invalid"));
+                }
+                cockpit_protocol::validate_delegated_evidence_observation_receipt(&receipt)
+                    .map_err(|_| error(root, "observation_dependency_invalid"))?;
+                if receipt.repository_id != repo
+                    || receipt.work_item_id != id
+                    || chrono::DateTime::parse_from_rfc3339(&receipt.bound_at).is_err()
+                    || name
+                        != format!(
+                            "{id}.{}.observation.json",
+                            &receipt.observation_digest.to_string()[7..]
+                        )
+                {
+                    return Err(error(root, "observation_dependency_invalid"));
+                }
+                receipt.evidence
+            };
+            // Open raw bytes safely before invoking the existing metadata
+            // validator, whose contract lookup must not create a raw directory.
+            let raw = safe_read(root, &evidence.raw_evidence_ref, MAX_BYTES)?;
+            super::validate_delegated_metadata(root, id, &evidence, &raw)?;
+            paths.insert(path);
+            paths.insert(evidence.raw_evidence_ref);
+            if paths.len() > MAX_FILES {
+                return Err(error(root, "dependency_budget_exceeded"));
+            }
+        }
+    }
+    Ok(paths.into_iter().collect())
+}
+fn dependencies(inventory: &[FileBinding]) -> Vec<FileBinding> {
+    inventory
+        .iter()
+        .filter(|file| {
+            file.path.starts_with(".ai/evidence/external/")
+                || file.path.starts_with(".ai/evidence/observations/")
+        })
+        .cloned()
+        .collect()
+}
+
 fn observe_history(
     root: &Path,
     id: &str,
@@ -228,6 +368,18 @@ fn observe_history(
     if !inventory.iter().any(|file| file.path == receipt_path(id)) {
         total += receipt_bytes.len() as u64;
         inventory.push(binding(root, receipt_path(id), &receipt_bytes)?);
+    }
+    for path in scoped_dependency_paths(root, id, repo)? {
+        let bytes = safe_read(root, &path, MAX_BYTES)?;
+        let value = binding(root, path, &bytes)?;
+        if let Some(existing) = inventory.iter().find(|entry| entry.path == value.path) {
+            if existing != &value {
+                return Err(error(root, "dependency_changed_during_observation"));
+            }
+        } else {
+            total += bytes.len() as u64;
+            inventory.push(value);
+        }
     }
     inventory.sort_by(|a, b| a.path.cmp(&b.path));
     if inventory.is_empty()
@@ -306,7 +458,7 @@ fn validate_registration(
     let (facts, inventory) = observe_history(root, id, repo)?;
     if facts != registration.history_facts
         || inventory != registration.inventory
-        || !registration.dependency_bindings.is_empty()
+        || registration.dependency_bindings != dependencies(&inventory)
         || registration.source.inventory_digest != digest(root, &inventory)?
         || registration.legacy_receipt
             != *inventory
@@ -441,7 +593,7 @@ pub fn plan_legacy_closeout_source(
                     .find(|f| f.path == receipt_path(id))
                     .ok_or_else(|| error(&root, "legacy_receipt_missing"))?
                     .clone(),
-                dependency_bindings: vec![],
+                dependency_bindings: dependencies(&inventory),
                 source: LegacyCloseoutSourceAttestation {
                     root: source.to_string_lossy().into_owned(),
                     git_common_directory: common_dir(&source)?.to_string_lossy().into_owned(),
