@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "agent",
+    "doctor",
+    "--repo",
+    "/workspace/ai-cockpit-wi1081-cleanup-control",
+    "--json"
+  ],
+  "startedAt": "2026-10-15T05:49:03.086860+00:00",
+  "endedAt": "2026-10-15T05:49:03.232169+00:00",
+  "exitCode": 0
+}

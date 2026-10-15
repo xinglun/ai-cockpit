@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-10-15T05:50:02.631805+00:00",
+  "worktreeAbsent": true,
+  "worktreeGitDirAbsent": true,
+  "exactLocalBranchAbsent": true,
+  "exactRemoteBranchAbsent": true,
+  "branchRef": "refs/heads/codex/wi1081-append-only-evidence-observations",
+  "worktreePath": "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+  "ignoredEmptyUnheldLockBytesRetained": true
+}

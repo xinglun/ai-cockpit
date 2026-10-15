@@ -1,0 +1,10 @@
+{
+  "reviewerActor": "agent:Raydot",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "observedAt": "2026-10-15T05:46:56.740765+00:00",
+  "reviewedHead": "18313fb764098f498200863ef4b2d63aee25d9c7",
+  "decision": "accepted",
+  "newP1P2": 0,
+  "statement": "Raydot 已完成18313fb764098f498200863ef4b2d63aee25d9c7关闭证据独立复核，通过，无P1/P2。CI38685734612 quality已通过，实际checkout synthetic merge50faaa71、parents b6b88e7e+18313fb已核；等待Windows及完整CI最终通过后，按本线程Ray直接批准正常Ready/merge PR1037和对应精确cleanup。执行前重新核head与合并树，误建分支和1078不在范围。普通技术审阅条件已满足，无需重复请求。",
+  "condition": "All required final CI jobs must complete success; recheck exact head/main/tested merge before normal merge."
+}

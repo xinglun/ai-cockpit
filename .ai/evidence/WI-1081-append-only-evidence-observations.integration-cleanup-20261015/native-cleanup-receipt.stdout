@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:1b7d05240822519a006f09fa120b7e6f00248f298bcb9d847f607ccb389497b5",
+  "branchRef": "refs/heads/codex/wi1081-append-only-evidence-observations",
+  "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "headRevision": "00e89d21d6a00d09819f8353ae0a1391b954f171",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-15T05:50:02Z",
+  "operationId": "sha256:3fca8321dce53f2c3dd3f89732e945da4467f732a760f15510009cdcf927e204",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1081-append-only-evidence-observations",
+  "worktreeId": "sha256:93556a5c9e6b14e1d5e3a117d614449d92b610f83eb48d58fb6f4274340c63a9"
+}

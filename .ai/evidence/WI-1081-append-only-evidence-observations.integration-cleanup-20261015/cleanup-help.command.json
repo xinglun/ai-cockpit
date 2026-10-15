@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "work-item",
+    "ordinary-cleanup",
+    "--help"
+  ],
+  "startedAt": "2026-10-15T05:49:06.110531+00:00",
+  "endedAt": "2026-10-15T05:49:06.115341+00:00",
+  "exitCode": 0
+}

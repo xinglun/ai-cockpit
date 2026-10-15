@@ -1,0 +1,14 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "sha": "edd1f9933eb3cd8628e4d427df156de1cc76ba5e",
+    "merged": true,
+    "message": "Pull Request successfully merged"
+  },
+  "isError": false
+}

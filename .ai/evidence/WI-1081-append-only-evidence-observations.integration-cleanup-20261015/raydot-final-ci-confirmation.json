@@ -1,0 +1,25 @@
+{
+  "reviewerActor": "agent:Raydot",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "observedAt": "2026-10-15T05:49:37.957228+00:00",
+  "head": "18313fb764098f498200863ef4b2d63aee25d9c7",
+  "run": 38685734612,
+  "terminalConclusion": "success",
+  "completedAt": "2026-10-15T05:44:32Z",
+  "allJobsSuccess": 4,
+  "windowsNoSkip": true,
+  "testedSyntheticMerge": "50faaa71e590e2ded159433437490b9ddb0f90ee",
+  "windowsCounts": {
+    "exactCase": 1,
+    "receiptStore": 9,
+    "repositoryLib": 109
+  },
+  "actualProof": {
+    "rawRenameErrno": 32,
+    "receiptCount": 2,
+    "indexMappings": 2,
+    "noRedirection": true,
+    "renameAfterAllHandlesReleased": true
+  },
+  "technicalReviewConditionMet": true
+}

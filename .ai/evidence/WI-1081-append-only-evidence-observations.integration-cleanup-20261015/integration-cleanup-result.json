@@ -1,0 +1,32 @@
+{
+  "observedAt": "2026-10-15T05:51:10.716312+00:00",
+  "workItemId": "WI-1081-append-only-evidence-observations",
+  "pr": 1037,
+  "mergedHead": "18313fb764098f498200863ef4b2d63aee25d9c7",
+  "mergeCommit": "edd1f9933eb3cd8628e4d427df156de1cc76ba5e",
+  "testedSyntheticMerge": "50faaa71e590e2ded159433437490b9ddb0f90ee",
+  "actualTreeEqualsTestedTree": true,
+  "completeCi": {
+    "runId": 38685734612,
+    "jobsSucceeded": 4
+  },
+  "raydotExactHeadReviewAccepted": true,
+  "nativeCleanupReceipt": ".ai/decisions/WI-1081-append-only-evidence-observations.cleanup.000001.20233b0b871b8117acffcf13bc8e28b3fc0fb00d126c84bcab18df352ba23618.json",
+  "nativeCleanupSequence": 1,
+  "nativeCleanupState": "verified",
+  "nativeCleanupFailureCodes": [],
+  "nativeCleanupBindingDigest": "sha256:1b7d05240822519a006f09fa120b7e6f00248f298bcb9d847f607ccb389497b5",
+  "preservedWorktrees": 5,
+  "mistakenRemoteRefAndWI1078ExcludedAndPreserved": true,
+  "sourceContractOriginalArchiveOriginalVerificationUnchanged": true,
+  "knownUnknowns": [
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "intent_alignment_missing",
+    "human_authorization_message_authored_time_unknown",
+    "usage_coverage_unknown",
+    "host_display_confirmation_unknown",
+    "original_repository_stdout_truncated"
+  ]
+}

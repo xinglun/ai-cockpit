@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "git",
+    "worktree",
+    "remove",
+    "/workspace/ai-cockpit-wi1081-append-only-evidence-observations"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1081-cleanup-control",
+  "startedAt": "2026-10-15T05:50:00.541245+00:00",
+  "endedAt": "2026-10-15T05:50:00.761304+00:00",
+  "exitCode": 0
+}

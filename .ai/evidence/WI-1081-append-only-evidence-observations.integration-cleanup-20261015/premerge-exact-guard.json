@@ -1,0 +1,13 @@
+{
+  "checkedAt": "2026-10-15T05:47:26.115009+00:00",
+  "testedSyntheticMerge": "50faaa71e590e2ded159433437490b9ddb0f90ee",
+  "parents": [
+    "b6b88e7eef11abb464d9097c8795c808b17c88b9",
+    "18313fb764098f498200863ef4b2d63aee25d9c7"
+  ],
+  "tree": "f0145c33eecb4e695ad2a962529b44c4418df7fa",
+  "freshRemoteMain": "b6b88e7eef11abb464d9097c8795c808b17c88b9",
+  "sourceHead": "18313fb764098f498200863ef4b2d63aee25d9c7",
+  "allRequiredJobsPassed": true,
+  "raydotExactHeadReviewAccepted": true
+}

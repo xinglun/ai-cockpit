@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-10-15T05:51:42.372240+00:00",
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "exitCode": 2,
+  "affectedPaths": [
+    ".ai/evidence/WI-1081-append-only-evidence-observations.integration-cleanup-20261015/cleanup-help.stdout",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.integration-cleanup-20261015/quality.final-ci.decoded.log",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.integration-cleanup-20261015/windows.final-ci.decoded.log"
+  ],
+  "explanation": "Only original whitespace in decoded official CI logs and Runtime help. Raw bytes preserved; no source, gate, hook or whitespace configuration changed."
+}
