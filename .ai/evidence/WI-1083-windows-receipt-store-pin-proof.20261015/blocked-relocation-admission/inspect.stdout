@@ -1,0 +1,92 @@
+{
+  "compatibility": {
+    "compatible": false,
+    "conflicts": [],
+    "dependenciesSatisfied": false,
+    "reasons": [
+      "parallel_compatibility_not_declared"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+  },
+  "implementationApproach": {
+    "derivations": [
+      {
+        "confidence": "medium",
+        "evidenceRefs": [
+          "repository-snapshot"
+        ],
+        "inputFactKeys": [
+          "buildSystems"
+        ],
+        "key": "verificationCapability",
+        "rule": "observer.quality_commands_from_detected_build_system",
+        "value": [
+          {
+            "args": [
+              "test",
+              "--workspace"
+            ],
+            "program": "cargo",
+            "state": "detected"
+          }
+        ]
+      }
+    ],
+    "evidenceRefs": [
+      ".ai/work-items/active/WI-1083-windows-receipt-store-pin-proof",
+      "repository-snapshot"
+    ],
+    "facts": [
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          "git:HEAD"
+        ],
+        "key": "baseRevision",
+        "origin": "observed",
+        "value": "00461714bd43d3f6c42ede66491e01d22d475604"
+      },
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          "repository-snapshot"
+        ],
+        "key": "buildSystems",
+        "origin": "observed",
+        "value": [
+          "Cargo"
+        ]
+      },
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          "repository-snapshot"
+        ],
+        "key": "languages",
+        "origin": "observed",
+        "value": [
+          "Python",
+          "Rust"
+        ]
+      },
+      {
+        "confidence": "high",
+        "evidenceRefs": [
+          ".ai/cockpit.toml"
+        ],
+        "key": "repositoryId",
+        "origin": "observed",
+        "value": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b"
+      }
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:83987b0033e1ba1bb5494b4620dddc11c09a32d305303f359b13577ee8dce51a",
+    "schemaVersion": 2,
+    "unknowns": [],
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+  },
+  "parallelSlots": [],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+}

@@ -283,6 +283,122 @@ fn parent_replacement_after_lock_open_cannot_redirect_store_reads() {
     fs::remove_dir_all(attacker).expect("cleanup attacker");
 }
 
+#[cfg(windows)]
+#[test]
+fn released_store_rename_preserves_both_receipts_and_index_bindings() {
+    use std::os::windows::{
+        fs::{MetadataExt, OpenOptionsExt},
+        io::AsRawHandle,
+    };
+    use windows_sys::Win32::Storage::FileSystem::{
+        BY_HANDLE_FILE_INFORMATION, FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_BACKUP_SEMANTICS,
+        FILE_FLAG_OPEN_REPARSE_POINT, GetFileInformationByHandle,
+    };
+
+    fn directory_identity(path: &Path) -> (u32, u64) {
+        let probe = fs::OpenOptions::new()
+            .read(true)
+            .custom_flags(FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT)
+            .open(path)
+            .expect("short-lived directory identity probe");
+        let metadata = probe.metadata().expect("directory metadata");
+        assert!(metadata.is_dir());
+        assert_eq!(metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT, 0);
+        let mut information = BY_HANDLE_FILE_INFORMATION::default();
+        // SAFETY: probe owns a live handle and information is writable.
+        assert_ne!(
+            unsafe { GetFileInformationByHandle(probe.as_raw_handle().cast(), &mut information) },
+            0
+        );
+        let identity = (
+            information.dwVolumeSerialNumber,
+            (u64::from(information.nFileIndexHigh) << 32) | u64::from(information.nFileIndexLow),
+        );
+        drop(probe);
+        identity
+    }
+
+    // Exercise the non-test library through its public API. After the pin
+    // scenario moves to private unit tests, this independently proves handle
+    // release and exact two-node persistence without a test-only hook.
+    let root = fixture("windows-released-store");
+    let first_binding = binding(&root);
+    let first = receipt(&first_binding);
+    let mut second_binding = first_binding.clone();
+    second_binding.node_id = "second-node".into();
+    let second = receipt(&second_binding);
+    assert_ne!(first.receipt_id, second.receipt_id);
+    persist_reusable_receipt(&root, &first_binding, &first).expect("persist first");
+    persist_reusable_receipt(&root, &second_binding, &second).expect("persist second");
+    let reuse = root.join(".ai/evidence/reuse");
+    let moved = root.join(".ai/evidence/reuse-released");
+    let original_identity = directory_identity(&reuse);
+    let original_path = fs::canonicalize(&reuse).expect("original store path");
+    let expected_index = serde_json::json!({
+        "schemaVersion":1,"repositoryId":first_binding.repository_id,
+        "profileDigest":first_binding.profile_digest,
+        "receipts":std::collections::BTreeMap::from([
+            (first_binding.node_id.clone(),first.receipt_id.clone()),
+            (second_binding.node_id.clone(),second.receipt_id.clone()),
+        ])
+    });
+    for (binding, expected) in [(&first_binding, &first), (&second_binding, &second)] {
+        match load_reusable_receipt(&root, binding).expect("public initial readback") {
+            ReceiptStoreLoad::Candidate {
+                receipt,
+                files_read,
+            } => {
+                assert_eq!(*receipt, *expected);
+                assert_eq!(files_read, 2);
+            }
+            ReceiptStoreLoad::Unavailable { reason, .. } => panic!("unavailable: {reason}"),
+        }
+    }
+    let index: serde_json::Value =
+        serde_json::from_slice(&fs::read(reuse.join("index.json")).expect("index bytes"))
+            .expect("index JSON");
+    assert_eq!(index, expected_index);
+    // Every public operation returned and every short-lived probe dropped.
+    // A leaked production directory/file handle must fail this real rename.
+    fs::rename(&reuse, &moved).expect("rename succeeds after public operations release handles");
+    assert_eq!(
+        fs::symlink_metadata(&reuse)
+            .expect_err("old path absent")
+            .kind(),
+        std::io::ErrorKind::NotFound
+    );
+    assert_eq!(directory_identity(&moved), original_identity);
+    for expected in [&first, &second] {
+        let name = format!("{}.json", &expected.receipt_id["sha256:".len()..]);
+        let bytes = fs::read(moved.join("receipts").join(name)).expect("moved receipt bytes");
+        assert_eq!(
+            bytes,
+            serde_json::to_vec_pretty(expected).expect("exact expected bytes")
+        );
+        assert_eq!(
+            serde_json::from_slice::<ReusableReceipt>(&bytes).expect("typed receipt"),
+            *expected
+        );
+    }
+    let index: serde_json::Value =
+        serde_json::from_slice(&fs::read(moved.join("index.json")).expect("moved index bytes"))
+            .expect("moved index JSON");
+    assert_eq!(index, expected_index);
+    fs::rename(&moved, &reuse).expect("restore exact original store");
+    assert_eq!(directory_identity(&reuse), original_identity);
+    assert_eq!(
+        fs::canonicalize(&reuse).expect("restored path"),
+        original_path
+    );
+    for (binding, expected) in [(&first_binding, &first), (&second_binding, &second)] {
+        assert!(
+            matches!(load_reusable_receipt(&root, binding).expect("public restored readback"),
+            ReceiptStoreLoad::Candidate { receipt, files_read:2 } if *receipt==*expected)
+        );
+    }
+    fs::remove_dir_all(root).expect("fixture cleanup");
+}
+
 #[cfg(unix)]
 #[test]
 fn failed_index_replacement_keeps_the_previous_valid_index_authoritative() {

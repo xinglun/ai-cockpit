@@ -1,0 +1,8 @@
+{
+  "finding": "test_weakening",
+  "mechanism": "per-test-path removed assertion count exceeded added assertion count after relocating the Windows timing scenario",
+  "criticalOverrideSupported": false,
+  "resolution": "Restore meaningful integration coverage of the non-test public library: exact two-receipt/index persistence, dropped-handle same-directory identity rename/restore, and public readback. Keep pin timing proof in private library tests. No detector, policy, Summary or workflow edits.",
+  "greenRunBeforeResolution": "not launched; Runtime denied admission",
+  "oldSourceHead": "2a91c13651b4657aa09bb5b16b54733d7455cc46"
+}
