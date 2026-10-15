@@ -10,8 +10,8 @@
     },
     {
       "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/README.md",
-      "bytes": 2244,
-      "sha256": "14472476d8f24cca685532dfce0cb8ad5c403ea55a91babae26c54d7b6b75004"
+      "bytes": 2387,
+      "sha256": "098753f9d5c7f48216958e2091f93a9d84a6da26ce39acb9cabc27d00e1bc46e"
     },
     {
       "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/close-argv.json",
@@ -87,6 +87,11 @@
       "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/preclose-validate.stderr",
       "bytes": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/prepublication-narrative-correction.json",
+      "bytes": 526,
+      "sha256": "f769034fc87b1f5a20a07e788914534c52336c3b0a2c2370c428f16f9bad1255"
     },
     {
       "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/ray-direct-authorization.json",

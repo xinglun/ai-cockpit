@@ -29,7 +29,9 @@ and original bounded repository stdout remain unknown or limited as recorded.
 ## Actual post-close Outcome boundary
 
 The close entry returned exit 0 and status is closed/green/verified with no
-lifecycle blocker. Its human Outcome remains yellow because intent-alignment
-evidence is insufficient. This color, raw prose and unknowns are retained; no
-green human-delivery claim is made. User benefit is undeclared. Raydot must
-review this boundary alongside the exact new head and CI before Ready/merge.
+lifecycle blocker. Its actual stdout report, stderr human Outcome, saved decision
+finalReport and fresh post-close query all report green. The returned prose also
+retains an intent-alignment insufficiency warning; that warning does not change
+the reported color. User benefit remains undeclared. Host acceptance/display
+confirmation remains unknown. Raydot must review these boundaries alongside the
+exact new head and complete CI before Ready/merge.

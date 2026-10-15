@@ -1,0 +1,8 @@
+{
+  "observedAt": "2026-10-15T05:14:33.647936+00:00",
+  "unpublishedCommit": "022a9a7521ba0d9a4f09787a5223127a925b5448",
+  "correction": "README initially misread an intent-alignment warning as a yellow Outcome. Exact stdout, stderr first line, decision finalReport and fresh query all report green. Corrected prose in a normal follow-up commit before first push; raw Runtime bytes and original archive/verification unchanged.",
+  "actualColor": "green",
+  "intentAlignmentWarningRetained": true,
+  "historyPreserved": true
+}
