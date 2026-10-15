@@ -152,7 +152,7 @@ ai-cockpit work-item legacy-closeout-source-plan --repo <destination> --source-r
 ai-cockpit work-item legacy-closeout-source-record --repo <destination> --id <id> --input <exact-plan.json>
 ```
 
-Plan 只读。Register 要求独立 Git common directory、相同逻辑 repository identity、完整源码字节已提交在完整 `sourceRevision`，以及 schemaVersion `1`、`operation: "register"`、`actor`、`authoritySource`、`reason` 和明确的 `sourceAccepted: true`。Record 是另行授权的写入，会复核观察、固定目录身份和 source。首次 Register plan 必须仍匹配执行 Runtime，且不超过 300 秒。写入前应在两个 checkout 之外独立保留准确原始 plan、内嵌记录字节及摘要；重新计算一组自洽摘要不能替代原始绑定。
+Plan 只读。Register 要求独立 Git common directory、相同逻辑 repository identity、完整源码字节已提交在完整 `sourceRevision`，以及 schemaVersion `1`、`operation: "register"`、`actor`、`authoritySource`、`reason` 和明确的 `sourceAccepted: true`。Record 是另行授权的写入，会复核观察、固定目录身份和 source。fresh Register 或 Extend plan 必须仍匹配执行 Runtime，且不超过 300 秒；受约束 resume 和准确 committed replay 无此 TTL。`recordedAt` 是只读模板的观察时刻，返回的 `publicationObservedAt` 是发布观察时刻。写入前应在两个 checkout 之外独立保留准确原始 plan、内嵌记录字节及摘要；重新计算一组自洽摘要不能替代原始绑定。
 
 | operation | 输入及效果 |
 | --- | --- |
@@ -161,13 +161,13 @@ Plan 只读。Register 要求独立 Git common directory、相同逻辑 reposito
 | `extend` | 准确序列化的 typed `transitionBytes`，当前 `actor`、`authoritySource`、`reason`；先固定 extension E，再追加唯一合法 Retained→Deleted transition T。root 登记前已有的 Deleted 必须包含在原清单中。 |
 | `resume_extension` | `originalExtensionBytes`、`originalExtensionRawDigest`；验证原 root、历史与追加条件后只恢复固定 E/T，不重新生成时间、actor 或 Runtime 元数据。 |
 
-四种请求都拒绝其他操作的字段。已提交的准确重试先返回原结果，再考虑下一序号。普通 finalize 和显式 record 共用同 WI lock 保护的唯一写入核心。canonical 文件不覆盖；不同字节、别名、非普通文件、依赖缺失、分叉、身份错误或资源仍在均 fail closed。raw 与 canonical 摘要是独立义务。
+四种请求都拒绝其他操作的字段。已提交的准确重试先返回原结果，再考虑下一序号。普通 finalize 和显式 record 共用同 WI lock 保护的唯一写入核心。canonical 文件不覆盖；不同字节、非普通文件、依赖缺失、分叉、身份错误或资源仍在均 fail closed。ASCII 大小写别名保留证明义务；canonical 证明缺失、不可读或冲突时阻断，单独增加别名不使原本完整的 canonical 证明失效。raw 与 canonical 摘要是独立义务。
 
 extension 证明不完整时，root 修复可返回 `state: "pending"`、`rootState: "committed"`；closed 与 scope 释放仍阻断，须另以原绑定修复 extension。发布后确认失败会报告 `commit_state_unknown`；保留全部 canonical 路径，查询 status，只按准确原始字节重试。不得以 rollback 删除已发布证明。
 
 MCP 提供 `work_item_legacy_closeout_source_plan`（`workItemId`、可选绝对路径 `sourceRepo`、严格 `request`）及 `work_item_legacy_closeout_source_record`（`workItemId`、严格 `plan`），与 CLI 使用相同 repository 服务；先用 `tools/list` 发现嵌套 schema。选定清单上限 128 文件／4 MiB，输入及固定 plan 上限 8 MiB，MCP transport 行上限 16 MiB。依赖深度、重复工作、读文件和目录枚举均有有限预算；超限是错误，不是部分接受。
 
-完整登记后可离线原 source checkout；显式外部依赖仍保留原可用性要求。格式错误的 canonical 名称及 ASCII 大小写别名仍保留证明义务。若全部本地登记义务及独立可用锚点一起丢失或回滚，没有独立可信 registry 就无法检测。历史 `not_ready` 仍是历史事实。
+完整登记后可离线原 source checkout；显式外部依赖仍保留原可用性要求。格式错误的 canonical 名称及 ASCII 大小写别名仍保留证明义务。若某一登记代次的全部本地锚点一起丢失或回滚，没有独立可信 registry 就无法检测。也包括后续 extension 的 E 和 T 一起消失、较早 R/G 仍在的情形：该 root 不记得后来 extension。独立保存的 E 只有显式提交时才能提供这段历史，status 不自动发现外部副本。历史 `not_ready` 仍是历史事实。
 
 ## 重要选项
 

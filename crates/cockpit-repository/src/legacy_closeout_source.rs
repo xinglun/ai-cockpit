@@ -745,6 +745,15 @@ fn common_dir(root: &Path) -> Result<PathBuf, ObserverError> {
         root.join(raw)
     })
 }
+fn require_independent_source(root: &Path, source: &Path, repo: &str) -> Result<(), ObserverError> {
+    if source == root
+        || common_dir(source)? == common_dir(root)?
+        || repository_id(source).to_string() != repo
+    {
+        return Err(error(root, "independent_source_required"));
+    }
+    Ok(())
+}
 fn directory_binding(root: &Path) -> Result<DirectoryBinding, ObserverError> {
     let pinned = PinnedRoot::open(root)?;
     let common = common_dir(root)?;
@@ -1046,12 +1055,7 @@ pub fn plan_legacy_closeout_source(
             let source = canonical(source.ok_or_else(|| error(&root, "provenance_unknown"))?)?;
             let _source_visit = QueryVisit::enter(&source, id, "source")?;
             source_binding = Some(directory_binding(&source)?);
-            if source == root
-                || common_dir(&source)? == common_dir(&root)?
-                || repository_id(&source).to_string() != repo
-            {
-                return Err(error(&root, "independent_source_required"));
-            }
+            require_independent_source(&root, &source, &repo)?;
             let revision = request
                 .source_revision
                 .as_deref()
@@ -1196,9 +1200,11 @@ fn require_publication_binding(root: &Path, id: &str, plan: &Plan) -> Result<(),
             parse_registration(root, id, &plan.repository_id, &plan.registration_bytes)?;
         let source = Path::new(&registration.source.root);
         let _visit = QueryVisit::enter(source, id, "source_publication")?;
+        require_independent_source(root, source, &registration.repository_id)?;
         if plan.source_binding.as_ref() != Some(&directory_binding(source)?)
             || git_text(source, &["rev-parse", "HEAD"])? != registration.source.revision
             || snapshot(source)? != registration.source.snapshot_digest
+            || common_dir(source)?.to_string_lossy() != registration.source.git_common_directory
         {
             return Err(error(root, "source_stale"));
         }
@@ -1420,6 +1426,7 @@ pub fn record_legacy_closeout_source(
         }
         let source = Path::new(&registration.source.root);
         let _source_visit = QueryVisit::enter(source, id, "source")?;
+        require_independent_source(&root, source, &repo)?;
         if plan.source_binding.as_ref() != Some(&directory_binding(source)?) {
             return Err(error(&root, "source_stale"));
         }
@@ -1917,17 +1924,19 @@ fn record_extension_locked(
             .ok_or_else(|| error(root, "path_invalid"))?;
         publish(root, id, guard, plan, &dir, name, bytes)?;
     }
-    let readback = validate_pair(root, id, &registration.repository_id)
-        .map_err(|cause| error(root, &format!("commit_state_unknown:{cause}")))?;
-    require_plan_directory(root, plan)
-        .map_err(|cause| error(root, &format!("commit_state_unknown:{cause}")))?;
-    if encode(root, &readback)? != plan.registration_bytes.as_bytes()
-        || safe_read(root, &extension_path(id), MAX_RECORD_BYTES)? != frozen.as_bytes()
-        || safe_read(root, &extension.transition.path, MAX_RECORD_BYTES)?
-            != extension.transition_bytes.as_bytes()
-    {
-        return Err(error(root, "commit_state_unknown"));
-    }
+    let confirmation = (|| {
+        let readback = validate_pair(root, id, &registration.repository_id)?;
+        require_plan_directory(root, plan)?;
+        if encode(root, &readback)? != plan.registration_bytes.as_bytes()
+            || safe_read(root, &extension_path(id), MAX_RECORD_BYTES)? != frozen.as_bytes()
+            || safe_read(root, &extension.transition.path, MAX_RECORD_BYTES)?
+                != extension.transition_bytes.as_bytes()
+        {
+            return Err(error(root, "published_record_changed"));
+        }
+        Ok(())
+    })();
+    confirmation.map_err(|cause| error(root, &format!("commit_state_unknown:{cause}")))?;
     Ok(extension.result)
 }
 
@@ -2261,6 +2270,7 @@ mod query_budget_tests {
             "lower reads and final inventory must describe one consistent observation"
         );
     }
+    #[cfg(unix)]
     #[test]
     fn lower_historical_json_read_cannot_follow_replaced_parent() {
         let owner = tempfile::tempdir().unwrap();

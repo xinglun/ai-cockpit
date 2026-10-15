@@ -32,3 +32,5 @@ lastVerifiedBy: WI-1085-legacy-v1-closeout-source-registration
 [实施 ledger](../../.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md) 保留实际 RED/GREEN、编译失败、子进程发布测试、文件绑定、资源采样和审阅发现。崩溃矩阵测试发布原语；完整历史 API 的 partial-state 恢复由另一集成 fixture 覆盖，两者均不是正式 Runtime 回执。
 
 继续完成审阅修正与三语 commands/workflow，取得必需 parity 行的 scope 准入，准备材料审阅及 controls，再使用单构建任务、隔离 target 和 900 秒外层上限执行声明的 workspace 验证。本工作项不授权 PR、Ready、merge、真人 close、发布或清理。
+
+全锚丢失边界按登记代次成立：后续 E/T 一起丢失时，即使较早 R/G 仍在，也可能无法识别该 extension。独立保留的 E 只有显式提交时可使用，status 不自动发现外部副本。

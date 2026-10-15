@@ -1,0 +1,21 @@
+{
+  "observedAt": "2026-10-15T22:57:46.487617+00:00",
+  "compiledSourceHead": "70ba38785c3bf88dba570b1a314ab41e7423c21c",
+  "compiledSourceDiffSha256": "8b50ae75010496955e598c8ab2911ae09eb187f842c3d1ce351d6d823c1af9f3",
+  "sourceFileSha256": {
+    "crates/cockpit-repository/src/legacy_closeout_source.rs": "a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7",
+    "crates/cockpit-cli/tests/legacy_closeout_source.rs": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+    "crates/cockpit-repository/tests/legacy_closeout_source.rs": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/ai-cockpit",
+  "binarySha256": "8f4ce88a9f4ead070f935061ff421652ae53aec3eda75feabe17ce9bb2daf095",
+  "formalReceipt": null,
+  "moduleTests": 23,
+  "integrationTests": {
+    "cli": 24,
+    "mcp": 5,
+    "repository": 12
+  },
+  "platform": "Linux only; Unix-specific symlink test gated; Windows not executed",
+  "pendingAmendRequestRawSha256": "d946d7256496a33e52e35b330bc104055f2148006a05952afd63cc0a3a380cad"
+}

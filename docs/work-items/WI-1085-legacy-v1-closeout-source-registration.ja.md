@@ -32,3 +32,5 @@ lastVerifiedBy: WI-1085-legacy-v1-closeout-source-registration
 [実装 ledger](../../.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md) に実際の RED/GREEN、compile failure、公開 subprocess test、file binding、資源観測、レビュー結果を保存しています。crash matrix は公開 primitive を、完全履歴 API の partial-state 回復は別の integration fixture を検証します。どちらも正式 Runtime receipt ではありません。
 
 レビュー修正と三言語 commands/workflow を完了し、必須 parity 行の scope admission、material review、controls を準備してから、単一 build job、隔離 target、外側 900 秒上限で宣言済み workspace 検証を実行します。本 Work Item は PR、Ready、merge、人間 close、release、cleanup を許可しません。
+
+全 anchor 消失の境界は登録世代ごとです。後の E/T が両方失われると、以前の R/G が残ってもその extension を検出できない場合があります。独立保存した E は明示提出時だけ利用でき、status は外部 copy を自動発見しません。

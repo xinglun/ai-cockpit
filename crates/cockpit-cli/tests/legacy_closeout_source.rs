@@ -472,6 +472,140 @@ mod complete_source {
         );
     }
 
+    fn reseal_external_plan(
+        plan: &mut cockpit_protocol::LegacyCloseoutSourcePlan,
+        registration: &cockpit_protocol::LegacyCloseoutSourceRegistration,
+    ) {
+        plan.registration_bytes = serde_json::to_string_pretty(registration).unwrap();
+        plan.registration_raw_digest = Digest::sha256_bytes(plan.registration_bytes.as_bytes());
+        let mut requirement: cockpit_protocol::LegacyCloseoutSourceRequirement =
+            serde_json::from_str(&plan.requirement_bytes).unwrap();
+        requirement.registration_bytes = plan.registration_bytes.clone();
+        requirement.registration_raw_digest = plan.registration_raw_digest.clone();
+        plan.requirement_bytes = serde_json::to_string_pretty(&requirement).unwrap();
+        plan.requirement_raw_digest = Digest::sha256_bytes(plan.requirement_bytes.as_bytes());
+        let mut value = serde_json::to_value(&plan).unwrap();
+        value.as_object_mut().unwrap().remove("planDigest");
+        plan.plan_digest = cockpit_protocol::digest_json(&value).unwrap();
+    }
+
+    #[test]
+    fn direct_record_rejects_self_source_even_when_every_external_digest_is_resealed() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let mut plan = original_plan(&dest, &source);
+        let mut registration: cockpit_protocol::LegacyCloseoutSourceRegistration =
+            serde_json::from_str(&plan.registration_bytes).unwrap();
+        registration.source.root = dest.to_string_lossy().into_owned();
+        registration.source.git_common_directory =
+            plan.destination_binding.git_common_directory.clone();
+        registration.source.snapshot_digest = cockpit_repository::snapshot_digest(
+            &cockpit_git::GitRepository::discover(&dest)
+                .unwrap()
+                .snapshot()
+                .unwrap(),
+        )
+        .unwrap();
+        plan.source_binding = Some(plan.destination_binding.clone());
+        reseal_external_plan(&mut plan, &registration);
+        let before = files(&dest);
+        let result =
+            cockpit_repository::record_legacy_closeout_source(&dest, ID, &plan, &current_runtime());
+        assert!(
+            result.is_err(),
+            "external plan is self-consistent but has no independent source: {result:?}"
+        );
+        assert!(
+            result
+                .unwrap_err()
+                .to_string()
+                .contains("independent_source_required")
+        );
+        assert_eq!(
+            files(&dest),
+            before,
+            "direct record must reject before any canonical publication"
+        );
+    }
+
+    #[test]
+    fn direct_record_rechecks_actual_source_repository_identity() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let plan = original_plan(&dest, &source);
+        let config = source.join(".ai/cockpit.toml");
+        let old = cockpit_repository::repository_id(&source).to_string();
+        let foreign = Digest::sha256_bytes(b"foreign source identity").to_string();
+        let text = fs::read_to_string(&config).unwrap();
+        assert!(text.contains(&old));
+        fs::write(config, text.replace(&old, &foreign)).unwrap();
+        assert_eq!(
+            cockpit_repository::repository_id(&source).to_string(),
+            foreign
+        );
+        let before = files(&dest);
+        let result =
+            cockpit_repository::record_legacy_closeout_source(&dest, ID, &plan, &current_runtime());
+        assert!(
+            result.is_err(),
+            "source identity drift cannot be accepted from an old plan: {result:?}"
+        );
+        assert!(
+            result
+                .unwrap_err()
+                .to_string()
+                .contains("independent_source_required")
+        );
+        assert_eq!(files(&dest), before);
+    }
+
+    #[test]
+    fn direct_record_rejects_different_source_path_with_shared_git_common_directory() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let owner = tempfile::tempdir().unwrap();
+        let linked = owner.path().join("shared-source");
+        git(
+            &dest,
+            &[
+                "worktree",
+                "add",
+                "--quiet",
+                "--detach",
+                linked.to_str().unwrap(),
+                "HEAD",
+            ],
+        );
+        let linked = linked.canonicalize().unwrap();
+        let linked_plan = original_plan(&linked, &source);
+        let mut plan = original_plan(&dest, &source);
+        let mut registration: cockpit_protocol::LegacyCloseoutSourceRegistration =
+            serde_json::from_str(&plan.registration_bytes).unwrap();
+        assert_ne!(linked, dest);
+        assert_eq!(
+            linked_plan.destination_binding.git_common_directory,
+            plan.destination_binding.git_common_directory
+        );
+        registration.source.root = linked.to_string_lossy().into_owned();
+        registration.source.git_common_directory =
+            linked_plan.destination_binding.git_common_directory.clone();
+        registration.source.snapshot_digest = cockpit_repository::snapshot_digest(
+            &cockpit_git::GitRepository::discover(&linked)
+                .unwrap()
+                .snapshot()
+                .unwrap(),
+        )
+        .unwrap();
+        plan.source_binding = Some(linked_plan.destination_binding);
+        reseal_external_plan(&mut plan, &registration);
+        let before = files(&dest);
+        let error =
+            cockpit_repository::record_legacy_closeout_source(&dest, ID, &plan, &current_runtime())
+                .unwrap_err();
+        assert!(
+            error.to_string().contains("independent_source_required"),
+            "{error}"
+        );
+        assert_eq!(files(&dest), before);
+    }
+
     fn original_plan(dest: &Path, source: &Path) -> cockpit_protocol::LegacyCloseoutSourcePlan {
         let revision = String::from_utf8(git(source, &["rev-parse", "HEAD"]))
             .unwrap()

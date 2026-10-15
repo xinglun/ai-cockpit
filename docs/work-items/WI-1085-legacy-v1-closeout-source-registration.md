@@ -32,3 +32,5 @@ Queries keep malformed canonical names and ASCII case aliases as obligations, bo
 See the [implementation ledger](../../.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md) for actual RED/GREEN, compilation failures, subprocess publication tests, file bindings, resource samples and review findings. The publication crash matrix exercises the primitive; complete historical API partial-state recovery is a separate integration fixture. Neither constitutes a formal Runtime receipt.
 
 Complete independent review corrections and three-language command/workflow documentation, obtain admission for the required parity rows, prepare material review and controls, then run declared workspace verification with one build job, isolated target and a 900-second outer bound. No PR, Ready, merge, human close, release or cleanup is authorized by this Work Item.
+
+The all-anchor-loss boundary applies per registration generation: losing both later E and T can conceal that extension even while earlier R/G survive. An independently retained E is usable only when explicitly supplied; status does not discover external copies.

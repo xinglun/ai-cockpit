@@ -1,0 +1,26 @@
+{
+  "subreaper": true,
+  "adoptedDescendantsReaped": [],
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-repository",
+    "--lib",
+    "legacy_closeout_source::",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T22:55:47.999841+00:00",
+  "elapsedSeconds": 18.003,
+  "exitCode": 0,
+  "stopReason": null,
+  "pid": 445095,
+  "childReaped": true,
+  "sourceHead": "70ba38785c3bf88dba570b1a314ab41e7423c21c",
+  "sourceDiffSha256": "8b50ae75010496955e598c8ab2911ae09eb187f842c3d1ce351d6d823c1af9f3",
+  "target": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "jobs": 1
+}

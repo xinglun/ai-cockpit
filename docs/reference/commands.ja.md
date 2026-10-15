@@ -172,7 +172,7 @@ ai-cockpit work-item legacy-closeout-source-plan --repo <destination> --source-r
 ai-cockpit work-item legacy-closeout-source-record --repo <destination> --id <id> --input <exact-plan.json>
 ```
 
-Plan は読み取り専用です。Register は独立した Git common directory、同じ論理 repository identity、完全な `sourceRevision` に commit された全 source bytes、および schemaVersion `1`、`operation: "register"`、`actor`、`authoritySource`、`reason`、明示的な `sourceAccepted: true` を要求します。Record は別途認可された write で、観測、固定した directory identity、source を再検証します。最初の Register plan は実行 Runtime と一致し、300 秒以内でなければなりません。write 前に元の正確な plan、埋め込まれた記録 bytes と digest を両 checkout の外で独立保存します。再構成した自己整合的 digest は元の binding の代わりになりません。
+Plan は読み取り専用です。Register は独立した Git common directory、同じ論理 repository identity、完全な `sourceRevision` に commit された全 source bytes、および schemaVersion `1`、`operation: "register"`、`actor`、`authoritySource`、`reason`、明示的な `sourceAccepted: true` を要求します。Record は別途認可された write で、観測、固定した directory identity、source を再検証します。fresh Register または Extend plan は実行 Runtime と一致し、300 秒以内でなければなりません。制約付き resume と正確な committed replay にこの TTL はありません。`recordedAt` は read-only template の観測時刻、返された `publicationObservedAt` は公開の観測時刻です。write 前に元の正確な plan、埋め込まれた記録 bytes と digest を両 checkout の外で独立保存します。再構成した自己整合的 digest は元の binding の代わりになりません。
 
 | operation | 入力と効果 |
 | --- | --- |
@@ -181,13 +181,13 @@ Plan は読み取り専用です。Register は独立した Git common directory
 | `extend` | 正確に serialize した typed `transitionBytes`、現在の `actor`、`authoritySource`、`reason`。唯一合法な Retained→Deleted transition T の前に extension E を固定します。root 登録前からある Deleted は元 inventory に含めます。 |
 | `resume_extension` | `originalExtensionBytes` と `originalExtensionRawDigest`。元 root、履歴、追加条件を検証して固定 E/T だけを復元し、時刻・actor・Runtime metadata を再生成しません。 |
 
-各 request は他 operation の field を拒否します。正確な committed retry は次の sequence の評価より先に元の結果を返します。通常 finalize と明示 record は同 WI lock の下で一つの guarded writer を共有します。canonical file は no-replace です。異なる bytes、alias、非通常 file、依存欠落、fork、identity 不一致、resource 残存は fail closed になります。raw と canonical digest は別々の義務です。
+各 request は他 operation の field を拒否します。正確な committed retry は次の sequence の評価より先に元の結果を返します。通常 finalize と明示 record は同 WI lock の下で一つの guarded writer を共有します。canonical file は no-replace です。異なる bytes、非通常 file、依存欠落、fork、identity 不一致、resource 残存は fail closed になります。ASCII case alias も proof 義務を保持します。canonical proof の欠落・読取不可・競合は blocked ですが、alias の追加だけでは完全な canonical proof は無効になりません。raw と canonical digest は別々の義務です。
 
 extension proof が不完全なら root 修復は `state: "pending"`、`rootState: "committed"` を返す場合があります。独立した元 binding で extension を修復するまで closed と scope 解放は blocked です。公開後の確認失敗は `commit_state_unknown` を返します。すべての canonical path を保持し、status を読み、正確な元 bytes でだけ retry します。公開済み proof を rollback として削除してはいけません。
 
 MCP は `work_item_legacy_closeout_source_plan`（`workItemId`、任意の絶対 path `sourceRepo`、strict `request`）と `work_item_legacy_closeout_source_record`（`workItemId`、strict `plan`）を提供し、CLI と同じ repository service を使います。nested schema は `tools/list` で確認します。選択 inventory は 128 file / 4 MiB、入力と固定 plan は 8 MiB、MCP transport line は 16 MiB が上限です。依存 depth、反復 work、file read、directory enumeration にも有限 budget があり、超過は部分承認でなく error です。
 
-完全登録後、元 source checkout は offline にできます。明示 external dependency の元の可用性要件は残ります。不正な canonical 名と ASCII case alias も proof 義務を保持します。すべての local 登録義務と独立利用できる anchor を同時に消失・rollback した場合、独立した trusted registry なしには検出できません。履歴の `not_ready` は履歴のままです。
+完全登録後、元 source checkout は offline にできます。明示 external dependency の元の可用性要件は残ります。不正な canonical 名と ASCII case alias も proof 義務を保持します。ある登録世代の local anchor がすべて同時に消失・rollback した場合、独立した trusted registry なしには検出できません。後の extension の E/T を両方消し、以前の R/G が残る場合も含みます。その root は後の extension を記憶しません。独立保存した E の履歴は明示提出時だけ利用でき、status は外部 copy を自動発見しません。履歴の `not_ready` は履歴のままです。
 
 ## Important options
 

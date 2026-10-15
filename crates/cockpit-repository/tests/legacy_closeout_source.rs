@@ -784,6 +784,99 @@ mod extension {
     }
 
     #[test]
+    fn both_missing_root_records_require_a_valid_extension_anchor() {
+        for scenario in [
+            "extension_only",
+            "extension_and_transition",
+            "transition_only",
+            "damaged_extension",
+        ] {
+            let fixture = registered_retained_fixture();
+            let original = extension_plan(&fixture);
+            let extension: cockpit_protocol::LegacyCloseoutSourceExtension =
+                serde_json::from_str(original.extension_bytes.as_ref().unwrap()).unwrap();
+            let extension_path = fixture.destination.join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-extension.json"
+            ));
+            let requirement_path = fixture.destination.join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-requirement.json"
+            ));
+            let registration_path = fixture.destination.join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-registration.json"
+            ));
+            if scenario != "transition_only" {
+                let mut bytes = original.extension_bytes.clone().unwrap();
+                if scenario == "damaged_extension" {
+                    let mut damaged = extension.clone();
+                    damaged.registration_raw_digest =
+                        Digest::sha256_bytes(b"another original registration");
+                    bytes = serde_json::to_string_pretty(&damaged).unwrap();
+                }
+                fs::write(&extension_path, bytes).unwrap();
+            }
+            if matches!(scenario, "extension_and_transition" | "transition_only") {
+                fs::write(
+                    fixture.destination.join(&extension.transition.path),
+                    &extension.transition_bytes,
+                )
+                .unwrap();
+            }
+            fs::remove_file(&requirement_path).unwrap();
+            fs::remove_file(&registration_path).unwrap();
+            let request = serde_json::from_value(serde_json::json!({"schemaVersion":1,"operation":"resume","originalRegistrationBytes":fixture.root_plan.registration_bytes,"originalRequirementRawDigest":fixture.root_plan.requirement_raw_digest})).unwrap();
+            let plan = cockpit_repository::plan_legacy_closeout_source(
+                &fixture.destination,
+                None,
+                WORK_ITEM_ID,
+                &request,
+                &fixture.registrar,
+            );
+            if matches!(scenario, "transition_only" | "damaged_extension") {
+                let error = plan.unwrap_err().to_string();
+                let expected = if scenario == "transition_only" {
+                    "no_surviving_obligation"
+                } else {
+                    "original_root_binding_unavailable"
+                };
+                assert!(error.contains(expected), "{scenario}: {error}");
+                assert!(!requirement_path.exists() && !registration_path.exists());
+                continue;
+            }
+            let result = cockpit_repository::record_legacy_closeout_source(
+                &fixture.destination,
+                WORK_ITEM_ID,
+                &plan.unwrap(),
+                &fixture.registrar,
+            )
+            .unwrap();
+            assert_eq!(
+                fs::read(&requirement_path).unwrap(),
+                fixture.root_plan.requirement_bytes.as_bytes()
+            );
+            assert_eq!(
+                fs::read(&registration_path).unwrap(),
+                fixture.root_plan.registration_bytes.as_bytes()
+            );
+            let expected = if scenario == "extension_only" {
+                "pending"
+            } else {
+                "committed"
+            };
+            assert_eq!(result["state"], expected, "{scenario}");
+            let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+                &fixture.destination,
+                WORK_ITEM_ID,
+                &fixture.registrar,
+            )
+            .unwrap();
+            assert_eq!(
+                status.lifecycle_phase == "closed",
+                scenario == "extension_and_transition"
+            );
+        }
+    }
+
+    #[test]
     fn prepared_extension_uses_one_writer_and_replays_original_before_next_sequence() {
         let fixture = registered_retained_fixture();
         let plan = extension_plan(&fixture);
