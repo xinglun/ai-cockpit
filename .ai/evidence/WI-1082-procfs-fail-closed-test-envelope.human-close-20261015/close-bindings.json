@@ -1,0 +1,13 @@
+{
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope",
+  "archiveIdentity": "sha256:85f318f95a368da608186f4cac86069ed8e7bc0b75d38e75a5568070e0dad1d4",
+  "contractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+  "reviewedHead": "f734a678483fb8cc6f4152238605d724d7368113",
+  "reviewedCiRun": 38656756556,
+  "closeRecordPath": ".ai/decisions/WI-1082-procfs-fail-closed-test-envelope.close.json",
+  "closeRecordRawSha256": "468b8ac167083d684d33fd94c84ff38ad63cef9980d5aadafe6261add0b013dd",
+  "actor": "human:Ray",
+  "decidedAt": "2026-10-15T00:43:34Z",
+  "sourceChangeCount": 0,
+  "cleanupNotYetExecuted": true
+}
