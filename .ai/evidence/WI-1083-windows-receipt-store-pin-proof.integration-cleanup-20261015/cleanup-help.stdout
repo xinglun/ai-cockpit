@@ -1,0 +1,8 @@
+Append an exact local branch/worktree cleanup observation for a closed ordinary Work Item. Provider-bound Work Items keep using finalize
+
+Usage: ai-cockpit work-item ordinary-cleanup --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>  
+      --id <ID>      
+  -h, --help         Print help

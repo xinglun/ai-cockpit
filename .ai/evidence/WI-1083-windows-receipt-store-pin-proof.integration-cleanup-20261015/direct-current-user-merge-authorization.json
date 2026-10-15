@@ -1,0 +1,16 @@
+{
+  "source": "direct current user message in this chat, superseding prior Draft-only hold",
+  "actor": "human:Ray",
+  "observedAt": "2026-10-15T04:01:55.905480+00:00",
+  "statement": "我本人 Ray 批准将 PR #1039 从 Draft 转为 Ready，合并已验证的 head 93a2f1ff，并按 AI Cockpit 流程清理对应分支和干净 worktree。",
+  "head": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "pullRequest": 1039,
+  "scope": "Normal Ready/merge, followed only by exact WI1083 branch and clean merged worktree cleanup. No force or protection bypass.",
+  "freshChecks": {
+    "ciRun": 38676380656,
+    "allFourJobsSuccess": true,
+    "raydotExactHeadReviewAccepted": true,
+    "worktreeClean": true,
+    "mainEqualsTestedBase": true
+  }
+}

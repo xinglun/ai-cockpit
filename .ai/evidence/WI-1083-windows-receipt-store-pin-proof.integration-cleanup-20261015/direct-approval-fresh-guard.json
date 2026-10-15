@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-15T04:04:07.285368+00:00",
+  "head": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "main": "5849d7edf239de11a44169fb8517e717a291d42f",
+  "draft": true,
+  "merged": false,
+  "mergeable": true,
+  "ciRun": 38676380656,
+  "jobs": [
+    {
+      "name": "route",
+      "conclusion": "success"
+    },
+    {
+      "name": "windows-runtime",
+      "conclusion": "success"
+    },
+    {
+      "name": "quality",
+      "conclusion": "success"
+    },
+    {
+      "name": "v1-behavioral-oracle",
+      "conclusion": "success"
+    }
+  ],
+  "worktreeClean": true
+}

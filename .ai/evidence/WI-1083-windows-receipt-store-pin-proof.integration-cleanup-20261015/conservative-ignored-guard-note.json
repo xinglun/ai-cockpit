@@ -1,0 +1,6 @@
+{
+  "observedAt": "2026-10-15T04:06:18.716207+00:00",
+  "previousGuard": "stopped before any cleanup on an ignored CPython cache outside its initial locks-only expectation",
+  "correction": "Read-only inventory proved the exact tracked module cache; both ignored files backed up byte-for-byte before normal clean worktree removal",
+  "noSourceModified": true
+}

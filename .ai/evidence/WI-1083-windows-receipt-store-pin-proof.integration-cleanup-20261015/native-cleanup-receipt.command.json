@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "work-item",
+    "ordinary-cleanup",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-cleanup-control",
+    "--id",
+    "WI-1083-windows-receipt-store-pin-proof"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1083-cleanup-control",
+  "startedAt": "2026-10-15T04:06:35.286502+00:00",
+  "endedAt": "2026-10-15T04:06:35.461361+00:00",
+  "exitCode": 0
+}

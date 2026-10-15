@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1083-cleanup-control",
+  "observedAt": "2026-10-15T04:07:57.445139+00:00",
+  "exitCode": 2
+}

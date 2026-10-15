@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "git",
+    "branch",
+    "-d",
+    "codex/wi1083-windows-receipt-store-pin-proof"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1083-cleanup-control",
+  "startedAt": "2026-10-15T04:06:33.948199+00:00",
+  "endedAt": "2026-10-15T04:06:33.951750+00:00",
+  "exitCode": 0
+}

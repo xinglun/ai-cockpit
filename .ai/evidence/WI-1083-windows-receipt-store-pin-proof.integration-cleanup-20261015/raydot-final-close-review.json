@@ -1,0 +1,16 @@
+{
+  "reviewerActor": "agent:Raydot",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "observedAt": "2026-10-15T03:37:12.648812+00:00",
+  "reviewedHead": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "decision": "accepted",
+  "newP1P2": 0,
+  "checks": {
+    "addedAiPaths": 35,
+    "rawHashes": 33,
+    "realHumanDecisionAndActualRecordTimes": true,
+    "ordinaryCleanupBindingCorrect": true,
+    "sourceContractArchiveAndOriginalEvidenceUnchanged": true
+  },
+  "conditions": "Fresh final close-head CI38676380656 all passed before normal Ready/merge and exact recoverable clean WI1083 cleanup. No repeated human confirmation. Stop for extra source or unrecoverable data."
+}

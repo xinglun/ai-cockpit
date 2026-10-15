@@ -1,0 +1,14 @@
+[
+  {
+    "path": ".ai/locks/WI-1083-windows-receipt-store-pin-proof.lifecycle.lock",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "symlink": false
+  },
+  {
+    "path": "tests/docs/__pycache__/work_item_projection_policy.cpython-312.pyc",
+    "bytes": 15149,
+    "sha256": "254b1cea2eb92b92220d62e58c9e434afeee30daa3c3b9606735ed522960a2e5",
+    "symlink": false
+  }
+]

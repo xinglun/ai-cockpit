@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-15T04:04:54.064519+00:00",
+  "actualMerge": "1e3d0ebf8403fd301a783173422b4c1a32d9b236",
+  "testedSyntheticMerge": "16ad4847fbd7870032ef64970277b04584f83648",
+  "parents": [
+    "5849d7edf239de11a44169fb8517e717a291d42f",
+    "93a2f1ff761c2ac35fea96e846302b25bc3c2a14"
+  ],
+  "actualTree": "990a105fa7e596b44ac83162321afb8423dfd9a3",
+  "testedTree": "990a105fa7e596b44ac83162321afb8423dfd9a3",
+  "equal": true
+}

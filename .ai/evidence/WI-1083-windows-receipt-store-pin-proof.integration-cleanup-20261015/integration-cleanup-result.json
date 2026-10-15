@@ -1,0 +1,29 @@
+{
+  "observedAt": "2026-10-15T04:07:39.652200+00:00",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+  "pr": 1039,
+  "mergedHead": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "mergeCommit": "1e3d0ebf8403fd301a783173422b4c1a32d9b236",
+  "testedSyntheticMerge": "16ad4847fbd7870032ef64970277b04584f83648",
+  "mergeTreeEqualsTestedTree": true,
+  "finalPrCi": {
+    "runId": 38676380656,
+    "jobs": 4,
+    "conclusion": "success"
+  },
+  "close": "closed",
+  "nativeCleanupReceipt": ".ai/decisions/WI-1083-windows-receipt-store-pin-proof.cleanup.000001.2939180ccbdf70464ddc0dfecce8ab7b5b745f95c72caa707c53dd30c6a5e4fe.json",
+  "cleanupSequence": 1,
+  "cleanupReceiptState": "verified",
+  "nativeCleanupDigest": "2939180ccbdf70464ddc0dfecce8ab7b5b745f95c72caa707c53dd30c6a5e4fe",
+  "noForceOrGateBypass": true,
+  "preservedWorktrees": 6,
+  "unknowns": [
+    "user_visible_benefit_not_declared",
+    "intent_alignment_remains_unknown",
+    "host_display_confirmation_unknown",
+    "historical_ENOSPC_bytes_versus_inodes_cause_not_distinguished",
+    "repository_stdout_truncated_true_preserved"
+  ],
+  "nextAction": "Commit and normally push metadata, read back exact published bytes, report actual main CI without rerunning historical verification."
+}

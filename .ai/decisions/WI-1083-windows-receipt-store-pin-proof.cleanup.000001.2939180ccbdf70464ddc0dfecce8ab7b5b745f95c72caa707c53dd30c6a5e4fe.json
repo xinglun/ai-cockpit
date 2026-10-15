@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:d76cd5a8fa337ead01fd1cfb60ef9de411ddf6ec12024ac99811ac5a3852403e",
+  "branchRef": "refs/heads/codex/wi1083-windows-receipt-store-pin-proof",
+  "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "headRevision": "1807274505e08af745a6dcfffd4d403735d62e57",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-15T04:06:35Z",
+  "operationId": "sha256:d379aeb49b784e0da15e5a07d450bb423ed5d001f457b10e51eaeb4ec78452a4",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+  "worktreeId": "sha256:10f7eb81ed9c29d0e856c5efa6ecc0415d96a51c718f238dbbc42067f4e42fb7"
+}

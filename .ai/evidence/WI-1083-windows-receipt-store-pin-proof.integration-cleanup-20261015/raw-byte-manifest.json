@@ -1,0 +1,397 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "sha256",
+  "note": "Raw file bytes; this manifest excludes itself. Earlier snapshots retain their actual historical states.",
+  "files": [
+    {
+      "path": ".ai/decisions/WI-1083-windows-receipt-store-pin-proof.cleanup.000001.2939180ccbdf70464ddc0dfecce8ab7b5b745f95c72caa707c53dd30c6a5e4fe.json",
+      "bytes": 1006,
+      "sha256": "12f62f8b5ed0eec0db0e94fc6f64b6881cc95a7a73d68fd2583873e342fb228e"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/README.md",
+      "bytes": 2038,
+      "sha256": "039a15bc384294a149b13d58914d812f56931d560fa800e963ad98727da10bc4"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/agent-doctor.command.json",
+      "bytes": 243,
+      "sha256": "d467e409acea73b680852f0ef6996f5dc56f3e946af679428344dfdb8bfa0744"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/agent-doctor.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/agent-doctor.stdout",
+      "bytes": 455,
+      "sha256": "5ea7c40439c055f01da089a30dab2b62f6207847e70f36489ee2c7e20c91d0f2"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/auto-review-first-merge-rejection.json",
+      "bytes": 763,
+      "sha256": "319967ea3f038cbeb37a2b672071a6ddb824a6904abb8640fba750a53aefb0d1"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/auto-review-second-merge-rejection.json",
+      "bytes": 766,
+      "sha256": "075fd79e88b8f4902e68847831408500f6805dba0f5101b448a9c1efedbd3238"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/blocked-final-outcome.json",
+      "bytes": 487,
+      "sha256": "4b3164cdcb40d88ca294b8181cb53cb7a3403f6b6da3b283309e3ed704f4a086"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/check-staged-diff.command.json",
+      "bytes": 199,
+      "sha256": "0d84a9ff7aff259604bbb906096d679ee2153995e189fa81c4b2ff39354776eb"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/cleanup-help.command.json",
+      "bytes": 191,
+      "sha256": "6efd55fde81c403d18593466ff86d476abc6f1d69c3ec134a65d3d1ba49bc9bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/cleanup-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/cleanup-help.stdout",
+      "bytes": 293,
+      "sha256": "dc581e3515d78528c6695b631529e777c5370dfb9dde3caf1a685236f2c7de17"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/confirmed-unmerged-after-rejections.json",
+      "bytes": 29549,
+      "sha256": "840d6fe9a23e064198a97b8bb33d8bf8d042dd6145bebe0f719b4bd96410cbc0"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/conservative-ignored-guard-note.json",
+      "bytes": 361,
+      "sha256": "b124e562d396a65eb97952b992631ef787de0a81524c1e52fbcc0ebff243af9f"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/create-cleanup-control.txt",
+      "bytes": 1866,
+      "sha256": "74de255fb4a6d4769552f4e568ff80fe6fe56df5fe0a0a60e9fca93b35bfe7d1"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/delete-bound-local-branch.command.json",
+      "bytes": 280,
+      "sha256": "ef156ea7c751e1b38bfed50e80d4b2ddb6f68ada79f400d741e8b489215c421d"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/delete-bound-local-branch.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/delete-bound-local-branch.stdout",
+      "bytes": 76,
+      "sha256": "309900e1cf199eb9010f32e379bda60386371cb56731b5c6ae9aaa06188f1e6a"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/delete-bound-remote-branch.command.json",
+      "bytes": 298,
+      "sha256": "fcf2c15d14ccd94a0068d91a88c1c94aeffb7f424576fa2f895aa5566a6a1268"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/delete-bound-remote-branch.stderr",
+      "bytes": 113,
+      "sha256": "80df1f6e7297d95d7af572d187212fb32d2a36819c0862ab7953593c236e17d6"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/delete-bound-remote-branch.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-approval-ci.json",
+      "bytes": 12735,
+      "sha256": "f189e46225c79471d84075b1aaf8efd6f19640a8946ccf8e35d6cec8b9f6255e"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-approval-fresh-guard.json",
+      "bytes": 575,
+      "sha256": "026e2f0a32bbc6751f6cde7673bb083ea21edcb340e714b9a3453e639e046167"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-approval-jobs.json",
+      "bytes": 14134,
+      "sha256": "166a046dd426a31033e576c298fb1357fd1006e973d375bd14f0b73539924c3b"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-approval-main.json",
+      "bytes": 334,
+      "sha256": "e0f9b0a865e259b791da09be7d5ae0b1c20dba75b9eb4c4ce85eea53faf74bb4"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-approval-pr.json",
+      "bytes": 31405,
+      "sha256": "7feb2d7e2385b15f7659869fdb66c49a1227ddb2257d288cc860cb6df2d8d8d9"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-current-user-merge-authorization.json",
+      "bytes": 744,
+      "sha256": "320897d8e4fca3386199a8a6732cc2de2de1423a54f61a209b6bad4a4d463006"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-ray-merge-result.json",
+      "bytes": 266,
+      "sha256": "21ef4c9745d4741b7631038f627f40de0233187fcd24f762e4ee46692202a0a0"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/direct-ray-ready-result.json",
+      "bytes": 16643,
+      "sha256": "219c03eac1f31381c97eda8f6598b04e6bd944278062a587ba274822fb301bd2"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/doctor.command.json",
+      "bytes": 216,
+      "sha256": "4d73ae67ea653e0b4e77e2a1e8c86f52c5b19f5f24c7d054d2c435f3118ad9d1"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/doctor.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/doctor.stdout",
+      "bytes": 632,
+      "sha256": "dc2f8c944abdf0326e9e324ee0398cfc5a393da3e58c36b2a8b86328b8cb28a8"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/fetch-merged-main.txt",
+      "bytes": 140,
+      "sha256": "9fd5803623ee3ab55d6f7d56efe5e5804e18be1a6a36b415f52ae207dbb465b3"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/fetch-tested-merge.stderr",
+      "bytes": 121,
+      "sha256": "3598ec511c3c1a391873a94a26ec241d5bbb1690c053df4a4e5a80c6ad24167b"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/final-ci-jobs.json",
+      "bytes": 10779,
+      "sha256": "e11f80c5819b501b2bdf7b3619050f91925d895f6590b8f180d7a34d0cce2b8e"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/final-ci-run.json",
+      "bytes": 12735,
+      "sha256": "f189e46225c79471d84075b1aaf8efd6f19640a8946ccf8e35d6cec8b9f6255e"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/fresh-premerge-status.json",
+      "bytes": 2962,
+      "sha256": "53fc15d7f42305398116e4f20e56160e54b203e28660f62798ecee985f3d3e3e"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/inspect.command.json",
+      "bytes": 217,
+      "sha256": "6430dbde244c09e3de7fcad34c8f13b674136ba5d46029f06b566cfb74d1097e"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/inspect.stdout",
+      "bytes": 694,
+      "sha256": "20933d0ef725f5beb0fd99b24f3dd7366e66e5d355281e466d296adaa27a6213"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/integration-cleanup-result.json",
+      "bytes": 1261,
+      "sha256": "7bb6346964bdaf818ea332613cffc812c224e780730e7f5f5da3b73818a81429"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/merge-authorization-recheck.json",
+      "bytes": 2167,
+      "sha256": "b23641e08174e2cce1553998fa457e8744f4320030d3031c9c795944ba4ab343"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/merged-content-guard.json",
+      "bytes": 437,
+      "sha256": "3e2360ca273ba692e4e174e2ca3570d1047fca00f6c5dcc7f992f865fcec4825"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/merged-pr-readback.json",
+      "bytes": 35295,
+      "sha256": "445d46ec5b68b9db1f3822e832e8fff3d8ee7a5b88d8d65bb8b0b25ed68a3fbe"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/native-cleanup-receipt.command.json",
+      "bytes": 407,
+      "sha256": "b08ab1d312ed5489fea3ed88e20308385569b713d9e79f46720698f754a03913"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/native-cleanup-receipt.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/native-cleanup-receipt.stdout",
+      "bytes": 1007,
+      "sha256": "fc05b92aa8782ce37a59bfda061c8b073b63a828be738144efeaa9a62e6f7fdf"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/post-rejection-pr.json",
+      "bytes": 29549,
+      "sha256": "840d6fe9a23e064198a97b8bb33d8bf8d042dd6145bebe0f719b4bd96410cbc0"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/postcleanup-exact-absence.json",
+      "bytes": 597,
+      "sha256": "48f19f708ceba1ec0f2bcde7f6c3e9bf2a05f9d3f446586a53de2fa4b2f0f29a"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/postcleanup-outcome.json",
+      "bytes": 51552,
+      "sha256": "dc8bbb464a7f846e0bc5cbb632a62ba217a4eea557710bcd7cec527008143598"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/postcleanup-outcome.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/postcleanup-status.json",
+      "bytes": 2963,
+      "sha256": "0b80490d69afd9745b6a7e87999c2e643ec3fbc4177f7725c40c86fffec006a7"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/postcleanup-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/precleanup-exact-guard.json",
+      "bytes": 4112,
+      "sha256": "d9168f94e155b32722f4f8d3dbf35812568f9ccd86a163388856189ec62c622b"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/precleanup-ignored-inventory.json",
+      "bytes": 425,
+      "sha256": "2da6adde15837b625eb7c34090d70be558b6a1c2857f2d6f32c7ed6c8052a6cc"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/premerge-guard.json",
+      "bytes": 564,
+      "sha256": "b91655b213c9367d9c6ff08c25b55a9d337fd36f6132d26b9a71003087a04ab3"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/premerge-main.json",
+      "bytes": 334,
+      "sha256": "e0f9b0a865e259b791da09be7d5ae0b1c20dba75b9eb4c4ce85eea53faf74bb4"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/premerge-pr.json",
+      "bytes": 29548,
+      "sha256": "b08418f477a0eb43f3d7c5b54553459110d85d843e4fe0c806cf698114149b29"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/quality.final-ci.official.log",
+      "bytes": 85574,
+      "sha256": "0664111887961794459328b920c9afd262e425bde61e47ff4a943cca272518a3"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/raw-evidence-whitespace-check.json",
+      "bytes": 730,
+      "sha256": "7f393a7e6e5e7be789045dbcfd79a9cc07c9954d7ee6cf616e1754ee374151e8"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/raydot-final-close-review.json",
+      "bytes": 688,
+      "sha256": "c0700584dcce961881c6f83c7dbe39a5731ee6762e119ff330504e9327e3f675"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/remove-bound-worktree.command.json",
+      "bytes": 302,
+      "sha256": "713535cf39fe15e279fae927d656929a38885aa6261843eb40555da856f347e1"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/remove-bound-worktree.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/remove-bound-worktree.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/repo-status.command.json",
+      "bytes": 216,
+      "sha256": "151afa7014cb4586f20bab8bf275f2e98e03c189f79a080c093a4ebfffe799fe"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/repo-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/repo-status.stdout",
+      "bytes": 339242,
+      "sha256": "09b47c7fd6e74a4d810bc942c4f9bb509cc694840fb90cddfb1b39e65f5cf020"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/resume-state.json",
+      "bytes": 2833,
+      "sha256": "be127a6669caf9b7e381bdcfc8df3d69d58013e35822e1a06d219066dd41d659"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/retained-ignored-bytes/254b1cea2eb92b92220d62e58c9e434afeee30daa3c3b9606735ed522960a2e5.bin",
+      "bytes": 15149,
+      "sha256": "254b1cea2eb92b92220d62e58c9e434afeee30daa3c3b9606735ed522960a2e5"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/retained-ignored-bytes/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/retained-objects-after-cleanup.json",
+      "bytes": 1975,
+      "sha256": "ff4bf072fbc69592ee2908a9ee295219d3aaf3d2d034e3f8d7f952453212ab3b"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/retained-remote-branch.txt",
+      "bytes": 97,
+      "sha256": "1750586c11179f0073ce911472275239dacdfd4c73d47c037cfaaf7fadd43184"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/sensitive-check.json",
+      "bytes": 226,
+      "sha256": "3ff0b4a11b2b817c84d392600822116bb9401580a0164afb735d0e13d97f3a60"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/unchanged-main-after-rejections.json",
+      "bytes": 334,
+      "sha256": "e0f9b0a865e259b791da09be7d5ae0b1c20dba75b9eb4c4ce85eea53faf74bb4"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/windows.final-ci.official.log",
+      "bytes": 155891,
+      "sha256": "5a53cec93fa732379004d95df0ec0f99cb93a8d1b8358b730ab37fc921b815f3"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/work-item-status.command.json",
+      "bytes": 306,
+      "sha256": "3fca8ca1b2ae52b2de5254ae27269b829e21cb1f83ee6814c599bdb4dc2de683"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/work-item-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/work-item-status.stdout",
+      "bytes": 2962,
+      "sha256": "0c97cf44933b431b26e794ae36f20e29b0f0828944add8b3e0bb2fe360bbec26"
+    }
+  ]
+}

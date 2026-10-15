@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-10-15T04:07:00.711602+00:00",
+  "worktreeAbsent": true,
+  "worktreeGitDirAbsent": true,
+  "exactLocalBranchAbsent": true,
+  "exactRemoteBranchAbsent": true,
+  "branchRef": "refs/heads/codex/wi1083-windows-receipt-store-pin-proof",
+  "worktreePath": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+  "observationNote": "First read-only absence guard expected exit 1 from non-quiet git show-ref --verify; Git returned 128 for missing ref. Rechecked with --verify --quiet, exit 1. Cleanup commands and Native receipt had already succeeded; none were rerun."
+}

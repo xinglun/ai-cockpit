@@ -1,0 +1,37 @@
+{
+  "observedAt": "2026-10-15T03:55:39.452520+00:00",
+  "currentUserDelegation": "Latest parent delegation explicitly directs Ready/normal merge after final CI and states exact93a2f1ff independent review passed.",
+  "originalDirectHumanEvidenceSource": "transcript:Sentinel_de39b0c6f330819196075943ec85f9a8@2026-10-15T03:23:16Z;request=Sentinel_82a8516c3348819197a9805b86a848b5@2026-10-15T03:22:50Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "actualHumanStatement": "我本人 Ray 批准上述 WI-1083 关闭、PR #1039 合并及对应流程清理。",
+  "humanDecisionAt": "2026-10-15T03:23:16Z",
+  "committedAuthorizationEvidencePath": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.human-close-20261015/ray-human-close-authorization.json",
+  "committedAuthorizationEvidenceRawSha256": "cf9e7c4c7bdb50f4159ade483fe98298b0301e73062a9b536a93ea1d93ccd7ad",
+  "nativeCloseRawSha256": "c5a5913577c93d21176d1ba5a3427c956aad87097b89a3a799c4f6d072cdc360",
+  "pullRequest": 1039,
+  "head": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "currentlyReadyButUnmerged": true,
+  "finalCi": {
+    "run": 38676380656,
+    "head": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "independentReviewAccepted": {
+    "reviewerActor": "agent:Raydot",
+    "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "observedAt": "2026-10-15T03:37:12.648812+00:00",
+    "reviewedHead": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+    "decision": "accepted",
+    "newP1P2": 0,
+    "checks": {
+      "addedAiPaths": 35,
+      "rawHashes": 33,
+      "realHumanDecisionAndActualRecordTimes": true,
+      "ordinaryCleanupBindingCorrect": true,
+      "sourceContractArchiveAndOriginalEvidenceUnchanged": true
+    },
+    "conditions": "Fresh final close-head CI38676380656 all passed before normal Ready/merge and exact recoverable clean WI1083 cleanup. No repeated human confirmation. Stop for extra source or unrecoverable data."
+  },
+  "sourceContractArchiveUnchanged": true,
+  "scope": "Normal merge of exact93a2f1ff into main only; no force/protection bypass. Exact cleanup only after a confirmed successful merge."
+}

@@ -1,0 +1,79 @@
+{
+  "checkedAt": "2026-10-15T04:06:18.716207+00:00",
+  "bindingDigest": "sha256:d76cd5a8fa337ead01fd1cfb60ef9de411ddf6ec12024ac99811ac5a3852403e",
+  "binding": {
+    "archiveManifestDigest": "sha256:a509d3324b5d44dc155d655771fb8ccfbc8bb829f88ad991aac23cfcddbc1e3f",
+    "branch": "codex/wi1083-windows-receipt-store-pin-proof",
+    "branchRef": "refs/heads/codex/wi1083-windows-receipt-store-pin-proof",
+    "capturedAt": "2026-10-15T03:26:19Z",
+    "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+    "headRevision": "1807274505e08af745a6dcfffd4d403735d62e57",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "worktreeId": "sha256:10f7eb81ed9c29d0e856c5efa6ecc0415d96a51c718f238dbbc42067f4e42fb7",
+    "worktreePath": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof"
+  },
+  "sourceHead": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "clean": true,
+  "merged": true,
+  "activeContractReferences": [],
+  "ignoredInventory": [
+    {
+      "path": ".ai/locks/WI-1083-windows-receipt-store-pin-proof.lifecycle.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "empty unheld Runtime lifecycle lock",
+      "retainedBytesPath": "/tmp/wi1083-integration-cleanup-20261015/retained-ignored-bytes/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.bin"
+    },
+    {
+      "path": "tests/docs/__pycache__/work_item_projection_policy.cpython-312.pyc",
+      "bytes": 15149,
+      "sha256": "254b1cea2eb92b92220d62e58c9e434afeee30daa3c3b9606735ed522960a2e5",
+      "reason": "ignored CPython 3.12 cache for tracked docs governance checker; original bytes retained outside removed worktree",
+      "retainedBytesPath": "/tmp/wi1083-integration-cleanup-20261015/retained-ignored-bytes/254b1cea2eb92b92220d62e58c9e434afeee30daa3c3b9606735ed522960a2e5.bin"
+    }
+  ],
+  "retainedWorktrees": [
+    {
+      "path": "/workspace/ai-cockpit",
+      "head": "707ba00c99b96b060df3b8ba997e1aad03431ea1",
+      "statusPorcelain": "",
+      "workingDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/ai-cockpit-control",
+      "head": "508a0a0f47dcbb957aacb8b03220f6234a87549d",
+      "statusPorcelain": " M .ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json\u0000",
+      "workingDiffSha256": "80f626b5000c114e1994ac6521871967236b476c2aea5a323b68058a0549e5b7"
+    },
+    {
+      "path": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+      "head": "cb9022748ef222db84766dccad98be9683448ff8",
+      "statusPorcelain": "",
+      "workingDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review",
+      "head": "feafd0fe72dc44c41107a85840f93bffc060a5ca",
+      "statusPorcelain": " M crates/cockpit-repository/src/resource_lifecycle.rs\u0000",
+      "workingDiffSha256": "66343f474cdfdeecb0a9af8985b5d4c49447ed05c8c004691f06a0a241c1fb90"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization",
+      "head": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "statusPorcelain": "",
+      "workingDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+      "head": "00e89d21d6a00d09819f8353ae0a1391b954f171",
+      "statusPorcelain": "",
+      "workingDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "retainedRemoteMistakenRef": "1b2bf25a027cf6b16f144c82c41b2fc6f7751170\trefs/heads/codex/wi1081-post-merge-lifecycle-layout"
+}

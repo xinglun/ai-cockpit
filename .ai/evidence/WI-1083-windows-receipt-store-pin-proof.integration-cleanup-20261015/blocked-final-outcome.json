@@ -1,0 +1,14 @@
+{
+  "pr": 1039,
+  "draft": true,
+  "merged": false,
+  "head": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "finalCI": 38676380656,
+  "finalCiAllFourSuccess": true,
+  "independentReviewAccepted": true,
+  "autoReviewProtectedMergeRejectedTwice": true,
+  "mainRemains": "5849d7edf239de11a44169fb8517e717a291d42f",
+  "branchAndWorktreeRetained": true,
+  "cleanupExecuted": false,
+  "next": "Coordinate trusted platform approval; no alternate or indirect execution of the rejected merge."
+}

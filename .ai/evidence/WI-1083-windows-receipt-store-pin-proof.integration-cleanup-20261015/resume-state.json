@@ -1,0 +1,38 @@
+{
+  "goal": "Finish authorized WI1083 PR1039 merge and exact ordinary cleanup after final CI and parent review.",
+  "head": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "finalCi": 38676380656,
+  "raydotReview": "accepted exact head, no P1/P2, parent latest delegation; no further Ray confirmation needed",
+  "humanApproval": {
+    "actor": "human:Ray",
+    "decidedAt": "2026-10-15T03:23:16Z",
+    "source": "Sentinel_de39b0c6f330819196075943ec85f9a8",
+    "request": "Sentinel_82a8516c3348819197a9805b86a848b5"
+  },
+  "archiveIdentity": "sha256:a509d3324b5d44dc155d655771fb8ccfbc8bb829f88ad991aac23cfcddbc1e3f",
+  "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "closeRawSha256": "c5a5913577c93d21176d1ba5a3427c956aad87097b89a3a799c4f6d072cdc360",
+  "ordinaryCleanupBindingDigest": "sha256:d76cd5a8fa337ead01fd1cfb60ef9de411ddf6ec12024ac99811ac5a3852403e",
+  "worktreeId": "sha256:10f7eb81ed9c29d0e856c5efa6ecc0415d96a51c718f238dbbc42067f4e42fb7",
+  "branch": "codex/wi1083-windows-receipt-store-pin-proof",
+  "worktree": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+  "commonDir": "/workspace/ai-cockpit/.git",
+  "runtime": "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "normalCleanup": "After normal merge, fetch main; add new detached maintenance worktree at actual merge under same commonDir. Preserve old dirty control/review. Verify exact93 head merged/recoverable/clean/no active dependencies. Preserve empty unheld .ai/locks if sole ignored artifact. Normal git worktree remove; git branch -d; exact git push --delete remote branch; supported work-item ordinary-cleanup from maintenance context; preserve raw receipt/output; commit/push metadata to main normally, remote readback. Remove only own clean maintenance context when saved.",
+  "constraints": [
+    "No force/protection bypass",
+    "No local full tests or environment recovery repeats",
+    "No WI1081/WI1078 or mistaken-ref modification/cleanup",
+    "Stop for extra source or unrecoverable data",
+    "Preserve stdout truncation, old ENOSPC bytes/inodes unknown, benefit/intent/host display unknowns",
+    "Compare actual tested merge first parent to fresh remote main; do not trust stale PR event base00461714"
+  ],
+  "mergeBlockedByAutoReview": true,
+  "mergeSucceeded": false,
+  "cleanupExecuted": false,
+  "finalCloseCiAllFourSuccess": true,
+  "finalCloseCiTestedMerge": "16ad4847fbd7870032ef64970277b04584f83648",
+  "protectedMergeRejections": 2,
+  "restriction": "Do not bypass automatic approval rejection using CLI, another tool, indirect execution or force. Await trusted approval recognized by platform. Ray actual consent remains documented but current auto-review refuses its trust context."
+}

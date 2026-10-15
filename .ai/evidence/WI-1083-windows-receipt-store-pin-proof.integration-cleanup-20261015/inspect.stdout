@@ -1,0 +1,15 @@
+{
+  "changedPaths": [],
+  "dependencyFingerprint": "sha256:4f135761241806b9c3e25b436d2268a028eabbbd752f1121b1c43ef0b0305f77",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 2,
+  "gitRoot": "/workspace/ai-cockpit-wi1083-cleanup-control",
+  "head": "1e3d0ebf8403fd301a783173422b4c1a32d9b236",
+  "protocolVersion": 1,
+  "repositoryRoot": "/workspace/ai-cockpit-wi1083-cleanup-control",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "treeDigest": "sha256:adfc303e1842ee823c7e00f39404074fa3fb8d34e75b1eeecdd958b2e171058e"
+}

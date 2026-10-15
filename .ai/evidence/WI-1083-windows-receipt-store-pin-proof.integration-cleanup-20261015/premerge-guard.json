@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-15T03:53:44.159410+00:00",
+  "head": "93a2f1ff761c2ac35fea96e846302b25bc3c2a14",
+  "finalCi": 38676380656,
+  "allFourJobsSuccess": true,
+  "raydotExactHeadReviewAccepted": true,
+  "testedMerge": "16ad4847fbd7870032ef64970277b04584f83648",
+  "testedBase": "5849d7edf239de11a44169fb8517e717a291d42f",
+  "freshRemoteMainEqualsTestedBase": true,
+  "clean": true,
+  "closeRawSha256": "c5a5913577c93d21176d1ba5a3427c956aad87097b89a3a799c4f6d072cdc360",
+  "normalMergeAuthorizedByActualRayDecision": true,
+  "noForceOrProtectionBypass": true
+}

@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-10-15T04:08:21.458409+00:00",
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "exitCode": 2,
+  "affectedPaths": [
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/cleanup-help.stdout",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/quality.final-ci.official.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.integration-cleanup-20261015/windows.final-ci.official.log"
+  ],
+  "reason": "Verbatim Runtime help and GitHub official logs contain original whitespace. Raw evidence is kept byte-for-byte; no source or gate changes. Git commit hooks are left enabled.",
+  "noSourceDiff": true
+}
