@@ -1,0 +1,163 @@
+{
+  "recordedAtUTC": "2026-10-15T12:47:27.327804+00:00",
+  "stage": "stopped_after_actual_close_and_six_authorized_doc_projections_before_commit_C",
+  "parentHead": "b148751722994816d5ed5fc49edf75b72580a82c",
+  "humanApprovalRecorded": true,
+  "approvedRequestRawSha256": "sha256:82a4fdb4ef4af4e010c96e9e5c17b55061777208f9c003ba453c0ce1bac16bdb",
+  "closeRawSha256": "sha256:27367f5783e8c41535822c1445808cc24bc5fcaafa1e4a81a1ff604e1bb3da8b",
+  "ordinaryCleanupBindingDigest": "sha256:9619a931a506683918936615014083c2c4a5b04e4613afb6720cfa52819e1f6e",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:d781bacebb53b33d600e70bd354dec291b5296d4110eb15009741df1b9df781e",
+    "branch": "codex/wi1084-closeout-receipt-integrity",
+    "branchRef": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+    "capturedAt": "2026-10-15T12:42:57Z",
+    "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "headRevision": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "worktreeId": "sha256:ce8cc6c55819353e470af25878d70487e2978d449d72d80eba13223963b76e5b",
+    "worktreePath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity"
+  },
+  "immutableArchiveRawSha256": "sha256:d781bacebb53b33d600e70bd354dec291b5296d4110eb15009741df1b9df781e",
+  "immutableContractCanonicalDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "status": {
+    "lifecyclePhase": "closed",
+    "governanceState": "yellow",
+    "blocking": true,
+    "blockers": [
+      "material_review_projection_unavailable"
+    ],
+    "verification": "verified",
+    "evidenceFreshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "unknowns": [
+      "material_review_projection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [],
+    "completionDomains": {
+      "closure": "closed",
+      "implementation": "recorded",
+      "integration": "recorded",
+      "resourceCleanup": "pending",
+      "review": "required",
+      "verification": "verified",
+      "workResult": "verified"
+    },
+    "sourceDigests": {
+      "contract": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+      "repositorySnapshot": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "summary": "sha256:6cb447c86c453096284fc13bfeb24c296bf34540292f2a1fb855c25afb682e04",
+      "verificationEvidence": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41"
+    },
+    "snapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "safeActions": [
+      "refresh_status",
+      "resolve_blockers",
+      "stop"
+    ]
+  },
+  "trackedFilesByteChecked": 17736,
+  "unchangedPriorTrackedFiles": 17730,
+  "modifiedOnlySixHelperProjectionPaths": [
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md"
+  ],
+  "productionTestsGatesWorkflowsPriorEvidenceChanged": false,
+  "protectedDirtyBytes": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "rawSha256": "sha256:ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916",
+      "unchanged": true
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "rawSha256": "sha256:f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5",
+      "unchanged": true
+    }
+  ],
+  "storage": [
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+      "availableBytes": 2854912000,
+      "availableInodes": 1991841
+    },
+    {
+      "path": "/tmp",
+      "availableBytes": 2890289152,
+      "availableInodes": 2252150
+    }
+  ],
+  "processHealth": {
+    "pid1Comm": "tail",
+    "counts": {
+      "total": 21045,
+      "zombies": 21034
+    },
+    "zombieParentCounts": {
+      "1": 21034
+    },
+    "attribution": "Inherited process state observed read-only; exact limiting condition not inferred. No process cleanup or security/permission changes."
+  },
+  "readOnlyDiagnosis": {
+    "observed": "Six deterministic terminal doc projections are uncommitted non-.ai source. material_review_request_with_contract_digest rejects dirty source before computing a request; status converts that error to material_review_projection_unavailable.",
+    "sourceLocations": [
+      "crates/cockpit-repository/src/material_review.rs:923",
+      "crates/cockpit-repository/src/material_review.rs:939",
+      "crates/cockpit-repository/src/status_projection.rs:1309",
+      "crates/cockpit-repository/src/status_projection.rs:1344",
+      "crates/cockpit-repository/src/status_projection.rs:1373"
+    ],
+    "futureCommittedProjectionRisk": "Inference from current code, not an executed C result: material request binds sourceSnapshotDigest and manifest entries including these six docs; changed docs can yield a new request and stale prior receipt. Request digest excludes reviewedSourceHead but not sourceSnapshotDigest/materialManifestDigest.",
+    "futureRiskSourceLocations": [
+      "crates/cockpit-repository/src/material_review.rs:201",
+      "crates/cockpit-repository/src/material_review.rs:1201",
+      "crates/cockpit-repository/src/material_review.rs:1680",
+      "crates/cockpit-repository/src/material_review.rs:1795"
+    ],
+    "supportedRecordBoundary": "plan/record_material_review use read_active_contract_document; this WI is archived/closed. No active Contract recreation, Summary rewrite, receipt replacement, code change or speculative replay attempted.",
+    "supportedBoundarySourceLocations": [
+      "crates/cockpit-repository/src/material_review.rs:1898",
+      "crates/cockpit-repository/src/material_review.rs:1968"
+    ]
+  },
+  "preCommitAuditGuardFailure": {
+    "actual": "AssertionError before summary/commit/push when expected not-blocking status was checked; read-only diagnostics followed. Earlier byte scope and credential checks passed.",
+    "humanGreenOutcomeNotCurrentAdmission": "Native outcome query returns frozen green declared-verification/closed handoff, while current work-item status is yellow/blocking=true. Both original outputs preserved. Stage Outcome must be yellow."
+  },
+  "notExecuted": [
+    "commit C",
+    "push",
+    "new CI",
+    "Ready",
+    "merge",
+    "new control",
+    "Runtime retention copy",
+    "branch/worktree deletion",
+    "ordinary-cleanup",
+    "governance commit R",
+    "issue1004 closure"
+  ],
+  "nextTechnicalDecision": "Raydot review exact observed blocker and select a supported history-preserving path. Do not infer fresh material review or broaden current approval. Human Ray approval remains recorded for the exact route; no repeat request made.",
+  "remoteUnchanged": {
+    "branch": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "main": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+    "pr1040": "open/draft/unmerged",
+    "issue1004": "OPEN"
+  },
+  "remainingKnownUnknowns": [
+    "Old unanchored v1 residual unchanged.",
+    "Raw scanner Unknown from prior review remains historical; current projection unavailable is not a clean scanner result.",
+    "User visible benefit, usage coverage and host acceptance/display unknown."
+  ]
+}

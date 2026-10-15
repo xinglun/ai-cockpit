@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+    "docs/reference/reference-parity.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "mode": "write",
+  "state": "promoted",
+  "terminalEvidence": {
+    "archive": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+    "close": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.close.json",
+    "finalization": null,
+    "verification": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+  },
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

@@ -1,0 +1,22 @@
+{
+  "observedAtUTC": "2026-10-15T12:19:54.677Z",
+  "sourceURL": "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813",
+  "sourceType": "GitHub issue comment; remote report, not local cloud execution",
+  "comment": {
+    "id": 6191800813,
+    "author": {
+      "login": "RayIori",
+      "name": "RayIori",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/304296365?v=4",
+      "id": 304296365
+    },
+    "createdAt": null,
+    "updatedAt": null,
+    "body": "候选版本本地复验（2026-10-15，Mac arm64）。**这是候选行为记录；最终 CI、合并与 #1004 关闭另行确认，Issue 继续 OPEN。**\n\n**源码与实际 Runtime。** 从 `https://github.com/xinglun/ai-cockpit.git` 独立 clone，固定 `b148751722994816d5ed5fc49edf75b72580a82c`（当前远端分支 `origin/codex/wi1084-closeout-receipt-integrity`）。执行 `CARGO_TARGET_DIR=/Users/sei-rinn/.codex/acceptance/issue-1004-b148751-20261015/target cargo build --locked --release -p cockpit-cli`，退出码 0。实际调用的 Mac arm64 CLI 是 `/Users/sei-rinn/.codex/acceptance/issue-1004-b148751-20261015/target/release/ai-cockpit`，SHA-256 `d5017faf8a84d5d11fc0a479f1cbcb14aa88c18b19e3d614d2fbb74000429c43`；源、目标副本的 `inspect.runtimeDigest` 均为 `sha256:d5017faf8a84d5d11fc0a479f1cbcb14aa88c18b19e3d614d2fbb74000429c43`。未覆盖已安装 Runtime，未调用 MCP。\n\n**正常跨 checkout 恢复。** 使用 Sentinel 真实历史 WI `probe-eligibility-conversion-observation`，在两个独立 Git common directory 的可丢弃副本中，仅从目标副本移除该 WI 的本地收尾证据。候选 CLI 的 `work-item closeout-recovery-plan` 退出 0、`state=ready`、`allowed=true`；`closeout-recover` 退出 0，复制 11 个原证据文件并写入 v2 recovery receipt 与独立 origin 标记（共 13 个 changedPaths）。再次执行退出 0、`changedPaths=[]`。源/目标/原收据的 11 个文件 SHA-256 全部 11/11 匹配；状态查询退出 0，`lifecyclePhase=closed`、`blocking=false`，但仍为 `verification=not_ready`、`historical_evidence_not_revalidated`，没有把历史测试视为重跑。\n\n**v2 收据删除/篡改。** 新 origin SHA-256 `3588c7d7e069f2dea16ca139e52bff5a4f85c3b626a7ff5fd34c57e5c5cce4f1`；新 v2 收据 SHA-256 `0694902fd68419e4c0bebf9ece3d184fd9b1ae5fad928a09766f04b145d6ef96`。在两个单独的可丢弃副本中，分别只删除收据，或把 `fileDigests[0].digest` 改成全零 SHA-256。两次 `work-item status --json` 命令均退出 0，但实际投影从 `closed/blocking=false` 变为 `archived/blocking=true`，不再认定已关闭。删除场景通过正常 `closeout-recover` 补回收据后，又恢复为 `closed/blocking=false`。\n\n**真实 Retained → Deleted 收尾链。** Sentinel 历史 WI `develop-main-sync-20260918` 含 seq 1 `retained`、seq 2 `deleted`，原始对应文件 SHA-256 分别为 `7f4a897d9c8237dbcc42c5cf6f99097e7b73c69cef3e6882a0d74b08ad2eba39`、`84afc073492b30366068e15f74a86060696915076b1a351115916804bac`。目标副本移除该 WI 收尾文件后，恢复计划和恢复均退出 0；原收据列名文件 13/13 哈希匹配，重试 `changedPaths=[]`。`work-item finalize-verify` 退出 0，输出 `disposition=deleted`、`assurance=historical_low`；目标状态 `closed/blocking=false` 且历史 verification 保持 `not_ready`。候选源码的 closeout 回归测试也实际运行：`cargo test --locked -p cockpit-repository --test closeout_recovery` 为 6 passed / 0 failed；`cargo test --locked -p cockpit-cli --test closeout_recovery` 为 6 passed / 0 failed，两个命令退出码均为 0。\n\n**仍需明确的旧格式边界。** 对 Sentinel 原有的 v1 recovery receipt（无 origin 标记，SHA-256 `620206b501eaf315cc0512eaa14d177b654c48b962e303921690106151afcd0a`），只在另一个可丢弃副本删除该唯一收据后，候选 CLI 的状态输出**仍与删除前完全相同**：命令退出 0、`lifecyclePhase=closed`、`blocking=false`。完整 v1 收据留在目标时直接重试升级，`closeout-recover` 退出 1，错误为 `closeout_recovery_receipt_conflict`。因此本轮能确认**新生成的 v2** 收据缺失/篡改会拒绝 closed，不能推断**既有 v1** 收据丢失也受到同样保护。请维护组确认 #1004 对现存 v1 历史的验收边界及所需处理；在此之前不把候选结果记为无保留的完整通过。\n\n原始 Sentinel checkout 未修改，最终 `git status --porcelain=v1` 为空，原始证据哈希保持不变。完整命令、退出码、stdout/stderr 与逐项 SHA-256 在验收机 `/Users/sei-rinn/.codex/acceptance/issue-1004-b148751-20261015/acceptance-report.md`（SHA-256 `d097c1b8ded5d831728eb4780cd4a864bbd0eb41b84cce6daa1fcfb93065e405`）；清单 `evidence-manifest.json`（SHA-256 `abab580e9637ff88a980fbab66db98cdfed21bb8ae6f8885dfc9efe9013f535f`）。构建、repository 测试、CLI 测试日志 SHA-256 分别为 `672c3d8317824b2a8202b53e79473b1ff24d2709d737c47cc92cd8c44ecca3f2`、`5b3a70a278c52ed29a604fd0c5835dbd7a4ed321b6944babf01ae0d0799503d3`、`a2f8795ecfcf1a48fac67afdd33ce23c91167448ae34c48c3d481cdc6cddf082`。\n"
+  },
+  "issueStateAtRead": "open",
+  "issueClosedAt": null,
+  "prHeadAtRead": "b148751722994816d5ed5fc49edf75b72580a82c",
+  "prDraftAtRead": true
+}

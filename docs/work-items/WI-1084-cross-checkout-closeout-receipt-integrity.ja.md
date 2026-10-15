@@ -6,9 +6,12 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1084-cross-checkout-closeout-receipt-integrity
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1084-cross-checkout-closeout-receipt-integrity
+terminalArchive: .ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json
+terminalVerification: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json
+terminalDecision: .ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.close.json
 contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107
 ---
 

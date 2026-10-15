@@ -1,0 +1,12 @@
+{
+  "changedPaths": [],
+  "mode": "check",
+  "state": "current",
+  "terminalEvidence": {
+    "archive": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+    "close": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.close.json",
+    "finalization": null,
+    "verification": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+  },
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

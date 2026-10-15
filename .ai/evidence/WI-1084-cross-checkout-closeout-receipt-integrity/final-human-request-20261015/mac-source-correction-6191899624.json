@@ -1,0 +1,21 @@
+{
+  "observedAtUTC": "2026-10-15T12:26:33.985Z",
+  "sourceURL": "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191899624",
+  "sourceType": "Source correction relayed by Ray; GitHub comment read directly, no Sentinel operation",
+  "comment": {
+    "id": 6191899624,
+    "author": {
+      "login": "RayIori",
+      "name": "RayIori",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/304296365?v=4",
+      "id": 304296365
+    },
+    "createdAt": null,
+    "updatedAt": null,
+    "body": "补正[本轮候选验收评论](https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813)中的 **Deleted 文件 SHA-256**；保留原评论与全部验收记录，不改写历史。\n\n- 实际文件：`.ai/decisions/develop-main-sync-20260918.finalize.1d0e6a7b922cf6faf990fd1731dd1dcf21b182ae06c03dfe5834c130ee1a8b49.json`\n- **完整 SHA-256（64 位）：`84afc073492b30366068e15f74a860606969150ae15076b1a351115916804bac`**\n- 前评论写成 `84afc073492b30366068e15f74a86060696915076b1a351115916804bac`（59 位），漏了中间的 `ae150`。完整值来自原验收 `retained-file-digests.json` 的 receipt/source/destination 三列，并以 Sentinel 原始文件字节重新计算核对；该验收文件在原 `evidence-manifest.json` 中的 SHA-256 为 `237dc82103030c0f65127d5c9da178daca9a6c6b7eb02cea590bf06dc1cc463e`。\n\n**本轮验收边界不变：**固定源码提交 `b148751722994816d5ed5fc49edf75b72580a82c`；Mac arm64 候选 CLI SHA-256 `d5017faf8a84d5d11fc0a479f1cbcb14aa88c18b19e3d614d2fbb74000429c43`，与实际 `inspect.runtimeDigest` 一致。新 v2 跨 checkout 恢复、幂等重试、恢复收据删除/篡改后的 fail-closed 投影，以及 Sentinel 真实 Retained → Deleted 历史链恢复均通过。旧无 origin 标记的 v1 路径仍有“唯一收据删除后被判定 closed”的缺口。[WI-1084 Contract](https://github.com/xinglun/ai-cockpit/blob/b148751722994816d5ed5fc49edf75b72580a82c/.ai/work-items/archive/wi-1084-cross-checkout-closeout-receipt-integrity.contract.json) 明确保留现有 v1 记录且不静默迁移，所以本轮结果**不能表述为 #1004 整体解决**。\n\n#1004 保持 OPEN。原始 Sentinel 工作区、旧 v1 收据、历史验收日志及 manifest 均保留，未补造 origin、改写旧历史或迁移。云端最终 CI、合并和关闭由 Raydot 继续协调。\n"
+  },
+  "correctedSha256": "84afc073492b30366068e15f74a860606969150ae15076b1a351115916804bac",
+  "hexCharacters": 64,
+  "noFurtherCorrectionRequested": true
+}

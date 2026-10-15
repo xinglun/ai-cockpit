@@ -1,0 +1,29 @@
+Usage: ai-cockpit close [OPTIONS] --repo <REPO> --id <ID> --human-decision <HUMAN_DECISION>
+
+Options:
+      --repo <REPO>
+          
+      --id <ID>
+          
+      --human-decision <HUMAN_DECISION>
+          
+      --actor <ACTOR>
+          
+      --authority-source <AUTHORITY_SOURCE>
+          
+      --reason <REASON>
+          
+      --evidence-ref <EVIDENCE_REF>
+          
+      --policy-ref <POLICY_REF>
+          
+      --decided-at <DECIDED_AT>
+          
+      --resume-condition <RESUME_CONDITION>
+          
+      --json
+          Emit machine-only output without the human Outcome handoff on stderr
+      --language <LANGUAGE>
+          Conversation language for the human Outcome [possible values: en, zh, zh-CN, ja]
+  -h, --help
+          Print help
