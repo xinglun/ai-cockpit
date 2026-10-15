@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUTC": "2026-10-15T11:57:01.521555+00:00",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourceHeadBeforeLifecycleCommit": "b41dfbdc081b951c6882a6413af54837dac4a0b4",
+  "contractCanonicalDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "contractRawSha256": "sha256:82e182ef7af265afef737f945a9c4cc5f77ef25473a05dbaee83e5a0196eb3c8",
+  "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "materialReview": {
+    "path": ".ai/evidence/material-inspection-review/WI-1084-cross-checkout-closeout-receipt-integrity/2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501.json",
+    "receiptDigest": "sha256:e25498de06f90e08727d130f7b06e582661fced95d54f1fd31f1e54366d0b24a",
+    "rawSha256": "sha256:0853382f125e288333c58fde55d9348b53d72db459ee954fd5f0eab03cc05e7e",
+    "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501",
+    "reviewerActor": "agent:Raydot",
+    "assurance": "self_declared",
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "effectiveUnknowns": [
+      "close_decision_pending",
+      "user_visible_benefit_not_declared"
+    ]
+  },
+  "finish": {
+    "exitCode": 0,
+    "state": "finish_ready",
+    "executionEvidence": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/material-review-closeout-20261015/finish.execution.json"
+  },
+  "archive": {
+    "exitCode": 0,
+    "state": "archived",
+    "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.archive.json",
+    "archiveIdentityRawSha256": "sha256:d781bacebb53b33d600e70bd354dec291b5296d4110eb15009741df1b9df781e",
+    "manifestCanonicalJsonDigest": "sha256:60b8672c4bbeb82321db0a7494e9fe1c6884c0e4e824c1f3cc651295064bca18",
+    "createdAt": "2026-10-15T11:53:57Z",
+    "manifestPayloadCount": 7,
+    "allManifestPayloadHashesMatch": true,
+    "payloads": [
+      {
+        "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+        "rawSha256": "sha256:82e182ef7af265afef737f945a9c4cc5f77ef25473a05dbaee83e5a0196eb3c8",
+        "sizeBytes": 11669
+      },
+      {
+        "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.events.jsonl",
+        "rawSha256": "sha256:b1f57b579330730374e07ca46d72496581b30b2412171f97ac332f72343a5456",
+        "sizeBytes": 3129
+      },
+      {
+        "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.intelligence.json",
+        "rawSha256": "sha256:48dc8906464bfbbcd4b56da49fc757e6b5048b0ee91c4fa16b533c2ed25e8210",
+        "sizeBytes": 272
+      },
+      {
+        "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.outcome.json",
+        "rawSha256": "sha256:cf600b7d80f276670169c1c466225d5364697347f76b7764a30d1f35694745cc",
+        "sizeBytes": 26052
+      },
+      {
+        "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+        "rawSha256": "sha256:8e6e0e2459eedeceaad16238eceeb80fd8242215e1b5b637fb7d7984a43d96c4",
+        "sizeBytes": 23100
+      },
+      {
+        "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.md",
+        "rawSha256": "sha256:447e7e3089b156c4c24692c68cfacdc3b820ce8cc34c36c3f1cda4612cb8c4a9",
+        "sizeBytes": 8491
+      },
+      {
+        "path": ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.task-report.json",
+        "rawSha256": "sha256:b48ffe3a4fe163fd4615c05667581ec323a7415c22ab1f0059fc167c9a3f900c",
+        "sizeBytes": 21826
+      }
+    ]
+  },
+  "verification": {
+    "state": "verified",
+    "freshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "receiptDigest": "sha256:d175a92572fd3d6e3033633aeb913e1183adcd56fc5ccf099a0713e4901734e4",
+    "receiptRawSha256": "sha256:db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314",
+    "evidenceCanonicalDigest": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41",
+    "actualLocalNodesPassed": 13,
+    "outerElapsedSeconds": 600.6570720672607,
+    "notRerunInThisPhase": true
+  },
+  "nativePostArchive": {
+    "lifecyclePhase": "archived",
+    "governanceState": "yellow",
+    "blockers": [
+      "archived_work_item_pending_close"
+    ],
+    "safeActions": [
+      "close_after_review",
+      "record_usage",
+      "refresh_status"
+    ],
+    "humanDecisionRequired": false,
+    "diagnostics": [
+      "lifecycle_cleanup_required"
+    ],
+    "unknowns": [
+      "close_decision_pending",
+      "user_visible_benefit_not_declared"
+    ]
+  },
+  "delivery": {
+    "archiveResponseGeneratedAndReturned": true,
+    "deliveryId": "sha256:030176ffb0456440f22e202c324f902011b846334bbea4492ac90e8cb1b8e9bf",
+    "hostDeliveryMode": "full_handoff_only",
+    "hostDisplayConfirmation": "unknown",
+    "hostConfirmation": "unknown",
+    "deliveryState": "unknown",
+    "laterHumanOutcomeQueryColor": "yellow",
+    "explanation": "Archive returned a green declared-verification handoff; fresh post-archive query is yellow pending close. Both actual outputs retained. Host display and user acceptance are not inferred."
+  },
+  "preservation": {
+    "allPriorOwnEvidenceAndDecisionsByteExact": true,
+    "checkedFileCount": 433,
+    "sourceChangeThisPhase": false,
+    "checkpointCount": 1
+  },
+  "prospectiveObjectsOnlyNoAuthority": {
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1040",
+    "branch": "codex/wi1084-closeout-receipt-integrity",
+    "worktree": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "gitCommonDir": "/workspace/ai-cockpit/.git",
+    "resourceContextDeclared": false,
+    "controlCheckoutSelected": false,
+    "providerFinalizationReceiptRecorded": false
+  },
+  "pendingBoundaries": [
+    "new checkpoint head complete required CI and Raydot closeout review",
+    "exact real human close approval before any close record",
+    "separate explicit Ready/merge/resource cleanup authorization and supported current flow"
+  ],
+  "notPerformed": [
+    "human close",
+    "Ready",
+    "merge",
+    "branch deletion",
+    "worktree deletion",
+    "extra cache cleanup",
+    "other WI actions",
+    "Task9"
+  ]
+}

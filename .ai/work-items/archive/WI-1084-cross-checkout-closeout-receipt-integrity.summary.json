@@ -55,7 +55,7 @@
     ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.execution.json",
     ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stderr",
     ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/work-item-help.stdout",
-    ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+    ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
   ],
   "checkpointAt": "2026-10-15T07:29:45Z",
   "checkpointContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
@@ -162,6 +162,14 @@
     "state": "resolved"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-15T11:53:23.878999732Z",
+      "recordedAt": "2026-10-15T11:53:23.878999732Z",
+      "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -170,6 +178,12 @@
       "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
       "runtimeVersion": "1.0.1"
     }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:0853382f125e288333c58fde55d9348b53d72db459ee954fd5f0eab03cc05e7e",
+    "path": ".ai/evidence/material-inspection-review/WI-1084-cross-checkout-closeout-receipt-integrity/2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501.json",
+    "receiptDigest": "sha256:e25498de06f90e08727d130f7b06e582661fced95d54f1fd31f1e54366d0b24a",
+    "requestDigest": "sha256:2c4fe9aa518c83150415f8512f50d054415a42d92714c3b679c3e1829f1ee501"
   },
   "mode": "implementation",
   "preflightAt": "2026-10-15T11:41:55Z",
@@ -268,8 +282,8 @@
       "verificationPlan": "Run existing no-destructive-rollback, racing-target, source immutability and interruption cases."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-15T11:30:19.148728250+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-15T11:53:23.878999732Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -324,6 +338,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41",
   "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
 }
