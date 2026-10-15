@@ -1,0 +1,9 @@
+{
+  "fullRunPassed": false,
+  "fullRunActualReceipt": "stdout.log",
+  "copiedCanonicalFile": "verification.receipt.json",
+  "copiedCanonicalRawSha256": "792de3d8461c55052d815de28fdefd94c4ab002e98f81441033108c8e1c154c0",
+  "copiedCanonicalIsPreexistingTargetedEvidence": true,
+  "canonicalOrigin": "related-receipt-store-integration-linux/verification.receipt.json",
+  "meaning": "Historical targeted success cannot stand in for the failed full-contract invocation. All raw bytes are unchanged."
+}

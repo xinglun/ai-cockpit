@@ -1,0 +1,9 @@
+    Finished `test` profile [unoptimized] target(s) in 0.04s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_agent-c4d78d0997342a07)
+     Running tests/context.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/context-3d6676a73e6a3556)
+     Running tests/detection.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/detection-500002abd81f3996)
+     Running tests/doctor.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/doctor-60d3505a3deb43a6)
+     Running tests/install.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/install-fc45f32f9196bd59)
+     Running tests/isolation.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/isolation-089c3706b42cfb74)
+     Running tests/outcome_delivery.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/outcome_delivery-dfb3de2ef46d5af5)
+     Running tests/outcome_host_command.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/outcome_host_command-c3a0442e9a512e86)

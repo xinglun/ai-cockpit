@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+  "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "immutableContractBaseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "sourceSnapshotDigest": "sha256:972e45c22d708856ba8c90f3c7d5b64df328e35c0cbf1da9e86919f35feab8e1",
+  "materialManifestDigest": "sha256:03ebe4ea53120b5f898807e4c593bc05f2165f5a85dcb6573cc75844f72b2946",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:8ff6abf85481e9e49e02a1ff4ae974dd79b2db0b3c397cbbe80aa5bc7eed5321",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": null,
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-repository/src/evidence_store.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a123725c3917f4c9008e1675c5d328e272d440b6a3a3e782beeb9f210c3ea062",
+      "afterBlobDigest": "sha256:226d368fb7eacf943346fbaa0be00a3ae76ce7a48c3e1e846facdac020b24c67"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/receipt_store.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:9d48ea4e3a0a094017e2409b16e0196a72a5828c73a33ed25ceb4e367f0cb00b",
+      "afterBlobDigest": "sha256:e896681d6912e8ed25404ec2a1a9af718394cbdd077e0a7c4a3fe78b1fa973dd"
+    }
+  ],
+  "rawUnknownCodes": [],
+  "findingCodes": [
+    "test_weakening"
+  ],
+  "blockedByFinding": true,
+  "reviewEnabled": false,
+  "reviewDiagnostic": "material_review_not_enabled",
+  "requestDigest": "sha256:61bac7be6e040b202c3cdcf2cbd48a694a4b35f3f4f0bec4211c00cce5a6fe15",
+  "reviewedSourceHead": "2a91c13651b4657aa09bb5b16b54733d7455cc46"
+}

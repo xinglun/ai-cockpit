@@ -1,0 +1,7 @@
+/tmp/wi1083-target-00461714-20261015/debug/deps/ci_gate-3a4701abafa254f5.d: crates/cockpit-cli/tests/ci_gate.rs
+
+/tmp/wi1083-target-00461714-20261015/debug/deps/ci_gate-3a4701abafa254f5: crates/cockpit-cli/tests/ci_gate.rs
+
+crates/cockpit-cli/tests/ci_gate.rs:
+
+# env-dep:CARGO_BIN_EXE_ai-cockpit=/tmp/wi1083-target-00461714-20261015/debug/ai-cockpit

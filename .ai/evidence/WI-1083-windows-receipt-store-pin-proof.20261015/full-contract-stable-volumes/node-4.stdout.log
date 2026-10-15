@@ -1,0 +1,58 @@
+
+running 6 tests
+test incremental_merkle_tests::stable_read_rejects_detectable_change_during_read ... ok
+test suspended_job_setup_tests::assignment_failure_terminates_and_waits_without_resume ... ok
+test suspended_job_setup_tests::resume_failure_terminates_and_waits_after_assignment ... ok
+test suspended_job_setup_tests::suspended_process_is_assigned_before_resume ... ok
+test unix_bounded_process_tests::escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup ... ok
+test unix_bounded_process_tests::parent_exit_terminates_pipe_holding_descendant ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.21s
+
+
+running 2 tests
+test common_directory_is_shared_by_real_linked_worktrees ... ok
+test independent_clone_is_unsupported_for_shared_coordination ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+
+running 25 tests
+test bounded_binary_patch_mapping_ignores_configured_diff_order ... ok
+test bounded_blob_read_never_lazily_fetches_from_promisor_remote ... ok
+test bounded_git_revision_arguments_reject_option_injection ... ok
+test bounded_output_overflow_terminates_git_filter_process_group ... ok
+test bounded_source_comparison_marks_git_binary_patch_as_binary ... ok
+test bounded_source_comparison_preserves_existing_hunk_facts ... ok
+test bounded_source_identity_ignores_ai_only_commits ... ok
+test bounded_source_patch_digest_excludes_root_ai_file ... ok
+test bounded_source_snapshot_rejects_output_overflow_and_can_run_again ... ok
+test bounded_source_status_preserves_unicode_ai_worktree_paths ... ok
+test bounded_source_tree_digest_excludes_unicode_ai_paths ... ok
+test changed_rust_lines_keep_exact_after_line_and_hunk_origin ... ok
+test clean_snapshot_skips_redundant_diff_subprocess ... ok
+test comparison_snapshot_includes_committed_changes_on_a_clean_worktree ... ok
+test comparison_snapshot_preserves_uncommitted_source_paths ... ok
+test overflowing_patch_with_a_short_removed_line_never_becomes_complete_text ... ok
+test oversized_tracked_file_with_bounded_patch_keeps_patch_facts_inspectable ... ok
+test oversized_tracked_patch_remains_uninspectable_when_after_text_is_small ... ok
+test snapshot_diff_digest_excludes_ai_protocol_fact_changes ... ok
+test snapshot_hashes_overlapping_changed_and_dependency_paths_once ... ok
+test snapshot_keeps_an_unborn_repository_headless ... ok
+test snapshot_marks_oversized_changed_text_without_retaining_it ... ok
+test snapshot_observes_head_and_untracked_paths_with_one_snapshot_api ... ok
+test snapshot_reuses_tracked_patch_facts_without_serializing_source_text ... ok
+test snapshot_uses_the_v2_rename_target_path ... ok
+
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.49s
+
+
+running 5 tests
+test changed_paths_are_normalized_and_sorted_once ... ok
+test incremental_merkle_detects_same_length_content_with_restored_mtime ... ok
+test incremental_merkle_handles_replacement_deletion_rename_and_type_change ... ok
+test incremental_merkle_rehashes_unchanged_files_and_invalidates_changed_content ... ok
+test incremental_merkle_rejects_escape_paths_fail_closed ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,5 @@
+error: unexpected argument 'cargo' found
+
+Usage: ai-cockpit verify [OPTIONS] --repo <REPO>
+
+For more information, try '--help'.

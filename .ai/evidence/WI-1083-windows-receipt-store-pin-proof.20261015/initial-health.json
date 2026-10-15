@@ -1,0 +1,11 @@
+{
+  "observedAt": "2026-10-15T00:42:15.079245+00:00",
+  "pid1": "tail",
+  "processes": 14577,
+  "zombies": 14567,
+  "gitZombies": 14460,
+  "pidsMax": "max",
+  "freeBytes": 4415160320,
+  "systemChanges": false,
+  "cause": "not established"
+}

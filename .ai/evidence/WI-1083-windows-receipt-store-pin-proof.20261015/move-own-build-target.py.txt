@@ -1,0 +1,32 @@
+from pathlib import Path
+import os,shutil,hashlib,json,datetime,stat
+root=Path('/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof');logs=root/'.ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015';failed=logs/'full-contract';src=Path('/tmp/wi1083-target-00461714-20261015');dst=Path('/workspace/.tmp-wi1083-target-00461714-20261015')
+assert src.is_dir() and not src.is_symlink() and not dst.exists()
+def digest(p):
+ h=hashlib.sha256()
+ with p.open('rb') as f:
+  for chunk in iter(lambda:f.read(1024*1024),b''):h.update(chunk)
+ return h.hexdigest()
+def manifest(d):
+ result={};total=0
+ for parent,dirs,files in os.walk(d,followlinks=False):
+  for name in list(dirs)+files:
+   p=Path(parent)/name;rel=str(p.relative_to(d));m=p.lstat()
+   if stat.S_ISLNK(m.st_mode):result[rel]={'kind':'symlink','target':os.readlink(p)}
+   elif stat.S_ISREG(m.st_mode):result[rel]={'kind':'file','bytes':m.st_size,'sha256':digest(p)};total+=m.st_size
+ return result,total
+before,total=manifest(src);(logs/'build-cache-before-move.manifest.json').write_text(json.dumps(before,indent=2)+'\n');print('own target files',len(before),'apparent bytes',total,flush=True)
+free=os.statvfs('/workspace').f_bavail*os.statvfs('/workspace').f_frsize;assert free>total+300_000_000,(free,total)
+linked={}
+def copy(p,q):
+ m=os.stat(p,follow_symlinks=False);key=(m.st_dev,m.st_ino)
+ if m.st_nlink>1 and key in linked:os.link(linked[key],q)
+ else:shutil.copy2(p,q);linked[key]=q
+ return q
+shutil.copytree(src,dst,symlinks=True,copy_function=copy);after,after_total=manifest(dst);assert before==after and total==after_total
+print('all current-WI cache bytes and symlinks verified at isolated workspace destination',flush=True)
+shutil.rmtree(src)
+space={p:{'freeBytes':os.statvfs(p).f_bavail*os.statvfs(p).f_frsize,'freeInodes':os.statvfs(p).f_favail} for p in ['/tmp','/workspace']}
+move={'observedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'source':str(src),'destination':str(dst),'apparentBytes':total,'entriesVerified':len(before),'allBytesAndSymlinksEqual':True,'oldPathRemovedOnlyAfterVerification':True,'otherWorkItemCachesTouched':False,'systemOrPermissionsConfigurationChanged':False,'spaceAfter':space};(logs/'own-build-target-move.json').write_text(json.dumps(move,indent=2)+'\n');print(json.dumps(move),flush=True)
+if (failed/'verification.receipt.json').exists():
+ v=json.loads((failed/'verification.receipt.json').read_bytes());note={'fullRunPassed':False,'fullRunCommandReceipt':'stdout.log contains the actual failed full command receipt','copiedCanonicalFile':'verification.receipt.json','copiedCanonicalIsPreexistingTargetedEvidence':True,'copiedCanonicalRawSha256':digest(failed/'verification.receipt.json'),'copiedCanonicalSourceArgs':v['receipt']['planReceipt']['coverageManifest']['sourceArgs'],'meaning':'Do not count this previously successful targeted receipt as fresh full-contract success. Failed full execution stdout/stderr and every node record are retained unchanged.','confirmedFailure':'later Cargo nodes report errno28 ENOSPC; /tmp freeBytes measured 0; CLI linker Bus error is preserved as observed symptom; no zombie/PID root cause inference.'};(failed/'failure-and-canonical-provenance.json').write_text(json.dumps(note,indent=2)+'\n')

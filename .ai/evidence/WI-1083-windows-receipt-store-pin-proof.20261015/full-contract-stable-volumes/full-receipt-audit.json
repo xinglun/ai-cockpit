@@ -1,0 +1,55 @@
+{
+  "observedAt": "2026-10-15T02:29:48.939123+00:00",
+  "sourceHead": "82521f19546b6d2c5504f71fbb71c03de551a9d3",
+  "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "snapshotDigest": "sha256:d5fc0425dd6b2f8b32ccc3a9bd7a75e9e319d48353e2b2b0b8a925987d05405f",
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "receiptDigest": "sha256:7fcad9ed79680b06bb864216ed1a3cc9aa0771c2301c7ae9c73452780fd5bce7",
+  "canonicalRawSha256": "239a5363abb47ee4bca32e1118dd459381e7be19bd4bf6a50a3d99bccead0049",
+  "actualStdoutSha256": "02d851349a60ce83436fa4d8078377b4782c378b696cae23cc5d08b4dff982aa",
+  "fullCoverageSourceArgs": [
+    "test",
+    "--workspace",
+    "--all-targets"
+  ],
+  "workspaceMembers": [
+    "cockpit-agent",
+    "cockpit-cli",
+    "cockpit-core",
+    "cockpit-evidence",
+    "cockpit-git",
+    "cockpit-interface",
+    "cockpit-isolation",
+    "cockpit-knowledge",
+    "cockpit-mcp",
+    "cockpit-protocol",
+    "cockpit-release",
+    "cockpit-repository",
+    "cockpit-verification"
+  ],
+  "hostElapsedSeconds": 731.8994035770011,
+  "runtimeElapsedMs": 727096,
+  "actualSpawnedNodes": 13,
+  "nodesReused": 0,
+  "processSpawnFailures": 0,
+  "allExitZeroNoTimeout": true,
+  "canonicalExecutionRecordsCoverageResultsEqualActualFullReceipt": true,
+  "runtimeWireProjectionDifferences": [
+    "Canonical receipt adds workItemId; command stdout retains plannedNodes and diagnosticSummary. All other fields exactly match."
+  ],
+  "sampledMinimumFreeBytes": {
+    "/tmp": 2559180800,
+    "/workspace": 1667645440
+  },
+  "sampleIntervalSeconds": 1,
+  "sampledNotExactContinuousPeak": true,
+  "truncationFlags": [
+    {
+      "node": "project-command-0-package-cockpit-repository",
+      "stdoutTruncated": true,
+      "stderrTruncated": false
+    }
+  ],
+  "priorFailuresAndTargetedRecordsRetained": true,
+  "finishArchiveOrHumanCloseExecuted": false
+}

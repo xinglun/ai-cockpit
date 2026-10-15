@@ -1,0 +1,40 @@
+{
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1083-runtime-home-20261015",
+    "TMPDIR": "/tmp/wi1083-stable-tests-20261015",
+    "CARGO_TARGET_DIR": "/workspace/.tmp-wi1083-target-00461714-20261015",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1"
+  },
+  "inheritedCompilerSettings": {
+    "RUSTFLAGS": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "RUSTC_WRAPPER": null,
+    "RUSTC_WORKSPACE_WRAPPER": null,
+    "RUSTUP_TOOLCHAIN": null,
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": null
+  },
+  "cargoConfigFiles": [],
+  "toolchain": {
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+    "activeToolchain": "1.98.1-x86_64-unknown-linux-gnu (overridden by '/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/rust-toolchain.toml')"
+  },
+  "spaceBefore": {
+    "/tmp": {
+      "freeBytes": 3821961216,
+      "freeInodes": 2278958
+    },
+    "/workspace": {
+      "freeBytes": 4830400512,
+      "freeInodes": 1966973
+    }
+  },
+  "sourceHead": "82521f19546b6d2c5504f71fbb71c03de551a9d3",
+  "preparationOnly": true,
+  "oldBinariesCopied": false
+}

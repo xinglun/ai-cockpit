@@ -1,0 +1,203 @@
+{
+  "observedAt": "2026-10-15T01:53:09.945956+00:00",
+  "reason": "Cargo clean refused missing CACHEDIR.TAG and deleted nothing. Preserve its refusal. Invalidate only proven cockpit-cli integration fingerprint marker files inside this WI own cache; Cargo rebuilds integration executables with current CARGO_BIN_EXE path. All binaries, source, logs and other package caches remain.",
+  "markers": [
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-972eb723e2421431/test-integration-test-lifecycle",
+      "bytes": 16,
+      "sha256": "2e1b03e22669dc3efb9a7e3389fcf387bec6ac508179e7433f0fd275b6ec79da"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-1fd3deffc86aa94f/test-integration-test-attach",
+      "bytes": 16,
+      "sha256": "b54511cb8c100cc5b6cd00ed5c257128a9302469f0fa093aa16f6c2d6dd92c3b"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-7b3741a5c47e8a6b/test-integration-test-delegated_evidence",
+      "bytes": 16,
+      "sha256": "ca6d03495cea8c615e0508cd002b846427e1d26cfe8c0b2623e5cdfbf78c3c6a"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-cded6320bcf9883e/test-integration-test-cognitive_benefit",
+      "bytes": 16,
+      "sha256": "61ebff80423195fd50c0789c8c2bd3eaa6cf656b6ddaf4bd9c861db657bfcea0"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-8912d92b0c085229/test-integration-test-outcome_human_decision",
+      "bytes": 16,
+      "sha256": "6170565aa56eacc4a8109660790ce8666a15bebc358d6a412838c69ac8408328"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-adf79d8e8cf1179a/test-integration-test-release_plan",
+      "bytes": 16,
+      "sha256": "bb288b25b726bb939b5f677e0366612e28e2ac5e396c94375414f214b2a831dc"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-a1deafca29483c66/test-integration-test-audit_query",
+      "bytes": 16,
+      "sha256": "9499115cc0d66d1a975c981acdf91414af747c859106dbdf99f1d1ba653106b8"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-51eb1170dae3038b/test-integration-test-contract_amendment_processes",
+      "bytes": 16,
+      "sha256": "c6b3f6c668cff1785592ed41c004a098ed7e7b3a2086782e51edbe6c8bb868f2"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-06caa58b04831135/test-integration-test-scope_amendment",
+      "bytes": 16,
+      "sha256": "25dae301000b2ae25cdd2d97906d5ee1179c11a82c3be9451d8ba5463ee9c7be"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-0c511b485a76a4cd/test-integration-test-profile_propose",
+      "bytes": 16,
+      "sha256": "0eca9a99433f46a86c220c64e5f4c2c9e1eaea8953a90ee7b27c95d4d657344e"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-e724f995d64a6881/test-integration-test-profile",
+      "bytes": 16,
+      "sha256": "444011caac1a46565a87079d9d2756b7f7b994198e5db1d3f1d91819da664e8d"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-5781409f663c1654/test-integration-test-cli_mcp_outcome_parity",
+      "bytes": 16,
+      "sha256": "05f9d85073b21254d2ad125a7f91fc484174b2a10642c0568adc9ebb309dce33"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-3a4701abafa254f5/test-integration-test-ci_gate",
+      "bytes": 16,
+      "sha256": "39d83ff81f6ea1765e1a9436a848a00f1f2b8f6398f4036bbe34ff7ef5bb49bb"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-cf5fa3e26ac287f7/test-integration-test-collaboration_scenario_matrix",
+      "bytes": 16,
+      "sha256": "3615bee2196ef57028c36c1cf36617378f4b488e0646343c4986996717ae207d"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-3be5a3f944f25111/test-integration-test-work_item_scaffold",
+      "bytes": 16,
+      "sha256": "6bc36508d5ddd326d73b8972ff91e02c5340236537fdc0d4301e62ffc874f086"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-8f6a06c9670db2c4/test-integration-test-preflight",
+      "bytes": 16,
+      "sha256": "c4a12d5c590b79699e4569ea2c6e85584a34eb8d626efa0c2fbea766d8f367d2"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-e5578d663b48fa92/test-integration-test-verify",
+      "bytes": 16,
+      "sha256": "b7b3e34a686ce17dd71901d8025d48d8bbbcc1b1419fe84f8ed4b5a0e7897d4f"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-f55c659826462509/test-integration-test-collaboration_consistency",
+      "bytes": 16,
+      "sha256": "76dbd11bad41f52be53bd60302ab9186c419207fc4f8c8013272cc1cdc39cbff"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-8a3c29b35e2325e9/test-integration-test-resource_finalization",
+      "bytes": 16,
+      "sha256": "6b69c9209a0e7417156ef75849e22462ee7e50ba0e3d45c383643a7126a566e4"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-23eeea57b286aace/test-integration-test-observe",
+      "bytes": 16,
+      "sha256": "5b2d04e1fb13f2703475ab94b911ec7f2420108d7c54a1bc72eb3be359151c7f"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-ffe04359121d0ab6/test-integration-test-material_review",
+      "bytes": 16,
+      "sha256": "d94e4e7864cd75cf1acb1ff76d7fd6dc44853d63b4a11f8554560a9a4f336c4e"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-5b952f53e68741ec/test-integration-test-mcp",
+      "bytes": 16,
+      "sha256": "5a833ae7742d9025be507544e6bdea537ac6fa13599cd093fdf7e0bea7ca628c"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-2dde6d33f0288f51/test-integration-test-collaboration_outcome_parity",
+      "bytes": 16,
+      "sha256": "ddeed82d90db634b19bf152851496f99a9fcb53d0f2c71bb6cb8bb987c2abb6a"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-d254c0d522c1e791/test-integration-test-knowledge",
+      "bytes": 16,
+      "sha256": "0d845db3e38365a8c71f93c3b4b21a5ed4cec1d2e52965603de9aeeece463cd9"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-19c51c5dafa4c9a6/test-integration-test-release_isolation",
+      "bytes": 16,
+      "sha256": "374240b5a1599ff54d41a2f2cb2ebadeb23b4d84893bcbd4dbafd7d066a7f9f1"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-8aec6de9a079437e/test-integration-test-collaboration_cli",
+      "bytes": 16,
+      "sha256": "357a4e7017172d3522c0899604c61a86d7184f23131bf3645ece1ad8ebdba26f"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-1b649f88e39562f0/test-integration-test-worktree_entry",
+      "bytes": 16,
+      "sha256": "a2e50605641f03c3979402ff0aecc98b18a7432caab3b0e78934765aba9fcbfc"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-e5ad0f2c12b4bce7/test-integration-test-gate_plan",
+      "bytes": 16,
+      "sha256": "ee11e9ac6e8bdc16fcb936cb9b77af2f023e757decb48dbf9e45f2897ded6a5c"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-b2297fc9a3f7b9a9/test-integration-test-agent",
+      "bytes": 16,
+      "sha256": "85cbf8645be5869ce620b343907137e8782d225f081669a862ef7c3a1293882d"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-42e1f84dba71f824/test-integration-test-inspect",
+      "bytes": 16,
+      "sha256": "05cbc02fad60289caec628dc819ef1bcd300f604defaf178dd5631625886dfad"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-6d905af2971b25b4/test-integration-test-doctor",
+      "bytes": 16,
+      "sha256": "244de8828dec714ae05d6067eed2fa3c06a6f989756f70252a82578e371928fb"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-6f68b587e7b889c8/test-integration-test-closeout_recovery",
+      "bytes": 16,
+      "sha256": "ebaf5f8a7509572cbcf0b6662194fb4aa2d30d97749ef07506f2beabf7130985"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-9303d8710e189677/test-integration-test-performance",
+      "bytes": 16,
+      "sha256": "e524f6a656d4ee865b06a34758ee1125fe49ae02ab7bad798ffb00191e23498d"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-62ce4839c9bc7c39/test-integration-test-usage",
+      "bytes": 16,
+      "sha256": "c54658b205db6deeb3d05e5f3571e688e739f6a36565a5ab49dd64d5072c15db"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-ca7dcd18c2d673ff/test-integration-test-retirement",
+      "bytes": 16,
+      "sha256": "542fefeb91096417996e969d1123de59362925335a39ae37d57be1c2946bb665"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-b33b7b43c2cd8d8b/test-integration-test-parallel_boundary",
+      "bytes": 16,
+      "sha256": "d5cbe368e8228f16ee379439a17275808fe3668b22938528c7fe58046bd6093f"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-68e2a93bab8ffa1c/test-integration-test-intelligence",
+      "bytes": 16,
+      "sha256": "6e0e353168dc6c2e68b1ef5d828a7bbc7bbf8a1862e12c5755caeb583a4ff518"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-4b67c72b1fd872fc/test-integration-test-collaboration_handoff",
+      "bytes": 16,
+      "sha256": "ae19de04640a650a5968bb969ef349f49d8c1cb3e62e3f449dc982989096323d"
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-cli-e5c5a56fb8725f86/test-integration-test-outcome_handoff",
+      "bytes": 16,
+      "sha256": "1583ebb23c472486396f06a537053243d5bfc3be31ae0d8f851948868cd8cdf8"
+    }
+  ],
+  "priorArgError": "recover-cli-gate-workspace-target used unsupported trailing command arguments; Runtime parser exit2 before execution. Correct supported --command/--args now taken from installed help and prior successful targeted invocation.",
+  "singleTestThreadReason": "Reduce historical-checkout disk peak; all original tests and assertions still execute."
+}

@@ -1,0 +1,40 @@
+{
+  "label": "full-contract",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "--work-item",
+    "WI-1083-windows-receipt-store-pin-proof",
+    "--workers",
+    "1"
+  ],
+  "head": "0ebf67b65a8663b1f631cbfd75147dd629648d99",
+  "startedAt": "2026-10-15T01:02:42.634873+00:00",
+  "finishedAt": "2026-10-15T01:03:06.202834+00:00",
+  "elapsedSeconds": 23.56754134298535,
+  "exitCode": 1,
+  "hostTimedOut": false,
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1083-runtime-home-20261015",
+    "TMPDIR": "/workspace/.tmp-wi1083-tests-20261015",
+    "CARGO_TARGET_DIR": "/tmp/wi1083-target-00461714-20261015",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "2"
+  },
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "files": {
+    "stderr.log": "040902f278e8a657bd4e5a6d02db7fb6fb52800483b3f5ff425466c0b279ddb0",
+    "stdout.log": "ea0b6a1cba7b5aa6f6114e0e71cfc9104fb94b51ddd04881dbdd7b5fe7781ea7",
+    "status.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.json": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932",
+    "status.json": "96c841fa88b1ce00bc672874890227d8a0611a13d13a5fe2b3d1e161b8dde12f",
+    "verification.receipt.json": "792de3d8461c55052d815de28fdefd94c4ab002e98f81441033108c8e1c154c0",
+    "validate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,17 @@
+
+running 12 tests
+test concurrent_writers_preserve_both_node_mappings ... ok
+test empty_store_is_unavailable_and_valid_store_loads_only_the_indexed_receipt ... ok
+test existing_hardlinked_commit_marker_is_never_truncated ... ok
+test failed_index_replacement_keeps_the_previous_valid_index_authoritative ... ok
+test malformed_tampered_and_missing_referenced_receipts_fail_closed ... ok
+test orphaned_temporary_receipt_does_not_poison_later_publication ... ok
+test oversized_index_and_receipt_fail_closed_without_unbounded_reads ... ok
+test parent_replacement_after_lock_open_cannot_redirect_store_reads ... ok
+test symlinked_index_or_receipt_is_rejected ... ok
+test symlinked_store_parent_directory_is_rejected_before_any_index_read ... ok
+test uncertain_index_commit_marker_fails_closed ... ok
+test wrong_repository_profile_or_index_binding_never_returns_a_candidate ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+

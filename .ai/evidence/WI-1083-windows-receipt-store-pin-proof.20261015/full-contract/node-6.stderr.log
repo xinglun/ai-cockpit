@@ -1,0 +1,5 @@
+   Compiling syn v3.0.3
+error: failed to write `/tmp/wi1083-target-00461714-20261015/debug/.fingerprint/syn-fd0345593e1d111b/invoked.timestamp`
+
+Caused by:
+  No space left on device (os error 28)

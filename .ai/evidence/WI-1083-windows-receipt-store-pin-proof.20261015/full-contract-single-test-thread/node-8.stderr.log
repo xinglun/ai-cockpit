@@ -1,0 +1,9 @@
+    Finished `test` profile [unoptimized] target(s) in 0.06s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_mcp-9669ea4eaad00f91)
+     Running tests/closeout_recovery.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/closeout_recovery-3f1bde3b219113d5)
+     Running tests/collaboration_rpc.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/collaboration_rpc-b0f69a2ba64bc0e1)
+     Running tests/material_review.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/material_review-9a12feb69ee43ddb)
+     Running tests/rpc.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/rpc-0f0c7ca1880ad93b)
+     Running tests/security.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/security-9fad8305be5fc333)
+     Running tests/usage.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/usage-20a6f5caf86355f7)
+     Running tests/work_item_amendment_parity.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/work_item_amendment_parity-7c4045d8aa9eb5ff)

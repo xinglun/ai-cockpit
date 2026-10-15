@@ -1,0 +1,17 @@
+   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/crates/cockpit-verification)
+    Finished `test` profile [unoptimized] target(s) in 10.36s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_verification-382c35a4d856a195)
+     Running tests/affected_verification.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/affected_verification-1077dcd61a628a6c)
+     Running tests/composition.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/composition-9b8b18e520d84dfb)
+observed detached verifier zombie: pid=3004889 state='Z' ppid=3004863 pgid=3004889 sid=3004889; waitid(WNOWAIT)=0; kill(pid, 0)=0
+     Running tests/cost_observation.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cost_observation-010765ec2ed07b4a)
+     Running tests/development_cycle_cost.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/development_cycle_cost-93d45edc1baf114c)
+     Running tests/diagnostic_summary.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/diagnostic_summary-47ae7cbe1a41413e)
+     Running tests/execution.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/execution-6e4d22b7bcdd9c51)
+     Running tests/gate_plan_parity.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/gate_plan_parity-496f254495425982)
+     Running tests/graph.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/graph-6dc09737fe771e36)
+     Running tests/intent_scenario_binding.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/intent_scenario_binding-e33159c476c3ef5d)
+     Running tests/physical_execution.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/physical_execution-87da983149dcadc4)
+     Running tests/policy_planner.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/policy_planner-395bae7870a3591c)
+     Running tests/route_convergence.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/route_convergence-5eaad761320ab4bc)
+     Running tests/runtime_benchmark_scenarios.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/runtime_benchmark_scenarios-b7730f78d92fed4c)

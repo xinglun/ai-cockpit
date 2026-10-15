@@ -1,0 +1,696 @@
+{
+  "records": [
+    {
+      "node": "project-command-0-package-cockpit-agent",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-agent",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:12:14.139464+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4634689536,
+          "freeInodes": 1966077
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-cli",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-cli",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:12:50.889835+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4085727232,
+          "freeInodes": 1965509
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-core",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-core",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:38.844287+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4039421952,
+          "freeInodes": 1965378
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-evidence",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-evidence",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:47.709783+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4035788800,
+          "freeInodes": 1965354
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-git",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-git",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:48.330754+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4010287104,
+          "freeInodes": 1965258
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-interface",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-interface",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:51.960445+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4008349696,
+          "freeInodes": 1965248
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-isolation",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-isolation",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:52.629656+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4004196352,
+          "freeInodes": 1965225
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-knowledge",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-knowledge",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:53.408625+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4000264192,
+          "freeInodes": 1965209
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-mcp",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-mcp",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:53.927101+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3741073408,
+          "freeInodes": 1965149
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-protocol",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-protocol",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:13:58.027496+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3690573824,
+          "freeInodes": 1965028
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-release",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-release",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:14:08.945521+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3591135232,
+          "freeInodes": 1964702
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-repository",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-repository",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:14:24.689473+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2540318720,
+          "freeInodes": 1964350
+        }
+      }
+    },
+    {
+      "node": "project-command-0-package-cockpit-verification",
+      "command": [
+        "cargo",
+        "test",
+        "--package",
+        "cockpit-verification",
+        "--all-targets",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "startedAt": "2026-10-15T02:15:00.177553+00:00",
+      "exitCode": 0,
+      "stoppedReason": null,
+      "spaceAfter": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2481995776,
+          "freeInodes": 1964242
+        }
+      }
+    }
+  ],
+  "spaceSamples": [
+    {
+      "elapsedSeconds": 10.0,
+      "node": "project-command-0-package-cockpit-agent",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4772323328,
+          "freeInodes": 1966587
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 20.0,
+      "node": "project-command-0-package-cockpit-agent",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4734533632,
+          "freeInodes": 1966340
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 30.0,
+      "node": "project-command-0-package-cockpit-agent",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4691234816,
+          "freeInodes": 1966151
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 36.75,
+      "node": "project-command-0-package-cockpit-agent",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4634689536,
+          "freeInodes": 1966077
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 46.75,
+      "node": "project-command-0-package-cockpit-cli",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4589268992,
+          "freeInodes": 1965821
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 56.75,
+      "node": "project-command-0-package-cockpit-cli",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4531425280,
+          "freeInodes": 1965786
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 66.75,
+      "node": "project-command-0-package-cockpit-cli",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4462845952,
+          "freeInodes": 1965772
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 76.75,
+      "node": "project-command-0-package-cockpit-cli",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4209692672,
+          "freeInodes": 1965605
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 84.7,
+      "node": "project-command-0-package-cockpit-cli",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4085727232,
+          "freeInodes": 1965509
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 93.57,
+      "node": "project-command-0-package-cockpit-core",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4039421952,
+          "freeInodes": 1965378
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 94.19,
+      "node": "project-command-0-package-cockpit-evidence",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4035788800,
+          "freeInodes": 1965354
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 97.82,
+      "node": "project-command-0-package-cockpit-git",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4010287104,
+          "freeInodes": 1965258
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 98.49,
+      "node": "project-command-0-package-cockpit-interface",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4008349696,
+          "freeInodes": 1965248
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 99.27,
+      "node": "project-command-0-package-cockpit-isolation",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4004196352,
+          "freeInodes": 1965225
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 99.79,
+      "node": "project-command-0-package-cockpit-knowledge",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821961216,
+          "freeInodes": 2278958
+        },
+        "/workspace": {
+          "freeBytes": 4000264192,
+          "freeInodes": 1965209
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 103.89,
+      "node": "project-command-0-package-cockpit-mcp",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3741073408,
+          "freeInodes": 1965149
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 113.89,
+      "node": "project-command-0-package-cockpit-protocol",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3691667456,
+          "freeInodes": 1965032
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 114.81,
+      "node": "project-command-0-package-cockpit-protocol",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3690573824,
+          "freeInodes": 1965028
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 124.81,
+      "node": "project-command-0-package-cockpit-release",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3640922112,
+          "freeInodes": 1964786
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 130.55,
+      "node": "project-command-0-package-cockpit-release",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3591135232,
+          "freeInodes": 1964702
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 140.55,
+      "node": "project-command-0-package-cockpit-repository",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 3060887552,
+          "freeInodes": 1964497
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 150.55,
+      "node": "project-command-0-package-cockpit-repository",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278954
+        },
+        "/workspace": {
+          "freeBytes": 2629103616,
+          "freeInodes": 1964356
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 160.55,
+      "node": "project-command-0-package-cockpit-repository",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2567917568,
+          "freeInodes": 1964350
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 166.04,
+      "node": "project-command-0-package-cockpit-repository",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2540318720,
+          "freeInodes": 1964350
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 176.04,
+      "node": "project-command-0-package-cockpit-verification",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278954
+        },
+        "/workspace": {
+          "freeBytes": 2491002880,
+          "freeInodes": 1964259
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 176.76,
+      "node": "project-command-0-package-cockpit-verification",
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2481995776,
+          "freeInodes": 1964242
+        }
+      }
+    }
+  ],
+  "elapsedSeconds": 176.7558064670011
+}

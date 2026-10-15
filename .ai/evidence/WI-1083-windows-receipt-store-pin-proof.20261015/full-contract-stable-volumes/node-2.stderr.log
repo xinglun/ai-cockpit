@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized] target(s) in 0.05s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_core-1e84b3bbb2c3bf0c)
+     Running tests/adversarial_v2.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/adversarial_v2-057b1c7097f332c3)
+     Running tests/conformance.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/conformance-a87a43fc88e140c1)
+     Running tests/domain_types.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/domain_types-c4a4e0ca4f258453)
+     Running tests/governance_semantics.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/governance_semantics-4224b1b04526a2dc)
+     Running tests/operation_time_policy.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/operation_time_policy-921c72e08231bae6)
+     Running tests/v1_oracle.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/v1_oracle-d893d19c150ab5d0)

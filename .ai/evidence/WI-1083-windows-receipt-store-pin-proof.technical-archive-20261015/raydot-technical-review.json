@@ -1,0 +1,33 @@
+{
+  "reviewerActor": "agent:Raydot",
+  "reviewKind": "independent_technical_acceptance",
+  "source": "parent_delegation",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "observedAt": "2026-10-15T02:39:39.619973+00:00",
+  "reviewedHead": "c0fde42d263f8ce7486fe34711ea528d4b8b3d37",
+  "decision": "accepted",
+  "newP1P2": 0,
+  "reviewedFacts": {
+    "rawShaManifestEntries": 417,
+    "workspaceMembers": 13,
+    "actualSpawned": 13,
+    "reuse": 0,
+    "allExitZero": true,
+    "decodedLogs": 26,
+    "hostElapsedSeconds": 731.8994035770011,
+    "hostCapSeconds": 900,
+    "nodeTimeoutSeconds": 600,
+    "canonicalRawSha256": "239a5363abb47ee4bca32e1118dd459381e7be19bd4bf6a50a3d99bccead0049",
+    "receiptDigest": "sha256:7fcad9ed79680b06bb864216ed1a3cc9aa0771c2301c7ae9c73452780fd5bce7"
+  },
+  "authorization": "After exact publication-head CI success and fresh Runtime admission, perform technical finish/archive, preserve real generated records and raw bindings, commit/push and await archive-head CI.",
+  "notHumanCloseOrMergeOrDeletionAuthority": true,
+  "boundariesPreserved": {
+    "repositoryStdoutTruncated": true,
+    "historicalEnospcBytesVsInodesCause": "unknown",
+    "userVisibleBenefit": "not_declared",
+    "intentAlignment": "unknown",
+    "hostDisplayed": "unknown"
+  },
+  "sourceStatement": "Raydot 已完成 WI-1083 c0fde42d 的独立技术验收，通过，无新增 P1/P2。不要再重复环境恢复或全量测试。发布 head CI通过后按fresh Runtime admission执行finish/archive；当前技术验收不是Ray真人关闭，也不授权PR1039合并或删除。"
+}

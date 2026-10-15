@@ -1,0 +1,5 @@
+   Compiling cockpit-protocol v1.0.1 (/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/crates/cockpit-protocol)
+error: failed to write `/tmp/wi1083-target-00461714-20261015/debug/.fingerprint/cockpit-protocol-3e7284f79255e765/invoked.timestamp`
+
+Caused by:
+  No space left on device (os error 28)

@@ -1,0 +1,136 @@
+{
+  "sampleIntervalSeconds": 1,
+  "sampledNotExactContinuousPeak": true,
+  "samples": [
+    {
+      "elapsedSeconds": 0.002,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2481926144,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 1.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3818098688,
+          "freeInodes": 2278953
+        },
+        "/workspace": {
+          "freeBytes": 2481926144,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 2.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3381374976,
+          "freeInodes": 2262647
+        },
+        "/workspace": {
+          "freeBytes": 2481922048,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 3.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 2970673152,
+          "freeInodes": 2246479
+        },
+        "/workspace": {
+          "freeBytes": 2481922048,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 4.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 2559967232,
+          "freeInodes": 2230304
+        },
+        "/workspace": {
+          "freeBytes": 2481922048,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 5.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 2559967232,
+          "freeInodes": 2230304
+        },
+        "/workspace": {
+          "freeBytes": 2481922048,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 6.004,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 2559967232,
+          "freeInodes": 2230304
+        },
+        "/workspace": {
+          "freeBytes": 2481922048,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 7.004,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 2869166080,
+          "freeInodes": 2243172
+        },
+        "/workspace": {
+          "freeBytes": 2481922048,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 8.004,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 2970673152,
+          "freeInodes": 2246479
+        },
+        "/workspace": {
+          "freeBytes": 2481922048,
+          "freeInodes": 1964221
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 8.72,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2481901568,
+          "freeInodes": 1964220
+        }
+      }
+    }
+  ]
+}

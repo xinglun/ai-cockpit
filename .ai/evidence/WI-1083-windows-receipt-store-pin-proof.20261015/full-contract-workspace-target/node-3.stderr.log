@@ -1,0 +1,4 @@
+   Compiling cockpit-evidence v1.0.1 (/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/crates/cockpit-evidence)
+    Finished `test` profile [unoptimized] target(s) in 0.57s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_evidence-66d917d4688792fb)
+     Running tests/reuse.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/reuse-aa0c7e9f217fa9cd)

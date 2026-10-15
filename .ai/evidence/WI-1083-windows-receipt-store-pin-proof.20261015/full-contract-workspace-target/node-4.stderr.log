@@ -1,0 +1,10 @@
+   Compiling rustix v1.1.4
+   Compiling linux-raw-sys v0.12.1
+   Compiling once_cell v1.21.4
+   Compiling tempfile v3.27.0
+   Compiling cockpit-git v1.0.1 (/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/crates/cockpit-git)
+    Finished `test` profile [unoptimized] target(s) in 3.49s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_git-5da8075f04a88650)
+     Running tests/collaboration_topology.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/collaboration_topology-5f5a8c49b10cf437)
+     Running tests/repository.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/repository-a61f65ada2653e28)
+     Running tests/snapshot.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/snapshot-1b601f75b00b4226)

@@ -1,0 +1,109 @@
+
+running 23 tests
+test cognitive_benefit::tests::fixed_answer_key_covers_every_archived_case_without_inferred_approval ... ok
+test cognitive_benefit::tests::evidence_reference_parser_and_injection_filter_preserve_safety_boundary ... ok
+test cognitive_benefit::tests::localized_summary_requires_all_four_headings ... ok
+test cognitive_benefit::tests::fixture_oracle_rejects_drift_in_security_relevant_answer_keys ... ok
+test cognitive_benefit::tests::markdown_file_newlines_match_python_text_mode_on_each_platform ... ok
+test cognitive_benefit::tests::provenance_digests_are_sha256_of_exact_bytes ... ok
+test cognitive_benefit::tests::markdown_is_explicit_about_no_human_study_and_preserves_case_identity ... ok
+test cognitive_benefit::tests::runtime_binary_report_path_normalizes_windows_verbatim_paths_only ... ok
+test runtime_identity::tests::missing_executable_path_fails_closed ... ok
+test cognitive_benefit::tests::writing_mode_places_both_artifacts_only_under_selected_repository ... ok
+test tests::archived_recovery_reads_declared_commands_from_the_archive_contract ... ok
+test tests::capability_description_defaults_and_values_come_from_protocol_facts ... ok
+test tests::capability_description_parser_has_a_read_only_surface_and_format ... ok
+test tests::concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time ... ok
+test tests::declared_verification_parser_preserves_environment_prefix_without_shell_evaluation ... ok
+test tests::declared_verification_parser_rejects_shell_syntax ... ok
+test tests::ordinary_cleanup_command_surfaces_repository_boundary_rejection_without_receipt ... ok
+test tests::ordinary_cleanup_parser_requires_repository_and_work_item_identity ... ok
+test tests::outcome_description_facts_match_clap_arguments ... ok
+test tests::outcome_parser_accepts_the_active_conversation_language ... ok
+test tests::outcome_parser_returns_the_protocol_owned_query_arguments ... ok
+test tests::start_parser_preserves_repeated_explicit_verification_commands ... ok
+test tests::aggregate_receipt_reports_the_longest_node_deadline ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
+
+
+running 10 tests
+test agent_commands_require_repo ... ok
+test agent_auto_install_selects_the_shared_agents_surface ... ok
+test agent_help_exposes_the_first_start_gate ... ok
+test agent_detach_refuses_modified_content ... ok
+test agent_install_and_doctor_are_repository_bound ... ok
+test agent_install_does_not_touch_global_files ... ok
+test cli_agent_operation_does_not_require_mcp ... ok
+test cli_cursor_install_uses_mdc_without_overwriting_legacy_user_rules ... ok
+test first_start_prints_the_canonical_gate_without_mutating_an_unattached_repo ... ok
+test first_start_output_matches_the_installed_adapter_projection ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.47s
+
+
+running 5 tests
+test attached_repository_identity_survives_a_repository_move ... ok
+test attach_creates_only_protocol_state_and_is_idempotent ... ok
+test migration_rejects_an_unreviewed_schema_without_skipping_history ... ok
+test status_reports_calibration_required_before_first_profile_confirmation ... ok
+test old_repository_requires_explicit_migration_and_preserves_history ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s
+
+
+running 5 tests
+test audit_help_and_mcp_initialize_expose_only_public_query_surface ... ok
+test cli_and_mcp_audit_query_share_filtered_page_and_discovery ... ok
+test filtered_export_preserves_legacy_wire_and_output_conflict ... ok
+test cli_and_mcp_share_combined_filters_and_bound_cursor_pages ... ok
+test unfiltered_export_accepts_existing_schema_one_bytes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.72s
+
+
+running 5 tests
+test gate_cli_stops_when_required_evidence_is_missing ... FAILED
+test gate_cli_emits_green_report_without_writing_ai ... FAILED
+test gate_report_cli_rejects_unignored_out_of_scope_source ... FAILED
+test gate_report_cli_rejects_tampered_repository_identity ... FAILED
+test gate_report_cli_validates_repository_bound_report ... FAILED
+
+failures:
+
+---- gate_cli_stops_when_required_evidence_is_missing stdout ----
+
+thread 'gate_cli_stops_when_required_evidence_is_missing' (2970687) panicked at crates/cockpit-cli/tests/ci_gate.rs:47:10:
+attach: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- gate_cli_emits_green_report_without_writing_ai stdout ----
+
+thread 'gate_cli_emits_green_report_without_writing_ai' (2970686) panicked at crates/cockpit-cli/tests/ci_gate.rs:47:10:
+attach: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+
+---- gate_report_cli_rejects_unignored_out_of_scope_source stdout ----
+
+thread 'gate_report_cli_rejects_unignored_out_of_scope_source' (2970707) panicked at crates/cockpit-cli/tests/ci_gate.rs:47:10:
+attach: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+
+---- gate_report_cli_rejects_tampered_repository_identity stdout ----
+
+thread 'gate_report_cli_rejects_tampered_repository_identity' (2970706) panicked at crates/cockpit-cli/tests/ci_gate.rs:47:10:
+attach: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+
+---- gate_report_cli_validates_repository_bound_report stdout ----
+
+thread 'gate_report_cli_validates_repository_bound_report' (2970726) panicked at crates/cockpit-cli/tests/ci_gate.rs:47:10:
+attach: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+
+
+failures:
+    gate_cli_emits_green_report_without_writing_ai
+    gate_cli_stops_when_required_evidence_is_missing
+    gate_report_cli_rejects_tampered_repository_identity
+    gate_report_cli_rejects_unignored_out_of_scope_source
+    gate_report_cli_validates_repository_bound_report
+
+test result: FAILED. 0 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+

@@ -1,0 +1,10 @@
+{
+  "/tmp": {
+    "freeBytes": 3821969408,
+    "freeInodes": 2278960
+  },
+  "/workspace": {
+    "freeBytes": 4830412800,
+    "freeInodes": 1966976
+  }
+}

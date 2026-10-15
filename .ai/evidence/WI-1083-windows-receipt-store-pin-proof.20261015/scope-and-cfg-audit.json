@@ -1,0 +1,12 @@
+{
+  "nonTestSourceBytesIdenticalAfterCfgTestRemoval": true,
+  "remainingOriginalIntegrationBytesIdentical": true,
+  "testScope": [
+    "crates/cockpit-repository/tests/receipt_store.rs",
+    "crates/cockpit-repository/src/evidence_store.rs"
+  ],
+  "noApiDependencyWorkflowChanges": true,
+  "WindowsNativeAcceptance": "pending CI; numeric Linux RED/GREEN and Linux integration are not native Windows proof",
+  "modelGreenSource": "9f750d8038ce857a25ef4ededec1a74e9779d205",
+  "exactNativeFilter": "evidence_store::windows_parent_replacement_tests::parent_replacement_after_lock_open_cannot_redirect_store_writes"
+}

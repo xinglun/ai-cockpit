@@ -1,0 +1,12 @@
+{
+  "archiveManifestAndAllSixArtifactsUnchanged": true,
+  "original417ShaEntriesUnchanged": true,
+  "sourceContractAndAssertionsUnchanged": true,
+  "gateSourceUnchanged": true,
+  "realHumanDecisionTime": "2026-10-15T03:23:16Z",
+  "actualRuntimeRecordTime": "2026-10-15T03:26:19.758877147Z",
+  "requiredCloseRecordPushMaySupersedeBlockedArchiveCi": 38674590276,
+  "thisIsNecessaryAuthorizedHumanCloseCheckpoint": true,
+  "archiveCiPartialWindowsNotClaimedAsPassed": true,
+  "finalCloseHeadCiAndRaydotReviewStillRequiredBeforeMergeOrCleanup": true
+}

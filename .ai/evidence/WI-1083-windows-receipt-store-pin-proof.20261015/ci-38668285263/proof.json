@@ -1,0 +1,24 @@
+{
+  "head": "82521f19546b6d2c5504f71fbb71c03de551a9d3",
+  "run": 38668285263,
+  "completedBeforeAnyNewReceiptPush": true,
+  "jobs": "4/4 success",
+  "windows": {
+    "job": 116206090898,
+    "nativeExactPassed": 1,
+    "libraryPassed": 104,
+    "receiptStorePassed": 9,
+    "actualRenameErrno": 32,
+    "exactReceiptAndIndexMappings": 2,
+    "noRedirection": true,
+    "renameAfterAllHandlesReleased": true
+  },
+  "qualityGates": {
+    "not_applicable": 2,
+    "passed": 40
+  },
+  "officialLogsSha256": {
+    "windows": "5014cfb54a9a55e946d70d9ed43f82d500dbccefb26a3f29ef04d204f9f53ef2",
+    "quality": "e277e5b61922093506f1fee3387fe1c39917da1d8c3f8d977a09c277ce68d577"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "finishActuallySucceeded": true,
+  "initialScriptStop": "The helper expected literal archive in safeActions; Runtime uses archive_when_reviewed. This was a helper assertion before any archive call, not a Runtime rejection.",
+  "freshAdmission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "archive_when_reviewed",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase finish_ready",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:84ad5bc326efd89a803c3c5a53f4c7ab302f28a37b52864b39f44d02c7eecfd0"
+  },
+  "raydotExactTechnicalReviewPresent": true,
+  "humanReviewOrCloseRecorded": false,
+  "noCommitBetweenFinishAndArchive": true,
+  "unknownIntentAlignmentNotPromoted": true
+}

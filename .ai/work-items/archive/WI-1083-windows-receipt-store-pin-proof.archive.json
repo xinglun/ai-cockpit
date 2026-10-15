@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-15T03:05:12Z",
+  "files": {
+    "contractDigest": "sha256:0a936492c5effd465df36d02b9cae4b3cbb0d83599bec4dfc7f5e4a814a2e7c1",
+    "contractPath": ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.contract.json",
+    "eventsDigest": "sha256:7a7e00943a9b3679cf22ffc06ca2491fe74db82fc430fddea0d4929af75b8068",
+    "eventsPath": ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.events.jsonl",
+    "outcomeDigest": "sha256:6c79292fd891b9e37abfe61eafa237f76b947326d1830e29f61e876291f1239b",
+    "outcomePath": ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.outcome.json",
+    "summaryDigest": "sha256:a8a1c65439ab1836396086b1e429017d8934a1ebd9887c3b6a7ce3b856961c3e",
+    "summaryPath": ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json",
+    "taskReportDigest": "sha256:6e6bbb1e9cd709487670451c978582ec87c89a0fac4d7e90db996c6338aa6913",
+    "taskReportMarkdownDigest": "sha256:ee34c26c38d987f4c16547f266a8f815ec0ef2d341514ed9dd1e66078bcc68f3",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-15T03:05:12.942000861Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-15T03:05:12.942000861Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+}

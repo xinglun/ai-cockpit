@@ -1,0 +1,7 @@
+{
+  "moveCompletedAndVerified": true,
+  "moveAudit": "own-build-target-move.json",
+  "helperExitCode": 1,
+  "postMoveAnnotationError": "KeyError: coverageManifest; the preexisting targeted receipt had no coverageManifest. The error happened after verified move and old own-target removal. No move rerun.",
+  "correctedProvenanceNote": "full-contract/failure-and-canonical-provenance.json"
+}

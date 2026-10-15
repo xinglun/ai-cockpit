@@ -1,0 +1,17 @@
+{
+  "sourceCommit": "37aeed15e4164b94c9d18667a25fa06e3b573a70",
+  "target": "evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix",
+  "selected": 1,
+  "failed": 1,
+  "assertion": "supported_rename_refusal(Some(5))",
+  "platform": "Linux",
+  "meaning": "deterministic numeric Win32 assertion-model RED only; native Windows execution not claimed",
+  "originalNativeFailure": {
+    "run": 38649495827,
+    "job": 116146092900,
+    "source": "00e89d21d6a00d09819f8353ae0a1391b954f171",
+    "line": 322,
+    "actualErrno": 5,
+    "expectedErrno": 32
+  }
+}

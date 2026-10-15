@@ -1,0 +1,9 @@
+   Compiling syn v3.0.3
+   Compiling serde_core v1.0.229
+   Compiling serde_derive v1.0.229
+   Compiling thiserror-impl v2.0.20
+   Compiling serde_json v1.0.151
+   Compiling thiserror v2.0.20
+   Compiling serde v1.0.229
+   Compiling cockpit-core v1.0.1 (/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/crates/cockpit-core)
+    Finished `test` profile [unoptimized] target(s) in 8.78s
