@@ -1,0 +1,11 @@
+
+running 1 test
+test cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor ... FAILED
+
+failures:
+
+failures:
+    cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 1.43s
+

@@ -696,3 +696,493 @@ mod extension {
         }
     }
 }
+
+mod cross_wi {
+    use cockpit_core::Digest;
+    use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
+    use cockpit_repository::{
+        ArchivedContractRevalidationRequest, RepositoryVerificationPolicy,
+        RepositoryVerificationRequest, WorkItemStartOptions, archive_work_item, attach,
+        checkpoint_work_item, close_work_item_with_structured_decision_and_runtime,
+        finish_work_item, plan_resource_finalization, preflight_work_item,
+        record_resource_finalization, record_verification_with_runtime,
+        revalidate_archived_work_item_with_runtime, run_repository_verification,
+        start_work_item_with_options, status,
+    };
+    use serde_json::json;
+    use std::fs;
+    use std::process::Command;
+
+    fn commit_empty_baseline(path: &std::path::Path) {
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit test fixture",
+                    "-c",
+                    "user.email=ai-cockpit-test@example.invalid",
+                    "commit",
+                    "--allow-empty",
+                    "-qm",
+                    "test fixture baseline",
+                ])
+                .current_dir(path)
+                .status()
+                .unwrap()
+                .success()
+        );
+    }
+
+    const ID: &str = "WI-ARCHIVED-AMENDMENT";
+    const SUCCESSOR: &str = "WI-ARCHIVED-AMENDMENT-REVALIDATION";
+
+    fn runtime() -> RuntimeContext {
+        RuntimeContext {
+            runtime_version: "0.2.75".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"wi583-runtime"),
+        }
+    }
+
+    fn upgraded_runtime() -> RuntimeContext {
+        RuntimeContext {
+            runtime_version: "0.2.76".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"wi589-runtime"),
+        }
+    }
+
+    fn commit(path: &std::path::Path, message: &str) {
+        assert!(
+            Command::new("git")
+                .args(["add", "."])
+                .current_dir(path)
+                .status()
+                .unwrap()
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.email=test@example.invalid",
+                    "-c",
+                    "user.name=test",
+                    "commit",
+                    "-qm",
+                    message
+                ])
+                .current_dir(path)
+                .status()
+                .unwrap()
+                .success()
+        );
+    }
+
+    fn archived_amended_repository() -> tempfile::TempDir {
+        let directory = tempfile::tempdir().unwrap();
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(directory.path())
+                .status()
+                .unwrap()
+                .success()
+        );
+        commit_empty_baseline(directory.path());
+        attach(directory.path()).unwrap();
+        start_work_item_with_options(
+            directory.path(),
+            ID,
+            "preserve an amended archived Work Item",
+            "revalidate an archived Contract without rewriting evidence",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["historical bytes remain auditable".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .unwrap();
+        let contract_path = directory
+            .path()
+            .join(format!(".ai/work-items/active/{ID}.contract.json"));
+        preflight_work_item(directory.path(), &contract_path).unwrap();
+        checkpoint_work_item(directory.path(), ID).unwrap();
+        let run = run_repository_verification(
+            directory.path(),
+            &RepositoryVerificationRequest {
+                node_id: "archived-amendment-check".into(),
+                program: "true".into(),
+                args: Vec::new(),
+                scope: vec!["src/**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime().runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: None,
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .unwrap();
+        let receipt = serde_json::to_value(&run.receipt).unwrap();
+        record_verification_with_runtime(
+            directory.path(),
+            ID,
+            &receipt,
+            &runtime(),
+            &run.final_snapshot,
+        )
+        .unwrap();
+        finish_work_item(directory.path(), ID).unwrap();
+        archive_work_item(directory.path(), ID).unwrap();
+
+        // This models a reviewed repository repair: the current archived Contract
+        // and its manifest are updated together, while the original verification
+        // evidence bytes remain untouched and still carry the old Contract digest.
+        let archive = directory.path().join(".ai/work-items/archive");
+        let contract_path = archive.join(format!("{ID}.contract.json"));
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+        contract["goal"] = json!("revalidate the reviewed archived Contract amendment");
+        let contract_bytes = serde_json::to_vec_pretty(&contract).unwrap();
+        fs::write(&contract_path, &contract_bytes).unwrap();
+        let manifest_path = archive.join(format!("{ID}.archive.json"));
+        let mut manifest: serde_json::Value =
+            serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+        manifest["files"]["contractDigest"] =
+            json!(Digest::sha256_bytes(&contract_bytes).to_string());
+        fs::write(
+            &manifest_path,
+            serde_json::to_vec_pretty(&manifest).unwrap(),
+        )
+        .unwrap();
+        commit(directory.path(), "model reviewed archived Contract repair");
+        directory
+    }
+
+    fn retained_successor_finalization(
+        root: &std::path::Path,
+        work_item_id: &str,
+        runtime: &RuntimeContext,
+    ) {
+        let contract_path = root.join(format!(
+            ".ai/work-items/archive/{work_item_id}.contract.json"
+        ));
+        let contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+        let context = contract["resourceContext"].clone();
+        let repository_id = status(root).unwrap().repository_id;
+        let receipt = json!({
+            "schemaVersion": 1,
+            "receiptId": format!("receipt-{work_item_id}"),
+            "operationId": format!("operation-{work_item_id}"),
+            "repositoryId": repository_id,
+            "workItemId": work_item_id,
+            "runtimeVersion": runtime.runtime_version,
+            "runtimeDigest": runtime.runtime_digest,
+            "provider": context["provider"],
+            "pullRequest": {
+                "number": 1,
+                "url": context["pullRequest"],
+                "headRevision": "head-successor",
+                "baseBranch": context["baseBranch"],
+                "baseRemote": context["baseRemote"],
+                "baseRevision": contract["baseRevision"],
+                "mergeCommit": "merge-successor"
+            },
+            "branch": {"name": context["branch"], "remote": "origin", "headRevision": "head-successor"},
+            "worktree": {"worktreeId": format!("wt-{work_item_id}"), "path": context["worktree"], "branch": context["branch"], "headRevision": "head-successor"},
+            "before": {"pullRequest": "merged", "branch": "present", "worktree": "clean"},
+            "after": {"pullRequest": "merged", "branch": "present", "worktree": "clean"},
+            "result": {"disposition": "retained", "failureCodes": [], "unknownCodes": []},
+            "actor": "human:test",
+            "authoritySource": "test-policy",
+            "reason": "successor shared-worktree resources are retained",
+            "timestamp": "2026-09-05T00:00:00Z",
+            "contractDigest": Digest::sha256_bytes(&fs::read(&contract_path).unwrap()),
+            "resourceContext": context
+        });
+        let input = tempfile::NamedTempFile::new().unwrap();
+        fs::write(input.path(), serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
+        record_resource_finalization(root, work_item_id, input.path(), runtime).unwrap();
+    }
+
+    fn terminal_chain() -> tempfile::TempDir {
+        let directory = archived_amended_repository();
+        // The predecessor finalization is intentionally produced by an older
+        // Runtime. The successor and both close operations use the upgraded
+        // Runtime, matching the cross-version adopter failure that motivated
+        // this regression.
+        let runtime = upgraded_runtime();
+        revalidate_archived_work_item_with_runtime(
+            directory.path(),
+            ID,
+            &ArchivedContractRevalidationRequest {
+                successor_work_item_id: SUCCESSOR.into(),
+                reason: "reviewed Contract repair requires fresh successor verification".into(),
+                actor: "human:repository-owner".into(),
+                authority_source: "explicit-user-authorized-revalidation".into(),
+                resume_condition: "complete successor lifecycle before predecessor close".into(),
+                evidence_refs: vec![format!(".ai/evidence/{ID}.verification.json")],
+                policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+            },
+            &runtime,
+        )
+        .unwrap();
+        start_work_item_with_options(
+            directory.path(),
+            SUCCESSOR,
+            "revalidate the amended archived Contract",
+            "produce current evidence without rewriting historical evidence",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["current Contract is freshly verified".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .unwrap();
+        let context = ResourceFinalizationContext {
+            branch: "feature/archived-amendment-successor".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "local".into(),
+            pull_request: "local://archived-amendment-successor".into(),
+        };
+        plan_resource_finalization(directory.path(), SUCCESSOR, &context).unwrap();
+        let active_contract = directory
+            .path()
+            .join(format!(".ai/work-items/active/{SUCCESSOR}.contract.json"));
+        preflight_work_item(directory.path(), &active_contract).unwrap();
+        checkpoint_work_item(directory.path(), SUCCESSOR).unwrap();
+        let run = run_repository_verification(
+            directory.path(),
+            &RepositoryVerificationRequest {
+                node_id: "successor-check".into(),
+                program: "true".into(),
+                args: Vec::new(),
+                scope: vec!["src/**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime.runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: None,
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .unwrap();
+        record_verification_with_runtime(
+            directory.path(),
+            SUCCESSOR,
+            &serde_json::to_value(&run.receipt).unwrap(),
+            &runtime,
+            &run.final_snapshot,
+        )
+        .unwrap();
+        finish_work_item(directory.path(), SUCCESSOR).unwrap();
+        archive_work_item(directory.path(), SUCCESSOR).unwrap();
+        retained_successor_finalization(directory.path(), SUCCESSOR, &runtime);
+        close_work_item_with_structured_decision_and_runtime(
+            directory.path(),
+            SUCCESSOR,
+            &HumanDecision {
+                decision: "approved".into(),
+                actor: "human:repository-owner".into(),
+                authority_source: "explicit-user-authorized-revalidation".into(),
+                reason: "successor evidence is current and complete".into(),
+                evidence_refs: vec![format!(".ai/evidence/{SUCCESSOR}.verification.json")],
+                policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+                decided_at: "2026-09-05T00:00:00Z".into(),
+                resume_condition: None,
+            },
+            &runtime,
+        )
+        .unwrap();
+        close_work_item_with_structured_decision_and_runtime(
+            directory.path(),
+            ID,
+            &HumanDecision {
+                decision: "approved".into(),
+                actor: "human:repository-owner".into(),
+                authority_source: "explicit-user-authorized-revalidation".into(),
+                reason: "successor revalidated the amended Contract".into(),
+                evidence_refs: vec![format!(".ai/evidence/{SUCCESSOR}.verification.json")],
+                policy_refs: vec!["docs/reference/agent-workflow.md".into()],
+                decided_at: "2026-09-05T00:00:00Z".into(),
+                resume_condition: None,
+            },
+            &runtime,
+        )
+        .unwrap();
+        commit(directory.path(), "complete terminal chain source");
+        directory
+    }
+
+    fn cloned(source: &std::path::Path, dest: &std::path::Path) {
+        let out = Command::new("git")
+            .args([
+                "clone",
+                "--quiet",
+                "--no-hardlinks",
+                source.to_str().unwrap(),
+                dest.to_str().unwrap(),
+            ])
+            .output()
+            .unwrap();
+        assert!(
+            out.status.success(),
+            "{}",
+            String::from_utf8_lossy(&out.stderr)
+        );
+    }
+    struct ChainPair {
+        _owners: (tempfile::TempDir, tempfile::TempDir, tempfile::TempDir),
+        destination: std::path::PathBuf,
+        pinned: std::path::PathBuf,
+        registrar: RuntimeContext,
+    }
+    fn chain_pair() -> ChainPair {
+        let source = terminal_chain();
+        let dest_owner = tempfile::tempdir().unwrap();
+        let destination = dest_owner.path().join("destination");
+        cloned(source.path(), &destination);
+        cockpit_repository::recover_cross_checkout_closeout(
+            &destination,
+            source.path(),
+            ID,
+            &upgraded_runtime(),
+        )
+        .unwrap();
+        let path = destination.join(format!(
+            ".ai/decisions/{ID}.cross-checkout-closeout-recovery.json"
+        ));
+        let mut old: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        old["schemaVersion"] = json!(1);
+        old.as_object_mut().unwrap().remove("originBinding");
+        fs::write(&path, serde_json::to_vec_pretty(&old).unwrap()).unwrap();
+        fs::remove_file(destination.join(format!(
+            ".ai/decisions/{ID}.cross-checkout-closeout-origin.json"
+        )))
+        .unwrap();
+        commit(
+            &destination,
+            "complete old-v1 source with transitive terminal dependency",
+        );
+        let pinned_owner = tempfile::tempdir().unwrap();
+        let pinned = pinned_owner.path().join("pinned");
+        cloned(&destination, &pinned);
+        let registrar = RuntimeContext {
+            runtime_version: "present-day-registrar".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"present-day-registrar"),
+        };
+        ChainPair {
+            _owners: (source, dest_owner, pinned_owner),
+            destination,
+            pinned,
+            registrar,
+        }
+    }
+    fn registration_plan(pair: &ChainPair) -> cockpit_protocol::LegacyCloseoutSourcePlan {
+        let out = Command::new("git")
+            .args(["rev-parse", "HEAD"])
+            .current_dir(&pair.pinned)
+            .output()
+            .unwrap();
+        assert!(out.status.success());
+        let revision = String::from_utf8(out.stdout).unwrap().trim().to_owned();
+        let request=serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:registrar","authoritySource":"isolated closure fixture","reason":"bind all applicable dependency bytes","sourceAccepted":true})).unwrap();
+        cockpit_repository::plan_legacy_closeout_source(
+            &pair.destination,
+            Some(&pair.pinned),
+            ID,
+            &request,
+            &pair.registrar,
+        )
+        .unwrap()
+    }
+    #[test]
+    fn semantically_valid_successor_raw_change_revokes_registered_predecessor() {
+        let pair = chain_pair();
+        let plan = registration_plan(&pair);
+        cockpit_repository::record_legacy_closeout_source(
+            &pair.destination,
+            ID,
+            &plan,
+            &pair.registrar,
+        )
+        .unwrap();
+        let path = pair
+            .destination
+            .join(format!(".ai/decisions/{SUCCESSOR}.close.json"));
+        let mut close: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        assert!(close["structuredDecision"].is_object());
+        close["structuredDecision"]["reason"] =
+            json!("another nonempty, semantically valid historical reason");
+        fs::write(&path, serde_json::to_vec_pretty(&close).unwrap()).unwrap();
+        let successor = cockpit_repository::work_item_status_snapshot_with_runtime(
+            &pair.destination,
+            SUCCESSOR,
+            &pair.registrar,
+        )
+        .unwrap();
+        assert_eq!(
+            successor.lifecycle_phase, "closed",
+            "successor remains semantically closed: {successor:?}"
+        );
+        let predecessor = cockpit_repository::work_item_status_snapshot_with_runtime(
+            &pair.destination,
+            ID,
+            &pair.registrar,
+        )
+        .unwrap();
+        assert!(
+            predecessor.blocking && predecessor.lifecycle_phase != "closed",
+            "root registration must bind raw successor payload, not merely accept valid successor semantics: {predecessor:?}"
+        );
+    }
+
+    #[test]
+    fn initial_registration_rejects_successor_canonical_proof_obligation_damage() {
+        let pair = chain_pair();
+        for root in [&pair.destination, &pair.pinned] {
+            fs::write(
+                root.join(format!(
+                    ".ai/decisions/{SUCCESSOR}.legacy-closeout-source-requirement.json"
+                )),
+                b"{broken",
+            )
+            .unwrap();
+        }
+        commit(
+            &pair.pinned,
+            "preserve damaged dependency obligation fixture",
+        );
+        let out = Command::new("git")
+            .args(["rev-parse", "HEAD"])
+            .current_dir(&pair.pinned)
+            .output()
+            .unwrap();
+        let revision = String::from_utf8(out.stdout).unwrap().trim().to_owned();
+        let request=serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:registrar","authoritySource":"isolated closure fixture","reason":"must conjoin dependency registration validity","sourceAccepted":true})).unwrap();
+        let error = cockpit_repository::plan_legacy_closeout_source(
+            &pair.destination,
+            Some(&pair.pinned),
+            ID,
+            &request,
+            &pair.registrar,
+        )
+        .expect_err("lower historical validation cannot waive dependency canonical obligations");
+        assert!(
+            error.to_string().contains("dependency_integrity_invalid"),
+            "{error}"
+        );
+    }
+}

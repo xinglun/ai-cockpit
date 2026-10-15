@@ -1,0 +1,64 @@
+{
+  "subreaper": true,
+  "adoptedDescendantsReaped": [
+    {
+      "pid": 185449,
+      "waitStatus": 0
+    },
+    {
+      "pid": 185634,
+      "waitStatus": 0
+    },
+    {
+      "pid": 185951,
+      "waitStatus": 0
+    },
+    {
+      "pid": 186126,
+      "waitStatus": 0
+    },
+    {
+      "pid": 186133,
+      "waitStatus": 0
+    },
+    {
+      "pid": 186142,
+      "waitStatus": 0
+    },
+    {
+      "pid": 186324,
+      "waitStatus": 0
+    },
+    {
+      "pid": 186640,
+      "waitStatus": 0
+    },
+    {
+      "pid": 186816,
+      "waitStatus": 0
+    }
+  ],
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-repository",
+    "--test",
+    "legacy_closeout_source",
+    "cross_wi::",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T21:16:06.833910+00:00",
+  "elapsedSeconds": 20.005,
+  "exitCode": 0,
+  "stopReason": null,
+  "pid": 185390,
+  "childReaped": true,
+  "sourceHead": "cf0c7ebfac4d35f1535bc5e2f136780c339a6361",
+  "sourceDiffSha256": "266c80fce05a90bc655313fff5ff6c6bcdb4295e5150b6eee52a01a9fc6445bf",
+  "target": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "jobs": 1
+}

@@ -1,0 +1,8 @@
+
+running 3 tests
+test legacy_closeout_source::query_budget_tests::cycles_fail_closed_and_raii_clears_failed_queries ... ok
+test legacy_closeout_source::query_budget_tests::depth_and_repeated_work_have_independent_query_budgets ... ok
+test legacy_closeout_source::query_budget_tests::lower_historical_json_read_cannot_follow_replaced_parent ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 125 filtered out; finished in 0.00s
+

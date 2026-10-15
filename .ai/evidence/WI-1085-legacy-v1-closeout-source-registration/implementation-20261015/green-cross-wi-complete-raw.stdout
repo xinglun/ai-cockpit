@@ -1,0 +1,7 @@
+
+running 2 tests
+test cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage ... ok
+test cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 2.46s
+

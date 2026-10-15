@@ -74,7 +74,7 @@ use cockpit_protocol::{
 };
 use serde::{Serialize, de::DeserializeOwned};
 use std::{
-    io::Write,
+    io::{Read, Write},
     path::{Component, PathBuf},
     process::Command,
     sync::atomic::Ordering,
@@ -139,9 +139,12 @@ fn safe_read(root: &Path, relative: &str, maximum: u64) -> Result<Vec<u8>, Obser
         directory = open_cap_directory_nofollow_strict(&directory, part, &display)?;
     }
     let leaf = parts.last().ok_or_else(|| error(root, "path_invalid"))?;
-    read_cap_file_nofollow_bounded(&directory, leaf, &root.join(relative), maximum)
+    let maximum = begin_query_read(root, maximum)?;
+    let bytes = read_cap_file_nofollow_bounded(&directory, leaf, &root.join(relative), maximum)?;
+    complete_query_read(root, relative, &bytes)?;
+    Ok(bytes)
 }
-fn optional_read(root: &Path, relative: &str) -> Result<Option<Vec<u8>>, ObserverError> {
+pub(super) fn optional_read(root: &Path, relative: &str) -> Result<Option<Vec<u8>>, ObserverError> {
     match fs::symlink_metadata(root.join(relative)) {
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(None),
         Err(source) => Err(ObserverError::Read {
@@ -322,12 +325,17 @@ fn scoped_dependency_paths(
     }
     Ok(paths.into_iter().collect())
 }
-fn dependencies(inventory: &[FileBinding]) -> Vec<FileBinding> {
+fn dependencies(inventory: &[FileBinding], id: &str) -> Vec<FileBinding> {
     inventory
         .iter()
         .filter(|file| {
-            file.path.starts_with(".ai/evidence/external/")
-                || file.path.starts_with(".ai/evidence/observations/")
+            ![
+                format!(".ai/work-items/archive/{id}."),
+                format!(".ai/evidence/{id}."),
+                format!(".ai/decisions/{id}."),
+            ]
+            .iter()
+            .any(|prefix| file.path.starts_with(prefix))
         })
         .cloned()
         .collect()
@@ -338,6 +346,8 @@ fn observe_history(
     id: &str,
     repo: &str,
 ) -> Result<(serde_json::Value, Vec<FileBinding>), ObserverError> {
+    let _query = QuerySession::start();
+    let _visit = QueryVisit::enter(root, id, "observation")?;
     // Reject invalid old-v1/origin facts before accepting any new obligation.
     let receipt_bytes = safe_read(root, &receipt_path(id), MAX_BYTES)?;
     let receipt: serde_json::Value = parse(root, &receipt_bytes)?;
@@ -353,7 +363,8 @@ fn observe_history(
     {
         return Err(error(root, "provenance_unknown"));
     }
-    let (facts, files) = super::lifecycle::legacy_source_history_inventory(root, id, repo)?;
+    let (facts, files, selected_ids) =
+        super::lifecycle::legacy_source_history_inventory(root, id, repo)?;
     let mut inventory = Vec::new();
     let mut total = 0u64;
     for (path, observed) in files {
@@ -370,7 +381,11 @@ fn observe_history(
         total += receipt_bytes.len() as u64;
         inventory.push(binding(root, receipt_path(id), &receipt_bytes)?);
     }
-    for path in scoped_dependency_paths(root, id, repo)? {
+    let mut dependency_paths = BTreeSet::new();
+    for selected in selected_ids {
+        dependency_paths.extend(scoped_dependency_paths(root, &selected, repo)?);
+    }
+    for path in dependency_paths {
         let bytes = safe_read(root, &path, MAX_BYTES)?;
         let value = binding(root, path, &bytes)?;
         if let Some(existing) = inventory.iter().find(|entry| entry.path == value.path) {
@@ -395,22 +410,45 @@ fn observe_history(
     Ok((facts, inventory))
 }
 fn git_output(root: &Path, args: &[&str]) -> Result<Vec<u8>, ObserverError> {
-    let output = Command::new("git")
+    // Fixed read-only local commands; never allocate an unbounded Git output
+    // before applying the budget. Lazy fetch and stderr disclosure are disabled.
+    let mut child = Command::new("git")
+        .arg("--no-pager")
         .args(args)
+        .env("GIT_NO_LAZY_FETCH", "1")
         .current_dir(root)
-        .output()
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::null())
+        .spawn()
         .map_err(|source| ObserverError::Read {
             path: root.into(),
             source,
         })?;
-    if !output.status.success() {
-        return Err(error(root, "pinned_source_unavailable"));
+    let mut bytes = Vec::new();
+    let result = match child.stdout.take() {
+        Some(stdout) => stdout.take(MAX_BYTES + 1).read_to_end(&mut bytes),
+        None => Err(std::io::Error::other("Git stdout missing")),
+    };
+    if result.is_err() || bytes.len() as u64 > MAX_BYTES {
+        let _ = child.kill();
     }
-    if output.stdout.len() as u64 > MAX_BYTES {
+    let status = child.wait().map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    result.map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if bytes.len() as u64 > MAX_BYTES {
         return Err(error(root, "pinned_source_budget_exceeded"));
     }
-    Ok(output.stdout)
+    if !status.success() {
+        return Err(error(root, "pinned_source_unavailable"));
+    }
+    Ok(bytes)
 }
+
 fn git_text(root: &Path, args: &[&str]) -> Result<String, ObserverError> {
     String::from_utf8(git_output(root, args)?)
         .map(|text| text.trim().into())
@@ -456,7 +494,7 @@ fn parse_registration(
     {
         return Err(error(root, "registration_binding_invalid"));
     }
-    if registration.dependency_bindings != dependencies(&registration.inventory)
+    if registration.dependency_bindings != dependencies(&registration.inventory, id)
         || registration.source.inventory_digest != digest(root, &registration.inventory)?
         || registration.legacy_receipt
             != *registration
@@ -507,6 +545,11 @@ pub(super) fn integrity_problem(root: &Path, id: &str, repository_id: &str) -> O
     if !has_obligation(root, id) {
         return None;
     }
+    let _query = QuerySession::start();
+    let _visit = match QueryVisit::enter(root, id, "registration") {
+        Ok(visit) => visit,
+        Err(error) => return Some(error.to_string()),
+    };
     validate_pair(root, id, repository_id)
         .err()
         .map(|error| error.to_string())
@@ -616,7 +659,7 @@ pub fn plan_legacy_closeout_source(
                     .find(|f| f.path == receipt_path(id))
                     .ok_or_else(|| error(&root, "legacy_receipt_missing"))?
                     .clone(),
-                dependency_bindings: dependencies(&inventory),
+                dependency_bindings: dependencies(&inventory, id),
                 source: LegacyCloseoutSourceAttestation {
                     root: source.to_string_lossy().into_owned(),
                     git_common_directory: common_dir(&source)?.to_string_lossy().into_owned(),
@@ -858,7 +901,11 @@ pub fn record_legacy_closeout_source(
             changed.push(relative);
         }
     }
-    validate_pair(&root, id, &repo).map_err(|_| error(&root, "commit_state_unknown"))?;
+    let readback =
+        validate_pair(&root, id, &repo).map_err(|_| error(&root, "commit_state_unknown"))?;
+    if encode(&root, &readback)? != plan.registration_bytes.as_bytes() {
+        return Err(error(&root, "commit_state_unknown"));
+    }
     Ok(
         serde_json::json!({"state":"committed","workItemId":id,"registrationRawDigest":plan.registration_raw_digest,"requirementRawDigest":plan.requirement_raw_digest,"changedPaths":changed,"publicationObservedAt":super::now()}),
     )
@@ -970,8 +1017,9 @@ fn validate_extension(
         return Err(error(root, "extension_binding_invalid"));
     }
     let mut expected = registration.inventory.clone();
+    let allowed_dependencies = scoped_dependency_paths(root, id, &registration.repository_id)?;
     for file in &extension.dependency_bindings {
-        if !dependencies(std::slice::from_ref(file)).contains(file)
+        if !allowed_dependencies.contains(&file.path)
             || expected.iter().any(|old| old.path == file.path)
         {
             return Err(error(root, "extension_dependency_invalid"));
@@ -1065,6 +1113,8 @@ fn plan_extension(
     request: &Request,
     runtime: &RuntimeContext,
 ) -> Result<Plan, ObserverError> {
+    let _query = QuerySession::start();
+    let _visit = QueryVisit::enter(root, id, "extension_plan")?;
     if request.source_accepted
         || request.source_revision.is_some()
         || request.original_registration_bytes.is_some()
@@ -1217,6 +1267,8 @@ fn record_extension_locked(
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
     guard.require_subject(root, id)?;
+    let _query = QuerySession::start();
+    let _visit = QueryVisit::enter(root, id, "extension_write")?;
     let (registration, extension) = extension_plan_identity(root, id, plan)?;
     let frozen = plan
         .extension_bytes
@@ -1286,8 +1338,15 @@ fn record_extension_locked(
             .ok_or_else(|| error(root, "path_invalid"))?;
         publish(&root.join(".ai/decisions"), &dir, name, bytes)?;
     }
-    validate_pair(root, id, &registration.repository_id)
+    let readback = validate_pair(root, id, &registration.repository_id)
         .map_err(|_| error(root, "commit_state_unknown"))?;
+    if encode(root, &readback)? != plan.registration_bytes.as_bytes()
+        || safe_read(root, &extension_path(id), MAX_RECORD_BYTES)? != frozen.as_bytes()
+        || safe_read(root, &extension.transition.path, MAX_RECORD_BYTES)?
+            != extension.transition_bytes.as_bytes()
+    {
+        return Err(error(root, "commit_state_unknown"));
+    }
     Ok(extension.result)
 }
 
@@ -1323,4 +1382,266 @@ pub(crate) fn record_finalization_locked(
         }
     }
     Err(error(root, "extension_plan_required"))
+}
+
+// A per-thread, per-query budget; never held borrowed while invoking lower
+// historical validators. No cache of successful external bytes is trusted
+// across reads. Repeated work is explicitly bounded as well as recursion.
+#[derive(Default)]
+struct QueryBudget {
+    active: Vec<(PathBuf, String, &'static str)>,
+    subjects: BTreeSet<(PathBuf, String)>,
+    work: usize,
+    read_calls: usize,
+    read_bytes: u64,
+    observed: std::collections::BTreeMap<PathBuf, (Digest, u64)>,
+}
+thread_local! {
+    static QUERY_BUDGET: std::cell::RefCell<Option<QueryBudget>> = const { std::cell::RefCell::new(None) };
+}
+struct QuerySession {
+    outer: bool,
+}
+impl QuerySession {
+    fn start() -> Self {
+        let outer = QUERY_BUDGET.with(|state| {
+            let mut state = state.borrow_mut();
+            if state.is_none() {
+                *state = Some(QueryBudget::default());
+                true
+            } else {
+                false
+            }
+        });
+        Self { outer }
+    }
+}
+impl Drop for QuerySession {
+    fn drop(&mut self) {
+        if self.outer {
+            QUERY_BUDGET.with(|state| *state.borrow_mut() = None);
+        }
+    }
+}
+pub(super) struct QueryVisit {
+    key: (PathBuf, String, &'static str),
+}
+impl QueryVisit {
+    fn enter(root: &Path, id: &str, kind: &'static str) -> Result<Self, ObserverError> {
+        let root = canonical(root)?;
+        let key = (root.clone(), id.to_owned(), kind);
+        QUERY_BUDGET.with(|state| {
+            let mut state = state.borrow_mut();
+            let budget = state
+                .as_mut()
+                .ok_or_else(|| error(&root, "query_session_missing"))?;
+            if budget.active.contains(&key) {
+                return Err(error(&root, "dependency_cycle"));
+            }
+            if budget.active.len() >= 32 || budget.work >= 256 {
+                return Err(error(&root, "dependency_work_budget_exceeded"));
+            }
+            budget.subjects.insert((root.clone(), id.to_owned()));
+            if budget.subjects.len() > 32 {
+                return Err(error(&root, "dependency_subject_budget_exceeded"));
+            }
+            budget.work += 1;
+            budget.active.push(key.clone());
+            Ok(Self { key })
+        })
+    }
+}
+impl Drop for QueryVisit {
+    fn drop(&mut self) {
+        QUERY_BUDGET.with(|state| {
+            if let Some(budget) = state.borrow_mut().as_mut() {
+                budget.active.retain(|key| key != &self.key);
+            }
+        });
+    }
+}
+pub(super) fn enter_recovery_query(
+    root: &Path,
+    id: &str,
+) -> Result<Option<QueryVisit>, ObserverError> {
+    if QUERY_BUDGET.with(|state| state.borrow().is_some()) {
+        QueryVisit::enter(root, id, "recovery").map(Some)
+    } else {
+        Ok(None)
+    }
+}
+
+#[cfg(test)]
+mod query_budget_tests {
+    use super::*;
+    #[cfg(unix)]
+    #[test]
+    fn one_query_cannot_validate_two_different_bytes_for_the_same_path() {
+        let root = tempfile::tempdir().unwrap();
+        fs::create_dir_all(root.path().join(".ai/decisions")).unwrap();
+        let relative = ".ai/decisions/WI-A.json";
+        fs::write(root.path().join(relative), b"first").unwrap();
+        let _query = QuerySession::start();
+        let _visit = QueryVisit::enter(root.path(), "WI-A", "observation").unwrap();
+        assert_eq!(
+            safe_read(root.path(), relative, MAX_BYTES).unwrap(),
+            b"first"
+        );
+        fs::write(root.path().join(relative), b"changed").unwrap();
+        assert!(
+            safe_read(root.path(), relative, MAX_BYTES).is_err(),
+            "lower reads and final inventory must describe one consistent observation"
+        );
+    }
+    #[test]
+    fn lower_historical_json_read_cannot_follow_replaced_parent() {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap();
+        let outside = tempfile::tempdir().unwrap();
+        fs::create_dir_all(root.join(".ai/work-items")).unwrap();
+        fs::write(outside.path().join("proof.json"), b"{\"outside\":true}").unwrap();
+        std::os::unix::fs::symlink(outside.path(), root.join(".ai/work-items/archive")).unwrap();
+        let _query = QuerySession::start();
+        let _visit = QueryVisit::enter(&root, "WI-BOUND", "observation").unwrap();
+        let error = super::super::read_json(&root.join(".ai/work-items/archive/proof.json"))
+            .expect_err(
+                "lower validators must use capability-bound reads during a legacy assessment",
+            );
+        assert!(!error.to_string().is_empty());
+    }
+    #[test]
+    fn cycles_fail_closed_and_raii_clears_failed_queries() {
+        let root = tempfile::tempdir().unwrap();
+        {
+            let _query = QuerySession::start();
+            let _a = QueryVisit::enter(root.path(), "WI-A", "registration").unwrap();
+            let _b = QueryVisit::enter(root.path(), "WI-B", "registration").unwrap();
+            assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_err());
+        }
+        let _query = QuerySession::start();
+        assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_ok());
+    }
+    #[test]
+    fn depth_and_repeated_work_have_independent_query_budgets() {
+        let root = tempfile::tempdir().unwrap();
+        {
+            let _query = QuerySession::start();
+            let mut guards = Vec::new();
+            for index in 0..32 {
+                guards.push(
+                    QueryVisit::enter(root.path(), &format!("WI-{index}"), "registration").unwrap(),
+                );
+            }
+            assert!(QueryVisit::enter(root.path(), "WI-OVERFLOW", "registration").is_err());
+        }
+        {
+            let _query = QuerySession::start();
+            for _ in 0..256 {
+                drop(QueryVisit::enter(root.path(), "WI-A", "registration").unwrap());
+            }
+            assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_err());
+        }
+        let _query = QuerySession::start();
+        assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_ok());
+    }
+}
+
+fn query_path(path: &Path) -> Option<(PathBuf, String)> {
+    QUERY_BUDGET.with(|state| {
+        let state = state.borrow();
+        let budget = state.as_ref()?;
+        budget.subjects.iter().find_map(|(root, _)| {
+            let relative = path.strip_prefix(root).ok()?;
+            if !relative.starts_with(".ai") {
+                return None;
+            }
+            Some((root.clone(), relative.to_string_lossy().replace('\\', "/")))
+        })
+    })
+}
+pub(super) fn read_under_query(path: &Path) -> Option<std::io::Result<Vec<u8>>> {
+    let (root, relative) = query_path(path)?;
+    Some(safe_read(&root, &relative, MAX_BYTES).map_err(std::io::Error::other))
+}
+pub(super) struct QueryDirectoryEntry {
+    path: PathBuf,
+    name: std::ffi::OsString,
+}
+impl QueryDirectoryEntry {
+    pub(super) fn path(&self) -> PathBuf {
+        self.path.clone()
+    }
+    pub(super) fn file_name(&self) -> std::ffi::OsString {
+        self.name.clone()
+    }
+}
+pub(super) fn read_query_directory(
+    path: impl AsRef<Path>,
+) -> std::io::Result<Box<dyn Iterator<Item = std::io::Result<QueryDirectoryEntry>>>> {
+    let path = path.as_ref();
+    if let Some((root, relative)) = query_path(path) {
+        let parts = relative_parts(&root, &relative).map_err(std::io::Error::other)?;
+        let mut dir = Dir::open_ambient_dir(&root, cap_std::ambient_authority())?;
+        let mut display = root.clone();
+        for part in parts {
+            display.push(&part);
+            dir = open_cap_directory_nofollow_strict(&dir, &part, &display)
+                .map_err(std::io::Error::other)?;
+        }
+        let mut entries = Vec::new();
+        for entry in dir.entries()? {
+            if entries.len() >= 4096 {
+                return Err(std::io::Error::other(
+                    "legacy_closeout_source:directory_budget_exceeded",
+                ));
+            }
+            let entry = entry?;
+            let name = entry.file_name();
+            entries.push(Ok(QueryDirectoryEntry {
+                path: path.join(&name),
+                name,
+            }));
+        }
+        Ok(Box::new(entries.into_iter()))
+    } else {
+        Ok(Box::new(fs::read_dir(path)?.map(|entry| {
+            entry.map(|entry| QueryDirectoryEntry {
+                path: entry.path(),
+                name: entry.file_name(),
+            })
+        })))
+    }
+}
+
+fn begin_query_read(root: &Path, maximum: u64) -> Result<u64, ObserverError> {
+    QUERY_BUDGET.with(|state| {
+        let mut state = state.borrow_mut();
+        if let Some(budget) = state.as_mut() {
+            if budget.read_calls >= 4096 || budget.read_bytes >= 64 * MAX_BYTES {
+                return Err(error(root, "dependency_read_budget_exceeded"));
+            }
+            budget.read_calls += 1;
+            Ok(maximum.min(64 * MAX_BYTES - budget.read_bytes))
+        } else {
+            Ok(maximum)
+        }
+    })
+}
+fn complete_query_read(root: &Path, relative: &str, bytes: &[u8]) -> Result<(), ObserverError> {
+    QUERY_BUDGET.with(|state| {
+        let mut state = state.borrow_mut();
+        if let Some(budget) = state.as_mut() {
+            budget.read_bytes = budget
+                .read_bytes
+                .checked_add(bytes.len() as u64)
+                .ok_or_else(|| error(root, "dependency_read_budget_exceeded"))?;
+            let binding = (Digest::sha256_bytes(bytes), bytes.len() as u64);
+            if let Some(previous) = budget.observed.insert(root.join(relative), binding.clone())
+                && previous != binding
+            {
+                return Err(error(root, "history_changed_during_observation"));
+            }
+        }
+        Ok(())
+    })
 }

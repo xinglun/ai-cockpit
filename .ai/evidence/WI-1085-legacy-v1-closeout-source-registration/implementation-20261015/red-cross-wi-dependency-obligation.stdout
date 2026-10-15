@@ -1,0 +1,11 @@
+
+running 1 test
+test cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage ... FAILED
+
+failures:
+
+failures:
+    cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 7 filtered out; finished in 1.02s
+

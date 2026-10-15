@@ -148,13 +148,12 @@ fn plan_resource_finalization_internal(
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
-    let digest =
-        Digest::sha256_bytes(
-            &fs::read(&contract_path).map_err(|source| ObserverError::Read {
-                path: contract_path.clone(),
-                source,
-            })?,
-        );
+    let digest = Digest::sha256_bytes(&super::read_governance_bytes(&contract_path).map_err(
+        |source| ObserverError::Read {
+            path: contract_path.clone(),
+            source,
+        },
+    )?);
     if retry_pending {
         let mut summary = read_json(&summary_path)?;
         summary["recoveryRetryContractDigest"] =
@@ -227,13 +226,12 @@ fn plan_archived_resource_finalization(
         }));
     }
 
-    let manifest_digest =
-        Digest::sha256_bytes(
-            &fs::read(&manifest_path).map_err(|source| ObserverError::Read {
-                path: manifest_path.clone(),
-                source,
-            })?,
-        );
+    let manifest_digest = Digest::sha256_bytes(
+        &super::read_governance_bytes(&manifest_path).map_err(|source| ObserverError::Read {
+            path: manifest_path.clone(),
+            source,
+        })?,
+    );
     let binding = ArchivedResourceContextBinding {
         schema_version: 1,
         operation: "resource_context_binding".into(),
@@ -335,7 +333,7 @@ fn read_archived_resource_context_binding(
             message: "archived resource context binding must be a regular non-symlink file".into(),
         });
     }
-    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+    let bytes = super::read_governance_bytes(&path).map_err(|source| ObserverError::Read {
         path: path.clone(),
         source,
     })?;
@@ -361,12 +359,12 @@ fn read_archived_resource_context_binding(
     let contract_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
-    let expected_contract_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
-        |source| ObserverError::Read {
+    let expected_contract_digest = Digest::sha256_bytes(
+        &super::read_governance_bytes(&contract_path).map_err(|source| ObserverError::Read {
             path: contract_path.clone(),
             source,
-        },
-    )?);
+        })?,
+    );
     if binding.contract_digest != expected_contract_digest {
         return Err(ObserverError::State {
             path: path.clone(),
@@ -378,12 +376,12 @@ fn read_archived_resource_context_binding(
         .join(format!("{work_item_id}.archive.json"));
     let manifest = read_json(&manifest_path)?;
     verify_archive_manifest(root, work_item_id, &manifest)?;
-    let expected_manifest_digest = Digest::sha256_bytes(&fs::read(&manifest_path).map_err(
-        |source| ObserverError::Read {
+    let expected_manifest_digest = Digest::sha256_bytes(
+        &super::read_governance_bytes(&manifest_path).map_err(|source| ObserverError::Read {
             path: manifest_path.clone(),
             source,
-        },
-    )?);
+        })?,
+    );
     if binding.archive_manifest_digest != expected_manifest_digest {
         return Err(ObserverError::State {
             path,
@@ -414,7 +412,7 @@ pub(crate) fn read_resource_finalization_receipt(
             message: "resource finalization receipt must be a regular non-symlink file".into(),
         });
     }
-    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+    let bytes = super::read_governance_bytes(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
     })?;
@@ -442,7 +440,7 @@ pub(crate) fn read_resource_finalization_transition(
             message: "resource finalization transition must be a regular non-symlink file".into(),
         });
     }
-    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+    let bytes = super::read_governance_bytes(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
     })?;
@@ -868,42 +866,45 @@ pub(crate) fn resolve_resource_finalization_head(
     let (receipt, path, digest) = read_resource_finalization_head(root, work_item_id)?;
     let prefix = format!("{work_item_id}.finalize.");
     let canonical_name = format!("{work_item_id}.finalize.json");
-    let candidates = fs::read_dir(root.join(".ai/decisions"))
-        .map_err(|source| ObserverError::Read {
-            path: root.join(".ai/decisions"),
-            source,
-        })?
-        .flatten()
-        .filter_map(|entry| {
-            let name = entry.file_name().to_string_lossy().into_owned();
-            (name != canonical_name && name.starts_with(&prefix) && name.ends_with(".json"))
-                .then_some((entry.path(), name))
-        })
-        .map(|(candidate, name)| {
-            let value = read_resource_finalization_transition(&candidate)?;
-            let encoded = serde_json::to_value(&value).map_err(|error| ObserverError::State {
-                path: candidate.clone(),
-                message: error.to_string(),
-            })?;
-            let digest =
-                cockpit_protocol::digest_json(&encoded).map_err(|error| ObserverError::State {
-                    path: candidate.clone(),
-                    message: error.to_string(),
+    let candidates =
+        super::legacy_closeout_source::read_query_directory(root.join(".ai/decisions"))
+            .map_err(|source| ObserverError::Read {
+                path: root.join(".ai/decisions"),
+                source,
+            })?
+            .flatten()
+            .filter_map(|entry| {
+                let name = entry.file_name().to_string_lossy().into_owned();
+                (name != canonical_name && name.starts_with(&prefix) && name.ends_with(".json"))
+                    .then_some((entry.path(), name))
+            })
+            .map(|(candidate, name)| {
+                let value = read_resource_finalization_transition(&candidate)?;
+                let encoded =
+                    serde_json::to_value(&value).map_err(|error| ObserverError::State {
+                        path: candidate.clone(),
+                        message: error.to_string(),
+                    })?;
+                let digest = cockpit_protocol::digest_json(&encoded).map_err(|error| {
+                    ObserverError::State {
+                        path: candidate.clone(),
+                        message: error.to_string(),
+                    }
                 })?;
-            let digest = digest.to_string();
-            let expected = format!(
-                "{work_item_id}.finalize.{}.json",
-                digest.strip_prefix("sha256:").unwrap_or(&digest)
-            );
-            if name != expected {
-                return Err(ObserverError::State {
-                    path: candidate,
-                    message: "resource finalization transition filename digest mismatch".into(),
-                });
-            }
-            Ok((candidate, value))
-        })
-        .collect::<Result<Vec<_>, _>>()?;
+                let digest = digest.to_string();
+                let expected = format!(
+                    "{work_item_id}.finalize.{}.json",
+                    digest.strip_prefix("sha256:").unwrap_or(&digest)
+                );
+                if name != expected {
+                    return Err(ObserverError::State {
+                        path: candidate,
+                        message: "resource finalization transition filename digest mismatch".into(),
+                    });
+                }
+                Ok((candidate, value))
+            })
+            .collect::<Result<Vec<_>, _>>()?;
     resolve_resource_finalization_head_from_observed(
         root,
         work_item_id,
@@ -1042,9 +1043,11 @@ pub(crate) fn archived_contract_digest(
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&path)?;
-    let digest = Digest::sha256_bytes(&fs::read(&path).map_err(|source| ObserverError::Read {
-        path: path.clone(),
-        source,
+    let digest = Digest::sha256_bytes(&super::read_governance_bytes(&path).map_err(|source| {
+        ObserverError::Read {
+            path: path.clone(),
+            source,
+        }
     })?);
     Ok((contract, digest))
 }
@@ -1338,7 +1341,7 @@ fn read_historical_finalization_recovery(
             message: "historical finalization recovery must be a regular non-symlink file".into(),
         });
     }
-    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+    let bytes = super::read_governance_bytes(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
     })?;
@@ -2468,7 +2471,7 @@ fn worktree_git_dir_reference(worktree: &Path) -> Option<PathBuf> {
     let value = if metadata.file_type().is_symlink() {
         fs::read_link(&git_file).ok()?
     } else if metadata.is_file() {
-        let contents = fs::read_to_string(&git_file).ok()?;
+        let contents = super::read_governance_text(&git_file).ok()?;
         let target = contents.trim().strip_prefix("gitdir: ")?;
         PathBuf::from(target)
     } else {
@@ -3467,10 +3470,11 @@ fn validate_current_archive_matches_revision(
                 format!("current archive artifact is not a regular file: {relative}"),
             ));
         }
-        let current = fs::read(&path).map_err(|source| ObserverError::Read {
-            path: path.clone(),
-            source,
-        })?;
+        let current =
+            super::read_governance_bytes(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?;
         let committed = git_blob_bytes(root, archive_revision, &relative)?;
         if current != committed {
             return Err(post_merge_sync_error(
@@ -4148,7 +4152,7 @@ fn delegated_raw_json(
     evidence: &cockpit_protocol::DelegatedEvidence,
 ) -> Result<serde_json::Value, ObserverError> {
     let path = super::external_evidence_file(root, &evidence.raw_evidence_ref)?;
-    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+    let bytes = super::read_governance_bytes(&path).map_err(|source| ObserverError::Read {
         path: path.clone(),
         source,
     })?;
@@ -4672,7 +4676,7 @@ fn validate_post_merge_sync_local_state(
             ));
         }
         let git_file_contents =
-            fs::read_to_string(&git_file).map_err(|source| ObserverError::Read {
+            super::read_governance_text(&git_file).map_err(|source| ObserverError::Read {
                 path: git_file.clone(),
                 source,
             })?;
@@ -5281,9 +5285,11 @@ fn apply_historical_material_projection(
                 "historical material receipt path is foreign",
             ));
         }
-        let bytes = fs::read(root.join(path)).map_err(|source| ObserverError::Read {
-            path: root.join(path),
-            source,
+        let bytes = super::read_governance_bytes(root.join(path)).map_err(|source| {
+            ObserverError::Read {
+                path: root.join(path),
+                source,
+            }
         })?;
         if pointer["digest"] != Digest::sha256_bytes(&bytes).to_string() {
             return Err(post_merge_sync_error(
@@ -5853,7 +5859,7 @@ fn validate_layout_finish_semantics(
         ));
     }
     let event_path = isolated.join(format!("{active}.events.jsonl"));
-    let old_events = fs::read(&event_path).unwrap_or_default();
+    let old_events = super::read_governance_bytes(&event_path).unwrap_or_default();
     let count = old_events
         .split(|b| *b == b'\n')
         .filter(|line| !line.is_empty())
@@ -5878,10 +5884,11 @@ fn validate_layout_finish_semantics(
         ));
     }
     super::append_task_outcome_events_at(isolated, &contract, &report, replace, event_time)?;
-    let mut expected_events = fs::read(&event_path).map_err(|source| ObserverError::Read {
-        path: event_path,
-        source,
-    })?;
+    let mut expected_events =
+        super::read_governance_bytes(&event_path).map_err(|source| ObserverError::Read {
+            path: event_path,
+            source,
+        })?;
     if combined {
         expected_events =
             super::normalized_archive_artifact_bytes("events.jsonl", &expected_events, id)?;
@@ -6311,7 +6318,7 @@ fn archive_bytes_are_at_head(
 ) -> Result<(), ObserverError> {
     let relative = format!(".ai/work-items/archive/{work_item_id}.{artifact}.json");
     let path = root.join(&relative);
-    let expected = fs::read(&path).map_err(|source| ObserverError::Read {
+    let expected = super::read_governance_bytes(&path).map_err(|source| ObserverError::Read {
         path: path.clone(),
         source,
     })?;
@@ -6447,12 +6454,14 @@ pub(crate) fn capture_ordinary_cleanup_binding(
         repository_id: contract.repository_id.clone(),
         work_item_id: work_item_id.into(),
         contract_digest: contract_digest(contract_path)?,
-        archive_manifest_digest: Digest::sha256_bytes(&fs::read(archive_manifest_path).map_err(
-            |source| ObserverError::Read {
-                path: archive_manifest_path.into(),
-                source,
-            },
-        )?),
+        archive_manifest_digest: Digest::sha256_bytes(
+            &super::read_governance_bytes(archive_manifest_path).map_err(|source| {
+                ObserverError::Read {
+                    path: archive_manifest_path.into(),
+                    source,
+                }
+            })?,
+        ),
         branch: branch.into(),
         branch_ref: branch_ref.into(),
         head_revision,
@@ -6534,12 +6543,12 @@ pub(crate) fn ordinary_cleanup_binding_from_decision(
         .join(format!("{work_item_id}.archive.json"));
     if binding.contract_digest != contract_digest(&contract_path)?
         || binding.archive_manifest_digest
-            != Digest::sha256_bytes(&fs::read(&manifest_path).map_err(|source| {
-                ObserverError::Read {
+            != Digest::sha256_bytes(&super::read_governance_bytes(&manifest_path).map_err(
+                |source| ObserverError::Read {
                     path: manifest_path.clone(),
                     source,
-                }
-            })?)
+                },
+            )?)
     {
         return Err(ObserverError::State {
             path: contract_path,
@@ -6589,10 +6598,14 @@ pub(crate) fn ordinary_cleanup_receipt_head(
     let decisions = root.join(".ai/decisions");
     let prefix = format!("{work_item_id}.cleanup.");
     let mut receipts = Vec::new();
-    for entry in fs::read_dir(&decisions).map_err(|source| ObserverError::Read {
-        path: decisions.clone(),
-        source,
-    })? {
+    for entry in
+        super::legacy_closeout_source::read_query_directory(&decisions).map_err(|source| {
+            ObserverError::Read {
+                path: decisions.clone(),
+                source,
+            }
+        })?
+    {
         let entry = entry.map_err(|source| ObserverError::Read {
             path: decisions.clone(),
             source,

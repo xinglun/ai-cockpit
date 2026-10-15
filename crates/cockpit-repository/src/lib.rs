@@ -1102,7 +1102,7 @@ fn path_derived_repository_id(root: &Path) -> Digest {
 }
 
 fn stored_repository_id(root: &Path) -> Option<Digest> {
-    let config = fs::read_to_string(root.join(".ai/cockpit.toml")).ok()?;
+    let config = read_governance_text(root.join(".ai/cockpit.toml")).ok()?;
     let config: RepositoryConfig = toml::from_str(&config).ok()?;
     config.repository_id.parse().ok()
 }
@@ -1651,10 +1651,11 @@ pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
     let legacy_id = path_derived_repository_id(&root).to_string();
     let mut id = new_repository_id().to_string();
     if config_path.is_file() {
-        let existing = fs::read_to_string(&config_path).map_err(|source| ObserverError::Read {
-            path: config_path.clone(),
-            source,
-        })?;
+        let existing =
+            read_governance_text(&config_path).map_err(|source| ObserverError::Read {
+                path: config_path.clone(),
+                source,
+            })?;
         let config: RepositoryConfig =
             toml::from_str(&existing).map_err(|error| ObserverError::State {
                 path: config_path.clone(),
@@ -1798,10 +1799,11 @@ fn migration_inputs(
     let config_path = ai.join("cockpit.toml");
     let project_path = ai.join("project.json");
     let manifest_path = ai.join("agent-interface.json");
-    let config_bytes = fs::read(&config_path).map_err(|source| ObserverError::Read {
-        path: config_path.clone(),
-        source,
-    })?;
+    let config_bytes =
+        read_governance_bytes(&config_path).map_err(|source| ObserverError::Read {
+            path: config_path.clone(),
+            source,
+        })?;
     let config: RepositoryConfig =
         toml::from_slice(&config_bytes).map_err(|error| ObserverError::State {
             path: config_path.clone(),
@@ -1811,19 +1813,21 @@ fn migration_inputs(
         path: config_path.clone(),
         message: error.to_string(),
     })?;
-    let project_bytes = fs::read(&project_path).map_err(|source| ObserverError::Read {
-        path: project_path.clone(),
-        source,
-    })?;
+    let project_bytes =
+        read_governance_bytes(&project_path).map_err(|source| ObserverError::Read {
+            path: project_path.clone(),
+            source,
+        })?;
     let profile: AttachedProfile =
         serde_json::from_slice(&project_bytes).map_err(|error| ObserverError::State {
             path: project_path.clone(),
             message: error.to_string(),
         })?;
-    let manifest_bytes = fs::read(&manifest_path).map_err(|source| ObserverError::Read {
-        path: manifest_path.clone(),
-        source,
-    })?;
+    let manifest_bytes =
+        read_governance_bytes(&manifest_path).map_err(|source| ObserverError::Read {
+            path: manifest_path.clone(),
+            source,
+        })?;
     let manifest: AgentInterfaceManifest =
         serde_json::from_slice(&manifest_bytes).map_err(|error| ObserverError::State {
             path: manifest_path.clone(),
@@ -1911,9 +1915,11 @@ fn preserved_evidence_digest(root: &Path) -> Result<Digest, ObserverError> {
         })?;
         bytes.extend_from_slice(relative.to_string_lossy().as_bytes());
         bytes.push(0);
-        bytes.extend_from_slice(&fs::read(&path).map_err(|source| ObserverError::Read {
-            path: path.clone(),
-            source,
+        bytes.extend_from_slice(&read_governance_bytes(&path).map_err(|source| {
+            ObserverError::Read {
+                path: path.clone(),
+                source,
+            }
         })?);
         bytes.push(0);
     }
@@ -2252,7 +2258,7 @@ fn unclosed_archived_scope_conflicts(
         let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
         let contract_bytes = match fs::symlink_metadata(&contract_path) {
             Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
-                fs::read(&contract_path).map_err(|source| ObserverError::Read {
+                read_governance_bytes(&contract_path).map_err(|source| ObserverError::Read {
                     path: contract_path.clone(),
                     source,
                 })?
@@ -2274,7 +2280,7 @@ fn unclosed_archived_scope_conflicts(
         };
         let manifest_bytes = match fs::symlink_metadata(&manifest_path) {
             Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
-                fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+                read_governance_bytes(&manifest_path).map_err(|source| ObserverError::Read {
                     path: manifest_path.clone(),
                     source,
                 })?
@@ -2837,7 +2843,7 @@ pub fn evidence_purge_plan(
             continue;
         };
         let path = entry.path();
-        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
         })?;
@@ -2995,7 +3001,7 @@ pub fn export_audit_events(
             }
             let name = entry.file_name().to_string_lossy().into_owned();
             let path = entry.path();
-            let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
                 path: path.clone(),
                 source,
             })?;
@@ -3115,7 +3121,7 @@ pub fn export_audit_events(
                 continue;
             };
             let path = entry.path();
-            let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
                 path: path.clone(),
                 source,
             })?;
@@ -3458,7 +3464,7 @@ fn publish_immutable_bytes_no_replace(
                 message: "immutable evidence leaf exceeds the bounded size limit".into(),
             });
         }
-        fs::read(path).map_err(|source| ObserverError::Read {
+        read_governance_bytes(path).map_err(|source| ObserverError::Read {
             path: path.to_path_buf(),
             source,
         })
@@ -3638,10 +3644,11 @@ pub fn import_delegated_evidence(
                         .into(),
                 });
             }
-            let existing = fs::read(&raw_path).map_err(|source| ObserverError::Read {
-                path: raw_path.clone(),
-                source,
-            })?;
+            let existing =
+                read_governance_bytes(&raw_path).map_err(|source| ObserverError::Read {
+                    path: raw_path.clone(),
+                    source,
+                })?;
             if existing != raw_bytes {
                 return Err(ObserverError::State {
                     path: raw_path,
@@ -3683,7 +3690,7 @@ pub fn import_delegated_evidence(
             });
         }
         let existing: DelegatedEvidenceReceipt =
-            serde_json::from_slice(&fs::read(&receipt_path).map_err(|source| {
+            serde_json::from_slice(&read_governance_bytes(&receipt_path).map_err(|source| {
                 ObserverError::Read {
                     path: receipt_path.clone(),
                     source,
@@ -3757,9 +3764,11 @@ pub fn list_delegated_evidence(
             });
         }
         let receipt: DelegatedEvidenceReceipt =
-            serde_json::from_slice(&fs::read(&path).map_err(|source| ObserverError::Read {
-                path: path.clone(),
-                source,
+            serde_json::from_slice(&read_governance_bytes(&path).map_err(|source| {
+                ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                }
             })?)
             .map_err(|error| ObserverError::State {
                 path: path.clone(),
@@ -3792,7 +3801,7 @@ pub fn list_delegated_evidence(
                 message: "delegated raw evidence exceeds the bounded size limit".into(),
             });
         }
-        let raw = fs::read(&raw_path).map_err(|source| ObserverError::Read {
+        let raw = read_governance_bytes(&raw_path).map_err(|source| ObserverError::Read {
             path: raw_path.clone(),
             source,
         })?;
@@ -4015,7 +4024,7 @@ pub fn list_delegated_evidence_observations(
                 message: "delegated observation exceeds the bounded size limit".into(),
             });
         }
-        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
         })?;
@@ -4075,7 +4084,7 @@ pub fn list_delegated_evidence_observations(
                 message: "delegated raw evidence exceeds the bounded size limit".into(),
             });
         }
-        let raw = fs::read(&raw_path).map_err(|source| ObserverError::Read {
+        let raw = read_governance_bytes(&raw_path).map_err(|source| ObserverError::Read {
             path: raw_path.clone(),
             source,
         })?;
@@ -5068,12 +5077,13 @@ pub fn validate_contract_quality_gate_report(
             message: "Contract gate workItemId does not match route Contract".into(),
         });
     }
-    let contract_file_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
-        |source| ObserverError::Read {
-            path: contract_path.clone(),
-            source,
-        },
-    )?);
+    let contract_file_digest =
+        Digest::sha256_bytes(&read_governance_bytes(&contract_path).map_err(|source| {
+            ObserverError::Read {
+                path: contract_path.clone(),
+                source,
+            }
+        })?);
     if report.contract_file_digest != contract_file_digest {
         return Err(ObserverError::State {
             path: contract_path.clone(),
@@ -7572,7 +7582,7 @@ pub(crate) fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, O
 pub(crate) fn read_contract_document(
     path: &Path,
 ) -> Result<CanonicalContractDocument, ObserverError> {
-    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+    let bytes = read_governance_bytes(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
     })?;
@@ -8019,7 +8029,7 @@ fn verification_evidence_state_from_value(
         let Ok(evidence_digest) = cockpit_protocol::digest_json(&evidence) else {
             return Ok(EvidenceState::Contradictory);
         };
-        let outcome_bytes = match fs::read(&outcome_path) {
+        let outcome_bytes = match read_governance_bytes(&outcome_path) {
             Ok(bytes) => bytes,
             Err(_) => return Ok(EvidenceState::Contradictory),
         };
@@ -8133,10 +8143,11 @@ fn validate_historical_archive_evidence(
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{}.verification.json", contract.work_item_id));
-    let evidence_bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
-        path: evidence_path.clone(),
-        source,
-    })?;
+    let evidence_bytes =
+        read_governance_bytes(&evidence_path).map_err(|source| ObserverError::Read {
+            path: evidence_path.clone(),
+            source,
+        })?;
     let evidence: VerificationEvidenceEnvelope =
         serde_json::from_slice(&evidence_bytes).map_err(|error| ObserverError::State {
             path: evidence_path.clone(),
@@ -8543,10 +8554,11 @@ pub(crate) fn evidence_class_projection_state(
                     return Ok(EvidenceState::Contradictory);
                 }
             }
-            let bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
-                path: evidence_path.clone(),
-                source,
-            })?;
+            let bytes =
+                read_governance_bytes(&evidence_path).map_err(|source| ObserverError::Read {
+                    path: evidence_path.clone(),
+                    source,
+                })?;
             let actual_digest = Digest::sha256_bytes(&bytes).to_string();
             if evidence_object["digest"] != serde_json::json!(actual_digest) {
                 return Ok(EvidenceState::Stale);
@@ -8904,10 +8916,11 @@ pub fn retire_active_work_item_with_runtime(
     ] {
         let source = active.join(format!("{work_item_id}.{suffix}"));
         if optional_regular_artifact(&source, "active retirement artifact")? {
-            let bytes = fs::read(&source).map_err(|source_error| ObserverError::Read {
-                path: source.clone(),
-                source: source_error,
-            })?;
+            let bytes =
+                read_governance_bytes(&source).map_err(|source_error| ObserverError::Read {
+                    path: source.clone(),
+                    source: source_error,
+                })?;
             planned.push((
                 key.into(),
                 source,
@@ -8934,7 +8947,7 @@ pub fn retire_active_work_item_with_runtime(
             format!("historicalArtifact{}", planned.len()),
             source.clone(),
             archive.join(&variant.name),
-            fs::read(&source).map_err(|source_error| ObserverError::Read {
+            read_governance_bytes(&source).map_err(|source_error| ObserverError::Read {
                 path: source,
                 source: source_error,
             })?,
@@ -9222,7 +9235,7 @@ pub fn reconcile_active_artifacts(
                 message: "artifact reconciliation target already exists".into(),
             });
         }
-        let bytes = fs::read(&source).map_err(|source_error| ObserverError::Read {
+        let bytes = read_governance_bytes(&source).map_err(|source_error| ObserverError::Read {
             path: source.clone(),
             source: source_error,
         })?;
@@ -9499,10 +9512,11 @@ fn archive_work_item_internal(
         .iter()
         .any(|(_, suffix)| suffix == "task-report.json")
     {
-        let bytes = fs::read(&report_source).map_err(|source| ObserverError::Read {
-            path: report_source.clone(),
-            source,
-        })?;
+        let bytes =
+            read_governance_bytes(&report_source).map_err(|source| ObserverError::Read {
+                path: report_source.clone(),
+                source,
+            })?;
         let report: TaskOutcomeReport =
             serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
                 path: report_source.clone(),
@@ -9523,10 +9537,11 @@ fn archive_work_item_internal(
             continue;
         }
         let target = archive.join(format!("{work_item_id}.{suffix}"));
-        let source_bytes = fs::read(&source_path).map_err(|error| ObserverError::Read {
-            path: source_path.clone(),
-            source: error,
-        })?;
+        let source_bytes =
+            read_governance_bytes(&source_path).map_err(|error| ObserverError::Read {
+                path: source_path.clone(),
+                source: error,
+            })?;
         let archived_bytes = if cutoff_bound_report
             && matches!(suffix.as_str(), "task-report.json" | "task-report.md")
         {
@@ -9744,7 +9759,7 @@ fn archive_superseded_work_item(
                 message: "superseded archive target already exists".into(),
             });
         }
-        let bytes = fs::read(&source).map_err(|source_error| ObserverError::Read {
+        let bytes = read_governance_bytes(&source).map_err(|source_error| ObserverError::Read {
             path: source.clone(),
             source: source_error,
         })?;
@@ -10513,7 +10528,7 @@ fn verify_archive_manifest_with_options(
                 message: format!("archived {name} must be a regular non-symlink file"),
             });
         }
-        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
         })?;
@@ -10574,7 +10589,7 @@ fn verify_archive_manifest_with_options(
                 message: format!("archived {name} is missing"),
             });
         }
-        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
         })?;
@@ -10684,11 +10699,12 @@ fn verify_archive_manifest_with_options(
                     message: "archive historical artifact is missing".into(),
                 });
             }
-            let actual =
-                Digest::sha256_bytes(&fs::read(&path).map_err(|source| ObserverError::Read {
+            let actual = Digest::sha256_bytes(&read_governance_bytes(&path).map_err(|source| {
+                ObserverError::Read {
                     path: path.clone(),
                     source,
-                })?);
+                }
+            })?);
             if actual.to_string() != digest {
                 return Err(ObserverError::State {
                     path,
@@ -10701,7 +10717,7 @@ fn verify_archive_manifest_with_options(
         let expected = manifest["files"]["taskReportMarkdownDigest"].as_str();
         let path = archive.join(format!("{work_item_id}.task-report.md"));
         expected.and_then(|expected| {
-            fs::read(&path).ok().and_then(|bytes| {
+            read_governance_bytes(&path).ok().and_then(|bytes| {
                 (Digest::sha256_bytes(&bytes).to_string() != expected)
                     .then(|| "taskReportMarkdown".to_owned())
             })
@@ -10774,10 +10790,11 @@ fn validate_historical_archive_manifest_binding(
             message: "historical verification evidence must remain a regular file".into(),
         });
     }
-    let evidence_bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
-        path: evidence_path.clone(),
-        source,
-    })?;
+    let evidence_bytes =
+        read_governance_bytes(&evidence_path).map_err(|source| ObserverError::Read {
+            path: evidence_path.clone(),
+            source,
+        })?;
     let actual_file_digest = Digest::sha256_bytes(&evidence_bytes).to_string();
     if binding
         .get("fileDigest")
@@ -10860,7 +10877,7 @@ fn validate_recovery_archive_manifest_binding(
             "predecessor archive manifest must be a regular non-symlink file",
         ));
     }
-    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+    let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
         path: path.clone(),
         source,
     })?;
@@ -11626,7 +11643,7 @@ fn validate_task_outcome_events(
             message: "Task Outcome event stream must be a regular non-symlink file".into(),
         });
     }
-    let text = fs::read_to_string(path).map_err(|source| ObserverError::Read {
+    let text = read_governance_text(path).map_err(|source| ObserverError::Read {
         path: path.to_path_buf(),
         source,
     })?;
@@ -11754,7 +11771,7 @@ fn append_task_outcome_event_lines(
         .ok()
         .filter(|metadata| metadata.len() > 0)
         .is_some_and(|_| {
-            fs::read(path)
+            read_governance_bytes(path)
                 .ok()
                 .is_some_and(|bytes| !bytes.ends_with(b"\n"))
         });
@@ -12774,7 +12791,7 @@ pub fn performance_diagnosis(
         let path = root
             .join(".ai/evidence")
             .join(format!("{work_item_id}.verification.json"));
-        match fs::read(&path) {
+        match read_governance_bytes(&path) {
             Ok(bytes) => {
                 let digest = Digest::sha256_bytes(&bytes);
                 read_bytes = read_bytes.saturating_add(bytes.len() as u64);
@@ -13138,7 +13155,7 @@ fn documentation_projection_policy(
             });
         }
         Ok(_) => {
-            let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
                 path: path.clone(),
                 source,
             })?;
@@ -13222,7 +13239,7 @@ fn has_existing_documentation_registration(
                 });
             }
             Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => continue,
-            Ok(_) => fs::read(&path).map_err(|source| ObserverError::Read {
+            Ok(_) => read_governance_bytes(&path).map_err(|source| ObserverError::Read {
                 path: path.clone(),
                 source,
             })?,
@@ -13405,15 +13422,16 @@ fn documentation_projection_findings(
             ));
             continue;
         }
-        let contents =
-            String::from_utf8(fs::read(&path).map_err(|source| ObserverError::Read {
+        let contents = String::from_utf8(read_governance_bytes(&path).map_err(|source| {
+            ObserverError::Read {
                 path: path.clone(),
                 source,
-            })?)
-            .map_err(|_| ObserverError::State {
-                path: path.clone(),
-                message: "prearchive projection must be UTF-8 Markdown".into(),
-            })?;
+            }
+        })?)
+        .map_err(|_| ObserverError::State {
+            path: path.clone(),
+            message: "prearchive projection must be UTF-8 Markdown".into(),
+        })?;
         for (field, expected) in [
             ("workItemId", contract.work_item_id.as_str()),
             ("lastVerifiedBy", contract.work_item_id.as_str()),
@@ -13464,15 +13482,16 @@ fn documentation_projection_findings(
             ));
             continue;
         }
-        let contents =
-            String::from_utf8(fs::read(&path).map_err(|source| ObserverError::Read {
+        let contents = String::from_utf8(read_governance_bytes(&path).map_err(|source| {
+            ObserverError::Read {
                 path: path.clone(),
                 source,
-            })?)
-            .map_err(|_| ObserverError::State {
-                path: path.clone(),
-                message: "parity ledger must be UTF-8 Markdown".into(),
-            })?;
+            }
+        })?)
+        .map_err(|_| ObserverError::State {
+            path: path.clone(),
+            message: "parity ledger must be UTF-8 Markdown".into(),
+        })?;
         let row_count = contents
             .lines()
             .filter(|line| parity_row_matches_work_item(line, &contract.work_item_id))
@@ -14420,7 +14439,7 @@ fn knowledge_source_digest(archive: &Path) -> Result<String, ObserverError> {
                 message: "knowledge source file exceeds bounded cache input".into(),
             });
         }
-        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        let bytes = read_governance_bytes(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
         })?;
@@ -14452,8 +14471,27 @@ fn validate_work_item_id(id: &str) -> Result<(), ObserverError> {
     Ok(())
 }
 
+/// During a legacy proof assessment, historical validators read repository
+/// governance bytes through the same pinned no-follow capability boundary.
+/// Other callers retain their existing ordinary read behavior.
+fn read_governance_bytes(path: impl AsRef<Path>) -> std::io::Result<Vec<u8>> {
+    let path = path.as_ref();
+    match legacy_closeout_source::read_under_query(path) {
+        Some(result) => result,
+        None => fs::read(path),
+    }
+}
+fn read_governance_text(path: impl AsRef<Path>) -> std::io::Result<String> {
+    let path = path.as_ref();
+    match legacy_closeout_source::read_under_query(path) {
+        Some(result) => String::from_utf8(result?)
+            .map_err(|error| std::io::Error::new(std::io::ErrorKind::InvalidData, error)),
+        None => fs::read_to_string(path),
+    }
+}
+
 fn read_json(path: &Path) -> Result<serde_json::Value, ObserverError> {
-    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+    let bytes = read_governance_bytes(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
     })?;
