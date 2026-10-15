@@ -1,0 +1,1054 @@
+﻿2026-10-15T13:25:24.6786102Z Current runner version: '2.337.0'
+2026-10-15T13:25:24.6842525Z ##[group]Runner Image Provisioner
+2026-10-15T13:25:24.6843478Z Hosted Compute Agent
+2026-10-15T13:25:24.6844139Z Version: 20261002.596
+2026-10-15T13:25:24.6844784Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-15T13:25:24.6845570Z Build Date: 2026-10-02T22:28:27Z
+2026-10-15T13:25:24.6846273Z Worker ID: {e9652f22-ab65-4dd5-9516-e1fbafea7138}
+2026-10-15T13:25:24.6847070Z Region: eastus
+2026-10-15T13:25:24.6847656Z Cloud: Azure
+2026-10-15T13:25:24.6848175Z ##[endgroup]
+2026-10-15T13:25:24.6850230Z ##[group]Operating System
+2026-10-15T13:25:24.6851468Z Ubuntu
+2026-10-15T13:25:24.6852094Z 24.04.5
+2026-10-15T13:25:24.6852677Z LTS
+2026-10-15T13:25:24.6853254Z ##[endgroup]
+2026-10-15T13:25:24.6853885Z ##[group]Runner Image
+2026-10-15T13:25:24.6854491Z Image: ubuntu-24.04
+2026-10-15T13:25:24.6855147Z Version: 20261004.327.1
+2026-10-15T13:25:24.6856450Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-15T13:25:24.6858081Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-15T13:25:24.6859071Z ##[endgroup]
+2026-10-15T13:25:24.6860658Z ##[group]GITHUB_TOKEN Permissions
+2026-10-15T13:25:24.6863428Z Contents: read
+2026-10-15T13:25:24.6864224Z Metadata: read
+2026-10-15T13:25:24.6864834Z ##[endgroup]
+2026-10-15T13:25:24.6867730Z Secret source: Actions
+2026-10-15T13:25:24.6868821Z Cache mode: write
+2026-10-15T13:25:24.6869793Z Prepare workflow directory
+2026-10-15T13:25:24.7218347Z Prepare all required actions
+2026-10-15T13:25:24.7268822Z Getting action download info
+2026-10-15T13:25:24.9775688Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-15T13:25:25.0915346Z Download action repository 'dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772' (SHA:6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772)
+2026-10-15T13:25:25.1863466Z Download action repository 'actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c' (SHA:3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c)
+2026-10-15T13:25:25.3381496Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-15T13:25:25.6450852Z Complete job name: quality
+2026-10-15T13:25:25.7406208Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-15T13:25:25.7407309Z with:
+2026-10-15T13:25:25.7407746Z   fetch-depth: 0
+2026-10-15T13:25:25.7408211Z   persist-credentials: false
+2026-10-15T13:25:25.7408748Z   repository: xinglun/ai-cockpit
+2026-10-15T13:25:25.7412989Z   token: ***
+2026-10-15T13:25:25.7413432Z   ssh-strict: true
+2026-10-15T13:25:25.7413869Z   ssh-user: git
+2026-10-15T13:25:25.7414288Z   clean: true
+2026-10-15T13:25:25.7414742Z   sparse-checkout-cone-mode: true
+2026-10-15T13:25:25.7415272Z   fetch-tags: false
+2026-10-15T13:25:25.7415717Z   show-progress: true
+2026-10-15T13:25:25.7416184Z   lfs: false
+2026-10-15T13:25:25.7416600Z   submodules: false
+2026-10-15T13:25:25.7417052Z   set-safe-directory: true
+2026-10-15T13:25:25.7417559Z   allow-unsafe-pr-checkout: false
+2026-10-15T13:25:25.7418395Z ##[endgroup]
+2026-10-15T13:25:25.8462461Z Syncing repository: xinglun/ai-cockpit
+2026-10-15T13:25:25.8464417Z ##[group]Getting Git version info
+2026-10-15T13:25:25.8465202Z Working directory is '/home/runner/work/ai-cockpit/ai-cockpit'
+2026-10-15T13:25:25.8466988Z [command]/usr/bin/git version
+2026-10-15T13:25:25.8568847Z git version 2.55.0
+2026-10-15T13:25:25.8591187Z ##[endgroup]
+2026-10-15T13:25:25.8602734Z Temporarily overriding HOME='/home/runner/work/_temp/4fce7fb0-acf8-42b4-be03-fc6e919e9d85' before making global git config changes
+2026-10-15T13:25:25.8605150Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-15T13:25:25.8609383Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ai-cockpit/ai-cockpit
+2026-10-15T13:25:25.8665947Z Deleting the contents of '/home/runner/work/ai-cockpit/ai-cockpit'
+2026-10-15T13:25:25.8669489Z ##[group]Determining repository object format
+2026-10-15T13:25:25.8671299Z ##[endgroup]
+2026-10-15T13:25:25.8672718Z ##[group]Initializing the repository
+2026-10-15T13:25:25.8675561Z [command]/usr/bin/git init /home/runner/work/ai-cockpit/ai-cockpit
+2026-10-15T13:25:25.8825479Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-15T13:25:25.8827260Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-15T13:25:25.8829176Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-15T13:25:25.8830853Z hint: call:
+2026-10-15T13:25:25.8831614Z hint:
+2026-10-15T13:25:25.8832577Z hint: 	git config --global init.defaultBranch <name>
+2026-10-15T13:25:25.8834015Z hint:
+2026-10-15T13:25:25.8835313Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-15T13:25:25.8837018Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-15T13:25:25.8838617Z hint:
+2026-10-15T13:25:25.8839809Z hint: 	git branch -m <name>
+2026-10-15T13:25:25.8841499Z hint:
+2026-10-15T13:25:25.8842665Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-15T13:25:25.8844464Z Initialized empty Git repository in /home/runner/work/ai-cockpit/ai-cockpit/.git/
+2026-10-15T13:25:25.8847330Z [command]/usr/bin/git remote add origin https://github.com/xinglun/ai-cockpit
+2026-10-15T13:25:25.8909171Z ##[endgroup]
+2026-10-15T13:25:25.8910656Z ##[group]Disabling automatic garbage collection
+2026-10-15T13:25:25.8914935Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-15T13:25:25.8952557Z ##[endgroup]
+2026-10-15T13:25:25.8953925Z ##[group]Setting up auth
+2026-10-15T13:25:25.8954887Z Removing SSH command configuration
+2026-10-15T13:25:25.8960793Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-15T13:25:25.8997332Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-15T13:25:25.9398615Z Removing HTTP extra header
+2026-10-15T13:25:25.9405707Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-15T13:25:25.9443800Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-15T13:25:25.9667176Z Removing includeIf entries pointing to credentials config files
+2026-10-15T13:25:25.9672657Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-15T13:25:25.9711069Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-15T13:25:25.9945708Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-15T13:25:25.9988265Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git.path /home/runner/work/_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:26.0072701Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:26.0114790Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:26.0151995Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:26.0185359Z ##[endgroup]
+2026-10-15T13:25:26.0186704Z ##[group]Fetching the repository
+2026-10-15T13:25:26.0192809Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-15T13:25:34.4735422Z From https://github.com/xinglun/ai-cockpit
+2026-10-15T13:25:34.4741725Z  * [new branch]        codex/wi-1059-input-trust-context -> origin/codex/wi-1059-input-trust-context
+2026-10-15T13:25:34.4743727Z  * [new branch]        codex/wi1051-mac-prerelease-v1-0-1-rc-1 -> origin/codex/wi1051-mac-prerelease-v1-0-1-rc-1
+2026-10-15T13:25:34.4745864Z  * [new branch]        codex/wi1056-retry-amend-preflight -> origin/codex/wi1056-retry-amend-preflight
+2026-10-15T13:25:34.4747934Z  * [new branch]        codex/wi1059-input-trust-context -> origin/codex/wi1059-input-trust-context
+2026-10-15T13:25:34.4749762Z  * [new branch]        codex/wi1068-v1-0-1-stable-release -> origin/codex/wi1068-v1-0-1-stable-release
+2026-10-15T13:25:34.4751926Z  * [new branch]        codex/wi1069-v1-0-1-release-publication -> origin/codex/wi1069-v1-0-1-release-publication
+2026-10-15T13:25:34.4752996Z  * [new branch]        codex/wi1070-wi1068-parity-repair-20261010 -> origin/codex/wi1070-wi1068-parity-repair-20261010
+2026-10-15T13:25:34.4754003Z  * [new branch]        codex/wi1071-release-source-quality-binding -> origin/codex/wi1071-release-source-quality-binding
+2026-10-15T13:25:34.4755060Z  * [new branch]        codex/wi1072-n-minus-one-finish-admission-20261010 -> origin/codex/wi1072-n-minus-one-finish-admission-20261010
+2026-10-15T13:25:34.4756119Z  * [new branch]        codex/wi1073-composition-hosted-diagnostic -> origin/codex/wi1073-composition-hosted-diagnostic
+2026-10-15T13:25:34.4757325Z  * [new branch]        codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011 -> origin/codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011
+2026-10-15T13:25:34.4758608Z  * [new branch]        codex/wi1074-v1-0-1-close-only-jq-filter-20261011 -> origin/codex/wi1074-v1-0-1-close-only-jq-filter-20261011
+2026-10-15T13:25:34.4759680Z  * [new branch]        codex/wi1075-wi1068-close-sync-20261011 -> origin/codex/wi1075-wi1068-close-sync-20261011
+2026-10-15T13:25:34.4761323Z  * [new branch]        codex/wi1078-evidence-recovery-20261014 -> origin/codex/wi1078-evidence-recovery-20261014
+2026-10-15T13:25:34.4762769Z  * [new branch]        codex/wi1081-post-merge-lifecycle-layout -> origin/codex/wi1081-post-merge-lifecycle-layout
+2026-10-15T13:25:34.4763824Z  * [new branch]        codex/wi1084-closeout-receipt-integrity -> origin/codex/wi1084-closeout-receipt-integrity
+2026-10-15T13:25:34.4764558Z  * [new branch]        main        -> origin/main
+2026-10-15T13:25:34.4765005Z  * [new tag]           v0.1.0      -> v0.1.0
+2026-10-15T13:25:34.4765409Z  * [new tag]           v0.1.1      -> v0.1.1
+2026-10-15T13:25:34.4765807Z  * [new tag]           v0.2.0      -> v0.2.0
+2026-10-15T13:25:34.4766239Z  * [new tag]           v0.2.1      -> v0.2.1
+2026-10-15T13:25:34.4766664Z  * [new tag]           v0.2.10     -> v0.2.10
+2026-10-15T13:25:34.4767081Z  * [new tag]           v0.2.100    -> v0.2.100
+2026-10-15T13:25:34.4767496Z  * [new tag]           v0.2.101    -> v0.2.101
+2026-10-15T13:25:34.4767903Z  * [new tag]           v0.2.102    -> v0.2.102
+2026-10-15T13:25:34.4768310Z  * [new tag]           v0.2.103    -> v0.2.103
+2026-10-15T13:25:34.4768806Z  * [new tag]           v0.2.104    -> v0.2.104
+2026-10-15T13:25:34.4769327Z  * [new tag]           v0.2.105    -> v0.2.105
+2026-10-15T13:25:34.4769835Z  * [new tag]           v0.2.106    -> v0.2.106
+2026-10-15T13:25:34.4770687Z  * [new tag]           v0.2.107    -> v0.2.107
+2026-10-15T13:25:34.4771166Z  * [new tag]           v0.2.108    -> v0.2.108
+2026-10-15T13:25:34.4771570Z  * [new tag]           v0.2.109    -> v0.2.109
+2026-10-15T13:25:34.4771960Z  * [new tag]           v0.2.11     -> v0.2.11
+2026-10-15T13:25:34.4772351Z  * [new tag]           v0.2.110    -> v0.2.110
+2026-10-15T13:25:34.4772749Z  * [new tag]           v0.2.111    -> v0.2.111
+2026-10-15T13:25:34.4773333Z  * [new tag]           v0.2.112    -> v0.2.112
+2026-10-15T13:25:34.4773721Z  * [new tag]           v0.2.113    -> v0.2.113
+2026-10-15T13:25:34.4774108Z  * [new tag]           v0.2.12     -> v0.2.12
+2026-10-15T13:25:34.4774496Z  * [new tag]           v0.2.13     -> v0.2.13
+2026-10-15T13:25:34.4774910Z  * [new tag]           v0.2.14     -> v0.2.14
+2026-10-15T13:25:34.4775306Z  * [new tag]           v0.2.15     -> v0.2.15
+2026-10-15T13:25:34.4775690Z  * [new tag]           v0.2.16     -> v0.2.16
+2026-10-15T13:25:34.4776079Z  * [new tag]           v0.2.17     -> v0.2.17
+2026-10-15T13:25:34.4776473Z  * [new tag]           v0.2.18     -> v0.2.18
+2026-10-15T13:25:34.4776871Z  * [new tag]           v0.2.19     -> v0.2.19
+2026-10-15T13:25:34.4777269Z  * [new tag]           v0.2.2      -> v0.2.2
+2026-10-15T13:25:34.4777678Z  * [new tag]           v0.2.20     -> v0.2.20
+2026-10-15T13:25:34.4778071Z  * [new tag]           v0.2.21     -> v0.2.21
+2026-10-15T13:25:34.4778455Z  * [new tag]           v0.2.22     -> v0.2.22
+2026-10-15T13:25:34.4778866Z  * [new tag]           v0.2.23     -> v0.2.23
+2026-10-15T13:25:34.4779257Z  * [new tag]           v0.2.24     -> v0.2.24
+2026-10-15T13:25:34.4779640Z  * [new tag]           v0.2.25     -> v0.2.25
+2026-10-15T13:25:34.4780024Z  * [new tag]           v0.2.26     -> v0.2.26
+2026-10-15T13:25:34.4780564Z  * [new tag]           v0.2.27     -> v0.2.27
+2026-10-15T13:25:34.4780975Z  * [new tag]           v0.2.28     -> v0.2.28
+2026-10-15T13:25:34.4781364Z  * [new tag]           v0.2.29     -> v0.2.29
+2026-10-15T13:25:34.4781747Z  * [new tag]           v0.2.3      -> v0.2.3
+2026-10-15T13:25:34.4782132Z  * [new tag]           v0.2.30     -> v0.2.30
+2026-10-15T13:25:34.4782523Z  * [new tag]           v0.2.31     -> v0.2.31
+2026-10-15T13:25:34.4782909Z  * [new tag]           v0.2.32     -> v0.2.32
+2026-10-15T13:25:34.4783297Z  * [new tag]           v0.2.33     -> v0.2.33
+2026-10-15T13:25:34.4783680Z  * [new tag]           v0.2.34     -> v0.2.34
+2026-10-15T13:25:34.4784060Z  * [new tag]           v0.2.35     -> v0.2.35
+2026-10-15T13:25:34.4784443Z  * [new tag]           v0.2.36     -> v0.2.36
+2026-10-15T13:25:34.4784839Z  * [new tag]           v0.2.37     -> v0.2.37
+2026-10-15T13:25:34.4785230Z  * [new tag]           v0.2.38     -> v0.2.38
+2026-10-15T13:25:34.4785611Z  * [new tag]           v0.2.39     -> v0.2.39
+2026-10-15T13:25:34.4786133Z  * [new tag]           v0.2.4      -> v0.2.4
+2026-10-15T13:25:34.4786529Z  * [new tag]           v0.2.40     -> v0.2.40
+2026-10-15T13:25:34.4786909Z  * [new tag]           v0.2.41     -> v0.2.41
+2026-10-15T13:25:34.4787292Z  * [new tag]           v0.2.42     -> v0.2.42
+2026-10-15T13:25:34.4787678Z  * [new tag]           v0.2.43     -> v0.2.43
+2026-10-15T13:25:34.4788060Z  * [new tag]           v0.2.44     -> v0.2.44
+2026-10-15T13:25:34.4788445Z  * [new tag]           v0.2.45     -> v0.2.45
+2026-10-15T13:25:34.4788831Z  * [new tag]           v0.2.46     -> v0.2.46
+2026-10-15T13:25:34.4789213Z  * [new tag]           v0.2.47     -> v0.2.47
+2026-10-15T13:25:34.4789605Z  * [new tag]           v0.2.48     -> v0.2.48
+2026-10-15T13:25:34.4789985Z  * [new tag]           v0.2.49     -> v0.2.49
+2026-10-15T13:25:34.4790502Z  * [new tag]           v0.2.5      -> v0.2.5
+2026-10-15T13:25:34.4790895Z  * [new tag]           v0.2.50     -> v0.2.50
+2026-10-15T13:25:34.4791312Z  * [new tag]           v0.2.51     -> v0.2.51
+2026-10-15T13:25:34.4791711Z  * [new tag]           v0.2.52     -> v0.2.52
+2026-10-15T13:25:34.4792095Z  * [new tag]           v0.2.53     -> v0.2.53
+2026-10-15T13:25:34.4792478Z  * [new tag]           v0.2.54     -> v0.2.54
+2026-10-15T13:25:34.4792863Z  * [new tag]           v0.2.55     -> v0.2.55
+2026-10-15T13:25:34.4793251Z  * [new tag]           v0.2.56     -> v0.2.56
+2026-10-15T13:25:34.4793633Z  * [new tag]           v0.2.57     -> v0.2.57
+2026-10-15T13:25:34.4794015Z  * [new tag]           v0.2.58     -> v0.2.58
+2026-10-15T13:25:34.4794405Z  * [new tag]           v0.2.59     -> v0.2.59
+2026-10-15T13:25:34.4794786Z  * [new tag]           v0.2.6      -> v0.2.6
+2026-10-15T13:25:34.4795316Z  * [new tag]           v0.2.60     -> v0.2.60
+2026-10-15T13:25:34.4795707Z  * [new tag]           v0.2.61     -> v0.2.61
+2026-10-15T13:25:34.4796095Z  * [new tag]           v0.2.62     -> v0.2.62
+2026-10-15T13:25:34.4796474Z  * [new tag]           v0.2.63     -> v0.2.63
+2026-10-15T13:25:34.4796864Z  * [new tag]           v0.2.64     -> v0.2.64
+2026-10-15T13:25:34.4797260Z  * [new tag]           v0.2.65     -> v0.2.65
+2026-10-15T13:25:34.4797646Z  * [new tag]           v0.2.66     -> v0.2.66
+2026-10-15T13:25:34.4798029Z  * [new tag]           v0.2.67     -> v0.2.67
+2026-10-15T13:25:34.4798411Z  * [new tag]           v0.2.68     -> v0.2.68
+2026-10-15T13:25:34.4798808Z  * [new tag]           v0.2.69     -> v0.2.69
+2026-10-15T13:25:34.4799202Z  * [new tag]           v0.2.7      -> v0.2.7
+2026-10-15T13:25:34.4799592Z  * [new tag]           v0.2.70     -> v0.2.70
+2026-10-15T13:25:34.4799985Z  * [new tag]           v0.2.71     -> v0.2.71
+2026-10-15T13:25:34.4800516Z  * [new tag]           v0.2.72     -> v0.2.72
+2026-10-15T13:25:34.4800923Z  * [new tag]           v0.2.73     -> v0.2.73
+2026-10-15T13:25:34.4801315Z  * [new tag]           v0.2.74     -> v0.2.74
+2026-10-15T13:25:34.4801703Z  * [new tag]           v0.2.75     -> v0.2.75
+2026-10-15T13:25:34.4802098Z  * [new tag]           v0.2.76     -> v0.2.76
+2026-10-15T13:25:34.4802491Z  * [new tag]           v0.2.77     -> v0.2.77
+2026-10-15T13:25:34.4802875Z  * [new tag]           v0.2.78     -> v0.2.78
+2026-10-15T13:25:34.4803264Z  * [new tag]           v0.2.79     -> v0.2.79
+2026-10-15T13:25:34.4803654Z  * [new tag]           v0.2.8      -> v0.2.8
+2026-10-15T13:25:34.4804042Z  * [new tag]           v0.2.80     -> v0.2.80
+2026-10-15T13:25:34.4804497Z  * [new tag]           v0.2.81     -> v0.2.81
+2026-10-15T13:25:34.4805185Z  * [new tag]           v0.2.82     -> v0.2.82
+2026-10-15T13:25:34.4805936Z  * [new tag]           v0.2.83     -> v0.2.83
+2026-10-15T13:25:34.4806560Z  * [new tag]           v0.2.84     -> v0.2.84
+2026-10-15T13:25:34.4806988Z  * [new tag]           v0.2.85     -> v0.2.85
+2026-10-15T13:25:34.4807385Z  * [new tag]           v0.2.86     -> v0.2.86
+2026-10-15T13:25:34.4807781Z  * [new tag]           v0.2.87     -> v0.2.87
+2026-10-15T13:25:34.4808176Z  * [new tag]           v0.2.88     -> v0.2.88
+2026-10-15T13:25:34.4809176Z  * [new tag]           v0.2.89     -> v0.2.89
+2026-10-15T13:25:34.4809693Z  * [new tag]           v0.2.9      -> v0.2.9
+2026-10-15T13:25:34.4810113Z  * [new tag]           v0.2.90     -> v0.2.90
+2026-10-15T13:25:34.4810787Z  * [new tag]           v0.2.91     -> v0.2.91
+2026-10-15T13:25:34.4811195Z  * [new tag]           v0.2.92     -> v0.2.92
+2026-10-15T13:25:34.4811592Z  * [new tag]           v0.2.93     -> v0.2.93
+2026-10-15T13:25:34.4811992Z  * [new tag]           v0.2.94     -> v0.2.94
+2026-10-15T13:25:34.4812395Z  * [new tag]           v0.2.95     -> v0.2.95
+2026-10-15T13:25:34.4812792Z  * [new tag]           v0.2.96     -> v0.2.96
+2026-10-15T13:25:34.4813184Z  * [new tag]           v0.2.97     -> v0.2.97
+2026-10-15T13:25:34.4813598Z  * [new tag]           v0.2.98     -> v0.2.98
+2026-10-15T13:25:34.4814198Z  * [new tag]           v0.2.99     -> v0.2.99
+2026-10-15T13:25:34.4814914Z  * [new tag]           v1.0.0      -> v1.0.0
+2026-10-15T13:25:34.4815549Z  * [new tag]           v1.0.1      -> v1.0.1
+2026-10-15T13:25:34.4815997Z  * [new tag]           v1.0.1-rc.1 -> v1.0.1-rc.1
+2026-10-15T13:25:34.4816435Z  * [new tag]           v1.0.1-rc.2 -> v1.0.1-rc.2
+2026-10-15T13:25:34.4817951Z [command]/usr/bin/git branch --list --remote origin/main
+2026-10-15T13:25:34.4818406Z   origin/main
+2026-10-15T13:25:34.4819220Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-10-15T13:25:34.4841854Z 253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8
+2026-10-15T13:25:34.4846673Z ##[endgroup]
+2026-10-15T13:25:34.4847792Z ##[group]Determining the checkout info
+2026-10-15T13:25:34.4848909Z ##[endgroup]
+2026-10-15T13:25:34.4852864Z [command]/usr/bin/git sparse-checkout disable
+2026-10-15T13:25:34.4915799Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-15T13:25:34.4951761Z ##[group]Checking out the ref
+2026-10-15T13:25:34.4956558Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-15T13:25:35.5215334Z Updating files:  74% (13184/17799)
+2026-10-15T13:25:35.5313979Z Updating files:  75% (13350/17799)
+2026-10-15T13:25:35.5404004Z Updating files:  76% (13528/17799)
+2026-10-15T13:25:35.5495381Z Updating files:  77% (13706/17799)
+2026-10-15T13:25:35.5581987Z Updating files:  78% (13884/17799)
+2026-10-15T13:25:35.5671069Z Updating files:  79% (14062/17799)
+2026-10-15T13:25:35.5758900Z Updating files:  80% (14240/17799)
+2026-10-15T13:25:35.5843603Z Updating files:  81% (14418/17799)
+2026-10-15T13:25:35.6000103Z Updating files:  82% (14596/17799)
+2026-10-15T13:25:35.6243917Z Updating files:  83% (14774/17799)
+2026-10-15T13:25:35.6422311Z Updating files:  84% (14952/17799)
+2026-10-15T13:25:35.6527438Z Updating files:  85% (15130/17799)
+2026-10-15T13:25:35.6623560Z Updating files:  86% (15308/17799)
+2026-10-15T13:25:35.6705193Z Updating files:  87% (15486/17799)
+2026-10-15T13:25:35.6792308Z Updating files:  88% (15664/17799)
+2026-10-15T13:25:35.6897588Z Updating files:  89% (15842/17799)
+2026-10-15T13:25:35.6989535Z Updating files:  90% (16020/17799)
+2026-10-15T13:25:35.7076661Z Updating files:  91% (16198/17799)
+2026-10-15T13:25:35.7165953Z Updating files:  92% (16376/17799)
+2026-10-15T13:25:35.7252970Z Updating files:  93% (16554/17799)
+2026-10-15T13:25:35.7339986Z Updating files:  94% (16732/17799)
+2026-10-15T13:25:35.7430025Z Updating files:  95% (16910/17799)
+2026-10-15T13:25:35.7513014Z Updating files:  96% (17088/17799)
+2026-10-15T13:25:35.7611941Z Updating files:  97% (17266/17799)
+2026-10-15T13:25:35.7695295Z Updating files:  98% (17444/17799)
+2026-10-15T13:25:35.7865020Z Updating files:  99% (17622/17799)
+2026-10-15T13:25:35.7865738Z Updating files: 100% (17799/17799)
+2026-10-15T13:25:35.7866329Z Updating files: 100% (17799/17799), done.
+2026-10-15T13:25:35.8061143Z Switched to a new branch 'main'
+2026-10-15T13:25:35.8068582Z branch 'main' set up to track 'origin/main'.
+2026-10-15T13:25:35.8151342Z ##[endgroup]
+2026-10-15T13:25:35.8210773Z [command]/usr/bin/git log -1 --format=%H
+2026-10-15T13:25:35.8241205Z 253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8
+2026-10-15T13:25:35.8251668Z ##[group]Removing auth
+2026-10-15T13:25:35.8252302Z Removing SSH command configuration
+2026-10-15T13:25:35.8256183Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-15T13:25:35.8293009Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-15T13:25:35.8533207Z Removing HTTP extra header
+2026-10-15T13:25:35.8538480Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-15T13:25:35.8575350Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-15T13:25:35.8845202Z Removing includeIf entries pointing to credentials config files
+2026-10-15T13:25:35.8846243Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-15T13:25:35.8852025Z includeif.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git.path
+2026-10-15T13:25:35.8860237Z includeif.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git/worktrees/*.path
+2026-10-15T13:25:35.8861461Z includeif.gitdir:/github/workspace/.git.path
+2026-10-15T13:25:35.8862207Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-15T13:25:35.8863561Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git.path
+2026-10-15T13:25:35.8887846Z /home/runner/work/_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:35.8904264Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-72bded3a\-01d5\-486b\-a27f\-89f9b74ea1ce\.config
+2026-10-15T13:25:35.8942904Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git/worktrees/*.path
+2026-10-15T13:25:35.8970530Z /home/runner/work/_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:35.8992597Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/ai-cockpit/ai-cockpit/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-72bded3a\-01d5\-486b\-a27f\-89f9b74ea1ce\.config
+2026-10-15T13:25:35.9082941Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-15T13:25:35.9112273Z /github/runner_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:35.9119381Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-72bded3a\-01d5\-486b\-a27f\-89f9b74ea1ce\.config
+2026-10-15T13:25:35.9156357Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-15T13:25:35.9185382Z /github/runner_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config
+2026-10-15T13:25:35.9195208Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-72bded3a\-01d5\-486b\-a27f\-89f9b74ea1ce\.config
+2026-10-15T13:25:35.9238981Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-15T13:25:35.9482254Z Removing credentials config '/home/runner/work/_temp/git-credentials-72bded3a-01d5-486b-a27f-89f9b74ea1ce.config'
+2026-10-15T13:25:35.9492203Z ##[endgroup]
+2026-10-15T13:25:35.9838449Z ##[group]Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+2026-10-15T13:25:35.9838966Z with:
+2026-10-15T13:25:35.9839217Z   toolchain: 1.98.1
+2026-10-15T13:25:35.9839497Z   components: rustfmt, clippy
+2026-10-15T13:25:35.9839799Z ##[endgroup]
+2026-10-15T13:25:35.9914224Z ##[start-action display=Parse toolchain version;id=__dtolnay_rust-toolchain.parse]
+2026-10-15T13:25:35.9977226Z ##[group]Run if [[ -z $toolchain ]]; then
+2026-10-15T13:25:35.9977709Z [36;1mif [[ -z $toolchain ]]; then[0m
+2026-10-15T13:25:35.9978316Z [36;1m  # GitHub does not enforce `required: true` inputs itself. https://github.com/actions/runner/issues/1070[0m
+2026-10-15T13:25:35.9978949Z [36;1m  echo "'toolchain' is a required input" >&2[0m
+2026-10-15T13:25:35.9979303Z [36;1m  exit 1[0m
+2026-10-15T13:25:35.9979705Z [36;1melif [[ $toolchain =~ ^stable' '[0-9]+' '(year|month|week|day)s?' 'ago$ ]]; then[0m
+2026-10-15T13:25:35.9980167Z [36;1m  if [[ Linux == macOS ]]; then[0m
+2026-10-15T13:25:35.9981052Z [36;1m    echo "toolchain=1.$((($(date -v-$(sed 's/stable \([0-9]*\) \(.\).*/\1\2/' <<< $toolchain) +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:35.9981655Z [36;1m  else[0m
+2026-10-15T13:25:35.9982124Z [36;1m    echo "toolchain=1.$((($(date --date "${toolchain#stable }" +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:35.9982634Z [36;1m  fi[0m
+2026-10-15T13:25:35.9982983Z [36;1melif [[ $toolchain =~ ^stable' 'minus' '[0-9]+' 'releases?$ ]]; then[0m
+2026-10-15T13:25:35.9983583Z [36;1m  echo "toolchain=1.$((($(date +%s)/60/60/24-16569)/7/6-${toolchain//[^0-9]/}))" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:35.9984100Z [36;1melif [[ $toolchain =~ ^1\.[0-9]+$ ]]; then[0m
+2026-10-15T13:25:35.9984688Z [36;1m  echo "toolchain=1.$((i=${toolchain#1.}, c=($(date +%s)/60/60/24-16569)/7/6, i+9*i*(10*i<=c)+90*i*(100*i<=c)))" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:35.9985260Z [36;1melse[0m
+2026-10-15T13:25:35.9985565Z [36;1m  echo "toolchain=$toolchain" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:35.9985915Z [36;1mfi[0m
+2026-10-15T13:25:36.0258240Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:36.0258873Z env:
+2026-10-15T13:25:36.0259238Z   toolchain: 1.98.1
+2026-10-15T13:25:36.0259633Z ##[endgroup]
+2026-10-15T13:25:36.0399797Z ##[end-action id=__dtolnay_rust-toolchain.parse;outcome=success;conclusion=success;duration_ms=48]
+2026-10-15T13:25:36.0413885Z ##[start-action display=Construct rustup command line;id=__dtolnay_rust-toolchain.flags]
+2026-10-15T13:25:36.0450257Z ##[group]Run echo "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT
+2026-10-15T13:25:36.0451304Z [36;1mecho "targets=$(for t in ${targets//,/ }; do echo -n ' --target' $t; done)" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:36.0451991Z [36;1mecho "components=$(for c in ${components//,/ }; do echo -n ' --component' $c; done)" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:36.0452536Z [36;1mecho "downgrade=" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:36.0515068Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:36.0515490Z env:
+2026-10-15T13:25:36.0515739Z   targets: 
+2026-10-15T13:25:36.0515997Z   components: rustfmt, clippy
+2026-10-15T13:25:36.0516292Z ##[endgroup]
+2026-10-15T13:25:36.0620589Z ##[end-action id=__dtolnay_rust-toolchain.flags;outcome=success;conclusion=success;duration_ms=20]
+2026-10-15T13:25:36.0623600Z ##[start-action display=Set $CARGO_HOME;id=__dtolnay_rust-toolchain.__run]
+2026-10-15T13:25:36.0651562Z ##[group]Run echo CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV
+2026-10-15T13:25:36.0652102Z [36;1mecho CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV[0m
+2026-10-15T13:25:36.0713850Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:36.0714317Z ##[endgroup]
+2026-10-15T13:25:36.0807716Z ##[end-action id=__dtolnay_rust-toolchain.__run;outcome=success;conclusion=success;duration_ms=18]
+2026-10-15T13:25:36.0810975Z ##[start-action display=Install rustup if needed;id=__dtolnay_rust-toolchain.__run_2]
+2026-10-15T13:25:36.0843863Z ##[group]Run if ! command -v rustup &>/dev/null; then
+2026-10-15T13:25:36.0844321Z [36;1mif ! command -v rustup &>/dev/null; then[0m
+2026-10-15T13:25:36.0845155Z [36;1m  curl --proto '=https' --tlsv1.2 --retry 10 --retry-connrefused --location --silent --show-error --fail https://sh.rustup.rs | sh -s -- --default-toolchain none -y[0m
+2026-10-15T13:25:36.0845947Z [36;1m  echo "$CARGO_HOME/bin" >> $GITHUB_PATH[0m
+2026-10-15T13:25:36.0846280Z [36;1mfi[0m
+2026-10-15T13:25:36.0905174Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:36.0905569Z env:
+2026-10-15T13:25:36.0905824Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:36.0906126Z ##[endgroup]
+2026-10-15T13:25:36.0995188Z ##[end-action id=__dtolnay_rust-toolchain.__run_2;outcome=success;conclusion=success;duration_ms=18]
+2026-10-15T13:25:36.0997874Z ##[start-action display=Install rustup if needed on windows;id=__dtolnay_rust-toolchain.__run_3]
+2026-10-15T13:25:36.1006150Z ##[end-action id=__dtolnay_rust-toolchain.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-15T13:25:36.1017574Z ##[start-action display=rustup toolchain install 1.98.1;id=__dtolnay_rust-toolchain.__run_4]
+2026-10-15T13:25:36.1044618Z ##[group]Run rustup toolchain install 1.98.1 --component rustfmt --component clippy --profile minimal --no-self-update
+2026-10-15T13:25:36.1045458Z [36;1mrustup toolchain install 1.98.1 --component rustfmt --component clippy --profile minimal --no-self-update[0m
+2026-10-15T13:25:36.1103363Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:36.1103766Z env:
+2026-10-15T13:25:36.1104028Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:36.1104337Z   RUSTUP_PERMIT_COPY_RENAME: 1
+2026-10-15T13:25:36.1104623Z ##[endgroup]
+2026-10-15T13:25:36.3326266Z info: syncing channel updates for 1.98.1-x86_64-unknown-linux-gnu
+2026-10-15T13:25:36.6328940Z info: latest update on 2026-09-03 for version 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T13:25:36.6329653Z info: downloading 5 components
+2026-10-15T13:25:44.5071480Z 
+2026-10-15T13:25:44.5143366Z   1.98.1-x86_64-unknown-linux-gnu installed - rustc 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T13:25:44.5144106Z 
+2026-10-15T13:25:44.5204859Z ##[end-action id=__dtolnay_rust-toolchain.__run_4;outcome=success;conclusion=success;duration_ms=8418]
+2026-10-15T13:25:44.5212768Z ##[start-action display=rustup default 1.98.1;id=__dtolnay_rust-toolchain.__run_5]
+2026-10-15T13:25:44.5239599Z ##[group]Run rustup default 1.98.1
+2026-10-15T13:25:44.5239908Z [36;1mrustup default 1.98.1[0m
+2026-10-15T13:25:44.5306164Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:44.5306546Z env:
+2026-10-15T13:25:44.5306770Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.5307056Z ##[endgroup]
+2026-10-15T13:25:44.5431356Z info: using existing install for 1.98.1-x86_64-unknown-linux-gnu
+2026-10-15T13:25:44.5437452Z info: default toolchain set to 1.98.1-x86_64-unknown-linux-gnu
+2026-10-15T13:25:44.5437810Z 
+2026-10-15T13:25:44.5505379Z   1.98.1-x86_64-unknown-linux-gnu unchanged - rustc 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T13:25:44.5506007Z 
+2026-10-15T13:25:44.5506844Z info: note that the toolchain '1.98.1-x86_64-unknown-linux-gnu' is currently in use (overridden by '/home/runner/work/ai-cockpit/ai-cockpit/rust-toolchain.toml')
+2026-10-15T13:25:44.5586650Z ##[end-action id=__dtolnay_rust-toolchain.__run_5;outcome=success;conclusion=success;duration_ms=37]
+2026-10-15T13:25:44.5589324Z ##[start-action display=Create cachekey;id=__dtolnay_rust-toolchain.rustc-version]
+2026-10-15T13:25:44.5616939Z ##[group]Run DATE=$(rustc +1.98.1 --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+2026-10-15T13:25:44.5617759Z [36;1mDATE=$(rustc +1.98.1 --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')[0m
+2026-10-15T13:25:44.5618566Z [36;1mHASH=$(rustc +1.98.1 --version --verbose | sed -ne 's/^commit-hash: //p')[0m
+2026-10-15T13:25:44.5619075Z [36;1mecho "cachekey=$(echo $DATE$HASH | head -c12)" >> $GITHUB_OUTPUT[0m
+2026-10-15T13:25:44.5684802Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:44.5685164Z env:
+2026-10-15T13:25:44.5685378Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.5685645Z ##[endgroup]
+2026-10-15T13:25:44.6030650Z ##[end-action id=__dtolnay_rust-toolchain.rustc-version;outcome=success;conclusion=success;duration_ms=44]
+2026-10-15T13:25:44.6033667Z ##[start-action display=Disable incremental compilation;id=__dtolnay_rust-toolchain.__run_6]
+2026-10-15T13:25:44.6058788Z ##[group]Run if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+2026-10-15T13:25:44.6059189Z [36;1mif [ -z "${CARGO_INCREMENTAL+set}" ]; then[0m
+2026-10-15T13:25:44.6059526Z [36;1m  echo CARGO_INCREMENTAL=0 >> $GITHUB_ENV[0m
+2026-10-15T13:25:44.6059822Z [36;1mfi[0m
+2026-10-15T13:25:44.6128197Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:44.6128572Z env:
+2026-10-15T13:25:44.6128803Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.6129089Z ##[endgroup]
+2026-10-15T13:25:44.6225020Z ##[end-action id=__dtolnay_rust-toolchain.__run_6;outcome=success;conclusion=success;duration_ms=19]
+2026-10-15T13:25:44.6227323Z ##[start-action display=Enable colors in Cargo output;id=__dtolnay_rust-toolchain.__run_7]
+2026-10-15T13:25:44.6251413Z ##[group]Run if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+2026-10-15T13:25:44.6251782Z [36;1mif [ -z "${CARGO_TERM_COLOR+set}" ]; then[0m
+2026-10-15T13:25:44.6252121Z [36;1m  echo CARGO_TERM_COLOR=always >> $GITHUB_ENV[0m
+2026-10-15T13:25:44.6252419Z [36;1mfi[0m
+2026-10-15T13:25:44.6317190Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:44.6317552Z env:
+2026-10-15T13:25:44.6317764Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.6318034Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:44.6318260Z ##[endgroup]
+2026-10-15T13:25:44.6407713Z ##[end-action id=__dtolnay_rust-toolchain.__run_7;outcome=success;conclusion=success;duration_ms=17]
+2026-10-15T13:25:44.6409955Z ##[start-action display=Enable Cargo sparse registry;id=__dtolnay_rust-toolchain.__run_8]
+2026-10-15T13:25:44.6435274Z ##[group]Run # implemented in 1.66, stabilized in 1.68, made default in 1.70
+2026-10-15T13:25:44.6435774Z [36;1m# implemented in 1.66, stabilized in 1.68, made default in 1.70[0m
+2026-10-15T13:25:44.6436486Z [36;1mif [ -z "${CARGO_REGISTRIES_CRATES_IO_PROTOCOL+set}" -o -f "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol ]; then[0m
+2026-10-15T13:25:44.6437210Z [36;1m  if rustc +1.98.1 --version --verbose | grep -q '^release: 1\.6[89]\.'; then[0m
+2026-10-15T13:25:44.6437781Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-15T13:25:44.6438325Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse >> $GITHUB_ENV[0m
+2026-10-15T13:25:44.6438818Z [36;1m  elif rustc +1.98.1 --version --verbose | grep -q '^release: 1\.6[67]\.'; then[0m
+2026-10-15T13:25:44.6439386Z [36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true[0m
+2026-10-15T13:25:44.6439918Z [36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=git >> $GITHUB_ENV[0m
+2026-10-15T13:25:44.6440268Z [36;1m  fi[0m
+2026-10-15T13:25:44.6440786Z [36;1mfi[0m
+2026-10-15T13:25:44.6502436Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:44.6502781Z env:
+2026-10-15T13:25:44.6502986Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.6503248Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:44.6503474Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:44.6503697Z ##[endgroup]
+2026-10-15T13:25:44.6820273Z ##[end-action id=__dtolnay_rust-toolchain.__run_8;outcome=success;conclusion=success;duration_ms=40]
+2026-10-15T13:25:44.6823674Z ##[start-action display=Work around spurious network errors in curl 8.0;id=__dtolnay_rust-toolchain.__run_9]
+2026-10-15T13:25:44.6850130Z ##[group]Run # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+2026-10-15T13:25:44.6851247Z [36;1m# https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation[0m
+2026-10-15T13:25:44.6851889Z [36;1mif rustc +1.98.1 --version --verbose | grep -q '^release: 1\.7[01]\.'; then[0m
+2026-10-15T13:25:44.6852349Z [36;1m  echo CARGO_HTTP_MULTIPLEXING=false >> $GITHUB_ENV[0m
+2026-10-15T13:25:44.6852664Z [36;1mfi[0m
+2026-10-15T13:25:44.6920488Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:44.6920865Z env:
+2026-10-15T13:25:44.6921095Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.6921372Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:44.6921614Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:44.6921857Z ##[endgroup]
+2026-10-15T13:25:44.7122468Z ##[end-action id=__dtolnay_rust-toolchain.__run_9;outcome=success;conclusion=success;duration_ms=29]
+2026-10-15T13:25:44.7126353Z ##[start-action display=rustc +1.98.1 --version --verbose;id=__dtolnay_rust-toolchain.__run_10]
+2026-10-15T13:25:44.7150665Z ##[group]Run rustc +1.98.1 --version --verbose
+2026-10-15T13:25:44.7151039Z [36;1mrustc +1.98.1 --version --verbose[0m
+2026-10-15T13:25:44.7213594Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:44.7214010Z env:
+2026-10-15T13:25:44.7214259Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.7214588Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:44.7214865Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:44.7215139Z ##[endgroup]
+2026-10-15T13:25:44.7401445Z rustc 1.98.1 (48a229cea 2026-09-01)
+2026-10-15T13:25:44.7402275Z binary: rustc
+2026-10-15T13:25:44.7403272Z commit-hash: 48a229ceaefd4985c50990b14116b6d856af0985
+2026-10-15T13:25:44.7404170Z commit-date: 2026-09-01
+2026-10-15T13:25:44.7404667Z host: x86_64-unknown-linux-gnu
+2026-10-15T13:25:44.7404925Z release: 1.98.1
+2026-10-15T13:25:44.7405141Z LLVM version: 22.1.8
+2026-10-15T13:25:44.7423420Z ##[end-action id=__dtolnay_rust-toolchain.__run_10;outcome=success;conclusion=success;duration_ms=29]
+2026-10-15T13:25:44.7523103Z ##[group]Run actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+2026-10-15T13:25:44.7523703Z with:
+2026-10-15T13:25:44.7523914Z   name: ci-gate-plan-tool
+2026-10-15T13:25:44.7524163Z   path: target
+2026-10-15T13:25:44.7524373Z   merge-multiple: false
+2026-10-15T13:25:44.7524615Z   repository: xinglun/ai-cockpit
+2026-10-15T13:25:44.7524861Z   run-id: 38741962234
+2026-10-15T13:25:44.7525079Z   skip-decompress: false
+2026-10-15T13:25:44.7525309Z   digest-mismatch: error
+2026-10-15T13:25:44.7525521Z env:
+2026-10-15T13:25:44.7525717Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:44.7525973Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:44.7526202Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:44.7526425Z ##[endgroup]
+2026-10-15T13:25:44.8834488Z Downloading single artifact
+2026-10-15T13:25:44.9899715Z Preparing to download the following artifacts:
+2026-10-15T13:25:44.9900990Z - ci-gate-plan-tool (ID: 11976248791, Size: 7098508, Expected Digest: sha256:acb077ad377237e9815b2db299d3ab9d9bc7d6e2c712b1bb4055ca2080b71c58)
+2026-10-15T13:25:45.1792652Z Redirecting to blob download url: https://productionresultssa9.blob.core.windows.net/actions-results/b2b9b522-4568-8af8-a82e-0a88890e9e66/workflow-job-run-2dd88285-3924-58af-ad5a-2b221e165294/artifacts/d69996556d7df2880b7cfe7a9dc6904601271a23c3f56b46cefc6d38d4cf34cb.zip
+2026-10-15T13:25:45.1794690Z Starting download of artifact to: /home/runner/work/ai-cockpit/ai-cockpit/target
+2026-10-15T13:25:45.3000257Z (node:2549) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-15T13:25:45.3001877Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-15T13:25:45.5291874Z SHA256 digest of downloaded artifact is acb077ad377237e9815b2db299d3ab9d9bc7d6e2c712b1bb4055ca2080b71c58
+2026-10-15T13:25:45.5293345Z Artifact download completed successfully.
+2026-10-15T13:25:45.5294147Z Total of 1 artifact(s) downloaded
+2026-10-15T13:25:45.5298523Z Download artifact has finished successfully
+2026-10-15T13:25:45.5448696Z ##[group]Run chmod +x target/release/ai-cockpit
+2026-10-15T13:25:45.5449106Z [36;1mchmod +x target/release/ai-cockpit[0m
+2026-10-15T13:25:45.5512107Z shell: /usr/bin/bash -e {0}
+2026-10-15T13:25:45.5512388Z env:
+2026-10-15T13:25:45.5512615Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:45.5512907Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:45.5513173Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:45.5513427Z ##[endgroup]
+2026-10-15T13:25:45.5639582Z ##[group]Run set -euo pipefail
+2026-10-15T13:25:45.5640009Z [36;1mset -euo pipefail[0m
+2026-10-15T13:25:45.5640620Z [36;1mtested_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"[0m
+2026-10-15T13:25:45.5641049Z [36;1mcheckout_revision="$(git rev-parse HEAD)"[0m
+2026-10-15T13:25:45.5641417Z [36;1mtest "$tested_revision" = "$checkout_revision" || {[0m
+2026-10-15T13:25:45.5641826Z [36;1m  echo 'checked-out commit does not match GITHUB_SHA' >&2[0m
+2026-10-15T13:25:45.5642173Z [36;1m  exit 1[0m
+2026-10-15T13:25:45.5642376Z [36;1m}[0m
+2026-10-15T13:25:45.5642612Z [36;1msource_revision="$tested_revision"[0m
+2026-10-15T13:25:45.5642910Z [36;1mevent_base_revision=""[0m
+2026-10-15T13:25:45.5643176Z [36;1mtested_base_revision=""[0m
+2026-10-15T13:25:45.5643560Z [36;1mtested_parents_text="$(git show -s --format=%P "$tested_revision")"[0m
+2026-10-15T13:25:45.5644022Z [36;1mread -r -a tested_parents <<<"$tested_parents_text"[0m
+2026-10-15T13:25:45.5644430Z [36;1mtested_base_revision="${tested_parents[0]:-}"[0m
+2026-10-15T13:25:45.5644780Z [36;1mif [[ "$EVENT_NAME" == pull_request ]]; then[0m
+2026-10-15T13:25:45.5645398Z [36;1m  jq -e '.pull_request | type == "object" and (.base.sha | type == "string") and (.head.sha | type == "string")' "$GITHUB_EVENT_PATH" >/dev/null || {[0m
+2026-10-15T13:25:45.5646137Z [36;1m    echo 'GitHub event payload does not contain a pull_request base and head' >&2[0m
+2026-10-15T13:25:45.5646555Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5646760Z [36;1m  }[0m
+2026-10-15T13:25:45.5647079Z [36;1m  event_base_sha="$(jq -er '.pull_request.base.sha' "$GITHUB_EVENT_PATH")"[0m
+2026-10-15T13:25:45.5647752Z [36;1m  event_head_sha="$(jq -er '.pull_request.head.sha' "$GITHUB_EVENT_PATH")"[0m
+2026-10-15T13:25:45.5648178Z [36;1m  test "$PR_BASE_SHA" = "$event_base_sha" || {[0m
+2026-10-15T13:25:45.5648595Z [36;1m    echo 'PR base context does not match the trusted event payload' >&2[0m
+2026-10-15T13:25:45.5648978Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5649200Z [36;1m  }[0m
+2026-10-15T13:25:45.5649439Z [36;1m  test "$PR_HEAD_SHA" = "$event_head_sha" || {[0m
+2026-10-15T13:25:45.5649847Z [36;1m    echo 'PR head context does not match the trusted event payload' >&2[0m
+2026-10-15T13:25:45.5650222Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5650714Z [36;1m  }[0m
+2026-10-15T13:25:45.5651133Z [36;1m  [[ "$event_base_sha" =~ ^([0-9a-f]{40}|[0-9a-f]{64})$ && "$event_head_sha" =~ ^([0-9a-f]{40}|[0-9a-f]{64})$ ]] || {[0m
+2026-10-15T13:25:45.5651707Z [36;1m    echo 'pull_request event base and head must be full commit IDs' >&2[0m
+2026-10-15T13:25:45.5652113Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5652318Z [36;1m  }[0m
+2026-10-15T13:25:45.5652654Z [36;1m  event_base_revision="$(git rev-parse --verify "${event_base_sha}^{commit}")"[0m
+2026-10-15T13:25:45.5653186Z [36;1m  source_revision="$(git rev-parse --verify "${event_head_sha}^{commit}")"[0m
+2026-10-15T13:25:45.5653580Z [36;1mfi[0m
+2026-10-15T13:25:45.5653980Z [36;1mreceipt_head="$(jq -r '.headRevision // empty' target/quality-route.json 2>/dev/null || true)"[0m
+2026-10-15T13:25:45.5654675Z [36;1mtested_parents_json="$(printf '%s\n' "${tested_parents[@]:-}" | jq -Rsc 'split("\n") | map(select(length > 0))')"[0m
+2026-10-15T13:25:45.5655178Z [36;1mjq -n \[0m
+2026-10-15T13:25:45.5655439Z [36;1m  --arg eventName "$EVENT_NAME" \[0m
+2026-10-15T13:25:45.5655780Z [36;1m  --arg sourceHeadRevision "$source_revision" \[0m
+2026-10-15T13:25:45.5656144Z [36;1m  --arg routeHeadRevision "$receipt_head" \[0m
+2026-10-15T13:25:45.5656513Z [36;1m  --arg testedRevision "$tested_revision" \[0m
+2026-10-15T13:25:45.5656887Z [36;1m  --arg eventBaseRevision "$event_base_revision" \[0m
+2026-10-15T13:25:45.5657281Z [36;1m  --arg testedBaseRevision "$tested_base_revision" \[0m
+2026-10-15T13:25:45.5657671Z [36;1m  --argjson testedParents "$tested_parents_json" \[0m
+2026-10-15T13:25:45.5659116Z [36;1m  '{schemaVersion:1,kind:"ci_revision_binding",eventName:$eventName,sourceHeadRevision:$sourceHeadRevision,routeHeadRevision:$routeHeadRevision,testedRevision:$testedRevision,eventBaseRevision:$eventBaseRevision,testedBaseRevision:$testedBaseRevision,testedParents:$testedParents}' \[0m
+2026-10-15T13:25:45.5660628Z [36;1m  > target/ci-revision-binding.json[0m
+2026-10-15T13:25:45.5660966Z [36;1mif [[ "$EVENT_NAME" == pull_request ]]; then[0m
+2026-10-15T13:25:45.5661319Z [36;1m  if [[ "${#tested_parents[@]}" -ne 2 ]]; then[0m
+2026-10-15T13:25:45.5661725Z [36;1m    echo 'tested PR merge commit must have exactly two parents' >&2[0m
+2026-10-15T13:25:45.5662094Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5662306Z [36;1m  fi[0m
+2026-10-15T13:25:45.5662579Z [36;1m  test "${tested_parents[1]}" = "$source_revision" || {[0m
+2026-10-15T13:25:45.5663027Z [36;1m    echo 'tested PR merge commit does not bind the declared source head' >&2[0m
+2026-10-15T13:25:45.5663421Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5663624Z [36;1m  }[0m
+2026-10-15T13:25:45.5663992Z [36;1m  git merge-base --is-ancestor "$event_base_revision" "$tested_base_revision" || {[0m
+2026-10-15T13:25:45.5664558Z [36;1m    echo 'declared event base is not an ancestor of the tested base revision' >&2[0m
+2026-10-15T13:25:45.5664965Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5665171Z [36;1m  }[0m
+2026-10-15T13:25:45.5665368Z [36;1mfi[0m
+2026-10-15T13:25:45.5665579Z [36;1mexpected_stage=pull_request[0m
+2026-10-15T13:25:45.5665919Z [36;1m[[ "$EVENT_NAME" == pull_request ]] || expected_stage=merge[0m
+2026-10-15T13:25:45.5666356Z [36;1mreceipt_stage="$(jq -er '.stage' target/quality-route.json)"[0m
+2026-10-15T13:25:45.5666909Z [36;1mtest "$receipt_head" = "$source_revision" || {[0m
+2026-10-15T13:25:45.5667352Z [36;1m  echo 'quality route receipt is bound to a different source revision' >&2[0m
+2026-10-15T13:25:45.5667746Z [36;1m  exit 1[0m
+2026-10-15T13:25:45.5667958Z [36;1m}[0m
+2026-10-15T13:25:45.5668194Z [36;1mif [[ "$EVENT_NAME" != pull_request ]]; then[0m
+2026-10-15T13:25:45.5668544Z [36;1m  test "$tested_revision" = "$source_revision"[0m
+2026-10-15T13:25:45.5668841Z [36;1mfi[0m
+2026-10-15T13:25:45.5669089Z [36;1mtest "$receipt_stage" = "$expected_stage" || {[0m
+2026-10-15T13:25:45.5669509Z [36;1m  echo 'quality route receipt is bound to a different event stage' >&2[0m
+2026-10-15T13:25:45.5669891Z [36;1m  exit 1[0m
+2026-10-15T13:25:45.5670098Z [36;1m}[0m
+2026-10-15T13:25:45.5670652Z [36;1mcontract_path="$(jq -r '.contractPath // empty' target/quality-route.json)"[0m
+2026-10-15T13:25:45.5671153Z [36;1mif [[ -n "$contract_path" ]]; then test -f "$contract_path"; fi[0m
+2026-10-15T13:25:45.5671667Z [36;1mselection_method="$(jq -er '.selectionMethod' target/quality-selection.json)"[0m
+2026-10-15T13:25:45.5672266Z [36;1mselection_contract_path="$(jq -r '.contractPath // empty' target/quality-selection.json)"[0m
+2026-10-15T13:25:45.5672796Z [36;1mtest "$selection_contract_path" = "$contract_path" || {[0m
+2026-10-15T13:25:45.5673269Z [36;1m  echo 'quality selection and typed route disagree on Contract path' >&2[0m
+2026-10-15T13:25:45.5673669Z [36;1m  exit 1[0m
+2026-10-15T13:25:45.5673870Z [36;1m}[0m
+2026-10-15T13:25:45.5674171Z [36;1mactive_contract='^\.ai/work-items/active/[^/]+\.contract\.json$'[0m
+2026-10-15T13:25:45.5674659Z [36;1marchived_contract='^\.ai/work-items/archive/[^/]+\.contract\.json$'[0m
+2026-10-15T13:25:45.5675057Z [36;1mcase "$selection_method" in[0m
+2026-10-15T13:25:45.5675391Z [36;1m  pull_request_binding|pull_request_branch_work_item)[0m
+2026-10-15T13:25:45.5675869Z [36;1m    [[ "$EVENT_NAME" == pull_request && "$contract_path" =~ $active_contract ]] || exit 1[0m
+2026-10-15T13:25:45.5676303Z [36;1m    lane=active[0m
+2026-10-15T13:25:45.5676524Z [36;1m    ;;[0m
+2026-10-15T13:25:45.5676746Z [36;1m  merged_pull_request_binding)[0m
+2026-10-15T13:25:45.5677131Z [36;1m    [[ "$EVENT_NAME" == push && "$contract_path" =~ $active_contract ]] || exit 1[0m
+2026-10-15T13:25:45.5677524Z [36;1m    lane=active[0m
+2026-10-15T13:25:45.5677746Z [36;1m    ;;[0m
+2026-10-15T13:25:45.5678104Z [36;1m  archived_contract_read_only)[0m
+2026-10-15T13:25:45.5678528Z [36;1m    [[ "$EVENT_NAME" == pull_request && "$contract_path" =~ $archived_contract ]] || exit 1[0m
+2026-10-15T13:25:45.5678962Z [36;1m    lane=archived[0m
+2026-10-15T13:25:45.5679191Z [36;1m    ;;[0m
+2026-10-15T13:25:45.5679407Z [36;1m  ordinary_repository_route)[0m
+2026-10-15T13:25:45.5679699Z [36;1m    [[ -z "$contract_path" ]] || exit 1[0m
+2026-10-15T13:25:45.5679992Z [36;1m    lane=ordinary[0m
+2026-10-15T13:25:45.5680216Z [36;1m    ;;[0m
+2026-10-15T13:25:45.5680628Z [36;1m  *)[0m
+2026-10-15T13:25:45.5680912Z [36;1m    echo 'unsupported quality selection method' >&2[0m
+2026-10-15T13:25:45.5681244Z [36;1m    exit 1[0m
+2026-10-15T13:25:45.5681448Z [36;1m    ;;[0m
+2026-10-15T13:25:45.5681640Z [36;1mesac[0m
+2026-10-15T13:25:45.5682029Z [36;1mecho "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"[0m
+2026-10-15T13:25:45.5682687Z [36;1mecho "base_revision=$(jq -er '.baseRevision' target/quality-route.json)" >> "$GITHUB_OUTPUT"[0m
+2026-10-15T13:25:45.5683216Z [36;1mecho "head_revision=$receipt_head" >> "$GITHUB_OUTPUT"[0m
+2026-10-15T13:25:45.5683636Z [36;1mecho "tested_revision=$tested_revision" >> "$GITHUB_OUTPUT"[0m
+2026-10-15T13:25:45.5684038Z [36;1mecho "stage=$receipt_stage" >> "$GITHUB_OUTPUT"[0m
+2026-10-15T13:25:45.5684436Z [36;1mecho "contract_path=$contract_path" >> "$GITHUB_OUTPUT"[0m
+2026-10-15T13:25:45.5684802Z [36;1mecho "lane=$lane" >> "$GITHUB_OUTPUT"[0m
+2026-10-15T13:25:45.5743655Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:45.5744151Z env:
+2026-10-15T13:25:45.5744447Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:45.5744746Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:45.5744988Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:45.5745229Z   EVENT_NAME: push
+2026-10-15T13:25:45.5745441Z   PR_HEAD_SHA: 
+2026-10-15T13:25:45.5745641Z   PR_BASE_SHA: 
+2026-10-15T13:25:45.5745837Z ##[endgroup]
+2026-10-15T13:25:45.6426569Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-15T13:25:45.6427013Z with:
+2026-10-15T13:25:45.6427238Z   name: ci-quality-revision-binding
+2026-10-15T13:25:45.6427546Z   path: target/ci-revision-binding.json
+2026-10-15T13:25:45.6427845Z   if-no-files-found: warn
+2026-10-15T13:25:45.6428085Z   retention-days: 7
+2026-10-15T13:25:45.6428306Z   compression-level: 6
+2026-10-15T13:25:45.6428530Z   overwrite: false
+2026-10-15T13:25:45.6428773Z   include-hidden-files: false
+2026-10-15T13:25:45.6429018Z   archive: true
+2026-10-15T13:25:45.6429217Z env:
+2026-10-15T13:25:45.6429433Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:45.6429699Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:45.6429930Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:45.6430163Z ##[endgroup]
+2026-10-15T13:25:45.8001469Z With the provided path, there will be 1 file uploaded
+2026-10-15T13:25:45.8032054Z Artifact name is valid!
+2026-10-15T13:25:45.8032903Z Root directory input is valid!
+2026-10-15T13:25:45.9822273Z Uploading artifact: ci-quality-revision-binding.zip
+2026-10-15T13:25:45.9868177Z Beginning upload of artifact content to blob storage
+2026-10-15T13:25:46.0634275Z Uploaded bytes 387
+2026-10-15T13:25:46.0854269Z Finished uploading artifact content to blob storage!
+2026-10-15T13:25:46.0856093Z SHA256 digest of uploaded artifact is 59460bb00bf77fe3817adc0b7515cbb63d946647fddf004e9e26c4d5a6997f9d
+2026-10-15T13:25:46.0857847Z Finalizing artifact upload
+2026-10-15T13:25:46.3343423Z Artifact ci-quality-revision-binding successfully finalized. Artifact ID 11976515178
+2026-10-15T13:25:46.3345585Z Artifact ci-quality-revision-binding has been successfully uploaded! Final size is 387 bytes. Artifact ID is 11976515178
+2026-10-15T13:25:46.3347780Z Artifact download URL: https://github.com/xinglun/ai-cockpit/actions/runs/38741962234/artifacts/11976515178
+2026-10-15T13:25:46.3471288Z ##[group]Run set -euo pipefail
+2026-10-15T13:25:46.3471676Z [36;1mset -euo pipefail[0m
+2026-10-15T13:25:46.3472154Z [36;1mtest "$(jq -er '.selectedProfile' target/quality-route.json)" = "$ROUTE_PROFILE_FROM_PLAN"[0m
+2026-10-15T13:25:46.3533884Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:46.3534271Z env:
+2026-10-15T13:25:46.3534502Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:46.3534809Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:46.3535065Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:46.3535347Z   ROUTE_PROFILE_FROM_PLAN: strict
+2026-10-15T13:25:46.3535631Z ##[endgroup]
+2026-10-15T13:25:46.3722230Z ##[group]Run set -euo pipefail
+2026-10-15T13:25:46.3722576Z [36;1mset -euo pipefail[0m
+2026-10-15T13:25:46.3722996Z [36;1mlegacy_parent="$(mktemp -d "$RUNNER_TEMP/ai-cockpit-legacy.XXXXXX")"[0m
+2026-10-15T13:25:46.3723449Z [36;1mlegacy_source="$legacy_parent/source"[0m
+2026-10-15T13:25:46.3723763Z [36;1mcleanup() {[0m
+2026-10-15T13:25:46.3733308Z [36;1m  git worktree remove --force "$legacy_source" >/dev/null 2>&1 || true[0m
+2026-10-15T13:25:46.3734043Z [36;1m  rmdir "$legacy_parent" 2>/dev/null || true[0m
+2026-10-15T13:25:46.3734372Z [36;1m}[0m
+2026-10-15T13:25:46.3734600Z [36;1mtrap cleanup EXIT[0m
+2026-10-15T13:25:46.3734962Z [36;1mgit worktree add --detach "$legacy_source" "$LEGACY_RUNTIME_SHA"[0m
+2026-10-15T13:25:46.3735388Z [36;1mcargo build --locked --release \[0m
+2026-10-15T13:25:46.3735756Z [36;1m  --manifest-path "$legacy_source/Cargo.toml" \[0m
+2026-10-15T13:25:46.3736183Z [36;1m  --target-dir "$GITHUB_WORKSPACE/target/legacy-runtime" \[0m
+2026-10-15T13:25:46.3736622Z [36;1m  -p cockpit-cli --bin ai-cockpit[0m
+2026-10-15T13:25:46.3737070Z [36;1mtest -x "$GITHUB_WORKSPACE/target/legacy-runtime/release/ai-cockpit"[0m
+2026-10-15T13:25:46.3792882Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:25:46.3793260Z env:
+2026-10-15T13:25:46.3793481Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:25:46.3793760Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:25:46.3794007Z   CARGO_TERM_COLOR: always
+2026-10-15T13:25:46.3794333Z   LEGACY_RUNTIME_SHA: 73f8bd2b86338f8025ef12ba9fff15bf45ef5782
+2026-10-15T13:25:46.3794705Z ##[endgroup]
+2026-10-15T13:25:46.3905486Z Preparing worktree (detached HEAD 73f8bd2b)
+2026-10-15T13:25:47.3274076Z HEAD is now at 73f8bd2b Merge pull request #990 from xinglun/codex/release-v0-2-113
+2026-10-15T13:25:47.3896092Z [1m[92m    Updating[0m crates.io index
+2026-10-15T13:25:47.6095101Z [1m[92m Downloading[0m crates ...
+2026-10-15T13:25:47.6683639Z [1m[92m  Downloaded[0m anstyle-query v1.1.5
+2026-10-15T13:25:47.6706212Z [1m[92m  Downloaded[0m anstream v1.0.0
+2026-10-15T13:25:47.6726465Z [1m[92m  Downloaded[0m digest v0.10.7
+2026-10-15T13:25:47.6746393Z [1m[92m  Downloaded[0m heck v0.5.0
+2026-10-15T13:25:47.6760922Z [1m[92m  Downloaded[0m ambient-authority v0.0.2
+2026-10-15T13:25:47.6779323Z [1m[92m  Downloaded[0m clap_derive v4.6.7
+2026-10-15T13:25:47.6802634Z [1m[92m  Downloaded[0m thiserror v2.0.20
+2026-10-15T13:25:47.6870257Z [1m[92m  Downloaded[0m chrono v0.4.45
+2026-10-15T13:25:47.6936847Z [1m[92m  Downloaded[0m anstyle v1.0.14
+2026-10-15T13:25:47.6951460Z [1m[92m  Downloaded[0m winnow v1.0.4
+2026-10-15T13:25:47.7051597Z [1m[92m  Downloaded[0m cap-primitives v4.0.3
+2026-10-15T13:25:47.7170043Z [1m[92m  Downloaded[0m rustix v1.1.4
+2026-10-15T13:25:47.7454793Z [1m[92m  Downloaded[0m proc-macro2 v1.0.107
+2026-10-15T13:25:47.7485445Z [1m[92m  Downloaded[0m typenum v1.20.1
+2026-10-15T13:25:47.7520239Z [1m[92m  Downloaded[0m is_terminal_polyfill v1.70.2
+2026-10-15T13:25:47.7529526Z [1m[92m  Downloaded[0m once_cell v1.21.4
+2026-10-15T13:25:47.7555050Z [1m[92m  Downloaded[0m serde_core v1.0.229
+2026-10-15T13:25:47.7582506Z [1m[92m  Downloaded[0m serde_json v1.0.151
+2026-10-15T13:25:47.7657431Z [1m[92m  Downloaded[0m maybe-owned v0.3.4
+2026-10-15T13:25:47.7670528Z [1m[92m  Downloaded[0m anyhow v1.0.104
+2026-10-15T13:25:47.7714390Z [1m[92m  Downloaded[0m generic-array v0.14.7
+2026-10-15T13:25:47.7728743Z [1m[92m  Downloaded[0m autocfg v1.5.1
+2026-10-15T13:25:47.7748490Z [1m[92m  Downloaded[0m equivalent v1.0.2
+2026-10-15T13:25:47.7759016Z [1m[92m  Downloaded[0m ipnet v2.12.1
+2026-10-15T13:25:47.7775754Z [1m[92m  Downloaded[0m indexmap v2.14.0
+2026-10-15T13:25:47.7819156Z [1m[92m  Downloaded[0m itoa v1.0.18
+2026-10-15T13:25:47.7835135Z [1m[92m  Downloaded[0m fastrand v2.5.0
+2026-10-15T13:25:47.7849615Z [1m[92m  Downloaded[0m anstyle-parse v1.0.0
+2026-10-15T13:25:47.7866310Z [1m[92m  Downloaded[0m toml v0.9.12+spec-1.1.0
+2026-10-15T13:25:47.7908493Z [1m[92m  Downloaded[0m sha2 v0.10.9
+2026-10-15T13:25:47.7934718Z [1m[92m  Downloaded[0m serde v1.0.229
+2026-10-15T13:25:47.7969702Z [1m[92m  Downloaded[0m num-traits v0.2.19
+2026-10-15T13:25:47.7996776Z [1m[92m  Downloaded[0m memchr v2.8.3
+2026-10-15T13:25:47.8053865Z [1m[92m  Downloaded[0m version_check v0.9.5
+2026-10-15T13:25:47.8066816Z [1m[92m  Downloaded[0m cfg-if v1.0.4
+2026-10-15T13:25:47.8080167Z [1m[92m  Downloaded[0m strsim v0.11.1
+2026-10-15T13:25:47.8093385Z [1m[92m  Downloaded[0m clap_lex v1.1.0
+2026-10-15T13:25:47.8104453Z [1m[92m  Downloaded[0m quote v1.0.47
+2026-10-15T13:25:47.8132554Z [1m[92m  Downloaded[0m tempfile v3.27.0
+2026-10-15T13:25:47.8158424Z [1m[92m  Downloaded[0m block-buffer v0.10.4
+2026-10-15T13:25:47.8169266Z [1m[92m  Downloaded[0m colorchoice v1.0.5
+2026-10-15T13:25:47.8178991Z [1m[92m  Downloaded[0m io-lifetimes v2.0.4
+2026-10-15T13:25:47.8196128Z [1m[92m  Downloaded[0m hashbrown v0.17.1
+2026-10-15T13:25:47.8250011Z [1m[92m  Downloaded[0m toml_datetime v0.7.5+spec-1.1.0
+2026-10-15T13:25:47.8263112Z [1m[92m  Downloaded[0m hex v0.4.3
+2026-10-15T13:25:47.8280321Z [1m[92m  Downloaded[0m iana-time-zone v0.1.65
+2026-10-15T13:25:47.8309438Z [1m[92m  Downloaded[0m serde_spanned v1.1.1
+2026-10-15T13:25:47.8321746Z [1m[92m  Downloaded[0m zmij v1.0.23
+2026-10-15T13:25:47.8339688Z [1m[92m  Downloaded[0m fs-set-times v0.20.3
+2026-10-15T13:25:47.8354161Z [1m[92m  Downloaded[0m bitflags v2.13.1
+2026-10-15T13:25:47.8400446Z [1m[92m  Downloaded[0m errno v0.3.14
+2026-10-15T13:25:47.8416441Z [1m[92m  Downloaded[0m clap_builder v4.6.7
+2026-10-15T13:25:47.8481318Z [1m[92m  Downloaded[0m io-extras v0.19.0
+2026-10-15T13:25:47.8503961Z [1m[92m  Downloaded[0m winnow v0.7.15
+2026-10-15T13:25:47.8602353Z [1m[92m  Downloaded[0m cpufeatures v0.2.17
+2026-10-15T13:25:47.8616453Z [1m[92m  Downloaded[0m io-lifetimes v3.0.1
+2026-10-15T13:25:47.8633645Z [1m[92m  Downloaded[0m libc v0.2.189
+2026-10-15T13:25:47.9081067Z [1m[92m  Downloaded[0m crypto-common v0.1.7
+2026-10-15T13:25:47.9090887Z [1m[92m  Downloaded[0m toml_writer v1.1.2+spec-1.1.0
+2026-10-15T13:25:47.9104668Z [1m[92m  Downloaded[0m utf8parse v0.2.2
+2026-10-15T13:25:47.9115111Z [1m[92m  Downloaded[0m thiserror-impl v2.0.20
+2026-10-15T13:25:47.9129677Z [1m[92m  Downloaded[0m toml_parser v1.1.3+spec-1.1.0
+2026-10-15T13:25:47.9152877Z [1m[92m  Downloaded[0m cap-fs-ext v4.0.3
+2026-10-15T13:25:47.9169515Z [1m[92m  Downloaded[0m serde_derive v1.0.229
+2026-10-15T13:25:47.9200491Z [1m[92m  Downloaded[0m unicode-ident v1.0.24
+2026-10-15T13:25:47.9228950Z [1m[92m  Downloaded[0m clap v4.6.7
+2026-10-15T13:25:47.9330064Z [1m[92m  Downloaded[0m getrandom v0.4.3
+2026-10-15T13:25:47.9369571Z [1m[92m  Downloaded[0m syn v3.0.3
+2026-10-15T13:25:47.9479032Z [1m[92m  Downloaded[0m cap-std v4.0.3
+2026-10-15T13:25:47.9510076Z [1m[92m  Downloaded[0m rustix-linux-procfs v0.1.1
+2026-10-15T13:25:47.9524488Z [1m[92m  Downloaded[0m linux-raw-sys v0.12.1
+2026-10-15T13:25:48.0483831Z [1m[92m   Compiling[0m proc-macro2 v1.0.107
+2026-10-15T13:25:48.0484855Z [1m[92m   Compiling[0m unicode-ident v1.0.24
+2026-10-15T13:25:48.0485862Z [1m[92m   Compiling[0m quote v1.0.47
+2026-10-15T13:25:48.0486971Z [1m[92m   Compiling[0m serde_core v1.0.229
+2026-10-15T13:25:48.1102033Z [1m[92m   Compiling[0m version_check v0.9.5
+2026-10-15T13:25:48.2727259Z [1m[92m   Compiling[0m generic-array v0.14.7
+2026-10-15T13:25:48.2826558Z [1m[92m   Compiling[0m typenum v1.20.1
+2026-10-15T13:25:48.3598340Z [1m[92m   Compiling[0m cfg-if v1.0.4
+2026-10-15T13:25:48.3841789Z [1m[92m   Compiling[0m serde v1.0.229
+2026-10-15T13:25:48.5471679Z [1m[92m   Compiling[0m zmij v1.0.23
+2026-10-15T13:25:48.6599205Z [1m[92m   Compiling[0m thiserror v2.0.20
+2026-10-15T13:25:48.9781816Z [1m[92m   Compiling[0m cpufeatures v0.2.17
+2026-10-15T13:25:49.0061687Z [1m[92m   Compiling[0m syn v3.0.3
+2026-10-15T13:25:49.0496103Z [1m[92m   Compiling[0m rustix v1.1.4
+2026-10-15T13:25:49.2571980Z [1m[92m   Compiling[0m utf8parse v0.2.2
+2026-10-15T13:25:49.3012291Z [1m[92m   Compiling[0m serde_json v1.0.151
+2026-10-15T13:25:49.3888728Z [1m[92m   Compiling[0m anstyle-parse v1.0.0
+2026-10-15T13:25:49.7262009Z [1m[92m   Compiling[0m crypto-common v0.1.7
+2026-10-15T13:25:49.7887513Z [1m[92m   Compiling[0m block-buffer v0.10.4
+2026-10-15T13:25:49.8351971Z [1m[92m   Compiling[0m memchr v2.8.3
+2026-10-15T13:25:49.8721840Z [1m[92m   Compiling[0m digest v0.10.7
+2026-10-15T13:25:50.0292253Z [1m[92m   Compiling[0m sha2 v0.10.9
+2026-10-15T13:25:50.7045958Z [1m[92m   Compiling[0m linux-raw-sys v0.12.1
+2026-10-15T13:25:50.8091815Z [1m[92m   Compiling[0m colorchoice v1.0.5
+2026-10-15T13:25:50.8501932Z [1m[92m   Compiling[0m is_terminal_polyfill v1.70.2
+2026-10-15T13:25:50.8759159Z [1m[92m   Compiling[0m anstyle v1.0.14
+2026-10-15T13:25:50.8797120Z [1m[92m   Compiling[0m bitflags v2.13.1
+2026-10-15T13:25:51.0512019Z [1m[92m   Compiling[0m hex v0.4.3
+2026-10-15T13:25:51.0601565Z [1m[92m   Compiling[0m itoa v1.0.18
+2026-10-15T13:25:51.1252122Z [1m[92m   Compiling[0m anstyle-query v1.1.5
+2026-10-15T13:25:51.1707242Z [1m[92m   Compiling[0m anstream v1.0.0
+2026-10-15T13:25:51.4861618Z [1m[92m   Compiling[0m strsim v0.11.1
+2026-10-15T13:25:51.9822019Z [1m[92m   Compiling[0m io-lifetimes v3.0.1
+2026-10-15T13:25:52.1511868Z [1m[92m   Compiling[0m clap_lex v1.1.0
+2026-10-15T13:25:52.3621908Z [1m[92m   Compiling[0m io-lifetimes v2.0.4
+2026-10-15T13:25:52.4982156Z [1m[92m   Compiling[0m heck v0.5.0
+2026-10-15T13:25:52.6415093Z [1m[92m   Compiling[0m clap_builder v4.6.7
+2026-10-15T13:25:52.7941932Z [1m[92m   Compiling[0m serde_derive v1.0.229
+2026-10-15T13:25:53.0039768Z [1m[92m   Compiling[0m thiserror-impl v2.0.20
+2026-10-15T13:25:54.1041923Z [1m[92m   Compiling[0m clap_derive v4.6.7
+2026-10-15T13:25:55.4992912Z [1m[92m   Compiling[0m once_cell v1.21.4
+2026-10-15T13:25:55.6621537Z [1m[92m   Compiling[0m io-extras v0.19.0
+2026-10-15T13:25:55.7781709Z [1m[92m   Compiling[0m libc v0.2.189
+2026-10-15T13:25:55.8111731Z [1m[92m   Compiling[0m winnow v1.0.4
+2026-10-15T13:25:56.0672171Z [1m[92m   Compiling[0m clap v4.6.7
+2026-10-15T13:25:56.2151884Z [1m[92m   Compiling[0m toml_parser v1.1.3+spec-1.1.0
+2026-10-15T13:25:56.2338317Z [1m[92m   Compiling[0m serde_spanned v1.1.1
+2026-10-15T13:25:56.3132574Z [1m[92m   Compiling[0m cockpit-core v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-core)
+2026-10-15T13:25:56.3632545Z [1m[92m   Compiling[0m toml_datetime v0.7.5+spec-1.1.0
+2026-10-15T13:25:56.6581708Z [1m[92m   Compiling[0m cap-primitives v4.0.3
+2026-10-15T13:25:56.8022174Z [1m[92m   Compiling[0m winnow v0.7.15
+2026-10-15T13:25:57.1522167Z [1m[92m   Compiling[0m toml_writer v1.1.2+spec-1.1.0
+2026-10-15T13:25:57.4482325Z [1m[92m   Compiling[0m cockpit-interface v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-interface)
+2026-10-15T13:25:57.7592186Z [1m[92m   Compiling[0m fs-set-times v0.20.3
+2026-10-15T13:25:58.7242386Z [1m[92m   Compiling[0m toml v0.9.12+spec-1.1.0
+2026-10-15T13:25:59.0144773Z [1m[92m   Compiling[0m rustix-linux-procfs v0.1.1
+2026-10-15T13:25:59.0346664Z [1m[92m   Compiling[0m autocfg v1.5.1
+2026-10-15T13:25:59.2871914Z [1m[92m   Compiling[0m maybe-owned v0.3.4
+2026-10-15T13:25:59.3451887Z [1m[92m   Compiling[0m getrandom v0.4.3
+2026-10-15T13:25:59.4427145Z [1m[92m   Compiling[0m cap-std v4.0.3
+2026-10-15T13:25:59.4531294Z [1m[92m   Compiling[0m ipnet v2.12.1
+2026-10-15T13:25:59.5950026Z [1m[92m   Compiling[0m ambient-authority v0.0.2
+2026-10-15T13:26:00.0021567Z [1m[92m   Compiling[0m cockpit-protocol v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-protocol)
+2026-10-15T13:26:00.1811945Z [1m[92m   Compiling[0m num-traits v0.2.19
+2026-10-15T13:26:00.2652176Z [1m[92m   Compiling[0m cap-fs-ext v4.0.3
+2026-10-15T13:26:00.7972546Z [1m[92m   Compiling[0m fastrand v2.5.0
+2026-10-15T13:26:00.9853596Z [1m[92m   Compiling[0m tempfile v3.27.0
+2026-10-15T13:26:01.5432499Z [1m[92m   Compiling[0m cockpit-evidence v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-evidence)
+2026-10-15T13:26:01.5762384Z [1m[92m   Compiling[0m cockpit-git v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-git)
+2026-10-15T13:26:01.6644456Z [1m[92m   Compiling[0m iana-time-zone v0.1.65
+2026-10-15T13:26:01.9721784Z [1m[92m   Compiling[0m chrono v0.4.45
+2026-10-15T13:26:02.1321822Z [1m[92m   Compiling[0m anyhow v1.0.104
+2026-10-15T13:26:02.7362610Z [1m[92m   Compiling[0m cockpit-isolation v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-isolation)
+2026-10-15T13:26:05.2739987Z [1m[92m   Compiling[0m cockpit-verification v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-verification)
+2026-10-15T13:26:05.2742939Z [1m[92m   Compiling[0m cockpit-knowledge v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-knowledge)
+2026-10-15T13:26:05.2745466Z [1m[92m   Compiling[0m cockpit-agent v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-agent)
+2026-10-15T13:26:07.4582672Z [1m[92m   Compiling[0m cockpit-repository v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-repository)
+2026-10-15T13:26:13.8464925Z [1m[92m   Compiling[0m cockpit-mcp v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-mcp)
+2026-10-15T13:26:56.8662526Z [1m[92m   Compiling[0m cockpit-cli v0.2.113 (/home/runner/work/_temp/ai-cockpit-legacy.x1CUhY/source/crates/cockpit-cli)
+2026-10-15T13:28:01.5155640Z [1m[92m    Finished[0m `release` profile [optimized] target(s) in 2m 14s
+2026-10-15T13:28:02.8497356Z ##[group]Run set -euo pipefail
+2026-10-15T13:28:02.8498042Z [36;1mset -euo pipefail[0m
+2026-10-15T13:28:02.8498606Z [36;1mverification_repository="$GITHUB_WORKSPACE"[0m
+2026-10-15T13:28:02.8499257Z [36;1mif [[ "$ROUTE_LANE" == active ]]; then[0m
+2026-10-15T13:28:02.8500169Z [36;1m  verification_repository=$(tests/ci/cleanup_hosted_runtime_verification_worktree.sh \[0m
+2026-10-15T13:28:02.8501719Z [36;1m    --resolve "$GITHUB_WORKSPACE" target/hosted-runtime-worktree-cleanup.json)[0m
+2026-10-15T13:28:02.8502546Z [36;1mfi[0m
+2026-10-15T13:28:02.8503163Z [36;1mexport AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"[0m
+2026-10-15T13:28:02.8504065Z [36;1m# The gate consumes GitHub's immutable push/PR context[0m
+2026-10-15T13:28:02.8504945Z [36;1m# (GITHUB_EVENT_NAME, GITHUB_REF, GITHUB_SHA) to recognize only the[0m
+2026-10-15T13:28:02.8505915Z [36;1m# bounded post-merge archive-to-close transition. No bypass context[0m
+2026-10-15T13:28:02.8506937Z [36;1m# or repository-global current-project state is introduced here.[0m
+2026-10-15T13:28:02.8507678Z [36;1mgate_args=([0m
+2026-10-15T13:28:02.8508170Z [36;1m  python3 tests/ci/run_repository_gates.py[0m
+2026-10-15T13:28:02.8508786Z [36;1m  --repo "$GITHUB_WORKSPACE"[0m
+2026-10-15T13:28:02.8509421Z [36;1m  --manifest tests/ci/repository_gate_manifest.json[0m
+2026-10-15T13:28:02.8510146Z [36;1m  --route-receipt target/quality-route.json[0m
+2026-10-15T13:28:02.8511087Z [36;1m  --report target/repository-gates.json[0m
+2026-10-15T13:28:02.8511751Z [36;1m  --gate-plan-bin target/release/ai-cockpit[0m
+2026-10-15T13:28:02.8512322Z [36;1m)[0m
+2026-10-15T13:28:02.8512771Z [36;1mif [[ -n "$ROUTE_CONTRACT_PATH" ]]; then[0m
+2026-10-15T13:28:02.8513631Z [36;1m  gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)[0m
+2026-10-15T13:28:02.8514544Z [36;1mfi[0m
+2026-10-15T13:28:02.8514935Z [36;1m"${gate_args[@]}"[0m
+2026-10-15T13:28:02.8595630Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:28:02.8595985Z env:
+2026-10-15T13:28:02.8596197Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:28:02.8596481Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:28:02.8596721Z   CARGO_TERM_COLOR: always
+2026-10-15T13:28:02.8596976Z   ROUTE_LANE: ordinary
+2026-10-15T13:28:02.8597211Z   ROUTE_CONTRACT_PATH: 
+2026-10-15T13:28:02.8597451Z   ROUTE_PROFILE: strict
+2026-10-15T13:28:02.8597697Z   AI_COCKPIT_VERIFICATION_RECEIPT: 
+2026-10-15T13:28:02.8597993Z   AI_COCKPIT_VERIFICATION_ORCHESTRATION: 
+2026-10-15T13:28:02.8598326Z   AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit
+2026-10-15T13:28:02.8598951Z   CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER: /home/runner/work/ai-cockpit/ai-cockpit/tests/ci/run_process_observer_test_runner.sh
+2026-10-15T13:28:02.8599528Z ##[endgroup]
+2026-10-15T13:28:06.5293228Z repository gate docs_closed_work_item_promotion: passed
+2026-10-15T13:28:09.3993025Z repository gate docs_acceptance: passed
+2026-10-15T13:28:14.2263563Z repository gate docs_closed_work_item_promotion_regression: passed
+2026-10-15T13:28:14.5930193Z repository gate docs_governance_integrity: passed
+2026-10-15T13:28:14.6858099Z repository gate docs_interface_reference_generation: passed
+2026-10-15T13:28:14.9083820Z repository gate docs_parity_regression: passed
+2026-10-15T13:28:18.5998786Z repository gate docs_pending_parity_registry_regression: passed
+2026-10-15T13:28:23.2296591Z repository gate docs_work_item_status_consistency: passed
+2026-10-15T13:28:23.2931023Z repository gate release_action_runtime: passed
+2026-10-15T13:28:23.3534756Z repository gate release_adopter_receipt_schema: passed
+2026-10-15T13:28:23.4468964Z repository gate release_annotated_tag: passed
+2026-10-15T13:28:23.4629973Z repository gate release_close_state_regression: passed
+2026-10-15T13:28:23.6320956Z repository gate release_policy_regression: passed
+2026-10-15T13:28:23.8117461Z repository gate release_source_archive: passed
+2026-10-15T13:28:39.1975278Z repository gate release_version_consistency: passed
+2026-10-15T13:28:39.2235566Z repository gate release_version_consistency_policy: passed
+2026-10-15T13:28:39.6943619Z repository gate release_workflow_policy: passed
+2026-10-15T13:28:52.4885501Z repository gate release_adopter: passed
+2026-10-15T13:29:02.0608658Z repository gate release_adopter_acceptance_resume: passed
+2026-10-15T13:29:03.8992798Z repository gate release_adopter_upgrade: passed
+2026-10-15T13:29:16.6400051Z repository gate workflow_resource_finalization: passed
+2026-10-15T13:29:35.9925319Z repository gate ci_governance_integrity_regression: passed
+2026-10-15T13:29:44.4602917Z repository gate ci_hosted_runtime_verification_regression: passed
+2026-10-15T13:29:44.4832979Z repository gate ci_inspect_projection_boundary: passed
+2026-10-15T13:29:44.5138213Z repository gate ci_knowledge_projection_boundary: passed
+2026-10-15T13:29:49.3410637Z repository gate ci_manifest_regression: passed
+2026-10-15T13:29:50.3345692Z repository gate ci_process_observer_test_runner: passed
+2026-10-15T13:29:50.5148125Z repository gate ci_quality_route_regression: passed
+2026-10-15T13:29:50.5530925Z repository gate ci_runtime_shadow_regression: passed
+2026-10-15T13:29:55.4312161Z repository gate ci_work_item_resolution_regression: passed
+2026-10-15T13:29:56.2658270Z repository gate ci_workflow_convergence: passed
+2026-10-15T13:30:04.4737345Z repository gate ci_workspace_coverage_regression: passed
+2026-10-15T13:30:43.3669982Z repository gate conformance_contract_amendment_processes: passed
+2026-10-15T13:30:59.1346745Z repository gate conformance_cross_wi_coordination_processes: passed
+2026-10-15T13:30:59.1508783Z repository gate conformance_final_replacement: passed
+2026-10-15T13:31:01.1429557Z repository gate conformance_reference_file_inventory: passed
+2026-10-15T13:31:09.6792779Z repository gate evaluation_wi750_cognitive_benefit: passed
+2026-10-15T13:31:10.1349724Z repository gate performance_p0_regression: passed
+2026-10-15T13:31:10.2024179Z repository gate performance_regression: passed
+2026-10-15T13:31:37.5793133Z repository gate workspace_clippy: passed
+2026-10-15T13:31:39.7005013Z repository gate workspace_format: passed
+2026-10-15T13:39:27.8986513Z repository gate workspace_package_tests: passed
+2026-10-15T13:39:27.9162118Z ##[group]Run test -f target/workspace-package-coverage.json && test ! -L target/workspace-package-coverage.json
+2026-10-15T13:39:27.9163100Z [36;1mtest -f target/workspace-package-coverage.json && test ! -L target/workspace-package-coverage.json[0m
+2026-10-15T13:39:28.0319300Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:39:28.0319890Z env:
+2026-10-15T13:39:28.0320228Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:39:28.0320935Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:39:28.0321321Z   CARGO_TERM_COLOR: always
+2026-10-15T13:39:28.0321708Z ##[endgroup]
+2026-10-15T13:39:28.0487403Z ##[group]Run set -euo pipefail
+2026-10-15T13:39:28.0487992Z [36;1mset -euo pipefail[0m
+2026-10-15T13:39:28.0488519Z [36;1mwhile IFS= read -r english; do[0m
+2026-10-15T13:39:28.0489093Z [36;1m  test -f "${english%.md}.zh-CN.md"[0m
+2026-10-15T13:39:28.0489644Z [36;1m  test -f "${english%.md}.ja.md"[0m
+2026-10-15T13:39:28.0490872Z [36;1mdone < <(find docs/work-items -maxdepth 1 -name 'WI-*.md' ! -name '*.zh-CN.md' ! -name '*.ja.md' | sort)[0m
+2026-10-15T13:39:28.0583694Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-15T13:39:28.0584718Z env:
+2026-10-15T13:39:28.0585130Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:39:28.0585644Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:39:28.0586089Z   CARGO_TERM_COLOR: always
+2026-10-15T13:39:28.0586537Z ##[endgroup]
+2026-10-15T13:39:28.1129704Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-15T13:39:28.1130192Z with:
+2026-10-15T13:39:28.1130708Z   name: repository-gate-receipts
+2026-10-15T13:39:28.1131793Z   path: target/governance-integrity-report.json
+target/quality-route.json
+target/repository-gates.json
+
+2026-10-15T13:39:28.1132835Z   if-no-files-found: error
+2026-10-15T13:39:28.1133315Z   retention-days: 7
+2026-10-15T13:39:28.1133744Z   compression-level: 6
+2026-10-15T13:39:28.1134187Z   overwrite: false
+2026-10-15T13:39:28.1134623Z   include-hidden-files: false
+2026-10-15T13:39:28.1135104Z   archive: true
+2026-10-15T13:39:28.1135487Z env:
+2026-10-15T13:39:28.1135860Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:39:28.1136383Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:39:28.1136827Z   CARGO_TERM_COLOR: always
+2026-10-15T13:39:28.1137265Z ##[endgroup]
+2026-10-15T13:39:28.4129523Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-15T13:39:28.4132657Z The least common ancestor is /home/runner/work/ai-cockpit/ai-cockpit/target. This will be the root directory of the artifact
+2026-10-15T13:39:28.4133951Z With the provided path, there will be 3 files uploaded
+2026-10-15T13:39:28.4138326Z Artifact name is valid!
+2026-10-15T13:39:28.4138938Z Root directory input is valid!
+2026-10-15T13:39:28.6330967Z Uploading artifact: repository-gate-receipts.zip
+2026-10-15T13:39:28.6369792Z Beginning upload of artifact content to blob storage
+2026-10-15T13:39:28.7400990Z Uploaded bytes 28788
+2026-10-15T13:39:28.7635670Z Finished uploading artifact content to blob storage!
+2026-10-15T13:39:28.7637155Z SHA256 digest of uploaded artifact is c5b341e508f0282081d67ccc404b6b1e1ac5f3120b34b0dabd6b65da506bd8a8
+2026-10-15T13:39:28.7638541Z Finalizing artifact upload
+2026-10-15T13:39:29.0379163Z Artifact repository-gate-receipts successfully finalized. Artifact ID 11977627152
+2026-10-15T13:39:29.0381546Z Artifact repository-gate-receipts has been successfully uploaded! Final size is 28788 bytes. Artifact ID is 11977627152
+2026-10-15T13:39:29.0385202Z Artifact download URL: https://github.com/xinglun/ai-cockpit/actions/runs/38741962234/artifacts/11977627152
+2026-10-15T13:39:29.2387104Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-15T13:39:29.2387561Z with:
+2026-10-15T13:39:29.2387795Z   name: repository-gate-diagnostics
+2026-10-15T13:39:29.2388140Z   path: target/repository-gate-diagnostics/*.log
+2026-10-15T13:39:29.2388484Z   if-no-files-found: error
+2026-10-15T13:39:29.2388745Z   retention-days: 7
+2026-10-15T13:39:29.2388981Z   compression-level: 6
+2026-10-15T13:39:29.2389228Z   overwrite: false
+2026-10-15T13:39:29.2389469Z   include-hidden-files: false
+2026-10-15T13:39:29.2389752Z   archive: true
+2026-10-15T13:39:29.2389961Z env:
+2026-10-15T13:39:29.2390182Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:39:29.2390814Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:39:29.2391078Z   CARGO_TERM_COLOR: always
+2026-10-15T13:39:29.2391322Z ##[endgroup]
+2026-10-15T13:39:29.3949919Z With the provided path, there will be 1 file uploaded
+2026-10-15T13:39:29.3958093Z Artifact name is valid!
+2026-10-15T13:39:29.3959774Z Root directory input is valid!
+2026-10-15T13:39:29.6048082Z Uploading artifact: repository-gate-diagnostics.zip
+2026-10-15T13:39:29.6090860Z Beginning upload of artifact content to blob storage
+2026-10-15T13:39:29.6878681Z Uploaded bytes 2966
+2026-10-15T13:39:29.7049490Z Finished uploading artifact content to blob storage!
+2026-10-15T13:39:29.7051500Z SHA256 digest of uploaded artifact is b62be2e3eb6ef6e3917d26ae390ae625b3ff1d7dc90622d767d42e9f975afbfb
+2026-10-15T13:39:29.7053007Z Finalizing artifact upload
+2026-10-15T13:39:29.9669377Z Artifact repository-gate-diagnostics successfully finalized. Artifact ID 11977332105
+2026-10-15T13:39:29.9672009Z Artifact repository-gate-diagnostics has been successfully uploaded! Final size is 2966 bytes. Artifact ID is 11977332105
+2026-10-15T13:39:29.9674317Z Artifact download URL: https://github.com/xinglun/ai-cockpit/actions/runs/38741962234/artifacts/11977332105
+2026-10-15T13:39:30.0387554Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-15T13:39:30.0388005Z with:
+2026-10-15T13:39:30.0388245Z   name: workspace-package-coverage
+2026-10-15T13:39:30.0388593Z   path: target/workspace-package-coverage.json
+
+2026-10-15T13:39:30.0388945Z   if-no-files-found: error
+2026-10-15T13:39:30.0389214Z   retention-days: 7
+2026-10-15T13:39:30.0389453Z   compression-level: 6
+2026-10-15T13:39:30.0389699Z   overwrite: false
+2026-10-15T13:39:30.0389937Z   include-hidden-files: false
+2026-10-15T13:39:30.0390209Z   archive: true
+2026-10-15T13:39:30.0390793Z env:
+2026-10-15T13:39:30.0391028Z   CARGO_HOME: /home/runner/.cargo
+2026-10-15T13:39:30.0391331Z   CARGO_INCREMENTAL: 0
+2026-10-15T13:39:30.0391577Z   CARGO_TERM_COLOR: always
+2026-10-15T13:39:30.0391823Z ##[endgroup]
+2026-10-15T13:39:30.1901496Z With the provided path, there will be 1 file uploaded
+2026-10-15T13:39:30.1903012Z Artifact name is valid!
+2026-10-15T13:39:30.1903773Z Root directory input is valid!
+2026-10-15T13:39:30.4145323Z Uploading artifact: workspace-package-coverage.zip
+2026-10-15T13:39:30.4190046Z Beginning upload of artifact content to blob storage
+2026-10-15T13:39:30.4995044Z Uploaded bytes 399
+2026-10-15T13:39:30.5163399Z Finished uploading artifact content to blob storage!
+2026-10-15T13:39:30.5164428Z SHA256 digest of uploaded artifact is db780909d5de8a39f7fcd233116bc0cd6469b90197ef415ccf09bb5940f3d7eb
+2026-10-15T13:39:30.5165424Z Finalizing artifact upload
+2026-10-15T13:39:30.7820486Z Artifact workspace-package-coverage successfully finalized. Artifact ID 11977132297
+2026-10-15T13:39:30.7821945Z Artifact workspace-package-coverage has been successfully uploaded! Final size is 399 bytes. Artifact ID is 11977132297
+2026-10-15T13:39:30.7824877Z Artifact download URL: https://github.com/xinglun/ai-cockpit/actions/runs/38741962234/artifacts/11977132297
+2026-10-15T13:39:30.8019932Z Post job cleanup.
+2026-10-15T13:39:30.9014910Z [command]/usr/bin/git version
+2026-10-15T13:39:30.9075173Z git version 2.55.0
+2026-10-15T13:39:30.9114144Z Temporarily overriding HOME='/home/runner/work/_temp/6b92e670-b04d-49bb-9795-dc9de97ccb5a' before making global git config changes
+2026-10-15T13:39:30.9115607Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-15T13:39:30.9120774Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ai-cockpit/ai-cockpit
+2026-10-15T13:39:30.9159014Z Removing SSH command configuration
+2026-10-15T13:39:30.9166437Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-15T13:39:30.9206688Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-15T13:39:30.9498781Z Removing HTTP extra header
+2026-10-15T13:39:30.9499890Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-15T13:39:30.9533874Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-15T13:39:30.9827280Z Removing includeIf entries pointing to credentials config files
+2026-10-15T13:39:30.9828174Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-15T13:39:30.9897734Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-15T13:39:31.0325398Z Cleaning up orphan processes

@@ -1,0 +1,103 @@
+{
+  "command": [
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/debug/ai-cockpit",
+    "work-item",
+    "status",
+    "--repo",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "--id",
+    "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "--json"
+  ],
+  "recordedAtUTC": "2026-10-15T13:19:02.002199+00:00",
+  "sourceHead": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+  "runtimeSha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "storageBefore": [
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+      "device": 27,
+      "availableBytes": 2843934720,
+      "availableInodes": 1991693
+    },
+    {
+      "path": "/tmp",
+      "device": 33,
+      "availableBytes": 2890285056,
+      "availableInodes": 2252149
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+      "device": 27,
+      "availableBytes": 2843934720,
+      "availableInodes": 1991693
+    },
+    {
+      "path": "/workspace/.cargo",
+      "device": 27,
+      "availableBytes": 2843934720,
+      "availableInodes": 1991693
+    },
+    {
+      "path": "/workspace/.rustup",
+      "device": 27,
+      "availableBytes": 2843934720,
+      "availableInodes": 1991693
+    },
+    {
+      "path": "/tmp/wi1084-runtime-home-20261015",
+      "device": 33,
+      "availableBytes": 2890285056,
+      "availableInodes": 2252149
+    }
+  ],
+  "environment": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1"
+  },
+  "timeoutSeconds": 900,
+  "exitCode": 0,
+  "elapsedSeconds": 1.1597611904144287,
+  "storageAfter": [
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+      "device": 27,
+      "availableBytes": 2843926528,
+      "availableInodes": 1991690
+    },
+    {
+      "path": "/tmp",
+      "device": 33,
+      "availableBytes": 2890285056,
+      "availableInodes": 2252149
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+      "device": 27,
+      "availableBytes": 2843926528,
+      "availableInodes": 1991690
+    },
+    {
+      "path": "/workspace/.cargo",
+      "device": 27,
+      "availableBytes": 2843926528,
+      "availableInodes": 1991690
+    },
+    {
+      "path": "/workspace/.rustup",
+      "device": 27,
+      "availableBytes": 2843926528,
+      "availableInodes": 1991690
+    },
+    {
+      "path": "/tmp/wi1084-runtime-home-20261015",
+      "device": 33,
+      "availableBytes": 2890285056,
+      "availableInodes": 2252149
+    }
+  ]
+}

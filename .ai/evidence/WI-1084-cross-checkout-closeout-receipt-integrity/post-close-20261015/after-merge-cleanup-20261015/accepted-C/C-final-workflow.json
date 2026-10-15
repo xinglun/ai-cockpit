@@ -1,0 +1,23 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "workflow_runs": [
+      {
+        "id": 38738123149,
+        "name": "ai-cockpit quality",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 5068,
+        "jobs_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/38738123149/jobs",
+        "logs_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/38738123149/logs",
+        "workflow_id": 338986437
+      }
+    ]
+  },
+  "isError": false
+}

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "rev-parse",
+    "refs/heads/main"
+  ],
+  "cwd": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+  "startedAtUTC": "2026-10-15T13:22:25.454104+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.0019459724426269531
+}

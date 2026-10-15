@@ -1,0 +1,559 @@
+{
+  "actualCommitC": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+  "verifiedAtUTC": "2026-10-15T12:56:16.840594+00:00",
+  "verifiedFileCount": 69,
+  "files": [
+    {
+      "path": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.close.json",
+      "sizeBytes": 28077,
+      "rawSha256": "27367f5783e8c41535822c1445808cc24bc5fcaafa1e4a81a1ff604e1bb3da8b",
+      "gitBlobSha": "df826f17caf5a3cfbacf917e0d03de66d8dd30ca",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/WI-1084-final-human-approval.request.v3.json",
+      "sizeBytes": 25221,
+      "rawSha256": "82a4fdb4ef4af4e010c96e9e5c17b55061777208f9c003ba453c0ce1bac16bdb",
+      "gitBlobSha": "d336d33190a3d370fe7bcfef2e1e2c6dabb7ab5a",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/Raydot-bounded-C-direction-and-agent-correction.json",
+      "sizeBytes": 2092,
+      "rawSha256": "c7fbaa7dbe08a613b28dbd85fce15c181a44d7c574984cd55ed3fb197dbdbeb1",
+      "gitBlobSha": "3281f303463fbbd956dc912ce42f91907f529d98",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/bounded-C-precommit-audit.json",
+      "sizeBytes": 19415,
+      "rawSha256": "bc54d89b4273303c14ffa25cb31ac73a331db073ab5482fbf3b5e8eff6dd64cd",
+      "gitBlobSha": "9b0c44df3533241a426852cf63f7fd022a1814c7",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/tracked-byte-baseline-b148.json",
+      "sizeBytes": 3728856,
+      "rawSha256": "fc608324b38354fba100f73b047edb7f1a619d0dc8b84661274871cead5f39c1",
+      "gitBlobSha": "d1efc52d7507429c8ed8760bbd214a266959d381",
+      "method": "github_fetch_blob with actual GitHub-returned blob SHA (contents API returned empty content for >1MB file)",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/Raydot-review-and-single-confirmation.v3.md",
+      "sizeBytes": 6812,
+      "rawSha256": "8a153414d7feb107e2c88398d03a61de4dfa1dd156b22be9d231b10ba6698fa9",
+      "gitBlobSha": "75c06b7e9ae4c399d39f2c06e7d34d2449042ea9",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/actual-Ray-approval-and-Raydot-route-review.json",
+      "sizeBytes": 4903,
+      "rawSha256": "72adcaf8a92c692342d5cbfb647eab7f495ead9cf3a0803b97572880fccde3ba",
+      "gitBlobSha": "9c5a95ed6e55f94c46312d63b395ba78507885a5",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/final-ci-38731302895-metadata.json",
+      "sizeBytes": 12157,
+      "rawSha256": "0c238d2b87e7c9b536b79283b451b7bb208ae3368855c5badec58bf3bc25a5f1",
+      "gitBlobSha": "cdd026c1d46e2cf29be872c395595fe3e5b0d89f",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/final-ci-38731302895-summary.json",
+      "sizeBytes": 2520,
+      "rawSha256": "b3b983e408126d6e54780244cbcb6097792fc11b6f183d87e4f58d24b5e51682",
+      "gitBlobSha": "3ba8408b7d86b8dc6655bb76879a810b21ac8e5c",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/legacy-v1-followup-proposal.v2.md",
+      "sizeBytes": 4756,
+      "rawSha256": "244ee60cb2d077a06458555fa442e77ed0c8a6731d0a174247952d852f54a555",
+      "gitBlobSha": "8d95a8f246b73b4687b0050e19ef9a6ade35b89c",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/mac-acceptance-comment-6191800813.json",
+      "sizeBytes": 5346,
+      "rawSha256": "9c4783643fe40808205958fd60c9d15f8cae8e4b4f98647edab91a8226d75cd2",
+      "gitBlobSha": "63d1330f73e0d1562772e7917d4c8def15402320",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/mac-source-correction-6191899624.json",
+      "sizeBytes": 2566,
+      "rawSha256": "6f9ab825b68c704fe5151257e549dd016b64bff0d29e8870975594bfda533918",
+      "gitBlobSha": "3b6ed616572f87bf2ce1f9acbcb94da76a95f294",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/original-contract-legacy-boundary.json",
+      "sizeBytes": 775,
+      "rawSha256": "4274935239717079d81d6f94ea2e1b2ffedaab281cd2086ba3ed0bfa0d1dd088",
+      "gitBlobSha": "6240da097cf2207e5f8a196b0d2bd7c462880c5e",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-human-request-20261015/pr-issue1004-wording-audit.json",
+      "sizeBytes": 729,
+      "rawSha256": "0dd18fad79b2bce8c342fabd9dc48de5b10dbe3f8da6682e762cc22783cbfaf1",
+      "gitBlobSha": "f029e47233a850400872f8c6bd81d1168c467ad1",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/actual-human-close.execution.json",
+      "sizeBytes": 5159,
+      "rawSha256": "2f324e2b93cfd6524443e76eb250b65876a6113c3d746e7a0c8340471a108c75",
+      "gitBlobSha": "a73fb431ccf83d7d8cf608a034afb1273452efb2",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/actual-human-close.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/actual-human-close.stdout",
+      "sizeBytes": 27279,
+      "rawSha256": "5508966d2173375f9357c8d2a863e2d4cc055622a156793ddb806276ce4c48ce",
+      "gitBlobSha": "cece696c4b680a9280511f36716d19fc9ce7acd2",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-human-close-status.execution.json",
+      "sizeBytes": 2918,
+      "rawSha256": "407c4687d02151934d1ae5f0bf7eee0c9b3e2de69aaf2027c5c1e0fac1f018a9",
+      "gitBlobSha": "bef5ac3b5ff007bebb905ce2c1abd7bf8156f708",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-human-close-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-human-close-status.stdout",
+      "sizeBytes": 3207,
+      "rawSha256": "f4cd21de0d86a75f861359e20e3b5d9d886d08c75ff244e5c56adc1847af4955",
+      "gitBlobSha": "0e7b111c6f6f8f597526e0c64c1fcf6d535d0df0",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-human-outcome.execution.json",
+      "sizeBytes": 2935,
+      "rawSha256": "52332ece4d20bea2e724d33fd0ff4d2572014566cd9c078e963361d47e4fe74a",
+      "gitBlobSha": "6b8496aa51fd30c13fce01319e2e07ae143c575a",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-human-outcome.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-human-outcome.stdout",
+      "sizeBytes": 4050,
+      "rawSha256": "020faf3253ea110432c44cccfe535ef6dd62db75513286d47453706599966b33",
+      "gitBlobSha": "5f71d0880eea388552f2658f993cdf25345284bb",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-status.execution.json",
+      "sizeBytes": 2917,
+      "rawSha256": "38213d2b0884fdc7afc95d58ffab4404135dcd53a0743ef6c020b26357f98d54",
+      "gitBlobSha": "149bbdfa5a830967ce99e1709cef4d3b9ff0b24d",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-projection-status.stdout",
+      "sizeBytes": 3216,
+      "rawSha256": "7a868abd92156c1a01d3ca572729323206a8ca9797c2e8b5d8babd67bd5e8b57",
+      "gitBlobSha": "9acbbd3bc095c4337570774612aa7ba1bae8d23c",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/b148-jobs-before-close.json",
+      "sizeBytes": 11672,
+      "rawSha256": "c43bbd7ff3b252d1a3f7370cde43654a6369d619b1c9771731b2289d0ab73363",
+      "gitBlobSha": "78cd7cfb9fc1c6cc2079b8186e231a91fd262a12",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/b148-required-workflow-before-close.json",
+      "sizeBytes": 578,
+      "rawSha256": "1b720e1d678cf77dd8be3d1e8a390c979ff8ac19a78d880ef54827b6fe28eaf2",
+      "gitBlobSha": "f1250651c28a507a15526cb7548f9164d457c97d",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-agent-doctor.execution.json",
+      "sizeBytes": 2846,
+      "rawSha256": "f504653a2ed232731a87158c97d7bf506034ca90ef50c4463097f894b292d4a7",
+      "gitBlobSha": "969cadcb8fc9e9d6a69f7c6918307c233ead60b8",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-agent-doctor.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-agent-doctor.stdout",
+      "sizeBytes": 455,
+      "rawSha256": "5ea7c40439c055f01da089a30dab2b62f6207847e70f36489ee2c7e20c91d0f2",
+      "gitBlobSha": "629b428454e3cdb889e5a227acaa9e5d3f6e1516",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-doctor.execution.json",
+      "sizeBytes": 2832,
+      "rawSha256": "3f043948337d3e325f86b9d5c5b5554448dfe11a494e252e127a93bf3cc9da86",
+      "gitBlobSha": "b20011743f4c9e1b36cec1add36f120c7c6bac82",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-doctor.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-doctor.stdout",
+      "sizeBytes": 632,
+      "rawSha256": "43c3d1c2b38d2c8bc793a7d2afc82bbd280e62458632ed94976ac18c92f607bd",
+      "gitBlobSha": "247d8fb0391f583a6bd9b844449cc1008d3450a2",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-inspect.execution.json",
+      "sizeBytes": 2832,
+      "rawSha256": "92613fa99b111a7d8e007e2a01bf99a2c5f8a608e67dc4864abdeca1fc615301",
+      "gitBlobSha": "03ac535d0bf9fd349278c36150bc38cddaf40c51",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-inspect.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-inspect.stdout",
+      "sizeBytes": 838,
+      "rawSha256": "7ca08a06a0b64ae46862e132c6603eb8580c0a12ef8e2d17202690b0658de5fe",
+      "gitBlobSha": "15e28e58a7ebbad9709fd1dd4e818fda76cc5250",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-status.execution.json",
+      "sizeBytes": 2831,
+      "rawSha256": "ca255423c6dbd547082c3ad4f2c0aea96d0d6ccacd43906b810a60948404d3c8",
+      "gitBlobSha": "2413601e3c27614841b1fd45732d9e54ef273838",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-status.stdout",
+      "sizeBytes": 340344,
+      "rawSha256": "5a66869355e9cadb06fa8a502c5b34fdf3fcfe58c4da82f09d09ae7d6b136639",
+      "gitBlobSha": "e3df33fd1fd335c3f7d736210e9b493d2e63fa7e",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-wi-status.execution.json",
+      "sizeBytes": 2918,
+      "rawSha256": "c60e99553521fc1d49a9d253a5a79600c7209087862e8cc881426ed37bfe40c4",
+      "gitBlobSha": "83096fddfcaeea226fe3a5d8777d5320bcdd5369",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-wi-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/before-wi-status.stdout",
+      "sizeBytes": 3567,
+      "rawSha256": "389a1b7586f1d9c631ae0c2ef181b9cb4b8aef8d3de9c12bf2c68012ce1eb26b",
+      "gitBlobSha": "3a2adca66f298ce50e150cd23c50f5a0885218bc",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/close-help.execution.json",
+      "sizeBytes": 2756,
+      "rawSha256": "99c473248491ce0bb3a4d661148707530b27c955828ebd14f075159d67d8b924",
+      "gitBlobSha": "87c9a9a80e1a5ac4aa99a37677dc08623f7cd91d",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/close-help.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/close-help.stdout",
+      "sizeBytes": 767,
+      "rawSha256": "7b4b821f4cc60a0e06b56d2bc8329ee669221ac5d5e6283c19b169fb76cf5b52",
+      "gitBlobSha": "dcd016bc708842b38989fdf42f6868e9e696f797",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/command-runner.py",
+      "sizeBytes": 2401,
+      "rawSha256": "8050dbd426f9dfda06842a8c7bbb398db627d5d8c1a212d3362f06e171ea562e",
+      "gitBlobSha": "cc76869e22674ab9d9f1f86d0f136ee17a1a960d",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/git-diff-check.json",
+      "sizeBytes": 109,
+      "rawSha256": "ed9e979d5a415a6c581f84e4a4b80caced8a0ead051a0529949e75fac0df567e",
+      "gitBlobSha": "9ef0e6e2176214eb84c8917dc3f0e6ed18f1e362",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/issue1004-at-blocked-handoff.json",
+      "sizeBytes": 1537,
+      "rawSha256": "8cfa7f2dfee514f8e8d2503e140620b195aa0b1dcdd925fcd3dc09133b9bb2bd",
+      "gitBlobSha": "059a4e40bd9503c114edf2880705daafe41a40af",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/issue1004-before-close.json",
+      "sizeBytes": 1537,
+      "rawSha256": "8cfa7f2dfee514f8e8d2503e140620b195aa0b1dcdd925fcd3dc09133b9bb2bd",
+      "gitBlobSha": "059a4e40bd9503c114edf2880705daafe41a40af",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/outcome-help.execution.json",
+      "sizeBytes": 2775,
+      "rawSha256": "00e5001b6b99ae4553c62316b97b22a16df9ea429e8d67160a49ab4be98e3581",
+      "gitBlobSha": "55309f75c9ac3672984c392d255eb774d770be36",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/outcome-help.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/outcome-help.stdout",
+      "sizeBytes": 1175,
+      "rawSha256": "7da687ff620f943f89e4f4b83148fe2286c035aa875bbb12333ee1f8773efd04",
+      "gitBlobSha": "8353ff7acbe212c7cb80435cbcfa8b2544007b9f",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/post-close-blocked-handoff.json",
+      "sizeBytes": 8050,
+      "rawSha256": "fff0ab3063d6b82999c70016a3b6b855d58bc1437bed6b21980302c2a9669372",
+      "gitBlobSha": "b51c0c3dc13a55bef4bb0ad9c7df84d2b6ab60b6",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/pr1040-at-blocked-handoff.json",
+      "sizeBytes": 39479,
+      "rawSha256": "f1a30fcbf310499842cfe72b7656ed2bcf95748815c514af0a1a7bdc3af77b4d",
+      "gitBlobSha": "7a732af8c21a8a0226f996870a3ace4028fe7774",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/pr1040-before-close.json",
+      "sizeBytes": 39479,
+      "rawSha256": "f1a30fcbf310499842cfe72b7656ed2bcf95748815c514af0a1a7bdc3af77b4d",
+      "gitBlobSha": "7a732af8c21a8a0226f996870a3ace4028fe7774",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/six-file-terminal-projection.patch",
+      "sizeBytes": 16276,
+      "rawSha256": "5ede193469a96c67271467b3ce028a0eaa1ee12778895c1c9bb3d58151941d62",
+      "gitBlobSha": "352a337b2f9aafb9a0b275af0c71d9348e4bead1",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection-check.execution.json",
+      "sizeBytes": 363,
+      "rawSha256": "d7d5c8f4cb98666c975c5f214079d5fe1490639f98815840308391c358b5c087",
+      "gitBlobSha": "80459d1ac829facf9c9734f0df40e9c6ffeb7463",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection-check.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection-check.stdout",
+      "sizeBytes": 489,
+      "rawSha256": "7bedb810d632d6834d7ab4df4fbd975bf20c4cb5e7bbc1a179e926d528632f2a",
+      "gitBlobSha": "e8b70460a7a7979a8899c4a0d52f9e063f5ee7ad",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection.execution.json",
+      "sizeBytes": 349,
+      "rawSha256": "da76d169087fa5b854cc97b2e6fa8b4ca7144f4388baab29c2910ed21b1ba98d",
+      "gitBlobSha": "633e4b6376b9dcee8d7b5ac4291af4b8cf452877",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gitBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/terminal-doc-projection.stdout",
+      "sizeBytes": 864,
+      "rawSha256": "74f84495691d35ea107213736cae71b95a50ef616356f6e448a12729fa8d4cca",
+      "gitBlobSha": "0fd309676e544b1757c7ca992ee99ee32221cfcf",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "sizeBytes": 378941,
+      "rawSha256": "63ee7f26523ed7251e974d705e466e940b565bb22a105964c75c0853d66a6276",
+      "gitBlobSha": "a9a26f989cbe47be1d713da69631fb44e986c19b",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "sizeBytes": 370636,
+      "rawSha256": "e7c1f83fcfaf92d10a09a2cab1a8f57c5c0da9b5e235b409e8177198a0fca9de",
+      "gitBlobSha": "617e2f70ff28ef20a75a157164322c54cebaa9dc",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "sizeBytes": 361461,
+      "rawSha256": "2ba4d3bdeccfe6a80a4a3a915761dd20e0dddffe3c1095fe8787180ef742fc24",
+      "gitBlobSha": "be971ae0167f1909c9479fe1957643eb3e93a7d3",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+      "sizeBytes": 5558,
+      "rawSha256": "d105cbff3681b8d1918c90eead542801e1813d2a7c67903b227715d56dfeadd3",
+      "gitBlobSha": "7870596a80a726ea750c461b7f5664d24cd0178d",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+      "sizeBytes": 5239,
+      "rawSha256": "05e379928504c1f8a9acafe0a37e9ce316f921b01842d38ed271fee803ffeaec",
+      "gitBlobSha": "014633db16e10fff10a39bed34bac8baa3d4d84b",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+      "sizeBytes": 4682,
+      "rawSha256": "7bb4a0d0f85a7fb10780b91b78e7d76815be8be3163ba1e38f95efc2ce031b99",
+      "gitBlobSha": "d16ef300462d310aa1ce8b0345e42e39b4f73bec",
+      "method": "github_fetch_file base64",
+      "equalToCommitC": true
+    }
+  ]
+}

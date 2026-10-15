@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "baseCommit": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "lifecyclePhase": "closed",
+  "governanceState": "green",
+  "activityHealth": "inactive",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 7,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 56,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [
+    "close_decision_recorded"
+  ],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "closed",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "pending",
+    "review": "available",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome",
+    "review_evidence"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "materialManifest": "sha256:5e896d3722347e3d0b76ae88eefdb10a39f5dac749d8bf7cf389abd934e3d480",
+    "repositorySnapshot": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "summary": "sha256:6cb447c86c453096284fc13bfeb24c296bf34540292f2a1fb855c25afb682e04",
+    "verificationEvidence": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41"
+  },
+  "unknowns": [
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:5e896d3722347e3d0b76ae88eefdb10a39f5dac749d8bf7cf389abd934e3d480",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-15T11:41:54Z",
+  "updatedAt": "2026-10-15T11:53:23.878999732Z",
+  "safeActions": [
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendationReason": "Runtime cannot identify an admitted next action from current evidence",
+    "admissionState": "unknown",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "material_review_receipt_stale",
+        "message": "current projection reports material_review_receipt_stale"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:ceb85619270f9f9f191ccfc11a30552b154f8f5958cd7a6aabe3fba4e1da7e88"
+  },
+  "statusDigest": "sha256:f98c8d8e3b3c6996c8ff5ac0c31ffccb37399d036f5ccb7307e0a21b5a44597d",
+  "historical": false
+}

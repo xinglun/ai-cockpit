@@ -1,0 +1,14 @@
+{
+  "command": [
+    "git",
+    "worktree",
+    "add",
+    "--detach",
+    "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+    "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "startedAtUTC": "2026-10-15T13:22:23.463405+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 1.3804709911346436
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "merge-base",
+    "--is-ancestor",
+    "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+    "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "startedAtUTC": "2026-10-15T13:22:21.778825+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.0026688575744628906
+}

@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "status",
+    "--porcelain=v1"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "startedAtUTC": "2026-10-15T13:22:18.663066+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.03195810317993164
+}

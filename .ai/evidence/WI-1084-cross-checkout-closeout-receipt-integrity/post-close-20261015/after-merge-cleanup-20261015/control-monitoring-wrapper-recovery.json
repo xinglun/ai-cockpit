@@ -1,0 +1,7 @@
+{
+  "recordedAtUTC": "2026-10-15T13:23:11.805854+00:00",
+  "originalFailures": "Two FileNotFoundError before launching CLI: storage probe assumed an existing new-control target directory.",
+  "runtimeWasExecuted": false,
+  "fix": "Measure nearest existing ancestor and record absent target path explicitly. Do not create build directory or change repository code/configuration.",
+  "productionChanges": false
+}

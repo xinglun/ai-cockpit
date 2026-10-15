@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "ls-remote",
+    "origin",
+    "refs/heads/main",
+    "refs/heads/codex/wi1084-closeout-receipt-integrity"
+  ],
+  "cwd": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+  "startedAtUTC": "2026-10-15T13:45:22.052600+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 1.9203283786773682
+}

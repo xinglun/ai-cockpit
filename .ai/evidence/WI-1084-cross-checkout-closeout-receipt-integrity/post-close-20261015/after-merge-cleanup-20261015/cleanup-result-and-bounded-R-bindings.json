@@ -1,0 +1,179 @@
+{
+  "recordedAtUTC": "2026-10-15T13:48:22.211991+00:00",
+  "authority": "Actual Ray approved v3 request plus actual Raydot independent acceptance of C and conditional continuation. Existing exact scope only.",
+  "approvedRequestRawSha256": "sha256:82a4fdb4ef4af4e010c96e9e5c17b55061777208f9c003ba453c0ce1bac16bdb",
+  "acceptedCommitC": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+  "actualMergeM": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "requiredParentOfGovernanceR": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "actualCloseRawSha256": "sha256:27367f5783e8c41535822c1445808cc24bc5fcaafa1e4a81a1ff604e1bb3da8b",
+  "ordinaryCleanupReceiptPath": ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity.cleanup.000001.3d9c83b4eea05c89674a92b5394e3fbe72b6fe924a866deddbcfde87a1afa245.json",
+  "ordinaryCleanupReceiptRawSha256": "sha256:1ce9b678e952a4d0fe0c44675fd4bd577c7dad27b2023141afa2a0fedbbead12",
+  "ordinaryCleanupReceiptCanonicalDigest": "sha256:3d9c83b4eea05c89674a92b5394e3fbe72b6fe924a866deddbcfde87a1afa245",
+  "ordinaryCleanupReceipt": {
+    "bindingDigest": "sha256:9619a931a506683918936615014083c2c4a5b04e4613afb6720cfa52819e1f6e",
+    "branchRef": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+    "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "headRevision": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "observation": {
+      "branch": "removed",
+      "worktree": "removed"
+    },
+    "observedAt": "2026-10-15T13:45:37Z",
+    "operationId": "sha256:b6dbd3933d326b5730d9b9e224bb624d49694e324affb374c7ad5a139bb5e8ee",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "result": {
+      "failureCodes": [],
+      "state": "verified"
+    },
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "sequence": 1,
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "worktreeId": "sha256:ce8cc6c55819353e470af25878d70487e2978d449d72d80eba13223963b76e5b"
+  },
+  "actualPostCleanupStatus": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "baseCommit": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+    "lifecyclePhase": "closed",
+    "governanceState": "green",
+    "activityHealth": "inactive",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 7,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 56,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [],
+    "dependencies": [],
+    "humanDecisions": [
+      "close_decision_recorded"
+    ],
+    "risks": [
+      "normal"
+    ],
+    "verification": "verified",
+    "completionDomains": {
+      "closure": "closed",
+      "implementation": "recorded",
+      "integration": "recorded",
+      "resourceCleanup": "verified",
+      "review": "available",
+      "verification": "verified",
+      "workResult": "verified"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome",
+      "review_evidence"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+      "materialManifest": "sha256:5e896d3722347e3d0b76ae88eefdb10a39f5dac749d8bf7cf389abd934e3d480",
+      "repositorySnapshot": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "summary": "sha256:6cb447c86c453096284fc13bfeb24c296bf34540292f2a1fb855c25afb682e04",
+      "verificationEvidence": "sha256:0cdfdf39c5e126f669dbba017ebf338e273fc52e2a470d651e6098dfeacdcb41"
+    },
+    "unknowns": [
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "materialManifestDigest": "sha256:5e896d3722347e3d0b76ae88eefdb10a39f5dac749d8bf7cf389abd934e3d480",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "evidenceFreshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "lastVerificationAt": "2026-10-15T11:41:54Z",
+    "updatedAt": "2026-10-15T11:53:23.878999732Z",
+    "safeActions": [
+      "refresh_status"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendationReason": "Runtime cannot identify an admitted next action from current evidence",
+      "admissionState": "unknown",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "material_review_receipt_stale",
+          "message": "current projection reports material_review_receipt_stale"
+        },
+        {
+          "kind": "unknown",
+          "code": "repository_material_inspection_unavailable",
+          "message": "current projection reports repository_material_inspection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [],
+      "admissionDigest": "sha256:ceb85619270f9f9f191ccfc11a30552b154f8f5958cd7a6aabe3fba4e1da7e88"
+    },
+    "statusDigest": "sha256:143012dd04e545f3e0e2400568622ce94dc16e26d7ef9d66c4c88686db29758d",
+    "historical": false
+  },
+  "CI": {
+    "C": {
+      "runId": 38738123149,
+      "allFourChecks": "completed/success",
+      "quality": {
+        "passed": 40,
+        "notApplicable": 2
+      },
+      "windowsLibrary": {
+        "passed": 114,
+        "failed": 0,
+        "ignored": 0,
+        "seconds": 760.36
+      }
+    },
+    "M": {
+      "runId": 38741962234,
+      "allFourChecks": "completed/success",
+      "quality": {
+        "passed": 42,
+        "notApplicable": 0
+      },
+      "windowsLibrary": {
+        "passed": 114,
+        "failed": 0,
+        "ignored": 0,
+        "seconds": 613.16
+      }
+    }
+  },
+  "sourceProductionTestsGatesAndAllPriorArchivesContractsReceiptsUntouched": true,
+  "trackingIssue1004": "OPEN; old unanchored v1 residual retained. No migration/origin fabrication/issue closure.",
+  "retainedResources": {
+    "control": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+    "runtime": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "runtimeRawSha256": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "requestDirectory": "/workspace/wi1084-final-approval-b1487517"
+  },
+  "protectedLocalMain": "508a0a0f47dcbb957aacb8b03220f6234a87549d, unchanged in protected dirty old control",
+  "globalReadyOnBaseClaimed": false,
+  "postRChecks": "Not yet executed; actual R SHA/remote readback/main CI must be obtained after normal non-force push, with remote main still M immediately before push.",
+  "hostDelivery": "Native human Outcome generated/returned; host acceptance/display not confirmed. Current stage summary is directly delivered in conversation."
+}

@@ -1,0 +1,941 @@
+{
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/Raydot-actual-C-review-and-conditional-continuation.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/Raydot-actual-C-review-and-conditional-continuation.json",
+      "sizeBytes": 2683,
+      "rawSha256": "0a65a4950953da490133154826e26117ab11244abbc14b35d7d3e2af73c28c17"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/C-final-workflow.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/C-final-workflow.json",
+      "sizeBytes": 578,
+      "rawSha256": "820dae5a9d5f8ac0f0660d7cde21bef59c35c689297dcfe58a2d7382b100c2f2"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/C-final-jobs.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/C-final-jobs.json",
+      "sizeBytes": 11672,
+      "rawSha256": "80c226e6592d4d5069ce42ec49f669822dfa0f0058c69a412c84b2b64534c673"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/C-quality-42-gates-summary.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/C-quality-42-gates-summary.json",
+      "sizeBytes": 2427,
+      "rawSha256": "4cf6dadf68311f5179cf46bad3bdd8286a89b65c0cccbfb04c8f55b042d0d84a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/all-69-remote-byte-readback-proof.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/all-69-remote-byte-readback-proof.json",
+      "sizeBytes": 27053,
+      "rawSha256": "626a9afec78c169e8d0af9c20a64c8d240728c8e86c4e062ffb68f9c835dd3bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/normal-push-C.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/normal-push-C.execution.json",
+      "sizeBytes": 1148,
+      "rawSha256": "e93b4995cca8d56f9ba643601a5b19f7a63bb6bbfdaa38616435a4029f35e037"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/normal-push-C.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/normal-push-C.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/normal-push-C.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/normal-push-C.stderr",
+      "sizeBytes": 116,
+      "rawSha256": "a7cc7be2ed6710c634a154b1511c7170dba32aaf0c2f354175da3c1d4185c901"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/pre-ready-C-wi-status.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/pre-ready-C-wi-status.execution.json",
+      "sizeBytes": 2918,
+      "rawSha256": "6701e2b571d1d8e2ef5c8e7f03bfd3a7910217b5001c86ee0745d28f8d6007bf"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/pre-ready-C-wi-status.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/pre-ready-C-wi-status.stdout",
+      "sizeBytes": 3565,
+      "rawSha256": "0c93c2458c606893b455355e26b586df41747e3cf9203276b62e2fdc698a45dd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/pre-ready-C-wi-status.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/pre-ready-C-wi-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/PR1040-ready-result.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/PR1040-ready-result.json",
+      "sizeBytes": 39439,
+      "rawSha256": "b7284c2569c6a82f618cab49277be268f42ab05319aa3de3b186b7b04d5032c7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/PR1040-pre-normal-merge.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/PR1040-pre-normal-merge.json",
+      "sizeBytes": 39480,
+      "rawSha256": "bacfa6676ddb1d4510c0bcf62f6c1b73c003dc09bd6d37ecaf7260e47db16f29"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/PR1040-normal-merge-result.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/PR1040-normal-merge-result.json",
+      "sizeBytes": 266,
+      "rawSha256": "b1384f11a198e91c11e0e43f92684d59b89ba40956086186004b914a04149fa6"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/quality.log",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/job-quality-116434449934.log",
+      "sizeBytes": 86997,
+      "rawSha256": "15c287599cf6cbb6375e6ab2d5e06c11e83ea0ebcbb175b56b1fd7d3532c35a1"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/accepted-C/windows.log",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/bounded-C-runtime-readback/job-windows-116434449876.log",
+      "sizeBytes": 157578,
+      "rawSha256": "1eac518b1a7c0de636d1f75796b0935767af3ed205f18c1e0476593862bc5e97"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/M-control-and-runtime-binding.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-control-and-runtime-binding.json",
+      "sizeBytes": 1429,
+      "rawSha256": "bc57fc49fb943dcceb66c074b74c9aed9bead486d546ded05dbcde346480f500"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/M-final-workflow.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-final-workflow.json",
+      "sizeBytes": 26757,
+      "rawSha256": "bf11b1cbfd6eddb6dec8c6941a4860087c9d451ce282e0fd5dc99cf10441641a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/M-final-check-runs.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-final-check-runs.json",
+      "sizeBytes": 27952,
+      "rawSha256": "e56d217e1acd71f436a72cdaf0574a10dc45fabe2c9ef0a4bac9732f18c8aa9b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/M-quality-gates-summary.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-quality-gates-summary.json",
+      "sizeBytes": 2360,
+      "rawSha256": "89fa2dcb65ae9833fb7f4a9b02f444c99f01158061779246b50069fd63609cdf"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/M-job-116447682670.log",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-job-116447682670.log",
+      "sizeBytes": 85989,
+      "rawSha256": "999d88d8937362cbce87017b6fe1bc6fd38c8808fe4078df88da9c16465ad65e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/M-job-windows-116447682463.log",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-job-windows-116447682463.log",
+      "sizeBytes": 155829,
+      "rawSha256": "f10c72c68e74a55ef0b38a1a1eb24989ddb9053982cde986b20835e3b154d16b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/PR1040-post-merge.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/PR1040-post-merge.json",
+      "sizeBytes": 39518,
+      "rawSha256": "8262f98d8607bac1b653f111bc625af21bf09268a2ef5824f3fe6f3bf8c0ab1f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/issue1004-post-merge.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/issue1004-post-merge.json",
+      "sizeBytes": 1537,
+      "rawSha256": "8cfa7f2dfee514f8e8d2503e140620b195aa0b1dcdd925fcd3dc09133b9bb2bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/M-main-branch-provider.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-main-branch-provider.json",
+      "sizeBytes": 11705,
+      "rawSha256": "030b32847988f60d826768978822682e1657a3270462aefa2e69201f1b096347"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/C-all-check-runs-final.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/C-all-check-runs-final.json",
+      "sizeBytes": 27952,
+      "rawSha256": "db1ee230494c69353dbc8f83f003eb78a771b9987667b2abb162300d197845e7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/control-monitoring-wrapper-recovery.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-monitoring-wrapper-recovery.json",
+      "sizeBytes": 411,
+      "rawSha256": "119098ec0b44f0429319c004494e24adb7ba769e871dd538ca91eb56de0a207e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/original-ignored-path-inventory-before-cleanup.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/original-ignored-path-inventory-before-cleanup.json",
+      "sizeBytes": 585,
+      "rawSha256": "0de6f6d3f5fbc20e336aa9b886019c61e7b0cb476381b2395c7e96f0d76c57fa"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/exact-cleanup-preconditions.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/exact-cleanup-preconditions.json",
+      "sizeBytes": 2164,
+      "rawSha256": "053a1a8874558c9f38cbeb19cec736150d3e10b506426bba3d117e6a00c3e26e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/actual-exact-resource-cleanup.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/actual-exact-resource-cleanup.json",
+      "sizeBytes": 756,
+      "rawSha256": "342d13e772039ed9d0923e13f4e34fba89aad381c33f8815c5b970161704bbe6"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/M-control-status.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-control-status.execution.json",
+      "sizeBytes": 4066,
+      "rawSha256": "e44209ec9ae317ffde2113ec1863a003269c2d3c003685061c271ebd27d40f04"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/M-control-status.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-control-status.stdout",
+      "sizeBytes": 3565,
+      "rawSha256": "0c93c2458c606893b455355e26b586df41747e3cf9203276b62e2fdc698a45dd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/M-control-status.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-control-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/M-tree.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-tree.execution.json",
+      "sizeBytes": 287,
+      "rawSha256": "44d58994502c54679f0cd870f09ef3f5eced01a4a1c17c52d715c4909c515bba"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/M-tree.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-tree.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "0232b36eee412af2a3cda44f60ed34db0968143ccdd9a358058a89c8a2196a3d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/M-tree.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/M-tree.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/accepted-C-contained.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/accepted-C-contained.execution.json",
+      "sizeBytes": 350,
+      "rawSha256": "5583bdfafca76f48ba341a625c9ca0581925b99ccc8e97991c9f5a4942a7b37f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/accepted-C-contained.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/accepted-C-contained.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/accepted-C-contained.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/accepted-C-contained.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/accepted-C-tree.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/accepted-C-tree.execution.json",
+      "sizeBytes": 287,
+      "rawSha256": "ea44c0a9925f4719234fb3d73aac7ecc4dc697ac7f542edae0601dd61eadf475"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/accepted-C-tree.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/accepted-C-tree.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "0232b36eee412af2a3cda44f60ed34db0968143ccdd9a358058a89c8a2196a3d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/accepted-C-tree.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/accepted-C-tree.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/actual-merge-parents.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/actual-merge-parents.execution.json",
+      "sizeBytes": 303,
+      "rawSha256": "51ed943b736e5ba0c9120bb6b60fcbe84cdba4a862bda2a1a722c02c1607b7b0"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/actual-merge-parents.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/actual-merge-parents.stdout",
+      "sizeBytes": 82,
+      "rawSha256": "63d1c8c4a42ec2e717a9283b38979b3ba3de47611ba20dd7c499f925d2d1143a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/actual-merge-parents.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/actual-merge-parents.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/actual-ordinary-cleanup.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/actual-ordinary-cleanup.execution.json",
+      "sizeBytes": 4063,
+      "rawSha256": "7593bdab9ea24a960d1d1f4b71c8e6a45f43db862b07112e0b4930f61d3a45c0"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/actual-ordinary-cleanup.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/actual-ordinary-cleanup.stdout",
+      "sizeBytes": 1012,
+      "rawSha256": "7aea3a45ab6c2b4b30f612bbf957f2985b6edf8ae723384c27fb1a184b8482b4"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/actual-ordinary-cleanup.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/actual-ordinary-cleanup.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/after-ordinary-cleanup-human-outcome.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/after-ordinary-cleanup-human-outcome.execution.json",
+      "sizeBytes": 4128,
+      "rawSha256": "3514201c3754f97ec410a7ed1bee2e5245f8b5ff24fc8f0a82bc4b256c7027ff"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/after-ordinary-cleanup-human-outcome.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/after-ordinary-cleanup-human-outcome.stdout",
+      "sizeBytes": 5034,
+      "rawSha256": "5f2ce7dd98871217ccf40e723c1f20149e309595a13188d199319bb28596a0a5"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/after-ordinary-cleanup-human-outcome.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/after-ordinary-cleanup-human-outcome.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/after-ordinary-cleanup-status.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/after-ordinary-cleanup-status.execution.json",
+      "sizeBytes": 4065,
+      "rawSha256": "fa7b7fe280de5a4cee17106f6d0d4c4b7f1f03663a42966a7cb32217504c9456"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/after-ordinary-cleanup-status.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/after-ordinary-cleanup-status.stdout",
+      "sizeBytes": 3566,
+      "rawSha256": "4704fba26d8ebce0b68850a2c75ac327efbb6d5671323022ad3853dc1f3c3c40"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/after-ordinary-cleanup-status.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/after-ordinary-cleanup-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-clean.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-clean.execution.json",
+      "sizeBytes": 245,
+      "rawSha256": "566b0e3e15af4c4d764a58545d04ce2c97ce4cce0ab3792ee4e33bd2e864f71e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-clean.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-clean.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-clean.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-clean.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-head.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-head.execution.json",
+      "sizeBytes": 239,
+      "rawSha256": "04be3d00d46d80775ef7de06a6d713154d9d477ab7cf714376b92625ddad6d1a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-head.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-head.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "4b2e6828a2959c485fc842cb5f56d7c6bd13bc27f58368bff979bdcf66a033a7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-head.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-head.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-origin-main.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-origin-main.execution.json",
+      "sizeBytes": 247,
+      "rawSha256": "6519244c5fec262cbe1dd3ae06f4156875cf4bba94087055530d3de36b478005"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-origin-main.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-origin-main.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "4b2e6828a2959c485fc842cb5f56d7c6bd13bc27f58368bff979bdcf66a033a7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-control-origin-main.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-control-origin-main.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-branch-absent.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-branch-absent.execution.json",
+      "sizeBytes": 312,
+      "rawSha256": "09f5b50432d0f8d597013b6f93ad7e2621b4cb184e9ea770a326a377752076e9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-branch-absent.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-branch-absent.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-branch-absent.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-branch-absent.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-branch.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-branch.execution.json",
+      "sizeBytes": 280,
+      "rawSha256": "442f9f654235c443c1bfc6b01448e7bc9de2d3d5ad115e5070d60e587c5195b4"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-branch.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-branch.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "0280e60ae36193428cfd3410860a41f765f148e8d28bcaaa593fab1565664ba6"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-branch.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-branch.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-ref-before-delete.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-ref-before-delete.execution.json",
+      "sizeBytes": 286,
+      "rawSha256": "1dc8171e51ce36e3bad481125f864c66ed8a4618c3ccd0469b0245f07bef1f16"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-ref-before-delete.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-ref-before-delete.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "0280e60ae36193428cfd3410860a41f765f148e8d28bcaaa593fab1565664ba6"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-local-ref-before-delete.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-local-ref-before-delete.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-clean.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-clean.execution.json",
+      "sizeBytes": 278,
+      "rawSha256": "0a2ee6e0fc3a990000334d88ac9b7c879c90299ffd0db3356e17ea87efa22d1a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-clean.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-clean.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-clean.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-clean.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-git-dir.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-git-dir.execution.json",
+      "sizeBytes": 258,
+      "rawSha256": "4441029c63a499bb2b6afa02fea49b271da51352f150be9adfb9c6c6c54ece88"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-git-dir.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-git-dir.stdout",
+      "sizeBytes": 82,
+      "rawSha256": "3c627eb84877edef2d4dc22e1c2e1825730cb8d9e3c387bc2954779a2a71ff39"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-git-dir.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-git-dir.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-head.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-head.execution.json",
+      "sizeBytes": 243,
+      "rawSha256": "61f6c7255c25530a0ac485e66a50f20d63049a590506788489537f9f13801f21"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-head.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-head.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "0280e60ae36193428cfd3410860a41f765f148e8d28bcaaa593fab1565664ba6"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-head.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-head.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-root.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-root.execution.json",
+      "sizeBytes": 252,
+      "rawSha256": "0fca68be329a0e19a374ed1d149d3a200a6d4370c6c81331fd8f8944fa49fa28"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-root.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-root.stdout",
+      "sizeBytes": 56,
+      "rawSha256": "505605f9b8c9ccd07c614fb6419d65a32ceadb93ab393284d4a769bbc023b642"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-root.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-root.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-symbolic-head.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-symbolic-head.execution.json",
+      "sizeBytes": 247,
+      "rawSha256": "48a2dbabef964ee53bb673031b9272ec0c408a14bd59ee502259592a27e381c5"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-symbolic-head.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-symbolic-head.stdout",
+      "sizeBytes": 51,
+      "rawSha256": "8d82ef77ac95a13a2d55fd927cb734effddbaf399e3e41cd67b1cea22b307b51"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-original-symbolic-head.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-original-symbolic-head.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-preserved-local-main.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-preserved-local-main.execution.json",
+      "sizeBytes": 250,
+      "rawSha256": "af168b2292fb9f6a77f61c0d1f91ae5c51f9a1f94bfa36f4b899e9d64c126c3a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-preserved-local-main.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-preserved-local-main.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "33f2b38db435437bec5236ab2e60d707f0879d8b39285274bec820fea45b830a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-preserved-local-main.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-preserved-local-main.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-remote-after.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-remote-after.execution.json",
+      "sizeBytes": 320,
+      "rawSha256": "e684e664ad80d6012fb6f417acec0862fb32c7ca88ca5c96720a9d4bb5717a10"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-remote-after.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-remote-after.stdout",
+      "sizeBytes": 57,
+      "rawSha256": "ecdbcdb998ad2bb8a12057dad0db21df0db8317988f7ec97eaedfb18f5347cea"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-remote-after.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-remote-after.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-remote-identity.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-remote-identity.execution.json",
+      "sizeBytes": 320,
+      "rawSha256": "81f84ab6bfc41f2a16f94094213afa167245bf7d931a92a2fe49cc67e3ad5c21"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-remote-identity.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-remote-identity.stdout",
+      "sizeBytes": 149,
+      "rawSha256": "abe104476920ea42d5bd91fd979c8216dec294ba6f4f1f0f77598d0b427a0b25"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-remote-identity.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-remote-identity.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-worktrees-after.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-worktrees-after.execution.json",
+      "sizeBytes": 258,
+      "rawSha256": "69b7d45d8491021628c667ab12565492ec3f0e1318746f63c0ec281d6a83fba5"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-worktrees-after.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-worktrees-after.stdout",
+      "sizeBytes": 743,
+      "rawSha256": "f84d8f983942cd22da40abb214eafebc41a810c3a1b6250b37ac56969093a030"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/cleanup-worktrees-after.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/cleanup-worktrees-after.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-clean.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-clean.execution.json",
+      "sizeBytes": 244,
+      "rawSha256": "832c0917084e50aa7a652f0a75c864738ca0ed8e26d8f030a09dda3a8ac78e52"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-clean.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-clean.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-clean.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-clean.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-common-dir.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-common-dir.execution.json",
+      "sizeBytes": 252,
+      "rawSha256": "ce12acbc4bd03173b046d53607dedb5413050086204a674f971de2f6421160bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-common-dir.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-common-dir.stdout",
+      "sizeBytes": 27,
+      "rawSha256": "56fa7e20330f0cf4c417a9bfe4aaaa7801cd6d7d10efbc602f29118954e8ae28"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-common-dir.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-common-dir.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-head.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-head.execution.json",
+      "sizeBytes": 240,
+      "rawSha256": "5001b9f39452465d5214af38becfef17530cb71afe378627b59a47f27f813d06"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-head.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-head.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "4b2e6828a2959c485fc842cb5f56d7c6bd13bc27f58368bff979bdcf66a033a7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-head.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-head.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-origin-main.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-origin-main.execution.json",
+      "sizeBytes": 247,
+      "rawSha256": "352d6a08c69247284ada8263a3b7e8832a9a1f29d7c3a98ad87deb2fc26b5436"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-origin-main.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-origin-main.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "4b2e6828a2959c485fc842cb5f56d7c6bd13bc27f58368bff979bdcf66a033a7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/control-origin-main.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/control-origin-main.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/delete-exact-local-branch.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/delete-exact-local-branch.execution.json",
+      "sizeBytes": 281,
+      "rawSha256": "117a691b46429b4f2732a9209d070fbf327b27c22b3b0813e9e87a0d682cf650"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/delete-exact-local-branch.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/delete-exact-local-branch.stdout",
+      "sizeBytes": 71,
+      "rawSha256": "c76197e678abd6a6a198ded5ad571f6ee35b03a4e8623a001ad1b8eaae845008"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/delete-exact-local-branch.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/delete-exact-local-branch.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/delete-exact-remote-branch.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/delete-exact-remote-branch.execution.json",
+      "sizeBytes": 297,
+      "rawSha256": "d9b76ea3b70f11012e1a6e358db8798513406eea6a02d85ad1399d5b4e73b5ba"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/delete-exact-remote-branch.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/delete-exact-remote-branch.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/delete-exact-remote-branch.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/delete-exact-remote-branch.stderr",
+      "sizeBytes": 108,
+      "rawSha256": "dfdfdf55a92e0d8fe30e5ef3ec86cb26ebb0250298ddc0be790674abb777317c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/fetched-origin-main.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/fetched-origin-main.execution.json",
+      "sizeBytes": 251,
+      "rawSha256": "f0b3a532694dcf10c67eb3221b2a7c6a7429f7a20cbb9b45ef4dfa74b82ca623"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/fetched-origin-main.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/fetched-origin-main.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "4b2e6828a2959c485fc842cb5f56d7c6bd13bc27f58368bff979bdcf66a033a7"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/fetched-origin-main.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/fetched-origin-main.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/new-detached-control.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/new-detached-control.execution.json",
+      "sizeBytes": 362,
+      "rawSha256": "51c4985de637d29e4e671f0a4452e72f33dd941f9ac00d412790038073746463"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/new-detached-control.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/new-detached-control.stdout",
+      "sizeBytes": 87,
+      "rawSha256": "20d726ce114c0d724ea611c6a2b6032d185b623ac48bdff00771d567e391e323"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/new-detached-control.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/new-detached-control.stderr",
+      "sizeBytes": 1762,
+      "rawSha256": "7b8b4098877eb8854651ed32a2d9572c3d60d7d1c9c1291dec3032fa2c30bd8a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/normal-fetch-main.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/normal-fetch-main.execution.json",
+      "sizeBytes": 287,
+      "rawSha256": "78e11fee0cfcfc65795cafdf9bf1c844d51557008884b7d741f53382e4741991"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/normal-fetch-main.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/normal-fetch-main.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/normal-fetch-main.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/normal-fetch-main.stderr",
+      "sizeBytes": 92,
+      "rawSha256": "9d24cd1a48ec3361b9495d182865e642055da5b924043b7600e250f574cdb13b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/original-clean.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/original-clean.execution.json",
+      "sizeBytes": 249,
+      "rawSha256": "7f4c3d4a04a0ab75eeb0d7219fa5478f351b3d2f25fd15e460fb3b4a1a5dac7f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/original-clean.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/original-clean.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/original-clean.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/original-clean.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/original-head.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/original-head.execution.json",
+      "sizeBytes": 244,
+      "rawSha256": "ede4652e3810dd34619f467c2dc4b58228154ef5826c728f1c4b9094a7940663"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/original-head.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/original-head.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "0280e60ae36193428cfd3410860a41f765f148e8d28bcaaa593fab1565664ba6"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/original-head.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/original-head.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/pre-cleanup-M-status.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/pre-cleanup-M-status.execution.json",
+      "sizeBytes": 4065,
+      "rawSha256": "db0cc210e0defe66d4cdbd11bd87e4e2186c9755d9e62a61593010fb7bc4ad1f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/pre-cleanup-M-status.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/pre-cleanup-M-status.stdout",
+      "sizeBytes": 3565,
+      "rawSha256": "0c93c2458c606893b455355e26b586df41747e3cf9203276b62e2fdc698a45dd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/pre-cleanup-M-status.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/pre-cleanup-M-status.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/preserved-local-main.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/preserved-local-main.execution.json",
+      "sizeBytes": 251,
+      "rawSha256": "4fb7e57a23d99a253dcf51febe63b06cbb70bb6d5736fa6ffd9fcce1626b220d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/preserved-local-main.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/preserved-local-main.stdout",
+      "sizeBytes": 41,
+      "rawSha256": "33f2b38db435437bec5236ab2e60d707f0879d8b39285274bec820fea45b830a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/preserved-local-main.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/preserved-local-main.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/remote-targets-after-merge.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/remote-targets-after-merge.execution.json",
+      "sizeBytes": 323,
+      "rawSha256": "316ead2310d02d52409ac5e30456f24bd84ad69dad76cbabafb3b9cf93ed8b07"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/remote-targets-after-merge.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/remote-targets-after-merge.stdout",
+      "sizeBytes": 149,
+      "rawSha256": "abe104476920ea42d5bd91fd979c8216dec294ba6f4f1f0f77598d0b427a0b25"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/remote-targets-after-merge.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/remote-targets-after-merge.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/remove-exact-original-worktree.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/remove-exact-original-worktree.execution.json",
+      "sizeBytes": 301,
+      "rawSha256": "22fae3038e8965c793ab2b68a81d5000f2732df61922b4f16c7432b9c88d2232"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/remove-exact-original-worktree.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/remove-exact-original-worktree.stdout",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/remove-exact-original-worktree.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/remove-exact-original-worktree.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/retained-control-help.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-control-help.execution.json",
+      "sizeBytes": 3936,
+      "rawSha256": "16654622b7bd9a081ba6c5c5fc765afcb14920f499c95a39fa5844e0b3583982"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/retained-control-help.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-control-help.stdout",
+      "sizeBytes": 293,
+      "rawSha256": "dc581e3515d78528c6695b631529e777c5370dfb9dde3caf1a685236f2c7de17"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/retained-control-help.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-control-help.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/retained-runtime-version.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-runtime-version.execution.json",
+      "sizeBytes": 288,
+      "rawSha256": "297c37c6e9a1fa340a363130be1d9a14cc6a892400422edbf52e5b40d5aa1cbe"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/retained-runtime-version.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-runtime-version.stdout",
+      "sizeBytes": 17,
+      "rawSha256": "03751e4afdcf72f523ff3e65fb3b1dd5299652a16083eb3423c4a7e10ccdaad9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/retained-runtime-version.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-runtime-version.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/worktrees-before-control.execution.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/worktrees-before-control.execution.json",
+      "sizeBytes": 262,
+      "rawSha256": "059d970879422d41c42a1129c63bb2d0864ffd0628f591f82ae2e498fecada4d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/worktrees-before-control.stdout",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/worktrees-before-control.stdout",
+      "sizeBytes": 796,
+      "rawSha256": "4540986d1aaefad74562c19a31ab3045be84e39419549a3e3a987b9c9011d7f8"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/commands/worktrees-before-control.stderr",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/worktrees-before-control.stderr",
+      "sizeBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/retained-ignored-target-evidence.manifest.json",
+      "sourcePreservedAt": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-ignored-target-evidence/retention-manifest.json",
+      "sizeBytes": 1713,
+      "rawSha256": "35fa7f68e5a51c38a515b3ae5960fb742dd1c71b74f5376a4bc6800d1c619c7b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/retained-control-command-runner.py",
+      "sourcePreservedAt": "/tmp/wi1084-control-run.py",
+      "sizeBytes": 2606,
+      "rawSha256": "d5335b5bc071e4eee59d3380ab1a9f262a996209d5b32c95dff5ace949625846"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/cleanup-result-and-bounded-R-bindings.json",
+      "sizeBytes": 7542,
+      "rawSha256": "78fe35a7ced23bc1df7adaea5e00f971d0d2c4f9667c9346c45019bce4e624a6"
+    }
+  ],
+  "allCopiesByteVerified": true,
+  "selfExcluded": true
+}

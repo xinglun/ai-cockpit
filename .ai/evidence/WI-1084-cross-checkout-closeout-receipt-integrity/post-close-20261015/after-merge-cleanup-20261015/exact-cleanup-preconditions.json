@@ -1,0 +1,41 @@
+{
+  "recordedAtUTC": "2026-10-15T13:45:23.973794+00:00",
+  "acceptedC": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+  "actualM": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "runtimeStatus": {
+    "blocking": false,
+    "blockers": [],
+    "governanceState": "green",
+    "effectiveUnknowns": [
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ]
+  },
+  "exactOriginalBinding": {
+    "archiveManifestDigest": "sha256:d781bacebb53b33d600e70bd354dec291b5296d4110eb15009741df1b9df781e",
+    "branch": "codex/wi1084-closeout-receipt-integrity",
+    "branchRef": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+    "capturedAt": "2026-10-15T12:42:57Z",
+    "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "headRevision": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "worktreeId": "sha256:ce8cc6c55819353e470af25878d70487e2978d449d72d80eba13223963b76e5b",
+    "worktreePath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity"
+  },
+  "recomputedWorktreeId": "sha256:ce8cc6c55819353e470af25878d70487e2978d449d72d80eba13223963b76e5b",
+  "runtimeRetainedVerified": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+  "runtimeMode": "0o700",
+  "remoteBefore": {
+    "refs/heads/codex/wi1084-closeout-receipt-integrity": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+    "refs/heads/main": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8"
+  },
+  "allOriginalDeliverablesPersistedAtM": true,
+  "ignoredArtifacts": "Only target build products (two reports additionally retained and byte-identical to tracked evidence), lifecycle lock, two Python caches.",
+  "workspaceBytesBefore": 2370850816
+}

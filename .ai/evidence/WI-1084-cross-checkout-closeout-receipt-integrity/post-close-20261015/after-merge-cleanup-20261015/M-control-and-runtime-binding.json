@@ -1,0 +1,37 @@
+{
+  "actualMergeM": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "acceptedHeadC": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+  "parents": [
+    "bcd76ae76f61650a890267f511099c96dc6a47fd",
+    "8986cc795dd19890ed9f15c1aca2dbf503dce45d"
+  ],
+  "CContainedInM": true,
+  "treeEqualToAcceptedC": true,
+  "originMain": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "originalWorktreeAndBranchRetained": true,
+  "remoteBranchAtPostMergeObservation": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+  "newControl": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+  "controlDetached": true,
+  "controlClean": true,
+  "controlInitialHead": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "commonDir": "/workspace/ai-cockpit/.git",
+  "retainedRuntime": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+  "runtimeSha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeBytes": 52094536,
+  "runtimeMode": "0o700",
+  "protectedLocalMainPreserved": true,
+  "globalReadyOnBaseClaimed": false,
+  "mainChecks": "Pending actual main M CI discovery and success before cleanup",
+  "storageAfter": [
+    {
+      "path": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "availableBytes": 2372386816,
+      "availableInodes": 1973409
+    },
+    {
+      "path": "/tmp/wi1084-closeout-execution-retained-b1487517",
+      "availableBytes": 2838188032,
+      "availableInodes": 2252147
+    }
+  ]
+}

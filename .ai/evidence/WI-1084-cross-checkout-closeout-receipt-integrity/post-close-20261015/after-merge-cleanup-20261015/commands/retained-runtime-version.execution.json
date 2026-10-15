@@ -1,0 +1,10 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "--version"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "startedAtUTC": "2026-10-15T13:22:23.458186+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.0048558712005615234
+}

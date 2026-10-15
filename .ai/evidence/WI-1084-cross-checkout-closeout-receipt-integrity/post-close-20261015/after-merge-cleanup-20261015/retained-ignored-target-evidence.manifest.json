@@ -1,0 +1,26 @@
+{
+  "recordedAtUTC": "2026-10-15T13:32:17.555922+00:00",
+  "reason": "Two ignored target governance reports discovered during authorized exact-worktree cleanup preparation; preserve original readable bytes before deletion.",
+  "files": [
+    {
+      "originalPath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/governance-integrity.json",
+      "retainedPath": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-ignored-target-evidence/governance-integrity.json",
+      "rawSha256": "994cf404cf29049a3750a930fd5b180a97b9626fd5e92cee60b5b4aab8760f15",
+      "sizeBytes": 173015,
+      "identicalAlreadyTrackedPaths": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/governance-integrity.report.json"
+      ],
+      "meaning": "Original historical generated report copied without modification; not a new current validation result."
+    },
+    {
+      "originalPath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/post-formal-governance-integrity.json",
+      "retainedPath": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-ignored-target-evidence/post-formal-governance-integrity.json",
+      "rawSha256": "994cf404cf29049a3750a930fd5b180a97b9626fd5e92cee60b5b4aab8760f15",
+      "sizeBytes": 173015,
+      "identicalAlreadyTrackedPaths": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/governance-integrity.report.json"
+      ],
+      "meaning": "Original historical generated report copied without modification; not a new current validation result."
+    }
+  ]
+}

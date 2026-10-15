@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:9619a931a506683918936615014083c2c4a5b04e4613afb6720cfa52819e1f6e",
+  "branchRef": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+  "contractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "headRevision": "b148751722994816d5ed5fc49edf75b72580a82c",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-15T13:45:37Z",
+  "operationId": "sha256:b6dbd3933d326b5730d9b9e224bb624d49694e324affb374c7ad5a139bb5e8ee",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "worktreeId": "sha256:ce8cc6c55819353e470af25878d70487e2978d449d72d80eba13223963b76e5b"
+}

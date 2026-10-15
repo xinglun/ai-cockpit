@@ -1,0 +1,13 @@
+{
+  "completedAtUTC": "2026-10-15T13:45:29.726195+00:00",
+  "exactRemoteBranchRemoved": "codex/wi1084-closeout-receipt-integrity",
+  "exactLocalBranchRemoved": "codex/wi1084-closeout-receipt-integrity",
+  "exactWorktreeRemoved": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "exactWorktreeGitDirRemoved": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "retainedControl": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+  "retainedRuntime": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+  "mainStillM": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "protectedOtherHeadsAndDirtyBytesUnchanged": true,
+  "noForceResetCleanOrPruneUsed": true,
+  "workspaceBytesAfter": 5414866944
+}

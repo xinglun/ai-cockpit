@@ -1,0 +1,29 @@
+{
+  "command": [
+    "git",
+    "push",
+    "origin",
+    "HEAD:refs/heads/codex/wi1084-closeout-receipt-integrity"
+  ],
+  "actualCommitC": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+  "requiredParent": "b148751722994816d5ed5fc49edf75b72580a82c",
+  "startedAtUTC": "2026-10-15T12:53:11.306083+00:00",
+  "runtimeBlocking": false,
+  "runtimeUnknownsPreserved": [
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "humanAndRouteAuthority": "Existing actual Ray v3 approval and Raydot technical instruction; no dedicated Git push denial or hook bypass.",
+  "remoteRefsBefore": {
+    "refs/heads/codex/wi1084-closeout-receipt-integrity": "b148751722994816d5ed5fc49edf75b72580a82c",
+    "refs/heads/main": "bcd76ae76f61650a890267f511099c96dc6a47fd"
+  },
+  "availableBytesBefore": 2851225600,
+  "exitCode": 0,
+  "finishedAtUTC": "2026-10-15T12:53:16.536779+00:00",
+  "verifiedRemoteRefsAfter": {
+    "refs/heads/codex/wi1084-closeout-receipt-integrity": "8986cc795dd19890ed9f15c1aca2dbf503dce45d",
+    "refs/heads/main": "bcd76ae76f61650a890267f511099c96dc6a47fd"
+  }
+}

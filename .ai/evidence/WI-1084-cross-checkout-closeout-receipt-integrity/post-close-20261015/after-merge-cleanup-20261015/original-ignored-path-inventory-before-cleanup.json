@@ -1,0 +1,15 @@
+{
+  "recordedAtUTC": "2026-10-15T13:31:02.514378+00:00",
+  "ignoredCount": 4051,
+  "topLevelCounts": {
+    ".ai": 1,
+    "target": 4048,
+    "tests": 2
+  },
+  "nonTargetIgnoredPaths": [
+    ".ai/locks/WI-1084-cross-checkout-closeout-receipt-integrity.lifecycle.lock",
+    "tests/ci/__pycache__/quality_route.cpython-312.pyc",
+    "tests/docs/__pycache__/work_item_projection_policy.cpython-312.pyc"
+  ],
+  "targetRemovalAuthority": "Exact original worktree cleanup in approved v3 includes ignored target after retaining the exact existing Runtime; no extra cache cleanup authority."
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "branch",
+    "-d",
+    "codex/wi1084-closeout-receipt-integrity"
+  ],
+  "cwd": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+  "startedAtUTC": "2026-10-15T13:45:27.945584+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.003863811492919922
+}

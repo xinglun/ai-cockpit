@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "rev-parse",
+    "8986cc795dd19890ed9f15c1aca2dbf503dce45d^{tree}"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "startedAtUTC": "2026-10-15T13:22:21.784051+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.0020935535430908203
+}

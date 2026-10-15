@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "symbolic-ref",
+    "HEAD"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "startedAtUTC": "2026-10-15T13:45:21.891704+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.0019905567169189453
+}

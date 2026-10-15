@@ -1,0 +1,127 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "status",
+    "--repo",
+    "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+    "--id",
+    "WI-1084-cross-checkout-closeout-receipt-integrity",
+    "--json"
+  ],
+  "recordedAtUTC": "2026-10-15T13:44:11.479905+00:00",
+  "sourceHead": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+  "runtimeSha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "storageBefore": [
+    {
+      "path": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "measuredExistingAncestor": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "requestedPathExists": true,
+      "device": 27,
+      "availableBytes": 2371330048,
+      "availableInodes": 1973363
+    },
+    {
+      "path": "/tmp",
+      "measuredExistingAncestor": "/tmp",
+      "requestedPathExists": true,
+      "device": 33,
+      "availableBytes": 2838183936,
+      "availableInodes": 2252146
+    },
+    {
+      "path": "/workspace/ai-cockpit-control-wi1084-final-b1487517/target/wi1084-closeout-receipt-integrity",
+      "measuredExistingAncestor": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "requestedPathExists": false,
+      "device": 27,
+      "availableBytes": 2371330048,
+      "availableInodes": 1973363
+    },
+    {
+      "path": "/workspace/.cargo",
+      "measuredExistingAncestor": "/workspace/.cargo",
+      "requestedPathExists": true,
+      "device": 27,
+      "availableBytes": 2371330048,
+      "availableInodes": 1973363
+    },
+    {
+      "path": "/workspace/.rustup",
+      "measuredExistingAncestor": "/workspace/.rustup",
+      "requestedPathExists": true,
+      "device": 27,
+      "availableBytes": 2371330048,
+      "availableInodes": 1973363
+    },
+    {
+      "path": "/tmp/wi1084-runtime-home-20261015",
+      "measuredExistingAncestor": "/tmp/wi1084-runtime-home-20261015",
+      "requestedPathExists": true,
+      "device": 33,
+      "availableBytes": 2838183936,
+      "availableInodes": 2252146
+    }
+  ],
+  "environment": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-control-wi1084-final-b1487517/target/wi1084-closeout-receipt-integrity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1"
+  },
+  "timeoutSeconds": 900,
+  "exitCode": 0,
+  "elapsedSeconds": 1.540663242340088,
+  "storageAfter": [
+    {
+      "path": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "measuredExistingAncestor": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "requestedPathExists": true,
+      "device": 27,
+      "availableBytes": 2371321856,
+      "availableInodes": 1973360
+    },
+    {
+      "path": "/tmp",
+      "measuredExistingAncestor": "/tmp",
+      "requestedPathExists": true,
+      "device": 33,
+      "availableBytes": 2838183936,
+      "availableInodes": 2252146
+    },
+    {
+      "path": "/workspace/ai-cockpit-control-wi1084-final-b1487517/target/wi1084-closeout-receipt-integrity",
+      "measuredExistingAncestor": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "requestedPathExists": false,
+      "device": 27,
+      "availableBytes": 2371321856,
+      "availableInodes": 1973360
+    },
+    {
+      "path": "/workspace/.cargo",
+      "measuredExistingAncestor": "/workspace/.cargo",
+      "requestedPathExists": true,
+      "device": 27,
+      "availableBytes": 2371321856,
+      "availableInodes": 1973360
+    },
+    {
+      "path": "/workspace/.rustup",
+      "measuredExistingAncestor": "/workspace/.rustup",
+      "requestedPathExists": true,
+      "device": 27,
+      "availableBytes": 2371321856,
+      "availableInodes": 1973360
+    },
+    {
+      "path": "/tmp/wi1084-runtime-home-20261015",
+      "measuredExistingAncestor": "/tmp/wi1084-runtime-home-20261015",
+      "requestedPathExists": true,
+      "device": 33,
+      "availableBytes": 2838183936,
+      "availableInodes": 2252146
+    }
+  ]
+}

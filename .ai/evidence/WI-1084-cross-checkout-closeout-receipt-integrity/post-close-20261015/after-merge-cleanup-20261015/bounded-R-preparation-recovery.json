@@ -1,0 +1,6 @@
+{
+  "recordedAtUTC": "2026-10-15T13:49:04.215385+00:00",
+  "actualLocalPreparationError": "ValueError: stdout and stderr arguments may not be used with capture_output, from agent check_output(...,capture_output=True) while computing the detached-control audit.",
+  "stage": "After raw evidence copies, manifest and scope/credential checks; before writing audit, staging, commit or push.",
+  "recovery": "Use subprocess.run(...,capture_output=True) for the symbolic-ref return-code observation. Preserve existing copied evidence and reverify all byte hashes; no Runtime/source/gate changes."
+}
