@@ -1,0 +1,45 @@
+{
+  "recordedAtUTC": "2026-10-15T10:52:36.493168+00:00",
+  "status": "blocked_finish_not_archived",
+  "reviewedSourceAndCIHead": "7f723bfb7a6dab4c07952f3fca1a7fe701e91faf",
+  "acceptedCI": 38718628905,
+  "contractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+  "materialRequestDigest": "sha256:ba876ee94c1ff5ad9fc1a1790b1287b3b3ee6baa616afeefc9bf9480226ce1f7",
+  "materialManifestDigest": "sha256:82e95774a5ef741ce56983f8b152121923083aa459c31c64160afcab555b2be0",
+  "materialSourceSnapshotDigest": "sha256:b59af48b57fbe7f6498a36db2b52488aed33a55bbe91053ad364787480e14a3e",
+  "materialUnknown": [
+    {
+      "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:38b599cb53fe461263ca1534e01eb357f2e5c06c081e58ba03856705ffb536e0",
+      "afterBlobDigest": "sha256:943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a"
+    }
+  ],
+  "reviewEnabled": false,
+  "finishExitCode": 1,
+  "finishFailure": "canonical material Unknowns: repository_material_inspection_unavailable",
+  "archiveGenerated": false,
+  "contractChanged": false,
+  "sourceChanged": false,
+  "verificationReceiptRawSha256": "3e50cfff0224aaf40694b75be5d315364dcdf37ee1a0ba15913cd05ca9a19554",
+  "verificationReceiptDigest": "sha256:5028a26bff9c475816189737edeeda0ec873878a767787bebee030b4f1b53214",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "proposedRequestRawSha256": "7b8d0430168a272a0980d7ab416340bdb18129d6ad9eb0042c20d4e50f16b30a",
+  "proposalApplied": false,
+  "resourceContext": null,
+  "prospectiveCleanupObjects": {
+    "repository": "xinglun/ai-cockpit",
+    "pullRequest": 1040,
+    "branch": "codex/wi1084-closeout-receipt-integrity",
+    "localRef": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+    "remoteRef": "refs/heads/codex/wi1084-closeout-receipt-integrity",
+    "worktree": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "gitCommonDir": "/workspace/ai-cockpit/.git",
+    "authorization": "not authorized for deletion, Ready, merge or close",
+    "controlCheckout": "not selected; preserve dirty historical controls and every WI1078 resource"
+  }
+}

@@ -96,6 +96,7 @@
     "schemaVersion": 1,
     "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
   },
+  "failedGate": "finish.lifecycle",
   "intentAlignment": {
     "evidence": [
       ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
@@ -117,12 +118,14 @@
     }
   },
   "mode": "implementation",
+  "outcomeState": "blocked",
   "preflightAt": "2026-10-15T10:09:00Z",
   "preflightContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -203,7 +206,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-15T10:10:39.196829185+00:00",
+  "updatedAt": "2026-10-15T10:45:35Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
