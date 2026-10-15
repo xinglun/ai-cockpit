@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "scope": "Final plan/preflight/pending-request evidence; self excluded; no human approval is asserted",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/committed-plan-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/committed-plan-status.stdout.json",
+      "bytes": 4215,
+      "sha256": "f20f6797ab034b189c3ec1bd283fd5bbbcd7f9860ec66a0e2c4cea5bc93560c9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/docs-ready-status.command.json",
+      "bytes": 345,
+      "sha256": "2dd861acbce222130893278a71aa284dbba9b0e8c461fbc140ab962dbd0685cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/docs-ready-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/docs-ready-status.stdout.json",
+      "bytes": 3855,
+      "sha256": "4963bd9861cbb82f373c92ac3ce3da6d9048b358527aa51c774f5888e3c27cc3"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/final-preflight.command.json",
+      "bytes": 463,
+      "sha256": "0f10cea6b3ac99b549df70e8772b7e4a7919cb22886a5b8958dd9493e1bf4179"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/final-preflight.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/final-preflight.stdout.json",
+      "bytes": 6538,
+      "sha256": "f66cbc7ca886ddbf2aea84bd909dacf4c30a59faab19eb2fd52bceb775d68522"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/implementation-plan.md",
+      "bytes": 9206,
+      "sha256": "ea36603a75ef05bd9b21e6d2f6a8b42e005a1b42069e26fd3c45a66e410ce288"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/old-checkpoint-ci-observation.json",
+      "bytes": 2484,
+      "sha256": "7ffc964e510f91428537fdc46a81341f1214f7c8a1af32e55e0081b00a686573"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/pending-confirm-review-request.json",
+      "bytes": 1877,
+      "sha256": "00ef6b2a104c2c8451220402c1d28bb8edb4bb6cc32697178af77c9fbbeae3f9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/plan-preparation-check.json",
+      "bytes": 1210,
+      "sha256": "fd019c14fc7cf8d9e08b77a6f3466b6c104ae63d1a8545ddc6e32f720fc588ab"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/planning-checkpoint-pr-state.raw.json",
+      "bytes": 4417,
+      "sha256": "375a01f24afbab8e11abbee4c4258bf47bcf1c5d3287666a76f24ff8efbb6593"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/final-plan-20261015/technical-review-authority.json",
+      "bytes": 647,
+      "sha256": "394cb8becb8542d0eb0a32128c29806fea3cecc46d9b1f9031d101a432eb0806"
+    }
+  ]
+}

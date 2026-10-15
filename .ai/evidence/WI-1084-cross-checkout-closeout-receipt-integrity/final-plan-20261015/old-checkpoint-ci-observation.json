@@ -1,0 +1,63 @@
+{
+  "observedAt": "2026-10-15T08:05:23.598029+00:00",
+  "head": "994a065a29b6e0d48c9aa423242dd1dbf18fd602",
+  "run": 38700235514,
+  "url": "https://github.com/xinglun/ai-cockpit/actions/runs/38700235514",
+  "qualityJob": 116307958309,
+  "observedCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T07:43:50Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38700235514/job/116306390832",
+      "name": "route",
+      "startedAt": "2026-10-15T07:39:40Z",
+      "status": "COMPLETED",
+      "workflowName": "ai-cockpit quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T07:47:11Z",
+      "conclusion": "FAILURE",
+      "detailsUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38700235514/job/116307958309",
+      "name": "quality",
+      "startedAt": "2026-10-15T07:43:54Z",
+      "status": "COMPLETED",
+      "workflowName": "ai-cockpit quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "detailsUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38700235514/job/116307958223",
+      "name": "windows-runtime",
+      "startedAt": "2026-10-15T07:43:58Z",
+      "status": "IN_PROGRESS",
+      "workflowName": "ai-cockpit quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T07:44:23Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38700235514/job/116307958048",
+      "name": "v1-behavioral-oracle",
+      "startedAt": "2026-10-15T07:43:53Z",
+      "status": "COMPLETED",
+      "workflowName": "ai-cockpit quality"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-15T07:39:37Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/stilliard/github-task-list-completed.git",
+      "name": "task-list-completed",
+      "startedAt": "2026-10-15T07:39:37Z",
+      "status": "COMPLETED",
+      "workflowName": ""
+    }
+  ],
+  "manualRerunRequested": false,
+  "claim": "Planning checkpoint is not accepted implementation evidence; preserve actual failure and running states. No gates or assertions are changed to hide it.",
+  "failedLogReadStdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "failedLogReadStderr": "run 38700235514 is still in progress; logs will be available when it is complete\n"
+}
