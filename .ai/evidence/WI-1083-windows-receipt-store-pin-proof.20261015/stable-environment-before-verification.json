@@ -1,0 +1,29 @@
+{
+  "observedAt": "2026-10-15T02:15:44.762664+00:00",
+  "sourceHead": "82521f19546b6d2c5504f71fbb71c03de551a9d3",
+  "sourceAndContractUnchangedFromReviewed0eb": true,
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "newlyRebuiltCliPath": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/ai-cockpit",
+  "newlyRebuiltCliSha256": "ec936872a6007bc1ad1a2e6ba3581a9b05d100c928cdb23a44e436c1e5e9cc84",
+  "ciGateCompileTimeExecutablePaths": [
+    "# env-dep:CARGO_BIN_EXE_ai-cockpit=/workspace/.tmp-wi1083-target-00461714-20261015/debug/ai-cockpit"
+  ],
+  "processCounts": {
+    "processes": 15273,
+    "zombies": 15263,
+    "zombiesPpid1": 15263
+  },
+  "unreadableProcessStats": 0,
+  "pid1": "tail",
+  "rlimitNproc": [
+    71955,
+    71955
+  ],
+  "cgroupPidsMax": "max",
+  "spaceBeforeTests": {
+    "/tmp": 3821953024,
+    "/workspace": 2481995776
+  },
+  "resourceLimitsOrPermissionsChanged": false,
+  "zombieTriggerNotProven": true
+}

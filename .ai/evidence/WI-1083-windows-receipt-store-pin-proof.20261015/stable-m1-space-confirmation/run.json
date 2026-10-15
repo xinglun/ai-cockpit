@@ -1,0 +1,44 @@
+{
+  "label": "stable-m1-space-confirmation",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "--work-item",
+    "WI-1083-windows-receipt-store-pin-proof",
+    "--workers",
+    "1",
+    "--command",
+    "cargo",
+    "--args=test,--package,cockpit-repository,--lib,resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent,--,--exact,--test-threads=1"
+  ],
+  "head": "82521f19546b6d2c5504f71fbb71c03de551a9d3",
+  "startedAt": "2026-10-15T02:16:01.630875+00:00",
+  "finishedAt": "2026-10-15T02:16:10.351920+00:00",
+  "elapsedSeconds": 8.719642748998012,
+  "exitCode": 0,
+  "hostTimedOut": false,
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1083-runtime-home-20261015",
+    "TMPDIR": "/tmp/wi1083-stable-tests-20261015",
+    "CARGO_TARGET_DIR": "/workspace/.tmp-wi1083-target-00461714-20261015",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1"
+  },
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "files": {
+    "stderr.log": "e2fe483029eecb378356da83d3b57b165e3059ccc956cac6b1dbe580b3d9d384",
+    "stdout.log": "9e5194d208025f90fe4085ddc7234e691f72d827376925cc7f62f7e6e4a03760",
+    "status.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.json": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932",
+    "volume-space-samples.json": "816aafcf80f8171ad621cd53fcd826a656f5e2c7744807868f00cc2cf17db9ac",
+    "status.json": "e89170c8eb9dd86a5bd3e7fbcbf57c56127d9ce1c5bafd13e47fcfd6dd584048",
+    "verification.receipt.json": "130b824964410cbf1f604917d3ce078797a83700bbcae3a1e7354a590051529a",
+    "validate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

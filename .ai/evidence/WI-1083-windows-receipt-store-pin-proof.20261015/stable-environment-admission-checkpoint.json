@@ -1,0 +1,25 @@
+{
+  "observedAt": "2026-10-15T02:16:36.100295+00:00",
+  "freshCliAllFivePassed": true,
+  "originalM1OnePassed": true,
+  "sampledMinimumFreeBytes": {
+    "stable-cli-gate-confirmation": {
+      "/tmp": 3800752128,
+      "/workspace": 2481963008
+    },
+    "stable-m1-space-confirmation": {
+      "/tmp": 2559967232,
+      "/workspace": 2481901568
+    }
+  },
+  "currentFreeBytes": {
+    "/tmp": 3821953024,
+    "/workspace": 2481876992
+  },
+  "memoryCgroup": {
+    "memory.max": "17179869184",
+    "memory.current": "13752074240",
+    "memory.swap.max": "max"
+  },
+  "next": "One full admitted 13-node formal run; all test assertions/gates/source/Contract unchanged; 900s host cap; no reuse of targeted results."
+}

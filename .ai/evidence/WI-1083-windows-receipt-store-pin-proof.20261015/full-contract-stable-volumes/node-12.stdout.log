@@ -1,0 +1,276 @@
+
+running 59 tests
+test composition::composition_parent_tests::concurrent_composition_parents_remain_unique_at_the_same_clock_tick ... ok
+test composition::external_observer_deferred_tests::admission_change_blocks_reuse_with_controlled_clean_unknown_and_active_observations ... ok
+test composition::external_observer_deferred_tests::complete_owned_execution_survives_external_unknown_and_retries_fresh_noop ... ok
+test composition::external_observer_deferred_tests::external_observer_test_child_entry ... ok
+test composition::external_observer_deferred_tests::external_unknown_retry_rejects_known_active_process_and_unsafe_command ... ok
+test composition::external_observer_deferred_tests::external_unknown_without_coherent_owned_binding_blocks_clean_reconcile ... ok
+test composition::external_observer_deferred_tests::external_unknown_without_current_owned_proof_retains_unknown ... ok
+test composition::external_observer_deferred_tests::failed_execution_result_survives_external_unknown_with_owned_proof ... ok
+test composition::external_observer_deferred_tests::no_receipt_execution_record_survives_clean_and_procfs_eacces_observations ... ok
+test composition::external_observer_deferred_tests::node_without_observable_inputs_executes_again_under_clean_observer ... ok
+test composition::external_observer_deferred_tests::real_eacces_fixture_rejects_a_diagnostic_for_another_pid ... ok
+test composition::external_observer_deferred_tests::real_eacces_fixture_rejects_a_pid_prefix_collision ... ok
+test composition::linux_process_group_reconciliation_tests::attempt_digest_change_after_a_pair_rejects_the_observation ... ok
+test composition::linux_process_group_reconciliation_tests::cleanup_guard_rejects_a_changed_latest_attempt_digest ... ok
+test composition::linux_process_group_reconciliation_tests::live_group_is_active_then_empty_reaped_group_is_exited ... ok
+test composition::linux_process_group_reconciliation_tests::member_or_leader_identity_inconsistency_is_unknown_without_retry ... ok
+test composition::linux_process_group_reconciliation_tests::missing_reused_or_inconsistent_leader_identity_is_unknown_while_members_remain ... ok
+test composition::linux_process_group_reconciliation_tests::one_disappeared_stat_in_a_partial_pair_restarts_and_stable_active_group_succeeds ... ok
+test composition::linux_process_group_reconciliation_tests::permission_and_parse_errors_are_not_retried ... ok
+test composition::linux_process_group_reconciliation_tests::proc_scanner_fails_closed_on_unreadable_racing_and_over_budget_entries ... ok
+test composition::linux_process_group_reconciliation_tests::proc_scans_detect_pid_reuse_between_snapshots ... ok
+test composition::linux_process_group_reconciliation_tests::proc_stat_parser_handles_parentheses_and_rejects_malformed_identity ... ok
+test composition::linux_process_group_reconciliation_tests::stable_active_and_zombie_only_groups_return_their_normal_liveness ... ok
+test composition::linux_process_group_reconciliation_tests::stable_zombie_only_group_exits_but_a_mixed_group_is_active ... ok
+test composition::linux_process_group_reconciliation_tests::three_disappeared_stat_entries_leave_the_process_group_unknown ... ok
+test composition::linux_process_group_reconciliation_tests::total_deadline_includes_scan_execution ... ok
+test composition::linux_process_group_reconciliation_tests::total_deadline_includes_the_stability_delay ... ok
+test composition::read_set_containment_tests::moving_an_open_read_set_parent_outside_during_read_is_not_trusted ... ok
+test composition::rustup_default_host_settings_tests::default_host_triple_alias_is_supported ... ok
+test composition::rustup_default_host_settings_tests::default_host_tuple_is_supported ... ok
+test composition::rustup_default_host_settings_tests::duplicate_host_keys_and_alias_conflicts_are_rejected ... ok
+test composition::rustup_default_host_settings_tests::duplicate_known_settings_keys_are_rejected ... ok
+test composition::rustup_default_host_settings_tests::explicit_host_channel_does_not_require_default_host_metadata ... ok
+test composition::rustup_default_host_settings_tests::explicit_toolchain_host_can_differ_from_settings_host ... ok
+test composition::rustup_default_host_settings_tests::identical_node_inputs_reuse_but_host_config_and_toolchain_changes_do_not ... ok
+test composition::rustup_default_host_settings_tests::malformed_host_tuple_is_rejected ... ok
+test composition::rustup_default_host_settings_tests::missing_settings_file_remains_unknown ... ok
+test composition::rustup_default_host_settings_tests::short_channel_without_default_host_remains_unresolvable ... ok
+test composition::rustup_default_host_settings_tests::short_toolchain_selects_only_the_configured_host_directory ... ok
+test composition::rustup_default_host_settings_tests::symlinked_settings_file_remains_unknown ... ok
+test composition::rustup_default_host_settings_tests::unique_toolchain_prefix_does_not_prove_host_identity ... ok
+test composition::rustup_default_host_settings_tests::unknown_keys_and_nonempty_overrides_remain_fail_closed ... ok
+test composition::verifier_process_observation_tests::fresh_same_uid_diagnostic_rejects_pid_and_identity_prefix_collisions ... ok
+test composition::verifier_process_observation_tests::fresh_same_uid_identity_match_allows_process_state_transition ... ok
+test composition::verifier_process_observation_tests::fresh_same_uid_nondumpable_process_reports_eacces_and_observable_identity ... ok
+test composition::verifier_process_observation_tests::inaccessible_process_started_before_private_worktree_does_not_block_cleanup ... ok
+test composition::verifier_process_observation_tests::inaccessible_runner_ancestors_do_not_block_fresh_worktree_cleanup ... ok
+test composition::verifier_process_observation_tests::recovery_trace_category_ignores_nested_identity_read_error_kind ... ok
+test composition::verifier_process_observation_tests::recovery_trace_extracts_structured_process_observation_fields ... ok
+test composition::verifier_process_observation_tests::unreadable_process_identity_is_explicitly_unknown_in_diagnostic ... ok
+test gate_plan::tests::dependency_closure_escalates_a_route_before_execution ... ok
+test gate_plan::tests::lifecycle_boundary_rejects_future_or_stale_states ... ok
+test gate_plan::tests::manifest_dependencies_are_known_unique_and_acyclic ... ok
+test gate_plan::tests::receipt_digest_is_stable_and_validation_reuses_same_facts ... ok
+test gate_plan::tests::rejects_unsafe_paths_before_rule_selection ... ok
+test gate_plan::tests::selects_highest_path_profile_and_gate_ids_in_manifest_order ... ok
+test tests::failed_dependency_is_not_made_ready ... ok
+test tests::plan_reports_the_bound_fields_that_make_cached_evidence_stale ... ok
+test tests::process_start_gate_rejection_does_not_spawn_the_child ... ok
+
+test result: ok. 59 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.56s
+
+
+running 4 tests
+test complete_graph_returns_only_deterministically_affected_descendants ... ok
+test partial_graph_escalates_only_known_affected_nodes_and_remains_visible ... ok
+test unknown_changed_node_fails_closed ... ok
+test unknown_graph_is_conservative_and_never_green ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 49 tests
+test actual_command_environment_change_invalidates_reuse_even_when_json_identity_is_stale ... ok
+test admission_change_blocks_reuse_even_when_no_process_would_start ... ok
+test attempt_record_filename_is_portable_and_preserves_logical_identity ... ok
+test changed_command_only_reexecutes_the_affected_node ... ok
+test changed_source_file_only_reexecutes_nodes_that_observe_that_file ... ok
+test changed_upstream_receipt_reexecutes_transitive_dependents_only ... ok
+test coherent_supervisor_receipt_is_required_for_a_successful_terminal ... ok
+test composition_attempt_reads_legacy_logical_id_filename_and_preserves_it ... ok
+test composition_attempt_reports_execution_and_cleanup_separately ... ok
+test composition_attempt_without_schema_version_is_not_reused ... ok
+test composition_commands_accept_explicit_upstream_dependencies ... ok
+test composition_pure_cache_supervisor_run_test_helper ... ok
+test composition_rejects_dependencies_that_are_not_prior_nodes_before_spawn ... ok
+test composition_subreaper_test_helper ... ok
+test composition_supervisor_reaps_orphaned_descendants_to_echild ... ok
+test composition_supervisor_run_test_helper ... ok
+test composition_v2_attempt_reads_but_does_not_reuse_v1_history ... ok
+test empty_required_checks_fail_closed_without_a_worktree_or_process ... ok
+test exact_composition_uses_real_linked_worktree_and_finds_interface_error ... ok
+test execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable ... ok
+test external_default_feature_consumer_cannot_compile_test_support_seam ... ok
+test failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag ... ok
+test failed_attempts_are_append_only_and_exact_identity_controls_reuse ... ok
+test failed_precondition_spawns_zero_expensive_processes_and_persists_attempt ... ok
+test inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse ... ok
+test inherited_path_cannot_substitute_a_composition_verifier ... ok
+test installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node ... ok
+test installed_toolchain_change_child ... ok
+test pause_write_cannot_commit_between_reuse_admission_and_receipt_acceptance ... ok
+test persistence_error_after_worktree_creation_cleans_the_temporary_worktree ... ok
+test process_group_backend_does_not_claim_linux_echild_proof ... ok
+test process_start_gate_rejection_is_persisted_without_running_the_node ... ok
+test procfs_cwd_eacces_identity_accepts_state_transition ... ok
+test procfs_cwd_eacces_identity_rejects_each_stable_field_change ... ok
+test pure_cache_observation_interface_cannot_supply_admission_or_start_gate ... ok
+test read_set_under_a_parent_symlink_is_not_reusable ... ok
+test relative_executable_uses_isolated_worktree_bytes_and_changes_identity ... ok
+test repeated_exact_composition_reuses_only_when_inputs_are_observable ... ok
+test retry_does_not_remove_a_worktree_owned_by_a_live_process ... ok
+test retry_preserves_worktree_while_orphan_verifier_process_group_is_alive ... 
+running 1 test
+test retry_preserves_worktree_while_orphan_verifier_process_group_is_alive ... 
+running 1 test
+test retry_preserves_worktree_while_orphan_verifier_process_group_is_alive ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 2.42s
+
+ok
+test retry_reconciles_an_interrupted_owner_after_process_exit ... 
+running 1 test
+test retry_reconciles_an_interrupted_owner_after_process_exit ... 
+running 1 test
+test retry_reconciles_an_interrupted_owner_after_process_exit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.74s
+
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 3.01s
+
+ok
+test retry_reconciles_zombie_only_verifier_process_group ... 
+running 1 test
+test retry_reconciles_zombie_only_verifier_process_group ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.00s
+
+ok
+test signal_terminated_node_is_durable_and_not_reusable ... ok
+test successful_exact_identity_allows_reuse_but_command_change_reexecutes ... ok
+test timed_out_node_is_durable_and_reports_cleanup ... ok
+test unbound_command_path_override_fails_before_spawn ... ok
+test unbounded_external_reads_execute_again_but_independent_node_reuses ... ok
+test unknown_observer_fixture_owners_survive_assertion_unwind ... ok
+test untrusted_absolute_executable_fails_before_spawn ... ok
+
+test result: ok. 49 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 53.25s
+
+
+running 6 tests
+test forged_cached_cost_observation_is_not_authoritative ... ok
+test planner_cost_estimate_is_advisory ... ok
+test protected_nodes_remain_executed_when_cost_is_observed ... ok
+test receipt_cost_observation_reports_parallel_and_reuse_facts ... ok
+test unknown_cost_confidence_never_becomes_governance_green ... ok
+test uppercase_digest_is_not_a_canonical_complete_identity ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+
+running 6 tests
+test complete_report_matches_the_python_oracle_document ... ok
+test decimal_rounding_matches_the_python_oracle_at_binary_half_edges ... ok
+test malformed_environment_stage_and_sample_fail_closed ... ok
+test samples_round_to_three_decimals_and_use_nearest_rank ... ok
+test three_stages_keep_time_operations_and_rejections_separate ... ok
+test unavailable_stage_and_invalid_capture_never_become_zero ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test diagnostic_summary_decodes_non_utf8_without_replacing_raw_bytes ... ok
+test lint_note_only_reclassifies_its_own_duplicate_warning_occurrence ... ok
+test repeated_clippy_roots_are_summarized_once_with_node_and_raw_evidence_retained ... ok
+test rustc_style_lint_note_is_attached_to_its_human_readable_root ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 27 tests
+test bounded_execution_reports_plan_and_process_telemetry ... ok
+test bounded_executor_starts_a_dependent_only_after_its_dependency_finishes ... ok
+test bounded_executor_still_runs_independent_nodes_in_parallel ... ok
+test dependency_rerun_forces_an_otherwise_fresh_downstream_command_to_execute ... ok
+test descendant_inheriting_capture_pipes_cannot_hold_the_executor_open ... ok
+test detached_descendant_pipe_is_cancelled_and_fails_closed ... ok
+test execution_receipt_preserves_command_identity_exit_status_and_bounded_logs ... ok
+test failed_dependency_is_reported_without_running_dependents_or_blocking_independent_nodes ... ok
+test failed_spawn_is_not_reported_as_a_spawned_or_executed_protected_process ... ok
+test failed_spawn_nonzero_exit_and_truncated_output_create_no_passed_candidate ... ok
+test fresh_typed_receipt_skips_the_actual_failing_process ... ok
+test never_reuse_policy_cannot_be_overridden_by_a_fresh_candidate ... ok
+test output_identity_changes_when_successful_command_output_changes ... ok
+test pinned_execution_paths_do_not_change_the_logical_command_identity ... ok
+test planner_derives_identity_from_the_final_actual_command ... ok
+test planner_includes_actual_arguments_in_command_identity ... ok
+test protected_fresh_candidate_executes_and_cannot_be_reported_skipped ... ok
+test resource_budget_allows_weighted_commands_within_bound ... ok
+test resource_budget_rejects_zero_and_overweight_commands_fail_closed ... ok
+test signal_termination_is_recorded_and_never_becomes_reusable_success ... ok
+test single_flight_coalesces_same_repository_work_item_and_runtime_identity ... ok
+test single_flight_rejects_unbound_repository_identity ... ok
+test stale_and_missing_receipts_execute_and_report_rerun_state ... ok
+test successful_reusable_execution_returns_an_output_bound_receipt_candidate ... ok
+test timeout_above_runtime_cap_is_rejected_before_spawn ... ok
+test timeout_is_bound_into_command_and_execution_receipt_identity ... ok
+test timeout_terminates_the_process_tree_and_fails_closed ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.67s
+
+
+running 2 tests
+test failure_metadata_keeps_the_python_route_codes_and_remediations ... ok
+test manifest_rejects_an_explicitly_empty_covers_list_like_python ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test graph_rejects_dependency_cycles ... ok
+test graph_rejects_duplicate_nodes ... ok
+test performance_baseline_requires_identity_and_enforces_budgets ... ok
+test verification_plan_and_result_are_explicit_runtime_models ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test missing_human_intent_or_required_scenario_stops_before_execution ... ok
+test operation_and_stage_mismatch_fail_closed_and_no_text_is_inferred ... ok
+test route_binds_human_intent_scenarios_and_policy_stage_without_changing_truth ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 6 tests
+test coordinator_rejects_result_bound_to_a_different_physical_key ... ok
+test cross_work_item_receipt_reference_is_rejected ... ok
+test one_physical_result_binds_distinct_work_item_receipts ... ok
+test physical_key_mismatch_cannot_coalesce_or_bind_foreign_repository ... ok
+test recomputed_foreign_work_item_receipt_cannot_authorize_original_work_item ... ok
+test tampered_execution_result_fails_closed ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 3 tests
+test planner_does_not_infer_t3_without_an_explicit_policy_requirement ... ok
+test planner_merges_tier_and_assurance_independently_with_traceability ... ok
+test planner_rejects_untraceable_stage_or_protected_gate ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test empty_plan_has_zero_parallelism_and_unknown_identity_is_not_complete ... ok
+test malformed_identity_cannot_produce_complete_cost_observation ... ok
+test plan_receipt_preserves_monotonic_tier_and_assurance_dimensions ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test boundary_cases_and_invalid_evidence_are_observation_only ... ok
+test fixed_scenario_matrix_preserves_thresholds_and_reasons ... ok
+test scenario_entry_serializes_to_the_python_oracle_shape ... ok
+test unknown_names_fail_closed_and_unselected_is_explicit ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

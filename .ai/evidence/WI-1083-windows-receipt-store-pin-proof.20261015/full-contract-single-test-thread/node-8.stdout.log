@@ -1,0 +1,106 @@
+
+running 2 tests
+test tests::capability_projection_helpers_include_every_protocol_parameter ... ok
+test tests::outcome_runtime_bindings_follow_protocol_canonical_specs ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test mcp_exposes_read_only_plan_and_explicit_cross_checkout_recovery ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.01s
+
+
+running 5 tests
+test coordination_rejects_mixed_provider_aliases_before_opening_the_store ... ok
+test coordination_rpc_exposes_explicit_read_write_operations_and_stable_projection ... ok
+test coordination_rpc_projections_preserve_exact_persisted_store_bytes ... ok
+test coordination_schema_binds_provider_consumer_and_resume_identities_per_action ... ok
+test publish_outcome_mcp_action_uses_the_same_bound_write_path ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.35s
+
+
+running 2 tests
+test material_review_plan_tool_uses_shared_read_only_repository_service ... ok
+test material_review_record_tool_fails_closed_without_stage_one_opt_in ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+
+running 38 tests
+test capability_show_describes_outcome_without_repository_observation ... ok
+test capability_show_rejects_unknown_description_surface_before_dispatch ... ok
+test capability_show_schema_projects_the_exact_protocol_parameter_set ... ok
+test delegated_evidence_list_exposes_only_repository_bound_receipts ... ok
+test lifecycle_lock_waiter_child_process ... ok
+test mcp_archive_outcome_delivery_returns_the_complete_body_from_one_observation ... ok
+test mcp_auto_verify_uses_the_same_profile_authorized_cross_process_service ... ok
+test mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli ... ok
+test mcp_initialize_and_tool_list_are_read_only_and_deterministic ... ok
+test mcp_initialize_uses_the_injected_runtime_identity ... ok
+test mcp_outcome_accepts_identity_bound_delivery_progress_field ... ok
+test mcp_outcome_schema_projects_protocol_owned_parameter_facts ... ok
+test mcp_parallel_tool_exposes_explicit_repository_bound_slot_list ... ok
+test mcp_plan_only_reports_actions_without_running_project_commands ... ok
+test mcp_preflight_rejects_a_repository_that_requires_migration ... ok
+test mcp_preflight_reuses_derived_signals_without_disclosing_change_text ... ok
+test mcp_prepared_start_persists_preflight_and_exactly_one_checkpoint ... ok
+test mcp_prepared_start_preserves_human_review_without_checkpointing ... ok
+test mcp_tool_calls_reject_unknown_or_malformed_arguments_before_dispatch ... ok
+test mcp_tool_list_exposes_typed_argument_schemas ... ok
+test mcp_unknown_method_returns_json_rpc_error ... ok
+test mcp_verify_rejects_a_repository_that_requires_migration ... ok
+test mcp_verify_rejects_malformed_command_and_argument_types ... ok
+test mcp_work_item_controls_persists_the_same_bound_preflight_receipt_as_cli ... ok
+test mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity ... ok
+test outcome_validator_uses_the_protocol_enum_and_type_facts ... ok
+test repository_bound_capability_show_exposes_runtime_identity ... ok
+test repository_bound_mcp_knowledge_query_reports_derived_write_boundary ... ok
+test repository_bound_status_tool_returns_protocol_state ... ok
+test repository_bound_verify_binds_evidence_after_command_side_effects ... ok
+test repository_bound_verify_persists_execution_attempt_when_receipt_recording_fails ... ok
+test repository_bound_verify_persists_failed_execution_as_non_reusable_attempt ... ok
+test repository_bound_verify_rejects_missing_custom_evidence_before_spawning ... ok
+test repository_bound_work_item_status_is_read_only_and_repository_scoped ... ok
+test repository_observe_accepts_the_attached_profile_wrapper ... ok
+test runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write ... 
+running 1 test
+test lifecycle_lock_waiter_child_process ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 0.14s
+
+ok
+test runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission ... 
+running 1 test
+test lifecycle_lock_waiter_child_process ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 0.18s
+
+ok
+test unbound_tool_call_fails_closed_instead_of_returning_success ... ok
+
+test result: ok. 38 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.62s
+
+
+running 2 tests
+test read_tools_are_bound_to_repository_and_reject_escape_paths ... ok
+test verification_surface_rejects_untrusted_programs ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 3 tests
+test initialize_and_tool_list_expose_native_usage_record_without_hidden_helper ... ok
+test usage_capability_description_matches_cli_and_mcp_facts ... ok
+test usage_record_requires_explicit_repository_binding ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 1 test
+test tool_list_exposes_amendment_write_and_read_tools ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 3,
+  "attemptId": "composition-sha256:1aa2a4596d3b14aaa0cf1cd42786ac97e8781e8bac5f33be101a8c373c6e2136",
+  "binding": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:eb7cdffca156a51c37a95a7c38e58c3ae53af0e96ecac161016c38b9a6522e51",
+    "bindingId": "a12-observer-unknown",
+    "targetBranch": "main",
+    "targetSha": "614b6b05edc29334f6b9892f010dcf672ad40153",
+    "participantWorkItems": [
+      "WI-A12-PROVIDER",
+      "WI-A12-CONSUMER"
+    ],
+    "participantHeads": [
+      "614b6b05edc29334f6b9892f010dcf672ad40153",
+      "614b6b05edc29334f6b9892f010dcf672ad40153"
+    ],
+    "contractDigests": [
+      "sha256:f85f28c78cf1d85c5415559d599b3ff5213c879e45b0d6e89af28cf6f36c9588",
+      "sha256:f91e9dfd72b75d5b78c86954e0cfdb81d87d2c69cca1f4c10ba87dab50cc735b"
+    ],
+    "verifier": {
+      "schemaVersion": 1,
+      "runtimeVersion": "0.2.113",
+      "runtimeDigest": "sha256:efd407d20871c6d20bfe0c012547149f327cd9684731bc0d6c2c27c2a95d43fe",
+      "capability": "cross_wi_coordination_v1"
+    }
+  },
+  "identity": {
+    "sourceDigest": "sha256:46e701180626780511608d875efbc3d63ca634f068de5d7993b291f22ecb6906",
+    "dependencyDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "interfaceDigest": "sha256:5adc0e882464d29aced246e5ad0d0b2d2d70b30ce3146243144fe968eeffb11f",
+    "configurationDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "toolchainDigest": "sha256:9c851bce5397c6f206f069f8836403baba1de1a81b1e24e591e9d24ab0453329",
+    "lockfileDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "generatedInputDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "environmentDigest": "sha256:081e7ee243f170e0eb8aafe818a8996895ab2af79af7b8a87c36c1f3be080b19",
+    "verifierDigest": "sha256:9c851bce5397c6f206f069f8836403baba1de1a81b1e24e591e9d24ab0453329",
+    "commandDigest": "sha256:0c48cdb174546e8ae81b6dd79240e92dfa45aa1ed4756589df1a706fd40c4278"
+  },
+  "preconditions": [
+    {
+      "name": "bound",
+      "satisfied": true,
+      "reason": "observed and bound"
+    }
+  ],
+  "isolatedWorktree": "/workspace/.tmp-wi1083-tests-20261015/ai-cockpit-composition-3103988-1792029890867784278-1/composition",
+  "textConflicts": [],
+  "executionRecords": [
+    {
+      "nodeId": "safe-noop",
+      "program": "false",
+      "args": [],
+      "identityDigest": "sha256:5843c281caed298de182f516139ac9c16660746ddca116ab371ba86f3f87cf1a",
+      "spawned": true,
+      "reused": false,
+      "passed": false,
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "",
+      "outputDigest": "sha256:bc0d3a2e4314b3878c5f6ce5d02263548fe1189df91551ad6843fe519d16bb37",
+      "timedOut": false,
+      "predecessorAttemptId": null
+    }
+  ],
+  "processesSpawned": 1,
+  "reuseDecision": {
+    "kind": "execute",
+    "reason": "one or more nodes were executed because their observed inputs or upstream receipts changed",
+    "predecessorAttemptId": null
+  },
+  "passed": false,
+  "failure": "command_failed:exit=Some(1)",
+  "executionOutcome": "failed",
+  "executionEvidenceComplete": true,
+  "supervisorReceipt": {
+    "schemaVersion": 1,
+    "backend": "linux_subreaper",
+    "attemptId": "composition-sha256:1aa2a4596d3b14aaa0cf1cd42786ac97e8781e8bac5f33be101a8c373c6e2136",
+    "runNonce": "sha256:a07ace7313df0b3576542fe22faf4d5075bbdfcc99c3d5cf51e672795ba3fea8",
+    "generation": 1,
+    "owner": {
+      "processId": 3103988,
+      "startTimeTicks": 15327819,
+      "processGroupId": 3103625,
+      "sessionId": 3011689
+    },
+    "supervisor": {
+      "processId": 3103988,
+      "startTimeTicks": 15327819,
+      "processGroupId": 3103625,
+      "sessionId": 3011689
+    },
+    "linuxBootId": "2bf9d754-84e2-4933-b187-2def9a214947",
+    "environmentDigest": "sha256:4dff82ffba7e43ad61fd05c32facbe7f922db5fb0faf25be6fbefa600e46119b",
+    "runtimeVersion": "0.2.113",
+    "runtimeDigest": "sha256:efd407d20871c6d20bfe0c012547149f327cd9684731bc0d6c2c27c2a95d43fe",
+    "repositoryId": "sha256:eb7cdffca156a51c37a95a7c38e58c3ae53af0e96ecac161016c38b9a6522e51",
+    "targetSha": "614b6b05edc29334f6b9892f010dcf672ad40153",
+    "snapshotDigest": "sha256:46e701180626780511608d875efbc3d63ca634f068de5d7993b291f22ecb6906",
+    "commandPlanDigest": "sha256:0c48cdb174546e8ae81b6dd79240e92dfa45aa1ed4756589df1a706fd40c4278",
+    "inputEnvironmentDigest": "sha256:ec3e551e1179efef2aa257e28111b3a525c809ddb0c09cede674d9908c78a56a",
+    "executionRecordsDigest": "sha256:ac33a98b412a899a1cec0a5537859f5f2bc0caca641411f327a145fff8c0b09b",
+    "descendantsReapedToEchild": true
+  },
+  "cleanupDisposition": "deferred",
+  "cleanup": {
+    "attempted": false,
+    "removed": false,
+    "error": "verifier_process_state_unknown:cannot inspect process pid=3104002 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno=13 identity_state=observed identity_before=observed(pid=3104002,starttime_ticks=15327840,pgid=3103625,sid=3011689,state=S) identity_after=observed(pid=3104002,starttime_ticks=15327840,pgid=3103625,sid=3011689,state=S) message=Permission denied (os error 13) working directory"
+  },
+  "recordedAtUnixNanos": 1792029890866340409,
+  "ownerPid": 3103988,
+  "processObservationSchemaVersion": 1,
+  "activeExecutionNode": null,
+  "activeProcessGroupId": null
+}

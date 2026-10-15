@@ -1,0 +1,3 @@
+    Finished `test` profile [unoptimized] target(s) in 0.03s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_isolation-7cda15eb7393a6db)
+     Running tests/scanner.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/scanner-2bd7a1d629ce1036)

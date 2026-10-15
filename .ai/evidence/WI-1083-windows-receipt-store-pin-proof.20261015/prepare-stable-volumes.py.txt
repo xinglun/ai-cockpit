@@ -1,0 +1,60 @@
+from pathlib import Path
+import datetime, hashlib, json, os, signal, subprocess, time
+
+root = Path('/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof')
+logs = root / '.ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild'
+logs.mkdir(exist_ok=False)
+target = Path('/workspace/.tmp-wi1083-target-00461714-20261015')
+tmp = Path('/tmp/wi1083-stable-tests-20261015')
+home = Path('/workspace/.tmp-wi1083-runtime-home-20261015')
+assert not target.exists()
+for path in [target, tmp, home]:
+    path.mkdir(parents=True, exist_ok=True)
+    probe = path / '.wi1083-write-probe'
+    with probe.open('xb') as f:
+        f.write(b'WI1083 writable path probe\n')
+        f.flush()
+        os.fsync(f.fileno())
+    probe.unlink()
+env = dict(os.environ, PATH='/workspace/.cargo/bin:' + os.environ['PATH'], RUSTUP_HOME='/workspace/.rustup', CARGO_HOME='/workspace/.cargo', HOME=str(home), TMPDIR=str(tmp), CARGO_TARGET_DIR=str(target), CARGO_BUILD_JOBS='1', CARGO_INCREMENTAL='0', CARGO_PROFILE_TEST_DEBUG='0', RUST_TEST_THREADS='1')
+def space():
+    return {p: {'freeBytes': os.statvfs(p).f_bavail * os.statvfs(p).f_frsize, 'freeInodes': os.statvfs(p).f_favail} for p in ['/tmp', '/workspace']}
+config = []
+for p in [root/'.cargo/config', root/'.cargo/config.toml', Path('/workspace/.cargo/config'), Path('/workspace/.cargo/config.toml'), home/'.cargo/config.toml']:
+    if p.is_file():
+        b = p.read_bytes()
+        config.append({'path': str(p), 'bytes': len(b), 'sha256': hashlib.sha256(b).hexdigest()})
+toolchain = {}
+for name, cmd in [('rustc', ['rustc','--version']), ('cargo', ['cargo','--version']), ('activeToolchain', ['rustup','show','active-toolchain'])]:
+    q = subprocess.run(cmd, cwd=root, env=env, capture_output=True)
+    assert q.returncode == 0, q.stderr
+    toolchain[name] = q.stdout.decode().strip()
+description = {'environment': {k: env[k] for k in ['RUSTUP_HOME','CARGO_HOME','HOME','TMPDIR','CARGO_TARGET_DIR','CARGO_BUILD_JOBS','CARGO_INCREMENTAL','CARGO_PROFILE_TEST_DEBUG','RUST_TEST_THREADS']}, 'inheritedCompilerSettings': {k:env.get(k) for k in ['RUSTFLAGS','CARGO_ENCODED_RUSTFLAGS','RUSTC_WRAPPER','RUSTC_WORKSPACE_WRAPPER','RUSTUP_TOOLCHAIN','CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER']}, 'cargoConfigFiles':config, 'toolchain':toolchain, 'spaceBefore':space(), 'sourceHead':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root).decode().strip(), 'preparationOnly':True, 'oldBinariesCopied':False}
+(logs/'environment.json').write_text(json.dumps(description,indent=2)+'\n')
+print(json.dumps(description),flush=True)
+v=json.loads((root/'.ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/stdout.log').read_bytes())
+nodes=v.get('receipt',v)['plannedNodes']
+assert len(nodes)==13 and all(n['program']=='cargo' for n in nodes)
+started=time.monotonic(); samples=[]; records=[]
+for index,node in enumerate(nodes):
+    cmd=[node['program']]+node['args']+['--no-run','--message-format=json']
+    print(json.dumps({'prepare':index+1,'node':node['nodeId'],'command':cmd}),flush=True)
+    before=datetime.datetime.now(datetime.timezone.utc).isoformat()
+    with (logs/f'{index:02d}.stdout.jsonl').open('wb') as out, (logs/f'{index:02d}.stderr.log').open('wb') as err:
+        p=subprocess.Popen(cmd,cwd=root,env=env,stdout=out,stderr=err)
+        stopped=None
+        while p.poll() is None:
+            try:p.wait(timeout=10)
+            except subprocess.TimeoutExpired:pass
+            sample={'elapsedSeconds':round(time.monotonic()-started,2),'node':node['nodeId'],'volumes':space()};samples.append(sample)
+            if time.monotonic()-started>900 or sample['volumes']['/workspace']['freeBytes']<512_000_000:
+                stopped='900-second preparation cap or 512MB workspace reserve reached'
+                p.send_signal(signal.SIGINT)
+                try:p.wait(timeout=20)
+                except subprocess.TimeoutExpired:p.terminate();p.wait(timeout=15)
+                break
+    record={'node':node['nodeId'],'command':cmd,'startedAt':before,'exitCode':p.returncode,'stoppedReason':stopped,'spaceAfter':space()};records.append(record)
+    (logs/'progress.json').write_text(json.dumps({'records':records,'spaceSamples':samples,'elapsedSeconds':time.monotonic()-started},indent=2)+'\n')
+    print(json.dumps(record),flush=True)
+    if p.returncode != 0 or stopped:raise SystemExit(1)
+print(json.dumps({'preparedAll13':True,'testsExecuted':0,'elapsedSeconds':time.monotonic()-started,'spaceAfter':space()}),flush=True)

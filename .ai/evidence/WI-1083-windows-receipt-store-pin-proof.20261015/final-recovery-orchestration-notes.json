@@ -1,0 +1,11 @@
+{
+  "latestFailedFull": "full-contract-single-test-thread/run.json:607.3977465739881s,12/13 pass,repository ENOSPC; raw stdout flag truncated retained.",
+  "preparationFailure": "cargo-artifact-inventory.command.json: whole-workspace --no-run unifies a different artifact set and generated extra cache; failed compilation,0 tests executed; cache was not reused in final rebuild.",
+  "postCloseControl": "WI1082 cleanup maintenance checkout was removed only after main5849d7ed exact result bytes read back and fresh Runtime Outcome green.",
+  "freshBuild": "stable-environment-rebuild/progress.json: all13 exact package no-run commands succeeded,176.7566s,0 tests executed; no old binaries copied.",
+  "smallChecks": "stable-cli-gate-confirmation5/5 and stable-m1-space-confirmation1/1 are prerequisites, not full acceptance.",
+  "finalFormal": "full-contract-stable-volumes:13/13 actual spawn,0reuse,731.8994s,all exit0,no timeouts; canonical SHA239a5363abb47ee4bca32e1118dd459381e7be19bd4bf6a50a3d99bccead0049; audited receipt7fcad9ed79680b06bb864216ed1a3cc9aa0771c2301c7ae9c73452780fd5bce7.",
+  "normalizationAudit": "First audit asserted exact command-envelope equality and stopped; Runtime persisted wire receipt adds workItemId and omits plannedNodes/diagnosticSummary. Normalized objects and executionRecords,coverage,results fully equal; all raw bytes retained.",
+  "unknowns": "user_visible_benefit_not_declared; host display confirmation unknown; no process/zombie root cause inferred.",
+  "lifecycle": "No finish,archive,human close,merge or worktree/branch cleanup for WI1083."
+}

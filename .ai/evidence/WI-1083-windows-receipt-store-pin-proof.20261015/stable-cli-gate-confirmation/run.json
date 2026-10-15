@@ -1,0 +1,44 @@
+{
+  "label": "stable-cli-gate-confirmation",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "--work-item",
+    "WI-1083-windows-receipt-store-pin-proof",
+    "--workers",
+    "1",
+    "--command",
+    "cargo",
+    "--args=test,--package,cockpit-cli,--test,ci_gate"
+  ],
+  "head": "82521f19546b6d2c5504f71fbb71c03de551a9d3",
+  "startedAt": "2026-10-15T02:15:45.639610+00:00",
+  "finishedAt": "2026-10-15T02:15:48.757501+00:00",
+  "elapsedSeconds": 3.1171612330072094,
+  "exitCode": 0,
+  "hostTimedOut": false,
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1083-runtime-home-20261015",
+    "TMPDIR": "/tmp/wi1083-stable-tests-20261015",
+    "CARGO_TARGET_DIR": "/workspace/.tmp-wi1083-target-00461714-20261015",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1"
+  },
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "files": {
+    "stderr.log": "e2fe483029eecb378356da83d3b57b165e3059ccc956cac6b1dbe580b3d9d384",
+    "stdout.log": "e5ea2c0641c96473b3427b02f8a9f1001c81b045bd0135da318294490ec7862d",
+    "status.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.json": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932",
+    "volume-space-samples.json": "f9c9bb3cb7d5ca55fadcdb1f8b43b33da43d1495b583adb07c025317afc3d424",
+    "status.json": "646fbe66cfcddb9690fd5be926fa960de350a6ff0a805616b3826f14298f0b56",
+    "verification.receipt.json": "d197a222f3ec05950f010f05b0f6ea177baa30b3a9a698bc9fbfa3e9bd55e144",
+    "validate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

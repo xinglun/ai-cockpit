@@ -1,0 +1,13 @@
+    Finished `test` profile [unoptimized] target(s) in 0.08s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_release-4a7391c18d8cdc2a)
+     Running unittests src/main.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cockpit_release-498414a859c468fd)
+     Running tests/acceptance_recovery.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/acceptance_recovery-0e3e356690f45c04)
+     Running tests/archive.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/archive-cb9623893469c6eb)
+     Running tests/cli.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/cli-1d977a311b261d2f)
+     Running tests/fixtures.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/fixtures-390f9841d27d53b8)
+     Running tests/formula.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/formula-b186167cf6dc69ca)
+     Running tests/handoff.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/handoff-6158a627480fe204)
+     Running tests/manifest.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/manifest-955274f1cc30d782)
+     Running tests/package_boundary.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/package_boundary-793712ccc122f81d)
+     Running tests/sbom.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/sbom-e22f754e4d3e8fd8)
+     Running tests/version_consistency.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/version_consistency-c37301f55b1f73f3)

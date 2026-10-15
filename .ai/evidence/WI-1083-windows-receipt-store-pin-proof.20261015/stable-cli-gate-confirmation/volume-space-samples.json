@@ -1,0 +1,71 @@
+{
+  "sampleIntervalSeconds": 1,
+  "sampledNotExactContinuousPeak": true,
+  "samples": [
+    {
+      "elapsedSeconds": 0.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2481979392,
+          "freeInodes": 1964234
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 1.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3800838144,
+          "freeInodes": 2278935
+        },
+        "/workspace": {
+          "freeBytes": 2481979392,
+          "freeInodes": 1964234
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 2.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3800752128,
+          "freeInodes": 2278904
+        },
+        "/workspace": {
+          "freeBytes": 2481975296,
+          "freeInodes": 1964234
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 3.003,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2481963008,
+          "freeInodes": 1964233
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 3.117,
+      "volumes": {
+        "/tmp": {
+          "freeBytes": 3821953024,
+          "freeInodes": 2278957
+        },
+        "/workspace": {
+          "freeBytes": 2481963008,
+          "freeInodes": 1964233
+        }
+      }
+    }
+  ]
+}

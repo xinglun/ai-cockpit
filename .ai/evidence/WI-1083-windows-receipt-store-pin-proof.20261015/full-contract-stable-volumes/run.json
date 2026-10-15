@@ -1,0 +1,41 @@
+{
+  "label": "full-contract-stable-volumes",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "--work-item",
+    "WI-1083-windows-receipt-store-pin-proof",
+    "--workers",
+    "1"
+  ],
+  "head": "82521f19546b6d2c5504f71fbb71c03de551a9d3",
+  "startedAt": "2026-10-15T02:16:36.945588+00:00",
+  "finishedAt": "2026-10-15T02:28:48.854624+00:00",
+  "elapsedSeconds": 731.8994035770011,
+  "exitCode": 0,
+  "hostTimedOut": false,
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1083-runtime-home-20261015",
+    "TMPDIR": "/tmp/wi1083-stable-tests-20261015",
+    "CARGO_TARGET_DIR": "/workspace/.tmp-wi1083-target-00461714-20261015",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1"
+  },
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "files": {
+    "stderr.log": "53083df0bf8ff1a9b637d3b7ac1d661a9b9d82a141343a53c935aa45794af126",
+    "stdout.log": "02d851349a60ce83436fa4d8078377b4782c378b696cae23cc5d08b4dff982aa",
+    "status.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.json": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932",
+    "volume-space-samples.json": "275623814eebd9876a8a693f3cb26e0d409a09185559db1b2e951caf5d593b23",
+    "status.json": "76dbfed3fcfba241c0d9e2111ea67ea124e9ab8c3de491ad00d6354dac4abdcb",
+    "verification.receipt.json": "239a5363abb47ee4bca32e1118dd459381e7be19bd4bf6a50a3d99bccead0049",
+    "validate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

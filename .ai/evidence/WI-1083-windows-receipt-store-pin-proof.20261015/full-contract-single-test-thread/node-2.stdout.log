@@ -1,0 +1,69 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 11 tests
+test a_wording_variant_cannot_change_the_canonical_input ... ok
+test dangerous_operations_become_deterministic_governance_findings ... ok
+test multilingual_adversarial_corpus_binds_wording_as_data ... ok
+test named_real_absurdity_cases_are_structurally_bound_and_honest ... ok
+test raw_request_binding_is_explicit_and_cannot_widen_scope ... ok
+test repository_and_log_wording_is_data_not_authority ... ok
+test requested_operation_v2_cannot_relabel_destructive_operations ... ok
+test requested_operation_v2_rejects_future_schema_versions ... ok
+test requested_operation_v2_requires_identity_and_explicit_policy ... ok
+test requested_operation_v2_serialization_is_strict_and_camel_case ... ok
+test self_approval_is_policy_sensitive_not_a_hardcoded_two_person_rule ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test canonical_corpus_has_rust_semantic_parity ... ok
+test corpus_manifest_and_fixture_layout_are_complete ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test domain_types_expose_governance_vocabulary_without_io ... ok
+test lifecycle_and_governance_dimensions_keep_compatible_wire_values ... ok
+test lifecycle_transition_boundary_accepts_only_explicit_successors ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 7 tests
+test coverage_weakening_is_yellow_and_requires_human_decision ... ok
+test destructive_action_without_authority_is_yellow_and_requires_human_decision ... ok
+test filename_glob_scope_matches_without_crossing_directories ... ok
+test missing_evidence_is_yellow_and_never_passes ... ok
+test recomputing_effective_state_preserves_pending_human_review ... ok
+test scope_exceeded_is_red_and_has_safe_action ... ok
+test trusted_complete_bounded_change_is_green ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 9 tests
+test changed_target_requires_confirmation ... ok
+test create_script_cannot_authorize_later_execution ... ok
+test every_source_high_risk_category_is_recognized ... ok
+test matching_facts_allow_only_the_local_policy_step ... ok
+test missing_scope_or_schema_fails_closed ... ok
+test request_wire_shape_rejects_unknown_fields ... ok
+test stale_evidence_requires_confirmation ... ok
+test unknown_impact_and_unknown_operation_fail_closed ... ok
+test untrusted_input_cannot_become_authority ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test executable_v1_oracle_matches_all_canonical_semantics ... ignored, requires AI_COCKPIT_V1_ROOT pointing to the locked external V1 checkout
+test wrong_reference_commit_is_rejected_before_oracle_execution ... ok
+
+test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
