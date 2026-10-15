@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:4335e246be4b9b2004355f0f8526b0e617988b7d66ab2aa4ac187178aa3d4fdd",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+    "sequence": 1,
+    "changeId": "legacy-bfaeda532b702edd401978a67af031b97b471c6ac6ae92a908dd996937a60cc1",
+    "requestDigest": "sha256:227c00989609d6cdeca65453d978c5636b3144fb80e6ab69fedb5b135762398f",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:bfaeda532b702edd401978a67af031b97b471c6ac6ae92a908dd996937a60cc1",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "coordinator-thread:01a11856-d6ba-72e0-9aab-25a34cd2f018/approved-independent-Windows-tests-only-implementation"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "coordinator-thread:01a11856-d6ba-72e0-9aab-25a34cd2f018/approved-independent-Windows-tests-only-implementation"
+        ],
+        "newValue": [
+          "coordinator-thread:01a11856-d6ba-72e0-9aab-25a34cd2f018/approved-independent-Windows-tests-only-implementation",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/38649495827"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:8d898684f91a649b9bde013ec7224f3fd8b516bf2bcbf7c83bd1a6cacb24dbb7",
+    "newContractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+    "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+    "environmentObservationDigest": "sha256:5ca34c695f22dc6a45a34afdf8c238934d5976ed425163e4d4856935b9058b4a",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:2147262292923d61f351332948530d591e190f5bcf80327b2815c61e19792e09",
+    "recordedAt": "2026-10-15T00:43:02Z"
+  }
+}

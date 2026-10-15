@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "work-item",
+    "new",
+    "--id",
+    "WI-1083-windows-receipt-store-pin-proof",
+    "--mode",
+    "implementation",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof"
+  ],
+  "exitCode": 0
+}

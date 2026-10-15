@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1083-windows-receipt-store-pin-proof.contract.json",
+    ".ai/work-items/active/WI-1083-windows-receipt-store-pin-proof.summary.json"
+  ],
+  "checkpointAt": "2026-10-15T00:43:05Z",
+  "checkpointContractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "createdAt": "2026-10-15T00:43:00Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T00:43:02.782652984Z",
+      "recordedAt": "2026-10-15T00:43:02.782652984Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-15T00:43:04Z",
+  "preflightContractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "preflightRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-15T00:43:05Z",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+}

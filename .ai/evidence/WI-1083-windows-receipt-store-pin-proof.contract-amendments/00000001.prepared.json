@@ -1,0 +1,180 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-bfaeda532b702edd401978a67af031b97b471c6ac6ae92a908dd996937a60cc1",
+      "expectedContractDigest": "sha256:8d898684f91a649b9bde013ec7224f3fd8b516bf2bcbf7c83bd1a6cacb24dbb7",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "coordinator-thread:01a11856-d6ba-72e0-9aab-25a34cd2f018/approved-independent-Windows-tests-only-implementation"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/actions/runs/38649495827"
+        }
+      ]
+    },
+    "requestDigest": "sha256:227c00989609d6cdeca65453d978c5636b3144fb80e6ab69fedb5b135762398f",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Only crates/cockpit-repository/tests/receipt_store.rs and Windows test-only content in crates/cockpit-repository/src/evidence_store.rs change; production non-test behavior and statements, public API, dependencies and workflow remain unchanged. Preserve WI-1081/WI-1082 worktrees and archive records.",
+        "After persist_reusable_receipt successfully opens index.lock and before lock.lock, a cfg(all(test,windows))-only worker-thread-local one-shot ready/resume hook binds the actual opened directory and lock identities. The event states that handles are open but the lock has not been acquired. Run the original persist implementation; do not copy writes or use 100ms sleep as proof.",
+        "Move only the Windows timing-sensitive scenario to private library unit tests; keep all other integration scenarios and preserve or strengthen every original rename-success sentinel/no replacement index/restore/readback safety assertion. No generic test framework or public test-support API.",
+        "For a failed rename require unchanged original directory volume/file identity and path, absent destination/replacement, then resume/unlock/join and exact first+second receipt readback with complete index, node/repository/profile/receipt ID bindings and no redirection. Only after all proof succeeds may raw Windows errno5 or32 be accepted; every other errno or failed assertion fails.",
+        "Explicitly drop the fixture main-thread lock File and temporary identity handles as needed; unlocking is not handle release. After all handles are released require successful rename on the same path as a positive control. The test must not keep extra no-delete directory handles that manufacture the expected refusal.",
+        "Use bounded per-worker ready/resume synchronization and panic-safe worker release/join. Native Windows --lib execution must select the exact scoped test with a nonzero count; Linux cfg exclusion or zero tests is not Windows acceptance. Existing CI repository --lib is unchanged; a dedicated one-case native test subprocess is allowed if needed to expose exact-selection evidence without workflow changes.",
+        "Preserve original failed CI38649495827 at source00e89d21d6a00d09819f8353ae0a1391b954f171, Windows job116146092900, receipt_store.rs322 actualerrno5 expected32. Do not use WI-1082 green to overwrite it. Distinguish deterministic assertion-model RED/GREEN from already-correct production behavior and do not force a kernel error race.",
+        "Run the targeted assertion matrix, related receipt_store integration and complete cargo test --workspace --all-targets through fresh Runtime admission, with an isolated target, one build job, writable HOME/TMPDIR and a 900-second host cap. Obtain real Windows-native exact-case and integration results through CI; preserve raw commands and receipts.",
+        "Use an independent ordinary Work Item at exact fetched main00461714bd43d3f6c42ede66491e01d22d475604, with its own branch/worktree. Raydot approved independent admission without waiting for WI-1082 human close. Timely commit/push an independent Draft PR for source/evidence review; do not merge, delete, perform human close or system/environment redesign."
+      ],
+      "authority": "authorized",
+      "baseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "createdAt": "2026-10-15T00:43:00Z",
+      "goal": "Give developers trustworthy Windows regression evidence through exact directory/lock identity, deterministic worker timing, complete two-receipt readback and successful post-release rename control.",
+      "intent": "Make the Windows receipt-store parent-replacement regression prove pinned-handle no-redirection outcomes rather than relying on a single errno and a sleep.",
+      "mode": "implementation",
+      "outOfScope": [
+        "Production non-test behavior",
+        "Public API",
+        "Dependencies",
+        "Workflow",
+        "Generic test frameworks",
+        "WI-1081 and WI-1082 history or resources",
+        "Merge deletion human close",
+        "System and environment redesign"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-repository/tests/receipt_store.rs",
+        "crates/cockpit-repository/src/evidence_store.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --workspace --all-targets"
+      ],
+      "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+    },
+    "previousContractDigest": "sha256:8d898684f91a649b9bde013ec7224f3fd8b516bf2bcbf7c83bd1a6cacb24dbb7",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Only crates/cockpit-repository/tests/receipt_store.rs and Windows test-only content in crates/cockpit-repository/src/evidence_store.rs change; production non-test behavior and statements, public API, dependencies and workflow remain unchanged. Preserve WI-1081/WI-1082 worktrees and archive records.",
+        "After persist_reusable_receipt successfully opens index.lock and before lock.lock, a cfg(all(test,windows))-only worker-thread-local one-shot ready/resume hook binds the actual opened directory and lock identities. The event states that handles are open but the lock has not been acquired. Run the original persist implementation; do not copy writes or use 100ms sleep as proof.",
+        "Move only the Windows timing-sensitive scenario to private library unit tests; keep all other integration scenarios and preserve or strengthen every original rename-success sentinel/no replacement index/restore/readback safety assertion. No generic test framework or public test-support API.",
+        "For a failed rename require unchanged original directory volume/file identity and path, absent destination/replacement, then resume/unlock/join and exact first+second receipt readback with complete index, node/repository/profile/receipt ID bindings and no redirection. Only after all proof succeeds may raw Windows errno5 or32 be accepted; every other errno or failed assertion fails.",
+        "Explicitly drop the fixture main-thread lock File and temporary identity handles as needed; unlocking is not handle release. After all handles are released require successful rename on the same path as a positive control. The test must not keep extra no-delete directory handles that manufacture the expected refusal.",
+        "Use bounded per-worker ready/resume synchronization and panic-safe worker release/join. Native Windows --lib execution must select the exact scoped test with a nonzero count; Linux cfg exclusion or zero tests is not Windows acceptance. Existing CI repository --lib is unchanged; a dedicated one-case native test subprocess is allowed if needed to expose exact-selection evidence without workflow changes.",
+        "Preserve original failed CI38649495827 at source00e89d21d6a00d09819f8353ae0a1391b954f171, Windows job116146092900, receipt_store.rs322 actualerrno5 expected32. Do not use WI-1082 green to overwrite it. Distinguish deterministic assertion-model RED/GREEN from already-correct production behavior and do not force a kernel error race.",
+        "Run the targeted assertion matrix, related receipt_store integration and complete cargo test --workspace --all-targets through fresh Runtime admission, with an isolated target, one build job, writable HOME/TMPDIR and a 900-second host cap. Obtain real Windows-native exact-case and integration results through CI; preserve raw commands and receipts.",
+        "Use an independent ordinary Work Item at exact fetched main00461714bd43d3f6c42ede66491e01d22d475604, with its own branch/worktree. Raydot approved independent admission without waiting for WI-1082 human close. Timely commit/push an independent Draft PR for source/evidence review; do not merge, delete, perform human close or system/environment redesign."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-15T00:43:00Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Give developers trustworthy Windows regression evidence through exact directory/lock identity, deterministic worker timing, complete two-receipt readback and successful post-release rename control.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Make the Windows receipt-store parent-replacement regression prove pinned-handle no-redirection outcomes rather than relying on a single errno and a sleep.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Production non-test behavior",
+        "Public API",
+        "Dependencies",
+        "Workflow",
+        "Generic test frameworks",
+        "WI-1081 and WI-1082 history or resources",
+        "Merge deletion human close",
+        "System and environment redesign"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/tests/receipt_store.rs",
+        "crates/cockpit-repository/src/evidence_store.rs"
+      ],
+      "sources": [
+        "coordinator-thread:01a11856-d6ba-72e0-9aab-25a34cd2f018/approved-independent-Windows-tests-only-implementation",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/38649495827"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --workspace --all-targets"
+      ],
+      "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+    },
+    "newContractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+    "previousSummaryDigest": "sha256:e412e24023485c020067d56fd60eab2ac9640b9c03ccdb3ab11ad2d040adfa03",
+    "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+    "environmentObservationDigest": "sha256:5ca34c695f22dc6a45a34afdf8c238934d5976ed425163e4d4856935b9058b4a",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:bfaeda532b702edd401978a67af031b97b471c6ac6ae92a908dd996937a60cc1",
+    "preparedAt": "2026-10-15T00:43:02Z"
+  },
+  "preparedDigest": "sha256:4335e246be4b9b2004355f0f8526b0e617988b7d66ab2aa4ac187178aa3d4fdd"
+}
