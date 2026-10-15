@@ -1,0 +1,4 @@
+   Compiling manifest-path-fixture v0.1.0 (/workspace/.tmp-wi1081-tests-20261014/cockpit-verification-service-cargo-manifest-path-1776997-1791978267093591398-0)
+    Finished `test` profile [unoptimized] target(s) in 0.12s
+     Running unittests src/lib.rs (/workspace/.tmp-wi1081-runtime-home-20261014/.cache/ai-cockpit-verify-target/431afddcac61d44f1f746ae6094c9f2d2e2572cccb53c97b874a7caef5394236/debug/deps/manifest_path_fixture-14ab52ef95a2bf01)
+   Doc-tests manifest_path_fixture

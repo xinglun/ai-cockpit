@@ -1,0 +1,25 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+  "decidedAt": "2026-10-14T21:15:31Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/human-authorization-source.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/amend.stdout.log",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.finish-runtime-20261014T155441Z.required-review-bindings.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "predecessorEventsDigest": "sha256:0206614c60a8e2daac8cc8f17f6a495225ba2ed9605e9f2daf5ad85cdf49ae56",
+  "predecessorOutcomeDigest": "sha256:431277207e106c2c7fe4c5a008eb290f2c366b3d2d289aca47c906970943598f",
+  "predecessorSummaryDigest": "sha256:261b0d00f4efd1fbb1defe8f16da4de4b00446143c4f240f0d8d7110c2003bd0",
+  "predecessorWorkItemId": "WI-1081-append-only-evidence-observations",
+  "reason": "Ray approved one bounded WI-1081 retry at 2026-10-14T21:15:31Z after the canonical material gate rejected finish. The only Contract adjustment enables Raydot review of the single committed Rust syntax Unknown; source and 13-node test requirement are unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Preserve every prior failed/verification record, obtain fresh preflight and exact confirm_review, rerun all 13 nodes under the amended Contract, and obtain Raydot review of the new canonical material request; stop on extra source changes or new risks.",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1081-append-only-evidence-observations"
+}

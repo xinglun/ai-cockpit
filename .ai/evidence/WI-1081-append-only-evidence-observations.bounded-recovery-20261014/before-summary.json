@@ -1,0 +1,102 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.admission.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.current-plan.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.invocation.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.runtime.log",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.validation-before.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json",
+    ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+  ],
+  "checkpointAt": "2026-10-14T10:09:58Z",
+  "checkpointContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "createdAt": "2026-10-14T10:08:27Z",
+  "failedGate": "finish.lifecycle",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-14T10:09:56.438752643Z",
+      "recordedAt": "2026-10-14T10:09:56.438752643Z",
+      "runtimeDigest": "sha256:c308195ab8dddfcee926e0f256206a631365b924be841401037faff491f134bd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "predecessorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
+  "preflightAt": "2026-10-14T15:13:41Z",
+  "preflightContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "recoveryDecisionPath": ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-14T15:54:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fd545fdaa428429cfe7add53cd9a3d17b8a1c502f9e248380c1a3c08e5313e7b",
+  "workItemId": "WI-1081-append-only-evidence-observations"
+}

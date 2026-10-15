@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1081-append-only-evidence-observations",
+  "contractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "immutableContractBaseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "sourceSnapshotDigest": "sha256:df72db06339c9da965073df3a25b17fadb151f85b7389298e1548f005c0705eb",
+  "materialManifestDigest": "sha256:0c3b04e156d5b857a35c06332a25413fe370f50223b16780efcb3469b4eadf75",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:8ff6abf85481e9e49e02a1ff4ae974dd79b2db0b3c397cbbe80aa5bc7eed5321",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": null,
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:32c1319f65c1cd1d8ae68f69f1efb6e3820346263d226051d99338a920103205",
+      "afterBlobDigest": "sha256:632f4cd3f27b32a6e6bc3905d4afb43c16bbc9729e2db2ae6fca605d99f06115"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/delegated_evidence.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:002ccc9190b310ceac48ed6a7cf36fa89642ece501c1f64a3df6bcad27e72e3a",
+      "afterBlobDigest": "sha256:b7d185ddd637c709e8a573b5cfb1fb8d4395aa61a186700d60640b2248253373"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:36a9ce505fd863ec039e1b9fa129d30e2ef7779f94f990e0c898e39fbf2299ab",
+      "afterBlobDigest": "sha256:09ac92ce35d2bc686a39286529891145edc05dc02624727f819a0d6d692afe8f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:eb08f75e02d70be8107393d81cd446cb8f10853aec5350f67e5a3bbd28f908dc",
+      "afterBlobDigest": "sha256:8fa949fa582cbb250733d4861172d49b1c8c961284524df043df746be570038f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:c1aa89ac930aebb96e47353d33825df35bc2a37732196ba15a5fe5b95ef28207",
+      "afterBlobDigest": "sha256:e2d0e7865b15040aea7bfef2a6748ecb76143fa73078ced8c4951bfeae0d4281"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/delegated_evidence_observations.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0c3107758d238edc80febe40653c27e91349a68f80a00b7fb19fa58e85c2ae02",
+      "afterBlobDigest": "sha256:706adafa5a4e58efd10904831e3bd649d62a39ea7a31f3a019b39733dc2aab70"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": false,
+  "reviewDiagnostic": "material_review_not_enabled",
+  "requestDigest": "sha256:9447ce60bedd99d69c6d2fdaaf362b8d1c471dcb0c8a7c8ddfd66db20b4e9d01",
+  "reviewedSourceHead": "a9d4b65aa82c0593570766b337d859f7abbb2312"
+}

@@ -1,0 +1,116 @@
+{
+  "kind": "actual_archive_binding_handoff",
+  "workItemId": "WI-1081-append-only-evidence-observations",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "archivedFromHead": "35303499188eb43d17e2a44f498c37f19d79a420",
+  "archivePath": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.archive.json",
+  "archiveIdentityRawSHA256": "sha256:963433dbb29e9192a242629a83ef6e8f75febbe631ece5b40fbfdcedce3de082",
+  "archiveCreatedAt": "2026-10-14T22:36:21Z",
+  "archiveOccurredAt": "2026-10-14T22:36:21.940421665Z",
+  "archiveRecordedAt": "2026-10-14T22:36:21.940421665Z",
+  "archiveState": "archived",
+  "closeRequired": true,
+  "contractCanonicalDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "contractArchivedFileRawSHA256": "sha256:46a8f312f08276ce066cbda3f29c0ec4e0278691a947ce5132948f3a00ba5640",
+  "sourceSnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "formalReceiptDigest": "sha256:e24571d26809eab42f170893cadb9349afe1e66dc1660ab36abf8372b258ec5a",
+  "formalReceiptRawSHA256": "sha256:3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17",
+  "materialReviewReceiptDigest": "sha256:aa8b3c0875b6479f24b16fe88fae010caed1929112a3399df828badb3fd76522",
+  "materialManifestDigest": "sha256:473b910ab8f7ca67167ef10ba8b7e9f8372bcb31ddaf4d0136a20ad70dfb30f4",
+  "verifiedArtifactBytes": [
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.contract.json",
+      "rawSHA256": "sha256:46a8f312f08276ce066cbda3f29c0ec4e0278691a947ce5132948f3a00ba5640",
+      "size": 5397
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.summary.json",
+      "rawSHA256": "sha256:5345668152ba2632e463cd7c22b3da15d20badcdf19473d93d5ba873fec09915",
+      "size": 8378
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.outcome.json",
+      "rawSHA256": "sha256:e42b2adbaef0b58753a840d9c43b28f253abaa4f3b1813b3a81eaed7476c0827",
+      "size": 8200
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.events.jsonl",
+      "rawSHA256": "sha256:1b20f59d8f9d98d0899595571e4904e7ecd6ec64d9f699d3334b536c5e2fbdbd",
+      "size": 3049
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.task-report.json",
+      "rawSHA256": "sha256:2a550056d6334622b60bb53562fa154be94243b78937ef41103481f46a72b91c",
+      "size": 5134
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.task-report.md",
+      "rawSHA256": "sha256:f21e5fc658f1181df4cf7dbaf92dffbcc73c18cfb1cccbea82ce7ef352b905ab",
+      "size": 1856
+    }
+  ],
+  "currentRuntimeBlockers": [
+    "archived_work_item_pending_close"
+  ],
+  "currentSafeActions": [
+    "close_after_review",
+    "record_usage",
+    "refresh_status"
+  ],
+  "closeDecisionRecorded": false,
+  "mergeOrResourceCleanupPerformed": false,
+  "preArchiveCI": {
+    "id": 38645536534,
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "route",
+        "conclusion": "success"
+      },
+      {
+        "name": "quality",
+        "conclusion": "success"
+      },
+      {
+        "name": "v1-behavioral-oracle",
+        "conclusion": "success"
+      },
+      {
+        "name": "windows-runtime",
+        "conclusion": "success"
+      }
+    ],
+    "qualityGatesPassed": 40,
+    "qualityGatesNotApplicable": [
+      "docs_closed_work_item_promotion",
+      "docs_work_item_status_consistency"
+    ]
+  },
+  "outcomeDelivery": {
+    "returnedHumanHandoff": true,
+    "hostDeliveryMode": "full_handoff_only",
+    "hostDisplayConfirmation": "unknown",
+    "deliveryReport": {
+      "complete": true,
+      "deliveryId": "sha256:66cf33a79d0c1dc37eee953c85193cc067f2cf02b9e267ee017df6a7775cc90d",
+      "deliveryState": "unknown",
+      "duplicateRisk": true,
+      "hostConfirmation": "unknown",
+      "nextAction": "Host acceptance/display is unknown; do not claim that a user saw or approved the message.",
+      "progress": {
+        "archiveIdentity": "sha256:963433dbb29e9192a242629a83ef6e8f75febbe631ece5b40fbfdcedce3de082",
+        "confirmed": [],
+        "deliveryId": "sha256:66cf33a79d0c1dc37eee953c85193cc067f2cf02b9e267ee017df6a7775cc90d",
+        "language": "zh",
+        "schemaVersion": 1,
+        "workItemId": "WI-1081-append-only-evidence-observations"
+      },
+      "sentParts": 1,
+      "totalParts": 1,
+      "workItemId": "WI-1081-append-only-evidence-observations"
+    }
+  },
+  "missingSeparateTaskInput": "22:23 full tests-only implementation instructions have not arrived in this context; approved plan retained but no independent WI or source work started."
+}

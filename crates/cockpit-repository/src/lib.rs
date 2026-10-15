@@ -13,12 +13,14 @@ use cockpit_protocol::{
     AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
     CapabilityExclusion, CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry,
     CheckpointEvidence, ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence,
-    DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance, EvidenceDisposition,
-    EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
-    EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost, GovernancePolicy,
-    GovernancePolicyDocument, HumanBenefitReport, HumanDecision, OutcomeClaim,
-    OutcomeReleaseProjection, OutcomeReportBindings, OutcomeReportSections, OutcomeState,
-    OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceCounters,
+    DelegatedEvidenceObservation, DelegatedEvidenceObservationReceipt,
+    DelegatedEvidenceObservationSelector, DelegatedEvidenceReceipt, DiagnosisState,
+    EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence,
+    EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
+    FinalizationErrorCode, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
+    HumanBenefitReport, HumanDecision, OutcomeClaim, OutcomeReleaseProjection,
+    OutcomeReportBindings, OutcomeReportSections, OutcomeState, OutcomeV2,
+    PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceCounters,
     PerformanceDiagnosis, PerformancePhase, PolicyLayer, ProjectGovernanceProjection,
     QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
     ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
@@ -3229,10 +3231,30 @@ fn external_evidence_directory(root: &Path) -> Result<PathBuf, ObserverError> {
             }
             Ok(_) => {}
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-                fs::create_dir(directory).map_err(|source| ObserverError::Read {
-                    path: directory.to_path_buf(),
-                    source,
-                })?;
+                match fs::create_dir(directory) {
+                    Ok(()) => {}
+                    Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+                        let metadata = fs::symlink_metadata(directory).map_err(|source| {
+                            ObserverError::Read {
+                                path: directory.to_path_buf(),
+                                source,
+                            }
+                        })?;
+                        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                            return Err(ObserverError::State {
+                                path: directory.to_path_buf(),
+                                message: "external evidence parent must be a regular directory"
+                                    .into(),
+                            });
+                        }
+                    }
+                    Err(source) => {
+                        return Err(ObserverError::Read {
+                            path: directory.to_path_buf(),
+                            source,
+                        });
+                    }
+                }
             }
             Err(source) => {
                 return Err(ObserverError::Read {
@@ -3282,6 +3304,72 @@ fn existing_external_evidence_directory(root: &Path) -> Result<Option<PathBuf>, 
     Ok(Some(parents[2].clone()))
 }
 
+fn delegated_evidence_observation_directory(
+    root: &Path,
+    create: bool,
+) -> Result<Option<PathBuf>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let directories = [
+        root.join(".ai"),
+        root.join(".ai/evidence"),
+        root.join(".ai/evidence/observations"),
+    ];
+    for directory in &directories {
+        match fs::symlink_metadata(directory) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(ObserverError::State {
+                    path: directory.clone(),
+                    message: "delegated observation parent must not be a symlink".into(),
+                });
+            }
+            Ok(metadata) if !metadata.is_dir() => {
+                return Err(ObserverError::State {
+                    path: directory.clone(),
+                    message: "delegated observation parent is not a directory".into(),
+                });
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound && create => {
+                match fs::create_dir(directory) {
+                    Ok(()) => {}
+                    Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+                        let metadata = fs::symlink_metadata(directory).map_err(|source| {
+                            ObserverError::Read {
+                                path: directory.clone(),
+                                source,
+                            }
+                        })?;
+                        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                            return Err(ObserverError::State {
+                                path: directory.clone(),
+                                message: "delegated observation parent must be a regular directory"
+                                    .into(),
+                            });
+                        }
+                    }
+                    Err(source) => {
+                        return Err(ObserverError::Read {
+                            path: directory.clone(),
+                            source,
+                        });
+                    }
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: directory.clone(),
+                    source,
+                });
+            }
+        }
+    }
+    Ok(Some(directories[2].clone()))
+}
+
 fn external_evidence_file(root: &Path, reference: &str) -> Result<PathBuf, ObserverError> {
     let Some(name) = reference.strip_prefix(".ai/evidence/external/") else {
         return Err(ObserverError::State {
@@ -3329,6 +3417,125 @@ fn delegated_receipt_path(
                 message: "delegated evidence digest must be sha256".into(),
             })?;
     Ok(external.join(format!("{work_item_id}.{digest_hex}.delegated.json")))
+}
+
+/// Atomically publish immutable bytes without replacing an existing path.
+/// The hard-link install makes competing writers observe one complete winner;
+/// callers validate an existing winner against their full binding.
+fn publish_immutable_bytes_no_replace(
+    path: &Path,
+    bytes: &[u8],
+    maximum_bytes: u64,
+) -> Result<Vec<u8>, ObserverError> {
+    if bytes.len() as u64 > maximum_bytes {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
+            message: "immutable evidence bytes exceed the bounded size limit".into(),
+        });
+    }
+
+    fn read_existing(path: &Path, maximum_bytes: u64) -> Result<Vec<u8>, ObserverError> {
+        let metadata = fs::symlink_metadata(path).map_err(|source| ObserverError::Read {
+            path: path.to_path_buf(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(ObserverError::State {
+                path: path.to_path_buf(),
+                message: "immutable evidence leaf must be a regular non-symlink file".into(),
+            });
+        }
+        if metadata.len() > maximum_bytes {
+            return Err(ObserverError::State {
+                path: path.to_path_buf(),
+                message: "immutable evidence leaf exceeds the bounded size limit".into(),
+            });
+        }
+        fs::read(path).map_err(|source| ObserverError::Read {
+            path: path.to_path_buf(),
+            source,
+        })
+    }
+
+    match fs::symlink_metadata(path) {
+        Ok(_) => return read_existing(path, maximum_bytes),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: path.to_path_buf(),
+                source,
+            });
+        }
+    }
+
+    let file_name = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| ObserverError::State {
+            path: path.to_path_buf(),
+            message: "immutable evidence filename is invalid".into(),
+        })?;
+    let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
+    let temporary = path.with_file_name(format!(
+        ".{file_name}.tmp-{}-{sequence}",
+        std::process::id()
+    ));
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&temporary)
+        .map_err(|source| ObserverError::Read {
+            path: temporary.clone(),
+            source,
+        })?;
+    if let Err(source) = file.write_all(bytes).and_then(|()| file.sync_all()) {
+        drop(file);
+        let _ = fs::remove_file(&temporary);
+        return Err(ObserverError::Read {
+            path: temporary,
+            source,
+        });
+    }
+    drop(file);
+    let result = match fs::hard_link(&temporary, path) {
+        Ok(()) => {
+            #[cfg(unix)]
+            if let Some(parent) = path.parent()
+                && let Err(source) =
+                    fs::File::open(parent).and_then(|directory| directory.sync_all())
+            {
+                Err(ObserverError::Read {
+                    path: parent.to_path_buf(),
+                    source,
+                })
+            } else {
+                Ok(bytes.to_vec())
+            }
+            #[cfg(not(unix))]
+            {
+                Ok(bytes.to_vec())
+            }
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            read_existing(path, maximum_bytes)
+        }
+        Err(source) => Err(ObserverError::Read {
+            path: path.to_path_buf(),
+            source,
+        }),
+    };
+    let cleanup = fs::remove_file(&temporary);
+    match cleanup {
+        Ok(()) => result,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => result,
+        Err(source) => match result {
+            Ok(_) => Err(ObserverError::Read {
+                path: temporary,
+                source,
+            }),
+            Err(error) => Err(error),
+        },
+    }
 }
 
 fn validate_delegated_metadata(
@@ -3598,6 +3805,311 @@ pub fn list_delegated_evidence(
             )
     });
     Ok(receipts)
+}
+
+fn delegated_evidence_observation_path(
+    root: &Path,
+    work_item_id: &str,
+    observation_digest: &Digest,
+    create_directory: bool,
+) -> Result<Option<PathBuf>, ObserverError> {
+    let Some(directory) = delegated_evidence_observation_directory(root, create_directory)? else {
+        return Ok(None);
+    };
+    let digest_hex = observation_digest
+        .as_str()
+        .strip_prefix("sha256:")
+        .ok_or_else(|| ObserverError::State {
+            path: directory.clone(),
+            message: "delegated observation selector must use sha256".into(),
+        })?;
+    Ok(Some(directory.join(format!(
+        "{work_item_id}.{digest_hex}.observation.json"
+    ))))
+}
+
+fn validate_delegated_observation_idempotent_binding(
+    existing: &DelegatedEvidenceObservationReceipt,
+    expected: &DelegatedEvidenceObservationReceipt,
+    path: &Path,
+) -> Result<(), ObserverError> {
+    if existing.schema_version != expected.schema_version
+        || existing.repository_id != expected.repository_id
+        || existing.work_item_id != expected.work_item_id
+        || existing.observation_digest != expected.observation_digest
+        || existing.evidence != expected.evidence
+        || existing.protocol_version != expected.protocol_version
+        || existing.runtime_version != expected.runtime_version
+        || existing.runtime_digest != expected.runtime_digest
+    {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
+            message: "delegated observation selector already exists with different binding".into(),
+        });
+    }
+    Ok(())
+}
+
+fn validate_delegated_observation_bound_at(
+    receipt: &DelegatedEvidenceObservationReceipt,
+    path: &Path,
+) -> Result<(), ObserverError> {
+    if chrono::DateTime::parse_from_rfc3339(&receipt.bound_at).is_err() {
+        return Err(ObserverError::State {
+            path: path.to_path_buf(),
+            message: "delegated observation boundAt must be RFC3339".into(),
+        });
+    }
+    Ok(())
+}
+
+fn delegated_observation_selector(
+    receipt: &DelegatedEvidenceObservationReceipt,
+    receipt_bytes: &[u8],
+) -> DelegatedEvidenceObservationSelector {
+    DelegatedEvidenceObservationSelector {
+        schema_version: cockpit_protocol::DELEGATED_EVIDENCE_OBSERVATION_SELECTOR_SCHEMA_VERSION,
+        observation_digest: receipt.observation_digest.clone(),
+        receipt_digest: Digest::sha256_bytes(receipt_bytes),
+    }
+}
+
+/// Record an append-only observation of provider evidence. The stable
+/// observation digest binds every caller-supplied evidence field and the
+/// Runtime identity while excluding only the generated `boundAt` timestamp.
+pub fn import_delegated_evidence_observation(
+    root: &Path,
+    work_item_id: &str,
+    evidence: &DelegatedEvidence,
+    raw_bytes: &[u8],
+    runtime: &RuntimeContext,
+) -> Result<DelegatedEvidenceObservation, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let raw_path = validate_delegated_metadata(&root, work_item_id, evidence, raw_bytes)?;
+    let repository_id = repository_id(&root).to_string();
+    let observation_digest = cockpit_protocol::delegated_evidence_observation_digest(
+        &repository_id,
+        work_item_id,
+        evidence,
+        runtime.protocol_version,
+        &runtime.runtime_version,
+        &runtime.runtime_digest,
+    )
+    .map_err(|error| ObserverError::State {
+        path: root.join(".ai/evidence/observations"),
+        message: format!("serialize delegated observation binding: {error}"),
+    })?;
+    let expected = DelegatedEvidenceObservationReceipt {
+        schema_version: cockpit_protocol::DELEGATED_EVIDENCE_OBSERVATION_SCHEMA_VERSION,
+        repository_id,
+        work_item_id: work_item_id.into(),
+        observation_digest,
+        evidence: evidence.clone(),
+        protocol_version: runtime.protocol_version,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        bound_at: now(),
+    };
+    cockpit_protocol::validate_delegated_evidence_observation_receipt(&expected).map_err(
+        |message| ObserverError::State {
+            path: root.join(".ai/evidence/observations"),
+            message: message.into(),
+        },
+    )?;
+    validate_delegated_observation_bound_at(&expected, &root.join(".ai/evidence/observations"))?;
+    let path = delegated_evidence_observation_path(
+        &root,
+        work_item_id,
+        &expected.observation_digest,
+        true,
+    )?
+    .expect("create returns the observation directory");
+    let expected_bytes =
+        serde_json::to_vec_pretty(&expected).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: format!("serialize delegated observation receipt: {error}"),
+        })?;
+    let stored_raw = publish_immutable_bytes_no_replace(
+        &raw_path,
+        raw_bytes,
+        MAX_EXTERNAL_EVIDENCE_BYTES as u64,
+    )?;
+    if stored_raw != raw_bytes {
+        return Err(ObserverError::State {
+            path: raw_path,
+            message: "raw evidence already exists with different bytes".into(),
+        });
+    }
+    let stored_bytes =
+        publish_immutable_bytes_no_replace(&path, &expected_bytes, MAX_REUSABLE_RECEIPT_BYTES)?;
+    let receipt: DelegatedEvidenceObservationReceipt = serde_json::from_slice(&stored_bytes)
+        .map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: format!("invalid delegated observation receipt: {error}"),
+        })?;
+    cockpit_protocol::validate_delegated_evidence_observation_receipt(&receipt).map_err(
+        |message| ObserverError::State {
+            path: path.clone(),
+            message: message.into(),
+        },
+    )?;
+    validate_delegated_observation_bound_at(&receipt, &path)?;
+    validate_delegated_observation_idempotent_binding(&receipt, &expected, &path)?;
+    Ok(DelegatedEvidenceObservation {
+        selector: delegated_observation_selector(&receipt, &stored_bytes),
+        receipt,
+    })
+}
+
+/// Read and revalidate every append-only delegated-evidence observation for a
+/// Work Item. The selector digest is recomputed from the full binding, and the
+/// receipt digest pins the exact serialized record bytes.
+pub fn list_delegated_evidence_observations(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Vec<DelegatedEvidenceObservation>, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let Some(directory) = delegated_evidence_observation_directory(root, false)? else {
+        return Ok(Vec::new());
+    };
+    let expected_repository_id = repository_id(root).to_string();
+    let entries = fs::read_dir(&directory).map_err(|source| ObserverError::Read {
+        path: directory.clone(),
+        source,
+    })?;
+    let mut observations = Vec::new();
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: directory.clone(),
+            source,
+        })?;
+        let path = entry.path();
+        let name = entry.file_name().to_string_lossy().into_owned();
+        if !name.ends_with(".observation.json") {
+            continue;
+        }
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(ObserverError::State {
+                path,
+                message: "delegated observation must be a regular non-symlink file".into(),
+            });
+        }
+        if metadata.len() > MAX_REUSABLE_RECEIPT_BYTES {
+            return Err(ObserverError::State {
+                path,
+                message: "delegated observation exceeds the bounded size limit".into(),
+            });
+        }
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        let receipt: DelegatedEvidenceObservationReceipt =
+            serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: format!("invalid delegated observation receipt: {error}"),
+            })?;
+        cockpit_protocol::validate_delegated_evidence_observation_receipt(&receipt).map_err(
+            |message| ObserverError::State {
+                path: path.clone(),
+                message: message.into(),
+            },
+        )?;
+        validate_delegated_observation_bound_at(&receipt, &path)?;
+        validate_work_item_id(&receipt.work_item_id).map_err(|_| ObserverError::State {
+            path: path.clone(),
+            message: "delegated observation Work Item identity is invalid".into(),
+        })?;
+        if receipt.repository_id != expected_repository_id {
+            return Err(ObserverError::State {
+                path,
+                message: "delegated observation repository binding mismatch".into(),
+            });
+        }
+        let expected_path = delegated_evidence_observation_path(
+            root,
+            &receipt.work_item_id,
+            &receipt.observation_digest,
+            false,
+        )?
+        .expect("observation directory already exists");
+        if path != expected_path {
+            return Err(ObserverError::State {
+                path,
+                message: "delegated observation filename does not match its binding digest".into(),
+            });
+        }
+        if receipt.work_item_id != work_item_id {
+            continue;
+        }
+        let raw_path = external_evidence_file(root, &receipt.evidence.raw_evidence_ref)?;
+        let raw_metadata =
+            fs::symlink_metadata(&raw_path).map_err(|source| ObserverError::Read {
+                path: raw_path.clone(),
+                source,
+            })?;
+        if raw_metadata.file_type().is_symlink() || !raw_metadata.is_file() {
+            return Err(ObserverError::State {
+                path: raw_path,
+                message: "delegated raw evidence must be a regular non-symlink file".into(),
+            });
+        }
+        if raw_metadata.len() > MAX_EXTERNAL_EVIDENCE_BYTES as u64 {
+            return Err(ObserverError::State {
+                path: raw_path,
+                message: "delegated raw evidence exceeds the bounded size limit".into(),
+            });
+        }
+        let raw = fs::read(&raw_path).map_err(|source| ObserverError::Read {
+            path: raw_path.clone(),
+            source,
+        })?;
+        validate_delegated_metadata(root, work_item_id, &receipt.evidence, &raw)?;
+        observations.push(DelegatedEvidenceObservation {
+            selector: delegated_observation_selector(&receipt, &bytes),
+            receipt,
+        });
+    }
+    observations.sort_by(|left, right| {
+        left.receipt
+            .evidence
+            .provider
+            .cmp(&right.receipt.evidence.provider)
+            .then(
+                left.receipt
+                    .evidence
+                    .subject
+                    .cmp(&right.receipt.evidence.subject),
+            )
+            .then(
+                left.receipt
+                    .evidence
+                    .digest
+                    .as_str()
+                    .cmp(right.receipt.evidence.digest.as_str()),
+            )
+            .then(
+                left.selector
+                    .observation_digest
+                    .as_str()
+                    .cmp(right.selector.observation_digest.as_str()),
+            )
+            .then(
+                left.selector
+                    .receipt_digest
+                    .as_str()
+                    .cmp(right.selector.receipt_digest.as_str()),
+            )
+    });
+    Ok(observations)
 }
 
 fn delegated_evidence_satisfies(

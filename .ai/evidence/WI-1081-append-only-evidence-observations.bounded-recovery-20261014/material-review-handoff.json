@@ -1,0 +1,79 @@
+{
+  "kind": "pending_actual_raydot_material_review_handoff",
+  "isRuntimeReviewReceipt": false,
+  "isHumanDecision": false,
+  "decisionState": "pending_actual_agent_review",
+  "preparedAtUtc": "2026-10-14T21:47:20.834818+00:00",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+  "assurance": "self_declared",
+  "requestDigest": "sha256:7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4",
+  "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "sourceTreeDigest": "sha256:bbf6dc828843cf3264ee925c6bde0bca943428dd9c36e59f94059f58ab182f31",
+  "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "materialManifestDigest": "sha256:473b910ab8f7ca67167ef10ba8b7e9f8372bcb31ddaf4d0136a20ad70dfb30f4",
+  "profileDigest": "sha256:86f3235b84818c66a67398bf75f3c83f131f86921afa584768021135c436445f",
+  "analysisImplementationDigest": "sha256:8ff6abf85481e9e49e02a1ff4ae974dd79b2db0b3c397cbbe80aa5bc7eed5321",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "reviewedSourceHead": "30b6ab286fd37b0dbaa46d522b39498d556cde42",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "formalReceiptDigest": "sha256:e24571d26809eab42f170893cadb9349afe1e66dc1660ab36abf8372b258ec5a",
+  "formalReceiptRawSHA256": "3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17",
+  "coverage": {
+    "nodesExecuted": 13,
+    "nodesReused": 0,
+    "allSpawnedPassedExitZeroNoTimeout": true,
+    "packageTimeoutSeconds": 600,
+    "hostCapSeconds": 900,
+    "runtimeElapsedMs": 463401,
+    "executionElapsedMs": 461279,
+    "parentElapsedSeconds": 469.58357291601715,
+    "repositoryStdoutTruncated": true,
+    "dependencyConfidence": "unknown"
+  },
+  "unknownMembers": [
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:52fab746486a2527c9b766a5d489c7150cb8030b5fa00fd050398bdc9bfce577",
+      "afterBlobDigest": "sha256:9f0afabe32d525c93daf29baa3c4993e2c8732ba14e8ee0012b4e76fe5314734"
+    }
+  ],
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/material-review-request-after-verification.json",
+      "digest": "sha256:692c4a83490b26da056669fbabebcc1c3284ebb4f14472d702afdad494a3f5f2"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:9f0afabe32d525c93daf29baa3c4993e2c8732ba14e8ee0012b4e76fe5314734"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.receipt.json",
+      "digest": "sha256:3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.invocation.json",
+      "digest": "sha256:8c7a11c36d1d2a40c51df083e554a152caccb894505adb5ac41dbefd7ca8cce1"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/human-authorization-source.json",
+      "digest": "sha256:45f5bb65955e705093b4a0af7ee250b20fe7f0c12c2ad50953637f51c5afd896"
+    }
+  ],
+  "action": "record_material_review_decision",
+  "actionCurrentlyAdmitted": true,
+  "admissionDigest": "sha256:63382682916b3be60a37e42dcb5ea8283af7d326a4df453581707290b3857cb7",
+  "requiredNextDecision": "Raydot must actually inspect this exact request/material and supply decision, rationale and residualRisk before the Runtime record input is filled or called. Record timestamps must be actual Runtime operation time.",
+  "limits": [
+    "raw scanner Unknown remains even after a permitted typed discharge",
+    "no claim of real user benefit or cross-WI integration",
+    "no source changes to solve the separate CI test classifier defect",
+    "no merge, cleanup, close, or invented reviewer approval"
+  ]
+}

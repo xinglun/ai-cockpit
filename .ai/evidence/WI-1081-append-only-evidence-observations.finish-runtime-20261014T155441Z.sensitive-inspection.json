@@ -1,0 +1,13 @@
+{
+  "kind": "prepublication_sensitive_pattern_inspection",
+  "filesInspected": 18,
+  "patterns": [
+    "github_token",
+    "openai_key",
+    "aws_key",
+    "private_key",
+    "authorization_value"
+  ],
+  "findings": [],
+  "scope": "Actual finish raw output and Runtime-generated blocked governance records; no source or Contract change."
+}

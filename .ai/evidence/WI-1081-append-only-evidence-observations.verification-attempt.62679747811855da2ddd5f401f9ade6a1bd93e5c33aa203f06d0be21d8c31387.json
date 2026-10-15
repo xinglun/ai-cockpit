@@ -1,0 +1,24 @@
+{
+  "attemptId": "sha256:62679747811855da2ddd5f401f9ade6a1bd93e5c33aa203f06d0be21d8c31387",
+  "commands": [],
+  "contractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "contractExecutionScopeDigest": "sha256:2d5b2f13f88eedfe91714f36bb73937953d78f60b983eccddcf0a8335e3a279b",
+  "createdAt": "2026-10-14T11:15:06Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1081-append-only-evidence-observations/Cargo.toml: cargo metadata could not start: No such file or directory (os error 2)"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6ffcd0aaadd80bdba91dc6d7b70dc3baf588d76be913ba8dc89c5123f55d2dcc",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1081-append-only-evidence-observations"
+}

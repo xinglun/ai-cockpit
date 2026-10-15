@@ -1,0 +1,13 @@
+# New-Contract full verification and pending Raydot material review
+
+The actual full Runtime run tested head 30b6ab286fd37b0dbaa46d522b39498d556cde42 under Contract sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20, unchanged source snapshot sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1, and Runtime 1.0.1 / sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e.
+
+All 13 nodes executed and passed, zero reused, all spawned/exit0/no timeout; max verifier concurrency 1. Runtime elapsed 463401 ms, execution 461279 ms, parent 469583.572916 ms. The package timeout is 600 seconds, host cap 900 seconds and not hit. The repository stdout was bounded/truncated; no missing output is invented. The full returned Runtime log and captured receipt are preserved.
+
+The new canonical receipt was created at 2026-10-14T21:41:18Z; receiptDigest sha256:e24571d26809eab42f170893cadb9349afe1e66dc1660ab36abf8372b258ec5a; raw-file SHA-256 3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17. The exact one accepted retry was consumed by Runtime at 21:41:19Z. Old verification bytes and rejected inputs/attempts remain historical; no old 13/13 was rebound.
+
+Current Runtime reports verified/fresh, blockers empty, humanDecisionRequired=false, and admits record_material_review_decision. Canonical material requestDigest sha256:7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4, manifest sha256:473b910ab8f7ca67167ef10ba8b7e9f8372bcb31ddaf4d0136a20ad70dfb30f4, profile sha256:86f3235b84818c66a67398bf75f3c83f131f86921afa584768021135c436445f. There are no Findings; the one readable committed syntax Unknown is resource_lifecycle.rs, hunk 52fab746486a2527c9b766a5d489c7150cb8030b5fa00fd050398bdc9bfce577, after-blob 9f0afabe32d525c93daf29baa3c4993e2c8732ba14e8ee0012b4e76fe5314734.
+
+material-review-handoff.json supplies exact evidenceRefs and raw-byte digests plus all Runtime bindings. It is not a review receipt and asserts no reviewer conclusion. Raydot's actual new material decision, rationale and residual risk are still needed. No record_material_review_decision, finish, archive, human close, merge or cleanup was called in this bounded-recovery phase.
+
+Retain repository_material_inspection_unavailable, user_visible_benefit_not_declared, optional intent_alignment_missing and dependencyConfidence unknown. Technical success is not intent acceptance or cross-WI integration. The separate tests-only plan remains proposed and unimplemented; this local success does not fix or erase the earlier hosted test-classifier failure.

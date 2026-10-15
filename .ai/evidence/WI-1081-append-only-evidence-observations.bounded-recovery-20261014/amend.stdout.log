@@ -1,0 +1,60 @@
+{
+  "changeId": "wi1081-ray-bounded-material-review-20261014",
+  "changedValues": [
+    {
+      "newValue": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:Raydot",
+          "schemaVersion": 1
+        }
+      },
+      "oldValue": null,
+      "operation": "replace",
+      "path": "/governanceProfile"
+    },
+    {
+      "newValue": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "oldValue": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "operation": "set",
+      "path": "/requiredRuntimeCapabilities"
+    }
+  ],
+  "checkpointed": true,
+  "environmentObservationDigest": "sha256:049c5d15a16efd2884810876844f70265a94696ac60b5d33d6489fb825146784",
+  "invalidatedEvidence": [
+    ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+  ],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:91b1137e6327351ba49ca7cbb6d5b0d3d7ae9ba0d42911d2ac4d94f612842056",
+  "newContractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "nextAction": "resolve_blockers",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/governanceProfile"
+  ],
+  "previousContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "previousJournalDigest": "sha256:f96b1aab7c875c38b41bcdaae22e58904e1ba4e3b62373f4c859ee1b21560095",
+  "reason": "Ray approved the exact bounded recovery combination at 2026-10-14T21:15:31Z; enable only the single reviewable committed Rust syntax Unknown for delegated Raydot technical review, preserve source/history/verification requirements, and perform one retry plus fresh confirm_review and 13-node verification. Source: user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+  "recordedAt": "2026-10-14T21:21:08Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "requestDigest": "sha256:21677a68ea2733deeaea5f11a38b4ccae849543ea1c2250926860826dddee5c8",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 2,
+  "verificationStarted": true,
+  "workItemId": "WI-1081-append-only-evidence-observations"
+}

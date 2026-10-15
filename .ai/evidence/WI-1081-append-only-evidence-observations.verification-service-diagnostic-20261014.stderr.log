@@ -1,0 +1,28 @@
+    Finished `test` profile [unoptimized] target(s) in 0.06s
+     Running tests/verification_service.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/verification_service-cd12e31d53d738a6)
+
+thread 'linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory' (1776996) panicked at crates/cockpit-repository/tests/verification_service.rs:77:5:
+isolated linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory failed:
+stdout:
+
+running 1 test
+HEAD is now at ef6bd68 tiny Cargo fixture
+test linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory ... FAILED
+
+failures:
+
+failures:
+    linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.14s
+
+
+stderr:
+Preparing worktree (detached HEAD ef6bd68)
+
+thread 'linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory' (1776998) panicked at crates/cockpit-repository/tests/verification_service.rs:415:9:
+assertion failed: run.receipt.passed
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test verification_service`

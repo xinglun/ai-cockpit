@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1081-append-only-evidence-observations",
+  "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "red",
+  "activityHealth": "degraded",
+  "blocking": true,
+  "humanDecisionRequired": true,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 6,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 7,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "governance_red"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "unknown",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "unknown",
+    "workResult": "unknown"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+    "materialManifest": "sha256:473b910ab8f7ca67167ef10ba8b7e9f8372bcb31ddaf4d0136a20ad70dfb30f4",
+    "repositorySnapshot": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+    "summary": "sha256:261b0d00f4efd1fbb1defe8f16da4de4b00446143c4f240f0d8d7110c2003bd0",
+    "verificationEvidence": "sha256:54850e52d77c5d5c96f6802fcefc2f1aea8219fe814136ae6c7268ce46f019a2"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:473b910ab8f7ca67167ef10ba8b7e9f8372bcb31ddaf4d0136a20ad70dfb30f4",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "lifecycle_gate_failed",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-14T15:13:40Z",
+  "updatedAt": "2026-10-14T15:54:45Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "resolve_blockers",
+    "stop"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "resolve_blockers",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "lifecycle_gate_failed",
+        "message": "current projection reports lifecycle_gate_failed"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [],
+    "admissionDigest": "sha256:d0eaa85a694ff7ae853845f4acae332185fe6df1406a0bdd9e21f1c84bbcf4ab"
+  },
+  "statusDigest": "sha256:2048e63d0308cc3885c47997409dfcbe7cc03b422ecd70e1b0319a013489d589",
+  "historical": false
+}

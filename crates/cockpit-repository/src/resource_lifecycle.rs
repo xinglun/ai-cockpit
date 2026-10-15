@@ -11,7 +11,7 @@ use super::{
 };
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    Contract, EvidenceAssurance, EvidenceValidity, FinalizationErrorCode,
+    Contract, DelegatedEvidenceReceipt, EvidenceAssurance, EvidenceValidity, FinalizationErrorCode,
     HistoricalFinalizationKind, HistoricalFinalizationRecoveryReceipt, PostMergeSyncEvidence,
     PostMergeSyncRemoteBranchState, ResourceFinalizationContext, ResourceFinalizationDisposition,
     ResourceFinalizationPullRequestState, ResourceFinalizationReceipt,
@@ -4272,12 +4272,89 @@ fn validate_github_remote_ref_observation(
     Ok(())
 }
 
+enum SelectedDelegatedEvidence {
+    Legacy(DelegatedEvidenceReceipt),
+    Observation(cockpit_protocol::DelegatedEvidenceObservation),
+}
+
+impl SelectedDelegatedEvidence {
+    fn evidence(&self) -> &cockpit_protocol::DelegatedEvidence {
+        match self {
+            Self::Legacy(receipt) => &receipt.evidence,
+            Self::Observation(observation) => &observation.receipt.evidence,
+        }
+    }
+
+    fn bound_at(&self) -> &str {
+        match self {
+            Self::Legacy(receipt) => &receipt.bound_at,
+            Self::Observation(observation) => &observation.receipt.bound_at,
+        }
+    }
+}
+
 fn validate_post_merge_sync_delegated_evidence(
     root: &Path,
     receipt: &ResourceFinalizationReceipt,
     sync: &PostMergeSyncEvidence,
 ) -> Result<(), ObserverError> {
-    let evidence_receipts = super::list_delegated_evidence(root, &receipt.work_item_id)?;
+    let (source, synchronization, remote) = if receipt.schema_version
+        == cockpit_protocol::RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION
+    {
+        let selectors = sync.observation_selectors.as_ref().ok_or_else(|| {
+            post_merge_sync_error(
+                root,
+                "schema-v4 finalization is missing observation selectors",
+            )
+        })?;
+        let observations =
+            super::list_delegated_evidence_observations(root, &receipt.work_item_id)?;
+        let select = |role: &str,
+                      selector: &cockpit_protocol::DelegatedEvidenceObservationSelector|
+         -> Result<SelectedDelegatedEvidence, ObserverError> {
+            cockpit_protocol::validate_delegated_evidence_observation_selector(selector).map_err(
+                |message| post_merge_sync_error(root, format!("{role} selector: {message}")),
+            )?;
+            let matches = observations
+                .iter()
+                .filter(|observation| observation.selector == *selector)
+                .collect::<Vec<_>>();
+            if matches.len() != 1 {
+                return Err(post_merge_sync_error(
+                    root,
+                    format!("{role} observation selector must resolve exactly once"),
+                ));
+            }
+            Ok(SelectedDelegatedEvidence::Observation(
+                (*matches[0]).clone(),
+            ))
+        };
+        (
+            select("source", &selectors.source)?,
+            select("sync", &selectors.sync)?,
+            select("remote", &selectors.remote)?,
+        )
+    } else {
+        let receipts = super::list_delegated_evidence(root, &receipt.work_item_id)?;
+        let select = |digest: &Digest| -> Result<SelectedDelegatedEvidence, ObserverError> {
+            let matches = receipts
+                .iter()
+                .filter(|candidate| &candidate.evidence.digest == digest)
+                .collect::<Vec<_>>();
+            if matches.len() != 1 {
+                return Err(post_merge_sync_error(
+                    root,
+                    format!("delegated evidence digest must resolve exactly once: {digest}"),
+                ));
+            }
+            Ok(SelectedDelegatedEvidence::Legacy((*matches[0]).clone()))
+        };
+        (
+            select(&sync.source_evidence_digest)?,
+            select(&sync.sync_evidence_digest)?,
+            select(&sync.remote_evidence_digest)?,
+        )
+    };
     let timestamp = chrono::DateTime::parse_from_rfc3339(&receipt.timestamp).map_err(|error| {
         post_merge_sync_error(root, format!("finalization timestamp is invalid: {error}"))
     })?;
@@ -4295,37 +4372,47 @@ fn validate_post_merge_sync_delegated_evidence(
                     "Deleted remote-ref evidence must follow the exact Retained finalization root",
                 ));
             }
+            if receipt.schema_version
+                == cockpit_protocol::RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION
+            {
+                if root_receipt.schema_version != receipt.schema_version {
+                    return Err(post_merge_sync_error(
+                        root,
+                        "schema-v4 Deleted evidence requires a schema-v4 Retained root",
+                    ));
+                }
+                let root_sync = root_receipt.post_merge_sync.as_ref().ok_or_else(|| {
+                    post_merge_sync_error(root, "Retained root is missing post-merge evidence")
+                })?;
+                // Revalidate the root's exact observations, including its old
+                // remote selector. Current Deleted evidence cannot replace them.
+                validate_post_merge_sync_delegated_evidence(root, &root_receipt, root_sync)?;
+            }
             Some(root_receipt.timestamp)
         } else {
             None
         };
     let bindings = [
         (
+            &source,
             &sync.source_evidence_digest,
             sync.source_pull_request.url.as_str(),
         ),
         (
+            &synchronization,
             &sync.sync_evidence_digest,
             sync.sync_pull_request.url.as_str(),
         ),
         (
+            &remote,
             &sync.remote_evidence_digest,
             sync.remote_branch_ref.as_str(),
         ),
     ];
-    for (digest, subject) in bindings {
-        let matches = evidence_receipts
-            .iter()
-            .filter(|candidate| &candidate.evidence.digest == digest)
-            .collect::<Vec<_>>();
-        if matches.len() != 1 {
-            return Err(post_merge_sync_error(
-                root,
-                format!("delegated evidence digest must resolve exactly once: {digest}"),
-            ));
-        }
-        let evidence = &matches[0].evidence;
-        if evidence.provider != receipt.provider
+    for (selected, digest, subject) in bindings {
+        let evidence = selected.evidence();
+        if &evidence.digest != digest
+            || evidence.provider != receipt.provider
             || evidence.subject != subject
             || evidence.validity != EvidenceValidity::Valid
             || evidence.assurance.rank() < EvidenceAssurance::ProviderVerified.rank()
@@ -4340,7 +4427,7 @@ fn validate_post_merge_sync_delegated_evidence(
                 post_merge_sync_error(root, format!("delegated evidence time is invalid: {error}"))
             })?;
         let bound_at =
-            chrono::DateTime::parse_from_rfc3339(&matches[0].bound_at).map_err(|error| {
+            chrono::DateTime::parse_from_rfc3339(selected.bound_at()).map_err(|error| {
                 post_merge_sync_error(
                     root,
                     format!("delegated evidence binding time is invalid: {error}"),
@@ -4358,37 +4445,25 @@ fn validate_post_merge_sync_delegated_evidence(
         .ok_or_else(|| post_merge_sync_error(root, "source PR URL is not a GitHub PR URL"))?;
     validate_github_pull_request_observation(
         root,
-        &evidence_receipts
-            .iter()
-            .find(|candidate| candidate.evidence.digest == sync.source_evidence_digest)
-            .expect("the source evidence digest was matched above")
-            .evidence,
+        source.evidence(),
         &sync.source_pull_request,
         &source_repository,
         None,
     )?;
     validate_github_pull_request_observation(
         root,
-        &evidence_receipts
-            .iter()
-            .find(|candidate| candidate.evidence.digest == sync.sync_evidence_digest)
-            .expect("the sync evidence digest was matched above")
-            .evidence,
+        synchronization.evidence(),
         &sync.sync_pull_request,
         &source_repository,
         Some(&receipt.branch.name),
     )?;
-    let remote = evidence_receipts
-        .iter()
-        .find(|candidate| candidate.evidence.digest == sync.remote_evidence_digest)
-        .expect("the remote evidence digest was matched above");
     validate_github_remote_ref_observation(
         root,
-        &remote.evidence,
+        remote.evidence(),
         sync,
         &source_repository,
         retained_root_timestamp.as_deref(),
-        &remote.bound_at,
+        remote.bound_at(),
         &receipt.timestamp,
     )?;
     Ok(())
@@ -5743,9 +5818,11 @@ fn validate_post_merge_sync_repository_evidence(
             "schema-v2 finalization is missing postMergeSync evidence",
         )
     })?;
-    if receipt.schema_version
-        == cockpit_protocol::RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION
-    {
+    if matches!(
+        receipt.schema_version,
+        cockpit_protocol::RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION
+            | cockpit_protocol::RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION
+    ) {
         validate_post_merge_layout_stages(root, &receipt.work_item_id, sync)?;
     } else {
         validate_post_merge_sync_commit_stages(root, &receipt.work_item_id, sync)?;
@@ -6833,13 +6910,15 @@ mod post_merge_sync_tests {
     };
     use cockpit_core::Digest;
     use cockpit_protocol::{
-        AssuranceLevel, DelegatedEvidence, EvidenceValidity, PostMergeSyncEvidence,
+        AssuranceLevel, DelegatedEvidence, DelegatedEvidenceObservationSelector, EvidenceValidity,
+        PostMergeSyncEvidence, PostMergeSyncEvidenceObservationSelectors,
         PostMergeSyncRemoteBranchState, ResourceFinalizationBranchIdentity,
         ResourceFinalizationBranchState, ResourceFinalizationContext,
         ResourceFinalizationDisposition, ResourceFinalizationPullRequestIdentity,
         ResourceFinalizationPullRequestState, ResourceFinalizationReceipt,
         ResourceFinalizationResult, ResourceFinalizationState,
-        ResourceFinalizationWorktreeIdentity, ResourceFinalizationWorktreeState, RuntimeContext,
+        ResourceFinalizationTransitionReceipt, ResourceFinalizationWorktreeIdentity,
+        ResourceFinalizationWorktreeState, RuntimeContext,
     };
     use std::path::{Path, PathBuf};
     use std::process::Command;
@@ -7342,8 +7421,15 @@ mod post_merge_sync_tests {
         assert_eq!(result["state"], "recorded");
     }
 
-    #[test]
-    fn record_resource_finalization_accepts_tempdir_bound_schema_v3_history() {
+    fn recorded_post_merge_layout_fixture(
+        schema_version: u32,
+    ) -> (
+        tempfile::TempDir,
+        PathBuf,
+        PathBuf,
+        ResourceFinalizationReceipt,
+        RuntimeContext,
+    ) {
         use cockpit_protocol::PROTOCOL_VERSION;
 
         let fixture = tempfile::tempdir().expect("fixture directory");
@@ -7554,8 +7640,7 @@ mod post_merge_sync_tests {
             base_revision: provider_base.clone(),
             merge_commit: Some(m1.clone()),
         };
-        receipt.schema_version =
-            cockpit_protocol::RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION;
+        receipt.schema_version = schema_version;
         receipt.work_item_id = id.into();
         receipt.repository_id = repository_id.clone();
         receipt.runtime_version = runtime.runtime_version.clone();
@@ -7618,6 +7703,7 @@ mod post_merge_sync_tests {
             ),
         ];
         let mut digests = Vec::new();
+        let mut observation_selectors = Vec::new();
         for (name, identity, raw) in imports {
             let evidence = DelegatedEvidence {
                 provider: "github".into(),
@@ -7631,6 +7717,15 @@ mod post_merge_sync_tests {
             };
             super::super::import_delegated_evidence(&root, id, &evidence, &raw, &runtime)
                 .expect("import exact synthetic provider bytes");
+            if schema_version == 4 {
+                observation_selectors.push(
+                    super::super::import_delegated_evidence_observation(
+                        &root, id, &evidence, &raw, &runtime,
+                    )
+                    .expect("append exact synthetic provider observation")
+                    .selector,
+                );
+            }
             digests.push(evidence.digest);
         }
         let remote_ref = sync.remote_branch_ref.clone();
@@ -7649,11 +7744,30 @@ mod post_merge_sync_tests {
         };
         super::super::import_delegated_evidence(&root, id, &remote_evidence, &remote_raw, &runtime)
             .expect("import exact synthetic remote-ref bytes");
+        if schema_version == 4 {
+            let remote = super::super::import_delegated_evidence_observation(
+                &root,
+                id,
+                &remote_evidence,
+                &remote_raw,
+                &runtime,
+            )
+            .expect("append exact synthetic remote-ref observation");
+            sync.observation_selectors = Some(PostMergeSyncEvidenceObservationSelectors {
+                source: observation_selectors[0].clone(),
+                sync: observation_selectors[1].clone(),
+                remote: remote.selector,
+            });
+        }
         sync.source_evidence_digest = digests[0].clone();
         sync.sync_evidence_digest = digests[1].clone();
         sync.remote_evidence_digest = remote_evidence.digest;
-        receipt.timestamp = (chrono::Utc::now() + chrono::Duration::minutes(2))
-            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let finalization_time = if schema_version == 4 {
+            chrono::Utc::now()
+        } else {
+            chrono::Utc::now() + chrono::Duration::minutes(2)
+        };
+        receipt.timestamp = finalization_time.to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
 
         let (_, contract_digest) = super::archived_contract_digest(&root, id).unwrap();
         cockpit_protocol::validate_resource_finalization_receipt_for(
@@ -7676,6 +7790,159 @@ mod post_merge_sync_tests {
         assert_eq!(
             recorded["postMergeSync"]["syncPullRequest"]["baseRevision"], provider_base,
             "provider raw base remains distinct from the actual M1 first parent"
+        );
+        (fixture, root, worktree_path, receipt, runtime)
+    }
+
+    #[test]
+    fn record_resource_finalization_accepts_tempdir_bound_schema_v3_history() {
+        let _fixture = recorded_post_merge_layout_fixture(3);
+    }
+
+    #[test]
+    fn schema_v4_rejects_source_sync_observation_selector_role_swap() {
+        let (_fixture, root, _worktree, mut receipt, _runtime) =
+            recorded_post_merge_layout_fixture(4);
+        let sync = receipt.post_merge_sync.as_mut().unwrap();
+        let selectors = sync.observation_selectors.as_mut().unwrap();
+        std::mem::swap(&mut selectors.source, &mut selectors.sync);
+        assert_ne!(sync.source_evidence_digest, sync.sync_evidence_digest);
+        let result = super::validate_post_merge_sync_delegated_evidence(
+            &root,
+            &receipt,
+            receipt.post_merge_sync.as_ref().unwrap(),
+        );
+        assert!(
+            result.is_err(),
+            "source/sync selectors must retain their exact role/raw bindings"
+        );
+    }
+
+    #[test]
+    fn schema_v4_deleted_head_revalidates_retained_remote_observation() {
+        let (fixture, root, worktree, retained, runtime) = recorded_post_merge_layout_fixture(4);
+        let id = retained.work_item_id.clone();
+        let old_remote = retained
+            .post_merge_sync
+            .as_ref()
+            .unwrap()
+            .observation_selectors
+            .as_ref()
+            .unwrap()
+            .remote
+            .clone();
+        let old_observation_path = root.join(".ai/evidence/observations").join(format!(
+            "{id}.{}.observation.json",
+            old_remote
+                .observation_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        ));
+        let original_observation_bytes = std::fs::read(&old_observation_path).unwrap();
+        let root_receipt_path = super::resource_finalization_decision_path(&root, &id);
+        let original_root_bytes = std::fs::read(&root_receipt_path).unwrap();
+
+        git(
+            &root,
+            &["worktree", "remove", "--force", worktree.to_str().unwrap()],
+        );
+        git(&root, &["branch", "-D", &retained.branch.name]);
+        git(
+            &root,
+            &[
+                "update-ref",
+                "-d",
+                &format!("refs/remotes/origin/{}", retained.branch.name),
+            ],
+        );
+        // Imported boundAt uses second precision; collect in a later second
+        // so the absence observation is both after the root and before binding.
+        std::thread::sleep(std::time::Duration::from_secs(1));
+        let collected_at = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
+        let remote_ref = retained
+            .post_merge_sync
+            .as_ref()
+            .unwrap()
+            .remote_branch_ref
+            .clone();
+        let raw = github_deleted_ref_body(
+            "xinglun/ai-cockpit",
+            &remote_ref,
+            "v4-absence-after-retained",
+            "fixture-user",
+            &collected_at,
+        );
+        let evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: remote_ref,
+            origin: format!(
+                "https://api.github.com/repos/xinglun/ai-cockpit/git/ref/heads/{}",
+                retained.branch.name
+            ),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at,
+            digest: Digest::sha256_bytes(&raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: format!(".ai/evidence/external/{id}-remote-deleted.json"),
+        };
+        let observation = super::super::import_delegated_evidence_observation(
+            &root, &id, &evidence, &raw, &runtime,
+        )
+        .expect("append the fresh absence observation");
+        let mut deleted = retained.clone();
+        deleted.before = retained.after.clone();
+        deleted.after.branch = ResourceFinalizationBranchState::Deleted;
+        deleted.after.worktree = ResourceFinalizationWorktreeState::Removed;
+        deleted.result.disposition = ResourceFinalizationDisposition::Deleted;
+        deleted.timestamp = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let sync = deleted.post_merge_sync.as_mut().unwrap();
+        sync.remote_branch_state = PostMergeSyncRemoteBranchState::Deleted;
+        sync.remote_evidence_digest = evidence.digest;
+        sync.observation_selectors.as_mut().unwrap().remote = observation.selector;
+        let transition = ResourceFinalizationTransitionReceipt {
+            schema_version: 1,
+            transition_id: "v4-root-observation-integrity".into(),
+            sequence: 1,
+            predecessor_receipt_digest: cockpit_protocol::digest_json(
+                &serde_json::to_value(&retained).unwrap(),
+            )
+            .unwrap(),
+            governance_append_revision: None,
+            receipt: deleted,
+        };
+        let input = fixture.path().join("deleted-v4-resource-transition.json");
+        std::fs::write(&input, serde_json::to_vec_pretty(&transition).unwrap()).unwrap();
+        super::record_resource_finalization(&root, &id, &input, &runtime)
+            .expect("record the valid Deleted transition after Retained");
+        let verified = super::verify_resource_finalization(&root, &id, &runtime)
+            .expect("the intact v4 Deleted head verifies end to end");
+        assert_eq!(verified["disposition"], "deleted");
+        assert_eq!(verified["sequence"], 1);
+
+        std::fs::remove_file(&old_observation_path).unwrap();
+        assert!(
+            super::verify_resource_finalization(&root, &id, &runtime).is_err(),
+            "a Deleted head must not silently lose its Retained root remote observation"
+        );
+        std::fs::write(&old_observation_path, &original_observation_bytes).unwrap();
+        let mut changed: serde_json::Value =
+            serde_json::from_slice(&original_observation_bytes).unwrap();
+        changed["boundAt"] = (chrono::Utc::now() + chrono::Duration::minutes(1))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true)
+            .into();
+        std::fs::write(
+            &old_observation_path,
+            serde_json::to_vec_pretty(&changed).unwrap(),
+        )
+        .unwrap();
+        assert!(
+            super::verify_resource_finalization(&root, &id, &runtime).is_err(),
+            "a Deleted head must retain the original root observation receipt bytes"
+        );
+        assert_eq!(
+            std::fs::read(&root_receipt_path).unwrap(),
+            original_root_bytes
         );
     }
 
@@ -8842,6 +9109,7 @@ mod post_merge_sync_tests {
             post_merge_sync: Some(PostMergeSyncEvidence {
                 lifecycle_layout: None,
                 documentation: None,
+                observation_selectors: None,
                 source_pull_request: ResourceFinalizationPullRequestIdentity {
                     number: 9001,
                     url: "https://github.com/example/fixture/pull/9001".into(),
@@ -10284,6 +10552,397 @@ mod post_merge_sync_tests {
         assert!(
             super::validate_post_merge_sync_delegated_evidence(root, &receipt, &sync,).is_err(),
             "SelfDeclared evidence must not be promoted to provider-backed proof"
+        );
+    }
+
+    #[test]
+    fn schema_v4_requires_explicit_versioned_observation_selectors_and_keeps_v3_closed() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let mut receipt = deleted_receipt(
+            "codex/v4-fixture",
+            &fixture.path().join("removed"),
+            &fixture.path().join(".git/worktrees/removed"),
+            &fixture.path().join(".git"),
+        );
+        receipt.schema_version = 4;
+        let sync = receipt.post_merge_sync.as_mut().unwrap();
+        sync.lifecycle_layout = Some(cockpit_protocol::PostMergeLifecycleLayout::Separate);
+        sync.documentation = Some(cockpit_protocol::PostMergeDocumentation::Projected);
+        sync.source_pull_request.head_revision = "1".repeat(40);
+        sync.source_pull_request.base_revision = "2".repeat(40);
+        sync.source_pull_request.merge_commit = Some("3".repeat(40));
+        sync.sync_pull_request.head_revision = "4".repeat(40);
+        sync.sync_pull_request.base_revision = "5".repeat(40);
+        sync.sync_pull_request.merge_commit = Some("6".repeat(40));
+        sync.finish_revision = "7".repeat(40);
+        sync.archive_revision = "8".repeat(40);
+        sync.docs_revision = "4".repeat(40);
+        sync.current_main_revision = "6".repeat(40);
+        receipt.pull_request = sync.source_pull_request.clone();
+        receipt.branch.head_revision = sync.sync_pull_request.head_revision.clone();
+        receipt.worktree.head_revision = sync.sync_pull_request.head_revision.clone();
+        let mut legacy_v3 = receipt.clone();
+        legacy_v3.schema_version =
+            cockpit_protocol::RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION;
+        let legacy_json = serde_json::to_value(&legacy_v3).expect("legacy v3 receipt JSON");
+        assert!(
+            !legacy_json["postMergeSync"]
+                .as_object()
+                .unwrap()
+                .contains_key("observationSelectors"),
+            "legacy v3 output must not acquire a selector field"
+        );
+        let selector = |name: &[u8]| {
+            serde_json::json!({
+                "schemaVersion": 1,
+                "observationDigest": Digest::sha256_bytes(name).to_string(),
+                "receiptDigest": Digest::sha256_bytes(&[name, b"-receipt"].concat()).to_string()
+            })
+        };
+        let selectors = serde_json::json!({
+            "source": selector(b"source"),
+            "sync": selector(b"sync"),
+            "remote": selector(b"remote")
+        });
+        let mut value = serde_json::to_value(&receipt).expect("receipt JSON");
+        value["schemaVersion"] = serde_json::json!(4);
+        value["postMergeSync"]["observationSelectors"] = selectors;
+
+        let parsed: ResourceFinalizationReceipt =
+            serde_json::from_value(value.clone()).expect("schema-v4 selectors must parse");
+        cockpit_protocol::validate_resource_finalization_receipt(&parsed)
+            .expect("schema-v4 receipt with three versioned selectors is valid");
+
+        let mut missing_selector_value = value.clone();
+        missing_selector_value["postMergeSync"]
+            .as_object_mut()
+            .unwrap()
+            .remove("observationSelectors");
+        let missing_selectors: ResourceFinalizationReceipt =
+            serde_json::from_value(missing_selector_value).expect("missing selector parses");
+        assert!(
+            cockpit_protocol::validate_resource_finalization_receipt(&missing_selectors).is_err(),
+            "schema-v4 receipts must require all three exact selectors"
+        );
+
+        let mut unsupported_selector_value = value.clone();
+        unsupported_selector_value["postMergeSync"]["observationSelectors"]["source"]["schemaVersion"] =
+            serde_json::json!(2);
+        let unsupported_selector: ResourceFinalizationReceipt =
+            serde_json::from_value(unsupported_selector_value).expect("selector parses");
+        assert!(
+            cockpit_protocol::validate_resource_finalization_receipt(&unsupported_selector)
+                .is_err(),
+            "unsupported selector versions must fail closed"
+        );
+
+        value["schemaVersion"] = serde_json::json!(3);
+        let legacy_with_selector: ResourceFinalizationReceipt =
+            serde_json::from_value(value).expect("legacy shape remains readable for validation");
+        assert!(
+            cockpit_protocol::validate_resource_finalization_receipt(&legacy_with_selector)
+                .is_err(),
+            "v1-v3 receipts must not consume v4 selectors"
+        );
+    }
+
+    #[test]
+    fn schema_v4_deleted_transition_preserves_source_selectors_and_appends_remote_selector() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let mut retained = deleted_receipt(
+            "codex/v4-transition-fixture",
+            &fixture.path().join("removed"),
+            &fixture.path().join(".git/worktrees/removed"),
+            &fixture.path().join(".git"),
+        );
+        retained.schema_version =
+            cockpit_protocol::RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION;
+        retained.result.disposition = ResourceFinalizationDisposition::Retained;
+        retained.after = retained.before.clone();
+        {
+            let sync = retained.post_merge_sync.as_mut().unwrap();
+            sync.lifecycle_layout = Some(cockpit_protocol::PostMergeLifecycleLayout::Separate);
+            sync.documentation = Some(cockpit_protocol::PostMergeDocumentation::Projected);
+            sync.source_pull_request.head_revision = "1".repeat(40);
+            sync.source_pull_request.base_revision = "2".repeat(40);
+            sync.source_pull_request.merge_commit = Some("3".repeat(40));
+            sync.sync_pull_request.head_revision = "4".repeat(40);
+            sync.sync_pull_request.base_revision = "5".repeat(40);
+            sync.sync_pull_request.merge_commit = Some("6".repeat(40));
+            sync.finish_revision = "7".repeat(40);
+            sync.archive_revision = "8".repeat(40);
+            sync.docs_revision = "4".repeat(40);
+            sync.current_main_revision = "6".repeat(40);
+            sync.remote_branch_state = PostMergeSyncRemoteBranchState::Present;
+            sync.observation_selectors = Some(PostMergeSyncEvidenceObservationSelectors {
+                source: DelegatedEvidenceObservationSelector {
+                    schema_version: 1,
+                    observation_digest: Digest::sha256_bytes(b"source observation"),
+                    receipt_digest: Digest::sha256_bytes(b"source receipt"),
+                },
+                sync: DelegatedEvidenceObservationSelector {
+                    schema_version: 1,
+                    observation_digest: Digest::sha256_bytes(b"sync observation"),
+                    receipt_digest: Digest::sha256_bytes(b"sync receipt"),
+                },
+                remote: DelegatedEvidenceObservationSelector {
+                    schema_version: 1,
+                    observation_digest: Digest::sha256_bytes(b"remote present observation"),
+                    receipt_digest: Digest::sha256_bytes(b"remote present receipt"),
+                },
+            });
+            sync.remote_evidence_digest = Digest::sha256_bytes(b"remote present bytes");
+        }
+        retained.pull_request = retained
+            .post_merge_sync
+            .as_ref()
+            .unwrap()
+            .source_pull_request
+            .clone();
+        let sync_head = retained
+            .post_merge_sync
+            .as_ref()
+            .unwrap()
+            .sync_pull_request
+            .head_revision
+            .clone();
+        retained.branch.head_revision = sync_head.clone();
+        retained.worktree.head_revision = sync_head;
+
+        let mut deleted = retained.clone();
+        deleted.before = retained.after.clone();
+        deleted.after.branch = ResourceFinalizationBranchState::Deleted;
+        deleted.after.worktree = ResourceFinalizationWorktreeState::Removed;
+        deleted.result.disposition = ResourceFinalizationDisposition::Deleted;
+        let next_remote_digest = Digest::sha256_bytes(b"remote deleted bytes");
+        let sync = deleted.post_merge_sync.as_mut().unwrap();
+        sync.remote_branch_state = PostMergeSyncRemoteBranchState::Deleted;
+        sync.remote_evidence_digest = next_remote_digest;
+        sync.observation_selectors.as_mut().unwrap().remote =
+            DelegatedEvidenceObservationSelector {
+                schema_version: 1,
+                observation_digest: Digest::sha256_bytes(b"remote deleted observation"),
+                receipt_digest: Digest::sha256_bytes(b"remote deleted receipt"),
+            };
+        let predecessor_value = serde_json::to_value(&retained).expect("retained receipt JSON");
+        let transition = ResourceFinalizationTransitionReceipt {
+            schema_version: 1,
+            transition_id: "transition-1".into(),
+            sequence: 1,
+            predecessor_receipt_digest: cockpit_protocol::digest_json(&predecessor_value)
+                .expect("predecessor digest"),
+            governance_append_revision: None,
+            receipt: deleted,
+        };
+
+        cockpit_protocol::validate_resource_finalization_transition(&retained, &transition, 1)
+            .expect("v4 transition preserves exact source/sync observations and appends remote");
+
+        let mut changed_source = transition.clone();
+        changed_source
+            .receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .observation_selectors
+            .as_mut()
+            .unwrap()
+            .source
+            .observation_digest = Digest::sha256_bytes(b"changed source selector");
+        assert!(
+            cockpit_protocol::validate_resource_finalization_transition(
+                &retained,
+                &changed_source,
+                1
+            )
+            .is_err(),
+            "a Deleted transition must not rewrite its source observation selector"
+        );
+    }
+
+    #[test]
+    fn schema_v4_uses_the_selected_corrected_observation_when_raw_digest_is_ambiguous() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let root = fixture.path();
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(root)
+                .status()
+                .expect("git init")
+                .success()
+        );
+        git(root, &["config", "user.name", "AI Cockpit Tests"]);
+        git(root, &["config", "user.email", "tests@example.invalid"]);
+        std::fs::write(root.join("tracked.txt"), "fixture\n").unwrap();
+        git(root, &["add", "tracked.txt"]);
+        git(root, &["commit", "-q", "-m", "fixture baseline"]);
+        super::super::attach(root).expect("attach fixture repository");
+        super::super::start_work_item_with_options(
+            root,
+            "WI-9997-post-merge-sync-v4-fixture",
+            "bind v4 post-merge evidence",
+            "resolve exact observation selectors",
+            &[".ai/**".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..Default::default()
+            },
+        )
+        .expect("start Work Item for v4 evidence binding");
+        let runtime = RuntimeContext {
+            runtime_version: "test-runtime".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+        };
+        let collected_at = (chrono::Utc::now() - chrono::Duration::seconds(10))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let remote_ref = "refs/heads/codex/v4-fixture";
+        let mut receipt = deleted_receipt(
+            "codex/v4-fixture",
+            &root.join("target-worktree"),
+            &root.join(".git/worktrees/target-worktree"),
+            &root.join(".git"),
+        );
+        receipt.work_item_id = "WI-9997-post-merge-sync-v4-fixture".into();
+        receipt.repository_id = super::super::repository_id(root).to_string();
+        receipt.schema_version = 4;
+        receipt.result.disposition = ResourceFinalizationDisposition::Retained;
+        receipt.after = receipt.before.clone();
+        receipt.timestamp = (chrono::Utc::now() + chrono::Duration::minutes(1))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let sync = receipt.post_merge_sync.as_mut().unwrap();
+        sync.lifecycle_layout = Some(cockpit_protocol::PostMergeLifecycleLayout::Separate);
+        sync.documentation = Some(cockpit_protocol::PostMergeDocumentation::Projected);
+        sync.source_pull_request.head_revision = "1".repeat(40);
+        sync.source_pull_request.base_revision = "2".repeat(40);
+        sync.source_pull_request.merge_commit = Some("3".repeat(40));
+        sync.sync_pull_request.head_revision = "4".repeat(40);
+        sync.sync_pull_request.base_revision = "5".repeat(40);
+        sync.sync_pull_request.merge_commit = Some("6".repeat(40));
+        sync.finish_revision = "7".repeat(40);
+        sync.archive_revision = "8".repeat(40);
+        sync.docs_revision = "4".repeat(40);
+        sync.current_main_revision = "6".repeat(40);
+        sync.remote_branch_ref = remote_ref.into();
+        sync.remote_branch_state = PostMergeSyncRemoteBranchState::Present;
+        receipt.pull_request = sync.source_pull_request.clone();
+        receipt.branch.head_revision = sync.sync_pull_request.head_revision.clone();
+        receipt.worktree.head_revision = sync.sync_pull_request.head_revision.clone();
+
+        let source_identity = sync.source_pull_request.clone();
+        let source_raw = github_pull_request_body(&source_identity, "source");
+        let incorrect_source = DelegatedEvidence {
+            provider: "github".into(),
+            subject: source_identity.url.clone(),
+            origin: "https://api.github.com/repos/example/fixture/issues/9001".into(),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collected_at.clone(),
+            digest: Digest::sha256_bytes(&source_raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/v4-source.json".into(),
+        };
+        let incorrect_observation = super::super::import_delegated_evidence_observation(
+            root,
+            &receipt.work_item_id,
+            &incorrect_source,
+            &source_raw,
+            &runtime,
+        )
+        .expect("retain the original incorrect source observation");
+        let corrected_source = DelegatedEvidence {
+            origin: github_pull_request_origin(&source_identity),
+            ..incorrect_source.clone()
+        };
+        let corrected_observation = super::super::import_delegated_evidence_observation(
+            root,
+            &receipt.work_item_id,
+            &corrected_source,
+            &source_raw,
+            &runtime,
+        )
+        .expect("append the corrected source with the same raw digest");
+        assert_eq!(incorrect_source.digest, corrected_source.digest);
+        assert_ne!(
+            incorrect_observation.selector.observation_digest,
+            corrected_observation.selector.observation_digest
+        );
+
+        let sync_identity = sync.sync_pull_request.clone();
+        let sync_raw = github_pull_request_body(&sync_identity, &receipt.branch.name);
+        let sync_evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: sync_identity.url.clone(),
+            origin: github_pull_request_origin(&sync_identity),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collected_at.clone(),
+            digest: Digest::sha256_bytes(&sync_raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/v4-sync.json".into(),
+        };
+        let sync_observation = super::super::import_delegated_evidence_observation(
+            root,
+            &receipt.work_item_id,
+            &sync_evidence,
+            &sync_raw,
+            &runtime,
+        )
+        .expect("append sync observation");
+        let remote_raw = github_present_ref_body(remote_ref, &"4".repeat(40));
+        let remote_evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: remote_ref.into(),
+            origin: github_ref_origin(remote_ref),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collected_at.clone(),
+            digest: Digest::sha256_bytes(&remote_raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/v4-remote.json".into(),
+        };
+        let remote_observation = super::super::import_delegated_evidence_observation(
+            root,
+            &receipt.work_item_id,
+            &remote_evidence,
+            &remote_raw,
+            &runtime,
+        )
+        .expect("append remote observation");
+
+        let mut value = serde_json::to_value(&receipt).expect("v4 receipt JSON");
+        value["postMergeSync"]["sourceEvidenceDigest"] =
+            serde_json::json!(corrected_source.digest.to_string());
+        value["postMergeSync"]["syncEvidenceDigest"] =
+            serde_json::json!(sync_evidence.digest.to_string());
+        value["postMergeSync"]["remoteEvidenceDigest"] =
+            serde_json::json!(remote_evidence.digest.to_string());
+        value["postMergeSync"]["observationSelectors"] = serde_json::json!({
+            "source": corrected_observation.selector,
+            "sync": sync_observation.selector,
+            "remote": remote_observation.selector
+        });
+        let v4_receipt: ResourceFinalizationReceipt =
+            serde_json::from_value(value.clone()).expect("schema-v4 selectors parse");
+        cockpit_protocol::validate_resource_finalization_receipt(&v4_receipt)
+            .expect("schema-v4 identity is valid");
+        super::validate_post_merge_sync_delegated_evidence(
+            root,
+            &v4_receipt,
+            v4_receipt.post_merge_sync.as_ref().unwrap(),
+        )
+        .expect("schema-v4 evidence validation must use the corrected exact selector");
+
+        value["postMergeSync"]["observationSelectors"]["source"] =
+            serde_json::to_value(&incorrect_observation.selector).unwrap();
+        let wrong_selector_receipt: ResourceFinalizationReceipt =
+            serde_json::from_value(value).expect("wrong selector remains structurally valid");
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &wrong_selector_receipt,
+                wrong_selector_receipt.post_merge_sync.as_ref().unwrap(),
+            )
+            .is_err(),
+            "the preserved incorrect observation cannot be selected as source proof"
         );
     }
 

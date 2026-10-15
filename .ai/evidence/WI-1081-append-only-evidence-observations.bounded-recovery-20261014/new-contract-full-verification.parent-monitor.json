@@ -1,0 +1,216 @@
+{
+  "kind": "agent_same_parent_resource_monitor",
+  "runtimeExitCode": 0,
+  "hostLimitReached": false,
+  "elapsedSeconds": 469.58357291601715,
+  "observations": [
+    {
+      "elapsedSeconds": 0.0,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5282217984,
+          "availableInodes": 1990060
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 30.1,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5261078528,
+          "availableInodes": 1990036
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 60.1,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5260476416,
+          "availableInodes": 1988511
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 90.2,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5260419072,
+          "availableInodes": 1988500
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 120.2,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5260161024,
+          "availableInodes": 1987807
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 150.3,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5260271616,
+          "availableInodes": 1988465
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 180.4,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5260316672,
+          "availableInodes": 1988474
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 210.5,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5260525568,
+          "availableInodes": 1988523
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 240.5,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 4845785088,
+          "availableInodes": 1972196
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 270.6,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 3978825728,
+          "availableInodes": 1936743
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 300.6,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5259956224,
+          "availableInodes": 1987164
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 330.7,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5238685696,
+          "availableInodes": 1988348
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 360.8,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5259911168,
+          "availableInodes": 1988339
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 390.8,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5259591680,
+          "availableInodes": 1988303
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 420.9,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5238439936,
+          "availableInodes": 1988275
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    },
+    {
+      "elapsedSeconds": 451.0,
+      "resources": {
+        "/workspace": {
+          "availableBytes": 5187485696,
+          "availableInodes": 1987984
+        },
+        "/tmp": {
+          "availableBytes": 3826761728,
+          "availableInodes": 2279172
+        }
+      }
+    }
+  ]
+}

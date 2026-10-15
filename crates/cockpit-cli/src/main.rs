@@ -420,7 +420,23 @@ enum EvidenceCommand {
         #[arg(long)]
         raw: PathBuf,
     },
+    Observe {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        work_item: String,
+        #[arg(long)]
+        metadata: PathBuf,
+        #[arg(long)]
+        raw: PathBuf,
+    },
     List {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        work_item: String,
+    },
+    ListObservations {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long)]
@@ -2800,11 +2816,40 @@ fn run() -> Result<()> {
                 .context("import delegated evidence")?;
                 println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
+            EvidenceCommand::Observe {
+                repo,
+                work_item,
+                metadata,
+                raw,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let evidence: DelegatedEvidence = serde_json::from_slice(
+                    &std::fs::read(&metadata).context("read delegated evidence metadata")?,
+                )
+                .context("parse delegated evidence metadata")?;
+                let raw_bytes = std::fs::read(&raw).context("read delegated raw evidence")?;
+                let observation = cockpit_repository::import_delegated_evidence_observation(
+                    &repo,
+                    &work_item,
+                    &evidence,
+                    &raw_bytes,
+                    &runtime_context,
+                )
+                .context("record delegated evidence observation")?;
+                println!("{}", serde_json::to_string_pretty(&observation)?);
+            }
             EvidenceCommand::List { repo, work_item } => {
                 require_compatible(&repo, &runtime_context)?;
                 let receipts = cockpit_repository::list_delegated_evidence(&repo, &work_item)
                     .context("list delegated evidence")?;
                 println!("{}", serde_json::to_string_pretty(&receipts)?);
+            }
+            EvidenceCommand::ListObservations { repo, work_item } => {
+                require_compatible(&repo, &runtime_context)?;
+                let observations =
+                    cockpit_repository::list_delegated_evidence_observations(&repo, &work_item)
+                        .context("list delegated evidence observations")?;
+                println!("{}", serde_json::to_string_pretty(&observations)?);
             }
             EvidenceCommand::Policy {
                 repo,

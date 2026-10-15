@@ -1,0 +1,27 @@
+[
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.contract.json",
+    "size": 4927,
+    "rawSHA256": "576275130c22812f50f186ef394e24552a38bbecc2d10a7a5b85620f8dfa840d"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json",
+    "size": 4049,
+    "rawSHA256": "49b49617670c4cfe8884d96ebfe96e6c81d857dc69f17c13ad44ffa30789981a"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.outcome.json",
+    "size": 8429,
+    "rawSHA256": "fa845d2ff4f2f728b19f5f7fee447c3460673656aa497de10364b0056ed101c0"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.events.jsonl",
+    "size": 555,
+    "rawSHA256": "0206614c60a8e2daac8cc8f17f6a495225ba2ed9605e9f2daf5ad85cdf49ae56"
+  },
+  {
+    "path": ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json",
+    "size": 412146,
+    "rawSHA256": "0db7600f62320951278d52711f384b417acbf109cc8fa9346b7c6e9a2db7c368"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "kind": "actual_raydot_material_review_source",
+  "isHumanDecision": false,
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "reviewerActor": "agent:Raydot",
+  "reportedReviewCompletedAt": "2026-10-14 21:57 UTC",
+  "reportedTimePrecision": "minute; verbatim from coordinator message",
+  "sourceRecordedAt": "2026-10-14T22:02:23.338768+00:00",
+  "requestDigest": "sha256:7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4",
+  "decision": "accept_permitted_unknowns",
+  "scope": "only this request single readable_committed_rust_syntax_unknown",
+  "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc"
+}

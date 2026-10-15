@@ -1,0 +1,29 @@
+{
+  "kind": "actual_human_bounded_recovery_authorization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1081-append-only-evidence-observations",
+  "actor": "human:Ray",
+  "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+  "humanDecisionAt": "2026-10-14T21:15:31Z",
+  "evidenceRecordedAt": "2026-10-14T21:21:07.703251+00:00",
+  "promptActor": "agent:Raydot",
+  "promptAt": "2026-10-14T16:14:15Z",
+  "promptSourceEvent": "Sentinel_a426c2f857a88191b74cf2d7361f85ee",
+  "replySourceEvent": "Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+  "reply": "批准",
+  "approvedScope": [
+    "WI-1081 single reviewable Rust material Unknown opt-in",
+    "same corrected source Contract adjustment",
+    "one retry",
+    "corresponding confirm_review",
+    "fresh complete 13-node verification under the new Contract"
+  ],
+  "excluded": [
+    "extra source changes",
+    "new risks",
+    "merge",
+    "delete",
+    "close"
+  ],
+  "originalPrompt": "代码修复已通过独立审阅和 13/13 正式验证，已推送保存。实际执行 finish 时，材料扫描器对一处 Rust 源码返回“无法判定”，收尾被挡住了。普通技术决定我会继续自行处理。这次查证到的现有恢复路径明确要求真人决定，需要你一次确认：允许 WI-1081 针对这一处扫描 Unknown 启用人工材料审阅，由我承担技术审阅；批准同一修复源码下的 Contract 调整、一次 retry 和对应 confirm_review。原扫描结果及失败记录保留，按新 Contract 重跑全部 13 项验证；出现额外变更或新风险就停下。这不会把扫描结果改成自动通过，也不包含合并、删除或关闭。你是否批准这一组恢复操作？"
+}

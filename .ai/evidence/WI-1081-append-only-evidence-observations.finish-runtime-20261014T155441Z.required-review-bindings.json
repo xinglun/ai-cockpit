@@ -1,0 +1,90 @@
+{
+  "kind": "actual_finish_material_gate_rejection_bindings",
+  "isApprovalReceipt": false,
+  "isHumanDecision": false,
+  "attemptedHead": "29a6778d106c479be5e81ff2bf5de2a4c0f38f40",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1081-append-only-evidence-observations",
+  "contractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "materialSourceTreeDigest": "sha256:bbf6dc828843cf3264ee925c6bde0bca943428dd9c36e59f94059f58ab182f31",
+  "materialManifestDigest": "sha256:473b910ab8f7ca67167ef10ba8b7e9f8372bcb31ddaf4d0136a20ad70dfb30f4",
+  "currentMaterialRequestDigest": "sha256:98843586541b509a2a5e354520f0bbe8a447595279fbfb01d37a76664c84aef6",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:8ff6abf85481e9e49e02a1ff4ae974dd79b2db0b3c397cbbe80aa5bc7eed5321",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "failedGate": "finish.lifecycle",
+  "actualExitCode": 1,
+  "actualMessage": "finish is blocked by canonical material Unknowns: repository_material_inspection_unavailable",
+  "currentAdmissionDigest": "sha256:fc375525dbc567a82f0dc6cf7c9d79807582e741af8ac3e6bce1b4609c6abfe2",
+  "currentSafeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "resolve_blockers",
+    "stop"
+  ],
+  "currentBlockers": [
+    "governance_red"
+  ],
+  "currentHumanDecisionRequired": false,
+  "reviewEnabled": false,
+  "blockedByFinding": false,
+  "reviewReceiptDigest": null,
+  "unknownMembers": [
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:52fab746486a2527c9b766a5d489c7150cb8030b5fa00fd050398bdc9bfce577",
+      "afterBlobDigest": "sha256:9f0afabe32d525c93daf29baa3c4993e2c8732ba14e8ee0012b4e76fe5314734"
+    }
+  ],
+  "neededSupportedAction": "record_material_review_decision",
+  "actionCurrentlyAdmitted": false,
+  "neededReviewType": {
+    "schemaVersion": 1,
+    "decision": "accept_permitted_unknowns",
+    "assurance": "self_declared",
+    "reviewerActor": "agent:Raydot",
+    "authoritySource": "must match a real user delegation and the exact opt-in Contract profile",
+    "requiredInputFields": [
+      "requestDigest",
+      "reviewerActor",
+      "authoritySource",
+      "assurance",
+      "evidenceRefs(path,digest)",
+      "rationale",
+      "residualRisk"
+    ],
+    "recordedAt": "assigned by Runtime when a real admitted record action succeeds; no timestamp may be backfilled"
+  },
+  "currentContractMissingOptIn": {
+    "profilePath": "/governanceProfile/materialInspectionReview",
+    "requiredCapability": "material-inspection-review",
+    "requiredProfileFields": {
+      "schemaVersion": 1,
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "assurance": "self_declared",
+      "reviewerActor": "agent:Raydot",
+      "authoritySource": "actual delegation source",
+      "acceptResidualRisk": true
+    }
+  },
+  "notPerformed": [
+    "source changes",
+    "Contract amendment",
+    "material-review record",
+    "archive",
+    "close",
+    "merge",
+    "cleanup"
+  ],
+  "nextDecisionLimit": "A supported Contract opt-in would change the Contract digest. Report and obtain Raydot technical ruling before such a change; regenerate the canonical request and refresh Runtime admission/evidence bindings. Current request digest is not reusable as a future changed-Contract approval."
+}

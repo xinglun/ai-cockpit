@@ -1,0 +1,17 @@
+# Ray-authorized bounded WI-1081 recovery checkpoint
+
+Ray explicitly approved the bounded combination at 2026-10-14T21:15:31Z, after Raydot's exact prompt at 16:14:15 UTC. Original transcript source, approval time and actual recording times are preserved separately; no old technical judgment is presented as a human decision.
+
+Normal Runtime amend succeeded at 21:21:08 UTC. Only governanceProfile.materialInspectionReview changed, plus requiredRuntimeCapabilities automatically updated by Runtime. Contract is now sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20; source remains sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1. Scope, verification and all other Contract fields were compared unchanged. The old 13/13 receipt bytes remain 0db7600f62320951278d52711f384b417acbf109cc8fa9346b7c6e9a2db7c368 and are not rebound to the new Contract.
+
+The first recovery input was rejected before any retry receipt/marker was written, because predecessorOutcomeDigest requires canonical JSON digest, not raw SHA-256. The rejected input/output are preserved. Only this input binding was corrected; one legitimate retry was then recorded with human:Ray and his actual approval time. Fresh preflight was obtained, and confirm_review was recorded at 21:23:50.714515+00:00 against the actual new Contract, preflightDecisionDigest sha256:f2adb553f6b0c31d8d6275dbd48bef9c125c6326403de06f5c5b74c7fcec6acd, and the unchanged source snapshot. Runtime owns the retry marker and decision receipts.
+
+A plan call without restored Cargo PATH failed before verifier execution. Its raw output and the precondition-rejected attempt with zero spawned processes remain. With PATH/RUSTUP_HOME/CARGO_HOME/HOME/TMPDIR and the isolated target restored, the real Runtime plan succeeds for all 13 nodes, zero reused. Pending retry plus valid human review admits run_verification as a recovery action even while the old red lifecycle projection is visible; the actual Runtime gate remains authoritative. No red flags or generated records are edited manually.
+
+Material review is now enabled. Its current requestDigest is sha256:7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4. Raydot has not yet decided this new material request; no agent review receipt or conclusion is fabricated. Raw scanner Unknown, user-visible-benefit, intent-alignment and dependency-confidence unknowns remain explicit.
+
+Runtime binary remains 1.0.1 / sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e. PID1 is tail, cgroup pids.max=max; the restored baseline had 11940 PPID1 zombies including 11849 Git zombies. This is an observation, not a proven limiting cause. No system-security or permission change, bulk kill, cleanup, merge or human close was performed.
+
+CI38594384692 failed quality on 3e53201e; Windows passed. The parent independently read the fd-directory EACCES13 / after-stat ESRCH3 diagnostic; this environment independently read CI status and relevant source, but artifact download was HTTP403. The separate proposed two-file tests-only plan explicitly preserves production Unknown/Retained and is not implemented or included in this recovery Contract.
+
+Next: one complete new-Contract 13-node Runtime verification, single build job, writable HOME/TMPDIR, 900-second host cap (package timeout unchanged), resource monitoring inside its parent only. Preserve the result and hand the exact canonical material request/evidence references to Raydot. Stop on additional source changes or new risks.

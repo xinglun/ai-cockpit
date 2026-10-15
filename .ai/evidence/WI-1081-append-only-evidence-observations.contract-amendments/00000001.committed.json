@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:057abf39ca72aa4405a3b7c25770d77c3720f2c9debbe9c3e0f69f111bb5398d",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1081-append-only-evidence-observations",
+    "sequence": 1,
+    "changeId": "legacy-29cb6c3110d6305ef849d845f3dda1df36dec3c292043c79411e0ebc4cef9f8e",
+    "requestDigest": "sha256:091ed07557b46a570909d405046bd6b7b4ffe8f020c72b7effc3caa143a95fa1",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:29cb6c3110d6305ef849d845f3dda1df36dec3c292043c79411e0ebc4cef9f8e",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json"
+        ],
+        "newValue": [
+          ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+          ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:e11e10098384adab365e34860b1488b37c2503b5a46710e3bb473c1d90306893",
+    "newContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+    "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+    "environmentObservationDigest": "sha256:049c5d15a16efd2884810876844f70265a94696ac60b5d33d6489fb825146784",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:c308195ab8dddfcee926e0f256206a631365b924be841401037faff491f134bd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:f96b1aab7c875c38b41bcdaae22e58904e1ba4e3b62373f4c859ee1b21560095",
+    "recordedAt": "2026-10-14T10:09:56Z"
+  }
+}

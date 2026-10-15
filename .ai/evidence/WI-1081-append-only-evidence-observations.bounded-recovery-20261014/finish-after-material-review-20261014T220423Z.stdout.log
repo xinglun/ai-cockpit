@@ -1,0 +1,188 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "Same raw bytes and the same complete evidence observation binding are idempotent; corrected source metadata or a new collection observation at the same raw digest is appended under a distinct observation identity without replacing raw bytes or the existing receipt.",
+      "A consumer can explicitly select and bind the intended observation version; unsupported older Runtime versions reject the new selector instead of silently ignoring it, while legacy v1/v2/v3 inputs and outputs keep their existing interpretation.",
+      "The observation binding includes every identity/source/runtime-relevant field except generated now; raw digest remains the byte identity; existing source, assurance, freshness, Git, resource, and Runtime checks are not relaxed.",
+      "Parsed evidence/selector objects flow through validation and persistence; no serialization round trip can drop or reinterpret the selector.",
+      "Publication is no-replace and atomic; repeated identical imports are idempotent; concurrent conflicting writes, malformed records, cross-Work-Item bindings, tampered raw bytes, wrong source, stale evidence, and ambiguous selectors fail closed.",
+      "Historical evidence remains readable without migration; tests prove legacy compatibility, append-only corrections, exact selector binding, idempotency, concurrency behavior, and negative validation cases."
+    ],
+    "createdAt": "2026-10-14T22:04:28.535261228Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:059549e635cc642f7c857ceaf6a5e5bba28e4a06d54c0639d94ced0373cd6013",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+        ],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+        "workItemId": "WI-1081-append-only-evidence-observations"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.admission.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.current-plan.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.invocation.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.runtime.log"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.validation-before.json"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-1081-append-only-evidence-observations.contract.json"
+            ],
+            "inference": false,
+            "text": "Allow a corrected or freshly collected delegated-evidence observation to coexist with the original when raw SHA-256 is unchanged, bind consumers to an explicit versioned observation selector, retain strict source and assurance checks, and preserve legacy v1/v2/v3 behavior."
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-1081-append-only-evidence-observations.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "usage": {
+        "coverage": "unknown",
+        "cutoff": "2026-10-14T22:04:28.535261228Z",
+        "receiptRefs": [],
+        "schemaVersion": 1,
+        "subtotals": [],
+        "totals": {
+          "cachedInputTokens": null,
+          "inputTokens": null,
+          "outputTokens": null,
+          "reasoningTokens": null
+        },
+        "unknownReasons": [
+          "no_usage_receipts"
+        ],
+        "workItemId": "WI-1081-append-only-evidence-observations"
+      },
+      "workItemId": "WI-1081-append-only-evidence-observations"
+    },
+    "taskReportDigest": "sha256:2a550056d6334622b60bb53562fa154be94243b78937ef41103481f46a72b91c",
+    "taskReportMarkdownDigest": "sha256:f21e5fc658f1181df4cf7dbaf92dffbcc73c18cfb1cccbea82ce7ef352b905ab",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "WI-1081-append-only-evidence-observations"
+  },
+  "state": "finish_ready",
+  "timestamp": "2026-10-14T22:04:28.535261228Z",
+  "workItemId": "WI-1081-append-only-evidence-observations"
+}

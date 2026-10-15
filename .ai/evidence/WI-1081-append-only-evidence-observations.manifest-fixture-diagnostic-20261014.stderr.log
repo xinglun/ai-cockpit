@@ -1,0 +1,4 @@
+error: failed to create directory `/home/agent/.cache/ai-cockpit-verify-target`
+
+Caused by:
+  Read-only file system (os error 30)

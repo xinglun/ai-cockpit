@@ -1,0 +1,140 @@
+Verification progress: started node "project-command-0" (0/1 complete, 0%)
+Verification progress: completed node "project-command-0": passed (1/1 complete, 100%)
+{
+  "costObservation": {
+    "advisoryOnly": true,
+    "confidence": "complete",
+    "elapsedMs": 20281,
+    "executionElapsedMs": 20084,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "unknowns": []
+  },
+  "diagnosticSummary": [],
+  "elapsedMs": 20281,
+  "executionElapsedMs": 20084,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:241fb93fd250403b6ea674d53b9da0711add165a3229f38e16dc8be92e78be92",
+      "deadlineMs": 1791985229126,
+      "elapsedMs": 20083,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "202020436f6d70696c696e6720636f636b7069742d7265706f7369746f72792076312e302e3120282f776f726b73706163652f61692d636f636b7069742d7769313038312d617070656e642d6f6e6c792d65766964656e63652d6f62736572766174696f6e732f6372617465732f636f636b7069742d7265706f7369746f7279290a2020202046696e6973686564206074657374602070726f66696c65205b756e6f7074696d697a65645d2074617267657428732920696e2031392e3539730a202020202052756e6e696e672074657374732f64656c6567617465645f65766964656e63655f6f62736572766174696f6e732e727320282f746d702f7769313038312d6275696c642d30303436313731342d32303236313031342f64656275672f646570732f64656c6567617465645f65766964656e63655f6f62736572766174696f6e732d62626338643963383838346633326535290a",
+      "stderrTruncated": false,
+      "stdout": "0a72756e6e696e6720372074657374730a7465737420636f6e63757272656e745f636f6e666c696374696e675f7261775f62797465735f63616e6e6f745f7265706c6163655f7468655f7368617265645f65766964656e63655f70617468202e2e2e205b6d61737465722028726f6f742d636f6d6d69742920623036343865375d206669787475726520626173656c696e650a6f6b0a7465737420636f6e63757272656e745f6964656e746963616c5f6f62736572766174696f6e735f73686172655f6f6e655f696d6d757461626c655f73656c6563746f72202e2e2e205b6d61737465722028726f6f742d636f6d6d69742920623036343865375d206669787475726520626173656c696e650a6f6b0a74657374206964656d706f74656e745f6f62736572766174696f6e5f72656a656374735f74616d70657265645f73746f7265645f626f756e645f6174202e2e2e205b6d61737465722028726f6f742d636f6d6d69742920623036343865375d206669787475726520626173656c696e650a6f6b0a74657374206f62736572766174696f6e5f62696e64696e675f636f766572735f72756e74696d655f70726f746f636f6c5f6964656e74697479202e2e2e205b6d61737465722028726f6f742d636f6d6d69742920623036343865375d206669787475726520626173656c696e650a6f6b0a746573742073616d655f7261775f6469676573745f736f757263655f636f7272656374696f6e5f617070656e64735f616e645f73656c656374735f776974686f75745f7265706c6163696e675f6c65676163795f6279746573202e2e2e205b6d61737465722028726f6f742d636f6d6d69742920376563306561325d206669787475726520626173656c696e650a6f6b0a746573742074616d70657265645f7261775f62797465735f6172655f72656a65637465645f776974686f75745f6265696e675f7265706c616365645f62795f615f6c617465725f696d706f7274202e2e2e205b6d61737465722028726f6f742d636f6d6d69742920376563306561325d206669787475726520626173656c696e650a6f6b0a7465737420756e736166655f6f62736572766174696f6e5f6469726563746f72795f646f65735f6e6f745f7075626c6973685f7261775f65766964656e63655f6669727374202e2e2e205b6d61737465722028726f6f742d636f6d6d69742920376563306561325d206669787475726520626173656c696e650a6f6b0a0a7465737420726573756c743a206f6b2e2037207061737365643b2030206661696c65643b20302069676e6f7265643b2030206d656173757265643b20302066696c7465726564206f75743b2066696e697368656420696e20302e3433730a0a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    }
+  ],
+  "filesHashed": 5,
+  "filesRead": 5,
+  "gitCalls": 6,
+  "maxConcurrentProcesses": 1,
+  "nodesExecuted": 1,
+  "nodesPlanned": 1,
+  "nodesReused": 0,
+  "passed": true,
+  "planReceipt": {
+    "affectedPaths": [],
+    "assurance": "repository_verified",
+    "baseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+    "dependencyConfidence": "unknown",
+    "escalations": [],
+    "executedNodes": [
+      "project-command-0"
+    ],
+    "executionElapsedMs": 20084,
+    "finalTier": "T0",
+    "initialTier": "T0",
+    "planningElapsedMs": 0,
+    "policyRefs": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+    "requiredAssurance": null,
+    "requiredTier": null,
+    "reusedNodes": [],
+    "savedExecutions": 0,
+    "schemaVersion": 1,
+    "selectionReasons": [
+      "cli_route_stage_explicit"
+    ],
+    "sharedNodes": [],
+    "stage": "task",
+    "timeoutSeconds": 600,
+    "workItemId": "WI-1081-append-only-evidence-observations"
+  },
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--package",
+        "cockpit-repository",
+        "--test",
+        "delegated_evidence_observations",
+        "--",
+        "--nocapture"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:241fb93fd250403b6ea674d53b9da0711add165a3229f38e16dc8be92e78be92",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+        "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e"
+      },
+      "nodeId": "project-command-0",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "not_requested",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    }
+  ],
+  "planningElapsedMs": 0,
+  "processSpawnFailures": 0,
+  "processesSpawned": 1,
+  "protectedNodesExecuted": 0,
+  "protectedNodesSkipped": 0,
+  "receiptCandidates": [],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "rerunStale": 0,
+  "rerunUnknown": 0,
+  "results": [
+    {
+      "action": "execute",
+      "nodeId": "project-command-0",
+      "outputDigest": "sha256:da086c9d39894968c4b7472169eb0c8a48150376dd1fef6e2421feb29989aa4f",
+      "outputTruncated": false,
+      "passed": true,
+      "protected": false,
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reused": false,
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timedOut": false
+    }
+  ],
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "timeoutSeconds": 600
+}

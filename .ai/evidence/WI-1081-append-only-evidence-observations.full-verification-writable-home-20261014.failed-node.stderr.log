@@ -1,0 +1,6 @@
+    Finished `test` profile [unoptimized] target(s) in 0.05s
+     Running unittests src/lib.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/cockpit_verification-382c35a4d856a195)
+     Running tests/affected_verification.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/affected_verification-1077dcd61a628a6c)
+     Running tests/composition.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/composition-9b8b18e520d84dfb)
+observed detached verifier zombie: pid=2002153 state='Z' ppid=2002119 pgid=2002153 sid=2002153; waitid(WNOWAIT)=0; kill(pid, 0)=0
+error: test failed, to rerun pass `-p cockpit-verification --test composition`

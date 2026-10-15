@@ -1,0 +1,135 @@
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "evidence_stale",
+    "repository_material_inspection_unavailable"
+  ],
+  "raw_scanner_unknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "material_manifest_digest": "sha256:0c3b04e156d5b857a35c06332a25413fe370f50223b16780efcb3469b4eadf75",
+  "effective_unknowns": [
+    "evidence_stale",
+    "repository_material_inspection_unavailable"
+  ],
+  "safe_actions": [
+    "rerun_affected_checks"
+  ],
+  "required_checks": [
+    "evidence_freshness"
+  ],
+  "authority": "authorized",
+  "outcome_state": "verification_pending",
+  "reviewState": "verification_pending",
+  "changedPaths": [
+    ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1081-append-only-evidence-observations",
+    "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 6,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 7,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "evidence_stale"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+      "materialManifest": "sha256:0c3b04e156d5b857a35c06332a25413fe370f50223b16780efcb3469b4eadf75",
+      "repositorySnapshot": "sha256:8bb3e8d883da316a28fc5664e68ebfe3983b95e304cf74a8afc5572870a1d3be",
+      "summary": "sha256:f384bf0bb97a0c191463595988e7c6f934c45ece734ba2cdb60a0b5afe820261",
+      "verificationEvidence": "sha256:5688867f06cd5b6a807946c3b38860106b4076c0486addd8c3a054ed5d45a724"
+    },
+    "unknowns": [
+      "evidence_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "materialManifestDigest": "sha256:0c3b04e156d5b857a35c06332a25413fe370f50223b16780efcb3469b4eadf75",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:8bb3e8d883da316a28fc5664e68ebfe3983b95e304cf74a8afc5572870a1d3be",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "lastVerificationAt": "2026-10-14T12:48:59Z",
+    "updatedAt": "2026-10-14T10:09:58Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_verification",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "evidence_stale",
+          "message": "current projection reports evidence_stale"
+        },
+        {
+          "kind": "unknown",
+          "code": "repository_material_inspection_unavailable",
+          "message": "current projection reports repository_material_inspection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [
+        "evidence_stale"
+      ],
+      "admissionDigest": "sha256:1a073402ae289a661b4a7bbf841f638e47b53cfe1e9f38eccbd1b86beee289c3"
+    },
+    "statusDigest": "sha256:a79915265089084430b997860851b034a7741d1682e79dce44cace58cd28c692",
+    "historical": false
+  }
+}

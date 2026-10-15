@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "close",
+    "--repo",
+    "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+    "--id",
+    "WI-1081-append-only-evidence-observations",
+    "--human-decision",
+    "approved",
+    "--actor",
+    "human:Ray",
+    "--authority-source",
+    "current-conversation:direct-user-message:sha256:cc7fbec888cace0fe33fd04ccc90562fdf9e7255411d08f41ec032aad7920156;authoredAt=unknown;messageId=unknown",
+    "--reason",
+    "Ray directly approved close for exact archive 963433dbb29e9192a242629a83ef6e8f75febbe631ece5b40fbfdcedce3de082 and Contract fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20. Append close evidence only; Ready/normal merge and exact cleanup remain conditional on complete new-head CI and Raydot review. Human authored timestamp is explicitly unknown; Runtime recording time is separate.",
+    "--evidence-ref",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/ray-direct-authorization.json",
+    "--decided-at",
+    "unknown",
+    "--language",
+    "zh"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+  "startedAt": "2026-10-15T05:13:08.591147+00:00",
+  "endedAt": "2026-10-15T05:13:12.312528+00:00",
+  "elapsedSeconds": 3.7211570589861367,
+  "exitCode": 0
+}

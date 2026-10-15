@@ -1,0 +1,142 @@
+{
+  "kind": "agent_complete_verification_summary",
+  "passed": true,
+  "runtimeElapsedMs": 844967,
+  "completeExecutionChainElapsedSeconds": 851.3016751899995,
+  "receiptDigest": "sha256:a89dbf133da5282400166c3dc8ec8f67b414c243419c91370bec12b8c86fa864",
+  "canonicalFileSha256": "903e565659e21d17f3571a58574403377b9ef351cf7b4d8db50570179a75b8a9",
+  "contractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "repositorySnapshotDigest": "sha256:6ffcd0aaadd80bdba91dc6d7b70dc3baf588d76be913ba8dc89c5123f55d2dcc",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "testedHead": "9af6b2487c44126622aea21d28b6b9e8acf90908",
+  "sourceProgram": "cargo",
+  "sourceArgs": [
+    "test",
+    "--workspace",
+    "--all-targets"
+  ],
+  "workspaceMembers": [
+    "cockpit-agent",
+    "cockpit-cli",
+    "cockpit-core",
+    "cockpit-evidence",
+    "cockpit-git",
+    "cockpit-interface",
+    "cockpit-isolation",
+    "cockpit-knowledge",
+    "cockpit-mcp",
+    "cockpit-protocol",
+    "cockpit-release",
+    "cockpit-repository",
+    "cockpit-verification"
+  ],
+  "nodesExecuted": 13,
+  "nodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "results": [
+    {
+      "nodeId": "project-command-0-package-cockpit-agent",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-cli",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-core",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-evidence",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-git",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-interface",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-isolation",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-knowledge",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-mcp",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-protocol",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-release",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-repository",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": true,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-verification",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    }
+  ]
+}

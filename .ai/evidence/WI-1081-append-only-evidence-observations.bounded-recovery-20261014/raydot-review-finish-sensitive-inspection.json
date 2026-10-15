@@ -1,0 +1,12 @@
+{
+  "kind": "prepublication_sensitive_pattern_inspection",
+  "filesInspected": 27,
+  "patterns": [
+    "github_token",
+    "openai_key",
+    "aws_key",
+    "private_key",
+    "signed_transfer_query"
+  ],
+  "findings": []
+}

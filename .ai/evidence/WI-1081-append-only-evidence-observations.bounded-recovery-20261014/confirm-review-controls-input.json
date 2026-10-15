@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-1081-append-only-evidence-observations",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+    "preflightDecisionDigest": "sha256:f2adb553f6b0c31d8d6275dbd48bef9c125c6326403de06f5c5b74c7fcec6acd",
+    "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+    "recordedAt": "2026-10-14T21:23:50.714515+00:00",
+    "recordedBy": "human:Ray",
+    "reason": "Record Ray actual approval at 2026-10-14T21:15:31Z for the bounded single-Unknown material-review opt-in, same corrected source Contract adjustment, one retry and corresponding confirm_review. Exact resulting amended Contract and fresh preflight/snapshot are bound here. Source: user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc"
+  }
+}

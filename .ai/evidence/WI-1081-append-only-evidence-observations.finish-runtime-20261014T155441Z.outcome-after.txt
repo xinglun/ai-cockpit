@@ -1,0 +1,55 @@
+Outcome: 🔴 验证状态未知 — WI-1081-append-only-evidence-observations
+结果
+- 验证状态: 验证状态未知
+- 生命周期状态: 已建立检查点
+- 人工决定状态: 未记录
+- 治理信号: 红色；必须停止，不是人工批准
+- 结果状态未知；当前操作已停止，具体原因见下方。
+- 证据引用: .ai/evidence/WI-1081-append-only-evidence-observations.verification.json, .ai/evidence/WI-1081-append-only-evidence-observations.verification-attempt.ecf5254ac93d0b0d820096def29abe0b73c3a360accbe9cf6f9853d9b81b762b.json
+- 用量覆盖: 未知 (unknown); 截止时间: 2026-10-14T15:54:45Z; 未知原因: no_usage_receipts; 记录数: 0
+- 用量小计: 输入 未知, 输出 未知, 缓存输入 未知, 推理 未知
+
+关键变化
+- 未记录
+
+剩余不确定性
+- A required evidence or identity control failed; remain stopped.
+- 验证可以通过，但意图对齐证据不足；这不是验证证据无效。
+- 生命周期门槛失败；当前 Work Item 仍可恢复但未完成。
+- 失败 gate: finish.lifecycle
+- 恢复条件: 修复失败的治理条件，完成新的检查后重试 finish。
+- User-visible benefit is not declared by the Work Item owner. [证据引用: .ai/work-items/active/WI-1081-append-only-evidence-observations.contract.json]
+- Remaining unknown: lifecycle_gate_failed [证据引用: .ai/evidence/WI-1081-append-only-evidence-observations.verification.json]
+- Remaining unknown: user_visible_benefit_not_declared [证据引用: .ai/evidence/WI-1081-append-only-evidence-observations.verification.json]
+- lifecycle_gate_failed
+- user_visible_benefit_not_declared
+- 用户可见收益尚未声明。
+- 风险评估：未记录；现有证据未声明已完成风险检查。
+- 当前 Contract 未声明 provider finalization；继续遵守生命周期和人工决定门槛。
+
+人的下一步
+- 补齐意图对齐证据并重新评估；不要把验证通过解释成意图已对齐。
+- 未记录
+- 完整证据报告：CLI 使用 ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full；MCP 使用 work_item_outcome 的 view: full。
+跨 WI 协调: WI-1081-append-only-evidence-observations
+- 状态: allowed
+- 实现状态: separate_lifecycle_outcome
+- 组合验证: not_observed
+- 执行结果: unknown
+- 执行证据完整: false
+- 组合适用性: not_observed
+- 目标合并: not_observed
+- 清理: not_observed
+- 清理处置: unknown
+- 提供方: 
+- 消费者: 
+- 等待边: 
+- 影响事件: 
+- 阻塞: 
+- 未知: 
+- 人工决定: false
+- 复验: not_required
+- 可复用检查: 
+- 下一步: refresh dependency state before the next dependent action
+- integration owner/order: not observed/
+
