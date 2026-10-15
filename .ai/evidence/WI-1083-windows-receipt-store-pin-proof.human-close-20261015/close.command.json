@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "close",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "--id",
+    "WI-1083-windows-receipt-store-pin-proof",
+    "--human-decision",
+    "approved",
+    "--actor",
+    "human:Ray",
+    "--authority-source",
+    "transcript:Sentinel_de39b0c6f330819196075943ec85f9a8@2026-10-15T03:23:16Z;request=Sentinel_82a8516c3348819197a9805b86a848b5@2026-10-15T03:22:50Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "--decided-at",
+    "2026-10-15T03:23:16Z",
+    "--reason",
+    "Ray personally approved this exact WI-1083 archive and Contract close, and conditionally approved PR1039 merge and exact clean merged branch/worktree cleanup after final close-head CI and Raydot independent review. Archive CI missing_terminal_decision is resolved through this genuine human decision; no gate or test changes.",
+    "--evidence-ref",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.human-close-20261015/ray-human-close-authorization.json",
+    "--json",
+    "--language",
+    "zh-CN"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+  "startedAt": "2026-10-15T03:26:18.258148+00:00",
+  "finishedAt": "2026-10-15T03:26:20.298335+00:00",
+  "exitCode": 0
+}

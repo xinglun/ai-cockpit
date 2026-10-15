@@ -1,0 +1,16 @@
+{
+  "actor": "human:Ray",
+  "decidedAt": "2026-10-15T03:23:16Z",
+  "authoritySource": "transcript:Sentinel_de39b0c6f330819196075943ec85f9a8@2026-10-15T03:23:16Z;request=Sentinel_82a8516c3348819197a9805b86a848b5@2026-10-15T03:22:50Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "humanStatement": "我本人 Ray 批准上述 WI-1083 关闭、PR #1039 合并及对应流程清理。",
+  "requestBinding": {
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+    "archiveIdentity": "sha256:a509d3324b5d44dc155d655771fb8ccfbc8bb829f88ad991aac23cfcddbc1e3f",
+    "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+    "archiveHead": "1807274505e08af745a6dcfffd4d403735d62e57",
+    "pullRequest": 1039,
+    "branch": "codex/wi1083-windows-receipt-store-pin-proof",
+    "worktree": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof"
+  },
+  "conditions": "Record actual human close and push first. Final close-head CI and Raydot independent review must succeed before normal merge and exact clean merged WI1083 branch/worktree cleanup. Stop for extra source or unrecoverable data. No WI1081/WI1078/mistaken-ref authorization. Runtime execution time must be actual, not decidedAt."
+}

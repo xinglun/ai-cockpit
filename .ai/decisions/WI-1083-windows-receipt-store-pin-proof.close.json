@@ -1,0 +1,1046 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d5fc0425dd6b2f8b32ccc3a9bd7a75e9e319d48353e2b2b0b8a925987d05405f",
+      "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/cache-retirement-tmp-wi1083-target-00461714-20261015.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/cache-retirement-wi1082-target-00461714-20261014.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/cargo-artifact-inventory.command.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/cargo-artifact-inventory.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/cargo-artifact-inventory.stderr"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-0.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-0.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-1.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-1.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-10.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-10.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-11.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-11.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-12.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-12.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-2.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-2.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-3.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-3.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-4.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-4.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-5.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-5.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-6.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-6.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-7.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-7.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-8.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-8.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-9.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/node-9.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/preexisting-canonical.receipt.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/active-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/denied-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/failed-execution.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/first.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/no-proof.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/no-receipt-clean.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/no-receipt-unknown.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/second.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/stale-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/unbound-proof.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/private-control-attempts/unsafe-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/run.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/status.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/status.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/validate.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-single-test-thread/validate.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/active-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/denied-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/failed-execution.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/first.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/no-proof.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/no-receipt-clean.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/no-receipt-unknown.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/second.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/stale-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/unbound-proof.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/private-control-attempts/unsafe-retry.raw.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/status.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/status.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/validate.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/full-contract-stable-volumes/validate.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/prepare-stable-volumes.py.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/space-after-confirmed-cache-retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/node-0.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/node-0.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/run.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/status.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/status.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/validate.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/validate.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/verification.receipt.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-cli-gate-confirmation/volume-space-samples.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-admission-checkpoint.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-before-verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/00.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/00.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/01.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/01.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/02.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/02.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/03.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/03.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/04.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/04.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/05.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/05.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/06.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/06.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/07.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/07.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/08.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/08.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/09.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/09.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/10.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/10.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/11.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/11.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/12.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/12.stdout.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/environment.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-environment-rebuild/progress.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/node-0.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/node-0.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/run.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/status.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/status.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/validate.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/validate.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/verification.receipt.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/stable-m1-space-confirmation/volume-space-samples.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/verification-runner.stable-volumes.py.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification-attempt.3a78257cb222cb78ebee8f3a39db4a2a483072577b7eb17284eea7a835d90d7f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification-attempt.a202dce92899cf4fb5f21f6867ab173270e921a79ab84a9fda590a6f2a0fba17.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification-attempt.e021ce11f2d7900d911ac72aacf19ce62b23f238de65cfa4dc3cba77293dcc3b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.human-close-20261015/ray-human-close-authorization.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:Ray via transcript:Sentinel_de39b0c6f330819196075943ec85f9a8@2026-10-15T03:23:16Z;request=Sentinel_82a8516c3348819197a9805b86a848b5@2026-10-15T03:22:50Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018 at 2026-10-15T03:23:16Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.contract.json"
+          ],
+          "inference": false,
+          "text": "Give developers trustworthy Windows regression evidence through exact directory/lock identity, deterministic worker timing, complete two-receipt readback and successful post-release rename control."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-15T03:26:19.759382429Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+    },
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+  },
+  "finalReportDigest": "sha256:a98de071d062c4213128e466e5f440d99f6f9698cc5ed72e2fa16b0585cbd2a7",
+  "humanDecision": "approved",
+  "occurredAt": "2026-10-15T03:26:19.758877147Z",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:a509d3324b5d44dc155d655771fb8ccfbc8bb829f88ad991aac23cfcddbc1e3f",
+    "branch": "codex/wi1083-windows-receipt-store-pin-proof",
+    "branchRef": "refs/heads/codex/wi1083-windows-receipt-store-pin-proof",
+    "capturedAt": "2026-10-15T03:26:19Z",
+    "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+    "headRevision": "1807274505e08af745a6dcfffd4d403735d62e57",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "worktreeId": "sha256:10f7eb81ed9c29d0e856c5efa6ecc0415d96a51c718f238dbbc42067f4e42fb7",
+    "worktreePath": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:d76cd5a8fa337ead01fd1cfb60ef9de411ddf6ec12024ac99811ac5a3852403e",
+  "recordedAt": "2026-10-15T03:26:19.758877147Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "transcript:Sentinel_de39b0c6f330819196075943ec85f9a8@2026-10-15T03:23:16Z;request=Sentinel_82a8516c3348819197a9805b86a848b5@2026-10-15T03:22:50Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "decidedAt": "2026-10-15T03:23:16Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.human-close-20261015/ray-human-close-authorization.json"
+    ],
+    "policyRefs": [],
+    "reason": "Ray personally approved this exact WI-1083 archive and Contract close, and conditionally approved PR1039 merge and exact clean merged branch/worktree cleanup after final close-head CI and Raydot independent review. Archive CI missing_terminal_decision is resolved through this genuine human decision; no gate or test changes.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-15T03:26:19Z",
+  "usageCutoff": "2026-10-15T03:26:19.759382429Z",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof"
+}

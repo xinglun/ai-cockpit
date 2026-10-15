@@ -1,0 +1,31 @@
+{
+  "observedAt": "2026-10-15T03:23:11.057789+00:00",
+  "archiveHead": "1807274505e08af745a6dcfffd4d403735d62e57",
+  "ciRun": 38674590276,
+  "qualityJob": 116226347791,
+  "officialDiagnosticArtifact": 11946220517,
+  "artifactRawSha256": "f5946de901ee5ff280b0efc2584d8a80008244c791e2bfd26c81d8c304aa6bdd",
+  "officialDiagnosticLogSha256": "911992e199778daea221290d703f9475fd7cd0b745122e5c08a251e6dea9072f",
+  "officialDiagnostic": "WI-1083-windows-receipt-store-pin-proof: missing_terminal_decision: .ai/decisions/WI-1083-windows-receipt-store-pin-proof.close.json",
+  "qualityGateCounts": {
+    "not_applicable": 2,
+    "passed": 23,
+    "failed": 1,
+    "blocked": 16
+  },
+  "eventBaseShaFromOfficialJobEnv": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "testedMerge": "353d692be44fb0ffd4868c22ff780f06bc0ea5d0",
+  "actualParents": [
+    "5849d7edf239de11a44169fb8517e717a291d42f",
+    "1807274505e08af745a6dcfffd4d403735d62e57"
+  ],
+  "eventBaseIsAncestorOfActualFirstParent": true,
+  "archiveContractNewlyAddedRelativeActualFirstParent": "A\t.ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.contract.json",
+  "testedGateSourceBlob": "764c2199d4ce2bdaa0b5292deabfd573f596236d",
+  "sourceCondition": "pull_request_merge_introduces_archived_work_item requires parents[1] == base_sha at tests/ci/governance_integrity_gate.py:628, so the event-base mismatch makes the bounded pre-merge exception return false.",
+  "conditionEquality": false,
+  "rootCauseInterpretation": "Actual close is absent as intentionally authorized. The stale event base prevents the ordinary archived PR exception; this is a CI governance transition blocker, not a failed 13-node formal verification.",
+  "noArchiveOrContractOrGateEdits": true,
+  "noCloseOrMergeOrCleanup": true,
+  "nextBoundary": "Raydot coordinates real human close authority or a separately authorized gate-scope repair; neither is performed here."
+}

@@ -1,0 +1,46 @@
+{
+  "closeRawSha256": "c5a5913577c93d21176d1ba5a3427c956aad87097b89a3a799c4f6d072cdc360",
+  "actor": "human:Ray",
+  "decidedAt": "2026-10-15T03:23:16Z",
+  "actualRuntimeRecordedAt": "2026-10-15T03:26:19.758877147Z",
+  "authoritySource": "transcript:Sentinel_de39b0c6f330819196075943ec85f9a8@2026-10-15T03:23:16Z;request=Sentinel_82a8516c3348819197a9805b86a848b5@2026-10-15T03:22:50Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:a509d3324b5d44dc155d655771fb8ccfbc8bb829f88ad991aac23cfcddbc1e3f",
+    "branch": "codex/wi1083-windows-receipt-store-pin-proof",
+    "branchRef": "refs/heads/codex/wi1083-windows-receipt-store-pin-proof",
+    "capturedAt": "2026-10-15T03:26:19Z",
+    "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+    "headRevision": "1807274505e08af745a6dcfffd4d403735d62e57",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "worktreeId": "sha256:10f7eb81ed9c29d0e856c5efa6ecc0415d96a51c718f238dbbc42067f4e42fb7",
+    "worktreePath": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:d76cd5a8fa337ead01fd1cfb60ef9de411ddf6ec12024ac99811ac5a3852403e",
+  "status": {
+    "lifecyclePhase": "closed",
+    "governanceState": "green",
+    "verification": "verified",
+    "blockers": [],
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "completionDomains": {
+      "closure": "closed",
+      "implementation": "recorded",
+      "integration": "recorded",
+      "resourceCleanup": "pending",
+      "review": "available",
+      "verification": "verified",
+      "workResult": "verified"
+    }
+  },
+  "archiveAndVerificationRawBytesUnchanged": true,
+  "sourceUnchanged": true,
+  "mergeOrCleanupExecuted": false,
+  "priorArchiveCiFailurePreservedBeforeApproval": true
+}

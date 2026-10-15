@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python3",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/tests/ci/governance_integrity_gate.py",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "--report",
+    "/tmp/wi1083-archive-publication-20261015/post-real-close-governance-report.json"
+  ],
+  "exitCode": 0,
+  "meaning": "Read-only governance inventory check only; not a full verification or substitute for final close-head CI."
+}
