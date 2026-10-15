@@ -79,6 +79,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "previousContractHash": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+      "reason": "Proposed only: enable the supported self-declared review of the exact readable committed Rust syntax Unknown after independent technical review and real verification. Preserve the raw Unknown and all bindings. Required authority and fresh policy review must precede recording a material decision.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T11:12:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
@@ -123,7 +143,7 @@
   "preflightContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -261,6 +281,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-15T11:12:44Z"
+  },
   "verificationRecoveryReconciled": "sha256:4b89ec1bfd19c123dfb927d5e18830ec6828575d71794ba0a2e5a5b4b54ec32e",
   "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
 }

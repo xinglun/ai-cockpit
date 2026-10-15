@@ -1,0 +1,27 @@
+# 一次真人 retry / confirm_review 请求（尚未批准）
+
+## 已执行
+
+依据本轮用户指示，通过现有typed amend原样应用已接受的最小profile请求，未手改Contract。新Contract为 `sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159`；原507bedef…150107及旧Summary/Outcome/events已有独立字节快照。Runtime记录第4条amendment，自动加入material-inspection-review guard，未改生产源码、测试、scope、断言或门禁。旧322个证据/源码路径逐项SHA256相同。
+
+## 当前真实状态
+
+此前finish.lifecycle失败保留，lifecycle仍checkpointed、checkpointCount=1、outcomeState=blocked。新Contract触发policyReviewRequired=true，路径/governanceProfile。当前humanDecisionRequired=true；仅有record_governance_controls、record_usage、refresh_status、resolve_blockers、stop。旧正式13/13回执原字节保留，但其Contract绑定已过时，当前verification=unknown/stale_or_invalid。没有伪造新的绿色验证、agent材料决定或人类决定。
+
+现有Runtime要求先记录真人retry，才会开放新的preflight请求生成路线。因此新Contract的preflightDecisionDigest尚不存在，本请求明确为null；旧Contract的87984c…等digest没有复用。请求绑定真实的新Contract、amendment journal、repository/source snapshot、当前失败前驱的Summary/Outcome/events和Runtime。完整字段见pending-human-retry-confirm.request.json。
+
+## 请Ray一次确认的范围
+
+1. 批准对同一WI执行retry，精确前驱为本请求列出的当前新Contract、Summary、Outcome和events；保留原失败。
+2. 选择confirm_review，确认本次/governanceProfile敏感变更：仅许可repository_material_inspection_unavailable / readable_committed_rust_syntax_unknown，由agent:Raydot以self_declared assurance审阅并接受指定剩余风险。
+3. 在retry后，仅当Contract、source snapshot、profile、Finding集合及授权范围与本请求完全一致，才将此确认绑定到Runtime实际生成的新preflightDecisionDigest；出现任何新事实、Finding或绑定变化则停下展示差异，不套用本确认。批准不代表新preflightDigest现在已经存在。
+
+后续按实际admission执行，agent材料决定仍由声明的评审者对新的规范材料请求单独作出。原始scanner Unknown继续保留；不宣称machine Clean。按Runtime实际要求恢复失效验证，本地正式验证保持900秒上限、单worker和隔离target；只有真实finish/archive成功才报告归档。
+
+## 不在本次批准范围
+
+真人close、Draft转Ready、merge、分支/工作树清理、额外缓存删除、源码范围扩张、其他Unknown清除、新WI与Task9均未获授权。WI1078及旧dirty controls保持保留。用户收益未声明、用量和宿主展示确认未知继续如实记录。
+
+## 空间与持久化
+
+每个操作日志均带执行前后实际filesystem可用字节/inode；当前余量足够小型材料保存。任何后续构建/完整验证前后重新检查工作区、临时目录、实际target/Cargo缓存所在文件系统；长任务适度采样并按上轮采样峰值加余量估计。空间不足先报告和在既有明确授权内处理，不扩大删除范围。最终请求只提交一次，actor/authoritySource/decidedAt均等待真实回复后填写。

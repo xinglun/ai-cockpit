@@ -1,0 +1,294 @@
+{
+  "acceptanceResults": [
+    "First preserve a RED regression on the bcd76ae7 source: after an independent-checkout Native recovery succeeds, deleting only the required recovery receipt keeps status query success permissible but must project lifecyclePhase=archived and blocking=true with an integrity diagnostic; overlapping new work must not be falsely admitted.",
+    "A newly recorded recovery durably binds its provenance and exact required recovery receipt without changing the imported historical close, archived Contract, manifest, payload or verification bytes. Missing, malformed, mismatched or non-regular required records fail closed.",
+    "Valid recovery, identical retry, interrupted recovery and source immutability retain current behavior. Restore through the supported recovery path without destructive rollback or replacing conflicting published files.",
+    "Ordinary current closes and readable legacy historical closes remain compatible. Existing v1 recovery records are retained without silent migration; any legacy ambiguity is reported explicitly rather than fabricated as detectable.",
+    "CLI and MCP use the shared repository validator, preserve verification=not_ready and historical_evidence_not_revalidated for foreign historical Runtime evidence, and do not invent time-based expiry.",
+    "Run focused RED/GREEN recovery regressions plus the Contract-declared workspace verification and repository required gates under the existing 900-second verification bound; retain actual commands, Runtime/source/toolchain identities and failed evidence.",
+    "Commit and push only the independent WI branch and keep its PR Draft for Raydot review; integration is serialized and no human closure or resource deletion is authorized."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+  ],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/07f-remote-readback.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/07f-runtime-binding.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-full.execution.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-full.stderr"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-full.stdout"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-plan.execution.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-plan.stderr"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-plan.stdout"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-preflight.execution.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-preflight.stderr"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-preflight.stdout"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-status.execution.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-status.stderr"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-status.stdout"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-validate.execution.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-validate.stderr"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-validate.stdout"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/post-cleanup-runtime-build.execution.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/post-cleanup-runtime-build.stderr"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/post-cleanup-runtime-build.stdout"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "Persist a bounded recovery-origin dependency and reject missing or invalid recovery evidence while preserving exact historical payload bytes and ordinary-close compatibility."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-15T10:45:35.141174862Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}
