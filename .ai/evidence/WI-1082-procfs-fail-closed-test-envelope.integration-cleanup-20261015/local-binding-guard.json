@@ -1,0 +1,20 @@
+{
+  "head": "8633e9ac9191434e2e261d974c35a4db07bba2f2",
+  "archiveSha256": "85f318f95a368da608186f4cac86069ed8e7bc0b75d38e75a5568070e0dad1d4",
+  "closeSha256": "468b8ac167083d684d33fd94c84ff38ad63cef9980d5aadafe6261add0b013dd",
+  "clean": true,
+  "finalCiAllFourGreen": true,
+  "raydotFreshTechnicalReview": "parent delegation confirmed current exact head and CI reviewed",
+  "humanDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "transcript:Sentinel_09ad7190a7a4819181c67b10a431cf53@2026-10-15T00:43:34Z;request=Sentinel_9ffe74113e8c8191a76907389e445bb7@2026-10-15T00:20:07Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "decidedAt": "2026-10-15T00:43:34Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.human-close-20261015/ray-human-close-authorization.json"
+    ],
+    "policyRefs": [],
+    "reason": "Ray personally approved closing this exact WI-1082 archive and Contract after the reviewed head and CI passed. Merge and exact WI-1082 cleanup remain conditional on the final close-head CI and technical review.",
+    "resumeCondition": null
+  }
+}

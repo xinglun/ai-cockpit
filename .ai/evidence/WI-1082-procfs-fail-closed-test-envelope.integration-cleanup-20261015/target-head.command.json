@@ -1,0 +1,10 @@
+{
+  "command": [
+    "git",
+    "rev-parse",
+    "HEAD"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+  "exitCode": 0,
+  "observedAt": "2026-10-15T01:50:27.070731+00:00"
+}

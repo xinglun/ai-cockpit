@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "merge-base",
+    "--is-ancestor",
+    "8633e9ac9191434e2e261d974c35a4db07bba2f2",
+    "bddac7a4b4088012951b5ea7c3cd3c14293e5ae9"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1082-cleanup-control",
+  "exitCode": 0,
+  "observedAt": "2026-10-15T01:50:50.472588+00:00"
+}

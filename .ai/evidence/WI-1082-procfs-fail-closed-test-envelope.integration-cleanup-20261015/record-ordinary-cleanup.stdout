@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:fb5c0ddd8b151bb5782c0df03ea7cea82218d195df077a6bc46885d87ce3c933",
+  "branchRef": "refs/heads/codex/wi1082-procfs-fail-closed-test-envelope",
+  "contractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+  "headRevision": "f734a678483fb8cc6f4152238605d724d7368113",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-15T01:50:54Z",
+  "operationId": "sha256:fb79823714fe42d6a326022a7d8fc6025676a99d0876b94d1ea03eb4e07eccd8",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope",
+  "worktreeId": "sha256:3ee632cddc0c047910f7c58e4c011bc702f2605eae50a2be32ebf741b466064f"
+}

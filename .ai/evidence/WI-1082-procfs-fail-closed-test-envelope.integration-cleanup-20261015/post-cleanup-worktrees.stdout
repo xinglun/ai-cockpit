@@ -1,0 +1,32 @@
+worktree /workspace/ai-cockpit
+HEAD 707ba00c99b96b060df3b8ba997e1aad03431ea1
+detached
+
+worktree /workspace/ai-cockpit-control
+HEAD 508a0a0f47dcbb957aacb8b03220f6234a87549d
+branch refs/heads/main
+
+worktree /workspace/ai-cockpit-control-wi1078-retained-00461714
+HEAD cb9022748ef222db84766dccad98be9683448ff8
+branch refs/heads/codex/wi1078-retained-evidence-00461714
+
+worktree /workspace/ai-cockpit-main37cc-review
+HEAD feafd0fe72dc44c41107a85840f93bffc060a5ca
+branch refs/heads/codex/wi1080-v3-actual-merge-first-parent
+
+worktree /workspace/ai-cockpit-wi1078-post-merge-sync-finalization
+HEAD d18be4f8624d08f91fe1c961dfed287cfe9543df
+branch refs/heads/codex/wi1078-post-merge-sync-finalization
+
+worktree /workspace/ai-cockpit-wi1081-append-only-evidence-observations
+HEAD 00e89d21d6a00d09819f8353ae0a1391b954f171
+branch refs/heads/codex/wi1081-append-only-evidence-observations
+
+worktree /workspace/ai-cockpit-wi1082-cleanup-control
+HEAD bddac7a4b4088012951b5ea7c3cd3c14293e5ae9
+detached
+
+worktree /workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof
+HEAD 41b7ba48482dbea2b909db81de620577201ce90e
+branch refs/heads/codex/wi1083-windows-receipt-store-pin-proof
+

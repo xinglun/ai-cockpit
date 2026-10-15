@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "--no-optional-locks",
+    "worktree",
+    "list",
+    "--porcelain"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1082-cleanup-control",
+  "exitCode": 0,
+  "observedAt": "2026-10-15T01:50:58.045880+00:00"
+}

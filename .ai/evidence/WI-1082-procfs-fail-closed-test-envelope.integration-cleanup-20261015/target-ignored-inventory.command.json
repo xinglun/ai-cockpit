@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "--no-optional-locks",
+    "status",
+    "--porcelain=v1",
+    "--ignored"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+  "exitCode": 0,
+  "observedAt": "2026-10-15T01:50:50.467905+00:00"
+}

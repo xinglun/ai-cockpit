@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "symbolic-ref",
+    "--short",
+    "HEAD"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+  "exitCode": 0,
+  "observedAt": "2026-10-15T01:50:27.072196+00:00"
+}

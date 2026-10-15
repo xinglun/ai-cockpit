@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "ls-remote",
+    "--heads",
+    "origin",
+    "refs/heads/codex/wi1082-procfs-fail-closed-test-envelope"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1082-cleanup-control",
+  "exitCode": 0,
+  "observedAt": "2026-10-15T01:50:58.043557+00:00"
+}

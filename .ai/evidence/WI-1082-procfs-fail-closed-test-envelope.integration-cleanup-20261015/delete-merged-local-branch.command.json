@@ -1,0 +1,11 @@
+{
+  "command": [
+    "git",
+    "branch",
+    "-d",
+    "codex/wi1082-procfs-fail-closed-test-envelope"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1082-cleanup-control",
+  "exitCode": 0,
+  "observedAt": "2026-10-15T01:50:52.679059+00:00"
+}
