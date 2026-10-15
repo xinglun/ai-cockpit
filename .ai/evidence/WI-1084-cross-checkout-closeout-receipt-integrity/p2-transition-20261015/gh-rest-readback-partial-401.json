@@ -1,0 +1,66 @@
+{
+  "head": "a4680c25f7ead5c30fefb0864056d761fe6afaae",
+  "base": "405b525a",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-retained-deleted.execution.json",
+      "sha256": "edf5852171e9edb8031ab1e73d78b285461109185b3c04af238bc1a224f12786",
+      "sizeBytes": 1629
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-retained-deleted.stderr",
+      "sha256": "49e27b8246b8666006f7fc9289dfbb059ac33bd7773e2c578ee64e6004d81601",
+      "sizeBytes": 396
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-retained-deleted.stdout",
+      "sha256": "68c6ac6333fbf9abf6570aa3714af5863bcb33f9efec2fdc17f684d662d83613",
+      "sizeBytes": 823
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-summary.md",
+      "sha256": "f0556688f974298dcecfb60ab0734fc0e35ace7164b79cc50c30f6272b770652",
+      "sizeBytes": 1287
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df-i.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df-i.stdout",
+      "sha256": "7eae2a6745e7744efc71419fceb5f56430129c7eb6e34b9acb302a9f209defcc",
+      "sizeBytes": 159
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.df.stdout",
+      "sha256": "063015a71665e56e3cea0d5772d19722cc663b74d2ef7c643b934fb34b150d79",
+      "sizeBytes": 192
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/after.json",
+      "sha256": "3d4d1f021232f1db3b5912ab567cf271c1cb27e28c476518a8ed899ebeada42c",
+      "sizeBytes": 408
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.df-i.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.df-i.stdout",
+      "sha256": "e154f49d40a7b91660ee3b3dadf3a714508e23263b4e735bb8b9d7a523532961",
+      "sizeBytes": 159
+    }
+  ],
+  "error": {
+    "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/storage-recovery-20261015/before.df.stderr",
+    "stderr": "gh: Bad credentials (HTTP 401)\n",
+    "exitCode": 1
+  }
+}

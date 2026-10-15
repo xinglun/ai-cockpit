@@ -1,0 +1,8 @@
+{
+  "recordedAtUTC": "2026-10-15T09:17:48.189175+00:00",
+  "originalPath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/debug/ai-cockpit",
+  "retainedPath": "/tmp/wi1084-runtime-checkpoints-20261015/ai-cockpit-cc19a27ae67f0b59763c2766dfeed309c295c0efcd5a5e58dd6832ad0dd15d16",
+  "sha256": "cc19a27ae67f0b59763c2766dfeed309c295c0efcd5a5e58dd6832ad0dd15d16",
+  "sizeBytes": 52075560,
+  "purpose": "Retain the exact Runtime that produced the7546 local failure/diagnostic evidence before rebuilding the scoped candidate; no installed Runtime is replaced."
+}

@@ -145,6 +145,13 @@ ordinary close と origin がない旧 v1 receipt は以前の検証と不変 re
 独立した信頼 anchor はなく、任意の証拠消失の検出は主張しません。履歴の `not_ready` と
 `historical_evidence_not_revalidated` を保持し、過去の検証を再実行・昇格しません。
 
+不変 close が指定する履歴 provider head の結合を保持します。旧 Retained close 後は既存の
+post-close reconciliation 規則に従う次の Deleted transition だけを許可し、完全な chain、
+predecessor、sequence、repository/WI/provider/resource/Contract、履歴 Runtime と実際の cleanup
+後条件を検証します。元の一覧に加えられる applicable decision は、その検証済みの正確なパス
+だけです。次の source の採集前に cleanup が存在する場合、新 origin はその transition を
+完全な一覧に含めます。元証拠の欠落・変更、fork、無関係な追加や未対応 head は closed を拒否します。
+
 MCP は `work_item_closeout_recovery_plan`（読み取り専用）と
 `work_item_closeout_recover`（明示 write）を提供します。両方に `workItemId` と絶対 path の
 `sourceRepo` が必要で、MCP server が bind した repository が destination です。正確な schema は

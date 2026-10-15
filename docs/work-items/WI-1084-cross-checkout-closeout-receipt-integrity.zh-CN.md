@@ -16,11 +16,11 @@ contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8
 
 # WI-1084 — 跨 checkout 恢复收据完整性
 
-Ray 已直接确认 Contract/preflight/snapshot，Native 已记录 confirm_review。仅删收据的 RED 在未改生产源码上真实失败（实际 closed、预期 archived）。有界实现正在进行，聚焦仓库回归18/18通过；CLI/MCP、完整验证及场景记录仍待完成。lastVerifiedBy 仅表示投影归属，不声称正式验证通过。
+Ray 已确认绑定的 Contract/preflight/snapshot，Native 已记录 confirm_review。仅删收据、恢复后 Retained close→Deleted transition 两份真实 RED 均保留。有界修正通过18项共享单元及14项 repository/CLI/MCP 集成回归，严格 workspace clippy 与格式检查通过。当前正式证据及剩余验收以 Native 为准；lastVerifiedBy 标识本进行中 WI 投影，不表示已验证关闭。
 
 ## 预期收益与已观察问题
 
-恢复 close 的必需证据丢失后，开发者应看到归档且阻断的状态。[Issue #1004 的 Mac 报告](https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658)固定源码 `bcd76ae76f61650a890267f511099c96dc6a47fd`，报告仅删除恢复收据后仍为 `closed`、`blocking=false`。本环境已读取原报告并静态追踪到对应缺失文件分支；尚未重跑 Sentinel 验收，也未证明 RED。`status` 退出0本身不是缺陷。
+独立 checkout 的 RED 已复现错误的 closed 投影，GREEN 与后续 P2 组合矩阵已保留。原 Sentinel 验收历史保持原样。正常下一条 Deleted transition 经完整既有规则校验后继续保留不可变历史 close 的有效性。
 
 ## 最小设计
 
@@ -36,10 +36,10 @@ Ray 已直接确认 Contract/preflight/snapshot，Native 已记录 confirm_revie
 2. 证明重叠工作不会错误准入；覆盖 origin/receipt 缺失、畸形、非普通文件、错误版本/路径/摘要/身份、close/payload 错绑及归档完整性。
 3. 用现有私有 hook 覆盖 origin 后、receipt 后、close 前后中断；保留 source 和已发布路径，证明支持的恢复/幂等及恢复 checkout 再作 source。
 4. 保留普通/v1 兼容和历史 `not_ready`、`historical_evidence_not_revalidated`；补窄范围 CLI/MCP 一致性。
-5. 真实 policyReview 和 fresh 准入之后执行聚焦 RED/GREEN 恢复回归、`cargo test --locked --workspace` 及仓库必需门禁。保留900秒上限、隔离构建目录、单构建任务和原始证据；当前不声称任何结果通过。
+5. 真实 policyReview 和 fresh 准入之后执行聚焦 RED/GREEN 恢复回归、`cargo test --locked --workspace` 及仓库必需门禁。保留900秒上限、隔离构建目录、单构建任务和原始证据；正式证据以当前 Native 回执为准，不声称终态验收通过。
 
 ## 执行边界
 
 WI-1084 使用单 worker 串行；正式并行兼容性为 false，因为 WI-1070～1074 缺少边界/声明，其记录不改。构建输出隔离于 `target/wi1084-closeout-receipt-integrity/`，checkpointCount 保持1。PR#1040 保持 Draft，集成串行。授权不含 Sentinel 业务修改、WI-1078 资源变动、Task9、TTL、机制重构、发布、新 WI 真人 close、合并或删除。
 
-下一步：CLI/MCP 和保留性回归，再执行当前 Native workspace 正式验证。[直接确认及原始 RED](../../.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/progress.md)已保留。Contract 不变无需重复人工审阅；未授权合并、关闭或删除。
+依当前 Native 准入继续正式验证及 Raydot 审阅，参见[已保留的 RED/GREEN 证据](../../.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-summary.md)。Contract 不变无需重复人工审阅。PR#1040 保持 Draft；本次批准不包含合并、关闭或资源删除。

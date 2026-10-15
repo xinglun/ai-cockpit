@@ -123,12 +123,12 @@ fn build_closed_source_with_runtime(source: &Path, runtime: &RuntimeContext) {
         source,
         WORK_ITEM_ID,
         &serde_json::to_value(execution.receipt).expect("verification receipt JSON"),
-        &runtime,
+        runtime,
         &execution.final_snapshot,
     )
     .expect("record source verification");
-    finish_work_item_with_runtime(source, WORK_ITEM_ID, &runtime).expect("finish source");
-    archive_work_item_with_runtime(source, WORK_ITEM_ID, &runtime).expect("archive source");
+    finish_work_item_with_runtime(source, WORK_ITEM_ID, runtime).expect("finish source");
+    archive_work_item_with_runtime(source, WORK_ITEM_ID, runtime).expect("archive source");
     git(source, &["add", "-A"]);
     git(
         source,

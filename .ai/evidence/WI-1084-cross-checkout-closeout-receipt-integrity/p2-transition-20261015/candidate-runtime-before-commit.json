@@ -1,0 +1,23 @@
+{
+  "recordedAtUTC": "2026-10-15T09:33:41.303098+00:00",
+  "sourceBaseHead": "a4680c25f7ead5c30fefb0864056d761fe6afaae",
+  "sourceDiffSha256": "460b793b90b9c9d50d2bb67dbe3fc5bcdbecacceaccb3bd1008becdac9c7553d",
+  "changedSourceFiles": {
+    "crates/cockpit-cli/tests/closeout_recovery.rs": "8c8bb2985965c690af3a641f741b27de25993b53c7da8c7116e3d78a653e0ce2",
+    "crates/cockpit-mcp/tests/closeout_recovery.rs": "603833b0045a2a64bfd3b4ddfab2355bc0cd1a426e3787473d51b5daddf0ff6b",
+    "crates/cockpit-repository/src/lifecycle.rs": "b16a453a4ddd6c2d9be1577c745e562982077dffc6e824bf6f62e6925afaa8f3",
+    "crates/cockpit-repository/tests/closeout_recovery.rs": "943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a",
+    "docs/reference/commands.ja.md": "d8ef084d378761f95fe021e4874c0559e6391c60f6500a859fd11b6b0f007fea",
+    "docs/reference/commands.md": "27fc0fe9c3d4c7e14515c0f9de9194567b0c19553ddaf0c9354c412d4c20ff5a",
+    "docs/reference/commands.zh-CN.md": "f76ed026285929f8731928a778b7fef0deb4f0a89395aea1658515e908b807e6",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md": "26c1bf060fc623e9f3ea83f3be75d609abdb73d3fb831b8fab42257e623ff2a2",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md": "f8db5958c722adba2a6201095a2b7aadaaf5d870a8bf797ff9cee69a7d68cf26",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md": "fa2882e40475a5551741d8d4c54b523fbfeef2a547ba2ff5fb15cb3030c73339"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/debug/ai-cockpit",
+  "binarySha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "binarySizeBytes": 52094536,
+  "binaryBuildEvidence": "p2-final-closeout-integrations.execution.json",
+  "status": "focused-gates-pass; full-formal-verification-pending-exact-batch-storage-approval",
+  "sharedInstalledRuntimeReplaced": false
+}

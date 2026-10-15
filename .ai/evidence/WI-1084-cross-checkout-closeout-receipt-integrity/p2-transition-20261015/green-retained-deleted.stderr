@@ -1,0 +1,14 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-repository)
+error[E0609]: no field `current` on type `Result<CloseoutRecoveryProviderFacts, ObserverError>`
+    --> crates/cockpit-repository/src/lifecycle.rs:5278:6
+     |
+5278 |     .current;
+     |      ^^^^^^^ unknown field
+     |
+help: one of the expressions' fields has a field of the same name
+     |
+5278 |     .unwrap().current;
+     |      +++++++++
+
+For more information about this error, try `rustc --explain E0609`.
+error: could not compile `cockpit-repository` (lib) due to 1 previous error

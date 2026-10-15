@@ -1,0 +1,39 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-repository",
+    "--test",
+    "closeout_recovery",
+    "recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history",
+    "--",
+    "--exact",
+    "--test-threads=1"
+  ],
+  "sourceHead": "a4680c25f7ead5c30fefb0864056d761fe6afaae",
+  "sourceDiffSha256": "9c5a50ed0f22cef0aeb2c2fd159ebdc92b6bd46342efd9d23f7fe1c4e59ad70e",
+  "sourceFiles": {
+    "crates/cockpit-repository/src/lifecycle.rs": "15adc77be26bb6e0e5a8cc1cbbb5ac1aa0be3a931515605045d12e7e7be3fa62",
+    "crates/cockpit-repository/src/historical_compatibility.rs": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49",
+    "crates/cockpit-repository/tests/closeout_recovery.rs": "69c095fba71dc9508e46bb9df3a1a6e2a645cad9bf073c28389433455f3b4836",
+    "crates/cockpit-cli/tests/closeout_recovery.rs": "50287d6e668c8225e211d89e1f6761c987f847805f4e9497548c1efb2a9e710d",
+    "crates/cockpit-mcp/tests/closeout_recovery.rs": "c76e658115c38c49179e8b8d7c5f8c4fb4351e9b3a19ce2e504dd5a5213225c5"
+  },
+  "environment": {
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo"
+  },
+  "startedAt": 1792055519.5802631,
+  "timeoutSeconds": 900,
+  "exitCode": 0,
+  "elapsedSeconds": 18.26101565361023
+}

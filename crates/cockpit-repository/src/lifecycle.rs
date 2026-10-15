@@ -5274,7 +5274,8 @@ fn validate_closeout_history_chain(
         expected_repository_id,
         &contract,
         true,
-    )?;
+    )?
+    .current;
 
     let evidence_path = root
         .join(".ai/evidence")
@@ -5366,98 +5367,201 @@ fn validate_closeout_history_chain(
     Ok(provider_facts)
 }
 
+struct CloseoutRecoveryProviderFacts {
+    current: serde_json::Value,
+    closed: serde_json::Value,
+    appended_path: Option<String>,
+}
+
+/// Read the exact historical head named by the immutable close. The current
+/// resolver still validates the entire chain, including filename digests,
+/// predecessors, sequence, identity, forks and governance-append constraints.
+fn closeout_recovery_closed_head(
+    root: &Path,
+    work_item_id: &str,
+    close: &serde_json::Value,
+) -> Result<
+    (
+        cockpit_protocol::ResourceFinalizationReceipt,
+        PathBuf,
+        Digest,
+        u64,
+    ),
+    ObserverError,
+> {
+    let invalid = || {
+        closeout_recovery_error(
+            root,
+            "closeout_recovery_provider_binding_invalid",
+            "close does not bind an exact historical finalization head",
+        )
+    };
+    let relative = close["resourceFinalizationHeadPath"]
+        .as_str()
+        .ok_or_else(invalid)?;
+    let sequence = close["resourceFinalizationSequence"]
+        .as_u64()
+        .ok_or_else(invalid)?;
+    closeout_recovery_relative_file(root, relative, work_item_id)?;
+    let path = root.join(relative);
+    let receipt = if sequence == 0 {
+        if relative != format!(".ai/decisions/{work_item_id}.finalize.json") {
+            return Err(invalid());
+        }
+        read_resource_finalization_receipt(&path)?
+    } else {
+        let transition = super::resource_lifecycle::read_resource_finalization_transition(&path)?;
+        let digest = cockpit_protocol::digest_json(
+            &serde_json::to_value(&transition).map_err(|_| invalid())?,
+        )
+        .map_err(|_| invalid())?;
+        if transition.sequence != sequence
+            || relative
+                != format!(
+                    ".ai/decisions/{work_item_id}.finalize.{}.json",
+                    digest.as_str().trim_start_matches("sha256:")
+                )
+        {
+            return Err(invalid());
+        }
+        transition.receipt
+    };
+    let digest =
+        cockpit_protocol::digest_json(&serde_json::to_value(&receipt).map_err(|_| invalid())?)
+            .map_err(|_| invalid())?;
+    if close["resourceFinalizationHeadDigest"] != serde_json::json!(digest) {
+        return Err(invalid());
+    }
+    Ok((receipt, path, digest, sequence))
+}
+
 fn closeout_recovery_provider_facts(
     root: &Path,
     work_item_id: &str,
     expected_repository_id: &str,
     contract: &Contract,
     validate_close_projection: bool,
-) -> Result<serde_json::Value, ObserverError> {
+) -> Result<CloseoutRecoveryProviderFacts, ObserverError> {
     let (_, archived_contract_file_digest) =
         crate::resource_lifecycle::archived_contract_digest(root, work_item_id)?;
-
     let resource_context = effective_resource_context(root, work_item_id, contract)?;
-    let mut provider_facts = serde_json::Value::Null;
+    let mut facts = CloseoutRecoveryProviderFacts {
+        current: serde_json::Value::Null,
+        closed: serde_json::Value::Null,
+        appended_path: None,
+    };
     if let Some(resource_context) = resource_context.as_ref() {
         let (receipt, head_path, head_digest, sequence) =
             resolve_resource_finalization_head(root, work_item_id)?;
-        validate_resource_finalization_receipt_for(
-            &receipt,
-            expected_repository_id,
-            work_item_id,
-            Some(&archived_contract_file_digest),
-            Some(resource_context),
-        )
-        .map_err(|error| {
-            closeout_recovery_error(
-                root,
-                "closeout_recovery_provider_binding_invalid",
-                format!("historical provider finalization receipt is invalid: {error}"),
+        let validate_member = |member: &cockpit_protocol::ResourceFinalizationReceipt,
+                               path: &Path|
+         -> Result<(), ObserverError> {
+            validate_resource_finalization_receipt_for(
+                member,
+                expected_repository_id,
+                work_item_id,
+                Some(&archived_contract_file_digest),
+                Some(resource_context),
             )
-        })?;
-        ensure_resource_finalization_base_binding(&receipt, contract, &head_path).map_err(
-            |error| {
+            .map_err(|error| {
                 closeout_recovery_error(
                     root,
                     "closeout_recovery_provider_binding_invalid",
-                    format!("historical provider finalization base binding is invalid: {error}"),
+                    error.to_string(),
                 )
-            },
-        )?;
-        validate_historical_finalization(root, &receipt, &head_path).map_err(|error| {
-            closeout_recovery_error(
-                root,
-                "closeout_recovery_provider_binding_invalid",
-                format!("historical provider finalization facts are invalid: {error}"),
-            )
-        })?;
-        // The shared close validator calls this helper too. Compare the
-        // bound head directly there; do not recursively ask for closed status.
+            })?;
+            ensure_resource_finalization_base_binding(member, contract, path)?;
+            validate_historical_finalization(root, member, path)?;
+            Ok(())
+        };
+        validate_member(&receipt, &head_path)?;
         let close = read_json(&root.join(format!(".ai/decisions/{work_item_id}.close.json")))?;
-        let head_matches = close["resourceFinalizationSequence"] == sequence
-            && close["resourceFinalizationHeadPath"] == repository_relative_path(root, &head_path)
-            && close["resourceFinalizationHeadDigest"] == serde_json::json!(head_digest);
-        if !head_matches
-            || (validate_close_projection
-                && closed_finalization_projection_kind(
+        let (closed, closed_path, closed_digest, closed_sequence) =
+            closeout_recovery_closed_head(root, work_item_id, &close)?;
+        if closed_path != head_path {
+            validate_member(&closed, &closed_path)?;
+        }
+        if head_path != closed_path || head_digest != closed_digest || sequence != closed_sequence {
+            let transition =
+                super::resource_lifecycle::read_resource_finalization_transition(&head_path)?;
+            // This is the existing bounded post-close reconciliation lane:
+            // exactly one next Deleted member, retaining the historical Runtime.
+            if close["humanDecision"] != "approved"
+                || closed_sequence.checked_add(1) != Some(sequence)
+                || closed.result.disposition
+                    != cockpit_protocol::ResourceFinalizationDisposition::Retained
+                || receipt.result.disposition
+                    != cockpit_protocol::ResourceFinalizationDisposition::Deleted
+                || receipt.runtime_version != closed.runtime_version
+                || receipt.runtime_digest != closed.runtime_digest
+            {
+                return Err(closeout_recovery_error(
                     root,
-                    work_item_id,
-                    &receipt,
-                    &head_path,
-                    &head_digest,
-                    sequence,
-                    expected_repository_id,
+                    "closeout_recovery_provider_binding_invalid",
+                    "unsupported finalization extension after the bound close",
+                ));
+            }
+            cockpit_protocol::validate_resource_finalization_transition(
+                &closed,
+                &transition,
+                sequence,
+            )
+            .map_err(|error| {
+                closeout_recovery_error(
+                    root,
+                    "closeout_recovery_provider_binding_invalid",
+                    error.to_string(),
                 )
-                .is_none())
+            })?;
+            // None avoids recursively asking the close validator for a historical
+            // Runtime projection. All provider, Contract, repository evidence and
+            // actual local cleanup postconditions are still validated.
+            super::resource_lifecycle::verify_resource_finalization_internal(
+                root,
+                work_item_id,
+                None,
+            )?;
+            facts.appended_path = Some(repository_relative_path(root, &head_path));
+        }
+        if validate_close_projection
+            && closed_finalization_projection_kind(
+                root,
+                work_item_id,
+                &closed,
+                &closed_path,
+                &closed_digest,
+                closed_sequence,
+                expected_repository_id,
+            )
+            .is_none()
         {
             return Err(closeout_recovery_error(
                 root,
                 "closeout_recovery_provider_binding_invalid",
-                format!(
-                    "historical provider finalization is not bound to the close decision for {work_item_id}"
-                ),
+                "historical finalization head is not bound to the close decision",
             ));
         }
-        provider_facts = serde_json::json!({
-            "provider": receipt.provider,
-            "resourceContext": resource_context,
-            "pullRequest": receipt.pull_request,
-            "finalizationSequence": sequence,
-            "finalizationHeadDigest": head_digest,
-            "finalizationHeadPath": repository_relative_path(root, &head_path),
-        });
+        let encode = |member: &cockpit_protocol::ResourceFinalizationReceipt,
+                      path: &Path,
+                      digest: &Digest,
+                      sequence: u64| {
+            serde_json::json!({
+                "provider": member.provider, "resourceContext": resource_context,
+                "pullRequest": member.pull_request, "finalizationSequence": sequence,
+                "finalizationHeadDigest": digest, "finalizationHeadPath": repository_relative_path(root, path),
+            })
+        };
+        facts.current = encode(&receipt, &head_path, &head_digest, sequence);
+        facts.closed = encode(&closed, &closed_path, &closed_digest, closed_sequence);
     } else if fs::symlink_metadata(resource_finalization_decision_path(root, work_item_id)).is_ok()
     {
         return Err(closeout_recovery_error(
             root,
             "closeout_recovery_provider_binding_invalid",
-            format!(
-                "historical provider finalization exists without a Contract or archived resource-context binding for {work_item_id}"
-            ),
+            "historical provider finalization exists without a Contract or resource-context binding",
         ));
     }
-
-    Ok(provider_facts)
+    Ok(facts)
 }
 
 /// Compare against the complete archive and applicable decision inventory,
@@ -5476,23 +5580,35 @@ pub(super) fn closeout_recovery_payload_matches(
         if contract.work_item_id != work_item_id
             || contract.repository_id != repository_id
             || binding["contractDigest"] != serde_json::json!(contract_digest(&contract_path)?)
-            || binding["providerFacts"]
-                != closeout_recovery_provider_facts(
-                    root,
-                    work_item_id,
-                    repository_id,
-                    &contract,
-                    false,
-                )?
         {
             return Ok(false);
         }
+        let provider =
+            closeout_recovery_provider_facts(root, work_item_id, repository_id, &contract, false)?;
+        let appended = if binding["providerFacts"] == provider.current {
+            None
+        } else if binding["providerFacts"] == provider.closed && provider.appended_path.is_some() {
+            provider.appended_path
+        } else {
+            return Ok(false);
+        };
         let manifest = read_json(&root.join(format!(
             ".ai/work-items/archive/{work_item_id}.archive.json"
         )))?;
         verify_archive_manifest(root, work_item_id, &manifest)?;
         let files = closeout_recovery_collect_source_files(root, work_item_id, &manifest)?;
-        Ok(binding["fileDigests"] == serde_json::json!(closeout_recovery_file_digests(&files)))
+        let mut observed = closeout_recovery_file_digests(&files);
+        if let Some(appended) = appended {
+            // Preserve the complete original inventory. Exclude only this exact
+            // validated new transition when it was not already captured by origin.
+            if !binding["fileDigests"]
+                .as_array()
+                .is_some_and(|files| files.iter().any(|file| file["path"] == appended))
+            {
+                observed.retain(|file| file["path"] != appended);
+            }
+        }
+        Ok(binding["fileDigests"] == serde_json::json!(observed))
     };
     validate().unwrap_or(false)
 }

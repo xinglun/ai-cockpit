@@ -1,0 +1,185 @@
+{
+  "recordedAtUTC": "2026-10-15T09:32:04.287559+00:00",
+  "status": "awaiting_exact_batch_authorization",
+  "manifestPath": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-proposal-20261015/candidate-files.manifest.json",
+  "manifestSha256": "8e12a74c56ea839341532475e0fca0eeb77000c0f65552d482e9ddc9d336e539",
+  "groups": [
+    {
+      "id": "old-checkout-build",
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build",
+      "selection": "manifest-listed non-executable build intermediates",
+      "rebuildable": true,
+      "activeBuildObserved": false,
+      "exclusions": [
+        "all source/.ai/evidence/uncommitted work",
+        "all Runtime and test executables",
+        "all dynamic libraries",
+        "all current WI1084 target files",
+        "all WI1078 resources",
+        "all executables including build-script executables; no whole directory deletion"
+      ],
+      "fileCount": 146,
+      "allocatedFileBytes": 471040,
+      "estimatedReclaimBytes": 471040
+    },
+    {
+      "id": "old-checkout-static-deps",
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps",
+      "selection": "manifest-listed non-executable .rlib/.rmeta/.d/.o only",
+      "rebuildable": true,
+      "activeBuildObserved": false,
+      "exclusions": [
+        "all source/.ai/evidence/uncommitted work",
+        "all Runtime and test executables",
+        "all dynamic libraries",
+        "all current WI1084 target files",
+        "all WI1078 resources",
+        "all executables including build-script executables; no whole directory deletion"
+      ],
+      "fileCount": 871,
+      "allocatedFileBytes": 1383702528,
+      "estimatedReclaimBytes": 1383702528
+    },
+    {
+      "id": "old-wi1083-build",
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build",
+      "selection": "manifest-listed non-executable build intermediates",
+      "rebuildable": true,
+      "activeBuildObserved": false,
+      "exclusions": [
+        "all source/.ai/evidence/uncommitted work",
+        "all Runtime and test executables",
+        "all dynamic libraries",
+        "all current WI1084 target files",
+        "all WI1078 resources",
+        "all executables including build-script executables; no whole directory deletion"
+      ],
+      "fileCount": 260,
+      "allocatedFileBytes": 843776,
+      "estimatedReclaimBytes": 843776
+    },
+    {
+      "id": "old-wi1083-static-deps",
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps",
+      "selection": "manifest-listed non-executable .rlib/.rmeta/.d/.o only",
+      "rebuildable": true,
+      "activeBuildObserved": false,
+      "exclusions": [
+        "all source/.ai/evidence/uncommitted work",
+        "all Runtime and test executables",
+        "all dynamic libraries",
+        "all current WI1084 target files",
+        "all WI1078 resources",
+        "all executables including build-script executables; no whole directory deletion"
+      ],
+      "fileCount": 835,
+      "allocatedFileBytes": 945856512,
+      "estimatedReclaimBytes": 945856512
+    }
+  ],
+  "selectedFileCount": 2112,
+  "deduplicatedAllocatedFileBytes": 2330873856,
+  "estimatedReclaimBytesExcludingRetainedHardlinks": 2330873856,
+  "workspaceAvailableBytes": 635457536,
+  "projectedWorkspaceAvailableBytes": 2966331392,
+  "allOnWorkspaceDevice": true,
+  "activeBuildProcesses": [],
+  "protectedRuntimeFiles": [
+    {
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/ai-cockpit",
+      "sizeBytes": 160190000,
+      "sha256": "00b09c758e6fedcf0201cff496619e66940e4dd80ada8c42fb7f1f46120df1d3",
+      "inode": 801303,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3338cdbeef2aef6b",
+      "sizeBytes": 120864256,
+      "sha256": "ffa1624d33dbd3c7e1a4db9d6d005611805f0e7d9f52d28f28be487ea09c6572",
+      "inode": 796681,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-15b26c462b5ea273",
+      "sizeBytes": 120907016,
+      "sha256": "25094aeb443ea7f7c2f43131a95d5d70bae6eed72766ba202272512e0d080146",
+      "inode": 794520,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-6ffc6a9b892fbb8e",
+      "sizeBytes": 160190000,
+      "sha256": "00b09c758e6fedcf0201cff496619e66940e4dd80ada8c42fb7f1f46120df1d3",
+      "inode": 801303,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-10e4b8f3207cfb06",
+      "sizeBytes": 165366232,
+      "sha256": "a2708dc07c8fab7ea68e4da36a8dc8b5e0e4291cec83240f5882473c29595b9e",
+      "inode": 796660,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3ca647d2e2b0e165",
+      "sizeBytes": 160163904,
+      "sha256": "c0efcb912a7a4abe10a5a6c9ece87b768df74c318fd63cffd12b1c3f99e025e7",
+      "inode": 794469,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/ai-cockpit",
+      "sizeBytes": 160158944,
+      "sha256": "8d9a16e26d0c59fa3dda4a027aa6ffa3c6136d0d84e51c564ba6daf5337cd865",
+      "inode": 1059733,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-11bb2e5a7fd7aa33",
+      "sizeBytes": 16440904,
+      "sha256": "dcb8e1af2aac61253aececda95f6dabc34311755ccca63f860feb2c9ea74d46b",
+      "inode": 1053462,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-6ffc6a9b892fbb8e",
+      "sizeBytes": 160158944,
+      "sha256": "8d9a16e26d0c59fa3dda4a027aa6ffa3c6136d0d84e51c564ba6daf5337cd865",
+      "inode": 1059733,
+      "device": 27,
+      "excluded": true
+    },
+    {
+      "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-3be839e3f5de64f3",
+      "sizeBytes": 51669808,
+      "sha256": "ec936872a6007bc1ad1a2e6ba3581a9b05d100c928cdb23a44e436c1e5e9cc84",
+      "inode": 1053334,
+      "device": 27,
+      "excluded": true
+    }
+  ],
+  "otherProtectedResources": [
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target",
+    "/workspace/ai-cockpit/.git",
+    "/workspace/ai-cockpit-control",
+    "/workspace/ai-cockpit-main37cc-review",
+    "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+    "/workspace/wi1078-preserved-evidence-20261013",
+    "/tmp/wi1078-retained-00461714-target",
+    "/tmp/wi1078-main-bcd76ae7-20261015",
+    "/tmp/wi1084-runtime-checkpoints-20261015"
+  ],
+  "tmpCacheNotCountedTowardWorkspaceReclaim": true,
+  "deletedPaths": [],
+  "rebuildExplanation": "Only explicitly listed non-executable old Cargo generated/build intermediates and static archives/compiler metadata/depfiles. All Runtime/test/build-script executable files, dynamic libraries, sources and evidence remain. Future use of old caches may recompile dependencies. No whole .home, target, build or debug/deps directory is proposed for deletion.",
+  "allExecutablesAndDynamicLibrariesExcluded": true,
+  "extraExecutableExcludedFileCount": 156
+}

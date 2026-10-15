@@ -1,0 +1,3 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 16.83s
+     Running tests/closeout_recovery.rs (target/wi1084-closeout-receipt-integrity/debug/deps/closeout_recovery-efd65d00d8e5811e)

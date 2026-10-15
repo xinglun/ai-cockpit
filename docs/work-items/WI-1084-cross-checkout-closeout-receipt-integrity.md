@@ -16,11 +16,11 @@ contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8
 
 # WI-1084 — cross-checkout recovery receipt integrity
 
-Ray directly confirmed the bound Contract/preflight/snapshot and Native recorded confirm_review. The receipt-only deletion RED failed on unchanged production source (actual closed, expected archived). The bounded implementation is in progress; focused repository regressions passed18/18. CLI/MCP, complete verification and scenario recording remain pending. lastVerifiedBy identifies this WI projection and does not claim formal verification.
+Ray directly confirmed the bound Contract/preflight/snapshot and Native recorded confirm_review. Both receipt-only deletion and recovered Retained-close→Deleted-transition REDs are preserved. The bounded correction passes18 shared unit and14 repository/CLI/MCP integration tests; strict workspace clippy and format checks pass. Current formal evidence and remaining acceptance are determined by Native. lastVerifiedBy identifies this in-progress WI projection, not a verified close.
 
 ## Intended benefit and observed problem
 
-Developers should receive an archived, blocking state when the evidence required for a recovered close is lost. [Issue #1004's Mac report](https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658) used exact source `bcd76ae76f61650a890267f511099c96dc6a47fd` and reports that removing only the recovery receipt leaves `closed` and `blocking=false`. This environment read that report and traced the matching missing-file branch; it has not rerun the Sentinel acceptance or demonstrated the RED yet. `status` exit0 itself is valid behavior.
+The independent-checkout RED reproduced the faulty closed projection; its GREEN and the subsequent P2 combination matrix are retained. The original Sentinel acceptance history remains unchanged. A normal next Deleted transition keeps the immutable historical close valid after full existing transition checks.
 
 ## Bounded design
 
@@ -36,10 +36,10 @@ Ordinary current/legacy closes retain their semantics. Existing v1 evidence is n
 2. Prove overlapping work is not falsely admitted. Cover malformed/missing/non-regular origin or receipt, wrong version/path/digest/identity, close/payload mismatch and archive completeness.
 3. Use private hooks immediately after origin, after receipt, before close and after close. Preserve source and published paths, prove supported restoration/idempotence and use a recovered checkout as another source.
 4. Preserve ordinary/v1 compatibility and historical `not_ready` / `historical_evidence_not_revalidated`; add narrow CLI/MCP parity coverage.
-5. After real policyReview and fresh admission, run focused RED/GREEN recovery regressions, `cargo test --locked --workspace` and required repository gates. Keep the900-second bound, an isolated target, one build task and actual raw evidence. No result is currently claimed.
+5. After real policyReview and fresh admission, run focused RED/GREEN recovery regressions, `cargo test --locked --workspace` and required repository gates. Keep the900-second bound, an isolated target, one build task and actual raw evidence. Current formal verification remains governed by the Native receipt; no terminal acceptance is claimed.
 
 ## Execution boundary
 
 Single serial WI-1084 worker; final parallel compatibility is false because WI-1070–1074 lack boundaries/declarations. Their records remain unchanged. Build output is isolated at `target/wi1084-closeout-receipt-integrity/`; checkpointCount remains1. Keep PR#1040 Draft and integration serialized. No Sentinel business change, WI-1078 resource change, Task9, TTL, mechanism refactor, release, new-WI human close, merge or deletion is authorized.
 
-Next: CLI/MCP and preservation regressions, then current Native workspace verification. [Direct approval and raw RED](../../.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/progress.md) are retained. The unchanged Contract needs no repeated human review. Merge, close and deletion remain unauthorized.
+Continue current Native verification and Raydot review using the [preserved RED/GREEN evidence](../../.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-summary.md). The unchanged Contract needs no repeated human review. Keep PR#1040 Draft; merge, close and resource deletion remain outside this approval.

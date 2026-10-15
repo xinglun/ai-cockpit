@@ -1,0 +1,29 @@
+
+running 6 tests
+test archived_provider_context_binding_requires_its_finalization_receipt ... ok
+test cli_required_receipt_loss_revokes_closed_without_promoting_historical_verification ... ok
+test recovery_imports_exact_closeout_and_is_idempotent_without_mutating_source ... ok
+test recovery_plan_recognizes_a_closed_item_from_an_independent_checkout ... ok
+test recovery_preserves_a_closed_historical_projection_without_promoting_verification ... ok
+test tampered_historical_close_report_is_rejected_before_destination_writes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.99s
+
+
+running 2 tests
+test mcp_exposes_read_only_plan_and_explicit_cross_checkout_recovery ... ok
+test mcp_required_receipt_loss_revokes_closed_and_preserves_historical_verification ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.83s
+
+
+running 6 tests
+test archived_provider_binding_without_a_matching_finalize_receipt_is_rejected_read_only ... ok
+test extended_recovered_close_preserves_retry_and_complete_next_source_inventory ... ok
+test provider_bound_recovery_rejects_canonical_digest_and_tampered_archive_or_provider_facts ... ok
+test provider_finalization_uses_raw_contract_bytes_while_recovery_plan_keeps_canonical_binding ... ok
+test recovered_close_rejects_unsupported_finalization_extensions ... ok
+test recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.22s
+

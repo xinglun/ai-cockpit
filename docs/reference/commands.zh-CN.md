@@ -127,6 +127,13 @@ provider/Runtime、原 close 和完整原始 payload 清单；收据单向绑定
 早已删除，无法反推来源；全部新来源证明也被删除后没有独立可信锚点，不声称检测任意证据
 丢失。历史 `not_ready` 与 `historical_evidence_not_revalidated` 保持可见，恢复不重跑或提升历史验证。
 
+不可变 close 指定的历史 provider head 继续保持绑定。旧 Retained close 之后，仅按既有
+post-close reconciliation 规则允许追加下一条 Deleted transition：完整链、前驱、序号、
+repository/WI/provider/resource/Contract、历史 Runtime 和实际清理后置条件都必须有效。
+仅该解析验证通过的精确路径可作为原清单之外新增的适用 decision。若后续 source 在采集前已
+存在清理 transition，其新 origin 必须将它纳入完整清单。原证据缺失或改写、分叉、无关新增
+记录或不支持的 head 仍拒绝关闭投影。
+
 MCP 提供对应的只读 `work_item_closeout_recovery_plan` 和显式写入
 `work_item_closeout_recover`。两者都必须提供 `workItemId` 和绝对路径 `sourceRepo`；MCP server
 绑定的 repository 就是 destination。调用前通过 `tools/list` 发现确切 schema。

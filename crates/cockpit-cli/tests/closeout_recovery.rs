@@ -126,7 +126,7 @@ fn build_closed_source_with_runtime(source: &Path, runtime: &RuntimeContext) {
         source,
         WORK_ITEM_ID,
         &receipt,
-        &runtime,
+        runtime,
         &execution.final_snapshot,
     )
     .expect("source verification");

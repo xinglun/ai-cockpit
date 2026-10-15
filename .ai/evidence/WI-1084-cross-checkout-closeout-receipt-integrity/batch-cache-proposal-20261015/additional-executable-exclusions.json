@@ -1,0 +1,782 @@
+[
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/anyhow-02472fc0cb68ba3c/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4673536
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/anyhow-02472fc0cb68ba3c/build_script_build-02472fc0cb68ba3c",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4673536
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/cap-fs-ext-bc9feda261b7a730/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/cap-fs-ext-bc9feda261b7a730/build_script_build-bc9feda261b7a730",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/cap-primitives-faf04d6f863be152/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/cap-primitives-faf04d6f863be152/build_script_build-faf04d6f863be152",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/cap-std-857cd5f2ce31291b/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/cap-std-857cd5f2ce31291b/build_script_build-857cd5f2ce31291b",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/chrono-tz-bb8d5effc4fd1019/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/chrono-tz-bb8d5effc4fd1019/build_script_build-bb8d5effc4fd1019",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/crc32fast-1316cc99d3f89c42/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/crc32fast-1316cc99d3f89c42/build_script_build-1316cc99d3f89c42",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/generic-array-4cac162ab79b2857/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4685824
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/generic-array-4cac162ab79b2857/build_script_build-4cac162ab79b2857",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4685824
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/getrandom-18779180ef56a978/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4538368
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/getrandom-18779180ef56a978/build_script_build-18779180ef56a978",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4538368
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/io-extras-3f82050a7fe084e6/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/io-extras-3f82050a7fe084e6/build_script_build-3f82050a7fe084e6",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/io-lifetimes-9f9b0e9b48574cb6/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/io-lifetimes-9f9b0e9b48574cb6/build_script_build-9f9b0e9b48574cb6",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/io-lifetimes-f799601e37c76af3/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/io-lifetimes-f799601e37c76af3/build_script_build-f799601e37c76af3",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/libc-49d4b3a762d07ddb/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/libc-49d4b3a762d07ddb/build_script_build-49d4b3a762d07ddb",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/libc-fef4a680aa8c4060/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/libc-fef4a680aa8c4060/build_script_build-fef4a680aa8c4060",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/num-traits-8b0695b2147503b3/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4820992
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/num-traits-8b0695b2147503b3/build_script_build-8b0695b2147503b3",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4820992
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/proc-macro2-5cb179a647ef6e51/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/proc-macro2-5cb179a647ef6e51/build_script_build-5cb179a647ef6e51",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/proc-macro2-a411f7480bd0f42c/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/proc-macro2-a411f7480bd0f42c/build_script_build-a411f7480bd0f42c",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/quote-109e30b652b444de/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/quote-109e30b652b444de/build_script_build-109e30b652b444de",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/quote-1c85044effa74c64/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/quote-1c85044effa74c64/build_script_build-1c85044effa74c64",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/rustix-1ce1fba55cb7aafc/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4681728
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/rustix-1ce1fba55cb7aafc/build_script_build-1ce1fba55cb7aafc",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4681728
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/rustix-9d594a746b7cea57/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4681728
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/rustix-9d594a746b7cea57/build_script_build-9d594a746b7cea57",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4681728
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde-d6689255ae87d4dc/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde-d6689255ae87d4dc/build_script_build-d6689255ae87d4dc",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde_core-040ff8da709058db/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde_core-040ff8da709058db/build_script_build-040ff8da709058db",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde_core-304eefece1a1291c/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde_core-304eefece1a1291c/build_script_build-304eefece1a1291c",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde_json-4139c5c286a55775/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4513792
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/serde_json-4139c5c286a55775/build_script_build-4139c5c286a55775",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4513792
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/side-effect-fixture-f0e2d223f8e9120d/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4612096
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/side-effect-fixture-f0e2d223f8e9120d/build_script_build-f0e2d223f8e9120d",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4612096
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/thiserror-7648d01a92163f43/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/thiserror-7648d01a92163f43/build_script_build-7648d01a92163f43",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/uncommitted-side-effect-fixture-a6e3d329ffe2540e/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/uncommitted-side-effect-fixture-a6e3d329ffe2540e/build_script_build-a6e3d329ffe2540e",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/zmij-00ef422b5889701d/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4624384
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/build/zmij-00ef422b5889701d/build_script_build-00ef422b5889701d",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4624384
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/anyhow-02472fc0cb68ba3c/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4673536
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/anyhow-02472fc0cb68ba3c/build_script_build-02472fc0cb68ba3c",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4673536
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/anyhow-38962dfe566d06b3/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 626688
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/anyhow-38962dfe566d06b3/build_script_build-38962dfe566d06b3",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 626688
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-fs-ext-bc9feda261b7a730/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-fs-ext-bc9feda261b7a730/build_script_build-bc9feda261b7a730",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-fs-ext-d75be6bcb88c3f86/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-fs-ext-d75be6bcb88c3f86/build_script_build-d75be6bcb88c3f86",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-primitives-9f3ea765249be3e5/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-primitives-9f3ea765249be3e5/build_script_build-9f3ea765249be3e5",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-primitives-faf04d6f863be152/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-primitives-faf04d6f863be152/build_script_build-faf04d6f863be152",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-std-3a1c3527c7bea943/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-std-3a1c3527c7bea943/build_script_build-3a1c3527c7bea943",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-std-857cd5f2ce31291b/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/cap-std-857cd5f2ce31291b/build_script_build-857cd5f2ce31291b",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/chrono-tz-99683c93a97761ba/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 454656
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/chrono-tz-99683c93a97761ba/build_script_build-99683c93a97761ba",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 454656
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/chrono-tz-bb8d5effc4fd1019/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/chrono-tz-bb8d5effc4fd1019/build_script_build-bb8d5effc4fd1019",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/crc32fast-cf3be5ea9eaecf1b/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 573440
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/crc32fast-cf3be5ea9eaecf1b/build_script_build-cf3be5ea9eaecf1b",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 573440
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/generic-array-3e7865b8dbffc0be/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 638976
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/generic-array-3e7865b8dbffc0be/build_script_build-3e7865b8dbffc0be",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 638976
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/generic-array-4cac162ab79b2857/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4685824
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/generic-array-4cac162ab79b2857/build_script_build-4cac162ab79b2857",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4685824
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/getrandom-18779180ef56a978/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4538368
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/getrandom-18779180ef56a978/build_script_build-18779180ef56a978",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4538368
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/getrandom-f1697a67cb86528f/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 491520
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/getrandom-f1697a67cb86528f/build_script_build-f1697a67cb86528f",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 491520
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-extras-3f82050a7fe084e6/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-extras-3f82050a7fe084e6/build_script_build-3f82050a7fe084e6",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-extras-fa190460bb7e594a/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-extras-fa190460bb7e594a/build_script_build-fa190460bb7e594a",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-1beb9029e5afc45b/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-1beb9029e5afc45b/build_script_build-1beb9029e5afc45b",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-9f9b0e9b48574cb6/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-9f9b0e9b48574cb6/build_script_build-9f9b0e9b48574cb6",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-d16d8e612bfce173/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-d16d8e612bfce173/build_script_build-d16d8e612bfce173",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 585728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-f799601e37c76af3/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/io-lifetimes-f799601e37c76af3/build_script_build-f799601e37c76af3",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4632576
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/libc-9a6960e1cffdbcb4/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 655360
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/libc-9a6960e1cffdbcb4/build_script_build-9a6960e1cffdbcb4",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 655360
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/libc-f442115ad20e5673/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 655360
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/libc-f442115ad20e5673/build_script_build-f442115ad20e5673",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 655360
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/libc-fef4a680aa8c4060/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/libc-fef4a680aa8c4060/build_script_build-fef4a680aa8c4060",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/num-traits-723dcfda529e3498/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 770048
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/num-traits-723dcfda529e3498/build_script_build-723dcfda529e3498",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 770048
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/num-traits-8b0695b2147503b3/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4820992
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/num-traits-8b0695b2147503b3/build_script_build-8b0695b2147503b3",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4820992
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-0ca1b77b693ce48f/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 630784
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-0ca1b77b693ce48f/build_script_build-0ca1b77b693ce48f",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 630784
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-2d69e6359ddef0b2/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 630784
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-2d69e6359ddef0b2/build_script_build-2d69e6359ddef0b2",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 630784
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-5cb179a647ef6e51/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-5cb179a647ef6e51/build_script_build-5cb179a647ef6e51",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-a411f7480bd0f42c/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/proc-macro2-a411f7480bd0f42c/build_script_build-a411f7480bd0f42c",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4677632
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-109e30b652b444de/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-109e30b652b444de/build_script_build-109e30b652b444de",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-17a3ee179b4c2890/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 573440
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-17a3ee179b4c2890/build_script_build-17a3ee179b4c2890",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 573440
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-1c85044effa74c64/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-1c85044effa74c64/build_script_build-1c85044effa74c64",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4620288
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-3fc8325c542a7467/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 573440
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/quote-3fc8325c542a7467/build_script_build-3fc8325c542a7467",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 573440
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/rustix-1ce1fba55cb7aafc/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4681728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/rustix-1ce1fba55cb7aafc/build_script_build-1ce1fba55cb7aafc",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4681728
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/rustix-6c66692cbb8d9fb2/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 634880
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/rustix-6c66692cbb8d9fb2/build_script_build-6c66692cbb8d9fb2",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 634880
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/rustix-776289d99aaf3ba0/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 634880
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/rustix-776289d99aaf3ba0/build_script_build-776289d99aaf3ba0",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 634880
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde-64b24ddc182d4cc1/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 602112
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde-64b24ddc182d4cc1/build_script_build-64b24ddc182d4cc1",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 602112
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde-d6689255ae87d4dc/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde-d6689255ae87d4dc/build_script_build-d6689255ae87d4dc",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_core-040ff8da709058db/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_core-040ff8da709058db/build_script_build-040ff8da709058db",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4653056
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_core-2c47402badf38aac/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 606208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_core-2c47402badf38aac/build_script_build-2c47402badf38aac",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 606208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_core-6649ff045b759fac/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 606208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_core-6649ff045b759fac/build_script_build-6649ff045b759fac",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 606208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_json-4139c5c286a55775/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4513792
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_json-4139c5c286a55775/build_script_build-4139c5c286a55775",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4513792
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_json-d3d04519c1ab03ce/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 466944
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/serde_json-d3d04519c1ab03ce/build_script_build-d3d04519c1ab03ce",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 466944
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/side-effect-fixture-f0e2d223f8e9120d/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4612096
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/side-effect-fixture-f0e2d223f8e9120d/build_script_build-f0e2d223f8e9120d",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4612096
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/thiserror-65817bd72ba53ff3/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 651264
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/thiserror-65817bd72ba53ff3/build_script_build-65817bd72ba53ff3",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 651264
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/thiserror-7648d01a92163f43/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/thiserror-7648d01a92163f43/build_script_build-7648d01a92163f43",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4702208
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/uncommitted-side-effect-fixture-a6e3d329ffe2540e/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/uncommitted-side-effect-fixture-a6e3d329ffe2540e/build_script_build-a6e3d329ffe2540e",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4501504
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/zmij-00ef422b5889701d/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4624384
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/zmij-00ef422b5889701d/build_script_build-00ef422b5889701d",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 4624384
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/zmij-fd4adfc7370c6fa8/build-script-build",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 577536
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/build/zmij-fd4adfc7370c6fa8/build_script_build-fd4adfc7370c6fa8",
+    "reason": "preserve executable or dynamic/debug binary, including old build-script executables",
+    "allocatedBytes": 577536
+  }
+]

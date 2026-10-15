@@ -171,6 +171,16 @@ independent trusted anchor; arbitrary evidence-loss detection is not claimed.
 Historical `not_ready` and `historical_evidence_not_revalidated` remain visible;
 recovery does not rerun or promote historical verification.
 
+The exact historical provider head named by the immutable close remains bound.
+After an older Retained close, only the existing post-close reconciliation lane
+may add the next Deleted transition: full chain, predecessor, sequence,
+repository/WI/provider/resource/Contract, historical Runtime and actual cleanup
+postconditions must validate. Its exact resolved path is the only extra
+applicable decision allowed beyond the original inventory. If cleanup already
+existed when a later source was captured, that source's new origin must include
+it in its complete inventory. Missing/changed original evidence, forks,
+unrelated additions or unsupported heads still reject closed.
+
 MCP provides the matching `work_item_closeout_recovery_plan` (read-only) and
 `work_item_closeout_recover` (explicit write) tools. Both require
 `workItemId` and an absolute `sourceRepo`; the repository-bound MCP server's
