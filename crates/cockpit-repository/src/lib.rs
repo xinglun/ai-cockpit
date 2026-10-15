@@ -133,6 +133,7 @@ pub use knowledge_projection::{
 };
 pub use legacy_closeout_source::{
     plan_legacy_closeout_source, read_legacy_closeout_source_input, record_legacy_closeout_source,
+    validate_legacy_closeout_source_wire,
 };
 pub use lifecycle::*;
 pub(crate) use lifecycle::{
@@ -14581,6 +14582,11 @@ mod lifecycle_lock_guard {
             let mut options = cap_std::fs::OpenOptions::new();
             use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
             options.read(true).follow(FollowSymlinks::No);
+            #[cfg(unix)]
+            {
+                use cap_fs_ext::OpenOptionsExt;
+                options.custom_flags(libc::O_NONBLOCK);
+            }
             let file =
                 locks
                     .open_with(&lock_name, &options)
@@ -14630,7 +14636,7 @@ mod lifecycle_lock_guard {
     fn pinned_repository_id(root: &Path, ai: &Dir) -> Result<String, ObserverError> {
         // Preserve the existing unattached-fixture fallback, while obtaining
         // configured identity through the already pinned repository handle.
-        let bytes = read_cap_file_nofollow_bounded(
+        let bytes = legacy_closeout_source::read_regular_cap_bounded(
             ai,
             "cockpit.toml",
             &root.join(".ai/cockpit.toml"),

@@ -1,0 +1,29 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+error[E0609]: no field `unresolved_archived_work_items` on type `RepositoryReadiness`
+   --> crates/cockpit-cli/tests/legacy_closeout_source.rs:868:26
+    |
+868 |                         .unresolved_archived_work_items
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+868 -                         .unresolved_archived_work_items
+868 +                         .unclosed_archived_work_items
+    |
+
+error[E0609]: no field `unresolved_archived_work_items` on type `RepositoryReadiness`
+   --> crates/cockpit-cli/tests/legacy_closeout_source.rs:900:18
+    |
+900 |                 .unresolved_archived_work_items
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+900 -                 .unresolved_archived_work_items
+900 +                 .unclosed_archived_work_items
+    |
+
+For more information about this error, try `rustc --explain E0609`.
+error: could not compile `cockpit-cli` (test "legacy_closeout_source") due to 2 previous errors

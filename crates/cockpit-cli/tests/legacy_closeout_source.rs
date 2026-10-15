@@ -715,6 +715,206 @@ mod complete_source {
             );
         }
     }
+    #[test]
+    fn concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans() {
+        for same_binding in [true, false] {
+            let (_destination, dest, _source_owner, source) = legacy_pair();
+            let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+                .unwrap()
+                .trim()
+                .to_owned();
+            let request: cockpit_protocol::LegacyCloseoutSourceRequest = serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:first-registrar","authoritySource":"isolated fixture","reason":"serialize exact root writers","sourceAccepted":true})).unwrap();
+            let runtime = current_runtime();
+            let first = cockpit_repository::plan_legacy_closeout_source(
+                &dest,
+                Some(&source),
+                ID,
+                &request,
+                &runtime,
+            )
+            .unwrap();
+            let second = if same_binding {
+                first.clone()
+            } else {
+                let mut other = request;
+                other.actor = Some("test-data:conflicting-registrar".into());
+                cockpit_repository::plan_legacy_closeout_source(
+                    &dest,
+                    Some(&source),
+                    ID,
+                    &other,
+                    &runtime,
+                )
+                .unwrap()
+            };
+            let barrier = std::sync::Barrier::new(2);
+            let results = std::thread::scope(|scope| {
+                let handles = [&first, &second]
+                    .into_iter()
+                    .map(|plan| {
+                        let barrier = &barrier;
+                        let dest = &dest;
+                        let runtime = &runtime;
+                        scope.spawn(move || {
+                            barrier.wait();
+                            cockpit_repository::record_legacy_closeout_source(
+                                dest, ID, plan, runtime,
+                            )
+                        })
+                    })
+                    .collect::<Vec<_>>();
+                handles
+                    .into_iter()
+                    .map(|handle| handle.join().unwrap())
+                    .collect::<Vec<_>>()
+            });
+            assert_eq!(
+                results.iter().filter(|result| result.is_ok()).count(),
+                if same_binding { 2 } else { 1 }
+            );
+            let bytes = fs::read(dest.join(format!(
+                ".ai/decisions/{ID}.legacy-closeout-source-registration.json"
+            )))
+            .unwrap();
+            assert!(
+                bytes == first.registration_bytes.as_bytes()
+                    || bytes == second.registration_bytes.as_bytes()
+            );
+            let winner = if bytes == first.registration_bytes.as_bytes() {
+                &first
+            } else {
+                &second
+            };
+            assert_eq!(
+                fs::read(dest.join(format!(
+                    ".ai/decisions/{ID}.legacy-closeout-source-requirement.json"
+                )))
+                .unwrap(),
+                winner.requirement_bytes.as_bytes()
+            );
+            assert_eq!(
+                work_item_status_snapshot_with_runtime(&dest, ID, &runtime)
+                    .unwrap()
+                    .lifecycle_phase,
+                "closed"
+            );
+        }
+    }
+    #[test]
+    fn read_only_plan_cannot_return_an_unrecordable_oversized_template() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+            .unwrap()
+            .trim()
+            .to_owned();
+        let request = serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"a".repeat(5 * 1024 * 1024),"authoritySource":"isolated fixture","reason":"bound the complete frozen plan","sourceAccepted":true})).unwrap();
+        let before = files(&dest);
+        let result = cockpit_repository::plan_legacy_closeout_source(
+            &dest,
+            Some(&source),
+            ID,
+            &request,
+            &current_runtime(),
+        );
+        assert!(
+            result.is_err(),
+            "the whole serialized plan must fit the input budget"
+        );
+        assert!(
+            result
+                .unwrap_err()
+                .to_string()
+                .contains("record_budget_exceeded")
+        );
+        assert_eq!(files(&dest), before);
+    }
+    #[test]
+    fn every_bound_history_file_and_each_root_obligation_remain_required() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let plan = original_plan(&dest, &source);
+        let runtime = current_runtime();
+        cockpit_repository::record_legacy_closeout_source(&dest, ID, &plan, &runtime).unwrap();
+        let registration: cockpit_protocol::LegacyCloseoutSourceRegistration =
+            serde_json::from_str(&plan.registration_bytes).unwrap();
+        let paths = registration
+            .inventory
+            .iter()
+            .map(|file| file.path.clone())
+            .chain([
+                format!(".ai/decisions/{ID}.legacy-closeout-source-requirement.json"),
+                format!(".ai/decisions/{ID}.legacy-closeout-source-registration.json"),
+            ]);
+        for relative in paths {
+            let path = dest.join(&relative);
+            let original = fs::read(&path).unwrap();
+            for missing in [true, false] {
+                if missing {
+                    fs::remove_file(&path).unwrap();
+                } else {
+                    let mut changed = original.clone();
+                    changed.push(b'\n');
+                    fs::write(&path, changed).unwrap();
+                }
+                let status = work_item_status_snapshot_with_runtime(&dest, ID, &runtime).unwrap();
+                assert_ne!(
+                    status.lifecycle_phase, "closed",
+                    "{relative} missing={missing}"
+                );
+                assert!(status.blocking, "{relative} missing={missing}");
+                let observed = cockpit_repository::status(&dest).unwrap();
+                assert!(
+                    observed
+                        .readiness
+                        .unclosed_archived_work_items
+                        .contains(&ID.to_owned()),
+                    "{relative} missing={missing}"
+                );
+                fs::write(&path, &original).unwrap();
+                assert_eq!(
+                    work_item_status_snapshot_with_runtime(&dest, ID, &runtime)
+                        .unwrap()
+                        .lifecycle_phase,
+                    "closed"
+                );
+            }
+        }
+        let manifest_path = dest.join(format!(".ai/work-items/archive/{ID}.archive.json"));
+        let original_manifest = fs::read(&manifest_path).unwrap();
+        let mut manifest: Value = serde_json::from_slice(&original_manifest).unwrap();
+        manifest["closeRequired"] = json!(false);
+        fs::write(
+            &manifest_path,
+            serde_json::to_vec_pretty(&manifest).unwrap(),
+        )
+        .unwrap();
+        assert_ne!(
+            work_item_status_snapshot_with_runtime(&dest, ID, &runtime)
+                .unwrap()
+                .lifecycle_phase,
+            "closed"
+        );
+        assert!(
+            cockpit_repository::status(&dest)
+                .unwrap()
+                .readiness
+                .unclosed_archived_work_items
+                .contains(&ID.to_owned())
+        );
+        let attempt = start_work_item_with_options(
+            &dest,
+            "WI-OVERLAPPING-PROOF",
+            "do not free scope",
+            "reject a damaged registered obligation",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["keep the original registered scope".into()],
+                ..Default::default()
+            },
+        );
+        assert!(attempt.is_err());
+        fs::write(manifest_path, original_manifest).unwrap();
+    }
 }
 
 #[test]

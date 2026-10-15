@@ -1,0 +1,16 @@
+
+running 5 tests
+test complete_source_parity::complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics ... ok
+test legacy_source_tools_expose_strict_typed_plan_and_record ... ok
+test raw_legacy_rpc_rejects_duplicate_keys_before_repository_access ... FAILED
+test rpc_line_is_bounded_before_json_parsing ... FAILED
+test wrong_nested_request_is_rejected_before_repository_access ... ok
+
+failures:
+
+failures:
+    raw_legacy_rpc_rejects_duplicate_keys_before_repository_access
+    rpc_line_is_bounded_before_json_parsing
+
+test result: FAILED. 3 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.52s
+

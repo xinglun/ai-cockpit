@@ -1,0 +1,16 @@
+
+running 4 tests
+test legacy_closeout_source::nonregular_tests::caller_input_fifo_is_rejected_without_blocking ... FAILED
+test legacy_closeout_source::nonregular_tests::fifo_child ... ok
+test legacy_closeout_source::nonregular_tests::history_fifo_is_rejected_without_blocking ... FAILED
+test legacy_closeout_source::nonregular_tests::replaced_lock_fifo_is_rejected_without_blocking ... FAILED
+
+failures:
+
+failures:
+    legacy_closeout_source::nonregular_tests::caller_input_fifo_is_rejected_without_blocking
+    legacy_closeout_source::nonregular_tests::history_fifo_is_rejected_without_blocking
+    legacy_closeout_source::nonregular_tests::replaced_lock_fifo_is_rejected_without_blocking
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 140 filtered out; finished in 9.02s
+

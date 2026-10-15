@@ -1,0 +1,11 @@
+
+running 1 test
+test complete_source::read_only_plan_cannot_return_an_unrecordable_oversized_template ... FAILED
+
+failures:
+
+failures:
+    complete_source::read_only_plan_cannot_return_an_unrecordable_oversized_template
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 1.40s
+

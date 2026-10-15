@@ -112,10 +112,7 @@ pub(super) fn obligation_ids(root: &Path) -> Result<BTreeSet<String>, ObserverEr
     Ok(ids)
 }
 
-use super::{
-    acquire_lifecycle_lock, read_cap_file_nofollow_bounded, reject_duplicate_json_keys,
-    repository_id, snapshot_digest,
-};
+use super::{acquire_lifecycle_lock, reject_duplicate_json_keys, repository_id, snapshot_digest};
 use cap_fs_ext::{DirExt, FollowSymlinks, MetadataExt, OpenOptionsFollowExt};
 use cockpit_core::Digest;
 use cockpit_protocol::{
@@ -135,6 +132,16 @@ use std::{
 const MAX_BYTES: u64 = 4 * 1024 * 1024;
 const MAX_RECORD_BYTES: u64 = 2 * MAX_BYTES;
 const MAX_FILES: usize = 128;
+
+/// Validate the raw MCP envelope before duplicate fields can be discarded by
+/// Value deserialization. The envelope allows twice the nested record budget.
+pub fn validate_legacy_closeout_source_wire(bytes: &[u8]) -> Result<(), String> {
+    if bytes.len() as u64 > 2 * MAX_RECORD_BYTES {
+        return Err("legacy_closeout_source:rpc_line_budget_exceeded".into());
+    }
+    reject_duplicate_json_keys(bytes)
+        .map_err(|detail| format!("legacy_closeout_source:duplicate_json_key: {detail}"))
+}
 
 fn error(root: &Path, code: &str) -> ObserverError {
     ObserverError::State {
@@ -284,6 +291,53 @@ fn relative_parts(root: &Path, relative: &str) -> Result<Vec<String>, ObserverEr
     }
     Ok(parts)
 }
+/// Open without following a link or waiting for a FIFO peer, verify the open
+/// handle is a regular file, then read at most the declared budget plus one.
+pub(super) fn read_regular_cap_bounded(
+    parent: &Dir,
+    name: &str,
+    path: &Path,
+    maximum: u64,
+) -> Result<Vec<u8>, ObserverError> {
+    let mut options = cap_std::fs::OpenOptions::new();
+    options.read(true).follow(FollowSymlinks::No);
+    #[cfg(unix)]
+    {
+        use cap_fs_ext::OpenOptionsExt;
+        options.custom_flags(libc::O_NONBLOCK);
+    }
+    let mut file = parent
+        .open_with(name, &options)
+        .map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
+    if !file
+        .metadata()
+        .map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?
+        .is_file()
+    {
+        return Err(error(path, "regular_file_required"));
+    }
+    let mut bytes = Vec::new();
+    std::io::Read::by_ref(&mut file)
+        .take(maximum.saturating_add(1))
+        .read_to_end(&mut bytes)
+        .map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
+    if bytes.len() as u64 > maximum {
+        return Err(error(
+            path,
+            "record_budget_exceeded: entry exceeds the bounded read limit",
+        ));
+    }
+    Ok(bytes)
+}
 /// Read every component through pinned directory handles with no-follow opens.
 fn safe_read(root: &Path, relative: &str, maximum: u64) -> Result<Vec<u8>, ObserverError> {
     let parts = relative_parts(root, relative)?;
@@ -296,7 +350,7 @@ fn safe_read(root: &Path, relative: &str, maximum: u64) -> Result<Vec<u8>, Obser
     }
     let leaf = parts.last().ok_or_else(|| error(root, "path_invalid"))?;
     let maximum = begin_query_read(root, maximum)?;
-    let bytes = read_cap_file_nofollow_bounded(&directory, leaf, &root.join(relative), maximum)?;
+    let bytes = read_regular_cap_bounded(&directory, leaf, &root.join(relative), maximum)?;
     complete_query_read(root, relative, &bytes)?;
     Ok(bytes)
 }
@@ -822,6 +876,14 @@ fn plan_digest(root: &Path, plan: &Plan) -> Result<Digest, ObserverError> {
         .remove("planDigest");
     digest(root, &value)
 }
+fn seal_plan(root: &Path, mut plan: Plan) -> Result<Plan, ObserverError> {
+    plan.plan_digest = plan_digest(root, &plan)?;
+    if encode(root, &plan)?.len() as u64 > MAX_RECORD_BYTES {
+        return Err(error(root, "record_budget_exceeded"));
+    }
+    require_plan_directory(root, &plan)?;
+    Ok(plan)
+}
 fn validate_request_role(
     root: &Path,
     source: Option<&Path>,
@@ -997,7 +1059,7 @@ pub fn plan_legacy_closeout_source(
             return Err(error(&root, "published_record_changed"));
         }
     }
-    let mut plan = Plan {
+    let plan = Plan {
         schema_version: 1,
         kind: "legacy_closeout_source_plan".into(),
         state: "prepared".into(),
@@ -1016,9 +1078,7 @@ pub fn plan_legacy_closeout_source(
         extension_bytes: None,
         extension_raw_digest: None,
     };
-    plan.plan_digest = plan_digest(&root, &plan)?;
-    require_plan_directory(&root, &plan)?;
-    Ok(plan)
+    seal_plan(&root, plan)
 }
 fn require_publication_parent(
     root: &Path,
@@ -1029,8 +1089,10 @@ fn require_publication_parent(
     guard.require_subject(root, id)?;
     let root_dir = root_directory(root)?;
     let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    observe_directory(&root.join(".ai"), &ai)?;
     let path = root.join(".ai/decisions");
     let current = open_cap_directory_nofollow_strict(&ai, "decisions", &path)?;
+    observe_directory(&path, &current)?;
     if directory_identity(&path, &current)? != directory_identity(&path, dir)? {
         return Err(error(root, "publication_parent_changed"));
     }
@@ -1086,6 +1148,8 @@ fn publish(
             source,
         })?
         .into_std();
+    #[cfg(test)]
+    publication_test_point(root, name, "temporary_created");
     if let Err(source) = file.write_all(bytes).and_then(|()| file.sync_all()) {
         let _ = dir.remove_file(&temporary);
         return Err(ObserverError::Read {
@@ -1093,6 +1157,8 @@ fn publish(
             source,
         });
     }
+    #[cfg(test)]
+    publication_test_point(root, name, "file_synced");
     drop(file);
     if let Err(error) = require_publication_parent(root, id, guard, dir) {
         let _ = dir.remove_file(&temporary);
@@ -1118,6 +1184,8 @@ fn publish(
             });
         }
     }
+    #[cfg(test)]
+    publication_test_point(root, name, "canonical_linked");
     require_publication_parent(root, id, guard, dir)
         .map_err(|_| error(root, "commit_state_unknown"))?;
     #[cfg(not(windows))]
@@ -1127,12 +1195,39 @@ fn publish(
             path: root.into(),
             source,
         })?;
-    if read_cap_file_nofollow_bounded(dir, name, &root.join(name), MAX_RECORD_BYTES)? != bytes {
+    #[cfg(test)]
+    publication_test_point(root, name, "parent_sync_step_completed");
+    if read_regular_cap_bounded(dir, name, &root.join(name), MAX_RECORD_BYTES)? != bytes {
         return Err(error(root, "published_record_changed"));
     }
+    #[cfg(test)]
+    publication_test_point(root, name, "read_back");
     require_publication_parent(root, id, guard, dir)
         .map_err(|_| error(root, "commit_state_unknown"))?;
     Ok(())
+}
+
+// Compiled only into the test harness. Production binaries expose no fault
+// injection environment switch or alternate publication path.
+#[cfg(test)]
+fn publication_test_point(root: &Path, name: &str, phase: &str) {
+    if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT")
+        .ok()
+        .as_deref()
+        != Some(&format!("{name}:{phase}"))
+    {
+        return;
+    }
+    if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION")
+        .ok()
+        .as_deref()
+        == Some("replace_parent")
+    {
+        fs::rename(root.join(".ai/decisions"), root.join("retained-decisions")).unwrap();
+        fs::create_dir(root.join(".ai/decisions")).unwrap();
+    } else {
+        std::process::exit(86);
+    }
 }
 /// Publish requirement first, then the exact frozen registration. Canonical
 /// files are never unlinked on errors; partial publication remains an obligation.
@@ -1290,7 +1385,7 @@ pub(crate) fn read_input_bytes(path: &Path) -> Result<Vec<u8>, ObserverError> {
         .file_name()
         .and_then(|name| name.to_str())
         .ok_or_else(|| error(path, "path_invalid"))?;
-    let bytes = read_cap_file_nofollow_bounded(&dir, name, path, MAX_RECORD_BYTES)?;
+    let bytes = read_regular_cap_bounded(&dir, name, path, MAX_RECORD_BYTES)?;
     pinned.require_current()?;
     Ok(bytes)
 }
@@ -1591,7 +1686,7 @@ fn plan_extension(
     {
         return Err(error(root, "original_binding_required_for_resume"));
     }
-    let mut plan = Plan {
+    let plan = Plan {
         schema_version: 1,
         kind: "legacy_closeout_source_plan".into(),
         state: "prepared".into(),
@@ -1610,8 +1705,7 @@ fn plan_extension(
         extension_raw_digest: Some(Digest::sha256_bytes(extension_bytes.as_bytes())),
         extension_bytes: Some(extension_bytes),
     };
-    plan.plan_digest = plan_digest(root, &plan)?;
-    Ok(plan)
+    seal_plan(root, plan)
 }
 /// Sole registered extension publisher; both public transports arrive holding
 /// the same unforgeable repository/Work Item lifecycle guard.
@@ -1711,6 +1805,8 @@ pub(crate) fn record_finalization_locked(
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
     guard.require_subject(root, id)?;
+    let _query = QuerySession::start();
+    let _visit = QueryVisit::enter(root, id, "finalization_write")?;
     if input["kind"] == "legacy_closeout_source_plan" {
         let plan: Plan = serde_json::from_value(input.clone())
             .map_err(|_| error(root, "strict_schema_invalid"))?;
@@ -2165,4 +2261,314 @@ fn complete_query_read(root: &Path, relative: &str, bytes: &[u8]) -> Result<(), 
         }
         Ok(())
     })
+}
+
+#[cfg(test)]
+mod publication_tests {
+    use super::*;
+    const ID: &str = "WI-PUBLISH-FAULT";
+    fn fixture() -> (tempfile::TempDir, PathBuf) {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap();
+        fs::create_dir_all(root.join(".ai/decisions")).unwrap();
+        assert!(
+            Command::new("git")
+                .args(["init", "--quiet"])
+                .current_dir(&root)
+                .status()
+                .unwrap()
+                .success()
+        );
+        (owner, root)
+    }
+    // Exercise the no-replace publication primitive independently. Complete
+    // historical root/extension admission and constrained resumes are covered
+    // by the integration fixtures, not asserted by this synthetic plan.
+    fn primitive_plan(root: &Path) -> Plan {
+        Plan {
+            schema_version: 1,
+            kind: "legacy_closeout_source_plan".into(),
+            state: "prepared".into(),
+            operation: Operation::Resume,
+            repository_id: repository_id(root).to_string(),
+            work_item_id: ID.into(),
+            destination_root: root.to_string_lossy().into_owned(),
+            destination_binding: directory_binding(root).unwrap(),
+            source_binding: None,
+            registration_bytes: "{}".into(),
+            requirement_bytes: "{}".into(),
+            registration_raw_digest: Digest::sha256_bytes(b"{}"),
+            requirement_raw_digest: Digest::sha256_bytes(b"{}"),
+            observation_digest: Digest::sha256_bytes(b"primitive test"),
+            plan_digest: Digest::sha256_bytes(b"primitive test"),
+            extension_bytes: None,
+            extension_raw_digest: None,
+        }
+    }
+    fn names(extension: bool) -> [String; 2] {
+        if extension {
+            [
+                format!("{ID}{EXTENSION_SUFFIX}"),
+                format!("{ID}.resource-finalization.0002.json"),
+            ]
+        } else {
+            [
+                format!("{ID}{REQUIREMENT_SUFFIX}"),
+                format!("{ID}{REGISTRATION_SUFFIX}"),
+            ]
+        }
+    }
+    fn bytes(name: &str) -> Vec<u8> {
+        format!("{{\"name\":\"{name}\",\"actor\":\"original fixture actor\",\"recordedAt\":\"2026-10-01T00:00:00Z\"}}").into_bytes()
+    }
+    fn decisions(root: &Path) -> Dir {
+        let dir = root_directory(root).unwrap();
+        let ai = open_cap_directory_nofollow_strict(&dir, ".ai", &root.join(".ai")).unwrap();
+        open_cap_directory_nofollow_strict(&ai, "decisions", &root.join(".ai/decisions")).unwrap()
+    }
+    #[test]
+    fn publication_child() {
+        let Some(root) = std::env::var_os("COCKPIT_TEST_LEGACY_SOURCE_CHILD_ROOT") else {
+            return;
+        };
+        let root = PathBuf::from(root).canonicalize().unwrap();
+        let extension = std::env::var("COCKPIT_TEST_LEGACY_SOURCE_PAIR").unwrap() == "extension";
+        let guard = acquire_lifecycle_lock(&root, ID).unwrap();
+        let dir = decisions(&root);
+        let plan = primitive_plan(&root);
+        for name in names(extension) {
+            let result = publish(&root, ID, &guard, &plan, &dir, &name, &bytes(&name));
+            if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION")
+                .ok()
+                .as_deref()
+                == Some("replace_parent")
+                && result.is_err()
+            {
+                let error = result.unwrap_err().to_string();
+                if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT")
+                    .unwrap()
+                    .ends_with(":canonical_linked")
+                {
+                    assert!(error.contains("commit_state_unknown"), "{error}");
+                } else {
+                    assert!(error.contains("publication_parent_changed"), "{error}");
+                }
+                return;
+            }
+            result.unwrap();
+        }
+        panic!("the requested publication fault did not fire");
+    }
+    fn child(
+        root: &Path,
+        extension: bool,
+        target: &str,
+        phase: &str,
+        replace: bool,
+    ) -> std::process::Output {
+        let mut command = Command::new(std::env::current_exe().unwrap());
+        command
+            .args([
+                "--exact",
+                "legacy_closeout_source::publication_tests::publication_child",
+                "--nocapture",
+            ])
+            .env("COCKPIT_TEST_LEGACY_SOURCE_CHILD_ROOT", root)
+            .env(
+                "COCKPIT_TEST_LEGACY_SOURCE_PAIR",
+                if extension { "extension" } else { "root" },
+            )
+            .env(
+                "COCKPIT_TEST_LEGACY_SOURCE_FAULT",
+                format!("{target}:{phase}"),
+            );
+        if replace {
+            command.env("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION", "replace_parent");
+        } else {
+            command.env_remove("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION");
+        }
+        command.output().unwrap()
+    }
+    #[test]
+    fn abrupt_exit_matrix_preserves_canonical_bytes_and_exact_primitive_retry() {
+        for extension in [false, true] {
+            let pair = names(extension);
+            for target_index in 0..2 {
+                for (phase, linked) in [
+                    ("temporary_created", false),
+                    ("file_synced", false),
+                    ("canonical_linked", true),
+                    ("parent_sync_step_completed", true),
+                    ("read_back", true),
+                ] {
+                    let (_owner, root) = fixture();
+                    let output = child(&root, extension, &pair[target_index], phase, false);
+                    assert_eq!(
+                        output.status.code(),
+                        Some(86),
+                        "{}",
+                        String::from_utf8_lossy(&output.stderr)
+                    );
+                    for (index, name) in pair.iter().enumerate() {
+                        let canonical = root.join(".ai/decisions").join(name);
+                        let expected = index < target_index || (index == target_index && linked);
+                        assert_eq!(canonical.exists(), expected, "{name}:{phase}");
+                        if expected {
+                            assert_eq!(fs::read(&canonical).unwrap(), bytes(name));
+                        }
+                    }
+                    let guard = acquire_lifecycle_lock(&root, ID).unwrap();
+                    let dir = decisions(&root);
+                    let plan = primitive_plan(&root);
+                    for name in &pair {
+                        publish(&root, ID, &guard, &plan, &dir, name, &bytes(name)).unwrap();
+                    }
+                    for name in &pair {
+                        assert_eq!(
+                            fs::read(root.join(".ai/decisions").join(name)).unwrap(),
+                            bytes(name)
+                        );
+                    }
+                }
+            }
+        }
+    }
+    #[cfg(unix)]
+    #[test]
+    fn parent_replacement_before_or_after_link_is_rejected_without_rollback() {
+        for phase in ["file_synced", "canonical_linked"] {
+            let (_owner, root) = fixture();
+            let name = names(false)[0].clone();
+            let output = child(&root, false, &name, phase, true);
+            assert!(
+                output.status.success(),
+                "{}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+            assert!(!root.join(".ai/decisions").join(&name).exists());
+            let retained = root.join("retained-decisions").join(&name);
+            assert_eq!(retained.exists(), phase == "canonical_linked");
+            if retained.exists() {
+                assert_eq!(fs::read(retained).unwrap(), bytes(&name));
+            }
+        }
+    }
+    #[cfg(unix)]
+    #[test]
+    fn no_replace_publication_preserves_hardlink_symlink_and_directory_victims() {
+        for kind in ["hardlink", "symlink", "directory"] {
+            let (_owner, root) = fixture();
+            let name = names(false)[0].clone();
+            let canonical = root.join(".ai/decisions").join(&name);
+            let victim = root.join("victim.json");
+            fs::write(&victim, b"victim bytes").unwrap();
+            let identity = fs::metadata(&victim).unwrap().ino();
+            match kind {
+                "hardlink" => fs::hard_link(&victim, &canonical).unwrap(),
+                "symlink" => std::os::unix::fs::symlink(&victim, &canonical).unwrap(),
+                _ => {
+                    fs::create_dir(&canonical).unwrap();
+                    fs::write(canonical.join("sentinel"), b"directory bytes").unwrap();
+                }
+            }
+            let guard = acquire_lifecycle_lock(&root, ID).unwrap();
+            let dir = decisions(&root);
+            let plan = primitive_plan(&root);
+            assert!(publish(&root, ID, &guard, &plan, &dir, &name, &bytes(&name)).is_err());
+            assert_eq!(fs::read(&victim).unwrap(), b"victim bytes");
+            assert_eq!(fs::metadata(&victim).unwrap().ino(), identity);
+            if kind == "directory" {
+                assert_eq!(
+                    fs::read(canonical.join("sentinel")).unwrap(),
+                    b"directory bytes"
+                );
+            } else if kind == "symlink" {
+                assert!(
+                    fs::symlink_metadata(&canonical)
+                        .unwrap()
+                        .file_type()
+                        .is_symlink()
+                );
+            } else {
+                assert_eq!(fs::metadata(&canonical).unwrap().ino(), identity);
+            }
+        }
+    }
+}
+
+#[cfg(all(test, unix))]
+mod nonregular_tests {
+    use super::*;
+    fn fifo(path: &Path) {
+        use std::os::unix::ffi::OsStrExt;
+        let path = std::ffi::CString::new(path.as_os_str().as_bytes()).unwrap();
+        assert_eq!(unsafe { libc::mkfifo(path.as_ptr(), 0o600) }, 0);
+    }
+    #[test]
+    fn fifo_child() {
+        let Some(root) = std::env::var_os("COCKPIT_TEST_LEGACY_FIFO_ROOT") else {
+            return;
+        };
+        let root = PathBuf::from(root).canonicalize().unwrap();
+        let mode = std::env::var("COCKPIT_TEST_LEGACY_FIFO_MODE").unwrap();
+        if mode == "history" {
+            assert!(safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).is_err());
+        } else if mode == "input" {
+            assert!(read_input_bytes(&root.join("payload.json")).is_err());
+        } else {
+            let guard = acquire_lifecycle_lock(&root, "WI-FIFO").unwrap();
+            let lock = root.join(".ai/locks/WI-FIFO.lifecycle.lock");
+            fs::remove_file(&lock).unwrap();
+            fifo(&lock);
+            assert!(guard.require_subject(&root, "WI-FIFO").is_err());
+        }
+    }
+    fn rejects_without_blocking(mode: &str) {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap();
+        fs::create_dir_all(root.join(".ai/decisions")).unwrap();
+        fifo(&root.join(".ai/decisions/proof.json"));
+        fifo(&root.join("payload.json"));
+        let mut child = Command::new(std::env::current_exe().unwrap())
+            .args([
+                "--exact",
+                "legacy_closeout_source::nonregular_tests::fifo_child",
+                "--nocapture",
+            ])
+            .env("COCKPIT_TEST_LEGACY_FIFO_ROOT", &root)
+            .env("COCKPIT_TEST_LEGACY_FIFO_MODE", mode)
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null())
+            .spawn()
+            .unwrap();
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(3);
+        let status = loop {
+            if let Some(status) = child.try_wait().unwrap() {
+                break Some(status);
+            }
+            if std::time::Instant::now() >= deadline {
+                child.kill().unwrap();
+                child.wait().unwrap();
+                break None;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(10));
+        };
+        assert!(
+            status.is_some(),
+            "{mode} must reject a FIFO before a blocking open"
+        );
+        assert!(status.unwrap().success(), "{mode} child failed");
+    }
+    #[test]
+    fn history_fifo_is_rejected_without_blocking() {
+        rejects_without_blocking("history");
+    }
+    #[test]
+    fn caller_input_fifo_is_rejected_without_blocking() {
+        rejects_without_blocking("input");
+    }
+    #[test]
+    fn replaced_lock_fifo_is_rejected_without_blocking() {
+        rejects_without_blocking("guard");
+    }
 }

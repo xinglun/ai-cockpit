@@ -3078,19 +3078,53 @@ fn tool_error_response(id: Value, message: &str) -> Value {
     })
 }
 
+fn read_rpc_line(reader: &mut impl BufRead) -> io::Result<Option<String>> {
+    const MAXIMUM: u64 = 16 * 1024 * 1024;
+    let mut bytes = Vec::new();
+    let count = std::io::Read::take(reader, MAXIMUM + 1).read_until(b'\n', &mut bytes)?;
+    if count == 0 {
+        return Ok(None);
+    }
+    if bytes.len() as u64 > MAXIMUM {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "legacy_closeout_source:rpc_line_budget_exceeded",
+        ));
+    }
+    String::from_utf8(bytes)
+        .map(Some)
+        .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))
+}
+fn legacy_wire_error(request: &Value, line: &str) -> Option<Value> {
+    if request["method"] == "tools/call"
+        && matches!(
+            request["params"]["name"].as_str(),
+            Some(
+                "work_item_legacy_closeout_source_plan" | "work_item_legacy_closeout_source_record"
+            )
+        )
+    {
+        cockpit_repository::validate_legacy_closeout_source_wire(line.as_bytes())
+            .err()
+            .map(|message| tool_error_response(request["id"].clone(), &message))
+    } else {
+        None
+    }
+}
+
 pub fn serve<R: BufRead, W: Write>(
-    reader: R,
+    mut reader: R,
     mut writer: W,
     runtime: &cockpit_protocol::RuntimeContext,
 ) -> io::Result<()> {
-    for line in reader.lines() {
-        let line = line?;
+    while let Some(line) = read_rpc_line(&mut reader)? {
         if line.trim().is_empty() {
             continue;
         }
         let request: Value = serde_json::from_str(&line)
             .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
-        let response = handle_request(&request, runtime);
+        let response =
+            legacy_wire_error(&request, &line).unwrap_or_else(|| handle_request(&request, runtime));
         if !response.is_null() {
             writeln!(writer, "{}", response)?;
             writer.flush()?;
@@ -3100,19 +3134,19 @@ pub fn serve<R: BufRead, W: Write>(
 }
 
 pub fn serve_with_repo<R: BufRead, W: Write>(
-    reader: R,
+    mut reader: R,
     mut writer: W,
     repo: &Path,
     runtime: &cockpit_protocol::RuntimeContext,
 ) -> io::Result<()> {
-    for line in reader.lines() {
-        let line = line?;
+    while let Some(line) = read_rpc_line(&mut reader)? {
         if line.trim().is_empty() {
             continue;
         }
         let request: Value = serde_json::from_str(&line)
             .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
-        let response = handle_request_for_repo(&request, repo, runtime);
+        let response = legacy_wire_error(&request, &line)
+            .unwrap_or_else(|| handle_request_for_repo(&request, repo, runtime));
         if !response.is_null() {
             writeln!(writer, "{}", response)?;
             writer.flush()?;

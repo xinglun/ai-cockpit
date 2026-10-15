@@ -1,0 +1,39 @@
+{
+  "subreaper": true,
+  "adoptedDescendantsReaped": [
+    {
+      "pid": 278661,
+      "waitStatus": 0
+    },
+    {
+      "pid": 278934,
+      "waitStatus": 0
+    },
+    {
+      "pid": 279121,
+      "waitStatus": 0
+    }
+  ],
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-mcp",
+    "--test",
+    "legacy_closeout_source",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T22:08:12.014748+00:00",
+  "elapsedSeconds": 20.009,
+  "exitCode": 0,
+  "stopReason": null,
+  "pid": 278568,
+  "childReaped": true,
+  "sourceHead": "9aedfd152cb6deeb32e182eaa919e38f5d28e367",
+  "sourceDiffSha256": "c9f62fc0728cbd3e17ee0508df687cef833e4a38556affc15edd3e2936368a79",
+  "target": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "jobs": 1
+}

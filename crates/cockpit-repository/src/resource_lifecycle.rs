@@ -11179,6 +11179,27 @@ mod post_merge_sync_tests {
 mod legacy_source_lock_tests {
     use super::*;
     #[test]
+    fn different_work_item_locks_do_not_block_each_other() {
+        let directory = tempfile::tempdir().unwrap();
+        let root = directory.path().canonicalize().unwrap();
+        Command::new("git")
+            .args(["init", "--quiet"])
+            .current_dir(&root)
+            .output()
+            .unwrap();
+        crate::attach(&root).unwrap();
+        let held = acquire_lifecycle_lock(&root, "WI-LOCK-A").unwrap();
+        let (tx, rx) = std::sync::mpsc::channel();
+        let worker = std::thread::spawn(move || {
+            let other = acquire_lifecycle_lock(&root, "WI-LOCK-B");
+            tx.send(other.is_ok()).unwrap();
+        });
+        let result = rx.recv_timeout(std::time::Duration::from_secs(5));
+        drop(held);
+        worker.join().unwrap();
+        assert_eq!(result.unwrap(), true);
+    }
+    #[test]
     fn public_finalization_waits_for_the_same_work_item_lifecycle_lock() {
         let directory = tempfile::tempdir().unwrap();
         Command::new("git")

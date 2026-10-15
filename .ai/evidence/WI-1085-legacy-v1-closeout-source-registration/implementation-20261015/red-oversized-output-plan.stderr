@@ -1,0 +1,10 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 21.30s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+
+thread 'complete_source::read_only_plan_cannot_return_an_unrecordable_oversized_template' (279801) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:810:9:
+the whole serialized plan must fit the input budget
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-cli --test legacy_closeout_source`

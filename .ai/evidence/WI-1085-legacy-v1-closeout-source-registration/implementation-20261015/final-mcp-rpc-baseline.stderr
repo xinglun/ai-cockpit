@@ -1,0 +1,4 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+    Finished `test` profile [unoptimized] target(s) in 20.29s
+     Running tests/rpc.rs (target/wi1085-legacy-closeout-source/debug/deps/rpc-0f0c7ca1880ad93b)

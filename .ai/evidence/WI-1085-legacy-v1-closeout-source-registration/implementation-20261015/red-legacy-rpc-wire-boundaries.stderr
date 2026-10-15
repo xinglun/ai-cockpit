@@ -1,0 +1,14 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+    Finished `test` profile [unoptimized] target(s) in 19.51s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-005fe2137d819e4d)
+
+thread 'raw_legacy_rpc_rejects_duplicate_keys_before_repository_access' (278490) panicked at crates/cockpit-mcp/tests/legacy_closeout_source.rs:63:9:
+assertion `left == right` failed
+  left: Null
+ right: true
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'rpc_line_is_bounded_before_json_parsing' (278491) panicked at crates/cockpit-mcp/tests/legacy_closeout_source.rs:72:90:
+called `Result::unwrap_err()` on an `Ok` value: ()
+error: test failed, to rerun pass `-p cockpit-mcp --test legacy_closeout_source`

@@ -1,0 +1,11 @@
+
+running 6 tests
+test collaboration::outcome_publication_tests::pause_committed_after_initial_admission_blocks_the_process_start_boundary ... ok
+test collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append ... ok
+test legacy_closeout_source::publication_tests::abrupt_exit_matrix_preserves_canonical_bytes_and_exact_primitive_retry ... ok
+test legacy_closeout_source::publication_tests::no_replace_publication_preserves_hardlink_symlink_and_directory_victims ... ok
+test legacy_closeout_source::publication_tests::parent_replacement_before_or_after_link_is_rejected_without_rollback ... ok
+test legacy_closeout_source::publication_tests::publication_child ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 134 filtered out; finished in 1.93s
+
