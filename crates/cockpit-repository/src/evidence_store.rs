@@ -1353,7 +1353,17 @@ mod windows_parent_replacement_tests {
             }
             if Instant::now() >= deadline {
                 let _ = child.kill();
-                let _ = child.wait();
+                let output = child
+                    .wait_with_output()
+                    .expect("collect timed-out native child");
+                std::io::stdout()
+                    .lock()
+                    .write_all(&output.stdout)
+                    .expect("retain timed-out native stdout");
+                std::io::stderr()
+                    .lock()
+                    .write_all(&output.stderr)
+                    .expect("retain timed-out native stderr");
                 panic!("native exact test exceeded 60 seconds");
             }
             // Exit polling only; this is never evidence of worker ordering.
