@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "gh",
+    "pr",
+    "view",
+    "1006",
+    "--repo",
+    "xinglun/ai-cockpit",
+    "--json",
+    "number,title,state,headRefOid,mergeCommit,body,url"
+  ],
+  "observedAt": "2026-10-15T07:36:20.959514+00:00",
+  "bytes": 2786,
+  "sha256": "4a0d57fbcc9490de79e7a509da07f31acadec5c350c17f694a8222ba4dc48359"
+}

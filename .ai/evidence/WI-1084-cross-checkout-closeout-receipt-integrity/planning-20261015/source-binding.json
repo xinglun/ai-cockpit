@@ -1,0 +1,15 @@
+{
+  "sourceRevision": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "branch": "codex/wi1084-closeout-receipt-integrity",
+  "worktree": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+  "runtimeBinary": "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+  "runtimeSha256": "0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+  "contractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+  "testsWritten": false,
+  "testsRun": false,
+  "implementationChanged": false,
+  "parallelExecutionAdmitted": false,
+  "reviewPending": true
+}

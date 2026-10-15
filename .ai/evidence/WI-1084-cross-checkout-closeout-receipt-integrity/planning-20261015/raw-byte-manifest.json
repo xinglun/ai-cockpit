@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "scope": "New planning evidence files only; manifest excludes itself; unavailable Mac report is not authenticated here",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/coordination-final.command.json",
+      "bytes": 283,
+      "sha256": "18fd56db55cf6aeb1909b7228ef33b9e6543e72d4e40065596d4a4c6d43168f0"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/coordination-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/coordination-final.stdout.json",
+      "bytes": 159,
+      "sha256": "9c4935a9f84d27021b5bd81f690b757cfc3f6c1c00325aeedbf810c452b5bfab"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/coordination.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/coordination.stdout.json",
+      "bytes": 159,
+      "sha256": "9c4935a9f84d27021b5bd81f690b757cfc3f6c1c00325aeedbf810c452b5bfab"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-contract-input.json",
+      "bytes": 3959,
+      "sha256": "1d31f5e742ee69f80852426c219a350508764ce15010205a82d5fec48b2635dc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.command.json",
+      "bytes": 433,
+      "sha256": "6774fca175db127772b5affeda426193f568a0cf606b1c692dcbe0791a35a78a"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-outcome-human.stdout",
+      "bytes": 3122,
+      "sha256": "de97216dc38b3817f1da2d081431d121454ceb367b80892db2c83b98d0c36aa5"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-status.command.json",
+      "bytes": 345,
+      "sha256": "96f40cb9daaf17e116fbde437e8d2465bb0c5f59fbe8e9c1280b1a08b0997aa6"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-status.stdout.json",
+      "bytes": 5103,
+      "sha256": "ec58e171fefe6cb658974ad198ea2751e92cb030280c9e8de657e10614f155a2"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-validate.command.json",
+      "bytes": 333,
+      "sha256": "41f890ce60b8010369b5776ea173558c11868013a7fd333ea991f4af0432e0be"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-validate.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/draft-validate.stdout.json",
+      "bytes": 629,
+      "sha256": "7203765b1060ddd72bd7eaaafb0c0f1e1906403ebe572fcf184f9d342770e2de"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/failed-parallel-inspect-observation.json",
+      "bytes": 727,
+      "sha256": "9772cc3ad08e9c0acbe12e69f65d426c2d711f0572c3c3847503dea10a9a16a8"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/issue-comment.raw.json",
+      "bytes": 5004,
+      "sha256": "4ea153a4fac547885458aa9802331e72440da4d09b5aa7e71fc2f759f29fe320"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/issue-comment.read.json",
+      "bytes": 248,
+      "sha256": "51a62cb4c0d745496750e5d4b8c9350b35037325590d30e64f9479fd7f0366b0"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/main-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/parallel-inspect.command.json",
+      "bytes": 332,
+      "sha256": "8532c534bc9aa27a23e679c11d5cb6768eb9c908cbd3ab39634c9a4cc8d3d03e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/parallel-inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/parallel-inspect.stdout.json",
+      "bytes": 3280,
+      "sha256": "4bba526f544c0dd49250ffc13a13c8cd5296e04a85b3193d584fcd8625a44cb5"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/preservation-check.json",
+      "bytes": 311,
+      "sha256": "a773a98ce5dde090e9d21bfaa1f87a25ad6cebfdee2421320fa44318c9b171f9"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/prior-pr.raw.json",
+      "bytes": 2786,
+      "sha256": "4a0d57fbcc9490de79e7a509da07f31acadec5c350c17f694a8222ba4dc48359"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/prior-pr.read.json",
+      "bytes": 324,
+      "sha256": "d8e0c2adc9d3d689bcfd72522a99b5bd681fa202058bf3a054f016fc9d0a17af"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/raw-output-whitespace-check.json",
+      "bytes": 1668,
+      "sha256": "bdd35ebfe526f5456b1f5f59429ee859e59059992f659360030aff06047bb31c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/raydot-review-draft.md",
+      "bytes": 10340,
+      "sha256": "6b22832ad29b2405d65305f4af7bdb942903cd50cbc6353514f9d0c456d6a3bf"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.command.json",
+      "bytes": 420,
+      "sha256": "ed4129bac11c97e8499979bca240cfa7f83ad07411c2dd103bca37b9474dd44d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.request.json",
+      "bytes": 4664,
+      "sha256": "0a7118f36a4dbea5a2a1f20f34b8dc488ed0c2f28d492280f2dd2ec10bd30cd4"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.stderr",
+      "bytes": 311,
+      "sha256": "ad69a6a195826d3cef35a6c2c6801a68485e1375919bcff6eb59be781f85f75d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.structured-replace.command.json",
+      "bytes": 439,
+      "sha256": "e847b401cd6de3cdf908ddc857796fbea63f01f213769f60bee1032f3c70a998"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.structured-replace.request.json",
+      "bytes": 4680,
+      "sha256": "8df7a8f96deed5f17996d35e41df8de827b422b448c249f13efa898bf71f64c1"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.structured-replace.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.amend.structured-replace.stdout",
+      "bytes": 7442,
+      "sha256": "88c032ef73c21229d4e5d287b5048270fa8ff055f0b664b6f2f44e0c94d2d948"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.accepted.command.json",
+      "bytes": 454,
+      "sha256": "e033140ffa9219901c43e3bdf70e9d15fc76706bba030f8b2a8c10f690bc4a9e"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.accepted.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.accepted.stdout",
+      "bytes": 23550,
+      "sha256": "724eec2adb7d2b5d285af52eb919b6725955a6e29eb0c5dfd30df7a032fa5cfc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.authoritative-digest.request.json",
+      "bytes": 6317,
+      "sha256": "270b04bb4ef49c3f61c74583a5336020bacc5f4baaff2342f4b3d1e15aa3ad03"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.command.json",
+      "bytes": 433,
+      "sha256": "9ebfcbdb65aae5ca370d05c6b6d6ef4c25983757e1823b325e4691affb890019"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.request.json",
+      "bytes": 6317,
+      "sha256": "65c9f95076eb128c1c016f9f621196a7db21a12d528698ae9418623010e45d5c"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.stderr",
+      "bytes": 417,
+      "sha256": "7c71d6d1b85cff075347b22f7a6eeeef5353e6926c5999269240a87047319c0d"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/review-draft.boundary-scenarios.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/scaffold.command.json",
+      "bytes": 364,
+      "sha256": "2787c3dc12f544f5e0c114065783fd2d6efab41886b35776d58e4fe8cb42404b"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/scaffold.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/scaffold.stdout.json",
+      "bytes": 245157,
+      "sha256": "bf0c517621315bd1fb71be516662dc4bf4bdec2b398398711ae8181dfbb1b5bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/sensitive-check.json",
+      "bytes": 308,
+      "sha256": "361a1230143349627e307ca2d1f17507633801f4ee194f242fa3a3a2aa1b7534"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/slots-final.command.json",
+      "bytes": 272,
+      "sha256": "c61462470be96a384f23103c94eab26300f6e40f653e87a20b892d81221e296f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/slots-final.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/slots-final.stdout.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/slots.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/slots.stdout.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/source-binding.json",
+      "bytes": 763,
+      "sha256": "0d9341db2d89eb909fbd617ec51833a1189c3986bf199c9dc1ec5d680b82e3d0"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/start-prepared.command.json",
+      "bytes": 4482,
+      "sha256": "4bc50a2474939abb4428e29ddb52aea47ad79a0046e5df7a808cea0eb5a98037"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/start-prepared.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/start-prepared.stdout",
+      "bytes": 263440,
+      "sha256": "4c88b7ac2c13d2cc9e9973b8055c65ed6907155a140f19389889287292671386"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/start.command.json",
+      "bytes": 4465,
+      "sha256": "97a92578393c9a007984aee0805db955d5aa7371e3d136953b43ed39831bc7df"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/start.stderr",
+      "bytes": 72,
+      "sha256": "f3410fcd7bb656a9c0ef1c61cd97d9e571edae1de5a4ff53a3efe99d4781a40f"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/planning-20261015/start.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

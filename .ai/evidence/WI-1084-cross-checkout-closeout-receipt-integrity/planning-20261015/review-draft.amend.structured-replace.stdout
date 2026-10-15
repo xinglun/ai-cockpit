@@ -1,0 +1,148 @@
+{
+  "changeId": "wi1084-review-draft-boundaries-20261015",
+  "changedValues": [
+    {
+      "newValue": [
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/closeout_recovery.rs",
+        "crates/cockpit-cli/tests/closeout_recovery.rs",
+        "crates/cockpit-mcp/tests/closeout_recovery.rs",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+        ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+        ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+        ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*",
+        "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+        "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "oldValue": [
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/closeout_recovery.rs",
+        "crates/cockpit-cli/tests/closeout_recovery.rs",
+        "crates/cockpit-mcp/tests/closeout_recovery.rs",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+        ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+        ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+        ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*"
+      ],
+      "operation": "replace",
+      "path": "/scope"
+    },
+    {
+      "newValue": [
+        "Sentinel business code or original acceptance checkout",
+        "WI-1078 resources, Contract, archive, evidence, or closure",
+        "Task9, new time TTL requirements, release publication, mechanism refactoring",
+        "Human close decisions, PR Ready/merge, branch/worktree deletion",
+        "Rewriting historical close/archive/Contract/verification bytes or claiming historical verification was rerun"
+      ],
+      "oldValue": [
+        "Sentinel business code or original acceptance checkout",
+        "WI-1078 resources",
+        " Contract",
+        " archive",
+        " evidence",
+        " or closure",
+        "Task9",
+        " new time TTL requirements",
+        " release publication",
+        " mechanism refactoring",
+        "Human close decisions",
+        " PR Ready/merge",
+        " branch/worktree deletion",
+        "Rewriting historical close/archive/Contract/verification bytes or claiming historical verification was rerun"
+      ],
+      "operation": "replace",
+      "path": "/outOfScope"
+    },
+    {
+      "newValue": {
+        "generatedEvidencePaths": [
+          ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+          ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+          ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*"
+        ],
+        "implementationPaths": [
+          "crates/cockpit-repository/src/historical_compatibility.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/closeout_recovery.rs",
+          "crates/cockpit-cli/tests/closeout_recovery.rs",
+          "crates/cockpit-mcp/tests/closeout_recovery.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/reference/commands.ja.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+          "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md"
+        ],
+        "maxWorkers": 1,
+        "reason": "One implementation/test worker for WI-1084 with an isolated target; shared documentation projections and provider integration are serialized. WI-1078 Retained review has no shared resource writes. Other current active declarations must pass fresh compatibility; a missing declaration is not bypassed.",
+        "schemaVersion": 1,
+        "serializedProjectionPaths": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md"
+        ],
+        "verificationOutputPaths": [
+          "target/wi1084-closeout-receipt-integrity/**"
+        ]
+      },
+      "oldValue": null,
+      "operation": "replace",
+      "path": "/concurrencyBoundary"
+    },
+    {
+      "newValue": [
+        "verification"
+      ],
+      "oldValue": [],
+      "operation": "replace",
+      "path": "/requiredEvidenceClasses"
+    },
+    {
+      "newValue": "Issue #1004 comment 6186749658 reports that deleting only the recovery receipt leaves a recovered historical close projected as closed and non-blocking on source bcd76ae76f61650a890267f511099c96dc6a47fd. Static tracing found NotFound accepted in recovered_closeout_files_valid and no independent persistent provenance in the exact-copy close commit point; a fixture RED still must prove the full path.",
+      "oldValue": null,
+      "operation": "set",
+      "path": "/problemStatement"
+    }
+  ],
+  "checkpointed": true,
+  "environmentObservationDigest": "sha256:95f66d391ee26318d4f13d0ccae581d00266203ef518e648e1f505b79bbd6c38",
+  "invalidatedEvidence": [],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:e949b7544548af9af4311634f3945ba8d1ccc762daf7556c7de74d360fe4174d",
+  "newContractDigest": "sha256:050f46229610a43f64ba4f56265f653e4f72cc0a4153368dd515577511b92ce4",
+  "nextAction": "record_governance_controls",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/concurrencyBoundary",
+    "/outOfScope",
+    "/requiredEvidenceClasses",
+    "/scope"
+  ],
+  "previousContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+  "previousJournalDigest": "sha256:8d08ffd78637164c69f937bf36fcbaa365077e4d691aa58d2110715940ad9d28",
+  "reason": "Complete the user-authorized draft Contract for Raydot review: required tri-language documentation projection paths, exact unsplit exclusions, explicit isolated serial worker boundary and preserved verification strength. No source implementation or human review is recorded.",
+  "recordedAt": "2026-10-15T07:31:32Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+  "requestDigest": "sha256:7a7110f6461b24311be5c2e0c2c0763124d5f14b6341e7deffc253e21efd4d93",
+  "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 2,
+  "verificationStarted": false,
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

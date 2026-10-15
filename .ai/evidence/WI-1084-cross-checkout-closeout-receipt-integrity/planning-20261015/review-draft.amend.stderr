@@ -1,0 +1,1 @@
+apply typed Contract amendment: repository protocol state error at /workspace/ai-cockpit-wi1084-closeout-receipt-integrity/.ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json: set_requires_leaf at /scope: set assigns a scalar leaf; use replace for an existing structured value

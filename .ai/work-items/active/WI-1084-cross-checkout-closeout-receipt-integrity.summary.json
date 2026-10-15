@@ -1,0 +1,143 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+    ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
+  ],
+  "checkpointAt": "2026-10-15T07:29:45Z",
+  "checkpointContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "recorded": true,
+      "recordedAt": "2026-10-15T07:29:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:050f46229610a43f64ba4f56265f653e4f72cc0a4153368dd515577511b92ce4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "previousContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "reason": "Complete the user-authorized draft Contract for Raydot review: required tri-language documentation projection paths, exact unsplit exclusions, explicit isolated serial worker boundary and preserved verification strength. No source implementation or human review is recorded.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T07:31:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+      "previousContractHash": "sha256:050f46229610a43f64ba4f56265f653e4f72cc0a4153368dd515577511b92ce4",
+      "reason": "Declare supported exact/subtree output paths and the requested unverified RED/compatibility scenarios before Raydot review. Preserve the rejected compatibility observation and earlier amendment as history.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T07:32:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+  "createdAt": "2026-10-15T07:27:55Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T07:29:42.809950572Z",
+      "recordedAt": "2026-10-15T07:29:42.809950572Z",
+      "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-15T07:29:44Z",
+  "preflightContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
+      "required": true,
+      "scenario": "receipt_only_deletion",
+      "status": "unverified",
+      "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
+    },
+    {
+      "evidence": [],
+      "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
+      "required": true,
+      "scenario": "bound_recovery_integrity",
+      "status": "unverified",
+      "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
+    },
+    {
+      "evidence": [],
+      "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
+      "required": true,
+      "scenario": "valid_recovery_and_retry",
+      "status": "unverified",
+      "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
+    },
+    {
+      "evidence": [],
+      "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
+      "required": true,
+      "scenario": "ordinary_and_historical_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
+    },
+    {
+      "evidence": [],
+      "expectedOutcome": "Historical not_ready and historical_evidence_not_revalidated persist; no historical tests are represented as rerun.",
+      "required": true,
+      "scenario": "historical_verification_fidelity",
+      "status": "unverified",
+      "verificationPlan": "Use distinct historical and current Runtime identities through repository, CLI and MCP recovery/status."
+    },
+    {
+      "evidence": [],
+      "expectedOutcome": "Original close/Contract/archive/verification/payload bytes remain exact; conflicting published paths are preserved.",
+      "required": true,
+      "scenario": "published_path_preservation",
+      "status": "unverified",
+      "verificationPlan": "Run existing no-destructive-rollback, racing-target, source immutability and interruption cases."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-15T07:29:45Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-15T07:32:45Z"
+  },
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
+}

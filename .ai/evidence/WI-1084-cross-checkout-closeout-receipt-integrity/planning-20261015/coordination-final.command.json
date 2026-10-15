@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "work-item",
+    "coordination",
+    "inspect",
+    "--repo",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity"
+  ],
+  "exitCode": 0,
+  "observedAt": "2026-10-15T07:33:07.614978+00:00"
+}

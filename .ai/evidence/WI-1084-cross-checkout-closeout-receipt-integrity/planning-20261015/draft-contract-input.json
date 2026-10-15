@@ -1,0 +1,47 @@
+{
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "intent": "Prevent a cross-checkout recovered historical close from remaining closed and non-blocking when its required recovery receipt is removed.",
+  "goal": "Persist a bounded recovery-origin dependency and reject missing or invalid recovery evidence while preserving exact historical payload bytes and ordinary-close compatibility.",
+  "scope": [
+    "crates/cockpit-repository/src/historical_compatibility.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/closeout_recovery.rs",
+    "crates/cockpit-cli/tests/closeout_recovery.rs",
+    "crates/cockpit-mcp/tests/closeout_recovery.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+    ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+    ".ai/work-items/archive/WI-1084-cross-checkout-closeout-receipt-integrity.*",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity*",
+    ".ai/decisions/WI-1084-cross-checkout-closeout-receipt-integrity*"
+  ],
+  "outOfScope": [
+    "Sentinel business code or original acceptance checkout",
+    "WI-1078 resources, Contract, archive, evidence, or closure",
+    "Task9, new time TTL requirements, release publication, mechanism refactoring",
+    "Human close decisions, PR Ready/merge, branch/worktree deletion",
+    "Rewriting historical close/archive/Contract/verification bytes or claiming historical verification was rerun"
+  ],
+  "acceptanceCriteria": [
+    "First preserve a RED regression on the bcd76ae7 source: after an independent-checkout Native recovery succeeds, deleting only the required recovery receipt keeps status query success permissible but must project lifecyclePhase=archived and blocking=true with an integrity diagnostic; overlapping new work must not be falsely admitted.",
+    "A newly recorded recovery durably binds its provenance and exact required recovery receipt without changing the imported historical close, archived Contract, manifest, payload or verification bytes. Missing, malformed, mismatched or non-regular required records fail closed.",
+    "Valid recovery, identical retry, interrupted recovery and source immutability retain current behavior. Restore through the supported recovery path without destructive rollback or replacing conflicting published files.",
+    "Ordinary current closes and readable legacy historical closes remain compatible. Existing v1 recovery records are retained without silent migration; any legacy ambiguity is reported explicitly rather than fabricated as detectable.",
+    "CLI and MCP use the shared repository validator, preserve verification=not_ready and historical_evidence_not_revalidated for foreign historical Runtime evidence, and do not invent time-based expiry.",
+    "Run focused RED/GREEN recovery regressions plus the Contract-declared workspace verification and repository required gates under the existing 900-second verification bound; retain actual commands, Runtime/source/toolchain identities and failed evidence.",
+    "Commit and push only the independent WI branch and keep its PR Draft for Raydot review; integration is serialized and no human closure or resource deletion is authorized."
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6186749658",
+    "https://github.com/xinglun/ai-cockpit/pull/1006",
+    "Raydot-delegation:01a11856-d6ba-72e0-9aab-25a34cd2f018:bounded-WI-1004-fix-20261015:user-authorized-independent-WI-and-draft-PR"
+  ],
+  "risk": "normal",
+  "authority": "authorized",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "technicalReview": "pending Raydot review; this start records the requested draft Contract and does not authorize implementation ahead of Runtime admission or review"
+}

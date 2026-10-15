@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "gh",
+    "api",
+    "repos/xinglun/ai-cockpit/issues/comments/6186749658"
+  ],
+  "observedAt": "2026-10-15T07:36:19.664718+00:00",
+  "bytes": 5004,
+  "sha256": "4ea153a4fac547885458aa9802331e72440da4d09b5aa7e71fc2f759f29fe320"
+}

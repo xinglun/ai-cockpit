@@ -1,0 +1,15 @@
+{
+  "provenance": "Tool transcript observation from the rejected pre-normalization inspect; not a reconstructed raw response file",
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "work-item",
+    "inspect",
+    "--repo",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "--id",
+    "WI-1084-cross-checkout-closeout-receipt-integrity"
+  ],
+  "exitCode": 1,
+  "diagnostic": "concurrency boundary generatedEvidencePaths contains an unsupported glob",
+  "correction": "Later supported amendment sequence 3 replaced filename wildcard patterns with exact paths and supported subtree patterns; fresh inspect exited 0 and denied compatibility for other WIs missing declarations."
+}
