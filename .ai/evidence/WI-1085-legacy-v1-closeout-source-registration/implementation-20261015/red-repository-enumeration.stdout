@@ -1,0 +1,25 @@
+
+running 2 tests
+test foreign_registration_cannot_release_untrusted_archived_scope ... FAILED
+test malformed_requirement_remains_pending_when_archive_directory_is_missing ... FAILED
+
+failures:
+
+---- foreign_registration_cannot_release_untrusted_archived_scope stdout ----
+
+thread 'foreign_registration_cannot_release_untrusted_archived_scope' (115335) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:42:24:
+foreign content must not hide a canonical registration obligation: LifecycleReceipt { work_item_id: "WI-OVERLAPPING", state: "implementation_active", timestamp: "2026-10-15T18:28:43Z", start_advisory: Some(WorkItemStartAdvisory { schema_version: 1, repository_id: "sha256:09cd664e8395b2ce2b4b65b7659b63bab9c4523651dfa91894970023bf6b63bc", work_item_id: "WI-OVERLAPPING", current_work_item_state: "not_started", classification: "clear", current_worktree: Some(WorkItemStartWorktree { path: "/tmp/.tmpengEgR", branch: Some("master"), head: Some("0929be8d712fdd44b6c3664e3ff1f12a41ba2f06"), is_primary: true, is_current: true }), worktrees: [WorkItemStartWorktree { path: "/tmp/.tmpengEgR", branch: Some("master"), head: Some("0929be8d712fdd44b6c3664e3ff1f12a41ba2f06"), is_primary: true, is_current: true }], remote_branches: [], active_work_items: [], pending_cleanup: [], warnings: [], conflicts: [], unknowns: [], next_actions: ["proceed_with_start_entry_checks"] }) }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- malformed_requirement_remains_pending_when_archive_directory_is_missing stdout ----
+
+thread 'malformed_requirement_remains_pending_when_archive_directory_is_missing' (115366) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:32:5:
+surviving malformed canonical requirement must retain the WI: RepositoryReadiness { state: "unknown", ready_on_base: false, blockers: [], unknowns: ["default_base_unknown"], current_branch: Some("master"), default_remote: None, default_branch: None, current_revision: Some("c072943658950caebc39d4d7daecb13b40a4d2cf"), default_revision: None, dirty_paths: [], unclosed_archived_work_items: [], historical_debt: [], orphaned_active_artifacts: [], historical_finalization: [] }
+
+
+failures:
+    foreign_registration_cannot_release_untrusted_archived_scope
+    malformed_requirement_remains_pending_when_archive_directory_is_missing
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+

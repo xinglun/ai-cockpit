@@ -11,3 +11,5 @@ Ruling: use this own-WI evidence directory for plan ledger and immutable logs in
 All core source tasks pending RED; no tests/builds yet.
 
 Task 0: complete — supported decisionEvidence accepted truthful parent-thread relay, actual 18:21:48Z recording time, preflight human_decision_recorded, before-edit checkpoint succeeded. Native receipts/logs preserved. No core source code written.
+
+Task 1: RED observed on unchanged production — red-initial CLI test 0/1; red-repository-enumeration 0/2. Actual assertions show missing command, lost canonical obligation, and falsely admitted start. Original test bytes separately bound in red-source-bindings.json. One isolated target/jobs=1; all cargo children reaped.
