@@ -1,0 +1,10 @@
+
+running 5 tests
+test complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears ... ok
+test complete_source::lost_archive_keeps_structured_status_and_index_blocking ... ok
+test complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration ... ok
+test complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history ... ok
+test explicit_source_plan_and_record_are_discoverable ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.13s
+

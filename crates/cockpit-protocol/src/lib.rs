@@ -201,6 +201,111 @@ pub struct RuntimeContext {
     pub runtime_digest: Digest,
 }
 
+/// Explicit present-day acceptance of a complete pinned legacy-v1 source.
+/// Resume additionally requires an independently retained original template;
+/// a surviving record never authenticates itself as the first publication.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourceRequest {
+    pub schema_version: u32,
+    pub operation: LegacyCloseoutSourceOperation,
+    #[serde(default)]
+    pub source_revision: Option<String>,
+    #[serde(default)]
+    pub actor: Option<String>,
+    #[serde(default)]
+    pub authority_source: Option<String>,
+    #[serde(default)]
+    pub reason: Option<String>,
+    #[serde(default)]
+    pub source_accepted: bool,
+    #[serde(default)]
+    pub original_registration_bytes: Option<String>,
+    #[serde(default)]
+    pub original_requirement_raw_digest: Option<Digest>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum LegacyCloseoutSourceOperation {
+    Register,
+    Resume,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourceFileBinding {
+    pub path: String,
+    pub bytes: u64,
+    pub raw_digest: Digest,
+    pub canonical_digest: Option<Digest>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourceAttestation {
+    pub root: String,
+    pub git_common_directory: String,
+    pub revision: String,
+    pub snapshot_digest: Digest,
+    pub inventory_digest: Digest,
+}
+
+/// Frozen bytes returned by the read-only plan. recordedAt is the actual
+/// Runtime observation/template creation time; it is not a historical producer
+/// time or a claim that the canonical file was already published then.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourceRegistration {
+    pub schema_version: u32,
+    pub kind: String,
+    pub serialization_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub requirement_path: String,
+    pub legacy_receipt: LegacyCloseoutSourceFileBinding,
+    pub inventory: Vec<LegacyCloseoutSourceFileBinding>,
+    pub dependency_bindings: Vec<LegacyCloseoutSourceFileBinding>,
+    pub history_facts: serde_json::Value,
+    pub source: LegacyCloseoutSourceAttestation,
+    pub runtime: RuntimeContext,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    pub assurance: String,
+    pub recorded_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourceRequirement {
+    pub schema_version: u32,
+    pub kind: String,
+    pub serialization_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub registration_raw_digest: Digest,
+    pub registration_bytes: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourcePlan {
+    pub schema_version: u32,
+    pub kind: String,
+    pub state: String,
+    pub operation: LegacyCloseoutSourceOperation,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub destination_root: String,
+    pub registration_bytes: String,
+    pub requirement_bytes: String,
+    pub registration_raw_digest: Digest,
+    pub requirement_raw_digest: Digest,
+    pub observation_digest: Digest,
+    pub plan_digest: Digest,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RepositoryContext {
     pub root: PathBuf,

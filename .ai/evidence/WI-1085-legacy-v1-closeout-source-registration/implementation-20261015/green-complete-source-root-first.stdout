@@ -1,0 +1,7 @@
+
+running 2 tests
+test complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history ... ok
+test explicit_source_plan_and_record_are_discoverable ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.18s
+

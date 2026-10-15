@@ -5218,6 +5218,16 @@ fn validate_closeout_history_chain(
     expected_repository_id: &str,
     visited: &mut BTreeSet<String>,
 ) -> Result<serde_json::Value, ObserverError> {
+    validate_closeout_history_chain_inner(root, work_item_id, expected_repository_id, visited, true)
+}
+
+fn validate_closeout_history_chain_inner(
+    root: &Path,
+    work_item_id: &str,
+    expected_repository_id: &str,
+    visited: &mut BTreeSet<String>,
+    check_registration: bool,
+) -> Result<serde_json::Value, ObserverError> {
     if !visited.insert(work_item_id.to_owned()) || visited.len() > 32 {
         return Err(closeout_recovery_error(
             root,
@@ -5225,7 +5235,16 @@ fn validate_closeout_history_chain(
             "historical closeout successor chain is cyclic or exceeds the supported depth",
         ));
     }
-    if !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id) {
+    let valid_close = if check_registration {
+        close_decision_is_valid_for_status(root, work_item_id, expected_repository_id)
+    } else {
+        super::historical_compatibility::close_decision_is_valid_without_source_registration(
+            root,
+            work_item_id,
+            expected_repository_id,
+        )
+    };
+    if !valid_close {
         return Err(closeout_recovery_error(
             root,
             "closeout_recovery_close_invalid",
@@ -5273,7 +5292,7 @@ fn validate_closeout_history_chain(
         work_item_id,
         expected_repository_id,
         &contract,
-        true,
+        check_registration,
     )?
     .current;
 
@@ -5360,7 +5379,13 @@ fn validate_closeout_history_chain(
                     format!("successor identity is missing for {work_item_id}"),
                 )
             })?;
-            validate_closeout_history_chain(root, successor_id, expected_repository_id, visited)?;
+            validate_closeout_history_chain_inner(
+                root,
+                successor_id,
+                expected_repository_id,
+                visited,
+                check_registration,
+            )?;
         }
     }
     visited.remove(work_item_id);
@@ -5900,6 +5925,35 @@ fn closeout_recovery_collect_source_files(
         .into_iter()
         .map(|(path, bytes)| CloseoutRecoveryFile { path, bytes })
         .collect())
+}
+
+/// Validate existing historical semantics without recursively consuming the
+/// source-registration obligation currently being assessed. The caller must
+/// conjoin registration integrity for status; cross-WI visits remain bounded.
+pub(super) fn legacy_source_history_inventory(
+    root: &Path,
+    work_item_id: &str,
+    repository_id: &str,
+) -> Result<(serde_json::Value, Vec<(String, Vec<u8>)>), ObserverError> {
+    let mut visited = BTreeSet::new();
+    let facts = validate_closeout_history_chain_inner(
+        root,
+        work_item_id,
+        repository_id,
+        &mut visited,
+        false,
+    )?;
+    let manifest = read_json(&root.join(format!(
+        ".ai/work-items/archive/{work_item_id}.archive.json"
+    )))?;
+    let files = closeout_recovery_collect_source_files(root, work_item_id, &manifest)?;
+    Ok((
+        facts,
+        files
+            .into_iter()
+            .map(|file| (file.path, file.bytes))
+            .collect(),
+    ))
 }
 
 fn build_closeout_recovery_plan(

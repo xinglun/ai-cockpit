@@ -1,0 +1,4 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 0.91s
+     Running tests/closeout_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/closeout_recovery-efd65d00d8e5811e)
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29)

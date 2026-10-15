@@ -776,6 +776,26 @@ enum WorkItemCommand {
         #[arg(long)]
         merge_commit: Option<String>,
     },
+    /// Prepare an explicit present-day legacy source registration without writes.
+    LegacyCloseoutSourcePlan {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        source_repo: Option<PathBuf>,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        input: PathBuf,
+    },
+    /// Publish only the exact independently retained legacy source plan.
+    LegacyCloseoutSourceRecord {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        input: PathBuf,
+    },
     /// Inspect a verified closeout in another checkout without writing either checkout.
     CloseoutRecoveryPlan {
         /// Destination checkout whose missing local closeout is being inspected.
@@ -3303,6 +3323,40 @@ fn run() -> Result<()> {
                     merge_commit.as_deref(),
                 )
                 .context("plan historical finalization recovery")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::LegacyCloseoutSourcePlan {
+                repo,
+                source_repo,
+                id,
+                input,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let bytes = fs::read(&input).context("read legacy source request")?;
+                let request: cockpit_protocol::LegacyCloseoutSourceRequest =
+                    serde_json::from_slice(&bytes).context("parse strict legacy source request")?;
+                let result = cockpit_repository::plan_legacy_closeout_source(
+                    &repo,
+                    source_repo.as_deref(),
+                    &id,
+                    &request,
+                    &runtime_context,
+                )
+                .context("plan legacy closeout source")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::LegacyCloseoutSourceRecord { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let bytes = fs::read(&input).context("read original legacy source plan")?;
+                let plan: cockpit_protocol::LegacyCloseoutSourcePlan =
+                    serde_json::from_slice(&bytes).context("parse strict legacy source plan")?;
+                let result = cockpit_repository::record_legacy_closeout_source(
+                    &repo,
+                    &id,
+                    &plan,
+                    &runtime_context,
+                )
+                .context("record legacy closeout source")?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
             WorkItemCommand::CloseoutRecoveryPlan {

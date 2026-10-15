@@ -28,6 +28,16 @@ pub(crate) fn close_decision_is_valid_for_status(
     if !super::legacy_closeout_source::integrity_allows_close(root, work_item_id, repository_id) {
         return false;
     }
+    close_decision_is_valid_without_source_registration(root, work_item_id, repository_id)
+}
+
+/// Lower historical predicate for validating the registration's own immutable
+/// payload. Public status must also conjoin the explicit source obligation.
+pub(super) fn close_decision_is_valid_without_source_registration(
+    root: &Path,
+    work_item_id: &str,
+    repository_id: &str,
+) -> bool {
     let path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
