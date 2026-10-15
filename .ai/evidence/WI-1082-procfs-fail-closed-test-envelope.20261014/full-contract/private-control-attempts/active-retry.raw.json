@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 3,
+  "attemptId": "composition-sha256:a0ab5172b5c92c45b0827e024179b371d81ee1c9a44b5d43cf21d2ebc4a5901b",
+  "binding": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:eb7cdffca156a51c37a95a7c38e58c3ae53af0e96ecac161016c38b9a6522e51",
+    "bindingId": "a12-observer-unknown",
+    "targetBranch": "main",
+    "targetSha": "ab79122adde1bbc02daf194502f92f9c0c68e9c2",
+    "participantWorkItems": [
+      "WI-A12-PROVIDER",
+      "WI-A12-CONSUMER"
+    ],
+    "participantHeads": [
+      "ab79122adde1bbc02daf194502f92f9c0c68e9c2",
+      "ab79122adde1bbc02daf194502f92f9c0c68e9c2"
+    ],
+    "contractDigests": [
+      "sha256:f85f28c78cf1d85c5415559d599b3ff5213c879e45b0d6e89af28cf6f36c9588",
+      "sha256:f91e9dfd72b75d5b78c86954e0cfdb81d87d2c69cca1f4c10ba87dab50cc735b"
+    ],
+    "verifier": {
+      "schemaVersion": 1,
+      "runtimeVersion": "0.2.113",
+      "runtimeDigest": "sha256:efd407d20871c6d20bfe0c012547149f327cd9684731bc0d6c2c27c2a95d43fe",
+      "capability": "cross_wi_coordination_v1"
+    }
+  },
+  "identity": {
+    "sourceDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "dependencyDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "interfaceDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "configurationDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "toolchainDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "lockfileDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "generatedInputDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "environmentDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "verifierDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "commandDigest": "sha256:7fa18cb36778671d860506a61439b7d77a65a29e1e204f73eb1f65d021df0ec0"
+  },
+  "preconditions": [
+    {
+      "name": "bound",
+      "satisfied": true,
+      "reason": "observed and bound"
+    }
+  ],
+  "isolatedWorktree": "",
+  "textConflicts": [],
+  "executionRecords": [],
+  "processesSpawned": 0,
+  "reuseDecision": {
+    "kind": "unknown",
+    "reason": "reuse classification requires runtime-observed node inputs",
+    "predecessorAttemptId": "composition-sha256:67cd563adbbd081c2b347aaf215958c87e6188c9076cd2b2a4620a6abbf7d0ca"
+  },
+  "passed": false,
+  "failure": "unsafe_deferred_cleanup_retry:process 2950750 still uses the deferred worktree",
+  "executionOutcome": "failed",
+  "executionEvidenceComplete": true,
+  "supervisorReceipt": {
+    "schemaVersion": 1,
+    "backend": "linux_subreaper",
+    "attemptId": "composition-sha256:a0ab5172b5c92c45b0827e024179b371d81ee1c9a44b5d43cf21d2ebc4a5901b",
+    "runNonce": "sha256:c1b71c71275438250113adeea439008894ddef30754cade3040d35a8c905f47a",
+    "generation": 1,
+    "owner": {
+      "processId": 2950750,
+      "startTimeTicks": 14329286,
+      "processGroupId": 2950402,
+      "sessionId": 2724024
+    },
+    "supervisor": {
+      "processId": 2950750,
+      "startTimeTicks": 14329286,
+      "processGroupId": 2950402,
+      "sessionId": 2724024
+    },
+    "linuxBootId": "2bf9d754-84e2-4933-b187-2def9a214947",
+    "environmentDigest": "sha256:4dff82ffba7e43ad61fd05c32facbe7f922db5fb0faf25be6fbefa600e46119b",
+    "runtimeVersion": "0.2.113",
+    "runtimeDigest": "sha256:efd407d20871c6d20bfe0c012547149f327cd9684731bc0d6c2c27c2a95d43fe",
+    "repositoryId": "sha256:eb7cdffca156a51c37a95a7c38e58c3ae53af0e96ecac161016c38b9a6522e51",
+    "targetSha": "ab79122adde1bbc02daf194502f92f9c0c68e9c2",
+    "snapshotDigest": "sha256:46e701180626780511608d875efbc3d63ca634f068de5d7993b291f22ecb6906",
+    "commandPlanDigest": "sha256:7fa18cb36778671d860506a61439b7d77a65a29e1e204f73eb1f65d021df0ec0",
+    "inputEnvironmentDigest": "sha256:ec3e551e1179efef2aa257e28111b3a525c809ddb0c09cede674d9908c78a56a",
+    "executionRecordsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "descendantsReapedToEchild": false
+  },
+  "cleanupDisposition": "cleaned",
+  "cleanup": {
+    "attempted": false,
+    "removed": true,
+    "error": null
+  },
+  "recordedAtUnixNanos": 1792019905534363945,
+  "ownerPid": 2950750,
+  "processObservationSchemaVersion": 1,
+  "activeExecutionNode": null,
+  "activeProcessGroupId": null
+}

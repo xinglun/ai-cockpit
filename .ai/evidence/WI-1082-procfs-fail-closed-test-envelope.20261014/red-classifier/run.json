@@ -1,0 +1,38 @@
+{
+  "label": "red-classifier",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+    "--work-item",
+    "WI-1082-procfs-fail-closed-test-envelope",
+    "--workers",
+    "1",
+    "--command",
+    "cargo",
+    "--args=test,--package,cockpit-verification,--test,composition,procfs_,--,--test-threads=1"
+  ],
+  "head": "fb85580d590b3fd68b27ec648dd0b87d701aa1fa",
+  "startedAt": "2026-10-14T23:03:30.758933+00:00",
+  "finishedAt": "2026-10-14T23:04:04.134994+00:00",
+  "elapsedSeconds": 33.37587600699044,
+  "exitCode": 1,
+  "hostTimedOut": false,
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1082-runtime-home-20261014",
+    "TMPDIR": "/workspace/.tmp-wi1082-tests-20261014",
+    "CARGO_TARGET_DIR": "/tmp/wi1082-target-00461714-20261014",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "2"
+  },
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "files": {
+    "stderr.log": "a6341a630346f4b9b10ad07ac4bfc20dba6f71cbd0823be0db13733891c27daa",
+    "stdout.log": "50b43286c3431c738bc4cbfd6851f97040dfc0f8c265210f4bab58c69cc5f007"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "sourceCommit": "d0bfea33722eb6e14127c7523cfa87f5f318a046",
+  "contractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+  "targetedChecks": {
+    "classifierMatrix": 8,
+    "privateControls": 2,
+    "originalFailedIntegration": 1
+  },
+  "allPassed": true,
+  "fullContractVerification": "pending; targeted receipts are not complete workspace/all-targets coverage",
+  "scope": [
+    "crates/cockpit-verification/tests/composition.rs",
+    "crates/cockpit-verification/src/composition.rs existing Linux cfg(test) module only"
+  ],
+  "productionPrefixUnchanged": true
+}

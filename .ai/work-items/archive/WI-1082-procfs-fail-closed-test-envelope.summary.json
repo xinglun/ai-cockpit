@@ -1,0 +1,118 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/active-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/denied-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/failed-execution.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/fd-directory-esrch-replay.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/first.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-proof.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-receipt-clean.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-receipt-unknown.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/second.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/stale-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/unbound-proof.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/unsafe-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/status.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/status.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/stdout.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/validate.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/validate.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-material-plan.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-material-plan.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-preflight.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-preflight.stderr.log"
+  ],
+  "checkpointAt": "2026-10-14T22:53:17Z",
+  "checkpointContractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
+  "createdAt": "2026-10-14T22:53:13Z",
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-14T23:50:22.872913780Z",
+      "recordedAt": "2026-10-14T23:50:22.872913780Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-14T22:53:15.581824952Z",
+      "recordedAt": "2026-10-14T22:53:15.581824952Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-14T23:19:05Z",
+  "preflightContractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-14T23:50:22.872913780Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+}

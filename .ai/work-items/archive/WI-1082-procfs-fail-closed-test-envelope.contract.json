@@ -1,0 +1,90 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "Tests accept only complete exact-boundary Linux diagnostics: stable procfs.cwd PermissionDenied errno13 with observed matching pid/starttime/pgid/sid and a single-character state that may change, or the exact supplied procfs.fd-directory EACCES13 observed-before/unknown-after Uncategorized ESRCH3 diagnostic replay.",
+    "The existing cwd contains-based classifier is tightened as well as adding the fd case. Reject errno130, cwd-extra, missing/duplicate/extra fields, trailing text, PID prefix collisions, malformed identity, incomplete Some(uid), nested-only EACCES and wrong after identity/error. No catch-all Unknown acceptance.",
+    "RED proves the old classifier rejects the valid fd-directory ESRCH replay and incorrectly accepts errno130 and cwd-extra while the old stable cwd positive remains valid. Strict positive/negative matrix then passes GREEN.",
+    "A real formatter regression deterministically deletes only its fixture stat file to observe ENOENT/NotFound; it is never labeled kernel ESRCH reproduction and never broadens the classifier to ENOENT.",
+    "Private existing CompositionObservationHooks replay the supplied original line on a no-supervisor-receipt path. Assert actual spawn exit0, aggregate failure, Unknown, incomplete execution evidence, owned-tree termination unknown, Retained, cleanup None, actual worktree present and registered, and persisted JSON equality. This production fail-closed control stays GREEN.",
+    "Only crates/cockpit-verification/tests/composition.rs and existing Linux cfg(test) modules in crates/cockpit-verification/src/composition.rs may change. Production observer/types/permissions/cleanup/platform guards/public test-support/dependencies/generic frameworks remain unchanged.",
+    "Preserve original CI38594384692 artifact11910505547 log binding SHA256 38db1d4402376ca1bc4eab89dd4e2c7cd15c83950a4183f53f1ff25e2d01dec6 and all new RED/GREEN evidence. No repeated rerun to obtain accidental green.",
+    "Run targeted matrix, the original failed integration and complete declared workspace/all-target verification through current Runtime admission, with isolated target, one build job, writable HOME/TMPDIR, 900-second host cap and no independent procfs monitors during observation fixtures.",
+    "Use an ordinary independent Work Item/branch/worktree at fixed default-branch base 00461714bd43d3f6c42ede66491e01d22d475604; no WI-1081 successor/retry authority. Save commits and independent Draft PR without merge/deletion/human close; inventory the mistaken remote ref only after checking SHA and exclusive data."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-14T22:53:13Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Tighten the cwd diagnostic classifier and add the exact fd-directory ESRCH replay plus formatter and no-receipt control regressions in the two approved test surfaces.",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Make tests recognize only exact approved Linux procfs fail-closed diagnostic envelopes while preserving conservative production behavior.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Production code outside existing Linux cfg(test) modules",
+    "Observer types and behavior",
+    "Permissions and cleanup",
+    "Platform guards",
+    "Public test-support",
+    "Dependencies and generic frameworks",
+    "WI-1081 branch archive and resources",
+    "WI-1081 human retry authorization",
+    "Merge deletion and human close"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "crates/cockpit-verification/tests/composition.rs",
+    "crates/cockpit-verification/src/composition.rs"
+  ],
+  "sources": [
+    "coordinator-thread:01a11856-d6ba-72e0-9aab-25a34cd2f018/retransmitted-approved-two-file-tests-only-implementation",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/38594384692"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo test --workspace --all-targets"
+  ],
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+}

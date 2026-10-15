@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope",
+  "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 9,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 2,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+    "materialManifest": "sha256:2f0175d0143b37277119e98d18a7dc79f6c6443a7658388f353c0a06c772d97b",
+    "repositorySnapshot": "sha256:da14bcdd55766adfbfe28dd78357c3615300f4a9956cb226f768077234eb8bc1",
+    "summary": "sha256:d1fbe476ca43b99b1ae50401a974e538b6c882bb3807aa3b5d5ede23ba43ddd4"
+  },
+  "unknowns": [
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:2f0175d0143b37277119e98d18a7dc79f6c6443a7658388f353c0a06c772d97b",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:da14bcdd55766adfbfe28dd78357c3615300f4a9956cb226f768077234eb8bc1",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-14T22:53:17Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_verification",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:d94a269ede9d9dc5fba1bfe1b63fce00b3f702165f4346a7b258cf87ee5c1cf9"
+  },
+  "statusDigest": "sha256:b4ef1c9c6f323cce83751b615cab8b1794d6af1be7d5cf62fe9e827b4a7be5fb",
+  "historical": false
+}

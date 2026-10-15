@@ -1,0 +1,16 @@
+{
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope",
+  "reviewedSourceHead": "4890bb3a1eb47b3d0463328eb8c8d57e7ba6cd92",
+  "contractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+  "repositorySnapshotDigest": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
+  "verificationReceiptDigest": "sha256:25c338cb3c42976e3c719b124fb277622f758e317a76a20c393523acc2ee6e3b",
+  "archiveIdentity": "sha256:85f318f95a368da608186f4cac86069ed8e7bc0b75d38e75a5568070e0dad1d4",
+  "archiveManifestPath": ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.archive.json",
+  "archiveManifestRawSha256": "85f318f95a368da608186f4cac86069ed8e7bc0b75d38e75a5568070e0dad1d4",
+  "archivedContractRawSha256": "42adbb37bd5c4c4789bb544ea3d8a82d11cb616cf76aeb525f77f1fa6ad006f1",
+  "verificationRawSha256": "5a14710d5c381ea4e515982cd4d6e764e59a55d5c2e3ce559417cd34cb5e0ec2",
+  "humanCloseRecorded": false,
+  "hostDisplayConfirmation": "unknown",
+  "previousSourceCiRun": 38653477624,
+  "previousSourceCi": "all 4 jobs successful"
+}

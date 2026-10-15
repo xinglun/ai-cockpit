@@ -1,0 +1,40 @@
+{
+  "label": "full-contract",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+    "--work-item",
+    "WI-1082-procfs-fail-closed-test-envelope",
+    "--workers",
+    "1"
+  ],
+  "head": "9d7408cae78647a325d77e64cff6ac960cc4d8b1",
+  "startedAt": "2026-10-14T23:08:21.703805+00:00",
+  "finishedAt": "2026-10-14T23:19:05.126972+00:00",
+  "elapsedSeconds": 643.4226400519838,
+  "exitCode": 0,
+  "hostTimedOut": false,
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1082-runtime-home-20261014",
+    "TMPDIR": "/workspace/.tmp-wi1082-tests-20261014",
+    "CARGO_TARGET_DIR": "/tmp/wi1082-target-00461714-20261014",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "2"
+  },
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "files": {
+    "stderr.log": "53083df0bf8ff1a9b637d3b7ac1d661a9b9d82a141343a53c935aa45794af126",
+    "stdout.log": "ab0e4b849b80fe5ac81ff0b210b69968751c44371ca2812ccc5851046070ca8e",
+    "status.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.json": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932",
+    "status.json": "2e647dd12d5375dc52940ddea9fae042e9d593527a513137ad6f55f0f3fedc6c",
+    "verification.receipt.json": "5a14710d5c381ea4e515982cd4d6e764e59a55d5c2e3ce559417cd34cb5e0ec2",
+    "validate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

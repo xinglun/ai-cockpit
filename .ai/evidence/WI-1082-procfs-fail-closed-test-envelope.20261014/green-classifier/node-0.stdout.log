@@ -1,0 +1,13 @@
+
+running 8 tests
+test procfs_cwd_eacces_identity_accepts_state_transition ... ok
+test procfs_cwd_eacces_identity_rejects_each_stable_field_change ... ok
+test procfs_observer_diagnostic_accepts_fd_directory_esrch_replay ... ok
+test procfs_observer_diagnostic_rejects_cwd_extra ... ok
+test procfs_observer_diagnostic_rejects_errno130 ... ok
+test procfs_observer_diagnostic_rejects_incomplete_or_extended_fields ... ok
+test procfs_observer_diagnostic_rejects_malformed_identities ... ok
+test procfs_observer_diagnostic_rejects_other_fd_directory_unknowns ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 47 filtered out; finished in 0.00s
+

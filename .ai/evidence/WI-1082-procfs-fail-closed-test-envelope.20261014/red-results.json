@@ -1,0 +1,19 @@
+{
+  "redSourceCommit": "fb85580d590b3fd68b27ec648dd0b87d701aa1fa",
+  "classifier": {
+    "passed": 2,
+    "failed": 3,
+    "expectedFailures": [
+      "procfs_observer_diagnostic_accepts_fd_directory_esrch_replay",
+      "procfs_observer_diagnostic_rejects_cwd_extra",
+      "procfs_observer_diagnostic_rejects_errno130"
+    ]
+  },
+  "productionControlsAtRedSource": {
+    "passed": 2,
+    "failed": 0,
+    "noReceiptReplay": "ESRCH diagnostic replay; actual spawned command exited 0; Unknown/Retained and cleanup None; persisted JSON equals returned attempt",
+    "formatter": "fixture stat deletion produces ENOENT/NotFound, not kernel ESRCH reproduction"
+  },
+  "productionPrefixUnchanged": true
+}

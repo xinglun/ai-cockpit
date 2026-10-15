@@ -1,0 +1,4 @@
+   Compiling serde v1.0.229
+   Compiling cockpit-interface v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-interface)
+    Finished `test` profile [unoptimized] target(s) in 0.56s
+     Running unittests src/lib.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cockpit_interface-0778f83e8e073b9b)

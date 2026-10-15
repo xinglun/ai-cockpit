@@ -1,0 +1,37 @@
+
+running 5 tests
+test procfs_cwd_eacces_identity_accepts_state_transition ... ok
+test procfs_cwd_eacces_identity_rejects_each_stable_field_change ... ok
+test procfs_observer_diagnostic_accepts_fd_directory_esrch_replay ... FAILED
+test procfs_observer_diagnostic_rejects_cwd_extra ... FAILED
+test procfs_observer_diagnostic_rejects_errno130 ... FAILED
+
+failures:
+
+---- procfs_observer_diagnostic_accepts_fd_directory_esrch_replay stdout ----
+
+thread 'procfs_observer_diagnostic_accepts_fd_directory_esrch_replay' (2719988) panicked at crates/cockpit-verification/tests/composition.rs:1766:5:
+cannot inspect process pid=248778 filter_uid=Some(1001) phase=procfs.fd-directory error_kind=PermissionDenied errno=13 identity_state=unknown identity_before=observed(pid=248778,starttime_ticks=86173,pgid=38553,sid=38553,state=R) identity_after=unknown(identity stat read failed error_kind=Uncategorized errno=3: No such process (os error 3)) message=Permission denied (os error 13) file descriptors
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'procfs_observer_diagnostic_accepts_fd_directory_esrch_replay' (2719988) panicked at crates/cockpit-verification/tests/composition.rs:1810:5:
+assertion failed: expected_procfs_observer_failure(&failure)
+
+---- procfs_observer_diagnostic_rejects_cwd_extra stdout ----
+
+thread 'procfs_observer_diagnostic_rejects_cwd_extra' (2719989) panicked at crates/cockpit-verification/tests/composition.rs:1827:5:
+assertion failed: !expected_procfs_observer_failure(&failure)
+
+---- procfs_observer_diagnostic_rejects_errno130 stdout ----
+
+thread 'procfs_observer_diagnostic_rejects_errno130' (2719990) panicked at crates/cockpit-verification/tests/composition.rs:1818:5:
+assertion failed: !expected_procfs_observer_failure(&failure)
+
+
+failures:
+    procfs_observer_diagnostic_accepts_fd_directory_esrch_replay
+    procfs_observer_diagnostic_rejects_cwd_extra
+    procfs_observer_diagnostic_rejects_errno130
+
+test result: FAILED. 2 passed; 3 failed; 0 ignored; 0 measured; 47 filtered out; finished in 0.00s
+

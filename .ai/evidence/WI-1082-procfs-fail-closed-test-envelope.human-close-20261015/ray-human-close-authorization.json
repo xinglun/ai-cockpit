@@ -1,0 +1,15 @@
+{
+  "actor": "human:Ray",
+  "decidedAt": "2026-10-15T00:43:34Z",
+  "authoritySource": "transcript:Sentinel_09ad7190a7a4819181c67b10a431cf53@2026-10-15T00:43:34Z;request=Sentinel_9ffe74113e8c8191a76907389e445bb7@2026-10-15T00:20:07Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "humanStatement": "我本人 Ray 批准上述 WI-1082 关闭、PR #1038 合并及对应流程清理。",
+  "requestBinding": {
+    "workItemId": "WI-1082-procfs-fail-closed-test-envelope",
+    "archiveIdentity": "sha256:85f318f95a368da608186f4cac86069ed8e7bc0b75d38e75a5568070e0dad1d4",
+    "contractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+    "reviewedHead": "f734a678483fb8cc6f4152238605d724d7368113",
+    "ciRun": 38656756556,
+    "pullRequest": 1038
+  },
+  "conditions": "Commit/push close recovery point, then final CI and Raydot review before merge; normal exact recoverable clean WI-1082 cleanup only; no force or protection bypass; stop for extra source or unrecoverable data; no authorization for WI-1081/WI-1078/mistaken ref."
+}

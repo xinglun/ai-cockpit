@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "work-item",
+    "outcome",
+    "--view",
+    "full",
+    "--language",
+    "zh-CN",
+    "--repo",
+    "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+    "--id",
+    "WI-1082-procfs-fail-closed-test-envelope"
+  ],
+  "exitCode": 0
+}

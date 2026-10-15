@@ -6264,6 +6264,118 @@ mod external_observer_deferred_tests {
     }
 
     #[test]
+    fn procfs_fd_directory_formatter_reports_removed_fixture_stat_as_enoent() {
+        let proc_root = TestDir::new("fd-directory-enoent");
+        let process_id = 248778;
+        let process_dir = proc_root.path().join(process_id.to_string());
+        fs::create_dir(&process_dir).expect("create fixture process");
+        let stat_path = process_dir.join("stat");
+        let mut fields = vec!["0"; 20];
+        fields[0] = "R";
+        fields[2] = "38553";
+        fields[3] = "38553";
+        fields[19] = "86173";
+        fs::write(
+            &stat_path,
+            format!("{process_id} (fixture) {}", fields.join(" ")),
+        )
+        .expect("write fixture identity");
+        let before = read_linux_process_identity(proc_root.path(), process_id);
+        assert_eq!(
+            before.as_ref().expect("observed before").start_time_ticks,
+            86173
+        );
+        fs::remove_file(&stat_path).expect("remove only fixture stat");
+
+        // Deterministic filesystem ENOENT control, not a kernel ESRCH reproduction.
+        let error = std::io::Error::from_raw_os_error(libc::EACCES);
+        let diagnostic = linux_process_observation_error(
+            proc_root.path(),
+            process_id,
+            Some(1001),
+            "procfs.fd-directory",
+            &error,
+            &before,
+        );
+        let missing = std::io::Error::from_raw_os_error(libc::ENOENT);
+        assert_eq!(missing.kind(), std::io::ErrorKind::NotFound);
+        assert_eq!(
+            diagnostic,
+            format!(
+                "cannot inspect process pid=248778 filter_uid=Some(1001) phase=procfs.fd-directory error_kind=PermissionDenied errno=13 identity_state=unknown identity_before=observed(pid=248778,starttime_ticks=86173,pgid=38553,sid=38553,state=R) identity_after=unknown(identity stat read failed error_kind=NotFound errno=2: {missing}) message={error} file descriptors"
+            )
+        );
+        assert!(process_dir.is_dir());
+        assert!(!stat_path.exists());
+    }
+
+    #[test]
+    fn procfs_fd_directory_esrch_diagnostic_replay_retains_no_receipt_attempt() {
+        // Exact CI diagnostic replay; no attempt to reproduce the kernel race.
+        const DIAGNOSTIC: &str = "cannot inspect process pid=248778 filter_uid=Some(1001) phase=procfs.fd-directory error_kind=PermissionDenied errno=13 identity_state=unknown identity_before=observed(pid=248778,starttime_ticks=86173,pgid=38553,sid=38553,state=R) identity_after=unknown(identity stat read failed error_kind=Uncategorized errno=3: No such process (os error 3)) message=Permission denied (os error 13) file descriptors";
+        let (repository, state, input) = composition_case();
+        let observe = |worktree: &Path| {
+            assert!(worktree.is_dir());
+            Err(DIAGNOSTIC.to_owned())
+        };
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let attempt = run_composition_inner_with_observer(
+            input,
+            None,
+            None,
+            None,
+            None,
+            CompositionObservationHooks {
+                observe_worktree_process: &observe,
+                reap_owned_descendants: &|| {
+                    panic!("no supervisor receipt must not reap descendants")
+                },
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .expect("durable fail-closed replay attempt");
+        worktrees.retain_for_assertions(&attempt.isolated_worktree);
+        assert!(!attempt.passed);
+        assert_eq!(
+            attempt.execution_outcome,
+            CompositionExecutionOutcome::Unknown
+        );
+        assert!(!attempt.execution_evidence_complete);
+        assert!(attempt.owned_tree_termination_unknown);
+        assert_eq!(
+            attempt.cleanup_disposition,
+            CompositionCleanupDisposition::Retained
+        );
+        assert!(attempt.cleanup.is_none());
+        assert!(attempt.supervisor_receipt.is_none());
+        assert_eq!(
+            attempt.failure.as_deref(),
+            Some(format!("verifier_process_state_unknown:{DIAGNOSTIC}").as_str())
+        );
+        assert_eq!(attempt.processes_spawned, 1);
+        assert_eq!(attempt.execution_records.len(), 1);
+        let execution = &attempt.execution_records[0];
+        assert!(execution.spawned);
+        assert!(!execution.reused);
+        assert!(execution.passed);
+        assert_eq!(execution.exit_code, Some(0));
+        let worktree = Path::new(&attempt.isolated_worktree);
+        assert!(worktree.is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), worktree).expect("retained registration")
+        );
+        let persisted = save_attempt_json(
+            state.path(),
+            &attempt.attempt_id,
+            "fd-directory-esrch-replay.json",
+        );
+        assert_eq!(
+            persisted,
+            serde_json::to_value(&attempt).expect("returned attempt JSON")
+        );
+    }
+
+    #[test]
     fn external_observer_test_child_entry() {
         let (Ok(input_path), Ok(output_path), Ok(unknown_path)) = (
             std::env::var("AI_COCKPIT_A12_CHILD_INPUT"),

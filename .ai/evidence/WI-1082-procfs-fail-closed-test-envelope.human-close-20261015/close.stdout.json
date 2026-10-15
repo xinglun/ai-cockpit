@@ -1,0 +1,310 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "Tests accept only complete exact-boundary Linux diagnostics: stable procfs.cwd PermissionDenied errno13 with observed matching pid/starttime/pgid/sid and a single-character state that may change, or the exact supplied procfs.fd-directory EACCES13 observed-before/unknown-after Uncategorized ESRCH3 diagnostic replay.",
+      "The existing cwd contains-based classifier is tightened as well as adding the fd case. Reject errno130, cwd-extra, missing/duplicate/extra fields, trailing text, PID prefix collisions, malformed identity, incomplete Some(uid), nested-only EACCES and wrong after identity/error. No catch-all Unknown acceptance.",
+      "RED proves the old classifier rejects the valid fd-directory ESRCH replay and incorrectly accepts errno130 and cwd-extra while the old stable cwd positive remains valid. Strict positive/negative matrix then passes GREEN.",
+      "A real formatter regression deterministically deletes only its fixture stat file to observe ENOENT/NotFound; it is never labeled kernel ESRCH reproduction and never broadens the classifier to ENOENT.",
+      "Private existing CompositionObservationHooks replay the supplied original line on a no-supervisor-receipt path. Assert actual spawn exit0, aggregate failure, Unknown, incomplete execution evidence, owned-tree termination unknown, Retained, cleanup None, actual worktree present and registered, and persisted JSON equality. This production fail-closed control stays GREEN.",
+      "Only crates/cockpit-verification/tests/composition.rs and existing Linux cfg(test) modules in crates/cockpit-verification/src/composition.rs may change. Production observer/types/permissions/cleanup/platform guards/public test-support/dependencies/generic frameworks remain unchanged.",
+      "Preserve original CI38594384692 artifact11910505547 log binding SHA256 38db1d4402376ca1bc4eab89dd4e2c7cd15c83950a4183f53f1ff25e2d01dec6 and all new RED/GREEN evidence. No repeated rerun to obtain accidental green.",
+      "Run targeted matrix, the original failed integration and complete declared workspace/all-target verification through current Runtime admission, with isolated target, one build job, writable HOME/TMPDIR, 900-second host cap and no independent procfs monitors during observation fixtures.",
+      "Use an ordinary independent Work Item/branch/worktree at fixed default-branch base 00461714bd43d3f6c42ede66491e01d22d475604; no WI-1081 successor/retry authority. Save commits and independent Draft PR without merge/deletion/human close; inventory the mistaken remote ref only after checking SHA and exclusive data."
+    ],
+    "createdAt": "2026-10-14T23:50:22.872913780Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:2ebce6b1ee1563b052e8c7f8aa76be52e6b67c27a21d70d4a40f3fb70c7fc9d0",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+        ],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
+        "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/active-retry.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/denied-retry.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/failed-execution.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/fd-directory-esrch-replay.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/first.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-proof.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-receipt-clean.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-receipt-unknown.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/second.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/stale-retry.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/unbound-proof.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/unsafe-retry.raw.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/status.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/status.stderr.log"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/stderr.log"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/stdout.log"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/validate.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/validate.stderr.log"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-material-plan.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-material-plan.stderr.log"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-preflight.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-preflight.stderr.log"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.contract.json"
+            ],
+            "inference": false,
+            "text": "Tighten the cwd diagnostic classifier and add the exact fd-directory ESRCH replay plus formatter and no-receipt control regressions in the two approved test surfaces."
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "usage": {
+        "coverage": "unknown",
+        "cutoff": "2026-10-14T23:50:22.872913780Z",
+        "receiptRefs": [],
+        "schemaVersion": 1,
+        "subtotals": [],
+        "totals": {
+          "cachedInputTokens": null,
+          "inputTokens": null,
+          "outputTokens": null,
+          "reasoningTokens": null
+        },
+        "unknownReasons": [
+          "no_usage_receipts"
+        ],
+        "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+      },
+      "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+    },
+    "taskReportDigest": "sha256:aaeae6b6100b884c2054a67f7ad01e583e0f36400be28795595d0df658471723",
+    "taskReportMarkdownDigest": "sha256:f45a52ba6ed9675209ab89215315d4e5ffb8f8fd26d6c664d936e7938d87113f",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+  },
+  "state": "closed",
+  "timestamp": "2026-10-15T00:47:32Z",
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+}

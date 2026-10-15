@@ -1,0 +1,4 @@
+   Compiling cockpit-isolation v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-isolation)
+    Finished `test` profile [unoptimized] target(s) in 0.71s
+     Running unittests src/lib.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cockpit_isolation-7cda15eb7393a6db)
+     Running tests/scanner.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/scanner-2bd7a1d629ce1036)

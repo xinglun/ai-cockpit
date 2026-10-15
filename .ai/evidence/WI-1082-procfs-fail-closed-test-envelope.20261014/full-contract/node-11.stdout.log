@@ -1,0 +1,1000 @@
+
+running 111 tests
+test audit_query::lifecycle_elapsed_tests::wall_elapsed_includes_wait_and_rejects_clock_rollback ... ok
+test collaboration::outcome_publication_tests::pause_committed_after_initial_admission_blocks_the_process_start_boundary ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_back_is_rejected_without_timestamp_resolution ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_back_race_is_rejected ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_cannot_redirect_contract_read ... ok
+test collaboration::registered_worktree_file_tests::outcome_verification_uses_event_bound_bytes_and_digest_bound_contract ... ok
+test collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append ... ok
+test coordination_store::lock_recovery_tests::coordination_lock_child_helper ... ok
+test contract_amendment::tests::amendment_recovers_exactly_once_at_every_durable_boundary ... ok
+test coordination_store::registered_worktree_file_tests::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged ... ok
+test coordination_store::registered_worktree_file_tests::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged ... ok
+test environment_identity_tests::cargo_executable_case_variant_keeps_package_deadline_and_target_isolation ... ok
+test environment_identity_tests::cargo_verification_defaults_to_checkout_specific_home_target_when_not_declared ... ok
+test environment_identity_tests::cargo_verification_preserves_explicit_non_incremental_target ... ok
+test environment_identity_tests::command_environment_changes_still_invalidate_exact_reuse ... ok
+test environment_identity_tests::empty_home_still_gets_an_absolute_checkout_specific_cargo_target ... ok
+test environment_identity_tests::mise_session_metadata_does_not_invalidate_exact_reuse ... ok
+test environment_identity_tests::non_cargo_verification_keeps_declared_environment ... ok
+test environment_identity_tests::pinned_cargo_execution_preserves_inherited_target_directory ... ok
+test historical_compatibility::tests::canonical_close_vocabulary_remains_explicit_and_finite ... ok
+test historical_compatibility::tests::legacy_evidence_projection_rejects_current_schema_and_malformed_records ... ok
+test lifecycle::cross_checkout_closeout_tests::abrupt_exit_before_close_is_pending_and_retry_completes ... ok
+test lifecycle::cross_checkout_closeout_tests::crash_child ... ok
+test lifecycle::cross_checkout_closeout_tests::detected_destination_addition_preserves_partial_recovery_and_user_file ... ok
+test lifecycle::cross_checkout_closeout_tests::failed_recovery_preserves_installed_payload_for_safe_retry ... ok
+test lifecycle::cross_checkout_closeout_tests::modified_racing_target_and_other_payloads_are_never_unlinked ... ok
+test lifecycle::cross_checkout_closeout_tests::postcommit_reporting_error_preserves_close_marker_for_read_only_recheck ... ok
+test lifecycle::cross_checkout_closeout_tests::postcommit_status_read_failure_reports_commit_without_unlinking_marker ... ok
+test lifecycle::cross_checkout_closeout_tests::preexisting_payload_deleted_before_commit_cannot_leave_close_marker ... ok
+test lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_payload_disappears ... ok
+test coordination_store::lock_recovery_tests::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event ... ok
+test lifecycle::cross_checkout_closeout_tests::source_change_during_recovery_preserves_pending_destination_writes ... ok
+test lifecycle::cross_checkout_closeout_tests::tampered_recovery_receipt_cannot_omit_missing_archived_payload ... ok
+test lifecycle::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification ... ok
+test lifecycle::recovery_retry_consumption_tests::explicit_supersession_overrides_tied_attempt_digest_order ... ok
+test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded ... ok
+test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded_for_rejected_projection ... ok
+test lifecycle::recovery_retry_consumption_tests::verification_after_failed_finish_requires_retry ... ok
+test material_review::tests::checkout_source_open_refuses_symlinks_and_does_not_block_on_fifo ... ok
+test material_review::tests::implementation_digest_is_build_independent_and_source_sensitive ... ok
+test material_review::tests::material_request_digest_binds_finding_categories ... ok
+test material_review::tests::material_review_amendment_anchor_requires_adjacent_unique_receipt_edges ... ok
+test material_review::tests::material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract ... ok
+test material_review::tests::material_review_amendment_chain_rejects_duplicate_receipt_anchor ... ok
+test material_review::tests::material_review_initial_base_anchor_requires_a_unique_origin ... ok
+test observation_ledger::tests::detects_file_and_candidate_set_drift ... ok
+test observation_ledger::tests::detects_type_and_symlink_target_drift ... ok
+test observation_ledger::tests::request_cache_deduplicates_initial_reads_but_refreshes_at_boundary ... ok
+test outcome_render::render_tests::archive_delivery_segments_reassemble_without_truncation ... ok
+test outcome_render::render_tests::archived_unclosed_recommends_close_decision ... ok
+test outcome_render::render_tests::cleanup_summary_lists_evidence_bound_objects_counts_reason_and_action_in_all_languages ... ok
+test outcome_render::render_tests::finalization_recovery_actions_follow_classified_facts ... ok
+test outcome_render::render_tests::human_renderer_preserves_blockers_and_unknowns_in_summary ... ok
+test outcome_render::render_tests::invalid_decision_is_visible_as_unknown ... ok
+test outcome_render::render_tests::outcome_assembly_registers_event_stream_drift ... ok
+test outcome_render::render_tests::outcome_assembly_rejects_a_symlinked_active_contract ... ok
+test outcome_render::render_tests::outcome_assembly_retries_once_after_deterministic_record_change ... ok
+test outcome_render::render_tests::outcome_assembly_stops_after_bounded_record_changes ... ok
+test outcome_render::render_tests::receipt_next_action_is_executable_and_retained_action_is_non_destructive ... ok
+test outcome_render::render_tests::renderer_is_driven_by_in_memory_facts_for_missing_decision ... ok
+test outcome_render::render_tests::renderer_preserves_valid_decision_and_assurance ... ok
+test outcome_render::render_tests::reobserve_action_is_executable_and_repository_bound ... ok
+test outcome_render::render_tests::resource_facts_are_read_once_and_reused_by_boundary_digests ... ok
+test outcome_render::render_tests::superseded_history_is_not_rendered_as_current_failure ... ok
+test outcome_render::render_tests::timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read ... ok
+test outcome_render::render_tests::validated_receipt_projection_classifies_deleted_retained_and_unknown_without_guessing ... ok
+test post_prepare_identity_tests::cockpit_config_byte_drift_after_prepare_forces_execution ... ok
+test post_prepare_identity_tests::project_config_byte_drift_after_prepare_forces_execution ... ok
+test post_prepare_identity_tests::unchanged_identity_reuses_candidate_after_post_prepare_barrier ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_absent_projection_rejects_existing_pages_parity_and_active_refs ... ok
+test lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_merge_proof_rejects_wrong_base_extra_content_and_conflict ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_nested_checkout_uses_local_paths_with_spaces ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_recipe_comparison_accepts_only_platform_line_endings ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_rejects_wrong_m1_parents_non_ancestor_base_and_tampered_tree ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_accepts_the_real_archive_pending_close_projection ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_current_archive_must_match_the_selected_archive_commit ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_document_projection_preserves_pending_state ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_success_with_truncated_output ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_accepts_only_append_only_attempt_commits ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_historical_json_is_read_from_the_committed_revision ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence ... ok
+test resource_lifecycle::post_merge_sync_tests::record_resource_finalization_accepts_tempdir_bound_initial_contract ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v2_deleted_requires_branch_worktree_and_gitdir_absence ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v2_first_root_must_be_retained ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v2_retained_requires_exact_local_worktree_identity ... ok
+test rust_material::diagnosis_tests::direct_malicious_literal_remains_finding ... ok
+test rust_material::diagnosis_tests::typed_causes_do_not_turn_missing_or_invalid_evidence_into_reviewable_syntax ... ok
+test status_projection::human_decision_tests::admitted_verification_does_not_reopen_an_ordinary_preflight_decision ... ok
+test status_projection::human_decision_tests::pending_amendment_review_stays_human_required_during_preflight_recovery ... ok
+test status_projection::pending_retry_amendment_preflight_tests::only_unreviewed_amendment_with_pending_retry_recovers_preflight ... ok
+test status_projection::transition_index_tests::historical_finalization_transition_is_parsed_once_per_observation ... ok
+test status_projection::transition_index_tests::indexed_resolution_preserves_canonical_error_precedence ... ok
+test usage::lifecycle_clock_tests::injectable_lifecycle_clock_keeps_same_second_order_and_utc ... ok
+test resource_lifecycle::post_merge_sync_tests::record_resource_finalization_accepts_tempdir_bound_schema_v3_history ... ok
+test usage::lifecycle_clock_tests::injected_clock_drives_real_lifecycle_transitions_and_negative_wall_is_unknown ... ok
+
+test result: ok. 111 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 64.56s
+
+
+running 7 tests
+test integrated_retirement_preserves_bytes_without_claiming_verification ... ok
+test replacement_rejects_a_symlinked_successor_contract ... ok
+test replacement_outcome_allows_only_its_bound_successor_to_activate ... ok
+test replacement_requires_an_existing_explicit_successor ... ok
+test replacement_rejects_duplicate_active_and_archived_successors ... ok
+test stale_binding_is_rejected_before_any_archive_write ... ok
+test retirement_does_not_move_another_work_items_variant_artifact ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+
+
+running 9 tests
+test checkpoint_invalid_timestamp_fails_closed ... ok
+test checkpoint_identity_and_unknown_fields_fail_closed ... ok
+test contract_amendment_chain_invalidates_stale_before_edit_evidence ... ok
+test historical_before_edit_snapshot_is_allowed_but_before_finish_must_be_current ... ok
+test invalid_latest_resume_timestamp_fails_closed ... ok
+test missing_or_failed_required_gate_is_fail_closed ... ok
+test undeclared_checkpoint_check_cannot_become_a_phantom_pass ... ok
+test valid_agent_risk_and_checkpoint_evidence_are_accepted ... ok
+test checkpoint_lifecycle_records_before_edit_evidence_for_strict_policy ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+
+running 2 tests
+test agent_rules_keep_terminality_and_successor_boundaries_visible ... ok
+test source_terminality_rule_is_projected_without_template_copy ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 41 tests
+[master (root-commit) dad096d] fixture baseline
+[master (root-commit) dad096d] fixture baseline
+test amendment_detects_formal_receipt_when_legacy_summary_has_no_verification_array ... ok
+[master (root-commit) dad096d] fixture baseline
+test archive_accepts_explicit_non_provisional_resource_finalization_plan ... ok
+[master (root-commit) dad096d] fixture baseline
+test archive_defers_later_external_evidence_but_close_remains_blocked ... ok
+[master (root-commit) dad096d] fixture baseline
+test archive_moves_failed_attempt_variants_and_binds_their_digests ... ok
+[master (root-commit) dad096d] fixture baseline
+test archive_moves_implementation_approach_and_removes_active_orphan ... ok
+test archive_moves_parallel_intelligence_sidecar_and_binds_digest ... ok
+[master (root-commit) dad096d] fixture baseline
+[master (root-commit) dad096d] fixture baseline
+test archive_rejects_provisional_resource_context_without_moving_active_bytes ... ok
+[master (root-commit) 01cd3f8] fixture baseline
+test archive_rejects_dangling_implementation_approach_symlink ... ok
+[master (root-commit) 01cd3f8] fixture baseline
+[master 8333e14] history target fixture
+ 1 file changed, 1 insertion(+)
+ create mode 100644 outside-history.json
+test archive_rejects_tampered_verification_even_without_declared_requirement ... ok
+test archive_rejects_symlinked_failed_attempt_variant ... ok
+[master (root-commit) 01cd3f8] fixture baseline
+[master (root-commit) 01cd3f8] fixture baseline
+test archive_requires_releasing_active_parallel_slot ... ok
+[master (root-commit) 01cd3f8] fixture baseline
+test archive_rewrites_generated_outcome_references_to_archive_paths ... ok
+[master de53ecf] base
+ 1 file changed, 1 insertion(+)
+ create mode 100644 base.txt
+[master (root-commit) 01cd3f8] fixture baseline
+[master 6a0ba87] second
+ 1 file changed, 1 insertion(+)
+ create mode 100644 second.txt
+[master 3b9ad3a] measurement fixture
+ 1 file changed, 2 insertions(+)
+ create mode 100644 performance-measurement.txt
+test audit_export_accepts_the_canonical_delegated_receipt_filename ... ok
+[master (root-commit) 01cd3f8] fixture baseline
+test audit_export_is_deterministic_and_marks_external_retention_boundary ... ok
+[master (root-commit) 01cd3f8] fixture baseline
+[master 4eee354] post-archive merge
+ 1 file changed, 1 insertion(+)
+ create mode 100644 post-archive-change.txt
+test close_accepts_immutable_archived_evidence_after_a_post_archive_commit ... ok
+[master (root-commit) 01cd3f8] fixture baseline
+test close_persists_a_structured_human_decision_and_recovery_condition ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test close_rejects_tampered_archived_artifacts ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test custom_evidence_rejects_a_symlinked_parent_directory ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test archived_source_recovery_preserves_history_and_replaces_only_stale_projection ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test custom_required_evidence_class_projection_requires_digest_bound_regular_files ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test delegated_evidence_import_binds_raw_digest_and_work_item ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test digest_only_retention_never_persists_command_output ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test finalize_plan_after_checkpoint_and_verification_is_rejected_without_mutation ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test finalize_plan_replaces_partial_provisional_context_before_finish ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test finish_rejects_bare_pending_provider_context_without_moving_active_bytes ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test explicit_historical_archive_preserves_typed_old_runtime_evidence ... ok
+[master (root-commit) 20c8e34] fixture baseline
+test finish_rejects_pending_provider_context_without_moving_active_bytes ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test finish_rejects_provisional_resource_context_before_finish_ready ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test no_persistence_fails_closed_instead_of_claiming_completion ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test no_resource_context_can_finish_archive_and_close_without_provider_evidence ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test organization_policy_requires_a_bound_structured_decision_at_close ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test preflight_exposes_policy_authority_and_evidence_gaps ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test public_close_rejects_bound_resource_without_finalization_receipt ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test historical_archive_rejects_current_runtime_and_invalid_evidence_without_mutation ... ok
+[master (root-commit) bb1b3d5] fixture baseline
+test purge_plan_is_deterministic_and_never_deletes_evidence ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test reconcile_moves_variants_for_an_already_archived_work_item ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test status_reports_orphaned_active_variants_without_counting_them_as_work_items ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test valid_delegated_evidence_satisfies_a_provider_specific_contract_requirement ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test successful_finish_clears_stale_failed_projection_after_recovery ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test verification_and_delegated_requirements_are_both_evaluated ... ok
+test verification_receipt_cannot_cross_work_items ... ok
+
+test result: ok. 41 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.32s
+
+
+running 15 tests
+[master (root-commit) [master (root-commit) 82e0b70] fixture baseline
+82e0b70] fixture baseline
+test audit_cursor_rejects_changed_referenced_source_bytes ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test audit_cursor_binds_source_snapshot_and_page_totals ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test delegated_cursor_binds_actual_raw_bytes_on_every_page ... ok
+[master (root-commit) 82e0b70] fixture baseline
+test combined_filters_cursor_and_page_totals_keep_unknown_coverage_explicit ... ok
+[master (root-commit) 2b33649] fixture baseline
+test filtered_export_reuses_query_page_and_legacy_export_remains_schema_one ... ok
+test failed_finish_report_write_leaves_no_successful_finish_fact ... ok
+[master (root-commit) 2b33649] fixture baseline
+[master (root-commit) 2b33649] fixture baseline
+test lifecycle_query_uses_only_persisted_successful_transition_facts ... ok
+[master (root-commit) 2b33649] fixture baseline
+test historical_event_without_recorded_at_is_a_coverage_gap_not_time_inference ... ok
+[master (root-commit) 2b33649] fixture baseline
+test partially_removed_close_clock_fact_is_invalid_not_historical ... ok
+test recorded_at_window_is_inclusive_from_and_exclusive_to ... ok
+[master (root-commit) 2b33649] fixture baseline
+test runtime_bound_start_event_keeps_its_producer_identity ... ok
+[master (root-commit) 2b33649] fixture baseline
+test tokyo_display_changes_only_labels_not_utc_facts_or_snapshot ... ok
+[master (root-commit) 2b33649] fixture baseline
+test unreadable_external_directory_does_not_report_complete_query ... ok
+[master (root-commit) 2b33649] fixture baseline
+test terminal_lifecycle_events_come_from_each_successful_boundary ... ok
+test usage_query_filters_runtime_received_time_and_preserves_unknown_counts ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.40s
+
+
+running 29 tests
+test archived_resource_contract_rejects_active_collision ... ok
+test archived_resource_contract_is_restricted_to_pull_request_stage ... ok
+test archived_resource_contract_rejects_symlinked_manifest_file ... ok
+test archived_resource_contract_rejects_manifest_digest_mismatch ... ok
+test archived_resource_contract_still_blocks_close_until_later_evidence_exists ... ok
+test foreign_base_or_repository_contract_fails_closed ... ok
+test archived_resource_pull_request_gate_is_read_only ... ok
+test hosted_gate_distinguishes_contract_baseline_from_ci_comparison_baseline ... ok
+test hosted_gate_includes_committed_changes_from_the_ci_comparison_base ... ok
+HEAD is now at 29ea035 base
+test hosted_gate_does_not_block_on_a_local_runtime_receipt ... ok
+test pre_execution_gate_defers_lifecycle_evidence_until_completion_stage ... ok
+test pre_execution_gate_reuses_canonical_preflight_review ... ok
+test preflight_rejects_an_existing_unsupported_evidence_class_before_observation ... ok
+test isolated_fresh_receipt_revalidates_in_workspace_without_summary_copy ... ok
+test quality_gate_blocks_dirty_non_ai_source_before_material_review ... ok
+test quality_gate_discharges_exact_reviewed_material_across_different_comparison_base ... ok
+test quality_gate_does_not_discharge_comparison_base_only_material_unknown ... ok
+test quality_gate_keeps_material_unknown_when_a_second_unknown_is_added ... ok
+test quality_gate_keeps_material_unknown_when_review_receipt_is_stale ... ok
+test quality_gate_keeps_material_unknown_when_review_receipt_is_tampered ... ok
+test quality_gate_keeps_unreviewable_comparison_base_material_unknown ... ok
+test quality_gate_preserves_each_material_finding_category_as_a_blocker ... ok
+HEAD is now at adcac84 merge tested comparison base
+test quality_gate_preserves_same_path_material_when_comparison_hunk_origin_differs ... ok
+test quality_gate_recomputes_state_after_material_review_discharge ... ok
+test start_rejects_unsupported_required_evidence_class_before_verification ... ok
+test symlink_contract_is_rejected_before_reading ... ok
+test valid_gate_is_identity_bound_and_read_only ... ok
+test report_validator_rejects_self_reported_green_with_an_extra_material_unknown ... ok
+test valid_material_review_does_not_bypass_failed_finish_or_stale_archive_verification ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.73s
+
+
+running 3 tests
+test archived_provider_binding_without_a_matching_finalize_receipt_is_rejected_read_only ... ok
+test provider_finalization_uses_raw_contract_bytes_while_recovery_plan_keeps_canonical_binding ... ok
+test provider_bound_recovery_rejects_canonical_digest_and_tampered_archive_or_provider_facts ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.51s
+
+
+running 54 tests
+test admitted_composition_rejects_a_different_clone_even_with_matching_repository_id ... ok
+test admitted_composition_rejects_invalid_command_dependencies_before_launch ... ok
+test action_dependency_selection_is_provider_scoped ... ok
+test caller_coverage_labels_cannot_attach_scenarios_to_an_unrelated_required_check ... ok
+test caller_labels_cannot_forge_required_contract_checks ... ok
+test composition_rejects_a_missing_required_contract_check_before_spawn ... ok
+test composable_head_satisfies_dependency_without_provider_closure ... ok
+test composition_rejects_duplicate_extra_and_unresolvable_check_identities ... ok
+test composition_supervisor_test_helper_entry ... ok
+test composition_requires_the_dependency_closure_in_declared_order ... ok
+test contract_bound_check_scenario_and_constraint_coverage_is_admitted ... ok
+test deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn ... ok
+test deferred_execution_projection_keeps_execution_and_cleanup_distinct ... ok
+test deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree ... ok
+test dependency_cycle_is_diagnosed_without_blocking_unrelated_work ... ok
+test dependency_inspection_rejects_published_evidence_through_parent_symlink ... ok
+test feature_worktree_can_compose_against_the_declared_main_target ... ok
+test fixed_runtime_is_rejected_before_any_coordination_directory_is_written ... ok
+test external_observer_error_allows_only_a_fresh_safe_formal_retry ... ok
+test historical_impact_can_be_recovered_after_provider_generation_advances ... ok
+test impact_blocks_only_affected_consumers_and_unrelated_work_continues ... ok
+test impact_propagates_through_three_dependency_levels_only ... ok
+test legacy_impact_without_outcome_ids_still_invalidates_transitive_consumers ... ok
+test legacy_incomplete_composition_attempts_project_unknown_execution ... ok
+test missing_one_of_two_required_checks_blocks_before_spawn ... ok
+Merge made by the 'ort' strategy.
+ provider.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 provider.txt
+test merged_target_stage_requires_actual_target_ancestry ... ok
+test missing_one_of_two_required_scenarios_blocks_composition ... ok
+test non_integration_owner_cannot_start_composition ... ok
+test observed_environment_drift_is_persisted_and_denies_composition_before_spawn ... ok
+test old_pause_request_cannot_control_a_new_execution_generation ... ok
+test ordinary_single_work_item_verification_remains_serial_without_coordination_state ... ok
+test outcome_publication_rejects_missing_verification_receipt_before_appending_event ... ok
+test outcome_publication_rejects_parent_symlink_escape ... ok
+test outcome_publication_rejects_malformed_and_identity_mismatched_receipts ... ok
+test pause_request_is_explicit_and_resume_refreshes_before_admission ... ok
+test recovered_impact_is_consumed_for_the_matching_consumer_generation ... ok
+test report_impact_rejects_outcome_publication_events ... ok
+test required_check_environment_overlay_is_rejected_when_unbound_by_contract ... ok
+test revoked_admission_after_registration_persists_receipt_and_allows_a_later_retry ... ok
+test removing_provider_output_preserves_transitive_invalidation ... ok
+test same_work_item_admission_filters_impact_by_consumed_outcome ... ok
+test safely_paused_composition_is_rejected_before_spawn_and_unrelated_work_continues ... ok
+test selected_outcome_admission_ignores_unselected_outcome_merge_blocker ... ok
+test shared_outcome_does_not_trust_a_tampered_composition_pass_flag ... ok
+test supervisor_exit_before_ready_records_unknown_without_spawning_verifier ... ok
+test supervisor_identity_observation_error_reaps_before_return ... ok
+test shared_outcome_projects_composition_cleanup_and_actual_reuse ... ok
+test tampered_historical_provider_snapshot_cannot_suppress_invalidation ... ok
+test unavailable_expired_and_duplicate_pause_requests_stay_distinct ... ok
+test unconsumed_worktree_remove_injection_does_not_move_to_fresh_worktree ... ok
+test verification_dependency_rejects_empty_json_then_accepts_a_bound_runtime_receipt ... ok
+test verification_dependency_requires_current_generation_publication_binding ... ok
+test worktree_remove_injection_is_consumed_once_for_old_worktree ... ok
+test tampered_recovery_identity_cannot_suppress_invalidation ... ok
+
+test result: ok. 54 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 39.35s
+
+
+running 13 tests
+[master (root-commit) aac5c55] fixture baseline
+[master (root-commit) aac5c55] fixture baseline
+test amendment_audit_records_each_ordered_operation_value ... ok
+[master (root-commit) aac5c55] fixture baseline
+test amendment_history_chains_receipts_and_rejects_a_tampered_commit ... ok
+[master (root-commit) aac5c55] fixture baseline
+test amendment_history_rejects_a_resealed_receipt_detached_from_its_request ... ok
+[master (root-commit) aac5c55] fixture baseline
+test competing_amendments_from_one_contract_digest_allow_only_the_first_commit ... ok
+[master (root-commit) aac5c55] fixture baseline
+test amendment_history_survives_archive_without_rewriting_archived_bytes ... ok
+[master (root-commit) aac5c55] fixture baseline
+test material_review_profile_amendment_adds_audited_protected_guard ... ok
+[master (root-commit) aac5c55] fixture baseline
+test retrying_the_same_change_id_returns_the_original_amendment_receipt ... ok
+[master (root-commit) afd01a1] fixture baseline
+test post_verification_amendment_receipt_lists_invalidated_required_checks ... ok
+[master (root-commit) afd01a1] fixture baseline
+test sensitive_plan_amendment_records_its_policy_review_requirement ... ok
+[master (root-commit) afd01a1] fixture baseline
+test stale_contract_digest_rejects_without_writing ... ok
+[master (root-commit) afd01a1] fixture baseline
+test sensitive_amendment_requires_human_review_before_verification ... ok
+[master (root-commit) afd01a1] fixture baseline
+test typed_request_replaces_goal_without_rewriting_identity ... ok
+test uncheckpointed_amendment_persists_runtime_capability_requirements ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.03s
+
+
+running 8 tests
+test duplicate_or_unknown_contract_json_fails_before_governance_evaluation ... ok
+test explicit_operation_uses_only_a_valid_repository_mapping ... ok
+test explicit_start_verification_overrides_only_the_observed_default ... ok
+test high_risk_scenario_coverage_stops_at_preflight_for_human_review ... ok
+test intent_cannot_satisfy_a_missing_mapping_and_legacy_contracts_remain_compatible ... ok
+test scaffold_preflight_is_not_ready_and_records_human_review_requirements ... ok
+test missing_or_insufficient_operation_mapping_requires_review ... ok
+test snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.35s
+
+
+running 3 tests
+test repository_contract_schema_accepts_legacy_bytes_without_v2_lineage ... ok
+test repository_contract_schema_rejects_code_mode_with_unresolved_unknowns ... ok
+test repository_contract_schema_rejects_unknown_nested_governance_input ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 29 tests
+test coordination_event_round_trips_outcome_specific_invalidation ... ok
+test corrupt_reservation_is_not_treated_as_free ... ok
+test conflicting_resources_are_atomic_and_partial_reservation_rolls_back ... ok
+test duplicate_registration_and_event_are_idempotent ... ok
+test environment_identity_includes_rust_toolchain_and_cargo_configuration ... ok
+test event_publication_rejects_a_caller_supplied_digest_that_differs_from_file_bytes ... ok
+test event_publication_rejects_evidence_reached_through_parent_symlink ... ok
+test environment_drift_event_is_shared_idempotent_and_recoverable_after_generation_advance ... ok
+test generation_advance_preserves_unrecorded_environment_drift_before_replacing_registration ... ok
+test inspection_reports_registration_evidence_reached_through_parent_symlink ... ok
+test generic_event_publication_rejects_outcome_published_without_typed_validation ... ok
+test read_only_inspection_does_not_create_coordination_storage ... ok
+test interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_once ... ok
+test registration_identity_change_appends_an_impact_event ... ok
+test registration_identity_is_rejected_before_persistence_when_observed_facts_differ ... ok
+test recovery_consumes_only_matching_event_and_is_idempotent ... ok
+test registration_rejects_a_contract_reached_through_a_symlinked_ancestor ... ok
+test registration_rejects_evidence_reached_through_parent_symlink ... ok
+test registration_rejects_a_contract_with_a_different_declared_identity ... ok
+test registration_with_a_different_runtime_identity_is_rejected_before_write ... ok
+test registration_replaces_caller_environment_claim_with_runtime_observation ... ok
+test request_creation_accepts_only_the_requested_initial_state ... ok
+test request_creation_rejects_registration_target_mismatch_before_fact_validation ... ok
+test request_transition_rejects_registration_traversal_before_fact_validation ... ok
+test request_transition_rejects_tampered_target_work_item_path ... ok
+test request_transition_rejects_traversal_and_mismatched_record_identity ... ok
+test retry_completes_registration_after_event_was_durable_before_interruption ... ok
+test stale_generation_and_corrupt_or_moved_records_require_recovery ... ok
+test stale_generation_cannot_release_an_existing_resource_reservation ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.24s
+
+
+running 8 tests
+test archived_foreign_runtime_evidence_is_historical_yellow ... ok
+test archived_foreign_runtime_evidence_can_close_without_rewriting_history ... ok
+test current_runtime_lifecycle_rejects_same_version_different_digest_evidence ... ok
+test legacy_evidence_is_projected_as_historical_yellow_without_rewriting_bytes ... ok
+test invalid_created_at_blocks_finish_and_archived_close ... ok
+test same_runtime_version_with_different_binary_digest_rejects_verification_reuse ... ok
+test retention_schema_and_identity_are_bound_to_evidence_and_repository ... ok
+test strict_evidence_rejects_unknown_envelope_and_nested_fields ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.21s
+
+
+running 2 tests
+test new_framework_is_l2_and_needs_confirmation ... ok
+test new_test_in_existing_root_is_l1_auto_absorb ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 12 tests
+test acceptance_ids_preserve_legacy_and_validate_numbered_evidence ... ok
+test active_control_inputs_reject_summary_symlinks ... ok
+test high_risk_scenario_coverage_fails_closed_until_verified ... ok
+test final_dimensions_require_exact_reference_set_and_go_prerequisites ... ok
+test intent_alignment_never_invents_resolution ... ok
+test lettered_acceptance_sections_support_evidence_mapping ... ok
+test malformed_amendment_invalidation_marker_fails_closed ... ok
+test prose_colons_do_not_create_acceptance_id_requirements ... ok
+test recording_controls_is_bounded_to_projection_fields ... ok
+test scenario_shape_is_checked_without_making_low_risk_coverage_mandatory ... ok
+test recording_controls_rejects_invalid_acceptance_id_before_writing ... ok
+test summary_final_dimensions_are_bound_to_current_runtime_in_lifecycle_controls ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 52 tests
+test added_dynamic_composition_with_unchanged_marker_is_unknown ... ok
+test added_format_with_unchanged_marker_and_dynamic_operand_is_unknown ... ok
+test adding_a_test_and_assertion_does_not_weaken_verification ... ok
+test adjacent_line_comments_with_the_existing_attack_fixture_are_untrusted ... ok
+test added_rust_file_does_not_pair_fixture_path_with_marker_in_another_function ... ok
+test bounded_patch_facts_in_an_oversized_file_are_inspectable ... ok
+test bounded_rust_patch_with_a_candidate_and_no_full_source_is_unknown ... ok
+test bounded_rust_patch_with_complete_attack_literal_is_a_finding ... ok
+test crlf_raw_literal_keeps_changed_line_identity ... ok
+test custom_json_macro_name_does_not_prove_json_data_semantics ... ok
+test custom_pathbuf_name_does_not_prove_standard_path_join_semantics ... ok
+test deleting_a_security_test_is_test_weakening ... ok
+test diagnostic_spec_prose_and_fixture_cleanup_are_not_test_bypasses ... ok
+test dynamic_macro_with_static_instruction_is_unknown ... ok
+test dynamic_push_str_with_static_instruction_is_unknown ... ok
+test existing_attack_fixture_has_the_immutable_expected_digest ... ok
+test explicitly_typed_closure_path_parameter_proves_join_semantics ... ok
+test explicitly_typed_path_local_and_path_parameter_prove_join_semantics ... ok
+test json_action_key_does_not_poison_a_namespaced_benign_value ... ok
+test json_array_sibling_values_are_not_combined_into_an_injection ... ok
+test json_object_key_and_value_are_not_combined_into_an_injection ... ok
+test json_object_sibling_values_are_not_combined_into_an_injection ... ok
+test json_value_can_resolve_pure_literal_bindings ... ok
+test json_value_with_direct_instruction_injection_is_a_finding ... ok
+test json_value_with_dynamic_candidate_is_unknown ... ok
+test json_value_with_static_composition_is_a_finding ... ok
+test json_value_with_static_concat_is_a_finding ... ok
+test literal_return_functions_defined_after_composition_are_untrusted ... ok
+test lowering_coverage_threshold_requires_human_review ... ok
+test malformed_rust_provenance_is_unknown ... ok
+test nested_block_comment_with_existing_attack_fixture_is_untrusted ... ok
+test newly_added_composition_of_unchanged_pure_local_return_functions_is_untrusted ... ok
+test newly_added_format_uses_unchanged_risky_literal ... ok
+test oversized_adjacent_comment_context_with_a_change_is_unknown ... ok
+test oversized_reference_inventory_uses_its_strict_conformance_gate ... ok
+test pathbuf_join_with_unrelated_risky_words_is_clean ... ok
+test pr1009_old_head_actual_added_source_replay_when_commit_is_available ... ok
+test related_attack_across_hunks_cannot_be_reported_clean ... ok
+test renamed_rust_target_still_inspects_decoded_byte_literal ... ok
+test rust_concat_of_the_existing_attack_halves_is_untrusted ... ok
+test rust_format_of_pure_literal_return_functions_is_untrusted ... ok
+test rust_raw_literal_with_the_existing_attack_fixture_is_untrusted ... ok
+test bounded_large_rust_file_with_small_changed_item_is_inspectable ... ok
+test same_named_functions_in_another_module_cannot_mask_a_new_attack ... ok
+test separate_literals_in_one_rust_function_are_not_a_proven_attack ... ok
+test skip_detection_uses_language_syntax_and_ignores_identifiers_comments_and_strings ... ok
+test string_collection_join_with_candidate_is_unknown ... ok
+test strong_repository_instruction_injection_is_derived_as_untrusted_material ... ok
+test uninspectable_relevant_test_change_is_explicitly_unknown ... ok
+test uninspectable_rust_content_states_are_unknown ... ok
+test unknown_receiver_join_with_candidate_is_unknown ... ok
+test rust_token_budget_exhaustion_is_unknown ... ok
+
+test result: ok. 52 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+
+running 1 test
+test repository_material_is_data_and_cannot_change_observer_commands ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 11 tests
+test adopter_capability_manifest_binds_runtime_truth_and_exclusions ... ok
+test approach_separates_observed_facts_from_unknown_human_inputs ... ok
+test foreign_agent_interface_keeps_adopter_capabilities_unknown ... ok
+test capability_and_diagnosis_are_snapshot_bound_and_parallel_check_fails_closed ... ok
+test malformed_profile_keeps_capability_truth_non_verified_and_visible ... ok
+test outcome_does_not_fabricate_user_benefit_or_verification ... ok
+test outcome_marks_invalid_verification_evidence_red ... ok
+test outcome_rejects_malformed_verification_json ... ok
+test outcome_rejects_symlinked_verification_evidence ... ok
+test read_only_implementation_approach_does_not_persist_an_artifact ... ok
+test outcome_rejects_identity_snapshot_and_runtime_tampering ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+
+running 7 tests
+test knowledge_index_cache_is_rebuilt_when_an_archived_input_changes ... ok
+test dirty_cache_cannot_be_reused_after_archived_input_is_restored_clean ... ok
+test knowledge_index_cache_rejects_tampered_derived_index_even_when_source_is_unchanged ... ok
+test knowledge_index_cache_rejects_tampered_record_even_when_source_is_unchanged ... ok
+test knowledge_index_records_source_revision_for_clean_fast_path ... ok
+test legacy_index_shape_is_rebuilt_before_reuse ... ok
+test knowledge_index_is_reused_and_invalidated_by_new_archive ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.85s
+
+
+running 4 tests
+test attach_knowledge_directory_is_idempotent_and_empty ... ok
+test projections_derive_topic_and_component_from_contract_context ... ok
+test knowledge_v2_projection_is_repository_isolated ... ok
+test projections_rebuild_explicitly_without_mutating_authority ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.44s
+
+
+running 5 tests
+
+running 1 test
+
+running 1 test
+test cross_process_finish_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.04s
+
+test cross_process_finish_child ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.04s
+
+test cross_process_finish_calls_have_one_authoritative_commit ... ok
+test cross_process_finish_child ... ok
+test concurrent_archive_and_close_have_single_commit_each ... ok
+test same_process_finish_calls_are_serialized_and_json_remains_valid ... ok
+test missing_or_corrupt_projections_fail_closed_before_commit ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.49s
+
+
+running 52 tests
+test archived_scope_requires_valid_identity_and_skips_only_valid_foreign_repositories ... ok
+test contract_amendment_appends_sources_and_verification_declarations ... ok
+test close_rejects_missing_projection_before_writing_a_close_decision ... ok
+test contract_amendment_rejects_malformed_declarations_without_writing ... ok
+test contract_amendment_rejects_empty_reason_without_writing ... ok
+test contract_amendment_revalidation_failure_does_not_write_the_contract ... ok
+test empty_commit_preserves_source_identity_and_current_verification_evidence ... ok
+test empty_amendment_invalidation_does_not_block_fresh_verification_preconditions ... ok
+test explicit_documentation_mode_requires_projection_without_repository_shape ... ok
+test first_checkpoint_defers_missing_own_projection_but_subsequent_preflight_rejects_it ... ok
+test first_checkpoint_defers_missing_own_projection_but_verification_still_rejects_it ... ok
+test finish_ready_allows_reverification_after_committing_changed_source ... ok
+test missing_or_malformed_archive_manifest_remains_untrusted_for_scope_checks ... ok
+test object_without_projection_convention_keeps_generic_preflight_behavior ... ok
+test first_typed_required_verification_is_allowed_before_summary_has_passed_entries ... ok
+test ordinary_no_resource_work_item_completes_without_derived_document_projection ... ok
+test post_checkpoint_contract_declarations_invalidate_preflight_for_revalidation ... ok
+test post_checkpoint_scenario_amendment_projects_new_unverified_scenario_to_summary ... ok
+test preflight_accepts_a_complete_prearchive_projection ... ok
+test preflight_blocks_a_declared_dependency_on_a_disjoint_unclosed_archived_item ... ok
+test preflight_blocks_when_archived_scope_no_longer_matches_its_manifest ... ok
+test preflight_rejects_a_malformed_projection_with_its_exact_path ... ok
+test preflight_rechecks_archived_scope_conflicts_after_contract_amendment ... ok
+test preflight_rejects_malformed_or_foreign_work_item_intelligence_identity ... ok
+test recovery_continuation_does_not_bypass_untrusted_archived_scope ... ok
+test recovery_scaffold_may_activate_on_its_existing_ahead_branch ... ok
+test release_publish_operation_requires_projection_without_repository_shape ... ok
+test revalidate_amendment_repairs_only_a_missing_scenario_projection ... ok
+test requested_release_operation_requires_projection_and_conflicts_fail_closed ... ok
+test scaffold_includes_the_start_advisory_for_the_next_agent ... ok
+test scenario_coverage_can_be_declared_before_the_first_checkpoint ... ok
+test scope_can_be_appended_before_the_first_checkpoint ... ok
+test scenario_coverage_plan_can_fill_only_a_missing_plan ... ok
+test start_advisory_reports_non_default_remote_tracking_branches ... ok
+test start_advisory_reports_residual_work_without_forcing_a_stop ... ok
+test start_advisory_treats_absent_lifecycle_directories_as_empty ... ok
+test start_blocks_only_an_exact_active_worktree_binding ... ok
+test start_blocks_scope_overlap_with_an_archived_pending_item ... ok
+test start_rejects_clean_branch_ahead_of_discoverable_default_base ... ok
+test start_rejects_unknown_authority_without_creating_active_state ... ok
+test start_rejects_user_changes_that_precede_the_contract ... ok
+test status_reports_unknown_readiness_without_remote_metadata ... ok
+test source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish ... ok
+test tampered_verification_attempt_is_not_reused_even_when_execution_fields_match ... ok
+test typed_verification_survives_its_governance_projection_at_preflight_and_finish ... ok
+test unrelated_archived_pending_close_remains_visible_without_blocking_entry ... ok
+test typed_verification_with_bounded_output_stays_current_at_preflight ... ok
+test verification_preconditions_accept_bound_retry_after_snapshot_drift ... ok
+test verification_preconditions_accept_complete_repository_bound_custom_evidence ... ok
+test verification_preconditions_reject_missing_governance_controls_before_execution ... ok
+test verification_preconditions_reject_projection_before_project_execution ... ok
+test verification_record_rolls_back_projection_when_outcome_refresh_fails ... ok
+
+test result: ok. 52 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.15s
+
+
+running 13 tests
+[master (root-commit) d6a1027] fixture baseline
+[master (root-commit) d6a1027] fixture baseline
+test before_edit_checkpoint_rejects_existing_verification_results ... ok
+[master (root-commit) d6a1027] fixture baseline
+[master 1c93943] authorized source edit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 source.rs
+test checkpoint_requires_preflight_and_duplicate_checkpoint_is_rejected ... ok
+[master (root-commit) d6a1027] fixture baseline
+test before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight ... ok
+[master (root-commit) d6a1027] fixture baseline
+test contract_amendment_after_finish_ready_reopens_checkpointed_recovery ... ok
+[master (root-commit) d6a1027] fixture baseline
+test contract_amendment_allows_stale_predecessor_verification_to_be_replaced ... ok
+[master (root-commit) d6a1027] fixture baseline
+test finalize_plan_after_finish_ready_is_rejected_before_it_can_invalidate_evidence ... ok
+[master (root-commit) d6a1027] fixture baseline
+test future_lifecycle_stage_labels_are_rejected_at_entry_boundary ... ok
+[master (root-commit) d6a1027] fixture baseline
+test future_lifecycle_evidence_is_deferred_until_terminal_completion_boundary ... ok
+test legacy_command_only_amendment_after_verification_detects_formal_receipt ... ok
+[master (root-commit) d6a1027] fixture baseline
+[master (root-commit) d6a1027] fixture baseline
+test skipped_preflight_and_checkpoint_fail_closed ... ok
+[master (root-commit) d6a1027] fixture baseline
+[master f9dba30] verified recovery source
+ 1 file changed, 1 insertion(+)
+ create mode 100644 src/main.rs
+test runtime_bound_verification_keeps_governance_bound_to_current_runtime ... ok
+[master (root-commit) d6a1027] fixture baseline
+test verification_promotes_initial_yellow_preflight_and_allows_recovery ... ok
+test verification_retry_refreshes_finish_ready_bindings_after_source_change ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.02s
+
+
+running 41 tests
+test adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality ... ok
+test active_material_plan_digest_matches_persisted_contract_across_json_shapes ... ok
+test ai_only_descendant_retains_request_identity_but_source_change_stales_it ... ok
+test assume_unchanged_source_cannot_masquerade_as_committed_material ... ok
+test binary_rust_material_is_unknown_but_not_reviewable ... ok
+test bounded_patch_in_large_committed_rust_unknown_remains_reviewable_from_blob ... ok
+test bounded_patch_with_over_budget_source_is_typed_unreviewable ... ok
+test changed_file_count_budget_rejects_before_material_scan ... ok
+test changed_rust_blob_without_hunks_is_unknown_and_not_reviewable ... ok
+test committed_manifest_is_scanned_with_empty_worktree_diff_and_profile_absent ... ok
+test committed_symlink_refuses_request ... ok
+test admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer ... ok
+test cumulative_text_budget_allows_multiple_large_files_with_small_patches ... ok
+test cumulative_blob_budget_rejects_small_binary_patches_across_large_files ... ok
+test cumulative_text_budget_rejects_small_patches_across_large_files ... ok
+test dirty_and_untracked_source_refuse_request ... ok
+test finding_is_never_reviewable ... ok
+test material_review_decision_types_reject_unknown_fields_and_receipt_tampering ... ok
+test material_review_decision_validator_rejects_findings_and_extra_unknowns ... ok
+test material_review_decision_validator_rejects_stale_input_and_tampered_request ... ok
+test material_review_decision_validator_rejects_unapproved_profile_actor ... ok
+test material_review_hunkless_git_worker ... ok
+test material_review_decision_validator_rejects_wrong_authority_source ... ok
+test no_hunk_same_blob_rename_remains_safe_by_blob_identity ... ok
+test no_hunk_text_changes_still_bind_complete_committed_source ... ok
+test non_ancestor_rebase_cannot_become_a_canonical_request ... ok
+test normalized_crlf_checkout_is_not_compared_to_committed_blob_bytes ... ok
+test old_material_decision_is_stale_after_analysis_or_policy_identity_changes ... ok
+test material_review_rejects_a_summary_pointer_to_a_noncanonical_sidecar_path ... ok
+test staged_source_refuses_request ... ok
+test request_binds_each_distinct_blocking_finding_category ... ok
+test staged_source_rename_into_ai_does_not_hide_original_source_change ... ok
+test stale_receipt_after_valid_contract_amendment_is_classified_stale ... ok
+test stale_receipt_does_not_block_when_current_request_has_no_reviewable_unknown ... ok
+test stale_receipt_history_shape_is_validated_before_sidecar_write ... ok
+test stale_material_review_receipt_requires_valid_prior_sidecar ... ok
+test stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid ... ok
+test stale_receipt_with_changed_contract_profile_is_not_renewable ... ok
+test unreadable_committed_source_refuses_request ... ok
+test untracked_unicode_ai_fact_is_not_misclassified_as_dirty_source ... ok
+test stale_receipt_without_contract_amendment_chain_remains_invalid ... ok
+
+test result: ok. 41 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.71s
+
+
+running 1 test
+test observer_detects_rust_and_cargo_without_rescanning_per_checker ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 1 test
+test ordinary_cleanup_receipt_keeps_identity_and_result_shape ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 17 tests
+[master (root-commit) 682fa1f] fixture baseline
+[master (root-commit) 682fa1f] fixture baseline
+test default_summary_is_four_part_and_full_view_retains_audit_sections ... ok
+[master (root-commit) 682fa1f] fixture baseline
+test finish_writes_event_stream_and_archive_binds_it ... ok
+[master (root-commit) e682e32] fixture baseline
+test human_renderer_does_not_infer_risk_absence_or_test_strength_from_empty_fields ... ok
+test archived_report_tamper_is_red_and_not_reprojected_as_verified ... ok
+[master (root-commit) e682e32] fixture baseline
+[master (root-commit) e682e32] fixture baseline
+test human_renderer_keeps_partial_missing_and_stale_verification_distinct ... ok
+[master (root-commit) e682e32] fixture baseline
+test human_renderer_preserves_historical_and_superseded_distinctions ... ok
+[master (root-commit) e682e32] fixture baseline
+test human_renderer_separates_verification_lifecycle_and_human_decision ... ok
+[master (root-commit) e682e32] fixture baseline
+test human_renderer_names_acceptance_and_intent_gaps_without_invalidating_verification ... ok
+[master (root-commit) e682e32] fixture baseline
+test outcome_observation_rejects_symlinked_active_contract ... ok
+[master (root-commit) e682e32] fixture baseline
+test malformed_or_foreign_event_stream_fails_archive_closed ... ok
+[master (root-commit) e682e32] fixture baseline
+test release_projection_is_visible_in_summary_and_full_views_without_inference ... ok
+[master (root-commit) e682e32] fixture baseline
+test outcome_reads_only_explicit_evidence_bound_release_projection ... ok
+[master (root-commit) e682e32] fixture baseline
+test summary_does_not_present_changed_paths_as_delivered_behavior ... ok
+[master (root-commit) e682e32] fixture baseline
+test summary_keeps_missing_benefit_and_localizes_reader_sections ... ok
+[master (root-commit) e682e32] fixture baseline
+test report_is_typed_evidence_bound_and_serializable ... ok
+[master (root-commit) e682e32] fixture baseline
+test usage_projection_is_visible_in_summary_and_full_in_three_languages ... ok
+test task_report_markdown_has_one_terminal_newline_in_active_and_archive ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.69s
+
+
+running 6 tests
+test binding_boundary_preserves_contract_readability_for_preflight_and_lifecycle ... ok
+test contract_boundary_overlap_is_conservative_and_windows_safe ... ok
+test malformed_or_missing_boundary_fails_closed_for_slot_acquisition ... ok
+test first_use_parallel_directories_are_created_race_safe ... ok
+test slots_are_isolated_between_repositories ... ok
+test slot_capacity_and_duplicate_work_item_are_race_safe ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+
+running 8 tests
+test existing_preflight_decision_symlink_is_never_replaced ... ok
+test foreign_or_stale_preflight_decision_evidence_is_rejected_without_writes ... ok
+test malformed_preflight_decision_timestamp_is_rejected ... ok
+test bounded_human_review_survives_snapshot_refresh_but_not_contract_change ... ok
+test refreshed_preflight_decision_is_append_only_after_snapshot_change ... ok
+test planned_required_scenario_is_implementation_ready_but_not_completion_evidence ... ok
+test repeated_identical_preflight_does_not_rewrite_summary_or_observation_cache ... ok
+test valid_preflight_decision_evidence_is_persisted_and_bound ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+
+running 4 tests
+test projection_is_valid_identity_bound_and_read_only ... ok
+test projection_isolated_between_repositories ... ok
+test projection_rejects_symlinked_declaration ... ok
+test projection_reports_missing_malformed_foreign_and_stale_inputs ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+
+running 12 tests
+test empty_store_is_unavailable_and_valid_store_loads_only_the_indexed_receipt ... ok
+test concurrent_writers_preserve_both_node_mappings ... ok
+test existing_hardlinked_commit_marker_is_never_truncated ... ok
+test failed_index_replacement_keeps_the_previous_valid_index_authoritative ... ok
+test orphaned_temporary_receipt_does_not_poison_later_publication ... ok
+test malformed_tampered_and_missing_referenced_receipts_fail_closed ... ok
+test oversized_index_and_receipt_fail_closed_without_unbounded_reads ... ok
+test symlinked_index_or_receipt_is_rejected ... ok
+test symlinked_store_parent_directory_is_rejected_before_any_index_read ... ok
+test uncertain_index_commit_marker_fails_closed ... ok
+test wrong_repository_profile_or_index_binding_never_returns_a_candidate ... ok
+test parent_replacement_after_lock_open_cannot_redirect_store_reads ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+
+running 44 tests
+test archive_rejects_a_symlink_current_candidate ... ok
+test archive_rejects_a_misnamed_or_invalid_newer_candidate_instead_of_falling_back ... ok
+test archive_rejects_malformed_duplicate_and_oversized_current_candidates ... ok
+test archived_consumes_a_stale_retry_receipt_as_historical_evidence ... ok
+test archive_rejects_forged_current_recovery_bindings_without_moving_artifacts ... ok
+test archived_legacy_binding_candidate_is_stale_when_newer_supersede_exists ... ok
+test contract_amendment_accepts_legacy_checkpoint_without_typed_evidence ... ok
+test archived_pending_finalization_requires_explicit_supersede_recovery_before_close ... ok
+test different_runtime_version_still_requires_an_explicit_retry_recovery ... ok
+test equally_timed_valid_candidates_are_selected_by_a_deterministic_path_order ... ok
+test existing_active_successor_accepts_same_version_candidate_rebuild ... ok
+test contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence ... ok
+test existing_active_successor_rejects_a_different_base ... ok
+test future_dated_stale_retry_does_not_strand_current_runtime_recovery ... ok
+test newer_retry_receipt_supersedes_stale_contract_binding_in_append_only_chain ... ok
+test invalid_archived_recovery_cannot_bypass_finalization_gate ... ok
+test outcome_rejects_a_foreign_current_recovery_with_a_stable_unknown ... ok
+test pending_retry_remains_idempotent_after_same_version_runtime_rebuild ... ok
+test pending_retry_survives_a_bounded_contract_amendment ... ok
+test pending_retry_survives_finalize_plan_but_rejects_unbound_contract_mutation ... ok
+test pending_retry_requires_a_matching_receipt_at_each_lifecycle_boundary ... ok
+test recovery_activation_binds_the_discovered_default_base ... ok
+test recovery_decision_binds_predecessor_and_projects_in_outcome ... ok
+test readiness_accepts_a_closed_terminal_recovery_successor ... ok
+test recovery_read_side_detects_predecessor_and_successor_tamper_after_recording ... ok
+test recovery_rejects_competing_successor_for_same_predecessor ... ok
+test recovery_rejects_foreign_runtime_and_predecessor_digest ... ok
+test retry_after_previous_completion_appends_a_new_completion_without_rewriting_history ... ok
+test retry_recovery_accepts_a_lifecycle_state_failure_with_red_preflight ... ok
+test recovery_successor_can_continue_a_bound_archived_ancestor_chain ... ok
+test retry_recovery_admits_verification_after_a_blocked_finish_projection ... ok
+test retry_recovery_clears_failed_finish_marker_when_state_is_already_checkpointed ... ok
+test retry_recovery_restores_checkpointed_state_after_failed_finish ... ok
+test retry_recovery_classifies_previous_runtime_evidence_as_stale_before_verify ... ok
+test same_version_runtime_rebuild_does_not_hide_a_malformed_old_receipt ... ok
+test retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt ... ok
+test snapshot_digest_is_stable_when_the_same_source_change_is_committed ... ok
+test same_version_runtime_rebuild_marks_old_receipt_stale_without_retry_recovery ... ok
+test strict_successor_rejects_a_forged_legacy_binding_marker ... ok
+test supersede_accepts_a_successor_bound_before_a_predecessor_amendment ... ok
+test supersede_accepts_a_terminal_legacy_successor_bound_by_recovery_receipt ... ok
+test supersede_requires_a_matching_existing_successor ... ok
+test supersede_quarantines_a_bound_optional_archive_report_mismatch ... ok
+test superseded_predecessor_preserves_bytes_and_closes_without_current_verification ... ok
+
+test result: ok. 44 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.90s
+
+
+running 6 tests
+test failed_finish_persists_blocked_outcome_and_recovery_event_without_terminal_state ... ok
+test blocked_outcome_handoff_contains_recovery_facts_in_all_languages ... ok
+test foreign_blocked_outcome_is_not_projected_as_a_current_failure ... ok
+test malformed_recovery_event_is_rejected_before_archive_success ... ok
+test symlinked_blocked_outcome_is_not_trusted ... ok
+test valid_finish_appends_completion_after_blocked_event_without_rewriting_history ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s
+
+
+running 4 tests
+test archived_contract_revalidation_rejects_tampered_historical_evidence_without_writes ... ok
+test archived_contract_revalidation_appends_current_binding_and_scaffolds_successor ... ok
+test unresolved_successor_does_not_relax_old_runtime_finalization_identity ... ok
+test successor_terminal_lifecycle_allows_predecessor_historical_close ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.11s
+
+
+running 9 tests
+test execution_context_captures_one_snapshot_and_memoizes_observation ... ok
+test observation_phase_context_binds_facts_and_rejects_source_mutation ... ok
+test governance_decision_consumes_the_validated_observation_context ... ok
+test observation_phase_context_detects_governance_configuration_and_identity_changes ... ok
+test observation_phase_rejects_a_symlinked_contract_before_canonicalizing_it ... ok
+test observation_phase_requires_a_fresh_context_for_each_lifecycle_phase ... ok
+test observation_rejects_symlinked_contract_and_active_governance_file ... ok
+test parallel_repository_contexts_do_not_share_scaffold_state ... ok
+test runtime_session_reuses_only_explicit_repository_bindings ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+
+running 4 tests
+test planning_preserves_the_public_resource_context_binding ... ok
+test planning_rejects_replacing_a_complete_resource_binding ... ok
+test resource_lifecycle_module_uses_explicit_imports ... ok
+test archived_finalize_plan_appends_a_resource_binding_without_mutating_archive ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+
+running 35 tests
+test bounded_same_work_item_post_finalize_evidence_append_is_accepted ... ok
+test abandoned_unmerged_cleanup_can_be_verified_and_closed_without_merge_claim ... ok
+test canonical_record_accepts_distinct_pr_base_when_contract_base_is_explicitly_bound ... ok
+test bundled_direct_merge_can_bind_contract_base_separately_from_merge_parent ... ok
+test canonical_record_rejects_pull_request_base_that_differs_from_archived_contract ... ok
+test canonical_record_rejects_wrong_explicit_contract_base_without_persisting ... ok
+test canonical_verify_rejects_stored_pull_request_base_that_differs_from_archived_contract ... ok
+test close_rejects_retained_finalization_before_writing_decision ... ok
+test first_record_recovery_rejects_non_direct_input_when_predecessor_is_absent ... ok
+test closed_legacy_finalization_projects_as_historical_instead_of_runtime_failure ... ok
+test forked_and_symlinked_transition_candidates_fail_closed ... ok
+test historical_direct_merge_plan_includes_deterministic_receipt_fields ... ok
+test historical_direct_merge_plan_suggested_receipt_can_be_applied_via_finalize ... ok
+test historical_direct_merge_plan_suggested_receipt_can_be_completed_and_applied ... ok
+test historical_direct_merge_recovery_plan_uses_real_git_parents_without_writing ... ok
+test historical_direct_merge_without_pr_is_verifiable_and_closeable ... ok
+test historical_runtime_recovery_accepts_normal_merged_pr_before_close ... ok
+test historical_runtime_plan_does_not_classify_incomplete_pr_history ... ok
+test historical_runtime_recovery_rejects_foreign_and_tampered_bindings ... ok
+test historical_runtime_recovery_allows_shared_retained_close_without_rewriting_predecessor ... ok
+test historical_runtime_recovery_rejects_symlink_destination ... ok
+test historical_runtime_recovery_rejects_mismatched_classification_without_writing ... ok
+test legacy_local_shared_retained_from_older_runtime_is_still_low_assurance ... ok
+test legacy_local_shared_retained_is_projected_without_manual_recovery_marker ... ok
+test incomplete_or_invalid_json_post_finalize_evidence_fails_closed ... ok
+test modified_deleted_or_renamed_post_finalize_evidence_fails_closed ... ok
+test post_close_reconciliation_appends_deleted_head_without_rewriting_close ... ok
+test post_close_reconciliation_rejects_foreign_transition_runtime_ident

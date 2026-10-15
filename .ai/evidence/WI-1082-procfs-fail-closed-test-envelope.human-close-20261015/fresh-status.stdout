@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope",
+  "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "lifecyclePhase": "archived",
+  "governanceState": "yellow",
+  "activityHealth": "inactive",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 9,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 22,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "archived_work_item_pending_close"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "archived",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+    "materialManifest": "sha256:f7f0e080bf80dc7b9d6228fa4f71e32f9f91776922e71f75055015c12561189d",
+    "repositorySnapshot": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
+    "summary": "sha256:0d665860e3f0636081bb2b01a577d46c494374c68c89ec7fe8f5abe63928892d",
+    "verificationEvidence": "sha256:2ebce6b1ee1563b052e8c7f8aa76be52e6b67c27a21d70d4a40f3fb70c7fc9d0"
+  },
+  "unknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:f7f0e080bf80dc7b9d6228fa4f71e32f9f91776922e71f75055015c12561189d",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [
+    "lifecycle_cleanup_required"
+  ],
+  "snapshotDigest": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-14T23:19:04Z",
+  "updatedAt": "2026-10-14T23:50:22.872913780Z",
+  "safeActions": [
+    "close_after_review",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "close_after_review",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: archived_work_item_pending_close",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "close_decision_pending",
+        "message": "current projection reports close_decision_pending"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:2bcdada9c17996bd59f51b964037496e375ad8e696dd4beb13bf38fa592af5bf"
+  },
+  "statusDigest": "sha256:10b4f9c33af93c4d7a731246ecafcc344dcd3e5789c5cfe25e232533c4fa024f",
+  "historical": false
+}

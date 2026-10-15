@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "close",
+    "--repo",
+    "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+    "--id",
+    "WI-1082-procfs-fail-closed-test-envelope",
+    "--human-decision",
+    "approved",
+    "--actor",
+    "human:Ray",
+    "--authority-source",
+    "transcript:Sentinel_09ad7190a7a4819181c67b10a431cf53@2026-10-15T00:43:34Z;request=Sentinel_9ffe74113e8c8191a76907389e445bb7@2026-10-15T00:20:07Z;thread=01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "--reason",
+    "Ray personally approved closing this exact WI-1082 archive and Contract after the reviewed head and CI passed. Merge and exact WI-1082 cleanup remain conditional on the final close-head CI and technical review.",
+    "--evidence-ref",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.human-close-20261015/ray-human-close-authorization.json",
+    "--decided-at",
+    "2026-10-15T00:43:34Z",
+    "--json",
+    "--language",
+    "zh-CN"
+  ],
+  "startedAt": "2026-10-15T00:47:30.367548+00:00",
+  "finishedAt": "2026-10-15T00:47:32.634891+00:00",
+  "exitCode": 0
+}

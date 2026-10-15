@@ -1,0 +1,5 @@
+{
+  "event": "local helper assertion corrected before archive invocation",
+  "detail": "Helper initially expected safeActions archive; actual admitted action was archive_when_reviewed with admissionState allowed and humanDecisionRequired false. It stopped before calling archive. Raydot independent review at exact head 4890bb3a was already explicitly provided. The subsequent single actual archive call returned exit 0.",
+  "runtimeBypass": false
+}

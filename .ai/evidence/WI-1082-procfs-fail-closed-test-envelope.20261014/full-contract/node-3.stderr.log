@@ -1,0 +1,4 @@
+   Compiling cockpit-evidence v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-evidence)
+    Finished `test` profile [unoptimized] target(s) in 0.56s
+     Running unittests src/lib.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cockpit_evidence-66d917d4688792fb)
+     Running tests/reuse.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/reuse-aa0c7e9f217fa9cd)

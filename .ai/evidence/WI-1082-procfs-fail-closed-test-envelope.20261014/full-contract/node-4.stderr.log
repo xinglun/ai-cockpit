@@ -1,0 +1,10 @@
+   Compiling rustix v1.1.4
+   Compiling linux-raw-sys v0.12.1
+   Compiling once_cell v1.21.4
+   Compiling tempfile v3.27.0
+   Compiling cockpit-git v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-git)
+    Finished `test` profile [unoptimized] target(s) in 3.60s
+     Running unittests src/lib.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cockpit_git-5da8075f04a88650)
+     Running tests/collaboration_topology.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/collaboration_topology-5f5a8c49b10cf437)
+     Running tests/repository.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/repository-a61f65ada2653e28)
+     Running tests/snapshot.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/snapshot-1b601f75b00b4226)

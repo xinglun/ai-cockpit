@@ -1,0 +1,40 @@
+   Compiling crc32fast v1.5.0
+   Compiling simd-adler32 v0.3.10
+   Compiling adler2 v2.0.1
+   Compiling miniz_oxide v0.9.1
+   Compiling deranged v0.5.8
+   Compiling num-conv v0.2.2
+   Compiling powerfmt v0.2.0
+   Compiling log v0.4.33
+   Compiling equivalent v1.0.2
+   Compiling time-core v0.1.9
+   Compiling bumpalo v3.20.3
+   Compiling zlib-rs v0.6.7
+   Compiling memchr v2.8.3
+   Compiling hashbrown v0.17.1
+   Compiling indexmap v2.14.0
+   Compiling flate2 v1.1.10
+   Compiling zopfli v0.8.3
+   Compiling time v0.3.55
+   Compiling xattr v1.6.1
+   Compiling filetime v0.2.29
+   Compiling typed-path v0.12.3
+   Compiling serde_json v1.0.151
+   Compiling zip v7.2.0
+   Compiling tar v0.4.46
+   Compiling semver v1.0.28
+   Compiling tempfile v3.27.0
+   Compiling cockpit-release v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-release)
+    Finished `test` profile [unoptimized] target(s) in 15.90s
+     Running unittests src/lib.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cockpit_release-4a7391c18d8cdc2a)
+     Running unittests src/main.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cockpit_release-498414a859c468fd)
+     Running tests/acceptance_recovery.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/acceptance_recovery-0e3e356690f45c04)
+     Running tests/archive.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/archive-cb9623893469c6eb)
+     Running tests/cli.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cli-1d977a311b261d2f)
+     Running tests/fixtures.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/fixtures-390f9841d27d53b8)
+     Running tests/formula.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/formula-b186167cf6dc69ca)
+     Running tests/handoff.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/handoff-6158a627480fe204)
+     Running tests/manifest.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/manifest-955274f1cc30d782)
+     Running tests/package_boundary.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/package_boundary-793712ccc122f81d)
+     Running tests/sbom.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/sbom-e22f754e4d3e8fd8)
+     Running tests/version_consistency.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/version_consistency-c37301f55b1f73f3)

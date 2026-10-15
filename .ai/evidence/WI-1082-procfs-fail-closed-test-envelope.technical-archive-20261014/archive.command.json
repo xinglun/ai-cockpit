@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "archive",
+    "--repo",
+    "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+    "--id",
+    "WI-1082-procfs-fail-closed-test-envelope",
+    "--json",
+    "--language",
+    "zh-CN"
+  ],
+  "startedAt": "2026-10-14T23:51:31.147768+00:00",
+  "finishedAt": "2026-10-14T23:51:33.383514+00:00",
+  "exitCode": 0,
+  "admissionSafeAction": "archive_when_reviewed",
+  "technicalReviewSource": "raydot-review-source.json"
+}

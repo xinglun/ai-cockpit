@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-14T23:51:33Z",
+  "files": {
+    "contractDigest": "sha256:42adbb37bd5c4c4789bb544ea3d8a82d11cb616cf76aeb525f77f1fa6ad006f1",
+    "contractPath": ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.contract.json",
+    "eventsDigest": "sha256:58318991807415084624c2dbc8932e0fae056f61925465fd85e5f771e6a49479",
+    "eventsPath": ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.events.jsonl",
+    "outcomeDigest": "sha256:5039624d52561721b0b0b19581cffac5e41730438e6d728fe2072e7c74f98e29",
+    "outcomePath": ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.outcome.json",
+    "summaryDigest": "sha256:29bb020b9e315cd85807d90e5bc92a46b222dd4f22e30c5c623d9d0a3389e7d0",
+    "summaryPath": ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.summary.json",
+    "taskReportDigest": "sha256:aaeae6b6100b884c2054a67f7ad01e583e0f36400be28795595d0df658471723",
+    "taskReportMarkdownDigest": "sha256:f45a52ba6ed9675209ab89215315d4e5ffb8f8fd26d6c664d936e7938d87113f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1082-procfs-fail-closed-test-envelope.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-14T23:51:33.375194100Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-14T23:51:33.375194100Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
+}

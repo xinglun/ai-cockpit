@@ -1,0 +1,15 @@
+{
+  "changedPaths": [],
+  "dependencyFingerprint": "sha256:4f135761241806b9c3e25b436d2268a028eabbbd752f1121b1c43ef0b0305f77",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 2,
+  "gitRoot": "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+  "head": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "protocolVersion": 1,
+  "repositoryRoot": "/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "treeDigest": "sha256:cd28c38c8c6beaaa1ceab5ab10a1697a976333f3adb105c553b573068a1ca53d"
+}
