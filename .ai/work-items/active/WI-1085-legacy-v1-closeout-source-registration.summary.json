@@ -1,0 +1,27 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-15T14:42:12Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T14:44:27.620151778Z",
+      "recordedAt": "2026-10-15T14:44:27.620151778Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-15T14:51:00Z",
+  "preflightContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "preflightRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-15T14:44:27Z",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

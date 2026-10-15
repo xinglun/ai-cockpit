@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1085-supported-generated-boundary-paths-20261015",
+  "expectedContractDigest": "sha256:03c33967b9201262a0993643f3a152382aaa963eac7efacbcc53d1af6879536b",
+  "reason": "Native work-item inspect 明确拒绝 concurrencyBoundary.generatedEvidencePaths 的文件名前缀 glob。使用现有协议支持的精确本 WI 文件和两个本 WI 目录 /** 替代，不扩大 scope、不宣称获得并行兼容或 lease；保留拒绝日志和原 Contract 历史。",
+  "changes": [
+    {
+      "path": "/concurrencyBoundary/generatedEvidencePaths",
+      "operation": "replace",
+      "value": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/**",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.contract-amendments/**",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.intelligence.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.approach.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.outcome.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.events.jsonl",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.task-report.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.task-report.md",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.archive.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.intelligence.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.approach.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.outcome.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.events.jsonl",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.md",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.archive.json",
+        ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.preflight-review.json"
+      ]
+    }
+  ]
+}

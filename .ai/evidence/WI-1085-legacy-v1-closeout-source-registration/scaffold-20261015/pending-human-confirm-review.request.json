@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "kind": "pending_human_confirm_review_request",
+  "approvalRecorded": false,
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "actorRequired": "human:Ray",
+  "requestedOption": "confirm_review",
+  "sourceCodeBaseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "contractDigest": "sha256:a56f4b3644afabce989e76aaeca1d0427448cf7650b7022a2d7a0a95bde3be71",
+  "contractRawDigest": "sha256:32a3da648d02bc1dff9b6afa3b4c60a81ee0b9591df8cc6e300419e124a5988b",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "amendment": {
+    "changeId": "wi1085-initial-reviewed-plan-v2-20261015",
+    "sequence": 1,
+    "journalDigest": "sha256:9af5613a37f5afa8a772ab4a602b3f58e6dc522d141b5f426b692094823f224d",
+    "requestDigest": "sha256:1c0e3b85b12c71ba43bbd5b748759e7291fd51968557b9c254ced76b1237f6be",
+    "policyReviewRequirements": [
+      "/concurrencyBoundary",
+      "/outOfScope",
+      "/scenarioCoverage"
+    ]
+  },
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "runtimeHumanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "approvalScope": [
+    "The current exact amended WI-1085 Contract and preflight snapshot, including local requirement+registration, full-source validation, explicit_attestation, constrained root/extension resume, durable exact transition template/version, committed-original-before-next-sequence retry, one locked authoritative writer, and declared local total-loss boundary.",
+    "Continue only under current Runtime admission and after Raydot returns the independent technical review conclusion for core implementation."
+  ],
+  "excludedScope": [
+    "Rewriting or silently migrating old v1 receipts, historical producer identity/time, archive/Contract/close/verification/provider bytes, or representing historical verification as current execution.",
+    "Remote trusted monotonic registry, new external trust service, bulk migration, and claims that total loss or rollback of all local provenance is detectable.",
+    "Actual source registration or historical repair of real WI-1004 records; this implementation uses isolated fixtures until a separate exact target authority exists.",
+    "WI-1084 reopening, PR1040 body changes, WI-1078 retained resources/evidence, other worktrees or dirty files, local Sentinel, Task9, and global Agent/MCP/security/permission configuration.",
+    "Release publication, tags, new PR creation without direction, Ready/merge, human close, branch/worktree deletion or resource cleanup.",
+    "General finalization, evidence cache or coordination refactoring; unrelated CI/release workflows, assertions or gate weakening."
+  ],
+  "resumeCondition": "A genuine identity-bound human confirm_review receipt matches this exact Contract, preflightDecisionDigest and repositorySnapshotDigest; any changed binding requires a refreshed explicit request. No approval is inferred from Raydot ordinary technical review or older WI approvals.",
+  "preparedAt": "2026-10-15T14:48:10.594196+00:00"
+}

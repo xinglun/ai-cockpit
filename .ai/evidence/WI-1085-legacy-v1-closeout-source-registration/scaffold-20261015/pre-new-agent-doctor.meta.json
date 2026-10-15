@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "agent",
+    "doctor",
+    "--repo",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+    "--json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T14:41:47.029211+00:00",
+  "elapsedSeconds": 0.048,
+  "exitCode": 0,
+  "stdoutBytes": 455,
+  "stderrBytes": 0
+}

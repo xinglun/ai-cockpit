@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "README.md",
+      "sizeBytes": 1165,
+      "sha256": "17ec7688df1505cc76f543cbdc9b4214aaa3208e41524616e9fbc0cc2b027c25"
+    },
+    {
+      "path": "addendum-preflight.meta.json",
+      "sizeBytes": 521,
+      "sha256": "911f5e5f0dc55f1a5a667178ecc7a706af3c40ee08f80f53dea22782eae95187"
+    },
+    {
+      "path": "addendum-preflight.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "addendum-preflight.stdout",
+      "sizeBytes": 6361,
+      "sha256": "3e713e531cd5d0c78ea8bea635615c7f1bb3a332f4cc6025f336a97c00526df4"
+    },
+    {
+      "path": "after-addendum-preflight-inspect.meta.json",
+      "sizeBytes": 493,
+      "sha256": "594b4bfebb7588ea2c9fbd03f2dc4cd18f8fd39ac9637c00c3c2fd9d75494a5e"
+    },
+    {
+      "path": "after-addendum-preflight-inspect.stderr",
+      "sizeBytes": 293,
+      "sha256": "108eb045509ecdaeb5b4f3b88f401867b177a84fd8ce69573b0198b46ec80277"
+    },
+    {
+      "path": "after-addendum-preflight-inspect.stdout",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "after-addendum-preflight-outcome.meta.json",
+      "sizeBytes": 595,
+      "sha256": "6b72f00d62b86e8c66e7b885ae01ba7baf0e245d50aea7e774ee66ce396f7f92"
+    },
+    {
+      "path": "after-addendum-preflight-outcome.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "after-addendum-preflight-outcome.stdout",
+      "sizeBytes": 3266,
+      "sha256": "16799f89a8a3cc1ed95e2b2d03b4e997c0efe1ba43e2a7b5e2ffa279a4b6cccd"
+    },
+    {
+      "path": "after-addendum-preflight-status.meta.json",
+      "sizeBytes": 507,
+      "sha256": "927851e549ebc805ca29937da27a612fd15ef69ff5a8dbc0d0dc57892117ea9f"
+    },
+    {
+      "path": "after-addendum-preflight-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "after-addendum-preflight-status.stdout",
+      "sizeBytes": 4077,
+      "sha256": "3767a50322d5c6b1348e87afcbd0483af8a6222bb363f366ce049b6cd3a3269b"
+    },
+    {
+      "path": "after-addendum-status.meta.json",
+      "sizeBytes": 507,
+      "sha256": "e32e6004df67d6e2ac8cc352d5dc6a3568865d5bcdface5e5da6eb8348e1a6d7"
+    },
+    {
+      "path": "after-addendum-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "after-addendum-status.stdout",
+      "sizeBytes": 4077,
+      "sha256": "28e92350b318614f0309d5c02f663215c21504a5ff351fc4eaca4e1f3b0bee62"
+    },
+    {
+      "path": "corrected-boundary-inspect.meta.json",
+      "sizeBytes": 494,
+      "sha256": "d82909acf092c1d599259fd11780936e5d11c839ddf328a188eb0be82e663434"
+    },
+    {
+      "path": "corrected-boundary-inspect.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "corrected-boundary-inspect.stdout",
+      "sizeBytes": 2507,
+      "sha256": "c7e994553b5075f479840e779c4a8d2350d14043bef9304a38963e72eb669520"
+    },
+    {
+      "path": "corrected-boundary-status.meta.json",
+      "sizeBytes": 507,
+      "sha256": "88f673afed2db76eee9136f59ac468c87aef6237cd68bcc4e15c396b02647064"
+    },
+    {
+      "path": "corrected-boundary-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "corrected-boundary-status.stdout",
+      "sizeBytes": 4077,
+      "sha256": "6602c23268ce8605a82b8356207d944dcb12f13f5d59e84e58902da651182412"
+    },
+    {
+      "path": "current-stage-bindings.json",
+      "sizeBytes": 3714,
+      "sha256": "b99b532f3132e1e0af5f4f628d28b41a3b43259dfdedcd3c743a2a5d87241a74"
+    },
+    {
+      "path": "final-outcome.meta.json",
+      "sizeBytes": 595,
+      "sha256": "7b2765625423e05567b43694cf0dc72398ed41b8e69c0d11f862659b3cf17c7b"
+    },
+    {
+      "path": "final-outcome.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final-outcome.stdout",
+      "sizeBytes": 3266,
+      "sha256": "16799f89a8a3cc1ed95e2b2d03b4e997c0efe1ba43e2a7b5e2ffa279a4b6cccd"
+    },
+    {
+      "path": "final-preflight.meta.json",
+      "sizeBytes": 521,
+      "sha256": "4944fe95b258ab7f4a07125d36aa418b0492236f11de2d1b04af24a3af8a1de4"
+    },
+    {
+      "path": "final-preflight.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final-preflight.stdout",
+      "sizeBytes": 6361,
+      "sha256": "0a44908ceb122b35be10959ffa64d76b4e4d06a5e0770f63cb767dc89280ca87"
+    },
+    {
+      "path": "final-status.meta.json",
+      "sizeBytes": 507,
+      "sha256": "349465f181d8efcbd1ecba6afd734ee4a1793147f34f0658de1cbc85bc468f43"
+    },
+    {
+      "path": "final-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "final-status.stdout",
+      "sizeBytes": 4077,
+      "sha256": "d709fb11e57c786f603c6bb65ae9e8b7717c56bd3bd53ccdae5a20f73bd07fb1"
+    },
+    {
+      "path": "independent-review-addendum.meta.json",
+      "sizeBytes": 594,
+      "sha256": "5209d3b1b70f779badeea7bc95b474e4b2a312e974610e491d0bb5fc2cd468dc"
+    },
+    {
+      "path": "independent-review-addendum.request.json",
+      "sizeBytes": 2985,
+      "sha256": "af5721c6e6e147e6bcd5eeb02f884c45308511ee3656c79d33665232710b953d"
+    },
+    {
+      "path": "independent-review-addendum.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-review-addendum.stdout",
+      "sizeBytes": 25682,
+      "sha256": "d83b9359ecf8331ea8539fc6bc580ffa61bc4349bcaa9b74f05edf0c39d673d1"
+    },
+    {
+      "path": "pending-human-confirm-review.request.json",
+      "sizeBytes": 5834,
+      "sha256": "27abfc329958b9f053c3b69e1e8215efcc107a1aaf3818615ff5274f5c77cc70"
+    },
+    {
+      "path": "supported-boundary-paths.meta.json",
+      "sizeBytes": 590,
+      "sha256": "421405972d04aad053905d67906511350cbb660200e6e17e84fb48995ac5ab5c"
+    },
+    {
+      "path": "supported-boundary-paths.request.json",
+      "sizeBytes": 2708,
+      "sha256": "69b399e78f7ce339056a9a82a30c36d7cde454680c51ef67747fb945e267e375"
+    },
+    {
+      "path": "supported-boundary-paths.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "supported-boundary-paths.stdout",
+      "sizeBytes": 4269,
+      "sha256": "3eda8daca068fcf3eccca82e5d13b8ee0cbd6af4af67b7045d8a7575e6ff2c59"
+    }
+  ]
+}

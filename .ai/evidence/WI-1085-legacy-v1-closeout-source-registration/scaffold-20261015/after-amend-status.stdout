@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "implementation_active",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": true,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 16,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 2,
+    "checkpointCount": 0
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:a56f4b3644afabce989e76aaeca1d0427448cf7650b7022a2d7a0a95bde3be71",
+    "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "repositorySnapshot": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "summary": "sha256:f8b8b28d4b8451cf58ae2d594a47afb5c06d08c1cafb2c75f6487b62eb36e0c8"
+  },
+  "unknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-15T14:44:27Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_preflight"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "acceptance_evidence_insufficient",
+        "message": "current projection reports acceptance_evidence_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "acceptance_evidence_missing",
+        "message": "current projection reports acceptance_evidence_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [
+      "acceptance_evidence_insufficient",
+      "acceptance_evidence_missing",
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:5e7ce02f72da124b19ef2d26a07884c2189a1bba1f2c311ec9d8de1811c031bf"
+  },
+  "statusDigest": "sha256:cc5f7f9f09cd9030683bafa27b8c60b1790fe3a62f4754c9ba2022a45fb0edfa",
+  "historical": false
+}
