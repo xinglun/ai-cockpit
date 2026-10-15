@@ -1,0 +1,11 @@
+
+running 1 test
+test extension::registered_root_refuses_unprepared_raw_transition_without_writing ... FAILED
+
+failures:
+
+failures:
+    extension::registered_root_refuses_unprepared_raw_transition_without_writing
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 1.00s
+

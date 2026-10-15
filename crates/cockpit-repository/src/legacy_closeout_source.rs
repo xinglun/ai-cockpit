@@ -66,10 +66,11 @@ use super::{
 use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    LegacyCloseoutSourceAttestation, LegacyCloseoutSourceFileBinding as FileBinding,
-    LegacyCloseoutSourceOperation as Operation, LegacyCloseoutSourcePlan as Plan,
-    LegacyCloseoutSourceRegistration as Registration, LegacyCloseoutSourceRequest as Request,
-    LegacyCloseoutSourceRequirement as Requirement, RuntimeContext, digest_json,
+    LegacyCloseoutSourceAttestation, LegacyCloseoutSourceExtension as Extension,
+    LegacyCloseoutSourceFileBinding as FileBinding, LegacyCloseoutSourceOperation as Operation,
+    LegacyCloseoutSourcePlan as Plan, LegacyCloseoutSourceRegistration as Registration,
+    LegacyCloseoutSourceRequest as Request, LegacyCloseoutSourceRequirement as Requirement,
+    RuntimeContext, digest_json,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use std::{
@@ -431,7 +432,7 @@ fn snapshot(root: &Path) -> Result<Digest, ObserverError> {
         .map_err(|_| error(root, "snapshot_unavailable"))?;
     snapshot_digest(&snapshot)
 }
-fn validate_registration(
+fn parse_registration(
     root: &Path,
     id: &str,
     repo: &str,
@@ -455,18 +456,39 @@ fn validate_registration(
     {
         return Err(error(root, "registration_binding_invalid"));
     }
-    let (facts, inventory) = observe_history(root, id, repo)?;
-    if facts != registration.history_facts
-        || inventory != registration.inventory
-        || registration.dependency_bindings != dependencies(&inventory)
-        || registration.source.inventory_digest != digest(root, &inventory)?
+    if registration.dependency_bindings != dependencies(&registration.inventory)
+        || registration.source.inventory_digest != digest(root, &registration.inventory)?
         || registration.legacy_receipt
-            != *inventory
+            != *registration
+                .inventory
                 .iter()
                 .find(|f| f.path == receipt_path(id))
                 .ok_or_else(|| error(root, "legacy_receipt_missing"))?
+        || registration
+            .runtime
+            .runtime_digest
+            .as_str()
+            .parse::<Digest>()
+            .is_err()
     {
-        return Err(error(root, "registered_proof_changed"));
+        return Err(error(root, "registration_binding_invalid"));
+    }
+    Ok(registration)
+}
+fn validate_registration(
+    root: &Path,
+    id: &str,
+    repo: &str,
+    bytes: &str,
+) -> Result<Registration, ObserverError> {
+    let registration = parse_registration(root, id, repo, bytes)?;
+    if let Some(extension) = optional_read(root, &extension_path(id))? {
+        validate_extension(root, id, &registration, bytes.as_bytes(), &extension, true)?;
+    } else {
+        let (facts, inventory) = observe_history(root, id, repo)?;
+        if facts != registration.history_facts || inventory != registration.inventory {
+            return Err(error(root, "registered_proof_changed"));
+        }
     }
     Ok(registration)
 }
@@ -485,11 +507,6 @@ pub(super) fn integrity_problem(root: &Path, id: &str, repository_id: &str) -> O
     if !has_obligation(root, id) {
         return None;
     }
-    match optional_read(root, &format!(".ai/decisions/{id}{EXTENSION_SUFFIX}")) {
-        Ok(None) => {}
-        Ok(Some(_)) => return Some("legacy_closeout_source:extension_pending".into()),
-        Err(error) => return Some(error.to_string()),
-    }
     validate_pair(root, id, repository_id)
         .err()
         .map(|error| error.to_string())
@@ -507,7 +524,7 @@ fn observation(
     let (facts, inventory) = observe_history(root, id, &registration.repository_id)?;
     digest(
         root,
-        &serde_json::json!({"snapshot":snapshot(root)?,"head":git_text(root,&["rev-parse","HEAD"])? ,"facts":facts,"inventory":inventory,"requirement":optional_read(root,&requirement_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes)),"registration":optional_read(root,&registration_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes))}),
+        &serde_json::json!({"snapshot":snapshot(root)?,"head":git_text(root,&["rev-parse","HEAD"])? ,"facts":facts,"inventory":inventory,"requirement":optional_read(root,&requirement_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes)),"registration":optional_read(root,&registration_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes)),"extension":optional_read(root,&extension_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes))}),
     )
 }
 fn plan_digest(root: &Path, plan: &Plan) -> Result<Digest, ObserverError> {
@@ -533,6 +550,12 @@ pub fn plan_legacy_closeout_source(
     let repo = repository_id(&root).to_string();
     if request.schema_version != 1 {
         return Err(error(&root, "request_schema_invalid"));
+    }
+    if matches!(
+        request.operation,
+        Operation::Extend | Operation::ResumeExtension
+    ) {
+        return plan_extension(&root, id, request, runtime);
     }
     let registration_bytes = match request.operation {
         Operation::Register => {
@@ -630,6 +653,7 @@ pub fn plan_legacy_closeout_source(
             }
             original.clone()
         }
+        Operation::Extend | Operation::ResumeExtension => unreachable!("handled above"),
     };
     let registration = validate_registration(&root, id, &repo, &registration_bytes)?;
     let requirement_bytes =
@@ -659,6 +683,8 @@ pub fn plan_legacy_closeout_source(
         registration_bytes,
         requirement_bytes,
         plan_digest: Digest::sha256_bytes(b"uninitialized"),
+        extension_bytes: None,
+        extension_raw_digest: None,
     };
     plan.plan_digest = plan_digest(&root, &plan)?;
     Ok(plan)
@@ -726,7 +752,16 @@ pub fn record_legacy_closeout_source(
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(id)?;
     let root = canonical(root)?;
-    let _lock = acquire_lifecycle_lock(&root, id)?;
+    let guard = acquire_lifecycle_lock(&root, id)?;
+    if matches!(
+        plan.operation,
+        Operation::Extend | Operation::ResumeExtension
+    ) {
+        return record_extension_locked(&root, id, plan, runtime, &guard);
+    }
+    if plan.extension_bytes.is_some() || plan.extension_raw_digest.is_some() {
+        return Err(error(&root, "plan_binding_invalid"));
+    }
     let repo = repository_id(&root).to_string();
     if plan.schema_version != 1
         || plan.kind != "legacy_closeout_source_plan"
@@ -827,4 +862,465 @@ pub fn record_legacy_closeout_source(
     Ok(
         serde_json::json!({"state":"committed","workItemId":id,"registrationRawDigest":plan.registration_raw_digest,"requirementRawDigest":plan.requirement_raw_digest,"changedPaths":changed,"publicationObservedAt":super::now()}),
     )
+}
+
+fn extension_path(id: &str) -> String {
+    format!(".ai/decisions/{id}{EXTENSION_SUFFIX}")
+}
+
+/// Bound every caller input before parsing and reject duplicate keys. No parent
+/// component or leaf is followed through a symlink.
+pub fn read_legacy_closeout_source_input(path: &Path) -> Result<serde_json::Value, ObserverError> {
+    parse(path, &read_input_bytes(path)?)
+}
+pub(crate) fn read_input_bytes(path: &Path) -> Result<Vec<u8>, ObserverError> {
+    // Caller-selected inputs may be outside the repository. Resolve the parent
+    // once (including platform temp aliases), then pin it and reject leaf links.
+    // Repository evidence uses safe_read instead and never resolves symlinks.
+    let parent = canonical(
+        path.parent()
+            .filter(|p| !p.as_os_str().is_empty())
+            .unwrap_or(Path::new(".")),
+    )?;
+    let dir = Dir::open_ambient_dir(&parent, cap_std::ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: parent.clone(),
+            source,
+        }
+    })?;
+    let name = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| error(path, "path_invalid"))?;
+    read_cap_file_nofollow_bounded(&dir, name, path, MAX_RECORD_BYTES)
+}
+
+fn root_pair(root: &Path, id: &str) -> Result<(Registration, String, String), ObserverError> {
+    let repo = repository_id(root).to_string();
+    let bytes = String::from_utf8(safe_read(root, &registration_path(id), MAX_RECORD_BYTES)?)
+        .map_err(|_| error(root, "registration_invalid"))?;
+    let registration = parse_registration(root, id, &repo, &bytes)?;
+    let required = String::from_utf8(safe_read(root, &requirement_path(id), MAX_RECORD_BYTES)?)
+        .map_err(|_| error(root, "requirement_invalid"))?;
+    if required.as_bytes() != requirement(root, &registration, &bytes)? {
+        return Err(error(root, "requirement_binding_invalid"));
+    }
+    Ok((registration, bytes, required))
+}
+fn transition_value(root: &Path, bytes: &str) -> Result<serde_json::Value, ObserverError> {
+    let typed: cockpit_protocol::ResourceFinalizationTransitionReceipt =
+        parse(root, bytes.as_bytes())?;
+    serde_json::to_value(typed).map_err(|_| error(root, "transition_invalid"))
+}
+fn extension_result(
+    root: &Path,
+    extension: &Extension,
+) -> Result<serde_json::Value, ObserverError> {
+    let value = transition_value(root, &extension.transition_bytes)?;
+    Ok(
+        serde_json::json!({"workItemId": extension.work_item_id, "state":"appended", "sequence":value["sequence"], "disposition":value["receipt"]["result"]["disposition"], "predecessorPath":extension.predecessor.path,"path":extension.transition.path}),
+    )
+}
+fn validate_extension(
+    root: &Path,
+    id: &str,
+    registration: &Registration,
+    registration_bytes: &[u8],
+    bytes: &[u8],
+    require_transition: bool,
+) -> Result<Extension, ObserverError> {
+    let extension: Extension = parse(root, bytes)?;
+    let value = transition_value(root, &extension.transition_bytes)?;
+    let canonical_digest = digest(root, &value)?;
+    let transition_path = format!(
+        ".ai/decisions/{id}.finalize.{}.json",
+        canonical_digest.as_str().trim_start_matches("sha256:")
+    );
+    let expected_binding = binding(root, transition_path, extension.transition_bytes.as_bytes())?;
+    if extension.schema_version != 1
+        || extension.serialization_version != 1
+        || extension.kind != "legacy_closeout_source_extension"
+        || extension.repository_id != registration.repository_id
+        || extension.work_item_id != id
+        || extension.registration_raw_digest != Digest::sha256_bytes(registration_bytes)
+        || extension.legacy_receipt_raw_digest != registration.legacy_receipt.raw_digest
+        || extension.transition != expected_binding
+        || extension.predecessor_sequence.checked_add(1) != value["sequence"].as_u64()
+        || registration.history_facts["finalizationSequence"].as_u64()
+            != Some(extension.predecessor_sequence)
+        || registration.history_facts["finalizationHeadPath"] != extension.predecessor.path
+        || registration.history_facts["finalizationHeadDigest"] != value["predecessorReceiptDigest"]
+        || !registration.inventory.contains(&extension.predecessor)
+        || extension.actor.trim().is_empty()
+        || extension.authority_source.trim().is_empty()
+        || extension.reason.trim().is_empty()
+        || extension.runtime.runtime_version.trim().is_empty()
+        || extension.runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
+        || extension
+            .runtime
+            .runtime_digest
+            .as_str()
+            .parse::<Digest>()
+            .is_err()
+        || chrono::DateTime::parse_from_rfc3339(&extension.recorded_at).is_err()
+        || encode(root, &extension)? != bytes
+        || extension.result != extension_result(root, &extension)?
+        || value["receipt"]["result"]["disposition"] != "deleted"
+    {
+        return Err(error(root, "extension_binding_invalid"));
+    }
+    let mut expected = registration.inventory.clone();
+    for file in &extension.dependency_bindings {
+        if !dependencies(std::slice::from_ref(file)).contains(file)
+            || expected.iter().any(|old| old.path == file.path)
+        {
+            return Err(error(root, "extension_dependency_invalid"));
+        }
+        expected.push(file.clone());
+    }
+    let present = optional_read(root, &extension.transition.path)?;
+    if let Some(raw) = &present {
+        if raw != extension.transition_bytes.as_bytes() {
+            return Err(error(root, "published_transition_changed"));
+        }
+        expected.push(extension.transition.clone());
+    } else if require_transition {
+        return Err(error(root, "extension_pending"));
+    }
+    expected.sort_by(|a, b| a.path.cmp(&b.path));
+    if expected.len() > MAX_FILES
+        || expected
+            .windows(2)
+            .any(|files| files[0].path == files[1].path)
+    {
+        return Err(error(root, "inventory_budget_exceeded"));
+    }
+    let (mut facts, observed) = observe_history(root, id, &registration.repository_id)?;
+    if present.is_some() {
+        if facts["finalizationSequence"] != value["sequence"]
+            || facts["finalizationHeadPath"] != extension.transition.path
+            || facts["finalizationHeadDigest"]
+                != serde_json::json!(digest(root, &value["receipt"])?)
+        {
+            return Err(error(root, "extension_head_invalid"));
+        }
+        for name in [
+            "finalizationSequence",
+            "finalizationHeadPath",
+            "finalizationHeadDigest",
+        ] {
+            facts[name] = registration.history_facts[name].clone();
+        }
+    }
+    if expected != observed || facts != registration.history_facts {
+        return Err(error(root, "registered_proof_changed"));
+    }
+    Ok(extension)
+}
+fn extension_plan_identity(
+    root: &Path,
+    id: &str,
+    plan: &Plan,
+) -> Result<(Registration, Extension), ObserverError> {
+    let (registration, bytes, required) = root_pair(root, id)?;
+    if plan.schema_version != 1
+        || plan.kind != "legacy_closeout_source_plan"
+        || plan.state != "prepared"
+        || !matches!(
+            plan.operation,
+            Operation::Extend | Operation::ResumeExtension
+        )
+        || plan.repository_id != registration.repository_id
+        || plan.work_item_id != id
+        || plan.destination_root != root.to_string_lossy()
+        || plan.registration_bytes != bytes
+        || plan.requirement_bytes != required
+        || plan.registration_raw_digest != Digest::sha256_bytes(bytes.as_bytes())
+        || plan.requirement_raw_digest != Digest::sha256_bytes(required.as_bytes())
+        || plan.plan_digest != plan_digest(root, plan)?
+    {
+        return Err(error(root, "plan_binding_invalid"));
+    }
+    let extension_bytes = plan
+        .extension_bytes
+        .as_ref()
+        .ok_or_else(|| error(root, "extension_plan_required"))?;
+    if plan.extension_raw_digest.as_ref() != Some(&Digest::sha256_bytes(extension_bytes.as_bytes()))
+    {
+        return Err(error(root, "plan_binding_invalid"));
+    }
+    let extension = validate_extension(
+        root,
+        id,
+        &registration,
+        bytes.as_bytes(),
+        extension_bytes.as_bytes(),
+        false,
+    )?;
+    Ok((registration, extension))
+}
+fn plan_extension(
+    root: &Path,
+    id: &str,
+    request: &Request,
+    runtime: &RuntimeContext,
+) -> Result<Plan, ObserverError> {
+    if request.source_accepted
+        || request.source_revision.is_some()
+        || request.original_registration_bytes.is_some()
+        || request.original_requirement_raw_digest.is_some()
+    {
+        return Err(error(root, "request_role_invalid"));
+    }
+    let (registration, registration_bytes, requirement_bytes) = root_pair(root, id)?;
+    let extension_bytes = if request.operation == Operation::ResumeExtension {
+        let original = request
+            .original_extension_bytes
+            .as_ref()
+            .ok_or_else(|| error(root, "original_binding_unavailable"))?;
+        let extension = validate_extension(
+            root,
+            id,
+            &registration,
+            registration_bytes.as_bytes(),
+            original.as_bytes(),
+            false,
+        )?;
+        if request.original_extension_raw_digest.as_ref()
+            != Some(&Digest::sha256_bytes(original.as_bytes()))
+        {
+            return Err(error(root, "original_binding_invalid"));
+        }
+        if optional_read(root, &extension_path(id))?.is_none()
+            && optional_read(root, &extension.transition.path)?.is_none()
+        {
+            return Err(error(root, "no_surviving_extension_obligation"));
+        }
+        original.clone()
+    } else {
+        if optional_read(root, &extension_path(id))?.is_some() {
+            return Err(error(root, "original_binding_required_for_resume"));
+        }
+        if request.original_extension_bytes.is_some()
+            || request.original_extension_raw_digest.is_some()
+        {
+            return Err(error(root, "request_role_invalid"));
+        }
+        let transition_bytes = request
+            .transition_bytes
+            .as_ref()
+            .ok_or_else(|| error(root, "transition_required"))?;
+        let value = transition_value(root, transition_bytes)?;
+        let prepared = super::resource_lifecycle::prepare_resource_finalization(
+            root,
+            id,
+            &value,
+            &root.join(".ai/decisions"),
+            runtime,
+        )?;
+        if prepared.value.is_none() {
+            return Err(error(root, "original_binding_required_for_resume"));
+        }
+        let relative = super::repository_relative_path(root, &prepared.path);
+        let (_, inventory) = observe_history(root, id, &registration.repository_id)?;
+        let added = inventory
+            .iter()
+            .filter(|file| !registration.inventory.contains(file))
+            .cloned()
+            .collect::<Vec<_>>();
+        let predecessor_path = registration.history_facts["finalizationHeadPath"]
+            .as_str()
+            .ok_or_else(|| error(root, "retained_predecessor_required"))?;
+        let text = |value: &Option<String>| {
+            value
+                .as_deref()
+                .filter(|v| !v.trim().is_empty())
+                .map(str::to_owned)
+                .ok_or_else(|| error(root, "explicit_attestation_required"))
+        };
+        let mut extension = Extension {
+            schema_version: 1,
+            kind: "legacy_closeout_source_extension".into(),
+            serialization_version: 1,
+            repository_id: registration.repository_id.clone(),
+            work_item_id: id.into(),
+            registration_raw_digest: Digest::sha256_bytes(registration_bytes.as_bytes()),
+            legacy_receipt_raw_digest: registration.legacy_receipt.raw_digest.clone(),
+            predecessor: registration
+                .inventory
+                .iter()
+                .find(|file| file.path == predecessor_path)
+                .ok_or_else(|| error(root, "retained_predecessor_required"))?
+                .clone(),
+            predecessor_sequence: registration.history_facts["finalizationSequence"]
+                .as_u64()
+                .ok_or_else(|| error(root, "retained_predecessor_required"))?,
+            transition: binding(root, relative, transition_bytes.as_bytes())?,
+            transition_bytes: transition_bytes.clone(),
+            dependency_bindings: added,
+            runtime: runtime.clone(),
+            actor: text(&request.actor)?,
+            authority_source: text(&request.authority_source)?,
+            reason: text(&request.reason)?,
+            recorded_at: super::now(),
+            result: serde_json::Value::Null,
+        };
+        extension.result = extension_result(root, &extension)?;
+        String::from_utf8(encode(root, &extension)?)
+            .map_err(|_| error(root, "serialization_failed"))?
+    };
+    let extension = validate_extension(
+        root,
+        id,
+        &registration,
+        registration_bytes.as_bytes(),
+        extension_bytes.as_bytes(),
+        false,
+    )?;
+    if let Some(existing) = optional_read(root, &extension_path(id))?
+        && existing != extension_bytes.as_bytes()
+    {
+        return Err(error(root, "published_record_changed"));
+    }
+    if request.operation == Operation::Extend
+        && optional_read(root, &extension.transition.path)?.is_some()
+    {
+        return Err(error(root, "original_binding_required_for_resume"));
+    }
+    let mut plan = Plan {
+        schema_version: 1,
+        kind: "legacy_closeout_source_plan".into(),
+        state: "prepared".into(),
+        operation: request.operation.clone(),
+        repository_id: registration.repository_id.clone(),
+        work_item_id: id.into(),
+        destination_root: root.to_string_lossy().into_owned(),
+        registration_raw_digest: Digest::sha256_bytes(registration_bytes.as_bytes()),
+        requirement_raw_digest: Digest::sha256_bytes(requirement_bytes.as_bytes()),
+        registration_bytes,
+        requirement_bytes,
+        observation_digest: observation(root, id, &registration)?,
+        plan_digest: Digest::sha256_bytes(b"uninitialized"),
+        extension_raw_digest: Some(Digest::sha256_bytes(extension_bytes.as_bytes())),
+        extension_bytes: Some(extension_bytes),
+    };
+    plan.plan_digest = plan_digest(root, &plan)?;
+    Ok(plan)
+}
+/// Sole registered extension publisher; both public transports arrive holding
+/// the same unforgeable repository/Work Item lifecycle guard.
+fn record_extension_locked(
+    root: &Path,
+    id: &str,
+    plan: &Plan,
+    runtime: &RuntimeContext,
+    guard: &super::LifecycleLockGuard,
+) -> Result<serde_json::Value, ObserverError> {
+    guard.require_subject(root, id)?;
+    let (registration, extension) = extension_plan_identity(root, id, plan)?;
+    let frozen = plan
+        .extension_bytes
+        .as_ref()
+        .ok_or_else(|| error(root, "extension_plan_required"))?;
+    let existing_extension = optional_read(root, &extension_path(id))?;
+    let existing_transition = optional_read(root, &extension.transition.path)?;
+    if existing_extension
+        .as_deref()
+        .is_some_and(|bytes| bytes != frozen.as_bytes())
+    {
+        return Err(error(root, "published_record_changed"));
+    }
+    // Recognition of the exact original publication precedes next-head/sequence
+    // resolution, freshness and current Runtime checks. No bytes are regenerated.
+    if existing_extension.is_some() && existing_transition.is_some() {
+        validate_pair(root, id, &registration.repository_id)?;
+        return Ok(extension.result);
+    }
+    if plan.operation == Operation::Extend {
+        if existing_extension.is_some() || existing_transition.is_some() {
+            return Err(error(root, "original_binding_required_for_resume"));
+        }
+        let at = chrono::DateTime::parse_from_rfc3339(&extension.recorded_at)
+            .map_err(|_| error(root, "record_time_invalid"))?;
+        let age = chrono::Utc::now().signed_duration_since(at);
+        if extension.runtime != *runtime || age.num_seconds() < 0 || age.num_seconds() > 300 {
+            return Err(error(root, "prepared_observation_stale"));
+        }
+    } else if existing_extension.is_none() && existing_transition.is_none() {
+        return Err(error(root, "no_surviving_extension_obligation"));
+    }
+    if plan.observation_digest != observation(root, id, &registration)? {
+        return Err(error(root, "plan_stale"));
+    }
+    if existing_transition.is_none() {
+        let value = transition_value(root, &extension.transition_bytes)?;
+        let prepared = super::resource_lifecycle::prepare_resource_finalization(
+            root,
+            id,
+            &value,
+            &root.join(".ai/decisions"),
+            runtime,
+        )?;
+        if prepared.value.is_none() || prepared.result != extension.result {
+            return Err(error(root, "extension_binding_invalid"));
+        }
+    }
+    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.into(),
+            source,
+        }
+    })?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let dir = open_cap_directory_nofollow_strict(&ai, "decisions", &root.join(".ai/decisions"))?;
+    for (path, bytes) in [
+        (extension_path(id), frozen.as_bytes()),
+        (
+            extension.transition.path.clone(),
+            extension.transition_bytes.as_bytes(),
+        ),
+    ] {
+        let name = Path::new(&path)
+            .file_name()
+            .and_then(|name| name.to_str())
+            .ok_or_else(|| error(root, "path_invalid"))?;
+        publish(&root.join(".ai/decisions"), &dir, name, bytes)?;
+    }
+    validate_pair(root, id, &registration.repository_id)
+        .map_err(|_| error(root, "commit_state_unknown"))?;
+    Ok(extension.result)
+}
+
+pub(crate) fn record_finalization_locked(
+    root: &Path,
+    id: &str,
+    input: &serde_json::Value,
+    input_bytes: &[u8],
+    runtime: &RuntimeContext,
+    guard: &super::LifecycleLockGuard,
+) -> Result<serde_json::Value, ObserverError> {
+    guard.require_subject(root, id)?;
+    if input["kind"] == "legacy_closeout_source_plan" {
+        let plan: Plan = serde_json::from_value(input.clone())
+            .map_err(|_| error(root, "strict_schema_invalid"))?;
+        return record_extension_locked(root, id, &plan, runtime, guard);
+    }
+    let (registration, bytes, _) = root_pair(root, id)?;
+    if let Some(frozen) = optional_read(root, &extension_path(id))? {
+        let extension =
+            validate_extension(root, id, &registration, bytes.as_bytes(), &frozen, true)?;
+        let requested: cockpit_protocol::ResourceFinalizationTransitionReceipt =
+            serde_json::from_value(input.clone())
+                .map_err(|_| error(root, "extension_plan_required"))?;
+        if serde_json::to_value(requested).map_err(|_| error(root, "transition_invalid"))?
+            == transition_value(root, &extension.transition_bytes)?
+        {
+            if input_bytes != extension.transition_bytes.as_bytes() {
+                return Err(error(root, "published_transition_changed"));
+            }
+            validate_pair(root, id, &registration.repository_id)?;
+            return Ok(extension.result);
+        }
+    }
+    Err(error(root, "extension_plan_required"))
 }

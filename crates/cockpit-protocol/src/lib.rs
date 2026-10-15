@@ -223,6 +223,12 @@ pub struct LegacyCloseoutSourceRequest {
     pub original_registration_bytes: Option<String>,
     #[serde(default)]
     pub original_requirement_raw_digest: Option<Digest>,
+    #[serde(default)]
+    pub transition_bytes: Option<String>,
+    #[serde(default)]
+    pub original_extension_bytes: Option<String>,
+    #[serde(default)]
+    pub original_extension_raw_digest: Option<Digest>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -230,6 +236,8 @@ pub struct LegacyCloseoutSourceRequest {
 pub enum LegacyCloseoutSourceOperation {
     Register,
     Resume,
+    Extend,
+    ResumeExtension,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -304,6 +312,36 @@ pub struct LegacyCloseoutSourcePlan {
     pub requirement_raw_digest: Digest,
     pub observation_digest: Digest,
     pub plan_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extension_bytes: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extension_raw_digest: Option<Digest>,
+}
+
+/// A present-day obligation for exactly one historical Retained-to-Deleted
+/// append. Historical transition bytes are frozen independently of this
+/// registrar's identity and observation time.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourceExtension {
+    pub schema_version: u32,
+    pub kind: String,
+    pub serialization_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub registration_raw_digest: Digest,
+    pub legacy_receipt_raw_digest: Digest,
+    pub predecessor: LegacyCloseoutSourceFileBinding,
+    pub predecessor_sequence: u64,
+    pub transition: LegacyCloseoutSourceFileBinding,
+    pub transition_bytes: String,
+    pub dependency_bindings: Vec<LegacyCloseoutSourceFileBinding>,
+    pub runtime: RuntimeContext,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    pub recorded_at: String,
+    pub result: serde_json::Value,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

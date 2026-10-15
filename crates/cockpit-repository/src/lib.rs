@@ -131,7 +131,9 @@ pub use knowledge_projection::{
     generate_knowledge, generate_knowledge_v2, implementation_approach,
     implementation_approach_read_only,
 };
-pub use legacy_closeout_source::{plan_legacy_closeout_source, record_legacy_closeout_source};
+pub use legacy_closeout_source::{
+    plan_legacy_closeout_source, read_legacy_closeout_source_input, record_legacy_closeout_source,
+};
 pub use lifecycle::*;
 pub(crate) use lifecycle::{
     RECOVERY_DECISION_INVALID, contract_digest, contract_digest_for_evidence,

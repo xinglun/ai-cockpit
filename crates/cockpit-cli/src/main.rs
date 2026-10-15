@@ -3332,9 +3332,10 @@ fn run() -> Result<()> {
                 input,
             } => {
                 require_compatible(&repo, &runtime_context)?;
-                let bytes = fs::read(&input).context("read legacy source request")?;
+                let value = cockpit_repository::read_legacy_closeout_source_input(&input)
+                    .context("read bounded legacy source request")?;
                 let request: cockpit_protocol::LegacyCloseoutSourceRequest =
-                    serde_json::from_slice(&bytes).context("parse strict legacy source request")?;
+                    serde_json::from_value(value).context("parse strict legacy source request")?;
                 let result = cockpit_repository::plan_legacy_closeout_source(
                     &repo,
                     source_repo.as_deref(),
@@ -3347,9 +3348,10 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::LegacyCloseoutSourceRecord { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
-                let bytes = fs::read(&input).context("read original legacy source plan")?;
+                let value = cockpit_repository::read_legacy_closeout_source_input(&input)
+                    .context("read bounded original legacy source plan")?;
                 let plan: cockpit_protocol::LegacyCloseoutSourcePlan =
-                    serde_json::from_slice(&bytes).context("parse strict legacy source plan")?;
+                    serde_json::from_value(value).context("parse strict legacy source plan")?;
                 let result = cockpit_repository::record_legacy_closeout_source(
                     &repo,
                     &id,

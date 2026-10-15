@@ -1985,6 +1985,55 @@ pub(crate) fn record_resource_finalization_locked(
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
     guard.require_subject(root, work_item_id)?;
+    let input_bytes = super::legacy_closeout_source::read_input_bytes(receipt_path)?;
+    reject_duplicate_json_keys(&input_bytes).map_err(|message| ObserverError::State {
+        path: receipt_path.into(),
+        message,
+    })?;
+    let input_value =
+        serde_json::from_slice(&input_bytes).map_err(|error| ObserverError::State {
+            path: receipt_path.into(),
+            message: error.to_string(),
+        })?;
+    if super::legacy_closeout_source::has_obligation(root, work_item_id) {
+        return super::legacy_closeout_source::record_finalization_locked(
+            root,
+            work_item_id,
+            &input_value,
+            &input_bytes,
+            runtime,
+            guard,
+        );
+    }
+    let prepared =
+        prepare_resource_finalization(root, work_item_id, &input_value, receipt_path, runtime)?;
+    if let Some(value) = prepared.value {
+        fs::create_dir_all(prepared.path.parent().unwrap_or(root)).map_err(|source| {
+            ObserverError::Read {
+                path: prepared.path.clone(),
+                source,
+            }
+        })?;
+        atomic_json(&prepared.path, &value)?;
+    }
+    Ok(prepared.result)
+}
+
+pub(crate) struct PreparedResourceFinalization {
+    pub path: PathBuf,
+    pub value: Option<serde_json::Value>,
+    pub result: serde_json::Value,
+}
+
+/// Pure validation shared by ordinary finalization and the legacy extension
+/// planner/writer. Publication is only performed by a matching held-lock core.
+pub(crate) fn prepare_resource_finalization(
+    root: &Path,
+    work_item_id: &str,
+    input_value: &serde_json::Value,
+    receipt_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<PreparedResourceFinalization, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -2001,15 +2050,25 @@ pub(crate) fn record_resource_finalization_locked(
     verify_archive_manifest(&root, work_item_id, &manifest)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     let expected_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
-    let input_value = read_json(receipt_path)?;
     let transition = input_value
         .get("receipt")
-        .map(|_| read_resource_finalization_transition(receipt_path))
+        .map(|_| {
+            serde_json::from_value::<ResourceFinalizationTransitionReceipt>(input_value.clone())
+                .map_err(|error| ObserverError::State {
+                    path: receipt_path.into(),
+                    message: error.to_string(),
+                })
+        })
         .transpose()?;
     let receipt = if let Some(transition) = &transition {
         transition.receipt.clone()
     } else {
-        read_resource_finalization_receipt(receipt_path)?
+        serde_json::from_value::<ResourceFinalizationReceipt>(input_value.clone()).map_err(
+            |error| ObserverError::State {
+                path: receipt_path.into(),
+                message: error.to_string(),
+            },
+        )?
     };
     if close_present && transition.is_none() {
         return Err(ObserverError::State {
@@ -2109,24 +2168,29 @@ pub(crate) fn record_resource_finalization_locked(
             if appended_path.exists() {
                 let existing_value = read_json(&appended_path)?;
                 if existing_value == value {
-                    return Ok(
-                        serde_json::json!({"workItemId": work_item_id, "state": "idempotent", "disposition": receipt.result.disposition, "path": repository_relative_path(&root, &appended_path)}),
-                    );
+                    return Ok(PreparedResourceFinalization {
+                        path: appended_path.clone(),
+                        value: None,
+                        result: serde_json::json!({"workItemId": work_item_id, "state": "idempotent", "disposition": receipt.result.disposition, "path": repository_relative_path(&root, &appended_path)}),
+                    });
                 }
                 return Err(ObserverError::State {
                     path: appended_path,
                     message: "resource finalization transition digest collision".into(),
                 });
             }
-            atomic_json(&appended_path, &value)?;
-            return Ok(serde_json::json!({
-                "workItemId": work_item_id,
-                "state": "appended",
-                "sequence": transition.sequence,
-                "disposition": receipt.result.disposition,
-                "predecessorPath": repository_relative_path(&root, &head_path),
-                "path": repository_relative_path(&root, &appended_path)
-            }));
+            return Ok(PreparedResourceFinalization {
+                path: appended_path.clone(),
+                value: Some(value),
+                result: serde_json::json!({
+                    "workItemId": work_item_id,
+                    "state": "appended",
+                    "sequence": transition.sequence,
+                    "disposition": receipt.result.disposition,
+                    "predecessorPath": repository_relative_path(&root, &head_path),
+                    "path": repository_relative_path(&root, &appended_path)
+                }),
+            });
         }
         validate_resource_finalization_replay(&existing, &receipt).map_err(|error| {
             ObserverError::State {
@@ -2134,12 +2198,16 @@ pub(crate) fn record_resource_finalization_locked(
                 message: error.to_string(),
             }
         })?;
-        return Ok(serde_json::json!({
-            "workItemId": work_item_id,
-            "state": "idempotent",
-            "disposition": existing.result.disposition,
-            "path": repository_relative_path(&root, &head_path)
-        }));
+        return Ok(PreparedResourceFinalization {
+            path: head_path.clone(),
+            value: None,
+            result: serde_json::json!({
+                "workItemId": work_item_id,
+                "state": "idempotent",
+                "disposition": existing.result.disposition,
+                "path": repository_relative_path(&root, &head_path)
+            }),
+        });
     }
     if transition.is_some() {
         return Err(ObserverError::State {
@@ -2155,23 +2223,20 @@ pub(crate) fn record_resource_finalization_locked(
             message: "a schema-v2 post-merge sync root must retain the verified clean resources; Deleted requires an append-only transition from that root".into(),
         });
     }
-    fs::create_dir_all(decision_path.parent().unwrap_or(root.as_path())).map_err(|source| {
-        ObserverError::Read {
-            path: decision_path.clone(),
-            source,
-        }
-    })?;
     let value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
         path: decision_path.clone(),
         message: error.to_string(),
     })?;
-    atomic_json(&decision_path, &value)?;
-    Ok(serde_json::json!({
-        "workItemId": work_item_id,
-        "state": "recorded",
-        "disposition": receipt.result.disposition,
-        "path": repository_relative_path(&root, &decision_path)
-    }))
+    Ok(PreparedResourceFinalization {
+        path: decision_path.clone(),
+        value: Some(value),
+        result: serde_json::json!({
+            "workItemId": work_item_id,
+            "state": "recorded",
+            "disposition": receipt.result.disposition,
+            "path": repository_relative_path(&root, &decision_path)
+        }),
+    })
 }
 
 /// A close receipt is immutable, but an older Runtime could record close

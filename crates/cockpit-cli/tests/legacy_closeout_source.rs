@@ -572,3 +572,38 @@ mod complete_source {
         assert_eq!(fs::read(path).unwrap(), changed_requirement);
     }
 }
+
+#[test]
+fn legacy_source_input_is_bounded_before_json_parsing() {
+    let repo = tempfile::tempdir().unwrap();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(repo.path())
+            .status()
+            .unwrap()
+            .success()
+    );
+    cockpit_repository::attach(repo.path()).unwrap();
+    let input = tempfile::NamedTempFile::new().unwrap();
+    input.as_file().set_len(9 * 1024 * 1024).unwrap();
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args([
+            "work-item",
+            "legacy-closeout-source-plan",
+            "--repo",
+            repo.path().to_str().unwrap(),
+            "--id",
+            "WI-BOUND",
+            "--input",
+            input.path().to_str().unwrap(),
+        ])
+        .output()
+        .unwrap();
+    assert!(!output.status.success());
+    let error = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        error.contains("bounded read limit"),
+        "size must be rejected before parsing: {error}"
+    );
+}

@@ -1,0 +1,17 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+warning: unused import: `plan_cross_checkout_closeout_recovery`
+   --> crates/cockpit-repository/tests/legacy_closeout_source.rs:112:36
+    |
+112 |     finish_work_item_with_runtime, plan_cross_checkout_closeout_recovery,
+    |                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `cockpit-repository` (test "legacy_closeout_source") generated 1 warning (run `cargo fix --test "legacy_closeout_source" -p cockpit-repository` to apply 1 suggestion)
+    Finished `test` profile [unoptimized] target(s) in 0.69s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29)
+
+thread 'extension::registered_root_refuses_unprepared_raw_transition_without_writing' (156699) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:442:10:
+registered old-v1 root requires independently retained extension plan before publication: Object {"disposition": String("deleted"), "path": String(".ai/decisions/WI-REPOSITORY-CROSS-CHECKOUT-CLOSEOUT.finalize.9595dcc48ef02865fc400b38d20e43cde783e370eaa55ad260aca2268c4d600c.json"), "predecessorPath": String(".ai/decisions/WI-REPOSITORY-CROSS-CHECKOUT-CLOSEOUT.finalize.json"), "sequence": Number(1), "state": String("appended"), "workItemId": String("WI-REPOSITORY-CROSS-CHECKOUT-CLOSEOUT")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test legacy_closeout_source`

@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 31] = [
+const TOOL_NAMES: [&str; 33] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -28,6 +28,8 @@ const TOOL_NAMES: [&str; 31] = [
     "work_item_recover",
     "work_item_closeout_recovery_plan",
     "work_item_closeout_recover",
+    "work_item_legacy_closeout_source_plan",
+    "work_item_legacy_closeout_source_record",
     "work_item_recover_selected_lineage",
     "verify",
     "work_item_parallel",
@@ -37,6 +39,41 @@ const TOOL_NAMES: [&str; 31] = [
     "work_item_amendments",
     "work_item_environment_drift",
 ];
+
+fn legacy_source_payload_schema(plan: bool) -> Value {
+    let properties = if plan {
+        json!({
+            "schemaVersion":{"type":"integer","const":1}, "kind":{"type":"string","const":"legacy_closeout_source_plan"},"state":{"type":"string","const":"prepared"},
+            "operation":{"type":"string","enum":["register","resume","extend","resume_extension"]},
+            "repositoryId":{"type":"string"},"workItemId":{"type":"string"},"destinationRoot":{"type":"string"},"registrationBytes":{"type":"string"},"requirementBytes":{"type":"string"},"registrationRawDigest":{"type":"string"},"requirementRawDigest":{"type":"string"},"observationDigest":{"type":"string"},"planDigest":{"type":"string"},"extensionBytes":{"type":["string","null"]},"extensionRawDigest":{"type":["string","null"]}
+        })
+    } else {
+        json!({
+            "schemaVersion":{"type":"integer","const":1}, "operation":{"type":"string","enum":["register","resume","extend","resume_extension"]},
+            "sourceRevision":{"type":["string","null"]},"actor":{"type":["string","null"]},"authoritySource":{"type":["string","null"]},"reason":{"type":["string","null"]},"sourceAccepted":{"type":"boolean"},"originalRegistrationBytes":{"type":["string","null"]},"originalRequirementRawDigest":{"type":["string","null"]},"transitionBytes":{"type":["string","null"]},"originalExtensionBytes":{"type":["string","null"]},"originalExtensionRawDigest":{"type":["string","null"]}
+        })
+    };
+    let required = if plan {
+        vec![
+            "schemaVersion",
+            "kind",
+            "state",
+            "operation",
+            "repositoryId",
+            "workItemId",
+            "destinationRoot",
+            "registrationBytes",
+            "requirementBytes",
+            "registrationRawDigest",
+            "requirementRawDigest",
+            "observationDigest",
+            "planDigest",
+        ]
+    } else {
+        vec!["schemaVersion", "operation"]
+    };
+    object_schema(properties, &required)
+}
 
 fn string_property(description: &str) -> Value {
     json!({
@@ -673,6 +710,14 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_legacy_closeout_source_plan" => object_schema(
+            json!({"workItemId":string_property("Selected legacy Work Item identifier."),"sourceRepo":string_property("Optional independent pinned source checkout for first registration."),"request":legacy_source_payload_schema(false)}),
+            &["workItemId", "request"],
+        ),
+        "work_item_legacy_closeout_source_record" => object_schema(
+            json!({"workItemId":string_property("Selected legacy Work Item identifier."),"plan":legacy_source_payload_schema(true)}),
+            &["workItemId", "plan"],
+        ),
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => object_schema(
             json!({
                 "workItemId": string_property("Canonical closed Work Item identifier whose closeout is being inspected or recovered."),
@@ -860,6 +905,14 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Explicitly import exact validated closeout evidence from the source checkout into the current destination checkout; this is the write operation.",
         ),
         (
+            "work_item_legacy_closeout_source_plan",
+            "Read-only exact plan for explicit present-day legacy-v1 source registration, constrained resume or one Retained-to-Deleted extension; preserves historical producer bytes.",
+        ),
+        (
+            "work_item_legacy_closeout_source_record",
+            "Explicitly publish an independently retained exact legacy source or extension plan under the same Work Item lifecycle lock; never rewrites historical evidence.",
+        ),
+        (
             "work_item_recover_selected_lineage",
             "Record append-only recovery for an already selected multi-hop successor lineage without creating a competing successor.",
         ),
@@ -953,6 +1006,10 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             ][..],
         ),
         "work_item_recover" => Some(&["workItemId", "id", "receipt", "input"][..]),
+        "work_item_legacy_closeout_source_plan" => {
+            Some(&["workItemId", "sourceRepo", "request"][..])
+        }
+        "work_item_legacy_closeout_source_record" => Some(&["workItemId", "plan"][..]),
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
             Some(&["workItemId", "sourceRepo"][..])
         }
@@ -1061,6 +1118,41 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             }
         }
         "work_item_amendments" => require_string(object, "workItemId", name)?,
+        "work_item_legacy_closeout_source_plan" | "work_item_legacy_closeout_source_record" => {
+            require_string(object, "workItemId", name)?;
+            if let Some(source) = object.get("sourceRepo") {
+                if !source.is_string()
+                    || source
+                        .as_str()
+                        .is_none_or(|path| !Path::new(path).is_absolute())
+                {
+                    return Err("sourceRepo must be an absolute path".into());
+                }
+            }
+            let field = if name.ends_with("_plan") {
+                "request"
+            } else {
+                "plan"
+            };
+            let payload = object
+                .get(field)
+                .cloned()
+                .ok_or_else(|| format!("{field} is required"))?;
+            if serde_json::to_vec(&payload)
+                .map_err(|error| error.to_string())?
+                .len()
+                > 8 * 1024 * 1024
+            {
+                return Err("legacy_closeout_source:record_budget_exceeded".into());
+            }
+            if field == "request" {
+                let _: cockpit_protocol::LegacyCloseoutSourceRequest =
+                    serde_json::from_value(payload).map_err(|error| error.to_string())?;
+            } else {
+                let _: cockpit_protocol::LegacyCloseoutSourcePlan =
+                    serde_json::from_value(payload).map_err(|error| error.to_string())?;
+            }
+        }
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
             require_string(object, "workItemId", name)?;
             require_string(object, "sourceRepo", name)?;
@@ -2011,6 +2103,32 @@ pub fn handle_request_for_repo(
         }),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
+        "work_item_legacy_closeout_source_plan" | "work_item_legacy_closeout_source_record" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let id = arguments["workItemId"]
+                    .as_str()
+                    .ok_or("workItemId is required")?;
+                validate_id(id)?;
+                if name.ends_with("_plan") {
+                    let request = serde_json::from_value(arguments["request"].clone())
+                        .map_err(|error| error.to_string())?;
+                    let source = arguments
+                        .get("sourceRepo")
+                        .and_then(Value::as_str)
+                        .map(Path::new);
+                    cockpit_repository::plan_legacy_closeout_source(
+                        repo, source, id, &request, runtime,
+                    )
+                    .map_err(|error| error.to_string())
+                    .and_then(|plan| serde_json::to_value(plan).map_err(|error| error.to_string()))
+                } else {
+                    let plan = serde_json::from_value(arguments["plan"].clone())
+                        .map_err(|error| error.to_string())?;
+                    cockpit_repository::record_legacy_closeout_source(repo, id, &plan, runtime)
+                        .map_err(|error| error.to_string())
+                }
+            })
+        }
         "work_item_closeout_recovery_plan" => require_compatible(repo, runtime)
             .and_then(|_| work_item_closeout_recovery_plan(repo, &arguments, runtime)),
         "work_item_closeout_recover" => require_compatible(repo, runtime)
