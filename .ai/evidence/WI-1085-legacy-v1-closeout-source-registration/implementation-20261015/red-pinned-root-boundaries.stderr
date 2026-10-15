@@ -1,0 +1,23 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 17.49s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'legacy_closeout_source::query_budget_tests::active_query_cannot_fall_back_to_unbound_governance_reads' (214729) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1616:9:
+assertion failed: super::super::read_json(&path).is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'legacy_closeout_source::query_budget_tests::held_guard_rejects_replaced_root_and_canonical_lock' (214732) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1632:13:
+physical root and canonical lock must remain bound
+
+thread 'legacy_closeout_source::query_budget_tests::obligation_enumeration_has_a_directory_work_budget' (214734) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1647:9:
+assertion failed: obligation_ids(owner.path()).is_err()
+
+thread 'legacy_closeout_source::query_budget_tests::query_pins_root_identity_before_its_first_payload_read' (214736) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1605:9:
+assertion failed: safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).is_err()
+
+thread 'legacy_closeout_source::query_budget_tests::relative_paths_reject_aliases_and_explicit_size_budgets' (214737) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1639:13:
+assertion failed: relative_parts(root, &path).is_err()
+
+thread 'legacy_closeout_source::query_budget_tests::replaced_repository_root_cannot_redirect_a_read' (214738) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1592:9:
+assertion failed: safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).is_err()
+error: test failed, to rerun pass `-p cockpit-repository --lib`

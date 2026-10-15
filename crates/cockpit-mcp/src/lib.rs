@@ -41,11 +41,23 @@ const TOOL_NAMES: [&str; 33] = [
 ];
 
 fn legacy_source_payload_schema(plan: bool) -> Value {
+    let directory_binding = object_schema(
+        json!({
+            "rootIdentity":{"type":"array","items":{"type":"integer","minimum":0},"minItems":2,"maxItems":2},
+            "gitCommonDirectory":{"type":"string"},
+            "gitCommonDirectoryIdentity":{"type":"array","items":{"type":"integer","minimum":0},"minItems":2,"maxItems":2}
+        }),
+        &[
+            "rootIdentity",
+            "gitCommonDirectory",
+            "gitCommonDirectoryIdentity",
+        ],
+    );
     let properties = if plan {
         json!({
             "schemaVersion":{"type":"integer","const":1}, "kind":{"type":"string","const":"legacy_closeout_source_plan"},"state":{"type":"string","const":"prepared"},
             "operation":{"type":"string","enum":["register","resume","extend","resume_extension"]},
-            "repositoryId":{"type":"string"},"workItemId":{"type":"string"},"destinationRoot":{"type":"string"},"registrationBytes":{"type":"string"},"requirementBytes":{"type":"string"},"registrationRawDigest":{"type":"string"},"requirementRawDigest":{"type":"string"},"observationDigest":{"type":"string"},"planDigest":{"type":"string"},"extensionBytes":{"type":["string","null"]},"extensionRawDigest":{"type":["string","null"]}
+            "repositoryId":{"type":"string"},"workItemId":{"type":"string"},"destinationRoot":{"type":"string"},"destinationBinding":directory_binding,"sourceBinding":{"anyOf":[directory_binding,{"type":"null"}]},"registrationBytes":{"type":"string"},"requirementBytes":{"type":"string"},"registrationRawDigest":{"type":"string"},"requirementRawDigest":{"type":"string"},"observationDigest":{"type":"string"},"planDigest":{"type":"string"},"extensionBytes":{"type":["string","null"]},"extensionRawDigest":{"type":["string","null"]}
         })
     } else {
         json!({
@@ -62,6 +74,8 @@ fn legacy_source_payload_schema(plan: bool) -> Value {
             "repositoryId",
             "workItemId",
             "destinationRoot",
+            "destinationBinding",
+            "sourceBinding",
             "registrationBytes",
             "requirementBytes",
             "registrationRawDigest",

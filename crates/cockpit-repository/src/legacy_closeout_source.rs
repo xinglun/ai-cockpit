@@ -11,37 +11,83 @@ pub(super) const REGISTRATION_SUFFIX: &str = ".legacy-closeout-source-registrati
 pub(super) const EXTENSION_SUFFIX: &str = ".legacy-closeout-source-extension.json";
 
 pub(super) fn has_obligation(root: &Path, id: &str) -> bool {
-    [REQUIREMENT_SUFFIX, REGISTRATION_SUFFIX, EXTENSION_SUFFIX]
-        .iter()
-        .any(|suffix| {
-            match fs::symlink_metadata(root.join(".ai/decisions").join(format!("{id}{suffix}"))) {
-                Ok(_) => true,
-                Err(error) => error.kind() != std::io::ErrorKind::NotFound,
+    let inspect = || -> Result<bool, ObserverError> {
+        let pinned = PinnedRoot::open(root)?;
+        let root_dir = root_directory(root)?;
+        let Some(ai) = optional_directory(&root_dir, ".ai", &root.join(".ai"))? else {
+            pinned.require_current()?;
+            return Ok(false);
+        };
+        observe_directory(&root.join(".ai"), &ai)?;
+        let path = root.join(".ai/decisions");
+        let Some(dir) = optional_directory(&ai, "decisions", &path)? else {
+            pinned.require_current()?;
+            return Ok(false);
+        };
+        observe_directory(&path, &dir)?;
+        let mut found = false;
+        for (index, entry) in dir
+            .entries()
+            .map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?
+            .enumerate()
+        {
+            if index >= 4096 {
+                return Err(error(root, "directory_budget_exceeded"));
             }
-        })
+            let name = entry
+                .map_err(|source| ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                })?
+                .file_name();
+            if [REQUIREMENT_SUFFIX, REGISTRATION_SUFFIX, EXTENSION_SUFFIX]
+                .iter()
+                .any(|suffix| name == std::ffi::OsStr::new(&format!("{id}{suffix}")))
+            {
+                found = true;
+                break;
+            }
+        }
+        pinned.require_current()?;
+        let current_root = pinned.directory()?;
+        let current_ai =
+            open_cap_directory_nofollow_strict(&current_root, ".ai", &root.join(".ai"))?;
+        let current = open_cap_directory_nofollow_strict(&current_ai, "decisions", &path)?;
+        if directory_identity(&path, &current)? != directory_identity(&path, &dir)? {
+            return Err(error(root, "directory_identity_changed"));
+        }
+        Ok(found)
+    };
+    // Enumeration avoids cap-std's Windows missing-leaf ACCESS_DENIED quirk.
+    inspect().unwrap_or(true)
 }
 
 pub(super) fn obligation_ids(root: &Path) -> Result<BTreeSet<String>, ObserverError> {
+    let pinned = PinnedRoot::open(root)?;
     let path = root.join(".ai/decisions");
-    match fs::symlink_metadata(&path) {
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(BTreeSet::new()),
-        Err(source) => return Err(ObserverError::Read { path, source }),
-        Ok(_) => {}
-    }
-    let ambient = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
-        ObserverError::Read {
-            path: root.into(),
-            source,
-        }
-    })?;
-    let ai = open_cap_directory_nofollow_strict(&ambient, ".ai", &root.join(".ai"))?;
-    let decisions = open_cap_directory_nofollow_strict(&ai, "decisions", &path)?;
+    let ambient = root_directory(root)?;
+    let Some(ai) = optional_directory(&ambient, ".ai", &root.join(".ai"))? else {
+        pinned.require_current()?;
+        return Ok(BTreeSet::new());
+    };
+    observe_directory(&root.join(".ai"), &ai)?;
+    let Some(decisions) = optional_directory(&ai, "decisions", &path)? else {
+        pinned.require_current()?;
+        return Ok(BTreeSet::new());
+    };
+    observe_directory(&path, &decisions)?;
     let entries = decisions.entries().map_err(|source| ObserverError::Read {
         path: path.clone(),
         source,
     })?;
     let mut ids = BTreeSet::new();
-    for entry in entries {
+    for (index, entry) in entries.enumerate() {
+        if index >= 4096 {
+            return Err(error(root, "directory_budget_exceeded"));
+        }
         let entry = entry.map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
@@ -56,6 +102,13 @@ pub(super) fn obligation_ids(root: &Path) -> Result<BTreeSet<String>, ObserverEr
             }
         }
     }
+    pinned.require_current()?;
+    let current_root = root_directory(root)?;
+    let current_ai = open_cap_directory_nofollow_strict(&current_root, ".ai", &root.join(".ai"))?;
+    let current = open_cap_directory_nofollow_strict(&current_ai, "decisions", &path)?;
+    if directory_identity(&path, &current)? != directory_identity(&path, &decisions)? {
+        return Err(error(root, "directory_identity_changed"));
+    }
     Ok(ids)
 }
 
@@ -63,14 +116,14 @@ use super::{
     acquire_lifecycle_lock, read_cap_file_nofollow_bounded, reject_duplicate_json_keys,
     repository_id, snapshot_digest,
 };
-use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
+use cap_fs_ext::{DirExt, FollowSymlinks, MetadataExt, OpenOptionsFollowExt};
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    LegacyCloseoutSourceAttestation, LegacyCloseoutSourceExtension as Extension,
-    LegacyCloseoutSourceFileBinding as FileBinding, LegacyCloseoutSourceOperation as Operation,
-    LegacyCloseoutSourcePlan as Plan, LegacyCloseoutSourceRegistration as Registration,
-    LegacyCloseoutSourceRequest as Request, LegacyCloseoutSourceRequirement as Requirement,
-    RuntimeContext, digest_json,
+    LegacyCloseoutSourceAttestation, LegacyCloseoutSourceDirectoryBinding as DirectoryBinding,
+    LegacyCloseoutSourceExtension as Extension, LegacyCloseoutSourceFileBinding as FileBinding,
+    LegacyCloseoutSourceOperation as Operation, LegacyCloseoutSourcePlan as Plan,
+    LegacyCloseoutSourceRegistration as Registration, LegacyCloseoutSourceRequest as Request,
+    LegacyCloseoutSourceRequirement as Requirement, RuntimeContext, digest_json,
 };
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use std::{
@@ -95,6 +148,110 @@ fn canonical(root: &Path) -> Result<PathBuf, ObserverError> {
         source,
     })
 }
+/// A capability opened from the filesystem anchor, never through a target
+/// root or ancestor symlink. Callers canonicalize user aliases once at entry.
+pub(crate) struct PinnedRoot {
+    path: PathBuf,
+    dir: Dir,
+    identity: [u64; 2],
+}
+impl PinnedRoot {
+    pub(crate) fn open(path: &Path) -> Result<Self, ObserverError> {
+        if !path.is_absolute() {
+            return Err(error(path, "root_path_invalid"));
+        }
+        let mut anchor = PathBuf::new();
+        let mut names = Vec::new();
+        for component in path.components() {
+            match component {
+                Component::Prefix(_) | Component::RootDir if names.is_empty() => {
+                    anchor.push(component.as_os_str())
+                }
+                Component::Normal(name) => names.push(name.to_os_string()),
+                _ => return Err(error(path, "root_path_invalid")),
+            }
+        }
+        let read_error = |source| ObserverError::Read {
+            path: path.into(),
+            source,
+        };
+        let mut dir =
+            Dir::open_ambient_dir(&anchor, cap_std::ambient_authority()).map_err(read_error)?;
+        for name in names {
+            dir = dir.open_dir_nofollow(&name).map_err(read_error)?;
+            let metadata = dir.dir_metadata().map_err(read_error)?;
+            if !metadata.is_dir() || metadata.file_type().is_symlink() {
+                return Err(error(path, "root_path_invalid"));
+            }
+        }
+        let identity = directory_identity(path, &dir)?;
+        Ok(Self {
+            path: path.into(),
+            dir,
+            identity,
+        })
+    }
+    pub(crate) fn require_current(&self) -> Result<(), ObserverError> {
+        if Self::open(&self.path)?.identity != self.identity {
+            return Err(error(&self.path, "root_identity_changed"));
+        }
+        Ok(())
+    }
+    pub(crate) fn directory(&self) -> Result<Dir, ObserverError> {
+        self.dir.try_clone().map_err(|source| ObserverError::Read {
+            path: self.path.clone(),
+            source,
+        })
+    }
+}
+pub(crate) fn directory_identity(path: &Path, dir: &Dir) -> Result<[u64; 2], ObserverError> {
+    // Metadata is obtained from the open handle, also on Windows.
+    let metadata = dir.dir_metadata().map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    Ok([metadata.dev(), metadata.ino()])
+}
+fn root_directory(root: &Path) -> Result<Dir, ObserverError> {
+    if let Some(result) = QUERY_BUDGET.with(|state| {
+        let state = state.borrow();
+        let pinned = state.as_ref()?.roots.get(root)?;
+        Some(pinned.require_current().and_then(|()| pinned.directory()))
+    }) {
+        return result;
+    }
+    PinnedRoot::open(root)?.directory()
+}
+fn optional_directory(parent: &Dir, name: &str, path: &Path) -> Result<Option<Dir>, ObserverError> {
+    #[cfg(windows)]
+    match fs::symlink_metadata(path) {
+        Err(source) if source.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: path.into(),
+                source,
+            });
+        }
+        Ok(_) => {}
+    }
+    match parent.open_dir_nofollow(name) {
+        Ok(dir) => {
+            let metadata = dir.dir_metadata().map_err(|source| ObserverError::Read {
+                path: path.into(),
+                source,
+            })?;
+            if !metadata.is_dir() || metadata.file_type().is_symlink() {
+                return Err(error(path, "directory_invalid"));
+            }
+            Ok(Some(dir))
+        }
+        Err(source) if source.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(source) => Err(ObserverError::Read {
+            path: path.into(),
+            source,
+        }),
+    }
+}
 fn encode<T: Serialize>(root: &Path, value: &T) -> Result<Vec<u8>, ObserverError> {
     serde_json::to_vec_pretty(value).map_err(|_| error(root, "serialization_failed"))
 }
@@ -109,10 +266,10 @@ fn digest<T: Serialize>(root: &Path, value: &T) -> Result<Digest, ObserverError>
     digest_json(value).map_err(|_| error(root, "identity_failed"))
 }
 fn relative_parts(root: &Path, relative: &str) -> Result<Vec<String>, ObserverError> {
-    if relative.contains('\\') || !relative.starts_with(".ai/") {
+    if relative.len() > 4096 || relative.contains('\\') || !relative.starts_with(".ai/") {
         return Err(error(root, "path_invalid"));
     }
-    Path::new(relative)
+    let parts: Vec<String> = Path::new(relative)
         .components()
         .map(|part| match part {
             Component::Normal(name) => name
@@ -121,22 +278,21 @@ fn relative_parts(root: &Path, relative: &str) -> Result<Vec<String>, ObserverEr
                 .ok_or_else(|| error(root, "path_invalid")),
             _ => Err(error(root, "path_invalid")),
         })
-        .collect()
+        .collect::<Result<_, _>>()?;
+    if parts.len() > 64 || parts.join("/") != relative {
+        return Err(error(root, "path_invalid"));
+    }
+    Ok(parts)
 }
 /// Read every component through pinned directory handles with no-follow opens.
 fn safe_read(root: &Path, relative: &str, maximum: u64) -> Result<Vec<u8>, ObserverError> {
     let parts = relative_parts(root, relative)?;
-    let mut directory =
-        Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
-            ObserverError::Read {
-                path: root.into(),
-                source,
-            }
-        })?;
+    let mut directory = root_directory(root)?;
     let mut display = root.to_path_buf();
     for part in &parts[..parts.len() - 1] {
         display.push(part);
         directory = open_cap_directory_nofollow_strict(&directory, part, &display)?;
+        observe_directory(&display, &directory)?;
     }
     let leaf = parts.last().ok_or_else(|| error(root, "path_invalid"))?;
     let maximum = begin_query_read(root, maximum)?;
@@ -216,17 +372,12 @@ fn scoped_dependency_paths(
             }
             Ok(_) => {}
         }
-        let mut dir =
-            Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
-                ObserverError::Read {
-                    path: root.into(),
-                    source,
-                }
-            })?;
+        let mut dir = root_directory(root)?;
         let mut display = root.to_path_buf();
         for part in relative_parts(root, relative)? {
             display.push(&part);
             dir = open_cap_directory_nofollow_strict(&dir, &part, &display)?;
+            observe_directory(&display, &dir)?;
         }
         let entries = dir.entries().map_err(|source| ObserverError::Read {
             path: display.clone(),
@@ -535,6 +686,26 @@ fn common_dir(root: &Path) -> Result<PathBuf, ObserverError> {
         root.join(raw)
     })
 }
+fn directory_binding(root: &Path) -> Result<DirectoryBinding, ObserverError> {
+    let pinned = PinnedRoot::open(root)?;
+    let common = common_dir(root)?;
+    let common_pinned = PinnedRoot::open(&common)?;
+    pinned.require_current()?;
+    Ok(DirectoryBinding {
+        root_identity: pinned.identity,
+        git_common_directory: common.to_string_lossy().into_owned(),
+        git_common_directory_identity: common_pinned.identity,
+    })
+}
+fn require_plan_directory(root: &Path, plan: &Plan) -> Result<(), ObserverError> {
+    if plan.destination_root != root.to_string_lossy()
+        || plan.destination_binding != directory_binding(root)?
+        || (plan.operation == Operation::Register) != plan.source_binding.is_some()
+    {
+        return Err(error(root, "plan_directory_stale"));
+    }
+    Ok(())
+}
 fn snapshot(root: &Path) -> Result<Digest, ObserverError> {
     let git = cockpit_git::GitRepository::discover(root)
         .map_err(|_| error(root, "repository_unavailable"))?;
@@ -640,7 +811,7 @@ fn observation(
     let (facts, inventory) = observe_history(root, id, &registration.repository_id)?;
     digest(
         root,
-        &serde_json::json!({"snapshot":snapshot(root)?,"head":git_text(root,&["rev-parse","HEAD"])? ,"facts":facts,"inventory":inventory,"requirement":optional_read(root,&requirement_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes)),"registration":optional_read(root,&registration_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes)),"extension":optional_read(root,&extension_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes))}),
+        &serde_json::json!({"directory":directory_binding(root)?,"snapshot":snapshot(root)?,"head":git_text(root,&["rev-parse","HEAD"])? ,"facts":facts,"inventory":inventory,"requirement":optional_read(root,&requirement_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes)),"registration":optional_read(root,&registration_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes)),"extension":optional_read(root,&extension_path(id))?.map(|bytes|Digest::sha256_bytes(&bytes))}),
     )
 }
 fn plan_digest(root: &Path, plan: &Plan) -> Result<Digest, ObserverError> {
@@ -694,6 +865,9 @@ pub fn plan_legacy_closeout_source(
 ) -> Result<Plan, ObserverError> {
     validate_work_item_id(id)?;
     let root = canonical(root)?;
+    let _query = QuerySession::start();
+    let _visit = QueryVisit::enter(&root, id, "plan")?;
+    let destination_binding = directory_binding(&root)?;
     let repo = repository_id(&root).to_string();
     if request.schema_version != 1 {
         return Err(error(&root, "request_schema_invalid"));
@@ -705,6 +879,7 @@ pub fn plan_legacy_closeout_source(
     ) {
         return plan_extension(&root, id, request, runtime);
     }
+    let mut source_binding = None;
     let registration_bytes = match request.operation {
         Operation::Register => {
             if has_obligation(&root, id) {
@@ -717,6 +892,8 @@ pub fn plan_legacy_closeout_source(
                 return Err(error(&root, "source_acceptance_required"));
             }
             let source = canonical(source.ok_or_else(|| error(&root, "provenance_unknown"))?)?;
+            let _source_visit = QueryVisit::enter(&source, id, "source")?;
+            source_binding = Some(directory_binding(&source)?);
             if source == root
                 || common_dir(&source)? == common_dir(&root)?
                 || repository_id(&source).to_string() != repo
@@ -744,6 +921,9 @@ pub fn plan_legacy_closeout_source(
                 {
                     return Err(error(&root, "pinned_source_payload_mismatch"));
                 }
+            }
+            if source_binding.as_ref() != Some(&directory_binding(&source)?) {
+                return Err(error(&root, "source_stale"));
             }
             let text = |value: &Option<String>| {
                 value
@@ -825,6 +1005,8 @@ pub fn plan_legacy_closeout_source(
         repository_id: repo,
         work_item_id: id.into(),
         destination_root: root.to_string_lossy().into_owned(),
+        destination_binding,
+        source_binding,
         registration_raw_digest: Digest::sha256_bytes(registration_bytes.as_bytes()),
         requirement_raw_digest: Digest::sha256_bytes(requirement_bytes.as_bytes()),
         observation_digest: observation(&root, id, &registration)?,
@@ -835,9 +1017,55 @@ pub fn plan_legacy_closeout_source(
         extension_raw_digest: None,
     };
     plan.plan_digest = plan_digest(&root, &plan)?;
+    require_plan_directory(&root, &plan)?;
     Ok(plan)
 }
-fn publish(root: &Path, dir: &Dir, name: &str, bytes: &[u8]) -> Result<(), ObserverError> {
+fn require_publication_parent(
+    root: &Path,
+    id: &str,
+    guard: &super::LifecycleLockGuard,
+    dir: &Dir,
+) -> Result<(), ObserverError> {
+    guard.require_subject(root, id)?;
+    let root_dir = root_directory(root)?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let path = root.join(".ai/decisions");
+    let current = open_cap_directory_nofollow_strict(&ai, "decisions", &path)?;
+    if directory_identity(&path, &current)? != directory_identity(&path, dir)? {
+        return Err(error(root, "publication_parent_changed"));
+    }
+    Ok(())
+}
+fn require_publication_binding(root: &Path, id: &str, plan: &Plan) -> Result<(), ObserverError> {
+    require_plan_directory(root, plan)?;
+    if plan.operation == Operation::Register {
+        let registration =
+            parse_registration(root, id, &plan.repository_id, &plan.registration_bytes)?;
+        let source = Path::new(&registration.source.root);
+        let _visit = QueryVisit::enter(source, id, "source_publication")?;
+        if plan.source_binding.as_ref() != Some(&directory_binding(source)?)
+            || git_text(source, &["rev-parse", "HEAD"])? != registration.source.revision
+            || snapshot(source)? != registration.source.snapshot_digest
+        {
+            return Err(error(root, "source_stale"));
+        }
+        let (facts, inventory) = observe_history(source, id, &registration.repository_id)?;
+        if facts != registration.history_facts || inventory != registration.inventory {
+            return Err(error(root, "source_stale"));
+        }
+    }
+    Ok(())
+}
+fn publish(
+    root: &Path,
+    id: &str,
+    guard: &super::LifecycleLockGuard,
+    plan: &Plan,
+    dir: &Dir,
+    name: &str,
+    bytes: &[u8],
+) -> Result<(), ObserverError> {
+    require_publication_parent(root, id, guard, dir)?;
     if bytes.len() as u64 > MAX_RECORD_BYTES {
         return Err(error(root, "record_budget_exceeded"));
     }
@@ -866,6 +1094,18 @@ fn publish(root: &Path, dir: &Dir, name: &str, bytes: &[u8]) -> Result<(), Obser
         });
     }
     drop(file);
+    if let Err(error) = require_publication_parent(root, id, guard, dir) {
+        let _ = dir.remove_file(&temporary);
+        return Err(error);
+    }
+    if let Err(error) = require_publication_binding(root, id, plan) {
+        let _ = dir.remove_file(&temporary);
+        return Err(error);
+    }
+    if let Err(error) = require_publication_parent(root, id, guard, dir) {
+        let _ = dir.remove_file(&temporary);
+        return Err(error);
+    }
     let installed = dir.hard_link(&temporary, dir, name);
     let _ = dir.remove_file(&temporary);
     match installed {
@@ -878,6 +1118,8 @@ fn publish(root: &Path, dir: &Dir, name: &str, bytes: &[u8]) -> Result<(), Obser
             });
         }
     }
+    require_publication_parent(root, id, guard, dir)
+        .map_err(|_| error(root, "commit_state_unknown"))?;
     #[cfg(not(windows))]
     dir.open(".")
         .and_then(|f| f.into_std().sync_all())
@@ -888,6 +1130,8 @@ fn publish(root: &Path, dir: &Dir, name: &str, bytes: &[u8]) -> Result<(), Obser
     if read_cap_file_nofollow_bounded(dir, name, &root.join(name), MAX_RECORD_BYTES)? != bytes {
         return Err(error(root, "published_record_changed"));
     }
+    require_publication_parent(root, id, guard, dir)
+        .map_err(|_| error(root, "commit_state_unknown"))?;
     Ok(())
 }
 /// Publish requirement first, then the exact frozen registration. Canonical
@@ -900,7 +1144,11 @@ pub fn record_legacy_closeout_source(
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(id)?;
     let root = canonical(root)?;
+    require_plan_directory(&root, plan)?;
+    let _query = QuerySession::start();
+    let _visit = QueryVisit::enter(&root, id, "root_write")?;
     let guard = acquire_lifecycle_lock(&root, id)?;
+    require_plan_directory(&root, plan)?;
     if matches!(
         plan.operation,
         Operation::Extend | Operation::ResumeExtension
@@ -954,6 +1202,10 @@ pub fn record_legacy_closeout_source(
             return Err(error(&root, "prepared_observation_stale"));
         }
         let source = Path::new(&registration.source.root);
+        let _source_visit = QueryVisit::enter(source, id, "source")?;
+        if plan.source_binding.as_ref() != Some(&directory_binding(source)?) {
+            return Err(error(&root, "source_stale"));
+        }
         if git_text(source, &["rev-parse", "HEAD"])? != registration.source.revision
             || snapshot(source)? != registration.source.snapshot_digest
             || common_dir(source)?.to_string_lossy() != registration.source.git_common_directory
@@ -977,13 +1229,7 @@ pub fn record_legacy_closeout_source(
             }
         }
     }
-    let root_dir =
-        Dir::open_ambient_dir(&root, cap_std::ambient_authority()).map_err(|source| {
-            ObserverError::Read {
-                path: root.clone(),
-                source,
-            }
-        })?;
+    let root_dir = root_directory(&root)?;
     let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
     let dir = open_cap_directory_nofollow_strict(&ai, "decisions", &root.join(".ai/decisions"))?;
     let mut changed = Vec::new();
@@ -998,7 +1244,10 @@ pub fn record_legacy_closeout_source(
             }
         } else {
             publish(
-                &root.join(".ai/decisions"),
+                &root,
+                id,
+                &guard,
+                plan,
                 &dir,
                 &format!("{id}{suffix}"),
                 bytes,
@@ -1008,6 +1257,7 @@ pub fn record_legacy_closeout_source(
     }
     let readback =
         validate_pair(&root, id, &repo).map_err(|_| error(&root, "commit_state_unknown"))?;
+    require_plan_directory(&root, plan).map_err(|_| error(&root, "commit_state_unknown"))?;
     if encode(&root, &readback)? != plan.registration_bytes.as_bytes() {
         return Err(error(&root, "commit_state_unknown"));
     }
@@ -1034,17 +1284,15 @@ pub(crate) fn read_input_bytes(path: &Path) -> Result<Vec<u8>, ObserverError> {
             .filter(|p| !p.as_os_str().is_empty())
             .unwrap_or(Path::new(".")),
     )?;
-    let dir = Dir::open_ambient_dir(&parent, cap_std::ambient_authority()).map_err(|source| {
-        ObserverError::Read {
-            path: parent.clone(),
-            source,
-        }
-    })?;
+    let pinned = PinnedRoot::open(&parent)?;
+    let dir = pinned.directory()?;
     let name = path
         .file_name()
         .and_then(|name| name.to_str())
         .ok_or_else(|| error(path, "path_invalid"))?;
-    read_cap_file_nofollow_bounded(&dir, name, path, MAX_RECORD_BYTES)
+    let bytes = read_cap_file_nofollow_bounded(&dir, name, path, MAX_RECORD_BYTES)?;
+    pinned.require_current()?;
+    Ok(bytes)
 }
 
 fn root_pair(root: &Path, id: &str) -> Result<(Registration, String, String), ObserverError> {
@@ -1175,6 +1423,7 @@ fn extension_plan_identity(
     id: &str,
     plan: &Plan,
 ) -> Result<(Registration, Extension), ObserverError> {
+    require_plan_directory(root, plan)?;
     let (registration, bytes, required) = root_pair(root, id)?;
     if plan.schema_version != 1
         || plan.kind != "legacy_closeout_source_plan"
@@ -1350,6 +1599,8 @@ fn plan_extension(
         repository_id: registration.repository_id.clone(),
         work_item_id: id.into(),
         destination_root: root.to_string_lossy().into_owned(),
+        destination_binding: directory_binding(root)?,
+        source_binding: None,
         registration_raw_digest: Digest::sha256_bytes(registration_bytes.as_bytes()),
         requirement_raw_digest: Digest::sha256_bytes(requirement_bytes.as_bytes()),
         registration_bytes,
@@ -1422,12 +1673,7 @@ fn record_extension_locked(
             return Err(error(root, "extension_binding_invalid"));
         }
     }
-    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
-        ObserverError::Read {
-            path: root.into(),
-            source,
-        }
-    })?;
+    let root_dir = root_directory(root)?;
     let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
     let dir = open_cap_directory_nofollow_strict(&ai, "decisions", &root.join(".ai/decisions"))?;
     for (path, bytes) in [
@@ -1441,10 +1687,11 @@ fn record_extension_locked(
             .file_name()
             .and_then(|name| name.to_str())
             .ok_or_else(|| error(root, "path_invalid"))?;
-        publish(&root.join(".ai/decisions"), &dir, name, bytes)?;
+        publish(root, id, guard, plan, &dir, name, bytes)?;
     }
     let readback = validate_pair(root, id, &registration.repository_id)
         .map_err(|_| error(root, "commit_state_unknown"))?;
+    require_plan_directory(root, plan).map_err(|_| error(root, "commit_state_unknown"))?;
     if encode(root, &readback)? != plan.registration_bytes.as_bytes()
         || safe_read(root, &extension_path(id), MAX_RECORD_BYTES)? != frozen.as_bytes()
         || safe_read(root, &extension.transition.path, MAX_RECORD_BYTES)?
@@ -1500,6 +1747,8 @@ struct QueryBudget {
     read_calls: usize,
     read_bytes: u64,
     observed: std::collections::BTreeMap<PathBuf, (Digest, u64)>,
+    roots: std::collections::BTreeMap<PathBuf, PinnedRoot>,
+    directories: std::collections::BTreeMap<PathBuf, [u64; 2]>,
 }
 thread_local! {
     static QUERY_BUDGET: std::cell::RefCell<Option<QueryBudget>> = const { std::cell::RefCell::new(None) };
@@ -1533,13 +1782,20 @@ pub(super) struct QueryVisit {
 }
 impl QueryVisit {
     fn enter(root: &Path, id: &str, kind: &'static str) -> Result<Self, ObserverError> {
-        let root = canonical(root)?;
+        // The public entry already resolved aliases. Re-canonicalizing here
+        // could silently re-key the query to a replacement symlink target.
+        let root = root.to_path_buf();
         let key = (root.clone(), id.to_owned(), kind);
         QUERY_BUDGET.with(|state| {
             let mut state = state.borrow_mut();
             let budget = state
                 .as_mut()
                 .ok_or_else(|| error(&root, "query_session_missing"))?;
+            if let Some(pinned) = budget.roots.get(&root) {
+                pinned.require_current()?;
+            } else {
+                budget.roots.insert(root.clone(), PinnedRoot::open(&root)?);
+            }
             if budget.active.contains(&key) {
                 return Err(error(&root, "dependency_cycle"));
             }
@@ -1579,22 +1835,143 @@ pub(super) fn enter_recovery_query(
 #[cfg(test)]
 mod query_budget_tests {
     use super::*;
+    #[test]
+    fn query_rejects_same_byte_parent_directory_replacement() {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap();
+        let parent = root.join(".ai/decisions");
+        fs::create_dir_all(&parent).unwrap();
+        fs::write(parent.join("proof.json"), b"{}").unwrap();
+        let _query = QuerySession::start();
+        let _visit = QueryVisit::enter(&root, "WI-ROOT", "observation").unwrap();
+        assert_eq!(
+            safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).unwrap(),
+            b"{}"
+        );
+        fs::rename(&parent, root.join("retained-decisions")).unwrap();
+        fs::create_dir(&parent).unwrap();
+        fs::write(parent.join("proof.json"), b"{}").unwrap();
+        assert!(safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).is_err());
+    }
+    #[cfg(unix)]
+    #[test]
+    fn replaced_repository_root_cannot_redirect_a_read() {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap().join("root");
+        let outside = owner.path().canonicalize().unwrap().join("outside");
+        for path in [&root, &outside] {
+            fs::create_dir_all(path.join(".ai/decisions")).unwrap();
+        }
+        fs::write(outside.join(".ai/decisions/proof.json"), b"outside").unwrap();
+        fs::rename(&root, owner.path().canonicalize().unwrap().join("retained")).unwrap();
+        std::os::unix::fs::symlink(&outside, &root).unwrap();
+        assert!(safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).is_err());
+    }
+    #[cfg(unix)]
+    #[test]
+    fn query_pins_root_identity_before_its_first_payload_read() {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap().join("root");
+        fs::create_dir_all(root.join(".ai/decisions")).unwrap();
+        let _query = QuerySession::start();
+        let _visit = QueryVisit::enter(&root, "WI-ROOT", "observation").unwrap();
+        fs::rename(&root, owner.path().canonicalize().unwrap().join("retained")).unwrap();
+        fs::create_dir_all(root.join(".ai/decisions")).unwrap();
+        fs::write(root.join(".ai/decisions/proof.json"), b"replacement").unwrap();
+        assert!(safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).is_err());
+    }
+    #[test]
+    fn active_query_cannot_fall_back_to_unbound_governance_reads() {
+        let bound = tempfile::tempdir().unwrap();
+        let other = tempfile::tempdir().unwrap();
+        fs::create_dir_all(other.path().join(".ai")).unwrap();
+        let path = other.path().join(".ai/proof.json");
+        fs::write(&path, b"{}").unwrap();
+        let _query = QuerySession::start();
+        let _visit = QueryVisit::enter(
+            &bound.path().canonicalize().unwrap(),
+            "WI-ROOT",
+            "observation",
+        )
+        .unwrap();
+        assert!(super::super::read_json(&path).is_err());
+    }
+    #[cfg(unix)]
+    #[test]
+    fn held_guard_rejects_replaced_root_and_canonical_lock() {
+        for replace_root in [false, true] {
+            let owner = tempfile::tempdir().unwrap();
+            let root = owner.path().canonicalize().unwrap().join("root");
+            fs::create_dir_all(root.join(".ai")).unwrap();
+            fs::write(
+                root.join(".ai/cockpit.toml"),
+                b"repository_id = 'sha256:fixture'\n",
+            )
+            .unwrap();
+            let guard = acquire_lifecycle_lock(&root, "WI-ROOT").unwrap();
+            let path = if replace_root {
+                root.clone()
+            } else {
+                root.join(".ai/locks")
+            };
+            fs::rename(&path, owner.path().canonicalize().unwrap().join("retained")).unwrap();
+            fs::create_dir_all(root.join(".ai/locks")).unwrap();
+            fs::write(
+                root.join(".ai/cockpit.toml"),
+                b"repository_id = 'sha256:fixture'\n",
+            )
+            .unwrap();
+            fs::write(root.join(".ai/locks/WI-ROOT.lifecycle.lock"), b"").unwrap();
+            assert!(
+                guard.require_subject(&root, "WI-ROOT").is_err(),
+                "physical root and canonical lock must remain bound"
+            );
+        }
+    }
+    #[test]
+    fn relative_paths_reject_aliases_and_explicit_size_budgets() {
+        let root = Path::new("/");
+        for path in [
+            ".ai//decisions/proof.json".to_owned(),
+            ".ai/./proof.json".into(),
+            format!(".ai/{}", "a".repeat(4096)),
+            format!(".ai/{}proof.json", "a/".repeat(64)),
+        ] {
+            assert!(relative_parts(root, &path).is_err());
+        }
+    }
+    #[test]
+    fn obligation_enumeration_has_a_directory_work_budget() {
+        let owner = tempfile::tempdir().unwrap();
+        fs::create_dir_all(owner.path().canonicalize().unwrap().join(".ai/decisions")).unwrap();
+        for index in 0..4097 {
+            fs::write(
+                owner
+                    .path()
+                    .join(format!(".ai/decisions/unrelated-{index}")),
+                b"",
+            )
+            .unwrap();
+        }
+        assert!(obligation_ids(owner.path()).is_err());
+    }
     #[cfg(unix)]
     #[test]
     fn one_query_cannot_validate_two_different_bytes_for_the_same_path() {
-        let root = tempfile::tempdir().unwrap();
-        fs::create_dir_all(root.path().join(".ai/decisions")).unwrap();
+        let root_owner = tempfile::tempdir().unwrap();
+        let root = root_owner.path().canonicalize().unwrap();
+        fs::create_dir_all(root.as_path().join(".ai/decisions")).unwrap();
         let relative = ".ai/decisions/WI-A.json";
-        fs::write(root.path().join(relative), b"first").unwrap();
+        fs::write(root.as_path().join(relative), b"first").unwrap();
         let _query = QuerySession::start();
-        let _visit = QueryVisit::enter(root.path(), "WI-A", "observation").unwrap();
+        let _visit = QueryVisit::enter(root.as_path(), "WI-A", "observation").unwrap();
         assert_eq!(
-            safe_read(root.path(), relative, MAX_BYTES).unwrap(),
+            safe_read(root.as_path(), relative, MAX_BYTES).unwrap(),
             b"first"
         );
-        fs::write(root.path().join(relative), b"changed").unwrap();
+        fs::write(root.as_path().join(relative), b"changed").unwrap();
         assert!(
-            safe_read(root.path(), relative, MAX_BYTES).is_err(),
+            safe_read(root.as_path(), relative, MAX_BYTES).is_err(),
             "lower reads and final inventory must describe one consistent observation"
         );
     }
@@ -1616,38 +1993,41 @@ mod query_budget_tests {
     }
     #[test]
     fn cycles_fail_closed_and_raii_clears_failed_queries() {
-        let root = tempfile::tempdir().unwrap();
+        let root_owner = tempfile::tempdir().unwrap();
+        let root = root_owner.path().canonicalize().unwrap();
         {
             let _query = QuerySession::start();
-            let _a = QueryVisit::enter(root.path(), "WI-A", "registration").unwrap();
-            let _b = QueryVisit::enter(root.path(), "WI-B", "registration").unwrap();
-            assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_err());
+            let _a = QueryVisit::enter(root.as_path(), "WI-A", "registration").unwrap();
+            let _b = QueryVisit::enter(root.as_path(), "WI-B", "registration").unwrap();
+            assert!(QueryVisit::enter(root.as_path(), "WI-A", "registration").is_err());
         }
         let _query = QuerySession::start();
-        assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_ok());
+        assert!(QueryVisit::enter(root.as_path(), "WI-A", "registration").is_ok());
     }
     #[test]
     fn depth_and_repeated_work_have_independent_query_budgets() {
-        let root = tempfile::tempdir().unwrap();
+        let root_owner = tempfile::tempdir().unwrap();
+        let root = root_owner.path().canonicalize().unwrap();
         {
             let _query = QuerySession::start();
             let mut guards = Vec::new();
             for index in 0..32 {
                 guards.push(
-                    QueryVisit::enter(root.path(), &format!("WI-{index}"), "registration").unwrap(),
+                    QueryVisit::enter(root.as_path(), &format!("WI-{index}"), "registration")
+                        .unwrap(),
                 );
             }
-            assert!(QueryVisit::enter(root.path(), "WI-OVERFLOW", "registration").is_err());
+            assert!(QueryVisit::enter(root.as_path(), "WI-OVERFLOW", "registration").is_err());
         }
         {
             let _query = QuerySession::start();
             for _ in 0..256 {
-                drop(QueryVisit::enter(root.path(), "WI-A", "registration").unwrap());
+                drop(QueryVisit::enter(root.as_path(), "WI-A", "registration").unwrap());
             }
-            assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_err());
+            assert!(QueryVisit::enter(root.as_path(), "WI-A", "registration").is_err());
         }
         let _query = QuerySession::start();
-        assert!(QueryVisit::enter(root.path(), "WI-A", "registration").is_ok());
+        assert!(QueryVisit::enter(root.as_path(), "WI-A", "registration").is_ok());
     }
 }
 
@@ -1665,8 +2045,22 @@ fn query_path(path: &Path) -> Option<(PathBuf, String)> {
     })
 }
 pub(super) fn read_under_query(path: &Path) -> Option<std::io::Result<Vec<u8>>> {
-    let (root, relative) = query_path(path)?;
-    Some(safe_read(&root, &relative, MAX_BYTES).map_err(std::io::Error::other))
+    if let Some((root, relative)) = query_path(path) {
+        Some(safe_read(&root, &relative, MAX_BYTES).map_err(std::io::Error::other))
+    } else if unbound_governance_path(path) {
+        Some(Err(std::io::Error::other(
+            "legacy_closeout_source:query_root_unbound",
+        )))
+    } else {
+        None
+    }
+}
+fn unbound_governance_path(path: &Path) -> bool {
+    let _ = path;
+    // These hooks are only used for governance reads. In particular, an
+    // alternate `.AI` spelling on a case-insensitive filesystem must not
+    // escape to an ambient read. Explicit caller inputs use a separate reader.
+    QUERY_BUDGET.with(|state| state.borrow().is_some())
 }
 pub(super) struct QueryDirectoryEntry {
     path: PathBuf,
@@ -1686,12 +2080,13 @@ pub(super) fn read_query_directory(
     let path = path.as_ref();
     if let Some((root, relative)) = query_path(path) {
         let parts = relative_parts(&root, &relative).map_err(std::io::Error::other)?;
-        let mut dir = Dir::open_ambient_dir(&root, cap_std::ambient_authority())?;
+        let mut dir = root_directory(&root).map_err(std::io::Error::other)?;
         let mut display = root.clone();
         for part in parts {
             display.push(&part);
             dir = open_cap_directory_nofollow_strict(&dir, &part, &display)
                 .map_err(std::io::Error::other)?;
+            observe_directory(&display, &dir).map_err(std::io::Error::other)?;
         }
         let mut entries = Vec::new();
         for entry in dir.entries()? {
@@ -1708,6 +2103,10 @@ pub(super) fn read_query_directory(
             }));
         }
         Ok(Box::new(entries.into_iter()))
+    } else if unbound_governance_path(path) {
+        Err(std::io::Error::other(
+            "legacy_closeout_source:query_root_unbound",
+        ))
     } else {
         Ok(Box::new(fs::read_dir(path)?.map(|entry| {
             entry.map(|entry| QueryDirectoryEntry {
@@ -1716,6 +2115,23 @@ pub(super) fn read_query_directory(
             })
         })))
     }
+}
+
+fn observe_directory(path: &Path, dir: &Dir) -> Result<(), ObserverError> {
+    let identity = directory_identity(path, dir)?;
+    QUERY_BUDGET.with(|state| {
+        if let Some(budget) = state.borrow_mut().as_mut() {
+            if let Some(previous) = budget.directories.insert(path.into(), identity)
+                && previous != identity
+            {
+                return Err(error(path, "directory_identity_changed"));
+            }
+            if budget.directories.len() > 4096 {
+                return Err(error(path, "directory_budget_exceeded"));
+            }
+        }
+        Ok(())
+    })
 }
 
 fn begin_query_read(root: &Path, maximum: u64) -> Result<u64, ObserverError> {

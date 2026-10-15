@@ -298,6 +298,14 @@ pub struct LegacyCloseoutSourceRequirement {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct LegacyCloseoutSourceDirectoryBinding {
+    pub root_identity: [u64; 2],
+    pub git_common_directory: String,
+    pub git_common_directory_identity: [u64; 2],
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct LegacyCloseoutSourcePlan {
     pub schema_version: u32,
     pub kind: String,
@@ -306,6 +314,8 @@ pub struct LegacyCloseoutSourcePlan {
     pub repository_id: String,
     pub work_item_id: String,
     pub destination_root: String,
+    pub destination_binding: LegacyCloseoutSourceDirectoryBinding,
+    pub source_binding: Option<LegacyCloseoutSourceDirectoryBinding>,
     pub registration_bytes: String,
     pub requirement_bytes: String,
     pub registration_raw_digest: Digest,

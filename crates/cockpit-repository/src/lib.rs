@@ -14549,6 +14549,8 @@ mod lifecycle_lock_guard {
     /// Fields are private to this module so sibling writers cannot fabricate it.
     pub(crate) struct LifecycleLockGuard {
         _file: fs::File,
+        pinned_root: legacy_closeout_source::PinnedRoot,
+        lock_identity: [u64; 2],
         root: PathBuf,
         repository_id: String,
         work_item_id: String,
@@ -14559,17 +14561,37 @@ mod lifecycle_lock_guard {
             root: &Path,
             work_item_id: &str,
         ) -> Result<(), ObserverError> {
-            let actual = fs::canonicalize(root).map_err(|source| ObserverError::Read {
-                path: root.into(),
-                source,
-            })?;
-            if actual != self.root
-                || work_item_id != self.work_item_id
-                || repository_id(root).to_string() != self.repository_id
-            {
+            if root != self.root || work_item_id != self.work_item_id {
                 return Err(ObserverError::State {
                     path: root.into(),
                     message: "lifecycle_lock_subject_mismatch".into(),
+                });
+            }
+            self.pinned_root.require_current()?;
+            let root_dir = self.pinned_root.directory()?;
+            let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+            if pinned_repository_id(root, &ai)? != self.repository_id {
+                return Err(ObserverError::State {
+                    path: root.into(),
+                    message: "lifecycle_lock_subject_mismatch".into(),
+                });
+            }
+            let locks = open_cap_directory_nofollow_strict(&ai, "locks", &root.join(".ai/locks"))?;
+            let lock_name = format!("{work_item_id}.lifecycle.lock");
+            let mut options = cap_std::fs::OpenOptions::new();
+            use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
+            options.read(true).follow(FollowSymlinks::No);
+            let file =
+                locks
+                    .open_with(&lock_name, &options)
+                    .map_err(|source| ObserverError::Read {
+                        path: root.join(".ai/locks").join(&lock_name),
+                        source,
+                    })?;
+            if file_identity(root, &file.into_std())? != self.lock_identity {
+                return Err(ObserverError::State {
+                    path: root.into(),
+                    message: "lifecycle_lock_identity_changed".into(),
                 });
             }
             Ok(())
@@ -14579,13 +14601,8 @@ mod lifecycle_lock_guard {
         root: &Path,
         work_item_id: &str,
     ) -> Result<LifecycleLockGuard, ObserverError> {
-        let root_dir =
-            Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
-                ObserverError::Read {
-                    path: root.to_path_buf(),
-                    source,
-                }
-            })?;
+        let pinned_root = legacy_closeout_source::PinnedRoot::open(root)?;
+        let root_dir = pinned_root.directory()?;
         let ai_path = root.join(".ai");
         let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
         let locks_path = ai_path.join("locks");
@@ -14597,15 +14614,50 @@ mod lifecycle_lock_guard {
             path: lock_path,
             source,
         })?;
-        Ok(LifecycleLockGuard {
+        let repository_id = pinned_repository_id(root, &ai)?;
+        let lock_identity = file_identity(root, &lock)?;
+        let guard = LifecycleLockGuard {
             _file: lock,
-            root: fs::canonicalize(root).map_err(|source| ObserverError::Read {
-                path: root.into(),
-                source,
-            })?,
-            repository_id: repository_id(root).to_string(),
+            pinned_root,
+            lock_identity,
+            root: root.into(),
+            repository_id,
             work_item_id: work_item_id.into(),
-        })
+        };
+        guard.require_subject(root, work_item_id)?;
+        Ok(guard)
+    }
+    fn pinned_repository_id(root: &Path, ai: &Dir) -> Result<String, ObserverError> {
+        // Preserve the existing unattached-fixture fallback, while obtaining
+        // configured identity through the already pinned repository handle.
+        let bytes = read_cap_file_nofollow_bounded(
+            ai,
+            "cockpit.toml",
+            &root.join(".ai/cockpit.toml"),
+            4 * 1024 * 1024,
+        );
+        let id = bytes
+            .ok()
+            .and_then(|bytes| String::from_utf8(bytes).ok())
+            .and_then(|text| toml::from_str::<RepositoryConfig>(&text).ok())
+            .and_then(|config| config.repository_id.parse::<Digest>().ok())
+            .unwrap_or_else(|| path_derived_repository_id(root));
+        Ok(id.to_string())
+    }
+    fn file_identity(path: &Path, file: &fs::File) -> Result<[u64; 2], ObserverError> {
+        // cap metadata retains handle-derived Windows file identifiers.
+        use cap_fs_ext::MetadataExt;
+        let clone = file.try_clone().map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
+        let metadata = cap_std::fs::File::from_std(clone)
+            .metadata()
+            .map_err(|source| ObserverError::Read {
+                path: path.into(),
+                source,
+            })?;
+        Ok([metadata.dev(), metadata.ino()])
     }
 }
 pub(crate) use lifecycle_lock_guard::LifecycleLockGuard;

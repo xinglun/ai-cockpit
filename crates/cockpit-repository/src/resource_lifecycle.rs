@@ -11187,7 +11187,7 @@ mod legacy_source_lock_tests {
             .output()
             .unwrap();
         crate::attach(directory.path()).unwrap();
-        let root = directory.path().to_path_buf();
+        let root = directory.path().canonicalize().unwrap();
         let id = "WI-LEGACY-LOCK";
         let held = acquire_lifecycle_lock(&root, id).unwrap();
         let (started_tx, started_rx) = std::sync::mpsc::channel();
@@ -11232,7 +11232,8 @@ mod legacy_source_lock_tests {
             .output()
             .unwrap();
         crate::attach(directory.path()).unwrap();
-        let guard = acquire_lifecycle_lock(directory.path(), "WI-LOCK-OWNER").unwrap();
+        let canonical_root = directory.path().canonicalize().unwrap();
+        let guard = acquire_lifecycle_lock(&canonical_root, "WI-LOCK-OWNER").unwrap();
         let runtime = RuntimeContext {
             runtime_version: "fixture".into(),
             protocol_version: 1,

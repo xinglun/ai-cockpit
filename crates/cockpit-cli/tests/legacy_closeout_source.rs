@@ -639,6 +639,82 @@ mod complete_source {
                 .contains("request_role_invalid")
         );
     }
+    #[test]
+    fn fresh_plan_rejects_identical_content_destination_root_replacement() {
+        assert_replacement_rejected("destination_root");
+    }
+    #[test]
+    fn fresh_plan_rejects_identical_content_destination_git_replacement() {
+        assert_replacement_rejected("destination_git");
+    }
+    #[test]
+    fn fresh_plan_rejects_identical_content_source_root_replacement() {
+        assert_replacement_rejected("source_root");
+    }
+    fn assert_replacement_rejected(subject: &str) {
+        fn copy_tree(source: &Path, destination: &Path) {
+            fs::create_dir_all(destination).unwrap();
+            for entry in fs::read_dir(source).unwrap() {
+                let entry = entry.unwrap();
+                let target = destination.join(entry.file_name());
+                if entry.file_type().unwrap().is_dir() {
+                    copy_tree(&entry.path(), &target);
+                } else {
+                    fs::copy(entry.path(), target).unwrap();
+                }
+            }
+        }
+        {
+            let (_destination, dest, _source_owner, source) = legacy_pair();
+            let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+                .unwrap()
+                .trim()
+                .to_owned();
+            let request=serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:registrar","authoritySource":"isolated fixture","reason":"bind actual directories as well as bytes","sourceAccepted":true})).unwrap();
+            let runtime = current_runtime();
+            let plan = cockpit_repository::plan_legacy_closeout_source(
+                &dest,
+                Some(&source),
+                ID,
+                &request,
+                &runtime,
+            )
+            .unwrap();
+            let path = match subject {
+                "destination_root" => dest.clone(),
+                "destination_git" => dest.join(".git"),
+                _ => source.clone(),
+            };
+            let retained = if subject == "source_root" {
+                source.parent().unwrap()
+            } else {
+                dest.parent().unwrap()
+            }
+            .join(format!("retained-{subject}"));
+            fs::rename(&path, &retained).unwrap();
+            copy_tree(&retained, &path);
+            let result =
+                cockpit_repository::record_legacy_closeout_source(&dest, ID, &plan, &runtime);
+            assert!(
+                result.is_err(),
+                "plan must reject physical replacement of {subject}"
+            );
+            assert!(
+                !dest
+                    .join(format!(
+                        ".ai/decisions/{ID}.legacy-closeout-source-requirement.json"
+                    ))
+                    .exists()
+            );
+            assert!(
+                !dest
+                    .join(format!(
+                        ".ai/decisions/{ID}.legacy-closeout-source-registration.json"
+                    ))
+                    .exists()
+            );
+        }
+    }
 }
 
 #[test]

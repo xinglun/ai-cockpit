@@ -1,0 +1,30 @@
+{
+  "observedAt": "2026-10-15T22:00:52.708816+00:00",
+  "pid1": "tail",
+  "availableBytes": {
+    "/workspace": 4150431744,
+    "/tmp": 1472688128
+  },
+  "processStates": {
+    "S": 16,
+    "Z": 21342,
+    "R": 1
+  },
+  "cgroup": {
+    "memory.current": "16678936576\n",
+    "memory.max": "17179869184\n",
+    "memory.events": "low 0\nhigh 0\nmax 420500\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "pids.current": "21387\n",
+    "pids.max": "max\n"
+  },
+  "preservedFiles": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "sha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "sha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5"
+    }
+  ]
+}
