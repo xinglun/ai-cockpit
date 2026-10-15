@@ -1,0 +1,31 @@
+{
+  "observedAt": "2026-10-15T18:22:54.406958+00:00",
+  "versions": {
+    "rustc": {
+      "exit": 0,
+      "stdout": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: x86_64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+      "stderr": ""
+    },
+    "cargo": {
+      "exit": 0,
+      "stdout": "cargo 1.98.1 (797e8a9bc 2026-08-05)\n",
+      "stderr": ""
+    },
+    "rustup": {
+      "exit": 0,
+      "stdout": "1.98.1-x86_64-unknown-linux-gnu (overridden by '/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/rust-toolchain.toml')\n",
+      "stderr": ""
+    }
+  },
+  "buildEnvironment": {
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1"
+  },
+  "availableBytes": 4933107712,
+  "pid1Comm": "tail",
+  "sourceHead": "309e6f60bbe07fcc42eea04ba170e83bdf8b5163"
+}

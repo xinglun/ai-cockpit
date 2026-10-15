@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "controls",
+    "--repo",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+    "--id",
+    "WI-1085-legacy-v1-closeout-source-registration",
+    "--input",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/human-confirm-review.controls.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T18:21:48.501684+00:00",
+  "elapsedSeconds": 0.633,
+  "exitCode": 0,
+  "stdoutBytes": 2593,
+  "stderrBytes": 0
+}
