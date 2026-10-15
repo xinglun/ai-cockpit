@@ -9972,6 +9972,36 @@ mod cross_checkout_closeout_tests {
     }
 
     #[test]
+    fn recovered_close_is_not_projected_closed_after_only_receipt_disappears() {
+        let fixture = fixture();
+        let root = destination(&fixture);
+        let plan = build_closeout_recovery_plan(
+            &root, fixture.source.path(), WORK_ITEM_ID, &fixture.runtime,
+        ).expect("independent-checkout source plan");
+        recover_cross_checkout_closeout(
+            &root, fixture.source.path(), WORK_ITEM_ID, &fixture.runtime,
+        ).expect("complete genuine recovery");
+        let baseline = work_item_status_snapshot_with_runtime(
+            &root, WORK_ITEM_ID, &fixture.runtime,
+        ).expect("baseline status");
+        assert_eq!(baseline.lifecycle_phase, "closed");
+        assert!(!baseline.blocking);
+        fs::remove_file(root.join(format!(
+            ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+        ))).expect("remove only the required receipt");
+        for file in &plan.files {
+            assert_eq!(fs::read(root.join(&file.path)).unwrap(), file.bytes);
+            assert_eq!(fs::read(fixture.source.path().join(&file.path)).unwrap(), file.bytes);
+        }
+        let status = work_item_status_snapshot_with_runtime(
+            &root, WORK_ITEM_ID, &fixture.runtime,
+        ).expect("read-only status remains queryable");
+        assert_eq!(status.lifecycle_phase, "archived", "sole receipt deletion must revoke closed projection");
+        assert!(status.blocking);
+        assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+    }
+
+    #[test]
     fn recovered_close_is_not_projected_closed_after_payload_disappears() {
         let fixture = fixture();
         let missing = missing_import_paths(&fixture);
