@@ -1,0 +1,48 @@
+{
+  "files": [
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.archive.json",
+      "sha256": "963433dbb29e9192a242629a83ef6e8f75febbe631ece5b40fbfdcedce3de082",
+      "bytes": 1779
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.contract.json",
+      "sha256": "46a8f312f08276ce066cbda3f29c0ec4e0278691a947ce5132948f3a00ba5640",
+      "bytes": 5397
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.events.jsonl",
+      "sha256": "1b20f59d8f9d98d0899595571e4904e7ecd6ec64d9f699d3334b536c5e2fbdbd",
+      "bytes": 3049
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.outcome.json",
+      "sha256": "e42b2adbaef0b58753a840d9c43b28f253abaa4f3b1813b3a81eaed7476c0827",
+      "bytes": 8200
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.summary.json",
+      "sha256": "5345668152ba2632e463cd7c22b3da15d20badcdf19473d93d5ba873fec09915",
+      "bytes": 8378
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.task-report.md",
+      "sha256": "f21e5fc658f1181df4cf7dbaf92dffbcc73c18cfb1cccbea82ce7ef352b905ab",
+      "bytes": 1856
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1081-append-only-evidence-observations.task-report.json",
+      "sha256": "2a550056d6334622b60bb53562fa154be94243b78937ef41103481f46a72b91c",
+      "bytes": 5134
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json",
+      "bytes": 411186,
+      "sha256": "3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17"
+    }
+  ],
+  "sourceHead": "00e89d21d6a00d09819f8353ae0a1391b954f171",
+  "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "snapshot": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e"
+}

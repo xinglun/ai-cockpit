@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "actor": "human:Ray",
+  "source": "Direct trusted user message in this active conversation",
+  "statement": "我本人 Ray 批准关闭 WI-1081-append-only-evidence-observations 的归档 963433db…3de082（Contract fa050a50…921d20），仅追加关闭证据；待新提交的完整 CI 和 Raydot 审阅通过后，将 PR #1037 转为 Ready 并正常合并，按 AI Cockpit 流程清理其对应分支和干净 worktree。出现额外源码变化或不可恢复数据时暂停。此批准不包含误建分支或 WI-1078 资源。",
+  "statementUtf8Sha256": "cc7fbec888cace0fe33fd04ccc90562fdf9e7255411d08f41ec032aad7920156",
+  "messageId": null,
+  "messageAuthoredAt": null,
+  "agentObservationRecordedAt": "2026-10-15T05:12:52.728070+00:00",
+  "decidedAt": "unknown",
+  "authoritySource": "current-conversation:direct-user-message:sha256:cc7fbec888cace0fe33fd04ccc90562fdf9e7255411d08f41ec032aad7920156;authoredAt=unknown;messageId=unknown",
+  "timestampProvenance": "Exact human authored timestamp is not exposed. Personal Context reported unavailable. unknown is explicit; agent observation and Runtime recording times are not claimed as human decision time. The supported structured close type is a nonempty string; no parser, gate, assertion, or record is edited.",
+  "bindings": {
+    "workItemId": "WI-1081-append-only-evidence-observations",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "archiveRawSha256": "963433dbb29e9192a242629a83ef6e8f75febbe631ece5b40fbfdcedce3de082",
+    "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+    "originalHead": "00e89d21d6a00d09819f8353ae0a1391b954f171",
+    "pullRequest": 1037
+  },
+  "allowed": "Append close evidence. Ready and normal merge only after complete CI and Raydot review of the new commit pass, then exact corresponding branch and clean worktree cleanup.",
+  "stopConditions": [
+    "Extra source changes",
+    "Unrecoverable data"
+  ],
+  "excluded": [
+    "mistaken branch codex/wi1081-post-merge-lifecycle-layout",
+    "WI-1078 resources"
+  ]
+}

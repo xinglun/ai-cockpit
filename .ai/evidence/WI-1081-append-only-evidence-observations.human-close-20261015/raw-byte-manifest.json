@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "sha256",
+  "note": "Raw bytes; this manifest excludes itself. Original archive, source and verification are immutable.",
+  "files": [
+    {
+      "path": ".ai/decisions/WI-1081-append-only-evidence-observations.close.json",
+      "bytes": 8675,
+      "sha256": "2ce2811c8b7c325170331d4f528977f751bcaff5c558133aed9fc7f355cf0133"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/README.md",
+      "bytes": 2244,
+      "sha256": "14472476d8f24cca685532dfce0cb8ad5c403ea55a91babae26c54d7b6b75004"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/close-argv.json",
+      "bytes": 1173,
+      "sha256": "c766314be7e3f6971eb8538a8f3a2f23ce1c69f058bc8bea01334fa5496081ce"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/close.command.json",
+      "bytes": 1334,
+      "sha256": "d8fb361897e1d99d5dde1991a1e832e81145c681c4eeb8dbef3821de9e59df2a"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/close.stderr.log",
+      "bytes": 3577,
+      "sha256": "2c3b0f509866cd813539329f0bfd3907fab69351089207c8d42140f3d7d0fda3"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/close.stdout.json",
+      "bytes": 8703,
+      "sha256": "535927d66dcfe80f74eddc9eec5237590634e189dc210508bfacbc6b14ead8fd"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/immutable-bindings-before-close.json",
+      "bytes": 2051,
+      "sha256": "b85f3ffd6ddeb6c6123e990ed0de5ecc0d45870a42a283e1996bf686b2816ea3"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/postclose-outcome.json",
+      "bytes": 9130,
+      "sha256": "2e59bb88b8e871a554108e479cae31d5d12867de8e4e7bc43eca73c555cb315d"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/postclose-outcome.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/postclose-status.json",
+      "bytes": 3198,
+      "sha256": "f938f273525fb323cd53491a45ea3e2ee37a606f3d9bedf2d67a387f023b391d"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/postclose-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/preclose-outcome.json",
+      "bytes": 10101,
+      "sha256": "d3c434cf0db84ac0075633527261f0317265ffc2057e121b583b4058c3137d9f"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/preclose-outcome.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/preclose-status.json",
+      "bytes": 3558,
+      "sha256": "bfda4dc85a93d64a042b0c09a78ce3ddf93e0120611657328b8851a0077a4fe3"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/preclose-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/preclose-validate.json",
+      "bytes": 430,
+      "sha256": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/preclose-validate.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/ray-direct-authorization.json",
+      "bytes": 2134,
+      "sha256": "4a05bcf16d5b63259ad0c8386889146c6f42a401945810dbc03bcc5d84c6f7d0"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/retained-objects-before-close.json",
+      "bytes": 1697,
+      "sha256": "d241c93d273c81a767d915184387896f596b218e4ca0691b6660106158a66989"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.human-close-20261015/sensitive-check.json",
+      "bytes": 120,
+      "sha256": "08204ebe2b51893d053f7838e26cdddaea8f5191dc8ec6e4306a1e2fe9d8c7eb"
+    }
+  ]
+}

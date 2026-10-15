@@ -1,0 +1,37 @@
+{
+  "observedAt": "2026-10-15T05:12:52.728070+00:00",
+  "worktrees": [
+    {
+      "path": "/workspace/ai-cockpit",
+      "head": "707ba00c99b96b060df3b8ba997e1aad03431ea1",
+      "statusPorcelain": "",
+      "workingDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/ai-cockpit-control",
+      "head": "508a0a0f47dcbb957aacb8b03220f6234a87549d",
+      "statusPorcelain": " M .ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json\u0000",
+      "workingDiffSha256": "80f626b5000c114e1994ac6521871967236b476c2aea5a323b68058a0549e5b7"
+    },
+    {
+      "path": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+      "head": "cb9022748ef222db84766dccad98be9683448ff8",
+      "statusPorcelain": "",
+      "workingDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review",
+      "head": "feafd0fe72dc44c41107a85840f93bffc060a5ca",
+      "statusPorcelain": " M crates/cockpit-repository/src/resource_lifecycle.rs\u0000",
+      "workingDiffSha256": "66343f474cdfdeecb0a9af8985b5d4c49447ed05c8c004691f06a0a241c1fb90"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization",
+      "head": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "statusPorcelain": "",
+      "workingDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "mistakenRemoteRef": "1b2bf25a027cf6b16f144c82c41b2fc6f7751170\trefs/heads/codex/wi1081-post-merge-lifecycle-layout",
+  "policy": "Preserve all; this authorization excludes mistaken branch and WI-1078 resources."
+}
