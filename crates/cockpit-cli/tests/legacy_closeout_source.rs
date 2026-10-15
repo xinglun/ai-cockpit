@@ -571,6 +571,74 @@ mod complete_source {
         );
         assert_eq!(fs::read(path).unwrap(), changed_requirement);
     }
+    #[test]
+    fn complete_source_rejects_missing_legacy_identity_header_without_rewriting_history() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let receipt = format!(".ai/decisions/{ID}.cross-checkout-closeout-recovery.json");
+        for root in [&dest, &source] {
+            let path = root.join(&receipt);
+            let mut legacy: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+            legacy.as_object_mut().unwrap().remove("runtimeDigest");
+            fs::write(path, serde_json::to_vec_pretty(&legacy).unwrap()).unwrap();
+        }
+        commit(&source, "preserve incomplete legacy identity fixture");
+        // New registration is strict; unregistered historical compatibility is
+        // independently preserved rather than silently changing old evidence.
+        assert_eq!(
+            work_item_status_snapshot_with_runtime(&dest, ID, &current_runtime())
+                .unwrap()
+                .lifecycle_phase,
+            "closed"
+        );
+        let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+            .unwrap()
+            .trim()
+            .to_owned();
+        let request=serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:registrar","authoritySource":"isolated fixture","reason":"reject incomplete original identity","sourceAccepted":true})).unwrap();
+        let result = cockpit_repository::plan_legacy_closeout_source(
+            &dest,
+            Some(&source),
+            ID,
+            &request,
+            &current_runtime(),
+        );
+        assert!(
+            result.is_err(),
+            "a complete pinned source cannot replace missing legacy Runtime identity"
+        );
+        assert!(
+            result
+                .unwrap_err()
+                .to_string()
+                .contains("legacy_receipt_invalid")
+        );
+    }
+    #[test]
+    fn register_request_cannot_silently_ignore_extension_fields() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+            .unwrap()
+            .trim()
+            .to_owned();
+        let request=serde_json::from_value(json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:registrar","authoritySource":"isolated fixture","reason":"require one unambiguous operation","sourceAccepted":true,"transitionBytes":"unrelated operation content"})).unwrap();
+        let result = cockpit_repository::plan_legacy_closeout_source(
+            &dest,
+            Some(&source),
+            ID,
+            &request,
+            &current_runtime(),
+        );
+        assert!(
+            result.is_err(),
+            "typed operation roles must reject ignored fields"
+        );
+        assert!(
+            result
+                .unwrap_err()
+                .to_string()
+                .contains("request_role_invalid")
+        );
+    }
 }
 
 #[test]

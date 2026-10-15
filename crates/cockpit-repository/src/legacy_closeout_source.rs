@@ -72,7 +72,7 @@ use cockpit_protocol::{
     LegacyCloseoutSourceRequest as Request, LegacyCloseoutSourceRequirement as Requirement,
     RuntimeContext, digest_json,
 };
-use serde::{Serialize, de::DeserializeOwned};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use std::{
     io::{Read, Write},
     path::{Component, PathBuf},
@@ -341,6 +341,78 @@ fn dependencies(inventory: &[FileBinding], id: &str) -> Vec<FileBinding> {
         .collect()
 }
 
+// Registration requires a complete producer receipt. Ordinary legacy reading
+// retains its historical compatibility policy; it does not acquire this schema.
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct LegacyReceipt {
+    schema_version: u32,
+    kind: String,
+    work_item_id: String,
+    source_repository_id: String,
+    destination_repository_id: String,
+    source_snapshot_digest: Digest,
+    destination_snapshot_digest: Digest,
+    contract_digest: Digest,
+    provider_facts: serde_json::Value,
+    runtime_version: String,
+    runtime_digest: Digest,
+    file_digests: Vec<LegacyFile>,
+    created_at: String,
+}
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct LegacyFile {
+    path: String,
+    digest: Digest,
+    size_bytes: u64,
+}
+fn validate_legacy_header(
+    root: &Path,
+    id: &str,
+    repo: &str,
+    bytes: &[u8],
+) -> Result<(), ObserverError> {
+    let receipt: LegacyReceipt =
+        parse(root, bytes).map_err(|_| error(root, "legacy_receipt_invalid"))?;
+    let mut paths = BTreeSet::new();
+    if receipt.schema_version != 1
+        || receipt.kind != "cross_checkout_closeout_recovery"
+        || receipt.work_item_id != id
+        || receipt.source_repository_id != repo
+        || receipt.destination_repository_id != repo
+        || receipt.runtime_version.trim().is_empty()
+        || chrono::DateTime::parse_from_rfc3339(&receipt.created_at).is_err()
+        || [
+            &receipt.source_snapshot_digest,
+            &receipt.destination_snapshot_digest,
+            &receipt.contract_digest,
+            &receipt.runtime_digest,
+        ]
+        .iter()
+        .any(|value| !super::valid_sha256_digest(&value.to_string()))
+        || receipt.file_digests.is_empty()
+        || receipt.file_digests.len() > MAX_FILES
+        || receipt.file_digests.iter().any(|file| {
+            relative_parts(root, &file.path).is_err()
+                || !paths.insert(file.path.clone())
+                || file.size_bytes > MAX_BYTES
+                || !super::valid_sha256_digest(&file.digest.to_string())
+        })
+    {
+        return Err(error(root, "legacy_receipt_invalid"));
+    }
+    // The existing validator reconstructs the complete applicable payload and
+    // checks canonical Contract and lawful historical/current provider facts.
+    let value: serde_json::Value = parse(root, bytes)?;
+    if value["providerFacts"] != receipt.provider_facts
+        || !super::lifecycle::closeout_recovery_payload_matches(root, id, repo, &value)
+    {
+        return Err(error(root, "legacy_receipt_invalid"));
+    }
+    Ok(())
+}
+
 fn observe_history(
     root: &Path,
     id: &str,
@@ -363,6 +435,7 @@ fn observe_history(
     {
         return Err(error(root, "provenance_unknown"));
     }
+    validate_legacy_header(root, id, repo, &receipt_bytes)?;
     let (facts, files, selected_ids) =
         super::lifecycle::legacy_source_history_inventory(root, id, repo)?;
     let mut inventory = Vec::new();
@@ -578,6 +651,37 @@ fn plan_digest(root: &Path, plan: &Plan) -> Result<Digest, ObserverError> {
         .remove("planDigest");
     digest(root, &value)
 }
+fn validate_request_role(
+    root: &Path,
+    source: Option<&Path>,
+    request: &Request,
+) -> Result<(), ObserverError> {
+    let source_fields =
+        source.is_some() || request.source_revision.is_some() || request.source_accepted;
+    let attestation =
+        request.actor.is_some() || request.authority_source.is_some() || request.reason.is_some();
+    let root_resume = request.original_registration_bytes.is_some()
+        || request.original_requirement_raw_digest.is_some();
+    let extension_resume = request.original_extension_bytes.is_some()
+        || request.original_extension_raw_digest.is_some();
+    let invalid = match request.operation {
+        Operation::Register => {
+            root_resume || extension_resume || request.transition_bytes.is_some()
+        }
+        Operation::Resume => {
+            source_fields || attestation || extension_resume || request.transition_bytes.is_some()
+        }
+        Operation::Extend => source_fields || root_resume || extension_resume,
+        Operation::ResumeExtension => {
+            source_fields || attestation || root_resume || request.transition_bytes.is_some()
+        }
+    };
+    if invalid {
+        Err(error(root, "request_role_invalid"))
+    } else {
+        Ok(())
+    }
+}
 
 /// Build an exact frozen present-day observation without writing either repo.
 /// The caller retains this output independently before invoking record.
@@ -594,6 +698,7 @@ pub fn plan_legacy_closeout_source(
     if request.schema_version != 1 {
         return Err(error(&root, "request_schema_invalid"));
     }
+    validate_request_role(&root, source, request)?;
     if matches!(
         request.operation,
         Operation::Extend | Operation::ResumeExtension
