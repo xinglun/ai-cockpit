@@ -1,0 +1,24 @@
+worktree /workspace/ai-cockpit
+HEAD 707ba00c99b96b060df3b8ba997e1aad03431ea1
+detached
+
+worktree /tmp/wi1078-main-bcd76ae7-20261015/source
+HEAD bcd76ae76f61650a890267f511099c96dc6a47fd
+detached
+
+worktree /workspace/ai-cockpit-control
+HEAD 508a0a0f47dcbb957aacb8b03220f6234a87549d
+branch refs/heads/main
+
+worktree /workspace/ai-cockpit-control-wi1078-retained-00461714
+HEAD 864fd9b942dc27340869d91e67d11b9b5bf6292a
+branch refs/heads/codex/wi1078-retained-evidence-00461714
+
+worktree /workspace/ai-cockpit-main37cc-review
+HEAD feafd0fe72dc44c41107a85840f93bffc060a5ca
+branch refs/heads/codex/wi1080-v3-actual-merge-first-parent
+
+worktree /workspace/ai-cockpit-wi1084-closeout-receipt-integrity
+HEAD 994a065a29b6e0d48c9aa423242dd1dbf18fd602
+branch refs/heads/codex/wi1084-closeout-receipt-integrity
+

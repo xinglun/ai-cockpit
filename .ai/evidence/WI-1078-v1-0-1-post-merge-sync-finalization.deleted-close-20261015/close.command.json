@@ -1,0 +1,38 @@
+{
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "close",
+    "--repo",
+    "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+    "--id",
+    "WI-1078-v1-0-1-post-merge-sync-finalization",
+    "--human-decision",
+    "approved",
+    "--actor",
+    "human:Ray",
+    "--authority-source",
+    "current-conversation:direct-user-message:sha256:1d8d6ad2c8e37e48bbf0dc5b4d6a0ce78ecd90ef9b559bd11848eba25c7d6cae;authoredAt=unknown;messageId=unexposed",
+    "--reason",
+    "Ray directly approved exact original WI-1078 resource cleanup and conditional close. Archive raw SHA256 b52cb7bcbc64b98a017537e4a134a24b3577d65683acea0b7017923fbeb8a836; canonical Contract e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a. Native schema-v4 sequence-1 Deleted verification passed with headDigest sha256:c7c83dfcdde4c26dc9427e665f45d27e4e677a298328679b63a64c833a3b230f. Record this human decision without historical test rerun or rewriting archive/verification bytes; human authored time and message ID are unexposed.",
+    "--evidence-ref",
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/human-approval.json",
+    "--evidence-ref",
+    ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.a400d136f3644dabbfd4e98b8ade7d0fc5e7ee0ea7ac683999f15a386df94cfd.json",
+    "--evidence-ref",
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/deleted-finalize-verify.stdout",
+    "--decided-at",
+    "unknown",
+    "--json",
+    "--language",
+    "zh-CN"
+  ],
+  "cwd": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+  "startedAt": "2026-10-15T07:52:38.867105+00:00",
+  "endedAt": "2026-10-15T07:53:13.306457+00:00",
+  "exitCode": 0,
+  "closeConditionVerified": {
+    "headPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.a400d136f3644dabbfd4e98b8ade7d0fc5e7ee0ea7ac683999f15a386df94cfd.json",
+    "headDigest": "sha256:c7c83dfcdde4c26dc9427e665f45d27e4e677a298328679b63a64c833a3b230f",
+    "sequence": 1
+  }
+}

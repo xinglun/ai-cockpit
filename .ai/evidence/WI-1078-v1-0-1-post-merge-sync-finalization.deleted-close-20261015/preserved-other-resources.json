@@ -1,0 +1,33 @@
+{
+  "observedAt": "2026-10-15T07:55:03.225395+00:00",
+  "worktrees": [
+    {
+      "path": "/workspace/ai-cockpit",
+      "head": "707ba00c99b96b060df3b8ba997e1aad03431ea1",
+      "statusAndDiffUnchanged": true
+    },
+    {
+      "path": "/tmp/wi1078-main-bcd76ae7-20261015/source",
+      "head": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+      "statusAndDiffUnchanged": true
+    },
+    {
+      "path": "/workspace/ai-cockpit-control",
+      "head": "508a0a0f47dcbb957aacb8b03220f6234a87549d",
+      "statusAndDiffUnchanged": true
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review",
+      "head": "feafd0fe72dc44c41107a85840f93bffc060a5ca",
+      "statusAndDiffUnchanged": true
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+      "head": "994a065a29b6e0d48c9aa423242dd1dbf18fd602",
+      "clean": true
+    }
+  ],
+  "onlyOriginalWI1078TargetWasRemoved": true,
+  "recoveryControlRetained": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+  "noOldSummaryOrReviewSourceRewritten": true
+}

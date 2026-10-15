@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "git",
+    "-c",
+    "index.threads=1",
+    "branch",
+    "-d",
+    "codex/wi1078-post-merge-sync-finalization"
+  ],
+  "cwd": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+  "startedAt": "2026-10-15T07:49:46.788816+00:00",
+  "endedAt": "2026-10-15T07:49:46.794309+00:00",
+  "exitCode": 0,
+  "force": false
+}

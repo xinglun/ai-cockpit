@@ -1,0 +1,8 @@
+{
+  "disposition": "deleted",
+  "path": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.a400d136f3644dabbfd4e98b8ade7d0fc5e7ee0ea7ac683999f15a386df94cfd.json",
+  "predecessorPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.json",
+  "sequence": 1,
+  "state": "appended",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+}

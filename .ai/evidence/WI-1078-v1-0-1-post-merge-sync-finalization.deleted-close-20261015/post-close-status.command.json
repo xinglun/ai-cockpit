@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "work-item",
+    "status",
+    "--id",
+    "WI-1078-v1-0-1-post-merge-sync-finalization",
+    "--json",
+    "--repo",
+    "/workspace/ai-cockpit-control-wi1078-retained-00461714"
+  ],
+  "exitCode": 0,
+  "startedAt": "2026-10-15T07:53:18.505117+00:00",
+  "endedAt": "2026-10-15T07:53:25.216972+00:00"
+}

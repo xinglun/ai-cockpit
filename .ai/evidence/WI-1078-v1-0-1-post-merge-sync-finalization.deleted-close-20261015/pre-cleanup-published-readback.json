@@ -1,0 +1,23 @@
+{
+  "observedAt": "2026-10-15T07:48:50.455473+00:00",
+  "head": "864fd9b942dc27340869d91e67d11b9b5bf6292a",
+  "ref": "refs/heads/codex/wi1078-evidence-recovery-20261014",
+  "verifiedFiles": [
+    {
+      "path": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/human-approval.json",
+      "sha256": "7f6121019bdca7c03a3e01a733061061d309fef912c9a82868840bade9c4ca3c",
+      "bytes": 1754
+    },
+    {
+      "path": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/pre-cleanup-guard.json",
+      "sha256": "aeed82251e6e08ce5e914d452f6def4f59672ecdcdd8cf9cb2a434dd53186276",
+      "bytes": 3379
+    },
+    {
+      "path": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/pre-cleanup-byte-manifest.json",
+      "sha256": "06ece4db86402b9b230189f6148444aaa06542b082c6d07740448c19eb4c2c55",
+      "bytes": 10449
+    }
+  ],
+  "checkpointBeforeAnyDeletion": true
+}

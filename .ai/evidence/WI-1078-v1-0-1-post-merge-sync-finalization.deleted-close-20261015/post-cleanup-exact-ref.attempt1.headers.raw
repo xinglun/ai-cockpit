@@ -1,0 +1,30 @@
+HTTP/2.0 404 Not Found
+Access-Control-Allow-Origin: *
+Access-Control-Expose-Headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning
+Content-Security-Policy: default-src 'none'
+Content-Type: application/json; charset=utf-8
+Date: Thu, 15 Oct 2026 07:51:19 GMT
+Github-Authentication-Token-Expiration: 2026-10-15 09:26:03 UTC
+Referrer-Policy: origin-when-cross-origin, strict-origin-when-cross-origin
+Server: envoy
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+Vary: Accept-Encoding, Accept, X-Requested-With
+X-Accepted-Github-Permissions: contents=read
+X-Accepted-Oauth-Scopes: repo
+X-Content-Type-Options: nosniff
+X-Envoy-Upstream-Service-Time: 1097
+X-Frame-Options: deny
+X-Github-Api-Version-Selected: 2022-11-28
+X-Github-Edge-Region: iad
+X-Github-Media-Type: github.v3; format=json
+X-Github-Request-Id: F54E:29AB66:234CE2E:7396620:6AD085F7
+X-Oauth-Client-Id: Iv23liVemv8A9if9v0F2
+X-Oauth-Scopes: 
+X-Poll-Interval: 300
+X-Ratelimit-Limit: 15000
+X-Ratelimit-Remaining: 14410
+X-Ratelimit-Reset: 1792051884
+X-Ratelimit-Resource: core
+X-Ratelimit-Used: 590
+X-Xss-Protection: 0
+

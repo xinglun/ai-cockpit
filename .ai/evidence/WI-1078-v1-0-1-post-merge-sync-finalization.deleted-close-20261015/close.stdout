@@ -1,0 +1,162 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "Provider facts are imported as original delegated evidence with raw-byte digest, repository/Work Item/source/time/assurance bindings; SelfDeclared is never upgraded to ProviderVerified and no provider API client is added.",
+      "The validation binds H0→H1 and the M1 merge commit parents exactly to M0 and H1, allows M0 not to be an H1 ancestor, requires current main to contain M1, and validates fixed pairwise tree changes without relying on a three-dot comparison.",
+      "Finish/archive/docs phase fixtures validate the d651 finish receipt/Summary/Outcome/report updates, 700f archive movement and active-to-archive Outcome/events transition, and the six-doc 0f1 projection; historical .ai blobs are frozen and final-manifest self-consistency alone is insufficient.",
+      "With no existing finalization root, Runtime records schema-v2 postMergeSync Retained root→Deleted transition bound to the executing candidate Runtime digest; v1 behavior is unchanged and no v1 root migration is introduced.",
+      "Deleted requires delegated observation of the exact remote ref state, exact local ref state, captured git-common-dir/worktree identity, and actual worktree path absence; extant, recreated, replaced, mismatched, or Unknown states fail closed.",
+      "Retained/Deleted evidence is stored in the surviving control checkout, not the worktree to be deleted; old WI-1076 b2a43 verification/archive bytes remain byte-identical historical truth.",
+      "Regression proves finalize-verify accepts only the complete schema-v2 evidence chain and close still requires a strict real human decision; missing v2 proof cannot fall back to v1.",
+      "Run focused red-green regression for the above cases, the full cargo workspace suite, and required repository quality gates."
+    ],
+    "createdAt": "2026-10-12T23:18:17.038385849Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:861377eb30ebbd55f438b3803cf080ad62ee3556beb465981ccbe183969c41b3",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+        ],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:d28f9aa76dd1f5c0eacef719705608e0a74932ae37c552c90e42da0cf84fe481",
+        "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+            ],
+            "inference": false,
+            "text": "No repository paths were observed as changed by the current Summary."
+          }
+        ],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+            ],
+            "inference": false,
+            "text": "Validate delegated source/sync PR observations against the exact immutable Git graph and finish/archive phases; when no finalization root exists, record and verify a candidate-Runtime-bound schema-v2 Retained-to-Deleted transition with fail-closed local and delegated remote resource observations, while requiring the existing human close decision."
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "usage": {
+        "coverage": "unknown",
+        "cutoff": "2026-10-12T23:18:17.038385849Z",
+        "receiptRefs": [],
+        "schemaVersion": 1,
+        "subtotals": [],
+        "totals": {
+          "cachedInputTokens": null,
+          "inputTokens": null,
+          "outputTokens": null,
+          "reasoningTokens": null
+        },
+        "unknownReasons": [
+          "no_usage_receipts"
+        ],
+        "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+      },
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+    },
+    "taskReportDigest": "sha256:cb35cc0b03c94f88366452caa5ff07f390e73b4578e462036cdb7c8a27b08877",
+    "taskReportMarkdownDigest": "sha256:fd3a8648d1fc816c44502562b94195378eedb9be0af5039e96b0eb8a6cb62980",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+  },
+  "state": "closed",
+  "timestamp": "2026-10-15T07:53:07Z",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+}

@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "transitionId": "wi1078-deleted-20261015T075118Z",
+  "sequence": 1,
+  "predecessorReceiptDigest": "sha256:c6ec082e0f2c3accd15701e158b3767a7a944f944b889059abf3407fb812c0e2",
+  "receipt": {
+    "actor": "agent:Codex",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "Direct Ray approval in current conversation, exact text preserved in .ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/human-approval.json; explicit exact original resource cleanup and close only after Deleted verification",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "name": "codex/wi1078-post-merge-sync-finalization",
+      "remote": "origin"
+    },
+    "contractBaseRevision": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+    "contractDigest": "sha256:97201e6fe0f59f58c72e408e5d89d387c6765fb164e9dfbe4d22895c8ff7abf6",
+    "operationId": "wi1078-deleted-20261015T075118Z",
+    "postMergeSync": {
+      "archiveRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "currentMainRevision": "37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+      "docsRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "documentation": "absent",
+      "finishRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "gitCommonDir": "/workspace/ai-cockpit/.git",
+      "lifecycleLayout": "combined",
+      "observationSelectors": {
+        "remote": {
+          "schemaVersion": 1,
+          "observationDigest": "sha256:37dd44ef254e2372275e60dfe14285b85508e07603879326d457fb2767c81ce3",
+          "receiptDigest": "sha256:9af05ff77a5b2bc888c4d8b009f549f70471047c90f4fde8ccf4897dba60a0fc"
+        },
+        "source": {
+          "observationDigest": "sha256:cbe29afa2a58dc3da061e050f4b303fc82ba8e6e1c351d67baecae5fa89bfabb",
+          "receiptDigest": "sha256:7b42aa3b2088938a12158b7a4c04d3ac102af23eb198f8b8c40cb76dddbeb4a1",
+          "schemaVersion": 1
+        },
+        "sync": {
+          "observationDigest": "sha256:b020a02437c98384a3af9cc49ab66fbad8ee0212e2fafd12c585665f1d21efb5",
+          "receiptDigest": "sha256:8b137a0a6cc0f762cb4f8d76468ccdf95f4e64e52716e1c964f5878db953c4a2",
+          "schemaVersion": 1
+        }
+      },
+      "remoteBranchRef": "refs/heads/codex/wi1078-post-merge-sync-finalization",
+      "remoteBranchState": "deleted",
+      "remoteEvidenceDigest": "sha256:5b1a4e028e867e2c58e67173987c64b8d831fb6a5ccf231036f7b26015c9a867",
+      "sourceEvidenceDigest": "sha256:b35c95be625d5ba05fa3cb0740f2617ac20581a84d1c7110ffdba5c936b887c6",
+      "sourcePullRequest": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+        "headRevision": "ba4350249313b2ffd95c5bae52a3ffff8e9597a9",
+        "mergeCommit": "ec249eadb1d4075b351db729d6c719d7905b3f16",
+        "number": 1032,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/1032"
+      },
+      "syncEvidenceDigest": "sha256:7482858bd5f1f28db27c6f1c00c9a46bd827ec247610c1d4c0e619c04af6ed00",
+      "syncPullRequest": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+        "headRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+        "mergeCommit": "37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+        "number": 1034,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/1034"
+      },
+      "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1078-post-merge-sync-finalization"
+    },
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+      "headRevision": "ba4350249313b2ffd95c5bae52a3ffff8e9597a9",
+      "mergeCommit": "ec249eadb1d4075b351db729d6c719d7905b3f16",
+      "number": 1032,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/1032"
+    },
+    "reason": "Executed normal exact remote branch deletion, normal clean original worktree removal and local branch -d under Ray approval. Actual exact-ref HTTP404 plus accessible matching-ref HTTP200, absent local ref/worktree registration/path/Git-dir prove Deleted. Preserve historical evidence without rerun.",
+    "receiptId": "wi1078-deleted-20261015T075118Z",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi1078-post-merge-sync-finalization",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1032",
+      "worktree": "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 4,
+    "timestamp": "2026-10-15T07:51:21.095496+00:00",
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+    "worktree": {
+      "branch": "codex/wi1078-post-merge-sync-finalization",
+      "headRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "path": "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization",
+      "worktreeId": "sha256:10ba8e37f214602cca0d30876815219452526e6a18689e4c34b1947377259746"
+    }
+  }
+}

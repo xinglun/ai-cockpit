@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "work-item",
+    "finalize",
+    "--repo",
+    "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+    "--id",
+    "WI-1078-v1-0-1-post-merge-sync-finalization",
+    "--input",
+    "/workspace/ai-cockpit-control-wi1078-retained-00461714/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/deleted-transition.request.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+  "startedAt": "2026-10-15T07:51:21.095794+00:00",
+  "endedAt": "2026-10-15T07:51:29.200063+00:00",
+  "exitCode": 0
+}

@@ -1,0 +1,247 @@
+{
+  "acceptanceResults": [
+    "Provider facts are imported as original delegated evidence with raw-byte digest, repository/Work Item/source/time/assurance bindings; SelfDeclared is never upgraded to ProviderVerified and no provider API client is added.",
+    "The validation binds H0→H1 and the M1 merge commit parents exactly to M0 and H1, allows M0 not to be an H1 ancestor, requires current main to contain M1, and validates fixed pairwise tree changes without relying on a three-dot comparison.",
+    "Finish/archive/docs phase fixtures validate the d651 finish receipt/Summary/Outcome/report updates, 700f archive movement and active-to-archive Outcome/events transition, and the six-doc 0f1 projection; historical .ai blobs are frozen and final-manifest self-consistency alone is insufficient.",
+    "With no existing finalization root, Runtime records schema-v2 postMergeSync Retained root→Deleted transition bound to the executing candidate Runtime digest; v1 behavior is unchanged and no v1 root migration is introduced.",
+    "Deleted requires delegated observation of the exact remote ref state, exact local ref state, captured git-common-dir/worktree identity, and actual worktree path absence; extant, recreated, replaced, mismatched, or Unknown states fail closed.",
+    "Retained/Deleted evidence is stored in the surviving control checkout, not the worktree to be deleted; old WI-1076 b2a43 verification/archive bytes remain byte-identical historical truth.",
+    "Regression proves finalize-verify accepts only the complete schema-v2 evidence chain and close still requires a strict real human decision; missing v2 proof cannot fall back to v1.",
+    "Run focused red-green regression for the above cases, the full cargo workspace suite, and required repository quality gates."
+  ],
+  "collaboration": {
+    "blockers": [],
+    "cleanupDisposition": "unknown",
+    "cleanupState": "not_observed",
+    "compositionApplicability": "not_observed",
+    "compositionOrder": [],
+    "compositionState": "not_observed",
+    "consumers": [],
+    "executionEvidenceComplete": false,
+    "executionOutcome": "unknown",
+    "humanDecisionRequired": false,
+    "implementationState": "separate_lifecycle_outcome",
+    "integrationOwner": null,
+    "invalidatedEventIds": [],
+    "nextAction": "refresh dependency state before the next dependent action",
+    "providers": [],
+    "reusableChecks": [],
+    "revalidation": "not_required",
+    "schemaVersion": 2,
+    "state": "allowed",
+    "targetMergeState": "not_observed",
+    "unhandledRequests": [],
+    "unknowns": [],
+    "waitingEdges": [],
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+  },
+  "decisionState": "yellow",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+  ],
+  "finalization": {
+    "action": "record_close_decision_if_required",
+    "cleanup": {
+      "deletedCount": 2,
+      "evidenceRefs": [
+        ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.a400d136f3644dabbfd4e98b8ade7d0fc5e7ee0ea7ac683999f15a386df94cfd.json",
+        "receiptDigest:sha256:c7c83dfcdde4c26dc9427e665f45d27e4e677a298328679b63a64c833a3b230f"
+      ],
+      "reason": "Executed normal exact remote branch deletion, normal clean original worktree removal and local branch -d under Ray approval. Actual exact-ref HTTP404 plus accessible matching-ref HTTP200, absent local ref/worktree registration/path/Git-dir prove Deleted. Preserve historical evidence without rerun.",
+      "resources": [
+        {
+          "disposition": "retained",
+          "identity": "#1032 https://github.com/xinglun/ai-cockpit/pull/1032",
+          "kind": "pull_request",
+          "state": "merged"
+        },
+        {
+          "disposition": "deleted",
+          "identity": "codex/wi1078-post-merge-sync-finalization",
+          "kind": "branch",
+          "state": "deleted"
+        },
+        {
+          "disposition": "deleted",
+          "identity": "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization",
+          "kind": "worktree",
+          "state": "removed"
+        }
+      ],
+      "retainedCount": 1,
+      "unknownCount": 0
+    },
+    "disposition": "deleted",
+    "nextAction": {
+      "authorization": "human_required",
+      "id": "record_close_decision",
+      "safety": "human_decision_only"
+    },
+    "observationState": "verified_deleted",
+    "reliable": true,
+    "state": "verified"
+  },
+  "governanceReasons": [
+    "intent_alignment_insufficient"
+  ],
+  "historicalStatus": "runtime_historical",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "recoveryDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "explicit-user-authorization:Ray, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "decidedAt": "2026-10-13T23:46:39Z",
+    "decision": "successor",
+    "decisionId": "work-item-recovery",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json",
+      ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+    "predecessorEventsDigest": "sha256:e474d36a08a9764568b548d95d3e28defc10a92ee8517381370e1d96dbc71ba9",
+    "predecessorOutcomeDigest": "sha256:3ca7dc162a68c7b90e2b236ee76b19e2bb0875a39100b2ca1661a356fe97e8bc",
+    "predecessorSummaryDigest": "sha256:5cf0d7ab2e89a8511cf82313aae5cb0e5bb71ab7e3cf1c7116e19fd5a26c8c0b",
+    "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+    "reason": "Preserve archived WI-1078 and its historical evidence; create only the explicitly approved, narrowly scoped successor to fix schema-v3 validate_post_merge_layout_stages on main 37cc4e540ce23a721382d9c6b510218dc5ba69c1 by retaining provider base identity and deriving the actual M1 first parent, with v1/v2 unchanged.",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resumeCondition": "Create the successor Contract for the approved narrow scope and let the current Runtime evaluate admission; continue only when admitted or after any exact Contract-digest-bound human confirm_review required by preflight.",
+    "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "successorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "not_ready",
+  "summary": "Historical verification evidence was produced by an older Runtime and is not revalidated as a current result.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "yellow",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Historical verification evidence was produced by an older Runtime and is not revalidated as a current result."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: historical_evidence_not_revalidated"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Validate delegated source/sync PR observations against the exact immutable Git graph and finish/archive phases; when no finalization root exists, record and verify a candidate-Runtime-bound schema-v2 Retained-to-Deleted transition with fail-closed local and delegated remote resource observations, while requiring the existing human close decision."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "not_ready",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-15T07:53:07.838594247Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+    },
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+  },
+  "unknowns": [
+    "historical_evidence_not_revalidated",
+    "user_visible_benefit_not_declared"
+  ],
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+}

@@ -1,0 +1,10 @@
+{
+  "kind": "Composite typed raw evidence assembled from actual HTTP observations; it is not mislabeled as one original GitHub response",
+  "exactRefResponse": "post-cleanup-exact-ref.attempt1",
+  "accessibleMatchingRefsResponse": "post-cleanup-access-check.attempt1",
+  "principalSource": "provider-principal.json",
+  "collectedAt": "2026-10-15T07:51:20.843464+00:00",
+  "compositeSha256": "sha256:5b1a4e028e867e2c58e67173987c64b8d831fb6a5ccf231036f7b26015c9a867",
+  "actualRemoteRefAbsent": true,
+  "matchingRefsAccessible": true
+}

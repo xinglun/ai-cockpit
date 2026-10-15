@@ -1,0 +1,154 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d28f9aa76dd1f5c0eacef719705608e0a74932ae37c552c90e42da0cf84fe481",
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/human-approval.json",
+            ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.a400d136f3644dabbfd4e98b8ade7d0fc5e7ee0ea7ac683999f15a386df94cfd.json",
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/deleted-finalize-verify.stdout"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:Ray via current-conversation:direct-user-message:sha256:1d8d6ad2c8e37e48bbf0dc5b4d6a0ce78ecd90ef9b559bd11848eba25c7d6cae;authoredAt=unknown;messageId=unexposed at unknown."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Validate delegated source/sync PR observations against the exact immutable Git graph and finish/archive phases; when no finalization root exists, record and verify a candidate-Runtime-bound schema-v2 Retained-to-Deleted transition with fail-closed local and delegated remote resource observations, while requiring the existing human close decision."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-15T07:53:07.838594247Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+    },
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+  },
+  "finalReportDigest": "sha256:d92f55156cd117d8229a586d822fe3201cd91fb0d2a92523f157211b6dd92a14",
+  "humanDecision": "approved",
+  "occurredAt": "2026-10-15T07:53:07.838291701Z",
+  "recordedAt": "2026-10-15T07:53:07.838291701Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:c7c83dfcdde4c26dc9427e665f45d27e4e677a298328679b63a64c833a3b230f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.a400d136f3644dabbfd4e98b8ade7d0fc5e7ee0ea7ac683999f15a386df94cfd.json",
+  "resourceFinalizationSequence": 1,
+  "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "current-conversation:direct-user-message:sha256:1d8d6ad2c8e37e48bbf0dc5b4d6a0ce78ecd90ef9b559bd11848eba25c7d6cae;authoredAt=unknown;messageId=unexposed",
+    "decidedAt": "unknown",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/human-approval.json",
+      ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.a400d136f3644dabbfd4e98b8ade7d0fc5e7ee0ea7ac683999f15a386df94cfd.json",
+      ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/deleted-finalize-verify.stdout"
+    ],
+    "policyRefs": [],
+    "reason": "Ray directly approved exact original WI-1078 resource cleanup and conditional close. Archive raw SHA256 b52cb7bcbc64b98a017537e4a134a24b3577d65683acea0b7017923fbeb8a836; canonical Contract e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a. Native schema-v4 sequence-1 Deleted verification passed with headDigest sha256:c7c83dfcdde4c26dc9427e665f45d27e4e677a298328679b63a64c833a3b230f. Record this human decision without historical test rerun or rewriting archive/verification bytes; human authored time and message ID are unexposed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-15T07:53:07Z",
+  "usageCutoff": "2026-10-15T07:53:07.838594247Z",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+}
