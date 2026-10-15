@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+  "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "green",
+  "activityHealth": "active",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 9,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 108,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "available",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome",
+    "review_evidence"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+    "materialManifest": "sha256:beae29631dd9929d7786585eece59fa406b68496af6e4152f4ec2f7f7e3375fa",
+    "repositorySnapshot": "sha256:d5fc0425dd6b2f8b32ccc3a9bd7a75e9e319d48353e2b2b0b8a925987d05405f",
+    "summary": "sha256:54eaff0202e06e1cf60fa6c1193bbbc04156e2e1cbc526998387f31bfa49606f",
+    "verificationEvidence": "sha256:56984e2778bc1311c9c44bf8235b45487c9c9a504aa0af29ee3d3d568c74e621"
+  },
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:beae29631dd9929d7786585eece59fa406b68496af6e4152f4ec2f7f7e3375fa",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:d5fc0425dd6b2f8b32ccc3a9bd7a75e9e319d48353e2b2b0b8a925987d05405f",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-15T01:53:14Z",
+  "updatedAt": "2026-10-15T00:43:05Z",
+  "safeActions": [
+    "finish",
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "finish",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:65b06bb6229666961892a7614f86d8b285e8499a3c47542697107afc7ec8e123"
+  },
+  "statusDigest": "sha256:49516ca66f72f505c0766e35dc674423a71b0f4480505651eed7a690f6eb6416",
+  "historical": false
+}

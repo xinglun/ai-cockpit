@@ -1,0 +1,23 @@
+{
+  "observedAt": "2026-10-15T01:51:16.264891+00:00",
+  "fullRetry": "full-contract-workspace-target/run.json",
+  "fullRetryPassed": false,
+  "cli": {
+    "failure": "ci_gate attach Os code2 ENOENT",
+    "source": "crates/cockpit-cli/tests/ci_gate.rs:43 uses compile-time CARGO_BIN_EXE_ai-cockpit",
+    "copiedCacheHasOldEmbeddedExecutablePath": [
+      {
+        "file": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ci_gate-3a4701abafa254f5.d",
+        "sha256": "32294ce762d8b8676a5afee1c2c8b95a78bb43568bb3b7232718549c76b932dc",
+        "oldEmbeddedBinaryPath": true
+      }
+    ],
+    "oldTargetRemovedAfterVerifiedMove": true,
+    "recovery": "Invalidate and rebuild only current WI cockpit-cli artifacts through Cargo, then run the five ci_gate cases via admitted Runtime."
+  },
+  "repository": {
+    "failure": "two real_m1 tests report ENOSPC28 materializing historical checkout",
+    "causeStillUnknown": "Disk peak/concurrent fixture footprint not fully measured; no process/zombie inference.",
+    "recovery": "Use one libtest thread and fresh bounded Runtime checks; keep source/assertions unchanged."
+  }
+}

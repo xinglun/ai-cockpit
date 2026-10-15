@@ -1,0 +1,13 @@
+{
+  "command": [
+    "cargo",
+    "clean",
+    "-p",
+    "cockpit-cli",
+    "--target-dir",
+    "/workspace/.tmp-wi1083-target-00461714-20261015"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+  "exitCode": 101,
+  "reason": "Copied CLI integration binaries embed removed original target path in CARGO_BIN_EXE_ai-cockpit. Only current WI CLI build artifacts invalidated; source/history/evidence and other WI caches untouched."
+}

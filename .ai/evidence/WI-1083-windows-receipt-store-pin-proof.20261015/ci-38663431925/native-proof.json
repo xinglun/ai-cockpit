@@ -1,0 +1,24 @@
+{
+  "run": 38663431925,
+  "head": "0ebf67b65a8663b1f631cbfd75147dd629648d99",
+  "windowsJob": 116190605897,
+  "nativeExactSelected": 1,
+  "nativeExactPassed": 1,
+  "rootLibraryPassed": 104,
+  "relatedReceiptStorePassed": 9,
+  "observedRawRenameErrno": 32,
+  "exactReceipts": 2,
+  "exactIndexMappings": 2,
+  "noRedirection": true,
+  "renameAfterAllHandlesReleased": true,
+  "bothKernelBranchesForced": false,
+  "notAClaimOfNativeErrno5Reproduction": true,
+  "qualityGates": {
+    "not_applicable": 2,
+    "passed": 40
+  },
+  "officialJobLogsUtf8Sha256": {
+    "windows": "9deb5c7b749a32728947b33ff12228de7af3f32abf7d2d17cd6ec2f06eff3016",
+    "quality": "df846ed6359212156021f326879b08e33e872b42bc2c917e2ffde7c62a1f5753"
+  }
+}

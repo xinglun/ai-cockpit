@@ -1,0 +1,6 @@
+
+running 1 test
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 111 filtered out; finished in 7.58s
+

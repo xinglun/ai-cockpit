@@ -1,0 +1,8 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 4.90s
+     Running unittests src/main.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-11bb2e5a7fd7aa33)
+     Running tests/agent.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/agent-b2297fc9a3f7b9a9)
+     Running tests/attach.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/attach-1fd3deffc86aa94f)
+     Running tests/audit_query.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/audit_query-a1deafca29483c66)
+     Running tests/ci_gate.rs (/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ci_gate-3a4701abafa254f5)
+error: test failed, to rerun pass `-p cockpit-cli --test ci_gate`
