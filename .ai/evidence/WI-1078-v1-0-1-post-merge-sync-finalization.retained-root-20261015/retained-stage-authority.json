@@ -1,0 +1,8 @@
+{
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "recordedBy": "agent:Codex",
+  "observedAt": "2026-10-15T07:09:45.198728+00:00",
+  "authorizer": "agent:Raydot",
+  "statement": "Raydot 技术审阅通过，用已构建的新 Runtime 走正式接口追加真实 source/sync/remote observations 和 schema-v4 selectors，持久生成 Retained 根及原始证据，报告精确绑定供审阅。保护旧 Contract、归档、历史验证和未提交修改。此阶段仅非破坏性追加，不删除资源、不记录 Deleted、不关闭，不重跑历史测试。证据按现有流程保存；需要扩大发布范围先报告。",
+  "scope": "Only observations, exact Retained root and necessary evidence checkpoint on the existing recovery ref. No destructive actions or human close authorization inferred."
+}

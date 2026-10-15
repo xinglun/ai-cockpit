@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "observationDigest": "sha256:c346465d8b3b8b746483719eadc348fc85e004227324ef51353868b0201a78f4",
+  "evidence": {
+    "provider": "github",
+    "subject": "refs/heads/codex/wi1078-post-merge-sync-finalization",
+    "origin": "https://api.github.com/repos/xinglun/ai-cockpit/git/ref/heads/codex/wi1078-post-merge-sync-finalization",
+    "assurance": "provider_verified",
+    "collectedAt": "2026-10-15T07:03:04.560644+00:00",
+    "digest": "sha256:e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1",
+    "validity": "valid",
+    "rawEvidenceRef": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.remote-observed-20261015.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.raw.json"
+  },
+  "protocolVersion": 1,
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+  "boundAt": "2026-10-15T07:03:04Z"
+}

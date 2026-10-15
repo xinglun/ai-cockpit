@@ -1,0 +1,1 @@
+record resource finalization: repository protocol state error at /workspace/ai-cockpit-control-wi1078-retained-00461714/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/retained-root.request.json: resource finalization identity mismatch: post-merge sync identities do not form one reviewed merge chain

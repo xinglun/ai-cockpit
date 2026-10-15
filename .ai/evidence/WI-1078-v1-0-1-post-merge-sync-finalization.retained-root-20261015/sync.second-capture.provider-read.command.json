@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "gh",
+    "api",
+    "--include",
+    "--method",
+    "GET",
+    "repos/xinglun/ai-cockpit/pulls/1034"
+  ],
+  "startedAt": "2026-10-15T07:05:04.112067+00:00",
+  "endedAt": "2026-10-15T07:05:05.562659+00:00",
+  "exitCode": 0,
+  "bodyBytes": 17858,
+  "bodySha256": "7482858bd5f1f28db27c6f1c00c9a46bd827ec247610c1d4c0e619c04af6ed00",
+  "assuranceProvenance": "Actual authorized GitHub REST HTTP 200 read; raw body not reserialized"
+}

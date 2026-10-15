@@ -1,0 +1,83 @@
+[
+  {
+    "receipt": {
+      "schemaVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+      "observationDigest": "sha256:bad78779d5392cebf0ed26f5592f81265437d41013513edb49e783e006256f60",
+      "evidence": {
+        "provider": "github",
+        "subject": "https://github.com/xinglun/ai-cockpit/pull/1032",
+        "origin": "https://api.github.com/repos/xinglun/ai-cockpit/pulls/1032",
+        "assurance": "provider_verified",
+        "collectedAt": "2026-10-15T07:03:01.908329+00:00",
+        "digest": "sha256:b35c95be625d5ba05fa3cb0740f2617ac20581a84d1c7110ffdba5c936b887c6",
+        "validity": "valid",
+        "rawEvidenceRef": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.source-observed-20261015.b35c95be625d5ba05fa3cb0740f2617ac20581a84d1c7110ffdba5c936b887c6.raw.json"
+      },
+      "protocolVersion": 1,
+      "runtimeVersion": "1.0.1",
+      "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+      "boundAt": "2026-10-15T07:03:01Z"
+    },
+    "selector": {
+      "schemaVersion": 1,
+      "observationDigest": "sha256:bad78779d5392cebf0ed26f5592f81265437d41013513edb49e783e006256f60",
+      "receiptDigest": "sha256:9a38e6f7f2d70c61a67cf2f45c06225a04bd4cd262a914e8929e063284b07bf2"
+    }
+  },
+  {
+    "receipt": {
+      "schemaVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+      "observationDigest": "sha256:51e7b2ac2ac97ef67e8136d1e3344ecfbdc7f7ec29705884f337007e15c76ef3",
+      "evidence": {
+        "provider": "github",
+        "subject": "https://github.com/xinglun/ai-cockpit/pull/1034",
+        "origin": "https://api.github.com/repos/xinglun/ai-cockpit/pulls/1034",
+        "assurance": "provider_verified",
+        "collectedAt": "2026-10-15T07:03:03.359140+00:00",
+        "digest": "sha256:7482858bd5f1f28db27c6f1c00c9a46bd827ec247610c1d4c0e619c04af6ed00",
+        "validity": "valid",
+        "rawEvidenceRef": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.sync-observed-20261015.7482858bd5f1f28db27c6f1c00c9a46bd827ec247610c1d4c0e619c04af6ed00.raw.json"
+      },
+      "protocolVersion": 1,
+      "runtimeVersion": "1.0.1",
+      "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+      "boundAt": "2026-10-15T07:03:03Z"
+    },
+    "selector": {
+      "schemaVersion": 1,
+      "observationDigest": "sha256:51e7b2ac2ac97ef67e8136d1e3344ecfbdc7f7ec29705884f337007e15c76ef3",
+      "receiptDigest": "sha256:15595cd028f7dabe2dbd824753ef64ec72ccbccb512abf99e8e9e38aa63f155b"
+    }
+  },
+  {
+    "receipt": {
+      "schemaVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+      "observationDigest": "sha256:c346465d8b3b8b746483719eadc348fc85e004227324ef51353868b0201a78f4",
+      "evidence": {
+        "provider": "github",
+        "subject": "refs/heads/codex/wi1078-post-merge-sync-finalization",
+        "origin": "https://api.github.com/repos/xinglun/ai-cockpit/git/ref/heads/codex/wi1078-post-merge-sync-finalization",
+        "assurance": "provider_verified",
+        "collectedAt": "2026-10-15T07:03:04.560644+00:00",
+        "digest": "sha256:e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1",
+        "validity": "valid",
+        "rawEvidenceRef": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.remote-observed-20261015.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.raw.json"
+      },
+      "protocolVersion": 1,
+      "runtimeVersion": "1.0.1",
+      "runtimeDigest": "sha256:0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+      "boundAt": "2026-10-15T07:03:04Z"
+    },
+    "selector": {
+      "schemaVersion": 1,
+      "observationDigest": "sha256:c346465d8b3b8b746483719eadc348fc85e004227324ef51353868b0201a78f4",
+      "receiptDigest": "sha256:e48a003561720fed5518c6634a250aa882ee5132d08bfdbb1d2b5a3fe12434d2"
+    }
+  }
+]

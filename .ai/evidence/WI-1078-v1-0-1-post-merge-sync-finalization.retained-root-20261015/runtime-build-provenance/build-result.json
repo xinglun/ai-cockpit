@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "cargo",
+    "build",
+    "--locked",
+    "--package",
+    "cockpit-cli",
+    "--bin",
+    "ai-cockpit",
+    "--jobs",
+    "1"
+  ],
+  "sourceRevision": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "startedAt": "2026-10-15T06:45:39.892734+00:00",
+  "endedAt": "2026-10-15T06:46:48.920995+00:00",
+  "elapsedSeconds": 69.02821542002494,
+  "exitCode": 0,
+  "stopReason": null,
+  "sampledMinimumFreeTmpBytes": 3018371072,
+  "binaryPath": "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+  "binaryExists": true,
+  "buildStdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "buildStderrSha256": "cdec5657fcdf8b72ba740a59f7103a639e1866be3f889880a86fed207c74c4fe",
+  "binarySha256": "0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+  "binaryBytes": 51995512,
+  "version": "ai-cockpit 1.0.1",
+  "sourceStillClean": true
+}

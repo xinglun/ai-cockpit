@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "cargo",
+    "build",
+    "--locked",
+    "--package",
+    "cockpit-cli",
+    "--bin",
+    "ai-cockpit",
+    "--jobs",
+    "1"
+  ],
+  "cwd": "/tmp/wi1078-main-bcd76ae7-20261015/source",
+  "environment": {
+    "PATH": "/workspace/.cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_TARGET_DIR": "/tmp/wi1078-main-bcd76ae7-20261015/target",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0"
+  },
+  "sourceRevision": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "startedAt": "2026-10-15T06:45:39.892734+00:00",
+  "wallLimitSeconds": 900,
+  "freshTarget": true,
+  "noBuildCacheCopied": true,
+  "testsNotInvoked": true
+}

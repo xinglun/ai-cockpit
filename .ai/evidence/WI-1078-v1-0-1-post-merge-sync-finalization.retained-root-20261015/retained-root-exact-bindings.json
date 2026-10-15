@@ -1,0 +1,70 @@
+{
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "runtimeSha256": "0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+  "runtimeSourceRevision": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "retainedRootPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.finalize.json",
+  "retainedRootRawSha256": "0aa37bcbbd1111ef18ba46fef095f4fbafff6181c0cef356bbedb3d89072b239",
+  "retainedRootCanonicalJsonDigest": "sha256:c6ec082e0f2c3accd15701e158b3767a7a944f944b889059abf3407fb812c0e2",
+  "schemaVersion": 4,
+  "disposition": "retained",
+  "rootTimestamp": "2026-10-15T07:07:31.645685+00:00",
+  "sourcePullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+    "headRevision": "ba4350249313b2ffd95c5bae52a3ffff8e9597a9",
+    "mergeCommit": "ec249eadb1d4075b351db729d6c719d7905b3f16",
+    "number": 1032,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1032"
+  },
+  "syncPullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+    "headRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+    "mergeCommit": "37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+    "number": 1034,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1034"
+  },
+  "m1BindingInCurrentMainRevisionField": "37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+  "separatelyObservedCurrentMainTip": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "observationSelectors": {
+    "remote": {
+      "observationDigest": "sha256:970856f0f25cf65e7c4fba7cb82d6af9c6091a46294cd34cf4cf6f8f4f863022",
+      "receiptDigest": "sha256:d1324c6224e03d2297613bbc501f966d2289186a8dc8c8932fc1d2c651b226f5",
+      "schemaVersion": 1
+    },
+    "source": {
+      "observationDigest": "sha256:cbe29afa2a58dc3da061e050f4b303fc82ba8e6e1c351d67baecae5fa89bfabb",
+      "receiptDigest": "sha256:7b42aa3b2088938a12158b7a4c04d3ac102af23eb198f8b8c40cb76dddbeb4a1",
+      "schemaVersion": 1
+    },
+    "sync": {
+      "observationDigest": "sha256:b020a02437c98384a3af9cc49ab66fbad8ee0212e2fafd12c585665f1d21efb5",
+      "receiptDigest": "sha256:8b137a0a6cc0f762cb4f8d76468ccdf95f4e64e52716e1c964f5878db953c4a2",
+      "schemaVersion": 1
+    }
+  },
+  "rawEvidenceDigests": {
+    "source": "sha256:b35c95be625d5ba05fa3cb0740f2617ac20581a84d1c7110ffdba5c936b887c6",
+    "sync": "sha256:7482858bd5f1f28db27c6f1c00c9a46bd827ec247610c1d4c0e619c04af6ed00",
+    "remote": "sha256:e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1"
+  },
+  "observationsStored": 6,
+  "observationsSelected": 3,
+  "initialTimeOrderObservationsPreservedUnselected": true,
+  "firstFinalizeIdentityRejectionPreserved": true,
+  "finalizeAcceptedExit": 0,
+  "finalizeVerifyExit": 1,
+  "finalizeVerifyResult": "CleanupPending; sequence-1 Deleted transition not present (expected)",
+  "immutableOldFilesByteIdentical": 14,
+  "otherWorktreesUnchanged": [
+    "/workspace/ai-cockpit",
+    "/tmp/wi1078-main-bcd76ae7-20261015/source",
+    "/workspace/ai-cockpit-control",
+    "/workspace/ai-cockpit-main37cc-review",
+    "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization"
+  ],
+  "noDeletedNoResourceDeletionNoCloseNoTests": true,
+  "binaryDurability": "Binary is retained at its build path in this environment; binary bytes are not added to Git or separately published in this phase."
+}

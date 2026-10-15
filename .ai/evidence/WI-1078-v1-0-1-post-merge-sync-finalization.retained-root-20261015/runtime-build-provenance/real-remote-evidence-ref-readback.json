@@ -1,0 +1,44 @@
+{
+  "observedAt": "2026-10-15T06:48:50.041905+00:00",
+  "actualRemoteRef": "refs/heads/codex/wi1078-evidence-recovery-20261014",
+  "actualRemoteCommit": "cb9022748ef222db84766dccad98be9683448ff8",
+  "sixPublishedFilesReadBack": [
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223.delegated.json",
+      "bytes": 895,
+      "sha256": "b190a7c14350c83dddc589a23583b3f324ee83bfe266e7f57b3fcf1dc92acd21",
+      "matchesRemote": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7.delegated.json",
+      "bytes": 895,
+      "sha256": "9cf3803b307c08642f08ec449be77bd75b48bd268b8f58a425f61a69e0a19280",
+      "matchesRemote": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.delegated.json",
+      "bytes": 951,
+      "sha256": "c351f18aca7c352be6dfeaa4ae8c3fb39b466a83c97f431030485bb6b732d709",
+      "matchesRemote": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.pr1032.814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7.raw.json",
+      "bytes": 19566,
+      "sha256": "814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7",
+      "matchesRemote": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.pr1034.0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223.raw.json",
+      "bytes": 17858,
+      "sha256": "0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223",
+      "matchesRemote": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.sync_branch.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.raw.json",
+      "bytes": 460,
+      "sha256": "e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1",
+      "matchesRemote": true
+    }
+  ],
+  "correction": "The local retained alias name differs from the published ref. HTTP404 for that alias did not imply unpublished evidence. Actual recovery ref is present and all six remote files match local bytes."
+}

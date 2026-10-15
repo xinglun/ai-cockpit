@@ -1,0 +1,120 @@
+{
+  "observedAt": "2026-10-15T07:01:59.931542+00:00",
+  "worktrees": [
+    {
+      "path": "/workspace/ai-cockpit",
+      "head": "707ba00c99b96b060df3b8ba997e1aad03431ea1",
+      "statusPorcelain": "",
+      "dirtyDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/wi1078-main-bcd76ae7-20261015/source",
+      "head": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+      "statusPorcelain": "",
+      "dirtyDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/ai-cockpit-control",
+      "head": "508a0a0f47dcbb957aacb8b03220f6234a87549d",
+      "statusPorcelain": " M .ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json\u0000",
+      "dirtyDiffSha256": "80f626b5000c114e1994ac6521871967236b476c2aea5a323b68058a0549e5b7"
+    },
+    {
+      "path": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+      "head": "cb9022748ef222db84766dccad98be9683448ff8",
+      "statusPorcelain": "",
+      "dirtyDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review",
+      "head": "feafd0fe72dc44c41107a85840f93bffc060a5ca",
+      "statusPorcelain": " M crates/cockpit-repository/src/resource_lifecycle.rs\u0000",
+      "dirtyDiffSha256": "66343f474cdfdeecb0a9af8985b5d4c49447ed05c8c004691f06a0a241c1fb90"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization",
+      "head": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+      "statusPorcelain": "",
+      "dirtyDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "immutableFiles": [
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.archive.json",
+      "bytes": 1793,
+      "sha256": "b52cb7bcbc64b98a017537e4a134a24b3577d65683acea0b7017923fbeb8a836"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json",
+      "bytes": 6531,
+      "sha256": "97201e6fe0f59f58c72e408e5d89d387c6765fb164e9dfbe4d22895c8ff7abf6"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "bytes": 5820,
+      "sha256": "b82790a104464731afd9b18e16c6b815ca407bc6ed01176a790d277fc87d09d3"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.outcome.json",
+      "bytes": 7250,
+      "sha256": "5f8e74142813f04fda0a17eefd2f6d1c6ac9cbd726971d8c9ee8db9ade04007d"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.events.jsonl",
+      "bytes": 2429,
+      "sha256": "e474d36a08a9764568b548d95d3e28defc10a92ee8517381370e1d96dbc71ba9"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.task-report.json",
+      "bytes": 3832,
+      "sha256": "cb35cc0b03c94f88366452caa5ff07f390e73b4578e462036cdb7c8a27b08877"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.task-report.md",
+      "bytes": 1218,
+      "sha256": "fd3a8648d1fc816c44502562b94195378eedb9be0af5039e96b0eb8a6cb62980"
+    },
+    {
+      "path": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json",
+      "bytes": 462843,
+      "sha256": "c8f02f60ddf10773969ef5bb6d17c0a7214e144c5d6d1c7055b2cf4f27f3df0f"
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223.delegated.json",
+      "bytes": 895,
+      "sha256": "b190a7c14350c83dddc589a23583b3f324ee83bfe266e7f57b3fcf1dc92acd21"
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7.delegated.json",
+      "bytes": 895,
+      "sha256": "9cf3803b307c08642f08ec449be77bd75b48bd268b8f58a425f61a69e0a19280"
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.delegated.json",
+      "bytes": 951,
+      "sha256": "c351f18aca7c352be6dfeaa4ae8c3fb39b466a83c97f431030485bb6b732d709"
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.pr1032.814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7.raw.json",
+      "bytes": 19566,
+      "sha256": "814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7"
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.pr1034.0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223.raw.json",
+      "bytes": 17858,
+      "sha256": "0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223"
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.sync_branch.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.raw.json",
+      "bytes": 460,
+      "sha256": "e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1"
+    }
+  ],
+  "initialControlHead": "cb9022748ef222db84766dccad98be9683448ff8",
+  "publishedEvidenceRef": "refs/heads/codex/wi1078-evidence-recovery-20261014",
+  "rulings": [
+    "User authorization limits this phase to non-destructive observations and Retained recording. No tests, code changes, Deleted, close or resource deletion.",
+    "Evidence checkpoint stays on the existing recovery ref; no new PR, main push, tag or release.",
+    "Status historical labels remain historical truth; no revalidate-archived or verification recovery is invoked."
+  ]
+}

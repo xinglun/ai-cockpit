@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-10-15T07:12:14.131155+00:00",
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "exitCode": 2,
+  "affectedFiles": [
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/remote.response-headers.txt",
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/remote.second-capture.response-headers.txt",
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/source.response-headers.txt",
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/source.second-capture.response-headers.txt",
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/sync.response-headers.txt",
+    ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/sync.second-capture.response-headers.txt"
+  ],
+  "cause": "Exact captured HTTP response headers retain original CRLF, which Git whitespace check reports. Header/raw-byte evidence is not normalized. No source, Git config, hook, assertion or gate changed. Auth/cookie response headers absent."
+}

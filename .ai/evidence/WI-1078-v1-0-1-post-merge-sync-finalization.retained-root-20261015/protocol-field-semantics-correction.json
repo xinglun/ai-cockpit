@@ -1,0 +1,16 @@
+{
+  "observedAt": "2026-10-15T07:07:31.645702+00:00",
+  "firstAttemptExit": 1,
+  "firstAttemptRootPersisted": false,
+  "predicate": "sync.syncPullRequest.mergeCommit must equal sync.currentMainRevision; protocol lib.rs line1782",
+  "inputCorrection": {
+    "field": "postMergeSync.currentMainRevision",
+    "from": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+    "to": "37cc4e540ce23a721382d9c6b510218dc5ba69c1"
+  },
+  "latestRemoteTrackingMainTip": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "tipContainsSyncMerge": true,
+  "otherBindingsAndSelectorsUnchanged": true,
+  "timestamp": "second actual invocation time",
+  "noContractArchiveSourceOrGateChanges": true
+}

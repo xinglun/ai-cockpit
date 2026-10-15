@@ -1,0 +1,23 @@
+{
+  "kind": "input_ordering_precheck_before_any_finalization",
+  "observations": {
+    "source": {
+      "collectedAt": "2026-10-15T07:03:01.908329+00:00",
+      "boundAt": "2026-10-15T07:03:01Z",
+      "collectedAfterBoundAt": true
+    },
+    "sync": {
+      "collectedAt": "2026-10-15T07:03:03.359140+00:00",
+      "boundAt": "2026-10-15T07:03:03Z",
+      "collectedAfterBoundAt": true
+    },
+    "remote": {
+      "collectedAt": "2026-10-15T07:03:04.560644+00:00",
+      "boundAt": "2026-10-15T07:03:04Z",
+      "collectedAfterBoundAt": true
+    }
+  },
+  "rootReceiptNotRecorded": true,
+  "sourceRule": "resource_lifecycle.rs validate_post_merge_sync_delegated_evidence requires collectedAt <= boundAt <= finalization.timestamp",
+  "resolution": "Preserve first observations. Perform fresh actual reads, retain exact fractional collection times, and invoke observe after the next clock second so the Runtime-generated second-resolution boundAt is not earlier. No timestamp rewritten and no gate changed."
+}

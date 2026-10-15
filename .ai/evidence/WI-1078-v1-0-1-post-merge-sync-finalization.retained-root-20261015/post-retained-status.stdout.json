@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "baseCommit": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+  "branch": "codex/wi1078-post-merge-sync-finalization",
+  "lifecyclePhase": "archived",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 8,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 0,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "archived_work_item_pending_close"
+  ],
+  "missingEvidence": [
+    "historical_evidence_not_revalidated"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "archived",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "failed",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+    "materialManifest": "sha256:fdd19832a97b88bbd92b1643581f8266b2a86025b44fc03037eeee5931615054",
+    "repositorySnapshot": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+    "summary": "sha256:5cf0d7ab2e89a8511cf82313aae5cb0e5bb71ab7e3cf1c7116e19fd5a26c8c0b",
+    "verificationEvidence": "sha256:861377eb30ebbd55f438b3803cf080ad62ee3556beb465981ccbe183969c41b3"
+  },
+  "unknowns": [
+    "close_decision_pending",
+    "historical_evidence_not_revalidated",
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:fdd19832a97b88bbd92b1643581f8266b2a86025b44fc03037eeee5931615054",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "close_decision_pending",
+    "historical_evidence_not_revalidated",
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [
+    "lifecycle_cleanup_required"
+  ],
+  "snapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-12T12:26:40Z",
+  "updatedAt": "2026-10-12T23:18:17.038385849Z",
+  "safeActions": [
+    "close_after_cleanup",
+    "finalize_verify",
+    "record_usage",
+    "refresh_status",
+    "repair_finalization"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "repair_finalization",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: archived_work_item_pending_close",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "close_decision_pending",
+        "message": "current projection reports close_decision_pending"
+      },
+      {
+        "kind": "unknown",
+        "code": "historical_evidence_not_revalidated",
+        "message": "current projection reports historical_evidence_not_revalidated"
+      },
+      {
+        "kind": "unknown",
+        "code": "material_review_receipt_stale",
+        "message": "current projection reports material_review_receipt_stale"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "historical_evidence_not_revalidated"
+    ],
+    "admissionDigest": "sha256:57bdebd3f58f3e927d6c4d92cd0519c621d609410e9daa1787c409d4b7d1d962"
+  },
+  "statusDigest": "sha256:fd1cd2b124d575c8ec546bd1ee8bf9322303f12a5ee738affeeaeb8769c88ce8",
+  "historical": false
+}

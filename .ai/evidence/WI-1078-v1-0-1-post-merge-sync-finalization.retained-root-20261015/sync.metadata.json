@@ -1,0 +1,10 @@
+{
+  "provider": "github",
+  "subject": "https://github.com/xinglun/ai-cockpit/pull/1034",
+  "origin": "https://api.github.com/repos/xinglun/ai-cockpit/pulls/1034",
+  "assurance": "provider_verified",
+  "collectedAt": "2026-10-15T07:03:03.359140+00:00",
+  "digest": "sha256:7482858bd5f1f28db27c6f1c00c9a46bd827ec247610c1d4c0e619c04af6ed00",
+  "validity": "valid",
+  "rawEvidenceRef": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.sync-observed-20261015.7482858bd5f1f28db27c6f1c00c9a46bd827ec247610c1d4c0e619c04af6ed00.raw.json"
+}
