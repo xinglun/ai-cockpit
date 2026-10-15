@@ -1,0 +1,38 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-repository",
+    "--lib",
+    "cross_checkout_closeout_tests",
+    "--",
+    "--test-threads=1"
+  ],
+  "sourceHead": "90992854c88ba4afa3df2434b64a9ffa829f4ffb",
+  "sourceDiffSha256": "fde5f50363fc7dc581bc280e616fff9ddc9f3b41b5cc8c92f7e8b858f85a5806",
+  "sourceFiles": {
+    "crates/cockpit-repository/src/lifecycle.rs": "f419fbda545df202d37da645d7d0ed6bcbf9f5c058c7818d2d313d9243e7e2b1",
+    "crates/cockpit-repository/src/historical_compatibility.rs": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49",
+    "crates/cockpit-repository/tests/closeout_recovery.rs": "943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a",
+    "crates/cockpit-cli/tests/closeout_recovery.rs": "8c8bb2985965c690af3a641f741b27de25993b53c7da8c7116e3d78a653e0ce2",
+    "crates/cockpit-mcp/tests/closeout_recovery.rs": "603833b0045a2a64bfd3b4ddfab2355bc0cd1a426e3787473d51b5daddf0ff6b"
+  },
+  "environment": {
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "startedAt": 1792058102.6301677,
+  "timeoutSeconds": 900,
+  "exitCode": 0,
+  "elapsedSeconds": 45.382121562957764
+}

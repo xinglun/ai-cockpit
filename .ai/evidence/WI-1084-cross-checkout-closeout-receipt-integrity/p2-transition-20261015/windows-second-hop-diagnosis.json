@@ -1,0 +1,13 @@
+{
+  "recordedAtUTC": "2026-10-15T09:55:36.625985+00:00",
+  "source": "Raydot delegated review plus read-only GitHub App log retrieval",
+  "failedSourceCommit": "a4680c25f7ead5c30fefb0864056d761fe6afaae",
+  "runId": 38710974986,
+  "jobId": 116343918000,
+  "rawLog": "a468-windows-job116343918000.raw.log",
+  "observedResult": "repository library 113 passed / 1 failed; supported_retry_restores_each_required_proof_and_accepts_a_recovered_source fails with destination verification.json different bytes at the second-hop recovery",
+  "diagnosis": "The first independent clone pins core.autocrlf=false; the second-hop clone omitted it, allowing Windows Git checkout to convert immutable verification bytes.",
+  "minimalCorrection": "Set --config core.autocrlf=false on that second-hop test clone only. Preserve every assertion, production exact-byte comparison, history, and global Git configuration.",
+  "windowsAcceptance": "Pending a real new-head Windows CI run; Linux focused results do not prove Windows regression recovery.",
+  "nativeAdmission": "Fresh status permits run_verification, no blockers, humanDecisionRequired=false. Re-running preflight at checkpointed state was rejected as an unavailable action; raw failure retained, no new human review or checkpoint recorded."
+}

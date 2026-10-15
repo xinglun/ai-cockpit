@@ -1,0 +1,41 @@
+{
+  "recordedAtUTC": "2026-10-15T09:53:40.022453+00:00",
+  "manifestSha256": "8e12a74c56ea839341532475e0fca0eeb77000c0f65552d482e9ddc9d336e539",
+  "deletedFileCount": 2112,
+  "deletedDirectoryCount": 0,
+  "allCandidatesAbsent": true,
+  "allExcludedEntriesUnchanged": true,
+  "excludedEntryCount": 700,
+  "protectedRuntimePathsUnchanged": 10,
+  "diskBefore": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 633966592,
+      "freeInodes": 1990336
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 2908168192,
+      "freeInodes": 2256006
+    }
+  },
+  "diskAfter": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 2964455424,
+      "freeInodes": 1992443
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 2908168192,
+      "freeInodes": 2256006
+    }
+  },
+  "workspaceAvailableByteIncrease": 2330488832,
+  "workspaceFreeInodeIncrease": 2107,
+  "healthAfter": {
+    "activeBuildProcesses": [],
+    "zombies": 18277,
+    "pid1": "tail"
+  }
+}

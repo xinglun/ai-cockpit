@@ -10609,6 +10609,8 @@ mod cross_checkout_closeout_tests {
                 "clone",
                 "--quiet",
                 "--no-hardlinks",
+                "--config",
+                "core.autocrlf=false",
                 fixture.source.path().to_str().unwrap(),
                 later_root.to_str().unwrap(),
             ],

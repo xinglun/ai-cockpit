@@ -1,0 +1,102 @@
+[
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/ai-cockpit",
+    "device": 27,
+    "inode": 801303,
+    "mode": "0o100700",
+    "sizeBytes": 160190000,
+    "linkCount": 2,
+    "mtimeNs": 1791892050751760296,
+    "sha256": "00b09c758e6fedcf0201cff496619e66940e4dd80ada8c42fb7f1f46120df1d3"
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3338cdbeef2aef6b",
+    "device": 27,
+    "inode": 796681,
+    "mode": "0o100700",
+    "sizeBytes": 120864256,
+    "linkCount": 1,
+    "mtimeNs": 1791892055887913651,
+    "sha256": "ffa1624d33dbd3c7e1a4db9d6d005611805f0e7d9f52d28f28be487ea09c6572"
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-15b26c462b5ea273",
+    "device": 27,
+    "inode": 794520,
+    "mode": "0o100700",
+    "sizeBytes": 120907016,
+    "linkCount": 1,
+    "mtimeNs": 1791877445668417074,
+    "sha256": "25094aeb443ea7f7c2f43131a95d5d70bae6eed72766ba202272512e0d080146"
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-6ffc6a9b892fbb8e",
+    "device": 27,
+    "inode": 801303,
+    "mode": "0o100700",
+    "sizeBytes": 160190000,
+    "linkCount": 2,
+    "mtimeNs": 1791892050751760296,
+    "sha256": "00b09c758e6fedcf0201cff496619e66940e4dd80ada8c42fb7f1f46120df1d3"
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-10e4b8f3207cfb06",
+    "device": 27,
+    "inode": 796660,
+    "mode": "0o100700",
+    "sizeBytes": 165366232,
+    "linkCount": 1,
+    "mtimeNs": 1791878353258511822,
+    "sha256": "a2708dc07c8fab7ea68e4da36a8dc8b5e0e4291cec83240f5882473c29595b9e"
+  },
+  {
+    "path": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/deps/ai_cockpit-3ca647d2e2b0e165",
+    "device": 27,
+    "inode": 794469,
+    "mode": "0o100700",
+    "sizeBytes": 160163904,
+    "linkCount": 1,
+    "mtimeNs": 1791877441840309857,
+    "sha256": "c0efcb912a7a4abe10a5a6c9ece87b768df74c318fd63cffd12b1c3f99e025e7"
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/ai-cockpit",
+    "device": 27,
+    "inode": 1059733,
+    "mode": "0o100700",
+    "sizeBytes": 160158944,
+    "linkCount": 2,
+    "mtimeNs": 1792030716528954985,
+    "sha256": "8d9a16e26d0c59fa3dda4a027aa6ffa3c6136d0d84e51c564ba6daf5337cd865"
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-11bb2e5a7fd7aa33",
+    "device": 27,
+    "inode": 1053462,
+    "mode": "0o100700",
+    "sizeBytes": 16440904,
+    "linkCount": 1,
+    "mtimeNs": 1792030405732169115,
+    "sha256": "dcb8e1af2aac61253aececda95f6dabc34311755ccca63f860feb2c9ea74d46b"
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-6ffc6a9b892fbb8e",
+    "device": 27,
+    "inode": 1059733,
+    "mode": "0o100700",
+    "sizeBytes": 160158944,
+    "linkCount": 2,
+    "mtimeNs": 1792030716528954985,
+    "sha256": "8d9a16e26d0c59fa3dda4a027aa6ffa3c6136d0d84e51c564ba6daf5337cd865"
+  },
+  {
+    "path": "/workspace/.tmp-wi1083-target-00461714-20261015/debug/deps/ai_cockpit-3be839e3f5de64f3",
+    "device": 27,
+    "inode": 1053334,
+    "mode": "0o100700",
+    "sizeBytes": 51669808,
+    "linkCount": 1,
+    "mtimeNs": 1792030415268440995,
+    "sha256": "ec936872a6007bc1ad1a2e6ba3581a9b05d100c928cdb23a44e436c1e5e9cc84"
+  }
+]

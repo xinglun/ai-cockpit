@@ -1,0 +1,7 @@
+{
+  "recordedAtUTC": "2026-10-15T09:53:38.442616+00:00",
+  "source": "direct current user message",
+  "approvalText": "允许按已提交清单清理 2,112 个旧缓存文件（清单 SHA-256：8e12a74c56ea839341532475e0fca0eeb77000c0f65552d482e9ddc9d336e539），保持全部排除项，清理后核验空间，再继续 WI-1084 的修复和完整验证。",
+  "manifestSha256": "8e12a74c56ea839341532475e0fca0eeb77000c0f65552d482e9ddc9d336e539",
+  "scope": "Only the 2112 listed stable regular non-executable cache files; retain every exclusion and containing directory."
+}
