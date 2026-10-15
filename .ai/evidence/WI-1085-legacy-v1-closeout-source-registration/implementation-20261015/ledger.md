@@ -17,3 +17,7 @@ Task 1: RED observed on unchanged production — red-initial CLI test 0/1; red-r
 Task 1: initial obligation guard GREEN — green-obligation-enumeration and green-obligation-formatted each passed the same two repository assertions. The CLI discoverability RED remains unresolved. This is a partial fail-closed guard, not a complete registration implementation or formal verification result.
 
 Scheduling: Raydot requested independent bounded investigation of Issue #1041 after safely persisting this stage. No #1041 product change is included in this WI.
+
+Resume: same clean local/remote 6dfe464b, inherited 21,057 zombies (PID1 tail), workspace 4.38 GB and tmp 2.29 GB free; no system changes. Native status retains humanDecisionRequired=false; formal verification preconditions currently require the three WI docs and parity rows, to be resolved through scope/admission before formal verification.
+
+Task 2 RED: complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history creates real archived/closed evidence with a distinct historical Runtime, imports into a test-only old-v1 fixture, pins an independent clone and reaches the missing command assertion (1 executed, failed as expected). The first unqualified --exact filter executed zero tests; its log is preserved and is not RED evidence.
