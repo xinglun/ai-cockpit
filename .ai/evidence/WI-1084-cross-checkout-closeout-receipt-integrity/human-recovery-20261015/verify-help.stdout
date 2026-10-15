@@ -1,0 +1,25 @@
+Usage: ai-cockpit verify [OPTIONS] --repo <REPO>
+
+Options:
+      --repo <REPO>
+          
+      --work-item <WORK_ITEM>
+          
+      --command <COMMAND>
+          
+      --args <ARGS>
+          
+      --workers <WORKERS>
+          Maximum worker count. Work Item verification defaults to serial and rejects parallel requests until per-node dependencies and outputs can be verified by the Runtime [default: 1]
+      --stage <STAGE>
+          [default: task]
+      --timeout-seconds <TIMEOUT_SECONDS>
+          Finite command timeout in seconds. Explicit values require a finite Contract or repository policy ceiling; omission defaults to 600 seconds for Cargo package tests and 300 seconds otherwise
+      --plan-only
+          Resolve the route and emit its deterministic verification plan without spawning project verification commands
+      --base-revision <BASE_REVISION>
+          Required for pr/merge/release when no Work Item Contract supplies the immutable base revision
+      --archived-recovery
+          Run one fresh, current-Runtime verification for an archived Work Item and append a source-integration recovery receipt
+  -h, --help
+          Print help

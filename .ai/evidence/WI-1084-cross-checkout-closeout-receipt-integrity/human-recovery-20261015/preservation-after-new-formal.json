@@ -1,0 +1,14 @@
+{
+  "recordedAtUTC": "2026-10-15T11:43:16.461180+00:00",
+  "inventoryCount": 322,
+  "unchangedInPlaceCount": 321,
+  "supportedCanonicalReplacement": {
+    "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+    "priorRawSha256": "3e50cfff0224aaf40694b75be5d315364dcdf37ee1a0ba15913cd05ca9a19554",
+    "preservedByteExactCopy": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/historical-original-contract.verification.json",
+    "immutableOriginalCommit": "7f723bfb7a6dab4c07952f3fca1a7fe701e91faf",
+    "newRawSha256": "db9b1fdead824834440be232b41ae965f127015cdd644c235a02f1c2abb29314",
+    "reason": "Actual new formal verification under amended Contract; supported Runtime writer replaced the active canonical receipt and appended a separate successful attempt. Original bytes retained in Git and exact local evidence copy."
+  },
+  "allOtherPriorEvidenceAndSourceByteExact": true
+}

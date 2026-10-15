@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "retry",
+  "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-1084-cross-checkout-closeout-receipt-integrity",
+  "predecessorContractDigest": "sha256:6cdd832a40672ea8b73aad731b22a5ec1a6dc6e3737c7046b442695274253159",
+  "predecessorSummaryDigest": "sha256:9c2dd4c91eda4fce4473bff5e6aa01ac3f8b28ecf980e98e1293ae500836e49f",
+  "predecessorOutcomeDigest": "sha256:a1c0ab49eec7a94c3fcf86ffce9e04ae700ec06c4f86401674e0bde583931bb9",
+  "predecessorEventsDigest": "sha256:6a2d38e7439761e4ac6f82f6d94d854d2d49b4720bf678255d1d1687ffe227e7",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "actor": "Ray",
+  "authoritySource": "direct-user-reply:Ray; questionItemId=[\"request_user_input_async\",\"call_283d0f39bf3b4f62a228739c48b0c4bc\",0]; exact approved request at bdcf6eca604dd81659370133ca40d5d5e8fcf48c raw sha256:c6e552ac1904da3226d3ecaba6f47c6c04882db9b5a794f570adecdec045b931",
+  "decidedAt": "2026-10-15T11:28:16.352096+00:00",
+  "reason": "Ray explicitly approved the exact bound same-WI retry and selected confirm_review in the direct user reply; restore the preserved finish.lifecycle failure through the approved material profile without source expansion.",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/closeout-20261015/finish.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.contract-amendments/00000004.committed.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/human-recovery-20261015/actual-human-approval.json"
+  ],
+  "policyRefs": [
+    ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+  ],
+  "resumeCondition": "Resume this same WI only through fresh admitted preflight, policy review and exact agent:Raydot material-review evidence, then the required bounded verification and finish/archive. Preserve raw Unknown and all earlier bytes; stop for changed bindings, new Findings, unsupported actions or insufficient resources. This authorizes no close, Ready, merge or resource deletion."
+}

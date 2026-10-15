@@ -1,0 +1,8 @@
+{
+  "recordedAtUTC": "2026-10-15T11:40:34.366409+00:00",
+  "failedInvocationEvidence": "record-confirm-review.execution.json",
+  "observedError": "read governance controls input: No such file or directory (os error 2)",
+  "cause": "The local comparison helper initially accessed journalDigest on the outer committed-journal wrapper rather than its receipt member and raised KeyError before producing the input file. A following controls invocation rejected the missing input before recording controls.",
+  "correction": "Read the immutable committed receipt at wrapper.receipt.journalDigest, repeat every binding and 322-file preservation assertion, then create the actual input and use a distinct record-confirm-review-bound invocation.",
+  "result": "The distinct invocation returned exit 0; after-confirm-status.stdout projects humanDecisionRequired=false and run_verification admitted. No Contract, source, assertion, gate, old evidence or generated record was hand edited."
+}
