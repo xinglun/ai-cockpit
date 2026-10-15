@@ -1,12 +1,33 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-1083-windows-receipt-store-pin-proof.contract.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/node-0.stderr.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/node-0.stdout.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/run.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/status.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/status.stderr.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/stderr.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/stdout.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/validate.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/validate.stderr.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/green-win32-model-after-integration-coverage/verification.receipt.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/related-receipt-store-integration-linux/status.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/related-receipt-store-integration-linux/status.stderr.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/related-receipt-store-integration-linux/stderr.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/related-receipt-store-integration-linux/stdout.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/related-receipt-store-integration-linux/validate.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/related-receipt-store-integration-linux/validate.stderr.log",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/restored-integration-material-plan.stderr",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/restored-integration-material-plan.stdout",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/restored-integration-preflight.stderr",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.20261015/restored-integration-preflight.stdout",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification-attempt.2a988e7de31ac924870287299cce356616eb88968a76e9752623a78a4bf468a8.json",
+    ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json",
     ".ai/work-items/active/WI-1083-windows-receipt-store-pin-proof.summary.json"
   ],
   "checkpointAt": "2026-10-15T00:43:05Z",
   "checkpointContractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "checkpointRepositorySnapshotDigest": "sha256:d5fc0425dd6b2f8b32ccc3a9bd7a75e9e319d48353e2b2b0b8a925987d05405f",
   "createdAt": "2026-10-15T00:43:00Z",
   "lifecycleFacts": {
     "start": {
@@ -19,14 +40,21 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-15T00:49:06Z",
+  "preflightAt": "2026-10-15T01:01:11Z",
   "preflightContractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
-  "preflightDecisionDigest": "sha256:8cac52a9f8c3d09cea940ef57e59f3fc13aa85c7af801594b635d9b9852e401f",
-  "preflightRepositorySnapshotDigest": "sha256:49eb6fe21ed81d57ccd9f371c49c42e6e5084c72e01cc8faca751b1484191294",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d5fc0425dd6b2f8b32ccc3a9bd7a75e9e319d48353e2b2b0b8a925987d05405f",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-10-15T00:43:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:39eb726294330a83c16d309e7ade5f324791cebc13e3871bf5409321f6e7766f",
   "workItemId": "WI-1083-windows-receipt-store-pin-proof"
 }

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+  "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "immutableContractBaseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "sourceSnapshotDigest": "sha256:5ee0ed3958b99d4cc4052cdfd5a204eed48f6d752f3a522dfe81b44683fd6cb3",
+  "materialManifestDigest": "sha256:beae29631dd9929d7786585eece59fa406b68496af6e4152f4ec2f7f7e3375fa",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:8ff6abf85481e9e49e02a1ff4ae974dd79b2db0b3c397cbbe80aa5bc7eed5321",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": null,
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-repository/src/evidence_store.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a123725c3917f4c9008e1675c5d328e272d440b6a3a3e782beeb9f210c3ea062",
+      "afterBlobDigest": "sha256:226d368fb7eacf943346fbaa0be00a3ae76ce7a48c3e1e846facdac020b24c67"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/receipt_store.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:564d8fb21b4794415b3a2b10984b51fbb58f0005199dbfd719e7e8fac0d62377",
+      "afterBlobDigest": "sha256:13eb8688881d4bda69f9fc407012b7540405a6a2b56eb1c70ed105b95d9befe5"
+    }
+  ],
+  "rawUnknownCodes": [],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": false,
+  "reviewDiagnostic": "material_review_not_enabled",
+  "requestDigest": "sha256:20f2a38e014731b095508b336d5c9a38283cb34ca58aa96a154cdbd9bc3286e1",
+  "reviewedSourceHead": "9f750d8038ce857a25ef4ededec1a74e9779d205"
+}
