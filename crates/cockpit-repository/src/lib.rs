@@ -58,6 +58,7 @@ mod execution_context;
 mod governance_controls;
 mod historical_compatibility;
 mod knowledge_projection;
+mod legacy_closeout_source;
 mod lifecycle;
 mod material_review;
 mod observation_ledger;
@@ -2325,6 +2326,9 @@ fn unclosed_archived_scope_conflicts(
             continue;
         };
         if archived_repository_id.to_string() != expected_repository_id {
+            if legacy_closeout_source::has_obligation(root, &work_item_id) {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            }
             // A contract explicitly bound to another repository is not
             // authority over this repository's candidate scope.
             continue;

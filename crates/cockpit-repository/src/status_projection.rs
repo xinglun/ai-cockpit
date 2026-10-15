@@ -607,10 +607,11 @@ fn unclosed_archived_work_items_with_id(
     root: &Path,
     expected_repository_id: &str,
 ) -> Result<Vec<String>, ObserverError> {
+    let required_ids = super::legacy_closeout_source::obligation_ids(root)?;
     let archive = root.join(".ai/work-items/archive");
     let entries = match fs::read_dir(&archive) {
-        Ok(entries) => entries,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Ok(entries) => Some(entries),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
         Err(source) => {
             return Err(ObserverError::Read {
                 path: archive,
@@ -618,8 +619,8 @@ fn unclosed_archived_work_items_with_id(
             });
         }
     };
-    let mut archived_ids = std::collections::BTreeSet::new();
-    for entry in entries {
+    let mut archived_ids = required_ids.clone();
+    for entry in entries.into_iter().flatten() {
         let entry = entry.map_err(|source| ObserverError::Read {
             path: archive.clone(),
             source,
@@ -636,6 +637,15 @@ fn unclosed_archived_work_items_with_id(
     let mut pending = archived_ids
         .into_iter()
         .filter(|work_item_id| {
+            if required_ids.contains(work_item_id)
+                && !super::legacy_closeout_source::integrity_allows_close(
+                    root,
+                    work_item_id,
+                    expected_repository_id,
+                )
+            {
+                return true;
+            }
             archive_requires_close(root, work_item_id)
                 && !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id)
                 && !recovery_successor_resolves_pending_close(

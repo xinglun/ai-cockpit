@@ -25,6 +25,9 @@ pub(crate) fn close_decision_is_valid_for_status(
     work_item_id: &str,
     repository_id: &str,
 ) -> bool {
+    if !super::legacy_closeout_source::integrity_allows_close(root, work_item_id, repository_id) {
+        return false;
+    }
     let path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
