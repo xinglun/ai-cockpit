@@ -1,0 +1,17 @@
+{
+  "kind": "author-self-review-not-Raydot-approval",
+  "purpose": "proposal only, based on two observed/reported cases",
+  "requirementsChecked": [
+    "request generation independent of first verification error and red branch",
+    "existing receipt/identity/Runtime checks retained",
+    "current policy/profile/Contract unchanged; no new human point",
+    "no parity edit or fabricated confirm_review",
+    "red/blocked severity preserved",
+    "public lock/snapshot/retry recheck retained",
+    "CLI/MCP acceptance and history preservation",
+    "existing authorized file paths only; mixed-binding validator risk explicitly escalates to Raydot if RED exposes gap"
+  ],
+  "implementationDone": false,
+  "testsRun": false,
+  "unresolvedTechnicalReviewItem": "Raydot must check exact request-generation predicate and the mixed new-Contract/old-Summary negative before implementation; no scope expansion is authorized by this note."
+}
