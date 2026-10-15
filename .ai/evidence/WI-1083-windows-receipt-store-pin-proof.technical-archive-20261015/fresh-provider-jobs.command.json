@@ -1,0 +1,11 @@
+{
+  "command": [
+    "gh",
+    "api",
+    "repos/xinglun/ai-cockpit/actions/runs/38671450477/jobs?per_page=100"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+  "startedAt": "2026-10-15T03:03:45.078169+00:00",
+  "finishedAt": "2026-10-15T03:03:46.444017+00:00",
+  "exitCode": 0
+}

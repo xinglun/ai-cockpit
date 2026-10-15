@@ -126,7 +126,7 @@
     ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification-attempt.a202dce92899cf4fb5f21f6867ab173270e921a79ab84a9fda590a6f2a0fba17.json",
     ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification-attempt.e021ce11f2d7900d911ac72aacf19ce62b23f238de65cfa4dc3cba77293dcc3b.json",
     ".ai/evidence/WI-1083-windows-receipt-store-pin-proof.verification.json",
-    ".ai/work-items/active/WI-1083-windows-receipt-store-pin-proof.summary.json"
+    ".ai/work-items/archive/WI-1083-windows-receipt-store-pin-proof.summary.json"
   ],
   "checkpointAt": "2026-10-15T00:43:05Z",
   "checkpointContractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
@@ -134,6 +134,14 @@
   "checkpointRepositorySnapshotDigest": "sha256:d5fc0425dd6b2f8b32ccc3a9bd7a75e9e319d48353e2b2b0b8a925987d05405f",
   "createdAt": "2026-10-15T00:43:00Z",
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-15T03:03:49.936530890Z",
+      "recordedAt": "2026-10-15T03:03:49.936530890Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -151,8 +159,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-10-15T00:43:05Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-15T03:03:49.936530890Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -211,6 +219,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:39eb726294330a83c16d309e7ade5f324791cebc13e3871bf5409321f6e7766f",
   "workItemId": "WI-1083-windows-receipt-store-pin-proof"
 }
