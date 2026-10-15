@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/debug/deps/verification_service-cd12e31d53d738a6",
+    "--exact",
+    "linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "exitCode": 0,
+  "recordedAt": "2026-10-15T08:51:03.072669+00:00",
+  "processEnvironmentOnly": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo"
+  },
+  "globalEnvironmentChanged": false,
+  "systemPermissionsChanged": false,
+  "note": "Existing compiled test binary; single tiny fixture only, no full workspace compilation. The test intentionally removes CARGO_TARGET_DIR; a task-local writable Runtime home prevents fallback into read-only /home/agent."
+}

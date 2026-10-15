@@ -1,0 +1,15 @@
+{
+  "observedAtUTC": "2026-10-15T08:54:16.270018+00:00",
+  "filesystems": {
+    "/workspace": {
+      "availableBytes": 84185088,
+      "availableInodes": 1990800
+    },
+    "/tmp": {
+      "availableBytes": 2965118976,
+      "availableInodes": 2256037
+    }
+  },
+  "deletedPaths": [],
+  "newLargeBuildsStartedAfterDiskWarning": false
+}

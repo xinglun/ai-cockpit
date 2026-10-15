@@ -1,0 +1,304 @@
+{
+  "observedAtUTC": "2026-10-15T08:41:24.529549+00:00",
+  "filesystems": {
+    "/workspace": {
+      "availableBytes": 145088512,
+      "freeBytes": 1879851008,
+      "totalBytes": 33770192896,
+      "availableInodes": 1990939,
+      "freeInodes": 1990939,
+      "totalInodes": 2097152,
+      "device": 27
+    },
+    "/tmp": {
+      "availableBytes": 2124607488,
+      "freeBytes": 2124607488,
+      "totalBytes": 9441349632,
+      "availableInodes": 2223873,
+      "freeInodes": 2223873,
+      "totalInodes": 2305017,
+      "device": 33
+    }
+  },
+  "activeBuilds": [
+    {
+      "pid": 3449549,
+      "ppid": 3449523,
+      "comm": "ai-cockpit",
+      "state": "S"
+    },
+    {
+      "pid": 3520867,
+      "ppid": 3449549,
+      "comm": "cargo",
+      "state": "S"
+    },
+    {
+      "pid": 3521757,
+      "ppid": 3521756,
+      "comm": "cockpit_reposit",
+      "state": "S"
+    }
+  ],
+  "targetDirectories": [
+    {
+      "path": "/tmp/ai-cockpit-composition-249751-1791888765463166333-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/ai-cockpit-composition-250917-1791888767280677708-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/ai-cockpit-composition-251206-1791888767724892495-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1078-main-bcd76ae7-20261015/target",
+      "allocatedBytes": 391020544
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-1187309-1791903329020566080-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-1187959-1791903329876662582-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-1188216-1791903330248877784-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-579752-1791892324154548931-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-580907-1791892325980826163-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-581041-1791892326196884678-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-959624-1791900417584730698-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-960370-1791900418489452216-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1079-tmp/ai-cockpit-composition-960553-1791900418686205290-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1083-stable-tests-20261015/ai-cockpit-composition-3229442-1792031082120806816-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1083-stable-tests-20261015/ai-cockpit-composition-3229828-1792031084172863694-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/tmp/wi1083-stable-tests-20261015/ai-cockpit-composition-3230251-1792031087675907722-0/composition/target",
+      "allocatedBytes": 8192
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-1663605-1791977717687937487-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-1663917-1791977718598134124-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-1664287-1791977719381922389-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-1891077-1791979055609386846-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-1891424-1791979056610294771-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-1891750-1791979057348346197-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2123120-1791981825553667029-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2123506-1791981827233327505-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2123929-1791981829932239430-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2363202-1791990654229866002-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2363463-1791990655007189511-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2363958-1791990656163780943-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2597590-1792013923400217959-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2597965-1792013924601332801-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2598263-1792013925224998949-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1082-tests-20261014/ai-cockpit-composition-2841481-1792019799269138200-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1082-tests-20261014/ai-cockpit-composition-2841915-1792019800547506724-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/.tmp-wi1082-tests-20261014/ai-cockpit-composition-2842154-1792019801030915426-0/composition/target",
+      "allocatedBytes": 12288
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target",
+      "allocatedBytes": 2336460800
+    }
+  ],
+  "topUsage": {
+    "/workspace": [
+      {
+        "path": "/workspace/.home",
+        "allocatedBytes": 23782850560
+      },
+      {
+        "path": "/workspace/.tmp-wi1083-target-00461714-20261015",
+        "allocatedBytes": 3157508096
+      },
+      {
+        "path": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+        "allocatedBytes": 2789142528
+      },
+      {
+        "path": "/workspace/.cloud-tools",
+        "allocatedBytes": 750542848
+      },
+      {
+        "path": "/workspace/.rustup",
+        "allocatedBytes": 630730752
+      },
+      {
+        "path": "/workspace/ai-cockpit",
+        "allocatedBytes": 511713280
+      },
+      {
+        "path": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+        "allocatedBytes": 422744064
+      },
+      {
+        "path": "/workspace/ai-cockpit-main37cc-review",
+        "allocatedBytes": 419663872
+      },
+      {
+        "path": "/workspace/ai-cockpit-control",
+        "allocatedBytes": 419598336
+      },
+      {
+        "path": "/workspace/.cargo",
+        "allocatedBytes": 117141504
+      },
+      {
+        "path": "/workspace/.local",
+        "allocatedBytes": 19275776
+      },
+      {
+        "path": "/workspace/.tmp-wi1081-runtime-home-20261014",
+        "allocatedBytes": 13131776
+      },
+      {
+        "path": "/workspace/.tmp-wi1081-tests-20261014",
+        "allocatedBytes": 7577600
+      },
+      {
+        "path": "/workspace/.tmp",
+        "allocatedBytes": 3203072
+      }
+    ],
+    "/tmp": [
+      {
+        "path": "/tmp/wi1081-build-00461714-20261014",
+        "allocatedBytes": 3202707456
+      },
+      {
+        "path": "/tmp/wi1078-retained-00461714-target",
+        "allocatedBytes": 1444552704
+      },
+      {
+        "path": "/tmp/wi1079-toolchain",
+        "allocatedBytes": 924971008
+      },
+      {
+        "path": "/tmp/wi1078-main-bcd76ae7-20261015",
+        "allocatedBytes": 839655424
+      },
+      {
+        "path": "/tmp/cockpit-finalization-history-3521757-1792053678471604433",
+        "allocatedBytes": 411705344
+      },
+      {
+        "path": "/tmp/cockpit-finalization-history-3521757-1792053682446728561",
+        "allocatedBytes": 410705920
+      },
+      {
+        "path": "/tmp/ai-cockpit-executable-yEYD8R",
+        "allocatedBytes": 21114880
+      },
+      {
+        "path": "/tmp/ai-cockpit-executable-JtXMot",
+        "allocatedBytes": 21114880
+      },
+      {
+        "path": "/tmp/wi1083-integration-cleanup-20261015",
+        "allocatedBytes": 7946240
+      },
+      {
+        "path": "/tmp/wi1079-home",
+        "allocatedBytes": 4624384
+      },
+      {
+        "path": "/tmp/wi1079-tmp",
+        "allocatedBytes": 4497408
+      },
+      {
+        "path": "/tmp/wi1081-closeout-review-29a6778d-20261014",
+        "allocatedBytes": 4096000
+      },
+      {
+        "path": "/tmp/node-compile-cache",
+        "allocatedBytes": 2256896
+      },
+      {
+        "path": "/tmp/wi1081-integration-cleanup-20261015",
+        "allocatedBytes": 1695744
+      }
+    ]
+  },
+  "latestNote": "Subsequent workspace availableBytes fell to84217856; full Native run ended706.82s,12/13 package nodes passed. Failure isolated to verification_service linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory. Native tiny-fixture reproduction shows inherited HOME=/home/agent fallback cache creation fails read-only filesystem, not an ENOSPC assertion."
+}

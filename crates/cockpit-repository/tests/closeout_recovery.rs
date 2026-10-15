@@ -562,3 +562,126 @@ fn provider_bound_recovery_rejects_canonical_digest_and_tampered_archive_or_prov
         );
     }
 }
+
+#[test]
+fn recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history() {
+    let source = repository();
+    let context = ResourceFinalizationContext {
+        branch: "feature/recovered-retained-close".into(),
+        worktree: source
+            .path()
+            .join("removed-retained-worktree")
+            .display()
+            .to_string(),
+        base_branch: "develop".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: "https://github.com/example/sentinel/pull/123".into(),
+    };
+    build_provider_bound_closed_source(source.path(), &context);
+    let finalization = format!(".ai/decisions/{WORK_ITEM_ID}.finalize.json");
+    let close = format!(".ai/decisions/{WORK_ITEM_ID}.close.json");
+    let mut retained: Value =
+        serde_json::from_slice(&fs::read(source.path().join(&finalization)).unwrap()).unwrap();
+    // Model the supported older Retained-close history in this disposable
+    // fixture. Modern close correctly requires deletion; no real history is edited.
+    retained["after"]["branch"] = "present".into();
+    retained["after"]["worktree"] = "clean".into();
+    retained["result"]["disposition"] = "retained".into();
+    let retained_digest = cockpit_protocol::digest_json(&retained).unwrap();
+    fs::write(
+        source.path().join(&finalization),
+        serde_json::to_vec_pretty(&retained).unwrap(),
+    )
+    .unwrap();
+    let mut legacy_close: Value =
+        serde_json::from_slice(&fs::read(source.path().join(&close)).unwrap()).unwrap();
+    legacy_close["resourceFinalizationHeadDigest"] = retained_digest.to_string().into();
+    fs::write(
+        source.path().join(&close),
+        serde_json::to_vec_pretty(&legacy_close).unwrap(),
+    )
+    .unwrap();
+    git(source.path(), &["add", "-A"]);
+    git(
+        source.path(),
+        &["commit", "--quiet", "-m", "legacy Retained close fixture"],
+    );
+    let parent = tempfile::tempdir().unwrap();
+    let destination = parent.path().join("clone");
+    git(
+        source.path(),
+        &[
+            "clone",
+            "--quiet",
+            "--no-hardlinks",
+            source.path().to_str().unwrap(),
+            destination.to_str().unwrap(),
+        ],
+    );
+    cockpit_repository::recover_cross_checkout_closeout(
+        &destination,
+        source.path(),
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("recover valid older Retained close");
+    let baseline = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(baseline.lifecycle_phase, "closed");
+    assert!(!baseline.blocking);
+    let origin = format!(".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json");
+    let receipt = format!(".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json");
+    let frozen = [&close, &finalization, &origin, &receipt]
+        .into_iter()
+        .map(|p| (p.clone(), fs::read(destination.join(p)).unwrap()))
+        .collect::<Vec<_>>();
+    let previous: cockpit_protocol::ResourceFinalizationReceipt =
+        serde_json::from_value(retained).unwrap();
+    let mut deleted = previous.clone();
+    deleted.receipt_id = "post-close-deleted".into();
+    deleted.operation_id = "post-close-cleanup".into();
+    deleted.before = previous.after.clone();
+    deleted.after.branch = cockpit_protocol::ResourceFinalizationBranchState::Deleted;
+    deleted.after.worktree = cockpit_protocol::ResourceFinalizationWorktreeState::Removed;
+    deleted.result.disposition = cockpit_protocol::ResourceFinalizationDisposition::Deleted;
+    let transition = cockpit_protocol::ResourceFinalizationTransitionReceipt {
+        schema_version: 1,
+        transition_id: "recovered-post-close-deleted".into(),
+        sequence: 1,
+        predecessor_receipt_digest: retained_digest,
+        governance_append_revision: None,
+        receipt: deleted,
+    };
+    let input = tempfile::NamedTempFile::new().unwrap();
+    fs::write(
+        input.path(),
+        serde_json::to_vec_pretty(&transition).unwrap(),
+    )
+    .unwrap();
+    let appended =
+        record_resource_finalization(&destination, WORK_ITEM_ID, input.path(), &runtime())
+            .expect("supported Native post-close Deleted transition");
+    assert_eq!(appended["state"], "appended");
+    for (path, bytes) in frozen {
+        assert_eq!(fs::read(destination.join(path)).unwrap(), bytes);
+    }
+    cockpit_repository::verify_resource_finalization(&destination, WORK_ITEM_ID, &runtime())
+        .expect("the appended cleanup chain verifies");
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(
+        status.lifecycle_phase, "closed",
+        "legitimate append-only cleanup must preserve the historical close"
+    );
+    assert!(!status.blocking);
+    assert!(!status.unknowns.contains(&"close_decision_invalid".into()));
+}

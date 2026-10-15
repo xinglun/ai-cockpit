@@ -1,0 +1,161 @@
+{
+  "head": "7546c27794b55e0d111974aeba3b6dc988f61018",
+  "explicitRetryAfter": "Initial exact Contents readback returned HTTP503 for docs/reference/commands.ja.md; no remote mutation was retried.",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/23d031a7-remote-readback.json",
+      "sha256": "041e5df239d47b9e039c1f3b76392ddc1ba79cd69af62a4b06e999d1f9545ab1",
+      "sizeBytes": 3951
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/green-1.execution.json",
+      "sha256": "1b1d53512a52f21e8c8edca4526dabdaf759e7f2b5b54b1dddf0c664a6481f6c",
+      "sizeBytes": 278
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/green-1.stderr",
+      "sha256": "f6c38aaa419589d36f0c123386fed27384aba99be7cd8850c63dd821fb7858ae",
+      "sizeBytes": 373
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/green-1.stdout",
+      "sha256": "71bbcdac17ac9a75e5d6838863a7f9206e208a26a4fc37cb6ba410c92940f5ce",
+      "sizeBytes": 28127
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/green-2.execution.json",
+      "sha256": "10172f71da3abe3bddfe2dbf72faac3a9c6306026c377cd18c0053e0017adc62",
+      "sizeBytes": 1413
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/green-2.stderr",
+      "sha256": "f4808db1eb3cb090503e1cd3786303b12ebcd28994404fed320fab88946965f9",
+      "sizeBytes": 309
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/green-2.stdout",
+      "sha256": "6930efb8282d4a4f10123eaa915c5c4392dc077faefa1d8b2b12864d92535de2",
+      "sizeBytes": 2225
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/implementation-admission.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/implementation-admission.stdout.json",
+      "sha256": "7c6ca515885059e03b135ca2205d82285dc81764d83bb95a7c65c4d0319d20af",
+      "sizeBytes": 3896
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/implementation-preflight.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sizeBytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/implementation-preflight.stdout.json",
+      "sha256": "f7c17684623c7c96383fc3ba94b8e21387ac4c424498fdecd9255ab0ebd3edcd",
+      "sizeBytes": 4790
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/implementation-runtime.json",
+      "sha256": "b7400caf7f00f5cc388397e48c1e2bcb8e2dbecff126d196c4ad275743e17a08",
+      "sizeBytes": 1082
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/integration-1.execution.json",
+      "sha256": "d711260c5b387f058086dd280700d1e79b34a17b62a613ad59dab0e8750d3884",
+      "sizeBytes": 1450
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/integration-1.stderr",
+      "sha256": "bb56aa82d09b2cd1fbfc252c94bd38652933d979d290c5436b4eb4eadd35ccb6",
+      "sizeBytes": 1053
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/integration-1.stdout",
+      "sha256": "30277d6567dd2b128f7d8ed44499a1416b3f7dfdf3fc38c3ad8c5f71ee7549b8",
+      "sizeBytes": 1321
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/progress-green.md",
+      "sha256": "061cef8cb9d32916302bcbebf49496acc4cb213267477104ffe4b018d972d639",
+      "sizeBytes": 2329
+    },
+    {
+      "path": ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json",
+      "sha256": "0dcd1b5985d98cda6f713bacf3cfdc7628cff809dc439c387bc9b09ffe9ef0bc",
+      "sizeBytes": 8596
+    },
+    {
+      "path": "crates/cockpit-cli/tests/closeout_recovery.rs",
+      "sha256": "50287d6e668c8225e211d89e1f6761c987f847805f4e9497548c1efb2a9e710d",
+      "sizeBytes": 24301
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/closeout_recovery.rs",
+      "sha256": "c76e658115c38c49179e8b8d7c5f8c4fb4351e9b3a19ce2e504dd5a5213225c5",
+      "sizeBytes": 12784
+    },
+    {
+      "path": "crates/cockpit-repository/src/historical_compatibility.rs",
+      "sha256": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49",
+      "sizeBytes": 31024
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "sha256": "3145219701b658d4af09038e16d4e7e37ab934cee00ddb4475fb1e0d83ebd8a2",
+      "sizeBytes": 430039
+    },
+    {
+      "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "sha256": "08efa7b7ead27791c3a45688413641000c93b484d8184962fc8ebad9ab958f0d",
+      "sizeBytes": 21410
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "sha256": "939b975fe785a20d8f1d850779ffb2bd71ae05a0a02717685e5208f50d26274e",
+      "sizeBytes": 62649
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "sha256": "97c178a09574eb0687517490886d860f865673d2cc851b967f6e64d54d808e90",
+      "sizeBytes": 59041
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "sha256": "bdff6897ba8d9203f3de92af4305ba9897f628b1f9bad84ecf36ed5418c1c57e",
+      "sizeBytes": 52292
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "sha256": "d1b71ede6d7fdec9a615a594f295d3541336a2f6cfe20f73291fbe7221fbd244",
+      "sizeBytes": 379526
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "sha256": "e90dbee07da46210c6d9875b1792b6960a79304110c8de43e5205d51e8d1bfda",
+      "sizeBytes": 371158
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "sha256": "43b476d66a90ee44fbfcb77abe182e7a16bc262fc836518abfc38e6ef4c86682",
+      "sizeBytes": 361958
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.ja.md",
+      "sha256": "31ce87afb518796dc44efd266e3f4d44fce7aef89d65f1432900559098362194",
+      "sizeBytes": 5466
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.md",
+      "sha256": "5bb429c2bba50b70cf01d0bc229d2161eda15ef7e30de81b525a432a623bd7b2",
+      "sizeBytes": 5066
+    },
+    {
+      "path": "docs/work-items/WI-1084-cross-checkout-closeout-receipt-integrity.zh-CN.md",
+      "sha256": "5397b6e804bd9bd133466f2174182cea10e7d467ba3f8d89edc6fed3c4718b0d",
+      "sizeBytes": 4475
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+
+thread 'linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory' (3691258) panicked at crates/cockpit-repository/tests/verification_service.rs:77:5:
+isolated linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory failed:
+stdout:
+
+running 1 test
+test linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory ... HEAD is now at 86185a1 tiny Cargo fixture
+FAILED
+
+failures:
+
+failures:
+    linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.15s
+
+
+stderr:
+Preparing worktree (detached HEAD 86185a1)
+
+thread 'linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory' (3691260) panicked at crates/cockpit-repository/tests/verification_service.rs:415:9:
+assertion failed: run.receipt.passed
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
