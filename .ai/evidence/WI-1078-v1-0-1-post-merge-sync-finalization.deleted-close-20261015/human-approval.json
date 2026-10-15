@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "decision": "approved",
+  "actor": "human:Ray",
+  "identitySource": "Direct user message in this conversation; user explicitly self-identifies as Ray",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "originalText": "我本人 Ray 批准按上述绑定清理 WI-1078 原资源，并在 Deleted 验证通过后关闭该工作项。",
+  "originalTextSha256": "1d8d6ad2c8e37e48bbf0dc5b4d6a0ce78ecd90ef9b559bd11848eba25c7d6cae",
+  "messageId": "unexposed",
+  "decisionTime": "unknown",
+  "recordedAt": "2026-10-15T07:47:45.302169+00:00",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "archiveRawSha256": "b52cb7bcbc64b98a017537e4a134a24b3577d65683acea0b7017923fbeb8a836",
+  "canonicalContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+  "contractFileRawSha256": "97201e6fe0f59f58c72e408e5d89d387c6765fb164e9dfbe4d22895c8ff7abf6",
+  "retainedRootRawSha256": "0aa37bcbbd1111ef18ba46fef095f4fbafff6181c0cef356bbedb3d89072b239",
+  "retainedPredecessorCanonicalDigest": "sha256:c6ec082e0f2c3accd15701e158b3767a7a944f944b889059abf3407fb812c0e2",
+  "branch": "codex/wi1078-post-merge-sync-finalization",
+  "headRevision": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+  "worktree": "/workspace/ai-cockpit-wi1078-post-merge-sync-finalization",
+  "gitCommonDir": "/workspace/ai-cockpit/.git",
+  "condition": "Record structured close only after Native sequence-1 Deleted finalization verification succeeds",
+  "exclusions": [
+    "WI-1084",
+    "old control uncommitted Summary",
+    "old review uncommitted source",
+    "recovery/control evidence resources",
+    "mistaken branches and unrelated worktrees",
+    "historical verification rerun or history rewrite"
+  ]
+}

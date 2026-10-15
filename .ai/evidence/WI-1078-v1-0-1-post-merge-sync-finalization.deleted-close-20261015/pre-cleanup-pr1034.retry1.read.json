@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "gh",
+    "api",
+    "--include",
+    "--method",
+    "GET",
+    "repos/xinglun/ai-cockpit/pulls/1034"
+  ],
+  "exitCode": 0,
+  "httpStatus": 200,
+  "observedAt": "2026-10-15T07:47:44.097636+00:00",
+  "bodySha256": "b9c2033c71347efb97379f257e8a16e58cea781931ad321962815c68badda034"
+}

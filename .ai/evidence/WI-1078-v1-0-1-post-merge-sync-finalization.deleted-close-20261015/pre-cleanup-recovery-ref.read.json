@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "gh",
+    "api",
+    "--include",
+    "--method",
+    "GET",
+    "repos/xinglun/ai-cockpit/git/ref/heads/codex/wi1078-evidence-recovery-20261014"
+  ],
+  "exitCode": 0,
+  "observedAt": "2026-10-15T07:46:35.018401+00:00",
+  "bodySha256": "91234c69af092ba9a4fc126fbcc5417aabd8bd563e8a5379f90f4955b6494118",
+  "bodyBytes": 453
+}

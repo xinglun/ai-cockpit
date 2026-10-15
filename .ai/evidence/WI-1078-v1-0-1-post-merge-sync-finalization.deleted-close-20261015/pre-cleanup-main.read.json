@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "gh",
+    "api",
+    "--include",
+    "--method",
+    "GET",
+    "repos/xinglun/ai-cockpit/git/ref/heads/main"
+  ],
+  "exitCode": 0,
+  "observedAt": "2026-10-15T07:46:35.821937+00:00",
+  "bodySha256": "069c772f99e4cc463620f3bf5f13a343132e97de9df304e9bf86689ef4082116",
+  "bodyBytes": 334
+}

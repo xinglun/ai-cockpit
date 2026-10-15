@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/tmp/wi1078-main-bcd76ae7-20261015/target/debug/ai-cockpit",
+    "inspect",
+    "--repo",
+    "/workspace/ai-cockpit-control-wi1078-retained-00461714"
+  ],
+  "exitCode": 0,
+  "observedAt": "2026-10-15T07:43:41.430530+00:00"
+}

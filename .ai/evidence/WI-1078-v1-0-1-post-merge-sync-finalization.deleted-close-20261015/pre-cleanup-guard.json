@@ -1,0 +1,78 @@
+{
+  "observedAt": "2026-10-15T07:47:45.302169+00:00",
+  "protectedFiles": [
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.archive.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.outcome.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.events.jsonl",
+      "matches": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.task-report.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.task-report.md",
+      "matches": true
+    },
+    {
+      "path": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223.delegated.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7.delegated.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.delegated.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.pr1032.814d9855363dffc2388b00ee7f9ffbcae11e082c009644f24d5d452841b920e7.raw.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.pr1034.0a2c47e857d09facee731da3291641a1d28d4ea39821141ff4a8a18f9705c223.raw.json",
+      "matches": true
+    },
+    {
+      "path": ".ai/evidence/external/WI-1078-v1-0-1-post-merge-sync-finalization.sync_branch.e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1.raw.json",
+      "matches": true
+    }
+  ],
+  "retainedRootRawSha256": "0aa37bcbbd1111ef18ba46fef095f4fbafff6181c0cef356bbedb3d89072b239",
+  "targetHead": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+  "targetStatusClean": true,
+  "targetIgnoredFiles": [],
+  "targetGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1078-post-merge-sync-finalization",
+  "sourceMain": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+  "syncPr": {
+    "number": 1034,
+    "merged": true,
+    "head": "d18be4f8624d08f91fe1c961dfed287cfe9543df",
+    "mergeCommit": "37cc4e540ce23a721382d9c6b510218dc5ba69c1"
+  },
+  "providerPrincipal": "xinglun",
+  "retryControl": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+  "runtimeSha256": "0c9b079a493c47552338f0bb1d5bcc0138d4025d02ecd1f495882f28e63fc1db",
+  "originalTargetHeadAlreadyMergedInControl": true,
+  "ruling": "Current blocker is archived_work_item_pending_close / expected CleanupPending. User explicitly authorizes exact cleanup and conditional close; safeActions includes repair_finalization. No historical test recovery is inferred."
+}

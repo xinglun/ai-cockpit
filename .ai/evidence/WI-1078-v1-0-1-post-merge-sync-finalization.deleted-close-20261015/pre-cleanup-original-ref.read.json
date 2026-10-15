@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "gh",
+    "api",
+    "--include",
+    "--method",
+    "GET",
+    "repos/xinglun/ai-cockpit/git/ref/heads/codex/wi1078-post-merge-sync-finalization"
+  ],
+  "exitCode": 0,
+  "observedAt": "2026-10-15T07:46:34.241058+00:00",
+  "bodySha256": "e2e981f5ea0e31c002b2dfe982d7ce7e58918a1e3c83464151fcb07cfda589e1",
+  "bodyBytes": 460
+}

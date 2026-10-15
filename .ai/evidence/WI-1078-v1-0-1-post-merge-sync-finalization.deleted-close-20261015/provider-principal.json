@@ -1,0 +1,5 @@
+{
+  "principal": "xinglun",
+  "source": "authorized GET /user login projection",
+  "observedAt": "2026-10-15T07:47:45.254262+00:00"
+}

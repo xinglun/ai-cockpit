@@ -1,0 +1,15 @@
+{
+  "request": [
+    "gh",
+    "api",
+    "--include",
+    "--method",
+    "GET",
+    "repos/xinglun/ai-cockpit/pulls/1034"
+  ],
+  "httpStatus": 503,
+  "rawResponse": "pre-cleanup-pr1034.http.raw",
+  "stderr": "pre-cleanup-pr1034.stderr",
+  "operationStoppedBeforeAnyDeletion": true,
+  "retry": "One explicit normal GET retry to the same GitHub API endpoint; successful ref reads retained without rewriting"
+}

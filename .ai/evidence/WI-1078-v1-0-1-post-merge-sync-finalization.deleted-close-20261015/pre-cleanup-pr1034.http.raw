@@ -1,0 +1,7 @@
+HTTP/2.0 503 Service Unavailable
+Content-Length: 91
+Content-Type: text/plain
+Date: Thu, 15 Oct 2026 07:46:40 GMT
+Server: envoy
+
+upstream connect error or disconnect/reset before headers. reset reason: connection timeout

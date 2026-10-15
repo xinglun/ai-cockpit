@@ -1,0 +1,9 @@
+{
+  "boundedPatterns": [
+    "provider credentials",
+    "private keys",
+    "Authorization credentials"
+  ],
+  "matchingPaths": [],
+  "claim": "bounded check only; raw responses preserved"
+}
