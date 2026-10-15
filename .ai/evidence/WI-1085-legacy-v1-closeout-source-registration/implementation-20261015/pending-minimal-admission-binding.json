@@ -1,0 +1,56 @@
+{
+  "status": "pending_raydot_review_only_no_amendment_applied",
+  "sourceHead": "9ecd4495c40ea2574b2f171ebd1bbca9cd6dd89d",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "contractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "immutableContractBaseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "materialSourceSnapshotDigest": "sha256:7f6f6f53c09c4e3f9bf1055b1722885130418c5758a7cf994b54ee91a422e068",
+  "materialManifestDigest": "sha256:c349576ab9e4fe2dba27a8d2edcbb844f9c1dc5f6176eb45c648e5f5eddbbd4d",
+  "materialRequestDigest": "sha256:2fb0756915944ccf72080d59cbea6124c3516fae08ba47be6a7c14e2d77ac536",
+  "analysisImplementationDigest": "sha256:6a6a0069fcc7c2394bd90728a9838e8093d854fdb219e965d2b02e94f2da9a16",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "materialInspectionReviewProfileDigest": null,
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "reviewableEntries": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "currentRepositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+  "currentSummaryDigest": "sha256:04e646432a826795c469d120dd68ab71a883ca33574c36ca4a2e070432782e59",
+  "currentAdmissionDigest": "sha256:2c3a491dc7ef5daa55acf4bcc5e42957b59c014687ed0ef3e4221cf4fd9f039e",
+  "currentStatusDigest": "sha256:14bf4521c081a1c2f95bd69f15fabc76f38639ccfcd6dc416744373a5b593a52",
+  "currentSafeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status"
+  ],
+  "humanDecisionRequiredNow": false,
+  "amendRequestRawSha256": "d946d7256496a33e52e35b330bc104055f2148006a05952afd63cc0a3a380cad",
+  "parityRowsRawSha256": "24f483bdbd74931bf175e0ea5682fb12325f23f333b080f0b1ef44247b58e096",
+  "formalAttemptId": "sha256:73a36abe3a96eb6f8bf26c040769512d39c05b52b5aa613107e81aab6893f055",
+  "formalAttemptState": "precondition_rejected",
+  "formalProcessesSpawned": 0,
+  "noFormalPassedReceipt": true,
+  "authorizationBoundary": "No scope/profile amendment, new human decision, material acceptance, finish/archive, PR/Ready/merge/close or cleanup has been performed. After Raydot review, apply only supported typed amend; obtain any fresh identity-bound decision requested by Runtime, regenerate material request, record technical review under its exact scope, re-admit controls and formal verification."
+}

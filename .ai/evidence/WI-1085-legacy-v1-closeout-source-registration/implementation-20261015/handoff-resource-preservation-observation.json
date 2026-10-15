@@ -1,0 +1,18 @@
+{
+  "observedAt": "2026-10-15T23:01:10.562412+00:00",
+  "pid1": "tail",
+  "processes": 21336,
+  "zombies": 21316,
+  "workspaceFreeBytes": 4129521664,
+  "tmpFreeBytes": 2294132736,
+  "preservedFiles": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "rawSha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "rawSha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5"
+    }
+  ]
+}
