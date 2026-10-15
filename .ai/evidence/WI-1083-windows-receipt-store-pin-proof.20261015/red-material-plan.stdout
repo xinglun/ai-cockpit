@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1083-windows-receipt-store-pin-proof",
+  "contractDigest": "sha256:5b1c79efe1d3ade77cb13b75b238c1b46e68504bbfd8ce9cd00cb588edf49a5a",
+  "immutableContractBaseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "sourceSnapshotDigest": "sha256:b69fad25c9773b74717d8cb45c22067cad4a619f4718e26856dc304844c5ca72",
+  "materialManifestDigest": "sha256:28f03a2f9c2413f5516fa74f78571e492db3ea7db5d1ac16753d138d24642ce9",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:8ff6abf85481e9e49e02a1ff4ae974dd79b2db0b3c397cbbe80aa5bc7eed5321",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": null,
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-repository/src/evidence_store.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:eec9496ee0241b670a6fda772356bb2d0f3a2843c444e61e2865512b010d68cc",
+      "afterBlobDigest": "sha256:34b4e6aa2661dd8dcad936ae3c67826fe4ab1953abdf8cf0b09e0d3ed945ce10"
+    }
+  ],
+  "rawUnknownCodes": [],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": false,
+  "reviewDiagnostic": "material_review_not_enabled",
+  "requestDigest": "sha256:413491f3e350be769d1d1fa919c037a91e0d98473c01e6d687ff6ae922d3079f",
+  "reviewedSourceHead": "37aeed15e4164b94c9d18667a25fa06e3b573a70"
+}

@@ -264,6 +264,14 @@ pub fn persist_reusable_receipt(
 
     let lock_path = reuse_path.join("index.lock");
     let lock = open_or_create_cap_nofollow(&reuse, "index.lock", &lock_path)?;
+    #[cfg(all(test, windows))]
+    windows_parent_replacement_tests::notify_lock_opened(
+        &reuse,
+        &receipts,
+        &lock,
+        &reuse_path,
+        &lock_path,
+    );
     lock.lock().map_err(|source| ObserverError::Read {
         path: lock_path,
         source,
@@ -887,7 +895,7 @@ mod windows_rename_refusal_tests {
     // A numeric Win32 assertion model. Running this on another OS is not
     // evidence that the native Windows store scenario ran.
     pub(super) fn supported_rename_refusal(raw_os_error: Option<i32>) -> bool {
-        raw_os_error == Some(32)
+        matches!(raw_os_error, Some(5 | 32))
     }
 
     #[test]
@@ -909,5 +917,470 @@ mod windows_rename_refusal_tests {
                 "unexpected accepted code: {code:?}"
             );
         }
+    }
+}
+
+#[cfg(all(test, windows))]
+mod windows_parent_replacement_tests {
+    use super::windows_rename_refusal_tests::supported_rename_refusal;
+    use super::*;
+    use cockpit_evidence::{DiffIdentity, EvidenceContext, ReusableReceipt};
+    use std::{
+        cell::RefCell,
+        io::Write,
+        os::windows::{
+            fs::{MetadataExt, OpenOptionsExt},
+            io::{AsRawHandle, RawHandle},
+        },
+        process::{Command, Stdio},
+        sync::mpsc::{self, Receiver, Sender},
+        thread::{self, JoinHandle},
+        time::{Duration, Instant},
+    };
+    use windows_sys::Win32::Storage::FileSystem::{
+        BY_HANDLE_FILE_INFORMATION, FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_BACKUP_SEMANTICS,
+        FILE_FLAG_OPEN_REPARSE_POINT, GetFileInformationByHandle,
+    };
+
+    const WAIT: Duration = Duration::from_secs(10);
+    const EXACT_CASE: &str = "evidence_store::windows_parent_replacement_tests::parent_replacement_after_lock_open_cannot_redirect_store_writes";
+    const EXACT_CHILD: &str = "AI_COCKPIT_WI1083_NATIVE_EXACT_CASE";
+
+    #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+    struct Identity {
+        volume: u32,
+        file: u64,
+    }
+
+    #[derive(Debug)]
+    struct OpenedHandles {
+        directory: Identity,
+        receipts: Identity,
+        lock: Identity,
+        directory_path: PathBuf,
+        lock_path: PathBuf,
+    }
+
+    struct Notification {
+        ready: Sender<OpenedHandles>,
+        resume: Receiver<()>,
+    }
+
+    thread_local! {
+        static OPENED_LOCK: RefCell<Option<Notification>> = const { RefCell::new(None) };
+    }
+
+    struct HookScope;
+    impl HookScope {
+        fn install(notification: Notification) -> Self {
+            OPENED_LOCK.with(|slot| assert!(slot.borrow_mut().replace(notification).is_none()));
+            Self
+        }
+    }
+    impl Drop for HookScope {
+        fn drop(&mut self) {
+            OPENED_LOCK.with(|slot| {
+                slot.borrow_mut().take();
+            });
+        }
+    }
+
+    fn identity(handle: RawHandle) -> Identity {
+        let mut info = BY_HANDLE_FILE_INFORMATION::default();
+        // SAFETY: the caller borrows a live directory or file handle and
+        // info is writable; this helper neither owns nor closes the handle.
+        assert_ne!(
+            unsafe { GetFileInformationByHandle(handle.cast(), &mut info) },
+            0,
+            "read fixture handle identity: {}",
+            std::io::Error::last_os_error()
+        );
+        Identity {
+            volume: info.dwVolumeSerialNumber,
+            file: (u64::from(info.nFileIndexHigh) << 32) | u64::from(info.nFileIndexLow),
+        }
+    }
+
+    fn directory_identity(path: &Path) -> Identity {
+        let probe = fs::OpenOptions::new()
+            .read(true)
+            .custom_flags(FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT)
+            .open(path)
+            .expect("open short-lived fixture identity probe");
+        let metadata = probe.metadata().expect("probe metadata");
+        assert!(metadata.is_dir());
+        assert_eq!(metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT, 0);
+        let observed = identity(probe.as_raw_handle());
+        // Never retain an observer directory handle during either rename.
+        drop(probe);
+        observed
+    }
+
+    pub(super) fn notify_lock_opened(
+        reuse: &Dir,
+        receipts: &Dir,
+        lock: &fs::File,
+        directory_path: &Path,
+        lock_path: &Path,
+    ) {
+        let notification = OPENED_LOCK.with(|slot| slot.borrow_mut().take());
+        if let Some(notification) = notification {
+            notification
+                .ready
+                .send(OpenedHandles {
+                    directory: identity(reuse.as_raw_handle()),
+                    receipts: identity(receipts.as_raw_handle()),
+                    lock: identity(lock.as_raw_handle()),
+                    directory_path: directory_path.to_path_buf(),
+                    lock_path: lock_path.to_path_buf(),
+                })
+                .expect("send actual opened identities before lock acquisition");
+            notification
+                .resume
+                .recv_timeout(WAIT)
+                .expect("bounded worker resume");
+        }
+    }
+
+    struct Worker {
+        fixture_lock: Option<fs::File>,
+        resume: Option<Sender<()>>,
+        thread: Option<JoinHandle<Result<ReceiptStoreWrite, ObserverError>>>,
+    }
+    impl Worker {
+        fn release_fixture_lock(&mut self) {
+            if let Some(lock) = self.fixture_lock.take() {
+                lock.unlock().expect("unlock fixture lock");
+                drop(lock);
+            }
+        }
+        fn complete(&mut self) {
+            self.release_fixture_lock();
+            self.resume
+                .take()
+                .expect("resume sender")
+                .send(())
+                .expect("resume worker");
+            self.thread
+                .take()
+                .expect("worker handle")
+                .join()
+                .expect("writer thread")
+                .expect("persist through the original implementation");
+        }
+    }
+    impl Drop for Worker {
+        fn drop(&mut self) {
+            // Release the lock before joining even when an assertion panics.
+            if let Some(lock) = self.fixture_lock.take() {
+                let _ = lock.unlock();
+                drop(lock);
+            }
+            if let Some(resume) = self.resume.take() {
+                let _ = resume.send(());
+            }
+            if let Some(worker) = self.thread.take() {
+                let _ = worker.join();
+            }
+        }
+    }
+
+    fn digest(c: char) -> String {
+        format!("sha256:{}", c.to_string().repeat(64))
+    }
+    fn receipt(binding: &ReceiptStoreBinding) -> ReusableReceipt {
+        ReusableReceipt::new(
+            &binding.node_id,
+            true,
+            EvidenceContext {
+                content_digest: digest('1'),
+                diff: DiffIdentity {
+                    base_commit: "2".repeat(40),
+                    head_commit: "3".repeat(40),
+                    changed_paths_digest: digest('4'),
+                },
+                environment_digest: digest('5'),
+                command_digest: digest('6'),
+                scope_digest: digest('7'),
+                governance_digest: digest('8'),
+                toolchain_digest: digest('9'),
+                policy_digest: digest('a'),
+                profile_digest: binding.profile_digest.clone(),
+                stage: "task".into(),
+                runner: "local".into(),
+            },
+            &digest('c'),
+            100,
+            200,
+        )
+        .expect("fixture receipt")
+    }
+    fn log(value: serde_json::Value) {
+        // Write directly so the existing CI --lib invocation retains native
+        // exact-selection and safety evidence even for successful tests.
+        writeln!(std::io::stdout().lock(), "WI1083_NATIVE {value}").expect("native evidence");
+    }
+    fn absent(path: &Path) {
+        assert_eq!(
+            fs::symlink_metadata(path)
+                .expect_err("path must be absent")
+                .kind(),
+            std::io::ErrorKind::NotFound
+        );
+    }
+    fn public_readback(root: &Path, binding: &ReceiptStoreBinding, expected: &ReusableReceipt) {
+        match load_reusable_receipt(root, binding).expect("public readback") {
+            ReceiptStoreLoad::Candidate {
+                receipt,
+                files_read,
+            } => {
+                assert_eq!(*receipt, *expected);
+                assert_eq!(files_read, 2);
+            }
+            ReceiptStoreLoad::Unavailable { reason, .. } => panic!("receipt unavailable: {reason}"),
+        }
+    }
+
+    fn run_pinned_store_case() {
+        let fixture = tempfile::Builder::new()
+            .prefix("wi1083-windows-pin-")
+            .tempdir()
+            .expect("fixture");
+        let root = fs::canonicalize(fixture.path()).expect("canonical fixture");
+        fs::create_dir(root.join(".ai")).expect("fixture metadata directory");
+        let first_binding = ReceiptStoreBinding {
+            repository_id: repository_id(&root).to_string(),
+            profile_digest: digest('b'),
+            node_id: "profile-test".into(),
+        };
+        let first = receipt(&first_binding);
+        persist_reusable_receipt(&root, &first_binding, &first).expect("seed store");
+        let mut second_binding = first_binding.clone();
+        second_binding.node_id = "second-node".into();
+        let second = receipt(&second_binding);
+        assert_ne!(first.receipt_id, second.receipt_id);
+        let reuse = root.join(".ai/evidence/reuse");
+        let original = root.join(".ai/evidence/reuse-original");
+        let released = root.join(".ai/evidence/reuse-released-control");
+        let canonical_reuse = fs::canonicalize(&reuse).expect("canonical original store");
+        let original_identity = directory_identity(&reuse);
+        let receipts_identity = directory_identity(&reuse.join("receipts"));
+        let first_bytes = fs::read(
+            reuse
+                .join("receipts")
+                .join(receipt_file_name(&first.receipt_id)),
+        )
+        .expect("seed bytes");
+        let lock_path = reuse.join("index.lock");
+        let lock = fs::OpenOptions::new()
+            .read(true)
+            .write(true)
+            .open(&lock_path)
+            .expect("fixture lock");
+        let lock_identity = identity(lock.as_raw_handle());
+        lock.lock().expect("hold fixture lock");
+        let (ready_tx, ready_rx) = mpsc::channel();
+        let (resume_tx, resume_rx) = mpsc::channel();
+        let worker_root = root.clone();
+        let worker_binding = second_binding.clone();
+        let worker_receipt = second.clone();
+        let worker = thread::spawn(move || {
+            let _hook = HookScope::install(Notification {
+                ready: ready_tx,
+                resume: resume_rx,
+            });
+            persist_reusable_receipt(&worker_root, &worker_binding, &worker_receipt)
+        });
+        let mut worker = Worker {
+            fixture_lock: Some(lock),
+            resume: Some(resume_tx),
+            thread: Some(worker),
+        };
+        let opened = ready_rx
+            .recv_timeout(WAIT)
+            .expect("worker opened actual store and lock handles");
+        assert_eq!(opened.directory, original_identity);
+        assert_eq!(opened.receipts, receipts_identity);
+        assert_eq!(opened.lock, lock_identity);
+        assert_eq!(opened.directory_path, reuse);
+        assert_eq!(opened.lock_path, lock_path);
+        log(
+            serde_json::json!({"phase":"handles_open_before_lock_acquisition", "directory":format!("{:?}",opened.directory), "lock":format!("{:?}",opened.lock)}),
+        );
+        // The worker remains paused before lock.lock. Drop the fixture's own
+        // File now, so test-owned locks/probes cannot manufacture the refusal.
+        worker.release_fixture_lock();
+        let rename_error = match fs::rename(&reuse, &original) {
+            Err(error) => {
+                assert_eq!(directory_identity(&reuse), original_identity);
+                assert_eq!(
+                    fs::canonicalize(&reuse).expect("original path remains"),
+                    canonical_reuse
+                );
+                absent(&original);
+                assert_eq!(
+                    fs::read(
+                        reuse
+                            .join("receipts")
+                            .join(receipt_file_name(&first.receipt_id))
+                    )
+                    .expect("unchanged seed"),
+                    first_bytes
+                );
+                Some(error)
+            }
+            Ok(()) => {
+                assert_eq!(directory_identity(&original), original_identity);
+                absent(&reuse);
+                fs::create_dir_all(reuse.join("receipts")).expect("replacement store");
+                fs::write(reuse.join("index.lock"), b"").expect("replacement lock");
+                fs::write(reuse.join("sentinel"), b"untouched").expect("replacement sentinel");
+                None
+            }
+        };
+        worker.complete();
+        let store = if rename_error.is_some() {
+            &reuse
+        } else {
+            &original
+        };
+        assert_eq!(directory_identity(store), original_identity);
+        for expected in [&first, &second] {
+            let bytes = fs::read(
+                store
+                    .join("receipts")
+                    .join(receipt_file_name(&expected.receipt_id)),
+            )
+            .expect("exact receipt bytes");
+            assert_eq!(
+                bytes,
+                serde_json::to_vec_pretty(expected).expect("expected bytes")
+            );
+            assert_eq!(
+                serde_json::from_slice::<ReusableReceipt>(&bytes).expect("typed receipt"),
+                *expected
+            );
+        }
+        assert_eq!(
+            fs::read(
+                store
+                    .join("receipts")
+                    .join(receipt_file_name(&first.receipt_id))
+            )
+            .expect("first unchanged"),
+            first_bytes
+        );
+        let index: ReceiptStoreIndex =
+            serde_json::from_slice(&fs::read(store.join("index.json")).expect("index bytes"))
+                .expect("typed index");
+        assert_eq!(
+            index,
+            ReceiptStoreIndex {
+                schema_version: 1,
+                repository_id: first_binding.repository_id.clone(),
+                profile_digest: first_binding.profile_digest.clone(),
+                receipts: BTreeMap::from([
+                    (first_binding.node_id.clone(), first.receipt_id.clone()),
+                    (second_binding.node_id.clone(), second.receipt_id.clone())
+                ]),
+            }
+        );
+        if rename_error.is_none() {
+            assert_eq!(
+                fs::read(reuse.join("sentinel")).expect("replacement sentinel"),
+                b"untouched"
+            );
+            absent(&reuse.join("index.json"));
+            for expected in [&first, &second] {
+                absent(
+                    &reuse
+                        .join("receipts")
+                        .join(receipt_file_name(&expected.receipt_id)),
+                );
+            }
+            fs::remove_dir_all(&reuse).expect("remove only fixture replacement");
+            fs::rename(&original, &reuse).expect("restore original store");
+        }
+        assert_eq!(directory_identity(&reuse), original_identity);
+        public_readback(&root, &first_binding, &first);
+        public_readback(&root, &second_binding, &second);
+        // Worker joined, fixture File dropped, and every identity probe and
+        // public readback has closed its handles. Same-path rename must work.
+        fs::rename(&reuse, &released).expect("rename succeeds after handle release");
+        absent(&reuse);
+        assert_eq!(directory_identity(&released), original_identity);
+        fs::rename(&released, &reuse).expect("restore after release control");
+        public_readback(&root, &first_binding, &first);
+        public_readback(&root, &second_binding, &second);
+        if let Some(error) = &rename_error {
+            // This narrow code acceptance follows every identity, exact
+            // readback, no-redirection, and release-control assertion above.
+            assert!(
+                supported_rename_refusal(error.raw_os_error()),
+                "unexpected rename error after proof: {error}"
+            );
+        }
+        log(
+            serde_json::json!({"phase":"complete", "rawRenameErrno":rename_error.as_ref().and_then(|e| e.raw_os_error()),
+            "exactReceipts":2,"exactIndexMappings":2,"noRedirection":true,"renameAfterAllHandlesReleased":true}),
+        );
+    }
+
+    #[test]
+    fn parent_replacement_after_lock_open_cannot_redirect_store_writes() {
+        if std::env::var(EXACT_CHILD).as_deref() == Ok(EXACT_CASE) {
+            run_pinned_store_case();
+            return;
+        }
+        // Existing CI runs --lib. This one-case child makes the native exact
+        // selection/count visible without changing workflow or public APIs.
+        let executable = std::env::current_exe().expect("native Windows unit binary");
+        log(
+            serde_json::json!({"phase":"native_exact_selection","os":std::env::consts::OS,
+            "program":executable,"args":["--exact",EXACT_CASE,"--nocapture","--test-threads=1"]}),
+        );
+        let mut child = Command::new(&executable)
+            .args(["--exact", EXACT_CASE, "--nocapture", "--test-threads=1"])
+            .env(EXACT_CHILD, EXACT_CASE)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("spawn one native exact test");
+        let deadline = Instant::now() + Duration::from_secs(60);
+        loop {
+            if child.try_wait().expect("native child status").is_some() {
+                break;
+            }
+            if Instant::now() >= deadline {
+                let _ = child.kill();
+                let _ = child.wait();
+                panic!("native exact test exceeded 60 seconds");
+            }
+            // Exit polling only; this is never evidence of worker ordering.
+            thread::sleep(Duration::from_millis(10));
+        }
+        let output = child.wait_with_output().expect("collect native exact test");
+        std::io::stdout()
+            .lock()
+            .write_all(&output.stdout)
+            .expect("retain native stdout");
+        std::io::stderr()
+            .lock()
+            .write_all(&output.stderr)
+            .expect("retain native stderr");
+        assert!(
+            output.status.success(),
+            "native exact test failed: {}",
+            output.status
+        );
+        let stdout = String::from_utf8(output.stdout).expect("native stdout UTF-8");
+        assert!(
+            stdout.contains("running 1 test"),
+            "exact filter must select one test: {stdout}"
+        );
+        assert!(
+            stdout.contains("test result: ok. 1 passed; 0 failed; 0 ignored"),
+            "native exact case did not pass: {stdout}"
+        );
     }
 }

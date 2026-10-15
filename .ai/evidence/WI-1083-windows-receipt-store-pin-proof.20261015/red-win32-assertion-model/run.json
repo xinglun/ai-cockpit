@@ -1,0 +1,42 @@
+{
+  "label": "red-win32-assertion-model",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1083-windows-receipt-store-pin-proof",
+    "--work-item",
+    "WI-1083-windows-receipt-store-pin-proof",
+    "--workers",
+    "1",
+    "--command",
+    "cargo",
+    "--args=test,--package,cockpit-repository,--lib,evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix,--,--exact,--test-threads=1"
+  ],
+  "head": "37aeed15e4164b94c9d18667a25fa06e3b573a70",
+  "startedAt": "2026-10-15T00:49:07.880250+00:00",
+  "finishedAt": "2026-10-15T00:50:11.712270+00:00",
+  "elapsedSeconds": 63.83177468299982,
+  "exitCode": 1,
+  "hostTimedOut": false,
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "HOME": "/workspace/.tmp-wi1083-runtime-home-20261015",
+    "TMPDIR": "/workspace/.tmp-wi1083-tests-20261015",
+    "CARGO_TARGET_DIR": "/tmp/wi1083-target-00461714-20261015",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "2"
+  },
+  "runtimeSha256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "files": {
+    "stderr.log": "a6341a630346f4b9b10ad07ac4bfc20dba6f71cbd0823be0db13733891c27daa",
+    "stdout.log": "4490ea07c4959e79aed1b68e03154bd17b7d98fae6f85d0979c0684ac032c8e3",
+    "status.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "validate.json": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932",
+    "status.json": "fec3187de652ca74a3587fddbe804051aa645fe8b5e81c7db73e4f57a8d1b3b5",
+    "validate.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -1,0 +1,18 @@
+
+running 1 test
+test evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix ... FAILED
+
+failures:
+
+---- evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix stdout ----
+
+thread 'evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix' (2963299) panicked at crates/cockpit-repository/src/evidence_store.rs:896:9:
+assertion failed: supported_rename_refusal(Some(5))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 111 filtered out; finished in 0.00s
+
