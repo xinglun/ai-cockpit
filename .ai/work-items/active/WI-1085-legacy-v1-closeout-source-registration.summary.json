@@ -6,6 +6,42 @@
   "checkpointAt": "2026-10-15T18:22:10Z",
   "checkpointContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "recorded": true,
+      "recordedAt": "2026-10-15T18:22:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "reason": "PROPOSED ONLY: ask Raydot to review the minimum existing-protocol admission amendment. The active documentation projection requires exactly one in-progress row in each existing three-language parity ledger, currently outside scope. The committed readable Rust source material has no Findings but a permitted syntax Unknown and material_review_not_enabled. Add only those three paths and a strict self_declared technical material review opt-in; retain raw Unknowns, all checks/acceptance/history and all non-goals. No authority or human confirm_review is recorded by this proposal.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T23:14:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
   "createdAt": "2026-10-15T14:42:12Z",
   "decisionEvidence": {
@@ -42,7 +78,7 @@
   "preflightContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
   "preflightDecisionDigest": "sha256:e533424bdeed816bd875d5b6e1c9bd0f65168d06c1c7de8094b6ff9918929e72",
   "preflightRepositorySnapshotDigest": "sha256:1cb31f9daa23add1feb9ee9c3a048ddf696a5c093d4d68bdd32b12a0aae58fd0",
-  "preflightState": "red",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -192,5 +228,10 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-15T23:00:08.794162738+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-15T23:14:16Z"
+  },
   "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
 }

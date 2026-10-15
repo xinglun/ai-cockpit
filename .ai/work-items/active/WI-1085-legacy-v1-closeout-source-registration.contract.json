@@ -75,7 +75,10 @@
       "docs/reference/agent-workflow.ja.md",
       "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.md",
       "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md",
-      "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md"
+      "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md",
+      "docs/reference/reference-parity.ja.md"
     ],
     "maxWorkers": 1,
     "reason": "One core owner, one build job and one isolated target. All lifecycle/registration/finalization/extension writes are serial under the same WI lock. No parallel registration, lease or missing declaration is inferred from this boundary.",
@@ -92,7 +95,17 @@
   "executionDecision": null,
   "goal": "实现本地 requirement + registration 不可变双记录、完整来源及 payload 校验、受约束中断恢复和唯一 Retained→Deleted 扩展写入核心；CLI/MCP 共用实现并保持普通 close、v2 和未登记旧 v1 的兼容边界。",
   "governancePolicy": null,
-  "governanceProfile": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1085 opt-in proposal requires Raydot review before application",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:Raydot",
+      "schemaVersion": 1
+    }
+  },
   "guidelines": [
     "Raydot has ordinary technical review authority delegated by Ray. This approval admits scaffold/Contract preparation; it is not a fresh identity-bound human confirm_review or approval to close, merge, publish or clean resources.",
     "Raydot full independent design review has passed and ordinary technical authority to implement this bounded plan is now present. Continue only under actual Runtime admission; the currently required identity-bound human confirm_review remains unsatisfied.",
@@ -145,6 +158,7 @@
     "verification"
   ],
   "requiredRuntimeCapabilities": [
+    "material-inspection-review",
     "work-item-contract-amendment",
     "work-item-environment-drift"
   ],
@@ -271,7 +285,10 @@
     ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.*",
     ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.*",
     ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration*",
-    ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration*"
+    ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration*",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813",
