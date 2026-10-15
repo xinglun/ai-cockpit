@@ -1,0 +1,21 @@
+{
+  "observedAt": "2026-10-15T01:05:33.511568+00:00",
+  "source": "/tmp/wi1083-target-00461714-20261015",
+  "destination": "/workspace/.tmp-wi1083-target-00461714-20261015",
+  "apparentBytes": 726057361,
+  "entriesVerified": 1158,
+  "allBytesAndSymlinksEqual": true,
+  "oldPathRemovedOnlyAfterVerification": true,
+  "otherWorkItemCachesTouched": false,
+  "systemOrPermissionsConfigurationChanged": false,
+  "spaceAfter": {
+    "/tmp": {
+      "freeBytes": 652591104,
+      "freeInodes": 2275082
+    },
+    "/workspace": {
+      "freeBytes": 3745435648,
+      "freeInodes": 1951311
+    }
+  }
+}
