@@ -1,0 +1,203 @@
+{
+  "recordedAtUTC": "2026-10-15T09:56:49.652658+00:00",
+  "head": "07f005f793ded957cba8a6d676e3d0aef05630bd",
+  "method": "authorized GitHub App exact-commit file reads",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/README.md",
+      "sizeBytes": 1558,
+      "sha256": "338c9894441800951a4fe0466a1d265988f7ef501c4cdac6df23f7923827efa0",
+      "githubBlobSha": "d3f6d86e931646c9ce3548861c8121ce312de3b0",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/authority.json",
+      "sizeBytes": 576,
+      "sha256": "4cc6ef2ae0dc6e410ab1a8c60a7153dd94ecb5c8af6a81ac3d4bed1a6534059f",
+      "githubBlobSha": "66c6c2ce30986da1b46988a6e59cc3f586590256",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/before.json",
+      "sizeBytes": 415,
+      "sha256": "d42cc560f68ec41e0235a8bd558e11c6a7670467ec8363e932b798e08469c3a4",
+      "githubBlobSha": "807ecb864e8b49fdd0cd96a89d0fa946d67ab73c",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/df-after.txt",
+      "sizeBytes": 192,
+      "sha256": "4fc4deeeac8eb105382cebcbbc8873b21342dd07b5bcc9fb7b671c694b0e6c39",
+      "githubBlobSha": "a0dc752e967580d846a89258ef85642f39b198d6",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/df-before.txt",
+      "sizeBytes": 192,
+      "sha256": "3d06d8b186999bb38070f25d433593fefa51b3cf8cd465b42b2a525fde30c85d",
+      "githubBlobSha": "331742cdd64f1918a91ff70575147eac9e7a7a20",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/df-inodes-after.txt",
+      "sizeBytes": 159,
+      "sha256": "a8bdb0e192ae0763f4318c907668cfdc751ef19096c7cb7183ca6a4ab2b8bfee",
+      "githubBlobSha": "a3f5d2f8dce2ab5586b653551e66aeb78f578ad8",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/df-inodes-before.txt",
+      "sizeBytes": 159,
+      "sha256": "c437203cea16cd6528399ab60e9263ee22f2ab4e4e7faca0a24537d1193322e3",
+      "githubBlobSha": "8c9b93cca5ff3488100935ea86f09c349c55982f",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/exact-cleanup.py",
+      "sizeBytes": 6731,
+      "sha256": "da061a9aa6e9a6fcef5afae4d7cebcd59ca65b64b26393ae27fc7a597358038a",
+      "githubBlobSha": "58e82ae53cc9b0ef708947262caafb0a58a27435",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/excluded-before.json",
+      "sizeBytes": 213759,
+      "sha256": "a105ca967b875109d99ee4e508c0946c05928e7c5fe585ea813f316259c8974a",
+      "githubBlobSha": "150a8fa11c7a2ace1a952195a550ce6f7576c701",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/protected-runtimes-after.json",
+      "sizeBytes": 4617,
+      "sha256": "c6575c364dc755ef4daa456dedc7bd770ce1bdfd8ee14c6ff953899ee4e4bc99",
+      "githubBlobSha": "dda31d5d89db89d5b837fa96bd04d17a4293a950",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/protected-runtimes-before.json",
+      "sizeBytes": 3747,
+      "sha256": "b0a347305129cd3881780e604430fda5bf613b69c2bbf3d9dc7a0ed470c972e7",
+      "githubBlobSha": "e9fca03814c8e8fcb2bd3b07b249db4a98bf1b14",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/removed.jsonl",
+      "sizeBytes": 361632,
+      "sha256": "798498e25f9c62481f1bc90fd0addd72c52cb8b456ad6da5fd9935842dbe8d63",
+      "githubBlobSha": "a82b6ce7c29a348b741268fc38124a9fb9f20a2e",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/batch-cache-cleanup-20261015/result.json",
+      "sizeBytes": 1000,
+      "sha256": "bada1823297d2872bc58a100902d9f98c2f35e9c22c8ec6b83cc25823d06980f",
+      "githubBlobSha": "924b02e497e354e34cd4a1a1573a2a061ac6ce08",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/a468-windows-job116343918000.raw.log",
+      "sizeBytes": 144941,
+      "sha256": "bc1defb91fd7be35e56a332273b314656c58c285eb50d21ea0f8114142bf2ad6",
+      "githubBlobSha": "d6082b8e05c7c555c7821162de4e2662f6a97db5",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/after-cache-preflight.execution.json",
+      "sizeBytes": 1640,
+      "sha256": "b414b5fa7bd8f16ae837107236d582a13f6370383466e91f1799c64401c03c4f",
+      "githubBlobSha": "91a946d6532f88176e40f468ef99aac59b13f982",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/after-cache-preflight.stderr",
+      "sizeBytes": 730,
+      "sha256": "5639f9ad8fe96ba1abc1d3776dadd04c83f9a6c067eb9f74e4ca48caa947f236",
+      "githubBlobSha": "84d38b792acfc5ebffc9dc5bf475042f7cf6b3de",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/after-cache-preflight.stdout",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "githubBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/after-cache-status.execution.json",
+      "sizeBytes": 1627,
+      "sha256": "891abb0263fae2ef5f9e02398cef20937ba73e8b5a68e4de179dc3b8d0eb391a",
+      "githubBlobSha": "1e4ac870bc644c2335b63c914fc15cde8ebc6ef5",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/after-cache-status.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "githubBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/after-cache-status.stdout",
+      "sizeBytes": 4027,
+      "sha256": "a79ac243ebbe1e51f4ac70e7023f1997bde5dd9c3d1c8ed1f5f87b358dd10e51",
+      "githubBlobSha": "3cd695e545c0cbfe7c77b7745cf293bee831329f",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-format.execution.json",
+      "sizeBytes": 1433,
+      "sha256": "451a3c77fda2868baad40769f47b71326417be97dce30c0d2999fa416d3d978d",
+      "githubBlobSha": "a5e48b555da69652bd679ce1c4ccd10ddc0840a1",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-format.stderr",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "githubBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-format.stdout",
+      "sizeBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "githubBlobSha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.execution.json",
+      "sizeBytes": 1688,
+      "sha256": "558ecb57eb79165c0d02f3d0344ce198f4537daa8578a1583178479f6d4125cd",
+      "githubBlobSha": "95534f3279b170795eb5bcff42c4ff12f311f030",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stderr",
+      "sizeBytes": 309,
+      "sha256": "35b94386f1483aa16849a2b1787935f4f0699785e91b4b554c8510aa5295dd9d",
+      "githubBlobSha": "ff5b428881883cc52e3fb310bfd6dc50f4db2ae5",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+      "sizeBytes": 2225,
+      "sha256": "b0d717613a699f79f1a37840e05e54222e4b8103d6c7d2f8c4ad74c5f978b876",
+      "githubBlobSha": "d214e20cb1645fa7ae441a99cf3329c79f796e33",
+      "equal": true
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-second-hop-diagnosis.json",
+      "sizeBytes": 1284,
+      "sha256": "493ab9de4b8468dfe9c63b35b317cfbfb5a13c7e680fcd8c9dcd6c85163feef0",
+      "githubBlobSha": "ee2da2c47f2c66198d1904483410b7997fba11a6",
+      "equal": true
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "sizeBytes": 434886,
+      "sha256": "f419fbda545df202d37da645d7d0ed6bcbf9f5c058c7818d2d313d9243e7e2b1",
+      "githubBlobSha": "bb3b300c95a0de8776d42f3b1172fae25af552e4",
+      "equal": true
+    }
+  ]
+}

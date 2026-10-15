@@ -1,0 +1,34 @@
+{
+  "command": [
+    "target/wi1084-closeout-receipt-integrity/debug/ai-cockpit",
+    "preflight",
+    "--repo",
+    "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity",
+    "--contract",
+    ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json"
+  ],
+  "sourceHead": "07f005f793ded957cba8a6d676e3d0aef05630bd",
+  "sourceDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sourceFiles": {
+    "crates/cockpit-repository/src/lifecycle.rs": "f419fbda545df202d37da645d7d0ed6bcbf9f5c058c7818d2d313d9243e7e2b1",
+    "crates/cockpit-repository/src/historical_compatibility.rs": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49",
+    "crates/cockpit-repository/tests/closeout_recovery.rs": "943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a",
+    "crates/cockpit-cli/tests/closeout_recovery.rs": "8c8bb2985965c690af3a641f741b27de25993b53c7da8c7116e3d78a653e0ce2",
+    "crates/cockpit-mcp/tests/closeout_recovery.rs": "603833b0045a2a64bfd3b4ddfab2355bc0cd1a426e3787473d51b5daddf0ff6b"
+  },
+  "environment": {
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo"
+  },
+  "startedAt": 1792058237.6960495,
+  "timeoutSeconds": 900,
+  "exitCode": 0,
+  "elapsedSeconds": 3.76601243019104
+}

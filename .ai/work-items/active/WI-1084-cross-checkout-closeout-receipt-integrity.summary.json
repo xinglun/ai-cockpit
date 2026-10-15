@@ -1,10 +1,29 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/07f-remote-readback.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/07f-runtime-binding.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-full.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-full.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-full.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-plan.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-plan.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-plan.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-preflight.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-preflight.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-preflight.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-status.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-status.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-status.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-validate.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-validate.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-validate.stdout",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/post-cleanup-runtime-build.execution.json",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/post-cleanup-runtime-build.stderr",
+    ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/post-cleanup-runtime-build.stdout",
     ".ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.summary.json"
   ],
   "checkpointAt": "2026-10-15T07:29:45Z",
-  "checkpointContractDigest": "sha256:d85b7b42dac244653b1ab5bcfbd47ea4a2a1222e47526166568cb0dc499ba254",
+  "checkpointContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,7 +81,7 @@
       "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:44dcbfbc7139677c88246b5815a662be31df899525dd9d007d51bba1ca5a7fc0",
+  "checkpointRepositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
   "createdAt": "2026-10-15T07:27:55Z",
   "decisionEvidence": {
     "contractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
@@ -77,6 +96,16 @@
     "schemaVersion": 1,
     "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
   },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/red-summary.md",
+      ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/implementation-result.md"
+    ],
+    "reason": "The actual receipt-only deletion RED and P2 Retained-to-Deleted RED are preserved; current Linux Native full workspace verification passed 13/13 with immutable-proof, retry, compatibility, historical-verification, and published-path assertions. This projection records those local scenario checks, not Windows CI acceptance, human acceptance, merge, archive, or close.",
+    "state": "resolved"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -88,69 +117,147 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-15T09:34:39Z",
+  "preflightAt": "2026-10-15T10:09:00Z",
   "preflightContractDigest": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
-  "preflightDecisionDigest": "sha256:7bdde8cccb2bb6047aa07cfd30d0a0de559ba647a148a9a659dfd4c3d907505c",
-  "preflightRepositorySnapshotDigest": "sha256:df6148498c570274b07c9d4d2ff3953086514f63f0a2d803bcc206043795764e",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8a7631eab8bbec1e4f20e359ee54a942a93a94dcbe4ec96d1f412628e71e2c5e",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout"
+      ],
       "expectedOutcome": "status may exit 0 but lifecyclePhase=archived, blocking=true and integrity diagnostics; no false scope release.",
       "required": true,
       "scenario": "receipt_only_deletion",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Recover through Native APIs in independent Git common directories; remove only the required recovery receipt; inspect status and admission."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
       "expectedOutcome": "Each unsupported binding fails closed without rewriting history or accepting a fresh ordinary-close fallback.",
       "required": true,
       "scenario": "bound_recovery_integrity",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Exercise absent, malformed, mismatched, symlink or replaced provenance/receipt/close/payload cases."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
       "expectedOutcome": "Valid close remains usable; idempotent retry reports no changes; incomplete state cannot masquerade as a successful new close.",
       "required": true,
       "scenario": "valid_recovery_and_retry",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Recover exact bytes, repeat supported recovery, interrupt before and after the commit point, and restore same-byte evidence through normal recovery."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout"
+      ],
       "expectedOutcome": "Ordinary closes retain prior semantics; legacy ambiguity is explicit; no automatic migration or fabricated provenance.",
       "required": true,
       "scenario": "ordinary_and_historical_compatibility",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Read current ordinary closes, ordinary legacy closes, and existing legacy v1 recovery evidence."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
       "expectedOutcome": "Historical not_ready and historical_evidence_not_revalidated persist; no historical tests are represented as rerun.",
       "required": true,
       "scenario": "historical_verification_fidelity",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Use distinct historical and current Runtime identities through repository, CLI and MCP recovery/status."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/formal-current-result.json",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/windows-clone-config-linux-regression.stdout",
+        ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/p2-final-closeout-integrations.stdout"
+      ],
       "expectedOutcome": "Original close/Contract/archive/verification/payload bytes remain exact; conflicting published paths are preserved.",
       "required": true,
       "scenario": "published_path_preservation",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run existing no-destructive-rollback, racing-target, source immutability and interruption cases."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-15T08:21:15.321766990+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-15T07:32:45Z"
-  },
+  "updatedAt": "2026-10-15T10:10:39.196829185+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:4b89ec1bfd19c123dfb927d5e18830ec6828575d71794ba0a2e5a5b4b54ec32e",
   "workItemId": "WI-1084-cross-checkout-closeout-receipt-integrity"
 }

@@ -1,0 +1,29 @@
+{
+  "recordedAtUTC": "2026-10-15T09:57:07.525046+00:00",
+  "sourceCommit": "07f005f793ded957cba8a6d676e3d0aef05630bd",
+  "binaryPath": "/workspace/ai-cockpit-wi1084-closeout-receipt-integrity/target/wi1084-closeout-receipt-integrity/debug/ai-cockpit",
+  "binarySha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "binarySizeBytes": 52094536,
+  "buildRecord": "post-cleanup-runtime-build.execution.json",
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)\nbinary: rustc\ncommit-hash: 48a229ceaefd4985c50990b14116b6d856af0985\ncommit-date: 2026-09-01\nhost: x86_64-unknown-linux-gnu\nrelease: 1.98.1\nLLVM version: 22.1.8\n",
+  "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)\n",
+  "receiptInventoryBefore": [
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification-attempt.1de75226f62a8d0499af53e3dcb6a9ed1c24aaf445b3c4428d6b5b70bc94d4a6.json",
+      "sizeBytes": 8812,
+      "sha256": "9aa15c7ece157ca55064b7c4d6c126087720b99cde716f945ad76f0e4571ccfd"
+    },
+    {
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity.verification-attempt.d1e1b99334c7d244272c953ca7ae4218b87f7e8afdc1245af64d40e5a2cc0d5a.json",
+      "sizeBytes": 840243,
+      "sha256": "05a3242f69d75d9eed2eec3dbb97f6a20bc271eba48d5e4d62786a8bcd82f78f"
+    }
+  ],
+  "sourceFiles": {
+    "crates/cockpit-repository/src/lifecycle.rs": "f419fbda545df202d37da645d7d0ed6bcbf9f5c058c7818d2d313d9243e7e2b1",
+    "crates/cockpit-repository/src/historical_compatibility.rs": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49",
+    "crates/cockpit-repository/tests/closeout_recovery.rs": "943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a",
+    "crates/cockpit-cli/tests/closeout_recovery.rs": "8c8bb2985965c690af3a641f741b27de25993b53c7da8c7116e3d78a653e0ce2",
+    "crates/cockpit-mcp/tests/closeout_recovery.rs": "603833b0045a2a64bfd3b4ddfab2355bc0cd1a426e3787473d51b5daddf0ff6b"
+  }
+}
