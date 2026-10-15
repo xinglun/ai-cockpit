@@ -393,6 +393,43 @@ fn provider_finalization_uses_raw_contract_bytes_while_recovery_plan_keeps_canon
             == destination_close_before,
         "planning remains read-only"
     );
+    cockpit_repository::recover_cross_checkout_closeout(
+        &destination,
+        source.path(),
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("recover actual provider-bound close");
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        &destination,
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(status.lifecycle_phase, "closed");
+    assert!(!status.blocking);
+    assert_eq!(
+        fs::read(&destination_close).unwrap(),
+        destination_close_before
+    );
+    let origin_path = destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json"
+    ));
+    let origin: Value = serde_json::from_slice(&fs::read(&origin_path).unwrap()).unwrap();
+    assert_eq!(
+        origin["contractDigest"],
+        canonical_contract_digest.to_string()
+    );
+    assert_eq!(origin["providerFacts"], plan["providerFacts"]);
+    assert!(
+        origin["fileDigests"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|file| file["path"]
+                == format!(".ai/work-items/archive/{WORK_ITEM_ID}.contract.json")
+                && file["digest"] == raw_contract_digest.to_string())
+    );
 }
 
 #[test]

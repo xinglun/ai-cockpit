@@ -5268,81 +5268,13 @@ fn validate_closeout_history_chain(
     // Closeout recovery keeps its canonical JSON identity; historical resource
     // finalization receipts use the exact archived Contract file bytes.
     let canonical_contract_digest = contract_digest(&contract_path)?;
-    let (_, archived_contract_file_digest) =
-        crate::resource_lifecycle::archived_contract_digest(root, work_item_id)?;
-
-    let resource_context = effective_resource_context(root, work_item_id, &contract)?;
-    let mut provider_facts = serde_json::Value::Null;
-    if let Some(resource_context) = resource_context.as_ref() {
-        let (receipt, head_path, head_digest, sequence) =
-            resolve_resource_finalization_head(root, work_item_id)?;
-        validate_resource_finalization_receipt_for(
-            &receipt,
-            expected_repository_id,
-            work_item_id,
-            Some(&archived_contract_file_digest),
-            Some(resource_context),
-        )
-        .map_err(|error| {
-            closeout_recovery_error(
-                root,
-                "closeout_recovery_provider_binding_invalid",
-                format!("historical provider finalization receipt is invalid: {error}"),
-            )
-        })?;
-        ensure_resource_finalization_base_binding(&receipt, &contract, &head_path).map_err(
-            |error| {
-                closeout_recovery_error(
-                    root,
-                    "closeout_recovery_provider_binding_invalid",
-                    format!("historical provider finalization base binding is invalid: {error}"),
-                )
-            },
-        )?;
-        validate_historical_finalization(root, &receipt, &head_path).map_err(|error| {
-            closeout_recovery_error(
-                root,
-                "closeout_recovery_provider_binding_invalid",
-                format!("historical provider finalization facts are invalid: {error}"),
-            )
-        })?;
-        if closed_finalization_projection_kind(
-            root,
-            work_item_id,
-            &receipt,
-            &head_path,
-            &head_digest,
-            sequence,
-            expected_repository_id,
-        )
-        .is_none()
-        {
-            return Err(closeout_recovery_error(
-                root,
-                "closeout_recovery_provider_binding_invalid",
-                format!(
-                    "historical provider finalization is not bound to the close decision for {work_item_id}"
-                ),
-            ));
-        }
-        provider_facts = serde_json::json!({
-            "provider": receipt.provider,
-            "resourceContext": resource_context,
-            "pullRequest": receipt.pull_request,
-            "finalizationSequence": sequence,
-            "finalizationHeadDigest": head_digest,
-            "finalizationHeadPath": repository_relative_path(root, &head_path),
-        });
-    } else if fs::symlink_metadata(resource_finalization_decision_path(root, work_item_id)).is_ok()
-    {
-        return Err(closeout_recovery_error(
-            root,
-            "closeout_recovery_provider_binding_invalid",
-            format!(
-                "historical provider finalization exists without a Contract or archived resource-context binding for {work_item_id}"
-            ),
-        ));
-    }
+    let provider_facts = closeout_recovery_provider_facts(
+        root,
+        work_item_id,
+        expected_repository_id,
+        &contract,
+        true,
+    )?;
 
     let evidence_path = root
         .join(".ai/evidence")
@@ -5432,6 +5364,150 @@ fn validate_closeout_history_chain(
     }
     visited.remove(work_item_id);
     Ok(provider_facts)
+}
+
+fn closeout_recovery_provider_facts(
+    root: &Path,
+    work_item_id: &str,
+    expected_repository_id: &str,
+    contract: &Contract,
+    validate_close_projection: bool,
+) -> Result<serde_json::Value, ObserverError> {
+    let (_, archived_contract_file_digest) =
+        crate::resource_lifecycle::archived_contract_digest(root, work_item_id)?;
+
+    let resource_context = effective_resource_context(root, work_item_id, contract)?;
+    let mut provider_facts = serde_json::Value::Null;
+    if let Some(resource_context) = resource_context.as_ref() {
+        let (receipt, head_path, head_digest, sequence) =
+            resolve_resource_finalization_head(root, work_item_id)?;
+        validate_resource_finalization_receipt_for(
+            &receipt,
+            expected_repository_id,
+            work_item_id,
+            Some(&archived_contract_file_digest),
+            Some(resource_context),
+        )
+        .map_err(|error| {
+            closeout_recovery_error(
+                root,
+                "closeout_recovery_provider_binding_invalid",
+                format!("historical provider finalization receipt is invalid: {error}"),
+            )
+        })?;
+        ensure_resource_finalization_base_binding(&receipt, contract, &head_path).map_err(
+            |error| {
+                closeout_recovery_error(
+                    root,
+                    "closeout_recovery_provider_binding_invalid",
+                    format!("historical provider finalization base binding is invalid: {error}"),
+                )
+            },
+        )?;
+        validate_historical_finalization(root, &receipt, &head_path).map_err(|error| {
+            closeout_recovery_error(
+                root,
+                "closeout_recovery_provider_binding_invalid",
+                format!("historical provider finalization facts are invalid: {error}"),
+            )
+        })?;
+        // The shared close validator calls this helper too. Compare the
+        // bound head directly there; do not recursively ask for closed status.
+        let close = read_json(&root.join(format!(".ai/decisions/{work_item_id}.close.json")))?;
+        let head_matches = close["resourceFinalizationSequence"] == sequence
+            && close["resourceFinalizationHeadPath"] == repository_relative_path(root, &head_path)
+            && close["resourceFinalizationHeadDigest"] == serde_json::json!(head_digest);
+        if !head_matches
+            || (validate_close_projection
+                && closed_finalization_projection_kind(
+                    root,
+                    work_item_id,
+                    &receipt,
+                    &head_path,
+                    &head_digest,
+                    sequence,
+                    expected_repository_id,
+                )
+                .is_none())
+        {
+            return Err(closeout_recovery_error(
+                root,
+                "closeout_recovery_provider_binding_invalid",
+                format!(
+                    "historical provider finalization is not bound to the close decision for {work_item_id}"
+                ),
+            ));
+        }
+        provider_facts = serde_json::json!({
+            "provider": receipt.provider,
+            "resourceContext": resource_context,
+            "pullRequest": receipt.pull_request,
+            "finalizationSequence": sequence,
+            "finalizationHeadDigest": head_digest,
+            "finalizationHeadPath": repository_relative_path(root, &head_path),
+        });
+    } else if fs::symlink_metadata(resource_finalization_decision_path(root, work_item_id)).is_ok()
+    {
+        return Err(closeout_recovery_error(
+            root,
+            "closeout_recovery_provider_binding_invalid",
+            format!(
+                "historical provider finalization exists without a Contract or archived resource-context binding for {work_item_id}"
+            ),
+        ));
+    }
+
+    Ok(provider_facts)
+}
+
+/// Compare against the complete archive and applicable decision inventory,
+/// rather than trusting two matching but potentially truncated digest lists.
+pub(super) fn closeout_recovery_payload_matches(
+    root: &Path,
+    work_item_id: &str,
+    repository_id: &str,
+    binding: &serde_json::Value,
+) -> bool {
+    let validate = || -> Result<bool, ObserverError> {
+        let contract_path = root.join(format!(
+            ".ai/work-items/archive/{work_item_id}.contract.json"
+        ));
+        let contract = read_contract(&contract_path)?;
+        if contract.work_item_id != work_item_id
+            || contract.repository_id != repository_id
+            || binding["contractDigest"] != serde_json::json!(contract_digest(&contract_path)?)
+            || binding["providerFacts"]
+                != closeout_recovery_provider_facts(
+                    root,
+                    work_item_id,
+                    repository_id,
+                    &contract,
+                    false,
+                )?
+        {
+            return Ok(false);
+        }
+        let manifest = read_json(&root.join(format!(
+            ".ai/work-items/archive/{work_item_id}.archive.json"
+        )))?;
+        verify_archive_manifest(root, work_item_id, &manifest)?;
+        let files = closeout_recovery_collect_source_files(root, work_item_id, &manifest)?;
+        Ok(binding["fileDigests"] == serde_json::json!(closeout_recovery_file_digests(&files)))
+    };
+    validate().unwrap_or(false)
+}
+
+fn closeout_recovery_file_digests(files: &[CloseoutRecoveryFile]) -> Vec<serde_json::Value> {
+    files
+        .iter()
+        .map(|file| {
+            serde_json::json!({
+                "path": file.path,
+                "digest": Digest::sha256_bytes(&file.bytes),
+                "sizeBytes": file.bytes.len(),
+            })
+        })
+        .collect()
 }
 
 fn closeout_recovery_error(
@@ -6388,6 +6464,7 @@ fn closeout_recovery_binding_matches(
         "runtimeVersion",
         "runtimeDigest",
         "fileDigests",
+        "originBinding",
     ]
     .iter()
     .all(|key| existing.get(*key) == expected.get(*key))
@@ -6403,17 +6480,91 @@ fn closeout_recovery_binding_matches(
             })
 }
 
+struct CloseoutRecoveryOrigin {
+    path: String,
+    bytes: Vec<u8>,
+    installed: Option<CloseoutRecoveryInstalledFile>,
+}
+
+fn closeout_recovery_origin(
+    root: &Path,
+    plan: &CloseoutRecoveryPlanFacts,
+    runtime: &RuntimeContext,
+) -> Result<Option<CloseoutRecoveryOrigin>, ObserverError> {
+    let relative = format!(
+        ".ai/decisions/{}.cross-checkout-closeout-origin.json",
+        plan.work_item_id
+    );
+    let receipt_relative = format!(
+        ".ai/decisions/{}.cross-checkout-closeout-recovery.json",
+        plan.work_item_id
+    );
+    let origin_absent = matches!(fs::symlink_metadata(root.join(&relative)), Err(error) if error.kind() == std::io::ErrorKind::NotFound);
+    // Preserve existing v1 receipts as historical evidence. They cannot acquire
+    // a v2-required origin without replacing their immutable legacy bytes.
+    if origin_absent
+        && fs::symlink_metadata(root.join(&receipt_relative)).is_ok()
+        && is_regular_non_symlink(&root.join(&receipt_relative))?
+        && read_json(&root.join(&receipt_relative))?["schemaVersion"] == 1
+    {
+        return Ok(None);
+    }
+    let files = closeout_recovery_file_digests(&plan.files);
+    let close_path = format!(".ai/decisions/{}.close.json", plan.work_item_id);
+    let close = files
+        .iter()
+        .find(|file| file["path"] == close_path)
+        .ok_or_else(|| {
+            closeout_recovery_error(
+                root,
+                "closeout_recovery_close_missing",
+                "validated plan has no close decision",
+            )
+        })?;
+    let origin = serde_json::json!({
+        "schemaVersion": 1,
+        "kind": "cross_checkout_closeout_origin",
+        "workItemId": plan.work_item_id,
+        "sourceRepositoryId": plan.source_repository_id,
+        "destinationRepositoryId": plan.destination_repository_id,
+        "sourceSnapshotDigest": plan.source_snapshot_digest,
+        "contractDigest": plan.contract_digest,
+        "providerFacts": plan.provider_facts,
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "requiredRecoveryReceipt": {"path": receipt_relative, "schemaVersion": 2},
+        "closeDecision": close,
+        "fileDigests": files,
+    });
+    let mut bytes = serde_json::to_vec_pretty(&origin).map_err(|error| {
+        closeout_recovery_error(
+            root,
+            "closeout_recovery_origin_serialize_failed",
+            error.to_string(),
+        )
+    })?;
+    bytes.push(b'\n');
+    let installed =
+        closeout_recovery_install_immutable(root, &relative, &plan.work_item_id, &bytes)?;
+    Ok(Some(CloseoutRecoveryOrigin {
+        path: relative,
+        bytes,
+        installed,
+    }))
+}
+
 fn closeout_recovery_receipt(
     root: &Path,
     plan: &CloseoutRecoveryPlanFacts,
     runtime: &RuntimeContext,
+    origin_binding: Option<serde_json::Value>,
 ) -> Result<(String, Option<CloseoutRecoveryInstalledFile>), ObserverError> {
     let relative = format!(
         ".ai/decisions/{}.cross-checkout-closeout-recovery.json",
         plan.work_item_id
     );
-    let expected = serde_json::json!({
-        "schemaVersion": 1,
+    let mut expected = serde_json::json!({
+        "schemaVersion": if origin_binding.is_some() { 2 } else { 1 },
         "kind": "cross_checkout_closeout_recovery",
         "workItemId": plan.work_item_id,
         "sourceRepositoryId": plan.source_repository_id,
@@ -6424,12 +6575,12 @@ fn closeout_recovery_receipt(
         "providerFacts": plan.provider_facts,
         "runtimeVersion": runtime.runtime_version,
         "runtimeDigest": runtime.runtime_digest,
-        "fileDigests": plan.files.iter().map(|file| serde_json::json!({
-            "path": file.path,
-            "digest": Digest::sha256_bytes(&file.bytes),
-            "sizeBytes": file.bytes.len(),
-        })).collect::<Vec<_>>(),
+        "fileDigests": closeout_recovery_file_digests(&plan.files),
     });
+    if let Some(binding) = origin_binding {
+        expected["originBinding"] = binding;
+    }
+
     let path = root.join(&relative);
     match fs::symlink_metadata(&path) {
         Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
@@ -6486,6 +6637,7 @@ fn closeout_recovery_source_binding_matches(
 #[derive(Clone, Debug, PartialEq, Eq)]
 enum CloseoutRecoveryStep {
     FileInstalled(String),
+    OriginBindingInstalled,
     RecoveryReceiptInstalled,
     BeforeCloseDecision,
     CloseDecisionInstalled,
@@ -6565,8 +6717,29 @@ where
                 )?;
             }
         }
+        let origin = closeout_recovery_origin(&destination, &plan, runtime)?;
+        let origin_bytes = if let Some(CloseoutRecoveryOrigin {
+            path,
+            bytes,
+            installed,
+        }) = origin
+        {
+            if let Some(installed) = installed {
+                changed_paths.push(path.clone());
+                installed_files.push(installed);
+                after_step(CloseoutRecoveryStep::OriginBindingInstalled, &plan)?;
+            }
+            Some((path, bytes))
+        } else {
+            None
+        };
+        let origin_binding = origin_bytes.as_ref().map(|(path, bytes)| {
+            serde_json::json!({
+                "path": path, "digest": Digest::sha256_bytes(bytes),
+            })
+        });
         let (recovery_receipt_path, recovery_receipt) =
-            closeout_recovery_receipt(&destination, &plan, runtime)?;
+            closeout_recovery_receipt(&destination, &plan, runtime, origin_binding)?;
         let recovery_receipt_bytes =
             fs::read(destination.join(&recovery_receipt_path)).map_err(|source| {
                 ObserverError::Read {
@@ -6609,6 +6782,7 @@ where
             .iter()
             .map(|file| file.path.clone())
             .chain(std::iter::once(recovery_receipt_path.clone()))
+            .chain(origin_bytes.iter().map(|(path, _)| path.clone()))
             .collect::<BTreeSet<_>>();
         let before_close_snapshot = closeout_recovery_git_snapshot(&destination)?;
         closeout_recovery_validate_snapshot_extension(
@@ -6643,6 +6817,11 @@ where
                 recovery_receipt_path.as_str(),
                 recovery_receipt_bytes.as_slice(),
             )))
+            .chain(
+                origin_bytes
+                    .iter()
+                    .map(|(path, bytes)| (path.as_str(), bytes.as_slice())),
+            )
         {
             let path = destination.join(relative);
             let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
@@ -6704,6 +6883,7 @@ where
             .iter()
             .map(|file| file.path.clone())
             .chain(std::iter::once(recovery_receipt_path.clone()))
+            .chain(origin_bytes.iter().map(|(path, _)| path.clone()))
             .collect::<BTreeSet<_>>();
         let changed = changed_paths.iter().cloned().collect::<BTreeSet<_>>();
         let already_present_paths = all_paths.difference(&changed).cloned().collect::<Vec<_>>();
@@ -9859,7 +10039,7 @@ mod cross_checkout_closeout_tests {
     fn runtime_error_before_commit_preserves_partial_files_and_retry_completes() {
         let first = fixture();
         let import_paths = missing_import_paths(&first);
-        let failure_points = import_paths.len() + 3; // payloads, receipt, pre-close, close marker
+        let failure_points = import_paths.len() + 4; // payloads, origin, receipt, pre-close, close marker
         drop(first);
 
         for fail_on in 1..=failure_points {
@@ -9872,7 +10052,18 @@ mod cross_checkout_closeout_tests {
                 fixture.source.path(),
                 WORK_ITEM_ID,
                 &fixture.runtime,
-                |_step, _| {
+                |step, _| {
+                    let (origin, receipt) = proof_paths(&root);
+                    if step == CloseoutRecoveryStep::OriginBindingInstalled {
+                        assert!(origin.is_file());
+                        assert!(!receipt.exists());
+                        assert!(!root.join(close_path()).exists());
+                    }
+                    if step == CloseoutRecoveryStep::RecoveryReceiptInstalled {
+                        assert!(origin.is_file());
+                        assert!(receipt.is_file());
+                        assert!(!root.join(close_path()).exists());
+                    }
                     writes_seen += 1;
                     if writes_seen == fail_on {
                         return Err(injected_failure(&root));
@@ -9976,29 +10167,394 @@ mod cross_checkout_closeout_tests {
         let fixture = fixture();
         let root = destination(&fixture);
         let plan = build_closeout_recovery_plan(
-            &root, fixture.source.path(), WORK_ITEM_ID, &fixture.runtime,
-        ).expect("independent-checkout source plan");
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .expect("independent-checkout source plan");
         recover_cross_checkout_closeout(
-            &root, fixture.source.path(), WORK_ITEM_ID, &fixture.runtime,
-        ).expect("complete genuine recovery");
-        let baseline = work_item_status_snapshot_with_runtime(
-            &root, WORK_ITEM_ID, &fixture.runtime,
-        ).expect("baseline status");
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .expect("complete genuine recovery");
+        let baseline =
+            work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+                .expect("baseline status");
         assert_eq!(baseline.lifecycle_phase, "closed");
         assert!(!baseline.blocking);
         fs::remove_file(root.join(format!(
             ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
-        ))).expect("remove only the required receipt");
+        )))
+        .expect("remove only the required receipt");
         for file in &plan.files {
             assert_eq!(fs::read(root.join(&file.path)).unwrap(), file.bytes);
-            assert_eq!(fs::read(fixture.source.path().join(&file.path)).unwrap(), file.bytes);
+            assert_eq!(
+                fs::read(fixture.source.path().join(&file.path)).unwrap(),
+                file.bytes
+            );
         }
-        let status = work_item_status_snapshot_with_runtime(
-            &root, WORK_ITEM_ID, &fixture.runtime,
-        ).expect("read-only status remains queryable");
-        assert_eq!(status.lifecycle_phase, "archived", "sole receipt deletion must revoke closed projection");
+        let status = work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+            .expect("read-only status remains queryable");
+        assert_eq!(
+            status.lifecycle_phase, "archived",
+            "sole receipt deletion must revoke closed projection"
+        );
         assert!(status.blocking);
         assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+        let error = start_work_item_with_options(
+            &root,
+            "WI-OVERLAPPING-CLOSEOUT",
+            "overlapping change",
+            "must wait for close integrity",
+            &[".ai/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                ..Default::default()
+            },
+        )
+        .expect_err("incomplete archived close must not release overlapping work");
+        assert!(
+            error.to_string().contains(WORK_ITEM_ID),
+            "must diagnose the incomplete predecessor, not an unrelated dirty tree: {error}"
+        );
+    }
+
+    fn proof_paths(root: &Path) -> (PathBuf, PathBuf) {
+        (
+            root.join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json"
+            )),
+            root.join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+            )),
+        )
+    }
+
+    fn assert_integrity_blocked(root: &Path, runtime: &RuntimeContext) {
+        let status = work_item_status_snapshot_with_runtime(root, WORK_ITEM_ID, runtime).unwrap();
+        assert_eq!(status.lifecycle_phase, "archived");
+        assert!(status.blocking);
+        assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+    }
+
+    #[test]
+    fn required_origin_and_receipt_reject_invalid_bindings_without_fallback() {
+        let fixture = fixture();
+        let root = destination(&fixture);
+        recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        let (origin_path, receipt_path) = proof_paths(&root);
+        let origin_bytes = fs::read(&origin_path).unwrap();
+        let receipt_bytes = fs::read(&receipt_path).unwrap();
+        let origin: serde_json::Value = serde_json::from_slice(&origin_bytes).unwrap();
+        let receipt: serde_json::Value = serde_json::from_slice(&receipt_bytes).unwrap();
+        assert_eq!(receipt["schemaVersion"], 2);
+        for path in [&origin_path, &receipt_path] {
+            fs::remove_file(path).unwrap();
+            assert_integrity_blocked(&root, &fixture.runtime);
+            fs::write(path, b"{malformed").unwrap();
+            assert_integrity_blocked(&root, &fixture.runtime);
+            fs::write(&origin_path, &origin_bytes).unwrap();
+            fs::write(&receipt_path, &receipt_bytes).unwrap();
+        }
+        let wrong = serde_json::json!(Digest::sha256_bytes(b"different binding"));
+        for (pointer, value) in [
+            ("/schemaVersion", serde_json::json!(1)),
+            (
+                "/originBinding/path",
+                serde_json::json!(".ai/decisions/other.origin.json"),
+            ),
+            ("/originBinding/digest", wrong.clone()),
+            ("/workItemId", serde_json::json!("WI-OTHER")),
+            ("/sourceRepositoryId", wrong.clone()),
+            ("/destinationRepositoryId", wrong.clone()),
+            ("/sourceSnapshotDigest", wrong.clone()),
+            ("/contractDigest", wrong.clone()),
+            ("/runtimeDigest", wrong.clone()),
+            ("/runtimeVersion", serde_json::json!("different-runtime")),
+            (
+                "/providerFacts",
+                serde_json::json!({"provider":"different"}),
+            ),
+            ("/fileDigests", serde_json::json!([])),
+        ] {
+            let mut changed = receipt.clone();
+            *changed.pointer_mut(pointer).unwrap() = value;
+            fs::write(&receipt_path, serde_json::to_vec(&changed).unwrap()).unwrap();
+            assert_integrity_blocked(&root, &fixture.runtime);
+        }
+        fs::write(&receipt_path, &receipt_bytes).unwrap();
+        for (pointer, value) in [
+            ("/schemaVersion", serde_json::json!(2)),
+            (
+                "/requiredRecoveryReceipt/schemaVersion",
+                serde_json::json!(1),
+            ),
+            (
+                "/requiredRecoveryReceipt/path",
+                serde_json::json!(".ai/decisions/other.recovery.json"),
+            ),
+            (
+                "/closeDecision/path",
+                serde_json::json!(".ai/decisions/other.close.json"),
+            ),
+            ("/closeDecision/digest", wrong.clone()),
+            ("/closeDecision/sizeBytes", serde_json::json!(0)),
+            ("/contractDigest", wrong.clone()),
+            (
+                "/providerFacts",
+                serde_json::json!({"provider":"different"}),
+            ),
+        ] {
+            let mut changed = origin.clone();
+            *changed.pointer_mut(pointer).unwrap() = value;
+            // Even a receipt re-bound to the changed origin cannot discharge
+            // canonical Contract/provider/close/path/version requirements.
+            let bytes = serde_json::to_vec(&changed).unwrap();
+            let mut paired = receipt.clone();
+            for key in ["contractDigest", "providerFacts"] {
+                paired[key] = changed[key].clone();
+            }
+            paired["originBinding"]["digest"] = serde_json::json!(Digest::sha256_bytes(&bytes));
+            fs::write(&origin_path, bytes).unwrap();
+            fs::write(&receipt_path, serde_json::to_vec(&paired).unwrap()).unwrap();
+            assert_integrity_blocked(&root, &fixture.runtime);
+        }
+        // Two matching truncated inventories do not substitute for archive completeness.
+        let mut changed = origin.clone();
+        changed["fileDigests"]
+            .as_array_mut()
+            .unwrap()
+            .retain(|f| !f["path"].as_str().unwrap().ends_with(".task-report.md"));
+        assert_ne!(changed["fileDigests"], origin["fileDigests"]);
+        let bytes = serde_json::to_vec(&changed).unwrap();
+        let mut paired = receipt.clone();
+        paired["fileDigests"] = changed["fileDigests"].clone();
+        paired["originBinding"]["digest"] = serde_json::json!(Digest::sha256_bytes(&bytes));
+        fs::write(&origin_path, bytes).unwrap();
+        fs::write(&receipt_path, serde_json::to_vec(&paired).unwrap()).unwrap();
+        assert_integrity_blocked(&root, &fixture.runtime);
+        fs::write(&origin_path, origin_bytes).unwrap();
+        fs::write(&receipt_path, receipt_bytes).unwrap();
+        assert_eq!(
+            work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+                .unwrap()
+                .lifecycle_phase,
+            "closed"
+        );
+    }
+
+    #[test]
+    fn required_proof_loss_before_close_preserves_partial_recovery_and_retry() {
+        for remove_origin in [true, false] {
+            let fixture = fixture();
+            let root = destination(&fixture);
+            let (origin, receipt) = proof_paths(&root);
+            let result = recover_cross_checkout_closeout_with_hook(
+                &root,
+                fixture.source.path(),
+                WORK_ITEM_ID,
+                &fixture.runtime,
+                |step, _| {
+                    if step == CloseoutRecoveryStep::BeforeCloseDecision {
+                        fs::remove_file(if remove_origin { &origin } else { &receipt }).unwrap();
+                    }
+                    Ok(())
+                },
+            );
+            assert!(result.is_err());
+            assert_no_closeout_commit(&fixture);
+            assert!(if remove_origin {
+                receipt.is_file()
+            } else {
+                origin.is_file()
+            });
+            recover_cross_checkout_closeout(
+                &root,
+                fixture.source.path(),
+                WORK_ITEM_ID,
+                &fixture.runtime,
+            )
+            .unwrap();
+            assert_eq!(
+                work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+                    .unwrap()
+                    .lifecycle_phase,
+                "closed"
+            );
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn required_recovery_proofs_reject_symlinks() {
+        let fixture = fixture();
+        let root = destination(&fixture);
+        recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        let (origin, receipt) = proof_paths(&root);
+        for path in [origin, receipt] {
+            let bytes = fs::read(&path).unwrap();
+            let external = tempfile::NamedTempFile::new().unwrap();
+            fs::write(external.path(), &bytes).unwrap();
+            fs::remove_file(&path).unwrap();
+            std::os::unix::fs::symlink(external.path(), &path).unwrap();
+            assert_integrity_blocked(&root, &fixture.runtime);
+            assert!(
+                recover_cross_checkout_closeout(
+                    &root,
+                    fixture.source.path(),
+                    WORK_ITEM_ID,
+                    &fixture.runtime
+                )
+                .is_err()
+            );
+            assert!(
+                fs::symlink_metadata(&path)
+                    .unwrap()
+                    .file_type()
+                    .is_symlink()
+            );
+            fs::remove_file(&path).unwrap();
+            fs::write(path, bytes).unwrap();
+        }
+    }
+
+    #[test]
+    fn supported_retry_restores_each_required_proof_and_accepts_a_recovered_source() {
+        let fixture = fixture();
+        let root = destination(&fixture);
+        recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        let (origin, receipt) = proof_paths(&root);
+        let origin_bytes = fs::read(&origin).unwrap();
+        for path in [&origin, &receipt] {
+            fs::remove_file(path).unwrap();
+            assert_integrity_blocked(&root, &fixture.runtime);
+            let result = recover_cross_checkout_closeout(
+                &root,
+                fixture.source.path(),
+                WORK_ITEM_ID,
+                &fixture.runtime,
+            )
+            .unwrap();
+            assert_eq!(result["changedPaths"].as_array().unwrap().len(), 1);
+            assert_eq!(fs::read(&origin).unwrap(), origin_bytes);
+            let again = recover_cross_checkout_closeout(
+                &root,
+                fixture.source.path(),
+                WORK_ITEM_ID,
+                &fixture.runtime,
+            )
+            .unwrap();
+            assert_eq!(again["changedPaths"], serde_json::json!([]));
+        }
+        let receipt_bytes = fs::read(&receipt).unwrap();
+        // Give the recovered checkout a genuinely distinct source snapshot.
+        // Identical logical facts may legitimately produce identical origins.
+        fs::write(root.join("second-hop.txt"), "new source context\n").unwrap();
+        git(&root, &["add", "second-hop.txt"]);
+        git(
+            &root,
+            &[
+                "-c",
+                "user.name=Closeout Test",
+                "-c",
+                "user.email=closeout@example.invalid",
+                "commit",
+                "--quiet",
+                "-m",
+                "second-hop source context",
+            ],
+        );
+        let later = tempfile::tempdir().unwrap();
+        let later_root = later.path().join("clone");
+        git(
+            fixture.source.path(),
+            &[
+                "clone",
+                "--quiet",
+                "--no-hardlinks",
+                fixture.source.path().to_str().unwrap(),
+                later_root.to_str().unwrap(),
+            ],
+        );
+        recover_cross_checkout_closeout(&later_root, &root, WORK_ITEM_ID, &fixture.runtime)
+            .unwrap();
+        assert_eq!(fs::read(&origin).unwrap(), origin_bytes);
+        assert_eq!(fs::read(&receipt).unwrap(), receipt_bytes);
+        assert_ne!(fs::read(proof_paths(&later_root).0).unwrap(), origin_bytes);
+        assert_eq!(
+            work_item_status_snapshot_with_runtime(&later_root, WORK_ITEM_ID, &fixture.runtime)
+                .unwrap()
+                .lifecycle_phase,
+            "closed"
+        );
+    }
+
+    #[test]
+    fn ordinary_close_and_existing_v1_recovery_keep_legacy_semantics_and_bytes() {
+        let fixture = fixture();
+        assert_eq!(
+            work_item_status_snapshot_with_runtime(
+                fixture.source.path(),
+                WORK_ITEM_ID,
+                &fixture.runtime
+            )
+            .unwrap()
+            .lifecycle_phase,
+            "closed"
+        );
+        let root = destination(&fixture);
+        recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        let (origin, receipt) = proof_paths(&root);
+        // Construct the exact old v1 format, without claiming a migration.
+        let mut legacy = read_json(&receipt).unwrap();
+        legacy["schemaVersion"] = serde_json::json!(1);
+        legacy.as_object_mut().unwrap().remove("originBinding");
+        let bytes = serde_json::to_vec_pretty(&legacy).unwrap();
+        fs::remove_file(&origin).unwrap();
+        fs::write(&receipt, &bytes).unwrap();
+        assert_eq!(
+            work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+                .unwrap()
+                .lifecycle_phase,
+            "closed"
+        );
+        let result = recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        assert_eq!(result["changedPaths"], serde_json::json!([]));
+        assert!(!origin.exists());
+        assert_eq!(fs::read(&receipt).unwrap(), bytes);
     }
 
     #[test]

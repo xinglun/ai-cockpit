@@ -16,7 +16,7 @@ contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8
 
 # WI-1084 — checkout 間 recovery receipt の完全性
 
-これは[現在の Contract](../../.ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json)、`sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107` に結び付く実装計画です。Raydot の独立した技術レビューでは P1/P2 はありませんでした。人による実際の policyReview は未完了です。実装コードも回帰テストも変更・実行しておらず、6シナリオはすべて `unverified` です。必須の `lastVerifiedBy` はこの WI の投影先を示し、検証合格を意味しません。
+Ray が Contract/preflight/snapshot を直接確認し、Native が confirm_review を記録しました。receipt だけを削除する RED は未変更の本番 source で失敗（実際 closed、期待 archived）。有界実装は進行中で focused repository 回帰18/18は合格。CLI/MCP、完全な検証とシナリオ記録は未完了です。lastVerifiedBy は投影先を示し、正式検証の合格を主張しません。
 
 ## 想定する効果と観測済みの問題
 
@@ -42,4 +42,4 @@ contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8
 
 WI-1084 は単一 worker の直列実行です。WI-1070～1074 に boundary/declaration がなく、正式な並列互換性は false のままで、それらの記録は変更しません。出力は `target/wi1084-closeout-receipt-integrity/` に隔離し、checkpointCount は1のままです。PR#1040 は Draft、統合は直列とします。Sentinel の業務変更、WI-1078 resource の変更、Task9、TTL、機構再設計、release、新 WI の人による close、merge、削除は対象外です。
 
-次は fresh status/preflight と、Contract、preflightDecision、repositorySnapshot の3 digest に結び付く実際の一度の `confirm_review` です。materialManifestDigest の承認ではありません。Contract が変わらない通常の後続コード変更では fresh preflight/verification を行い、同じ Contract の人のレビューを繰り返しません。
+次は CLI/MCP と保持回帰、その後に現在の Native workspace 正式検証です。[直接確認と元 RED](../../.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/progress.md)を保持しています。同じ Contract の再確認は不要です。merge・close・削除は未承認です。

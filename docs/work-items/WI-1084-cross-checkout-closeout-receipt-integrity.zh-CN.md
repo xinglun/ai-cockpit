@@ -16,7 +16,7 @@ contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8
 
 # WI-1084 — 跨 checkout 恢复收据完整性
 
-本页是[当前 Contract](../../.ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json)的实施计划，绑定 `sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107`。Raydot 独立技术审阅未发现 P1/P2；真实人工 policyReview 尚未完成。没有修改实现代码或编写、执行回归，6 个 Contract 场景全部保持 `unverified`。必需的 `lastVerifiedBy` 字段标识本 WI 投影归属，不表示验证已经通过。
+Ray 已直接确认 Contract/preflight/snapshot，Native 已记录 confirm_review。仅删收据的 RED 在未改生产源码上真实失败（实际 closed、预期 archived）。有界实现正在进行，聚焦仓库回归18/18通过；CLI/MCP、完整验证及场景记录仍待完成。lastVerifiedBy 仅表示投影归属，不声称正式验证通过。
 
 ## 预期收益与已观察问题
 
@@ -42,4 +42,4 @@ contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8
 
 WI-1084 使用单 worker 串行；正式并行兼容性为 false，因为 WI-1070～1074 缺少边界/声明，其记录不改。构建输出隔离于 `target/wi1084-closeout-receipt-integrity/`，checkpointCount 保持1。PR#1040 保持 Draft，集成串行。授权不含 Sentinel 业务修改、WI-1078 资源变动、Task9、TTL、机制重构、发布、新 WI 真人 close、合并或删除。
 
-下一步是 fresh status/preflight，生成绑定 Contract、preflightDecision、repositorySnapshot 三项摘要的真实一次 `confirm_review`；它不是 materialManifestDigest 审批。Contract 不变时，后续普通源码修改仅 fresh preflight/verification，不重复同一 Contract 的真人审阅。
+下一步：CLI/MCP 和保留性回归，再执行当前 Native workspace 正式验证。[直接确认及原始 RED](../../.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/progress.md)已保留。Contract 不变无需重复人工审阅；未授权合并、关闭或删除。

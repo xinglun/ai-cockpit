@@ -82,7 +82,10 @@ fn repository() -> TestTempDir {
 }
 
 fn build_closed_source(source: &Path) {
-    let runtime = runtime();
+    build_closed_source_with_runtime(source, &runtime());
+}
+
+fn build_closed_source_with_runtime(source: &Path, runtime: &RuntimeContext) {
     start_work_item_with_options(
         source,
         WORK_ITEM_ID,
@@ -273,4 +276,93 @@ fn mcp_exposes_read_only_plan_and_explicit_cross_checkout_recovery() {
         output.stdout
     };
     assert_eq!(source_status_after, source_status_before);
+}
+
+#[test]
+fn mcp_required_receipt_loss_revokes_closed_and_preserves_historical_verification() {
+    let source = repository();
+    let mut producer = runtime();
+    producer.runtime_version = "0.2.74".into();
+    producer.runtime_digest = Digest::sha256_bytes(b"older MCP evidence producer");
+    build_closed_source_with_runtime(source.path(), &producer);
+    let parent = TestTempDir::new("cockpit-mcp-required-receipt");
+    let destination = parent.path().join("clone");
+    git(
+        source.path(),
+        &[
+            "clone",
+            "--quiet",
+            "--no-hardlinks",
+            source.path().to_str().unwrap(),
+            destination.to_str().unwrap(),
+        ],
+    );
+    close_work_item_with_structured_decision_and_runtime(
+        source.path(),
+        WORK_ITEM_ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "test-human".into(),
+            authority_source: "MCP historical fixture".into(),
+            reason: "verified by original producer".into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: "2026-10-02T00:00:00Z".into(),
+            resume_condition: None,
+        },
+        &producer,
+    )
+    .unwrap();
+    let evidence = format!(".ai/evidence/{WORK_ITEM_ID}.verification.json");
+    let original = fs::read(source.path().join(&evidence)).unwrap();
+    let recovered = call(
+        &destination,
+        source.path(),
+        "work_item_closeout_recover",
+        20,
+    );
+    assert_eq!(recovered["result"]["isError"], false, "{recovered}");
+    let status = || {
+        let response = handle_request_for_repo(
+            &serde_json::json!({"jsonrpc":"2.0","id":21,"method":"tools/call","params":{"name":"work_item_status","arguments":{"workItemId":WORK_ITEM_ID}}}),
+            &destination,
+            &runtime(),
+        );
+        assert_eq!(response["result"]["isError"], false, "{response}");
+        response["result"]["structuredContent"].clone()
+    };
+    let before = status();
+    assert_eq!(before["lifecyclePhase"], "closed");
+    assert_eq!(before["blocking"], false);
+    assert_eq!(before["verification"], "not_ready");
+    assert!(
+        before["unknowns"]
+            .as_array()
+            .unwrap()
+            .contains(&serde_json::json!("historical_evidence_not_revalidated"))
+    );
+    fs::remove_file(destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+    )))
+    .unwrap();
+    let after = status();
+    assert_eq!(after["lifecyclePhase"], "archived");
+    assert_eq!(after["blocking"], true);
+    assert_eq!(after["verification"], "not_ready");
+    assert!(
+        after["unknowns"]
+            .as_array()
+            .unwrap()
+            .contains(&serde_json::json!("close_decision_invalid"))
+    );
+    let retry = call(
+        &destination,
+        source.path(),
+        "work_item_closeout_recover",
+        22,
+    );
+    assert_eq!(retry["result"]["isError"], false, "{retry}");
+    assert_eq!(status()["lifecyclePhase"], "closed");
+    assert_eq!(fs::read(destination.join(&evidence)).unwrap(), original);
+    assert_eq!(fs::read(source.path().join(&evidence)).unwrap(), original);
 }

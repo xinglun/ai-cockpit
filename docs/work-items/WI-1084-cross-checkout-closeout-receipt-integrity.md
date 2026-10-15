@@ -16,7 +16,7 @@ contractDigest: sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8
 
 # WI-1084 — cross-checkout recovery receipt integrity
 
-This is an implementation plan for [the active Contract](../../.ai/work-items/active/WI-1084-cross-checkout-closeout-receipt-integrity.contract.json), bound to `sha256:507bedef85c7d3cb7ff2b8fd3a885d5441384ea23b8d6e4b010fa9be8c150107`. Raydot's independent technical review found no P1/P2 findings. Human policyReview remains pending. No implementation code or regression test has been changed or run; all six Contract scenarios remain `unverified`. The required `lastVerifiedBy` field identifies this WI projection and does not claim a passed verification.
+Ray directly confirmed the bound Contract/preflight/snapshot and Native recorded confirm_review. The receipt-only deletion RED failed on unchanged production source (actual closed, expected archived). The bounded implementation is in progress; focused repository regressions passed18/18. CLI/MCP, complete verification and scenario recording remain pending. lastVerifiedBy identifies this WI projection and does not claim formal verification.
 
 ## Intended benefit and observed problem
 
@@ -42,4 +42,4 @@ Ordinary current/legacy closes retain their semantics. Existing v1 evidence is n
 
 Single serial WI-1084 worker; final parallel compatibility is false because WI-1070–1074 lack boundaries/declarations. Their records remain unchanged. Build output is isolated at `target/wi1084-closeout-receipt-integrity/`; checkpointCount remains1. Keep PR#1040 Draft and integration serialized. No Sentinel business change, WI-1078 resource change, Task9, TTL, mechanism refactor, release, new-WI human close, merge or deletion is authorized.
 
-The next step is fresh status/preflight and one real `confirm_review` bound to Contract, preflightDecision and repositorySnapshot digests. This is not approval of a materialManifestDigest. When the Contract stays unchanged, later source edits use fresh preflight/verification without repeating the same Contract's human review.
+Next: CLI/MCP and preservation regressions, then current Native workspace verification. [Direct approval and raw RED](../../.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/implementation-20261015/progress.md) are retained. The unchanged Contract needs no repeated human review. Merge, close and deletion remain unauthorized.

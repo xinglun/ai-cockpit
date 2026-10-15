@@ -3,12 +3,12 @@ use cockpit_protocol::{
     HumanDecision, PROTOCOL_VERSION, ResourceFinalizationContext, RuntimeContext,
 };
 use cockpit_repository::{
-    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_work_item, attach, checkpoint_work_item, close_work_item_with_structured_decision,
-    finish_work_item, plan_cross_checkout_closeout_recovery,
-    plan_resource_finalization_with_runtime, preflight_work_item, record_verification_with_runtime,
-    recover_cross_checkout_closeout, repository_id, run_repository_verification,
-    start_work_item_with_options, work_item_status_snapshot_with_runtime,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
+    checkpoint_work_item, close_work_item_with_structured_decision,
+    plan_cross_checkout_closeout_recovery, plan_resource_finalization_with_runtime,
+    preflight_work_item, record_verification_with_runtime, recover_cross_checkout_closeout,
+    repository_id, run_repository_verification, start_work_item_with_options,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
 use std::fs;
@@ -82,6 +82,10 @@ fn common_directory(root: &Path) -> PathBuf {
 }
 
 fn build_closed_source(source: &Path) {
+    build_closed_source_with_runtime(source, &runtime());
+}
+
+fn build_closed_source_with_runtime(source: &Path, runtime: &RuntimeContext) {
     let options = WorkItemStartOptions {
         authority: "authorized".into(),
         acceptance_criteria: vec!["the exact closeout is recoverable".into()],
@@ -101,7 +105,6 @@ fn build_closed_source(source: &Path) {
     ));
     preflight_work_item(source, &contract).expect("source preflight");
     checkpoint_work_item(source, WORK_ITEM_ID).expect("source checkpoint");
-    let runtime = runtime();
     let request = RepositoryVerificationRequest {
         node_id: "closeout-source-verification".into(),
         program: "true".into(),
@@ -127,8 +130,10 @@ fn build_closed_source(source: &Path) {
         &execution.final_snapshot,
     )
     .expect("source verification");
-    finish_work_item(source, WORK_ITEM_ID).expect("finish source Work Item");
-    archive_work_item(source, WORK_ITEM_ID).expect("archive source Work Item");
+    cockpit_repository::finish_work_item_with_runtime(source, WORK_ITEM_ID, runtime)
+        .expect("finish source Work Item");
+    cockpit_repository::archive_work_item_with_runtime(source, WORK_ITEM_ID, runtime)
+        .expect("archive source Work Item");
 }
 
 #[test]
@@ -556,4 +561,112 @@ fn archived_provider_context_binding_requires_its_finalization_receipt() {
             .exists(),
         "a read-only plan rejection must leave the destination untouched"
     );
+}
+
+#[test]
+fn cli_required_receipt_loss_revokes_closed_without_promoting_historical_verification() {
+    let source = repository();
+    let mut producer = runtime();
+    producer.runtime_version = "0.2.74".into();
+    producer.runtime_digest = Digest::sha256_bytes(b"older producing Runtime");
+    build_closed_source_with_runtime(source.path(), &producer);
+    commit(source.path(), "archive older producing Runtime evidence");
+    let parent = tempfile::tempdir().unwrap();
+    let destination = parent.path().join("clone");
+    git(
+        source.path(),
+        &[
+            "clone",
+            "--quiet",
+            "--no-hardlinks",
+            source.path().to_str().unwrap(),
+            destination.to_str().unwrap(),
+        ],
+    );
+    cockpit_repository::close_work_item_with_structured_decision_and_runtime(
+        source.path(),
+        WORK_ITEM_ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "test-human".into(),
+            authority_source: "CLI historical fixture".into(),
+            reason: "verified by original producer".into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: "2026-10-02T00:00:00Z".into(),
+            resume_condition: None,
+        },
+        &producer,
+    )
+    .unwrap();
+    let evidence = format!(".ai/evidence/{WORK_ITEM_ID}.verification.json");
+    let original = fs::read(source.path().join(&evidence)).unwrap();
+    let recover = || {
+        command(
+            &destination,
+            env!("CARGO_BIN_EXE_ai-cockpit"),
+            &[
+                "work-item",
+                "closeout-recover",
+                "--repo",
+                destination.to_str().unwrap(),
+                "--source-repo",
+                source.path().to_str().unwrap(),
+                "--id",
+                WORK_ITEM_ID,
+            ],
+        )
+    };
+    let output = recover();
+    let result: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(result["verification"], "not_ready");
+    let status = || -> Value {
+        let out = command(
+            &destination,
+            env!("CARGO_BIN_EXE_ai-cockpit"),
+            &[
+                "work-item",
+                "status",
+                "--repo",
+                destination.to_str().unwrap(),
+                "--id",
+                WORK_ITEM_ID,
+                "--json",
+            ],
+        );
+        serde_json::from_slice(&out.stdout).unwrap()
+    };
+    let before = status();
+    assert_eq!(before["lifecyclePhase"], "closed");
+    assert_eq!(before["blocking"], false);
+    assert_eq!(before["verification"], "not_ready");
+    assert!(
+        before["unknowns"]
+            .as_array()
+            .unwrap()
+            .contains(&serde_json::json!("historical_evidence_not_revalidated"))
+    );
+    let origin = destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json"
+    ));
+    let origin_bytes = fs::read(&origin).unwrap();
+    fs::remove_file(destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+    )))
+    .unwrap();
+    let after = status();
+    assert_eq!(after["lifecyclePhase"], "archived");
+    assert_eq!(after["blocking"], true);
+    assert_eq!(after["verification"], "not_ready");
+    assert!(
+        after["unknowns"]
+            .as_array()
+            .unwrap()
+            .contains(&serde_json::json!("close_decision_invalid"))
+    );
+    assert_eq!(fs::read(&origin).unwrap(), origin_bytes);
+    recover();
+    assert_eq!(status()["lifecyclePhase"], "closed");
+    assert_eq!(fs::read(destination.join(&evidence)).unwrap(), original);
+    assert_eq!(fs::read(source.path().join(&evidence)).unwrap(), original);
 }

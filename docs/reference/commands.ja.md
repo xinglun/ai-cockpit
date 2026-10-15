@@ -123,13 +123,27 @@ provider finalization binding を検証して、対象ファイルと digest を
 
 `work-item closeout-recover` は同じ引数を受け取る明示的な write 操作です。source/destination
 状態を再検証し、検証済み Work Item evidence だけを取り込み、source bytes を変更せず、競合する
-destination bytes を拒否し、close decision を最後に install します。検出された race や write
-failure では、この試行で作成され、inode と bytes が依然一致するファイルだけを rollback します。
-変更済みまたは identity を確認できない path は削除せず、incomplete として報告します。close
+destination bytes を拒否し、close decision を最後に install します。検出された race や write failure では、公開済みの全 canonical path を検査と同じ bytes の retry
+のために保持し、rollback として削除しません。close marker 後の失敗は commit 済みまたは
+状態不明と報告し、新しい status 読み取りが必要です。close
 decision 前に process が中断すると、正確な immutable file が残る場合がありますが Work Item は
 未 close のままで、retry は冪等です。これは複数ファイルを一括する filesystem transaction では
 ありません。`allowed: true` は write authority を与えません。正確な destination に対する fresh
 Runtime admission と authorization が必要です。
+
+新 recovery は `.ai/decisions/<id>.cross-checkout-closeout-origin.json`（schemaVersion1）の後に
+`.ai/decisions/<id>.cross-checkout-closeout-recovery.json`（schemaVersion2）を書きます。origin は
+必須 receipt の正確なパスと版、repository/WI、canonical Contract、source snapshot、provider/Runtime、
+元 close と完全な raw payload 一覧を結合し、receipt は実際の origin digest を一方向に参照します。
+循環 hash や時間による失効はありません。必須証拠の欠落・不正形式・不一致・非通常ファイルは
+`archived`、blocking、`close_decision_invalid` となり、status 終了0は close 成功を示しません。
+同じ検証済み source からの retry で欠落証拠を復元し、履歴 bytes を保持します。回復済み checkout
+も検証後に次の source にでき、destination は自分の検証済み事実から証拠を生成します。
+
+ordinary close と origin がない旧 v1 receipt は以前の検証と不変 retry を保持し、自動移行しません。
+旧唯一の receipt が既に消えた場合、元の recovery は推定できません。新 provenance をすべて消すと
+独立した信頼 anchor はなく、任意の証拠消失の検出は主張しません。履歴の `not_ready` と
+`historical_evidence_not_revalidated` を保持し、過去の検証を再実行・昇格しません。
 
 MCP は `work_item_closeout_recovery_plan`（読み取り専用）と
 `work_item_closeout_recover`（明示 write）を提供します。両方に `workItemId` と絶対 path の
