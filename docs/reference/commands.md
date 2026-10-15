@@ -69,7 +69,7 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance write entry | `preflight` | Evaluate a Contract and persist its explicit preflight projection. Repeating an unchanged preflight is idempotent and returns `changedPaths`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `amendments`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan`, `closeout-recovery-plan`, `closeout-recover` | `amend --request` applies reasoned schema-aware changes against the current digest; `--input --reason` remains the legacy additive adapter. History is read-only. Accepted amendments invalidate affected evidence; query `work-item status` and follow Runtime's currently admitted next action (`run_preflight` is common, not unconditional). `revalidate-amendment` is only for direct Contract edits. Cross-checkout plan is read-only; recovery is a separate explicit write. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `amendments`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan`, `closeout-recovery-plan`, `closeout-recover`, `legacy-closeout-source-plan`, `legacy-closeout-source-record` | `amend --request` applies reasoned schema-aware changes against the current digest; `--input --reason` remains the legacy additive adapter. History is read-only. Accepted amendments invalidate affected evidence; query `work-item status` and follow Runtime's currently admitted next action (`run_preflight` is common, not unconditional). `revalidate-amendment` is only for direct Contract edits. Cross-checkout plan is read-only; recovery is a separate explicit write. |
 | Explicit usage | `work-item usage record --repo <path> --input <request.json>` | Append one strict `UsageRecordRequest` only when the current Runtime admits `record_usage`; replay is idempotent. A provider/host source label is a caller claim, not verified telemetry. `capability show --surface work-item-usage-record` describes CLI and MCP parameters without writing state. |
 | Material review | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` is read-only and emits the canonical request for a committed, clean non-`.ai` source snapshot, including raw scanner Unknowns. `record` accepts a strict typed decision only when Contract opt-in and fresh Runtime admission allow it, then binds an immutable sidecar and Summary pointer. The decision's reviewer identity is self-declared; it is not human, provider, or release approval and does not turn Unknown into machine Clean. Stage 1 has no opt-in, so Unknown discharge stays disabled. `capability show --surface work-item-material-review-plan` and `--surface work-item-material-review-record` describe both transports. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
@@ -232,6 +232,32 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 
 <!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->
+
+## Explicit present-day registration of legacy v1 source
+
+Use this separate opt-in only for a complete, still-readable old v1 closeout. It adds a current registrar's `explicit_attestation`; it does not authenticate the old producer, alter original timestamps or bytes, rerun historical verification, or migrate ordinary/v2/unregistered-v1 records.
+
+```text
+ai-cockpit work-item legacy-closeout-source-plan --repo <destination> --source-repo <absolute-independent-source> --id <id> --input <request.json>
+ai-cockpit work-item legacy-closeout-source-record --repo <destination> --id <id> --input <exact-plan.json>
+```
+
+Plan is read-only. Register requires a separate Git common directory, matching logical repository identity, complete source bytes committed at the full `sourceRevision`, and schemaVersion `1` with `operation: "register"`, `actor`, `authoritySource`, `reason` and explicit `sourceAccepted: true`. Record is a separate authorized write and rechecks the observation, pinned directory identities and source. A first Register plan must still match the executing Runtime and be at most 300 seconds old. Save the exact original plan, embedded record bytes and digests independently of both checkouts before recording; a newly reconstructed self-consistent digest is not an original binding.
+
+| Operation | Input and effect |
+| --- | --- |
+| `register` | Complete pinned source plus current attestation; prepares immutable root requirement R and registration G. R deterministically contains the exact G bytes and is published first. |
+| `resume` | `originalRegistrationBytes` and `originalRequirementRawDigest`; validates original history and a surviving root or valid extension anchor, then restores only exact missing R/G bytes. No fresh source acceptance or online original source is required. |
+| `extend` | Exact serialized typed `transitionBytes`, current `actor`, `authoritySource`, `reason`; freezes extension E before the one lawful Retained→Deleted transition T. A Deleted transition already present before root registration belongs in its original inventory instead. |
+| `resume_extension` | `originalExtensionBytes` and `originalExtensionRawDigest`; restores only the frozen E/T pair after validating original root, history and append conditions. It does not regenerate time, actor or Runtime metadata. |
+
+All four requests reject fields belonging to another operation. Exact committed retries return the original result before evaluating a next sequence. Normal finalize and explicit record share one guarded writer and the same Work Item lock. Canonical files are no-replace: different bytes, aliases, nonregular files, missing dependencies, forks, wrong identity or resources still present fail closed. Raw and canonical digests are separate obligations.
+
+A repaired root may return `state: "pending"` with `rootState: "committed"` when extension proof is incomplete. Closed and scope release remain blocked until the independently bound extension is repaired. A post-publication confirmation error reports `commit_state_unknown`; preserve every canonical path, query status, and retry only the exact original bytes. Never delete a published proof as rollback.
+
+MCP exposes `work_item_legacy_closeout_source_plan` with `workItemId`, optional absolute `sourceRepo`, strict `request`, and `work_item_legacy_closeout_source_record` with `workItemId` and strict `plan`. Both use the repository service used by CLI; discover the nested schemas through `tools/list`. The selected inventory is limited to 128 files / 4 MiB; input and sealed plan records to 8 MiB; MCP transport lines to 16 MiB. Dependency depth, repeated work, file reads and directory enumeration have finite query budgets; exceeding a limit is an error, not a partial acceptance.
+
+After complete registration the original source checkout can be offline; explicitly referenced external dependencies still have their original availability requirements. Malformed canonical names and ASCII case aliases retain proof obligations. Losing or rolling back every local registration obligation and independently usable anchor together cannot be detected without an independent trusted registry. Historical `not_ready` remains historical.
 
 ## Release recovery identity binding
 

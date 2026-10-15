@@ -65,7 +65,7 @@ failed/unknown は pass ではありません。
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence が無効化されるため、`work-item status` を確認し、Runtime が現在 admit する次の action に従ってください（通常は `run_preflight` ですが固定ではありません）。cross-checkout plan は読み取り専用で、recovery は別の明示的な write です。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover`、`legacy-closeout-source-plan`、`legacy-closeout-source-record` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence が無効化されるため、`work-item status` を確認し、Runtime が現在 admit する次の action に従ってください（通常は `run_preflight` ですが固定ではありません）。cross-checkout plan は読み取り専用で、recovery は別の明示的な write です。 |
 | 明示的な使用量 | `work-item usage record --repo <path> --input <request.json>` | 現在の Runtime が `record_usage` を admit するときだけ strict な `UsageRecordRequest` を追記します。同一 request の replay は冪等です。provider/host の出所ラベルは申告であり、検証済み telemetry ではありません。`capability show --surface work-item-usage-record` は CLI/MCP parameter を読み取り専用で記述します。 |
 | Material review | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` は読み取り専用で、commit 済みかつ `.ai` 以外が clean な source snapshot の canonical request を返し、scanner Unknown を raw のまま示します。`record` は Contract opt-in と新鮮な Runtime admission がある場合だけ typed decision を受け、immutable sidecar と Summary pointer に bind します。reviewer identity は self-declared で、本人認証・provider/host の証明・人による承認・release approval ではなく、Unknown を machine Clean に変えません。Stage 1 は opt-in がないため Unknown は discharge されません。`capability show --surface work-item-material-review-plan` と `--surface work-item-material-review-record` で両 transport を確認できます。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
@@ -162,6 +162,32 @@ drift tool は読み取り専用の `action=check` と明示 write の `action=r
 amendment 後の Contract には保護された `requiredRuntimeCapabilities` が記録されます。旧 Runtime
 `0.2.113` は preflight で未知 field を拒否し、action admission 前に停止します。旧 lifecycle を
 扱えることは amendment/drift capability のサポートを意味しません。`tools/list` の実 schema を確認してください。
+
+## 旧 v1 source の明示的な現時点登録
+
+この独立 opt-in は、完全に読める旧 v1 closeout だけが対象です。現在の登録者の `explicit_attestation` を追加します。旧 producer の認証、元の時刻や bytes の変更、過去の検証の再実行、ordinary close・v2・未登録 v1 の自動移行は行いません。
+
+```text
+ai-cockpit work-item legacy-closeout-source-plan --repo <destination> --source-repo <absolute-independent-source> --id <id> --input <request.json>
+ai-cockpit work-item legacy-closeout-source-record --repo <destination> --id <id> --input <exact-plan.json>
+```
+
+Plan は読み取り専用です。Register は独立した Git common directory、同じ論理 repository identity、完全な `sourceRevision` に commit された全 source bytes、および schemaVersion `1`、`operation: "register"`、`actor`、`authoritySource`、`reason`、明示的な `sourceAccepted: true` を要求します。Record は別途認可された write で、観測、固定した directory identity、source を再検証します。最初の Register plan は実行 Runtime と一致し、300 秒以内でなければなりません。write 前に元の正確な plan、埋め込まれた記録 bytes と digest を両 checkout の外で独立保存します。再構成した自己整合的 digest は元の binding の代わりになりません。
+
+| operation | 入力と効果 |
+| --- | --- |
+| `register` | 完全な固定 source と現在の宣言。不変 root requirement R と registration G を準備します。R は正確な G bytes を決定的に含み、先に公開されます。 |
+| `resume` | `originalRegistrationBytes` と `originalRequirementRawDigest`。元の履歴と残る root または有効な extension anchor を検証し、欠けた正確な R/G だけを復元します。source の再承認や元 source のオンライン維持は不要です。 |
+| `extend` | 正確に serialize した typed `transitionBytes`、現在の `actor`、`authoritySource`、`reason`。唯一合法な Retained→Deleted transition T の前に extension E を固定します。root 登録前からある Deleted は元 inventory に含めます。 |
+| `resume_extension` | `originalExtensionBytes` と `originalExtensionRawDigest`。元 root、履歴、追加条件を検証して固定 E/T だけを復元し、時刻・actor・Runtime metadata を再生成しません。 |
+
+各 request は他 operation の field を拒否します。正確な committed retry は次の sequence の評価より先に元の結果を返します。通常 finalize と明示 record は同 WI lock の下で一つの guarded writer を共有します。canonical file は no-replace です。異なる bytes、alias、非通常 file、依存欠落、fork、identity 不一致、resource 残存は fail closed になります。raw と canonical digest は別々の義務です。
+
+extension proof が不完全なら root 修復は `state: "pending"`、`rootState: "committed"` を返す場合があります。独立した元 binding で extension を修復するまで closed と scope 解放は blocked です。公開後の確認失敗は `commit_state_unknown` を返します。すべての canonical path を保持し、status を読み、正確な元 bytes でだけ retry します。公開済み proof を rollback として削除してはいけません。
+
+MCP は `work_item_legacy_closeout_source_plan`（`workItemId`、任意の絶対 path `sourceRepo`、strict `request`）と `work_item_legacy_closeout_source_record`（`workItemId`、strict `plan`）を提供し、CLI と同じ repository service を使います。nested schema は `tools/list` で確認します。選択 inventory は 128 file / 4 MiB、入力と固定 plan は 8 MiB、MCP transport line は 16 MiB が上限です。依存 depth、反復 work、file read、directory enumeration にも有限 budget があり、超過は部分承認でなく error です。
+
+完全登録後、元 source checkout は offline にできます。明示 external dependency の元の可用性要件は残ります。不正な canonical 名と ASCII case alias も proof 義務を保持します。すべての local 登録義務と独立利用できる anchor を同時に消失・rollback した場合、独立した trusted registry なしには検出できません。履歴の `not_ready` は履歴のままです。
 
 ## Important options
 

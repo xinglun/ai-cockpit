@@ -1,0 +1,7 @@
+    Finished `test` profile [unoptimized] target(s) in 0.06s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29)
+
+thread 'extension::review_regression_root_loss_during_extension_pending_has_ordered_exact_recovery' (312720) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:543:155:
+an extension pending cannot deadlock restoration of independently retained root bytes: State { path: "/tmp/.tmp9tBMUI/clone", message: "legacy_closeout_source:extension_pending" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test legacy_closeout_source`

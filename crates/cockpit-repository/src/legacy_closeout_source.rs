@@ -45,7 +45,10 @@ pub(super) fn has_obligation(root: &Path, id: &str) -> bool {
                 .file_name();
             if [REQUIREMENT_SUFFIX, REGISTRATION_SUFFIX, EXTENSION_SUFFIX]
                 .iter()
-                .any(|suffix| name == std::ffi::OsStr::new(&format!("{id}{suffix}")))
+                .any(|suffix| {
+                    name.to_str()
+                        .is_some_and(|name| name.eq_ignore_ascii_case(&format!("{id}{suffix}")))
+                })
             {
                 found = true;
                 break;
@@ -94,11 +97,13 @@ pub(super) fn obligation_ids(root: &Path) -> Result<BTreeSet<String>, ObserverEr
         })?;
         let name = entry.file_name();
         let Some(name) = name.to_str() else { continue };
+        let folded = name.to_ascii_lowercase();
         for suffix in [REQUIREMENT_SUFFIX, REGISTRATION_SUFFIX, EXTENSION_SUFFIX] {
-            if let Some(id) = name.strip_suffix(suffix)
-                && validate_work_item_id(id).is_ok()
-            {
-                ids.insert(id.to_owned());
+            if let Some(prefix) = folded.strip_suffix(suffix) {
+                let id = &name[..prefix.len()];
+                if validate_work_item_id(id).is_ok() {
+                    ids.insert(id.to_owned());
+                }
             }
         }
     }
@@ -775,6 +780,27 @@ fn parse_registration(
     bytes: &str,
 ) -> Result<Registration, ObserverError> {
     let registration: Registration = parse(root, bytes.as_bytes())?;
+    let mut total = 0u64;
+    if registration.inventory.is_empty()
+        || registration.inventory.len() > MAX_FILES
+        || registration
+            .inventory
+            .windows(2)
+            .any(|pair| pair[0].path >= pair[1].path)
+        || registration.inventory.iter().any(|file| {
+            total = total.saturating_add(file.bytes);
+            relative_parts(root, &file.path).is_err()
+                || file.bytes > MAX_BYTES
+                || !super::valid_sha256_digest(file.raw_digest.as_str())
+                || file
+                    .canonical_digest
+                    .as_ref()
+                    .is_some_and(|digest| !super::valid_sha256_digest(digest.as_str()))
+        })
+        || total > MAX_BYTES
+    {
+        return Err(error(root, "inventory_binding_invalid"));
+    }
     if registration.schema_version != 1
         || registration.serialization_version != 1
         || registration.kind != "legacy_closeout_source_registration"
@@ -787,6 +813,11 @@ fn parse_registration(
         || registration.reason.trim().is_empty()
         || registration.runtime.runtime_version.trim().is_empty()
         || registration.runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
+        || !super::valid_sha256_digest(registration.runtime.runtime_digest.as_str())
+        || !super::valid_sha256_digest(registration.source.snapshot_digest.as_str())
+        || !Path::new(&registration.source.root).is_absolute()
+        || !Path::new(&registration.source.git_common_directory).is_absolute()
+        || !super::valid_git_object_id(&registration.source.revision)
         || chrono::DateTime::parse_from_rfc3339(&registration.recorded_at).is_err()
         || encode(root, &registration)? != bytes.as_bytes()
     {
@@ -827,6 +858,59 @@ fn validate_registration(
         }
     }
     Ok(registration)
+}
+/// Repair only the original root pair. New applicable decisions are observed
+/// for freshness but gain no registration authority from this operation.
+fn validate_root_repair(
+    root: &Path,
+    id: &str,
+    repo: &str,
+    bytes: &str,
+) -> Result<Registration, ObserverError> {
+    let registration = parse_registration(root, id, repo, bytes)?;
+    observe_history(root, id, repo)?;
+    for file in &registration.inventory {
+        let raw = safe_read(root, &file.path, MAX_BYTES)?;
+        if binding(root, file.path.clone(), &raw)? != *file {
+            return Err(error(root, "registered_proof_changed"));
+        }
+    }
+    let required = requirement(root, &registration, bytes)?;
+    let mut root_survivor = false;
+    for (path, expected) in [
+        (requirement_path(id), required.as_slice()),
+        (registration_path(id), bytes.as_bytes()),
+    ] {
+        if let Some(existing) = optional_read(root, &path)? {
+            if existing != expected {
+                return Err(error(root, "published_record_changed"));
+            }
+            root_survivor = true;
+        }
+    }
+    if !root_survivor {
+        // An extension can be an independent root anchor only when its strict
+        // template really binds these original registration bytes. A transition
+        // by itself does not remember the registration and is insufficient.
+        let extension = optional_read(root, &extension_path(id))?
+            .ok_or_else(|| error(root, "original_root_binding_unavailable"))?;
+        validate_extension(root, id, &registration, bytes.as_bytes(), &extension, false)
+            .map_err(|_| error(root, "original_root_binding_unavailable"))?;
+    }
+    Ok(registration)
+}
+fn validate_root_plan(
+    root: &Path,
+    id: &str,
+    repo: &str,
+    bytes: &str,
+    operation: &Operation,
+) -> Result<Registration, ObserverError> {
+    if *operation == Operation::Resume {
+        validate_root_repair(root, id, repo, bytes)
+    } else {
+        validate_registration(root, id, repo, bytes)
+    }
 }
 fn validate_pair(root: &Path, id: &str, repo: &str) -> Result<Registration, ObserverError> {
     let registration = safe_read(root, &registration_path(id), MAX_RECORD_BYTES)?;
@@ -926,6 +1010,12 @@ pub fn plan_legacy_closeout_source(
     runtime: &RuntimeContext,
 ) -> Result<Plan, ObserverError> {
     validate_work_item_id(id)?;
+    if source.is_some_and(|path| !path.is_absolute()) {
+        return Err(ObserverError::State {
+            path: root.into(),
+            message: "sourceRepo must be an absolute path".into(),
+        });
+    }
     let root = canonical(root)?;
     let _query = QuerySession::start();
     let _visit = QueryVisit::enter(&root, id, "plan")?;
@@ -1034,7 +1124,7 @@ pub fn plan_legacy_closeout_source(
                 .original_registration_bytes
                 .as_ref()
                 .ok_or_else(|| error(&root, "original_binding_unavailable"))?;
-            let registration = validate_registration(&root, id, &repo, original)?;
+            let registration = validate_root_repair(&root, id, &repo, original)?;
             let required = requirement(&root, &registration, original)?;
             if request.original_requirement_raw_digest.as_ref()
                 != Some(&Digest::sha256_bytes(&required))
@@ -1045,7 +1135,8 @@ pub fn plan_legacy_closeout_source(
         }
         Operation::Extend | Operation::ResumeExtension => unreachable!("handled above"),
     };
-    let registration = validate_registration(&root, id, &repo, &registration_bytes)?;
+    let registration =
+        validate_root_plan(&root, id, &repo, &registration_bytes, &request.operation)?;
     let requirement_bytes =
         String::from_utf8(requirement(&root, &registration, &registration_bytes)?)
             .map_err(|_| error(&root, "serialization_failed"))?;
@@ -1184,27 +1275,39 @@ fn publish(
             });
         }
     }
-    #[cfg(test)]
-    publication_test_point(root, name, "canonical_linked");
-    require_publication_parent(root, id, guard, dir)
-        .map_err(|_| error(root, "commit_state_unknown"))?;
-    #[cfg(not(windows))]
-    dir.open(".")
-        .and_then(|f| f.into_std().sync_all())
-        .map_err(|source| ObserverError::Read {
-            path: root.into(),
-            source,
-        })?;
-    #[cfg(test)]
-    publication_test_point(root, name, "parent_sync_step_completed");
-    if read_regular_cap_bounded(dir, name, &root.join(name), MAX_RECORD_BYTES)? != bytes {
-        return Err(error(root, "published_record_changed"));
-    }
-    #[cfg(test)]
-    publication_test_point(root, name, "read_back");
-    require_publication_parent(root, id, guard, dir)
-        .map_err(|_| error(root, "commit_state_unknown"))?;
-    Ok(())
+    let confirmation = (|| -> Result<(), ObserverError> {
+        #[cfg(test)]
+        publication_test_point(root, name, "canonical_linked");
+        require_publication_parent(root, id, guard, dir)?;
+        #[cfg(test)]
+        publication_test_io(root, name, "parent_sync")?;
+        #[cfg(not(windows))]
+        dir.open(".")
+            .and_then(|f| f.into_std().sync_all())
+            .map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?;
+        #[cfg(test)]
+        publication_test_point(root, name, "parent_sync_step_completed");
+        #[cfg(test)]
+        publication_test_io(root, name, "readback")?;
+        if read_regular_cap_bounded(dir, name, &root.join(name), MAX_RECORD_BYTES)? != bytes {
+            return Err(error(root, "published_record_changed"));
+        }
+        #[cfg(test)]
+        publication_test_point(root, name, "read_back");
+        #[cfg(test)]
+        publication_test_io(root, name, "report")?;
+        require_publication_parent(root, id, guard, dir)?;
+        Ok(())
+    })();
+    confirmation.map_err(|cause| {
+        error(
+            root,
+            &format!("commit_state_unknown:publication_confirmation:{cause}"),
+        )
+    })
 }
 
 // Compiled only into the test harness. Production binaries expose no fault
@@ -1228,6 +1331,24 @@ fn publication_test_point(root: &Path, name: &str, phase: &str) {
     } else {
         std::process::exit(86);
     }
+}
+#[cfg(test)]
+fn publication_test_io(root: &Path, name: &str, phase: &str) -> Result<(), ObserverError> {
+    if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION")
+        .ok()
+        .as_deref()
+        == Some("io_failure")
+        && std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT")
+            .ok()
+            .as_deref()
+            == Some(&format!("{name}:{phase}"))
+    {
+        return Err(ObserverError::Read {
+            path: root.join(name),
+            source: std::io::Error::other(format!("injected_{phase}_failure")),
+        });
+    }
+    Ok(())
 }
 /// Publish requirement first, then the exact frozen registration. Canonical
 /// files are never unlinked on errors; partial publication remains an obligation.
@@ -1266,7 +1387,8 @@ pub fn record_legacy_closeout_source(
     {
         return Err(error(&root, "plan_binding_invalid"));
     }
-    let registration = validate_registration(&root, id, &repo, &plan.registration_bytes)?;
+    let registration =
+        validate_root_plan(&root, id, &repo, &plan.registration_bytes, &plan.operation)?;
     if requirement(&root, &registration, &plan.registration_bytes)?
         != plan.requirement_bytes.as_bytes()
     {
@@ -1350,11 +1472,22 @@ pub fn record_legacy_closeout_source(
             changed.push(relative);
         }
     }
-    let readback =
-        validate_pair(&root, id, &repo).map_err(|_| error(&root, "commit_state_unknown"))?;
-    require_plan_directory(&root, plan).map_err(|_| error(&root, "commit_state_unknown"))?;
-    if encode(&root, &readback)? != plan.registration_bytes.as_bytes() {
+    let readback = validate_root_plan(&root, id, &repo, &plan.registration_bytes, &plan.operation)
+        .map_err(|cause| error(&root, &format!("commit_state_unknown:{cause}")))?;
+    let (_, actual_registration, actual_requirement) = root_pair(&root, id)
+        .map_err(|cause| error(&root, &format!("commit_state_unknown:{cause}")))?;
+    require_plan_directory(&root, plan)
+        .map_err(|cause| error(&root, &format!("commit_state_unknown:{cause}")))?;
+    if encode(&root, &readback)? != plan.registration_bytes.as_bytes()
+        || actual_registration != plan.registration_bytes
+        || actual_requirement != plan.requirement_bytes
+    {
         return Err(error(&root, "commit_state_unknown"));
+    }
+    if let Some(problem) = integrity_problem(&root, id, &repo) {
+        return Ok(
+            serde_json::json!({"state":"pending","rootState":"committed","workItemId":id,"registrationRawDigest":plan.registration_raw_digest,"requirementRawDigest":plan.requirement_raw_digest,"changedPaths":changed,"integrityProblem":problem,"publicationObservedAt":super::now()}),
+        );
     }
     Ok(
         serde_json::json!({"state":"committed","workItemId":id,"registrationRawDigest":plan.registration_raw_digest,"requirementRawDigest":plan.requirement_raw_digest,"changedPaths":changed,"publicationObservedAt":super::now()}),
@@ -1451,6 +1584,7 @@ fn validate_extension(
         || extension.reason.trim().is_empty()
         || extension.runtime.runtime_version.trim().is_empty()
         || extension.runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
+        || !super::valid_sha256_digest(extension.runtime.runtime_digest.as_str())
         || extension
             .runtime
             .runtime_digest
@@ -1784,8 +1918,9 @@ fn record_extension_locked(
         publish(root, id, guard, plan, &dir, name, bytes)?;
     }
     let readback = validate_pair(root, id, &registration.repository_id)
-        .map_err(|_| error(root, "commit_state_unknown"))?;
-    require_plan_directory(root, plan).map_err(|_| error(root, "commit_state_unknown"))?;
+        .map_err(|cause| error(root, &format!("commit_state_unknown:{cause}")))?;
+    require_plan_directory(root, plan)
+        .map_err(|cause| error(root, &format!("commit_state_unknown:{cause}")))?;
     if encode(root, &readback)? != plan.registration_bytes.as_bytes()
         || safe_read(root, &extension_path(id), MAX_RECORD_BYTES)? != frozen.as_bytes()
         || safe_read(root, &extension.transition.path, MAX_RECORD_BYTES)?
@@ -1931,6 +2066,61 @@ pub(super) fn enter_recovery_query(
 #[cfg(test)]
 mod query_budget_tests {
     use super::*;
+    #[test]
+    fn review_regression_ascii_case_alias_remains_a_canonical_obligation() {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap();
+        fs::create_dir_all(root.join(".ai/decisions")).unwrap();
+        fs::write(
+            root.join(".ai/decisions/WI-ALIAS.legacy-closeout-source-requirement.JSON"),
+            b"{broken",
+        )
+        .unwrap();
+        assert!(has_obligation(&root, "WI-ALIAS"));
+        assert!(obligation_ids(&root).unwrap().contains("WI-ALIAS"));
+    }
+    fn scope_with_invalid_obligation(named_predecessor: bool) -> Vec<String> {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().canonicalize().unwrap();
+        let id = "WI-SCOPE-REVIEW";
+        fs::create_dir_all(root.join(".ai/decisions")).unwrap();
+        fs::create_dir_all(root.join(".ai/work-items/archive")).unwrap();
+        let contract = serde_json::to_vec(&serde_json::json!({"workItemId":id,"repositoryId":repository_id(&root),"scope":if named_predecessor {vec!["src/**"]} else {vec!["tests/**"]}})).unwrap();
+        fs::write(
+            root.join(format!(".ai/work-items/archive/{id}.contract.json")),
+            &contract,
+        )
+        .unwrap();
+        fs::write(root.join(format!(".ai/work-items/archive/{id}.archive.json")), serde_json::to_vec(&serde_json::json!({"workItemId":id,"state":"archived","closeRequired":true,"files":{"contractDigest":Digest::sha256_bytes(&contract)}})).unwrap()).unwrap();
+        fs::write(
+            root.join(format!(".ai/decisions/{id}{REQUIREMENT_SUFFIX}")),
+            b"{broken",
+        )
+        .unwrap();
+        let predecessors = if named_predecessor {
+            BTreeSet::from([id.to_owned()])
+        } else {
+            BTreeSet::new()
+        };
+        super::super::unclosed_archived_scope_conflicts(&root, &["src/**".into()], &predecessors)
+            .unwrap()
+    }
+    #[test]
+    fn review_regression_named_predecessor_cannot_waive_invalid_obligation() {
+        assert!(
+            scope_with_invalid_obligation(true)
+                .iter()
+                .any(|blocker| blocker == "archived_work_item_scope_untrusted:WI-SCOPE-REVIEW")
+        );
+    }
+    #[test]
+    fn review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation() {
+        assert!(
+            scope_with_invalid_obligation(false)
+                .iter()
+                .any(|blocker| blocker == "archived_work_item_scope_untrusted:WI-SCOPE-REVIEW")
+        );
+    }
     #[test]
     fn query_rejects_same_byte_parent_directory_replacement() {
         let owner = tempfile::tempdir().unwrap();
@@ -2307,9 +2497,15 @@ mod publication_tests {
     }
     fn names(extension: bool) -> [String; 2] {
         if extension {
+            let transition: serde_json::Value =
+                serde_json::from_slice(&transition_bytes()).unwrap();
+            let digest = cockpit_protocol::digest_json(&transition).unwrap();
             [
                 format!("{ID}{EXTENSION_SUFFIX}"),
-                format!("{ID}.resource-finalization.0002.json"),
+                format!(
+                    "{ID}.finalize.{}.json",
+                    digest.as_str().trim_start_matches("sha256:")
+                ),
             ]
         } else {
             [
@@ -2319,7 +2515,13 @@ mod publication_tests {
         }
     }
     fn bytes(name: &str) -> Vec<u8> {
+        if name.contains(".finalize.") {
+            return transition_bytes();
+        }
         format!("{{\"name\":\"{name}\",\"actor\":\"original fixture actor\",\"recordedAt\":\"2026-10-01T00:00:00Z\"}}").into_bytes()
+    }
+    fn transition_bytes() -> Vec<u8> {
+        br#"{"transitionId":"original fixture transition","sequence":1,"actor":"original fixture actor","recordedAt":"2026-10-01T00:00:00Z"}"#.to_vec()
     }
     fn decisions(root: &Path) -> Dir {
         let dir = root_directory(root).unwrap();
@@ -2338,6 +2540,20 @@ mod publication_tests {
         let plan = primitive_plan(&root);
         for name in names(extension) {
             let result = publish(&root, ID, &guard, &plan, &dir, &name, &bytes(&name));
+            if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION")
+                .ok()
+                .as_deref()
+                == Some("io_failure")
+                && result.is_err()
+            {
+                let error = result.unwrap_err().to_string();
+                assert!(error.contains("commit_state_unknown"), "{error}");
+                assert!(
+                    error.contains("injected_"),
+                    "the original failure cause must remain visible: {error}"
+                );
+                return;
+            }
             if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION")
                 .ok()
                 .as_deref()
@@ -2429,6 +2645,50 @@ mod publication_tests {
                             bytes(name)
                         );
                     }
+                }
+            }
+        }
+    }
+    #[test]
+    fn review_regression_io_failures_after_second_canonical_report_unknown_and_preserve_both() {
+        for extension in [false, true] {
+            for phase in ["parent_sync", "readback", "report"] {
+                let (_owner, root) = fixture();
+                let pair = names(extension);
+                let output = Command::new(std::env::current_exe().unwrap())
+                    .args([
+                        "--exact",
+                        "legacy_closeout_source::publication_tests::publication_child",
+                        "--nocapture",
+                    ])
+                    .env("COCKPIT_TEST_LEGACY_SOURCE_CHILD_ROOT", &root)
+                    .env(
+                        "COCKPIT_TEST_LEGACY_SOURCE_PAIR",
+                        if extension { "extension" } else { "root" },
+                    )
+                    .env(
+                        "COCKPIT_TEST_LEGACY_SOURCE_FAULT",
+                        format!("{}:{phase}", pair[1]),
+                    )
+                    .env("COCKPIT_TEST_LEGACY_SOURCE_FAULT_ACTION", "io_failure")
+                    .output()
+                    .unwrap();
+                assert!(
+                    output.status.success(),
+                    "{phase}: {}",
+                    String::from_utf8_lossy(&output.stderr)
+                );
+                for name in &pair {
+                    assert_eq!(
+                        fs::read(root.join(".ai/decisions").join(name)).unwrap(),
+                        bytes(name)
+                    );
+                }
+                let guard = acquire_lifecycle_lock(&root, ID).unwrap();
+                let dir = decisions(&root);
+                let plan = primitive_plan(&root);
+                for name in &pair {
+                    publish(&root, ID, &guard, &plan, &dir, name, &bytes(name)).unwrap();
                 }
             }
         }

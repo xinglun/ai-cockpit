@@ -313,6 +313,9 @@ mod extension {
     }
 
     fn registered_retained_fixture() -> RegisteredRetainedFixture {
+        registered_fixture(false)
+    }
+    fn registered_fixture(already_deleted: bool) -> RegisteredRetainedFixture {
         let source = repository();
         let context = ResourceFinalizationContext {
             branch: "feature/recovered-retained-close".into(),
@@ -412,6 +415,16 @@ mod extension {
         legacy.as_object_mut().unwrap().remove("originBinding");
         fs::write(&recovery_path, serde_json::to_vec_pretty(&legacy).unwrap()).unwrap();
         fs::remove_file(destination.join(&origin)).unwrap();
+        if already_deleted {
+            let input = tempfile::NamedTempFile::new().unwrap();
+            fs::write(
+                input.path(),
+                serde_json::to_vec_pretty(&transition).unwrap(),
+            )
+            .unwrap();
+            record_resource_finalization(&destination, WORK_ITEM_ID, input.path(), &runtime())
+                .expect("lawful Deleted append before source registration");
+        }
         git(
             &destination,
             &[
@@ -478,6 +491,7 @@ mod extension {
             destination,
             transition,
             registrar,
+            root_plan,
         }
     }
 
@@ -486,6 +500,7 @@ mod extension {
         destination: std::path::PathBuf,
         transition: cockpit_protocol::ResourceFinalizationTransitionReceipt,
         registrar: RuntimeContext,
+        root_plan: cockpit_protocol::LegacyCloseoutSourcePlan,
     }
 
     #[test]
@@ -526,6 +541,246 @@ mod extension {
             &fixture.registrar,
         )
         .expect("read-only exact extension plan")
+    }
+    #[test]
+    fn already_deleted_before_registration_is_part_of_the_root_inventory() {
+        let fixture = registered_fixture(true);
+        let registration: cockpit_protocol::LegacyCloseoutSourceRegistration =
+            serde_json::from_str(&fixture.root_plan.registration_bytes).unwrap();
+        let transition_digest =
+            cockpit_protocol::digest_json(&serde_json::to_value(&fixture.transition).unwrap())
+                .unwrap();
+        let path = format!(
+            ".ai/decisions/{WORK_ITEM_ID}.finalize.{}.json",
+            transition_digest.as_str().trim_start_matches("sha256:")
+        );
+        let file = registration
+            .inventory
+            .iter()
+            .find(|file| file.path == path)
+            .expect("existing Deleted transition is a root obligation");
+        assert_eq!(
+            file.raw_digest,
+            Digest::sha256_bytes(&fs::read(fixture.destination.join(&path)).unwrap())
+        );
+        assert_eq!(registration.history_facts["finalizationSequence"], 1);
+        assert_eq!(
+            cockpit_repository::work_item_status_snapshot_with_runtime(
+                &fixture.destination,
+                WORK_ITEM_ID,
+                &fixture.registrar
+            )
+            .unwrap()
+            .lifecycle_phase,
+            "closed"
+        );
+        fs::remove_file(fixture.destination.join(path)).unwrap();
+        let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+            &fixture.destination,
+            WORK_ITEM_ID,
+            &fixture.registrar,
+        )
+        .unwrap();
+        assert!(status.blocking);
+        assert_ne!(status.lifecycle_phase, "closed");
+    }
+    #[test]
+    fn registered_extension_rejects_wrong_sequence_fork_identity_and_present_resources() {
+        for scenario in [
+            "sequence",
+            "predecessor",
+            "repository",
+            "work_item",
+            "branch_present",
+            "worktree_present",
+        ] {
+            let fixture = registered_retained_fixture();
+            let mut transition = fixture.transition.clone();
+            match scenario {
+                "sequence" => transition.sequence += 1,
+                "predecessor" => {
+                    transition.predecessor_receipt_digest =
+                        Digest::sha256_bytes(b"a different predecessor")
+                }
+                "repository" => {
+                    transition.receipt.repository_id =
+                        Digest::sha256_bytes(b"another repository").to_string()
+                }
+                "work_item" => transition.receipt.work_item_id = "WI-OTHER".into(),
+                "branch_present" => git(
+                    &fixture.destination,
+                    &["branch", &transition.receipt.branch.name],
+                ),
+                _ => git(
+                    &fixture.destination,
+                    &[
+                        "worktree",
+                        "add",
+                        "--quiet",
+                        "-b",
+                        &transition.receipt.worktree.branch,
+                        &transition.receipt.worktree.path,
+                    ],
+                ),
+            }
+            let request = serde_json::from_value(serde_json::json!({"schemaVersion":1,"operation":"extend","transitionBytes":String::from_utf8(serde_json::to_vec_pretty(&transition).unwrap()).unwrap(),"actor":"test-data:registrar","authoritySource":"isolated fixture","reason":"reject invalid registered append"})).unwrap();
+            let result = cockpit_repository::plan_legacy_closeout_source(
+                &fixture.destination,
+                None,
+                WORK_ITEM_ID,
+                &request,
+                &fixture.registrar,
+            );
+            assert!(result.is_err(), "{scenario} must fail before publication");
+            assert!(
+                !fixture
+                    .destination
+                    .join(format!(
+                        ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-extension.json"
+                    ))
+                    .exists()
+            );
+            assert!(
+                fs::read_dir(fixture.destination.join(".ai/decisions"))
+                    .unwrap()
+                    .all(|entry| {
+                        let leaf = entry.unwrap().file_name().to_string_lossy().into_owned();
+                        leaf == format!("{WORK_ITEM_ID}.finalize.json")
+                            || !leaf.starts_with(&format!("{WORK_ITEM_ID}.finalize."))
+                    })
+            );
+            assert_eq!(
+                fs::read(fixture.destination.join(format!(
+                    ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-registration.json"
+                )))
+                .unwrap(),
+                fixture.root_plan.registration_bytes.as_bytes()
+            );
+        }
+        let fixture = registered_retained_fixture();
+        let original = extension_plan(&fixture);
+        cockpit_repository::record_legacy_closeout_source(
+            &fixture.destination,
+            WORK_ITEM_ID,
+            &original,
+            &fixture.registrar,
+        )
+        .unwrap();
+        let extension_path = fixture.destination.join(format!(
+            ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-extension.json"
+        ));
+        let bytes = fs::read(&extension_path).unwrap();
+        let mut fork = fixture.transition.clone();
+        fork.transition_id = "another-fork".into();
+        let request = serde_json::from_value(serde_json::json!({"schemaVersion":1,"operation":"extend","transitionBytes":String::from_utf8(serde_json::to_vec_pretty(&fork).unwrap()).unwrap(),"actor":"test-data:another","authoritySource":"isolated fixture","reason":"reject a different append after commitment"})).unwrap();
+        assert!(
+            cockpit_repository::plan_legacy_closeout_source(
+                &fixture.destination,
+                None,
+                WORK_ITEM_ID,
+                &request,
+                &fixture.registrar
+            )
+            .is_err()
+        );
+        assert_eq!(fs::read(extension_path).unwrap(), bytes);
+    }
+    #[test]
+    fn review_regression_root_loss_during_extension_pending_has_ordered_exact_recovery() {
+        for root_removed in ["requirement", "registration"] {
+            for transition_only in [false, true] {
+                let fixture = registered_retained_fixture();
+                let original = extension_plan(&fixture);
+                let extension: cockpit_protocol::LegacyCloseoutSourceExtension =
+                    serde_json::from_str(original.extension_bytes.as_ref().unwrap()).unwrap();
+                let extension_path = fixture.destination.join(format!(
+                    ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-extension.json"
+                ));
+                if transition_only {
+                    fs::write(
+                        fixture.destination.join(&extension.transition.path),
+                        &extension.transition_bytes,
+                    )
+                    .unwrap();
+                } else {
+                    fs::write(&extension_path, original.extension_bytes.as_ref().unwrap()).unwrap();
+                }
+                fs::remove_file(fixture.destination.join(format!(
+                    ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-{root_removed}.json"
+                )))
+                .unwrap();
+                let request = serde_json::from_value(serde_json::json!({"schemaVersion":1,"operation":"resume","originalRegistrationBytes":fixture.root_plan.registration_bytes,"originalRequirementRawDigest":fixture.root_plan.requirement_raw_digest})).unwrap();
+                let root_resume = cockpit_repository::plan_legacy_closeout_source(&fixture.destination, None, WORK_ITEM_ID, &request, &fixture.registrar).expect("an extension pending cannot deadlock restoration of independently retained root bytes");
+                let root_result = cockpit_repository::record_legacy_closeout_source(
+                    &fixture.destination,
+                    WORK_ITEM_ID,
+                    &root_resume,
+                    &fixture.registrar,
+                )
+                .unwrap();
+                assert_eq!(root_result["state"], "pending");
+                assert_eq!(root_result["rootState"], "committed");
+                let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+                    &fixture.destination,
+                    WORK_ITEM_ID,
+                    &fixture.registrar,
+                )
+                .unwrap();
+                assert!(status.blocking);
+                assert_ne!(status.lifecycle_phase, "closed");
+                assert_eq!(extension_path.exists(), !transition_only);
+                assert_eq!(
+                    fixture
+                        .destination
+                        .join(&extension.transition.path)
+                        .exists(),
+                    transition_only
+                );
+                let request = serde_json::from_value(serde_json::json!({"schemaVersion":1,"operation":"resume_extension","originalExtensionBytes":original.extension_bytes,"originalExtensionRawDigest":original.extension_raw_digest})).unwrap();
+                let resumed = cockpit_repository::plan_legacy_closeout_source(
+                    &fixture.destination,
+                    None,
+                    WORK_ITEM_ID,
+                    &request,
+                    &fixture.registrar,
+                )
+                .unwrap();
+                assert_eq!(
+                    cockpit_repository::record_legacy_closeout_source(
+                        &fixture.destination,
+                        WORK_ITEM_ID,
+                        &resumed,
+                        &fixture.registrar
+                    )
+                    .unwrap(),
+                    extension.result
+                );
+                assert_eq!(
+                    fs::read(fixture.destination.join(format!(
+                        ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-registration.json"
+                    )))
+                    .unwrap(),
+                    fixture.root_plan.registration_bytes.as_bytes()
+                );
+                assert_eq!(
+                    fs::read(fixture.destination.join(format!(
+                        ".ai/decisions/{WORK_ITEM_ID}.legacy-closeout-source-requirement.json"
+                    )))
+                    .unwrap(),
+                    fixture.root_plan.requirement_bytes.as_bytes()
+                );
+                assert_eq!(
+                    cockpit_repository::work_item_status_snapshot_with_runtime(
+                        &fixture.destination,
+                        WORK_ITEM_ID,
+                        &fixture.registrar
+                    )
+                    .unwrap()
+                    .lifecycle_phase,
+                    "closed"
+                );
+            }
+        }
     }
 
     #[test]

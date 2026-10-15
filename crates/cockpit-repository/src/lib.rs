@@ -2255,6 +2255,20 @@ fn unclosed_archived_scope_conflicts(
     let archive = root.join(".ai/work-items/archive");
     let mut blockers = Vec::new();
     for work_item_id in unclosed_archived_work_items(root)? {
+        // A self-consistent rewritten manifest cannot restore trust in a
+        // Contract whose registered raw binding is invalid. Neither a new
+        // disjoint scope nor an old successor waiver may erase this obligation.
+        if legacy_closeout_source::has_obligation(root, &work_item_id)
+            && legacy_closeout_source::integrity_problem(
+                root,
+                &work_item_id,
+                &expected_repository_id,
+            )
+            .is_some()
+        {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        }
         let contract_path = archive.join(format!("{work_item_id}.contract.json"));
         let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
         let contract_bytes = match fs::symlink_metadata(&contract_path) {

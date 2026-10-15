@@ -293,6 +293,185 @@ mod complete_source {
         );
     }
 
+    fn cli_source(
+        root: &Path,
+        source: Option<&Path>,
+        command: &str,
+        input: &Value,
+    ) -> std::process::Output {
+        let file = tempfile::NamedTempFile::new().unwrap();
+        fs::write(file.path(), serde_json::to_vec(input).unwrap()).unwrap();
+        let mut process = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"));
+        process
+            .args(["work-item", command, "--repo"])
+            .arg(root)
+            .args(["--id", ID, "--input"])
+            .arg(file.path());
+        if let Some(source) = source {
+            process.arg("--source-repo").arg(source);
+        }
+        process.output().unwrap()
+    }
+    fn mcp_source(root: &Path, command: &str, field: &str, input: &Value) -> Value {
+        cockpit_mcp::handle_request_for_repo(
+            &json!({"jsonrpc":"2.0","id":41,"method":"tools/call","params":{"name":command,"arguments":{"workItemId":ID,(field):input}}}),
+            root,
+            &current_runtime(),
+        )
+    }
+    fn cli_success(output: std::process::Output) -> Value {
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        serde_json::from_slice(&output.stdout).unwrap()
+    }
+
+    #[test]
+    fn actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp() {
+        let (_destination, dest, source_owner, source) = legacy_pair();
+        let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+            .unwrap()
+            .trim()
+            .to_owned();
+        let request = json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:transport","authoritySource":"isolated CLI/MCP fixture","reason":"bind actual transport behavior","sourceAccepted":true});
+        let before = files(&dest);
+        let plan = cli_success(cli_source(
+            &dest,
+            Some(&source),
+            "legacy-closeout-source-plan",
+            &request,
+        ));
+        assert_eq!(files(&dest), before, "actual CLI plan must be read-only");
+        let committed = cli_success(cli_source(
+            &dest,
+            None,
+            "legacy-closeout-source-record",
+            &plan,
+        ));
+        assert_eq!(committed["state"], "committed");
+        let registered = files(&dest);
+        drop(source_owner);
+        let replay = cli_success(cli_source(
+            &dest,
+            None,
+            "legacy-closeout-source-record",
+            &plan,
+        ));
+        let mcp = mcp_source(
+            &dest,
+            "work_item_legacy_closeout_source_record",
+            "plan",
+            &plan,
+        );
+        assert_eq!(mcp["result"]["isError"], false, "{mcp}");
+        assert_eq!(replay, mcp["result"]["structuredContent"]);
+        assert_eq!(
+            files(&dest),
+            registered,
+            "both replays preserve all exact bytes offline"
+        );
+        let registration = dest.join(format!(
+            ".ai/decisions/{ID}.legacy-closeout-source-registration.json"
+        ));
+        let original_bytes = fs::read(&registration).unwrap();
+        fs::remove_file(&registration).unwrap();
+        assert_ne!(
+            work_item_status_snapshot_with_runtime(&dest, ID, &current_runtime())
+                .unwrap()
+                .lifecycle_phase,
+            "closed"
+        );
+        let resume_request = json!({"schemaVersion":1,"operation":"resume","originalRegistrationBytes":plan["registrationBytes"],"originalRequirementRawDigest":plan["requirementRawDigest"]});
+        let partial = files(&dest);
+        let resumed = cli_success(cli_source(
+            &dest,
+            None,
+            "legacy-closeout-source-plan",
+            &resume_request,
+        ));
+        assert_eq!(files(&dest), partial);
+        let repaired = cli_success(cli_source(
+            &dest,
+            None,
+            "legacy-closeout-source-record",
+            &resumed,
+        ));
+        let mcp = mcp_source(
+            &dest,
+            "work_item_legacy_closeout_source_record",
+            "plan",
+            &resumed,
+        );
+        assert_eq!(mcp["result"]["isError"], false, "{mcp}");
+        assert_eq!(repaired["state"], "committed");
+        assert_eq!(
+            repaired["changedPaths"],
+            json!([format!(
+                ".ai/decisions/{ID}.legacy-closeout-source-registration.json"
+            )])
+        );
+        assert!(repaired["publicationObservedAt"].is_string());
+        let repair_replay = cli_success(cli_source(
+            &dest,
+            None,
+            "legacy-closeout-source-record",
+            &resumed,
+        ));
+        assert_eq!(repair_replay, mcp["result"]["structuredContent"]);
+        assert_eq!(repair_replay["changedPaths"], json!([]));
+        for field in ["registrationRawDigest", "requirementRawDigest"] {
+            assert_eq!(repaired[field], repair_replay[field]);
+        }
+        assert_eq!(fs::read(registration).unwrap(), original_bytes);
+        assert_eq!(files(&dest), registered);
+        assert_eq!(
+            work_item_status_snapshot_with_runtime(&dest, ID, &current_runtime())
+                .unwrap()
+                .lifecycle_phase,
+            "closed"
+        );
+
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let plan = serde_json::to_value(original_plan(&dest, &source)).unwrap();
+        git(
+            &source,
+            &[
+                "-c",
+                "user.name=Fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "advance only disposable source HEAD",
+            ],
+        );
+        let before = files(&dest);
+        let cli = cli_source(&dest, None, "legacy-closeout-source-record", &plan);
+        assert!(!cli.status.success());
+        assert!(String::from_utf8_lossy(&cli.stderr).contains("source_stale"));
+        let mcp = mcp_source(
+            &dest,
+            "work_item_legacy_closeout_source_record",
+            "plan",
+            &plan,
+        );
+        assert_eq!(mcp["result"]["isError"], true, "{mcp}");
+        assert!(
+            mcp["result"]["content"][0]["text"]
+                .as_str()
+                .unwrap()
+                .contains("source_stale")
+        );
+        assert_eq!(
+            files(&dest),
+            before,
+            "drift rejection must not publish either root"
+        );
+    }
+
     fn original_plan(dest: &Path, source: &Path) -> cockpit_protocol::LegacyCloseoutSourcePlan {
         let revision = String::from_utf8(git(source, &["rev-parse", "HEAD"]))
             .unwrap()
@@ -829,6 +1008,52 @@ mod complete_source {
         assert_eq!(files(&dest), before);
     }
     #[test]
+    fn review_regression_cli_and_mcp_reject_relative_source_paths() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let revision = String::from_utf8(git(&source, &["rev-parse", "HEAD"]))
+            .unwrap()
+            .trim()
+            .to_owned();
+        let request = json!({"schemaVersion":1,"operation":"register","sourceRevision":revision,"actor":"test-data:registrar","authoritySource":"isolated fixture","reason":"use one absolute source path policy","sourceAccepted":true});
+        let input = tempfile::NamedTempFile::new().unwrap();
+        fs::write(input.path(), serde_json::to_vec(&request).unwrap()).unwrap();
+        let cli = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+            .current_dir(source.parent().unwrap())
+            .args([
+                "work-item",
+                "legacy-closeout-source-plan",
+                "--repo",
+                dest.to_str().unwrap(),
+                "--source-repo",
+                source.file_name().unwrap().to_str().unwrap(),
+                "--id",
+                ID,
+                "--input",
+                input.path().to_str().unwrap(),
+            ])
+            .output()
+            .unwrap();
+        assert!(
+            !cli.status.success(),
+            "CLI must use the same absolute-source policy as MCP"
+        );
+        assert!(
+            String::from_utf8_lossy(&cli.stderr).contains("sourceRepo must be an absolute path")
+        );
+        let mcp = cockpit_mcp::handle_request_for_repo(
+            &json!({"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"work_item_legacy_closeout_source_plan","arguments":{"workItemId":ID,"sourceRepo":"source","request":request}}}),
+            &dest,
+            &current_runtime(),
+        );
+        assert_eq!(mcp["result"]["isError"], true);
+        assert!(
+            mcp["result"]["content"][0]["text"]
+                .as_str()
+                .unwrap()
+                .contains("sourceRepo must be an absolute path")
+        );
+    }
+    #[test]
     fn every_bound_history_file_and_each_root_obligation_remain_required() {
         let (_destination, dest, _source_owner, source) = legacy_pair();
         let plan = original_plan(&dest, &source);
@@ -912,8 +1137,72 @@ mod complete_source {
                 ..Default::default()
             },
         );
-        assert!(attempt.is_err());
+        let error = attempt
+            .expect_err("damaged registration scope must remain blocked")
+            .to_string();
+        assert!(
+            error.contains(&format!("archived_work_item_scope_untrusted:{ID}")),
+            "{error}"
+        );
         fs::write(manifest_path, original_manifest).unwrap();
+    }
+    #[test]
+    fn registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight() {
+        let (_destination, dest, _source_owner, source) = legacy_pair();
+        let plan = original_plan(&dest, &source);
+        cockpit_repository::record_legacy_closeout_source(&dest, ID, &plan, &current_runtime())
+            .unwrap();
+        let remote_head =
+            String::from_utf8(git(&dest, &["symbolic-ref", "refs/remotes/origin/HEAD"]))
+                .unwrap()
+                .trim()
+                .to_owned();
+        git(&dest, &["update-ref", &remote_head, "HEAD"]);
+        git(
+            &dest,
+            &["switch", "-q", "-c", "feature/scope-preflight-fixture"],
+        );
+        let candidate = "WI-SCOPE-PREFLIGHT";
+        start_work_item_with_options(
+            &dest,
+            candidate,
+            "independent registered scope",
+            "respect a closed registered predecessor",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["do not trust rewritten scope".into()],
+                ..Default::default()
+            },
+        )
+        .expect("the intact closed registration actually admits this entry fixture");
+        let candidate_path = dest.join(format!(".ai/work-items/active/{candidate}.contract.json"));
+        let baseline = preflight_work_item(&dest, &candidate_path).unwrap();
+        assert!(
+            !baseline
+                .blockers
+                .iter()
+                .any(|blocker| blocker.contains("archived_work_item_scope")),
+            "{baseline:?}"
+        );
+        let contract_path = dest.join(format!(".ai/work-items/archive/{ID}.contract.json"));
+        let mut contract: Value =
+            serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+        contract["scope"] = json!(["tests/**"]);
+        let bytes = serde_json::to_vec_pretty(&contract).unwrap();
+        fs::write(&contract_path, &bytes).unwrap();
+        let manifest_path = dest.join(format!(".ai/work-items/archive/{ID}.archive.json"));
+        let mut manifest: Value =
+            serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+        manifest["files"]["contractDigest"] = json!(Digest::sha256_bytes(&bytes));
+        fs::write(manifest_path, serde_json::to_vec_pretty(&manifest).unwrap()).unwrap();
+        let blocked = preflight_work_item(&dest, &candidate_path).unwrap();
+        assert!(
+            blocked
+                .blockers
+                .contains(&format!("archived_work_item_scope_untrusted:{ID}")),
+            "{blocked:?}"
+        );
     }
 }
 

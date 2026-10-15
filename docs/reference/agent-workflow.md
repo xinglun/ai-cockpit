@@ -604,13 +604,12 @@ required. The write locks the destination Work Item, revalidates the source
 and destination snapshots, atomically installs each immutable file without
 overwriting different bytes, records its recovery receipt, validates the
 resulting projection, and installs the close decision last as the lifecycle
-commit marker. Detected failures roll back only files newly created by this
-attempt whose filesystem identity and bytes still match; externally changed
-or unidentifiable paths are preserved and reported as incomplete. A process
-interruption before the close marker can leave exact files behind, but the
-Work Item remains unclosed; the next read must not project it as recovered,
-and a fresh plan plus idempotent retry can complete it. This is a recoverable
-multi-file operation, not a single filesystem transaction.
+commit marker. Every published canonical path is preserved after a detected
+failure; publication never rolls it back by unlinking. Before the close marker,
+exact files can remain pending and the Work Item stays unclosed. After publication,
+a confirmation failure can leave a committed or uncertain outcome: read status
+again and retry the same immutable bytes. Temporary files are not proof. This is
+a recoverable multi-file operation, not a single filesystem transaction.
 
 Use `work_item_closeout_recovery_plan` for the read-only MCP operation and
 `work_item_closeout_recover` only for the explicit write. Both require
@@ -619,6 +618,14 @@ destination. Confirm the tool schemas with `tools/list`. Linked worktrees and
 independent clones are supported only when Runtime verifies matching logical
 repository identity. On completion, compare the destination's lifecycle
 projection to the source and verify that the source bytes stayed unchanged.
+
+## Registering a complete old v1 source
+
+Use the [explicit legacy source registration commands](commands.md#explicit-present-day-registration-of-legacy-v1-source) only under current authority for that exact destination. Keep a complete independent source at a full commit and persist the original plan and record bytes separately before writing. Registration records current `explicit_attestation`, preserving historical producer, time, verification and provider facts.
+
+Read-only plan and explicit record are separate actions. R precedes G; a later lawful Retained→Deleted append freezes E before T through the same guarded finalization writer. For partial states, use `resume` or `resume_extension` with the independently retained original bytes/digests. A root repair that reports pending does not accept an incomplete extension or release closed/scope. Query status after uncertain publication and preserve canonical files.
+
+A complete registration does not require the original source to remain online. Explicit external dependencies still must validate. Ordinary/v2/unregistered-v1 behavior is not automatically migrated, and total loss or rollback of all local registration anchors is not detectable. See the command reference for strict field roles and finite budgets.
 
 ## Safety boundary
 

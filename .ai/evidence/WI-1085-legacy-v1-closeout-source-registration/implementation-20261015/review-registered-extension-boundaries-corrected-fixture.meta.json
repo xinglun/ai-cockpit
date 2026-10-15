@@ -1,0 +1,343 @@
+{
+  "subreaper": true,
+  "adoptedDescendantsReaped": [
+    {
+      "pid": 346916,
+      "waitStatus": 0
+    },
+    {
+      "pid": 347100,
+      "waitStatus": 0
+    },
+    {
+      "pid": 347416,
+      "waitStatus": 0
+    },
+    {
+      "pid": 347590,
+      "waitStatus": 0
+    },
+    {
+      "pid": 347597,
+      "waitStatus": 0
+    },
+    {
+      "pid": 347608,
+      "waitStatus": 0
+    },
+    {
+      "pid": 347790,
+      "waitStatus": 0
+    },
+    {
+      "pid": 348107,
+      "waitStatus": 0
+    },
+    {
+      "pid": 348281,
+      "waitStatus": 0
+    },
+    {
+      "pid": 348435,
+      "waitStatus": 0
+    },
+    {
+      "pid": 348825,
+      "waitStatus": 0
+    },
+    {
+      "pid": 348829,
+      "waitStatus": 0
+    },
+    {
+      "pid": 349069,
+      "waitStatus": 0
+    },
+    {
+      "pid": 349263,
+      "waitStatus": 0
+    },
+    {
+      "pid": 349652,
+      "waitStatus": 0
+    },
+    {
+      "pid": 349656,
+      "waitStatus": 0
+    },
+    {
+      "pid": 349898,
+      "waitStatus": 0
+    },
+    {
+      "pid": 350010,
+      "waitStatus": 0
+    },
+    {
+      "pid": 350399,
+      "waitStatus": 0
+    },
+    {
+      "pid": 350403,
+      "waitStatus": 0
+    },
+    {
+      "pid": 350641,
+      "waitStatus": 0
+    },
+    {
+      "pid": 350829,
+      "waitStatus": 0
+    },
+    {
+      "pid": 351218,
+      "waitStatus": 0
+    },
+    {
+      "pid": 351222,
+      "waitStatus": 0
+    },
+    {
+      "pid": 351460,
+      "waitStatus": 0
+    },
+    {
+      "pid": 351675,
+      "waitStatus": 0
+    },
+    {
+      "pid": 352064,
+      "waitStatus": 0
+    },
+    {
+      "pid": 352068,
+      "waitStatus": 0
+    },
+    {
+      "pid": 352309,
+      "waitStatus": 0
+    },
+    {
+      "pid": 352507,
+      "waitStatus": 0
+    },
+    {
+      "pid": 352908,
+      "waitStatus": 0
+    },
+    {
+      "pid": 352912,
+      "waitStatus": 0
+    },
+    {
+      "pid": 353150,
+      "waitStatus": 0
+    },
+    {
+      "pid": 353231,
+      "waitStatus": 0
+    },
+    {
+      "pid": 353620,
+      "waitStatus": 0
+    },
+    {
+      "pid": 353624,
+      "waitStatus": 0
+    },
+    {
+      "pid": 353862,
+      "waitStatus": 0
+    },
+    {
+      "pid": 353944,
+      "waitStatus": 0
+    },
+    {
+      "pid": 354336,
+      "waitStatus": 0
+    },
+    {
+      "pid": 354340,
+      "waitStatus": 0
+    },
+    {
+      "pid": 354578,
+      "waitStatus": 0
+    },
+    {
+      "pid": 354659,
+      "waitStatus": 0
+    },
+    {
+      "pid": 355049,
+      "waitStatus": 0
+    },
+    {
+      "pid": 355053,
+      "waitStatus": 0
+    },
+    {
+      "pid": 355292,
+      "waitStatus": 0
+    },
+    {
+      "pid": 355374,
+      "waitStatus": 0
+    },
+    {
+      "pid": 355765,
+      "waitStatus": 0
+    },
+    {
+      "pid": 355769,
+      "waitStatus": 0
+    },
+    {
+      "pid": 356008,
+      "waitStatus": 0
+    },
+    {
+      "pid": 356089,
+      "waitStatus": 0
+    },
+    {
+      "pid": 356480,
+      "waitStatus": 0
+    },
+    {
+      "pid": 356484,
+      "waitStatus": 0
+    },
+    {
+      "pid": 356725,
+      "waitStatus": 0
+    },
+    {
+      "pid": 356808,
+      "waitStatus": 0
+    },
+    {
+      "pid": 357201,
+      "waitStatus": 0
+    },
+    {
+      "pid": 357205,
+      "waitStatus": 0
+    },
+    {
+      "pid": 357447,
+      "waitStatus": 0
+    },
+    {
+      "pid": 357559,
+      "waitStatus": 0
+    },
+    {
+      "pid": 357952,
+      "waitStatus": 0
+    },
+    {
+      "pid": 357956,
+      "waitStatus": 0
+    },
+    {
+      "pid": 358210,
+      "waitStatus": 0
+    },
+    {
+      "pid": 358289,
+      "waitStatus": 0
+    },
+    {
+      "pid": 358685,
+      "waitStatus": 0
+    },
+    {
+      "pid": 358689,
+      "waitStatus": 0
+    },
+    {
+      "pid": 358937,
+      "waitStatus": 0
+    },
+    {
+      "pid": 359143,
+      "waitStatus": 0
+    },
+    {
+      "pid": 359535,
+      "waitStatus": 0
+    },
+    {
+      "pid": 359539,
+      "waitStatus": 0
+    },
+    {
+      "pid": 359785,
+      "waitStatus": 0
+    },
+    {
+      "pid": 360048,
+      "waitStatus": 0
+    },
+    {
+      "pid": 360455,
+      "waitStatus": 0
+    },
+    {
+      "pid": 360460,
+      "waitStatus": 0
+    },
+    {
+      "pid": 360702,
+      "waitStatus": 0
+    },
+    {
+      "pid": 360906,
+      "waitStatus": 0
+    },
+    {
+      "pid": 361305,
+      "waitStatus": 0
+    },
+    {
+      "pid": 361309,
+      "waitStatus": 0
+    },
+    {
+      "pid": 361553,
+      "waitStatus": 0
+    },
+    {
+      "pid": 361810,
+      "waitStatus": 0
+    },
+    {
+      "pid": 361835,
+      "waitStatus": 0
+    }
+  ],
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-repository",
+    "--test",
+    "legacy_closeout_source",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T22:38:26.938544+00:00",
+  "elapsedSeconds": 26.01,
+  "exitCode": 0,
+  "stopReason": null,
+  "pid": 346882,
+  "childReaped": true,
+  "sourceHead": "19bb15eb77558be81f92f489b34128d33efa30c2",
+  "sourceDiffSha256": "4b4c350dfa2abdfa906f63710deeb08b8d05acdc18410e2c8e6b140142991082",
+  "target": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "jobs": 1
+}
