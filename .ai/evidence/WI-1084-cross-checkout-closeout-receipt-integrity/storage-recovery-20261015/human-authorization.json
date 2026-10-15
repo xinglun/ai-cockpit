@@ -1,0 +1,10 @@
+{
+  "source": "Raydot delegation in current thread",
+  "raydotRequestedAtUTC": "2026-10-15T08:58:40Z",
+  "rayRepliedAtUTC": "2026-10-15T09:03:56Z",
+  "reply": "允许",
+  "exactAuthorizedPath": "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773/debug/incremental",
+  "authorizedAllocatedBytes": 659779584,
+  "scope": "Delete only this old checkout debug/incremental cache; do not extend cleanup; preserve source/.ai/evidence/Runtime binaries/debug/deps/current WI1084 target/WI1078 resources.",
+  "transcript": "Raydot：目前确认可清理的是旧 checkout 的 debug/incremental 编译缓存，约 629 MiB。它可重新生成，不包含源码、证据或 Runtime 二进制。\n允许先清理这一项吗？清完复测空间；若仍不足，再列出其他安全候选，不动当前 WI 的构建产物。\nRay：允许"
+}

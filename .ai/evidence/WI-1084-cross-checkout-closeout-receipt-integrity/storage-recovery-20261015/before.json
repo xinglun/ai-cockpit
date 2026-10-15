@@ -1,0 +1,18 @@
+{
+  "observedAtUTC": "2026-10-15T09:05:41.872972+00:00",
+  "filesystems": {
+    "/workspace": {
+      "availableBytes": 83058688,
+      "freeBytes": 1817821184,
+      "availableInodes": 1990758,
+      "freeInodes": 1990758
+    },
+    "/tmp": {
+      "availableBytes": 2965041152,
+      "freeBytes": 2965041152,
+      "availableInodes": 2256028,
+      "freeInodes": 2256028
+    }
+  },
+  "activeBuilds": []
+}

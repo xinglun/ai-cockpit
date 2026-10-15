@@ -1,0 +1,7 @@
+Governance controls: unknown
+  scenario coverage: unknown
+  acceptance evidence: not_applicable
+  intent alignment: unknown
+  final dimensions: not_applicable
+  unknowns: required_scenario_unverified:receipt_only_deletion, required_scenario_unverified:bound_recovery_integrity, required_scenario_unverified:valid_recovery_and_retry, required_scenario_unverified:ordinary_and_historical_compatibility, required_scenario_unverified:historical_verification_fidelity, required_scenario_unverified:published_path_preservation, intent_alignment_missing
+  [warning] intent_alignment_missing: declared intent has no alignment projection

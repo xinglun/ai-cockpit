@@ -1,0 +1,3 @@
+Filesystem      Inodes  IUsed   IFree IUse% Mounted on
+overlay        2097152 104735 1992417    5% /workspace
+none           2305017  48989 2256028    3% /tmp
