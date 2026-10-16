@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "kind": "directed_diagnostic_only",
+  "recordedAt": "2026-10-16T05:50:10.846966+00:00",
+  "sourceHeadAtExecution": "fe652eac2367987b82692f54f5ff2d0173e8e2e0",
+  "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+  "snapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+  "casesExecuted": 6,
+  "casesPassed": 5,
+  "casesFailed": 1,
+  "allCasesPassed": false,
+  "fullWorkspaceRerun": false,
+  "originalFullFailureAttemptId": "sha256:bc14d52bc12788cf36e4a29d9b5f4806654bdc05c3fe8ebbaefb0b599f0fdc1b",
+  "baselineZombieCount": 1403,
+  "newZombiesObserved": 0,
+  "processObservationErrors": 0,
+  "sameSessionDescendantsRemaining": 0,
+  "newTestsAfterCase06": false,
+  "rows": [
+    {
+      "caseId": "01-cli-calibrated",
+      "passed": true,
+      "launchExitCode": 0,
+      "toolReportedShellExitCode": 1,
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.79c4e0d7d8d5d3696734668fc4609a9f3c61bf50bf28971a2efec36c58fa9ca3.json",
+          "attemptId": "sha256:79c4e0d7d8d5d3696734668fc4609a9f3c61bf50bf28971a2efec36c58fa9ca3",
+          "state": "execution_completed",
+          "passed": true,
+          "processesSpawned": 1,
+          "diagnostic": null,
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": true,
+              "exitCode": 0,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "checks": {
+        "launchExitZero": true,
+        "subreaperRegistered": true,
+        "tiniExitObserved": true,
+        "noObservationErrors": true,
+        "noNewZombies": true,
+        "noNewSessionProcesses": true,
+        "tiniAbsentAfter": true,
+        "cargoResultPresent": true,
+        "cargoLogsPresent": true,
+        "nativeAttemptPassed": true
+      },
+      "testResults": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 18 filtered out; finished in 4.54s"
+      ],
+      "adoptedReapLogEntries": 1
+    },
+    {
+      "caseId": "02-cli-work-item",
+      "passed": true,
+      "launchExitCode": 0,
+      "toolReportedShellExitCode": 1,
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.a260f48c0499824a50274c6c59e3129d2f476936a2ef7112301d8be096e2c772.json",
+          "attemptId": "sha256:a260f48c0499824a50274c6c59e3129d2f476936a2ef7112301d8be096e2c772",
+          "state": "execution_completed",
+          "passed": true,
+          "processesSpawned": 1,
+          "diagnostic": null,
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": true,
+              "exitCode": 0,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "checks": {
+        "launchExitZero": true,
+        "subreaperRegistered": true,
+        "tiniExitObserved": true,
+        "noObservationErrors": true,
+        "noNewZombies": true,
+        "noNewSessionProcesses": true,
+        "tiniAbsentAfter": true,
+        "cargoResultPresent": true,
+        "cargoLogsPresent": true,
+        "nativeAttemptPassed": true
+      },
+      "testResults": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 18 filtered out; finished in 2.64s"
+      ],
+      "adoptedReapLogEntries": 1
+    },
+    {
+      "caseId": "03-mcp-auto",
+      "passed": true,
+      "launchExitCode": 0,
+      "toolReportedShellExitCode": 0,
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.4b9d6be1daa2db572244eaa2d20ef3f4a90cc0917174753fca644605fe5548a9.json",
+          "attemptId": "sha256:4b9d6be1daa2db572244eaa2d20ef3f4a90cc0917174753fca644605fe5548a9",
+          "state": "execution_completed",
+          "passed": true,
+          "processesSpawned": 1,
+          "diagnostic": null,
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": true,
+              "exitCode": 0,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "checks": {
+        "launchExitZero": true,
+        "subreaperRegistered": true,
+        "tiniExitObserved": true,
+        "noObservationErrors": true,
+        "noNewZombies": true,
+        "noNewSessionProcesses": true,
+        "tiniAbsentAfter": true,
+        "cargoResultPresent": true,
+        "cargoLogsPresent": true,
+        "nativeAttemptPassed": true
+      },
+      "testResults": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 1.11s"
+      ],
+      "adoptedReapLogEntries": 1
+    },
+    {
+      "caseId": "04-mcp-receipt-rejection",
+      "passed": true,
+      "launchExitCode": 0,
+      "toolReportedShellExitCode": 0,
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.eb6f50ad44f3e6e27d9598e2e6335bbb4f78ec47e624e280ee9451b0a5f0bcc4.json",
+          "attemptId": "sha256:eb6f50ad44f3e6e27d9598e2e6335bbb4f78ec47e624e280ee9451b0a5f0bcc4",
+          "state": "execution_completed",
+          "passed": true,
+          "processesSpawned": 1,
+          "diagnostic": null,
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": true,
+              "exitCode": 0,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "checks": {
+        "launchExitZero": true,
+        "subreaperRegistered": true,
+        "tiniExitObserved": true,
+        "noObservationErrors": true,
+        "noNewZombies": true,
+        "noNewSessionProcesses": true,
+        "tiniAbsentAfter": true,
+        "cargoResultPresent": true,
+        "cargoLogsPresent": true,
+        "nativeAttemptPassed": true
+      },
+      "testResults": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 0.53s"
+      ],
+      "adoptedReapLogEntries": 2
+    },
+    {
+      "caseId": "05-mcp-failed-execution",
+      "passed": true,
+      "launchExitCode": 0,
+      "toolReportedShellExitCode": 0,
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.9fdfeb216d865353940774c92d8000cbaf6dcf79299388724eb7fb950ffc30f7.json",
+          "attemptId": "sha256:9fdfeb216d865353940774c92d8000cbaf6dcf79299388724eb7fb950ffc30f7",
+          "state": "execution_completed",
+          "passed": true,
+          "processesSpawned": 1,
+          "diagnostic": null,
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": true,
+              "exitCode": 0,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "checks": {
+        "launchExitZero": true,
+        "subreaperRegistered": true,
+        "tiniExitObserved": true,
+        "noObservationErrors": true,
+        "noNewZombies": true,
+        "noNewSessionProcesses": true,
+        "tiniAbsentAfter": true,
+        "cargoResultPresent": true,
+        "cargoLogsPresent": true,
+        "nativeAttemptPassed": true
+      },
+      "testResults": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 37 filtered out; finished in 0.52s"
+      ],
+      "adoptedReapLogEntries": 2
+    },
+    {
+      "caseId": "06-repository-verification-service",
+      "passed": false,
+      "launchExitCode": 1,
+      "toolReportedShellExitCode": 1,
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.23f3251051ffcfe707d2d0a19b26c6850c745c410d74984c11906cc58352f68d.json",
+          "attemptId": "sha256:23f3251051ffcfe707d2d0a19b26c6850c745c410d74984c11906cc58352f68d",
+          "state": "execution_failed",
+          "passed": false,
+          "processesSpawned": 1,
+          "diagnostic": {
+            "code": "verification_execution",
+            "message": "one or more verification nodes failed"
+          },
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": false,
+              "exitCode": 101,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "checks": {
+        "launchExitZero": false,
+        "subreaperRegistered": true,
+        "tiniExitObserved": true,
+        "noObservationErrors": true,
+        "noNewZombies": true,
+        "noNewSessionProcesses": true,
+        "tiniAbsentAfter": true,
+        "cargoResultPresent": true,
+        "cargoLogsPresent": true,
+        "nativeAttemptPassed": false
+      },
+      "testResults": [
+        "test result: FAILED. 16 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.62s"
+      ],
+      "adoptedReapLogEntries": 20
+    }
+  ]
+}
