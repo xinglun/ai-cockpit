@@ -1,0 +1,40 @@
+{
+  "kind": "post_execution_binding_and_observation_check",
+  "recordedAt": "2026-10-16T06:21:07.052135+00:00",
+  "toolSessionId": 22990,
+  "toolReportedExitCode": 0,
+  "shellExitTrapRecorded": 0,
+  "strictNewZombiesIncludingBaselineLiveTransitions": [],
+  "monitorReadRacesPreserved": [
+    {
+      "monitor": 1,
+      "pid": 290833,
+      "error": "[Errno 2] No such file or directory: '/proc/290833/stat'",
+      "errno": 2,
+      "entryStillExists": false
+    },
+    {
+      "monitor": 10,
+      "pid": 501178,
+      "error": "[Errno 2] No such file or directory: '/proc/501178/stat'",
+      "errno": 2,
+      "entryStillExists": false
+    }
+  ],
+  "unresolvedMonitorErrors": [],
+  "nativeVerificationFresh": true,
+  "formalReceiptMatchesFullAttempt": true,
+  "fullAttemptReferencedByNativeOutcome": true,
+  "validationUnknowns": [
+    "intent_alignment_missing"
+  ],
+  "outcomeUnknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "githubReadOnly": {
+    "defaultBranch": "main",
+    "headBranchPrs": []
+  },
+  "fullVerificationExecuted": true,
+  "finishPrManualCiMergeCloseOrCleanupPerformed": false
+}

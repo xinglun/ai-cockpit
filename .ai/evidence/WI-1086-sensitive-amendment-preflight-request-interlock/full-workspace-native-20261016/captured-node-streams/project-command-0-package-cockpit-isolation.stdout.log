@@ -1,0 +1,23 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 8 tests
+test detects_file_content_changes_without_mtime_or_size_cache ... ok
+test emits_deterministic_jsonl_with_metadata_and_streaming_hash_stats ... ok
+test masks_source_directory_metadata_ancestors_of_excluded_output ... ok
+test missing_or_non_directory_root_is_an_empty_success ... ok
+test records_symlink_target_resolution_dangling_and_cycles ... ok
+test records_unix_special_paths_and_rejects_non_utf8_names_explicitly ... ok
+test scans_selected_paths_once_in_deterministic_order ... ok
+test selected_missing_paths_emit_shell_compatible_missing_records ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

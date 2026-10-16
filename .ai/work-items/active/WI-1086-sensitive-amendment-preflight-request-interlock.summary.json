@@ -1,41 +1,25 @@
 {
   "changedPaths": [
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.3c68c71edcc32107f63dd0de085c48651e3afd28f3406ed68f3f171d40173918.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.758e33a450b7cee6ade85b7c980ec80fa6fa505b00e54a148e601bea47009fe5.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/admission.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/admission.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/cargo.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/cargo.stdout.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/exit-code.txt",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/inner-write-syscalls.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/invocation.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/native-tini.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/native-tini.stdout.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/process-after.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/process-before.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/result.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/shell-exit-code.txt",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/admission.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/admission.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/cargo.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/cargo.stdout.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/exit-code.txt",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/invocation.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/native-tini.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/native-tini.stdout.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/process-after.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/process-before.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/result.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/08-exact-cache-write/shell-exit-code.txt",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/admission.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/admission.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/cargo.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/cargo.stdout.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/inner-write-syscalls.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/invocation.json",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/native-tini.stderr.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/native-tini.stdout.log",
-    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/09-exact-cache-ready/process-before.json"
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/admission.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/admission.stderr.log",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/invocation.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-01.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-02.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-03.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-04.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-05.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-06.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-07.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-08.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-09.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-10.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-11.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/native-tini.stderr.log",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/native-tini.stdout.log",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/plan.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/plan.stderr.log",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/process-before.json",
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/source-head.txt"
   ],
   "checkpointAt": "2026-10-16T00:14:08Z",
   "checkpointContractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
@@ -140,7 +124,7 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-16T05:57:37Z",
+  "preflightAt": "2026-10-16T06:17:36Z",
   "preflightContractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
@@ -152,6 +136,58 @@
   "verification": [
     {
       "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
     }
   ],

@@ -1,0 +1,6 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running unittests src/lib.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/cockpit_git-718fa01e6ab774fd)
+     Running tests/collaboration_topology.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/collaboration_topology-d5b28d9e151f83eb)
+     Running tests/repository.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/repository-052f44da8a431f58)
+     Running tests/snapshot.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/snapshot-9b42ed00d9faf891)
+   Doc-tests cockpit_git
