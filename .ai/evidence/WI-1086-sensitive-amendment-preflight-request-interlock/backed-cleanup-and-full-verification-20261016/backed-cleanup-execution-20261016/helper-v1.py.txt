@@ -1,0 +1,284 @@
+import ctypes
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import stat
+import subprocess
+import tempfile
+import time
+
+assert ctypes.CDLL(None, use_errno=True).prctl(36, 1, 0, 0, 0) == 0
+INVENTORY = Path('/workspace/wi1085-capacity-inventory-20261016')
+MANIFEST = INVENTORY / 'proposed-cleanup-283.manifest.json'
+EXPECTED = '5881b11f87fd77b5d97a0e528732687a44bc825248aeb8223dea6a5b026a860e'
+LOG = Path('/workspace/wi1086-scaffold-20261016/backed-cleanup-execution-20261016')
+LOG.mkdir(exist_ok=False)
+ROOT = Path('/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source')
+REPO = ROOT.parent.parent
+FLOOR = 512 * 1024 * 1024
+REQUIRED = 1024 * 1024 * 1024 + 64 * 1024 * 1024
+
+def save(name, value):
+    p = LOG / name
+    with p.open('x') as f:
+        json.dump(value, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+        f.flush()
+        os.fsync(f.fileno())
+
+def disks():
+    return {name: {'device': Path(name).stat().st_dev,
+                   'availableBytes': os.statvfs(name).f_bavail * os.statvfs(name).f_frsize,
+                   'availableInodes': os.statvfs(name).f_favail} for name in ['/workspace', '/tmp']}
+
+def digest_file(path):
+    h = hashlib.sha256()
+    with path.open('rb') as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+def parent_fd(path):
+    assert path.is_absolute() and '..' not in path.parts
+    fd = os.open('/', os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        for part in path.parent.parts[1:]:
+            nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+            os.close(fd)
+            fd = nxt
+        return fd
+    except BaseException:
+        os.close(fd)
+        raise
+
+def matches(s, row):
+    return stat.S_ISREG(s.st_mode) and (
+        s.st_dev, s.st_ino, stat.S_IMODE(s.st_mode), s.st_uid, s.st_gid,
+        s.st_size, s.st_mtime_ns, s.st_ctime_ns, s.st_nlink
+    ) == (row['device'], row['inode'], int(row['mode'], 8), row['uid'], row['gid'],
+          row['sizeBytes'], row['mtimeNs'], row['ctimeNs'], row['linkCount'])
+
+def open_checked(row):
+    path = Path(row['path'])
+    relative = path.relative_to(ROOT)
+    assert str(relative) == row['relativePath'] and '..' not in relative.parts
+    directory = parent_fd(path)
+    try:
+        fd = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW, dir_fd=directory)
+        assert matches(os.fstat(fd), row), str(path)
+        h = hashlib.sha256()
+        for chunk in iter(lambda: os.read(fd, 1024 * 1024), b''):
+            h.update(chunk)
+        assert h.hexdigest() == row['sha256'] and matches(os.fstat(fd), row), str(path)
+        os.lseek(fd, 0, os.SEEK_SET)
+        return directory, fd
+    except BaseException:
+        try:
+            os.close(fd)
+        except (UnboundLocalError, OSError):
+            pass
+        os.close(directory)
+        raise
+
+def observe():
+    processes, unknowns, references = [], [], []
+    for p in Path('/proc').iterdir():
+        if not p.name.isdigit():
+            continue
+        try:
+            raw = (p / 'stat').read_text()
+            fields = raw[raw.rfind(')') + 2:].split()
+            comm = raw[raw.find('(') + 1:raw.rfind(')')]
+            if fields[0] == 'Z':
+                continue
+            processes.append({'pid': int(p.name), 'comm': comm, 'state': fields[0]})
+        except OSError as e:
+            if e.errno != 2:
+                unknowns.append({'pid': int(p.name), 'comm': '', 'kind': 'stat/status', 'errno': e.errno})
+            continue
+        for kind in ['exe', 'cwd', 'root', 'maps', 'fd']:
+            try:
+                if kind == 'maps':
+                    for line in (p / kind).read_text().splitlines():
+                        if str(ROOT) in line:
+                            references.append({'pid': int(p.name), 'kind': kind, 'reference': line})
+                elif kind == 'fd':
+                    for f in (p / kind).iterdir():
+                        try:
+                            target = os.readlink(f)
+                            if str(ROOT) in target and int(p.name) != os.getpid():
+                                references.append({'pid': int(p.name), 'kind': kind, 'reference': target})
+                        except OSError as e:
+                            if e.errno != 2:
+                                unknowns.append({'pid': int(p.name), 'comm': comm, 'kind': 'fd/readlink', 'errno': e.errno})
+                else:
+                    target = os.readlink(p / kind)
+                    if str(ROOT) in target:
+                        references.append({'pid': int(p.name), 'kind': kind, 'reference': target})
+            except OSError as e:
+                if e.errno != 2:
+                    unknowns.append({'pid': int(p.name), 'comm': comm, 'kind': kind, 'errno': e.errno})
+    base = json.loads((INVENTORY / 'occupancy-observation.json').read_text())['unknowns']
+    def key(item):
+        return (item['pid'], item.get('comm', ''), 'fd' if item['kind'].startswith('fd') else item['kind'], item['errno'])
+    approved = {key(x) for x in base}
+    new = [x for x in unknowns if key(x) not in approved]
+    return {'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'liveProcesses': processes, 'targetReferencesObserved': references,
+            'unreadableReferenceUnknowns': unknowns, 'newUndisclosedUnknowns': new,
+            'riskAcceptedByRay': True, 'occupancyVerified': False,
+            'acceptedRiskScope': 'only previously disclosed unreadable-process reference uncertainty'}
+
+def assert_no_activity(observation):
+    assert not observation['targetReferencesObserved'], 'actual target reference observed'
+    assert not observation['newUndisclosedUnknowns'], 'new undisclosed process observation uncertainty'
+    assert not [x for x in observation['liveProcesses'] if x['comm'] in ['cargo', 'rustc']], 'active build observed'
+
+result = {'startedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'manifestSha256': EXPECTED, 'deletedFiles': [], 'skippedFiles': [],
+          'backupVerified': False, 'backupDirectory': None, 'failure': None}
+try:
+    raw = MANIFEST.read_bytes()
+    assert hashlib.sha256(raw).hexdigest() == EXPECTED
+    manifest = json.loads(raw)
+    rows = manifest['entries']
+    assert len(rows) == 283 and len({x['path'] for x in rows}) == 283
+    assert len({(x['device'], x['inode']) for x in rows}) == 283
+    save('authorization-provenance.json', {
+        'kind': 'host-cache-maintenance-human-authorization-provenance',
+        'requestMessageId': 'Sentinel_6fb3be8e62688191b8143c8f4f5749cd',
+        'requestTimeUtcMinutePrecision': '2026-10-16T03:08Z',
+        'approvalMessageId': 'Sentinel_d8e66a17495481919c5bbd29bb93844b',
+        'approvalTimeUtc': '2026-10-16T03:17:47Z',
+        'actor': 'Ray', 'exactApprovalText': '批准',
+        'approvedManifestSha256': EXPECTED,
+        'scope': '283 exact WI-1085 build artifacts, backup verified on different /tmp disk before removal, accepting disclosed unreadable reference uncertainty',
+        'exclusions': '653 excluded target files, all directories, sources/.ai, Runtime/candidate CLI, all other resources and backup itself',
+        'notRuntimeReceipt': True, 'noPolicyConfirmationFabricated': True,
+        'residualRisks': ['unreadable processes may reference files', 'space may not release immediately', 'WI-1085 may require restore/rebuild later', '/tmp backup is not persistent']})
+    before = disks()
+    result['disksBefore'] = before
+    assert before['/workspace']['device'] != before['/tmp']['device']
+    assert before['/tmp']['availableBytes'] - sum(x['sizeBytes'] for x in rows) - 16 * 1024 * 1024 >= FLOOR
+    assert before['/workspace']['availableBytes'] + sum(x['allocatedBytes'] for x in rows) >= REQUIRED
+    head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip()
+    assert head == 'f49a001ece01209ed9e4cf743f879b7a5931143c'
+    assert subprocess.check_output(['git', 'status', '--porcelain=v1'], cwd=REPO) == b''
+    first = observe()
+    save('occupancy-before-backup.json', first)
+    assert_no_activity(first)
+    backup = Path(tempfile.mkdtemp(prefix='wi1085-approved-build-preservation-20261016-', dir='/tmp'))
+    result['backupDirectory'] = str(backup)
+    assert backup.stat().st_dev != ROOT.stat().st_dev
+    backup_rows = []
+    for row in rows:
+        directory, source_fd = open_checked(row)
+        destination = backup / row['relativePath']
+        destination.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
+        try:
+            target_fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, int(row['mode'], 8))
+            try:
+                for chunk in iter(lambda: os.read(source_fd, 1024 * 1024), b''):
+                    offset = 0
+                    while offset < len(chunk):
+                        offset += os.write(target_fd, chunk[offset:])
+                os.fchmod(target_fd, int(row['mode'], 8))
+                os.fsync(target_fd)
+            finally:
+                os.close(target_fd)
+            assert matches(os.fstat(source_fd), row)
+        finally:
+            os.close(source_fd)
+            os.close(directory)
+        assert digest_file(destination) == row['sha256']
+        assert destination.stat().st_size == row['sizeBytes']
+        assert disks()['/tmp']['availableBytes'] >= FLOOR
+        backup_rows.append({'source': row['path'], 'backupRelativePath': row['relativePath'],
+                            'backupPath': str(destination), 'sha256': row['sha256'],
+                            'bytes': row['sizeBytes'], 'readBackVerified': True})
+    save('backup-verified-manifest.json', {'backupRoot': str(backup), 'allFilesVerifiedBeforeAnyRemoval': True,
+                                         'count': len(backup_rows), 'files': backup_rows})
+    (backup / 'approved-source-manifest.json').write_bytes(raw)
+    (backup / 'RESTORE-INSTRUCTIONS.txt').write_text(
+        'Preserve this backup. Do not delete it automatically. To restore, stop all WI-1085 builds/tests, '
+        'verify the original approved manifest hash and each backup file hash, and check all destination parents '
+        'for symlinks. Restore only absent exact manifest paths under the original target; never overwrite '
+        'new or changed files. Copy original bytes with recorded mode, verify hashes and record the restoration. '
+        'Original inode/ctime will differ after restoration. This /tmp backup is not persistent.\n')
+    result['backupVerified'] = True
+    result['disksAfterBackup'] = disks()
+    save('backup-complete-checkpoint.json', result)
+    second = observe()
+    save('occupancy-before-removal.json', second)
+    assert_no_activity(second)
+    eligible = []
+    for row in rows:
+        try:
+            directory, source_fd = open_checked(row)
+            os.close(source_fd)
+            os.close(directory)
+            assert digest_file(backup / row['relativePath']) == row['sha256']
+            eligible.append(row)
+        except (OSError, AssertionError) as e:
+            result['skippedFiles'].append({'path': row['path'], 'reason': repr(e)})
+    assert disks()['/workspace']['availableBytes'] + sum(x['allocatedBytes'] for x in eligible) >= REQUIRED
+    with (LOG / 'file-removal-results.jsonl').open('x') as events:
+        for row in eligible:
+            directory = source_fd = None
+            try:
+                directory, source_fd = open_checked(row)
+                current = os.stat(Path(row['path']).name, dir_fd=directory, follow_symlinks=False)
+                assert matches(current, row)
+                os.unlink(Path(row['path']).name, dir_fd=directory)
+                result['deletedFiles'].append({'path': row['path'], 'sha256': row['sha256'], 'allocatedBytesBefore': row['allocatedBytes'], 'backupPath': str(backup / row['relativePath'])})
+                event = {'path': row['path'], 'state': 'removed_after_full_verified_backup'}
+            except (OSError, AssertionError) as e:
+                item = {'path': row['path'], 'reason': repr(e)}
+                result['skippedFiles'].append(item)
+                event = dict(item, state='skipped')
+            finally:
+                if source_fd is not None:
+                    os.close(source_fd)
+                if directory is not None:
+                    os.close(directory)
+            events.write(json.dumps(event) + '\n')
+            events.flush()
+            os.fsync(events.fileno())
+    excluded = json.loads((INVENTORY / 'excluded-target-files.manifest.json').read_text())['entries']
+    for row in excluded:
+        p = Path(row['path'])
+        assert matches(p.lstat(), row) and digest_file(p) == row['sha256'], str(p)
+    assert subprocess.check_output(['git', 'status', '--porcelain=v1'], cwd=REPO) == b''
+    for item in json.loads((INVENTORY / 'retained-provenance.json').read_text())['files']:
+        assert digest_file(REPO / item['path']) == item['sha256']
+    result['excludedFilesPreserved'] = len(excluded)
+    result['gitClean'] = True
+    result['installedRuntimeSha256'] = digest_file(Path('/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit'))
+    assert result['installedRuntimeSha256'] == '5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38'
+    result['candidateCliSha256'] = digest_file(ROOT / 'debug/ai-cockpit')
+    assert result['candidateCliSha256'] == '8f4ce88a9f4ead070f935061ff421652ae53aec3eda75feabe17ce9bb2daf095'
+except BaseException as e:
+    result['failure'] = repr(e)
+finally:
+    result['finishedAt'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    result['disksAfter'] = disks()
+    if 'disksBefore' in result:
+        result['actualWorkspaceFreeDeltaBytes'] = result['disksAfter']['/workspace']['availableBytes'] - result['disksBefore']['/workspace']['availableBytes']
+    result['actualDeletedCount'] = len(result['deletedFiles'])
+    result['skippedCount'] = len(result['skippedFiles'])
+    result['capacityMeets1GiBPlus64MiB'] = result['disksAfter']['/workspace']['availableBytes'] >= REQUIRED
+    save('cleanup-result.json', result)
+    end = time.monotonic() + 5
+    while True:
+        try:
+            pid, status = os.waitpid(-1, os.WNOHANG)
+        except ChildProcessError:
+            break
+        if not pid:
+            if time.monotonic() >= end:
+                break
+            time.sleep(.05)
+    print(json.dumps({k: v for k, v in result.items() if k not in ['deletedFiles', 'skippedFiles']}, ensure_ascii=False))
+raise SystemExit(1 if result['failure'] else 0)

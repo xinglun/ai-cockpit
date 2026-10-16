@@ -1,0 +1,465 @@
+{
+  "observedAt": "2026-10-16T03:22:32.009944+00:00",
+  "liveProcesses": [
+    {
+      "pid": 1,
+      "comm": "tail",
+      "state": "S"
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "state": "S"
+    },
+    {
+      "pid": 201,
+      "comm": "dockerd",
+      "state": "S"
+    },
+    {
+      "pid": 253,
+      "comm": "containerd",
+      "state": "S"
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "state": "S"
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "state": "S"
+    },
+    {
+      "pid": 804721,
+      "comm": "codex",
+      "state": "S"
+    },
+    {
+      "pid": 804722,
+      "comm": "python3",
+      "state": "R"
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "state": "S"
+    }
+  ],
+  "targetReferencesObserved": [],
+  "unreadableReferenceUnknowns": [
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "exe",
+      "errno": 13
+    },
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "cwd",
+      "errno": 13
+    },
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "root",
+      "errno": 13
+    },
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "maps",
+      "errno": 13
+    },
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 1,
+      "comm": "tail",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "exe",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "cwd",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "root",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "maps",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 201,
+      "comm": "dockerd",
+      "kind": "exe",
+      "errno": 13
+    },
+    {
+      "pid": 201,
+      "comm": "dockerd",
+      "kind": "cwd",
+      "errno": 13
+    },
+    {
+      "pid": 201,
+      "comm": "dockerd",
+      "kind": "root",
+      "errno": 13
+    },
+    {
+      "pid": 201,
+      "comm": "dockerd",
+      "kind": "maps",
+      "errno": 13
+    },
+    {
+      "pid": 201,
+      "comm": "dockerd",
+      "kind": "fd",
+      "errno": 13
+    },
+    {
+      "pid": 253,
+      "comm": "containerd",
+      "kind": "exe",
+      "errno": 13
+    },
+    {
+      "pid": 253,
+      "comm": "containerd",
+      "kind": "cwd",
+      "errno": 13
+    },
+    {
+      "pid": 253,
+      "comm": "containerd",
+      "kind": "root",
+      "errno": 13
+    },
+    {
+      "pid": 253,
+      "comm": "containerd",
+      "kind": "maps",
+      "errno": 13
+    },
+    {
+      "pid": 253,
+      "comm": "containerd",
+      "kind": "fd",
+      "errno": 13
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "kind": "exe",
+      "errno": 13
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "kind": "cwd",
+      "errno": 13
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "kind": "root",
+      "errno": 13
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "kind": "maps",
+      "errno": 13
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "exe",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "cwd",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "root",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "maps",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "exe",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "cwd",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "root",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "maps",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "kind": "fd/readlink",
+      "errno": 13
+    }
+  ],
+  "newUndisclosedUnknowns": [],
+  "riskAcceptedByRay": true,
+  "occupancyVerified": false,
+  "acceptedRiskScope": "only previously disclosed unreadable-process reference uncertainty",
+  "verifiedCallerAncestorChain": [
+    {
+      "pid": 804722,
+      "comm": "python3",
+      "ppid": 804721,
+      "uid": "Uid:\t1000\t1000\t1000\t1000",
+      "startTimeTicks": "24433737"
+    },
+    {
+      "pid": 804721,
+      "comm": "codex",
+      "ppid": 804720,
+      "uid": "Uid:\t1000\t1000\t1000\t1000",
+      "startTimeTicks": "24433736"
+    },
+    {
+      "pid": 804720,
+      "comm": "bwrap",
+      "ppid": 804718,
+      "uid": "Uid:\t1000\t1000\t1000\t1000",
+      "startTimeTicks": "24433736"
+    },
+    {
+      "pid": 804718,
+      "comm": "codex-linux-san",
+      "ppid": 2480142,
+      "uid": "Uid:\t1000\t1000\t1000\t1000",
+      "startTimeTicks": "24433734"
+    },
+    {
+      "pid": 2480142,
+      "comm": "codex",
+      "ppid": 0,
+      "uid": "Uid:\t1000\t1000\t1000\t1000",
+      "startTimeTicks": "13138834"
+    }
+  ],
+  "ephemeralCallerPidMappingToOriginalRoles": {
+    "804720": 804066,
+    "804718": 804061
+  },
+  "pidMappingDoesNotVerifyOccupancy": true
+}

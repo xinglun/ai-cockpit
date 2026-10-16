@@ -1,0 +1,2271 @@
+{
+  "backupRoot": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c",
+  "allFilesVerifiedBeforeAnyRemoval": true,
+  "count": 283,
+  "files": [
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/anyhow-38962dfe566d06b3/build_script_build-38962dfe566d06b3.d",
+      "backupRelativePath": "debug/build/anyhow-38962dfe566d06b3/build_script_build-38962dfe566d06b3.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/anyhow-38962dfe566d06b3/build_script_build-38962dfe566d06b3.d",
+      "sha256": "38d8f8a29bbf32da867005a5f724c66e5061b728004c1df671b5255c254ab0d6",
+      "bytes": 625,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/cap-fs-ext-d75be6bcb88c3f86/build_script_build-d75be6bcb88c3f86.d",
+      "backupRelativePath": "debug/build/cap-fs-ext-d75be6bcb88c3f86/build_script_build-d75be6bcb88c3f86.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/cap-fs-ext-d75be6bcb88c3f86/build_script_build-d75be6bcb88c3f86.d",
+      "sha256": "5ea5d151cbb73f88cbc780874ee6db6929992255ea0b1b7fe40d932cda8b5e09",
+      "bytes": 639,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/cap-primitives-9f3ea765249be3e5/build_script_build-9f3ea765249be3e5.d",
+      "backupRelativePath": "debug/build/cap-primitives-9f3ea765249be3e5/build_script_build-9f3ea765249be3e5.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/cap-primitives-9f3ea765249be3e5/build_script_build-9f3ea765249be3e5.d",
+      "sha256": "1dc12b36caf9dc4469e3c72cf3ec17fa9672440cd9611b05addc762a64e59bc4",
+      "bytes": 659,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/cap-std-3a1c3527c7bea943/build_script_build-3a1c3527c7bea943.d",
+      "backupRelativePath": "debug/build/cap-std-3a1c3527c7bea943/build_script_build-3a1c3527c7bea943.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/cap-std-3a1c3527c7bea943/build_script_build-3a1c3527c7bea943.d",
+      "sha256": "ecd989f166bbb105eebb68e528be65f2ed9741bc5d833de372f90f7415b4291b",
+      "bytes": 624,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/chrono-tz-99683c93a97761ba/build_script_build-99683c93a97761ba.d",
+      "backupRelativePath": "debug/build/chrono-tz-99683c93a97761ba/build_script_build-99683c93a97761ba.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/chrono-tz-99683c93a97761ba/build_script_build-99683c93a97761ba.d",
+      "sha256": "8d4ac0b452f472bd7f2873e7a6000b71141dc0770a07a3d190b9fb1762892dd5",
+      "bytes": 637,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/generic-array-3e7865b8dbffc0be/build_script_build-3e7865b8dbffc0be.d",
+      "backupRelativePath": "debug/build/generic-array-3e7865b8dbffc0be/build_script_build-3e7865b8dbffc0be.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/generic-array-3e7865b8dbffc0be/build_script_build-3e7865b8dbffc0be.d",
+      "sha256": "afd36a684285ecaac21402b8bd3d435122fc004656daebabfa6bf91d496fd080",
+      "bytes": 657,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/getrandom-f1697a67cb86528f/build_script_build-f1697a67cb86528f.d",
+      "backupRelativePath": "debug/build/getrandom-f1697a67cb86528f/build_script_build-f1697a67cb86528f.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/getrandom-f1697a67cb86528f/build_script_build-f1697a67cb86528f.d",
+      "sha256": "9b8ce709f8364a1b7d3dc3d4d5240ed1029c528dad2291cbbe48ee4e85c26c41",
+      "bytes": 634,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/io-extras-fa190460bb7e594a/build_script_build-fa190460bb7e594a.d",
+      "backupRelativePath": "debug/build/io-extras-fa190460bb7e594a/build_script_build-fa190460bb7e594a.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/io-extras-fa190460bb7e594a/build_script_build-fa190460bb7e594a.d",
+      "sha256": "367a46ab6c5dbbaa951d9fbe1b9b50bf429f31a478324305e99924e2160f1e3e",
+      "bytes": 637,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/io-lifetimes-1beb9029e5afc45b/build_script_build-1beb9029e5afc45b.d",
+      "backupRelativePath": "debug/build/io-lifetimes-1beb9029e5afc45b/build_script_build-1beb9029e5afc45b.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/io-lifetimes-1beb9029e5afc45b/build_script_build-1beb9029e5afc45b.d",
+      "sha256": "aa0392303a7686da849a74d1ec34b8fbc3b57a54deaa28291ca0e8b7f37ea5be",
+      "bytes": 649,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/io-lifetimes-d16d8e612bfce173/build_script_build-d16d8e612bfce173.d",
+      "backupRelativePath": "debug/build/io-lifetimes-d16d8e612bfce173/build_script_build-d16d8e612bfce173.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/io-lifetimes-d16d8e612bfce173/build_script_build-d16d8e612bfce173.d",
+      "sha256": "10baf75748a49ff2f31b35cc146f3133d8349cd7248d350c72488605ec3d3ceb",
+      "bytes": 649,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/libc-9a6960e1cffdbcb4/build_script_build-9a6960e1cffdbcb4.d",
+      "backupRelativePath": "debug/build/libc-9a6960e1cffdbcb4/build_script_build-9a6960e1cffdbcb4.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/libc-9a6960e1cffdbcb4/build_script_build-9a6960e1cffdbcb4.d",
+      "sha256": "7b42f899b58feed0342031f9e87db5c1b300c9c68d683c23d36ac3f7b7bd191d",
+      "bytes": 615,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/num-traits-723dcfda529e3498/build_script_build-723dcfda529e3498.d",
+      "backupRelativePath": "debug/build/num-traits-723dcfda529e3498/build_script_build-723dcfda529e3498.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/num-traits-723dcfda529e3498/build_script_build-723dcfda529e3498.d",
+      "sha256": "c64dcb6dfbb3687a076de1d9a1ac930d7399d6f20eefbd2f8937cd8236be5e4a",
+      "bytes": 642,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/proc-macro2-0ca1b77b693ce48f/build_script_build-0ca1b77b693ce48f.d",
+      "backupRelativePath": "debug/build/proc-macro2-0ca1b77b693ce48f/build_script_build-0ca1b77b693ce48f.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/proc-macro2-0ca1b77b693ce48f/build_script_build-0ca1b77b693ce48f.d",
+      "sha256": "9465faf455323f0609d2a5b6c44560a33de54895a93786e9bfb5ad62945d9f74",
+      "bytes": 650,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/proc-macro2-2d69e6359ddef0b2/build_script_build-2d69e6359ddef0b2.d",
+      "backupRelativePath": "debug/build/proc-macro2-2d69e6359ddef0b2/build_script_build-2d69e6359ddef0b2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/proc-macro2-2d69e6359ddef0b2/build_script_build-2d69e6359ddef0b2.d",
+      "sha256": "c4f3e621fcd8feaf73620ee959cf2da0b5c7977bb8ef63c42951d921f6736ea8",
+      "bytes": 650,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/quote-17a3ee179b4c2890/build_script_build-17a3ee179b4c2890.d",
+      "backupRelativePath": "debug/build/quote-17a3ee179b4c2890/build_script_build-17a3ee179b4c2890.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/quote-17a3ee179b4c2890/build_script_build-17a3ee179b4c2890.d",
+      "sha256": "ec6fb7ffe3bf96f30c24e226b663b0de666d3d3441c0925d6fbc0a95a7b95764",
+      "bytes": 617,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/quote-3fc8325c542a7467/build_script_build-3fc8325c542a7467.d",
+      "backupRelativePath": "debug/build/quote-3fc8325c542a7467/build_script_build-3fc8325c542a7467.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/quote-3fc8325c542a7467/build_script_build-3fc8325c542a7467.d",
+      "sha256": "44c5d416088024dc4f0e099576815853dec49f376d9c06d436fc59d773c170e3",
+      "bytes": 617,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/rustix-6c66692cbb8d9fb2/build_script_build-6c66692cbb8d9fb2.d",
+      "backupRelativePath": "debug/build/rustix-6c66692cbb8d9fb2/build_script_build-6c66692cbb8d9fb2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/rustix-6c66692cbb8d9fb2/build_script_build-6c66692cbb8d9fb2.d",
+      "sha256": "e747e18c455109f7c528511e03bfcaa4cfd5fa1fd63f6ed668b8e64e3ce49b82",
+      "bytes": 619,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/serde-64b24ddc182d4cc1/build_script_build-64b24ddc182d4cc1.d",
+      "backupRelativePath": "debug/build/serde-64b24ddc182d4cc1/build_script_build-64b24ddc182d4cc1.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/serde-64b24ddc182d4cc1/build_script_build-64b24ddc182d4cc1.d",
+      "sha256": "58855500beb0b5dbb9b883337f458764f821ebb1acd5d0251092b2a2db829b58",
+      "bytes": 620,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/serde_core-2c47402badf38aac/build_script_build-2c47402badf38aac.d",
+      "backupRelativePath": "debug/build/serde_core-2c47402badf38aac/build_script_build-2c47402badf38aac.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/serde_core-2c47402badf38aac/build_script_build-2c47402badf38aac.d",
+      "sha256": "a226a615d0afc8d388a4a5c87053ce3f51d04f4533625419d30775774bc8b86d",
+      "bytes": 645,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/serde_json-d3d04519c1ab03ce/build_script_build-d3d04519c1ab03ce.d",
+      "backupRelativePath": "debug/build/serde_json-d3d04519c1ab03ce/build_script_build-d3d04519c1ab03ce.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/serde_json-d3d04519c1ab03ce/build_script_build-d3d04519c1ab03ce.d",
+      "sha256": "495c90d9bac59ed0b24ce15bda5271df87656c0cbcb055bf79a611ea878023ca",
+      "bytes": 645,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/thiserror-65817bd72ba53ff3/build_script_build-65817bd72ba53ff3.d",
+      "backupRelativePath": "debug/build/thiserror-65817bd72ba53ff3/build_script_build-65817bd72ba53ff3.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/thiserror-65817bd72ba53ff3/build_script_build-65817bd72ba53ff3.d",
+      "sha256": "c141b6061f7fe8e1f4adc2d8dc9c9f719c85d3d575bc1b45141eada82b6c5fb3",
+      "bytes": 637,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/build/zmij-fd4adfc7370c6fa8/build_script_build-fd4adfc7370c6fa8.d",
+      "backupRelativePath": "debug/build/zmij-fd4adfc7370c6fa8/build_script_build-fd4adfc7370c6fa8.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/build/zmij-fd4adfc7370c6fa8/build_script_build-fd4adfc7370c6fa8.d",
+      "sha256": "ca540960ce375384ab789dfb1ddb62c9bcf7f490c065858fdc9b794972b59ec9",
+      "bytes": 612,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/ai_cockpit-3be839e3f5de64f3.d",
+      "backupRelativePath": "debug/deps/ai_cockpit-3be839e3f5de64f3.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/ai_cockpit-3be839e3f5de64f3.d",
+      "sha256": "69fc6a2f865fddde9607184c1291916f5b77b9ef8fed96cde4d19a4d0c461eb3",
+      "bytes": 686,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/ambient_authority-76723a01059b12e8.d",
+      "backupRelativePath": "debug/deps/ambient_authority-76723a01059b12e8.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/ambient_authority-76723a01059b12e8.d",
+      "sha256": "70cd9773f0a5affd5f3386cfe38090f1dec2a7caec43966a8c643e885a56b165",
+      "bytes": 875,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/anstream-a5dc45d549a79787.d",
+      "backupRelativePath": "debug/deps/anstream-a5dc45d549a79787.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/anstream-a5dc45d549a79787.d",
+      "sha256": "c31c9e414f12b88587c95c19dc3f68db88ee43c3cf90605ac7334eeb583192ab",
+      "bytes": 4229,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/anstyle-c6f9ece2ea0c278a.d",
+      "backupRelativePath": "debug/deps/anstyle-c6f9ece2ea0c278a.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/anstyle-c6f9ece2ea0c278a.d",
+      "sha256": "819a066ef6b658b07f57f8c557e8613fe9e2d72270f879abe92cf6e31ca1a6fe",
+      "bytes": 2662,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/anstyle_parse-bb08bdeda1ce1254.d",
+      "backupRelativePath": "debug/deps/anstyle_parse-bb08bdeda1ce1254.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/anstyle_parse-bb08bdeda1ce1254.d",
+      "sha256": "a6b0318f2d1a5e9fb25d75b131c76abb8bbc9fb98d0b333235e61d7667ad5819",
+      "bytes": 2495,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/anstyle_query-9fb7681a7e12ff59.d",
+      "backupRelativePath": "debug/deps/anstyle_query-9fb7681a7e12ff59.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/anstyle_query-9fb7681a7e12ff59.d",
+      "sha256": "30e0265fd5757bc89102cda0ccc4b1a47cb052aae543dafaa218ef669875964d",
+      "bytes": 1244,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/anyhow-c529b6b7c68fe6a6.d",
+      "backupRelativePath": "debug/deps/anyhow-c529b6b7c68fe6a6.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/anyhow-c529b6b7c68fe6a6.d",
+      "sha256": "29f569d7d5c00c4b088b62547b64ec18e0b6af95ad93b1e300a73934dd4d6bf2",
+      "bytes": 4516,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/autocfg-0c9c2860ef2813ba.d",
+      "backupRelativePath": "debug/deps/autocfg-0c9c2860ef2813ba.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/autocfg-0c9c2860ef2813ba.d",
+      "sha256": "26a5535d17d4090266f22ed579d8b4446db95c1847dc484cbeb2a92ac54edcf7",
+      "bytes": 1908,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/bitflags-292e418921e90551.d",
+      "backupRelativePath": "debug/deps/bitflags-292e418921e90551.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/bitflags-292e418921e90551.d",
+      "sha256": "8fbc215894b49de0caae24376f11182dda874a8a786a6930deb1013243375b2d",
+      "bytes": 3086,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/block_buffer-e3864c347c7f8227.d",
+      "backupRelativePath": "debug/deps/block_buffer-e3864c347c7f8227.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/block_buffer-e3864c347c7f8227.d",
+      "sha256": "63d343bd8f32e77ccc32c47c9d518c5a422492b0d38d8380fb8e8da3921ca9ed",
+      "bytes": 1237,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cap_fs_ext-28d78458acc94874.d",
+      "backupRelativePath": "debug/deps/cap_fs_ext-28d78458acc94874.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cap_fs_ext-28d78458acc94874.d",
+      "sha256": "846ae54d7b3b0039c67aa74343a4e39b6f318d9c49a560627912d29f0b18160a",
+      "bytes": 4595,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cap_primitives-c23fc59769048ee3.d",
+      "backupRelativePath": "debug/deps/cap_primitives-c23fc59769048ee3.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cap_primitives-c23fc59769048ee3.d",
+      "sha256": "8e2d925077d35258c341cd9b2e89ddfedff4696f5b77015fed25b71ec5537ac0",
+      "bytes": 47421,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cap_std-0fcfc598daffa4c4.d",
+      "backupRelativePath": "debug/deps/cap_std-0fcfc598daffa4c4.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cap_std-0fcfc598daffa4c4.d",
+      "sha256": "559188a307a280cd1ad321c60ab5274411bf62f1f51d2d603e83c4fb61845879",
+      "bytes": 8344,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cfg_if-459d0d2bf3f4e5d9.d",
+      "backupRelativePath": "debug/deps/cfg_if-459d0d2bf3f4e5d9.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cfg_if-459d0d2bf3f4e5d9.d",
+      "sha256": "ffc4cfd1a84c8783d0b4c11a2aba357194c0c5f7026ab0678d1c72bb7cab96b5",
+      "bytes": 798,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/chrono-e29e6f573b4fb9c2.d",
+      "backupRelativePath": "debug/deps/chrono-e29e6f573b4fb9c2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/chrono-e29e6f573b4fb9c2.d",
+      "sha256": "47b523f37bbb957580f0555867cd3f633f7d363148e9e191e1038e1463971117",
+      "bytes": 12772,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/chrono_tz-253355338a648901.d",
+      "backupRelativePath": "debug/deps/chrono_tz-253355338a648901.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/chrono_tz-253355338a648901.d",
+      "sha256": "9cf8d3d0d7650b0e56f1b654072a74ab8d2249eb294ec5998f42abe9ba0a9efd",
+      "bytes": 2904,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/clap-7a4e085b5d16b611.d",
+      "backupRelativePath": "debug/deps/clap-7a4e085b5d16b611.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/clap-7a4e085b5d16b611.d",
+      "sha256": "b4a6334fc8468c5f506b260a4456bd589e49db1135480ed92aa464e1a272cfff",
+      "bytes": 1578,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/clap_builder-132279a09a1d1a16.d",
+      "backupRelativePath": "debug/deps/clap_builder-132279a09a1d1a16.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/clap_builder-132279a09a1d1a16.d",
+      "sha256": "0dc44ed7b51f33958f04b658451ba09b2213f202df8e2970a3793490c960b687",
+      "bytes": 23742,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/clap_derive-fdb5f83cc99a9fe9.d",
+      "backupRelativePath": "debug/deps/clap_derive-fdb5f83cc99a9fe9.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/clap_derive-fdb5f83cc99a9fe9.d",
+      "sha256": "bc4b444fe1878048c62eb99d7c8d87a93e5a2b250915c128774d7735cf99b11e",
+      "bytes": 5452,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/clap_lex-dae333023f523f4b.d",
+      "backupRelativePath": "debug/deps/clap_lex-dae333023f523f4b.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/clap_lex-dae333023f523f4b.d",
+      "sha256": "97521ba5afb63174a12a9c5121a68df3325bf4ccea7bdcea767801f37e546f8c",
+      "bytes": 1173,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/closeout_recovery-efd65d00d8e5811e.d",
+      "backupRelativePath": "debug/deps/closeout_recovery-efd65d00d8e5811e.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/closeout_recovery-efd65d00d8e5811e.d",
+      "sha256": "ca37a9754b807ed60aac1da8ee30cbad69df3f7a40e887ac40f662c0e76409cd",
+      "bytes": 468,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_agent-d88a09b278465bd2.d",
+      "backupRelativePath": "debug/deps/cockpit_agent-d88a09b278465bd2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_agent-d88a09b278465bd2.d",
+      "sha256": "f50ca0c8f3a268b81a42d1f3935c4daf96e56a57b5c3e96f718120a63ea75da0",
+      "bytes": 876,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_core-2980d62130d7ae88.d",
+      "backupRelativePath": "debug/deps/cockpit_core-2980d62130d7ae88.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_core-2980d62130d7ae88.d",
+      "sha256": "510f615fb10aec616db334747a00957da47e4d9e97fe5094289d256ad973f140",
+      "bytes": 588,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_evidence-b2a88ff8b0932304.d",
+      "backupRelativePath": "debug/deps/cockpit_evidence-b2a88ff8b0932304.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_evidence-b2a88ff8b0932304.d",
+      "sha256": "710248962ecd4ebe38e34b9f74c964fb6f5b4f6429ad6eb203b30e15a73164c5",
+      "bytes": 616,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_git-c1c9c3d978ad5ecb.d",
+      "backupRelativePath": "debug/deps/cockpit_git-c1c9c3d978ad5ecb.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_git-c1c9c3d978ad5ecb.d",
+      "sha256": "6e435d7b777789f4f9a1507857c0702b1f322b5c6a53ecad6ab369c3b15687cd",
+      "bytes": 581,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_interface-30dfd74e866d4706.d",
+      "backupRelativePath": "debug/deps/cockpit_interface-30dfd74e866d4706.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_interface-30dfd74e866d4706.d",
+      "sha256": "e959faa4543a3b0da8f0912077427c043381ca33aede89a12985fe8214fd203c",
+      "bytes": 875,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_isolation-da6e432dfe7bc51d.d",
+      "backupRelativePath": "debug/deps/cockpit_isolation-da6e432dfe7bc51d.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_isolation-da6e432dfe7bc51d.d",
+      "sha256": "a9e57373d6cb8877f53021b6c1e8be5e04f9f7e628959eedca2acb1780949f8c",
+      "bytes": 623,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_knowledge-34a55dd1a3c608c2.d",
+      "backupRelativePath": "debug/deps/cockpit_knowledge-34a55dd1a3c608c2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_knowledge-34a55dd1a3c608c2.d",
+      "sha256": "c1070b6a4c3aef46f02ad02f36ac5a48d48b70e4622dc442487db7f5c83fd0aa",
+      "bytes": 623,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_mcp-f8b5904a585e9ea6.d",
+      "backupRelativePath": "debug/deps/cockpit_mcp-f8b5904a585e9ea6.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_mcp-f8b5904a585e9ea6.d",
+      "sha256": "2dd52bc78b2e06cbad2e82bb1608957129674203b24df05f22ebe9cc07a7459c",
+      "bytes": 616,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_protocol-0790b3f72448c4ec.d",
+      "backupRelativePath": "debug/deps/cockpit_protocol-0790b3f72448c4ec.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_protocol-0790b3f72448c4ec.d",
+      "sha256": "2f49bd2c8642a7952fec995ac09c9b0a9b0748f5389b481daad54ad2e06a425b",
+      "bytes": 1316,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0.d",
+      "backupRelativePath": "debug/deps/cockpit_repository-5063e98527cc9fb0.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_repository-5063e98527cc9fb0.d",
+      "sha256": "70c8bc08e7f0f421f506d4f79291788d01bf1c48eeb8e7872e4b16deed0744c4",
+      "bytes": 5216,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-d12b2f3379bd89c4.d",
+      "backupRelativePath": "debug/deps/cockpit_repository-d12b2f3379bd89c4.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_repository-d12b2f3379bd89c4.d",
+      "sha256": "42f1fdd8b1652896bbd4e4e4f822347bd0753092c218163c42d98b82012a29d7",
+      "bytes": 6111,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_verification-82ccbc83696341c7.d",
+      "backupRelativePath": "debug/deps/cockpit_verification-82ccbc83696341c7.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_verification-82ccbc83696341c7.d",
+      "sha256": "26d8b8f55654fe941b6f5def7d181065f6343dc2af3d1ed6af8a67df2e9b6dde",
+      "bytes": 1500,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/colorchoice-597b77c9f022ae25.d",
+      "backupRelativePath": "debug/deps/colorchoice-597b77c9f022ae25.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/colorchoice-597b77c9f022ae25.d",
+      "sha256": "b58a9b32b8b1c577965da9b89215b09eb0a9849a3b62769e9816c84fd4b4e0fc",
+      "bytes": 833,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cpufeatures-3d7dbd9b4c6ef4ff.d",
+      "backupRelativePath": "debug/deps/cpufeatures-3d7dbd9b4c6ef4ff.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cpufeatures-3d7dbd9b4c6ef4ff.d",
+      "sha256": "9c741f1b5419f1be79f0dec91674105a936b4bb4f0e76e81286124c510b9e756",
+      "bytes": 1214,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/crypto_common-67fe866a1c7669da.d",
+      "backupRelativePath": "debug/deps/crypto_common-67fe866a1c7669da.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/crypto_common-67fe866a1c7669da.d",
+      "sha256": "fa67aba4263bd89813dd4844fb36a757362276982e204b3f6c8fa8a9cf26e728",
+      "bytes": 847,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/digest-89d57beea3c35f5d.d",
+      "backupRelativePath": "debug/deps/digest-89d57beea3c35f5d.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/digest-89d57beea3c35f5d.d",
+      "sha256": "1d37c8d6aae53b4da7d14f6c85857b6bfc842dc8ea00279634f864857ac82a0e",
+      "bytes": 3228,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/fastrand-d2a87c348c0cdc0a.d",
+      "backupRelativePath": "debug/deps/fastrand-d2a87c348c0cdc0a.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/fastrand-d2a87c348c0cdc0a.d",
+      "sha256": "f452e1cad6a158d35bb9299b70f84d295ea52bb897d0e7a9f7eca6bde8b53919",
+      "bytes": 1201,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/fs_set_times-18fbdf8d4a3913c6.d",
+      "backupRelativePath": "debug/deps/fs_set_times-18fbdf8d4a3913c6.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/fs_set_times-18fbdf8d4a3913c6.d",
+      "sha256": "5cc760482a0001bb1feaa2705e73e23ca362aa5230f1a3ce40fd092421534c01",
+      "bytes": 1682,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/generic_array-7373b9a6ba1a4bd9.d",
+      "backupRelativePath": "debug/deps/generic_array-7373b9a6ba1a4bd9.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/generic_array-7373b9a6ba1a4bd9.d",
+      "sha256": "109f7434e8b91d431101c4401ee98dfe98846b5ee49842485f074ae4973dcdf3",
+      "bytes": 3221,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/getrandom-ea9c2ccae16977d4.d",
+      "backupRelativePath": "debug/deps/getrandom-ea9c2ccae16977d4.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/getrandom-ea9c2ccae16977d4.d",
+      "sha256": "7a137d4d5a4e9fd88716648bd5faf231d9c800b423c96bc2725334fa8790dda2",
+      "bytes": 5113,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/heck-1bd1bfe31d718c5c.d",
+      "backupRelativePath": "debug/deps/heck-1bd1bfe31d718c5c.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/heck-1bd1bfe31d718c5c.d",
+      "sha256": "5a7b3b47a6d2d985133a18547bec6800da1c83044761f210adafd5c9aebf2b2e",
+      "bytes": 3712,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/hex-e4da09e29f10b7fb.d",
+      "backupRelativePath": "debug/deps/hex-e4da09e29f10b7fb.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/hex-e4da09e29f10b7fb.d",
+      "sha256": "c48b62c1d1916d1b56984d0cd02564e972e5fcbf68cddfc553a2a23b6ce3dddc",
+      "bytes": 1126,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/iana_time_zone-c1eb3df98b0fabc6.d",
+      "backupRelativePath": "debug/deps/iana_time_zone-c1eb3df98b0fabc6.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/iana_time_zone-c1eb3df98b0fabc6.d",
+      "sha256": "3b1022770628af4664151bf55f75ae5c8bceed995a9be6d4b70c4c4553a13c44",
+      "bytes": 1680,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/io_extras-7ad44b74f0a15d70.d",
+      "backupRelativePath": "debug/deps/io_extras-7ad44b74f0a15d70.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/io_extras-7ad44b74f0a15d70.d",
+      "sha256": "66771f5036721483cd565616be8ef16a6b9696c2105f18c19e521d074332e765",
+      "bytes": 3502,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/io_lifetimes-b8b3792b68c532a0.d",
+      "backupRelativePath": "debug/deps/io_lifetimes-b8b3792b68c532a0.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/io_lifetimes-b8b3792b68c532a0.d",
+      "sha256": "425772045ef5599be25db3b3801179bceca0157a33976abd622f1da792577697",
+      "bytes": 2400,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/io_lifetimes-e5b91cf03b2156d5.d",
+      "backupRelativePath": "debug/deps/io_lifetimes-e5b91cf03b2156d5.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/io_lifetimes-e5b91cf03b2156d5.d",
+      "sha256": "efd9268a4394b17f239bf0b9f02a6f08d33edf86038e209077944ec88df0c12c",
+      "bytes": 2400,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/ipnet-f3be55a3da867cdd.d",
+      "backupRelativePath": "debug/deps/ipnet-f3be55a3da867cdd.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/ipnet-f3be55a3da867cdd.d",
+      "sha256": "72c9fe4c3c85d64c59c824e3ec338c1f618b04e585811e17e672297d61e001e6",
+      "bytes": 2239,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/is_terminal_polyfill-ac45fb72f76d800b.d",
+      "backupRelativePath": "debug/deps/is_terminal_polyfill-ac45fb72f76d800b.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/is_terminal_polyfill-ac45fb72f76d800b.d",
+      "sha256": "8e171a357352f8dd6e8ff327356a63a93af11ae20b591da8cf15e90afc40b648",
+      "bytes": 900,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/itoa-8ade534ac5c7f564.d",
+      "backupRelativePath": "debug/deps/itoa-8ade534ac5c7f564.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/itoa-8ade534ac5c7f564.d",
+      "sha256": "b09df63cc769c021b506f255fc78e8c74751b9104dc17427765026f8b61b978f",
+      "bytes": 1157,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-005fe2137d819e4d.d",
+      "backupRelativePath": "debug/deps/legacy_closeout_source-005fe2137d819e4d.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/legacy_closeout_source-005fe2137d819e4d.d",
+      "sha256": "494d347a6cb709a508a4dd8661eaf24c3a0c37acfa2126025ff307fe0a4da53e",
+      "bytes": 472,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416.d",
+      "backupRelativePath": "debug/deps/legacy_closeout_source-321d641e37605416.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/legacy_closeout_source-321d641e37605416.d",
+      "sha256": "efc409c95b48083bd18a2f914cc7eb9075a6270ebb2dd5173d2d239be6337825",
+      "bytes": 664,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29.d",
+      "backupRelativePath": "debug/deps/legacy_closeout_source-dda35c53c2bb4a29.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/legacy_closeout_source-dda35c53c2bb4a29.d",
+      "sha256": "bfc20e6fa2b84fcc627ec0b0f9760c4059b583b0a34f404375830e5e0bc4b41a",
+      "bytes": 493,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libambient_authority-76723a01059b12e8.rlib",
+      "backupRelativePath": "debug/deps/libambient_authority-76723a01059b12e8.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libambient_authority-76723a01059b12e8.rlib",
+      "sha256": "3329ade7405c2de56c3a6eb6b936c58d18870cf3402f3988ac7493e226db6422",
+      "bytes": 7784,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libambient_authority-76723a01059b12e8.rmeta",
+      "backupRelativePath": "debug/deps/libambient_authority-76723a01059b12e8.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libambient_authority-76723a01059b12e8.rmeta",
+      "sha256": "6dfe69d8fecf66330cf4e9d78cf435cecca5266552af4871de0aa90e3fff3dcd",
+      "bytes": 5510,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstream-a5dc45d549a79787.rlib",
+      "backupRelativePath": "debug/deps/libanstream-a5dc45d549a79787.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstream-a5dc45d549a79787.rlib",
+      "sha256": "3cc28adb7787afb7e3c5e36b95b639448ba69ce19906f199e3be6f3eeff40905",
+      "bytes": 412122,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstream-a5dc45d549a79787.rmeta",
+      "backupRelativePath": "debug/deps/libanstream-a5dc45d549a79787.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstream-a5dc45d549a79787.rmeta",
+      "sha256": "4290b9c3c587a8662f31c1724c989390f8f6e98af99e958126c761d99958afac",
+      "bytes": 225821,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstyle-c6f9ece2ea0c278a.rlib",
+      "backupRelativePath": "debug/deps/libanstyle-c6f9ece2ea0c278a.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstyle-c6f9ece2ea0c278a.rlib",
+      "sha256": "49b4abcd121b9d06cb993825b2523cde8cbe3be0421a0414fac0cc0a6c498b48",
+      "bytes": 266530,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstyle-c6f9ece2ea0c278a.rmeta",
+      "backupRelativePath": "debug/deps/libanstyle-c6f9ece2ea0c278a.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstyle-c6f9ece2ea0c278a.rmeta",
+      "sha256": "302d01e0151699bd34a47a4b24a4710e6bacc4794fe8a171d0c19d797ec7853b",
+      "bytes": 205743,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstyle_parse-bb08bdeda1ce1254.rlib",
+      "backupRelativePath": "debug/deps/libanstyle_parse-bb08bdeda1ce1254.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstyle_parse-bb08bdeda1ce1254.rlib",
+      "sha256": "825f82204e2d138e52f30a53ed4ae13013f9edb08d4983aec308feefb9a109a8",
+      "bytes": 199866,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstyle_parse-bb08bdeda1ce1254.rmeta",
+      "backupRelativePath": "debug/deps/libanstyle_parse-bb08bdeda1ce1254.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstyle_parse-bb08bdeda1ce1254.rmeta",
+      "sha256": "33a4247e369ad8c15edd49bcd51a4f8288f1ee48e2460ae03b7a46a94930af23",
+      "bytes": 166079,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstyle_query-9fb7681a7e12ff59.rlib",
+      "backupRelativePath": "debug/deps/libanstyle_query-9fb7681a7e12ff59.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstyle_query-9fb7681a7e12ff59.rlib",
+      "sha256": "c8cf89ca1ea4ab80a9d3d9419149969f6a2fa418f1b73a8517b8b5e02295d070",
+      "bytes": 16222,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanstyle_query-9fb7681a7e12ff59.rmeta",
+      "backupRelativePath": "debug/deps/libanstyle_query-9fb7681a7e12ff59.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanstyle_query-9fb7681a7e12ff59.rmeta",
+      "sha256": "344e7c73f0620f9ec6368169b70a5756c102b54e3dd62924f15c0ef8706159a9",
+      "bytes": 11527,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanyhow-c529b6b7c68fe6a6.rlib",
+      "backupRelativePath": "debug/deps/libanyhow-c529b6b7c68fe6a6.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanyhow-c529b6b7c68fe6a6.rlib",
+      "sha256": "d2c7c412fd30f753f29808f76b84631018e3d65af5c7b695229e2a4b320aad82",
+      "bytes": 830366,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libanyhow-c529b6b7c68fe6a6.rmeta",
+      "backupRelativePath": "debug/deps/libanyhow-c529b6b7c68fe6a6.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libanyhow-c529b6b7c68fe6a6.rmeta",
+      "sha256": "3a93bcc8cc034fac9ec0ab50c5c8176302d1338047ca1f2c0961de49aed6b9bd",
+      "bytes": 441451,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libautocfg-0c9c2860ef2813ba.rlib",
+      "backupRelativePath": "debug/deps/libautocfg-0c9c2860ef2813ba.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libautocfg-0c9c2860ef2813ba.rlib",
+      "sha256": "733560442f2b4b907bb91b6929508036437ad2a53d19d5e73640f9bf0143bc52",
+      "bytes": 723926,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libautocfg-0c9c2860ef2813ba.rmeta",
+      "backupRelativePath": "debug/deps/libautocfg-0c9c2860ef2813ba.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libautocfg-0c9c2860ef2813ba.rmeta",
+      "sha256": "a9fb1eedf208a78e51e2aa809f5af2c01845b8523dd169bb502090afe6977b98",
+      "bytes": 81429,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libbitflags-292e418921e90551.rlib",
+      "backupRelativePath": "debug/deps/libbitflags-292e418921e90551.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libbitflags-292e418921e90551.rlib",
+      "sha256": "f45c0be9563f1fa8c96a5ebabe0c7484f74b6a4bb3ab6edbd4f26baf00419145",
+      "bytes": 299804,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libbitflags-292e418921e90551.rmeta",
+      "backupRelativePath": "debug/deps/libbitflags-292e418921e90551.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libbitflags-292e418921e90551.rmeta",
+      "sha256": "d610dfb1cfc29d0dfb6d52617be2265ac3b37cba615a1fd86d7a45ba298e9749",
+      "bytes": 221873,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libblock_buffer-e3864c347c7f8227.rlib",
+      "backupRelativePath": "debug/deps/libblock_buffer-e3864c347c7f8227.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libblock_buffer-e3864c347c7f8227.rlib",
+      "sha256": "0f39b15a9a102b13e18346c674e56e5ebbd9765bac308082c755e32672076dee",
+      "bytes": 53878,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libblock_buffer-e3864c347c7f8227.rmeta",
+      "backupRelativePath": "debug/deps/libblock_buffer-e3864c347c7f8227.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libblock_buffer-e3864c347c7f8227.rmeta",
+      "sha256": "b331e4359b9cf41268f976ac4ce1b26c493c82d3b670507b28541a2f783ef8df",
+      "bytes": 50730,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libc-867306105dc7d48a.d",
+      "backupRelativePath": "debug/deps/libc-867306105dc7d48a.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libc-867306105dc7d48a.d",
+      "sha256": "3e60674864ea6a1c744bff0dc811488da052b2ac942f9e173c41a0edd8cdd7f7",
+      "bytes": 22152,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcap_fs_ext-28d78458acc94874.rlib",
+      "backupRelativePath": "debug/deps/libcap_fs_ext-28d78458acc94874.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcap_fs_ext-28d78458acc94874.rlib",
+      "sha256": "e2aa142980cf05e59a149698ebb6e0013fee83d63723b84a3d29a2241bfa3fc8",
+      "bytes": 68314,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcap_fs_ext-28d78458acc94874.rmeta",
+      "backupRelativePath": "debug/deps/libcap_fs_ext-28d78458acc94874.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcap_fs_ext-28d78458acc94874.rmeta",
+      "sha256": "45397e550de01edb980316d7ef0a46932864f2ce932a791e07fd7ab9b3d6321b",
+      "bytes": 66074,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcap_primitives-c23fc59769048ee3.rlib",
+      "backupRelativePath": "debug/deps/libcap_primitives-c23fc59769048ee3.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcap_primitives-c23fc59769048ee3.rlib",
+      "sha256": "54fd37884f15693015bcdff3268f4dc01da539c868459d95ecf8edecf3b45e35",
+      "bytes": 1639004,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcap_primitives-c23fc59769048ee3.rmeta",
+      "backupRelativePath": "debug/deps/libcap_primitives-c23fc59769048ee3.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcap_primitives-c23fc59769048ee3.rmeta",
+      "sha256": "12a15168333e91b38c01d343f25605653295aa257d9ef7e89ca8ac3cdc721491",
+      "bytes": 634892,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcap_std-0fcfc598daffa4c4.rlib",
+      "backupRelativePath": "debug/deps/libcap_std-0fcfc598daffa4c4.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcap_std-0fcfc598daffa4c4.rlib",
+      "sha256": "b5a4f7939ea7876e64239e5558fe97dd2d105ef7db1c19a6b4b866a5eef6e7b4",
+      "bytes": 453706,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcap_std-0fcfc598daffa4c4.rmeta",
+      "backupRelativePath": "debug/deps/libcap_std-0fcfc598daffa4c4.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcap_std-0fcfc598daffa4c4.rmeta",
+      "sha256": "493e78486a3fbca432666ee55a5fd308f0d8d7db2e02b4e4d8a4e96d63c7d639",
+      "bytes": 372474,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcfg_if-459d0d2bf3f4e5d9.rlib",
+      "backupRelativePath": "debug/deps/libcfg_if-459d0d2bf3f4e5d9.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcfg_if-459d0d2bf3f4e5d9.rlib",
+      "sha256": "9490545e5c0d5c3815210223cf8f9b942b8baa6e3f9fada731d292b0499f0e8c",
+      "bytes": 7698,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcfg_if-459d0d2bf3f4e5d9.rmeta",
+      "backupRelativePath": "debug/deps/libcfg_if-459d0d2bf3f4e5d9.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcfg_if-459d0d2bf3f4e5d9.rmeta",
+      "sha256": "aedbab1c80071b032a965f0ea518effc5239e1bc304237356244868a9dc7bc4b",
+      "bytes": 5484,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libchrono-e29e6f573b4fb9c2.rlib",
+      "backupRelativePath": "debug/deps/libchrono-e29e6f573b4fb9c2.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libchrono-e29e6f573b4fb9c2.rlib",
+      "sha256": "833911d98d333ddfad521005429f0b3fb22b211179012786268314134118bbad",
+      "bytes": 3697202,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libchrono-e29e6f573b4fb9c2.rmeta",
+      "backupRelativePath": "debug/deps/libchrono-e29e6f573b4fb9c2.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libchrono-e29e6f573b4fb9c2.rmeta",
+      "sha256": "c20f066fb9317220e2f4b0358b48019f181af7bfdf3db64c19f9bd44cba6bdde",
+      "bytes": 2029589,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libchrono_tz-253355338a648901.rlib",
+      "backupRelativePath": "debug/deps/libchrono_tz-253355338a648901.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libchrono_tz-253355338a648901.rlib",
+      "sha256": "abf577f0d4b54510c6d8a55a8799f7b348c021f2f7c6bea9685d03127c99e312",
+      "bytes": 20132978,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libchrono_tz-253355338a648901.rmeta",
+      "backupRelativePath": "debug/deps/libchrono_tz-253355338a648901.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libchrono_tz-253355338a648901.rmeta",
+      "sha256": "f8da9fb64fdffc3cbc72e3c72961b1b3a9a10bd2ea601abb7a53151023a16111",
+      "bytes": 17840801,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libclap-7a4e085b5d16b611.rlib",
+      "backupRelativePath": "debug/deps/libclap-7a4e085b5d16b611.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libclap-7a4e085b5d16b611.rlib",
+      "sha256": "f8ed988d1749bfe76a7cc738e879fe9f908242ab11b64e8c2bfa699e2b2fd4b5",
+      "bytes": 14758,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libclap-7a4e085b5d16b611.rmeta",
+      "backupRelativePath": "debug/deps/libclap-7a4e085b5d16b611.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libclap-7a4e085b5d16b611.rmeta",
+      "sha256": "ba7a43ec242235bab5010c28aa977297d33cf78de044b420f4edd379c65f6b5f",
+      "bytes": 12557,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libclap_builder-132279a09a1d1a16.rlib",
+      "backupRelativePath": "debug/deps/libclap_builder-132279a09a1d1a16.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libclap_builder-132279a09a1d1a16.rlib",
+      "sha256": "ca491bf604193ffaade70c8f8856c2f23709320f1a8a560d796808f5b02cbc16",
+      "bytes": 8633968,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libclap_builder-132279a09a1d1a16.rmeta",
+      "backupRelativePath": "debug/deps/libclap_builder-132279a09a1d1a16.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libclap_builder-132279a09a1d1a16.rmeta",
+      "sha256": "56b4bab4cf1218398aed92468b51747102415fba9ee159ba264c0d27e5669e94",
+      "bytes": 2140049,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libclap_lex-dae333023f523f4b.rlib",
+      "backupRelativePath": "debug/deps/libclap_lex-dae333023f523f4b.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libclap_lex-dae333023f523f4b.rlib",
+      "sha256": "6b014ea308fbd1796bc1ec630bf7808094236541b22f37b277eb82eb0e8855bb",
+      "bytes": 206596,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libclap_lex-dae333023f523f4b.rmeta",
+      "backupRelativePath": "debug/deps/libclap_lex-dae333023f523f4b.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libclap_lex-dae333023f523f4b.rmeta",
+      "sha256": "a83233c55b4da17c4f326437574889cfb6e0de4904801a8be8eae0f9fb1a8eaf",
+      "bytes": 65814,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_agent-d88a09b278465bd2.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_agent-d88a09b278465bd2.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_agent-d88a09b278465bd2.rlib",
+      "sha256": "be5413cb25735b62a590aad710bf941b4dec2358b5c1a989af64a2ff60b482f1",
+      "bytes": 2609166,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_agent-d88a09b278465bd2.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_agent-d88a09b278465bd2.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_agent-d88a09b278465bd2.rmeta",
+      "sha256": "30a0fed2322aef9bea17f50de028dafd68c64a12d7800ef5a02a796b84c318f4",
+      "bytes": 401513,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_core-2980d62130d7ae88.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_core-2980d62130d7ae88.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_core-2980d62130d7ae88.rlib",
+      "sha256": "329bd5f371df9a6f492c6e5f2439375c29895d209a4a12a40adffbf71ad3e543",
+      "bytes": 1703272,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_core-2980d62130d7ae88.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_core-2980d62130d7ae88.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_core-2980d62130d7ae88.rmeta",
+      "sha256": "69fe5ea324b7f75480742315bb5e6222c7261206f249431257ab32912fa49b08",
+      "bytes": 1095442,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_evidence-b2a88ff8b0932304.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_evidence-b2a88ff8b0932304.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_evidence-b2a88ff8b0932304.rlib",
+      "sha256": "5b1dff8cd0f21a52db24c194c900398513d53d3c51204d7af9344f25c12d86fb",
+      "bytes": 452090,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_evidence-b2a88ff8b0932304.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_evidence-b2a88ff8b0932304.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_evidence-b2a88ff8b0932304.rmeta",
+      "sha256": "5d93c2e881aa6b6167b492daca3464b724700f97eeda6a4c048d5111c63fd3dd",
+      "bytes": 300235,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_git-c1c9c3d978ad5ecb.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_git-c1c9c3d978ad5ecb.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_git-c1c9c3d978ad5ecb.rlib",
+      "sha256": "ea54187fb635f129106fb66884c51797268bee24953af981d24832e9bcf607c2",
+      "bytes": 2763506,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_git-c1c9c3d978ad5ecb.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_git-c1c9c3d978ad5ecb.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_git-c1c9c3d978ad5ecb.rmeta",
+      "sha256": "120b71821b17553d22a8978d27b3d61b6ba7bbcafa665b310e61aa33c2a004dc",
+      "bytes": 288299,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_interface-30dfd74e866d4706.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_interface-30dfd74e866d4706.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_interface-30dfd74e866d4706.rlib",
+      "sha256": "8cd64ea1542323c5c216ffb497d6f788a4dba60fd70838f1b50dee29262e8ec0",
+      "bytes": 1459250,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_interface-30dfd74e866d4706.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_interface-30dfd74e866d4706.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_interface-30dfd74e866d4706.rmeta",
+      "sha256": "962f11db604f343e2f35cf359f64aeac400e58b78a18ecc5c724bf47765518f6",
+      "bytes": 264446,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_isolation-da6e432dfe7bc51d.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_isolation-da6e432dfe7bc51d.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_isolation-da6e432dfe7bc51d.rlib",
+      "sha256": "7ea158642878c7aa6521cca76e908382df4fa05a817245cee75085b274c3aecc",
+      "bytes": 581208,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_isolation-da6e432dfe7bc51d.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_isolation-da6e432dfe7bc51d.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_isolation-da6e432dfe7bc51d.rmeta",
+      "sha256": "2369438837b5dd0d3f37937c0fe57120872fa790f065d4eb10eb5276052df917",
+      "bytes": 144822,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_knowledge-34a55dd1a3c608c2.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_knowledge-34a55dd1a3c608c2.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_knowledge-34a55dd1a3c608c2.rlib",
+      "sha256": "74d5dc1d57a86fe1ea06e9a4dc332017e8da5e2faca03d42e37899a68766a614",
+      "bytes": 1126978,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_knowledge-34a55dd1a3c608c2.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_knowledge-34a55dd1a3c608c2.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_knowledge-34a55dd1a3c608c2.rmeta",
+      "sha256": "2d58f574df9379e6398f0b977ac3d2cd25f40bde10956cb685026b2c3cdc4334",
+      "bytes": 170831,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_mcp-f8b5904a585e9ea6.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_mcp-f8b5904a585e9ea6.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_mcp-f8b5904a585e9ea6.rlib",
+      "sha256": "56dd5a7ec450bec4a85527058c64a7164858171187b91cbd6cf3a767d09f271f",
+      "bytes": 6149026,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_mcp-f8b5904a585e9ea6.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_mcp-f8b5904a585e9ea6.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_mcp-f8b5904a585e9ea6.rmeta",
+      "sha256": "a25588f6ad1e7742c77603a92fec63946d02bac6a712447f4f78ef96db084e7b",
+      "bytes": 219353,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_protocol-0790b3f72448c4ec.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_protocol-0790b3f72448c4ec.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_protocol-0790b3f72448c4ec.rlib",
+      "sha256": "dea2e5ed22089ded8199a41067f9edcc8ab7ccf987ecf1385bae09fe9c943a13",
+      "bytes": 17256546,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_protocol-0790b3f72448c4ec.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_protocol-0790b3f72448c4ec.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_protocol-0790b3f72448c4ec.rmeta",
+      "sha256": "8d4b35f6131fdac7e51c316d901189e88122356705c92c3aa836900d92e6cdbc",
+      "bytes": 11012200,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_repository-d12b2f3379bd89c4.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_repository-d12b2f3379bd89c4.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_repository-d12b2f3379bd89c4.rlib",
+      "sha256": "4e85dc3215927d845de2805765b0dbe7f528059c246b4addbf4ee84c9759ebed",
+      "bytes": 68669706,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_repository-d12b2f3379bd89c4.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_repository-d12b2f3379bd89c4.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_repository-d12b2f3379bd89c4.rmeta",
+      "sha256": "329a9f1712106e293b3145e925ff8cbb1f505420cbd7286ca19a673067d18d7c",
+      "bytes": 6623984,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_verification-82ccbc83696341c7.rlib",
+      "backupRelativePath": "debug/deps/libcockpit_verification-82ccbc83696341c7.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_verification-82ccbc83696341c7.rlib",
+      "sha256": "3de1c64fcedc8511eba6673176b0ca3000df3a929c0cc6b62a4bc097920f14a6",
+      "bytes": 13659216,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcockpit_verification-82ccbc83696341c7.rmeta",
+      "backupRelativePath": "debug/deps/libcockpit_verification-82ccbc83696341c7.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcockpit_verification-82ccbc83696341c7.rmeta",
+      "sha256": "913a629d8852bacb557c2a1ecdf828c3d087f4d0ef033b84655d166d8b64b96a",
+      "bytes": 3374634,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcolorchoice-597b77c9f022ae25.rlib",
+      "backupRelativePath": "debug/deps/libcolorchoice-597b77c9f022ae25.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcolorchoice-597b77c9f022ae25.rlib",
+      "sha256": "3a5949eadcebf242317264a883e2d84b3515dac1b3c9bb54acd1db5c2e2683bb",
+      "bytes": 26100,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcolorchoice-597b77c9f022ae25.rmeta",
+      "backupRelativePath": "debug/deps/libcolorchoice-597b77c9f022ae25.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcolorchoice-597b77c9f022ae25.rmeta",
+      "sha256": "46b7dde5c10d350f7c3f5a6a50adabd8972e115888edb6449c80a5d6aeaca7df",
+      "bytes": 12951,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcpufeatures-3d7dbd9b4c6ef4ff.rlib",
+      "backupRelativePath": "debug/deps/libcpufeatures-3d7dbd9b4c6ef4ff.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcpufeatures-3d7dbd9b4c6ef4ff.rlib",
+      "sha256": "ee210b549c31c7d1b3dda00df568efbd3f60b91fc19084c8d72fa751f145a65e",
+      "bytes": 41548,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcpufeatures-3d7dbd9b4c6ef4ff.rmeta",
+      "backupRelativePath": "debug/deps/libcpufeatures-3d7dbd9b4c6ef4ff.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcpufeatures-3d7dbd9b4c6ef4ff.rmeta",
+      "sha256": "6b9c0d22493d8e557bbb549bf40c3a54929b249174dd50577980def677d60fb0",
+      "bytes": 39305,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcrypto_common-67fe866a1c7669da.rlib",
+      "backupRelativePath": "debug/deps/libcrypto_common-67fe866a1c7669da.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcrypto_common-67fe866a1c7669da.rlib",
+      "sha256": "57061661feee3291fee3c0c4c15fc1b36b6decda8b9e719fcbca68534bf6ed67",
+      "bytes": 31050,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libcrypto_common-67fe866a1c7669da.rmeta",
+      "backupRelativePath": "debug/deps/libcrypto_common-67fe866a1c7669da.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libcrypto_common-67fe866a1c7669da.rmeta",
+      "sha256": "5e10d3bc47f39ce116856d4773c07bd60ff69bbe54d50de5d75891ec18357c76",
+      "bytes": 27881,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libdigest-89d57beea3c35f5d.rlib",
+      "backupRelativePath": "debug/deps/libdigest-89d57beea3c35f5d.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libdigest-89d57beea3c35f5d.rlib",
+      "sha256": "98b3847ba7ddebd5d38f28e15f2167963a3e4dec2af7da005f1b0869be543061",
+      "bytes": 174920,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libdigest-89d57beea3c35f5d.rmeta",
+      "backupRelativePath": "debug/deps/libdigest-89d57beea3c35f5d.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libdigest-89d57beea3c35f5d.rmeta",
+      "sha256": "b4152211b531693e21844d9a931d73bea3d26404f02a799aa5bd04b4f3e5ca19",
+      "bytes": 170649,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libfastrand-d2a87c348c0cdc0a.rlib",
+      "backupRelativePath": "debug/deps/libfastrand-d2a87c348c0cdc0a.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libfastrand-d2a87c348c0cdc0a.rlib",
+      "sha256": "44358b982eccd7405a9d2ba5a3deabf08ef4e1ea18b4bbd845dee8149103f6a0",
+      "bytes": 206676,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libfastrand-d2a87c348c0cdc0a.rmeta",
+      "backupRelativePath": "debug/deps/libfastrand-d2a87c348c0cdc0a.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libfastrand-d2a87c348c0cdc0a.rmeta",
+      "sha256": "589b81acaeca2603f936350f6defcfad830bf61237cda25201dd3fdff4803d90",
+      "bytes": 150491,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libfs_set_times-18fbdf8d4a3913c6.rlib",
+      "backupRelativePath": "debug/deps/libfs_set_times-18fbdf8d4a3913c6.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libfs_set_times-18fbdf8d4a3913c6.rlib",
+      "sha256": "54ed42d347812b58ffe90ead9f79274a8f843109c64693e782814455a395ad0a",
+      "bytes": 80890,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libfs_set_times-18fbdf8d4a3913c6.rmeta",
+      "backupRelativePath": "debug/deps/libfs_set_times-18fbdf8d4a3913c6.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libfs_set_times-18fbdf8d4a3913c6.rmeta",
+      "sha256": "5ee7ee6a421a3ab3a276cf6893e618374d15a8f90a3c94017e5dc7eeb7cc2217",
+      "bytes": 19188,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libgeneric_array-7373b9a6ba1a4bd9.rlib",
+      "backupRelativePath": "debug/deps/libgeneric_array-7373b9a6ba1a4bd9.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libgeneric_array-7373b9a6ba1a4bd9.rlib",
+      "sha256": "8b072cb0679e957572b4cfbbcbefc2e2fd76cb69d243023f2bef2f6ea97aef24",
+      "bytes": 817080,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libgeneric_array-7373b9a6ba1a4bd9.rmeta",
+      "backupRelativePath": "debug/deps/libgeneric_array-7373b9a6ba1a4bd9.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libgeneric_array-7373b9a6ba1a4bd9.rmeta",
+      "sha256": "29accfd26d89dc272db1a7da30881e8a2a9c29d2ad943b7a22800419c9f15fd4",
+      "bytes": 811658,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libgetrandom-ea9c2ccae16977d4.rlib",
+      "backupRelativePath": "debug/deps/libgetrandom-ea9c2ccae16977d4.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libgetrandom-ea9c2ccae16977d4.rlib",
+      "sha256": "e1be03fad1e43494a00a0c83a2649263d3f82d03feb1f01fe80e1d8efc8b2b1f",
+      "bytes": 140034,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libgetrandom-ea9c2ccae16977d4.rmeta",
+      "backupRelativePath": "debug/deps/libgetrandom-ea9c2ccae16977d4.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libgetrandom-ea9c2ccae16977d4.rmeta",
+      "sha256": "e91f08be084025127270d132ee3b45e9a3537a381e48de9a821cc651b8256a2b",
+      "bytes": 80379,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libheck-1bd1bfe31d718c5c.rlib",
+      "backupRelativePath": "debug/deps/libheck-1bd1bfe31d718c5c.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libheck-1bd1bfe31d718c5c.rlib",
+      "sha256": "a58bf442772310a9f178e33bfe92831433d5b4a173b5ed8f699f329e57efab5f",
+      "bytes": 318566,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libheck-1bd1bfe31d718c5c.rmeta",
+      "backupRelativePath": "debug/deps/libheck-1bd1bfe31d718c5c.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libheck-1bd1bfe31d718c5c.rmeta",
+      "sha256": "488e9278fc05296b87072057348c3ff4507d5f906cbd7da015e71f21bd9d1c9a",
+      "bytes": 78419,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libhex-e4da09e29f10b7fb.rlib",
+      "backupRelativePath": "debug/deps/libhex-e4da09e29f10b7fb.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libhex-e4da09e29f10b7fb.rlib",
+      "sha256": "deda2c1fc70305bf8278d08717a58d97150fbbdd15788f1d0e3856a0b61af799",
+      "bytes": 361656,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libhex-e4da09e29f10b7fb.rmeta",
+      "backupRelativePath": "debug/deps/libhex-e4da09e29f10b7fb.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libhex-e4da09e29f10b7fb.rmeta",
+      "sha256": "7ba779c760478d3d4414b7f3c2ee0cf4f1171f1ba2b9e0a46c64a0cc6ac07f72",
+      "bytes": 339209,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libiana_time_zone-c1eb3df98b0fabc6.rlib",
+      "backupRelativePath": "debug/deps/libiana_time_zone-c1eb3df98b0fabc6.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libiana_time_zone-c1eb3df98b0fabc6.rlib",
+      "sha256": "1aa490a810eabf3fdbacf06f4cfedd561452e43675836fa66cfe5e0f22bf7b4d",
+      "bytes": 276772,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libiana_time_zone-c1eb3df98b0fabc6.rmeta",
+      "backupRelativePath": "debug/deps/libiana_time_zone-c1eb3df98b0fabc6.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libiana_time_zone-c1eb3df98b0fabc6.rmeta",
+      "sha256": "db81cb46ee28b2accb073c3d3d4ea26c1291992f7e03eb740d71a4dc46bdd238",
+      "bytes": 25034,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libio_extras-7ad44b74f0a15d70.rlib",
+      "backupRelativePath": "debug/deps/libio_extras-7ad44b74f0a15d70.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libio_extras-7ad44b74f0a15d70.rlib",
+      "sha256": "06c76a972c615a71a14edd3d8d38566cf8ac1acdd10031680bda5bc49a63552c",
+      "bytes": 120888,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libio_extras-7ad44b74f0a15d70.rmeta",
+      "backupRelativePath": "debug/deps/libio_extras-7ad44b74f0a15d70.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libio_extras-7ad44b74f0a15d70.rmeta",
+      "sha256": "bc53292501744047514e5d353a0de0ac8aa82e41f8671e14f4625b0aeadfc6a2",
+      "bytes": 111366,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libio_lifetimes-b8b3792b68c532a0.rlib",
+      "backupRelativePath": "debug/deps/libio_lifetimes-b8b3792b68c532a0.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libio_lifetimes-b8b3792b68c532a0.rlib",
+      "sha256": "4be3758184c923d8a01124321bda9be2f4de9019da4dfc0ad4b9bb01fb34477c",
+      "bytes": 70446,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libio_lifetimes-b8b3792b68c532a0.rmeta",
+      "backupRelativePath": "debug/deps/libio_lifetimes-b8b3792b68c532a0.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libio_lifetimes-b8b3792b68c532a0.rmeta",
+      "sha256": "f3e25227e157b92640f2361dc84f0d39436ce9b8cbd6a715dbf2a01ac1fb50ec",
+      "bytes": 68205,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libio_lifetimes-e5b91cf03b2156d5.rlib",
+      "backupRelativePath": "debug/deps/libio_lifetimes-e5b91cf03b2156d5.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libio_lifetimes-e5b91cf03b2156d5.rlib",
+      "sha256": "b3053e983098bf341c85349c5e1ddf5b6a3a7d4268ab473f795a20c9da8aee16",
+      "bytes": 70446,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libio_lifetimes-e5b91cf03b2156d5.rmeta",
+      "backupRelativePath": "debug/deps/libio_lifetimes-e5b91cf03b2156d5.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libio_lifetimes-e5b91cf03b2156d5.rmeta",
+      "sha256": "a51aa1ce726077ac9e8d9565ccb7c8d0cf8c6db1497db2574e0d95f68d7ac0d9",
+      "bytes": 68205,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libipnet-f3be55a3da867cdd.rlib",
+      "backupRelativePath": "debug/deps/libipnet-f3be55a3da867cdd.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libipnet-f3be55a3da867cdd.rlib",
+      "sha256": "48685907a42e90cae4314077133985b0838cc84f29a6470c8099fd7bacafa89f",
+      "bytes": 853544,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libipnet-f3be55a3da867cdd.rmeta",
+      "backupRelativePath": "debug/deps/libipnet-f3be55a3da867cdd.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libipnet-f3be55a3da867cdd.rmeta",
+      "sha256": "a649c368dcd96f8f9ef9bada25e072eb2baa6ef64c7d72fef2ea97bbec994ba9",
+      "bytes": 262796,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libis_terminal_polyfill-ac45fb72f76d800b.rlib",
+      "backupRelativePath": "debug/deps/libis_terminal_polyfill-ac45fb72f76d800b.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libis_terminal_polyfill-ac45fb72f76d800b.rlib",
+      "sha256": "683ee52dbbc8661e8f3b29fbc24c3d7e584bae407b6a1ecdcaca3c4fbb1fd0f8",
+      "bytes": 11870,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libis_terminal_polyfill-ac45fb72f76d800b.rmeta",
+      "backupRelativePath": "debug/deps/libis_terminal_polyfill-ac45fb72f76d800b.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libis_terminal_polyfill-ac45fb72f76d800b.rmeta",
+      "sha256": "3622e0de61469729dbfc58cb6639f200cc571d7263d8703c4fee3a0c87476130",
+      "bytes": 9587,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libitoa-8ade534ac5c7f564.rlib",
+      "backupRelativePath": "debug/deps/libitoa-8ade534ac5c7f564.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libitoa-8ade534ac5c7f564.rlib",
+      "sha256": "4f2be4bd7679c024527fc76ad126e01f5af6ee06075403f6cc9f00a732179935",
+      "bytes": 140916,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libitoa-8ade534ac5c7f564.rmeta",
+      "backupRelativePath": "debug/deps/libitoa-8ade534ac5c7f564.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libitoa-8ade534ac5c7f564.rmeta",
+      "sha256": "d928776b5d4ce56c710ae2ca194048edb496f52b9e18a0a2d4eed659339ee9a5",
+      "bytes": 60672,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/liblibc-867306105dc7d48a.rlib",
+      "backupRelativePath": "debug/deps/liblibc-867306105dc7d48a.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/liblibc-867306105dc7d48a.rlib",
+      "sha256": "9f65cb659e07f133b6f267db5ae64919bf1fcf4f6f686ffab84380a1a8ee32b8",
+      "bytes": 4137468,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/liblibc-867306105dc7d48a.rmeta",
+      "backupRelativePath": "debug/deps/liblibc-867306105dc7d48a.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/liblibc-867306105dc7d48a.rmeta",
+      "sha256": "22e13e256176fa4edff69065f6d482c9ce8347fcfb1ad39016c0cdad59cd004c",
+      "bytes": 4116783,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/liblinux_raw_sys-6e17c4cb89ef4eaf.rlib",
+      "backupRelativePath": "debug/deps/liblinux_raw_sys-6e17c4cb89ef4eaf.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/liblinux_raw_sys-6e17c4cb89ef4eaf.rlib",
+      "sha256": "1ea2c81e48108c2f1bc695eb32a01eef4633282dc1160b13baf68ce118d288ba",
+      "bytes": 1407848,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/liblinux_raw_sys-6e17c4cb89ef4eaf.rmeta",
+      "backupRelativePath": "debug/deps/liblinux_raw_sys-6e17c4cb89ef4eaf.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/liblinux_raw_sys-6e17c4cb89ef4eaf.rmeta",
+      "sha256": "5ddc3213f99b4ca0ac061745b5dedeca72be1f2e1be45054ed8cb56236528092",
+      "bytes": 1394016,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libmaybe_owned-371cdedab1b8a362.rlib",
+      "backupRelativePath": "debug/deps/libmaybe_owned-371cdedab1b8a362.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libmaybe_owned-371cdedab1b8a362.rlib",
+      "sha256": "98e5343f48e8632d340328d6579e7415faae8926fd7cd80778be97ad27c39984",
+      "bytes": 165684,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libmaybe_owned-371cdedab1b8a362.rmeta",
+      "backupRelativePath": "debug/deps/libmaybe_owned-371cdedab1b8a362.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libmaybe_owned-371cdedab1b8a362.rmeta",
+      "sha256": "ae5ddf7e97bdb58bf7d5abf0258d1c16ebbe92e6cd63925e0fcf80c60de9178a",
+      "bytes": 163448,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libmemchr-a891fea3e9e77c4a.rlib",
+      "backupRelativePath": "debug/deps/libmemchr-a891fea3e9e77c4a.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libmemchr-a891fea3e9e77c4a.rlib",
+      "sha256": "e455f906ab81550d18f2d43edcc9cd41d9e54035269f322eab82c3dc30e381c3",
+      "bytes": 1856994,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libmemchr-a891fea3e9e77c4a.rmeta",
+      "backupRelativePath": "debug/deps/libmemchr-a891fea3e9e77c4a.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libmemchr-a891fea3e9e77c4a.rmeta",
+      "sha256": "54a7407b1c23cc6ba8d33fa6a32c8fe0f947c5fc2a41de7f2359419198c8a9f4",
+      "bytes": 1296027,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libnum_traits-6bfade6eaaffb73d.rlib",
+      "backupRelativePath": "debug/deps/libnum_traits-6bfade6eaaffb73d.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libnum_traits-6bfade6eaaffb73d.rlib",
+      "sha256": "d02f8de681464b9697860699bf44ce15c6079b335401500d49324e2b78dbfef1",
+      "bytes": 1685336,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libnum_traits-6bfade6eaaffb73d.rmeta",
+      "backupRelativePath": "debug/deps/libnum_traits-6bfade6eaaffb73d.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libnum_traits-6bfade6eaaffb73d.rmeta",
+      "sha256": "c1bd227d823db7018e0e637fb3022fa8cf8009f83285e492e4c325d4c73fd511",
+      "bytes": 1619580,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libonce_cell-72d435381a1ae946.rlib",
+      "backupRelativePath": "debug/deps/libonce_cell-72d435381a1ae946.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libonce_cell-72d435381a1ae946.rlib",
+      "sha256": "1f051975de23eab9d9f47e72956e9ed7ce5bce911020391884faa95b0618de24",
+      "bytes": 233274,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libonce_cell-72d435381a1ae946.rmeta",
+      "backupRelativePath": "debug/deps/libonce_cell-72d435381a1ae946.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libonce_cell-72d435381a1ae946.rmeta",
+      "sha256": "e3aa4f19d7cd0649e42aac442c735f0f796c4333df284c57e9c473ec427588b9",
+      "bytes": 194136,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libphf-aee891f48b5c4f39.rlib",
+      "backupRelativePath": "debug/deps/libphf-aee891f48b5c4f39.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libphf-aee891f48b5c4f39.rlib",
+      "sha256": "7ec61bc942e87536f58fd8280231336685d6679b0504d9895d50941bd6e60d4d",
+      "bytes": 151708,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libphf-aee891f48b5c4f39.rmeta",
+      "backupRelativePath": "debug/deps/libphf-aee891f48b5c4f39.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libphf-aee891f48b5c4f39.rmeta",
+      "sha256": "2a38ac55fac8d7fc257e95c2b3321445334c558102c69aa6f3082963f4fc2672",
+      "bytes": 149510,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libphf_shared-6d57772ecea0fb56.rlib",
+      "backupRelativePath": "debug/deps/libphf_shared-6d57772ecea0fb56.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libphf_shared-6d57772ecea0fb56.rlib",
+      "sha256": "af9480308226286c4e7098889c362d2ef562efd4e4a870f35c1db9619f902479",
+      "bytes": 158108,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libphf_shared-6d57772ecea0fb56.rmeta",
+      "backupRelativePath": "debug/deps/libphf_shared-6d57772ecea0fb56.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libphf_shared-6d57772ecea0fb56.rmeta",
+      "sha256": "789c4e8d3ceb6907751ce0c402182d31e5dfe57499ecdb816a4584232f290528",
+      "bytes": 113645,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libproc_macro2-82888eec6465a4a2.rlib",
+      "backupRelativePath": "debug/deps/libproc_macro2-82888eec6465a4a2.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libproc_macro2-82888eec6465a4a2.rlib",
+      "sha256": "83bea9389f1a6a8568d31a75141f4983b383fe0cb85eb2631971a6b9879f7d8c",
+      "bytes": 1250070,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libproc_macro2-82888eec6465a4a2.rmeta",
+      "backupRelativePath": "debug/deps/libproc_macro2-82888eec6465a4a2.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libproc_macro2-82888eec6465a4a2.rmeta",
+      "sha256": "fc09ee408029b9a97cfaa7d21a38c691c5e4dca274db1874f3d90475d56e3bd5",
+      "bytes": 343576,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libproc_macro2-bf986f22313891e5.rlib",
+      "backupRelativePath": "debug/deps/libproc_macro2-bf986f22313891e5.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libproc_macro2-bf986f22313891e5.rlib",
+      "sha256": "6d2a510f1adbd78ac1e4c3ed332750106864c17aa2be304d8c7a8371b0a73e1d",
+      "bytes": 1652202,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libproc_macro2-bf986f22313891e5.rmeta",
+      "backupRelativePath": "debug/deps/libproc_macro2-bf986f22313891e5.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libproc_macro2-bf986f22313891e5.rmeta",
+      "sha256": "46bee5f2f9f4a856096e470d371f5bd8515467aebc0cbc05848ca4b3a4cf7f2b",
+      "bytes": 396457,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libquote-bd21582042094722.rlib",
+      "backupRelativePath": "debug/deps/libquote-bd21582042094722.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libquote-bd21582042094722.rlib",
+      "sha256": "d50f37724f4ad800ea2d2c6838ec047c9aadda38ddda74892710a1bba81b7ae4",
+      "bytes": 515860,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libquote-bd21582042094722.rmeta",
+      "backupRelativePath": "debug/deps/libquote-bd21582042094722.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libquote-bd21582042094722.rmeta",
+      "sha256": "be23c92d388aa981570b2755fc13c8db225f7288b206dad359b4bacda7a99d03",
+      "bytes": 270970,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libquote-c605e9c3a666f72f.rlib",
+      "backupRelativePath": "debug/deps/libquote-c605e9c3a666f72f.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libquote-c605e9c3a666f72f.rlib",
+      "sha256": "9c380ef02de6e455571e43b6696b368d4ec4eca755c3a7ce58f1084a3574018e",
+      "bytes": 520276,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libquote-c605e9c3a666f72f.rmeta",
+      "backupRelativePath": "debug/deps/libquote-c605e9c3a666f72f.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libquote-c605e9c3a666f72f.rmeta",
+      "sha256": "d373244e45b14a09ccd71ec86bb3788ed7b52fbab7db80832eb70c353ab02627",
+      "bytes": 270970,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/librustix-331a2a9459bcfcdc.rlib",
+      "backupRelativePath": "debug/deps/librustix-331a2a9459bcfcdc.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/librustix-331a2a9459bcfcdc.rlib",
+      "sha256": "de89cbb938c6475a1c72af0e18c060f20b91795645495d3cfde639066daa9b41",
+      "bytes": 9220066,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/librustix-331a2a9459bcfcdc.rmeta",
+      "backupRelativePath": "debug/deps/librustix-331a2a9459bcfcdc.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/librustix-331a2a9459bcfcdc.rmeta",
+      "sha256": "fe96754c408a2c275ad0b2489662036da51d62d12b5e116b3546ade4905d831f",
+      "bytes": 6676105,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/librustix_linux_procfs-407c13759313773b.rlib",
+      "backupRelativePath": "debug/deps/librustix_linux_procfs-407c13759313773b.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/librustix_linux_procfs-407c13759313773b.rlib",
+      "sha256": "97c0d94675f41877006dbfebea46f561d00bde45c2470b04242ed452d4aa87ab",
+      "bytes": 304330,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/librustix_linux_procfs-407c13759313773b.rmeta",
+      "backupRelativePath": "debug/deps/librustix_linux_procfs-407c13759313773b.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/librustix_linux_procfs-407c13759313773b.rmeta",
+      "sha256": "247c70ccbaa379c33583acef73e0d14aaa87919e087539e0c15aa5e15ad21d5f",
+      "bytes": 38634,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde-6be591b1b93dc08b.rlib",
+      "backupRelativePath": "debug/deps/libserde-6be591b1b93dc08b.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde-6be591b1b93dc08b.rlib",
+      "sha256": "643ee0bcd0810d73dcf2653e8549b97d50fdc0b24f239ca89117e145439fbf12",
+      "bytes": 948938,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde-6be591b1b93dc08b.rmeta",
+      "backupRelativePath": "debug/deps/libserde-6be591b1b93dc08b.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde-6be591b1b93dc08b.rmeta",
+      "sha256": "ab4dcd75bf66256623dcc85fd7f5c00542f4ebc371b4bf1652102a6f4c9fc996",
+      "bytes": 832213,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde_core-33e7d04a5b2bdb10.rlib",
+      "backupRelativePath": "debug/deps/libserde_core-33e7d04a5b2bdb10.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde_core-33e7d04a5b2bdb10.rlib",
+      "sha256": "435fcdf015008c7b6ee9e3d7d95cbf06e6606344d21e9f27b79dda952a5fd2fa",
+      "bytes": 4952856,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde_core-33e7d04a5b2bdb10.rmeta",
+      "backupRelativePath": "debug/deps/libserde_core-33e7d04a5b2bdb10.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde_core-33e7d04a5b2bdb10.rmeta",
+      "sha256": "0dad03ec61765b5069a21df89f1fdeff453fd4a2fe1709fd770cbba58d1529e1",
+      "bytes": 4775019,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde_json-bc33ab3121671563.rlib",
+      "backupRelativePath": "debug/deps/libserde_json-bc33ab3121671563.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde_json-bc33ab3121671563.rlib",
+      "sha256": "3361eb7729ccbd8a94ad5625cdc1cce2b2f0afa796425a8ebadec30e2a156b1c",
+      "bytes": 2469590,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde_json-bc33ab3121671563.rmeta",
+      "backupRelativePath": "debug/deps/libserde_json-bc33ab3121671563.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde_json-bc33ab3121671563.rmeta",
+      "sha256": "de5bc61474406b0c1e3662f05099d53780d7250dfb6c3e1e1e98c4e1a4b2dfd4",
+      "bytes": 1434872,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde_spanned-653b79aafc0cbdb5.rlib",
+      "backupRelativePath": "debug/deps/libserde_spanned-653b79aafc0cbdb5.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde_spanned-653b79aafc0cbdb5.rlib",
+      "sha256": "761236683c8c6bc5fc560bab82041668ceff80e7f43a1c4361b8e2e053b16691",
+      "bytes": 53370,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libserde_spanned-653b79aafc0cbdb5.rmeta",
+      "backupRelativePath": "debug/deps/libserde_spanned-653b79aafc0cbdb5.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libserde_spanned-653b79aafc0cbdb5.rmeta",
+      "sha256": "ef21368778bea15eab37de2b601ca26239d213ecdbf8cfdab82062fb74d65b1f",
+      "bytes": 44553,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsha2-587c9d2a0861a82e.rlib",
+      "backupRelativePath": "debug/deps/libsha2-587c9d2a0861a82e.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsha2-587c9d2a0861a82e.rlib",
+      "sha256": "d77d94acab74e6df0a602e8582109caad38d930f239ec554f5af62e4e050a2da",
+      "bytes": 716884,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsha2-587c9d2a0861a82e.rmeta",
+      "backupRelativePath": "debug/deps/libsha2-587c9d2a0861a82e.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsha2-587c9d2a0861a82e.rmeta",
+      "sha256": "87bd2249b52e27366a903487ddccee9e9cb188fadc33cb8b0a36c5f22c408f7e",
+      "bytes": 664480,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsiphasher-8f66dce0d9007d17.rlib",
+      "backupRelativePath": "debug/deps/libsiphasher-8f66dce0d9007d17.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsiphasher-8f66dce0d9007d17.rlib",
+      "sha256": "6f98782f6a224dd961522d7cfa06f46a69ad7ceb940843feebe710610156de9f",
+      "bytes": 247428,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsiphasher-8f66dce0d9007d17.rmeta",
+      "backupRelativePath": "debug/deps/libsiphasher-8f66dce0d9007d17.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsiphasher-8f66dce0d9007d17.rmeta",
+      "sha256": "5a560c56bf0b63d47cdca256b8d5fca92ffc13a5f17df48eab1f065d793275b0",
+      "bytes": 198701,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libstrsim-b2da5ee2df556953.rlib",
+      "backupRelativePath": "debug/deps/libstrsim-b2da5ee2df556953.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libstrsim-b2da5ee2df556953.rlib",
+      "sha256": "56ea2cb1e0d92512cc864eafd56681aa910a4a4a75f84e8b38c3427c93118fcd",
+      "bytes": 488586,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libstrsim-b2da5ee2df556953.rmeta",
+      "backupRelativePath": "debug/deps/libstrsim-b2da5ee2df556953.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libstrsim-b2da5ee2df556953.rmeta",
+      "sha256": "2b281f9f0545e76cfaf04df341b673140370cb71243f0a7e671f79bcabb8be77",
+      "bytes": 69908,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsyn-130c6789be20eeb2.rlib",
+      "backupRelativePath": "debug/deps/libsyn-130c6789be20eeb2.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsyn-130c6789be20eeb2.rlib",
+      "sha256": "b1fcdf84da556568cc9eb445fc1b46a2cb86165856c645e89d11c4b0dc9fcfd4",
+      "bytes": 9289142,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsyn-130c6789be20eeb2.rmeta",
+      "backupRelativePath": "debug/deps/libsyn-130c6789be20eeb2.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsyn-130c6789be20eeb2.rmeta",
+      "sha256": "d30bff4af613aa60e9b64bee8c8eab3e75dce453b8b66ad263cd9317404a09a8",
+      "bytes": 2737125,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsyn-5af5e7737c1946aa.rlib",
+      "backupRelativePath": "debug/deps/libsyn-5af5e7737c1946aa.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsyn-5af5e7737c1946aa.rlib",
+      "sha256": "234edbbf063b78781579a2438cb18017616b7b07e940d3e06cabbe559e20afb1",
+      "bytes": 9854476,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libsyn-5af5e7737c1946aa.rmeta",
+      "backupRelativePath": "debug/deps/libsyn-5af5e7737c1946aa.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libsyn-5af5e7737c1946aa.rmeta",
+      "sha256": "11f8b94fc01eead5a0a3bf48a3f84963cd0979046ea7736dd3906c2e601395c1",
+      "bytes": 3230683,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtempfile-fee4f9dc041bf384.rlib",
+      "backupRelativePath": "debug/deps/libtempfile-fee4f9dc041bf384.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtempfile-fee4f9dc041bf384.rlib",
+      "sha256": "5bf00cb6ff461e6698f48fd59a096fc97f385d650283e19107697a30b9a22d12",
+      "bytes": 745886,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtempfile-fee4f9dc041bf384.rmeta",
+      "backupRelativePath": "debug/deps/libtempfile-fee4f9dc041bf384.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtempfile-fee4f9dc041bf384.rmeta",
+      "sha256": "683b876bbf1bc1d7ace874b96177b7eb9864a383a2fa7f69f40a45acd31ab909",
+      "bytes": 240672,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libthiserror-2e3145fd0c6b737f.rlib",
+      "backupRelativePath": "debug/deps/libthiserror-2e3145fd0c6b737f.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libthiserror-2e3145fd0c6b737f.rlib",
+      "sha256": "013def62d893f9b3e0f26571f872f9e094e0e7c145691abcf5311082c4ac6624",
+      "bytes": 32976,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libthiserror-2e3145fd0c6b737f.rmeta",
+      "backupRelativePath": "debug/deps/libthiserror-2e3145fd0c6b737f.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libthiserror-2e3145fd0c6b737f.rmeta",
+      "sha256": "0a7c9a46d70a678541b72e88a8a219100b786b8272a0c33024efbf924948678c",
+      "bytes": 30738,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml-3566c01eb4209a67.rlib",
+      "backupRelativePath": "debug/deps/libtoml-3566c01eb4209a67.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml-3566c01eb4209a67.rlib",
+      "sha256": "9961491ad1d7649bbbc0eb41df001401018165696ed13dc558179ed2dec3fa22",
+      "bytes": 3267842,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml-3566c01eb4209a67.rmeta",
+      "backupRelativePath": "debug/deps/libtoml-3566c01eb4209a67.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml-3566c01eb4209a67.rmeta",
+      "sha256": "721735a6efb0ee585edb7b308aae13a81f1c15dbb9b6dda9b2912f8a6eb6c57e",
+      "bytes": 1058876,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml_datetime-a844a31b8bf2cdfb.rlib",
+      "backupRelativePath": "debug/deps/libtoml_datetime-a844a31b8bf2cdfb.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml_datetime-a844a31b8bf2cdfb.rlib",
+      "sha256": "c2c26e1a744aeae811e94575b9f45c440ecd3beba7734cb4a4d21c251759976a",
+      "bytes": 358624,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml_datetime-a844a31b8bf2cdfb.rmeta",
+      "backupRelativePath": "debug/deps/libtoml_datetime-a844a31b8bf2cdfb.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml_datetime-a844a31b8bf2cdfb.rmeta",
+      "sha256": "f3ff2f9505e7e19094326ea62e54ef280e143b40b29efa4eba49c64f04a64f28",
+      "bytes": 146539,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml_parser-63dadef22652485e.rlib",
+      "backupRelativePath": "debug/deps/libtoml_parser-63dadef22652485e.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml_parser-63dadef22652485e.rlib",
+      "sha256": "568d67281ce8dc265a81e6e48c5db3f2367ec8896249630fffbb7036048484bc",
+      "bytes": 1107018,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml_parser-63dadef22652485e.rmeta",
+      "backupRelativePath": "debug/deps/libtoml_parser-63dadef22652485e.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml_parser-63dadef22652485e.rmeta",
+      "sha256": "016a782b41d40f0dcaa3826459d7cbdaf616f222b6f6be58aaba5b7a3b4ed19a",
+      "bytes": 305126,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml_writer-63ef575224fde350.rlib",
+      "backupRelativePath": "debug/deps/libtoml_writer-63ef575224fde350.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml_writer-63ef575224fde350.rlib",
+      "sha256": "283749504d1f8aeae2059ebae8c754e186480ccdde67e907bc81c1df15efd9a5",
+      "bytes": 212616,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtoml_writer-63ef575224fde350.rmeta",
+      "backupRelativePath": "debug/deps/libtoml_writer-63ef575224fde350.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtoml_writer-63ef575224fde350.rmeta",
+      "sha256": "67332dec79d5b30c7260cc400a0cf1711f463ce70f1d46775b3cdcc20c4224c9",
+      "bytes": 185612,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtypenum-aa2ca32923679fb6.rlib",
+      "backupRelativePath": "debug/deps/libtypenum-aa2ca32923679fb6.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtypenum-aa2ca32923679fb6.rlib",
+      "sha256": "01b168105a7df663c8b6a4de77a65c3b3809c1b3fb7232042eccbca3de61dcd5",
+      "bytes": 2734934,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libtypenum-aa2ca32923679fb6.rmeta",
+      "backupRelativePath": "debug/deps/libtypenum-aa2ca32923679fb6.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libtypenum-aa2ca32923679fb6.rmeta",
+      "sha256": "27ceb20add8496c63876e90a82f0636b718d617a34c9a1b4f8ddff2ad6ef2df3",
+      "bytes": 2723790,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libunicode_ident-345d3e624cdde9cc.rlib",
+      "backupRelativePath": "debug/deps/libunicode_ident-345d3e624cdde9cc.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libunicode_ident-345d3e624cdde9cc.rlib",
+      "sha256": "8a968f8e2b6d634f3833f8cc230c2fa2ae45239d37f3f272e65658ddd4763862",
+      "bytes": 54862,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libunicode_ident-345d3e624cdde9cc.rmeta",
+      "backupRelativePath": "debug/deps/libunicode_ident-345d3e624cdde9cc.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libunicode_ident-345d3e624cdde9cc.rmeta",
+      "sha256": "1768fcdecf0d8fa805a72b1636f90d641be8a58bee35f863120caf8e2e93c8bb",
+      "bytes": 32909,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libutf8parse-a7ca8d514dad723d.rlib",
+      "backupRelativePath": "debug/deps/libutf8parse-a7ca8d514dad723d.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libutf8parse-a7ca8d514dad723d.rlib",
+      "sha256": "093ac2f1f2ccc5509f936d15b8e9582b2fe9511a82e69fa0bef72f8b860939c0",
+      "bytes": 32870,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libutf8parse-a7ca8d514dad723d.rmeta",
+      "backupRelativePath": "debug/deps/libutf8parse-a7ca8d514dad723d.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libutf8parse-a7ca8d514dad723d.rmeta",
+      "sha256": "94c3d739b919f35707db58bfcb806b939c5ab6786dd8244d22c228d7a34a07b8",
+      "bytes": 30202,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libversion_check-abf89f10755e7d7f.rlib",
+      "backupRelativePath": "debug/deps/libversion_check-abf89f10755e7d7f.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libversion_check-abf89f10755e7d7f.rlib",
+      "sha256": "b4a5ae30367346874a6ce5a249913639e92fe0f925d2023302bd63c403d80a27",
+      "bytes": 479604,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libversion_check-abf89f10755e7d7f.rmeta",
+      "backupRelativePath": "debug/deps/libversion_check-abf89f10755e7d7f.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libversion_check-abf89f10755e7d7f.rmeta",
+      "sha256": "9647cd5726c44a9b6a26954f8458ffcae463bedb32782f3f9cf9713e0b2a3edd",
+      "bytes": 75106,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libwinnow-44faa183dc1329a2.rlib",
+      "backupRelativePath": "debug/deps/libwinnow-44faa183dc1329a2.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libwinnow-44faa183dc1329a2.rlib",
+      "sha256": "86122ec19a0c12d1e1903a5c1e234f08b759a85f18f554597482e95ad2d7f0d8",
+      "bytes": 718336,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libwinnow-44faa183dc1329a2.rmeta",
+      "backupRelativePath": "debug/deps/libwinnow-44faa183dc1329a2.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libwinnow-44faa183dc1329a2.rmeta",
+      "sha256": "002e1e20162d56c3c475677a9644c08fbd8aa584d4be88892604bdea1d18d8b7",
+      "bytes": 655708,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libwinnow-d2facba36c69c34d.rlib",
+      "backupRelativePath": "debug/deps/libwinnow-d2facba36c69c34d.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libwinnow-d2facba36c69c34d.rlib",
+      "sha256": "ebfd5c6fafb7a0be421a4c2b9975fe73601302a2c7931cf8679ed4d3d1808bcb",
+      "bytes": 3427066,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libwinnow-d2facba36c69c34d.rmeta",
+      "backupRelativePath": "debug/deps/libwinnow-d2facba36c69c34d.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libwinnow-d2facba36c69c34d.rmeta",
+      "sha256": "d8f7dc5ca9aac6fd553bcc9cc1f4826d0ff55939a383496796a66c1d163fda5f",
+      "bytes": 3305902,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libzmij-4e7cde0676d7e427.rlib",
+      "backupRelativePath": "debug/deps/libzmij-4e7cde0676d7e427.rlib",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libzmij-4e7cde0676d7e427.rlib",
+      "sha256": "2191d8faf8c18982a1a4c76d5c969ab81eabad54ed214cd6358d61590e11aecb",
+      "bytes": 544290,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/libzmij-4e7cde0676d7e427.rmeta",
+      "backupRelativePath": "debug/deps/libzmij-4e7cde0676d7e427.rmeta",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/libzmij-4e7cde0676d7e427.rmeta",
+      "sha256": "7512ffb88bd97b265631999ff510638b0668cebbc6395845f6a0c1f4b240caba",
+      "bytes": 419330,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/linux_raw_sys-6e17c4cb89ef4eaf.d",
+      "backupRelativePath": "debug/deps/linux_raw_sys-6e17c4cb89ef4eaf.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/linux_raw_sys-6e17c4cb89ef4eaf.d",
+      "sha256": "380adfe3a6e47b5520dbe2118215eb7a5c2792aff431adad7e2103358fd9a1d6",
+      "bytes": 3353,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/maybe_owned-371cdedab1b8a362.d",
+      "backupRelativePath": "debug/deps/maybe_owned-371cdedab1b8a362.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/maybe_owned-371cdedab1b8a362.d",
+      "sha256": "db6889a728ed1e0f456504634fea7ad742a9d2b7e3a3394d6fcd2d2228b97816",
+      "bytes": 1254,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/memchr-a891fea3e9e77c4a.d",
+      "backupRelativePath": "debug/deps/memchr-a891fea3e9e77c4a.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/memchr-a891fea3e9e77c4a.d",
+      "sha256": "b01b852dfd0b4c493efca81f2829d1f826b11cb5764af3b3d9010635544549a9",
+      "bytes": 11340,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/num_traits-6bfade6eaaffb73d.d",
+      "backupRelativePath": "debug/deps/num_traits-6bfade6eaaffb73d.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/num_traits-6bfade6eaaffb73d.d",
+      "sha256": "e7883fe7fc34212d88c0b1c60dfa9b5fd7d77bdaad9aa1f6c97d437de286a7a8",
+      "bytes": 7892,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/once_cell-72d435381a1ae946.d",
+      "backupRelativePath": "debug/deps/once_cell-72d435381a1ae946.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/once_cell-72d435381a1ae946.d",
+      "sha256": "13eb45c48923acc565bd604d69a01b4ce51bbbecea376694745f03a80762a15b",
+      "bytes": 1581,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/phf-aee891f48b5c4f39.d",
+      "backupRelativePath": "debug/deps/phf-aee891f48b5c4f39.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/phf-aee891f48b5c4f39.d",
+      "sha256": "a8c4be94aff5786a791ce91c9c64c58fb952cb701ee0813f2cb5a593b42f3bdc",
+      "bytes": 2225,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/phf_shared-6d57772ecea0fb56.d",
+      "backupRelativePath": "debug/deps/phf_shared-6d57772ecea0fb56.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/phf_shared-6d57772ecea0fb56.d",
+      "sha256": "956a7222ce7114db09f546936e325b7b5ec7c414af6bf9d55f73ca2e71af5d50",
+      "bytes": 830,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/proc_macro2-82888eec6465a4a2.d",
+      "backupRelativePath": "debug/deps/proc_macro2-82888eec6465a4a2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/proc_macro2-82888eec6465a4a2.d",
+      "sha256": "a66001dfea8edd38231bd5ed018590c2678b34f9d849f7e7321986f81b8325d3",
+      "bytes": 4955,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/proc_macro2-bf986f22313891e5.d",
+      "backupRelativePath": "debug/deps/proc_macro2-bf986f22313891e5.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/proc_macro2-bf986f22313891e5.d",
+      "sha256": "1333a2371dd067fcc3c658f0c06e7564687f611bc1844f4e9f3770a6a3c30a53",
+      "bytes": 5356,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/quote-bd21582042094722.d",
+      "backupRelativePath": "debug/deps/quote-bd21582042094722.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/quote-bd21582042094722.d",
+      "sha256": "59ce19aadf7af4b480874bf5dcd281f81903e214705cc19a9d06bab65c3abfd7",
+      "bytes": 3025,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/quote-c605e9c3a666f72f.d",
+      "backupRelativePath": "debug/deps/quote-c605e9c3a666f72f.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/quote-c605e9c3a666f72f.d",
+      "sha256": "7c9d8a66c1aa6a31add969258869d9e3d2ead411d8bc7037a15a11bfc8612f6e",
+      "bytes": 3025,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/recovery_revalidation-35da43cdcde5ee20.d",
+      "backupRelativePath": "debug/deps/recovery_revalidation-35da43cdcde5ee20.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/recovery_revalidation-35da43cdcde5ee20.d",
+      "sha256": "d6f60d5a19787d4bca00b729d892e8bc56689775ca9da467984e461e567b6c06",
+      "bytes": 488,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/rpc-0f0c7ca1880ad93b.d",
+      "backupRelativePath": "debug/deps/rpc-0f0c7ca1880ad93b.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/rpc-0f0c7ca1880ad93b.d",
+      "sha256": "79b0087fc187e883d3eeb08f3d811ff8c12adedd24c9721d6b1bd4990a627787",
+      "bytes": 377,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/rustix-331a2a9459bcfcdc.d",
+      "backupRelativePath": "debug/deps/rustix-331a2a9459bcfcdc.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/rustix-331a2a9459bcfcdc.d",
+      "sha256": "5b94b32652cea9861d02a3c024bd87e153578bd08cf466e72d5a19a1519bc1b3",
+      "bytes": 44450,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/rustix_linux_procfs-407c13759313773b.d",
+      "backupRelativePath": "debug/deps/rustix_linux_procfs-407c13759313773b.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/rustix_linux_procfs-407c13759313773b.d",
+      "sha256": "163e984547222e3e6ca07248d0b92162442ca27a20843e84e5014e60eb124000",
+      "bytes": 1318,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/serde-6be591b1b93dc08b.d",
+      "backupRelativePath": "debug/deps/serde-6be591b1b93dc08b.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/serde-6be591b1b93dc08b.d",
+      "sha256": "b2a1deb2d7557cc0e7a818a7b07f85d9b9f3d97397c05a007244e0b93c45bbe1",
+      "bytes": 3131,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/serde_core-33e7d04a5b2bdb10.d",
+      "backupRelativePath": "debug/deps/serde_core-33e7d04a5b2bdb10.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/serde_core-33e7d04a5b2bdb10.d",
+      "sha256": "47d4a7011d919fc8dd723c624cbb3874aa936a9d4128c540f6c11e8ba04def31",
+      "bytes": 8548,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/serde_derive-77f0c79ad7a96ec3.d",
+      "backupRelativePath": "debug/deps/serde_derive-77f0c79ad7a96ec3.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/serde_derive-77f0c79ad7a96ec3.d",
+      "sha256": "865d5c2c8fbbddf629160dd7d41a6649fe11611753d1db1b14e791aeb878c3b7",
+      "bytes": 9113,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/serde_json-bc33ab3121671563.d",
+      "backupRelativePath": "debug/deps/serde_json-bc33ab3121671563.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/serde_json-bc33ab3121671563.d",
+      "sha256": "48cf267c6054a6b7b477071b789795ca82ed05f55f4b8b968b808a6383798bd8",
+      "bytes": 6717,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/serde_spanned-653b79aafc0cbdb5.d",
+      "backupRelativePath": "debug/deps/serde_spanned-653b79aafc0cbdb5.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/serde_spanned-653b79aafc0cbdb5.d",
+      "sha256": "121a5185e745a7085aec0b70ad1696e887248f007b4189f312c911ff778c883e",
+      "bytes": 1621,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/sha2-587c9d2a0861a82e.d",
+      "backupRelativePath": "debug/deps/sha2-587c9d2a0861a82e.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/sha2-587c9d2a0861a82e.d",
+      "sha256": "86e673965f0f08d62dd7a51906612ff50e987d07cf2b8db0de7e555a42727f0d",
+      "bytes": 3756,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/siphasher-8f66dce0d9007d17.d",
+      "backupRelativePath": "debug/deps/siphasher-8f66dce0d9007d17.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/siphasher-8f66dce0d9007d17.d",
+      "sha256": "a290d622d097ed4aa218e0f279fd02db432235464f30611e2e01dc3c27e14bad",
+      "bytes": 2327,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/strsim-b2da5ee2df556953.d",
+      "backupRelativePath": "debug/deps/strsim-b2da5ee2df556953.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/strsim-b2da5ee2df556953.d",
+      "sha256": "2d45f87db9f637fb923ac9db13c8641a4371baed50f3ed3466bcbac190c48a51",
+      "bytes": 802,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/syn-130c6789be20eeb2.d",
+      "backupRelativePath": "debug/deps/syn-130c6789be20eeb2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/syn-130c6789be20eeb2.d",
+      "sha256": "3401775d6e83c5befb02ffc0ffecff589317d275e7b82cb6861525ee6dce5c7a",
+      "bytes": 17123,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/syn-5af5e7737c1946aa.d",
+      "backupRelativePath": "debug/deps/syn-5af5e7737c1946aa.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/syn-5af5e7737c1946aa.d",
+      "sha256": "b31e7bc7ae4ea67ab4a55e8832e3642149763f2eae2ae73fb1df85466eb03ced",
+      "bytes": 17872,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/tempfile-fee4f9dc041bf384.d",
+      "backupRelativePath": "debug/deps/tempfile-fee4f9dc041bf384.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/tempfile-fee4f9dc041bf384.d",
+      "sha256": "fcabbf88ca7f2f6c4546796dba17fe2ff39b8852fbcc0e1d31f9afea88e86940",
+      "bytes": 4674,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/thiserror-2e3145fd0c6b737f.d",
+      "backupRelativePath": "debug/deps/thiserror-2e3145fd0c6b737f.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/thiserror-2e3145fd0c6b737f.d",
+      "sha256": "79b0b6082fa8bac09c577c5a7504bcc96384ee9a839334b624432b3e788569f7",
+      "bytes": 3151,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/thiserror_impl-be1de1da8e1ff35f.d",
+      "backupRelativePath": "debug/deps/thiserror_impl-be1de1da8e1ff35f.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/thiserror_impl-be1de1da8e1ff35f.d",
+      "sha256": "233f0225bc1ac39aa5782f740ef354c008850bd861a0e42cab3a49e3ba12d1a4",
+      "bytes": 3633,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/toml-3566c01eb4209a67.d",
+      "backupRelativePath": "debug/deps/toml-3566c01eb4209a67.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/toml-3566c01eb4209a67.d",
+      "sha256": "29c9a88870579da6b4c86ef7a8e0ff70ca111d6ff64ad053de625c0fd5b399da",
+      "bytes": 15802,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/toml_datetime-a844a31b8bf2cdfb.d",
+      "backupRelativePath": "debug/deps/toml_datetime-a844a31b8bf2cdfb.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/toml_datetime-a844a31b8bf2cdfb.d",
+      "sha256": "b8018796114f4364dd29cd6848eaee60a2a9fdc0d8312a045bf694e6a3ee0369",
+      "bytes": 2182,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/toml_parser-63dadef22652485e.d",
+      "backupRelativePath": "debug/deps/toml_parser-63dadef22652485e.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/toml_parser-63dadef22652485e.d",
+      "sha256": "cff65b509ebbd85729a99f8146e2cac3cf4493455bc152a2a9706ff626231b08",
+      "bytes": 6229,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/toml_writer-63ef575224fde350.d",
+      "backupRelativePath": "debug/deps/toml_writer-63ef575224fde350.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/toml_writer-63ef575224fde350.d",
+      "sha256": "8b1e359caac13be2499243d279191c4372f78ac0123e905ee86d9c0576125649",
+      "bytes": 3006,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/typenum-aa2ca32923679fb6.d",
+      "backupRelativePath": "debug/deps/typenum-aa2ca32923679fb6.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/typenum-aa2ca32923679fb6.d",
+      "sha256": "04fe484889475aac65e603d0f3c67570c303cdda86f8afe7f882ffb7783f92b3",
+      "bytes": 5353,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/unicode_ident-345d3e624cdde9cc.d",
+      "backupRelativePath": "debug/deps/unicode_ident-345d3e624cdde9cc.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/unicode_ident-345d3e624cdde9cc.d",
+      "sha256": "74d192d7091f9f798580a9bd0be15b168b8d05f41119c807906795dc21027fb2",
+      "bytes": 1248,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/utf8parse-a7ca8d514dad723d.d",
+      "backupRelativePath": "debug/deps/utf8parse-a7ca8d514dad723d.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/utf8parse-a7ca8d514dad723d.d",
+      "sha256": "82f3e52acf89dffbbc6e8373184b539e5e43fab7a2056a882184d500bed5249d",
+      "bytes": 1192,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/version_check-abf89f10755e7d7f.d",
+      "backupRelativePath": "debug/deps/version_check-abf89f10755e7d7f.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/version_check-abf89f10755e7d7f.d",
+      "sha256": "31533e18e4235aeea5600c6e8d6bb793c9ab5ac6a1ec5466748237b811f19480",
+      "bytes": 2026,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/winnow-44faa183dc1329a2.d",
+      "backupRelativePath": "debug/deps/winnow-44faa183dc1329a2.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/winnow-44faa183dc1329a2.d",
+      "sha256": "84620b0a385775a14d5577735a3842fdc86f24fd2dd49fe8d1d38d2d2a04fad5",
+      "bytes": 5943,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/winnow-d2facba36c69c34d.d",
+      "backupRelativePath": "debug/deps/winnow-d2facba36c69c34d.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/winnow-d2facba36c69c34d.d",
+      "sha256": "d598fb2148d84ec00c622495b22c1008907819169183d385fbd4b121f2b36ec3",
+      "bytes": 11597,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/zmij-4e7cde0676d7e427.d",
+      "backupRelativePath": "debug/deps/zmij-4e7cde0676d7e427.d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/zmij-4e7cde0676d7e427.d",
+      "sha256": "3f8d16dffa8162050b104ac551873a80f9f706430d50aa954932e1593cbf85c6",
+      "bytes": 1530,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416",
+      "backupRelativePath": "debug/deps/legacy_closeout_source-321d641e37605416",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/legacy_closeout_source-321d641e37605416",
+      "sha256": "b27f09cf16f238823f2c1c59c59df29f48c20f588e0f0c6f5b38417fb5aac70b",
+      "bytes": 44767352,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-005fe2137d819e4d",
+      "backupRelativePath": "debug/deps/legacy_closeout_source-005fe2137d819e4d",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/legacy_closeout_source-005fe2137d819e4d",
+      "sha256": "758fe2be0df9f1a59d8fd56943bcaeab0f3daac8f81186f2b9e2426a4cce8c22",
+      "bytes": 44277304,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0",
+      "backupRelativePath": "debug/deps/cockpit_repository-5063e98527cc9fb0",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/cockpit_repository-5063e98527cc9fb0",
+      "sha256": "25c9a8cfb1c71747ab43fedd90899d5037e1585ec89286edf66ab98920bf4ddc",
+      "bytes": 39743472,
+      "readBackVerified": true
+    },
+    {
+      "source": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/rpc-0f0c7ca1880ad93b",
+      "backupRelativePath": "debug/deps/rpc-0f0c7ca1880ad93b",
+      "backupPath": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c/debug/deps/rpc-0f0c7ca1880ad93b",
+      "sha256": "8182b38047795133f9ed44f668e5ea2dbd978f0418b7bd01ba2a5671e175e8c1",
+      "bytes": 44772000,
+      "readBackVerified": true
+    }
+  ]
+}

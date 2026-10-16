@@ -1,0 +1,5 @@
+{
+  "filesScanned": 18,
+  "credentialSignatureMatches": [],
+  "manualReview": "Only cleanup/provenance/identity/hash records and bounded executors; no binary bytes or credentials added to Git."
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "host-cache-maintenance-human-authorization-provenance",
+  "requestMessageId": "Sentinel_6fb3be8e62688191b8143c8f4f5749cd",
+  "requestTimeUtcMinutePrecision": "2026-10-16T03:08Z",
+  "approvalMessageId": "Sentinel_d8e66a17495481919c5bbd29bb93844b",
+  "approvalTimeUtc": "2026-10-16T03:17:47Z",
+  "actor": "Ray",
+  "exactApprovalText": "批准",
+  "approvedManifestSha256": "5881b11f87fd77b5d97a0e528732687a44bc825248aeb8223dea6a5b026a860e",
+  "scope": "283 exact WI-1085 build artifacts, backup verified on different /tmp disk before removal, accepting disclosed unreadable reference uncertainty",
+  "exclusions": "653 excluded target files, all directories, sources/.ai, Runtime/candidate CLI, all other resources and backup itself",
+  "notRuntimeReceipt": true,
+  "noPolicyConfirmationFabricated": true,
+  "residualRisks": [
+    "unreadable processes may reference files",
+    "space may not release immediately",
+    "WI-1085 may require restore/rebuild later",
+    "/tmp backup is not persistent"
+  ]
+}
