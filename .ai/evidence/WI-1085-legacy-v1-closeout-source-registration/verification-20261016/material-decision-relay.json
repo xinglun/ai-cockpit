@@ -1,0 +1,33 @@
+{
+  "kind": "current-user-reported-Raydot-technical-decision",
+  "recordedAt": "2026-10-16T11:51:21.071354+00:00",
+  "recordedBy": "agent:Codex",
+  "reportedBy": "conversation:current-user-message",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1",
+  "acceptedMembers": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "limit": "Only the two specified readable_committed_rust_syntax_unknown entries. No formal acceptance, human/provider/release approval or Finding waiver is represented."
+}

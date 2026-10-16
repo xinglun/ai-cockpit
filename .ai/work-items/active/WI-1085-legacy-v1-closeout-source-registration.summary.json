@@ -371,6 +371,12 @@
       "recordedAt": "2026-10-15T14:44:27.620151778Z"
     }
   },
+  "materialReviewReceipt": {
+    "digest": "sha256:eb14ff234c39e5d98d5074e89f05cd6a0beba6293a5889e3c15b278bd0c85cd9",
+    "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1.json",
+    "receiptDigest": "sha256:e093474e78b36185793f67fa74adf5583486a2c7d4d731bac19cf36294e61ad8",
+    "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1"
+  },
   "mode": "implementation",
   "preflightAt": "2026-10-16T09:48:25Z",
   "preflightContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
