@@ -216,6 +216,13 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
     let contract_path = root.join(&contract);
     let amended_bytes = fs::read(&contract_path).expect("amended Contract");
 
+    let pending_preflight = invoke(&["preflight", "--contract", &contract]);
+    assert!(
+        pending_preflight.status.success(),
+        "{}",
+        String::from_utf8_lossy(&pending_preflight.stderr)
+    );
+
     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
     let summary: serde_json::Value =
         serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))

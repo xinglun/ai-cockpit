@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "controls",
+    "--repo",
+    "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+    "--id",
+    "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "--input",
+    "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/human-review-controls.input.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T02:04:21.670328+00:00",
+  "elapsedSeconds": 1.36,
+  "exitCode": 0,
+  "stdoutBytes": 6451,
+  "stderrBytes": 0,
+  "subreaper": true,
+  "adoptedDescendantsReaped": []
+}

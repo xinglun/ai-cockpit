@@ -1,0 +1,205 @@
+{
+  "observedAt": "2026-10-16T02:06:18.367057+00:00",
+  "authorizationMessage": "Sentinel_5d7751dc43408191bcdd0ee444d28cdc",
+  "manifestSha256": "86e83a12e1f355454ea7268e8df36b7c7ab3e4f097bb2941e3ebbc6b836dd9a6",
+  "listed": 279,
+  "identityAndHashMatched": 279,
+  "deleted": 0,
+  "skipped": 279,
+  "deletedDirectories": 0,
+  "actualAllocatedBytesUnlinked": 0,
+  "before": {
+    "disk": {
+      "total": 33770192896,
+      "used": 31351234560,
+      "free": 684195840
+    },
+    "inodesAvailable": 1930463
+  },
+  "after": {
+    "disk": {
+      "total": 33770192896,
+      "used": 31351234560,
+      "free": 684195840
+    },
+    "inodesAvailable": 1930463
+  },
+  "observedWorkspaceAvailableDeltaBytes": 0,
+  "observedOpenReferences": [],
+  "unresolvedProcessObservations": [
+    {
+      "pid": "1",
+      "comm": "tail",
+      "phase": "fd_inode",
+      "errors": [
+        {
+          "fd": "0",
+          "errno": 13
+        },
+        {
+          "fd": "1",
+          "errno": 13
+        },
+        {
+          "fd": "2",
+          "errno": 13
+        },
+        {
+          "fd": "3",
+          "errno": 13
+        }
+      ]
+    },
+    {
+      "pid": "2",
+      "comm": "caas-prefix-tra",
+      "phase": "fd_inode",
+      "errors": [
+        {
+          "fd": "0",
+          "errno": 13
+        },
+        {
+          "fd": "1",
+          "errno": 13
+        },
+        {
+          "fd": "2",
+          "errno": 13
+        },
+        {
+          "fd": "3",
+          "errno": 13
+        }
+      ]
+    },
+    {
+      "pid": "201",
+      "comm": "dockerd",
+      "phase": "fd_enumeration",
+      "errno": 13
+    },
+    {
+      "pid": "253",
+      "comm": "containerd",
+      "phase": "fd_enumeration",
+      "errno": 13
+    },
+    {
+      "pid": "719213",
+      "comm": "codex-linux-san",
+      "phase": "fd_inode",
+      "errors": [
+        {
+          "fd": "0",
+          "errno": 13
+        },
+        {
+          "fd": "1",
+          "errno": 13
+        },
+        {
+          "fd": "2",
+          "errno": 13
+        }
+      ]
+    },
+    {
+      "pid": "719215",
+      "comm": "bwrap",
+      "phase": "fd_inode",
+      "errors": [
+        {
+          "fd": "0",
+          "errno": 13
+        },
+        {
+          "fd": "1",
+          "errno": 13
+        },
+        {
+          "fd": "2",
+          "errno": 13
+        },
+        {
+          "fd": "3",
+          "errno": 13
+        }
+      ]
+    },
+    {
+      "pid": "2480142",
+      "comm": "codex",
+      "phase": "fd_inode",
+      "errors": [
+        {
+          "fd": "0",
+          "errno": 13
+        },
+        {
+          "fd": "1",
+          "errno": 13
+        },
+        {
+          "fd": "2",
+          "errno": 13
+        },
+        {
+          "fd": "3",
+          "errno": 13
+        },
+        {
+          "fd": "4",
+          "errno": 13
+        },
+        {
+          "fd": "5",
+          "errno": 13
+        },
+        {
+          "fd": "6",
+          "errno": 13
+        },
+        {
+          "fd": "7",
+          "errno": 13
+        },
+        {
+          "fd": "8",
+          "errno": 13
+        },
+        {
+          "fd": "9",
+          "errno": 13
+        },
+        {
+          "fd": "10",
+          "errno": 13
+        },
+        {
+          "fd": "11",
+          "errno": 13
+        },
+        {
+          "fd": "12",
+          "errno": 13
+        },
+        {
+          "fd": "14",
+          "errno": 13
+        },
+        {
+          "fd": "17",
+          "errno": 13
+        },
+        {
+          "fd": "19",
+          "errno": 13
+        }
+      ]
+    }
+  ],
+  "activeBuildProcesses": [],
+  "noPermissionSecurityChanges": true,
+  "note": "All files retained under the explicit skip-on-unclear-occupancy condition; no reclamation claimed."
+}

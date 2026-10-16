@@ -1638,6 +1638,8 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
         "invalidate the prior required check after it was recorded",
     )
     .expect("amend after verification");
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("current amended review request");
     record_human_preflight_review(directory.path(), work_item_id);
     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("current preflight after amendment");
@@ -2932,6 +2934,8 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
         "add an authorized scope without any required verification gates",
     )
     .expect("amend Contract");
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("amended review request");
     record_human_preflight_review(directory.path(), work_item_id);
     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("amended preflight");

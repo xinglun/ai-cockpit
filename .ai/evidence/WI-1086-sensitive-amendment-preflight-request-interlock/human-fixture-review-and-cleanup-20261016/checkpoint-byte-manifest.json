@@ -1,0 +1,214 @@
+{
+  "entries": [
+    {
+      "path": ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review.2ff953ba1280d4180c55f83b91c4b9a23ed2a50f87ab8b5c6fa71888e643df42.json",
+      "bytes": 1159,
+      "sha256": "3f1f7cec2c558fb7a21eb47116782d48ec0fb88257fa0e920fc6df156793102d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/README.zh-CN.md",
+      "bytes": 1246,
+      "sha256": "2eda3e631c9fd1e7dd6dda619e2f8921c98593a70b7bbc772adf1e4307d72136"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.meta.json",
+      "bytes": 2495,
+      "sha256": "f219838fe0bebf538ed20f12bf5562f389736e1f5a5133b6a7f0a1296e628965"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.source.diff",
+      "bytes": 8877,
+      "sha256": "797b646ba8548033fc46bca5f16a57c75166cca9f0c4184d62fe7fa54fd97e81"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/guard-denies-uncommitted-material.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/guard-denies-uncommitted-material.admission.stdout",
+      "bytes": 3416,
+      "sha256": "73e4d56f06efa0c049a11f12ddcf8cb6223f78074bcba6c03a77fc933ccffafa"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.meta.json",
+      "bytes": 3421,
+      "sha256": "d2cda116dd01a2c54ae95ba9f5e9cd12ec3286c7aab5f308fdcca78f64853e67"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.source.diff",
+      "bytes": 9777,
+      "sha256": "71e24dc32b980d5f81b01430fbe9f4750abbe6eb66bfd8bc983d005ed48d4eba"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.stderr",
+      "bytes": 106496,
+      "sha256": "9ab120646088db070f603a52dd16a70b379f471e1ab1cb55f7b1e308397a5d36"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.stdout",
+      "bytes": 1442,
+      "sha256": "205c5174feba4d6cea56de9ac7a67c982248c797a31f8210806c248e0a7c2c70"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/run-admitted-focused.py",
+      "bytes": 7066,
+      "sha256": "00a9bfeb3ec192c24b03e7fa1da36c7f2c347d2a81ffde9bb9db42192d76ea4b"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/run-bounded-focused-disk-guard.py",
+      "bytes": 6016,
+      "sha256": "75581f86411202a52dab04fadbe95d573287d1454f5a5e9eb43c69889bcf8176"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/unadmitted-observation-notice.json",
+      "bytes": 672,
+      "sha256": "e3aea076d4d92d92ada5163d10b72c15943d3827ecfad008f2d9dc16803ee6cf"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/README.zh-CN.md",
+      "bytes": 1425,
+      "sha256": "8cd986c5717ef8f82a40e5b02ea302a26f468ec5e2c1bf15ad2a08f96deed745"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/actual-human-approval.json",
+      "bytes": 2357,
+      "sha256": "270851ae8e31dba11605d1dff3f6e4a48b9768f9be5aaa62cd6adcca0473b643"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-checkpoint-red-preflight.meta.json",
+      "bytes": 603,
+      "sha256": "7811fbd75cf58b03910abf9a44e594c378058c7f74cb571b21f3609d6ec4ee65"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-checkpoint-red-preflight.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-checkpoint-red-preflight.stdout",
+      "bytes": 4288,
+      "sha256": "789aaa6e953d6c78f66e291b887b24a2b68a0bf10b46d21a84e6a4f170089576"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-checkpoint-red-status.meta.json",
+      "bytes": 589,
+      "sha256": "863e2d6d1d7c3641e1aa4b4f8999224b3f942fb22c757330df90e977a88efc59"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-checkpoint-red-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-checkpoint-red-status.stdout",
+      "bytes": 3416,
+      "sha256": "73e4d56f06efa0c049a11f12ddcf8cb6223f78074bcba6c03a77fc933ccffafa"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-after-review.meta.json",
+      "bytes": 589,
+      "sha256": "bdb578e242959e84c4eff2e1df7b78fd874575db4a7af0c7970b1c600113f906"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-after-review.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-after-review.stdout",
+      "bytes": 3198,
+      "sha256": "9c8b9b35c1876e7102ba83546cb7af431d6a61c2640ceb453de5c5f357972178"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-current-status.meta.json",
+      "bytes": 589,
+      "sha256": "169e6b64773c7d500037bdb5f5e693b0fc99cd2f666888092e2a347231021450"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-current-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-current-status.stdout",
+      "bytes": 3819,
+      "sha256": "1af6e89a402565258569084da42f7c8a1a3989abd0f73e2d1adf800e4415ebf4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-edited-preflight.meta.json",
+      "bytes": 603,
+      "sha256": "7457fe3b02e796bcbecf2b73f9d44fa9dee05f467cb1a094cf36ae17f0df6fab"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-edited-preflight.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-edited-preflight.stdout",
+      "bytes": 4288,
+      "sha256": "c6c526a57d479558b5c93fd463ff193938a5b72d29b2242fd8f4be4ae4b24c16"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-native-review.meta.json",
+      "bytes": 819,
+      "sha256": "dbc915fd15615526927553633182d39900469b7fc32c99f0af66a040fa6cc4eb"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-native-review.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/approved-fixture-native-review.stdout",
+      "bytes": 6451,
+      "sha256": "f95d9c18e83f42c070b436f6b3528689102729a558653d24130bd260eef69607"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/before-review-summary.raw.json",
+      "bytes": 6349,
+      "sha256": "2176e97b7bd83bde95d0cdf07b8f919771553e7927a42242b841c6f5bf1d7e32"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/cleanup-file-checks.json",
+      "bytes": 289542,
+      "sha256": "4545cbb25856ffec7c5c925a521a672d8ae65ce4c70ddba017f7f9bed0b45fe2"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/cleanup-result.json",
+      "bytes": 3736,
+      "sha256": "7b06558d258c3f101a15f6d700136a77814c29efac1e7d8edc4cb46c53aeea4d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/current-review-binding.json",
+      "bytes": 398,
+      "sha256": "c41f2611057aa532cd4d3eace5cc08b65d42ee358e355311eb6afa25d1b76d5b"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/human-review-controls.input.json",
+      "bytes": 1210,
+      "sha256": "7221658e8af5e435c0430c6ede185f1608f1182742652db17a642c083ef3ba0e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/human-fixture-review-and-cleanup-20261016/prior-preflight-review.raw.json",
+      "bytes": 1058,
+      "sha256": "664563196a6d5359192b953ebdf77e841f7ec59c421f1ec36041d5d009855439"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json",
+      "bytes": 6450,
+      "sha256": "136df0d91557de22feeff470090612fd2b6d0ef49b644baa4e3c37b7b54315bc"
+    }
+  ]
+}
