@@ -1,0 +1,6 @@
+Status: WI-1085-legacy-v1-closeout-source-registration
+Lifecycle: checkpointed
+Governance: yellow
+Activity health: waiting
+Unknowns: acceptance_evidence_insufficient, acceptance_evidence_missing, intent_alignment_insufficient, repository_material_inspection_unavailable, scenario_coverage_insufficient, user_visible_benefit_not_declared, verification_action_preconditions_blocked, verification_evidence_missing
+Next action: read `work-item outcome --repo <path> --id WI-1085-legacy-v1-closeout-source-registration`

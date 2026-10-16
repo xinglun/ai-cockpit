@@ -1,0 +1,5 @@
+Usage: ai-cockpit work-item coordination inspect --repo <REPO>
+
+Options:
+      --repo <REPO>  
+  -h, --help         Print help

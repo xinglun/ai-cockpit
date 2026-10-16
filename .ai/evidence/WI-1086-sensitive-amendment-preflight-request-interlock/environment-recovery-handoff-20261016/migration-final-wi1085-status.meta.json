@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "status",
+    "--repo",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+    "--id",
+    "WI-1085-legacy-v1-closeout-source-registration"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T04:18:17.072041+00:00",
+  "elapsedSeconds": 2.728,
+  "exitCode": 0,
+  "stdoutBytes": 515,
+  "stderrBytes": 0,
+  "subreaper": true,
+  "adoptedDescendantsReaped": []
+}
