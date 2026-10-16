@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "immutableContractBaseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "sourceSnapshotDigest": "sha256:ad861c823bb370c2441bbd5bc293909c57ee3d52b7ef48cccb650d9f85e90b62",
+  "materialManifestDigest": "sha256:61edc9d027091300e3bab4696d9026099bf46e64c4d75bd2d9c46cf587b4c76d",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:9dcee9c81b0888942520a821f502071bd078a16da9473fdd63f8568a87e54f80",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:8eed971dcbb631b144496cbd91fe2d92059a7aea023552d7dffa2187c6832045",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:88caadcf679c5297c9c04e69d6651f4cabfd0a651621f68d6640653ce24b2a20",
+  "reviewedSourceHead": "2dc2826ff8243f77fb7192835cb2c6a1430a38c1",
+  "repositorySnapshotDigest": "sha256:373a76c43e857ba33189221b89e3d875cd2c5dad534bd01fc619599a45810d4b",
+  "entriesCount": 36,
+  "reviewableEntries": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:eaa4ad00baca29fcffa43c67cfa87d7659900e665999e2429d60c9b7c6fb6d5c",
+      "afterBlobDigest": "sha256:1dbe8f0274707c18c117f09739072a85571c3f4ff09e6b81de88d287e777412d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "reviewDecision": "Pending agent:Raydot; no new acceptance recorded",
+  "supersedesRequestDigest": "sha256:6a85a89d5ee402b20f57b46e01609e45dc2f83bb69cddc0ebafa7325f0412cf8",
+  "delta": "Strengthen the new publication reparse test: requested canonical name starts absent and must stay absent, preserve separate outside victim. Correct only WI1085 parity status/conditional future paths to existing governance schema; preserve WI1086 rows verbatim."
+}

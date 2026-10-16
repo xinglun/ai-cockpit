@@ -632,10 +632,10 @@
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-16T17:28:42Z",
+  "preflightAt": "2026-10-16T17:41:27Z",
   "preflightContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
-  "preflightDecisionDigest": "sha256:9d2d8f227f6642da52c25ff7c51ebf9ada0c52dff417103223eeb45c20ed8a01",
-  "preflightRepositorySnapshotDigest": "sha256:377d624aa2ad323b4422505ac8cb352b30ae41bb681d31c681862fc4245fb4d5",
+  "preflightDecisionDigest": "sha256:c5a3979488c88d3945adbfc378265d23f95467990604e5e434ef05e7caab2082",
+  "preflightRepositorySnapshotDigest": "sha256:373a76c43e857ba33189221b89e3d875cd2c5dad534bd01fc619599a45810d4b",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
