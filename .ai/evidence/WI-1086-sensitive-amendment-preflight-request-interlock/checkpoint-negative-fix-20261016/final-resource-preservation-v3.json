@@ -1,0 +1,27 @@
+{
+  "observedAt": "2026-10-16T02:30:42.047834+00:00",
+  "workspace": {
+    "total": 33770192896,
+    "used": 31353335808,
+    "free": 682094592
+  },
+  "inodesAvailable": 1930218,
+  "zombiesByPpid": {
+    "1": 21316
+  },
+  "baselinePpid1Zombies": 21316,
+  "oldWI1085HeadAndCleanUnchanged": true,
+  "protectedFiles": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "sha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916",
+      "unchanged": true
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "sha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5",
+      "unchanged": true
+    }
+  ],
+  "cleanupActuallyDeleted": 0
+}
