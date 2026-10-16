@@ -1,0 +1,38 @@
+
+running 1 test
+test resource_lifecycle_module_uses_explicit_imports ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+[TRACE tini (1162492)] Registered as child subreaper
+[INFO  tini (1162492)] Spawned child process '/usr/bin/timeout' with pid '1162498'
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[TRACE tini (1162492)] No child to reap
+[DEBUG tini (1162492)] Received SIGCHLD
+[DEBUG tini (1162492)] Reaped child with pid: '1162498'
+[INFO  tini (1162492)] Main child exited normally (with status '0')
+[TRACE tini (1162492)] No child to wait
+[TRACE tini (1162492)] Exiting: child has exited
