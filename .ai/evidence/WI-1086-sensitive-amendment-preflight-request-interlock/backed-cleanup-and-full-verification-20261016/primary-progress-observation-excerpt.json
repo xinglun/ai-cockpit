@@ -1,0 +1,27 @@
+{
+  "source": "exact wrapper stream observations returned by tools.write_stdin for session 1926, including readback while paused",
+  "observations": [
+    {
+      "elapsedSeconds": 276.3,
+      "workspaceFreeBytes": 1160654848,
+      "tmpFreeBytes": 1782542336,
+      "reportedOwnedCount": 0,
+      "reportedStopReason": null
+    },
+    {
+      "elapsedSeconds": 321.3,
+      "workspaceFreeBytes": 1160638464,
+      "tmpFreeBytes": 541863936,
+      "reportedOwnedCount": 0,
+      "reportedStopReason": null
+    },
+    {
+      "elapsedSeconds": 366.4,
+      "workspaceFreeBytes": 1160638464,
+      "tmpFreeBytes": 1363234816,
+      "reportedOwnedCount": 0,
+      "reportedStopReason": null
+    }
+  ],
+  "warning": "ownedCount=0 was false because children interface missing; complete in-memory minimum from original supervisor has not been retrieved. These are samples, not a verified full-run minimum. tmp sample at321.3 was only4,993,024 bytes above512MiB."
+}

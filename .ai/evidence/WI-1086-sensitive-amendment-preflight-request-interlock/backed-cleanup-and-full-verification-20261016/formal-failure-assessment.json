@@ -1,0 +1,43 @@
+{
+  "kind": "assessment-of-real-native-formal-failure-not-a-generated-runtime-receipt",
+  "reviewedSourceCommit": "2a5910e967585c3589af382d29143f1b50b0a2c1",
+  "executionHead": "b77eb89940c7c8869e31bdb08eecb15b44cc0e70",
+  "formalAttemptId": "sha256:e571cea63e6020dfcb89cdd72c6d69338a4c8d0c4d00f291f1032276bc6bc797",
+  "formalAttemptPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.e571cea63e6020dfcb89cdd72c6d69338a4c8d0c4d00f291f1032276bc6bc797.json",
+  "formalAttemptRawSha256": "7bcee0c4e23ddf8f44912ff3bf6b9433b40e9ffa0b24bb652cf5d0e5c835c226",
+  "contractDigest": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+  "repositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "passed": false,
+  "elapsedMs": 588672,
+  "nodesPlanned": 13,
+  "nodesExecuted": 13,
+  "nodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "nodesPassed": 12,
+  "failedNodes": [
+    "project-command-0-package-cockpit-repository"
+  ],
+  "timedOutNodes": [],
+  "failingTest": "pending_retry_survives_a_bounded_contract_amendment",
+  "sourceFile": "crates/cockpit-repository/tests/recovery_decision.rs",
+  "helperFailureLine": 217,
+  "failingCallLine": 1488,
+  "error": "preflight decision evidence requires a recorded green, yellow, or red preflight result",
+  "minimalFixtureChangeProposedOnly": true,
+  "additionalProductPathNotCurrentlyInContract": "crates/cockpit-repository/tests/recovery_decision.rs",
+  "singleTestRerunPerformed": false,
+  "verificationRestarted": false,
+  "ciTriggered": false,
+  "supervisorProcess": {
+    "pid": 805031,
+    "startTimeTicks": "24465201",
+    "state": "T",
+    "retainedOwnedZombies": 1089,
+    "ppid1ZombiesStill": 21316,
+    "notReaped": true,
+    "reason": "/proc/task children absent, parent must reap adopted children; sibling cannot waitpid them"
+  },
+  "originalExecutionMetadataMissing": true,
+  "procRawExitFieldNotTreatedAsAuthoritativeExitCode": true
+}

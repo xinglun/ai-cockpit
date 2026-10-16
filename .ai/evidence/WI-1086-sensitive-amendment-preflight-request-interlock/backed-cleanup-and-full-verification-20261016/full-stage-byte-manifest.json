@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "selfExcluded": true,
+  "recordedAt": "2026-10-16T03:44:52.985984+00:00",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/RESTORE-INSTRUCTIONS.txt",
+      "bytes": 491,
+      "sha256": "517d35713ebb010d6e1bdd550e2e870a2f9a7443874c26dbf175d92e4ca45e0e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-20261016/authorization-provenance.json",
+      "bytes": 1018,
+      "sha256": "73e8322bbea217e0a71add8ed7eaacdd37f7103ebbdaba67e4d6796030fd30b4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-20261016/cleanup-result.json",
+      "bytes": 999,
+      "sha256": "6c4e97788ba8af5c3a3e11983876f3c31fb7930a64fed1a87a53729192528dcd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-20261016/helper-v1.py.txt",
+      "bytes": 14679,
+      "sha256": "32ed9ca7f1957cbae63bd3f9a9f1587f73125a7ebbd7ab4dbbf99eb066b90738"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-20261016/occupancy-before-backup.json",
+      "bytes": 8809,
+      "sha256": "5591526b817aa69c719b0dc371fcfbafc57a77a3f3c1fd40dfbe050c74ad50c2"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-v2-20261016/authorization-provenance.json",
+      "bytes": 1018,
+      "sha256": "73e8322bbea217e0a71add8ed7eaacdd37f7103ebbdaba67e4d6796030fd30b4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-v2-20261016/backup-complete-checkpoint.json",
+      "bytes": 814,
+      "sha256": "6c3e43768d512f881900fcd8238ea347df07d50858c87e084e4d1d876dc1e266"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-v2-20261016/backup-verified-manifest.json",
+      "bytes": 149855,
+      "sha256": "2d9ba9d1a45cbbe93f36b1919f41e635de9a977acb28b5f2d6e71b96f70c329d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-v2-20261016/cleanup-result.json",
+      "bytes": 123611,
+      "sha256": "f7848feadc4f7a7775e89a7bd32c8f1426816a09ac947ba85dbb5f33800e1759"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-v2-20261016/file-removal-results.jsonl",
+      "bytes": 59888,
+      "sha256": "e1fcfee6fbe6f75cd2b743af30c82516b2b7632a7a59e6acd7192ae17d8c729a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-v2-20261016/occupancy-before-backup.json",
+      "bytes": 8220,
+      "sha256": "e26e208face0b24fe703d7e639bf25b5d82a4acd4f62ca41cb13c3c58b400383"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/backed-cleanup-execution-v2-20261016/occupancy-before-removal.json",
+      "bytes": 8220,
+      "sha256": "dbd7b3a81568ca06ad3827d7acb9350f252e377aea648ccd0c5596424a8d7140"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/cleanup-byte-manifest.json",
+      "bytes": 3570,
+      "sha256": "c6d735fd820406b841f512c11523121d331df4dda064e663ddb711e3a311199e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/cleanup-checkpoint.zh-CN.md",
+      "bytes": 2561,
+      "sha256": "097bed343eed3fc301f27a3948d45c1d9e8a6f46433495ddf4b591833a39a60c"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/excluded-target-files.manifest.json",
+      "bytes": 457875,
+      "sha256": "83d99679bcb20eaa17c6dd75289df88fe189fa45e9b275cd3822caa2717711a0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/backed-cleanup-full-after-status.meta.json",
+      "bytes": 589,
+      "sha256": "99be93b25bd2fc13633790448f4bc6a2ea56d0d987ed0588ff281d908e982f46"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/backed-cleanup-full-after-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/backed-cleanup-full-after-status.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/backed-cleanup-full-failure-outcome.meta.json",
+      "bytes": 620,
+      "sha256": "d6ee90cac1b5fefd24ae7dd942cf837145c30b2136406c6f0c13588a9a5dc07a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/backed-cleanup-full-failure-outcome.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/backed-cleanup-full-failure-outcome.stdout",
+      "bytes": 2788,
+      "sha256": "2c0bc90effce10d338c4c8fef222a5823b75b0bdc5fbb98c95e85bffc431747a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/current-runtime-status.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/repository-node.stderr",
+      "bytes": 5563,
+      "sha256": "d24b6b9b0f4698fad16609850bce3dfe688611a249fbff2a10275147b0a98ba1"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/failure-diagnosis/repository-node.stdout",
+      "bytes": 64609,
+      "sha256": "dc3a021c160bba933e3c79404562ab5c2f2498dcf72ea0fd1145724f42021214"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/final-preservation-and-resources.json",
+      "bytes": 1555,
+      "sha256": "0c0595901544a18d3412f3cea134ad4f0951f30536b9274992da17d995a5afdb"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/exact-environment-plan.command.json",
+      "bytes": 369,
+      "sha256": "e1ab44b6156b6befa45e9b9ba4ceda0932c48f164fbc9d52f82e317b957efc05"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/exact-environment-plan.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/exact-environment-plan.stdout",
+      "bytes": 19877,
+      "sha256": "2d5fd21b698d17bb8d9d111fbd46dc990b871e8ee15fb7e88d4888f0245329b0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/formal-verification.stderr",
+      "bytes": 2895,
+      "sha256": "26c7a45c78433f80a626619929af11a739231677bf11db68ba41e3e3dffb7bba"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/formal-verification.stdout",
+      "bytes": 433143,
+      "sha256": "f8a95f556fed8676aa92aeb553839a0e9afdf2b1034651cf1d9b43ba62c2b6e9"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/reviewed-source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/status-before-plan.command.json",
+      "bytes": 321,
+      "sha256": "eaed3239d53d8b2321f0f41b70cb85a66d21ac55f6379b6426b49d91c3eb6458"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/status-before-plan.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/status-before-plan.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/status-immediately-before-verify.command.json",
+      "bytes": 321,
+      "sha256": "eaed3239d53d8b2321f0f41b70cb85a66d21ac55f6379b6426b49d91c3eb6458"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/status-immediately-before-verify.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/status-immediately-before-verify.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/validation-before-plan.command.json",
+      "bytes": 323,
+      "sha256": "78103f2330c74aab8a98867b8e71f9499a86f5c3e3b8791df8872bc6be1bd448"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/validation-before-plan.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-execution/validation-before-plan.stdout",
+      "bytes": 430,
+      "sha256": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-executor-v2-note.json",
+      "bytes": 410,
+      "sha256": "1f28d73013ab14e30dadcb0f6220d484f90ae4c730e578b6c5b72779f045f0b7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-failure-assessment.json",
+      "bytes": 2097,
+      "sha256": "19598b541d4f76aa8b63eb6ab79be7900b068c3aed31edfbcdac55c536905e87"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-owned-process-stat-diagnostic.json",
+      "bytes": 36006,
+      "sha256": "b1e7e430684bac67c9a9bef7ae432b2624b3df85cdcdbb11479b7414eac500b0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-process-observation-diagnostic-v2.json",
+      "bytes": 903,
+      "sha256": "1b7d83d4d7e9847aee2c1eff10eb3828fd819a89d7e32dae283df38a68d1d1f7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/formal-process-observation-diagnostic.json",
+      "bytes": 1148,
+      "sha256": "7a8e565bc9b7ce5398a4aad29125fdb3ab4ec95d70bc0c9b948dd8c122ffcf8d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/guard-retained-supervisor-v2.py.txt",
+      "bytes": 6558,
+      "sha256": "80a40186db51ca0e80fa818285207ebbde038b3a29ed67eea60a2938ba19d553"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/guard-retained-supervisor.py.txt",
+      "bytes": 6434,
+      "sha256": "f3906c4611932d506c54386de7e3d955cbcea9595f8da5f44af55220cec1955f"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/next-recovery-proposal.zh-CN.md",
+      "bytes": 4980,
+      "sha256": "ade27a3a2fb0ce6292a2f48c8bd4582c9002088b3ebfe4968b486c89f23140f3"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/outcome-handoff.zh-CN.md",
+      "bytes": 4638,
+      "sha256": "2d10b733f0436078415aed72d53244f2826229f49718b0b6da2cb8655d8e23ae"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/perform-approved-backup-cleanup-v2.py.txt",
+      "bytes": 16480,
+      "sha256": "7a8a89a4dd7b83aea7a766161f4169210e410c3eac00be642a363aaef34aeb38"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/primary-progress-observation-excerpt.json",
+      "bytes": 960,
+      "sha256": "b64aea8ce3f52eda9a5a9a998498426e6bb004ebfbec421a2289e0c39b377c77"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/proposed-cleanup-283.manifest.json",
+      "bytes": 217198,
+      "sha256": "5881b11f87fd77b5d97a0e528732687a44bc825248aeb8223dea6a5b026a860e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/proposed-fixture-binding.json",
+      "bytes": 278,
+      "sha256": "2477e62f81e5e29980b2f11cacb2e12d12d4a080552da3fb2fd852c326ac7523"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/proposed-recovery-fixture.patch",
+      "bytes": 678,
+      "sha256": "f979746ca6bd89d541918665293c970ad101cc920bcb48c91d666b02fcad9a63"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/retained-provenance.json",
+      "bytes": 2649,
+      "sha256": "f9eaede3187cb295ee6d7083557f28c9bf81dc04388a1a427ae9cc468a8be67d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/run-admitted-formal-verification-v2.py.txt",
+      "bytes": 14719,
+      "sha256": "5f1cf65ddc50cbe5c731a9a5d4ebb23e1eb5d337f576a6bfb0e0909b5047da9c"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/run-admitted-formal-verification.py.txt",
+      "bytes": 14434,
+      "sha256": "2c0012656a15c2ea014c01b79897ff8fc345c58879a86142bd90aa6e0f10f94f"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/sensitive-review-cleanup.json",
+      "bytes": 196,
+      "sha256": "19246211c49c3e9df9df0005c457a10084a343bcae0137d69fe1e55c04741cef"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/sensitive-review-full.json",
+      "bytes": 310,
+      "sha256": "cd260c2bc7b2770fa606c4ca996bdaaab87c73894860bcf0eb5e2ec84160eb86"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/stat-fallback-guard/guard-before-pause.json",
+      "bytes": 188877,
+      "sha256": "7a07a6ed6bcddfffb1bf8502f441c69a3fcf897c7de87c4e4a7cf57e782fb8d4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/stat-fallback-guard-v2/guard-before-pause.json",
+      "bytes": 194098,
+      "sha256": "a859ebb4865ca2eb2fdff3b8b79013e7ea0a72b888c00061ecdd18d148c05ec7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/stat-fallback-guard-v2/guard-result.json",
+      "bytes": 359952,
+      "sha256": "21d97179b5cb9ac9462e92cf57d8e5332a1d6f9f5f98df77190f5b1b55078fab"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.e571cea63e6020dfcb89cdd72c6d69338a4c8d0c4d00f291f1032276bc6bc797.json",
+      "bytes": 837214,
+      "sha256": "7bcee0c4e23ddf8f44912ff3bf6b9433b40e9ffa0b24bb652cf5d0e5c835c226"
+    }
+  ]
+}

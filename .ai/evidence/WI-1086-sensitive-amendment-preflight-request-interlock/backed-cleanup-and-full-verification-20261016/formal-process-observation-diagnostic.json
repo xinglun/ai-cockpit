@@ -1,0 +1,48 @@
+{
+  "ownGetpid": 833719,
+  "procSelfLink": "833719",
+  "observations": [
+    {
+      "procPid": "805807",
+      "comm": "ai-cockpit",
+      "parentPid": "805031",
+      "namespaceFacts": [
+        "PPid:\t805031",
+        "Uid:\t1000\t1000\t1000\t1000",
+        "NSpid:\t805807"
+      ],
+      "args": [
+        "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+        "verify",
+        "--repo",
+        "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+        "--work-item",
+        "WI-1086-sensitive-amendment-preflight-request-interlock",
+        "--stage",
+        "task",
+        "--workers",
+        "1"
+      ],
+      "taskChildren": null
+    },
+    {
+      "procPid": "806400",
+      "comm": "cargo",
+      "parentPid": "805807",
+      "namespaceFacts": [
+        "PPid:\t805807",
+        "Uid:\t1000\t1000\t1000\t1000",
+        "NSpid:\t806400"
+      ],
+      "args": [
+        "/workspace/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        ""
+      ],
+      "taskChildren": null
+    }
+  ]
+}

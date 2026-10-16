@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+    "--work-item",
+    "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "--stage",
+    "task",
+    "--workers",
+    "1",
+    "--plan-only"
+  ],
+  "exitCode": 0
+}
