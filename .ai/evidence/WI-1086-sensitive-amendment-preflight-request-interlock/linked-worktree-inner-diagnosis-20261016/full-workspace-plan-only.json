@@ -1,0 +1,588 @@
+{
+  "coverageManifest": {
+    "commandDigests": [
+      "sha256:1855ed30f3f17d4489a54a5528165a7a7bb6408d2ff4e8523506144cefa1317f",
+      "sha256:15cc9be30366c5fdda7fe06385bc3baf8428038947d87b4881d29b33b07fdcce",
+      "sha256:921e89e66782ebb285426d66aa18ed70449fdbfea3f2b396c6720a80b2e54e0d",
+      "sha256:f5f8ddb394a1621c14501b92808eab3c7ab8f21d2b993fae8faea6923b01780c",
+      "sha256:24fea8568381e1f2c5e1dcada7c0f507e681f97a60abf99961d68b1e089be16a",
+      "sha256:3ce4238a2276e1ef0f100dbd16d9682445d521758c2a3b282b9ebaa6254d4a52",
+      "sha256:fbe48bcbf8991122b31fbd9030fe5d3a3f1df33a9111c6f38d4455c6b1167e1a",
+      "sha256:79c0d5ad19ed03254974149a184dcb6d50cb759faa667daef088d868edb31504",
+      "sha256:3ea448a353955a1b0c8e807ae89d67de181c927941849505a4d1441ea72c3207",
+      "sha256:1fed6eb98da7134235813d15aba7228b15d6648b4d7802cb9e878f0069660a84",
+      "sha256:4054850fbfaebdaf38e0311e9d7d040c4fe3b666e0037b40f5ec66c942023260",
+      "sha256:5919c45fcc16b57b1162ad94542754eb73073d33829fcd479246c1609ed98407",
+      "sha256:125db8994d0551df28f769d993ff1591c80b58573248df46e40aa06156815b17"
+    ],
+    "metadataDigest": "sha256:d0c8f59019cf5928d0da59c101c83b1b61be40029ece9bdda138ce0211389861",
+    "nodeIds": [
+      "project-command-0-package-cockpit-agent",
+      "project-command-0-package-cockpit-cli",
+      "project-command-0-package-cockpit-core",
+      "project-command-0-package-cockpit-evidence",
+      "project-command-0-package-cockpit-git",
+      "project-command-0-package-cockpit-interface",
+      "project-command-0-package-cockpit-isolation",
+      "project-command-0-package-cockpit-knowledge",
+      "project-command-0-package-cockpit-mcp",
+      "project-command-0-package-cockpit-protocol",
+      "project-command-0-package-cockpit-release",
+      "project-command-0-package-cockpit-repository",
+      "project-command-0-package-cockpit-verification"
+    ],
+    "planningArgs": [
+      "metadata",
+      "--no-deps",
+      "--format-version",
+      "1",
+      "--locked"
+    ],
+    "planningProcessesSpawned": 1,
+    "planningProgram": "cargo",
+    "schemaVersion": 1,
+    "sourceArgs": [
+      "test",
+      "--locked",
+      "--workspace"
+    ],
+    "sourceProgram": "cargo",
+    "workspaceMembers": [
+      "cockpit-agent",
+      "cockpit-cli",
+      "cockpit-core",
+      "cockpit-evidence",
+      "cockpit-git",
+      "cockpit-interface",
+      "cockpit-isolation",
+      "cockpit-knowledge",
+      "cockpit-mcp",
+      "cockpit-protocol",
+      "cockpit-release",
+      "cockpit-repository",
+      "cockpit-verification"
+    ]
+  },
+  "nodesPlanned": 13,
+  "nodesReused": 0,
+  "nodesToExecute": 13,
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-agent"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:1855ed30f3f17d4489a54a5528165a7a7bb6408d2ff4e8523506144cefa1317f",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-agent",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:15cc9be30366c5fdda7fe06385bc3baf8428038947d87b4881d29b33b07fdcce",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-cli",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-core"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:921e89e66782ebb285426d66aa18ed70449fdbfea3f2b396c6720a80b2e54e0d",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-core",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-evidence"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:f5f8ddb394a1621c14501b92808eab3c7ab8f21d2b993fae8faea6923b01780c",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-evidence",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-git"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:24fea8568381e1f2c5e1dcada7c0f507e681f97a60abf99961d68b1e089be16a",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-git",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-interface"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:3ce4238a2276e1ef0f100dbd16d9682445d521758c2a3b282b9ebaa6254d4a52",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-interface",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-isolation"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:fbe48bcbf8991122b31fbd9030fe5d3a3f1df33a9111c6f38d4455c6b1167e1a",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-isolation",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-knowledge"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:79c0d5ad19ed03254974149a184dcb6d50cb759faa667daef088d868edb31504",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-knowledge",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:3ea448a353955a1b0c8e807ae89d67de181c927941849505a4d1441ea72c3207",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-mcp",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-protocol"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:1fed6eb98da7134235813d15aba7228b15d6648b4d7802cb9e878f0069660a84",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-protocol",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-release"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:4054850fbfaebdaf38e0311e9d7d040c4fe3b666e0037b40f5ec66c942023260",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-release",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:5919c45fcc16b57b1162ad94542754eb73073d33829fcd479246c1609ed98407",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-repository",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-verification"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:125db8994d0551df28f769d993ff1591c80b58573248df46e40aa06156815b17",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0-package-cockpit-verification",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    }
+  ],
+  "processesSpawned": 0,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+  "requests": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-agent"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-agent",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-cli",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-core"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-core",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-evidence"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-evidence",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-git"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-git",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-interface"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-interface",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-isolation"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-isolation",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-knowledge"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-knowledge",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-mcp",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-protocol"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-protocol",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-release"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-release",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-repository",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-verification"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-verification",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    }
+  ],
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "state": "planned",
+  "timeoutSeconds": 600,
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

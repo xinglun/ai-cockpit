@@ -1,0 +1,13 @@
+
+running 2 tests
+test mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_cli ... FAILED
+test mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_mcp ... FAILED
+
+failures:
+
+failures:
+    mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_cli
+    mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_mcp
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.80s
+

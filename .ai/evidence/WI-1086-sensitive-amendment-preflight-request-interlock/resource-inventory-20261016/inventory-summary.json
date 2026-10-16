@@ -1,0 +1,49 @@
+{
+  "observedAt": "2026-10-16T01:46:39.803768+00:00",
+  "readOnly": true,
+  "deletionPerformed": false,
+  "filesystem": [
+    {
+      "path": "/workspace",
+      "disk": {
+        "total": 33770192896,
+        "used": 31349964800,
+        "free": 685465600
+      },
+      "inodes": 2097152,
+      "inodesFree": 1930634,
+      "inodesAvailable": 1930634
+    },
+    {
+      "path": "/tmp",
+      "disk": {
+        "total": 9441349632,
+        "used": 7147466752,
+        "free": 2293882880
+      },
+      "inodes": 2305017,
+      "inodesFree": 2249159,
+      "inodesAvailable": 2249159
+    }
+  ],
+  "workspaceCandidateFiles": 279,
+  "candidateManifestSha256": "86e83a12e1f355454ea7268e8df36b7c7ab3e4f097bb2941e3ebbc6b836dd9a6",
+  "candidateEstimatedReclaimBytes": 316006400,
+  "candidateResourcesRemainRetainedUntilSeparateExactAuthorization": true,
+  "largeCacheAllocatedBytes": 21670039552,
+  "largeCacheExcluded": "prior explicitly protected executable/dynamic content; not proposed for deletion",
+  "currentWI1086TargetExcluded": true,
+  "allSourceGovernanceEvidenceAndRuntimeExecutablesExcluded": true,
+  "tmpStaticPotentialBytes": 949751808,
+  "tmpExcludedFromThisManifest": true,
+  "tmpDoesNotIncreaseWorkspaceCapacity": true,
+  "observedActiveCargoRustcBuilds": 0,
+  "ppid1ZombieBaseline": 21316,
+  "ppid1ZombiesObserved": 21316,
+  "processReferenceScan": {
+    "matchingObservedCacheReferences": 0,
+    "unreadableProcEntries": 55,
+    "proofLimit": "No global absence-of-reference claim; recheck exact candidates and process usage before an authorized deletion."
+  },
+  "nextBuildPolicy": "No new large build until capacity decision; metadata/planning and current admission queries only."
+}

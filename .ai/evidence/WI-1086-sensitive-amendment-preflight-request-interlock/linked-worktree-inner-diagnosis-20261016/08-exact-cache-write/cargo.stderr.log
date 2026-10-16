@@ -1,0 +1,28 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/verification_service.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/verification_service-9d49d335575a1b63)
+
+thread 'linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory' (280312) panicked at crates/cockpit-repository/tests/verification_service.rs:77:5:
+isolated linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory failed:
+stdout:
+
+running 1 test
+test linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory ... HEAD is now at d43919e tiny Cargo fixture
+FAILED
+
+failures:
+
+failures:
+    linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.16s
+
+
+stderr:
+Preparing worktree (detached HEAD d43919e)
+
+thread 'linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory' (280314) panicked at crates/cockpit-repository/tests/verification_service.rs:415:9:
+assertion failed: run.receipt.passed
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test verification_service`

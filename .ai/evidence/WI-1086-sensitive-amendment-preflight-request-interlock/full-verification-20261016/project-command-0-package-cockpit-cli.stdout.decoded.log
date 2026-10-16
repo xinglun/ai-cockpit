@@ -1,0 +1,531 @@
+
+running 23 tests
+test cognitive_benefit::tests::evidence_reference_parser_and_injection_filter_preserve_safety_boundary ... ok
+test cognitive_benefit::tests::fixed_answer_key_covers_every_archived_case_without_inferred_approval ... ok
+test cognitive_benefit::tests::fixture_oracle_rejects_drift_in_security_relevant_answer_keys ... ok
+test cognitive_benefit::tests::localized_summary_requires_all_four_headings ... ok
+test cognitive_benefit::tests::markdown_file_newlines_match_python_text_mode_on_each_platform ... ok
+test cognitive_benefit::tests::markdown_is_explicit_about_no_human_study_and_preserves_case_identity ... ok
+test cognitive_benefit::tests::provenance_digests_are_sha256_of_exact_bytes ... ok
+test cognitive_benefit::tests::runtime_binary_report_path_normalizes_windows_verbatim_paths_only ... ok
+test cognitive_benefit::tests::writing_mode_places_both_artifacts_only_under_selected_repository ... ok
+test runtime_identity::tests::missing_executable_path_fails_closed ... ok
+test tests::aggregate_receipt_reports_the_longest_node_deadline ... ok
+test tests::archived_recovery_reads_declared_commands_from_the_archive_contract ... ok
+test tests::capability_description_defaults_and_values_come_from_protocol_facts ... ok
+test tests::capability_description_parser_has_a_read_only_surface_and_format ... ok
+test tests::concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time ... ok
+test tests::declared_verification_parser_preserves_environment_prefix_without_shell_evaluation ... ok
+test tests::declared_verification_parser_rejects_shell_syntax ... ok
+test tests::ordinary_cleanup_command_surfaces_repository_boundary_rejection_without_receipt ... ok
+test tests::ordinary_cleanup_parser_requires_repository_and_work_item_identity ... ok
+test tests::outcome_description_facts_match_clap_arguments ... ok
+test tests::outcome_parser_accepts_the_active_conversation_language ... ok
+test tests::outcome_parser_returns_the_protocol_owned_query_arguments ... ok
+test tests::start_parser_preserves_repeated_explicit_verification_commands ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+
+
+running 10 tests
+test agent_auto_install_selects_the_shared_agents_surface ... ok
+test agent_commands_require_repo ... ok
+test agent_detach_refuses_modified_content ... ok
+test agent_help_exposes_the_first_start_gate ... ok
+test agent_install_and_doctor_are_repository_bound ... ok
+test agent_install_does_not_touch_global_files ... ok
+test cli_agent_operation_does_not_require_mcp ... ok
+test cli_cursor_install_uses_mdc_without_overwriting_legacy_user_rules ... ok
+test first_start_output_matches_the_installed_adapter_projection ... ok
+test first_start_prints_the_canonical_gate_without_mutating_an_unattached_repo ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.91s
+
+
+running 5 tests
+test attach_creates_only_protocol_state_and_is_idempotent ... ok
+test attached_repository_identity_survives_a_repository_move ... ok
+test migration_rejects_an_unreviewed_schema_without_skipping_history ... ok
+test old_repository_requires_explicit_migration_and_preserves_history ... ok
+test status_reports_calibration_required_before_first_profile_confirmation ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.82s
+
+
+running 5 tests
+test audit_help_and_mcp_initialize_expose_only_public_query_surface ... ok
+test cli_and_mcp_audit_query_share_filtered_page_and_discovery ... ok
+test cli_and_mcp_share_combined_filters_and_bound_cursor_pages ... ok
+test filtered_export_preserves_legacy_wire_and_output_conflict ... ok
+test unfiltered_export_accepts_existing_schema_one_bytes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.30s
+
+
+running 5 tests
+test gate_cli_emits_green_report_without_writing_ai ... ok
+test gate_cli_stops_when_required_evidence_is_missing ... ok
+test gate_report_cli_rejects_tampered_repository_identity ... ok
+test gate_report_cli_rejects_unignored_out_of_scope_source ... ok
+test gate_report_cli_validates_repository_bound_report ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.28s
+
+
+running 6 tests
+test cli_and_mcp_interface_descriptions_share_the_protocol_facts ... ok
+test cli_outcome_help_projects_protocol_owned_parameter_descriptions ... ok
+test cli_outcome_view_uses_protocol_values_for_parsing ... ok
+test cli_subprocess_and_mcp_handler_agree_on_the_same_outcome ... ok
+test outcome_timezone_view_is_shared_by_cli_and_mcp_without_changing_facts ... ok
+test public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.74s
+
+
+running 6 tests
+test archived_provider_context_binding_requires_its_finalization_receipt ... ok
+test cli_required_receipt_loss_revokes_closed_without_promoting_historical_verification ... ok
+test recovery_imports_exact_closeout_and_is_idempotent_without_mutating_source ... ok
+test recovery_plan_recognizes_a_closed_item_from_an_independent_checkout ... ok
+test recovery_preserves_a_closed_historical_projection_without_promoting_verification ... ok
+test tampered_historical_close_report_is_rejected_before_destination_writes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.71s
+
+
+running 8 tests
+test cli_entrypoint_runs_with_windows_sized_main_stack ... ok
+test generated_json_and_markdown_match_python_in_an_isolated_checkout ... ok
+test malformed_answer_key_fixture_is_rejected_before_check_writes ... ok
+test missing_archived_outcome_fails_without_creating_evidence ... ok
+test missing_explicit_binary_fails_before_archive_lookup_without_writing_evidence ... ok
+test non_executable_explicit_binary_does_not_fall_back_or_build ... ok
+test repository_gate_runs_without_invoking_python ... ok
+test rust_check_matches_the_existing_python_gate_without_rewriting_evidence ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 40.04s
+
+
+running 2 tests
+test coordination_cli_and_mcp_queries_preserve_store_bytes_across_processes ... ok
+test publish_outcome_cli_binds_selected_generation_to_exact_evidence_bytes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.06s
+
+
+running 2 tests
+test displayed_option_state_and_runtime_transition_stay_consistent_through_resume ... ok
+test finish_requires_fresh_green_preflight_after_verification ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.60s
+
+
+running 1 test
+test new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.91s
+
+
+running 1 test
+test collaboration_outcome_projection_preserves_semantics_in_all_languages ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes ... ok
+test collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio ... ok
+test finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales ... ok
+test unknown_finalization_case_is_explicitly_unavailable_in_the_matrix ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 21.64s
+
+
+running 18 tests
+test amend_help_exposes_typed_request_and_preserves_legacy_adapter ... ok
+test documentation_first_interlocked_request_is_generated_by_cli ... ok
+test documentation_first_interlocked_request_is_generated_by_mcp ... ok
+test foreign_recorded_preflight_contract_rejects_review_without_writes ... ok
+test governance_red_interlocked_request_is_generated_by_cli ... ok
+test governance_red_interlocked_request_is_generated_by_mcp ... ok
+test inspect_accepts_null_optional_concurrency_boundary_after_amendment ... ok
+test interlocked_request_covers_each_eligible_nonterminal_phase ... ok
+test interlocked_request_rejects_invalid_provenance_without_writes ... ok
+test missing_recorded_preflight_state_rejects_review_without_writes ... ok
+test mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_cli ... ok
+test mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_mcp ... ok
+test not_run_recorded_preflight_state_rejects_review_without_writes ... ok
+test retry_pending_amendment_admits_bound_review_request_without_verification_spawn ... ok
+test sensitive_amendment_blocks_cli_verification_before_command_spawn ... ok
+test typed_cli_and_mcp_share_receipt_and_read_history_without_writes ... ok
+test unknown_recorded_preflight_state_rejects_review_without_writes ... ok
+test valid_recorded_preflight_states_preserve_same_contract_approval ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 21.05s
+
+
+running 3 tests
+test cli_imports_and_lists_a_bound_delegated_evidence_receipt ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:a996da1e6be30954171eda8814e92c9eecb8f93d9e65828cf7245da067f180d3",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:b5bf494047ee78b615f4c9e639e0aa30a154b8883fc4c3f3032901e99c3e4af4",
+  "tests": [],
+  "buildSystems": []
+}
+{
+  "workItemId": "WI-EXTERNAL-CLI",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T01:18:24Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:a996da1e6be30954171eda8814e92c9eecb8f93d9e65828cf7245da067f180d3",
+    "workItemId": "WI-EXTERNAL-CLI",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-cli-delegated-evidence-572573-1792113504186035810-0",
+      "branch": "master",
+      "head": "0000000000000000000000000000000000000000",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-cli-delegated-evidence-572573-1792113504186035810-0",
+        "branch": "master",
+        "head": "0000000000000000000000000000000000000000",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+ok
+test cli_observes_corrected_source_for_identical_raw_bytes_without_replacing_legacy_receipt ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:83ba98c922dc15cc3f36643a1131039ea63b18d97121dec9f37dcf3334087b43",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:d55f5a18f890ff32e11781cbc61b31c0a84e66097ed28524f0913e1d1090af71",
+  "tests": [],
+  "buildSystems": []
+}
+{
+  "workItemId": "WI-EXTERNAL-OBSERVATION",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T01:18:24Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:83ba98c922dc15cc3f36643a1131039ea63b18d97121dec9f37dcf3334087b43",
+    "workItemId": "WI-EXTERNAL-OBSERVATION",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-cli-delegated-evidence-572573-1792113504428877847-1",
+      "branch": "master",
+      "head": "0000000000000000000000000000000000000000",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-cli-delegated-evidence-572573-1792113504428877847-1",
+        "branch": "master",
+        "head": "0000000000000000000000000000000000000000",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+ok
+test legacy_import_rejects_an_observation_selector_instead_of_ignoring_it ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:1540c9ba78e1919bb0063dbb8fab68b1be15bf20745fce62ecdc8e29c213ce2d",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:2c0ee033a47fb32ae0c32f8243472e72686c93a5cf554361fbf9053d6f75ae12",
+  "tests": [],
+  "buildSystems": []
+}
+{
+  "workItemId": "WI-EXTERNAL-LEGACY-STRICT",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T01:18:24Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:1540c9ba78e1919bb0063dbb8fab68b1be15bf20745fce62ecdc8e29c213ce2d",
+    "workItemId": "WI-EXTERNAL-LEGACY-STRICT",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-cli-delegated-evidence-572573-1792113504761260223-2",
+      "branch": "master",
+      "head": "0000000000000000000000000000000000000000",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-cli-delegated-evidence-572573-1792113504761260223-2",
+        "branch": "master",
+        "head": "0000000000000000000000000000000000000000",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s
+
+
+running 2 tests
+test doctor_reports_protocol_and_runtime_thin_repository_checks ... ok
+test status_rejects_unsupported_repository_protocol ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+
+
+running 4 tests
+test gate_plan_cli_reads_git_facts_and_validates_the_same_receipt ... ok
+test gate_plan_cli_rejects_a_summary_symlink_with_invalid_lifecycle_failure ... ok
+test gate_plan_cli_rejects_empty_covers_with_compatibility_failure_fields ... ok
+test gate_plan_cli_reports_base_mismatch_with_compatibility_failure_fields ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+
+running 3 tests
+test inspect_returns_structured_runtime_and_repository_context ... ok
+test read_only_diagnostics_accept_explicit_json_flag ... ok
+test read_only_queries_leave_governance_bytes_and_git_diff_unchanged ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.29s
+
+
+running 5 tests
+test all_work_item_status_cli_emits_stable_repository_index ... ok
+test cli_rejects_tampered_verification_timestamp_before_finish ... ok
+test cli_status_changes_from_archived_to_closed_only_after_valid_close ... ok
+test intelligence_commands_emit_repository_bound_json_and_unknowns ... ok
+test read_only_projection_commands_leave_repository_bytes_unchanged ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.58s
+
+
+running 1 test
+test knowledge_query_projects_archived_work_item_records_deterministically ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.15s
+
+
+running 14 tests
+test amend_cli_reports_automatic_revalidation_and_the_single_next_action ... ok
+test archive_failure_keeps_active_files_for_recovery ... ok
+test close_rechecks_governance_after_archive ... ok
+test current_cli_rejects_foreign_runtime_verification_evidence ... ok
+test finish_command_requires_finalize_plan_for_bound_resource_and_preserves_active_files ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:f28b8823c1b25c1b36b5a0a6727b2de0e6fac958c0164b9cf0f0535fc4f7f9eb",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:71e7317ea5128f22a66387a288a0bfe31cd6e826be90f96bef8ea247221dbacb",
+  "tests": [],
+  "buildSystems": []
+}
+ok
+test finish_rejects_self_declared_completion_without_receipt ... ok
+test in_scope_committed_changes_do_not_stale_contract_and_unreviewable_scope_escape_cannot_finish ... ok
+test invalid_work_item_id_is_rejected_without_path_traversal ... ok
+test preflight_blocks_prompt_injection_without_echoing_material ... ok
+test preflight_is_blocked_by_test_and_coverage_weakening_from_tracked_diff ... ok
+test prepared_start_preserves_human_review_and_does_not_checkpoint ... ok
+test prepared_start_records_sources_preflight_and_one_checkpoint_in_one_command ... ok
+test start_preserves_commas_inside_repeated_acceptance_criteria ... ok
+test work_item_lifecycle_is_atomic_and_archive_is_content_bound ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.33s
+
+
+running 4 tests
+test material_review_command_is_discoverable_from_work_item_help ... ok
+test material_review_plan_is_read_only_and_reports_stage_one_disabled_state ... ok
+test material_review_record_fails_closed_when_stage_one_has_no_opt_in ... ok
+test material_review_record_help_exposes_admission_and_self_declared_limits ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
+
+
+running 2 tests
+test cli_and_mcp_subprocesses_expose_equivalent_verification_decisions_and_metrics ... ok
+test mcp_command_serves_json_rpc_over_stdio ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+
+running 2 tests
+test observe_accepts_the_attached_profile_wrapper ... ok
+test observe_returns_languages_build_systems_and_evolution ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+
+running 10 tests
+test archive_normal_output_has_the_same_full_body_as_structured_stdout ... ok
+test archive_uses_configured_host_command_and_reports_actual_display_receipts ... ok
+test archived_outcome_delivery_does_not_mix_in_a_later_close_decision ... ok
+test archived_outcome_delivery_query_reuses_the_full_body_without_rearchiving ... ok
+test archived_outcome_delivery_rejects_an_outcome_that_no_longer_matches_its_manifest ... ok
+test blocked_finish_emits_persisted_handoff_and_remains_nonzero ... ok
+test default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json ... ok
+test explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout ... ok
+test interrupted_host_delivery_is_retried_from_persisted_progress_without_rearchive ... ok
+test outcome_command_defaults_to_summary_and_full_view_is_explicit ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.25s
+
+
+running 3 tests
+test human_outcome_projects_structured_decision_in_all_supported_languages ... ok
+test malformed_or_foreign_decision_records_are_visible_as_unknown ... ok
+test symlink_decision_record_is_not_projected_as_valid ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.69s
+
+
+running 1 test
+test cli_binds_contract_boundary_and_manages_slot_lease ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.30s
+
+
+running 2 tests
+test observation_medium_fixture_is_measured_once ... ok
+test status_warm_startup_is_measured_and_bounded ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:0d538ef704a1ad3432bd3ee6072e84c5b892f9da323539b11e06c4becd5cadd4",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:b69a0ac62fbbde8f663c7b86cda707e89ab3eed813adb9dcb8003f4826b728d4",
+  "tests": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "state": "detected"
+    }
+  ],
+  "buildSystems": [
+    "Cargo"
+  ]
+}
+ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.84s
+
+
+running 6 tests
+test preflight_and_status_share_versioned_action_admission ... ok
+test preflight_rejects_a_repository_that_requires_migration ... ok
+test preflight_rejects_a_repository_with_an_unsupported_future_schema ... ok
+test preflight_reports_yellow_when_required_evidence_is_missing ... ok
+test preflight_turns_green_after_matching_verification_evidence ... ok
+test repeated_preflight_is_idempotent_and_reports_written_paths ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.77s
+
+
+running 1 test
+test profile_confirmation_creates_a_new_version_and_decision_receipt ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+
+running 1 test
+test profile_propose_is_candidate_only_and_does_not_change_baseline ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+
+running 2 tests
+test packaged_cli_emits_isolation_manifest_without_runtime_bootstrap ... ok
+test packaged_cli_scans_nul_delimited_selected_paths_once ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 1 test
+test cli_emits_the_canonical_release_plan_envelope ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 9 tests
+test cli_appends_governance_bound_merge_observation_and_cleanup ... ok
+test cli_direct_merge_plan_round_trips_through_recovery_and_finalize ... ok
+test cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close ... ok
+test cli_post_merge_sync_v3_combined_absent_advanced_base_closeout ... ok
+test cli_post_merge_sync_v3_separate_projected_advanced_base_closeout ... ok
+test finalize_recovery_help_describes_first_direct_merge_apply ... ok
+test historical_recovery_commands_are_discoverable_in_work_item_help ... ok
+test runtime_accepts_explicitly_abandoned_unmerged_cleanup ... ok
+test runtime_close_requires_explicit_resource_finalization_receipt ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.37s
+
+
+running 1 test
+test retirement_command_is_exposed_in_work_item_help ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 1 test
+test out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers ... FAILED
+
+failures:
+
+---- out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers stdout ----
+
+thread 'out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers' (602226) panicked at crates/cockpit-cli/tests/scope_amendment.rs:252:5:
+record Work Item governance controls: repository protocol state error at /tmp/.tmpqrXFAe/.ai/work-items/active/WI-CLI-SCOPE-RECOVERY.summary.json: preflight decision evidence requires a recorded green, yellow, or red preflight result
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s
+

@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "kind": "derived_test_log_path_relocation",
+  "recordedAt": "2026-10-16T07:39:40.464866+00:00",
+  "sourceCommit": "1ef519f86b836ec0b8417e2ebbfba2738bd68e1e",
+  "failedCiRun": 38865914036,
+  "failedJob": 116859832557,
+  "failedSourceHead": "1ef519f86b836ec0b8417e2ebbfba2738bd68e1e",
+  "testedRevision": "b0a9e1c9354bd8c371462cc80959b5b9e4e47796",
+  "reason": "Windows fixture clone checkout failed with Filename too long for these 26 derived log paths before evaluator assertions. Rename only derived logs, preserving original bytes and Runtime receipt paths.",
+  "records": [
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-agent.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/agent.err.log",
+      "sha256": "b02a8179f983d25fd76354743fea2b726a6786d40210d66f64b4173010c1078b",
+      "bytes": 1200,
+      "oldRelativeLength": 191,
+      "newRelativeLength": 120
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-agent.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/agent.out.log",
+      "sha256": "1a2a71db904cda558933e9b2d9074274f31f6d6481b3e4999919b74cb114d428",
+      "bytes": 3876,
+      "oldRelativeLength": 191,
+      "newRelativeLength": 120
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-cli.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/cli.err.log",
+      "sha256": "187472d0e9a3a5a342f8589523bbcedcb1b9dbeac5d11c66d60422eb5b19f192",
+      "bytes": 6194,
+      "oldRelativeLength": 189,
+      "newRelativeLength": 118
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-cli.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/cli.out.log",
+      "sha256": "cde62a99718a654115316518a7402544da87a997bc6840cc639928d7d5cb8d92",
+      "bytes": 56572,
+      "oldRelativeLength": 189,
+      "newRelativeLength": 118
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-core.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/core.err.log",
+      "sha256": "50bc6a4b64b30c2212487a00fbab55ccf7546da73e9cb837f56d67e528687939",
+      "bytes": 1108,
+      "oldRelativeLength": 190,
+      "newRelativeLength": 119
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-core.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/core.out.log",
+      "sha256": "338951f8704db22c6d43abb3c5316cffc14432ef1665e9169656339b82953e1d",
+      "bytes": 3169,
+      "oldRelativeLength": 190,
+      "newRelativeLength": 119
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-evidence.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/evidence.err.log",
+      "sha256": "87b6091efb826386e59c3879cb456a6606a6423f99f57458fda95344c9feca98",
+      "bytes": 372,
+      "oldRelativeLength": 194,
+      "newRelativeLength": 123
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-evidence.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/evidence.out.log",
+      "sha256": "f43f45e914240d0bbb69591f643e128da38cdf67e5888a749e7a4a9cec5357df",
+      "bytes": 804,
+      "oldRelativeLength": 194,
+      "newRelativeLength": 123
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-git.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/git.err.log",
+      "sha256": "f633f0ba5c706ae85cf716d48e6a24bb6e85e8abcd88067f41068a1b43b58db6",
+      "bytes": 664,
+      "oldRelativeLength": 189,
+      "newRelativeLength": 118
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-git.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/git.out.log",
+      "sha256": "32166a507b0d5f24ef6294ee742bd245641d780883f89f5b7b632b50998acf65",
+      "bytes": 3388,
+      "oldRelativeLength": 189,
+      "newRelativeLength": 118
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-interface.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/interface.err.log",
+      "sha256": "2e337c59b5533468542a493272495ee2df5ef436470a4843e9357f8a897da8cb",
+      "bytes": 248,
+      "oldRelativeLength": 195,
+      "newRelativeLength": 124
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-interface.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/interface.out.log",
+      "sha256": "d38e6ea6d69ddb377e4a4380b22926f3864806998a850d5e28c8459dfc09f014",
+      "bytes": 226,
+      "oldRelativeLength": 195,
+      "newRelativeLength": 124
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-isolation.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/isolation.err.log",
+      "sha256": "d6b0e5063c7a8cf95c6388b16cd33be7097a1e93f26b6f1159d83f700aeebb4c",
+      "bytes": 378,
+      "oldRelativeLength": 195,
+      "newRelativeLength": 124
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-isolation.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/isolation.out.log",
+      "sha256": "5583ef1c42cb3d84dea035d3ab0ef75df1a9795718020ed58788eae4fc8edabb",
+      "bytes": 897,
+      "oldRelativeLength": 195,
+      "newRelativeLength": 124
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-knowledge.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/knowledge.err.log",
+      "sha256": "1c6d555916fc02203e7fb0cbe907b7c685184bb6d52781d56e7863f467c7c57f",
+      "bytes": 374,
+      "oldRelativeLength": 195,
+      "newRelativeLength": 124
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-knowledge.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/knowledge.out.log",
+      "sha256": "dd1dbeb4c6373839b7a99612d6501ded4f6de32a9eeb8a6bae681989a146800c",
+      "bytes": 1015,
+      "oldRelativeLength": 195,
+      "newRelativeLength": 124
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-mcp.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/mcp.err.log",
+      "sha256": "54082bebe72578d3bd7ac398967f3b9fd6f037234bb7a860576780e601eff307",
+      "bytes": 1230,
+      "oldRelativeLength": 189,
+      "newRelativeLength": 118
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-mcp.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/mcp.out.log",
+      "sha256": "82351996ab3cc5e5d14330203691540094a335d071085387c53417ff3ee6fb2c",
+      "bytes": 5476,
+      "oldRelativeLength": 189,
+      "newRelativeLength": 118
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-protocol.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/protocol.err.log",
+      "sha256": "978aca34eb7fd7b64121d6c71df607d807c6ffba13ddac7f99fbc5bbbd2bfc31",
+      "bytes": 2624,
+      "oldRelativeLength": 194,
+      "newRelativeLength": 123
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-protocol.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/protocol.out.log",
+      "sha256": "2ce950b73b5ad9d7fc5f793e468a88f2959d7d0588a75fc867e492bde7842b0b",
+      "bytes": 11843,
+      "oldRelativeLength": 194,
+      "newRelativeLength": 123
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-release.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/release.err.log",
+      "sha256": "1ee819ff15a8a1de5250c6bd257fee07b9e4074c837bcd6d7ca3ecf5b5975e29",
+      "bytes": 1743,
+      "oldRelativeLength": 193,
+      "newRelativeLength": 122
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-release.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/release.out.log",
+      "sha256": "11def15ce6d91de74fac190f8729df7dcbf730c37f0913160a8769c65ac893a9",
+      "bytes": 6327,
+      "oldRelativeLength": 193,
+      "newRelativeLength": 122
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-repository.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/repository.err.log",
+      "sha256": "76c0578c95a3ff0489aea8e29890070225118d1db3b4a8a84bd1cdb79232d0c0",
+      "bytes": 8049,
+      "oldRelativeLength": 196,
+      "newRelativeLength": 125
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-repository.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/repository.out.log",
+      "sha256": "9fd615bdab94e2cd7e51845c20a9205475173d75218d682a846c179c079aa08b",
+      "bytes": 65536,
+      "oldRelativeLength": 196,
+      "newRelativeLength": 125
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-verification.stderr.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/verification.err.log",
+      "sha256": "829258175d7efda48bbdcdf4b8aeae5c8c86bd24c64a4f4d455edc19416de535",
+      "bytes": 6828,
+      "oldRelativeLength": 198,
+      "newRelativeLength": 127
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-verification.stdout.log",
+      "newPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/verification.out.log",
+      "sha256": "11e8b0fb35bfa1a2e8eb12c2ffed4ef472048a92b8c21ec8376216770a88de40",
+      "bytes": 18679,
+      "oldRelativeLength": 198,
+      "newRelativeLength": 127
+    }
+  ]
+}

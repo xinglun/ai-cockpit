@@ -1,0 +1,6 @@
+{
+  "filesScanned": 62,
+  "decodedNativeExecutionStreamsScanned": 26,
+  "signatureMatches": [],
+  "manualReview": "Native failure streams, process diagnostics, exact source/hash/path bindings, cleanup backup evidence and an unapplied minimal patch; no credentials observed. No binary bytes included in Git."
+}

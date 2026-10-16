@@ -1,0 +1,16 @@
+{
+  "recordedAt": "2026-10-16T17:25:12.978761+00:00",
+  "actor": "agent:Codex",
+  "authorization": "User relays Raydot review of 13/13 and explicitly authorizes syncing main under native baseline/admission, preserving both sides of three-language parity, adding module-local Windows reparse tests, commits/pushes, Draft PR and CI. No Ready, direct merge or additional cleanup.",
+  "startingHead": "cb4c5f61c8e3b1022399904e79a4570c195025b0",
+  "upstreamMain": "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+  "contractBasePreservation": "Native Contract baseCommit/baseRevision and synchronization fields are protected, not typed plan-editable. Preserve their immutable values; merge upstream into the existing work branch, query native admission on the resulting source and refresh actual material/verification bindings. No direct Contract edit or invented synchronization receipt.",
+  "plan": [
+    "Fetch and verify exact remote heads, merge upstream main without rewriting branch history; preserve both sides of all three parity conflicts.",
+    "Use module-local cfg(windows) real junction/reparse regressions reached by existing Windows cargo test --locked -p cockpit-repository --lib. Do not count other modules as coverage.",
+    "Query native post-sync preflight/material admission, preserve stale prior 13/13 as historical if changed, publish new exact material request for Raydot.",
+    "Push only active branch and create Draft PR to main; collect CI revision-bound evidence. No old-head rerun."
+  ],
+  "tddRuling": "This request adds regression coverage for existing containment behavior, not a production behavior change. Add real tests first; do not invent a RED execution on Linux for Windows-only tests. Any new production fix requires an observed failing case and review within scope.",
+  "reviewOwner": "agent:Raydot"
+}

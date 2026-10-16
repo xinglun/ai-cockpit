@@ -1,0 +1,18 @@
+{
+  "sourceHead": "8ea965d8b21cc908f3cca3941af411807105808c",
+  "contractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+  "proposedOnly": true,
+  "paths": [
+    {
+      "path": "crates/cockpit-cli/tests/scope_amendment.rs",
+      "rawSha256": "943f9ca91b1f731eeec1d0a1987b880458e0803c2082604ae36eefb0303b0750",
+      "modified": false
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "rawSha256": "6ef79034bb8297136ba7ce16f7a4f2fd0436167763cba458c752eae7c18d13ec",
+      "modified": false
+    }
+  ],
+  "proposedPatchSha256": "8be89cd4241822a862151ef6cd1b4bed1990e4223c44060e6b20ac2e33eba0eb"
+}

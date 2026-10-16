@@ -1,0 +1,79 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+    "recorded_preflight",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T00:48:11.598653+00:00",
+  "elapsedSeconds": 4.545,
+  "timeoutSeconds": 900,
+  "timedOut": false,
+  "exitCode": 101,
+  "sourceHead": "c6425e1e0db23ceb629820753457e5f5f109dc50",
+  "testFileRawSha256": "c46e25f9916ee75bcc75f10f4b041795de5cecffafbb0b1dd441c05754ce9f4c",
+  "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01); cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "environmentOverrides": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "binaryRawSha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "ownedDescendantsReaped": [
+    {
+      "pid": 497847,
+      "waitStatus": 0
+    },
+    {
+      "pid": 498075,
+      "waitStatus": 0
+    },
+    {
+      "pid": 498305,
+      "waitStatus": 0
+    },
+    {
+      "pid": 498534,
+      "waitStatus": 0
+    },
+    {
+      "pid": 498761,
+      "waitStatus": 0
+    },
+    {
+      "pid": 499018,
+      "waitStatus": 0
+    },
+    {
+      "pid": 499271,
+      "waitStatus": 0
+    },
+    {
+      "pid": 499526,
+      "waitStatus": 0
+    },
+    {
+      "pid": 499781,
+      "waitStatus": 0
+    },
+    {
+      "pid": 500036,
+      "waitStatus": 0
+    }
+  ]
+}

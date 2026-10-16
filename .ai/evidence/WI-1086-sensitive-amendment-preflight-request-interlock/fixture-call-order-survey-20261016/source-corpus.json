@@ -1,0 +1,2039 @@
+{
+  "roots": [
+    "crates",
+    "tests",
+    "scripts"
+  ],
+  "extensions": {
+    ".rs": 211,
+    ".py": 35,
+    ".sh": 59,
+    ".json": 96
+  },
+  "filesScanned": 401,
+  "confirmationMarkerFiles": [
+    "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "crates/cockpit-cli/tests/scope_amendment.rs",
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/tests/preflight_review.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "crates/cockpit-repository/tests/contract_amendment.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/material_review.rs",
+    "crates/cockpit-repository/tests/preflight_review.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "sourceFiles": [
+    {
+      "path": "crates/cockpit-agent/src/lib.rs",
+      "bytes": 79138,
+      "sha256": "465215cf7720e4ed550e697de7a8d729276c917e2b1559250d01bb43ae0a2891"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/context.rs",
+      "bytes": 5447,
+      "sha256": "16bc97e4c5379ccb645543df84f2970dc86d1cb1b6d85ba2a5ae57ee233efd34"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/detection.rs",
+      "bytes": 5835,
+      "sha256": "034c7e757b6ae2f164e39919849dec352d2301cf9d63c6c2ae5aa8ec44491e22"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/doctor.rs",
+      "bytes": 10345,
+      "sha256": "8e1a5cb211de37a6158034477914e8bed84fe6b9d4d8f970192607c82d94fcc1"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/install.rs",
+      "bytes": 12227,
+      "sha256": "ccfc11372a4981f1edc5a9d60bd6b49c8cb6649444f6b29d879cdccc010377bf"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/isolation.rs",
+      "bytes": 2985,
+      "sha256": "106dee1d9abaa713614982e172962652570d0b131d5d2608dbde3bc9e945014b"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/outcome_delivery.rs",
+      "bytes": 13537,
+      "sha256": "b076405ca6e61440bb384d21f5d099b82652fc99259ba8101d10acb6d37e6454"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/outcome_host_command.rs",
+      "bytes": 4538,
+      "sha256": "42c1f03c198fd1ffe0202eeeba15f5c09a4fd152d3e7e206087b19a19df0c2d6"
+    },
+    {
+      "path": "crates/cockpit-cli/src/cognitive_benefit.rs",
+      "bytes": 31408,
+      "sha256": "ad350a627bb17d1d6c4cadd4eb3669eba0f32d4c9b082fef0ff435bc9e6d3c0f"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "bytes": 199890,
+      "sha256": "632f4cd3f27b32a6e6bc3905d4afb43c16bbc9729e2db2ae6fca605d99f06115"
+    },
+    {
+      "path": "crates/cockpit-cli/src/runtime_identity.rs",
+      "bytes": 1629,
+      "sha256": "04504658f8c6ecc5111acd431475593d857c397a3db1fce190f0b9bb2589fed2"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/agent.rs",
+      "bytes": 8368,
+      "sha256": "0ba767ee2160a43917786bc96e158d39b659c11a3bb726e6ac4fc6d5ccc17133"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/attach.rs",
+      "bytes": 12787,
+      "sha256": "d32e912ce8bd1cabb3c20d9f81631025a693bf34272cc677e8d68f3fb45c4daa"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/audit_query.rs",
+      "bytes": 13511,
+      "sha256": "9bcb9671aa9e38b4461415728b6aa214f2f8ffe12e6fdc939684d1ce84cff424"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/ci_gate.rs",
+      "bytes": 10738,
+      "sha256": "b3bcc688db8a9f1f96acb571b861cf8ce99d80b559472fdb690f6f474d26f01d"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "bytes": 23536,
+      "sha256": "d67467c937e74c094d9f3a373d9433df67bbb0552a4d6c42407d19dc7a25dce5"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/closeout_recovery.rs",
+      "bytes": 24300,
+      "sha256": "8c8bb2985965c690af3a641f741b27de25993b53c7da8c7116e3d78a653e0ce2"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/cognitive_benefit.rs",
+      "bytes": 16558,
+      "sha256": "b6b2005d5cbf838188c237fc20241567d6fe128be4f1abfb733d13a5895509ef"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_cli.rs",
+      "bytes": 16162,
+      "sha256": "fa2a1c5a1ea0f212c425b1a23a9a7eb34a1978b75f881211deb098847ee24bdf"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+      "bytes": 18752,
+      "sha256": "a722ca312168f264e8326bfb81f02b4649a395b8f94aee8522e116bd77f77820"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+      "bytes": 11844,
+      "sha256": "1b1333a8230c4daa4ddbfc8a29ab9be47f248cc567b52c3d9fc08c2b797de8bd"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_outcome_parity.rs",
+      "bytes": 3372,
+      "sha256": "e5c94906c26bc0bba6d8906faf9515207b93be6440a2327142fbf2a85fb96bea"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+      "bytes": 43821,
+      "sha256": "56628d2d11af8273e066ead26a2e38ac1a3f7b61c4c3277611d2253cb7ab6dc4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/common/mod.rs",
+      "bytes": 5294,
+      "sha256": "ab50bd656567a38c54d267b535d383f18a4b1ef6df592cc0cc0ca6c5972c54c1"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "bytes": 56408,
+      "sha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/delegated_evidence.rs",
+      "bytes": 11629,
+      "sha256": "b7d185ddd637c709e8a573b5cfb1fb8d4395aa61a186700d60640b2248253373"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/doctor.rs",
+      "bytes": 3587,
+      "sha256": "21d2ebc54003fe9c37f907913a628cdfff31ddce0b729202913151752beef56e"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/gate_plan.rs",
+      "bytes": 11126,
+      "sha256": "be9cbbf6b7bae587a68db8915a6ec89211a4ab92b877845f41b46bbb2590d174"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/inspect.rs",
+      "bytes": 5296,
+      "sha256": "5a82d3f94402cc5a35825684b922e80ce656beb4af6fa0a225d8db94966b5796"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/intelligence.rs",
+      "bytes": 22589,
+      "sha256": "504d0d32335bfe3fac5a9be4aef6ceb881b98126c198d25def6566964b0797bb"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/knowledge.rs",
+      "bytes": 7600,
+      "sha256": "62807d6cfdc8dbc1de7c2bb7324e3289a6551c220a50f797db11afad609ce8d7"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/lifecycle.rs",
+      "bytes": 43164,
+      "sha256": "9623568b1b6af6b1a8c6d61de50739cafabd0a22e40a614ae624f140c2528de4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/material_review.rs",
+      "bytes": 6688,
+      "sha256": "aa892302d1ead95cca494925bebab89fff22a97226e2a50b93294c6fe2d2b681"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/mcp.rs",
+      "bytes": 3867,
+      "sha256": "f8c8597c4bbdfa0e6a57872868e1a2926fe38c20734b805de61b9e170f57ef93"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/observe.rs",
+      "bytes": 3176,
+      "sha256": "f4f6b88fc7994bd55a1242110557bf6186650c6dd296295d7cc7bb7fc8d1c04d"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+      "bytes": 27444,
+      "sha256": "e5acb9abfa283efb4a5be7d391df66b8b7e9efab9a72af8af33ba85b5550f1b9"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/outcome_human_decision.rs",
+      "bytes": 9184,
+      "sha256": "40ff8b5ddd6db0941bd3a877f236772341708f04ef42b930fae6dbd2650fed32"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/parallel_boundary.rs",
+      "bytes": 3425,
+      "sha256": "01187ba3714e30067beed4e6b7b9bb54bc370fa415dc3e51ce10fd183adeba96"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/performance.rs",
+      "bytes": 3676,
+      "sha256": "38c5863ef78239a53092b657909108e0414dea4d11cef1e7d23ca5cbbac8e660"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/preflight.rs",
+      "bytes": 19188,
+      "sha256": "259884a4ed53bc29ef3b1c0e9954d6e87b027ec6183ff6186c2ac8d201635038"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/profile.rs",
+      "bytes": 1682,
+      "sha256": "e92fb3fc345ff24e0cfd28d87bfef52c0d2bdc5c21fad8a22d684f533a1e0ecb"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/profile_propose.rs",
+      "bytes": 2216,
+      "sha256": "6fc7e03b3336b769058978b38fe5a383ce5d1f5961520e1ef4beeef48b0366fc"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/release_isolation.rs",
+      "bytes": 2746,
+      "sha256": "63dd2f2923f1a1400e3f2850ea83bcde8e8c5ce2414367f3d4f603f77e776938"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/release_plan.rs",
+      "bytes": 1949,
+      "sha256": "de02a94f02e6b5d4c28144d598aeac50b5da451981ff20c2650e4f7059919faa"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "bytes": 63849,
+      "sha256": "029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/retirement.rs",
+      "bytes": 527,
+      "sha256": "0fa2086a6d681331f4ab275ae2f6479492abf0d66ff7b02aa78fc561e0c6ab4f"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/scope_amendment.rs",
+      "bytes": 10303,
+      "sha256": "0fffdf6f8822f0ced3dab708192b58bd70c885ab3ea736ba719e379232904cb5"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "bytes": 10275,
+      "sha256": "bacced8f6e727cf6b9240c7916300460e4fc9ed9b42d6ab992c674873abe729f"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "bytes": 79308,
+      "sha256": "3bcd0246ba8fa33929aaee7aa154a8f273c273ee71603810ea075f49822769c3"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/work_item_scaffold.rs",
+      "bytes": 16753,
+      "sha256": "693a687add212cdc9d308eaa96f147266c102bb842b552d967afbdcabb0fe3de"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/worktree_entry.rs",
+      "bytes": 7105,
+      "sha256": "071ca4b3c15aae7a26d19a1245b02a817546086f447e3737bc340ece078bd0e8"
+    },
+    {
+      "path": "crates/cockpit-core/src/lib.rs",
+      "bytes": 42902,
+      "sha256": "6291de5cd78e449e3eae61b2986b08868518afbd0064dc17b2eccc3e3cb1aa23"
+    },
+    {
+      "path": "crates/cockpit-core/tests/adversarial_v2.rs",
+      "bytes": 14849,
+      "sha256": "9f6429da5634bcab95c7a8fda240faf472efce5228cf7c7c1e6df279831ca779"
+    },
+    {
+      "path": "crates/cockpit-core/tests/conformance.rs",
+      "bytes": 3871,
+      "sha256": "7fbcb3a2e4298a9495dced27c247aaf364ca3a39673ef39dee618bca108bdf50"
+    },
+    {
+      "path": "crates/cockpit-core/tests/domain_types.rs",
+      "bytes": 3579,
+      "sha256": "8a6c2b28ba5f860c1f1921415a3d746fd53b698ee5fb15b32248e78856125b93"
+    },
+    {
+      "path": "crates/cockpit-core/tests/governance_semantics.rs",
+      "bytes": 4654,
+      "sha256": "8dfe43db1007e268952ae70d520198ed46e7a76fb6d9a1cacbb7f228d128e4e7"
+    },
+    {
+      "path": "crates/cockpit-core/tests/operation_time_policy.rs",
+      "bytes": 4882,
+      "sha256": "73d4ce1818c10497134a2f2d90fdbeaa3ee6963c8958790da5273885545c2de3"
+    },
+    {
+      "path": "crates/cockpit-core/tests/v1_oracle.rs",
+      "bytes": 5215,
+      "sha256": "8ec301ad15c71ee520b4db6bbbf3976da0c968092c78f7fb5357a3e8ec2a6e25"
+    },
+    {
+      "path": "crates/cockpit-evidence/src/lib.rs",
+      "bytes": 9040,
+      "sha256": "7bced8483991c633c40f600a41babd4aa869b8fc9499218a6b62b3dfb0047e42"
+    },
+    {
+      "path": "crates/cockpit-evidence/tests/reuse.rs",
+      "bytes": 7614,
+      "sha256": "79ff21f96a3bec4fd20b1ac6465ab085e29fc87d91ef76da8c6ce26a7d3264fc"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "bytes": 107956,
+      "sha256": "c5e2f34306bc038194c803a5e49bda7626b9bf399c39f2ad4afda92f406e9443"
+    },
+    {
+      "path": "crates/cockpit-git/tests/collaboration_topology.rs",
+      "bytes": 2759,
+      "sha256": "5a880774783c55d76d749f9a156f8f42cef17dd0257c5a59ef0a4739aa261ce3"
+    },
+    {
+      "path": "crates/cockpit-git/tests/repository.rs",
+      "bytes": 32837,
+      "sha256": "53289c35042e4e8d3c0528d2cd5485d5bdbec4ee39fef1cb233f0a88a60f2fb8"
+    },
+    {
+      "path": "crates/cockpit-git/tests/snapshot.rs",
+      "bytes": 4449,
+      "sha256": "f265d5beccd3edb02af9804642b9411c224d99d2b789670ce3efa8c602426d56"
+    },
+    {
+      "path": "crates/cockpit-interface/src/interface_description.rs",
+      "bytes": 42931,
+      "sha256": "e0327112c2f77644d929c32632f8af75bc8580e3ccce00f946b931f58c9b0bbb"
+    },
+    {
+      "path": "crates/cockpit-interface/src/lib.rs",
+      "bytes": 2820,
+      "sha256": "dc8062e74219c06ec4561755738289a243ca5e22362fe163e232ac8e9409c59b"
+    },
+    {
+      "path": "crates/cockpit-isolation/src/lib.rs",
+      "bytes": 17471,
+      "sha256": "7431e7f904a5d9c0b8da978a41f63405ba3f29bc2b463be58d6d11fa475035ff"
+    },
+    {
+      "path": "crates/cockpit-isolation/tests/scanner.rs",
+      "bytes": 11369,
+      "sha256": "b6b1ff8f33fa964e050df3cec202a717a108820ec7fa32f99881dd6c0cd68306"
+    },
+    {
+      "path": "crates/cockpit-knowledge/src/lib.rs",
+      "bytes": 16857,
+      "sha256": "ce605265cbe02e32b415c4e40bd8f23668738ceaebaa595dc46fade6412bf127"
+    },
+    {
+      "path": "crates/cockpit-knowledge/tests/query.rs",
+      "bytes": 5122,
+      "sha256": "ffa8a176155085aa7d1ea98e1ee8efe95c793519dc4d36ba8b63de61db02ac24"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "bytes": 121170,
+      "sha256": "be1621fede3fc1718ed72e50a9935f40cd0e238b835a72bd95694c9ba4cc2ea8"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/closeout_recovery.rs",
+      "bytes": 12781,
+      "sha256": "603833b0045a2a64bfd3b4ddfab2355bc0cd1a426e3787473d51b5daddf0ff6b"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/collaboration_rpc.rs",
+      "bytes": 14933,
+      "sha256": "374a03c28e5000daf8804fb4e880aca3e618842380de68f75c9393acfd59908b"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "bytes": 6062,
+      "sha256": "84e8f068534e04916e94e5096cafbc2bd64f253064d72ec5816490f091000134"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "bytes": 101059,
+      "sha256": "ef669e31563637080845b5a4996746f50d9ce0cd1af873ea1293d9d58148b050"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/security.rs",
+      "bytes": 2482,
+      "sha256": "d258d4f8d46906211ae27cacd815f6aaa993fcb5acc26abf33596712f1019216"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "bytes": 2930,
+      "sha256": "1381083b73191a27aca9276ac55e5e782ef393099ece07bbbf41364bd2f56c84"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/work_item_amendment_parity.rs",
+      "bytes": 1867,
+      "sha256": "0d89b4c1b322d2e2c557b234d126576198726365a4821ab1af4fac1462c0fe02"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/audit_query.rs",
+      "bytes": 4070,
+      "sha256": "31cae9779f4abe4174035dbf076599460e1849f3f6a03335c6348aa143d12b82"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/contract_amendment.rs",
+      "bytes": 29298,
+      "sha256": "089a06cbb6afb5ef235a1058b01fafc0b958088862b082094f8f20c3f0add277"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "bytes": 218350,
+      "sha256": "09ac92ce35d2bc686a39286529891145edc05dc02624727f819a0d6d692afe8f"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/release_plan.rs",
+      "bytes": 18580,
+      "sha256": "63f5e3669e40f230c67f909adb893055e02a3149ca890c670324d5027e2eb2c1"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/usage.rs",
+      "bytes": 8765,
+      "sha256": "d6d01256f482973e4a68d4f47ac7c2c749636c41511cca8efcf1b3f13b1dcfb4"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/audit_query.rs",
+      "bytes": 2027,
+      "sha256": "ceae742cf15bcee137c9ec213b60df5fe916091c15c9a337dbf9cf903c8efd85"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/collaboration.rs",
+      "bytes": 8034,
+      "sha256": "891cbc3962482bb9736433f714c39f8e82adce5ac865fc016c68fe9f6fcd3f2e"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/contract_amendment.rs",
+      "bytes": 13362,
+      "sha256": "9ecafd64f594cbcbd6abeee67e6ea1f4027c95d10c5a0dcd65134a1295391b5c"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/contract_v2.rs",
+      "bytes": 16854,
+      "sha256": "dc2a227a0e82442cab83d56b878e988c26d8ad8233b5c85d33da2df902f06072"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/intelligence_schema.rs",
+      "bytes": 14033,
+      "sha256": "eb4d0111efa7e172db7fc7505581b96845fbe08bb6ae05d2aefc8a46e0e25b9d"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/interface_description.rs",
+      "bytes": 24741,
+      "sha256": "0b3e4c23e198e3657efec7f8d24cc630251dabcf4349854b537e7018a2902250"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/parallel_boundary.rs",
+      "bytes": 2720,
+      "sha256": "ebf1d544aee5fe21e7a25a302bc2d0477bf1645a2d4592e3226d7fa0e2f54957"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/preflight_review.rs",
+      "bytes": 1670,
+      "sha256": "ac48759f789032bbdaed0f1948233e45d3abe9d118130ae78730bfd65188f662"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/protocol.rs",
+      "bytes": 19190,
+      "sha256": "c010788d38f3e83be00ae7c1bd4d22cd34f14ecf76a20586b39ddb5e6b8dee14"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/recovery_outcome.rs",
+      "bytes": 1263,
+      "sha256": "a26e8d198f9dcd0a4a117b613cf900135dd5890aa0aae3ffadfb4cc7672fa7ef"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/recovery_receipt.rs",
+      "bytes": 3022,
+      "sha256": "6e689a65c9319c5be23375f81f942dbb122a46c82458ca47e8c294c122e716d6"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/release_plan.rs",
+      "bytes": 8810,
+      "sha256": "648dc01fd1ad2c5e8b382bd532e74f05b5270053c277d42a0bc5eeca96cfca92"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/resource_finalization.rs",
+      "bytes": 58160,
+      "sha256": "d76598bca4c79cad8f98017b538daf621d8c9b85ec9aa2208009207da8db55ba"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/selected_successor_lineage_recovery.rs",
+      "bytes": 4714,
+      "sha256": "346525d9507cba91f12aab282fab3330594d2496bf34a1891be517693b9162a8"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/usage.rs",
+      "bytes": 3287,
+      "sha256": "df103282d42b11344abf29ac2736dcd24bcb28a77404fb02aaf6105e85475429"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/verification_semantics.rs",
+      "bytes": 6285,
+      "sha256": "29d3d5e2977083446e457ada52c63d4764ded5af5730d686cb4fb51c99f7a0a0"
+    },
+    {
+      "path": "crates/cockpit-release/src/acceptance.rs",
+      "bytes": 13707,
+      "sha256": "4a5f5ba6122cc63f107ec5b340d1615d09dfd0efc66aae952c90832485e50e16"
+    },
+    {
+      "path": "crates/cockpit-release/src/archive.rs",
+      "bytes": 11199,
+      "sha256": "f0a4925715d5c289e2eea30925fdaed5ce059e1ad6b9ab77deb8ed6061f241e6"
+    },
+    {
+      "path": "crates/cockpit-release/src/error.rs",
+      "bytes": 349,
+      "sha256": "b8f2ac8d2a4961688e8f9160933dcaf4e588fb20a716df7f1f3435e99b626ded"
+    },
+    {
+      "path": "crates/cockpit-release/src/formula.rs",
+      "bytes": 2628,
+      "sha256": "72641b2d79db3b5704866d5b605299d32238a28d4cdc041cc1a41e293bf3dd31"
+    },
+    {
+      "path": "crates/cockpit-release/src/handoff.rs",
+      "bytes": 8806,
+      "sha256": "8e096839ffe6bf9dbc62b054dec724d6f448f10e1587c993875deaf54808c723"
+    },
+    {
+      "path": "crates/cockpit-release/src/lib.rs",
+      "bytes": 289,
+      "sha256": "e17a6a566785227d24cd2153096946f286967d63707568b01e6f9f4ac59d4b59"
+    },
+    {
+      "path": "crates/cockpit-release/src/main.rs",
+      "bytes": 14909,
+      "sha256": "2cced67dd8f0b09af8a2e73440f14792d0d8999b41afe2cbb2e2c964028a663c"
+    },
+    {
+      "path": "crates/cockpit-release/src/manifest.rs",
+      "bytes": 18015,
+      "sha256": "bdd5dd09a0f3875106c825a426c0e9e6a4e2e4ac77153efd985651c6c17f80a2"
+    },
+    {
+      "path": "crates/cockpit-release/src/provider.rs",
+      "bytes": 8517,
+      "sha256": "c8d959220557dc97a2e5b34006ad10a0819a5f63e1d736893cdf698c1152e17a"
+    },
+    {
+      "path": "crates/cockpit-release/src/recovery.rs",
+      "bytes": 11755,
+      "sha256": "80de87d50dd96f38584b53d0be8782dccbbf17f5467d94560a538d3d5be3f088"
+    },
+    {
+      "path": "crates/cockpit-release/src/resume.rs",
+      "bytes": 16853,
+      "sha256": "e7ff3fb7970d0443d0b7688ce2c75d8ef8eaf70d264fa1af9841789d939eeeb7"
+    },
+    {
+      "path": "crates/cockpit-release/src/sbom.rs",
+      "bytes": 11536,
+      "sha256": "90d08b0f06160beea0a6a9f573ecccb70faf5e7452ce2e3f570969d1edeccf0d"
+    },
+    {
+      "path": "crates/cockpit-release/src/version_consistency.rs",
+      "bytes": 11640,
+      "sha256": "b1f6f1dbe8f1435cf19fb7ebd540a1bd0662ece1d58c071093535956e3bbff26"
+    },
+    {
+      "path": "crates/cockpit-release/tests/acceptance_recovery.rs",
+      "bytes": 23219,
+      "sha256": "4b701c440a57c6476be3786a6835bb98dbca857422ce2e258d23e12e859cd9cc"
+    },
+    {
+      "path": "crates/cockpit-release/tests/archive.rs",
+      "bytes": 5139,
+      "sha256": "83f1ab169d8c3435a00f1feeb06e1dceabba465eaf1e09be4d8ed6d6eec93613"
+    },
+    {
+      "path": "crates/cockpit-release/tests/cli.rs",
+      "bytes": 10916,
+      "sha256": "c28504388a2232e2c45055e6c383d0ad8e7d2a343f1ec6176cd0f5529b318bea"
+    },
+    {
+      "path": "crates/cockpit-release/tests/fixtures.rs",
+      "bytes": 819,
+      "sha256": "da3beb9813f7291e3d927f0e4aea588e18b2996c9446f14be1abc60aaded200c"
+    },
+    {
+      "path": "crates/cockpit-release/tests/formula.rs",
+      "bytes": 3972,
+      "sha256": "dfc7fc3ade7a6c4cc34078cfef17219418bfa5a2cc0b1a9ae964b54c5d2f887a"
+    },
+    {
+      "path": "crates/cockpit-release/tests/handoff.rs",
+      "bytes": 5056,
+      "sha256": "efbad869e00776eeeda3961869bfe184f0e2c1971288aad222c44e6947322432"
+    },
+    {
+      "path": "crates/cockpit-release/tests/manifest.rs",
+      "bytes": 16442,
+      "sha256": "4bbba2e3a2931d5eaa53a6f570b7b4ba03f02d1ab9f02ae19e42ec51523fe2d2"
+    },
+    {
+      "path": "crates/cockpit-release/tests/package_boundary.rs",
+      "bytes": 633,
+      "sha256": "ab49ee030b02e2ec38542d983346dbb5975a67830903be821420f34afd0f22af"
+    },
+    {
+      "path": "crates/cockpit-release/tests/sbom.rs",
+      "bytes": 7061,
+      "sha256": "41147e7faef553fd386fdf6dac3f5db6249bebbfbdb1827414f9bb4dacf02c84"
+    },
+    {
+      "path": "crates/cockpit-release/tests/version_consistency.rs",
+      "bytes": 7287,
+      "sha256": "e1e92d7cb709dbe6f70766e7b5df7adc133c7336c895642a7a4ddf55a3696072"
+    },
+    {
+      "path": "crates/cockpit-repository/src/action_admission.rs",
+      "bytes": 2302,
+      "sha256": "08def208a54da624aa4e788c90be824d73f61927af9117d3f9050ec6c0ba7d45"
+    },
+    {
+      "path": "crates/cockpit-repository/src/audit_query.rs",
+      "bytes": 34269,
+      "sha256": "10ae4aad62a224a445d38e013223102d769f6afd3e036c89c78755a6934a3e3d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "bytes": 167128,
+      "sha256": "cdfb1361c5267ac90370d12f569b32ef3d0b35759049955ab34fb38ba1d3ae1d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "bytes": 67605,
+      "sha256": "a7863aa0b6dcd67ed1d9c7405e1547e167024d711a33c3e8ff248346cce601e5"
+    },
+    {
+      "path": "crates/cockpit-repository/src/coordination_store.rs",
+      "bytes": 88455,
+      "sha256": "13568f2dfa48ac47948beeec359b3c4eb680e00fdb02d28a6e746e2cbfa74f58"
+    },
+    {
+      "path": "crates/cockpit-repository/src/coordination_store_lock_tests.rs",
+      "bytes": 12469,
+      "sha256": "37a31962cbbf3a5abd878010ed47085b25d6c7cc6d5da4fcea3aa2596ed6801e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/evidence_store.rs",
+      "bytes": 51784,
+      "sha256": "226d368fb7eacf943346fbaa0be00a3ae76ce7a48c3e1e846facdac020b24c67"
+    },
+    {
+      "path": "crates/cockpit-repository/src/execution_context.rs",
+      "bytes": 70652,
+      "sha256": "60651123e57d30a8f4b681bf57c895de23d9630fad40c270d5900bf5219a5549"
+    },
+    {
+      "path": "crates/cockpit-repository/src/governance_controls.rs",
+      "bytes": 79471,
+      "sha256": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4"
+    },
+    {
+      "path": "crates/cockpit-repository/src/historical_compatibility.rs",
+      "bytes": 31024,
+      "sha256": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49"
+    },
+    {
+      "path": "crates/cockpit-repository/src/knowledge_projection.rs",
+      "bytes": 13451,
+      "sha256": "72d04f061d1ecc5c8738b9fe88247be828a75cec1214beb35b365362805a3e19"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "bytes": 593965,
+      "sha256": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "bytes": 434886,
+      "sha256": "f419fbda545df202d37da645d7d0ed6bcbf9f5c058c7818d2d313d9243e7e2b1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "bytes": 95354,
+      "sha256": "47faf7c778c28c170f6a59b9ba2bb612675090df9d6fa47ca9d619761accb41f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/observation_ledger.rs",
+      "bytes": 23382,
+      "sha256": "66e77772e7cecdc2cc020edcbbb2ded5a686a9209a78417560099f435d0ecefe"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "bytes": 187268,
+      "sha256": "73d8194b17d8a960bf0f5046c27fc802d936b6c243a7d08804f98533a56b0f79"
+    },
+    {
+      "path": "crates/cockpit-repository/src/project_governance.rs",
+      "bytes": 15519,
+      "sha256": "d025ddc3927f0c1d7f889472ac48fc8c4bf6f374c0725a90db95dda502b6a7eb"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "bytes": 453042,
+      "sha256": "9f0afabe32d525c93daf29baa3c4993e2c8732ba14e8ee0012b4e76fe5314734"
+    },
+    {
+      "path": "crates/cockpit-repository/src/rust_material.rs",
+      "bytes": 42888,
+      "sha256": "b8d7093d83d32e30ce37154a14f723bc935fded4acd6bd88e48f1fb9af3135b3"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "bytes": 82375,
+      "sha256": "6ab6bf4a75437f48adf66b001945d05e53fc3c73780da44ebb33bb54753c4920"
+    },
+    {
+      "path": "crates/cockpit-repository/src/usage.rs",
+      "bytes": 39008,
+      "sha256": "995dbebc29f2161e950f4ccbf29166585fa9b6a01c8273fa0789e0839645b764"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+      "bytes": 14537,
+      "sha256": "cdd7fd815662f956a6a54b1e1f432130bdce7b0a7f2d9a8b20d27a36f2a76775"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+      "bytes": 14103,
+      "sha256": "cd32d1818ea8b82f21607c4059e9939a7f57c1fefbe606bacc9f937a17b40109"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/agent_rule_parity.rs",
+      "bytes": 1695,
+      "sha256": "73888c31b513aa06ce956addcf058602f2689354fd22fc799e8f6034dd7fab8d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+      "bytes": 96003,
+      "sha256": "75fee7bf6cb8d9674ac0cc0776da3c7bcd70c2551f7ac949e1085cf1ecff7edd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/audit_query.rs",
+      "bytes": 31979,
+      "sha256": "7394b491619afff84180f51eb261a6bb97e4d44148336c843610001cdeb40329"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+      "bytes": 63690,
+      "sha256": "5c1978649c80464ce5de19fa50ed3039eb5e03bda56c7d6185815eaa2706dfc8"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "bytes": 36430,
+      "sha256": "943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/collaboration_admission.rs",
+      "bytes": 166374,
+      "sha256": "32b1079c79608d9399d298e7d4a40bf5f642c0bd54e04500412f275264cb37e0"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "bytes": 31848,
+      "sha256": "8794e3607719d57322f0386987d09fe640b1135ba868fe38ea90d53e0cae1add"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_preflight.rs",
+      "bytes": 19076,
+      "sha256": "d6695d4831b1c968a3e379ac7207c39b0ca08147a4d868f67a1b163345dfeb10"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_schema.rs",
+      "bytes": 2405,
+      "sha256": "05086131576bad83d889d947c78170b2ff4b66a57bf8ce0116b45e343c0cead5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/coordination_store.rs",
+      "bytes": 51380,
+      "sha256": "fc34959b33f45a585e92648427597110715852905436bfcf118bd5655b73a83c"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/delegated_evidence_observations.rs",
+      "bytes": 13627,
+      "sha256": "706adafa5a4e58efd10904831e3bd649d62a39ea7a31f3a019b39733dc2aab70"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evidence_assurance.rs",
+      "bytes": 26484,
+      "sha256": "b384c72a5611ed29f2d5b5867b3d15e7ba90fbc05f292818822aab45f575526b"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evolution.rs",
+      "bytes": 2590,
+      "sha256": "e7a5d96d8c785d5fa6c439b1081ccc72e052d04d5245d0cf21b777a82c71fb30"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/governance_controls.rs",
+      "bytes": 17286,
+      "sha256": "1267cbc0ffcd6501c9877fbe8e4f624960055b65db0a76ec42f4756fb613902d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/governance_signals.rs",
+      "bytes": 52658,
+      "sha256": "7a1fa4b6c363c7ceb1ff971dc9e7cea62116b3dc02e04332206acaf8f441e589"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/input_trust.rs",
+      "bytes": 1342,
+      "sha256": "c7a813d4f9deeb6d98a8256087e8fec9bec9402b5cb3b04763f9001783edcf42"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/intelligence.rs",
+      "bytes": 15050,
+      "sha256": "72eda9695944968a95d95de88b38ecfa4c2f73862dbbdc80c018306f2d420bd0"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/knowledge_cache.rs",
+      "bytes": 10793,
+      "sha256": "05c29d875a0b06ac207a648233d8f2cae1857c8ae7b250c9efce13503070f4bc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/knowledge_projection.rs",
+      "bytes": 7335,
+      "sha256": "5b40ac19494521a902699836d567e3858f413942abbe56dbe2591d0f190e7c36"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+      "bytes": 12285,
+      "sha256": "61047c68529620d495b833c743866f97bc63f2495677ac49842532f6506ca0e5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "bytes": 126915,
+      "sha256": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+      "bytes": 28302,
+      "sha256": "19f6ebe3d6455908c11631eb4ce729ec5f56f2206086a4ca4769c7f56a59bbe1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/material_review.rs",
+      "bytes": 78014,
+      "sha256": "d7df5fd5382679767d1c520a8f09e7efb6d77c50c28eddf9fccb2a111ef88471"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/observer.rs",
+      "bytes": 2261,
+      "sha256": "be963aeea84a49a07107a45443cf62ed593ee146b1159dfb0f3f7c53ea29b7c1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/ordinary_cleanup.rs",
+      "bytes": 1642,
+      "sha256": "a232ce21245d0173387ff5c1ccf5fb37d18b92143f0eb520ae4b47cd8feae4e5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "bytes": 40587,
+      "sha256": "365770ac956923e33047a71049479bfd35b23afecaaad607c928d850310269f4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/parallel_boundary.rs",
+      "bytes": 7329,
+      "sha256": "9644ca0ab5663b1f5b063259c49132f2a92b2242b5c710d32a66eed43728694c"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/preflight_review.rs",
+      "bytes": 14526,
+      "sha256": "7a5a1fa60cd2831b97178fcfa273bdcabd38e6a05e5c2353e5e49f77ad3a2656"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/project_governance.rs",
+      "bytes": 9422,
+      "sha256": "1d436c5706a3301733b5de8970a61e20cb95cadaa9e0dace5ff50566632c21d7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/receipt_store.rs",
+      "bytes": 22522,
+      "sha256": "13eb8688881d4bda69f9fc407012b7540405a6a2b56eb1c70ed105b95d9befe5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+      "bytes": 129486,
+      "sha256": "54cc775080774c8a25cfaf4db67595e38c7c3cfe4a1e42ad10f8f3156cb9c7e4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_events.rs",
+      "bytes": 9240,
+      "sha256": "103e2168901d56c73e0f464e980f20ab34cae364b8ea2664ce680751a232926e"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_revalidation.rs",
+      "bytes": 26986,
+      "sha256": "e9e74fc0929612511c8092bdbfb7296a623ce8d6b01395f1bcc5c4d83af449f6"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/repository_context.rs",
+      "bytes": 14582,
+      "sha256": "3897ff40f026a418abf9c11622625ee88a5a9b5393928873a5167f4a8670a7d3"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/resource_finalization.rs",
+      "bytes": 8003,
+      "sha256": "36cb6f839fb279a65f0f8f12ec4f655711fc7de5804b3dd003d6ccc4ba293bcc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+      "bytes": 93277,
+      "sha256": "73c8dc5d9f0156d7e63dfb36eb74b0e96cc0e165be494cd6c1e041003e4d7490"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+      "bytes": 35983,
+      "sha256": "d69a265a9c1429463efbea11e311691692e9e7fbd152fbeb3bb79f6cc9c5f118"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/scope_overlap.rs",
+      "bytes": 4592,
+      "sha256": "f9772102dbeaaa1fc3d479f3542b503e53a0f8430ca2b70b895113247e7dd4ff"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs",
+      "bytes": 15472,
+      "sha256": "932b617fff5c46558bf9c647cce6bce5816bb89d4430b83464c83ca79e036b3d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "bytes": 122794,
+      "sha256": "e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/supersede_archive.rs",
+      "bytes": 17561,
+      "sha256": "70644225d97da09aff5433438e713cdbcf32b77ecd80e413617dbdc8db7413ae"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/task_outcome_events.rs",
+      "bytes": 10440,
+      "sha256": "31f7c78ffe8c1267a9f49b6a0f05c34bb4806d503e7d0d37f81095b8d1b65b02"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "bytes": 35387,
+      "sha256": "34822defcf87255314461a071836b80cfaa91d30f4e85bfb27001de17ccba64a"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "bytes": 25037,
+      "sha256": "c22a1d39762ec15bb7464e225d95e70aa4edcbd9351c22b76f21ae08668a62ba"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_command_selection.rs",
+      "bytes": 3401,
+      "sha256": "3685de15ae6c7b45f47688f235d3ed16d45b628380a057ac2675c350040adee0"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_context.rs",
+      "bytes": 21593,
+      "sha256": "a3564431d5abe8521b9051d872f887657e8558d22c67b6f5fe8a026535939ca7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_route.rs",
+      "bytes": 10564,
+      "sha256": "92bf2c09c2fa1c14e1de9c1da40159d74e5ce130e4bfdf5b6cf5b7c06fc4e545"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "bytes": 34386,
+      "sha256": "107398c52468c4a4b3e88ad08df86145a6c013a4488cc576401cca5d53f842e2"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "bytes": 309597,
+      "sha256": "9a1aac3f76600cea29c45eac09bcf8702cb1b8bda8fcefff4faeb502ee77e4d7"
+    },
+    {
+      "path": "crates/cockpit-verification/src/development_cycle_cost.rs",
+      "bytes": 5712,
+      "sha256": "ad9ab889705cafe6815829e568dfe1d3f0bfb6f27e980aeda9c46755f14babf3"
+    },
+    {
+      "path": "crates/cockpit-verification/src/gate_plan.rs",
+      "bytes": 31858,
+      "sha256": "12d00219a0e3efd84d5571fe720a009743ce3a1d32f2b1b5759c352a4a8bd81c"
+    },
+    {
+      "path": "crates/cockpit-verification/src/lib.rs",
+      "bytes": 125207,
+      "sha256": "eef49ce5e6d4cb7b3e6a829232a5f054d574bc1ef60e6e5e443a1e30083e4ae0"
+    },
+    {
+      "path": "crates/cockpit-verification/src/runtime_benchmark_scenarios.rs",
+      "bytes": 3798,
+      "sha256": "c4dcff059b43c8c74940fe85c49b392c539be87a937e135595959382db72dfb4"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/affected_verification.rs",
+      "bytes": 2903,
+      "sha256": "e3e15ca88f8989b8b6b87b9cf4ff67fbc544e1d7d43f396f6cd6f0902d30b707"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "bytes": 169281,
+      "sha256": "3f877e056979aec50aaf537469a07b06ee9470b279f75ed432bc12f9c2be398c"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/cost_observation.rs",
+      "bytes": 7038,
+      "sha256": "868a2705562744b15a6214b21821d9655e99de14f0d3862ae1d94eb572edf975"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/development_cycle_cost.rs",
+      "bytes": 7449,
+      "sha256": "2a70af342b3b3bc36186ac3061566a6737e3ab1dd03dbeacd1dcc9cf6a20b028"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/diagnostic_summary.rs",
+      "bytes": 4917,
+      "sha256": "2adf27aced3b4da85b19b770748a818b8841a5187a01c85b917f6e35e86b27fa"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/execution.rs",
+      "bytes": 28079,
+      "sha256": "256931ca050e0b48500978f79cb063cc031385dbeab7839b922e680b0261d2a9"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/gate_plan_parity.rs",
+      "bytes": 2197,
+      "sha256": "f61be68b4e324f2d33fb6a085fc4b3452f89d855ca65bb30f06f961012e0e0e6"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/graph.rs",
+      "bytes": 3042,
+      "sha256": "f0e6868efb593775bbec18bf118af2b121bf47aab8a0f1aa43031bee2d8f65dc"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/intent_scenario_binding.rs",
+      "bytes": 3805,
+      "sha256": "36ccd96e30bd4cc936105d475a775ff6d100184bdb85a7d6bb61f6ec810061f3"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/physical_execution.rs",
+      "bytes": 5878,
+      "sha256": "4c15995a424de9e37ca0b8e58c6eaba88892b816caa65621ccf7a99c309581d9"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/policy_planner.rs",
+      "bytes": 4176,
+      "sha256": "b676cdeab26429c12ac5406f26fa847269b5d4df14db39654472409174ca6654"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/route_convergence.rs",
+      "bytes": 2591,
+      "sha256": "a64505fa063b63a72a7d4116b4381dd962d6e12903df9acd7c33a533520f75d6"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs",
+      "bytes": 4945,
+      "sha256": "5dd0255f76b45b55169fbb8272ab7d363d383917bee96fe908a888b6eaac994e"
+    },
+    {
+      "path": "scripts/generate_interface_references.py",
+      "bytes": 4335,
+      "sha256": "e71915894bbb21158bd627142591a1c503005080674ba518b4bb4eb6ba99f57d"
+    },
+    {
+      "path": "tests/acceptance/cross_wi_coordination_processes.py",
+      "bytes": 48245,
+      "sha256": "66c156c083238aefc66dbe9352b445338df61ccfd63a1ad63721fe41b9e86861"
+    },
+    {
+      "path": "tests/adversarial/manifest.json",
+      "bytes": 4882,
+      "sha256": "fb67d319c5268bcb8af3b04cf9296f50323433808888744325fd42fc3582e8c2"
+    },
+    {
+      "path": "tests/ci/cleanup_hosted_runtime_verification_worktree.sh",
+      "bytes": 4583,
+      "sha256": "b3bef92910365adb7d78964627e0b06a59405f3353a4938d962ea1301b90a8df"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/ambiguous-current.json",
+      "bytes": 207,
+      "sha256": "cd36f198a0df89b4ef10158aa47ed79408842dbc8637fb97c9dce75731b30e0f"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/archive-timestamp-current.json",
+      "bytes": 222,
+      "sha256": "c34d8d0dee8b3ccf17b4e585bfff3f390cd9df7100e50cb39caa6abb839d804c"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/awaiting-merge-close.json",
+      "bytes": 310,
+      "sha256": "f4b169cb331eb89ba9ec6eb92a5c48bad75aeedcdb6d71aa356d8dadccdbe656"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/build_fixture.py",
+      "bytes": 16904,
+      "sha256": "7dc24146f0484625499c629ce815278de28079d9cb32b1eab18d1af93e8441ea"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/empty-audit-reason.json",
+      "bytes": 338,
+      "sha256": "371c17d5773382516082099f1a3aa0f11128d2e120dac2ec7a4f4d425be2c7ba"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/foreign-premerge-finalize.json",
+      "bytes": 428,
+      "sha256": "c9b5048dc779b06985b731d5e55bea1346f97a7409eb3e30cd3e5d37c9b05980"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/historical-exemption.json",
+      "bytes": 271,
+      "sha256": "f46f1a95c74bc21fca081ee50d38319c02a943cae75c8b9333b3f706b7db4ba4"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/invalid-outcome.json",
+      "bytes": 152,
+      "sha256": "3cca37eac8c935f14587f3345360dd9b541f46551fef3ed544040d1128a1d64e"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/invalid-premerge-finalize.json",
+      "bytes": 353,
+      "sha256": "e27de685261634d467475d4bd22b4ea877a491c8738ed7e3c470c29ea5634553"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/invalid-recovery.json",
+      "bytes": 274,
+      "sha256": "3d4433ffcb4be0402c4af8393c7068978b7806dd4172daa903ad213d922d9f59"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/merged-finalize-not-terminal.json",
+      "bytes": 307,
+      "sha256": "06f56a86392cae2022e9bdb24624f7c8beb8d3c8f8546fc61114f9633cd1bc53"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/missing-close.json",
+      "bytes": 150,
+      "sha256": "3dfb7c3624dbf97aecf312530a93008ef72c772215fab3711ca9779fe9a98bea"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/missing-evidence.json",
+      "bytes": 153,
+      "sha256": "4fa386f720a6b53a85ab292b4c7bffe71dc3860fa0f84e858a9dadefe1bc45aa"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/missing-work-item.json",
+      "bytes": 154,
+      "sha256": "3b1fc935df47c747fc67f5df75777131ccb890969bf633479d7a54772cd2f1ec"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/release-tag-awaiting-close.json",
+      "bytes": 229,
+      "sha256": "31c14e0e9ab1d2c2f5d74444ceb9151c6e98f1caeee1eff50b0dac5419ed7008"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/release-tag-non-ancestor.json",
+      "bytes": 259,
+      "sha256": "da1bdc2eb82dc34ab6251a3c605dde70bdf8861dbad5533d0cbed3652e530dbc"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/retained-premerge-finalize.json",
+      "bytes": 347,
+      "sha256": "755253907404537c2c70f48dfade151451faeac812c7ded34eb1ed2b10fdd3fb"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/runtime-audit-reason.json",
+      "bytes": 392,
+      "sha256": "d1af20302e335bbe2b5ffbc0b833799efa4f51ea1606ba0367a5206f315f7f13"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/spoofed-base-premerge-finalize.json",
+      "bytes": 349,
+      "sha256": "f14f27169c8f89529d07b2517ea333d9544bd4f0428efb9d2dcb07f52488e961"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/stale-merged-awaiting-close.json",
+      "bytes": 219,
+      "sha256": "f8fe6243dc11606228434fa7632ab90b7f1d93e147c8f0fc8cf85cee55cf9e03"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/superseded-recovery.json",
+      "bytes": 338,
+      "sha256": "ac4ddac352219e3e080779b1965cb363d6987f2b01dbaabcb108fe0d94dbf512"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/unknown-issue.json",
+      "bytes": 215,
+      "sha256": "04d44028730ebba5bfb0a2c8efa6c7f2c91f7a43dcf2c8ef83e1622f6b0ba661"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/valid.json",
+      "bytes": 196,
+      "sha256": "d717be9bd1974d1ee4427b25b8b9eaa625b4262e672105e3ab26280b74ccedea"
+    },
+    {
+      "path": "tests/ci/fixtures/governance-integrity/whitespace-audit-reason.json",
+      "bytes": 341,
+      "sha256": "433f99c10e474812e0d1f00d713bbab4424d77c79884983df32d1916f523258f"
+    },
+    {
+      "path": "tests/ci/governance_integrity_gate.py",
+      "bytes": 130431,
+      "sha256": "8b9a0bd18dfc51fa5f1cd011c57f0284ad4a9f9370645991b2c28ccafbed8c62"
+    },
+    {
+      "path": "tests/ci/governance_integrity_gate_test.sh",
+      "bytes": 157593,
+      "sha256": "0726afd33efe76d6d4ea4e5a66eb765cd5508179ca84e2967f76a54140258ca2"
+    },
+    {
+      "path": "tests/ci/hosted_runtime_verification_test.sh",
+      "bytes": 32484,
+      "sha256": "a4c618ef0c2f18dce3d5be0cab22aedb6c21c6a03505f7dd3d7ea021ed908ff3"
+    },
+    {
+      "path": "tests/ci/inspect_projection_boundary_test.sh",
+      "bytes": 1267,
+      "sha256": "7e84a22ece4ed003deb94d48f509aed14a596f7f90e73b2ed2d8be12e1df0edb"
+    },
+    {
+      "path": "tests/ci/knowledge_projection_boundary_test.sh",
+      "bytes": 1008,
+      "sha256": "7c5bd07d4d3cfbe949f840cace038d8c43c06aab05fff58f16b9e10e7ba88d3a"
+    },
+    {
+      "path": "tests/ci/process_observer_test_runner_test.sh",
+      "bytes": 12053,
+      "sha256": "9aed1ec835b68e2bbcb37ee1b9254f3c829aac17f87a4db7af45a07b18839bd6"
+    },
+    {
+      "path": "tests/ci/quality_route.py",
+      "bytes": 26391,
+      "sha256": "2fd1f9cc81a2e0961a5250357bde45a4a6c112273c1f7e4cc49835ee277d149a"
+    },
+    {
+      "path": "tests/ci/quality_route_test.py",
+      "bytes": 20239,
+      "sha256": "5dfc996b994f075bee178fe78f9a048a045c4defa39254ee95173874854fc6e1"
+    },
+    {
+      "path": "tests/ci/recovery_gate_acceptance.sh",
+      "bytes": 328,
+      "sha256": "cb1cc77e6553f481f4ec1f29b793b9874b95e1677a2139b5c3a11d0c262f11a7"
+    },
+    {
+      "path": "tests/ci/release_gate_policy_test.sh",
+      "bytes": 16821,
+      "sha256": "a03179b79d959c7c7a245856a4152a5b7abc336a5b5b1c980d8d526994066cde"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest.json",
+      "bytes": 8985,
+      "sha256": "a1cde97d43fe1a650a3ad804c2b0c7e0c123e8c3302cc0708697d9741a200a80"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest_test.py",
+      "bytes": 52560,
+      "sha256": "c27526ef60fe54fe6c159723dd1c28942eaff1432cda02312e2d6daf78f27fe8"
+    },
+    {
+      "path": "tests/ci/repository_gate_manifest_test.sh",
+      "bytes": 180,
+      "sha256": "63e8d80183d3f5109d05ca1d6ad756d39e7c78f3362765cbe11c8a83d518e355"
+    },
+    {
+      "path": "tests/ci/resolve_release_plan.sh",
+      "bytes": 12620,
+      "sha256": "dcf19b4bafac5a1a8535f6a4e12b8ec7378f3203e70abb4806880de16e4cc961"
+    },
+    {
+      "path": "tests/ci/resolve_work_item.sh",
+      "bytes": 35886,
+      "sha256": "c155b667a3842df5db7affd84d7146fb054d07bf1ec46a9a30e4b794f2aa7b63"
+    },
+    {
+      "path": "tests/ci/resolve_work_item_test.sh",
+      "bytes": 32000,
+      "sha256": "a2fc59bc6d0b85b79e26a9e5ce0dfd3b443ee9bdecd4b834bd16f23051d0af79"
+    },
+    {
+      "path": "tests/ci/run_hosted_runtime_verification.sh",
+      "bytes": 29834,
+      "sha256": "fcb2e9a09561dac7308eac4118d5632afa3a45f031ac05e900a23da68c29fb76"
+    },
+    {
+      "path": "tests/ci/run_process_observer_test_runner.sh",
+      "bytes": 2209,
+      "sha256": "488fab3e82d944f102c7d2d742c16ce4f59da8ad1835b080b72479455e60050d"
+    },
+    {
+      "path": "tests/ci/run_repository_gates.py",
+      "bytes": 38775,
+      "sha256": "591d8810692ef47d86a1795e8b151511f87e637c14f8a532ce7938df7993e5da"
+    },
+    {
+      "path": "tests/ci/run_workspace_package_tests.sh",
+      "bytes": 32386,
+      "sha256": "abe4bf3040e7853c92bdb03c6a7858796b5da35ddbd976a120de603d5a5e637b"
+    },
+    {
+      "path": "tests/ci/runtime_verify_shadow.sh",
+      "bytes": 5421,
+      "sha256": "2aa4d055a5accb90b3287b9978a03de5d889f807e0310c63461d5823323ca346"
+    },
+    {
+      "path": "tests/ci/runtime_verify_shadow_test.sh",
+      "bytes": 1778,
+      "sha256": "5b3d5047e4ab75651f7902764642d01081a9cde10b8390f823b0c8473e9fe870"
+    },
+    {
+      "path": "tests/ci/workflow_convergence_test.sh",
+      "bytes": 26729,
+      "sha256": "5879ab9bebcfb3f4c94fbe372adda7e91b6bf9236a651c2ffd139deba2f5ecb3"
+    },
+    {
+      "path": "tests/ci/workspace_package_coverage_test.sh",
+      "bytes": 32486,
+      "sha256": "409c2f0c610787828da8e2a37297713cc2f3877dbe21dddd28b16e4f8b28b3a7"
+    },
+    {
+      "path": "tests/conformance/final_replacement_acceptance.sh",
+      "bytes": 5088,
+      "sha256": "2e5a94826d37834e8ed608d374d81fea9d8b497c7ec2583f724daa3b0d8bdd4d"
+    },
+    {
+      "path": "tests/conformance/final_replacement_acceptance_test.sh",
+      "bytes": 841,
+      "sha256": "75dcdee86c233b1ba7687f76dddfaad23f6a18d27a478484a90aba0cca3726c2"
+    },
+    {
+      "path": "tests/conformance/fixtures/contradictory-evidence/contract.json",
+      "bytes": 541,
+      "sha256": "13312dd480573776aa2bc2dba63088b1329be2620f75876dda4715b8d371879c"
+    },
+    {
+      "path": "tests/conformance/fixtures/contradictory-evidence/evidence/receipt.json",
+      "bytes": 49,
+      "sha256": "7bf82a0bd59ef4d4c395d5b6524fbe8dc39334028040d704a0ed9f35e79dfb5f"
+    },
+    {
+      "path": "tests/conformance/fixtures/contradictory-evidence/expected.json",
+      "bytes": 217,
+      "sha256": "673152d5a5eebbfce92e3ada8db820a9420ae9e55254ead351fe0ffc1de6d56c"
+    },
+    {
+      "path": "tests/conformance/fixtures/contradictory-evidence/input.json",
+      "bytes": 349,
+      "sha256": "47407f8d2290dcb9982fc40c91e386dcece48c6bb43672679086b505182607dc"
+    },
+    {
+      "path": "tests/conformance/fixtures/coverage-weakening/contract.json",
+      "bytes": 522,
+      "sha256": "5b551e6b01a3c205567c68ad6a864f4bf4b358a78d4d6c91e578041e26801c39"
+    },
+    {
+      "path": "tests/conformance/fixtures/coverage-weakening/evidence/receipt.json",
+      "bytes": 44,
+      "sha256": "1ad6870435662eded96b5012b774509d0c43ee4c03309dc06c6a9e15a1ae3abd"
+    },
+    {
+      "path": "tests/conformance/fixtures/coverage-weakening/expected.json",
+      "bytes": 253,
+      "sha256": "345945c57be5471a4b689c635b24d20e37da3aedc3cfd0a0846d1b5a890096ca"
+    },
+    {
+      "path": "tests/conformance/fixtures/coverage-weakening/input.json",
+      "bytes": 324,
+      "sha256": "a3e297c6d374280214627b8f719e706ed7a732246bbede136f231c634c198252"
+    },
+    {
+      "path": "tests/conformance/fixtures/cross-work-item-evidence/contract.json",
+      "bytes": 543,
+      "sha256": "66fe51d5c3fe2cdd2af15826d33342b21b6157370223fafde19853b92f88f917"
+    },
+    {
+      "path": "tests/conformance/fixtures/cross-work-item-evidence/evidence/receipt.json",
+      "bytes": 45,
+      "sha256": "51868350d02a84a3d652ce019476313c3e408b01405bfc780c3c8f377f165183"
+    },
+    {
+      "path": "tests/conformance/fixtures/cross-work-item-evidence/expected.json",
+      "bytes": 224,
+      "sha256": "844b9e9d27d7c4ff9d53232a6e1dd10984359fcce91acbb1b4b7f13d0db2bdd3"
+    },
+    {
+      "path": "tests/conformance/fixtures/cross-work-item-evidence/input.json",
+      "bytes": 351,
+      "sha256": "f94e7e7afebd513f2090120279a148c62bcfe9dbf6a4d4e48fcd1513d1fcb080"
+    },
+    {
+      "path": "tests/conformance/fixtures/invalid-archive/contract.json",
+      "bytes": 519,
+      "sha256": "9c459cccf94f0940c06819159fb2f25979b053897ea468b68b0a34c34ef327e0"
+    },
+    {
+      "path": "tests/conformance/fixtures/invalid-archive/evidence/receipt.json",
+      "bytes": 51,
+      "sha256": "c21ba7975baac57e453a7df1025fb8f45b0f8d76aa281b245ccdfaa1d9ceaee0"
+    },
+    {
+      "path": "tests/conformance/fixtures/invalid-archive/expected.json",
+      "bytes": 231,
+      "sha256": "5ee46ae15c10f16b8015d722cb652b7725f042fccebce81cbbfe508d9475697b"
+    },
+    {
+      "path": "tests/conformance/fixtures/invalid-archive/input.json",
+      "bytes": 342,
+      "sha256": "c8d1feecde5f9693b59093be088e2f6fa2a636d666fc9346973c35bfaa821c22"
+    },
+    {
+      "path": "tests/conformance/fixtures/malicious-deletion/contract.json",
+      "bytes": 521,
+      "sha256": "a3c7e414f388727c6bebfeeab0fae02f6384b2184e8e0ac170c4732420572f30"
+    },
+    {
+      "path": "tests/conformance/fixtures/malicious-deletion/evidence/receipt.json",
+      "bytes": 43,
+      "sha256": "aaa770faedf95d7e93f3b576196df4288af5a06f46bc9ff009b5b01a8ccb4cc7"
+    },
+    {
+      "path": "tests/conformance/fixtures/malicious-deletion/expected.json",
+      "bytes": 218,
+      "sha256": "8b84f526bfe83147acd56d4661158f433d3f7239a4b1cf4d2ac9918ef33ab29f"
+    },
+    {
+      "path": "tests/conformance/fixtures/malicious-deletion/input.json",
+      "bytes": 344,
+      "sha256": "bc977a00a99fb2e1b847f3cb2af6bcb689b84ab062e511a95011b18513293492"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-evidence/contract.json",
+      "bytes": 535,
+      "sha256": "7e7176b22167d96af9dc5c45ab0aaa1340067fe8690e13b5bc4f92cecaddefed"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-evidence/evidence/receipt.json",
+      "bytes": 43,
+      "sha256": "aaa770faedf95d7e93f3b576196df4288af5a06f46bc9ff009b5b01a8ccb4cc7"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-evidence/expected.json",
+      "bytes": 244,
+      "sha256": "c59043ec4abb4a9a7338a1c4fc80f4dbf030106e5a1afc2dc729a125a363c5d9"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-evidence/input.json",
+      "bytes": 352,
+      "sha256": "6c0f36696dea92fa8603f8b363d847affa8e838c4d3155173f4b74295acb81d1"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-human-authority/contract.json",
+      "bytes": 521,
+      "sha256": "4dece2ef18e2b3ca280e8b73c7529d97a15401d39c3b06fcd5c03539a934d087"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-human-authority/evidence/receipt.json",
+      "bytes": 53,
+      "sha256": "20452d2e2d990d051a3c3ee6ece5b0e8594bb28226331aa12ab1a7933a53e2d5"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-human-authority/expected.json",
+      "bytes": 212,
+      "sha256": "168d7f1ce8120e47f44119153377b8cc84e15eb780d6cf6bc6e0989f99de6b52"
+    },
+    {
+      "path": "tests/conformance/fixtures/missing-human-authority/input.json",
+      "bytes": 362,
+      "sha256": "21985215dbddef60df55786847796ba4ad3b81c7cfb4d20c4369aab34e326252"
+    },
+    {
+      "path": "tests/conformance/fixtures/repository-prompt-injection/contract.json",
+      "bytes": 531,
+      "sha256": "30b33af24d29fe61dbad0578c0a01af9eceb2e3a5f058a15c70339d0ba1b8650"
+    },
+    {
+      "path": "tests/conformance/fixtures/repository-prompt-injection/evidence/receipt.json",
+      "bytes": 54,
+      "sha256": "8aed19ce47d7801bf3991d599cc04d3789ff3b61b543a6b4b636985d9bff405e"
+    },
+    {
+      "path": "tests/conformance/fixtures/repository-prompt-injection/expected.json",
+      "bytes": 257,
+      "sha256": "e15938ece19d1e61d6d5056f5a49253c504ae4bdedfd7ab568177de5d7776669"
+    },
+    {
+      "path": "tests/conformance/fixtures/repository-prompt-injection/input.json",
+      "bytes": 373,
+      "sha256": "4d0696dfdbd43bc6f24894104416daf586a495a109df170c51fae3cdf26d2eed"
+    },
+    {
+      "path": "tests/conformance/fixtures/scope-exceeded/contract.json",
+      "bytes": 512,
+      "sha256": "714d508bf831ef7e3ab39b7ebd6bad731ceb02a5dd72f4c2908ed17d2b25d31e"
+    },
+    {
+      "path": "tests/conformance/fixtures/scope-exceeded/evidence/receipt.json",
+      "bytes": 43,
+      "sha256": "aaa770faedf95d7e93f3b576196df4288af5a06f46bc9ff009b5b01a8ccb4cc7"
+    },
+    {
+      "path": "tests/conformance/fixtures/scope-exceeded/expected.json",
+      "bytes": 210,
+      "sha256": "388e75016e3844584b6dea75adc1e25bde69b8b230c03b6a763dff45dc2d54d2"
+    },
+    {
+      "path": "tests/conformance/fixtures/scope-exceeded/input.json",
+      "bytes": 362,
+      "sha256": "658167961d5a27d2e959941fa05dac9dc7adfc6f02828c440ade39392944349b"
+    },
+    {
+      "path": "tests/conformance/fixtures/stale-evidence/contract.json",
+      "bytes": 533,
+      "sha256": "22bfb1a552d18c190525880597bb8a159d2a42171b192658bfaf51eae89f4a89"
+    },
+    {
+      "path": "tests/conformance/fixtures/stale-evidence/evidence/receipt.json",
+      "bytes": 41,
+      "sha256": "91443a7d70501c737905168d4c2dde44ab0b42b94d8d770c09f90a91cbb47329"
+    },
+    {
+      "path": "tests/conformance/fixtures/stale-evidence/expected.json",
+      "bytes": 235,
+      "sha256": "25abdabd63f9d6786b7be581183880498b283e1a9d166ee815378208e41884cb"
+    },
+    {
+      "path": "tests/conformance/fixtures/stale-evidence/input.json",
+      "bytes": 341,
+      "sha256": "75135e92935f316f649963f86fdd2e59ba6b9716138202594b01d66edb425687"
+    },
+    {
+      "path": "tests/conformance/fixtures/test-weakening/contract.json",
+      "bytes": 518,
+      "sha256": "acc4f8899d812a850c5f8701c455cd5dcc615462037690775e12dad46d9afb6e"
+    },
+    {
+      "path": "tests/conformance/fixtures/test-weakening/evidence/receipt.json",
+      "bytes": 44,
+      "sha256": "1ad6870435662eded96b5012b774509d0c43ee4c03309dc06c6a9e15a1ae3abd"
+    },
+    {
+      "path": "tests/conformance/fixtures/test-weakening/expected.json",
+      "bytes": 230,
+      "sha256": "2e5a04b1249f803d7ab0f0a9b0c1b5b7ff160cb4acb60cf289f408dfc1e77d92"
+    },
+    {
+      "path": "tests/conformance/fixtures/test-weakening/input.json",
+      "bytes": 340,
+      "sha256": "c2bde7fdc71dec069ff1f42a378506292b67c94e173c48c28b4db76d4a7530af"
+    },
+    {
+      "path": "tests/conformance/fixtures/unauthorized-destructive-change/contract.json",
+      "bytes": 534,
+      "sha256": "4737280a667c8bdadf784ae38ab0556d56ce52b28015d89a3696827884340425"
+    },
+    {
+      "path": "tests/conformance/fixtures/unauthorized-destructive-change/evidence/receipt.json",
+      "bytes": 43,
+      "sha256": "aaa770faedf95d7e93f3b576196df4288af5a06f46bc9ff009b5b01a8ccb4cc7"
+    },
+    {
+      "path": "tests/conformance/fixtures/unauthorized-destructive-change/expected.json",
+      "bytes": 243,
+      "sha256": "620b851be131341e9a85a8357982e605af37c1b6b864198a49b20b0907ca6331"
+    },
+    {
+      "path": "tests/conformance/fixtures/unauthorized-destructive-change/input.json",
+      "bytes": 343,
+      "sha256": "3bbffecc4a4fbe26d12a2654d4658241b1719da8eec0186c7c864cdaae396162"
+    },
+    {
+      "path": "tests/conformance/fixtures/unknown-provider-result/contract.json",
+      "bytes": 537,
+      "sha256": "6917d17c2737929d0eebffcd8c717b12ffe2b87f9b5a7c81e2321fd233d1f87b"
+    },
+    {
+      "path": "tests/conformance/fixtures/unknown-provider-result/evidence/receipt.json",
+      "bytes": 41,
+      "sha256": "95b0fefdeec5ea99525ac8c6912f15486ff86892b96c34396f1f43c244c1e170"
+    },
+    {
+      "path": "tests/conformance/fixtures/unknown-provider-result/expected.json",
+      "bytes": 251,
+      "sha256": "7a3e48ab0d61a67a15b278083714c8cf297f4a9cad93652fb5c5484697748a63"
+    },
+    {
+      "path": "tests/conformance/fixtures/unknown-provider-result/input.json",
+      "bytes": 374,
+      "sha256": "5f78aa8ffd2525b4b0d0a7556d1c3ea8c30ba9f401685b728658c390a0b9ce51"
+    },
+    {
+      "path": "tests/conformance/fixtures/unsupported-completion/contract.json",
+      "bytes": 541,
+      "sha256": "99a442cf4f83dab8b5e1c4e73ca8b7a5971c76ee593a8af8604fc4028453e846"
+    },
+    {
+      "path": "tests/conformance/fixtures/unsupported-completion/evidence/receipt.json",
+      "bytes": 43,
+      "sha256": "aaa770faedf95d7e93f3b576196df4288af5a06f46bc9ff009b5b01a8ccb4cc7"
+    },
+    {
+      "path": "tests/conformance/fixtures/unsupported-completion/expected.json",
+      "bytes": 227,
+      "sha256": "9bbcaa8c54ed934e7456a9e6838dd19a952bf61fae295c7102e494945e838b29"
+    },
+    {
+      "path": "tests/conformance/fixtures/unsupported-completion/input.json",
+      "bytes": 355,
+      "sha256": "4d7f7019b7983400387e68257ca0e27420a6247cd02d23be49a1af07de66f1e2"
+    },
+    {
+      "path": "tests/conformance/manifest.json",
+      "bytes": 1490,
+      "sha256": "980f6c2b544303c10a92123ac9f104128643ea74a6cc58c9f7461a432d7a3b4a"
+    },
+    {
+      "path": "tests/conformance/reference_file_inventory.json",
+      "bytes": 2238154,
+      "sha256": "d918cdfc5dd08c1bf8e1a051a396816764c71ec57a9a8b880513d6727f37e196"
+    },
+    {
+      "path": "tests/conformance/reference_file_inventory.py",
+      "bytes": 576848,
+      "sha256": "98f9afb4d63d8ae49bb91311e056d07a1af0e2b6e8a94231e3c9bd164d95f67c"
+    },
+    {
+      "path": "tests/conformance/reference_file_inventory_test.sh",
+      "bytes": 74029,
+      "sha256": "405faa6387e96730feb403198f340ab741b7a43babbb78b20798bcec2e1fdf30"
+    },
+    {
+      "path": "tests/conformance/reference_inventory_docs_test.py",
+      "bytes": 5258,
+      "sha256": "c55f758bf6831f06c149635f44d31378c252c06501f7d0a227b6dc11ff8091ad"
+    },
+    {
+      "path": "tests/conformance/reference_source_policy.py",
+      "bytes": 4432,
+      "sha256": "52191af622936d4f6bb9177c32f3d31ae494161ee5188583576d4e769e2eebc0"
+    },
+    {
+      "path": "tests/conformance/reference_source_policy_check.sh",
+      "bytes": 1839,
+      "sha256": "e612c3d1649a90e890443d1cc1436d3b1aadf79c44f60f1a9b607974d7589324"
+    },
+    {
+      "path": "tests/conformance/v1_oracle.py",
+      "bytes": 17144,
+      "sha256": "791fec07b50d97f8fc2eb800faa559dbce29f742e78746c0866cfd4481241d31"
+    },
+    {
+      "path": "tests/docs/documentation_acceptance.sh",
+      "bytes": 18633,
+      "sha256": "e583386a57abac5609f3694fa2a83b6c99eb6043e5a9258e8342e94a17c71a40"
+    },
+    {
+      "path": "tests/docs/getting_started_semantic.sh",
+      "bytes": 6184,
+      "sha256": "c01a7472bf04c1892b3ca9fedf87c2772b9d847767906b73cfa78005d105ecb0"
+    },
+    {
+      "path": "tests/docs/governance_cost_baseline_test.py",
+      "bytes": 4625,
+      "sha256": "71755bcc107b1053cdc99fa7774a11db24553f38e93afee1c20b7d5e07fb7a27"
+    },
+    {
+      "path": "tests/docs/interface_reference_generator_test.sh",
+      "bytes": 176,
+      "sha256": "82f6834f32508e6cf277fd2f5003e857f9ebcd182b50e33a90a9eb6366cd5e28"
+    },
+    {
+      "path": "tests/docs/parity_status_check.sh",
+      "bytes": 204,
+      "sha256": "2f9917714763473428a6c87954916861e8685c138e4f28d0dfbe165eb3f4ae16"
+    },
+    {
+      "path": "tests/docs/parity_status_check_test.sh",
+      "bytes": 1051,
+      "sha256": "147f23bdb31d427a5244c685286100e8d09aa0bb3ce62926d066f33b5964d2c1"
+    },
+    {
+      "path": "tests/docs/pending_parity_registry_test.sh",
+      "bytes": 12773,
+      "sha256": "e5dbcd87f241437f96ef2ce44354170e81330a9c7482a2617e72aaa780c19f11"
+    },
+    {
+      "path": "tests/docs/promote_closed_work_item.py",
+      "bytes": 46320,
+      "sha256": "5699fbb8ca5de410a816ca79e6f7e1b37416bbc74b9cf3824498f33017d0d56c"
+    },
+    {
+      "path": "tests/docs/promote_closed_work_item_test.sh",
+      "bytes": 53371,
+      "sha256": "7ac3def16345f3b77d6eeaf3baa974400f75b0f7a597d324f0624514a67f96e9"
+    },
+    {
+      "path": "tests/docs/reference_comparison_metadata_test.py",
+      "bytes": 10665,
+      "sha256": "e1d38d5bd84b0fb419388b1e878ba2e2881baf631750a16a014e176d41a0ad32"
+    },
+    {
+      "path": "tests/docs/reference_example_command_test.py",
+      "bytes": 3021,
+      "sha256": "719665074752ef21fc9486101999b0f0ad4ad80c10b26c30ce309c1d2795a34d"
+    },
+    {
+      "path": "tests/docs/task_guide_route_test.py",
+      "bytes": 2601,
+      "sha256": "6bb79464e9091349557e279d2c402e3b20714bd68afe71928e3b70f549b0268b"
+    },
+    {
+      "path": "tests/docs/work_item_projection_policy.py",
+      "bytes": 11141,
+      "sha256": "624a8504039f71632d9094d9f552c3b72dc6d9010444dc83a51430c395672dd3"
+    },
+    {
+      "path": "tests/docs/work_item_status_consistency.py",
+      "bytes": 38489,
+      "sha256": "1da044ce81d907b6b9948ca2d19754717c7022b7ef05757a6e59d9edad9ed259"
+    },
+    {
+      "path": "tests/docs/work_item_status_consistency_test.sh",
+      "bytes": 33397,
+      "sha256": "81cd1e20efadbba4daeeaad55c429744657fd3d0a1c9c5c99de7d6ffd9933ca6"
+    },
+    {
+      "path": "tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py",
+      "bytes": 21607,
+      "sha256": "8d860c25e707b56910bb2ca5cd2f3a12f434ebb00ba87522c0e673460c27ea54"
+    },
+    {
+      "path": "tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh",
+      "bytes": 265,
+      "sha256": "d029d215bcc684926c3625a107b8652d1afae8c5310278e7ef575c6b3f59af49"
+    },
+    {
+      "path": "tests/performance/concurrent_verification_benchmark.py",
+      "bytes": 25142,
+      "sha256": "81542c48d38f16b071d82746a12420c4e349295d8585f1a5a203ffc3e641ab01"
+    },
+    {
+      "path": "tests/performance/concurrent_verification_benchmark_test.py",
+      "bytes": 1558,
+      "sha256": "57e4512b8647bd1105abec40caae5d01e338f76ab39de9000c53abbf3ecaddc1"
+    },
+    {
+      "path": "tests/performance/cross_wi_coordination.py",
+      "bytes": 2380,
+      "sha256": "650c6c0102cac8a8ce6bf057caee58441f1b965df26bb2b43c18b6b85502908f"
+    },
+    {
+      "path": "tests/performance/cross_wi_coordination_test.py",
+      "bytes": 1195,
+      "sha256": "89a79d3ff5838a50771edc17ab03fc1765470b01c6449a41cbd207d6cd821c87"
+    },
+    {
+      "path": "tests/performance/development_cycle_cost.py",
+      "bytes": 5208,
+      "sha256": "18c963627f0ad1baf20dcee1172fae41693876303856cc5e7dcd0bae45a52c3b"
+    },
+    {
+      "path": "tests/performance/development_cycle_cost_test.py",
+      "bytes": 2429,
+      "sha256": "f8240e24ba67714acaebc2bffb0e6b20ed1ae3aaed6ec3e19e2ff1903b9651af"
+    },
+    {
+      "path": "tests/performance/fixtures/WI-763-fact-reuse-measurement.json",
+      "bytes": 7965,
+      "sha256": "8d57d8e27b7d8ab598d73a185155177101fa75963e7e9fec5f08024257a1e77d"
+    },
+    {
+      "path": "tests/performance/fixtures/WI-773-status-canonical-fact-reuse-baseline.json",
+      "bytes": 10826,
+      "sha256": "5e0b1662fea28fc84b34bb47ed218e70abb9527346f6e74249f5da7424873180"
+    },
+    {
+      "path": "tests/performance/fixtures/WI-773-status-canonical-fact-reuse-candidate.json",
+      "bytes": 10834,
+      "sha256": "dfee420b226cb2c1fa541c16f7ff458e9e5eecfd020e1f29d609e390679004e7"
+    },
+    {
+      "path": "tests/performance/fixtures/baseline.json",
+      "bytes": 406,
+      "sha256": "02662db65c642ea9cfa17c8aa013a83671324663eec76cea79441212cb7b53a5"
+    },
+    {
+      "path": "tests/performance/fixtures/candidate-fail.json",
+      "bytes": 406,
+      "sha256": "e622d27b37881dfbd04cfa07464fc494b18758e70e97724aa3148feb6dc07f53"
+    },
+    {
+      "path": "tests/performance/fixtures/candidate-pass.json",
+      "bytes": 406,
+      "sha256": "7a86e2f0b16f45cce609e8cf919f6316af41af2337f4a4234818bb7279a0ee9a"
+    },
+    {
+      "path": "tests/performance/fixtures/p0-baseline.json",
+      "bytes": 7690,
+      "sha256": "53646ad6a128cd67322c311fd5a0502e892a04da294ff1a47896f963f2de0aeb"
+    },
+    {
+      "path": "tests/performance/fixtures/p0-candidate-budget-fail.json",
+      "bytes": 7702,
+      "sha256": "ee906b89a36e59f9ff7678539322875cb5160ff8d0e78d5b28231a059d57911b"
+    },
+    {
+      "path": "tests/performance/fixtures/p0-candidate-incomparable-environment.json",
+      "bytes": 7688,
+      "sha256": "44298710223c8739cc735f2710a9ce8a0a48afa33b11388dda52fdd60cb42c3d"
+    },
+    {
+      "path": "tests/performance/fixtures/p0-candidate-insufficient-percentile.json",
+      "bytes": 5525,
+      "sha256": "4da884ca13b49f434f62ef567e99acb33579118c98c8bc665753242b322c6ff1"
+    },
+    {
+      "path": "tests/performance/fixtures/p0-candidate-pass.json",
+      "bytes": 7690,
+      "sha256": "6efef59849149c0a6741ab617d554d401b95193027883009a45c3102ec3aad89"
+    },
+    {
+      "path": "tests/performance/knowledge_query_benchmark.py",
+      "bytes": 11466,
+      "sha256": "69b83bcfc93a46fb95529f0d5242b991a6cce04427245d951cf881dcf3d4be8d"
+    },
+    {
+      "path": "tests/performance/knowledge_query_benchmark.sh",
+      "bytes": 882,
+      "sha256": "a04c2785a916030f4b58373a3e9351b9ee83afb599fd735f3c932d2549d842e2"
+    },
+    {
+      "path": "tests/performance/knowledge_query_benchmark_test.py",
+      "bytes": 3888,
+      "sha256": "512c0d81e9f7b3c19a1634228507144740e64d5932f8a5eb82b0cc5cbbbf254e"
+    },
+    {
+      "path": "tests/performance/p0_regression_gate.sh",
+      "bytes": 23781,
+      "sha256": "07d98037f12e9abe7fd13c2c5bab9e6e644880b0745210b0c7bbd1d1acc3c67d"
+    },
+    {
+      "path": "tests/performance/p0_regression_gate_test.sh",
+      "bytes": 5183,
+      "sha256": "aed59ebd3d76fd77b98a6ce49522f2969ea7140ca6cc5311a82c0591d0c81bcd"
+    },
+    {
+      "path": "tests/performance/paired_performance_report.py",
+      "bytes": 14106,
+      "sha256": "c1e977777de469d4797e5f1197f2b0884290d52c8623a2dcacb0038686c45e43"
+    },
+    {
+      "path": "tests/performance/paired_performance_report_test.py",
+      "bytes": 3721,
+      "sha256": "6f6660f1986c373a97134222678505732ad033ae85a5f13a0d6ff7ee1c9663d0"
+    },
+    {
+      "path": "tests/performance/regression_gate.sh",
+      "bytes": 3167,
+      "sha256": "c58e95c9d5e5edc4aa70e96b861662718fce81b7dde6e036b92c68281ac915c4"
+    },
+    {
+      "path": "tests/performance/regression_gate_test.sh",
+      "bytes": 492,
+      "sha256": "d614113bf19424a156e2bc6d2f5b91c39b5e7961b1b6664b577964990c5df929"
+    },
+    {
+      "path": "tests/performance/runtime_benchmark.sh",
+      "bytes": 31595,
+      "sha256": "3e4472006325f89743f7e78294e21a367a94db972392e1a3ef0e0920663f4bc9"
+    },
+    {
+      "path": "tests/performance/runtime_benchmark_scenarios.py",
+      "bytes": 4131,
+      "sha256": "1a23ac13f672bfe1533bee3a6b4a1ff8a38083e98c69338840b67b65c3581752"
+    },
+    {
+      "path": "tests/performance/runtime_benchmark_stats.py",
+      "bytes": 2956,
+      "sha256": "f84fa93442598cedd57dbc4b80d35ba7464b2d828fbe1c6b1930d785954e4598"
+    },
+    {
+      "path": "tests/performance/runtime_benchmark_stats_test.py",
+      "bytes": 7452,
+      "sha256": "b7677d0ef11b2f7a585ad22ec011e635cd9578b32c4e58c9d6dbfc46d197dee1"
+    },
+    {
+      "path": "tests/performance/runtime_benchmark_support.py",
+      "bytes": 4082,
+      "sha256": "73b513cd30dc67077d943ed4c47676d455909ccbd115e9d090e52eeac36a0fb7"
+    },
+    {
+      "path": "tests/performance/runtime_benchmark_support_test.py",
+      "bytes": 2724,
+      "sha256": "bf7bb6e65a7e9765f75c920850899138ca5d6cfe64f484863c828fd759020866"
+    },
+    {
+      "path": "tests/release/action_runtime_policy.sh",
+      "bytes": 2269,
+      "sha256": "763b5cbd370cd55f583bec380846d44fe31d5429f92c40fc15172fe95d770dcc"
+    },
+    {
+      "path": "tests/release/action_runtime_policy_test.sh",
+      "bytes": 1805,
+      "sha256": "84b2a2559c099eeb8cbc04bd934bfaf7e9d7214cac14f66335252fd6feedf3e4"
+    },
+    {
+      "path": "tests/release/adopter_acceptance.sh",
+      "bytes": 63776,
+      "sha256": "953d77f0b3df94cf402793d5c7ae466cde94bbabb7d71b8d3ebce4f9b92117fe"
+    },
+    {
+      "path": "tests/release/adopter_acceptance_resume_test.sh",
+      "bytes": 9627,
+      "sha256": "12c4b86ed7fe95c95ae906c859cf6ae0d91c7057ed9baa237834bab0fae68d39"
+    },
+    {
+      "path": "tests/release/adopter_acceptance_test.sh",
+      "bytes": 17304,
+      "sha256": "72649682c341e814c0c5d60e3c31c8fda2f38dfd0c624c6bd073d98639a05017"
+    },
+    {
+      "path": "tests/release/adopter_upgrade_acceptance.sh",
+      "bytes": 73804,
+      "sha256": "4f4f6a58a4a4ad38574e02ef6ac0a41e1cbf564a0b149e38d3a6d03b7b115c43"
+    },
+    {
+      "path": "tests/release/adopter_upgrade_acceptance_test.sh",
+      "bytes": 21739,
+      "sha256": "87df89a91ac57fc0b1e2737b5924d79f0c4e1d12f04f66d403b71b6a09d42af7"
+    },
+    {
+      "path": "tests/release/annotated_tag_identity.sh",
+      "bytes": 2651,
+      "sha256": "3794006f82eaacd8e079bf78613c7b84509551991ba3ff39e18ebc3fdab7ee1b"
+    },
+    {
+      "path": "tests/release/fixtures/manifest-invalid.json",
+      "bytes": 272,
+      "sha256": "07c4a0f8589e681ea55dadcc522d4973ef37b48c28bdb7a358405ecb433d7a23"
+    },
+    {
+      "path": "tests/release/fixtures/manifest-valid.json",
+      "bytes": 2557,
+      "sha256": "8c5cd32e99337be4c3529962266775772025f105dea5214d898e48fe9b726a67"
+    },
+    {
+      "path": "tests/release/isolation_manifest.sh",
+      "bytes": 7081,
+      "sha256": "2fbdd8a60070e561d38f76001b6f6e251449272efe14f5a437fea2b116ff92df"
+    },
+    {
+      "path": "tests/release/isolation_manifest_test.sh",
+      "bytes": 6855,
+      "sha256": "78a607290a91fa54a20bc6e3bf5fec2555682da2b4bf319fc08f052990147baf"
+    },
+    {
+      "path": "tests/release/release_close_state.sh",
+      "bytes": 416,
+      "sha256": "17f4b3364e94dbc26a44bbdfb3d9a31ca0399f6fa2a24c6b6bbe2d89b3e316b9"
+    },
+    {
+      "path": "tests/release/release_close_state_test.sh",
+      "bytes": 979,
+      "sha256": "98447ab5febc3d1323f67cdd5defdac95cd59341535970dea5873f36b8439964"
+    },
+    {
+      "path": "tests/release/restore_release_attempt_artifact_test.sh",
+      "bytes": 20005,
+      "sha256": "34b2bf77c2c5eafbb06d490844809c51a931309f3a120f21db1ba6afdb673b6f"
+    },
+    {
+      "path": "tests/release/source_archive_policy_test.sh",
+      "bytes": 1389,
+      "sha256": "5aeed95b696bd449cce5c9b646fe509f94a6e08faa9e83de013969a068916915"
+    },
+    {
+      "path": "tests/release/validate_adopter_acceptance_receipt.sh",
+      "bytes": 2284,
+      "sha256": "24957829c5314dc43632e0f23aae931878565534f031735c7179e7349d1c9969"
+    },
+    {
+      "path": "tests/release/validate_adopter_acceptance_receipt_test.sh",
+      "bytes": 1558,
+      "sha256": "af413e6a29cfe39f1ad4cb753abbe010f0af4b5ebf25fa58ad7b1265cc0da12d"
+    },
+    {
+      "path": "tests/release/version_consistency.sh",
+      "bytes": 3945,
+      "sha256": "fb7df91123a38cbef0c486088942508569a379cfae18f44eb8b9dbfd6c09945c"
+    },
+    {
+      "path": "tests/release/version_consistency_test.sh",
+      "bytes": 1313,
+      "sha256": "a267fcca5a996743146c3ef60f2bf30ab0902f9cc04da1d580aab217feae7fac"
+    },
+    {
+      "path": "tests/release/workflow_policy.sh",
+      "bytes": 36188,
+      "sha256": "a158ca5abe41c3fa2938c31881fe1fcbf56b8c815294e6fe9c89da35303bb510"
+    },
+    {
+      "path": "tests/workflow/resource_finalization_policy.sh",
+      "bytes": 14196,
+      "sha256": "6dafce4393ff7a319b4a9c9ae43c68575724bba6144ecac61791019e54cbc307"
+    },
+    {
+      "path": "tests/workflow/resource_finalization_policy_test.sh",
+      "bytes": 20189,
+      "sha256": "ac320365599e225881055a302ebdabaabd6dd0a2c7dde1be2450e035eda6d34d"
+    }
+  ],
+  "method": "read-only text scan of current source and test fixture files; no executable test runner, cargo, build, preflight or amendment invoked"
+}

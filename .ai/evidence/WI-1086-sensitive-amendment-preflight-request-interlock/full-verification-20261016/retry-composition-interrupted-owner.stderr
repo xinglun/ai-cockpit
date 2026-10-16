@@ -1,0 +1,3 @@
+    Finished `test` profile [unoptimized] target(s) in 0.06s
+     Running tests/composition.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/composition-9b8b18e520d84dfb)
+observed detached verifier zombie: pid=714645 state='Z' ppid=714619 pgid=714645 sid=714645; waitid(WNOWAIT)=0; kill(pid, 0)=0

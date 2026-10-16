@@ -1,0 +1,10 @@
+{
+  "tool": "exec_command/write_stdin",
+  "sessionId": 74151,
+  "reportedExitCode": 1,
+  "tiniLaunchExitCodeRecorded": 0,
+  "nativeAttemptExitCode": 0,
+  "tiniMainChildExitCode": 0,
+  "classification": "host execution status differs from the recorded workload exit status; retained separately from test and process-reaping results",
+  "source": "actual tool response and unmodified invocation/Runtime/Tini logs"
+}

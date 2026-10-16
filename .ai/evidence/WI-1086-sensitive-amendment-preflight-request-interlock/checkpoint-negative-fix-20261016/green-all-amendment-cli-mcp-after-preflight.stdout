@@ -1,0 +1,33 @@
+
+running 28 tests
+test amend_help_exposes_typed_request_and_preserves_legacy_adapter ... ok
+test checkpoint_count_two_material_fallback_is_rejected_by_cli ... ok
+test checkpoint_count_two_material_fallback_is_rejected_by_mcp ... ok
+test checkpoint_count_zero_material_fallback_is_rejected_by_cli ... ok
+test checkpoint_count_zero_material_fallback_is_rejected_by_mcp ... ok
+test checkpoint_source_pair_forged_digest_is_rejected_by_cli ... ok
+test checkpoint_source_pair_forged_digest_is_rejected_by_mcp ... ok
+test checkpoint_source_pair_malformed_is_rejected_by_cli ... ok
+test checkpoint_source_pair_malformed_is_rejected_by_mcp ... ok
+test checkpoint_source_pair_missing_is_rejected_by_cli ... ok
+test checkpoint_source_pair_missing_is_rejected_by_mcp ... ok
+test documentation_first_interlocked_request_is_generated_by_cli ... ok
+test documentation_first_interlocked_request_is_generated_by_mcp ... ok
+test foreign_recorded_preflight_contract_rejects_review_without_writes ... ok
+test governance_red_interlocked_request_is_generated_by_cli ... ok
+test governance_red_interlocked_request_is_generated_by_mcp ... ok
+test inspect_accepts_null_optional_concurrency_boundary_after_amendment ... ok
+test interlocked_request_covers_each_eligible_nonterminal_phase ... ok
+test interlocked_request_rejects_invalid_provenance_without_writes ... ok
+test missing_recorded_preflight_state_rejects_review_without_writes ... ok
+test mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_cli ... ok
+test mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_mcp ... ok
+test not_run_recorded_preflight_state_rejects_review_without_writes ... ok
+test retry_pending_amendment_admits_bound_review_request_without_verification_spawn ... ok
+test sensitive_amendment_blocks_cli_verification_before_command_spawn ... ok
+test typed_cli_and_mcp_share_receipt_and_read_history_without_writes ... ok
+test unknown_recorded_preflight_state_rejects_review_without_writes ... ok
+test valid_recorded_preflight_states_preserve_same_contract_approval ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 28.70s
+

@@ -1,0 +1,301 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
+      "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/admission.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/admission.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/invocation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-01.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-02.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-03.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-04.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-05.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-06.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-07.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-08.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-09.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-10.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/monitor-11.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/native-tini.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/native-tini.stdout.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/plan.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/plan.stderr.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/process-before.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/full-workspace-native-20261016/source-head.txt"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/closeout-20261016/authorization.txt",
+            "https://github.com/xinglun/ai-cockpit/pull/1042",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/38868840168"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:conversation-user via conversation:current-user-message:Ray-approved-PR1042-WI1086-close at 2026-10-16T08:24:17Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json"
+          ],
+          "inference": false,
+          "text": "Repair only current sensitive-amendment preflight request generation and Red/blocked preservation. Preserve WI-1085 history; reuse existing policy approval, never fabricate confirm_review. This distinct repair provides a dependency for later reviewed Runtime adoption by WI-1085 and Sentinel."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-16T08:24:18.665645143Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+    },
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "finalReportDigest": "sha256:987df81398b635925294cc4a1ae8a0e7cca58ec09075afa09af0920dd6c7d988",
+  "humanDecision": "approved",
+  "occurredAt": "2026-10-16T08:24:18.665573955Z",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:281a412784d1b64b40bd22c425263454f9beb15b67982aca2de95fa866bf6885",
+    "branch": "codex/wi1086-sensitive-amendment-preflight-request-interlock",
+    "branchRef": "refs/heads/codex/wi1086-sensitive-amendment-preflight-request-interlock",
+    "capturedAt": "2026-10-16T08:24:18Z",
+    "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+    "headRevision": "de6f2da9bf9a5f3f2f3f0d71b1928e0e6ab38958",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1086-closeout",
+    "worktreeId": "sha256:961aff6be22dce785797a9e015bf04bfed5762bd13c3bc6f90c2957af241644e",
+    "worktreePath": "/workspace/ai-cockpit-wi1086-closeout"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:99369eab0b23603abf74e12813201cbddef2b8c698b6c5b3f1d470bd30fe2120",
+  "recordedAt": "2026-10-16T08:24:18.665573955Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:conversation-user",
+    "authoritySource": "conversation:current-user-message:Ray-approved-PR1042-WI1086-close",
+    "decidedAt": "2026-10-16T08:24:17Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/closeout-20261016/authorization.txt",
+      "https://github.com/xinglun/ai-cockpit/pull/1042",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/38868840168"
+    ],
+    "policyRefs": [],
+    "reason": "当前用户转达 Ray 已批准指定 head eac3e5a665a98efd1436a7100d1e40feaf0003c2 的 PR #1042 合并，并明确授权原生归档关闭 WI-1086。Codex 代为记录并执行；decidedAt 为本次记录该授权决定的实际时间，不声称是 Ray 原始审阅时间。清理仅报清单，未执行删除。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-16T08:24:18Z",
+  "usageCutoff": "2026-10-16T08:24:18.665645143Z",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

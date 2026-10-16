@@ -1,0 +1,6 @@
+Status: WI-1086-sensitive-amendment-preflight-request-interlock
+Lifecycle: checkpointed
+Governance: yellow
+Activity health: waiting
+Unknowns: user_visible_benefit_not_declared, verification_evidence_missing
+Next action: read `work-item outcome --repo <path> --id WI-1086-sensitive-amendment-preflight-request-interlock`

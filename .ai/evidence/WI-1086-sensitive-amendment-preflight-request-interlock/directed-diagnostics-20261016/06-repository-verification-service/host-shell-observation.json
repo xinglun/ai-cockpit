@@ -1,0 +1,9 @@
+{
+  "toolSessionId": 19992,
+  "toolReportedShellExitCode": 1,
+  "shellExitTrapRecorded": 1,
+  "execCommandLoginMode": false,
+  "tiniLaunchExitCode": 1,
+  "source": "actual tool result, recorded shell EXIT status when available, invocation and unmodified native/Tini output",
+  "note": "outer shell status is distinct from Cargo and native/Tini workload status"
+}

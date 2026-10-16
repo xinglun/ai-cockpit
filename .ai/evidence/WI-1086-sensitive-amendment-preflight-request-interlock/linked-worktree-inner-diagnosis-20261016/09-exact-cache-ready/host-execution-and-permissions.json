@@ -1,0 +1,15 @@
+{
+  "toolSessionId": 60491,
+  "toolReportedShellExitCode": 0,
+  "shellExitTrapRecorded": 0,
+  "execCommandLoginMode": false,
+  "additionalPermissions": {
+    "file_system": {
+      "write": [
+        "/home/agent/.cache/ai-cockpit-verify-target"
+      ]
+    }
+  },
+  "existingSupervisor": "/usr/local/bin/docker-init",
+  "source": "actual tool request and result; original invocation, native receipts and raw logs preserved"
+}

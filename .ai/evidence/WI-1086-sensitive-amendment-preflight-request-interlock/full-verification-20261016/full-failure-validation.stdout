@@ -1,0 +1,7 @@
+Governance controls: unknown
+  scenario coverage: not_applicable
+  acceptance evidence: not_applicable
+  intent alignment: unknown
+  final dimensions: not_applicable
+  unknowns: intent_alignment_missing
+  [warning] intent_alignment_missing: declared intent has no alignment projection

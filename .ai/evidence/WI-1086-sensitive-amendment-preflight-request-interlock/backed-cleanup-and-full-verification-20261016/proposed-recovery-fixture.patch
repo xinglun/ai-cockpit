@@ -1,0 +1,14 @@
+--- a/crates/cockpit-repository/tests/recovery_decision.rs
++++ b/crates/cockpit-repository/tests/recovery_decision.rs
+@@ -1485,6 +1485,11 @@
+         "cover a bounded Contract amendment after retry",
+     )
+     .expect("bounded Contract amendment");
++    let contract_path = directory
++        .path()
++        .join(format!(".ai/work-items/active/{id}.contract.json"));
++    preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
++        .expect("record current amended Contract preflight before human review");
+     record_human_preflight_review(directory.path(), id);
+ 
+     assert_action_admitted(directory.path(), id, "run_verification", &runtime);

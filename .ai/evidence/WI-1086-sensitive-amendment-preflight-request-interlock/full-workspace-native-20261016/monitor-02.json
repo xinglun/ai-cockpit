@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-16T06:07:18.809536+00:00",
+  "newZombies": [],
+  "readErrors": [],
+  "newPid1Zombies": [],
+  "tiniRegisteredLogVisible": true,
+  "tiniFatal": false,
+  "progress": [
+    "Verification progress: started node \"project-command-0-package-cockpit-agent\" (0/13 complete, 0%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-agent\": passed (1/13 complete, 7%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-cli\" (1/13 complete, 7%)"
+  ],
+  "adoptedReapWarnings": 54
+}

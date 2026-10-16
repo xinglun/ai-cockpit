@@ -664,3 +664,877 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
 fn retry_pending_amendment_admits_bound_review_request_without_verification_spawn() {
     assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(true);
 }
+
+fn assert_mixed_pre_amendment_review_binding_is_rejected(use_mcp: bool) {
+    let root = repository();
+    let repository_path = root.path().to_str().expect("repository path");
+    let contract_relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let contract_path = root.path().join(&contract_relative);
+    let summary_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+    let initial = run_cli(&[
+        "preflight",
+        "--repo",
+        repository_path,
+        "--contract",
+        &contract_relative,
+    ]);
+    assert_success(&initial, "initial preflight before mixed-binding fixture");
+    let checkpoint = run_cli(&[
+        "checkpoint",
+        "--repo",
+        repository_path,
+        "--id",
+        WORK_ITEM_ID,
+    ]);
+    assert_success(&checkpoint, "checkpoint before mixed-binding fixture");
+    let old_summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("old Summary"))
+        .expect("old Summary JSON");
+    let old_contract: Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("old Contract"))
+            .expect("old Contract JSON");
+    let runtime = candidate_runtime();
+    let request = ContractAmendmentRequest {
+        schema_version: CONTRACT_AMENDMENT_SCHEMA_VERSION,
+        change_id: "mixed-binding-sensitive-amendment".into(),
+        expected_contract_digest: cockpit_protocol::digest_json(&old_contract)
+            .expect("old Contract digest"),
+        reason: "isolated regression: invalidate old preflight before any new review".into(),
+        changes: vec![ContractAmendmentChange {
+            path: "/scope".into(),
+            operation: ContractAmendmentOperation::Replace,
+            value: Some(json!(["README.md", "src/**"])),
+        }],
+    };
+    let amended = mcp_call(
+        root.path(),
+        &runtime,
+        "work_item_amend",
+        json!({"workItemId": WORK_ITEM_ID, "request": request}),
+    );
+    assert_eq!(
+        amended.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{amended}"
+    );
+    let new_contract_bytes = fs::read(&contract_path).expect("new Contract");
+    let new_contract: Value =
+        serde_json::from_slice(&new_contract_bytes).expect("new Contract JSON");
+    let summary_before = fs::read(&summary_path).expect("invalidated Summary");
+    let invalidated: Value =
+        serde_json::from_slice(&summary_before).expect("invalidated Summary JSON");
+    assert_eq!(invalidated["preflightState"], "not_run");
+    assert_eq!(
+        invalidated["preflightContractDigest"],
+        old_summary["preflightContractDigest"]
+    );
+    assert_eq!(
+        invalidated["preflightDecisionDigest"],
+        old_summary["preflightDecisionDigest"]
+    );
+    let history_before = amendment_history_bytes(root.path());
+    // This input exists only inside this temporary regression fixture.
+    // A current Contract cannot turn the retained old preflight fields into
+    // a new identity-bound human review before Runtime generates that review.
+    let controls = json!({"decisionEvidence": {
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": WORK_ITEM_ID,
+        "repositoryId": repository_id(root.path()),
+        "contractDigest": cockpit_protocol::digest_json(&new_contract).expect("new Contract digest"),
+        "preflightDecisionDigest": old_summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": old_summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-10-16T00:00:00Z",
+        "recordedBy": "human:isolated-automated-test-fixture",
+        "reason": "negative automated fixture only; not an actual human approval"
+    }});
+    if use_mcp {
+        let response = mcp_call(
+            root.path(),
+            &runtime,
+            "work_item_controls",
+            json!({"workItemId": WORK_ITEM_ID, "controls": controls}),
+        );
+        assert_eq!(
+            response.pointer("/result/isError"),
+            Some(&json!(true)),
+            "MCP must reject a new Contract mixed with pre-amendment preflight fields: {response}"
+        );
+    } else {
+        let input = tempfile::NamedTempFile::new().expect("controls input");
+        fs::write(
+            input.path(),
+            serde_json::to_vec(&controls).expect("controls JSON"),
+        )
+        .expect("write controls input");
+        let response = run_cli(&[
+            "work-item",
+            "controls",
+            "--repo",
+            repository_path,
+            "--id",
+            WORK_ITEM_ID,
+            "--input",
+            input.path().to_str().expect("controls path"),
+        ]);
+        assert!(
+            !response.status.success(),
+            "CLI must reject a new Contract mixed with pre-amendment preflight fields; stdout={} stderr={}",
+            String::from_utf8_lossy(&response.stdout),
+            String::from_utf8_lossy(&response.stderr)
+        );
+    }
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after rejection"),
+        summary_before
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after rejection"),
+        new_contract_bytes
+    );
+    assert_eq!(amendment_history_bytes(root.path()), history_before);
+    assert!(
+        !root
+            .path()
+            .join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
+            ))
+            .exists(),
+        "rejected mixed binding must not publish a decision receipt"
+    );
+}
+
+#[test]
+fn mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_cli() {
+    assert_mixed_pre_amendment_review_binding_is_rejected(false);
+}
+
+#[test]
+fn mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_mcp() {
+    assert_mixed_pre_amendment_review_binding_is_rejected(true);
+}
+
+fn assert_recorded_preflight_review_boundary(
+    state: Option<&str>,
+    current_contract: bool,
+    use_mcp: bool,
+    accepted: bool,
+) {
+    let root = repository();
+    let repo = root.path().to_str().expect("repository path");
+    let contract_relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let contract_path = root.path().join(&contract_relative);
+    let summary_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+    assert_success(
+        &run_cli(&[
+            "preflight",
+            "--repo",
+            repo,
+            "--contract",
+            &contract_relative,
+        ]),
+        "record fixture preflight",
+    );
+    let contract_bytes = fs::read(&contract_path).expect("Contract bytes");
+    let contract: Value = serde_json::from_slice(&contract_bytes).expect("Contract JSON");
+    let mut summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    // Isolated boundary fixtures vary the recorded field under test. The
+    // native amendment reproduction above independently covers real history.
+    if let Some(state) = state {
+        summary["preflightState"] = json!(state);
+    } else {
+        summary
+            .as_object_mut()
+            .expect("Summary object")
+            .remove("preflightState");
+    }
+    if !current_contract {
+        summary["preflightContractDigest"] = json!(Digest::sha256_bytes(b"older Contract"));
+    }
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("fixture Summary"),
+    )
+    .expect("write isolated fixture");
+    let before = fs::read(&summary_path).expect("Summary before record");
+    let controls = json!({"decisionEvidence": {
+        "schemaVersion": 1, "decisionId": "contract-preflight-review", "decision": "confirm_review",
+        "workItemId": WORK_ITEM_ID, "repositoryId": repository_id(root.path()),
+        "contractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-10-16T00:00:00Z", "recordedBy": "human:isolated-test-fixture",
+        "reason": "automated boundary fixture; no real human approval"
+    }});
+    if use_mcp {
+        let response = mcp_call(
+            root.path(),
+            &candidate_runtime(),
+            "work_item_controls",
+            json!({"workItemId":WORK_ITEM_ID,"controls":controls}),
+        );
+        assert_eq!(
+            response.pointer("/result/isError"),
+            Some(&json!(!accepted)),
+            "state={state:?}, current_contract={current_contract}: {response}"
+        );
+    } else {
+        let input = tempfile::NamedTempFile::new().expect("controls input");
+        fs::write(
+            input.path(),
+            serde_json::to_vec(&controls).expect("controls JSON"),
+        )
+        .expect("controls input bytes");
+        let response = run_cli(&[
+            "work-item",
+            "controls",
+            "--repo",
+            repo,
+            "--id",
+            WORK_ITEM_ID,
+            "--input",
+            input.path().to_str().expect("input path"),
+        ]);
+        assert_eq!(
+            response.status.success(),
+            accepted,
+            "state={state:?}, current_contract={current_contract}: {}{}",
+            String::from_utf8_lossy(&response.stdout),
+            String::from_utf8_lossy(&response.stderr)
+        );
+    }
+    let receipt_path = root.path().join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
+    ));
+    assert_eq!(
+        fs::read(&contract_path).expect("unchanged Contract"),
+        contract_bytes
+    );
+    if !accepted {
+        assert_eq!(
+            fs::read(&summary_path).expect("Summary after rejection"),
+            before
+        );
+        assert!(
+            !receipt_path.exists(),
+            "rejection must not publish a receipt"
+        );
+    } else {
+        let receipt = fs::read(&receipt_path).expect("actual fixture receipt");
+        fs::write(
+            root.path().join("README.md"),
+            "changed source requires fresh execution, same Contract review remains valid\n",
+        )
+        .expect("source change");
+        let status = run_cli(&[
+            "work-item",
+            "status",
+            "--repo",
+            repo,
+            "--id",
+            WORK_ITEM_ID,
+            "--json",
+        ]);
+        assert_success(&status, "status after same-Contract source change");
+        let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+        assert_eq!(
+            status["humanDecisionRequired"], false,
+            "same-Contract approval must be retained: {status}"
+        );
+        assert_eq!(fs::read(&receipt_path).expect("preserved receipt"), receipt);
+    }
+}
+
+#[test]
+fn missing_recorded_preflight_state_rejects_review_without_writes() {
+    for mcp in [false, true] {
+        assert_recorded_preflight_review_boundary(None, true, mcp, false);
+    }
+}
+
+#[test]
+fn unknown_recorded_preflight_state_rejects_review_without_writes() {
+    for mcp in [false, true] {
+        assert_recorded_preflight_review_boundary(Some("unknown"), true, mcp, false);
+    }
+}
+
+#[test]
+fn not_run_recorded_preflight_state_rejects_review_without_writes() {
+    for mcp in [false, true] {
+        assert_recorded_preflight_review_boundary(Some("not_run"), true, mcp, false);
+    }
+}
+
+#[test]
+fn foreign_recorded_preflight_contract_rejects_review_without_writes() {
+    for mcp in [false, true] {
+        assert_recorded_preflight_review_boundary(Some("yellow"), false, mcp, false);
+    }
+}
+
+#[test]
+fn valid_recorded_preflight_states_preserve_same_contract_approval() {
+    for state in ["green", "yellow", "red"] {
+        for mcp in [false, true] {
+            assert_recorded_preflight_review_boundary(Some(state), true, mcp, true);
+        }
+    }
+}
+
+fn amended_request_fixture(red: bool) -> tempfile::TempDir {
+    let root = repository();
+    let repo = root.path().to_str().expect("repository path");
+    let contract_relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    if !red {
+        let project = root.path().join(".ai/project");
+        fs::create_dir_all(&project).expect("project directory");
+        fs::write(project.join("documentation-policy.json"), serde_json::to_vec(&json!({
+            "schemaVersion":1, "repositoryId":repository_id(root.path()), "defaultProjection":"required",
+            "requiredModes":["implementation"], "requiredOperations":[], "preserveExistingRegistrations":true
+        })).expect("policy JSON")).expect("documentation-first fixture policy");
+    }
+    assert_success(
+        &run_cli(&[
+            "preflight",
+            "--repo",
+            repo,
+            "--contract",
+            &contract_relative,
+        ]),
+        "initial request fixture preflight",
+    );
+    assert_success(
+        &run_cli(&["checkpoint", "--repo", repo, "--id", WORK_ITEM_ID]),
+        "request fixture checkpoint",
+    );
+    let contract: Value =
+        serde_json::from_slice(&fs::read(root.path().join(&contract_relative)).expect("Contract"))
+            .expect("Contract JSON");
+    let changes = vec![json!({"path":"/scope","operation":"add","value":"src/**"})];
+    let request = json!({"schemaVersion":1,"changeId":"interlocked-request","expectedContractDigest":cockpit_protocol::digest_json(&contract).expect("digest"),"reason":"isolated request generation fixture","changes":changes});
+    let result = mcp_call(
+        root.path(),
+        &candidate_runtime(),
+        "work_item_amend",
+        json!({"workItemId":WORK_ITEM_ID,"request":request}),
+    );
+    assert_eq!(
+        result.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{result}"
+    );
+    if red {
+        // An intentionally contradictory retained envelope makes native
+        // Outcome red. Request generation must preserve this evidence and
+        // its blocker, never reinterpret it as a passed verification.
+        fs::write(
+            root.path()
+                .join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")),
+            br#"{"evidenceSchemaVersion":2,"fixture":"contradictory retained verification envelope"}"#,
+        )
+        .expect("contradictory evidence fixture");
+    }
+    root
+}
+
+fn assert_interlocked_request_generation(red: bool, use_mcp: bool) {
+    let root = amended_request_fixture(red);
+    let repo = root.path().to_str().expect("repository path");
+    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let summary_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+    let history = amendment_history_bytes(root.path());
+    let evidence_path = root
+        .path()
+        .join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json"));
+    let evidence_before = fs::read(&evidence_path).ok();
+    let status = run_cli(&[
+        "work-item",
+        "status",
+        "--repo",
+        repo,
+        "--id",
+        WORK_ITEM_ID,
+        "--json",
+    ]);
+    assert_success(&status, "interlocked status");
+    let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .contains(&json!("run_preflight")),
+        "interlocked request generation must be admitted: {status}"
+    );
+    if red {
+        assert_eq!(status["governanceState"], "red");
+    }
+    let mut previous_snapshot = None;
+    for observation in 0..2 {
+        if observation == 1 {
+            fs::write(
+                root.path().join("README.md"),
+                "new current snapshot for repeated request\n",
+            )
+            .expect("source update");
+        }
+        let decision = if use_mcp {
+            let response = mcp_call(
+                root.path(),
+                &candidate_runtime(),
+                "preflight",
+                json!({"contract":relative}),
+            );
+            assert_eq!(
+                response.pointer("/result/isError"),
+                Some(&json!(false)),
+                "{response}"
+            );
+            response["result"]["structuredContent"].clone()
+        } else {
+            let response = run_cli(&["preflight", "--repo", repo, "--contract", &relative]);
+            assert_success(&response, "generate interlocked request");
+            serde_json::from_slice(&response.stdout).expect("decision JSON")
+        };
+        assert_eq!(decision["reviewState"], "needs_human_confirmation");
+        assert_eq!(
+            decision["humanDecisionRequest"]["decisionId"],
+            "contract-preflight-review"
+        );
+        if red {
+            assert_eq!(decision["state"], "red");
+            assert_eq!(decision["outcome_state"], "blocked");
+            assert!(
+                !decision["blockers"]
+                    .as_array()
+                    .expect("blockers")
+                    .is_empty()
+            );
+        }
+        let summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+            .expect("Summary JSON");
+        let contract: Value =
+            serde_json::from_slice(&fs::read(root.path().join(&relative)).expect("Contract"))
+                .expect("Contract JSON");
+        assert_eq!(
+            summary["preflightContractDigest"],
+            json!(cockpit_protocol::digest_json(&contract).expect("Contract digest"))
+        );
+        if let Some(previous) = previous_snapshot {
+            assert_ne!(
+                summary["preflightRepositorySnapshotDigest"], previous,
+                "repeat must bind the changed current source snapshot"
+            );
+        }
+        previous_snapshot = Some(summary["preflightRepositorySnapshotDigest"].clone());
+        assert!(
+            summary.get("decisionEvidence").is_none(),
+            "request generation never records confirmation"
+        );
+        assert_eq!(summary["checkpointCount"], 1);
+        assert_eq!(amendment_history_bytes(root.path()), history);
+        assert_eq!(fs::read(&evidence_path).ok(), evidence_before);
+    }
+    let after = run_cli(&[
+        "work-item",
+        "status",
+        "--repo",
+        repo,
+        "--id",
+        WORK_ITEM_ID,
+        "--json",
+    ]);
+    assert_success(&after, "pending request status");
+    let after: Value = serde_json::from_slice(&after.stdout).expect("status JSON");
+    assert_eq!(after["humanDecisionRequired"], true);
+    assert!(
+        !after["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .contains(&json!("run_verification"))
+    );
+    assert!(
+        !root
+            .path()
+            .join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
+            ))
+            .exists()
+    );
+}
+
+#[test]
+fn documentation_first_interlocked_request_is_generated_by_cli() {
+    assert_interlocked_request_generation(false, false);
+}
+
+#[test]
+fn documentation_first_interlocked_request_is_generated_by_mcp() {
+    assert_interlocked_request_generation(false, true);
+}
+
+#[test]
+fn governance_red_interlocked_request_is_generated_by_cli() {
+    assert_interlocked_request_generation(true, false);
+}
+
+#[test]
+fn governance_red_interlocked_request_is_generated_by_mcp() {
+    assert_interlocked_request_generation(true, true);
+}
+
+#[test]
+fn interlocked_request_rejects_invalid_provenance_without_writes() {
+    for case in [
+        "marker_missing",
+        "marker_hash",
+        "invalidated_checks",
+        "revalidation_snapshot",
+        "before_edit_hash",
+        "summary_repo",
+        "summary_wi",
+        "unjournaled_contract",
+        "journal_tampered",
+        "journal_pending",
+        "not_ready",
+        "closed",
+        "recovered",
+        "archived",
+    ] {
+        let root = amended_request_fixture(true);
+        let repo = root.path().to_str().expect("repository path");
+        let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+        let contract_path = root.path().join(&relative);
+        let summary_path = root
+            .path()
+            .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+        let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+            .expect("Summary JSON");
+        match case {
+            "marker_missing" => {
+                summary
+                    .as_object_mut()
+                    .expect("Summary object")
+                    .remove("verificationInvalidatedByContractAmendment");
+            }
+            "marker_hash" => {
+                summary["verificationInvalidatedByContractAmendment"]["contractHash"] =
+                    json!(Digest::sha256_bytes(b"foreign Contract"))
+            }
+            "invalidated_checks" => {
+                summary["verificationInvalidatedByContractAmendment"]["invalidatedRequiredChecks"] =
+                    json!(["fabricated"]);
+                summary["checkpointEvidence"]
+                    .as_array_mut()
+                    .expect("checkpoints")
+                    .last_mut()
+                    .expect("last checkpoint")["invalidatedRequiredChecks"] = json!(["fabricated"]);
+            }
+            "revalidation_snapshot" => {
+                summary["checkpointEvidence"]
+                    .as_array_mut()
+                    .expect("checkpoints")
+                    .last_mut()
+                    .expect("last checkpoint")["repositorySnapshotDigest"] =
+                    json!(Digest::sha256_bytes(b"foreign snapshot"))
+            }
+            "before_edit_hash" => {
+                summary["checkpointEvidence"][0]["contractHash"] =
+                    json!(Digest::sha256_bytes(b"foreign before-edit"))
+            }
+            "summary_repo" => {
+                summary["repositoryId"] = json!(Digest::sha256_bytes(b"foreign repository"))
+            }
+            "summary_wi" => summary["workItemId"] = json!("WI-FOREIGN"),
+            "unjournaled_contract" => {
+                let mut contract: Value =
+                    serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+                        .expect("Contract JSON");
+                contract["goal"] = json!("unrecorded Contract change");
+                fs::write(
+                    &contract_path,
+                    serde_json::to_vec(&contract).expect("Contract JSON"),
+                )
+                .expect("isolated Contract tamper");
+            }
+            "journal_tampered" => {
+                let path = root.path().join(format!(
+                    ".ai/evidence/{WORK_ITEM_ID}.contract-amendments/00000001.committed.json"
+                ));
+                let mut value: Value = serde_json::from_slice(&fs::read(&path).expect("journal"))
+                    .expect("journal JSON");
+                value["receipt"]["reason"] = json!("tampered");
+                fs::write(path, serde_json::to_vec(&value).expect("journal JSON"))
+                    .expect("isolated journal tamper");
+            }
+            "journal_pending" => fs::remove_file(root.path().join(format!(
+                ".ai/evidence/{WORK_ITEM_ID}.contract-amendments/00000001.committed.json"
+            )))
+            .expect("isolated pending transaction"),
+            phase => summary["state"] = json!(phase),
+        }
+        fs::write(
+            &summary_path,
+            serde_json::to_vec(&summary).expect("Summary JSON"),
+        )
+        .expect("isolated projection");
+        let before_summary = fs::read(&summary_path).expect("Summary before rejection");
+        let before_contract = fs::read(&contract_path).expect("Contract before rejection");
+        let before_history = amendment_history_bytes(root.path());
+        let cli = run_cli(&["preflight", "--repo", repo, "--contract", &relative]);
+        assert!(
+            !cli.status.success(),
+            "{case} must not admit request generation"
+        );
+        let mcp = mcp_call(
+            root.path(),
+            &candidate_runtime(),
+            "preflight",
+            json!({"contract":relative}),
+        );
+        assert_eq!(
+            mcp.pointer("/result/isError"),
+            Some(&json!(true)),
+            "{case}: {mcp}"
+        );
+        assert_eq!(
+            fs::read(&summary_path).expect("Summary after rejection"),
+            before_summary,
+            "{case}"
+        );
+        assert_eq!(
+            fs::read(&contract_path).expect("Contract after rejection"),
+            before_contract,
+            "{case}"
+        );
+        assert_eq!(
+            amendment_history_bytes(root.path()),
+            before_history,
+            "{case}"
+        );
+    }
+}
+
+#[test]
+fn interlocked_request_covers_each_eligible_nonterminal_phase() {
+    for phase in ["implementation_active", "checkpointed", "finish_ready"] {
+        let root = amended_request_fixture(true);
+        let repo = root.path().to_str().expect("repository path");
+        let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+        let path = root
+            .path()
+            .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+        let mut summary: Value =
+            serde_json::from_slice(&fs::read(&path).expect("Summary")).expect("Summary JSON");
+        summary["state"] = json!(phase);
+        fs::write(&path, serde_json::to_vec(&summary).expect("Summary JSON"))
+            .expect("isolated lifecycle projection");
+        assert_success(
+            &run_cli(&["preflight", "--repo", repo, "--contract", &relative]),
+            phase,
+        );
+    }
+}
+
+fn assert_checkpoint_provenance_rejected(case: &str, use_mcp: bool) {
+    let root = amended_request_fixture(true);
+    let repo = root.path().to_str().expect("repository path");
+    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let summary_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+    let contract_path = root.path().join(&relative);
+    let decision_path = root.path().join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
+    ));
+    let material_fallback = case.starts_with("count_");
+    if material_fallback {
+        // A real non-ancestor HEAD makes committed-material projection
+        // unavailable. Keep the declared base and the native journal intact.
+        git(
+            root.path(),
+            &["checkout", "--orphan", "material-unavailable"],
+        );
+        git(root.path(), &["add", "README.md"]);
+        git(
+            root.path(),
+            &["commit", "-qm", "isolated non-ancestor material HEAD"],
+        );
+    }
+    let read_status = || {
+        let result = run_cli(&[
+            "work-item",
+            "status",
+            "--repo",
+            repo,
+            "--id",
+            WORK_ITEM_ID,
+            "--json",
+        ]);
+        assert_success(&result, "checkpoint provenance status");
+        serde_json::from_slice::<Value>(&result.stdout).expect("status JSON")
+    };
+    let control = read_status();
+    assert!(
+        control["safeActions"]
+            .as_array()
+            .expect("actions")
+            .contains(&json!("run_preflight")),
+        "untampered native checkpoint must admit review-request generation: {control}"
+    );
+    if material_fallback {
+        assert!(
+            control["blockers"]
+                .as_array()
+                .expect("blockers")
+                .contains(&json!("material_review_projection_unavailable")),
+            "the real material fallback must be active: {control}"
+        );
+    }
+    let mut summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    match case {
+        "missing" | "forged_digest" | "malformed" => {
+            let value = match case {
+                "forged_digest" => Some(json!(Digest::sha256_bytes(
+                    b"same forged checkpoint source"
+                ))),
+                "malformed" => Some(json!("not-a-contract-digest")),
+                _ => None,
+            };
+            for (stage, field) in [
+                ("before_edit", "contractHash"),
+                (
+                    "contract_amendment_revalidation",
+                    "originalBeforeEditContractHash",
+                ),
+            ] {
+                let record = summary["checkpointEvidence"]
+                    .as_array_mut()
+                    .expect("checkpoints")
+                    .iter_mut()
+                    .rfind(|r| r["stage"] == stage)
+                    .expect("source checkpoint");
+                if let Some(value) = &value {
+                    assert_ne!(
+                        &record[field], value,
+                        "the forged source must differ from native history"
+                    );
+                    record[field] = value.clone();
+                } else {
+                    record
+                        .as_object_mut()
+                        .expect("checkpoint object")
+                        .remove(field);
+                }
+            }
+        }
+        "count_zero" => summary["checkpointCount"] = json!(0),
+        "count_two" => summary["checkpointCount"] = json!(2),
+        _ => panic!("unknown checkpoint provenance case"),
+    }
+    fs::write(
+        &summary_path,
+        serde_json::to_vec(&summary).expect("Summary JSON"),
+    )
+    .expect("isolated Summary tamper");
+    let before_summary = fs::read(&summary_path).expect("before Summary");
+    let before_contract = fs::read(&contract_path).expect("before Contract");
+    let before_history = amendment_history_bytes(root.path());
+    let before_decision = fs::read(&decision_path).ok();
+    let status = read_status();
+    let (rejected, response) = if use_mcp {
+        let response = mcp_call(
+            root.path(),
+            &candidate_runtime(),
+            "preflight",
+            json!({"contract":relative}),
+        );
+        (
+            response.pointer("/result/isError") == Some(&json!(true)),
+            response.to_string(),
+        )
+    } else {
+        let response = run_cli(&["preflight", "--repo", repo, "--contract", &relative]);
+        (
+            !response.status.success(),
+            String::from_utf8_lossy(&response.stdout).into_owned(),
+        )
+    };
+    assert!(
+        rejected,
+        "{case} transport={} must reject request generation; status={status}; response={response}",
+        if use_mcp { "MCP" } else { "CLI" }
+    );
+    assert!(
+        !status["safeActions"]
+            .as_array()
+            .expect("actions")
+            .contains(&json!("run_preflight")),
+        "{case} must not regain preflight through material fallback: {status}"
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("after Summary"),
+        before_summary,
+        "{case}"
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("after Contract"),
+        before_contract,
+        "{case}"
+    );
+    assert_eq!(
+        amendment_history_bytes(root.path()),
+        before_history,
+        "{case}"
+    );
+    assert_eq!(fs::read(&decision_path).ok(), before_decision, "{case}");
+}
+
+#[test]
+fn checkpoint_source_pair_missing_is_rejected_by_cli() {
+    assert_checkpoint_provenance_rejected("missing", false);
+}
+#[test]
+fn checkpoint_source_pair_missing_is_rejected_by_mcp() {
+    assert_checkpoint_provenance_rejected("missing", true);
+}
+#[test]
+fn checkpoint_source_pair_forged_digest_is_rejected_by_cli() {
+    assert_checkpoint_provenance_rejected("forged_digest", false);
+}
+#[test]
+fn checkpoint_source_pair_forged_digest_is_rejected_by_mcp() {
+    assert_checkpoint_provenance_rejected("forged_digest", true);
+}
+#[test]
+fn checkpoint_source_pair_malformed_is_rejected_by_cli() {
+    assert_checkpoint_provenance_rejected("malformed", false);
+}
+#[test]
+fn checkpoint_source_pair_malformed_is_rejected_by_mcp() {
+    assert_checkpoint_provenance_rejected("malformed", true);
+}
+#[test]
+fn checkpoint_count_zero_material_fallback_is_rejected_by_cli() {
+    assert_checkpoint_provenance_rejected("count_zero", false);
+}
+#[test]
+fn checkpoint_count_zero_material_fallback_is_rejected_by_mcp() {
+    assert_checkpoint_provenance_rejected("count_zero", true);
+}
+#[test]
+fn checkpoint_count_two_material_fallback_is_rejected_by_cli() {
+    assert_checkpoint_provenance_rejected("count_two", false);
+}
+#[test]
+fn checkpoint_count_two_material_fallback_is_rejected_by_mcp() {
+    assert_checkpoint_provenance_rejected("count_two", true);
+}

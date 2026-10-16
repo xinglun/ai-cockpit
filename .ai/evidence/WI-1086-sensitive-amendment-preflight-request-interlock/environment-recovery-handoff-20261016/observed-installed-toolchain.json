@@ -1,0 +1,19 @@
+{
+  "versions": [
+    {
+      "command": [
+        "/workspace/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin/rustc",
+        "--version"
+      ],
+      "output": "rustc 1.98.1 (48a229cea 2026-09-01)"
+    },
+    {
+      "command": [
+        "/workspace/.rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin/cargo",
+        "--version"
+      ],
+      "output": "cargo 1.98.1 (797e8a9bc 2026-08-05)"
+    }
+  ],
+  "noToolchainInstalled": true
+}

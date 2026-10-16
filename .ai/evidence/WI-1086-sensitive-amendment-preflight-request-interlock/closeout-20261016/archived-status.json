@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "archived",
+  "governanceState": "yellow",
+  "activityHealth": "inactive",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 7,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 47,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "archived_work_item_pending_close"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "archived",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+    "materialManifest": "sha256:3b384f952450c3fbe0ba3358500f92cdfe83236add6d6870a9319859b25a9d69",
+    "repositorySnapshot": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
+    "summary": "sha256:4802220c053f3d5f66a51294e692d32e7f14e8aecd63fbbbf536820ae29d4824",
+    "verificationEvidence": "sha256:624fc1876737eb4856608fd8ec760aea99ee17d7e6030f613883420d4c567f85"
+  },
+  "unknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:3b384f952450c3fbe0ba3358500f92cdfe83236add6d6870a9319859b25a9d69",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [
+    "lifecycle_cleanup_required"
+  ],
+  "snapshotDigest": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-16T07:11:52Z",
+  "updatedAt": "2026-10-16T06:28:26.787140778Z",
+  "safeActions": [
+    "close_after_review",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "close_after_review",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: archived_work_item_pending_close",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "close_decision_pending",
+        "message": "current projection reports close_decision_pending"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:05227a3ce286747737fd43ffd33d81f1f51a2d78fc093dac2214eb5b4beaacc2"
+  },
+  "statusDigest": "sha256:803eb9ca310ee6a3122804069a84831fc5398998529ea568e933347cd7190932",
+  "historical": false
+}

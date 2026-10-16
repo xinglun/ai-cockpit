@@ -1,0 +1,8 @@
+{
+  "approvalSource": "Parent Raydot relayed actual Ray confirmation transcript",
+  "sourceMessageId": "Sentinel_4b362748a3cc81919c1aa9e1d5f24d29",
+  "sourceConfirmedAt": "2026-10-16T00:43:18Z",
+  "actualReply": "我本人 Ray 确认上述 WI-1086 绑定，选择 confirm_review",
+  "requestBindingUrl": "https://github.com/xinglun/ai-cockpit/blob/ef5e8e276a8ec8342c44777c3025d41f48bf4caf/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/validator-scope-amend-20261016/exact-binding-and-admission.json",
+  "scope": "current exact WI-1086 Contract/preflight/snapshot; no rebind if actual inputs differ; no merge/close/cleanup approval"
+}

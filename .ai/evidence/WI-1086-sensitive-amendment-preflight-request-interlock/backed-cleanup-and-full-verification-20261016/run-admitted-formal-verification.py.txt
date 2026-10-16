@@ -1,0 +1,283 @@
+import ctypes
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import threading
+import time
+
+assert ctypes.CDLL(None, use_errno=True).prctl(36, 1, 0, 0, 0) == 0
+REPO = Path('/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock')
+WI = 'WI-1086-sensitive-amendment-preflight-request-interlock'
+RUNTIME = Path('/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit')
+TARGET = REPO / 'target/wi1086-sensitive-amendment-preflight-request-interlock'
+LOG = REPO / '.ai/evidence' / WI / 'backed-cleanup-and-full-verification-20261016/formal-execution'
+LOG.mkdir(parents=True, exist_ok=False)
+FLOOR = 512 * 1024 * 1024
+CONTRACT = 'sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f'
+SNAPSHOT = 'sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54'
+RUNTIME_SHA = '5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38'
+OVERRIDES = {'HOME': '/tmp/wi1084-runtime-home-20261015', 'RUSTUP_HOME': '/workspace/.rustup',
+    'CARGO_HOME': '/workspace/.cargo', 'PATH': '/workspace/.cargo/bin:' + os.environ['PATH'],
+    'CARGO_BUILD_JOBS': '1', 'CARGO_INCREMENTAL': '0', 'RUST_TEST_THREADS': '1',
+    'CARGO_PROFILE_DEV_DEBUG': '0', 'CARGO_PROFILE_TEST_DEBUG': '0', 'CARGO_TARGET_DIR': str(TARGET),
+    'CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER': str(REPO / 'tests/ci/run_process_observer_test_runner.sh')}
+ENV = os.environ.copy()
+ENV.update(OVERRIDES)
+clock = time.monotonic()
+started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+def sha(path):
+    h = hashlib.sha256()
+    with path.open('rb') as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b''):
+            h.update(chunk)
+    return h.hexdigest()
+
+def free():
+    return {p: os.statvfs(p).f_bavail * os.statvfs(p).f_frsize for p in ['/workspace', '/tmp']}
+
+def record(name, value):
+    with (LOG / name).open('x') as f:
+        json.dump(value, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+
+def descendants():
+    seen, queue = {}, [os.getpid()]
+    while queue:
+        parent = queue.pop()
+        try:
+            children = {int(x) for task in Path(f'/proc/{parent}/task').iterdir()
+                        for x in (task / 'children').read_text().split()}
+        except OSError:
+            continue
+        for pid in children:
+            if pid in seen or pid == os.getpid():
+                continue
+            try:
+                raw = Path(f'/proc/{pid}/stat').read_text()
+                fields = raw[raw.rfind(')') + 2:].split()
+                seen[pid] = {'pid': pid, 'startTimeTicks': fields[19], 'state': fields[0],
+                             'comm': raw[raw.find('(') + 1:raw.rfind(')')]}
+                queue.append(pid)
+            except OSError:
+                pass
+    return seen
+
+reaped = []
+def reap(protected=None):
+    try:
+        children = {int(x) for task in Path(f'/proc/{os.getpid()}/task').iterdir()
+                    for x in (task / 'children').read_text().split()}
+    except OSError:
+        return
+    for pid in children:
+        if pid == protected:
+            continue
+        try:
+            child, status = os.waitpid(pid, os.WNOHANG)
+            if child:
+                reaped.append({'pid': child, 'waitStatus': status})
+        except ChildProcessError:
+            pass
+
+def terminate_owned(sig):
+    targets = descendants()
+    for pid, item in reversed(list(targets.items())):
+        try:
+            raw = Path(f'/proc/{pid}/stat').read_text()
+            fields = raw[raw.rfind(')') + 2:].split()
+            if fields[19] == item['startTimeTicks'] and fields[0] != 'Z':
+                os.kill(pid, sig)
+        except ProcessLookupError:
+            pass
+        except FileNotFoundError:
+            pass
+    return list(targets.values())
+
+def query(label, args):
+    command = [str(RUNTIME), *args]
+    limit = min(120, max(1, 880 - (time.monotonic() - clock)))
+    p = subprocess.run(command, cwd=REPO, env=ENV, capture_output=True, timeout=limit)
+    (LOG / (label + '.stdout')).write_bytes(p.stdout)
+    (LOG / (label + '.stderr')).write_bytes(p.stderr)
+    record(label + '.command.json', {'argv': command, 'exitCode': p.returncode})
+    reap()
+    assert p.returncode == 0, label + ': query failed; no verification started'
+    return json.loads(p.stdout)
+
+def status(label):
+    value = query(label, ['work-item', 'status', '--repo', str(REPO), '--id', WI, '--json'])
+    assert value['humanDecisionRequired'] is False
+    assert value['actionExplanation']['admissionState'] == 'allowed'
+    assert 'run_verification' in value['safeActions']
+    assert value['sourceDigests']['contract'] == CONTRACT
+    assert value['sourceDigests']['repositorySnapshot'] == SNAPSHOT
+    return value
+
+def receipts():
+    return {str(p.relative_to(REPO)): {'sha256': sha(p), 'bytes': p.stat().st_size}
+            for p in sorted((REPO / '.ai/evidence').glob(WI + '.verification*.json')) if p.is_file()}
+
+meta = {'startedAt': started, 'outerMaximumSeconds': 900, 'cancelAtElapsedSeconds': 885,
+        'workItemId': WI, 'reviewedSourceCommit': '2a5910e967585c3589af382d29143f1b50b0a2c1',
+        'verificationStarted': False, 'environmentOverrides': {k: v for k, v in OVERRIDES.items() if k != 'PATH'},
+        'failure': None, 'stopReason': None, 'progressObservations': []}
+process = None
+stop_monitor = threading.Event()
+def monitor():
+    last_progress = 0
+    while not stop_monitor.is_set():
+        values = free()
+        for name, value in values.items():
+            meta['minimumFreeBytes'][name] = min(meta['minimumFreeBytes'][name], value)
+        reason = None
+        if min(values.values()) <= FLOOR:
+            reason = 'disk_floor_512MiB'
+        elif sum(p.stat().st_size for p in LOG.iterdir() if p.is_file()) >= 64 * 1024 * 1024:
+            reason = 'new_log_budget_64MiB'
+        elif time.monotonic() - clock >= 885:
+            reason = 'outer_deadline_reserving_15s_for_cleanup'
+        if reason and meta['stopReason'] is None:
+            meta['stopReason'] = reason
+            meta['cancelRequestedAtElapsedSeconds'] = time.monotonic() - clock
+            meta['terminatedOwnedProcesses'] = terminate_owned(signal.SIGTERM)
+        if meta['stopReason'] and time.monotonic() - clock - meta['cancelRequestedAtElapsedSeconds'] >= 5:
+            meta['killedOwnedProcesses'] = terminate_owned(signal.SIGKILL)
+        reap(process.pid if process else None)
+        if time.monotonic() - last_progress >= 45:
+            last_progress = time.monotonic()
+            owned = descendants()
+            cargo_args = []
+            for pid, item in owned.items():
+                if item['comm'] == 'cargo':
+                    try:
+                        args = Path(f'/proc/{pid}/cmdline').read_bytes().split(b'\0')
+                        cargo_args.append([a.decode(errors='replace') for a in args[:7]])
+                    except OSError:
+                        pass
+            progress = {'elapsedSeconds': round(time.monotonic() - clock, 1),
+                        'freeBytes': values, 'ownedProcessCount': len(owned),
+                        'activeCargoArguments': cargo_args, 'stopReason': meta['stopReason']}
+            meta['progressObservations'].append(progress)
+            print(json.dumps({'verificationProgress': progress}), flush=True)
+        stop_monitor.wait(.1)
+
+try:
+    assert sha(RUNTIME) == RUNTIME_SHA
+    meta['runnerSourceSha256'] = sha(Path(__file__))
+    meta['runtimePath'] = str(RUNTIME)
+    meta['runtimeSha256'] = sha(RUNTIME)
+    meta['initialFreeBytes'] = free()
+    meta['minimumFreeBytes'] = dict(meta['initialFreeBytes'])
+    assert meta['initialFreeBytes']['/workspace'] >= 1024 * 1024 * 1024
+    assert meta['initialFreeBytes']['/tmp'] > FLOOR
+    meta['executionHead'] = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=REPO, text=True).strip()
+    assert subprocess.check_output(['git', 'status', '--porcelain=v1'], cwd=REPO) == b''
+    build_processes = []
+    baseline_zombies = 0
+    for directory in Path('/proc').iterdir():
+        if not directory.name.isdigit():
+            continue
+        try:
+            raw = (directory / 'stat').read_text()
+            fields = raw[raw.rfind(')') + 2:].split()
+            comm = raw[raw.find('(') + 1:raw.rfind(')')]
+            if fields[0] == 'Z' and fields[1] == '1':
+                baseline_zombies += 1
+            if fields[0] != 'Z' and comm in ['cargo', 'rustc']:
+                build_processes.append({'pid': int(directory.name), 'comm': comm})
+        except OSError:
+            pass
+    meta['initialPpid1Zombies'] = baseline_zombies
+    meta['initialBuildProcesses'] = build_processes
+    assert not build_processes
+    product_diff = subprocess.check_output(['git', 'diff', '--binary', '2a5910e967585c3589af382d29143f1b50b0a2c1', 'HEAD', '--', 'crates', 'Cargo.toml', 'Cargo.lock', '.github', 'tests'], cwd=REPO)
+    assert product_diff == b''
+    (LOG / 'reviewed-source.diff').write_bytes(product_diff)
+    meta['candidateBinaryPath'] = str(TARGET / 'debug/ai-cockpit')
+    meta['candidateBinarySha256Before'] = sha(TARGET / 'debug/ai-cockpit')
+    for tool in ['rustc', 'cargo']:
+        p = subprocess.run(['/workspace/.cargo/bin/' + tool, '--version'], cwd=REPO, env=ENV, capture_output=True, timeout=30)
+        assert p.returncode == 0
+        meta[tool] = p.stdout.decode().strip()
+    reap()
+    meta['formalReceiptsBefore'] = receipts()
+    meta['admissionBeforePlan'] = status('status-before-plan')
+    command = [str(RUNTIME), 'verify', '--repo', str(REPO), '--work-item', WI, '--stage', 'task', '--workers', '1']
+    plan = query('exact-environment-plan', command[1:] + ['--plan-only'])
+    assert plan['nodesPlanned'] == 13 and plan['nodesReused'] == 0 and plan['nodesToExecute'] == 13
+    assert plan['runtimeDigest'] == 'sha256:' + RUNTIME_SHA and plan['repositorySnapshotDigest'] == SNAPSHOT
+    expected = ['cockpit-' + p for p in ['agent', 'cli', 'core', 'evidence', 'git', 'interface', 'isolation', 'knowledge', 'mcp', 'protocol', 'release', 'repository', 'verification']]
+    for node, package in zip(plan['plannedNodes'], expected, strict=True):
+        assert node['action'] == 'execute' and node['program'] == 'cargo'
+        assert node['args'] == ['test', '--locked', '--package', package]
+        assert node['timeoutSeconds'] == 600
+    meta['admissionImmediatelyBeforeVerify'] = status('status-immediately-before-verify')
+    assert free()['/workspace'] >= 1024 * 1024 * 1024 and free()['/tmp'] > FLOOR
+    # Only this Popen starts the one formal verification attempt.
+    meta['command'] = command
+    with (LOG / 'formal-verification.stdout').open('xb') as stdout, (LOG / 'formal-verification.stderr').open('xb') as stderr:
+        process = subprocess.Popen(command, cwd=REPO, env=ENV, stdout=stdout, stderr=stderr, start_new_session=True)
+        meta['verificationStarted'] = True
+        meta['verificationPid'] = process.pid
+        observer = threading.Thread(target=monitor, daemon=True)
+        observer.start()
+        while process.poll() is None:
+            if time.monotonic() - clock >= 897:
+                meta['stopReason'] = meta['stopReason'] or 'outer_emergency_deadline'
+                terminate_owned(signal.SIGKILL)
+            time.sleep(.1)
+        meta['exitCode'] = process.wait()
+    stop_monitor.set()
+    observer.join(timeout=1)
+    end = min(time.monotonic() + 5, clock + 899)
+    while descendants() and time.monotonic() < end:
+        reap()
+        time.sleep(.05)
+    remaining = descendants()
+    if remaining:
+        meta['remainingOwnedDescendantsBeforeCancellation'] = list(remaining.values())
+        meta['stopReason'] = meta['stopReason'] or 'owned_descendants_remaining_after_command'
+        terminate_owned(signal.SIGKILL)
+        reap()
+    meta['formalReceiptsAfter'] = receipts()
+    meta['candidateBinarySha256After'] = sha(TARGET / 'debug/ai-cockpit')
+    canonical = REPO / '.ai/evidence' / (WI + '.verification.json')
+    if canonical.exists():
+        actual = json.loads(canonical.read_bytes())
+        receipt = actual['receipt']
+        meta['formalReceiptAssessment'] = {'canonicalSha256': sha(canonical),
+            'passed': actual.get('passed'), 'contractDigest': actual.get('contractDigest'),
+            'repositorySnapshotDigest': actual.get('repositorySnapshotDigest'),
+            'runtimeDigest': actual.get('runtimeDigest'), 'nodesPlanned': receipt.get('nodesPlanned'),
+            'nodesExecuted': receipt.get('nodesExecuted'), 'nodesReused': receipt.get('nodesReused'),
+            'maxConcurrentProcesses': receipt.get('maxConcurrentProcesses'),
+            'allResultsPassed': all(r.get('passed') is True and r.get('timedOut') is False for r in receipt.get('results', []))}
+        meta['formalReceiptValidAndComplete'] = (actual.get('passed') is True and actual.get('contractDigest') == CONTRACT
+            and actual.get('repositorySnapshotDigest') == SNAPSHOT and actual.get('runtimeDigest') == 'sha256:' + RUNTIME_SHA
+            and receipt.get('nodesPlanned') == 13 and receipt.get('nodesExecuted') == 13 and receipt.get('nodesReused') == 0
+            and len(receipt.get('results', [])) == 13 and meta['formalReceiptAssessment']['allResultsPassed']
+            and receipt.get('maxConcurrentProcesses') == 1)
+    else:
+        meta['formalReceiptValidAndComplete'] = False
+except BaseException as error:
+    meta['failure'] = repr(error)
+    if process is not None and process.poll() is None:
+        terminate_owned(signal.SIGKILL)
+        process.wait(timeout=1)
+finally:
+    stop_monitor.set()
+    reap()
+    meta['ownedDescendantsReaped'] = reaped
+    meta['ownedDescendantsRemaining'] = list(descendants().values())
+    meta['finalFreeBytes'] = free()
+    meta['elapsedSeconds'] = round(time.monotonic() - clock, 3)
+    meta['finishedAt'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    meta['outerMaximumRespected'] = meta['elapsedSeconds'] <= 900
+    record('execution-meta.json', meta)
+    print(json.dumps({k: v for k, v in meta.items() if k not in ['ownedDescendantsReaped', 'formalReceiptsBefore', 'formalReceiptsAfter', 'admissionBeforePlan', 'admissionImmediatelyBeforeVerify']}, ensure_ascii=False))
+raise SystemExit(0 if meta.get('exitCode') == 0 and meta.get('formalReceiptValidAndComplete') is True and not meta['stopReason'] and not meta['failure'] else 1)

@@ -1,0 +1,34 @@
+{
+  "kind": "cleanup_candidates_not_executed",
+  "authorizedForDeletion": false,
+  "deliveredSourceHead": "eac3e5a665a98efd1436a7100d1e40feaf0003c2",
+  "mergeCommit": "a05a572d3c03cb45ec602eab3db587a19f77acf3",
+  "nativeOrdinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:281a412784d1b64b40bd22c425263454f9beb15b67982aca2de95fa866bf6885",
+    "branch": "codex/wi1086-sensitive-amendment-preflight-request-interlock",
+    "branchRef": "refs/heads/codex/wi1086-sensitive-amendment-preflight-request-interlock",
+    "capturedAt": "2026-10-16T08:24:18Z",
+    "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+    "headRevision": "de6f2da9bf9a5f3f2f3f0d71b1928e0e6ab38958",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1086-closeout",
+    "worktreeId": "sha256:961aff6be22dce785797a9e015bf04bfed5762bd13c3bc6f90c2957af241644e",
+    "worktreePath": "/workspace/ai-cockpit-wi1086-closeout"
+  },
+  "remoteBranch": "refs/heads/codex/wi1086-sensitive-amendment-preflight-request-interlock",
+  "protectedPaths": [
+    "/workspace/ai-cockpit",
+    "/workspace/ai-cockpit/.git",
+    "/workspace/.git"
+  ],
+  "notes": [
+    "No branch, worktree, cache, Runtime or old environment was deleted.",
+    "worktreeGitDir is identity metadata managed by git worktree remove, not a separate raw deletion target.",
+    "The final close-record commit and remote branch head must be read again before any approved deletion.",
+    "Governance records and controlled post-close documentation still require integration into the default branch before deleting their branch."
+  ]
+}

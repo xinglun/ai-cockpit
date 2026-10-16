@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "amend",
+    "--repo",
+    "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+    "--id",
+    "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "--request",
+    "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/fixture-scope-amend-20261016/approved-scope.request.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T01:47:34.772137+00:00",
+  "elapsedSeconds": 1.535,
+  "exitCode": 0,
+  "stdoutBytes": 23095,
+  "stderrBytes": 0,
+  "subreaper": true,
+  "adoptedDescendantsReaped": []
+}

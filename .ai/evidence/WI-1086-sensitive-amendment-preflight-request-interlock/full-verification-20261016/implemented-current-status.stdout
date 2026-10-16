@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 7,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 0,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+    "materialManifest": "sha256:24a4229e9237d26b920bc7361dc8c123643b392335b71d68a425d9bf6a005978",
+    "repositorySnapshot": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
+    "summary": "sha256:25dcc0b28f6b9d38a0bc9cd9b2d34e4fa1b76b28f6c1ef273ac6811fa2221f5f"
+  },
+  "unknowns": [
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:24a4229e9237d26b920bc7361dc8c123643b392335b71d68a425d9bf6a005978",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [
+    "repository protocol state error at /workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/.ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json: verification requires a preflight result for the current repository snapshot"
+  ],
+  "snapshotDigest": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-16T00:45:28.734032014+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_preflight"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "unknown",
+        "code": "verification_action_preconditions_blocked",
+        "message": "current projection reports verification_action_preconditions_blocked"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:096de56d7c88450b9f7a39fd311f4bb5765da60bcd245e6aad9d3ba7423b0dbf"
+  },
+  "statusDigest": "sha256:0abc1d7073628c7be0e54d63f7b15234833d1d3cd29857112711e8fc928a3972",
+  "historical": false
+}

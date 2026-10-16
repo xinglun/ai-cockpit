@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-10-16T01:30:31.056254+00:00",
+  "sourceHead": "8ea965d8b21cc908f3cca3941af411807105808c",
+  "contractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+  "repositorySnapshotDigest": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "candidateBinarySha256": "156d7e19dc24eb4d6c870d2c59d0975646ff70d78d1e560946a6453430bf0272",
+  "attemptId": "sha256:3469bd4b3664e817ac4f86a4e4ba892f7c12083ab397e19ad1eb40e30fe9603e",
+  "attemptPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.3469bd4b3664e817ac4f86a4e4ba892f7c12083ab397e19ad1eb40e30fe9603e.json",
+  "attemptRawSha256": "d83bb2da7b87d3b9730a132f7f5c9585c3012845c8ec8daed1bf272978cf72d5",
+  "passed": false,
+  "nodesExecuted": 13,
+  "nodesPassed": 10,
+  "failedNodes": [
+    "project-command-0-package-cockpit-cli",
+    "project-command-0-package-cockpit-repository",
+    "project-command-0-package-cockpit-verification"
+  ],
+  "nativeElapsedMs": 608728,
+  "outerTimeoutSeconds": 900,
+  "outerTimedOut": false,
+  "focusedCompositionRetry": "passed; does not replace original failed full verification",
+  "formatCheck": "passed",
+  "fullVerificationStillRequired": true,
+  "implementationScopeExpansionApplied": false
+}

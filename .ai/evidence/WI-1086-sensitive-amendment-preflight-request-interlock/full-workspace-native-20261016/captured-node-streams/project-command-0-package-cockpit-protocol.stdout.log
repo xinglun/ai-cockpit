@@ -1,0 +1,229 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test audit_filters_are_strict_and_keep_source_and_display_time_distinct ... ok
+test query_page_preserves_nullable_unknown_counts_and_source_fields ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 6 tests
+test collaboration_identities_round_trip_strictly ... ok
+test composable_head_is_not_merged_target_and_old_contracts_remain_readable ... ok
+test composition_binding_round_trips_with_exact_participant_order ... ok
+test coordination_event_accepts_runtime_observed_environment_binding ... ok
+test environment_drift_request_rejects_caller_supplied_environment_facts ... ok
+test mismatched_runtime_binding_is_rejected_before_collaboration ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 11 tests
+test collection_operations_are_exact_and_later_changes_see_earlier_changes ... ok
+test edits_nested_intent_and_clears_only_optional_fields ... ok
+test field_registry_distinguishes_sensitive_plan_changes ... ok
+test invalid_later_batch_operation_leaves_the_typed_input_unchanged ... ok
+test material_review_profile_accepts_another_explicit_agent_for_another_work_item ... ok
+test material_review_profile_rejects_mismatched_values_and_incomplete_authority ... ok
+test material_review_profile_requires_strict_fields_and_matching_capability_guard ... ok
+test protected_and_unknown_paths_fail_closed ... ok
+test removes_only_the_exact_existing_collection_element ... ok
+test replaces_scalar_and_recomputes_acceptance_alias ... ok
+test typed_profile_amendment_adds_guard_without_editing_protected_field ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 13 tests
+test checkpoint_policy_and_evidence_are_typed_and_strict ... ok
+test contract_v2_aliases_cannot_disagree ... ok
+test contract_v2_cross_field_mode_and_checkpoint_rules_fail_closed ... ok
+test contract_v2_governance_lineage_fields_round_trip ... ok
+test contract_validate_rejects_invalid_scenarios_empty_acceptance_and_boundary ... ok
+test invalid_checkpoint_policy_and_evidence_fail_closed ... ok
+test legacy_contract_without_v2_lineage_remains_valid_and_unmodified ... ok
+test legacy_nonempty_approval_extensions_remain_readable ... ok
+test legacy_text_intent_remains_readable ... ok
+test scenario_coverage_projection_is_strict_but_preserves_reference_fields ... ok
+test structured_approval_unknown_nested_fields_fail_closed ... ok
+test structured_contract_v2_round_trips_without_losing_intent_or_checks ... ok
+test unknown_contract_fields_fail_closed ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 8 tests
+test adopter_capability_state_vocabulary_keeps_truth_levels_distinct ... ok
+test all_work_item_status_index_is_strict_and_digest_bound ... ok
+test capability_and_parallel_records_are_strict_and_repository_bound ... ok
+test capability_registry_accepts_runtime_bound_adopter_truth_and_exclusions ... ok
+test legacy_performance_diagnosis_without_measurement_scope_remains_readable ... ok
+test project_governance_declarations_are_strict_and_repository_bound ... ok
+test task_outcome_report_rejects_unknown_fields_and_keeps_claim_provenance ... ok
+test v2_records_round_trip_with_explicit_unknowns_and_provenance ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 17 tests
+test action_explanation_is_additive_and_legacy_status_remains_readable ... ok
+test adapters_resolve_transport_bindings_from_canonical_parameter_facts ... ok
+test audit_descriptions_bind_cli_and_mcp_filter_names ... ok
+test checked_in_reference_regions_match_the_protocol_projection ... ok
+test cli_and_mcp_share_common_outcome_parameter_facts ... ok
+test cli_description_is_extracted_from_the_shared_outcome_query_parser ... ok
+test coordination_interface_specs_bind_one_identity_contract_per_action_variant ... ok
+test description_is_materialized_from_protocol_owned_parameter_tables ... ok
+test material_review_plan_interface_is_discoverable_and_read_only ... ok
+test material_review_record_interface_discloses_cli_and_mcp_decision_boundaries ... ok
+test mcp_request_schema_and_discovery_share_the_same_parameter_projection ... ok
+test outcome_description_and_markdown_are_deterministic ... ok
+test outcome_description_has_stable_shared_facts ... ok
+test public_outcome_value_lists_are_generated_from_the_parser_enum_variants ... ok
+test shared_view_definition_rejects_unknown_values ... ok
+test transport_specs_reuse_the_shared_query_parser_facts ... ok
+test usage_record_description_projects_both_transports_and_capability_surface ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 3 tests
+test boundary_is_additive_and_strict ... ok
+test legacy_contract_without_boundary_remains_readable ... ok
+test slot_lease_round_trip_is_repository_bound ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test preflight_decision_evidence_rejects_unknown_fields ... ok
+test preflight_decision_evidence_round_trips_with_bound_identity ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 21 tests
+test agent_interface_manifest_is_strict_and_round_trips ... ok
+test agent_manifest_rejects_unknown_fields_and_unsupported_interface_version ... ok
+test delegated_evidence_and_audit_event_bind_external_identity_without_claiming_ownership ... ok
+test delegated_evidence_receipt_is_strict_and_binds_repository_and_work_item ... ok
+test digest_rejects_non_sha256_shape ... ok
+test doctor_report_rejects_unknown_fields ... ok
+test enterprise_authority_and_human_decision_are_strict_and_auditable ... ok
+test legacy_repository_files_default_to_schema_one ... ok
+test managed_adapter_record_round_trips_canonical_json ... ok
+test organization_policy_cannot_be_weakened_by_a_lower_layer ... ok
+test policy_document_merges_layers_without_allowing_weakening ... ok
+test policy_document_rejects_unknown_fields ... ok
+test project_profile_digest_is_stable_for_equal_profiles ... ok
+test project_profile_rejects_unknown_fields ... ok
+test protocol_v1_is_accepted ... ok
+test provider_and_enterprise_authority_require_bound_evidence_and_policy ... ok
+test repository_config_round_trips_through_toml ... ok
+test repository_context_keeps_runtime_root_out_of_repository_context ... ok
+test schema_migration_chain_requires_adjacent_reviewed_edges ... ok
+test sensitive_evidence_policy_rejects_secret_full_capture_and_accepts_digest_only ... ok
+test unsupported_major_is_fail_closed ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test blocked_outcome_round_trips_explicit_recovery_fields ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test recovery_receipt_accepts_append_only_revalidation_bindings ... ok
+test recovery_receipt_rejects_unknown_fields ... ok
+test recovery_receipt_round_trips ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 7 tests
+test historical_recovery_requires_immutable_evidence_and_cannot_be_normal ... ok
+test mode_specific_fields_are_rejected_instead_of_combined_flags ... ok
+test normal_release_resolves_to_one_canonical_route ... ok
+test plan_generation_is_deterministic_for_the_same_request ... ok
+test raw_dispatch_flags_are_resolved_once_into_disjoint_modes ... ok
+test recovery_modes_bind_their_reusable_run_identity ... ok
+test tampered_plan_digest_is_rejected_and_close_is_a_fixed_point ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 33 tests
+test abandoned_receipt_rejects_merge_claims_and_wrong_failure_codes ... ok
+test abandoned_unmerged_cleanup_receipt_is_a_truthful_terminal_state ... ok
+test bare_pending_provider_context_is_provisional ... ok
+test blocked_unmerged_receipt_can_advance_to_merged_deleted_transition ... ok
+test contract_base_revision_is_an_optional_independent_identity ... ok
+test contract_resource_context_is_optional_but_strict_when_declared ... ok
+test dirty_unmerged_protected_and_ambiguous_states_cannot_be_deleted ... ok
+test disposition_codes_and_states_are_strict ... ok
+test duplicate_finalization_replay_is_idempotent_only_for_same_operation_and_result ... ok
+test empty_and_invalid_identity_fields_are_rejected ... ok
+test foreign_repository_and_work_item_are_rejected ... ok
+test historical_direct_merge_accepts_unchanged_archived_local_context ... ok
+test historical_direct_merge_can_bind_provisional_legacy_context ... ok
+test historical_direct_merge_can_rebind_archived_github_context_narrowly ... ok
+test historical_direct_merge_can_rebind_legacy_local_context_narrowly ... ok
+test historical_direct_merge_without_pr_uses_zero_sentinel_only_with_binding ... ok
+test historical_receipts_cannot_use_provider_contract_base_binding ... ok
+test historical_shared_worktree_retained_is_explicit_and_valid ... ok
+test legacy_finalization_projection_json_remains_readable_without_typed_fields ... ok
+test merge_observation_requires_explicit_governance_append_for_head_drift ... ok
+test pending_provider_context_is_provisional_until_reviewed_resource_is_bound ... ok
+test post_merge_sync_schema_v2_requires_two_pr_evidence_and_preserves_v1_boundary ... ok
+test post_merge_sync_v3_explicit_layout_preserves_legacy_boundary ... ok
+test provisional_context_is_distinguished_from_explicit_plan_context ... ok
+test resource_finalization_errors_expose_stable_typed_codes_without_display_matching ... ok
+test retained_and_unknown_are_explicit_non_green_results ... ok
+test transition_rejects_stale_predecessor_and_identity_drift ... ok
+test typed_finalization_dispositions_cover_retained_deleted_abandoned_and_non_terminal_results ... ok
+test typed_finalization_error_and_action_identifiers_round_trip_exhaustively ... ok
+test typed_finalization_projection_is_additive_and_round_trips_with_legacy_fields ... ok
+test typed_finalization_states_cover_all_observation_outcomes ... ok
+test unknown_top_level_and_nested_fields_fail_closed ... ok
+test valid_receipt_round_trips_and_binds_contract_context ... ok
+
+test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 3 tests
+test selected_lineage_recovery_rejects_disconnected_edges ... ok
+test selected_lineage_recovery_rejects_unknown_fields ... ok
+test selected_lineage_recovery_shape_is_strict_and_adjacent ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test historical_report_without_usage_remains_byte_compatible ... ok
+test usage_request_keeps_unknown_counts_null_and_models_separate ... ok
+test usage_request_rejects_invalid_subsets_and_identity ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 6 tests
+test requirement_validation_needs_traceable_references_and_reason ... ok
+test tier_and_assurance_are_orthogonal_and_strictly_serialized ... ok
+test timeout_policy_is_finite_and_serialized_as_an_authorization_ceiling ... ok
+test timeout_policy_layers_only_preserve_or_reduce_the_authorized_ceiling ... ok
+test unknown_fields_and_invalid_enum_values_fail_closed ... ok
+test verification_stage_is_typed_and_pre_ci_is_distinct ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

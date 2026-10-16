@@ -1767,6 +1767,28 @@ fn validate_preflight_decision_evidence(
             path: summary_path.clone(),
             message: error.to_string(),
         })?;
+    // Retained fields from an invalidated preflight cannot authorize a new
+    // Contract. Red is a recorded decision too: its blockers remain binding
+    // even when a human records the bounded review requested by that decision.
+    if !matches!(
+        summary["preflightState"].as_str(),
+        Some("green" | "yellow" | "red")
+    ) {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "preflight decision evidence requires a recorded green, yellow, or red preflight result".into(),
+        });
+    }
+    if summary["preflightContractDigest"].as_str()
+        != Some(expected_contract_digest.to_string().as_str())
+    {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message:
+                "preflight decision evidence requires a preflight result for the current Contract"
+                    .into(),
+        });
+    }
     let expected_preflight = summary
         .get("preflightDecisionDigest")
         .and_then(Value::as_str)

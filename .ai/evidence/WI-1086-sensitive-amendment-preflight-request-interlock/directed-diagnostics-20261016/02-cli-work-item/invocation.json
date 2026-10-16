@@ -1,0 +1,51 @@
+{
+  "recordedAt": "2026-10-16T05:46:51.687059+00:00",
+  "kind": "directed_diagnostic_only",
+  "argv": [
+    "/usr/local/bin/docker-init",
+    "-s",
+    "-g",
+    "-vvv",
+    "-w",
+    "--",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit",
+    "--work-item",
+    "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "--workers",
+    "1",
+    "--command",
+    "/usr/bin/bash",
+    "--args=-c",
+    "--args=exec '/workspace/.cloud-tools/cargo/bin/cargo' 'test' '--locked' '--package' 'cockpit-cli' '--test' 'verify' 'work_item_detected_command_uses_dynamic_profile_authorized_reuse' '--' '--exact' '--test-threads=1' '--nocapture' >'/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/directed-diagnostics-20261016/02-cli-work-item/cargo.stdout.log' 2>'/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/directed-diagnostics-20261016/02-cli-work-item/cargo.stderr.log'"
+  ],
+  "cwd": "/workspace/ai-cockpit",
+  "environment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "/workspace/ai-cockpit/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "attemptDirectory": "/workspace/ai-cockpit/.ai/evidence",
+  "attemptPrefix": "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.",
+  "existingAttempts": [
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.3469bd4b3664e817ac4f86a4e4ba892f7c12083ab397e19ad1eb40e30fe9603e.json",
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.79c4e0d7d8d5d3696734668fc4609a9f3c61bf50bf28971a2efec36c58fa9ca3.json",
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.7c8deb05cf182b5bc8b162530693604ee400a339bc22ffe41d0ee066be4a4a62.json",
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.b16053c095ec030ea9f08c4955a35029363f3a8de2f5a95e0f0082facfcf1c5f.json",
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.b7990d12bb9f9beebb3d5bb4b33585608ae8cdfde0ddae827944ad799a081362.json",
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.bc14d52bc12788cf36e4a29d9b5f4806654bdc05c3fe8ebbaefb0b599f0fdc1b.json",
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.e571cea63e6020dfcb89cdd72c6d69338a4c8d0c4d00f291f1032276bc6bc797.json",
+    "WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.e759a595d02f3b0b6ef8141936775ae2df6ce40fb3b0ca6bdfab6a016bb6dcb2.json"
+  ]
+}

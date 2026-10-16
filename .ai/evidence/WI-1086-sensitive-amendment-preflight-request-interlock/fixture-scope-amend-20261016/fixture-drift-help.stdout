@@ -1,0 +1,8 @@
+Check for unrecorded Runtime-observed environment drift without writing
+
+Usage: ai-cockpit work-item coordination check-environment-drift --repo <REPO> --input <INPUT>
+
+Options:
+      --repo <REPO>    
+      --input <INPUT>  
+  -h, --help           Print help

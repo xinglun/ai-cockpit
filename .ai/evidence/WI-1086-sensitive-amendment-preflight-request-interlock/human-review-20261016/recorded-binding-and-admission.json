@@ -1,0 +1,52 @@
+{
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "receiptPath": ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review.json",
+  "receiptRawSha256": "664563196a6d5359192b953ebdf77e841f7ec59c421f1ec36041d5d009855439",
+  "recordedReceipt": {
+    "contractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e99fb57e73cfd14fffb5de5447ab433fb9d4faa6d33180fdc9ffd8712f56bedd",
+    "reason": "Ray personally confirmed the exact linked WI-1086 Contract/preflight/snapshot and selected confirm_review in message Sentinel_4b362748a3cc81919c1aa9e1d5f24d29 at 2026-10-16T00:43:18Z, relayed by Raydot. RecordedAt is actual recording time. Current bindings checked before recording. Existing approved A/B and single-file validator repair only; no merge, close, cleanup or shifted binding.",
+    "recordedAt": "2026-10-16T00:45:28.164082+00:00",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:411c0eea3b82e9017791d2d2ba926fa99db04c2792b3ed82bb78a3f68c6499b2",
+    "schemaVersion": 1,
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "sourceConfirmationAt": "2026-10-16T00:43:18Z",
+  "sourceConfirmationMessageId": "Sentinel_4b362748a3cc81919c1aa9e1d5f24d29",
+  "summaryDecisionEvidenceMatches": true,
+  "runtimeActionAdmission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_verification",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:a72f01ce38feb0162f4265b1980632b646e827a0612522fd3c29d1e2ee078403"
+  },
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "humanDecisionRequired": false,
+  "scopeOrSourceChanged": false
+}
