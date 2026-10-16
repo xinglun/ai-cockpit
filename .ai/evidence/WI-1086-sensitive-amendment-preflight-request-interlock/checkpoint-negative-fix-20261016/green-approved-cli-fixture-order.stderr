@@ -1,0 +1,4 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 0.29s
+     Running tests/scope_amendment.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/scope_amendment-06caa58b04831135)
+error: test failed, to rerun pass `-p cockpit-cli --test scope_amendment`

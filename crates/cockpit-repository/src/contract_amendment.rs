@@ -1008,6 +1008,17 @@ pub(crate) fn current_amendment_review_request_available(
     {
         return Ok(false);
     }
+    // The first native transition after checkpoint is the immutable source
+    // of before_edit. Comparing two Summary fields alone accepts both null
+    // values or the same forged digest, and the latest transition may refer
+    // to a later Contract after multiple amendments.
+    let Some(original_checkpoint_contract) = history
+        .iter()
+        .find(|receipt| receipt.checkpointed)
+        .map(|receipt| &receipt.previous_contract_digest)
+    else {
+        return Ok(false);
+    };
     let digest = current_contract_digest.to_string();
     let invalidation = &summary["verificationInvalidatedByContractAmendment"];
     let checks = json!(tail.invalidated_required_checks);
@@ -1043,7 +1054,9 @@ pub(crate) fn current_amendment_review_request_available(
     Ok(
         revalidation["contractHash"].as_str() == Some(digest.as_str())
             && revalidation["previousContractHash"] == json!(tail.previous_contract_digest)
-            && revalidation["originalBeforeEditContractHash"] == before_edit["contractHash"]
+            && before_edit["contractHash"] == json!(original_checkpoint_contract)
+            && revalidation["originalBeforeEditContractHash"]
+                == json!(original_checkpoint_contract)
             && revalidation["repositorySnapshotDigest"] == json!(tail.repository_snapshot_digest)
             && revalidation["invalidatedRequiredChecks"] == checks
             && revalidation["verificationStarted"] == json!(tail.verification_started),
@@ -1506,6 +1519,24 @@ mod tests {
             amend_work_item_contract(root, id, &json!({"scopeAppend":[path]}), path)
                 .expect("native amendment");
         }
+        let native_summary =
+            read_json(root.join(format!(".ai/work-items/active/{id}.summary.json")));
+        let native_digest = crate::contract_digest(&contract).expect("current native digest");
+        let native_history = read_work_item_contract_amendments(root, id).expect("native history");
+        assert_ne!(
+            native_history[0].previous_contract_digest,
+            native_history[1].previous_contract_digest
+        );
+        assert!(
+            super::current_amendment_review_request_available(
+                root,
+                id,
+                &native_digest,
+                &native_summary,
+                "checkpointed"
+            )
+            .expect("two consecutive native amendments remain eligible")
+        );
         let prepared_path = super::amendment_record_path(root, id, 1, "prepared");
         let committed_path = super::amendment_record_path(root, id, 1, "committed");
         let mut prepared: super::PreparedRecord =

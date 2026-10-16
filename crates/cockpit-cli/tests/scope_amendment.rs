@@ -216,11 +216,17 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
     let contract_path = root.join(&contract);
     let amended_bytes = fs::read(&contract_path).expect("amended Contract");
 
-    let pending_preflight = invoke(&["preflight", "--contract", &contract]);
+    let refreshed = invoke(&["preflight", "--contract", &contract]);
     assert!(
-        pending_preflight.status.success(),
+        refreshed.status.success(),
         "{}",
-        String::from_utf8_lossy(&pending_preflight.stderr)
+        String::from_utf8_lossy(&refreshed.stderr)
+    );
+    let refreshed: serde_json::Value =
+        serde_json::from_slice(&refreshed.stdout).expect("fresh preflight");
+    assert_ne!(
+        refreshed["state"], "red",
+        "fresh preflight must admit the additive path"
     );
 
     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
@@ -283,18 +289,6 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
         amended_bytes
     );
 
-    let refreshed = invoke(&["preflight", "--contract", &contract]);
-    assert!(
-        refreshed.status.success(),
-        "{}",
-        String::from_utf8_lossy(&refreshed.stderr)
-    );
-    let refreshed: serde_json::Value =
-        serde_json::from_slice(&refreshed.stdout).expect("fresh preflight");
-    assert_ne!(
-        refreshed["state"], "red",
-        "fresh preflight must admit the additive path"
-    );
     #[cfg(unix)]
     let program = "sh";
     #[cfg(windows)]

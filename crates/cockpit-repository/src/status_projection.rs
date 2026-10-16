@@ -1474,8 +1474,18 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "green" && !historical {
         governance_permissions.push("review_evidence".into());
     }
+    let amendment_history = if archived {
+        Vec::new()
+    } else {
+        super::contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?
+    };
+    let amendment_checkpointed = amendment_history
+        .last()
+        .is_some_and(|receipt| receipt.checkpointed);
     let amendment_review_required = !archived
-        && super::contract_amendment::has_sensitive_amendment(&root, work_item_id)?
+        && amendment_history
+            .iter()
+            .any(|receipt| receipt.policy_review_required)
         && super::governance_controls::preflight_decision_evidence_state(
             &root,
             work_item_id,
@@ -1714,10 +1724,7 @@ fn work_item_status_snapshot_with_snapshot(
             safe_actions.insert(0, "run_preflight".into());
         }
     }
-    if amendment_review_required
-        && summary["checkpointCount"] == serde_json::json!(1)
-        && !amendment_review_request_available
-    {
+    if amendment_review_required && amendment_checkpointed && !amendment_review_request_available {
         // A stale-preflight or unavailable-material fallback cannot replace
         // validation of a post-checkpoint sensitive amendment's provenance.
         safe_actions.retain(|action| action != "run_preflight");
