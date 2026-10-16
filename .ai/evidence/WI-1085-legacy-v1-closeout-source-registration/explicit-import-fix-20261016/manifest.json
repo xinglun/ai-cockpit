@@ -1,0 +1,67 @@
+[
+  {
+    "path": "applied.patch",
+    "bytes": 751,
+    "sha256": "ac93d2ed8a20e56100f6c058b1d09b947a503d41c5d534e90bd40cdcd738d4e0"
+  },
+  {
+    "path": "byte-check.json",
+    "bytes": 802,
+    "sha256": "2d845010964ab378d513b14730908af99184f4e12adb6d41513d6c519f309947"
+  },
+  {
+    "path": "follow-up-resource-estimate.json",
+    "bytes": 1333,
+    "sha256": "0c7726d38c10bbc908d3691ee51982893941fe2dcd598d326bbb0c2c326f53b6"
+  },
+  {
+    "path": "implementation-note.json",
+    "bytes": 822,
+    "sha256": "8a30b8392468fed97dbd06a5dfc5d33a07607fe0855b04eeee7d8101a192a4cf"
+  },
+  {
+    "path": "material-binding-diff.json",
+    "bytes": 2797,
+    "sha256": "9a256279b7cb4782b8d6bbdc3a0ad128b5566b91dbb758d509febd4bd190287e"
+  },
+  {
+    "path": "material-request.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "material-request.json",
+    "bytes": 12810,
+    "sha256": "9febeb4cdba0336a6142e1d081b5a5981c63cd5cf24d206c54f2525ff6217f06"
+  },
+  {
+    "path": "material-review-handoff.zh-CN.md",
+    "bytes": 2363,
+    "sha256": "397068ce3e5eb7774be3f8c55a9662661665c48960adcbc068acadfb654f9411"
+  },
+  {
+    "path": "preflight-result.json",
+    "bytes": 20,
+    "sha256": "ff8ae5796bcef71911ff9c5c3eaea341819c471f669549e252b830106edd4305"
+  },
+  {
+    "path": "preflight.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "preflight.json",
+    "bytes": 5725,
+    "sha256": "7a4bb2861db9e802dffe6d383c678907e6719f0cd12cf5d27a432d45a76ea1a4"
+  },
+  {
+    "path": "report.zh-CN.md",
+    "bytes": 3518,
+    "sha256": "af05915cffab0c674066114278a02bf7bd85dfb5064f5b42042dc23c671d3036"
+  },
+  {
+    "path": "status.json",
+    "bytes": 5075,
+    "sha256": "b316898a856912e0d3d9d448a97348f5e61fd447c58d4063e4787c22c3ababc0"
+  }
+]

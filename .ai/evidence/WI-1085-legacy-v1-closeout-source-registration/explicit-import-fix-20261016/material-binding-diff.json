@@ -1,0 +1,59 @@
+{
+  "currentRequestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1",
+  "previousRequestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790",
+  "requestRawSha256": "9febeb4cdba0336a6142e1d081b5a5981c63cd5cf24d206c54f2525ff6217f06",
+  "reviewedSourceHead": "284e31bed828c7cd04bb41261f5059ad8f1d6e69",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "sourceSnapshotDigest": "sha256:09ae28b7ac5c7c7330373195b8e3be916a33987a0dabc7104a55d67f7a1890f7",
+  "materialManifestDigest": "sha256:2ad0a864dbd4df4db08eb40429dc79835637fa1a9740506a0824789132e42c8a",
+  "materialEntries": 27,
+  "onlyChangedEntry": {
+    "old": {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0fc6935ab9b3e7ac4a65e47ab56bc9b2c44847432a81bdc5648867de3d067b6f",
+      "afterBlobDigest": "sha256:2fcaa99da300e98aa2d71b0e8ad9230ab00cf7b82b6ec1b8f6edff412ee8b735"
+    },
+    "new": {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3c81977353df5ecc541a48f82942283e8733360297820cb215e3d3d09bac2a4f",
+      "afterBlobDigest": "sha256:f13611b7fa1565f999ecd2556a812561735617caf0835cc4ebe4d0a0140f7a3f"
+    }
+  },
+  "permittedUnknownsUnchanged": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "findings": [],
+  "humanDecisionRequired": false,
+  "repositorySnapshotDigest": "sha256:bddd1a809e3b04e357272e17cd1771cb80fb312f16301bd33f688ea4522a535e",
+  "newMaterialDecisionRecorded": false,
+  "testsForThisSourceRun": false
+}
