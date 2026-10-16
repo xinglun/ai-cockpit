@@ -1,0 +1,154 @@
+[
+  {
+    "file": "crates/cockpit-protocol/tests/preflight_review.rs",
+    "amendmentMarker": false,
+    "confirmationLines": [
+      13,
+      14,
+      30
+    ]
+  },
+  {
+    "file": "crates/cockpit-core/src/lib.rs",
+    "amendmentMarker": false,
+    "confirmationLines": [
+      1047,
+      1059
+    ]
+  },
+  {
+    "file": "crates/cockpit-mcp/tests/rpc.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      181,
+      182,
+      1331,
+      1332,
+      1353
+    ]
+  },
+  {
+    "file": "crates/cockpit-cli/tests/scope_amendment.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      242,
+      243
+    ]
+  },
+  {
+    "file": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    "amendmentMarker": false,
+    "confirmationLines": [
+      229,
+      230,
+      238,
+      353
+    ]
+  },
+  {
+    "file": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      481,
+      489,
+      536,
+      537,
+      742,
+      743,
+      866,
+      1109
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/tests/status_projection.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      85,
+      97,
+      98,
+      3108
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      84,
+      96,
+      97,
+      908,
+      1579,
+      1643,
+      2278,
+      2937
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "amendmentMarker": false,
+    "confirmationLines": [
+      1607,
+      1608
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/tests/preflight_review.rs",
+    "amendmentMarker": false,
+    "confirmationLines": [
+      85,
+      86,
+      123
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/tests/recovery_decision.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      189,
+      201,
+      202,
+      1488
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/tests/material_review.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      1269,
+      1270
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/tests/contract_amendment.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      47,
+      55,
+      56,
+      586,
+      745
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/src/lib.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      7416,
+      7422,
+      7437,
+      7478,
+      7489,
+      7499
+    ]
+  },
+  {
+    "file": "crates/cockpit-repository/src/governance_controls.rs",
+    "amendmentMarker": true,
+    "confirmationLines": [
+      1654,
+      1655,
+      1732,
+      1736
+    ]
+  }
+]

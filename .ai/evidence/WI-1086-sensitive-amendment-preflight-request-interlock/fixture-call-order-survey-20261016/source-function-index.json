@@ -1,0 +1,583 @@
+{
+  "method": "read-only lexical source index; comments/string brace masking for function spans, marker rows are candidates for manual source review, not proof or test execution",
+  "rustFilesScanned": 211,
+  "confirmationMarkerFiles": [
+    "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "crates/cockpit-cli/tests/scope_amendment.rs",
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/tests/preflight_review.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "crates/cockpit-repository/tests/contract_amendment.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/material_review.rs",
+    "crates/cockpit-repository/tests/preflight_review.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "functionCandidates": [
+    {
+      "file": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+      "sourceSha256": "a722ca312168f264e8326bfb81f02b4649a395b8f94aee8522e116bd77f77820",
+      "function": "record_test_data_decision",
+      "startLine": 219,
+      "endLine": 273,
+      "confirmationLines": [
+        230,
+        238
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": [
+        "contract",
+        "summary"
+      ]
+    },
+    {
+      "file": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+      "sourceSha256": "a722ca312168f264e8326bfb81f02b4649a395b8f94aee8522e116bd77f77820",
+      "function": "displayed_option_state_and_runtime_transition_stay_consistent_through_resume",
+      "startLine": 331,
+      "endLine": 488,
+      "confirmationLines": [
+        353
+      ],
+      "amendmentLines": [],
+      "preflightLines": [
+        341,
+        369
+      ],
+      "localCalls": [
+        "record_test_data_decision",
+        "repository",
+        "run",
+        "run_json",
+        "spawn_interrupted_verify",
+        "start_fixture",
+        "wait_for"
+      ]
+    },
+    {
+      "file": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "sourceSha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+      "function": "assert_sensitive_amendment_blocks_cli_verification_before_command_spawn",
+      "startLine": 353,
+      "endLine": 656,
+      "confirmationLines": [
+        489,
+        537
+      ],
+      "amendmentLines": [
+        429
+      ],
+      "preflightLines": [
+        359,
+        462
+      ],
+      "localCalls": [
+        "assert_success",
+        "candidate_runtime",
+        "repository",
+        "run_cli"
+      ]
+    },
+    {
+      "file": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "sourceSha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+      "function": "assert_mixed_pre_amendment_review_binding_is_rejected",
+      "startLine": 668,
+      "endLine": 807,
+      "confirmationLines": [
+        743
+      ],
+      "amendmentLines": [
+        713
+      ],
+      "preflightLines": [
+        677
+      ],
+      "localCalls": [
+        "amendment_history_bytes",
+        "assert_success",
+        "candidate_runtime",
+        "mcp_call",
+        "repository",
+        "run_cli"
+      ]
+    },
+    {
+      "file": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "sourceSha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+      "function": "assert_recorded_preflight_review_boundary",
+      "startLine": 819,
+      "endLine": 951,
+      "confirmationLines": [
+        866
+      ],
+      "amendmentLines": [],
+      "preflightLines": [
+        834
+      ],
+      "localCalls": [
+        "assert_success",
+        "candidate_runtime",
+        "mcp_call",
+        "repository",
+        "run_cli"
+      ]
+    },
+    {
+      "file": "crates/cockpit-cli/tests/scope_amendment.rs",
+      "sourceSha256": "0fffdf6f8822f0ced3dab708192b58bd70c885ab3ea736ba719e379232904cb5",
+      "function": "out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers",
+      "startLine": 5,
+      "endLine": 313,
+      "confirmationLines": [
+        243
+      ],
+      "amendmentLines": [
+        194,
+        278
+      ],
+      "preflightLines": [
+        84,
+        98,
+        219
+      ],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-core/src/lib.rs",
+      "sourceSha256": "6291de5cd78e449e3eae61b2986b08868518afbd0064dc17b2eccc3e3cb1aa23",
+      "function": "evaluate",
+      "startLine": 803,
+      "endLine": 1090,
+      "confirmationLines": [
+        1059
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": [
+        "as_str",
+        "decision_state_from_effective_facts",
+        "matches_pattern",
+        "requires_human_confirmation_unknown"
+      ]
+    },
+    {
+      "file": "crates/cockpit-mcp/tests/rpc.rs",
+      "sourceSha256": "ef669e31563637080845b5a4996746f50d9ce0cd1af873ea1293d9d58148b050",
+      "function": "preflight_decision_evidence",
+      "startLine": 162,
+      "endLine": 192,
+      "confirmationLines": [
+        182
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-mcp/tests/rpc.rs",
+      "sourceSha256": "ef669e31563637080845b5a4996746f50d9ce0cd1af873ea1293d9d58148b050",
+      "function": "mcp_work_item_controls_persists_the_same_bound_preflight_receipt_as_cli",
+      "startLine": 1284,
+      "endLine": 1356,
+      "confirmationLines": [
+        1332,
+        1353
+      ],
+      "amendmentLines": [],
+      "preflightLines": [
+        1317
+      ],
+      "localCalls": [
+        "commit_empty_baseline",
+        "new",
+        "test_runtime_context"
+      ]
+    },
+    {
+      "file": "crates/cockpit-protocol/tests/preflight_review.rs",
+      "sourceSha256": "ac48759f789032bbdaed0f1948233e45d3abe9d118130ae78730bfd65188f662",
+      "function": "evidence",
+      "startLine": 10,
+      "endLine": 24,
+      "confirmationLines": [
+        14
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": [
+        "digest"
+      ]
+    },
+    {
+      "file": "crates/cockpit-protocol/tests/preflight_review.rs",
+      "sourceSha256": "ac48759f789032bbdaed0f1948233e45d3abe9d118130ae78730bfd65188f662",
+      "function": "preflight_decision_evidence_round_trips_with_bound_identity",
+      "startLine": 27,
+      "endLine": 35,
+      "confirmationLines": [
+        30
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": [
+        "evidence"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/src/governance_controls.rs",
+      "sourceSha256": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4",
+      "function": "preflight_decision_evidence_state",
+      "startLine": 1620,
+      "endLine": 1668,
+      "confirmationLines": [
+        1655
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": [
+        "decision_receipt_exists",
+        "decision_receipt_matches_any_regular_file",
+        "regular_file"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/src/governance_controls.rs",
+      "sourceSha256": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4",
+      "function": "validate_preflight_decision_evidence",
+      "startLine": 1710,
+      "endLine": 1840,
+      "confirmationLines": [
+        1732,
+        1736
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-repository/src/lib.rs",
+      "sourceSha256": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a",
+      "function": "apply_preflight_review_evidence",
+      "startLine": 7358,
+      "endLine": 7507,
+      "confirmationLines": [
+        7422,
+        7437,
+        7489,
+        7499
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+      "sourceSha256": "5c1978649c80464ce5de19fa50ed3039eb5e03bda56c7d6185815eaa2706dfc8",
+      "function": "pre_execution_gate_reuses_canonical_preflight_review",
+      "startLine": 1592,
+      "endLine": 1641,
+      "confirmationLines": [
+        1608
+      ],
+      "amendmentLines": [],
+      "preflightLines": [
+        1596,
+        1596
+      ],
+      "localCalls": [
+        "contract_path",
+        "repository",
+        "runtime"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "sourceSha256": "8794e3607719d57322f0386987d09fe640b1135ba868fe38ea90d53e0cae1add",
+      "function": "record_human_preflight_review",
+      "startLine": 47,
+      "endLine": 72,
+      "confirmationLines": [
+        56
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": [
+        "read_json"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "sourceSha256": "8794e3607719d57322f0386987d09fe640b1135ba868fe38ea90d53e0cae1add",
+      "function": "sensitive_amendment_requires_human_review_before_verification",
+      "startLine": 545,
+      "endLine": 594,
+      "confirmationLines": [
+        586
+      ],
+      "amendmentLines": [
+        559
+      ],
+      "preflightLines": [
+        562,
+        587
+      ],
+      "localCalls": [
+        "record_human_preflight_review",
+        "repository",
+        "start_checkpointed",
+        "typed_request"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "sourceSha256": "8794e3607719d57322f0386987d09fe640b1135ba868fe38ea90d53e0cae1add",
+      "function": "post_verification_amendment_receipt_lists_invalidated_required_checks",
+      "startLine": 722,
+      "endLine": 779,
+      "confirmationLines": [
+        745
+      ],
+      "amendmentLines": [
+        742,
+        765
+      ],
+      "preflightLines": [
+        744
+      ],
+      "localCalls": [
+        "record_human_preflight_review",
+        "repository",
+        "start_uncheckpointed",
+        "typed_request"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "sourceSha256": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5",
+      "function": "record_human_preflight_review",
+      "startLine": 84,
+      "endLine": 113,
+      "confirmationLines": [
+        97
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "sourceSha256": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5",
+      "function": "scenario_coverage_plan_can_fill_only_a_missing_plan",
+      "startLine": 880,
+      "endLine": 934,
+      "confirmationLines": [
+        908
+      ],
+      "amendmentLines": [
+        891,
+        910
+      ],
+      "preflightLines": [
+        907
+      ],
+      "localCalls": [
+        "record_human_preflight_review",
+        "repository",
+        "start_options"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "sourceSha256": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5",
+      "function": "first_typed_required_verification_is_allowed_before_summary_has_passed_entries",
+      "startLine": 1533,
+      "endLine": 1687,
+      "confirmationLines": [
+        1579,
+        1643
+      ],
+      "amendmentLines": [
+        1549,
+        1629
+      ],
+      "preflightLines": [
+        1573,
+        1641
+      ],
+      "localCalls": [
+        "record_human_preflight_review",
+        "repository"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "sourceSha256": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5",
+      "function": "verification_preconditions_accept_complete_repository_bound_custom_evidence",
+      "startLine": 2190,
+      "endLine": 2312,
+      "confirmationLines": [
+        2278
+      ],
+      "amendmentLines": [
+        2211
+      ],
+      "preflightLines": [
+        2272,
+        2272,
+        2294
+      ],
+      "localCalls": [
+        "commit_fixture_baseline",
+        "record_human_preflight_review",
+        "repository",
+        "start_options"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "sourceSha256": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5",
+      "function": "empty_amendment_invalidation_does_not_block_fresh_verification_preconditions",
+      "startLine": 2857,
+      "endLine": 2945,
+      "confirmationLines": [
+        2937
+      ],
+      "amendmentLines": [
+        2928
+      ],
+      "preflightLines": [
+        2881,
+        2935
+      ],
+      "localCalls": [
+        "record_human_preflight_review",
+        "repository"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/material_review.rs",
+      "sourceSha256": "d7df5fd5382679767d1c520a8f09e7efb6d77c50c28eddf9fccb2a111ef88471",
+      "function": "stale_receipt_after_valid_contract_amendment_is_classified_stale",
+      "startLine": 1208,
+      "endLine": 1328,
+      "confirmationLines": [
+        1270
+      ],
+      "amendmentLines": [
+        1221
+      ],
+      "preflightLines": [
+        1262
+      ],
+      "localCalls": [
+        "active_recorded_material_review_fixture"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/preflight_review.rs",
+      "sourceSha256": "7a5a1fa60cd2831b97178fcfa273bdcabd38e6a05e5c2353e5e49f77ad3a2656",
+      "function": "receipt",
+      "startLine": 63,
+      "endLine": 96,
+      "confirmationLines": [
+        86
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-repository/tests/preflight_review.rs",
+      "sourceSha256": "7a5a1fa60cd2831b97178fcfa273bdcabd38e6a05e5c2353e5e49f77ad3a2656",
+      "function": "valid_preflight_decision_evidence_is_persisted_and_bound",
+      "startLine": 114,
+      "endLine": 130,
+      "confirmationLines": [
+        123
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": [
+        "receipt",
+        "repository"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/recovery_decision.rs",
+      "sourceSha256": "54cc775080774c8a25cfaf4db67595e38c7c3cfe4a1e42ad10f8f3156cb9c7e4",
+      "function": "record_human_preflight_review",
+      "startLine": 189,
+      "endLine": 218,
+      "confirmationLines": [
+        202
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-repository/tests/recovery_decision.rs",
+      "sourceSha256": "54cc775080774c8a25cfaf4db67595e38c7c3cfe4a1e42ad10f8f3156cb9c7e4",
+      "function": "pending_retry_survives_a_bounded_contract_amendment",
+      "startLine": 1450,
+      "endLine": 1491,
+      "confirmationLines": [
+        1488
+      ],
+      "amendmentLines": [
+        1479
+      ],
+      "preflightLines": [],
+      "localCalls": [
+        "assert_action_admitted",
+        "current_runtime",
+        "receipt",
+        "record_human_preflight_review",
+        "repository"
+      ]
+    },
+    {
+      "file": "crates/cockpit-repository/tests/status_projection.rs",
+      "sourceSha256": "e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124",
+      "function": "record_human_preflight_review",
+      "startLine": 85,
+      "endLine": 114,
+      "confirmationLines": [
+        98
+      ],
+      "amendmentLines": [],
+      "preflightLines": [],
+      "localCalls": []
+    },
+    {
+      "file": "crates/cockpit-repository/tests/status_projection.rs",
+      "sourceSha256": "e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124",
+      "function": "status_does_not_admit_finish_when_required_scenario_controls_are_incomplete",
+      "startLine": 3071,
+      "endLine": 3276,
+      "confirmationLines": [
+        3108
+      ],
+      "amendmentLines": [
+        3088
+      ],
+      "preflightLines": [
+        3107,
+        3107,
+        3167
+      ],
+      "localCalls": [
+        "record_human_preflight_review",
+        "repository",
+        "runtime"
+      ]
+    }
+  ]
+}

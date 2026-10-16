@@ -1,0 +1,114 @@
+{
+  "sourceHead": "7e256abcd4bfd7748db28053876d52f20b104127",
+  "reviewedProductSource": "2a5910e967585c3589af382d29143f1b50b0a2c1",
+  "positivePostAmendmentConfirmationSourceSites": 11,
+  "nativePreflightPresent": 10,
+  "confirmedGaps": 1,
+  "helperCallsReviewed": 9,
+  "scopeAddition": [
+    "crates/cockpit-repository/tests/recovery_decision.rs"
+  ],
+  "rows": [
+    {
+      "file": "crates/cockpit-cli/tests/scope_amendment.rs",
+      "function": "out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers",
+      "amendmentLine": 194,
+      "currentNativePreflightLine": 219,
+      "reviewDataOrCallLine": 243,
+      "reviewLineKind": "confirm_review data; CLI controls checked successful",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "function": "sensitive_amendment_requires_human_review_before_verification",
+      "amendmentLine": 559,
+      "currentNativePreflightLine": 562,
+      "reviewDataOrCallLine": 586,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "function": "post_verification_amendment_receipt_lists_invalidated_required_checks",
+      "amendmentLine": 742,
+      "currentNativePreflightLine": 744,
+      "reviewDataOrCallLine": 745,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "function": "scenario_coverage_plan_can_fill_only_a_missing_plan",
+      "amendmentLine": 891,
+      "currentNativePreflightLine": 907,
+      "reviewDataOrCallLine": 908,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "function": "first_typed_required_verification_is_allowed_before_summary_has_passed_entries",
+      "amendmentLine": 1549,
+      "currentNativePreflightLine": 1573,
+      "reviewDataOrCallLine": 1579,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "function": "first_typed_required_verification_is_allowed_before_summary_has_passed_entries",
+      "amendmentLine": 1629,
+      "currentNativePreflightLine": 1641,
+      "reviewDataOrCallLine": 1643,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "function": "verification_preconditions_accept_complete_repository_bound_custom_evidence",
+      "amendmentLine": 2211,
+      "currentNativePreflightLine": 2272,
+      "reviewDataOrCallLine": 2278,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "function": "empty_amendment_invalidation_does_not_block_fresh_verification_preconditions",
+      "amendmentLine": 2928,
+      "currentNativePreflightLine": 2935,
+      "reviewDataOrCallLine": 2937,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/material_review.rs",
+      "function": "stale_receipt_after_valid_contract_amendment_is_classified_stale",
+      "amendmentLine": 1221,
+      "currentNativePreflightLine": 1262,
+      "reviewDataOrCallLine": 1270,
+      "reviewLineKind": "confirm_review data; native controls expect success",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/status_projection.rs",
+      "function": "status_does_not_admit_finish_when_required_scenario_controls_are_incomplete",
+      "amendmentLine": 3088,
+      "currentNativePreflightLine": 3107,
+      "reviewDataOrCallLine": 3108,
+      "reviewLineKind": "helper-call",
+      "classification": "native-current-preflight-present"
+    },
+    {
+      "file": "crates/cockpit-repository/tests/recovery_decision.rs",
+      "function": "pending_retry_survives_a_bounded_contract_amendment",
+      "amendmentLine": 1479,
+      "currentNativePreflightLine": null,
+      "reviewDataOrCallLine": 1488,
+      "reviewLineKind": "helper-call",
+      "classification": "confirmed-gap-source-and-existing-formal-RED"
+    }
+  ],
+  "notAnExecutionResult": true,
+  "coverageLimit": "Source call order plus manually reviewed helper definitions and negative controls. No tests, symbolic execution or unconditional future-pass claim."
+}

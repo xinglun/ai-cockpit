@@ -1,0 +1,177 @@
+crates/cockpit-repository/src/lifecycle.rs:593:        Some(amend_work_item_contract_with_runtime(
+crates/cockpit-repository/src/lifecycle.rs:1454:pub fn revalidate_contract_amendment(
+crates/cockpit-repository/src/lifecycle.rs:1696:pub fn amend_work_item_contract(
+crates/cockpit-repository/src/lifecycle.rs:1715:    amend_work_item_contract_with_runtime(root, work_item_id, input, reason, &runtime)
+crates/cockpit-repository/src/lifecycle.rs:1718:pub fn amend_work_item_contract_with_runtime(
+crates/cockpit-repository/src/lifecycle.rs:9581:        amend_work_item_contract(
+crates/cockpit-repository/src/lib.rs:7416:                decision_id: "contract-preflight-review".into(),
+crates/cockpit-repository/src/lib.rs:7422:                        id: "confirm_review".into(),
+crates/cockpit-repository/src/lib.rs:7437:                recommended_option: "confirm_review".into(),
+crates/cockpit-repository/src/lib.rs:7478:                decision_id: "contract-preflight-review".into(),
+crates/cockpit-repository/src/lib.rs:7489:                        id: "confirm_review".into(),
+crates/cockpit-repository/src/lib.rs:7499:                recommended_option: "confirm_review".into(),
+crates/cockpit-repository/tests/governance_controls.rs:415:    let updated = cockpit_repository::record_work_item_governance_controls(
+crates/cockpit-repository/tests/governance_controls.rs:423:    let error = cockpit_repository::record_work_item_governance_controls(
+crates/cockpit-repository/tests/governance_controls.rs:454:    let error = cockpit_repository::record_work_item_governance_controls(
+crates/cockpit-repository/tests/contract_amendment.rs:2:    ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract, archive_work_item,
+crates/cockpit-repository/tests/contract_amendment.rs:4:    read_work_item_contract_amendments, record_verification, record_work_item_governance_controls,
+crates/cockpit-repository/tests/contract_amendment.rs:47:fn record_human_preflight_review(root: &Path, work_item_id: &str, contract_path: &Path) {
+crates/cockpit-repository/tests/contract_amendment.rs:55:        "decisionId": "contract-preflight-review",
+crates/cockpit-repository/tests/contract_amendment.rs:56:        "decision": "confirm_review",
+crates/cockpit-repository/tests/contract_amendment.rs:66:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/contract_amendment.rs:146:    amend_work_item_contract(
+crates/cockpit-repository/tests/contract_amendment.rs:219:    let error = amend_work_item_contract(
+crates/cockpit-repository/tests/contract_amendment.rs:275:    let first = amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:277:    let second = amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:283:    let conflict = amend_work_item_contract(
+crates/cockpit-repository/tests/contract_amendment.rs:331:    amend_work_item_contract(root, work_item_id, &first, reason).expect("first amendment commits");
+crates/cockpit-repository/tests/contract_amendment.rs:332:    let conflict = amend_work_item_contract(root, work_item_id, &second, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:360:    amend_work_item_contract(root, work_item_id, &first_request, first_reason)
+crates/cockpit-repository/tests/contract_amendment.rs:371:    amend_work_item_contract(root, work_item_id, &second_request, second_reason)
+crates/cockpit-repository/tests/contract_amendment.rs:486:    amend_work_item_contract(root, work_item_id, &request, reason).expect("record bound amendment");
+crates/cockpit-repository/tests/contract_amendment.rs:534:    amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:559:    amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:586:    record_human_preflight_review(root, work_item_id, &contract_path);
+crates/cockpit-repository/tests/contract_amendment.rs:612:    amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:652:    amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:699:    amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:742:    amend_work_item_contract(root, work_item_id, &policy, policy_reason)
+crates/cockpit-repository/tests/contract_amendment.rs:745:    record_human_preflight_review(root, work_item_id, &contract_path);
+crates/cockpit-repository/tests/contract_amendment.rs:765:    amend_work_item_contract(root, work_item_id, &amendment, reason)
+crates/cockpit-repository/tests/contract_amendment.rs:796:    amend_work_item_contract(root, work_item_id, &request, reason)
+crates/cockpit-repository/tests/recovery_events.rs:5:    record_work_item_governance_controls, render_human_outcome, start_work_item_with_options,
+crates/cockpit-repository/tests/recovery_events.rs:71:    record_work_item_governance_controls(
+crates/cockpit-repository/src/governance_controls.rs:1315:pub fn record_work_item_governance_controls(
+crates/cockpit-repository/src/governance_controls.rs:1326:    record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
+crates/cockpit-repository/src/governance_controls.rs:1332:pub fn record_work_item_governance_controls_with_runtime(
+crates/cockpit-repository/src/governance_controls.rs:1350:    record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
+crates/cockpit-repository/src/governance_controls.rs:1353:fn record_work_item_governance_controls_unlocked(
+crates/cockpit-repository/src/governance_controls.rs:1654:        && evidence.decision_id == "contract-preflight-review"
+crates/cockpit-repository/src/governance_controls.rs:1655:        && evidence.decision == "confirm_review"
+crates/cockpit-repository/src/governance_controls.rs:1732:    if evidence.decision_id != "contract-preflight-review" || evidence.decision != "confirm_review"
+crates/cockpit-repository/src/governance_controls.rs:1736:            message: "preflight decision evidence must select confirm_review".into(),
+crates/cockpit-repository/src/contract_amendment.rs:1289:            super::revalidate_contract_amendment(root, &data.work_item_id, &data.request.reason)?;
+crates/cockpit-repository/src/contract_amendment.rs:1463:        ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract, attach,
+crates/cockpit-repository/src/contract_amendment.rs:1519:            amend_work_item_contract(root, id, &json!({"scopeAppend":[path]}), path)
+crates/cockpit-repository/src/contract_amendment.rs:1676:            let interruption = amend_work_item_contract(root, &work_item_id, &request, reason)
+crates/cockpit-repository/src/contract_amendment.rs:1711:            let retried = amend_work_item_contract(root, &work_item_id, &request, reason)
+crates/cockpit-repository/tests/lifecycle_entry.rs:8:    amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
+crates/cockpit-repository/tests/lifecycle_entry.rs:12:    record_verification_with_runtime, record_work_item_governance_controls, repository_id,
+crates/cockpit-repository/tests/lifecycle_entry.rs:13:    require_verification_preconditions, revalidate_contract_amendment, run_repository_verification,
+crates/cockpit-repository/tests/lifecycle_entry.rs:84:fn record_human_preflight_review(root: &Path, work_item_id: &str) {
+crates/cockpit-repository/tests/lifecycle_entry.rs:96:        "decisionId": "contract-preflight-review",
+crates/cockpit-repository/tests/lifecycle_entry.rs:97:        "decision": "confirm_review",
+crates/cockpit-repository/tests/lifecycle_entry.rs:107:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/lifecycle_entry.rs:742:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:850:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:891:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:908:    record_human_preflight_review(directory.path(), "WI-SCENARIO-PLAN");
+crates/cockpit-repository/tests/lifecycle_entry.rs:910:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:950:    let amendment = amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1000:    let amendment = amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1061:    let invalid_source = amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1085:    let invalid_verification = amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1133:    let error = amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1189:    let error = amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1231:    let amendment = amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1272:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1337:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1370:    let reconciliation = revalidate_contract_amendment(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1549:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1567:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1579:    record_human_preflight_review(directory.path(), work_item_id);
+crates/cockpit-repository/tests/lifecycle_entry.rs:1629:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:1643:    record_human_preflight_review(directory.path(), work_item_id);
+crates/cockpit-repository/tests/lifecycle_entry.rs:2211:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:2238:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/lifecycle_entry.rs:2278:    record_human_preflight_review(directory.path(), work_item_id);
+crates/cockpit-repository/tests/lifecycle_entry.rs:2928:    amend_work_item_contract(
+crates/cockpit-repository/tests/lifecycle_entry.rs:2937:    record_human_preflight_review(directory.path(), work_item_id);
+crates/cockpit-repository/tests/material_review.rs:7:    amend_work_item_contract_with_runtime, material_review_request, plan_work_item_material_review,
+crates/cockpit-repository/tests/material_review.rs:8:    read_work_item_contract_amendments, record_work_item_governance_controls_with_runtime,
+crates/cockpit-repository/tests/material_review.rs:1221:    amend_work_item_contract_with_runtime(
+crates/cockpit-repository/tests/material_review.rs:1269:        "decisionId": "contract-preflight-review",
+crates/cockpit-repository/tests/material_review.rs:1270:        "decision": "confirm_review",
+crates/cockpit-repository/tests/material_review.rs:1280:    record_work_item_governance_controls_with_runtime(
+crates/cockpit-repository/tests/material_review.rs:1372:    amend_work_item_contract_with_runtime(
+crates/cockpit-repository/tests/lifecycle_order.rs:7:    record_verification_with_runtime, revalidate_contract_amendment, run_repository_verification,
+crates/cockpit-repository/tests/lifecycle_order.rs:594:    revalidate_contract_amendment(
+crates/cockpit-repository/tests/lifecycle_order.rs:701:    let amendment = revalidate_contract_amendment(
+crates/cockpit-repository/tests/lifecycle_order.rs:752:    revalidate_contract_amendment(
+crates/cockpit-repository/tests/status_projection.rs:6:    amend_work_item_contract, archive_work_item, archive_work_item_with_runtime, attach,
+crates/cockpit-repository/tests/status_projection.rs:12:    record_work_item_governance_controls, render_human_outcome, repository_id,
+crates/cockpit-repository/tests/status_projection.rs:85:fn record_human_preflight_review(root: &std::path::Path, work_item_id: &str) {
+crates/cockpit-repository/tests/status_projection.rs:97:        "decisionId": "contract-preflight-review",
+crates/cockpit-repository/tests/status_projection.rs:98:        "decision": "confirm_review",
+crates/cockpit-repository/tests/status_projection.rs:108:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/status_projection.rs:1656:    amend_work_item_contract(
+crates/cockpit-repository/tests/status_projection.rs:2431:    amend_work_item_contract(
+crates/cockpit-repository/tests/status_projection.rs:2958:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/status_projection.rs:3088:    amend_work_item_contract(
+crates/cockpit-repository/tests/status_projection.rs:3108:    record_human_preflight_review(directory.path(), work_item_id);
+crates/cockpit-repository/tests/status_projection.rs:3234:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/recovery_decision.rs:5:    amend_work_item_contract, archive_work_item, archive_work_item_with_runtime, attach,
+crates/cockpit-repository/tests/recovery_decision.rs:11:    record_work_item_governance_controls, render_human_outcome, repository_id,
+crates/cockpit-repository/tests/recovery_decision.rs:12:    require_current_action_admission, revalidate_contract_amendment, run_repository_verification,
+crates/cockpit-repository/tests/recovery_decision.rs:189:fn record_human_preflight_review(root: &Path, work_item_id: &str) {
+crates/cockpit-repository/tests/recovery_decision.rs:201:        "decisionId": "contract-preflight-review",
+crates/cockpit-repository/tests/recovery_decision.rs:202:        "decision": "confirm_review",
+crates/cockpit-repository/tests/recovery_decision.rs:212:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/recovery_decision.rs:1479:    amend_work_item_contract(
+crates/cockpit-repository/tests/recovery_decision.rs:1488:    record_human_preflight_review(directory.path(), id);
+crates/cockpit-repository/tests/recovery_decision.rs:2118:    revalidate_contract_amendment(
+crates/cockpit-repository/tests/recovery_decision.rs:2578:    amend_work_item_contract(
+crates/cockpit-repository/tests/recovery_decision.rs:2936:    let amendment = revalidate_contract_amendment(
+crates/cockpit-repository/tests/archive_integrity.rs:10:    acquire_parallel_slot, amend_work_item_contract, archive_historical_work_item_with_runtime,
+crates/cockpit-repository/tests/archive_integrity.rs:17:    record_verification_with_runtime, record_work_item_governance_controls, release_parallel_slot,
+crates/cockpit-repository/tests/archive_integrity.rs:532:    let result = amend_work_item_contract(
+crates/cockpit-repository/tests/archive_integrity.rs:623:    record_work_item_governance_controls(&path, work_item_id, &input)
+crates/cockpit-repository/tests/archive_integrity.rs:712:    record_work_item_governance_controls(&path, work_item_id, &input)
+crates/cockpit-repository/tests/archive_integrity.rs:801:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/preflight_review.rs:4:    record_verification, record_work_item_governance_controls, start_work_item_with_options,
+crates/cockpit-repository/tests/preflight_review.rs:85:        "decisionId": "contract-preflight-review",
+crates/cockpit-repository/tests/preflight_review.rs:86:        "decision": "confirm_review",
+crates/cockpit-repository/tests/preflight_review.rs:117:    let summary = record_work_item_governance_controls(
+crates/cockpit-repository/tests/preflight_review.rs:123:    assert_eq!(summary["decisionEvidence"]["decision"], "confirm_review");
+crates/cockpit-repository/tests/preflight_review.rs:166:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/preflight_review.rs:187:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/preflight_review.rs:226:    let error = record_work_item_governance_controls(
+crates/cockpit-repository/tests/preflight_review.rs:254:    record_work_item_governance_controls(
+crates/cockpit-repository/tests/preflight_review.rs:389:    let error = record_work_item_governance_controls(
+crates/cockpit-repository/tests/preflight_review.rs:409:    let error = record_work_item_governance_controls(
+crates/cockpit-repository/tests/ci_quality_gate.rs:13:    record_verification_with_runtime, record_work_item_governance_controls,
+crates/cockpit-repository/tests/ci_quality_gate.rs:1607:        "decisionId": "contract-preflight-review",
+crates/cockpit-repository/tests/ci_quality_gate.rs:1608:        "decision": "confirm_review",
+crates/cockpit-repository/tests/ci_quality_gate.rs:1618:    record_work_item_governance_controls(
+crates/cockpit-mcp/src/lib.rs:2141:    cockpit_repository::record_work_item_governance_controls_with_runtime(
+crates/cockpit-mcp/tests/rpc.rs:181:        "decisionId": "contract-preflight-review",
+crates/cockpit-mcp/tests/rpc.rs:182:        "decision": "confirm_review",
+crates/cockpit-mcp/tests/rpc.rs:222:        cockpit_repository::record_work_item_governance_controls_with_runtime(
+crates/cockpit-mcp/tests/rpc.rs:1331:        "decisionId": "contract-preflight-review",
+crates/cockpit-mcp/tests/rpc.rs:1332:        "decision": "confirm_review",
+crates/cockpit-mcp/tests/rpc.rs:1353:        "confirm_review"
+crates/cockpit-mcp/tests/rpc.rs:1647:    cockpit_repository::record_work_item_governance_controls(
+crates/cockpit-core/src/lib.rs:1047:            decision_id: "contract-preflight-review".into(),
+crates/cockpit-core/src/lib.rs:1059:                    id: "confirm_review".into(),
+crates/cockpit-cli/src/main.rs:3013:                    cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
+crates/cockpit-cli/src/main.rs:3033:                        cockpit_repository::amend_work_item_contract_with_runtime(
+crates/cockpit-cli/src/main.rs:3486:                    cockpit_repository::record_work_item_governance_controls_with_runtime(
+crates/cockpit-cli/tests/contract_amendment_processes.rs:8:    record_work_item_governance_controls_with_runtime, repository_id, start_work_item_with_options,
+crates/cockpit-cli/tests/contract_amendment_processes.rs:481:        "contract-preflight-review"
+crates/cockpit-cli/tests/contract_amendment_processes.rs:489:        "confirm_review"
+crates/cockpit-cli/tests/contract_amendment_processes.rs:536:            "decisionId": "contract-preflight-review",
+crates/cockpit-cli/tests/contract_amendment_processes.rs:537:            "decision": "confirm_review",
+crates/cockpit-cli/tests/contract_amendment_processes.rs:577:            let error = record_work_item_governance_controls_with_runtime(
+crates/cockpit-cli/tests/contract_amendment_processes.rs:742:        "decisionId": "contract-preflight-review",
+crates/cockpit-cli/tests/contract_amendment_processes.rs:743:        "decision": "confirm_review",
+crates/cockpit-cli/tests/contract_amendment_processes.rs:866:        "schemaVersion": 1, "decisionId": "contract-preflight-review", "decision": "confirm_review",
+crates/cockpit-cli/tests/contract_amendment_processes.rs:1109:            "contract-preflight-review"
+crates/cockpit-protocol/tests/preflight_review.rs:13:        decision_id: "contract-preflight-review".into(),
+crates/cockpit-protocol/tests/preflight_review.rs:14:        decision: "confirm_review".into(),
+crates/cockpit-protocol/tests/preflight_review.rs:30:    assert_eq!(value["decision"], "confirm_review");
+crates/cockpit-cli/tests/scope_amendment.rs:242:                "decisionId": "contract-preflight-review",
+crates/cockpit-cli/tests/scope_amendment.rs:243:                "decision": "confirm_review",
+crates/cockpit-cli/tests/collaboration_consistency.rs:229:        "decisionId": "contract-preflight-review",
+crates/cockpit-cli/tests/collaboration_consistency.rs:230:        "decision": "confirm_review",
+crates/cockpit-cli/tests/collaboration_consistency.rs:238:        "reason": "test fixture selects the offered confirm_review option"
+crates/cockpit-cli/tests/collaboration_consistency.rs:353:            .any(|option| option["id"] == "confirm_review")

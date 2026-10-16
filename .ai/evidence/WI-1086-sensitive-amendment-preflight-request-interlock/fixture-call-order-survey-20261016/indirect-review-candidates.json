@@ -1,0 +1,55 @@
+[
+  {
+    "path": "crates/cockpit-cli/src/main.rs",
+    "lines": [
+      847
+    ]
+  },
+  {
+    "path": "crates/cockpit-protocol/src/lib.rs",
+    "lines": [
+      3282,
+      3289
+    ]
+  },
+  {
+    "path": "crates/cockpit-repository/src/contract_amendment.rs",
+    "lines": [
+      1007
+    ]
+  },
+  {
+    "path": "crates/cockpit-repository/src/lifecycle.rs",
+    "lines": [
+      2076,
+      8911
+    ]
+  },
+  {
+    "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "lines": [
+      5566,
+      5570,
+      8421
+    ]
+  },
+  {
+    "path": "crates/cockpit-repository/src/status_projection.rs",
+    "lines": [
+      1386,
+      1493
+    ]
+  },
+  {
+    "path": "crates/cockpit-repository/tests/contract_preflight.rs",
+    "lines": [
+      323
+    ]
+  },
+  {
+    "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+    "lines": [
+      140
+    ]
+  }
+]
