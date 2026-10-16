@@ -31,3 +31,10 @@ authority: design-and-registration-only
 ## Dependency and ownership
 
 依赖WI-1086。amendment/status/admission/receipt/lifecycle及账本共享路径串行，不启动第二个构建或并行共享改动。未来Clock/类型模块只有技术审阅、真实ownership隔离和正常准入后才考虑并行。
+
+## v2 边界澄清
+
+v1 原件保留。v2 明确撤销/提交的排序与外部 fencing 能力边界、来源版本替换与主体终止的区别、继承期限与固定更早截止，以及在途撤销的真实停止证据。仍只做规划，不启用产品能力。
+
+- [Design v2 addendum](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/addendum-v2.zh-CN.md)
+- [Acceptance v2 — planned / not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/acceptance-v2.json)

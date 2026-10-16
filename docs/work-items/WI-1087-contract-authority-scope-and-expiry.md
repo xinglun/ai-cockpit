@@ -31,3 +31,10 @@ The versioned Chinese design is canonical; these three summaries refer to it. It
 ## Dependency and ownership
 
 WI-1086 is the implementation dependency. Shared amendment/status/admission/receipt/lifecycle and ledgers serialize; no second build or parallel shared edits. Independent Clock/type work requires later design review, real ownership isolation and normal admission.
+
+## Version 2 clarifications
+
+The v1 history remains unchanged. The v2 addendum defines revocation/commit ordering and external fencing limits, source-version replacement versus terminal grant/WI state, inherited versus fixed earlier deadlines, and truthful in-flight stop evidence. Product implementation remains unauthorized.
+
+- [Design v2 addendum](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/addendum-v2.zh-CN.md)
+- [Acceptance v2 — planned / not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/acceptance-v2.json)

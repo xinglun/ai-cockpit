@@ -1,0 +1,14 @@
+{
+  "kind": "document and artifact checks only, not product tests",
+  "originalV1FilesByteIdentical": true,
+  "nativeContractSummaryIntelligenceUnchanged": true,
+  "nativeLifecycle": "not_ready",
+  "checkpointCount": 0,
+  "contractDigest": "sha256:a2bc3623b4953e76702b9c0618aaf739520d6e2c41345f259e432f5273641cc7",
+  "productImplementationAuthority": "missing",
+  "productOrSharedReferenceDiff": false,
+  "localDocumentLinksResolved": true,
+  "acceptanceCaseCount": 31,
+  "acceptanceStatus": "all not_run",
+  "actualGrantConfigured": false
+}

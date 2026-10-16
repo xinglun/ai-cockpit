@@ -1,0 +1,360 @@
+{
+  "designVersion": 2,
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "status": "planned_not_run",
+  "clockTesting": "Injected wall/monotonic clock; no long sleeps",
+  "appliesOnlyToRuntimeManagedOperations": true,
+  "cases": [
+    {
+      "id": "G01",
+      "name": "旧目标仍有效不能用于新目标",
+      "setup": "A未到期；创建不同目标B",
+      "expected": "goal_mismatch，零业务副作用",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "G02",
+      "name": "同目标连续并行恢复效率",
+      "setup": "P明确覆盖B/C及拆分/并行/修复/重试/恢复；协调就绪",
+      "expected": "来源确认一次；多个WI/阶段无额外人审，范围和冲突仍逐次检查",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "G03",
+      "name": "必要修复不是自报扩权",
+      "setup": "agent只称与P相关而无交付/范围覆盖事实",
+      "expected": "coverage_unknown或范围差异，不能自行继承",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "G04",
+      "name": "来源与actor不能伪造",
+      "setup": "伪造authoritySource/actor摘要，或不匹配实际host/provider身份",
+      "expected": "来源/身份失败；不把字符串或assurance等级当认证",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "G05",
+      "name": "派生与多grant拼接",
+      "setup": "子WI超父action/resource/排除项，或拼两grant覆盖单次越界操作",
+      "expected": "拒绝，原source与Contract不改",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "G06",
+      "name": "子agent和时间收窄",
+      "setup": "无再委托规则、子actor扩大、期限晚于父或开始早于父",
+      "expected": "拒绝；合法更窄子窗口通过",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "G07",
+      "name": "上层撤销及目标完成",
+      "setup": "有效撤销P或真实目标完成凭据",
+      "expected": "后续派生和受管执行停止；历史仍可读取",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "T01",
+      "name": "精确时间边界",
+      "setup": "now分别为notBefore-1ns、notBefore、expiresAt-1ns、expiresAt",
+      "expected": "拒绝/允许/允许/拒绝；零长sleep，UTC偏移等价",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "T02",
+      "name": "缺少有限期限",
+      "setup": "expiresAt缺失/null/无限哨兵/until_done或窗口无效",
+      "expected": "业务拒绝；仅计划/申请管理面可用，无默认无限",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "T03",
+      "name": "锁等待跨期",
+      "setup": "拿锁前有效，锁后到期",
+      "expected": "副作用前拒绝，effectCount=0",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "T04",
+      "name": "缓存与旧版本重放",
+      "setup": "旧admission/receipt/源版本在新动作、重试、恢复时重放",
+      "expected": "重新解析当前版本，拒绝旧digest，不延长权限",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "T05",
+      "name": "时钟回拨和重启",
+      "setup": "可控wall回拨、mono前进、重启尝试重放剩余秒数",
+      "expected": "明显回拨clock_untrusted；预算不增加；整体本地回滚不作保证",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "I01",
+      "name": "在途可取消操作",
+      "setup": "受管进程在执行中到期",
+      "expected": "安全停止并保留真实stdout/效果；无新业务步骤/外传/清理",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "I02",
+      "name": "事务及不可中断操作",
+      "setup": "剩余窗口小于预声明安全成本或外部返回晚于期限",
+      "expected": "不启动不安全动作；若在途返回则真实记录overrun，不追认",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "E01",
+      "name": "申请不是续期",
+      "setup": "提前申请尚未批准，旧期限继续走到到期",
+      "expected": "原范围内可继续，到期停止；无自动续或默认同意",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "E02",
+      "name": "一次同目标合法延期",
+      "setup": "授权者批准P版本2，B/C仍活跃且引用P",
+      "expected": "当前版本统一生效，不逐WI再批；保留子WI更早截止/更窄限制",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "E03",
+      "name": "并发和重复批准",
+      "setup": "两个expectedVersion相同的延期/重复消费并发",
+      "expected": "共享原子版本/CAS只接受合法一次，旧digest和重放拒绝",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "E04",
+      "name": "不得复活及夹带扩权",
+      "setup": "WI已closed/revoked/正式superseded，或grant明确终止；另以普通sourceVersion替换作独立正例",
+      "expected": "终止主体不复活；同目标普通版本替换不误判为目标终止；扩张独立决定，历史保留",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "C01",
+      "name": "到期申请无互锁",
+      "setup": "business授权已到期，申请延期并查询最小状态",
+      "expected": "只读固定metadata/已有输出，businessRead/export/delete计数0，无全量source扫描依赖",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "H01",
+      "name": "合法历史不追溯作废",
+      "setup": "到期后查看先前有效期内成果",
+      "expected": "历史真实性有效，但不能用于新执行",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "M01",
+      "name": "旧Contract迁移边界",
+      "setup": "读取旧格式；新强制模式尝试执行缺来源/期限的活跃旧任务",
+      "expected": "只读兼容；业务missing/unknown拒绝，无自动改写或补造历史批准",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "P01",
+      "name": "CLI/MCP一致",
+      "setup": "相同身份能力、时间、grant、Contract、snapshot",
+      "expected": "结果/失败码一致；真实身份能力不足明确unknown",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "Q01",
+      "name": "复用并发和已有总约束",
+      "setup": "B/C并行尝试消费同一已有并发/总约束",
+      "expected": "现有共享原子记账不因子WI重置；无真实能力则不宣称并行准入",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "status": "not_run"
+    },
+    {
+      "id": "R01",
+      "name": "撤销先于本地效果提交",
+      "setup": "用barrier固定撤销先耐久提交，再放行本地commit边界",
+      "expected": "当前来源终止；effectCount=0；无成功业务receipt",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    },
+    {
+      "id": "R02",
+      "name": "本地提交先于撤销",
+      "setup": "固定合法效果先提交，然后撤销，再尝试下一步",
+      "expected": "保留合法先前效果，后续effectCount不增加；顺序回执真实",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    },
+    {
+      "id": "R03",
+      "name": "外部分发与撤销的能力边界",
+      "setup": "分别在分发前/分发后撤销，Provider有/无fencing；要求强取消",
+      "expected": "分发前拒绝；在途如实取消/未知；无强保证能力则unsupported且零新分发",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    },
+    {
+      "id": "R04",
+      "name": "在途撤销与停止证明",
+      "setup": "受管进程执行中撤销；取消成功/失败/未能确认退出",
+      "expected": "禁止新业务；区分cancel requested与observed stopped；只保全已有输出，未确认则unknown",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    },
+    {
+      "id": "V01",
+      "name": "普通版本替换不终止主体",
+      "setup": "同目标合法source v2替换v1，活跃及terminal WI并存",
+      "expected": "活跃WI下次准入统一解析v2；旧receipt历史有效；terminal WI不复活",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    },
+    {
+      "id": "V02",
+      "name": "延期与撤销并发",
+      "setup": "相同来源上同时发起延期和稳定grant撤销，控制两种提交顺序",
+      "expected": "CAS/串行无丢失撤销；revocation committed后任何替换不清除终止；冲突不报成功",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    },
+    {
+      "id": "D01",
+      "name": "继承期限与更早固定cap",
+      "setup": "来源18:00到20:00；B继承，C固定17:30，父链固定19:00",
+      "expected": "B跟随当前来源并受父链收窄，C仍17:30；单操作预算不被source延长重置",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    },
+    {
+      "id": "E05",
+      "name": "到期空档与正式未来窗口",
+      "setup": "旧窗口到期后停止；有权授权者为未完成且未终止目标批准新未来窗口；另测revoked主体",
+      "expected": "空档期零业务且不追认；新鲜准入只在新窗口允许；revoked/terminal来源不得通过延期复活",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "clock": "controlled clock and deterministic barriers; no long sleeps",
+      "status": "not_run"
+    }
+  ],
+  "priorVersion": "../design-20261016/acceptance-v1.json",
+  "scope": "planning only; no actual product verification"
+}

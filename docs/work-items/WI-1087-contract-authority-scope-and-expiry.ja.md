@@ -31,3 +31,10 @@ authority: design-and-registration-only
 ## Dependency and ownership
 
 WI-1086に依存します。共有amendment/status/admission/receipt/lifecycleと台帳は直列です。二つ目のbuildや共有ファイルの並行変更を行いません。独立Clock/型モジュールの並行実装は、後日の技術レビュー、ownership確認、正常admissionが条件です。
+
+## v2 の境界整理
+
+v1の履歴は保持します。v2では撤回とcommitの順序、外部fencingの限界、source版の置換と主体の終了、継承期限と固定された早い上限、実行中撤回の停止証跡を明確にします。製品実装は未承認です。
+
+- [Design v2 addendum](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/addendum-v2.zh-CN.md)
+- [Acceptance v2 — planned / not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/acceptance-v2.json)
