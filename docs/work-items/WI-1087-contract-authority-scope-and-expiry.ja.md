@@ -38,3 +38,10 @@ v1の履歴は保持します。v2では撤回とcommitの順序、外部fencing
 
 - [Design v2 addendum](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/addendum-v2.zh-CN.md)
 - [Acceptance v2 — planned / not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/acceptance-v2.json)
+
+## v3
+
+範囲縮小による適用外化と実際のactorの失効も、撤回と同じ実行中停止規則を適用します。R04はパラメータ化し、全件未実行です。
+
+- [Design v3 clarification](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/addendum-v3.zh-CN.md)
+- [R04 parameterized acceptance — not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/acceptance-delta-v3.json)

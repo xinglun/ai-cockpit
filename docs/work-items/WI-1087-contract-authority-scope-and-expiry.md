@@ -38,3 +38,10 @@ The v1 history remains unchanged. The v2 addendum defines revocation/commit orde
 
 - [Design v2 addendum](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/addendum-v2.zh-CN.md)
 - [Acceptance v2 — planned / not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/acceptance-v2.json)
+
+## v3
+
+Scope narrowing that removes current coverage and actual actor invalidation trigger the same in-flight stopping rules as revocation; R04 is parameterized, all variants not_run.
+
+- [Design v3 clarification](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/addendum-v3.zh-CN.md)
+- [R04 parameterized acceptance — not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/acceptance-delta-v3.json)

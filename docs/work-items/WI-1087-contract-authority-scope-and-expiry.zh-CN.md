@@ -38,3 +38,10 @@ v1 原件保留。v2 明确撤销/提交的排序与外部 fencing 能力边界�
 
 - [Design v2 addendum](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/addendum-v2.zh-CN.md)
 - [Acceptance v2 — planned / not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/acceptance-v2.json)
+
+## v3
+
+范围收窄导致失去覆盖、真实 actor 失效均触发与撤销相同的在途停止；R04 参数化，全部未执行。
+
+- [Design v3 clarification](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/addendum-v3.zh-CN.md)
+- [R04 parameterized acceptance — not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/acceptance-delta-v3.json)
