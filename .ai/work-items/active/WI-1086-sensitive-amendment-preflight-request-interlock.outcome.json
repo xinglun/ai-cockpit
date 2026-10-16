@@ -10,7 +10,7 @@
   ],
   "createdAt": "2026-10-16T06:28:26.787140778Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:5610b2c7f6932aea5e471f2261482e88680631b1e7f63b93dcb49aaa2f2c87c3",
+  "evidenceDigest": "sha256:624fc1876737eb4856608fd8ec760aea99ee17d7e6030f613883420d4c567f85",
   "evidenceRefs": [
     ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
   ],
@@ -36,7 +36,7 @@
         ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+      "repositorySnapshotDigest": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
       "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
     },
     "format": "ai-cockpit.task-outcome",
@@ -275,7 +275,7 @@
     },
     "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
   },
-  "taskReportDigest": "sha256:971b4da15b5514ccecc81905398f9c7e33d9855af6c40f9bfdffd8c7acc705d7",
+  "taskReportDigest": "sha256:e1f45886679abdb6058d75e9e8269ce3cf13ebb05cdf5c90bf843a1ffc2ee4b1",
   "taskReportMarkdownDigest": "sha256:1a0f239da1a57d12b55b2fe5abc6b712fcfd6ed03ce3cfe3f95c2ac16359b07e",
   "unknowns": [
     "user_visible_benefit_not_declared"

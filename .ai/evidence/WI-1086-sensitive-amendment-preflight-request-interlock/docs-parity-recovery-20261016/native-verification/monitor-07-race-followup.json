@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-16T07:09:48.971013+00:00",
+  "source": "monitor-07.json",
+  "readErrors": [
+    {
+      "pid": 731294,
+      "error": "[Errno 2] No such file or directory: '/proc/731294/stat'",
+      "errno": 2
+    },
+    {
+      "pid": 731295,
+      "error": "[Errno 2] No such file or directory: '/proc/731295/stat'",
+      "errno": 2
+    },
+    {
+      "pid": 733039,
+      "error": "[Errno 2] No such file or directory: '/proc/733039/stat'",
+      "errno": 2
+    }
+  ],
+  "currentExistence": {
+    "731294": false,
+    "731295": false,
+    "733039": false
+  }
+}
