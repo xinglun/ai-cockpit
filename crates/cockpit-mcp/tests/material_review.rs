@@ -85,7 +85,7 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
-    assert_eq!(tools.len(), 31);
+    assert_eq!(tools.len(), 33);
     let plan_tool = tools
         .iter()
         .find(|tool| tool["name"] == "work_item_material_review_plan")

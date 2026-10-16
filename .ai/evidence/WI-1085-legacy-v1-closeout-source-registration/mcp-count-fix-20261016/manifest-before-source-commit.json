@@ -1,0 +1,87 @@
+[
+  {
+    "path": "after-confirm-status.json",
+    "bytes": 4555,
+    "sha256": "0e63d4c513500ba940d6a50ee8966d383a32b79f18934ad48755b440194368bd"
+  },
+  {
+    "path": "after-patch-preflight-result.json",
+    "bytes": 20,
+    "sha256": "ff8ae5796bcef71911ff9c5c3eaea341819c471f669549e252b830106edd4305"
+  },
+  {
+    "path": "after-patch-preflight.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "after-patch-preflight.json",
+    "bytes": 5045,
+    "sha256": "b91cfa6a43579e44ac26420b87ff10946a48c6bf9e530543125271116cea2fe2"
+  },
+  {
+    "path": "applied-two-line.patch",
+    "bytes": 1181,
+    "sha256": "4a99077b888617658177132925011a1a85dd0703884df5f0a94fa8fdd02a9eed"
+  },
+  {
+    "path": "before-confirm-status.json",
+    "bytes": 5166,
+    "sha256": "724c3be5a34e01880c93b9f5dc4b66d2a0da85fa5ac4d16ef961a2efa053c655"
+  },
+  {
+    "path": "confirm-controls.json",
+    "bytes": 1412,
+    "sha256": "c280e2741a3da72742ea35a3e6f4bde1709884893501d552284ab673b37eb5af"
+  },
+  {
+    "path": "confirm-result.json",
+    "bytes": 20,
+    "sha256": "ff8ae5796bcef71911ff9c5c3eaea341819c471f669549e252b830106edd4305"
+  },
+  {
+    "path": "human-confirm-relay.json",
+    "bytes": 1502,
+    "sha256": "0772bb60465e45395c56fbf79fcf2dd9fe77df2b1fe5a1a8cd027c309d7121d1"
+  },
+  {
+    "path": "human-receipt-pointer.json",
+    "bytes": 1708,
+    "sha256": "7285eefa2c1aaca491ddc7100a3ec06184bc2cc45b177eab1237712072ffba06"
+  },
+  {
+    "path": "implementation-report.zh-CN.md",
+    "bytes": 1987,
+    "sha256": "1245d20def4e6c850b28e8af5d2da6a70b7be602aec434ee42a365537190a8c6"
+  },
+  {
+    "path": "native-confirm.err.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "native-confirm.json",
+    "bytes": 37112,
+    "sha256": "96c9a8159a53ee53486b23d69a20975b61a8000f5a634a94a81216d41b22b8d6"
+  },
+  {
+    "path": "two-line-byte-check.json",
+    "bytes": 759,
+    "sha256": "74e16d28558031def8e7ac191c1bfc9d5f17333948a3eed040fb076198ca8e23"
+  },
+  {
+    "path": "uncommitted-material-plan-result.json",
+    "bytes": 148,
+    "sha256": "187f16ef59aa300b5a0d65c4f82d32dbc089cec69fc6a56f4c33331ab8d5c40b"
+  },
+  {
+    "path": "uncommitted-material-plan.err.log",
+    "bytes": 170,
+    "sha256": "82178fd358e876ea0ef4242734c1478cbaa874b87027062a6d18552560265086"
+  },
+  {
+    "path": "uncommitted-material-plan.out.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]
