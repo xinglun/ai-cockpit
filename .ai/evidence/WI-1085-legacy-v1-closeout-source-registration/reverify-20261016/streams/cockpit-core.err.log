@@ -1,0 +1,9 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_core-1dbeded55dfe0ef0)
+     Running tests/adversarial_v2.rs (target/wi1085-legacy-closeout-source/debug/deps/adversarial_v2-383acae8d9a3d922)
+     Running tests/conformance.rs (target/wi1085-legacy-closeout-source/debug/deps/conformance-78874684ee249f3e)
+     Running tests/domain_types.rs (target/wi1085-legacy-closeout-source/debug/deps/domain_types-68784b4d31ae3819)
+     Running tests/governance_semantics.rs (target/wi1085-legacy-closeout-source/debug/deps/governance_semantics-c669e4c5936da399)
+     Running tests/operation_time_policy.rs (target/wi1085-legacy-closeout-source/debug/deps/operation_time_policy-c9cd9369bfc7f1f0)
+     Running tests/v1_oracle.rs (target/wi1085-legacy-closeout-source/debug/deps/v1_oracle-2698b3addd850f7c)
+   Doc-tests cockpit_core

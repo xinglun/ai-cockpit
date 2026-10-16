@@ -1,0 +1,35 @@
+{
+  "oldPostFailureAt": "2026-10-16T12:13:11.754481+00:00",
+  "currentPreExecutionAt": "2026-10-16T13:05:36.518237+00:00",
+  "oldZombieCount": 1419,
+  "currentBaselineZombieCount": 1425,
+  "addedBetweenWindows": [
+    [
+      918660,
+      2835303
+    ],
+    [
+      918921,
+      2839703
+    ],
+    [
+      921330,
+      2882762
+    ],
+    [
+      923658,
+      2942337
+    ],
+    [
+      925109,
+      2967167
+    ],
+    [
+      926898,
+      3005833
+    ]
+  ],
+  "removedBetweenWindows": [],
+  "attribution": "Change occurred between observation windows before this formal invocation. Origin not attributed; not counted as new zombies caused by the not-yet-started run.",
+  "stoppedLiveProcesses": []
+}
