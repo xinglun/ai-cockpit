@@ -1134,14 +1134,13 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_amendments" => require_string(object, "workItemId", name)?,
         "work_item_legacy_closeout_source_plan" | "work_item_legacy_closeout_source_record" => {
             require_string(object, "workItemId", name)?;
-            if let Some(source) = object.get("sourceRepo") {
-                if !source.is_string()
+            if let Some(source) = object.get("sourceRepo")
+                && (!source.is_string()
                     || source
                         .as_str()
-                        .is_none_or(|path| !Path::new(path).is_absolute())
-                {
-                    return Err("sourceRepo must be an absolute path".into());
-                }
+                        .is_none_or(|path| !Path::new(path).is_absolute()))
+            {
+                return Err("sourceRepo must be an absolute path".into());
             }
             let field = if name.ends_with("_plan") {
                 "request"

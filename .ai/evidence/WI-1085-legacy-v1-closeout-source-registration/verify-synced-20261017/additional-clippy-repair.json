@@ -1,0 +1,9 @@
+{
+  "recordedAt": "2026-10-16T18:13:44.256557+00:00",
+  "redExecution": "clippy-result.json, actual cargo clippy --locked --workspace --all-targets -- -D warnings exit101 on source51d1fede",
+  "newDiagnostic": "clippy::collapsible_if at MCP lib1137, only exposed after the four repository diagnostics were removed",
+  "scope": "crates/cockpit-mcp/src/lib.rs is already in current Contract scope and implementation paths",
+  "change": "Collapse nested Some(sourceRepo) + invalid-path predicate into a let-chain. Same predicate and exact error text, None behavior unchanged; no allow or weakened validation.",
+  "batching": "No push has occurred since production CI head9e1e4786; all repairs will be pushed together once the exact full workspace Clippy check clears.",
+  "newMaterialReviewStillRequired": true
+}
