@@ -57,6 +57,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+      "previousContractHash": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+      "reason": "Following the user instruction and the Raydot-reviewed minimal repair direction, add only crates/cockpit-repository/tests/recovery_decision.rs because pending_retry_survives_a_bounded_contract_amendment records human preflight review without first recording the current native preflight after its bounded Contract amendment. The source survey found the other ten positive confirmation paths already preflighted. Preserve the original business assertion, strict validator and receipt checks, and every other scope entry.",
+      "recorded": true,
+      "recordedAt": "2026-10-16T04:49:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
@@ -87,15 +107,15 @@
   "preflightContractDigest": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
   "preflightDecisionDigest": "sha256:4a854e8637aa5c82dc6b5547f54e3d7cae4d2c812054fe109f109eed5df7ef28",
   "preflightRepositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-10-16T02:04:23.026023571+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+    "contractHash": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-16T01:47:35Z"
+    "recordedAt": "2026-10-16T04:49:36Z"
   },
   "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
 }
