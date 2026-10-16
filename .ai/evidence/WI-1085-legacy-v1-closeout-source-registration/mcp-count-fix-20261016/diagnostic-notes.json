@@ -1,0 +1,16 @@
+{
+  "nativeExtraPreflight": {
+    "exitCode": 1,
+    "stdoutBytes": 0,
+    "meaning": "Native rejected requested run_preflight because current source was already admitted Allowed with blockers=[] and safeActions excluding run_preflight. This is not a failed test, new human gate, or verification execution. Subsequent actual status confirms no blocker and humanDecisionRequired=false.",
+    "originalStderrPath": "final-source-preflight.err.log",
+    "preservedRawStdoutPath": "final-source-preflight.json"
+  },
+  "observerParsingError": {
+    "errorClass": "json.JSONDecodeError",
+    "message": "Expecting value: line 1 column 1 (char 0)",
+    "cause": "A follow-on display helper attempted to JSON-decode the empty stdout of that rejected command. No empty child-set or successful receipt was inferred. Raw files were retained."
+  },
+  "interactiveUnknownListingCorrection": "An initial interactive string search matched the unknownCause field name, thus printing all 27 entries under an imprecise unknown heading. All derived counts now select scannerAssessment==unknown exactly, yielding 2; native final-material-request.json was never modified.",
+  "testsActuallyExecutedAfterPatch": false
+}

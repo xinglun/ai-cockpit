@@ -1,0 +1,76 @@
+{
+  "oldOriginalRequestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1",
+  "oldIntermediateRequestDigest": "sha256:81878ba626fe354bfbbe24f1fd573c57485e41d73942a7173b5a1e3b9894be63",
+  "currentFinalRequestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790",
+  "currentRequestRawSha256": "acce52e26cfeb8e8e1ccf7fb54aa99a69352b71a44c55517437a4e5ad0fe800f",
+  "headerDifferencesFromIntermediate": {
+    "sourceSnapshotDigest": {
+      "old": "sha256:a839198a48b84f5ebdc8406b56f55e3ce9635555cea6c410fa11ce729a0cfc20",
+      "new": "sha256:034d7b8bd19efcac2a577bb43915337700f5fcad0ff793f4b6adc4af23eb7b6c"
+    },
+    "materialManifestDigest": {
+      "old": "sha256:7ca05a1112b9eb23ec29939b81322eb885de13dfd2bee92cf7b063661843d33d",
+      "new": "sha256:c5c06bb3647d37f31da300b11389cd3ff562d8c4ad3a94eee142302568de1c0b"
+    },
+    "requestDigest": {
+      "old": "sha256:81878ba626fe354bfbbe24f1fd573c57485e41d73942a7173b5a1e3b9894be63",
+      "new": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790"
+    },
+    "reviewedSourceHead": {
+      "old": "3235316534fd0798fc6a83625df72a36662ab443",
+      "new": "f1fc7b88766d32b03d9bb705133afe8a1cfdc44a"
+    }
+  },
+  "entriesBefore": 25,
+  "entriesAfter": 27,
+  "addedCleanEntries": [
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:c4783859a497560a6d190c3ba5163123cedd1c9a2623b9bd5d16067e17a94194",
+      "afterBlobDigest": "sha256:d44da80601074077d93abd4cf291b9fce393cf1681b654c42021fcbc98fac288"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:96e8e60bfbb4cf2fb1ae720fd62097ca247b15ee0d4f983ebab6f86eb928de06",
+      "afterBlobDigest": "sha256:fab8ebdb2339dde72c5c652456b225c4acc5c95dd366a6b1bfab663c4ad6ec59"
+    }
+  ],
+  "allPriorMaterialEntriesByteFactsUnchanged": true,
+  "onlyReviewableUnknowns": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "findingCodes": [],
+  "currentRepositorySnapshotDigest": "sha256:8a858ff1a5139906eef70f06f486e5f18dd68925f3c434eae602045976e425f6",
+  "humanDecisionRequired": false,
+  "newMaterialDecisionRecorded": false,
+  "oldMaterialReceiptReused": false
+}
