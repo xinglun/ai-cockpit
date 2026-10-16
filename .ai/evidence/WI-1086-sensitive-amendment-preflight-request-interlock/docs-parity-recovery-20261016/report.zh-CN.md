@@ -1,6 +1,6 @@
 # WI-1086 三语 prearchive parity 登记修正
 
-Outcome: 🟡 新快照原生验证通过；等待新 head 的自然 CI
+Outcome: 🟡 新快照原生验证通过；已缩短派生日志路径，等待新 head 的 Windows CI 验证
 
 ## 授权与实施
 
@@ -50,3 +50,15 @@ user_visible_benefit_not_declared；intent_alignment_missing 警告；原有失�
 - 使用已批准三行修正和现有普通 finish_ready 刷新机制；没有新 scope amendment、retry 收据或额外测试工具项目。
 - 用户已明确授权必要验证和同一分支推送；本次没有等待额外技术批准，也不把 Raydot 技术审阅写成人类 Runtime confirm_review。
 - 本地验证通过仅证明此绑定下的声明检查；未实证用户收益或平台整体安全性，CI 独立等待新 head 实际结果。
+
+## head 1ef519f8 的自然 CI 与路径修正
+
+run 38865914036 已 completed/failure：route、v1-behavioral-oracle、quality 成功，windows-runtime 失败。quality 的实际 strict 路由 contractPath=null；治理 findings=[]，WI-1086 为 prearchive_parity_registered；format/clippy/workspace_package_tests 成功，coverage runner 实际执行13包，omitted=[]，verificationReceiptState=not_provided（不是 hosted native receipt）。
+
+Windows 的 directory-handle、preflight-lock、governance-controls-lock 步骤均成功；windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes 在 cognitive_benefit.rs:164 的 fixture clone checkout 前置条件失败。日志明确列出本次新增26个 captured-node-streams 路径 Filename too long，尚未进入二进制行为断言；后续 native-path/read-only parity 两步骤 skipped。这是本次派生证据包装引入的缺陷，不能归为环境随机失败。
+
+最小修正：只重命名26个派生 stdout/stderr 日志，改为较浅 streams/<package>.out.log 或 .err.log；相对路径最大198→127字符。stream-paths.json 保留每项旧路径、新路径、字节数和SHA256，并逐项验证前后字节相同。原提交历史与失败日志保留；原生 canonical、immutable attempts、Contract、Summary、Outcome 均不因本次重命名而手改。测试源码、断言、Git配置、workflow未更改。
+
+实际 Windows 验证仍需下一新 head 的自然 CI，Linux 上的长度检查和字节哈希不能冒充 Windows checkout 通过。若 Runtime 当前仍 verified/fresh，沿用其正式准入而不无谓重跑本地13节点；新 head CI 仍须独立完整观察。
+
+路径修正后实际 Runtime status 仍 finish_ready / verified / fresh，source snapshot 与 verificationEvidence digest 不变，无 blocker 或新真人门禁；因此未重复调用 verify 或 preflight。真实文档 checker 再次 passed，914项。26个新路径的字节还逐项与不可变 b33bd7be... attempt 中的原生 stdout/stderr hex capture 完全比对一致（stream-byte-check.json）。
