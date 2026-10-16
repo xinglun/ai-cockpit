@@ -1,0 +1,27 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-16T00:14:08Z",
+  "checkpointContractDigest": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "createdAt": "2026-10-16T00:11:39Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-16T00:11:39.244337237Z",
+      "recordedAt": "2026-10-16T00:11:39.244337237Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T00:15:45Z",
+  "preflightContractDigest": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+  "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+  "preflightRepositorySnapshotDigest": "sha256:cde5754d48ef672220ea06b5882ccd8f8ad4c3566bca47112cddf95c57f0fa7f",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-16T00:14:08Z",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

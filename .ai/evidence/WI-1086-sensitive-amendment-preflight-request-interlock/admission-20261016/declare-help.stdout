@@ -1,0 +1,9 @@
+Usage: ai-cockpit work-item declare [OPTIONS] --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>                      
+      --id <ID>                          
+      --depends-on <DEPENDS_ON>          
+      --conflicts-with <CONFLICTS_WITH>  
+      --parallelizable                   
+  -h, --help                             Print help

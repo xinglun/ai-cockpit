@@ -1,0 +1,6 @@
+Usage: ai-cockpit checkpoint --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>  
+      --id <ID>      
+  -h, --help         Print help
