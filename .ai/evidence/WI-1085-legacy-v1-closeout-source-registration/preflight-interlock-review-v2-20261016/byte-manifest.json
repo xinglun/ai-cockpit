@@ -1,0 +1,85 @@
+{
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/preservation-check.json",
+      "bytes": 1409,
+      "rawSha256": "b42af154a920256644d0856ad336c2252106a87dad25a37c9e9543d24c288b37"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/proposal-v2.zh-CN.md",
+      "bytes": 9822,
+      "rawSha256": "4af7747e496726e1dc1415e73502dc8ffc31fb58f1549ed738632fc08f47fabe"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/readiness-excerpt.json",
+      "bytes": 956,
+      "rawSha256": "a7dd58b90602e7d812c30de030cf6eec0e55835ef9a7a316fee6ee9adbbb1474"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-coordination-inspect.meta.json",
+      "bytes": 502,
+      "rawSha256": "8555f92e64b0d4df7f98917fd137d1625482051be8ed2fb6a936b14dc43cd469"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-coordination-inspect.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-coordination-inspect.stdout",
+      "bytes": 159,
+      "rawSha256": "9c4935a9f84d27021b5bd81f690b757cfc3f6c1c00325aeedbf810c452b5bfab"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-current-status-json.meta.json",
+      "bytes": 562,
+      "rawSha256": "2c4540ebd951feb65e4305276788797f8473465b3b71a0fb6953284b5820eb67"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-current-status-json.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-current-status-json.stdout",
+      "bytes": 5698,
+      "rawSha256": "2165405ebe450e41db62da9b38205f53d3c1be0bcc7d00c0164edcd65d1da627"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-inspect.meta.json",
+      "bytes": 465,
+      "rawSha256": "e7763a9e2e5c49fecdd51635412663cfb96a8d35bf7f35d580e4b1786f8a4c4a"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-inspect.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-inspect.stdout",
+      "bytes": 740,
+      "rawSha256": "89def234babb5230fcbfdd55da6d2693fe6cccd05bafd61d8d7c12ce8336e3b1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-outcome.meta.json",
+      "bytes": 549,
+      "rawSha256": "bbacfe7a840dadbcd1cfdf0f007c4fb902052b8762d09b2fe20abc685106f664"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-outcome.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-outcome.stdout",
+      "bytes": 2836,
+      "rawSha256": "dcf2551fa35b5125d9fbd9955c66105c1989ec160c7cac3e3851c13c6270399e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/review-v2-readiness.meta.json",
+      "bytes": 467,
+      "rawSha256": "337a528b4cc5a892ec5e5eb489f85cc89d03131104a73d77d6ae879fe50e7a5a"
+    }
+  ],
+  "manifestExcludesItself": true
+}

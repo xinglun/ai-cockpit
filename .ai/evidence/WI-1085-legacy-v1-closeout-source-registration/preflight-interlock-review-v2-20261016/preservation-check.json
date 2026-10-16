@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-10-16T00:07:14.296884+00:00",
+  "priorManifests": [
+    {
+      "manifestPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/byte-manifest.json",
+      "manifestRawSha256": "fc804d9521af34c5c8aaace9c2dc67a07fef80e729dcf48e7a306a3cbc9bf885",
+      "entriesVerified": 41
+    },
+    {
+      "manifestPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/byte-manifest.json",
+      "manifestRawSha256": "129c5fda19faa44d1b296b957b029e5ac5e426d605472295b3847e443436e754",
+      "entriesVerified": 11
+    }
+  ],
+  "protectedOtherWorktrees": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "bytes": 5488,
+      "rawSha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "bytes": 388828,
+      "rawSha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5"
+    }
+  ],
+  "protectedChangedPaths": [],
+  "sourceChangesSince9ecd4495": [],
+  "pid1": "tail",
+  "zombies": 21316,
+  "workspaceFreeBytes": 4127105024,
+  "tmpFreeBytes": 2294198272,
+  "productTestsExecuted": false,
+  "newWorkItemCreated": false,
+  "runtimeDecisionOrContractWrites": false
+}

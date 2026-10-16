@@ -1,0 +1,15 @@
+{
+  "changedPaths": [],
+  "dependencyFingerprint": "sha256:4f135761241806b9c3e25b436d2268a028eabbbd752f1121b1c43ef0b0305f77",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 2,
+  "gitRoot": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "head": "826dc486304ff65feb6edac4523dcef45df79db5",
+  "protocolVersion": 1,
+  "repositoryRoot": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "treeDigest": "sha256:574b0efbeb66ad278548e0c9e27563e61e3b0ec2569cd60c3acffe94f1703c7c"
+}
