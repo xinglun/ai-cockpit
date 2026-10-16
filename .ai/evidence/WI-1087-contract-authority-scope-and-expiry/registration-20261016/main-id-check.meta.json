@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "grep",
+    "-l",
+    "WI-1087",
+    "refs/remotes/origin/main",
+    "--",
+    ".ai/work-items",
+    "docs/work-items"
+  ],
+  "exitCode": 1
+}

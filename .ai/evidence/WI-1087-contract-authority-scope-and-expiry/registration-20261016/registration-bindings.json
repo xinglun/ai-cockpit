@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-10-16T01:26:36.750951+00:00",
+  "kind": "planned-design-registration",
+  "sourceHead": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "runtimeSha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "nativeLifecyclePhase": "not_ready",
+  "humanDecisionRequired": true,
+  "contractDigest": "sha256:a2bc3623b4953e76702b9c0618aaf739520d6e2c41345f259e432f5273641cc7",
+  "checkpointCount": 0,
+  "verification": "not_ready",
+  "blockers": [
+    "material_review_projection_unavailable"
+  ],
+  "unknowns": [
+    "material_review_projection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "productImplementationAuthorized": false,
+  "sharedParityChanged": false,
+  "dependencyDeclaration": "native-planned-dependency.stdout",
+  "scope": "own planning records, own evidence and own trilingual Work Item briefs only"
+}

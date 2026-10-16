@@ -1,0 +1,13 @@
+{
+  "conflictsWith": [
+    "WI-1086-sensitive-amendment-preflight-request-interlock"
+  ],
+  "dependsOn": [
+    "WI-1086-sensitive-amendment-preflight-request-interlock"
+  ],
+  "parallelizable": false,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 1,
+  "unknowns": [],
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+}

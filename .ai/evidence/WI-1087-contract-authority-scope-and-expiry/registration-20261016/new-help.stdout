@@ -1,0 +1,7 @@
+Usage: ai-cockpit work-item new --repo <REPO> --id <ID> --mode <MODE>
+
+Options:
+      --repo <REPO>  
+      --id <ID>      
+      --mode <MODE>  
+  -h, --help         Print help

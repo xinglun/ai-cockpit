@@ -1,0 +1,10 @@
+{
+  "command": [
+    "git",
+    "ls-remote",
+    "--heads",
+    "origin",
+    "*wi1087*"
+  ],
+  "exitCode": 0
+}

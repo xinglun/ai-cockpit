@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "amend",
+    "--repo",
+    "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry",
+    "--id",
+    "WI-1087-contract-authority-scope-and-expiry",
+    "--request",
+    "/workspace/wi1087-planning-20261016/planned-declaration.request.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry",
+  "startedAt": "2026-10-16T01:10:53.817052+00:00",
+  "elapsedSeconds": 0.689,
+  "exitCode": 0,
+  "stdoutBytes": 6352,
+  "stderrBytes": 0,
+  "subreaper": true,
+  "adoptedDescendantsReaped": []
+}

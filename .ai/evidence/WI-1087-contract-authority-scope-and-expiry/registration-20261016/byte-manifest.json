@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "sha256",
+  "entries": [
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-20261016/acceptance-v1.json",
+      "bytes": 7577,
+      "sha256": "f3266ce0b2c6ea8f2c7af6e7efd6fbfc28e35ae37e877f0319cadd8d0b42a322"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-20261016/design-authority-source.json",
+      "bytes": 1038,
+      "sha256": "9d75873a175bcbe5348217567273da1b03157470cfd0b56995560d96daa7e9bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-20261016/design-v1.zh-CN.md",
+      "bytes": 14247,
+      "sha256": "718c2890630895aa59ff9565e838b89b5f4d022304304c66f9b50c95cf3a2a59"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-20261016/implementation-stages-v1.json",
+      "bytes": 4428,
+      "sha256": "7bdb2b3c82d1b53689fb9763b3e89d37da86868c0d091ebf8563b85fed474c32"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/README.zh-CN.md",
+      "bytes": 1085,
+      "sha256": "14f363cd3b861d5a243e222fdfeb6d9ce148b47febc55bc689768966d3f7766c"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/fetch-main.meta.json",
+      "bytes": 125,
+      "sha256": "8a88c8d8b7b3f2e6e46e0ad571451df17a611cba4a4b636612382d57b49a1a42"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/fetch-main.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/fetch-main.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/main-id-check.meta.json",
+      "bytes": 174,
+      "sha256": "d6c0bcf84519a94fbdcbf1e1b89cdbc107431be6381db440f8deaa03b4b7691a"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/main-id-check.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/main-id-check.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-current-status.meta.json",
+      "bytes": 553,
+      "sha256": "264f423159e718cf63bd179be1f36dfdd5723359cf7fced10271ac352c4f5b9c"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-current-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-current-status.stdout",
+      "bytes": 4580,
+      "sha256": "873fc3a921a023656853001a0c202bcdd29b5023b19f76e4d9d46599a3113b4c"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-declaration.meta.json",
+      "bytes": 631,
+      "sha256": "c9776b724563ac70821b17fca177d1a97c643e90249d79168b82f4da4aad2b5c"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-declaration.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-declaration.stdout",
+      "bytes": 6352,
+      "sha256": "37d07f4379fa83ad34c0b5228b61a3cfa5c524c8ebba18ff2c4f2b2ef640fa6e"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-dependency.meta.json",
+      "bytes": 709,
+      "sha256": "588ef28bf2df3742fdf04de830cd559ddedb6accb89b784be09918b3d34047c4"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-dependency.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-dependency.stdout",
+      "bytes": 398,
+      "sha256": "02acf43bdbcb663baa11d56b744b1ec7867ddc419a7aea2fda0e39c134a3a661"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-new.meta.json",
+      "bytes": 568,
+      "sha256": "0f547ee289b208b19184546ab64e17ddb774d6ebf627ba07edce850544c67919"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-new.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/native-planned-new.stdout",
+      "bytes": 246008,
+      "sha256": "8efd1d6eb504201a078948f54e99b9eb099a18b8fdfb79d25e05bbdc6f2cd99e"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/new-help.meta.json",
+      "bytes": 412,
+      "sha256": "faa6d2904855a4c2a35bcdd2b7f37d60b8aa55f82f2b5a2ee9c2ee1e56aa083d"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/new-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/new-help.stdout",
+      "bytes": 178,
+      "sha256": "30db3493b068efdb74dad22722d030427f9cdddae2d44d3ddc8478dd17663828"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-declaration.request.json",
+      "bytes": 4702,
+      "sha256": "07655858151fc15b6c1bbf18f064666276b2d84b07fc5c1078bccf5051d90bd8"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-current-status.meta.json",
+      "bytes": 538,
+      "sha256": "98c04c6008327e105f73f27436fedc37714e4ec77f60050356bfc01201d91e0c"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-current-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-current-status.stdout",
+      "bytes": 333,
+      "sha256": "7afb2de97c69e12250463a99570feeb6136324f2a1ea5424bd3a8183c363a6b6"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-outcome.meta.json",
+      "bytes": 597,
+      "sha256": "8dd63d66cf8fd7198461d0d8d2d9b4d72cf234b700bb5bc16124855128449f4f"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-outcome.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-outcome.stdout",
+      "bytes": 4600,
+      "sha256": "7281182801fe3e37a91c346f776dacebfa99e54fee49bbdc6ed5c4a34b9d2c18"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-status-json.meta.json",
+      "bytes": 553,
+      "sha256": "f9f1030f2dda67e51b6b59588c0463e16beadfbbf2205b25e5fd10c67cb6073b"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-status-json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-docs-status-json.stdout",
+      "bytes": 3365,
+      "sha256": "fe0696efde48132285c4f9f890d25496b75181ed38c6ded63d890343453324c5"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-outcome-help.meta.json",
+      "bytes": 405,
+      "sha256": "571135ebc44288a471be51e3efba36ee0246b9380e050299c407a3d52e14743a"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-outcome-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-outcome-help.stdout",
+      "bytes": 1175,
+      "sha256": "7da687ff620f943f89e4f4b83148fe2286c035aa875bbb12333ee1f8773efd04"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-scaffold-status.meta.json",
+      "bytes": 553,
+      "sha256": "ba2c42b6ae0b4a4c13fad19ed921d306d3c306b8796b0ce59921929506c5ec41"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-scaffold-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-scaffold-status.stdout",
+      "bytes": 3925,
+      "sha256": "b5f50b81a2b42b794161e2cd41184a05d60b5cbe0135334e33e4b94e48d185c1"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-status-help.meta.json",
+      "bytes": 403,
+      "sha256": "afebaa8cf57e9b6187346d68927552cc98d1740c3c9a21109b9b1731381f379b"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-status-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planned-status-help.stdout",
+      "bytes": 301,
+      "sha256": "0d1e26b7785177ae88e3d5bb64aed56b791cda7c542534716c51480a8b57bc16"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-agent-doctor.meta.json",
+      "bytes": 485,
+      "sha256": "ea47d104be17e9610fac0f9f613f79bd6dd19fcd28038a48e34429527b60355e"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-agent-doctor.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-agent-doctor.stdout",
+      "bytes": 455,
+      "sha256": "5ea7c40439c055f01da089a30dab2b62f6207847e70f36489ee2c7e20c91d0f2"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-doctor.meta.json",
+      "bytes": 458,
+      "sha256": "116d5860a0d9cecbef07aaea130e1bceb577a5b7aec25ec54c94aa4fcb9e0416"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-doctor.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-doctor.stdout",
+      "bytes": 632,
+      "sha256": "43c3d1c2b38d2c8bc793a7d2afc82bbd280e62458632ed94976ac18c92f607bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-inspect.meta.json",
+      "bytes": 459,
+      "sha256": "00288c6f863db9fc7ecd3e478a495725c53f200727f702f6ddf782b068d4c9c6"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-inspect.stdout",
+      "bytes": 734,
+      "sha256": "8aa0ef715eb30fde4ec1038223559f4492f34e56e4cd23b20ae90b239286c270"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-status.meta.json",
+      "bytes": 461,
+      "sha256": "723f4daa4d5c6b8cab5590ced532bad080b258b393669a36709e782d2e76cfa9"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/planning-status.stdout",
+      "bytes": 339938,
+      "sha256": "cfc5fa1795de7f8a0a7ef5d17fc6cf6c11235c07ce1af880b40a066ca55575c6"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/public-sensitivity-check.json",
+      "bytes": 135,
+      "sha256": "b90eca4e7edcdca16643f79ddb97619877e3a6595a1f6caf1cf7f655adbb2570"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/registration-bindings.json",
+      "bytes": 904,
+      "sha256": "15196536ced93163f66f8d18bbaa6d49c0e4b92bcc33dc000be2d832f66a0908"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/remote-id-check.meta.json",
+      "bytes": 112,
+      "sha256": "14d71efb92e34302ac41a6f76e2293eac16f28a32ec4ed76dc2d53b649cff82e"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/remote-id-check.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/remote-id-check.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/run-runtime-discovery.py",
+      "bytes": 2297,
+      "sha256": "299a80af9aa2b4ef43a029b00f0f2c1e44e697812d1d07d1e0218275130f14e8"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/run-runtime-reaping.py",
+      "bytes": 2285,
+      "sha256": "6ca9ec285d4b8b7739e0a6a98f72e666575881bdfc43b954e4c2f4e8b3e03ed8"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/runtime-help.meta.json",
+      "bytes": 385,
+      "sha256": "881badfb4f59f7de88e7eb5d97601cd4a77cec44f416d0ba31732180cff6fd55"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/runtime-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/runtime-help.stdout",
+      "bytes": 1818,
+      "sha256": "bdaf59e9e365426da9b3e6b2196c1a4b9f64b16293253402a90b5f6679df8c65"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/work-item-help.meta.json",
+      "bytes": 402,
+      "sha256": "9d7feeceb77d00c5b0691e44c3e4b6f3b2a9fcb42b88810115ea647ccc3c9ac8"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/work-item-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/work-item-help.stdout",
+      "bytes": 3317,
+      "sha256": "e4bbf786f9a47ae5fda0168216b8fe01ddd5c66a0fe8d6597d9ff804b953a4b3"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/worktree-create.stderr",
+      "bytes": 1350,
+      "sha256": "a73f39db3e20e757b801bb954b4972ec4bb1f95590f55b8cc7f24ec76f1d7035"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/registration-20261016/worktree-create.stdout",
+      "bytes": 172,
+      "sha256": "381dc118aa377312be489b6a296d9c4f7335c7195f73133efdf4d0e0385527e5"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000001.committed.json",
+      "bytes": 6646,
+      "sha256": "3e09cdda26f5157103701bc9591d2b86db2c9e7ee769aa395a4bfe6fa47e1872"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000001.prepared.json",
+      "bytes": 13103,
+      "sha256": "57191d3a0be026da661f630161a51853b31b3b431d0edce724f553e5716c2116"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+      "bytes": 5346,
+      "sha256": "0942f4430fc960b71cc1bf63a0120b782f3a89c4ce1077cb10e80e016508e54c"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+      "bytes": 397,
+      "sha256": "2cfe45941457bede8eff9874680e509ae0fcf4f12eb87bc02a4be892167028df"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+      "bytes": 383,
+      "sha256": "06426bf1627f93792ce4b4ca9df8365350a2dbc7e004d34c7b311180dc7514a8"
+    },
+    {
+      "path": "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+      "bytes": 2282,
+      "sha256": "4978566f54f40b380df21134775d24717c9015bbb9dba96eb0837ead6393be79"
+    },
+    {
+      "path": "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+      "bytes": 2169,
+      "sha256": "994e7b71e64892f64815fbe04118118486ede6a334e2e287225f976eab4f060a"
+    },
+    {
+      "path": "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+      "bytes": 2001,
+      "sha256": "9e3fb65c8711ca6010eecc30130cbf43157a84b1540143a5bac7ffb4ffc636e5"
+    }
+  ]
+}

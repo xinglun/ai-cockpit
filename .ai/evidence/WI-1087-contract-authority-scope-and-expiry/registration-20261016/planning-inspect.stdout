@@ -1,0 +1,15 @@
+{
+  "changedPaths": [],
+  "dependencyFingerprint": "sha256:4f135761241806b9c3e25b436d2268a028eabbbd752f1121b1c43ef0b0305f77",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 2,
+  "gitRoot": "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry",
+  "head": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "protocolVersion": 1,
+  "repositoryRoot": "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "treeDigest": "sha256:06f8ad80022ea1a94aa2cc2ca3c047124a8600ab45c4c1fbc0744346a7e5cd0c"
+}

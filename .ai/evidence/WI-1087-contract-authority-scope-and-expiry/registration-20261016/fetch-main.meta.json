@@ -1,0 +1,9 @@
+{
+  "command": [
+    "git",
+    "fetch",
+    "origin",
+    "refs/heads/main:refs/remotes/origin/main"
+  ],
+  "exitCode": 0
+}
