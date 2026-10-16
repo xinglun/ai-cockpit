@@ -45,15 +45,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
   "createdAt": "2026-10-15T14:42:12Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+    "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
-    "reason": "Ray directly selected confirm_review in parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018, message Sentinel_21246414189481918e85958adaedabc4, as relayed by Raydot. Source evidence .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/human-confirmation-relay.json raw sha256:d7c8a1abe75462ae98ff42a316dec5f5950e3ab82379fc7ab728d13fe2026606; reply time was reported only to minute precision. This is the actual current recording time, not the historical reply time, and is not a claim of direct speech in this core. Approval covers the exact current WI-1085 plan implementation/verification; exclusions remain.",
-    "recordedAt": "2026-10-15T18:21:48.466476Z",
+    "preflightDecisionDigest": "sha256:5a64b093bb3ad1f169c2700427e80a8486c415a853b5126fbfd41d334c3c78e0",
+    "reason": "Ray selected \"confirm review\" for these exact WI1085 bindings at 2026-10-16T09:43:28Z in message Sentinel_32136ee1b8208191a09071e601c3fd8e, relayed by Raydot from parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018. Source evidence .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/human-relay.json raw sha256:2e663e83bcd8b156f61b14b569375c94e5f416c897ea673e4def092ade1382ae. recordedAt is the actual current recording time, not a backdated reply time. Preflight remains red; this is not material review, verification success, acceptance, PR/merge/close or cleanup authority.",
+    "recordedAt": "2026-10-16T09:45:20.403216+00:00",
     "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
     "schemaVersion": 1,
     "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
   },
@@ -74,11 +74,11 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-15T22:28:15Z",
-  "preflightContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
-  "preflightDecisionDigest": "sha256:e533424bdeed816bd875d5b6e1c9bd0f65168d06c1c7de8094b6ff9918929e72",
-  "preflightRepositorySnapshotDigest": "sha256:1cb31f9daa23add1feb9ee9c3a048ddf696a5c093d4d68bdd32b12a0aae58fd0",
-  "preflightState": "not_run",
+  "preflightAt": "2026-10-16T09:40:48Z",
+  "preflightContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "preflightDecisionDigest": "sha256:5a64b093bb3ad1f169c2700427e80a8486c415a853b5126fbfd41d334c3c78e0",
+  "preflightRepositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+  "preflightState": "red",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -227,7 +227,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-15T23:00:08.794162738+00:00",
+  "updatedAt": "2026-10-16T09:45:21.426876883+00:00",
   "verificationInvalidatedByContractAmendment": {
     "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
     "invalidatedRequiredChecks": [],

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:5a64b093bb3ad1f169c2700427e80a8486c415a853b5126fbfd41d334c3c78e0",
+  "reason": "Ray selected \"confirm review\" for these exact WI1085 bindings at 2026-10-16T09:43:28Z in message Sentinel_32136ee1b8208191a09071e601c3fd8e, relayed by Raydot from parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018. Source evidence .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/human-relay.json raw sha256:2e663e83bcd8b156f61b14b569375c94e5f416c897ea673e4def092ade1382ae. recordedAt is the actual current recording time, not a backdated reply time. Preflight remains red; this is not material review, verification success, acceptance, PR/merge/close or cleanup authority.",
+  "recordedAt": "2026-10-16T09:45:20.403216+00:00",
+  "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+  "schemaVersion": 1,
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}
