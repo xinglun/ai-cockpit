@@ -11177,7 +11177,13 @@ mod post_merge_sync_tests {
 
 #[cfg(test)]
 mod legacy_source_lock_tests {
-    use super::*;
+    use super::{
+        acquire_lifecycle_lock, record_resource_finalization, record_resource_finalization_locked,
+    };
+    use cockpit_core::Digest;
+    use cockpit_protocol::RuntimeContext;
+    use std::process::Command;
+
     #[test]
     fn different_work_item_locks_do_not_block_each_other() {
         let directory = tempfile::tempdir().unwrap();
