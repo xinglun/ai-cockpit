@@ -1,7 +1,10 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.7c8deb05cf182b5bc8b162530693604ee400a339bc22ffe41d0ee066be4a4a62.json",
+    ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+  ],
   "checkpointAt": "2026-10-16T00:14:08Z",
-  "checkpointContractDigest": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+  "checkpointContractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -79,7 +82,7 @@
       "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "checkpointRepositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
   "createdAt": "2026-10-16T00:11:39Z",
   "decisionEvidence": {
     "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
@@ -103,19 +106,21 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-16T05:01:01Z",
+  "preflightAt": "2026-10-16T05:13:10Z",
   "preflightContractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
-  "preflightDecisionDigest": "sha256:4a854e8637aa5c82dc6b5547f54e3d7cae4d2c812054fe109f109eed5df7ef28",
-  "preflightRepositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-10-16T05:04:04.187578254+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-16T04:49:36Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:806f4a0ca27f88f5372789d5f9049b2877e39ee9d2c7331d857d6890a5d28839",
   "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
 }

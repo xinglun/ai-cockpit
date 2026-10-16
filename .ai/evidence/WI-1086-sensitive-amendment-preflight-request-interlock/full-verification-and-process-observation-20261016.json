@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-16T05:26:49Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "source": {
+    "branch": "codex/wi1086-sensitive-amendment-preflight-request-interlock",
+    "headAtVerification": "47a49b73a79e770f748eac7eb334ed34df9ed4a8",
+    "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+    "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8"
+  },
+  "targetedVerification": {
+    "attemptPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.b16053c095ec030ea9f08c4955a35029363f3a8de2f5a95e0f0082facfcf1c5f.json",
+    "receiptPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json",
+    "command": "cargo test --locked -p cockpit-repository --test recovery_decision pending_retry_survives_a_bounded_contract_amendment -- --exact",
+    "result": "passed",
+    "passedTests": 1,
+    "failedTests": 0,
+    "elapsedMs": 31474,
+    "workers": 1,
+    "timeoutSeconds": 300
+  },
+  "fullWorkspaceVerification": {
+    "attemptPath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.bc14d52bc12788cf36e4a29d9b5f4806654bdc05c3fe8ebbaefb0b599f0fdc1b.json",
+    "command": "cargo test --locked --workspace",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "workers": 1,
+    "nodesPlanned": 13,
+    "nodesExecuted": 13,
+    "nodesReused": 0,
+    "passed": 10,
+    "failed": 3,
+    "timedOut": 0,
+    "elapsedMs": 375856,
+    "failedNodes": [
+      {
+        "nodeId": "project-command-0-package-cockpit-cli",
+        "testFailures": [
+          "calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process",
+          "work_item_detected_command_uses_dynamic_profile_authorized_reuse"
+        ],
+        "logPath": "crates/cockpit-cli/tests/verify.rs",
+        "outputTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-mcp",
+        "testFailures": [
+          "mcp_auto_verify_uses_the_same_profile_authorized_cross_process_service",
+          "repository_bound_verify_persists_execution_attempt_when_receipt_recording_fails",
+          "repository_bound_verify_persists_failed_execution_as_non_reusable_attempt"
+        ],
+        "logPath": "crates/cockpit-mcp/tests/rpc.rs",
+        "outputTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-repository",
+        "testFailures": "tests/verification_service.rs package command failed; captured output was truncated and the exact failing test names could not be recovered from the retained attempt bytes",
+        "outputTruncated": true
+      }
+    ]
+  },
+  "runtimeProjectionAfterFailure": {
+    "statusCommandReported": "verified",
+    "outcomeCommandReported": "verified",
+    "referencedVerificationReceipt": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json",
+    "receiptCreatedAt": "2026-10-16T05:13:10Z",
+    "receiptSource": "the one-test targeted verification above",
+    "fullFailureReconciledIntoCanonicalVerificationReceipt": false,
+    "summaryWasHandEdited": false,
+    "finishCloseOrPRPerformed": false
+  },
+  "processObservation": {
+    "beforeFullVerification": {
+      "zombieCount": 5,
+      "observedPids": [797, 3723, 7777, 8593, 11685]
+    },
+    "afterFullVerification": {
+      "zombieCount": 1400,
+      "allObservedParentPid": 1,
+      "processesByCommand": {
+        "git": 1392,
+        "sleep": 4,
+        "python3": 2,
+        "verification-bl": 1,
+        "clean": 1
+      }
+    },
+    "staticExecutorBoundary": "The Runtime executor creates a process group, waits for its direct command child, and signals remaining process-group members. It does not reap dead processes that have become zombies adopted by PID 1.",
+    "legacyPythonSupervisorUsed": false,
+    "signalsOrCleanupAttempted": false,
+    "testsStoppedAfterThisObservation": true
+  },
+  "disposition": {
+    "worktreeChanges": "Runtime-generated Summary, targeted verification receipt/attempts, full failure attempt and this observation report are preserved; no manual Summary correction was made.",
+    "additionalTests": "stopped because the native full run left 1395 additional PID 1 zombies; the environment has not demonstrated reliable descendant reaping for further tests",
+    "prOrCi": "not started because full verification failed",
+    "mergeCloseOrDelete": "not authorized and not performed"
+  }
+}
