@@ -1,0 +1,7 @@
+{
+  "scope": "normal staging inspection; no hooks have been skipped or changed",
+  "rawEvidencePreserved": "closeout-plan-human-outcome.stdout",
+  "rawSha256": "2c0bc90effce10d338c4c8fef222a5823b75b0bdc5fbb98c95e85bffc431747a",
+  "observation": "git diff --cached --check reports seven Runtime-generated empty-label trailing spaces and a final blank line in this raw stdout. The output is byte-identical to the original query. Preserve it unchanged. Only authored plan and GitHub observation JSON had extra final blank lines removed.",
+  "reviewAction": "Require whitespace check to pass for every other staged file, and compare the exact retained raw stdout to its original separately."
+}

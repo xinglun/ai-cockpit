@@ -1,0 +1,92 @@
+{
+  "scope": "new plan directory only; raw originals unchanged",
+  "automatedPatterns": "GitHub/OpenAI/AWS token shapes, private key headers, literal Authorization credentials",
+  "filesScanned": [
+    {
+      "path": "closeout-plan-bounded-environment-verify-plan.meta.json",
+      "bytes": 638
+    },
+    {
+      "path": "closeout-plan-bounded-environment-verify-plan.stderr",
+      "bytes": 0
+    },
+    {
+      "path": "closeout-plan-bounded-environment-verify-plan.stdout",
+      "bytes": 19877
+    },
+    {
+      "path": "closeout-plan-capacity-inventory.json",
+      "bytes": 7518
+    },
+    {
+      "path": "closeout-plan-current-status.meta.json",
+      "bytes": 589
+    },
+    {
+      "path": "closeout-plan-current-status.stderr",
+      "bytes": 0
+    },
+    {
+      "path": "closeout-plan-current-status.stdout",
+      "bytes": 3198
+    },
+    {
+      "path": "closeout-plan-current-validation.meta.json",
+      "bytes": 590
+    },
+    {
+      "path": "closeout-plan-current-validation.stderr",
+      "bytes": 0
+    },
+    {
+      "path": "closeout-plan-current-validation.stdout",
+      "bytes": 430
+    },
+    {
+      "path": "closeout-plan-current-verify-plan.meta.json",
+      "bytes": 638
+    },
+    {
+      "path": "closeout-plan-current-verify-plan.stderr",
+      "bytes": 0
+    },
+    {
+      "path": "closeout-plan-current-verify-plan.stdout",
+      "bytes": 19877
+    },
+    {
+      "path": "closeout-plan-human-outcome.meta.json",
+      "bytes": 620
+    },
+    {
+      "path": "closeout-plan-human-outcome.stderr",
+      "bytes": 0
+    },
+    {
+      "path": "closeout-plan-human-outcome.stdout",
+      "bytes": 2788
+    },
+    {
+      "path": "github-current-observations.json",
+      "bytes": 580
+    },
+    {
+      "path": "plan.zh-CN.md",
+      "bytes": 13854
+    },
+    {
+      "path": "provenance-and-preservation.json",
+      "bytes": 4307
+    },
+    {
+      "path": "read-only-query-runner.py.txt",
+      "bytes": 2297
+    },
+    {
+      "path": "staging-integrity-review.json",
+      "bytes": 690
+    }
+  ],
+  "matches": [],
+  "manualReview": "New plan, query outputs, path/hash/resource observations and empty GitHub lookup results reviewed; no credentials observed. Paths and digests are necessary binding evidence."
+}

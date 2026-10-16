@@ -1,0 +1,273 @@
+{
+  "observedAt": "2026-10-16T02:44:53.732512+00:00",
+  "filesystems": {
+    "/workspace": {
+      "availableBytes": 681738240,
+      "availableInodes": 1930173,
+      "device": 27
+    },
+    "/tmp": {
+      "availableBytes": 2293882880,
+      "availableInodes": 2249159,
+      "device": 33
+    }
+  },
+  "targetPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock",
+  "targetAllocatedBytes": 2560851968,
+  "targetLogicalBytes": 2571276123,
+  "targetGroups": {
+    ".rustc_info.json": {
+      "files": 1,
+      "allocatedBytes": 4096,
+      "logicalBytes": 1269
+    },
+    "CACHEDIR.TAG": {
+      "files": 1,
+      "allocatedBytes": 4096,
+      "logicalBytes": 177
+    },
+    "debug/cockpit-release": {
+      "files": 1,
+      "allocatedBytes": 8708096,
+      "logicalBytes": 8798760
+    },
+    "debug/ai-cockpit": {
+      "files": 1,
+      "allocatedBytes": 51671040,
+      "logicalBytes": 52132416
+    },
+    "debug/ai-cockpit.d": {
+      "files": 1,
+      "allocatedBytes": 8192,
+      "logicalBytes": 6228
+    },
+    "debug/.cargo-build-lock": {
+      "files": 1,
+      "allocatedBytes": 0,
+      "logicalBytes": 0
+    },
+    "debug/.cargo-artifact-lock": {
+      "files": 1,
+      "allocatedBytes": 0,
+      "logicalBytes": 0
+    },
+    "debug/.cargo-lock": {
+      "files": 1,
+      "allocatedBytes": 0,
+      "logicalBytes": 0
+    },
+    "debug/.fingerprint": {
+      "files": 1384,
+      "allocatedBytes": 5668864,
+      "logicalBytes": 361356
+    },
+    "debug/deps": {
+      "files": 744,
+      "allocatedBytes": 2463203328,
+      "logicalBytes": 2478907354
+    },
+    "debug/build": {
+      "files": 188,
+      "allocatedBytes": 31584256,
+      "logicalBytes": 31068563
+    }
+  },
+  "largestExecutableArtifacts": [
+    {
+      "name": "ai_cockpit-3be839e3f5de64f3",
+      "allocatedBytes": 51671040,
+      "logicalBytes": 52132416,
+      "mtime": "2026-10-16T02:22:19.441078+00:00"
+    },
+    {
+      "name": "rpc-0f0c7ca1880ad93b",
+      "allocatedBytes": 42823680,
+      "logicalBytes": 43220448,
+      "mtime": "2026-10-16T01:19:56.206486+00:00"
+    },
+    {
+      "name": "closeout_recovery-3f1bde3b219113d5",
+      "allocatedBytes": 42143744,
+      "logicalBytes": 42539760,
+      "mtime": "2026-10-16T01:19:54.666442+00:00"
+    },
+    {
+      "name": "usage-62ce4839c9bc7c39",
+      "allocatedBytes": 42139648,
+      "logicalBytes": 42538856,
+      "mtime": "2026-10-16T01:16:40.404925+00:00"
+    },
+    {
+      "name": "cli_mcp_outcome_parity-5781409f663c1654",
+      "allocatedBytes": 42020864,
+      "logicalBytes": 42411968,
+      "mtime": "2026-10-16T01:16:44.577042+00:00"
+    },
+    {
+      "name": "contract_amendment_processes-51eb1170dae3038b",
+      "allocatedBytes": 41947136,
+      "logicalBytes": 42343440,
+      "mtime": "2026-10-16T02:22:20.093096+00:00"
+    },
+    {
+      "name": "collaboration_rpc-b0f69a2ba64bc0e1",
+      "allocatedBytes": 41811968,
+      "logicalBytes": 42205544,
+      "mtime": "2026-10-16T01:19:54.282431+00:00"
+    },
+    {
+      "name": "audit_query-a1deafca29483c66",
+      "allocatedBytes": 41754624,
+      "logicalBytes": 42150752,
+      "mtime": "2026-10-16T01:16:38.560873+00:00"
+    },
+    {
+      "name": "material_review-9a12feb69ee43ddb",
+      "allocatedBytes": 41664512,
+      "logicalBytes": 42059000,
+      "mtime": "2026-10-16T01:19:53.478408+00:00"
+    },
+    {
+      "name": "usage-20a6f5caf86355f7",
+      "allocatedBytes": 41635840,
+      "logicalBytes": 42030592,
+      "mtime": "2026-10-16T01:19:53.806417+00:00"
+    },
+    {
+      "name": "security-9fad8305be5fc333",
+      "allocatedBytes": 41631744,
+      "logicalBytes": 42025240,
+      "mtime": "2026-10-16T01:19:54.994451+00:00"
+    },
+    {
+      "name": "cockpit_repository-5063e98527cc9fb0",
+      "allocatedBytes": 38039552,
+      "logicalBytes": 38178072,
+      "mtime": "2026-10-16T02:25:14.702050+00:00"
+    },
+    {
+      "name": "collaboration_admission-a2d29608d98dc4f4",
+      "allocatedBytes": 32854016,
+      "logicalBytes": 33173328,
+      "mtime": "2026-10-16T01:20:44.263852+00:00"
+    },
+    {
+      "name": "status_projection-7cd99e934266596b",
+      "allocatedBytes": 30355456,
+      "logicalBytes": 30639200,
+      "mtime": "2026-10-16T01:20:51.852067+00:00"
+    },
+    {
+      "name": "archive_integrity-02cf0d8ffc9189bf",
+      "allocatedBytes": 30138368,
+      "logicalBytes": 30428064,
+      "mtime": "2026-10-16T01:20:48.055959+00:00"
+    },
+    {
+      "name": "recovery_decision-f56731a585e9f1ec",
+      "allocatedBytes": 30031872,
+      "logicalBytes": 30317824,
+      "mtime": "2026-10-16T01:20:38.271682+00:00"
+    },
+    {
+      "name": "ai_cockpit-11bb2e5a7fd7aa33",
+      "allocatedBytes": 29876224,
+      "logicalBytes": 30165696,
+      "mtime": "2026-10-16T01:16:32.176694+00:00"
+    },
+    {
+      "name": "evidence_assurance-0cd7c42b56f80eb6",
+      "allocatedBytes": 28942336,
+      "logicalBytes": 29224664,
+      "mtime": "2026-10-16T01:20:42.771809+00:00"
+    },
+    {
+      "name": "ci_quality_gate-86860e74d4f28a0b",
+      "allocatedBytes": 28938240,
+      "logicalBytes": 29213976,
+      "mtime": "2026-10-16T01:20:50.616032+00:00"
+    },
+    {
+      "name": "lifecycle_entry-bf1ed6fc5a56b3dc",
+      "allocatedBytes": 28741632,
+      "logicalBytes": 29002552,
+      "mtime": "2026-10-16T02:24:16.688412+00:00"
+    },
+    {
+      "name": "audit_query-2daf1d1501f274de",
+      "allocatedBytes": 28545024,
+      "logicalBytes": 28803000,
+      "mtime": "2026-10-16T01:20:38.755695+00:00"
+    },
+    {
+      "name": "resource_finalization_transition-5c6b3935888cfe7f",
+      "allocatedBytes": 28368896,
+      "logicalBytes": 28633008,
+      "mtime": "2026-10-16T01:20:42.299796+00:00"
+    },
+    {
+      "name": "coordination_store-874a9e4c60a1e10a",
+      "allocatedBytes": 28164096,
+      "logicalBytes": 28439400,
+      "mtime": "2026-10-16T01:20:37.015646+00:00"
+    },
+    {
+      "name": "closeout_recovery-efd65d00d8e5811e",
+      "allocatedBytes": 28151808,
+      "logicalBytes": 28425464,
+      "mtime": "2026-10-16T01:20:41.003759+00:00"
+    },
+    {
+      "name": "closeout_recovery-6f68b587e7b889c8",
+      "allocatedBytes": 27922432,
+      "logicalBytes": 28190520,
+      "mtime": "2026-10-16T01:16:42.596987+00:00"
+    }
+  ],
+  "executableArtifactsCount": 176,
+  "activeBuildOrRuntimeProcesses": [],
+  "ppid1ZombieCount": 21316,
+  "pid1": "tail",
+  "meminfo": {
+    "MemTotal": "18440136 kB",
+    "MemAvailable": "9983004 kB",
+    "SwapTotal": "0 kB",
+    "SwapFree": "0 kB"
+  },
+  "targetUniqueAllocatedBytes": 2484903936,
+  "hardlinkDuplicateAllocatedBytes": 75948032,
+  "largestWorkspaceRlibs": [
+    {
+      "name": "libcockpit_repository-d12b2f3379bd89c4.rlib",
+      "allocatedBytes": 65204224
+    },
+    {
+      "name": "libcockpit_protocol-0790b3f72448c4ec.rlib",
+      "allocatedBytes": 16654336
+    },
+    {
+      "name": "libcockpit_verification-21bd6d1489bc76ac.rlib",
+      "allocatedBytes": 13676544
+    },
+    {
+      "name": "libcockpit_verification-82ccbc83696341c7.rlib",
+      "allocatedBytes": 13660160
+    },
+    {
+      "name": "libcockpit_release-f2a58b1a948fc073.rlib",
+      "allocatedBytes": 8638464
+    },
+    {
+      "name": "libcockpit_mcp-f8b5904a585e9ea6.rlib",
+      "allocatedBytes": 5914624
+    },
+    {
+      "name": "libcockpit_git-c1c9c3d978ad5ecb.rlib",
+      "allocatedBytes": 2764800
+    },
+    {
+      "name": "libcockpit_git-04be043f42e9eef3.rlib",
+      "allocatedBytes": 2764800
+    }
+  ]
+}
