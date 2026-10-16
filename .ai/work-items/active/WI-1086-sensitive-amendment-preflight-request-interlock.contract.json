@@ -54,7 +54,9 @@
       "docs/reference/reference-parity.md",
       "docs/reference/reference-parity.zh-CN.md",
       "docs/reference/reference-parity.ja.md",
-      "crates/cockpit-repository/src/governance_controls.rs"
+      "crates/cockpit-repository/src/governance_controls.rs",
+      "crates/cockpit-cli/tests/scope_amendment.rs",
+      "crates/cockpit-repository/tests/lifecycle_entry.rs"
     ],
     "maxWorkers": 1,
     "reason": "Serial only. Preserve original WI-1085 and all active conflicts. Shared source and parity paths, builds and lifecycle actions never run concurrently with WI-1085. Repair depends on approved main baseline; WI-1085 restoration depends on a separately reviewed tested repair Runtime. No fabricated registration or lease.",
@@ -156,7 +158,9 @@
     ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json",
     ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.*.json",
     ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review*.json",
-    "crates/cockpit-repository/src/governance_controls.rs"
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-cli/tests/scope_amendment.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
   ],
   "sources": [],
   "state": "implementation_active",

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1086-approved-current-preflight-fixture-order-20261016",
+  "expectedContractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+  "reason": "Raydot technically approved the two-file, three-site fixture-order correction, relayed in the current user instruction on 2026-10-16. Add only existing scope_amendment.rs and lifecycle_entry.rs tests to scope and implementationPaths. Before fixture approval, run real current preflight; preserve every original assertion, receipt integrity guard, same-Contract valid review reuse, original full verification failure and all old evidence. No policy change, fabricated human review, Runtime installation, final acceptance, merge, close or cleanup.",
+  "changes": [
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "crates/cockpit-cli/tests/scope_amendment.rs"
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "crates/cockpit-repository/tests/lifecycle_entry.rs"
+    },
+    {
+      "path": "/concurrencyBoundary",
+      "operation": "replace",
+      "value": {
+        "generatedEvidencePaths": [
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.intelligence.json",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.approach.json",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.outcome.json",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.events.jsonl",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.task-report.json",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.task-report.md",
+          ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.archive.json",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.intelligence.json",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.approach.json",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.outcome.json",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.events.jsonl",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.task-report.json",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.task-report.md",
+          ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.archive.json",
+          ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/**",
+          ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.contract-amendments/**",
+          ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review.json"
+        ],
+        "implementationPaths": [
+          "crates/cockpit-repository/src/contract_amendment.rs",
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.md",
+          "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.zh-CN.md",
+          "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "crates/cockpit-repository/src/governance_controls.rs",
+          "crates/cockpit-cli/tests/scope_amendment.rs",
+          "crates/cockpit-repository/tests/lifecycle_entry.rs"
+        ],
+        "maxWorkers": 1,
+        "reason": "Serial only. Preserve original WI-1085 and all active conflicts. Shared source and parity paths, builds and lifecycle actions never run concurrently with WI-1085. Repair depends on approved main baseline; WI-1085 restoration depends on a separately reviewed tested repair Runtime. No fabricated registration or lease.",
+        "schemaVersion": 1,
+        "serializedProjectionPaths": [
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/src/status_projection.rs",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "crates/cockpit-repository/src/governance_controls.rs"
+        ],
+        "verificationOutputPaths": [
+          "target/wi1086-sensitive-amendment-preflight-request-interlock/**"
+        ]
+      }
+    }
+  ]
+}

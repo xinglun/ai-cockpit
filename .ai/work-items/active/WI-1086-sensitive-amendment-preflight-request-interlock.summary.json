@@ -37,6 +37,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+      "previousContractHash": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+      "reason": "Raydot technically approved the two-file, three-site fixture-order correction, relayed in the current user instruction on 2026-10-16. Add only existing scope_amendment.rs and lifecycle_entry.rs tests to scope and implementationPaths. Before fixture approval, run real current preflight; preserve every original assertion, receipt integrity guard, same-Contract valid review reuse, original full verification failure and all old evidence. No policy change, fabricated human review, Runtime installation, final acceptance, merge, close or cleanup.",
+      "recorded": true,
+      "recordedAt": "2026-10-16T01:47:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
@@ -63,8 +83,8 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-16T01:14:46Z",
-  "preflightContractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+  "preflightAt": "2026-10-16T01:48:12Z",
+  "preflightContractDigest": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
   "preflightDecisionDigest": "sha256:8920a34f2a16192132227e264543d05da638385c607d50d9502cb6d9cfaf46fd",
   "preflightRepositorySnapshotDigest": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
   "preflightState": "yellow",
@@ -73,9 +93,9 @@
   "state": "checkpointed",
   "updatedAt": "2026-10-16T00:45:28.734032014+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+    "contractHash": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-16T00:35:39Z"
+    "recordedAt": "2026-10-16T01:47:35Z"
   },
   "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
 }
