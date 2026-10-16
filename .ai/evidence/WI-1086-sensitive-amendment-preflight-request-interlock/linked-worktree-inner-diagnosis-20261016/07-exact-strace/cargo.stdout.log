@@ -1,0 +1,11 @@
+
+running 1 test
+test linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory ... FAILED
+
+failures:
+
+failures:
+    linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.43s
+

@@ -1,0 +1,74 @@
+{
+  "kind": "directed_diagnostic_only",
+  "caseId": "09-exact-cache-ready",
+  "launchExitCode": 0,
+  "checks": {
+    "launchExitZero": true,
+    "subreaperRegistered": true,
+    "tiniExitObserved": true,
+    "noObservationErrors": true,
+    "noNewZombies": true,
+    "noNewSessionProcesses": true,
+    "tiniAbsentAfter": true,
+    "cargoResultPresent": true,
+    "cargoLogsPresent": true,
+    "nativeAttemptPassed": true
+  },
+  "mayContinue": true,
+  "beforeZombieCount": 1404,
+  "afterZombieCount": 1404,
+  "newZombies": [],
+  "newSessionProcesses": [],
+  "newOtherProcesses": [],
+  "observationErrors": {
+    "before": [],
+    "after": []
+  },
+  "tiniPids": [
+    280668
+  ],
+  "remainingTiniProcesses": [],
+  "attempts": [
+    {
+      "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.ea4afe64d2fcfd7914dd3224144da09337df6d6bde57d6cfad6244888b7b7ccc.json",
+      "attemptId": "sha256:ea4afe64d2fcfd7914dd3224144da09337df6d6bde57d6cfad6244888b7b7ccc",
+      "state": "execution_completed",
+      "passed": true,
+      "processesSpawned": 1,
+      "diagnostic": null,
+      "records": [
+        {
+          "nodeId": "project-command-0",
+          "spawned": true,
+          "passed": true,
+          "exitCode": 0,
+          "timedOut": false,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        }
+      ]
+    }
+  ],
+  "logs": {
+    "cargo.stdout.log": {
+      "exists": true,
+      "bytes": 193,
+      "sha256": "d253a4a94c31d33b189f020ff891a4e2f3a310a06724eaf05ea734f7764af24e"
+    },
+    "cargo.stderr.log": {
+      "exists": true,
+      "bytes": 229,
+      "sha256": "bbe3adacaf31179e752478439eb9fd820ab217e251f031fde9254d04e84a8d74"
+    },
+    "native-tini.stdout.log": {
+      "exists": true,
+      "bytes": 5676,
+      "sha256": "d43241b52d516a3a9ac27d2b275c75abc3eb073cfdca607dd04fcce32ce20632"
+    },
+    "native-tini.stderr.log": {
+      "exists": true,
+      "bytes": 282,
+      "sha256": "fa367263f7d96bad6be9c09858de7897ec1c380ab03476200ee49f69fb065f39"
+    }
+  }
+}
