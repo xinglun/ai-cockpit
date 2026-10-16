@@ -664,3 +664,154 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
 fn retry_pending_amendment_admits_bound_review_request_without_verification_spawn() {
     assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(true);
 }
+
+fn assert_mixed_pre_amendment_review_binding_is_rejected(use_mcp: bool) {
+    let root = repository();
+    let repository_path = root.path().to_str().expect("repository path");
+    let contract_relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let contract_path = root.path().join(&contract_relative);
+    let summary_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+    let initial = run_cli(&[
+        "preflight",
+        "--repo",
+        repository_path,
+        "--contract",
+        &contract_relative,
+    ]);
+    assert_success(&initial, "initial preflight before mixed-binding fixture");
+    let checkpoint = run_cli(&[
+        "checkpoint",
+        "--repo",
+        repository_path,
+        "--id",
+        WORK_ITEM_ID,
+    ]);
+    assert_success(&checkpoint, "checkpoint before mixed-binding fixture");
+    let old_summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("old Summary"))
+        .expect("old Summary JSON");
+    let old_contract: Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("old Contract"))
+            .expect("old Contract JSON");
+    let runtime = candidate_runtime();
+    let request = ContractAmendmentRequest {
+        schema_version: CONTRACT_AMENDMENT_SCHEMA_VERSION,
+        change_id: "mixed-binding-sensitive-amendment".into(),
+        expected_contract_digest: cockpit_protocol::digest_json(&old_contract)
+            .expect("old Contract digest"),
+        reason: "isolated regression: invalidate old preflight before any new review".into(),
+        changes: vec![ContractAmendmentChange {
+            path: "/scope".into(),
+            operation: ContractAmendmentOperation::Replace,
+            value: Some(json!(["README.md", "src/**"])),
+        }],
+    };
+    let amended = mcp_call(
+        root.path(),
+        &runtime,
+        "work_item_amend",
+        json!({"workItemId": WORK_ITEM_ID, "request": request}),
+    );
+    assert_eq!(
+        amended.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{amended}"
+    );
+    let new_contract_bytes = fs::read(&contract_path).expect("new Contract");
+    let new_contract: Value =
+        serde_json::from_slice(&new_contract_bytes).expect("new Contract JSON");
+    let summary_before = fs::read(&summary_path).expect("invalidated Summary");
+    let invalidated: Value =
+        serde_json::from_slice(&summary_before).expect("invalidated Summary JSON");
+    assert_eq!(invalidated["preflightState"], "not_run");
+    assert_eq!(
+        invalidated["preflightContractDigest"],
+        old_summary["preflightContractDigest"]
+    );
+    assert_eq!(
+        invalidated["preflightDecisionDigest"],
+        old_summary["preflightDecisionDigest"]
+    );
+    let history_before = amendment_history_bytes(root.path());
+    // This input exists only inside this temporary regression fixture.
+    // A current Contract cannot turn the retained old preflight fields into
+    // a new identity-bound human review before Runtime generates that review.
+    let controls = json!({"decisionEvidence": {
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": WORK_ITEM_ID,
+        "repositoryId": repository_id(root.path()),
+        "contractDigest": cockpit_protocol::digest_json(&new_contract).expect("new Contract digest"),
+        "preflightDecisionDigest": old_summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": old_summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-10-16T00:00:00Z",
+        "recordedBy": "human:isolated-automated-test-fixture",
+        "reason": "negative automated fixture only; not an actual human approval"
+    }});
+    if use_mcp {
+        let response = mcp_call(
+            root.path(),
+            &runtime,
+            "work_item_controls",
+            json!({"workItemId": WORK_ITEM_ID, "controls": controls}),
+        );
+        assert_eq!(
+            response.pointer("/result/isError"),
+            Some(&json!(true)),
+            "MCP must reject a new Contract mixed with pre-amendment preflight fields: {response}"
+        );
+    } else {
+        let input = tempfile::NamedTempFile::new().expect("controls input");
+        fs::write(
+            input.path(),
+            serde_json::to_vec(&controls).expect("controls JSON"),
+        )
+        .expect("write controls input");
+        let response = run_cli(&[
+            "work-item",
+            "controls",
+            "--repo",
+            repository_path,
+            "--id",
+            WORK_ITEM_ID,
+            "--input",
+            input.path().to_str().expect("controls path"),
+        ]);
+        assert!(
+            !response.status.success(),
+            "CLI must reject a new Contract mixed with pre-amendment preflight fields; stdout={} stderr={}",
+            String::from_utf8_lossy(&response.stdout),
+            String::from_utf8_lossy(&response.stderr)
+        );
+    }
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after rejection"),
+        summary_before
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after rejection"),
+        new_contract_bytes
+    );
+    assert_eq!(amendment_history_bytes(root.path()), history_before);
+    assert!(
+        !root
+            .path()
+            .join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
+            ))
+            .exists(),
+        "rejected mixed binding must not publish a decision receipt"
+    );
+}
+
+#[test]
+fn mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_cli() {
+    assert_mixed_pre_amendment_review_binding_is_rejected(false);
+}
+
+#[test]
+fn mixed_current_contract_and_pre_amendment_preflight_receipt_is_rejected_by_mcp() {
+    assert_mixed_pre_amendment_review_binding_is_rejected(true);
+}

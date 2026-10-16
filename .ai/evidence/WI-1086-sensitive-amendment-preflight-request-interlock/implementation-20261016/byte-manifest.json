@@ -1,0 +1,95 @@
+{
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/committed-status.meta.json",
+      "bytes": 589,
+      "rawSha256": "95fcc699dfb1d2573794431e9a11916cdcff8e351aca2c9e4a3c09661cf9d9bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/committed-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/committed-status.stdout",
+      "bytes": 3183,
+      "rawSha256": "4b7bc18785dc0507a8ec034316eb0f198c198da2f5940f2f7623eb48eaedd24f"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/ledger.md",
+      "bytes": 3383,
+      "rawSha256": "650ad12e14dab394f77f06dcddcd7d8288a9edebd35260494a8ea6c62e189005"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/pending-validator-scope-amend.request.json",
+      "bytes": 5021,
+      "rawSha256": "bc012d4cd1c9413f5835f05658969b8f77bdbea45c576bed237773ca764b3a71"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/preservation-and-health.json",
+      "bytes": 1552,
+      "rawSha256": "6709c1104bdef70453e08c11728b0ac3fcadc9aa6d2fbc9ba0a8f8c4a04d61d0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-handoff-outcome.meta.json",
+      "bytes": 576,
+      "rawSha256": "e9482657996f54f7233bc777c157d93d2bd80c711536489dc16a2f0b04c269d1"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-handoff-outcome.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-handoff-outcome.stdout",
+      "bytes": 2614,
+      "rawSha256": "790dc19b2e7221a67d52ca5929ffe71bd48fbb6a5d8232028206731cdea22d33"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-handoff-status.meta.json",
+      "bytes": 589,
+      "rawSha256": "1845af75e3ef7c4349fa59c915a51cd6b9e31fe178ae76fb2bcdb491b5424de0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-handoff-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-handoff-status.stdout",
+      "bytes": 3375,
+      "rawSha256": "ea09e75d12b3edf71dbeb8341a2c2ecf46f14e7ccfadb077a9afca5b922efab1"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-mixed-binding-facts.json",
+      "bytes": 2951,
+      "rawSha256": "73d659ec70538b01e2b8c54e00c82aa2475abfbbb546d38e75a7e3a4d09d6d39"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-mixed-review-binding.meta.json",
+      "bytes": 1647,
+      "rawSha256": "e33a60bd320e0d76eea2dfcacbf14dd6add240c1313a5b7411c5a92fb9503551"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-mixed-review-binding.stderr",
+      "bytes": 16282,
+      "rawSha256": "f088b0c5727ecb402a30f732a682ff9f2485d506084fac43f6516af68d1d0912"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-mixed-review-binding.stdout",
+      "bytes": 491,
+      "rawSha256": "b2592fcb7aebd2b41aaae6d45ff9590fa372de81f286d00a8210cdbd3ab29eac"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/red-summary-and-minimal-extension.zh-CN.md",
+      "bytes": 4543,
+      "rawSha256": "c5a0104d678e469d0cc11d6552b749846c125c24554ad8060f43efa97fcef2e7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-20261016/run-bounded.py",
+      "bytes": 3318,
+      "rawSha256": "4b40acd083ef1f3e2b8ae97ee6adb619d9146a5d9632bcfb2ee958dae2c0275f"
+    }
+  ],
+  "manifestExcludesItself": true
+}
