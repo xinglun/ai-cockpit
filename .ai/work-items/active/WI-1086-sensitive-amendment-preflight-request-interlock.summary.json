@@ -116,6 +116,14 @@
     "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-16T06:28:26.787140778Z",
+      "recordedAt": "2026-10-16T06:28:26.787140778Z",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -131,8 +139,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-10-16T05:04:04.187578254+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-16T06:28:26.787140778Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -191,6 +199,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:806f4a0ca27f88f5372789d5f9049b2877e39ee9d2c7331d857d6890a5d28839",
   "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
 }
