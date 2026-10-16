@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/workspace/ai-cockpit/.ai",
+    "entries": 16044,
+    "metadataSha256": "a2af3169abd40e032d9e4b28658e03b3766efc537eef7a10262f7568869dac91"
+  },
+  {
+    "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai",
+    "entries": 15792,
+    "metadataSha256": "b772aa40fed4713f6b585f5a4fbaf2efd648b43aaa79296b442491b2d8c72a82"
+  },
+  {
+    "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target",
+    "entries": 3983,
+    "metadataSha256": "ab7c8c07a5237698627ae5813e27af3a67f98cefebce0bfd5bd1235b825e9e40"
+  },
+  {
+    "path": "/tmp/wi1085-result-20261016",
+    "entries": 46,
+    "metadataSha256": "624246a1837add5dba2b6ba06f8667b1dfbb2069878df03edfaf7ad30cbd0f84"
+  },
+  {
+    "path": "/tmp/wi1085-scope-storage-proposal-20261016",
+    "entries": 11,
+    "metadataSha256": "d319c00786e0feeff1b957fe86c2bab92cae75fde4502a7553c45f3645b4037c"
+  }
+]

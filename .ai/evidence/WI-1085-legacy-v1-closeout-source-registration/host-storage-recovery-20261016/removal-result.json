@@ -1,0 +1,17 @@
+{
+  "completedAt": "2026-10-16T12:34:46.157138+00:00",
+  "argv": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "rm",
+    "-rf",
+    "--one-file-system",
+    "--",
+    "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/"
+  ],
+  "exitCode": 0,
+  "exactPathAbsent": true,
+  "availableBytesAfter": 11884752896
+}

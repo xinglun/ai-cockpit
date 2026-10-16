@@ -1,0 +1,27 @@
+{
+  "recordedAt": "2026-10-16T12:41:02.559750+00:00",
+  "currentAvailableBytes": 11881852928,
+  "currentTargetAllocatedBytes": 19205693440,
+  "retainedTarget": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "conservativeRepositoryNewVariantBoundBytes": 7721392248,
+  "basis": "Assume one additional variant for all 51 repository integration targets, each as large as the largest existing matching target executable (151399848 bytes). Existing binaries can include name collisions from other packages; this is a planning estimate, not a proven future build-size ceiling.",
+  "linkerPeakAllowanceBytes": 536870912,
+  "otherPackageMetadataLogsAndRebuildAllowanceBytes": 805306368,
+  "estimatedIncrementBudgetBytes": 9063569528,
+  "minimumFreeReserveBytes": 2147483648,
+  "startThresholdBytes": 11211053176,
+  "currentlyMeetsEstimatedStartThreshold": true,
+  "notPermissionToExecute": "Native human review and fresh final material decision still required. Recheck free space and actual binding immediately before testing; do not begin if below threshold. Monitor while running and stop/reassess if growth threatens reserve or observation fails. No further deletion authorized.",
+  "verificationConstraints": {
+    "declaredCommand": "cargo test --locked --workspace",
+    "nativeWorkers": 1,
+    "buildJobs": 1,
+    "testThreads": 1,
+    "outerTimeoutSeconds": 890,
+    "killAfterSeconds": 10,
+    "perPackageTimeoutSeconds": 600,
+    "targetReuse": "Same isolated target retained, but native verification still executes all required package nodes and records actual reuse/execution.",
+    "executor": "Existing Tini -s -g -vvv -w plus timeout and repository process-observer runner; no custom supervisor."
+  },
+  "signal7Causality": "Unknown. Preserve and diagnose any recurrence; do not skip failing tests."
+}

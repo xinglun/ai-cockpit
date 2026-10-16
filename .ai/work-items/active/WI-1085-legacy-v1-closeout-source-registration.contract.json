@@ -78,7 +78,9 @@
       "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md",
       "docs/reference/reference-parity.md",
       "docs/reference/reference-parity.zh-CN.md",
-      "docs/reference/reference-parity.ja.md"
+      "docs/reference/reference-parity.ja.md",
+      "crates/cockpit-mcp/tests/material_review.rs",
+      "crates/cockpit-mcp/tests/usage.rs"
     ],
     "maxWorkers": 1,
     "reason": "One core owner, one build job and one isolated target. All lifecycle/registration/finalization/extension writes are serial under the same WI lock. No parallel registration, lease or missing declaration is inferred from this boundary.",
@@ -288,7 +290,9 @@
     ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration*",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-mcp/tests/material_review.rs",
+    "crates/cockpit-mcp/tests/usage.rs"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813",

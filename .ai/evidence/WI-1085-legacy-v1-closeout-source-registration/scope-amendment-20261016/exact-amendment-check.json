@@ -1,0 +1,16 @@
+{
+  "contractDiffExactlyApproved": true,
+  "scopeAdded": [
+    "crates/cockpit-mcp/tests/material_review.rs",
+    "crates/cockpit-mcp/tests/usage.rs"
+  ],
+  "implementationPathsAdded": [
+    "crates/cockpit-mcp/tests/material_review.rs",
+    "crates/cockpit-mcp/tests/usage.rs"
+  ],
+  "allOtherContractValuesUnchanged": true,
+  "nativeSequence": 5,
+  "nativeJournalDigest": "sha256:cf98ff230bb7c31371ef7b090bb450099279da87d86d0e978a6d11979d02c54f",
+  "actualContractRawSha256": "84dcb8c5cb3a09e3839c5ada0ad3563b17d34bc22f08ca9cdc118a595a9794cd",
+  "humanGatePreserved": true
+}

@@ -1,0 +1,25 @@
+{
+  "recordedAt": "2026-10-16T12:37:44.562712+00:00",
+  "source": "Actual parent-thread delegation received in current conversation after cleanup and before amendment",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "technicalDecision": "approved exact two-tests scope proposal and 31-to-33 one-line corrections",
+  "proposalCommit": "3235316534fd0798fc6a83625df72a36662ab443",
+  "proposalSha256": "04eb809ea57c5d4392717ca88020fe754d11139aa0dd33979f1ac3cd07d07a57",
+  "paths": [
+    "crates/cockpit-mcp/tests/material_review.rs",
+    "crates/cockpit-mcp/tests/usage.rs"
+  ],
+  "preserveOtherFieldsAndAssertions": true,
+  "notHumanPreflightDecision": true,
+  "notMaterialReviewDecisionForNewContract": true,
+  "cleanupAuthorityChronology": "Cleanup was authorized by the actual current-user reply before execution. The later parent transcript is retained as corroborating relay, not backdated as its authorization source.",
+  "laterHumanCleanupApprovalRelay": {
+    "reviewerMessageId": "Sentinel_746ae66189348191b7dcddac1cb61fba",
+    "reviewerMessageUtc": "2026-10-16 12:29 UTC",
+    "humanReplyMessageId": "Sentinel_c14bc72885608191af9e49018c4a74cf",
+    "humanReplyUtc": "2026-10-16 12:35 UTC",
+    "reply": "\u6279\u51c6"
+  },
+  "executionConstraints": "Before tests: native amendment/admission, refresh material request and obtain actual bound Raydot decision, isolated target/workers1/900sec and existing Tini method, space estimate and monitoring; do not attribute signal7 to disk without evidence."
+}

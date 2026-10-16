@@ -1,0 +1,236 @@
+{
+  "observedAt": "2026-10-16T12:36:18.266449+00:00",
+  "localBefore": "fe205fa70646114d35dd7f618cd840a21a7b035a",
+  "remoteVerified": "3235316534fd0798fc6a83625df72a36662ab443",
+  "priorRealFailureEvidenceVerified": "f168de42038091303801219ed3b8888afce768c8",
+  "evidenceTreesMatchPreparedPublishedObjects": true,
+  "changedPathsBetweenLocalAndRemote": [
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/cleanup-candidates.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/cleanup-occupancy.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/cleanup-tree-inventory.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/manifest.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/protected-path-check.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/report.zh-CN.md",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/restricted-process-identities.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/tool-and-test-mapping.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/two-tests-counts.DRAFT.patch",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/scope-storage-proposal-20261016/two-tests-scope.DRAFT.request.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/after-build.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/after-native-doctor.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/after-native-inspect.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/after-native-processes.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/after-native-status.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/after-native-validation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/before-native-processes.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/before-native-status.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-invocation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-01.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-02.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-03.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-04.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-result.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build.pid.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-invocation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-01.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-02.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-03.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-04.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-05.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-06.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-result.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-root-identity.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native.pid.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/outcome.zh-CN.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/prebuild-unrelated-zombie.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/preserved-bytes.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/process-recovery.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/report.zh-CN.md",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/storage-and-observation-notes.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-agent.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-agent.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-cli.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-cli.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-core.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-core.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-evidence.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-evidence.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-git.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-git.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-interface.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-interface.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-isolation.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-isolation.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-knowledge.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-knowledge.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-mcp.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-mcp.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-protocol.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-protocol.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-release.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-release.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-repository.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-repository.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-verification.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/streams/cockpit-verification.out.log"
+  ],
+  "untrackedEvidenceFilesBefore": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b.json",
+      "bytes": 485689,
+      "sha256": "0c07ee1e2f0c0c6a4bd56370a380a4b39eea1f5fe6d7d2f384083ecb738e1b48",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/after-build.json",
+      "bytes": 71437,
+      "sha256": "6746a368328c7bf85e1ce3e3a91cae85eb3a56116bcffa2a31a568b95edf279a",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/before-native-processes.json",
+      "bytes": 71437,
+      "sha256": "c7e313d0e0492b5e7fa59cc672614d85b0a50b140d98628a5a3bf023cddde913",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/before-native-status.json",
+      "bytes": 4158,
+      "sha256": "75ab413bf46f4371ddc2c4042a6782f20ce784e11a85339d28e916becb94c81e",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-invocation.json",
+      "bytes": 733,
+      "sha256": "9443b2fc4c5f042a8e8ef942f709c3650c7aba6fb530b23aeeb33526b87bd445",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-01.json",
+      "bytes": 73057,
+      "sha256": "93eca639759466603fc56c141f114d97588ffba4b66d3252b6409126df2bb4f4",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-02.json",
+      "bytes": 73057,
+      "sha256": "28a6d9da21a39d603ef2b719e6c0c038362da92deb4aa521301dbcd56957a71c",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-03.json",
+      "bytes": 73594,
+      "sha256": "2ea64258d228abc392c6ba81e6944632bc4636cc5f454053a2cea285c1d1a633",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-observe-04.json",
+      "bytes": 73593,
+      "sha256": "cb9d5d04c4bf7921c726ada2a0cb650eff96d1d5c3073f19105ffe7c71a8edcd",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build-result.json",
+      "bytes": 924,
+      "sha256": "606bfc1b6969fadd4f8981a6725df2f94cdd1e49d592dd201efc7ea9a7ee9754",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build.err.log",
+      "bytes": 25384,
+      "sha256": "7ecb893a199c87d16652033cb654e3245d2e91d54334b20b253c102faf7d4f47",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build.out.log",
+      "bytes": 9380,
+      "sha256": "ed6a208818ae78718596a96fc96536c4f331016790b644bb2e8cec4c57d3f73d",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/build.pid.txt",
+      "bytes": 7,
+      "sha256": "8ca454709b2f00c884fa47d8f8f8383cbdbb5e389fbac68a98c0cd3aedbc8e2c",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-invocation.json",
+      "bytes": 1664,
+      "sha256": "fab32c7abd8062fbbada22577fbbbb8d3cfff4431895a7fd099fee1433c875ed",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-01.json",
+      "bytes": 73239,
+      "sha256": "e86c62882f733efc162a859abc8fcc36b85f37db9d636b46ae31f7cfeff89f00",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-02.json",
+      "bytes": 73612,
+      "sha256": "ffca0fb0ca0c9d9f2dd4eb67c44614963086908edeae33e7758f28e8868fafc7",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-03.json",
+      "bytes": 73432,
+      "sha256": "1adc2bfc3bcdf4144a9e698f715f1be874ddb018c64e432ff0c7a85e630c9fb8",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-04.json",
+      "bytes": 73249,
+      "sha256": "1e2990fb92794293c214f2838b9d37e3039f774b2f321620002997fb4c00f222",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-05.json",
+      "bytes": 73551,
+      "sha256": "a1f949f38a632aabc805196af76d56e2365916427ad44666284616de50a4a03b",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-observe-06.json",
+      "bytes": 73625,
+      "sha256": "434e12e0042c92394a19171708766d09989c01be075e05d099b47eca60d6d962",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-root-identity.json",
+      "bytes": 88,
+      "sha256": "9b1e590b7aa12c66994eb6ba2ae2b128910305539abee1cfcc3fba8560410664",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native.err.log",
+      "bytes": 20788,
+      "sha256": "f0874df1e8790b630157308eb22a327122537c33f89bcb437ec792ad8e4c1466",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native.out.log",
+      "bytes": 314072,
+      "sha256": "141bafda3e7f9fdc6b877c69f2e5f28ddc710be97e4318968c08c3703dfaad3d",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native.pid.txt",
+      "bytes": 7,
+      "sha256": "99e2ac746de3030aa9a8b1f1272cfa8aa8325dfea43cc3e5dcd242d8336d1c0a",
+      "byteIdenticalToRemote": true
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/prebuild-unrelated-zombie.json",
+      "bytes": 287,
+      "sha256": "ad979df0d4c87c0aa42d73601981b957f743f6c150eba785a20d3af864286a4e",
+      "byteIdenticalToRemote": true
+    }
+  ],
+  "trackedProductAndGovernanceRecordsUnchanged": true,
+  "plannedPreservation": "Retain a named Git stash containing these untracked evidence files, then normal --ff-only merge of the exact remote tracking ref. Do not drop the stash or reset files."
+}

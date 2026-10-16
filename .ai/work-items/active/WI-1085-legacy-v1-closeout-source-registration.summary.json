@@ -337,6 +337,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "reason": "DRAFT ONLY for Raydot review. Actual native attempt a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b failed material_review.rs:88 because tools/list reports the 33 declared tools after the two WI-1085 legacy source tools were added, while this assertion expects 31. Static review finds the same old count at usage.rs:25; that test was not reached in the failed MCP node. Add only these two existing test files to scope and matching concurrencyBoundary.implementationPaths so a later admitted change may update each exact tool-count assertion from 31 to 33, preserving all other assertions, product behavior, checks and acceptance. This proposal applies no amendment and records no human confirmation or fresh material-review decision. Bus error remains an observed signal 7, not attributed to disk by this request.",
+      "recorded": true,
+      "recordedAt": "2026-10-16T12:38:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
@@ -378,9 +398,9 @@
     "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-16T09:48:25Z",
-  "preflightContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
-  "preflightDecisionDigest": "sha256:f4467a1c6ee22a9184c4f176fc4abe5a0fc17ea94f6f7ec1f5b70f7130f83b64",
+  "preflightAt": "2026-10-16T12:38:45Z",
+  "preflightContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "preflightDecisionDigest": "sha256:7b2ccbca2b332f533676c4f3d3e04ac3d83ec9df916977db582212b8a90b3c72",
   "preflightRepositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
   "preflightState": "yellow",
   "protocolVersion": 1,
@@ -533,9 +553,9 @@
   "state": "checkpointed",
   "updatedAt": "2026-10-16T09:51:11.972795368+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "contractHash": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-15T23:14:16Z"
+    "recordedAt": "2026-10-16T12:38:06Z"
   },
   "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
 }
