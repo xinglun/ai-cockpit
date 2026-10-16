@@ -1,0 +1,70 @@
+[
+  {
+    "artifactId": 12069546124,
+    "name": "repository-gate-receipts",
+    "runId": 38951742695,
+    "publishedZipSha256": "c8b5a937e80dceb4c99347c0dbc8494cbb04f2c56b5b697d55c5384d674381ab",
+    "members": [
+      {
+        "zipMember": "governance-integrity-report.json",
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/governance-integrity-report.json",
+        "bytes": 173618,
+        "sha256": "04a7fcfb8a346a2a193b6acecfe87dde6fb7c8a07080aadfe1052f543c8962fe"
+      },
+      {
+        "zipMember": "quality-route.json",
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/quality-route.json",
+        "bytes": 851775,
+        "sha256": "d552d4065555a62865a5a8342febad89c88bf2fd54dc5bbdcbf05d9a76b2f649"
+      },
+      {
+        "zipMember": "repository-gates.json",
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/repository-gates.json",
+        "bytes": 18674,
+        "sha256": "fb231d50f8c6f434eee86b937b197ba4d7a8d3a6856ad1583f9f4a12fa9c773b"
+      }
+    ]
+  },
+  {
+    "artifactId": 12070065573,
+    "name": "workspace-package-coverage",
+    "runId": 38951742695,
+    "publishedZipSha256": "3e6481e2fdb584029cfaad1db41aad9f423a3183d35da33d00dd58aa85cb0df0",
+    "members": [
+      {
+        "zipMember": "workspace-package-coverage.json",
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/workspace-package-coverage.json",
+        "bytes": 1111,
+        "sha256": "27900b08bacbd70c6b7f9a45d47350aff0b02c618cda0efc988b537dedf3bcee"
+      }
+    ]
+  },
+  {
+    "artifactId": 12068514091,
+    "name": "ci-quality-revision-binding",
+    "runId": 38951742695,
+    "publishedZipSha256": "a7c3d930c7fe5b7dea35cca67322399c09bfaf854212bfdc5079404c02fe5263",
+    "members": [
+      {
+        "zipMember": "ci-revision-binding.json",
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/ci-revision-binding.json",
+        "bytes": 544,
+        "sha256": "8f61dfccc33974eb96a67b933de0e804db6382783166d7e3e8835fc0bfadbb37"
+      }
+    ]
+  },
+  {
+    "artifactId": 12070382109,
+    "name": "ci-revision-binding-windows",
+    "runId": 38951742695,
+    "publishedZipSha256": "abdc9ca32cdeca2485c578050435b2f4f58b51aa4091d9c877c360d1f21d74aa",
+    "members": [
+      {
+        "zipMember": "ci-revision-binding.json",
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/windows-revision-binding.json",
+        "bytes": 558,
+        "sha256": "22c9e84d86e12046c324ce403c747561f84645ad1ba4e578bdd99d5e3df7771d"
+      }
+    ]
+  }
+]

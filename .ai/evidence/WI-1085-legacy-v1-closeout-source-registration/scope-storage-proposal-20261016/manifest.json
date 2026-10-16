@@ -1,0 +1,47 @@
+[
+  {
+    "path": "cleanup-candidates.json",
+    "bytes": 3118,
+    "sha256": "62f8bd1c0bbea7168f993b0c23f10c60334e2337a88f409696de5a9ab08017c9"
+  },
+  {
+    "path": "cleanup-occupancy.json",
+    "bytes": 2790,
+    "sha256": "eaaf51f4ded1f1fb0e98fdcb85dd5156c343bef485c7643d193447a2e9a6bf33"
+  },
+  {
+    "path": "cleanup-tree-inventory.json",
+    "bytes": 1242113,
+    "sha256": "751ef29ff4573da8cdb9f75e04c47465b2b4912081194ab838ddf841443e1ab2"
+  },
+  {
+    "path": "protected-path-check.json",
+    "bytes": 3180,
+    "sha256": "dec97dfc238b6ba93cb959c058f84bfc047e16412b83acabcb20e96d42dcdc40"
+  },
+  {
+    "path": "report.zh-CN.md",
+    "bytes": 5742,
+    "sha256": "180a38db52e1f464f7b4c1202876636e6c5c8e7f7b2da17dcad0cc4e291a5ba6"
+  },
+  {
+    "path": "restricted-process-identities.json",
+    "bytes": 470,
+    "sha256": "66115b188fe9e3fe03f556000a28408b6e1e4254c9a753f842ff08b836c6bf57"
+  },
+  {
+    "path": "tool-and-test-mapping.json",
+    "bytes": 2199,
+    "sha256": "a9e282a857236b6e35955fb0cba1cebcff170434c0da2f6aac3e0e55a26a6a25"
+  },
+  {
+    "path": "two-tests-counts.DRAFT.patch",
+    "bytes": 776,
+    "sha256": "49ee5c52196b54ac675dcf32a2dd26cd80b55d5c447cb0890c21637253800fcd"
+  },
+  {
+    "path": "two-tests-scope.DRAFT.request.json",
+    "bytes": 5584,
+    "sha256": "04eb809ea57c5d4392717ca88020fe754d11139aa0dd33979f1ac3cd07d07a57"
+  }
+]

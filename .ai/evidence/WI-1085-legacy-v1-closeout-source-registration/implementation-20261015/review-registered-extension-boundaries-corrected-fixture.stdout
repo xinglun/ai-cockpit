@@ -1,0 +1,16 @@
+
+running 11 tests
+test cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage ... ok
+test cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor ... ok
+test extension::already_deleted_before_registration_is_part_of_the_root_inventory ... ok
+test extension::committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes ... ok
+test extension::partial_extension_requires_independent_original_and_resumes_both_survivors ... ok
+test extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence ... ok
+test extension::registered_extension_rejects_wrong_sequence_fork_identity_and_present_resources ... ok
+test extension::registered_root_refuses_unprepared_raw_transition_without_writing ... ok
+test extension::review_regression_root_loss_during_extension_pending_has_ordered_exact_recovery ... ok
+test foreign_registration_cannot_release_untrusted_archived_scope ... ok
+test malformed_requirement_remains_pending_when_archive_directory_is_missing ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.94s
+

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1085-independent-review-addendum-20261015",
+  "expectedContractDigest": "sha256:a56f4b3644afabce989e76aaeca1d0427448cf7650b7022a2d7a0a95bde3be71",
+  "reason": "Raydot 完整独立方案审阅已通过并授权按真实 Runtime 准入实施；补入私有锁 guard、跨 WI visited/depth、离线来源 status、损坏 canonical 枚举和合取验证约束。保留旧请求/证据，真人门禁未获满足，不伪造批准。",
+  "changes": [
+    {
+      "path": "/acceptanceCriteria",
+      "operation": "add",
+      "value": "A17: 完整独立方案审阅已通过；实现仍按当前 Runtime 和真人门禁准入。internal unlocked 核心须 crate 私有并受同 repository/WI 的锁 guard 类型/身份约束，防重入与无锁外泄；跨 WI 只读依赖验证使用 visited/depth 限制并对循环/超限 fail closed。成功登记后的 status 不默认要求原来源 checkout 永久在线，必需外部依赖必须明确声明并保留其失败语义。损坏记录先由严格 canonical 文件名参与 WI 枚举，不得因 JSON 损坏或 foreign 字段提前跳过。registered-valid、原 v1 有效、完整 inventory/provider 有效必须合取，登记不能覆盖旧验证失败。"
+    },
+    {
+      "path": "/sources",
+      "operation": "add",
+      "value": "Raydot-delegation:01a11856-d6ba-72e0-9aab-25a34cd2f018:20261015:independent-full-design-review-passed; proceed-under-real-runtime-admission; private-guarded-core, bounded-cross-WI-dependencies, offline-source-status, canonical-corrupt-enumeration, conjunctive-validity"
+    },
+    {
+      "path": "/guidelines/1",
+      "operation": "replace",
+      "value": "Raydot full independent design review has passed and ordinary technical authority to implement this bounded plan is now present. Continue only under actual Runtime admission; the currently required identity-bound human confirm_review remains unsatisfied."
+    },
+    {
+      "path": "/intent/constraints/3",
+      "operation": "replace",
+      "value": "Raydot 完整独立技术审阅已通过；实施须按 Runtime 真实准入，当前敏感 amend 的真人 confirm_review 尚未记录。"
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "guarded_bounded_offline_conjunctive_validation",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Exercise crate-private matching lock-guard callers, cross-WI cycles/depth, offline original source after complete registration, malformed/foreign canonical registration names and old-v1/provider failures with apparently valid registration.",
+        "expectedOutcome": "No recursive lock or unguarded writer, bounded failure for cyclic dependencies, no default permanent source-checkout dependency, damaged canonical records retain scope obligation and all required validity predicates remain conjunctive."
+      }
+    }
+  ]
+}

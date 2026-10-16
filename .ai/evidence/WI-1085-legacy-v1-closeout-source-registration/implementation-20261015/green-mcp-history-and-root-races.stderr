@@ -1,0 +1,6 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 23.84s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-005fe2137d819e4d)

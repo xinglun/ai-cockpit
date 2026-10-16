@@ -1,0 +1,7 @@
+
+running 2 tests
+test resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard ... ok
+test resource_lifecycle::legacy_source_lock_tests::public_finalization_waits_for_the_same_work_item_lifecycle_lock ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 123 filtered out; finished in 0.12s
+

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "green",
+  "activityHealth": "active",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 17,
+    "changedPathCount": 80,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "available",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome",
+    "review_evidence"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "materialManifest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+    "materialReviewReceipt": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+    "repositorySnapshot": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+    "summary": "sha256:edc51ec4ff02fd053330c4611a72212181e105c76928e6cc30d3325928280773",
+    "verificationEvidence": "sha256:a272a347757399e02f384d7a53fa911dd807e7eacdd32cc9fd0f32825fdd7e9f"
+  },
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+  "reviewReceiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-16T18:44:14Z",
+  "updatedAt": "2026-10-16T19:28:36.616742313+00:00",
+  "safeActions": [
+    "finish",
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "finish",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:b68d5ade54dc8189aab4d1bfbb75fef614263b080b33c50f701dade36ec85529"
+  },
+  "statusDigest": "sha256:b0621c0b02ae6bd24dc92a76264bf30ecd753c1e2ce125852bbb8a6d9ca60498",
+  "historical": false
+}

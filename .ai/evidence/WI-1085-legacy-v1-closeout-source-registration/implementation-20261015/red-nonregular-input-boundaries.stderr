@@ -1,0 +1,14 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 17.20s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'legacy_closeout_source::nonregular_tests::caller_input_fifo_is_rejected_without_blocking' (279420) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:2482:9:
+input must reject a FIFO before a blocking open
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'legacy_closeout_source::nonregular_tests::history_fifo_is_rejected_without_blocking' (279424) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:2482:9:
+history must reject a FIFO before a blocking open
+
+thread 'legacy_closeout_source::nonregular_tests::replaced_lock_fifo_is_rejected_without_blocking' (279427) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:2482:9:
+guard must reject a FIFO before a blocking open
+error: test failed, to rerun pass `-p cockpit-repository --lib`

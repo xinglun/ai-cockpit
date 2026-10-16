@@ -1,0 +1,91 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 6 tests
+test checked_in_manifest_advertises_coordination_and_parallel_capabilities ... ok
+test manifest_parent_resolves_repository_context ... ok
+test manifest_repository_mismatch_fails_closed ... ok
+test manifest_symlink_is_rejected ... ok
+test missing_manifest_is_unattached ... ok
+test sha256_file_is_bounded_and_streaming ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 7 tests
+test auto_lists_only_safe_surfaces ... ok
+test cursor_legacy_managed_md_remains_discoverable ... ok
+test cursor_uses_provider_native_mdc_target ... ok
+test detection_is_read_only ... ok
+test duplicate_marker_is_a_conflict ... ok
+test provider_target_is_repository_relative ... ok
+test unsupported_host_surface_is_not_selected ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 10 tests
+test doctor_does_not_follow_unknown_surface_symlink ... ok
+test doctor_reports_degraded_without_mcp ... ok
+test doctor_reports_expected_and_actual_adapter_digests ... ok
+test doctor_reports_unattached_and_attached ... ok
+test doctor_requires_matching_repository_probe_for_verified ... ok
+test exit_codes_match_state ... ok
+test modified_section_blocks_detach ... ok
+test repair_rebinds_explicitly_authorized_managed_section_drift ... ok
+test repair_rejects_managed_section_repository_identity_mismatch ... ok
+test unchanged_section_detaches_only_owned_bytes ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+
+running 9 tests
+test cursor_install_writes_mdc_and_preserves_user_owned_legacy_md ... ok
+test cursor_legacy_managed_adapter_detaches_only_owned_bytes ... ok
+test cursor_legacy_managed_adapter_is_repaired_in_place ... ok
+test install_creates_only_owned_managed_section ... ok
+test install_preserves_unrelated_bytes ... ok
+test install_rejects_duplicate_or_malformed_markers ... ok
+test install_rejects_symlink_target ... ok
+test repeated_install_is_byte_stable ... ok
+test repository_a_and_b_have_independent_ownership_records ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+
+running 1 test
+test parallel_agent_operations_keep_repository_ids_and_records_separate ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 12 tests
+test application_service_persists_interruption_and_retries_from_accepted_progress ... ok
+test application_service_prefers_explicit_progress_over_stale_persisted_bytes ... ok
+test application_service_preserves_return_only_handoff_and_unknown_host_facts ... ok
+test assistant_message_events_preserve_each_segment_without_reconstruction ... ok
+test consecutive_work_items_keep_delivery_identity_separate ... ok
+test display_capability_does_not_promote_missing_per_message_confirmation ... ok
+test empty_progress_cannot_claim_completion_without_attempting_the_first_segment ... ok
+test host_acceptance_is_not_display_confirmation_and_messages_are_real_events ... ok
+test interrupted_delivery_resumes_same_body_without_new_lifecycle_execution ... ok
+test non_contiguous_progress_cannot_skip_to_the_end_without_receipts ... ok
+test return_only_adapter_reports_segments_without_host_confirmation ... ok
+test stale_delivery_identity_is_rejected_before_host_message ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 1 test
+test command_host_emits_and_confirms_real_assistant_message_events ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

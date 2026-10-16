@@ -1,0 +1,8 @@
+{
+  "recordedAt": "2026-10-16T13:28:51.110218+00:00",
+  "realFailingAttempt": "sha256:88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa",
+  "scope": "Already present in Contract scope and implementationPaths; no Contract amendment or new human confirmation invented.",
+  "change": "Only replace cfg(test) legacy_source_lock_tests wildcard import with six explicit dependencies matching the neighboring explicit-import module pattern. No production behavior, guard test or business assertion modification.",
+  "verification": "Static whole-file byte comparison and text check only. Compilation and tests for this new source have not run. Obtain new actual Raydot material decision before further verification.",
+  "oldMaterialDecision": "661c2ccf / 9dc8bd00 covers the previous source only; do not reuse."
+}

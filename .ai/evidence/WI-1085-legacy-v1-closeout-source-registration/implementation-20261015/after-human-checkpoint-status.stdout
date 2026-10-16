@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 2,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+    "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "repositorySnapshot": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "summary": "sha256:d4b92a586ce9d166d3ef64dd7c323ec7519bf0a1304ed5e4473232aeeff50661"
+  },
+  "unknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [
+    "repository protocol state error at /workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json: verification preconditions are blocked: documentation_projection_missing:docs/work-items/WI-1085-legacy-v1-closeout-source-registration.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md:must be a regular non-symlink file, documentation_projection_invalid:docs/reference/reference-parity.md:expected exactly one parity row for WI-1085-legacy-v1-closeout-source-registration but found 0, documentation_projection_invalid:docs/reference/reference-parity.zh-CN.md:expected exactly one parity row for WI-1085-legacy-v1-closeout-source-registration but found 0, documentation_projection_invalid:docs/reference/reference-parity.ja.md:expected exactly one parity row for WI-1085-legacy-v1-closeout-source-registration but found 0"
+  ],
+  "snapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-15T18:22:10Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "record_governance_controls",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "acceptance_evidence_insufficient",
+        "message": "current projection reports acceptance_evidence_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "acceptance_evidence_missing",
+        "message": "current projection reports acceptance_evidence_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "unknown",
+        "code": "verification_action_preconditions_blocked",
+        "message": "current projection reports verification_action_preconditions_blocked"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "acceptance_evidence_insufficient",
+      "acceptance_evidence_missing",
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:870fb29387694ec30694e90eaae7ccfb9e6d82d938aa06ca121d2c0f8ed7f087"
+  },
+  "statusDigest": "sha256:68e0a212f2e0e98b5a7e9ef87b7e218f72b7e9b661757436d610c7b062e3569e",
+  "historical": false
+}

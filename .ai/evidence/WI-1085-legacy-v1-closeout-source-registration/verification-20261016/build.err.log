@@ -1,0 +1,280 @@
+   Compiling unicode-ident v1.0.24
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling serde_core v1.0.229
+   Compiling syn v3.0.3
+   Compiling cfg-if v1.0.4
+   Compiling version_check v0.9.5
+   Compiling generic-array v0.14.7
+   Compiling serde v1.0.229
+   Compiling typenum v1.20.1
+   Compiling serde_derive v1.0.229
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling thiserror v2.0.20
+   Compiling zmij v1.0.23
+   Compiling digest v0.10.7
+   Compiling thiserror-impl v2.0.20
+   Compiling cpufeatures v0.2.17
+   Compiling serde_json v1.0.151
+   Compiling memchr v2.8.3
+   Compiling sha2 v0.10.9
+   Compiling itoa v1.0.18
+   Compiling hex v0.4.3
+   Compiling utf8parse v0.2.2
+   Compiling anstyle-parse v1.0.0
+   Compiling anstyle-query v1.1.5
+   Compiling anstyle v1.0.14
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling colorchoice v1.0.5
+   Compiling anstream v1.0.0
+   Compiling strsim v0.11.1
+   Compiling clap_lex v1.1.0
+   Compiling heck v0.5.0
+   Compiling clap_derive v4.6.7
+   Compiling clap_builder v4.6.7
+   Compiling clap v4.6.7
+   Compiling cockpit-core v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-core)
+   Compiling libc v0.2.189
+   Compiling winnow v1.0.4
+   Compiling toml_parser v1.1.3+spec-1.1.0
+   Compiling cockpit-interface v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-interface)
+   Compiling toml_datetime v0.7.5+spec-1.1.0
+   Compiling serde_spanned v1.1.1
+   Compiling toml_writer v1.1.2+spec-1.1.0
+   Compiling winnow v0.7.15
+   Compiling toml v0.9.12+spec-1.1.0
+   Compiling cockpit-protocol v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-protocol)
+   Compiling rustix v1.1.4
+   Compiling bitflags v2.13.1
+   Compiling linux-raw-sys v0.12.1
+   Compiling once_cell v1.21.4
+   Compiling getrandom v0.4.3
+   Compiling fastrand v2.5.0
+   Compiling tempfile v3.27.0
+   Compiling autocfg v1.5.1
+   Compiling num-traits v0.2.19
+   Compiling cockpit-evidence v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-evidence)
+   Compiling iana-time-zone v0.1.65
+   Compiling chrono v0.4.45
+   Compiling io-lifetimes v2.0.4
+   Compiling io-lifetimes v3.0.1
+   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-verification)
+   Compiling io-extras v0.19.0
+   Compiling cockpit-git v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-git)
+   Compiling cap-primitives v4.0.3
+   Compiling fs-set-times v0.20.3
+   Compiling rustix-linux-procfs v0.1.1
+   Compiling ipnet v2.12.1
+   Compiling cap-std v4.0.3
+   Compiling ambient-authority v0.0.2
+   Compiling maybe-owned v0.3.4
+   Compiling cap-fs-ext v4.0.3
+   Compiling siphasher v1.0.4
+   Compiling phf_shared v0.12.1
+   Compiling cockpit-knowledge v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-knowledge)
+   Compiling chrono-tz v0.10.4
+   Compiling phf v0.12.1
+   Compiling syn v2.0.119
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-agent v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-agent)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+   Compiling cockpit-isolation v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-isolation)
+   Compiling anyhow v1.0.104
+   Compiling crc32fast v1.5.0
+   Compiling simd-adler32 v0.3.10
+   Compiling adler2 v2.0.1
+   Compiling miniz_oxide v0.9.1
+   Compiling log v0.4.33
+   Compiling time-core v0.1.9
+   Compiling equivalent v1.0.2
+   Compiling powerfmt v0.2.0
+   Compiling bumpalo v3.20.3
+   Compiling deranged v0.5.8
+   Compiling num-conv v0.2.2
+   Compiling hashbrown v0.17.1
+   Compiling zlib-rs v0.6.7
+   Compiling flate2 v1.1.10
+   Compiling indexmap v2.14.0
+   Compiling time v0.3.55
+   Compiling zopfli v0.8.3
+   Compiling xattr v1.6.1
+   Compiling filetime v0.2.29
+   Compiling typed-path v0.12.3
+   Compiling zip v7.2.0
+   Compiling tar v0.4.46
+   Compiling semver v1.0.28
+   Compiling cockpit-release v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-release)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 51s
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_agent-ae30997643e45aef)
+  Executable tests/context.rs (target/wi1085-legacy-closeout-source/debug/deps/context-03c4b9876271e57b)
+  Executable tests/detection.rs (target/wi1085-legacy-closeout-source/debug/deps/detection-4d2dc04cdb5f3517)
+  Executable tests/doctor.rs (target/wi1085-legacy-closeout-source/debug/deps/doctor-c7b1e19ac5f694d9)
+  Executable tests/install.rs (target/wi1085-legacy-closeout-source/debug/deps/install-a5b6b6d16c9d3130)
+  Executable tests/isolation.rs (target/wi1085-legacy-closeout-source/debug/deps/isolation-a11c9eaaa3b0e6a9)
+  Executable tests/outcome_delivery.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_delivery-e906d4a6a18eceb8)
+  Executable tests/outcome_host_command.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_host_command-3fa790dcc4d9668a)
+  Executable unittests src/main.rs (target/wi1085-legacy-closeout-source/debug/deps/ai_cockpit-15b26c462b5ea273)
+  Executable tests/agent.rs (target/wi1085-legacy-closeout-source/debug/deps/agent-023e39fafc0bfe1e)
+  Executable tests/attach.rs (target/wi1085-legacy-closeout-source/debug/deps/attach-64b1a62666184608)
+  Executable tests/audit_query.rs (target/wi1085-legacy-closeout-source/debug/deps/audit_query-36560bd1cdfbbcc9)
+  Executable tests/ci_gate.rs (target/wi1085-legacy-closeout-source/debug/deps/ci_gate-bf00b0a66b078c0c)
+  Executable tests/cli_mcp_outcome_parity.rs (target/wi1085-legacy-closeout-source/debug/deps/cli_mcp_outcome_parity-7901b65efd28941a)
+  Executable tests/closeout_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/closeout_recovery-3e6a687fe3a8a557)
+  Executable tests/cognitive_benefit.rs (target/wi1085-legacy-closeout-source/debug/deps/cognitive_benefit-e0288f08ccf6c36a)
+  Executable tests/collaboration_cli.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_cli-95fafe6b60ce91ae)
+  Executable tests/collaboration_consistency.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_consistency-273279d8a0628862)
+  Executable tests/collaboration_handoff.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_handoff-95081426cd273a2e)
+  Executable tests/collaboration_outcome_parity.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_outcome_parity-eeaeabdaef2c4a9e)
+  Executable tests/collaboration_scenario_matrix.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_scenario_matrix-fd4ab2e4181ae56b)
+  Executable tests/contract_amendment_processes.rs (target/wi1085-legacy-closeout-source/debug/deps/contract_amendment_processes-06dd2771143b0271)
+  Executable tests/delegated_evidence.rs (target/wi1085-legacy-closeout-source/debug/deps/delegated_evidence-f0f23e0fcb02cd4d)
+  Executable tests/doctor.rs (target/wi1085-legacy-closeout-source/debug/deps/doctor-29462b79ed62ebea)
+  Executable tests/gate_plan.rs (target/wi1085-legacy-closeout-source/debug/deps/gate_plan-a62ec259f66b35b4)
+  Executable tests/inspect.rs (target/wi1085-legacy-closeout-source/debug/deps/inspect-95a9ea7b9a21bcbb)
+  Executable tests/intelligence.rs (target/wi1085-legacy-closeout-source/debug/deps/intelligence-f9823ae47b683492)
+  Executable tests/knowledge.rs (target/wi1085-legacy-closeout-source/debug/deps/knowledge-9a4edcb36635755c)
+  Executable tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-faa7dea0e47f83d7)
+  Executable tests/lifecycle.rs (target/wi1085-legacy-closeout-source/debug/deps/lifecycle-21e1eb8ef2a5d8f2)
+  Executable tests/material_review.rs (target/wi1085-legacy-closeout-source/debug/deps/material_review-7b31da3ac0596f5d)
+  Executable tests/mcp.rs (target/wi1085-legacy-closeout-source/debug/deps/mcp-355dcc9e78fb9d86)
+  Executable tests/observe.rs (target/wi1085-legacy-closeout-source/debug/deps/observe-31241fe756a3e63d)
+  Executable tests/outcome_handoff.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_handoff-62abe9e1e376f2b6)
+  Executable tests/outcome_human_decision.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_human_decision-530b9813dadfca83)
+  Executable tests/parallel_boundary.rs (target/wi1085-legacy-closeout-source/debug/deps/parallel_boundary-d7e5ae5b93c6de97)
+  Executable tests/performance.rs (target/wi1085-legacy-closeout-source/debug/deps/performance-da2cf6b93bc8c2fc)
+  Executable tests/preflight.rs (target/wi1085-legacy-closeout-source/debug/deps/preflight-a1e1145b2f50673c)
+  Executable tests/profile.rs (target/wi1085-legacy-closeout-source/debug/deps/profile-b78fe942d92ca5de)
+  Executable tests/profile_propose.rs (target/wi1085-legacy-closeout-source/debug/deps/profile_propose-beae53bb394d7c38)
+  Executable tests/release_isolation.rs (target/wi1085-legacy-closeout-source/debug/deps/release_isolation-92b9803d2162a0fd)
+  Executable tests/release_plan.rs (target/wi1085-legacy-closeout-source/debug/deps/release_plan-0a8c9100ba1a65d1)
+  Executable tests/resource_finalization.rs (target/wi1085-legacy-closeout-source/debug/deps/resource_finalization-075ed515b34929d2)
+  Executable tests/retirement.rs (target/wi1085-legacy-closeout-source/debug/deps/retirement-254bce823d3b119c)
+  Executable tests/scope_amendment.rs (target/wi1085-legacy-closeout-source/debug/deps/scope_amendment-8c0bd3b9be8d2064)
+  Executable tests/usage.rs (target/wi1085-legacy-closeout-source/debug/deps/usage-6306aeacb7e27802)
+  Executable tests/verify.rs (target/wi1085-legacy-closeout-source/debug/deps/verify-e31a55f95ba0b507)
+  Executable tests/work_item_scaffold.rs (target/wi1085-legacy-closeout-source/debug/deps/work_item_scaffold-75a9d884a08a260e)
+  Executable tests/worktree_entry.rs (target/wi1085-legacy-closeout-source/debug/deps/worktree_entry-2858d666a972e74c)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_core-4d86b62c95a3c145)
+  Executable tests/adversarial_v2.rs (target/wi1085-legacy-closeout-source/debug/deps/adversarial_v2-a85bf1b3cfb18ad2)
+  Executable tests/conformance.rs (target/wi1085-legacy-closeout-source/debug/deps/conformance-9980ea4bb34cb120)
+  Executable tests/domain_types.rs (target/wi1085-legacy-closeout-source/debug/deps/domain_types-c23dedf600a5f5e5)
+  Executable tests/governance_semantics.rs (target/wi1085-legacy-closeout-source/debug/deps/governance_semantics-44641ead73d5141d)
+  Executable tests/operation_time_policy.rs (target/wi1085-legacy-closeout-source/debug/deps/operation_time_policy-a66ad1fd98a82935)
+  Executable tests/v1_oracle.rs (target/wi1085-legacy-closeout-source/debug/deps/v1_oracle-38e82dda049f9ccd)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_evidence-75689a52bd725577)
+  Executable tests/reuse.rs (target/wi1085-legacy-closeout-source/debug/deps/reuse-0973bc5e25dfa997)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_git-d8be6188eb4b9532)
+  Executable tests/collaboration_topology.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_topology-58ead137cd2d18aa)
+  Executable tests/repository.rs (target/wi1085-legacy-closeout-source/debug/deps/repository-347ad62fdd916f08)
+  Executable tests/snapshot.rs (target/wi1085-legacy-closeout-source/debug/deps/snapshot-be0f549e72795b4e)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_interface-cd491fe94ddaa710)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_isolation-8f60f910066a05e3)
+  Executable tests/scanner.rs (target/wi1085-legacy-closeout-source/debug/deps/scanner-a569059b4ba1cea1)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_knowledge-f1b41f78199ce181)
+  Executable tests/query.rs (target/wi1085-legacy-closeout-source/debug/deps/query-996d7ede6f58312e)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_mcp-340e058600c7f7b8)
+  Executable tests/closeout_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/closeout_recovery-c0d696f0c5caeae4)
+  Executable tests/collaboration_rpc.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_rpc-0d38d83cb44ded20)
+  Executable tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-70a9cf4a8cc42423)
+  Executable tests/material_review.rs (target/wi1085-legacy-closeout-source/debug/deps/material_review-108d95627e5d5bac)
+  Executable tests/rpc.rs (target/wi1085-legacy-closeout-source/debug/deps/rpc-451f91b81952912f)
+  Executable tests/security.rs (target/wi1085-legacy-closeout-source/debug/deps/security-49ef28500e625c93)
+  Executable tests/usage.rs (target/wi1085-legacy-closeout-source/debug/deps/usage-44bddeb7bce942df)
+  Executable tests/work_item_amendment_parity.rs (target/wi1085-legacy-closeout-source/debug/deps/work_item_amendment_parity-299a104456718f1b)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_protocol-c0fa8e5fb9251de3)
+  Executable tests/audit_query.rs (target/wi1085-legacy-closeout-source/debug/deps/audit_query-ed47645fdae608ff)
+  Executable tests/collaboration.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration-2df8773b33760463)
+  Executable tests/contract_amendment.rs (target/wi1085-legacy-closeout-source/debug/deps/contract_amendment-d320f26dc028b2b7)
+  Executable tests/contract_v2.rs (target/wi1085-legacy-closeout-source/debug/deps/contract_v2-313a947c9b36447c)
+  Executable tests/intelligence_schema.rs (target/wi1085-legacy-closeout-source/debug/deps/intelligence_schema-e0fe90c5f88ce19c)
+  Executable tests/interface_description.rs (target/wi1085-legacy-closeout-source/debug/deps/interface_description-97f3790b62de6046)
+  Executable tests/parallel_boundary.rs (target/wi1085-legacy-closeout-source/debug/deps/parallel_boundary-e3b1be6bb842c735)
+  Executable tests/preflight_review.rs (target/wi1085-legacy-closeout-source/debug/deps/preflight_review-27503aee05c2bab7)
+  Executable tests/protocol.rs (target/wi1085-legacy-closeout-source/debug/deps/protocol-5ae9ed0512824289)
+  Executable tests/recovery_outcome.rs (target/wi1085-legacy-closeout-source/debug/deps/recovery_outcome-560ae74ed8586601)
+  Executable tests/recovery_receipt.rs (target/wi1085-legacy-closeout-source/debug/deps/recovery_receipt-069353336e801382)
+  Executable tests/release_plan.rs (target/wi1085-legacy-closeout-source/debug/deps/release_plan-c77b8a7f9a8fffeb)
+  Executable tests/resource_finalization.rs (target/wi1085-legacy-closeout-source/debug/deps/resource_finalization-f0a97d1a44c97f18)
+  Executable tests/selected_successor_lineage_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/selected_successor_lineage_recovery-5217a87fdf3e2c19)
+  Executable tests/usage.rs (target/wi1085-legacy-closeout-source/debug/deps/usage-d6ec668754267c61)
+  Executable tests/verification_semantics.rs (target/wi1085-legacy-closeout-source/debug/deps/verification_semantics-826870ced2a20673)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_release-79006b417b4fe2f6)
+  Executable unittests src/main.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_release-126b276c9f8c790b)
+  Executable tests/acceptance_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/acceptance_recovery-d25857835664516e)
+  Executable tests/archive.rs (target/wi1085-legacy-closeout-source/debug/deps/archive-afb6d1dce2ac6a84)
+  Executable tests/cli.rs (target/wi1085-legacy-closeout-source/debug/deps/cli-734662c2e3fd543b)
+  Executable tests/fixtures.rs (target/wi1085-legacy-closeout-source/debug/deps/fixtures-3934c8023fcfdc72)
+  Executable tests/formula.rs (target/wi1085-legacy-closeout-source/debug/deps/formula-b53f88f8657bc58c)
+  Executable tests/handoff.rs (target/wi1085-legacy-closeout-source/debug/deps/handoff-55a2d8ba3e835c56)
+  Executable tests/manifest.rs (target/wi1085-legacy-closeout-source/debug/deps/manifest-c2cd41d38977b4ba)
+  Executable tests/package_boundary.rs (target/wi1085-legacy-closeout-source/debug/deps/package_boundary-6547dbfe609ee0cc)
+  Executable tests/sbom.rs (target/wi1085-legacy-closeout-source/debug/deps/sbom-0148534e1d6532c0)
+  Executable tests/version_consistency.rs (target/wi1085-legacy-closeout-source/debug/deps/version_consistency-9beae4b33564478d)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-2e3f64b194111b3d)
+  Executable tests/active_work_item_retirement.rs (target/wi1085-legacy-closeout-source/debug/deps/active_work_item_retirement-7da08209fbf716c2)
+  Executable tests/agent_risk_checkpoint.rs (target/wi1085-legacy-closeout-source/debug/deps/agent_risk_checkpoint-a991a3641d1d89d9)
+  Executable tests/agent_rule_parity.rs (target/wi1085-legacy-closeout-source/debug/deps/agent_rule_parity-9339899b9e797e7c)
+  Executable tests/archive_integrity.rs (target/wi1085-legacy-closeout-source/debug/deps/archive_integrity-07c91408873e70fd)
+  Executable tests/audit_query.rs (target/wi1085-legacy-closeout-source/debug/deps/audit_query-1f18fb67d9cae935)
+  Executable tests/ci_quality_gate.rs (target/wi1085-legacy-closeout-source/debug/deps/ci_quality_gate-3b83b510b76a5ae9)
+  Executable tests/closeout_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/closeout_recovery-375600ae4e34f3d4)
+  Executable tests/collaboration_admission.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_admission-a684eeba05ea5d74)
+  Executable tests/contract_amendment.rs (target/wi1085-legacy-closeout-source/debug/deps/contract_amendment-4b4bf7519ba0d031)
+  Executable tests/contract_preflight.rs (target/wi1085-legacy-closeout-source/debug/deps/contract_preflight-a8739b60bd8c699e)
+  Executable tests/contract_schema.rs (target/wi1085-legacy-closeout-source/debug/deps/contract_schema-7cb2492d67274886)
+  Executable tests/coordination_store.rs (target/wi1085-legacy-closeout-source/debug/deps/coordination_store-55de7bac2c182f45)
+  Executable tests/delegated_evidence_observations.rs (target/wi1085-legacy-closeout-source/debug/deps/delegated_evidence_observations-6ca92e156fb08dcb)
+  Executable tests/evidence_assurance.rs (target/wi1085-legacy-closeout-source/debug/deps/evidence_assurance-0f1dab1340a6f9e2)
+  Executable tests/evolution.rs (target/wi1085-legacy-closeout-source/debug/deps/evolution-c8e5692371df434a)
+  Executable tests/governance_controls.rs (target/wi1085-legacy-closeout-source/debug/deps/governance_controls-d34df6a03755bad8)
+  Executable tests/governance_signals.rs (target/wi1085-legacy-closeout-source/debug/deps/governance_signals-b3a3e9a20c2d2ffb)
+  Executable tests/input_trust.rs (target/wi1085-legacy-closeout-source/debug/deps/input_trust-81e670ed1560fda2)
+  Executable tests/intelligence.rs (target/wi1085-legacy-closeout-source/debug/deps/intelligence-c97ec1e5b285a10e)
+  Executable tests/knowledge_cache.rs (target/wi1085-legacy-closeout-source/debug/deps/knowledge_cache-75b80f2eaa105640)
+  Executable tests/knowledge_projection.rs (target/wi1085-legacy-closeout-source/debug/deps/knowledge_projection-0d6ee70d5beabae3)
+  Executable tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-6ff53bcc6c1e181c)
+  Executable tests/lifecycle_concurrency.rs (target/wi1085-legacy-closeout-source/debug/deps/lifecycle_concurrency-8d60c34197611297)
+  Executable tests/lifecycle_entry.rs (target/wi1085-legacy-closeout-source/debug/deps/lifecycle_entry-4fba8f161d46e12d)
+  Executable tests/lifecycle_order.rs (target/wi1085-legacy-closeout-source/debug/deps/lifecycle_order-5cb8bc1120f2ea65)
+  Executable tests/material_review.rs (target/wi1085-legacy-closeout-source/debug/deps/material_review-8e71d8fbd4b28474)
+  Executable tests/observer.rs (target/wi1085-legacy-closeout-source/debug/deps/observer-88d272fa7a44490c)
+  Executable tests/ordinary_cleanup.rs (target/wi1085-legacy-closeout-source/debug/deps/ordinary_cleanup-84914c058a319c91)
+  Executable tests/outcome_report.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_report-5629556096f51db6)
+  Executable tests/parallel_boundary.rs (target/wi1085-legacy-closeout-source/debug/deps/parallel_boundary-94c91569de30bced)
+  Executable tests/preflight_review.rs (target/wi1085-legacy-closeout-source/debug/deps/preflight_review-12e415a5c65cba42)
+  Executable tests/project_governance.rs (target/wi1085-legacy-closeout-source/debug/deps/project_governance-90ae09ddc7d612a3)
+  Executable tests/receipt_store.rs (target/wi1085-legacy-closeout-source/debug/deps/receipt_store-955204aa2cbf1bd8)
+  Executable tests/recovery_decision.rs (target/wi1085-legacy-closeout-source/debug/deps/recovery_decision-da89a3a7d2dd74ae)
+  Executable tests/recovery_events.rs (target/wi1085-legacy-closeout-source/debug/deps/recovery_events-ace52465cb28d174)
+  Executable tests/recovery_revalidation.rs (target/wi1085-legacy-closeout-source/debug/deps/recovery_revalidation-99c593a52e9b7392)
+  Executable tests/repository_context.rs (target/wi1085-legacy-closeout-source/debug/deps/repository_context-7bcdf51f36b7b3f0)
+  Executable tests/resource_finalization.rs (target/wi1085-legacy-closeout-source/debug/deps/resource_finalization-60e0880eaf61c61f)
+  Executable tests/resource_finalization_transition.rs (target/wi1085-legacy-closeout-source/debug/deps/resource_finalization_transition-5fb6cf1e60c030ff)
+  Executable tests/scenario_matrix_next_action.rs (target/wi1085-legacy-closeout-source/debug/deps/scenario_matrix_next_action-0bb6633fbc509f4f)
+  Executable tests/scope_overlap.rs (target/wi1085-legacy-closeout-source/debug/deps/scope_overlap-5a4d00b409dddaa4)
+  Executable tests/selected_successor_lineage_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/selected_successor_lineage_recovery-f3d9d5b6e7ce1cf1)
+  Executable tests/status_projection.rs (target/wi1085-legacy-closeout-source/debug/deps/status_projection-d48fccccd5dfc82f)
+  Executable tests/supersede_archive.rs (target/wi1085-legacy-closeout-source/debug/deps/supersede_archive-fc3d3ba42f603517)
+  Executable tests/task_outcome_events.rs (target/wi1085-legacy-closeout-source/debug/deps/task_outcome_events-222e6482b6f703f6)
+  Executable tests/usage.rs (target/wi1085-legacy-closeout-source/debug/deps/usage-f882b1274aace4de)
+  Executable tests/verification_attempts.rs (target/wi1085-legacy-closeout-source/debug/deps/verification_attempts-217cfcf07d4fffb5)
+  Executable tests/verification_command_selection.rs (target/wi1085-legacy-closeout-source/debug/deps/verification_command_selection-8e07727c9b75a58e)
+  Executable tests/verification_context.rs (target/wi1085-legacy-closeout-source/debug/deps/verification_context-2f54742daa08470b)
+  Executable tests/verification_route.rs (target/wi1085-legacy-closeout-source/debug/deps/verification_route-7734975b159918d0)
+  Executable tests/verification_service.rs (target/wi1085-legacy-closeout-source/debug/deps/verification_service-7634909400a04144)
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_verification-e2314fc94e6c04b1)
+  Executable tests/affected_verification.rs (target/wi1085-legacy-closeout-source/debug/deps/affected_verification-84d676b164014ba2)
+  Executable tests/composition.rs (target/wi1085-legacy-closeout-source/debug/deps/composition-5fa2329956b8ce0e)
+  Executable tests/cost_observation.rs (target/wi1085-legacy-closeout-source/debug/deps/cost_observation-9c2fdc7949a89123)
+  Executable tests/development_cycle_cost.rs (target/wi1085-legacy-closeout-source/debug/deps/development_cycle_cost-d484ca791d35cf2d)
+  Executable tests/diagnostic_summary.rs (target/wi1085-legacy-closeout-source/debug/deps/diagnostic_summary-7c7c3d86fcc5ebb2)
+  Executable tests/execution.rs (target/wi1085-legacy-closeout-source/debug/deps/execution-f70c9cd76606fcfb)
+  Executable tests/gate_plan_parity.rs (target/wi1085-legacy-closeout-source/debug/deps/gate_plan_parity-bf174df42c6ea5f5)
+  Executable tests/graph.rs (target/wi1085-legacy-closeout-source/debug/deps/graph-fafee42704faa3cf)
+  Executable tests/intent_scenario_binding.rs (target/wi1085-legacy-closeout-source/debug/deps/intent_scenario_binding-9cef55946640f0a8)
+  Executable tests/physical_execution.rs (target/wi1085-legacy-closeout-source/debug/deps/physical_execution-4ac78277042011ed)
+  Executable tests/policy_planner.rs (target/wi1085-legacy-closeout-source/debug/deps/policy_planner-5e4e643fe69e34ef)
+  Executable tests/route_convergence.rs (target/wi1085-legacy-closeout-source/debug/deps/route_convergence-64941dfc023605a4)
+  Executable tests/runtime_benchmark_scenarios.rs (target/wi1085-legacy-closeout-source/debug/deps/runtime_benchmark_scenarios-50eba8a5dcb9165e)

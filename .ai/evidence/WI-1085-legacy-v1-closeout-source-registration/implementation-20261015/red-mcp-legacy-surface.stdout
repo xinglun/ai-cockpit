@@ -1,0 +1,13 @@
+
+running 2 tests
+test legacy_source_tools_expose_strict_typed_plan_and_record ... FAILED
+test wrong_nested_request_is_rejected_before_repository_access ... FAILED
+
+failures:
+
+failures:
+    legacy_source_tools_expose_strict_typed_plan_and_record
+    wrong_nested_request_is_rejected_before_repository_access
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

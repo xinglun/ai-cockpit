@@ -1,0 +1,226 @@
+{
+  "recordedAt": "2026-10-16T13:48:35.676703+00:00",
+  "exitCode": 0,
+  "sourceHead": "30f9f082a171e47dfbf888105b5936423783fb20",
+  "compileOnlyCommandsCompleted": 13,
+  "testAssertionsExecuted": 0,
+  "formalVerificationEstablished": false,
+  "commands": [
+    {
+      "package": "cockpit-agent",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-agent",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "a3f0e2cb1d53e533202ea94847779487e75db76474c740064b1977e4e3997ead",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-cli",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "d3582a777687cb170adfa54854fa8944d6827e4c6a2a99e2686e26728f474de5",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 26.61s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-core",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-core",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "2d0baef80491f774abc4eefa304e4273e1e35c3dfb3f7318454b0631ddc6a65f",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-evidence",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-evidence",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "f0097a7ab11a0d027fac513d2f2b95d1ef48a0d6bb783de35cfdb01d7b33832c",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-git",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-git",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "ba1672872f04f4167d7012bb6f4dd3ed65bc0c9342e583c50008cf1f75879cc2",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-interface",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-interface",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "4377c4720c517b6eac96fb3c20e4bd913d37d9f60f4026f3f92af0b4d0e5602c",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-isolation",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-isolation",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e59f380b04cd02bfbb2c49693e272610e2958909cd7b7416c956dc5e662aef41",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-knowledge",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-knowledge",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "5a5946051e20b48159256a7bd1d502d4bac3bb1e7a95ad7d71fc6b98282f91ff",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-mcp",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "0fbd0a9d0ae358f361fb14e4ee25bfbd20a6fb36488dfdadb3ce945968fc0f8b",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 6.46s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-protocol",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-protocol",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "7242cdac387f7b5709d85f48e59ea39278b4ce3e6cf0a1a430202d9caf526382",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-release",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-release",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "42011ad3e0d5b1ccfe4cca47820780c4c0295f0a616ace166dddaa34cde1cce8",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-repository",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "098cfb1814ed66815bede27fc8a6c4e8bb0cbcdc32f0b85c71cb3ef99338d4a4",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 33.16s",
+      "testAssertionsExecuted": 0
+    },
+    {
+      "package": "cockpit-verification",
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-verification",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "520894d8a6f1d093ee7e55e26a88b1f2e2bd1bd5bff6ba5a0bf8145ac911c837",
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s",
+      "testAssertionsExecuted": 0
+    }
+  ],
+  "beforeZombieCount": 1430,
+  "afterZombieCount": 1430,
+  "addedZombieIdentities": [],
+  "rootGone": true,
+  "sameSessionLiveAfter": [],
+  "cargoRustcAfter": [],
+  "workspaceAvailableBytesBefore": 6471671808,
+  "workspaceAvailableBytesAfter": 6472249344
+}

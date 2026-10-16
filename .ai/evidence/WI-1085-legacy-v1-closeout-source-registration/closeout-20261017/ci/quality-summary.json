@@ -1,0 +1,20 @@
+{
+  "runId": 38951742695,
+  "sourceHead": "e2d32e20410e34a1ad73e39e087daaa614689fb0",
+  "testedRevision": "b5af84c1c219c8ff7160ac2aa342a358829d7a7b",
+  "testedTree": "db5d63d28237231372da7714c7fceaa893c262b7",
+  "testedTreeEqualsSourceHead": true,
+  "testedParents": [
+    "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+    "e2d32e20410e34a1ad73e39e087daaa614689fb0"
+  ],
+  "state": "passed",
+  "gateCounts": {
+    "not_applicable": 2,
+    "passed": 40
+  },
+  "launchedGates": 40,
+  "reusedGates": 0,
+  "workspacePackagesActuallyExecuted": 13,
+  "nativeWorkItemReceipt": "not_provided by hosted CI; use separate local canonical65fc/7cc"
+}

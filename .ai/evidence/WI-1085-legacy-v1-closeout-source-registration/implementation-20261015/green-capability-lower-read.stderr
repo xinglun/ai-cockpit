@@ -1,0 +1,36 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+error[E0425]: cannot find function `read_governance_text` in this scope
+     --> crates/cockpit-repository/src/lib.rs:15025:13
+      |
+15025 |             read_governance_text(root.join(".counter"))
+      |             ^^^^^^^^^^^^^^^^^^^^ not found in this scope
+      |
+help: consider importing this function
+      |
+14942 +     use crate::read_governance_text;
+      |
+
+error[E0425]: cannot find function `read_governance_bytes` in this scope
+     --> crates/cockpit-repository/src/lib.rs:15055:33
+      |
+15055 |                 let mut bytes = read_governance_bytes(&path)?;
+      |                                 ^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+      |
+help: consider importing this function
+      |
+14942 +     use crate::read_governance_bytes;
+      |
+
+error[E0425]: cannot find function `read_governance_text` in this scope
+     --> crates/cockpit-repository/src/lib.rs:15085:13
+      |
+15085 |             read_governance_text(root.join(".counter"))
+      |             ^^^^^^^^^^^^^^^^^^^^ not found in this scope
+      |
+help: consider importing this function
+      |
+14942 +     use crate::read_governance_text;
+      |
+
+For more information about this error, try `rustc --explain E0425`.
+error: could not compile `cockpit-repository` (lib test) due to 3 previous errors

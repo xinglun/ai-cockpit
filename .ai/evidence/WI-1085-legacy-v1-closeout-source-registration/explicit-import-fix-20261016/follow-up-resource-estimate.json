@@ -1,0 +1,17 @@
+{
+  "recordedAt": "2026-10-16T13:31:00.426897+00:00",
+  "availableBytes": 6472921088,
+  "largestExistingExecutableBytes": 165839240,
+  "largestRepositoryRlibBytes": 159858276,
+  "sameCargoGraphProfilesAndPackageArgsRequired": true,
+  "changedSource": "Only a cfg(test) import expansion; no Cargo.lock/manifest/toolchain/dependency/feature change. Reuse the already populated isolated native package profiles.",
+  "planningFormula": "2 * largest existing executable + 2 * largest existing repository rlib + 1GiB temporary/metadata allowance, rounded upward to GiB. This is an operational estimate, not a guaranteed compiler memory/disk ceiling.",
+  "estimatedAdditionalBudgetBytes": 2147483648,
+  "minimumReserveBytes": 2147483648,
+  "startThresholdBytes": 4294967296,
+  "currentlyMeetsEstimatedThreshold": true,
+  "oldFullVariantBudgetNotReused": true,
+  "nextRunPreparation": "After actual new Raydot material decision and native admission, compile-only warm-up with the same 13 package arguments plus --no-run under the existing Tini/890+10s boundary. Record zero assertions executed by this preparation. Then recheck capacity/process baseline and run formal native 13-node verification. This avoids spending the small outer deadline margin on recompilation.",
+  "noMoreCleanupAuthorized": true,
+  "noTestsForNewSourceYet": true
+}

@@ -1,0 +1,33 @@
+
+running 6 tests
+test archived_provider_binding_without_a_matching_finalize_receipt_is_rejected_read_only ... ok
+test extended_recovered_close_preserves_retry_and_complete_next_source_inventory ... ok
+test provider_bound_recovery_rejects_canonical_digest_and_tampered_archive_or_provider_facts ... ok
+test provider_finalization_uses_raw_contract_bytes_while_recovery_plan_keeps_canonical_binding ... ok
+test recovered_close_rejects_unsupported_finalization_extensions ... ok
+test recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.07s
+
+
+running 8 tests
+test cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage ... ok
+test cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor ... ok
+test extension::committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes ... ok
+test extension::partial_extension_requires_independent_original_and_resumes_both_survivors ... ok
+test extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence ... ok
+test extension::registered_root_refuses_unprepared_raw_transition_without_writing ... ok
+test foreign_registration_cannot_release_untrusted_archived_scope ... ok
+test malformed_requirement_remains_pending_when_archive_directory_is_missing ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.31s
+
+
+running 4 tests
+test archived_contract_revalidation_appends_current_binding_and_scaffolds_successor ... ok
+test archived_contract_revalidation_rejects_tampered_historical_evidence_without_writes ... ok
+test successor_terminal_lifecycle_allows_predecessor_historical_close ... ok
+test unresolved_successor_does_not_relax_old_runtime_finalization_identity ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.40s
+

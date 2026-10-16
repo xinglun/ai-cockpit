@@ -1,0 +1,691 @@
+{
+  "subreaper": true,
+  "adoptedDescendantsReaped": [
+    {
+      "pid": 410053,
+      "waitStatus": 0
+    },
+    {
+      "pid": 410326,
+      "waitStatus": 0
+    },
+    {
+      "pid": 410510,
+      "waitStatus": 0
+    },
+    {
+      "pid": 410731,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411003,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411187,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411267,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411301,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411573,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411759,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411812,
+      "waitStatus": 0
+    },
+    {
+      "pid": 411876,
+      "waitStatus": 0
+    },
+    {
+      "pid": 412148,
+      "waitStatus": 0
+    },
+    {
+      "pid": 412332,
+      "waitStatus": 0
+    },
+    {
+      "pid": 412513,
+      "waitStatus": 0
+    },
+    {
+      "pid": 412787,
+      "waitStatus": 0
+    },
+    {
+      "pid": 412971,
+      "waitStatus": 0
+    },
+    {
+      "pid": 413179,
+      "waitStatus": 0
+    },
+    {
+      "pid": 413451,
+      "waitStatus": 0
+    },
+    {
+      "pid": 413637,
+      "waitStatus": 0
+    },
+    {
+      "pid": 413769,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414041,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414225,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414278,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414289,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414292,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414383,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414657,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414841,
+      "waitStatus": 0
+    },
+    {
+      "pid": 414936,
+      "waitStatus": 0
+    },
+    {
+      "pid": 415208,
+      "waitStatus": 0
+    },
+    {
+      "pid": 415394,
+      "waitStatus": 0
+    },
+    {
+      "pid": 415521,
+      "waitStatus": 0
+    },
+    {
+      "pid": 415793,
+      "waitStatus": 0
+    },
+    {
+      "pid": 415977,
+      "waitStatus": 0
+    },
+    {
+      "pid": 416073,
+      "waitStatus": 0
+    },
+    {
+      "pid": 416347,
+      "waitStatus": 0
+    },
+    {
+      "pid": 416531,
+      "waitStatus": 0
+    },
+    {
+      "pid": 418083,
+      "waitStatus": 0
+    },
+    {
+      "pid": 418355,
+      "waitStatus": 0
+    },
+    {
+      "pid": 418545,
+      "waitStatus": 0
+    },
+    {
+      "pid": 418632,
+      "waitStatus": 0
+    },
+    {
+      "pid": 418904,
+      "waitStatus": 0
+    },
+    {
+      "pid": 419092,
+      "waitStatus": 0
+    },
+    {
+      "pid": 419179,
+      "waitStatus": 0
+    },
+    {
+      "pid": 419451,
+      "waitStatus": 0
+    },
+    {
+      "pid": 419635,
+      "waitStatus": 0
+    },
+    {
+      "pid": 419723,
+      "waitStatus": 0
+    },
+    {
+      "pid": 419995,
+      "waitStatus": 0
+    },
+    {
+      "pid": 420179,
+      "waitStatus": 0
+    },
+    {
+      "pid": 420275,
+      "waitStatus": 0
+    },
+    {
+      "pid": 420547,
+      "waitStatus": 0
+    },
+    {
+      "pid": 420731,
+      "waitStatus": 0
+    },
+    {
+      "pid": 420869,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421142,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421326,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421379,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421390,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421393,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421409,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421685,
+      "waitStatus": 0
+    },
+    {
+      "pid": 421869,
+      "waitStatus": 0
+    },
+    {
+      "pid": 422003,
+      "waitStatus": 0
+    },
+    {
+      "pid": 422275,
+      "waitStatus": 0
+    },
+    {
+      "pid": 422459,
+      "waitStatus": 0
+    },
+    {
+      "pid": 422607,
+      "waitStatus": 0
+    },
+    {
+      "pid": 422879,
+      "waitStatus": 0
+    },
+    {
+      "pid": 423063,
+      "waitStatus": 0
+    },
+    {
+      "pid": 423212,
+      "waitStatus": 0
+    },
+    {
+      "pid": 423488,
+      "waitStatus": 0
+    },
+    {
+      "pid": 423673,
+      "waitStatus": 0
+    },
+    {
+      "pid": 423758,
+      "waitStatus": 0
+    },
+    {
+      "pid": 424031,
+      "waitStatus": 0
+    },
+    {
+      "pid": 424216,
+      "waitStatus": 0
+    },
+    {
+      "pid": 424277,
+      "waitStatus": 0
+    },
+    {
+      "pid": 424549,
+      "waitStatus": 0
+    },
+    {
+      "pid": 424734,
+      "waitStatus": 0
+    },
+    {
+      "pid": 424992,
+      "waitStatus": 0
+    },
+    {
+      "pid": 425264,
+      "waitStatus": 0
+    },
+    {
+      "pid": 425448,
+      "waitStatus": 0
+    },
+    {
+      "pid": 425630,
+      "waitStatus": 0
+    },
+    {
+      "pid": 425908,
+      "waitStatus": 0
+    },
+    {
+      "pid": 426092,
+      "waitStatus": 0
+    },
+    {
+      "pid": 426165,
+      "waitStatus": 0
+    },
+    {
+      "pid": 426437,
+      "waitStatus": 0
+    },
+    {
+      "pid": 426621,
+      "waitStatus": 0
+    },
+    {
+      "pid": 426846,
+      "waitStatus": 0
+    },
+    {
+      "pid": 427028,
+      "waitStatus": 0
+    },
+    {
+      "pid": 427344,
+      "waitStatus": 0
+    },
+    {
+      "pid": 427518,
+      "waitStatus": 0
+    },
+    {
+      "pid": 427525,
+      "waitStatus": 0
+    },
+    {
+      "pid": 427536,
+      "waitStatus": 0
+    },
+    {
+      "pid": 427719,
+      "waitStatus": 0
+    },
+    {
+      "pid": 428037,
+      "waitStatus": 0
+    },
+    {
+      "pid": 428211,
+      "waitStatus": 0
+    },
+    {
+      "pid": 428374,
+      "waitStatus": 0
+    },
+    {
+      "pid": 428764,
+      "waitStatus": 0
+    },
+    {
+      "pid": 428768,
+      "waitStatus": 0
+    },
+    {
+      "pid": 429008,
+      "waitStatus": 0
+    },
+    {
+      "pid": 429210,
+      "waitStatus": 0
+    },
+    {
+      "pid": 429599,
+      "waitStatus": 0
+    },
+    {
+      "pid": 429603,
+      "waitStatus": 0
+    },
+    {
+      "pid": 429842,
+      "waitStatus": 0
+    },
+    {
+      "pid": 429962,
+      "waitStatus": 0
+    },
+    {
+      "pid": 430351,
+      "waitStatus": 0
+    },
+    {
+      "pid": 430355,
+      "waitStatus": 0
+    },
+    {
+      "pid": 430594,
+      "waitStatus": 0
+    },
+    {
+      "pid": 430788,
+      "waitStatus": 0
+    },
+    {
+      "pid": 431179,
+      "waitStatus": 0
+    },
+    {
+      "pid": 431183,
+      "waitStatus": 0
+    },
+    {
+      "pid": 431421,
+      "waitStatus": 0
+    },
+    {
+      "pid": 431640,
+      "waitStatus": 0
+    },
+    {
+      "pid": 432029,
+      "waitStatus": 0
+    },
+    {
+      "pid": 432033,
+      "waitStatus": 0
+    },
+    {
+      "pid": 432272,
+      "waitStatus": 0
+    },
+    {
+      "pid": 432469,
+      "waitStatus": 0
+    },
+    {
+      "pid": 432861,
+      "waitStatus": 0
+    },
+    {
+      "pid": 432865,
+      "waitStatus": 0
+    },
+    {
+      "pid": 433103,
+      "waitStatus": 0
+    },
+    {
+      "pid": 433192,
+      "waitStatus": 0
+    },
+    {
+      "pid": 433581,
+      "waitStatus": 0
+    },
+    {
+      "pid": 433585,
+      "waitStatus": 0
+    },
+    {
+      "pid": 433823,
+      "waitStatus": 0
+    },
+    {
+      "pid": 433912,
+      "waitStatus": 0
+    },
+    {
+      "pid": 434301,
+      "waitStatus": 0
+    },
+    {
+      "pid": 434305,
+      "waitStatus": 0
+    },
+    {
+      "pid": 434543,
+      "waitStatus": 0
+    },
+    {
+      "pid": 434632,
+      "waitStatus": 0
+    },
+    {
+      "pid": 435024,
+      "waitStatus": 0
+    },
+    {
+      "pid": 435028,
+      "waitStatus": 0
+    },
+    {
+      "pid": 435266,
+      "waitStatus": 0
+    },
+    {
+      "pid": 435355,
+      "waitStatus": 0
+    },
+    {
+      "pid": 435744,
+      "waitStatus": 0
+    },
+    {
+      "pid": 435748,
+      "waitStatus": 0
+    },
+    {
+      "pid": 435995,
+      "waitStatus": 0
+    },
+    {
+      "pid": 436084,
+      "waitStatus": 0
+    },
+    {
+      "pid": 436473,
+      "waitStatus": 0
+    },
+    {
+      "pid": 436477,
+      "waitStatus": 0
+    },
+    {
+      "pid": 436716,
+      "waitStatus": 0
+    },
+    {
+      "pid": 436807,
+      "waitStatus": 0
+    },
+    {
+      "pid": 437196,
+      "waitStatus": 0
+    },
+    {
+      "pid": 437200,
+      "waitStatus": 0
+    },
+    {
+      "pid": 437438,
+      "waitStatus": 0
+    },
+    {
+      "pid": 437557,
+      "waitStatus": 0
+    },
+    {
+      "pid": 437950,
+      "waitStatus": 0
+    },
+    {
+      "pid": 437954,
+      "waitStatus": 0
+    },
+    {
+      "pid": 438192,
+      "waitStatus": 0
+    },
+    {
+      "pid": 438282,
+      "waitStatus": 0
+    },
+    {
+      "pid": 438687,
+      "waitStatus": 0
+    },
+    {
+      "pid": 438691,
+      "waitStatus": 0
+    },
+    {
+      "pid": 438929,
+      "waitStatus": 0
+    },
+    {
+      "pid": 439140,
+      "waitStatus": 0
+    },
+    {
+      "pid": 439529,
+      "waitStatus": 0
+    },
+    {
+      "pid": 439533,
+      "waitStatus": 0
+    },
+    {
+      "pid": 439773,
+      "waitStatus": 0
+    },
+    {
+      "pid": 440037,
+      "waitStatus": 0
+    },
+    {
+      "pid": 440427,
+      "waitStatus": 0
+    },
+    {
+      "pid": 440431,
+      "waitStatus": 0
+    },
+    {
+      "pid": 440670,
+      "waitStatus": 0
+    },
+    {
+      "pid": 440880,
+      "waitStatus": 0
+    },
+    {
+      "pid": 441273,
+      "waitStatus": 0
+    },
+    {
+      "pid": 441277,
+      "waitStatus": 0
+    },
+    {
+      "pid": 441515,
+      "waitStatus": 0
+    },
+    {
+      "pid": 441775,
+      "waitStatus": 0
+    },
+    {
+      "pid": 441800,
+      "waitStatus": 0
+    }
+  ],
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-cli",
+    "-p",
+    "cockpit-mcp",
+    "-p",
+    "cockpit-repository",
+    "--test",
+    "legacy_closeout_source",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T22:52:53.960328+00:00",
+  "elapsedSeconds": 58.008,
+  "exitCode": 0,
+  "stopReason": null,
+  "pid": 409975,
+  "childReaped": true,
+  "sourceHead": "70ba38785c3bf88dba570b1a314ab41e7423c21c",
+  "sourceDiffSha256": "323737358f17b819860b8bf0b074d39e0c84b5ac598d2e93bf110954bf17164e",
+  "target": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "jobs": 1
+}

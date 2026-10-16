@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "implementation_active",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 2,
+    "checkpointCount": 0
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+    "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "repositorySnapshot": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "summary": "sha256:ecca597782b3ffb3751a3aea4e029acb01ce402e6fd57122383f919b45cda418"
+  },
+  "unknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-15T18:21:49.132219214+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_preflight"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase implementation_active",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "acceptance_evidence_insufficient",
+        "message": "current projection reports acceptance_evidence_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "acceptance_evidence_missing",
+        "message": "current projection reports acceptance_evidence_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "acceptance_evidence_insufficient",
+      "acceptance_evidence_missing",
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:7fda4048e63185f020b928d3f8e59d2d18ca9495dd38a5cda5c48e7140e9ee0d"
+  },
+  "statusDigest": "sha256:7d89df359d0d81008ef557cf2eae57c3cf4b95887aab1b965a28b9a8e00243a1",
+  "historical": false
+}

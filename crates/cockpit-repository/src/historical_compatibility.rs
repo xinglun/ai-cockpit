@@ -25,6 +25,19 @@ pub(crate) fn close_decision_is_valid_for_status(
     work_item_id: &str,
     repository_id: &str,
 ) -> bool {
+    if !super::legacy_closeout_source::integrity_allows_close(root, work_item_id, repository_id) {
+        return false;
+    }
+    close_decision_is_valid_without_source_registration(root, work_item_id, repository_id)
+}
+
+/// Lower historical predicate for validating the registration's own immutable
+/// payload. Public status must also conjoin the explicit source obligation.
+pub(super) fn close_decision_is_valid_without_source_registration(
+    root: &Path,
+    work_item_id: &str,
+    repository_id: &str,
+) -> bool {
     let path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
@@ -142,7 +155,7 @@ fn recovered_closeout_files_valid(root: &Path, work_item_id: &str, repository_id
                 return false;
             }
         }
-        let Ok(bytes) = fs::read(&origin_path) else {
+        let Ok(bytes) = super::read_governance_bytes(&origin_path) else {
             return false;
         };
         if reject_duplicate_json_keys(&bytes).is_err() {
@@ -263,7 +276,7 @@ fn recovered_closeout_files_valid(root: &Path, work_item_id: &str, repository_id
         if metadata.file_type().is_symlink() || !metadata.is_file() || metadata.len() != size {
             return false;
         }
-        let Ok(bytes) = fs::read(&path) else {
+        let Ok(bytes) = super::read_governance_bytes(&path) else {
             return false;
         };
         if Digest::sha256_bytes(&bytes).as_str() != expected {
@@ -507,7 +520,7 @@ pub(crate) fn recovery_decision_candidate_paths(
     }
 
     let decisions_dir = root.join(".ai/decisions");
-    let entries = match fs::read_dir(&decisions_dir) {
+    let entries = match super::legacy_closeout_source::read_query_directory(&decisions_dir) {
         Ok(entries) => entries,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
             return Ok((Vec::new(), !archived));
@@ -551,10 +564,11 @@ pub(crate) fn read_and_validate_recovery_decision(
             "recovery decision must be a regular non-symlink file",
         ));
     }
-    let bytes = fs::read(path).map_err(|source| super::ObserverError::Read {
-        path: path.into(),
-        source,
-    })?;
+    let bytes =
+        super::read_governance_bytes(path).map_err(|source| super::ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
     if bytes.len() > MAX_EXTERNAL_EVIDENCE_BYTES {
         return Err(recovery_decision_error(
             path,

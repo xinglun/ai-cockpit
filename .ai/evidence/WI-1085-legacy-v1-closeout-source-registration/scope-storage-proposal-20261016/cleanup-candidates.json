@@ -1,0 +1,60 @@
+{
+  "kind": "exact_cleanup_candidate_proposal_not_authorized_not_executed",
+  "existingPublishedListCommit": "f168de42038091303801219ed3b8888afce768c8",
+  "existingPublishedListPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/native-result.json#/storageRecovery",
+  "candidates": [
+    {
+      "path": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/",
+      "allocatedBytes": 11885486080,
+      "approxGiB": 11.069221496582031,
+      "regularFiles": 2533,
+      "directories": 481,
+      "topLevelAllocatedBytes": {
+        ".": 4096,
+        ".cargo-artifact-lock": 0,
+        ".cargo-build-lock": 0,
+        ".cargo-lock": 0,
+        ".fingerprint": 7806976,
+        "ai-cockpit": 160763904,
+        "ai-cockpit.d": 4096,
+        "build": 130732032,
+        "cockpit-release": 37830656,
+        "deps": 11548336128,
+        "examples": 4096,
+        "incremental": 4096
+      },
+      "sizeAccounting": "st_blocks*512, deduplicated by device+inode within this directory; top-level attribution depends on traversal order for hard-linked Cargo artifacts. Aggregate matches prior du -B1. Reclaimed overlay space is not guaranteed equal to this total.",
+      "rebuild": {
+        "canRebuildGeneratedArtifactsFromPushedSource": true,
+        "publishedSourceAvailable": "4838c6bd4a0cc7f42fbdb805e416007389718d9c",
+        "sourceContext": "WI-1086 last recorded full native workspace invocation; source is an ancestor of current merged main. Cache can contain artifacts from earlier commits too.",
+        "provenancePath": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/invocation.json",
+        "historicalCommand": "cargo test --locked --workspace (executed as native package nodes)",
+        "toolchain": "Rust/Cargo 1.98.1",
+        "cacheByteReproducibility": "Not asserted. This is regenerable compiler output, not a promise that a rebuild reproduces each historical inode, timestamp or binary hash.",
+        "actualRuntimeSeparate": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+        "runtimeSource": "a12ee2ff4413ac261560339c9ed7af59dde0f701"
+      },
+      "occupancy": {
+        "result": "occupancy_unknown",
+        "observedAt": "2026-10-16T12:24:13.000458+00:00",
+        "matches": [],
+        "inaccessibleProcessIds": [
+          200,
+          251
+        ],
+        "observationComplete": false
+      },
+      "linksAndMounts": {
+        "symlinkCount": 0,
+        "nestedMounts": [],
+        "differentDeviceEntries": []
+      },
+      "uniqueEvidenceExcluded": true,
+      "uniqueEvidenceExclusionBasis": "cleanup-tree-inventory.json plus protected-path-check.json; no bytes removed",
+      "authorizedForDeletion": false,
+      "executed": false
+    }
+  ],
+  "nextBoundary": "Raydot reviews the exact candidate and unresolved occupancy before any cleanup authorization. If cleanup later authorized, repeat checks immediately before action. No test rerun while disk full."
+}

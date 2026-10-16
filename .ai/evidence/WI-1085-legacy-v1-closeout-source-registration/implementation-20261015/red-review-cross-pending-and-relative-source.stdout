@@ -1,0 +1,11 @@
+
+running 1 test
+test complete_source::review_regression_cli_and_mcp_reject_relative_source_paths ... FAILED
+
+failures:
+
+failures:
+    complete_source::review_regression_cli_and_mcp_reject_relative_source_paths
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 18 filtered out; finished in 0.76s
+

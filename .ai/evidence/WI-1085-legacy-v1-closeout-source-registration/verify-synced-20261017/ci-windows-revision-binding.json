@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "ci_revision_binding",
+  "eventName": "pull_request",
+  "sourceHeadRevision": "9e1e478682089ab96e8df5c2a8779fdfb24782ea",
+  "routeHeadRevision": "9e1e478682089ab96e8df5c2a8779fdfb24782ea",
+  "testedRevision": "9b27b0ae14a77f8573db507ee3a85776289dc807",
+  "eventBaseRevision": "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+  "testedBaseRevision": "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+  "testedParents": [
+    "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+    "9e1e478682089ab96e8df5c2a8779fdfb24782ea"
+  ]
+}

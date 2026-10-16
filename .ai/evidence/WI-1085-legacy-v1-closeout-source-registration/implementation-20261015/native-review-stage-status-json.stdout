@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 2,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "material_review_projection_unavailable"
+  ],
+  "missingEvidence": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+    "repositorySnapshot": "sha256:1cb31f9daa23add1feb9ee9c3a048ddf696a5c093d4d68bdd32b12a0aae58fd0",
+    "summary": "sha256:d4b92a586ce9d166d3ef64dd7c323ec7519bf0a1304ed5e4473232aeeff50661"
+  },
+  "unknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "material_review_projection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": null,
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "material_review_projection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:1cb31f9daa23add1feb9ee9c3a048ddf696a5c093d4d68bdd32b12a0aae58fd0",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-15T18:22:10Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "resolve_blockers",
+    "run_preflight",
+    "stop"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: material_review_projection_unavailable",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "acceptance_evidence_insufficient",
+        "message": "current projection reports acceptance_evidence_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "acceptance_evidence_missing",
+        "message": "current projection reports acceptance_evidence_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "material_review_projection_unavailable",
+        "message": "current projection reports material_review_projection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "acceptance_evidence_insufficient",
+      "acceptance_evidence_missing",
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:6867c0a2fe0a0df33ddcd16b9d0d1a5ed13eb1115db980f6d46b2e5fff0d3aff"
+  },
+  "statusDigest": "sha256:2c8388942a591b9c789e2d3b5eba850ea114c2cf93d989c630c6b2afac0afd36",
+  "historical": false
+}

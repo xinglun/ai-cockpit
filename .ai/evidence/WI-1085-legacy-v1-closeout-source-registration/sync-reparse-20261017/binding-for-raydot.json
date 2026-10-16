@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "immutableContractBaseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "sourceSnapshotDigest": "sha256:493970c2f4fa0f110d2f0c3c6693fe9448bde14ecbe134ad63b63fea991ba909",
+  "materialManifestDigest": "sha256:2955fc9ba797263d5bd60f688d585260d85d1435cc1f0efcbd8185a797500f05",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:9dcee9c81b0888942520a821f502071bd078a16da9473fdd63f8568a87e54f80",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:8eed971dcbb631b144496cbd91fe2d92059a7aea023552d7dffa2187c6832045",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:6a85a89d5ee402b20f57b46e01609e45dc2f83bb69cddc0ebafa7325f0412cf8",
+  "reviewedSourceHead": "747655cdc56eb7a697dee13c5e8136ea0781571e",
+  "repositorySnapshotDigest": "sha256:377d624aa2ad323b4422505ac8cb352b30ae41bb681d31c681862fc4245fb4d5",
+  "entriesCount": 36,
+  "reviewableEntries": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:f5e80d754722e1e5ef0a064ebb1d3b0de04cfdadc640b56200d8a4f47ad4a4b9",
+      "afterBlobDigest": "sha256:b583c1dd90952859eb268e70aede7fa00aeef44d409c2093eaeb8e6b44b1c00e"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "oldAcceptedRequestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1",
+  "oldDecisionNotReused": true,
+  "newMaterialReviewDecision": "pending agent:Raydot; no acceptance recorded by Codex",
+  "sourceChangesSinceReviewedHead": [
+    "Merge main 9e370e1c into same branch, retain both verbatim parity rows in each language; add only 4 cfg(windows) legacy module reparse tests and test-only junction helper. No product behavior or existing assertion changed."
+  ]
+}

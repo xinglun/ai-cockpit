@@ -387,11 +387,11 @@ archived Contract の `resourceContext` が `null` でも effective archived res
 authorization が引き続き必要です。write は destination Work Item を lock し、source/destination
 snapshot を再検証し、異なる bytes を上書きせず各 immutable file を原子的に install し、recovery
 receipt を保存して結果 projection を検証した後、close decision を lifecycle commit marker として
-最後に install します。検出された失敗では、この試行で新規作成され、filesystem identity と bytes が
-一致し続けるファイルのみ rollback します。外部変更済みまたは identity を確認できない path は保持して
-incomplete と報告します。close marker 前に process が中断すると正確な file が残ることがありますが、
-Work Item は未 close のままです。次の read で recovered と表示してはならず、fresh plan と冪等な retry
-で完了できます。これは復旧可能な複数 file 操作であり、単一の filesystem transaction ではありません。
+最後に install します。失敗後も公開済み canonical path をすべて保持し、unlink で rollback しません。
+close marker より前には正確な file が pending として残り、Work Item は未 close のままです。
+公開後の確認失敗では committed または uncertain の結果があり得ます。status を再読し、同じ不変 bytes
+で retry します。temporary file は proof ではありません。これは復旧可能な複数 file 操作であり、
+単一の filesystem transaction ではありません。
 
 MCP では読み取り専用の `work_item_closeout_recovery_plan`、明示 write の
 `work_item_closeout_recover` を使います。両方に `workItemId` と絶対 path の `sourceRepo` が必要で、
@@ -399,6 +399,14 @@ MCP-bound repository が destination です。`tools/list` で schema を確認�
 independent clone のどちらも、Runtime が同じ論理 repository identity を検証した場合のみ対象です。
 完了後、destination lifecycle projection が source と一致すること、source bytes が変わっていないことを
 確認します。
+
+## 完全な旧 v1 source の登録
+
+正確な destination に現在の権限がある場合だけ[旧 v1 source 登録コマンド](commands.ja.md#旧-v1-source-の明示的な現時点登録)を使います。完全な独立 source と full commit を保持し、write 前に元 plan と記録 bytes を別途保存します。登録は現在の `explicit_attestation` であり、履歴 producer・時刻・検証・provider facts を保持します。
+
+read-only plan と明示 record は別の操作です。R を G より先に公開します。後の合法な Retained→Deleted は同じ guarded finalization writer で E を固定してから T を公開します。部分状態では独立保存した元 bytes/digest に bind する `resume` または `resume_extension` を使います。root 修復の pending は不完全な extension の承認でも closed/scope 解放でもありません。公開結果が不確実なら status を再読し、canonical file を保持します。
+
+完全登録後は元 source を online に保つ必要はありません。明示 external dependency は引き続き検証が必要です。ordinary close・v2・未登録 v1 は自動移行しません。すべての local 登録 anchor の同時消失や rollback は検出できません。strict field と有限 budget はコマンド reference を参照してください。
 
 ## 安全境界
 

@@ -1,0 +1,7 @@
+Usage: ai-cockpit work-item controls --repo <REPO> --id <ID> --input <INPUT>
+
+Options:
+      --repo <REPO>    
+      --id <ID>        
+      --input <INPUT>  JSON object containing scenarioCoverage, acceptanceEvidence, evidenceClasses, intentAlignment, finalDimensions, or identity-bound decisionEvidence. evidenceClasses must bind every custom Contract evidence class to regular repository files and their current digests
+  -h, --help           Print help

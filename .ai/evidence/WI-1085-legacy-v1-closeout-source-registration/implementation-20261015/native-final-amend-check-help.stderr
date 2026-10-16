@@ -1,0 +1,7 @@
+error: unrecognized subcommand 'amend-check'
+
+  tip: some similar subcommands exist: 'amendments', 'amend'
+
+Usage: ai-cockpit work-item <COMMAND>
+
+For more information, try '--help'.

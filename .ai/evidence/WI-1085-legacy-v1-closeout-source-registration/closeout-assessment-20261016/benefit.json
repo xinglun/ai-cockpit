@@ -1,0 +1,15 @@
+{
+  "state": "unknown",
+  "observedUserBenefit": null,
+  "expectedBenefitInference": "根据完整来源登记、证明丢失后撤销 closed/阻止 scope、原模板恢复等 fixtures，可推断能降低维护者误信历史关闭状态及错误释放 scope 的风险；未测得真实用户采用、节省时间或生产事故下降。",
+  "supportingEvidence": [
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json"
+  ],
+  "notClaimed": [
+    "No real WI-1004 registration or historic repair.",
+    "No production user observation or measured benefit.",
+    "No detection guarantee when all local anchors disappear or roll back together."
+  ],
+  "nativeProjection": "Current Runtime has no userVisibleBenefit input in work-item controls; user_visible_benefit_not_declared is preserved, not hand-edited."
+}

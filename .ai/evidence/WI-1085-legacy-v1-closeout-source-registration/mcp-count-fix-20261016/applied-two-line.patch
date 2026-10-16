@@ -1,0 +1,26 @@
+diff --git a/crates/cockpit-mcp/tests/material_review.rs b/crates/cockpit-mcp/tests/material_review.rs
+index 736e1c3f..8585282b 100644
+--- a/crates/cockpit-mcp/tests/material_review.rs
++++ b/crates/cockpit-mcp/tests/material_review.rs
+@@ -85,7 +85,7 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
+         &runtime(),
+     );
+     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
+-    assert_eq!(tools.len(), 31);
++    assert_eq!(tools.len(), 33);
+     let plan_tool = tools
+         .iter()
+         .find(|tool| tool["name"] == "work_item_material_review_plan")
+diff --git a/crates/cockpit-mcp/tests/usage.rs b/crates/cockpit-mcp/tests/usage.rs
+index 8c3d4c55..8f049d8c 100644
+--- a/crates/cockpit-mcp/tests/usage.rs
++++ b/crates/cockpit-mcp/tests/usage.rs
+@@ -22,7 +22,7 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
+         &runtime(),
+     );
+     let tools = listed["result"]["tools"].as_array().expect("tools");
+-    assert_eq!(tools.len(), 31);
++    assert_eq!(tools.len(), 33);
+     let usage = tools
+         .iter()
+         .find(|tool| tool["name"] == "work_item_usage_record")

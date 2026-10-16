@@ -1,0 +1,6 @@
+{
+  "reason": "Correct an authored evidence-description label: 9a is repositorySnapshot, d769 is sourceSnapshot. No receipt or snapshot bytes changed; controls refreshed only through Runtime.",
+  "priorInput": "controls-input-before-label-correction.json",
+  "priorResult": "native-controls-before-label-correction.json",
+  "assertionOrSourceChanged": false
+}

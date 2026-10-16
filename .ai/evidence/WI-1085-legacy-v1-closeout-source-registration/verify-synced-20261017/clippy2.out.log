@@ -1,0 +1,49 @@
+[TRACE tini (1753519)] Registered as child subreaper
+[INFO  tini (1753519)] Spawned child process '/usr/bin/timeout' with pid '1754800'
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[TRACE tini (1753519)] No child to reap
+[DEBUG tini (1753519)] Received SIGCHLD
+[DEBUG tini (1753519)] Reaped child with pid: '1754800'
+[INFO  tini (1753519)] Main child exited normally (with status '0')
+[TRACE tini (1753519)] No child to wait
+[TRACE tini (1753519)] Exiting: child has exited

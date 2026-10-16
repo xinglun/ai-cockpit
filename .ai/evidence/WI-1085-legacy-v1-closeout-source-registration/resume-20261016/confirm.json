@@ -1,0 +1,237 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+  ],
+  "checkpointAt": "2026-10-15T18:22:10Z",
+  "checkpointContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "recorded": true,
+      "recordedAt": "2026-10-15T18:22:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "reason": "PROPOSED ONLY: ask Raydot to review the minimum existing-protocol admission amendment. The active documentation projection requires exactly one in-progress row in each existing three-language parity ledger, currently outside scope. The committed readable Rust source material has no Findings but a permitted syntax Unknown and material_review_not_enabled. Add only those three paths and a strict self_declared technical material review opt-in; retain raw Unknowns, all checks/acceptance/history and all non-goals. No authority or human confirm_review is recorded by this proposal.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T23:14:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "createdAt": "2026-10-15T14:42:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:5a64b093bb3ad1f169c2700427e80a8486c415a853b5126fbfd41d334c3c78e0",
+    "reason": "Ray selected \"confirm review\" for these exact WI1085 bindings at 2026-10-16T09:43:28Z in message Sentinel_32136ee1b8208191a09071e601c3fd8e, relayed by Raydot from parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018. Source evidence .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/human-relay.json raw sha256:2e663e83bcd8b156f61b14b569375c94e5f416c897ea673e4def092ade1382ae. recordedAt is the actual current recording time, not a backdated reply time. Preflight remains red; this is not material review, verification success, acceptance, PR/merge/close or cleanup authority.",
+    "recordedAt": "2026-10-16T09:45:20.403216+00:00",
+    "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+    "schemaVersion": 1,
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+    ],
+    "reason": "Implementation and focused evidence align with the declared goal, but material review opt-in, three required out-of-scope parity rows, declared full workspace formal verification and acceptance mapping remain pending. No user-visible benefit is asserted as proven.",
+    "state": "unresolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T14:44:27.620151778Z",
+      "recordedAt": "2026-10-15T14:44:27.620151778Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T09:40:48Z",
+  "preflightContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "preflightDecisionDigest": "sha256:5a64b093bb3ad1f169c2700427e80a8486c415a853b5126fbfd41d334c3c78e0",
+  "preflightRepositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Present-day explicit_attestation is truthful; original historical bytes and assurance remain unchanged.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "complete_source_and_distinct_producer",
+      "status": "unverified",
+      "verificationPlan": "Use a complete old-v1 source with historical producer distinct from present registrar; reject hash-only/incomplete sources."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Only exact original binding/bytes resume; pending does not permanently block its own recovery; conflicting or corrupt records remain preserved and rejected.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "root_partial_resume",
+      "status": "unverified",
+      "verificationPlan": "Interrupt before/after requirement and registration publication; plan and record requirement-only and registration-only cases."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Single immutable winner, no lost update, stale/conflict on drift, no overwrite.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "concurrency_and_drift",
+      "status": "unverified",
+      "verificationPlan": "Race same/different WI and binding; change source/destination/inventory/head/admission after plan."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "No escaped read/write or victim replacement; invalid inputs fail closed.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "filesystem_boundaries",
+      "status": "unverified",
+      "verificationPlan": "Exercise bounded reads, duplicate keys/paths, symlink/reparse, directory replacement, traversal and hardlink victims."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Closed revoked, explicit blocker, WI retained in readiness, overlapping scope rejected.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "proof_loss_and_scope",
+      "status": "unverified",
+      "verificationPlan": "Remove/change each required record/dependency; remove archive directory or Contract+manifest; set closeRequired=false or foreign repository."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "One authoritative write sequence; typed held-lock/internal contract prevents recursive acquisition and unlocked exposure.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "extension_single_writer_and_lock",
+      "status": "unverified",
+      "verificationPlan": "Call normal finalization and explicit extension path with held/unheld lock contexts and concurrent writers."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Read back original exact transition and return original result; no regenerated actor/time/Runtime bytes and no false next-sequence conflict.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "extension_committed_retry",
+      "status": "unverified",
+      "verificationPlan": "Publish exact transition, fail reporting, then retry with original durable template/version before evaluating next-sequence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Exact constrained resume works without prior registered_valid/closed; unbound decisions, invalid forks and missing proofs remain blocked.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "extension_pending_resume_and_forks",
+      "status": "unverified",
+      "verificationPlan": "Interrupt extension/transition publication; test lawful Retained→Deleted, already-present Deleted, forks, extra decisions and wrong identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Existing compatibility and historical not_ready are retained; plan is read-only and both surfaces share semantics.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "legacy_and_surface_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Read ordinary closes, v2 and unregistered v1 through repository/CLI/MCP, and test new plan/record input parity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "No fabricated historical authentication or remote immutable-anchor guarantee.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "declared_local_loss_boundary",
+      "status": "unverified",
+      "verificationPlan": "Document supported surviving-proof detection and complete local provenance-loss/rollback limits."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "No recursive lock or unguarded writer, bounded failure for cyclic dependencies, no default permanent source-checkout dependency, damaged canonical records retain scope obligation and all required validity predicates remain conjunctive.",
+      "reason": "Focused Linux regression evidence exists. The declared full workspace formal verification remains precondition-rejected with zero spawned project processes; acceptance is pending current material/profile/documentation admission. No scenario is promoted to formal verified here.",
+      "required": true,
+      "scenario": "guarded_bounded_offline_conjunctive_validation",
+      "status": "unverified",
+      "verificationPlan": "Exercise crate-private matching lock-guard callers, cross-WI cycles/depth, offline original source after complete registration, malformed/foreign canonical registration names and old-v1/provider failures with apparently valid registration."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-16T09:45:21.426876883+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-15T23:14:16Z"
+  },
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

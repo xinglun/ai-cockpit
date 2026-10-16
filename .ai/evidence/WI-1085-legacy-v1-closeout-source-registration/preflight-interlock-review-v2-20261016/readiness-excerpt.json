@@ -1,0 +1,25 @@
+{
+  "source": "read-only Runtime status stdout; selected fields, not full native stdout",
+  "nativeStdoutBytes": 339981,
+  "nativeStdoutRawSha256": "c8763aa26530d3e50733079db627577b5ecf87d264d7066610025b11941b47f6",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "activeWorkItems": 6,
+  "readiness": {
+    "state": "blocked",
+    "blockers": [
+      "active_work_items_present",
+      "base_revision_not_synchronized"
+    ],
+    "currentBranch": "codex/wi1085-legacy-v1-closeout-source-registration",
+    "currentRevision": "826dc486304ff65feb6edac4523dcef45df79db5",
+    "defaultRemote": "origin",
+    "defaultBranch": "main",
+    "defaultRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+    "dirtyPaths": [],
+    "readyOnBase": false,
+    "unclosedArchivedWorkItems": [],
+    "unknowns": []
+  },
+  "independentWorkItemCreated": false,
+  "independentWorkItemImplementationAdmission": "not_obtained"
+}

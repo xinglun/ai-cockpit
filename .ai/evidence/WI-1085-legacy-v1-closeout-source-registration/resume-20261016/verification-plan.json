@@ -1,0 +1,49 @@
+{
+  "kind": "planned-not-executed-native-workspace-verification",
+  "declaredCommand": "cargo test --locked --workspace",
+  "runtime": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeSourceCommit": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+  "workers": 1,
+  "outerTimeoutSeconds": 890,
+  "killAfterSeconds": 10,
+  "maximumAllowedSeconds": 900,
+  "supervisor": {
+    "path": "/usr/local/bin/docker-init",
+    "options": [
+      "-s",
+      "-g",
+      "-vvv",
+      "-w"
+    ],
+    "sha256": "8cc70470bb4b21c25ddca7108c5820fa14d5019b5f1ec7e94bfca65de2479990"
+  },
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "requiredNarrowWriteDirectoryForExistingNestedFixtures": "/home/agent/.cache/ai-cockpit-verify-target",
+  "preExecutionRequirements": [
+    "Actual Raydot material review, native record and refreshed admission under the approved order.",
+    "Resample disk/process/descendant observations before any build/test; never treat read errors as empty descendants.",
+    "Inspect native plan only after current preconditions hold; a rejected plan-only call can append an immutable attempt.",
+    "If a cold build is required, keep it separately bounded and identify it as compilation, not passed test execution."
+  ],
+  "resultsClaimed": false,
+  "diskAtPlanning": {
+    "/workspace": {
+      "availableBytes": 19207421952,
+      "freeInodes": 2071963
+    },
+    "/tmp": {
+      "availableBytes": 9409097728,
+      "freeInodes": 2299129
+    }
+  }
+}

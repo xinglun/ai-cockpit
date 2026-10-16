@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "implementation_active",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 16,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 2,
+    "checkpointCount": 0
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:3308ca7e4fd4315c1c37d83d60fd2b4c8a9eceb764e96f247003c518aa7e5751",
+    "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "repositorySnapshot": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+    "summary": "sha256:f8b8b28d4b8451cf58ae2d594a47afb5c06d08c1cafb2c75f6487b62eb36e0c8"
+  },
+  "unknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "acceptance_evidence_insufficient",
+    "acceptance_evidence_missing",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-15T14:44:27Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_preflight"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase implementation_active",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "acceptance_evidence_insufficient",
+        "message": "current projection reports acceptance_evidence_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "acceptance_evidence_missing",
+        "message": "current projection reports acceptance_evidence_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "acceptance_evidence_insufficient",
+      "acceptance_evidence_missing",
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:997d638cf043a5e1d3a143d6939b1a7f2c07e3e31bc9feb93d21461419b18f99"
+  },
+  "statusDigest": "sha256:3e3672d976d15ac8de4cf8b6a30cfa61c1e0dca037595dbd4a6526400ea905e3",
+  "historical": false
+}

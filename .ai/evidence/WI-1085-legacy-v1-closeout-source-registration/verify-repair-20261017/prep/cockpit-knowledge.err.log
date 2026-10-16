@@ -1,0 +1,3 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_knowledge-cc3681fa65113d20)
+  Executable tests/query.rs (target/wi1085-legacy-closeout-source/debug/deps/query-2e3c2fe91ebcd866)

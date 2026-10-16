@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual-human-decision-relayed-not-host-authentication",
+  "recordedAt": "2026-10-16T09:45:20.403216+00:00",
+  "recordedBy": "agent:Codex",
+  "relayedBy": "agent:Raydot",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "prompt": {
+    "messageId": "Sentinel_cd375b8b029c8191989dd0fdb1ef762d",
+    "timestamp": "2026-10-16T09:42:50Z",
+    "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+    "preflightDecisionDigest": "sha256:5a64b093bb3ad1f169c2700427e80a8486c415a853b5126fbfd41d334c3c78e0",
+    "caveat": "Current preflight remains red; confirmation is not verification or acceptance."
+  },
+  "humanReply": {
+    "actor": "human:Ray",
+    "messageId": "Sentinel_32136ee1b8208191a09071e601c3fd8e",
+    "timestamp": "2026-10-16T09:43:28Z",
+    "text": "confirm review"
+  },
+  "scope": "Record confirm_review for exactly this WI1085 current Contract/snapshot/request. Material review is pending Raydot; no acceptance or test success is declared."
+}

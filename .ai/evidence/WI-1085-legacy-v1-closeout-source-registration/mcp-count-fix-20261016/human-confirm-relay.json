@@ -1,0 +1,29 @@
+{
+  "kind": "actual-human-decision-relayed-by-parent-reviewer",
+  "recordedAt": "2026-10-16T12:51:17.098814+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "requestCarrierCommit": "1947ce33f2422785d805707bd718f53eed897c9f",
+  "request": {
+    "actor": "agent:Raydot",
+    "messageId": "Sentinel_ab6f74323d1c8191bd3ba780363751be",
+    "sourceTimePrecision": "minute",
+    "sourceTimeUtc": "2026-10-16 12:46 UTC",
+    "purpose": "Only continue after the bounded two-file scope adjustment; not acceptance."
+  },
+  "reply": {
+    "actor": "human:Ray",
+    "messageId": "Sentinel_66886c257f5c8191968f2b12ceb7d8de",
+    "sourceTimePrecision": "minute",
+    "sourceTimeUtc": "2026-10-16 12:49 UTC",
+    "text": "confirm_review"
+  },
+  "bindings": {
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+    "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+    "preflightDecisionDigest": "sha256:7b2ccbca2b332f533676c4f3d3e04ac3d83ec9df916977db582212b8a90b3c72",
+    "decisionId": "contract-preflight-review"
+  },
+  "bounds": "Relayed actual human choice; Codex records the relay truthfully. Not a technical material decision, passing verification, acceptance, PR, merge, finish, archive, close or further cleanup authority."
+}

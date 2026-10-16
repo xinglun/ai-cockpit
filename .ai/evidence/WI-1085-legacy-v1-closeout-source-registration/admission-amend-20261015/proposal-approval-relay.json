@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "kind": "relayed-proposal-authorization-evidence-not-confirm-review",
+  "recordedAt": "2026-10-15T23:14:15.856913+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "relayedBy": "agent:Raydot",
+  "recordedBy": "agent:Codex",
+  "prompt": {
+    "messageId": "Sentinel_0c8c639eb5cc8191be9081372ea0d0de",
+    "timestamp": "2026-10-15T23:12:29Z",
+    "text": "需要你确认：增加三份 parity 文档路径，并允许 Raydot 对指定的 Rust 语法 Unknown 做技术材料审查，接受该有限审查的剩余风险。不会放行 Finding 或身份校验失败。",
+    "proposalRawSha256": "d946d7256496a33e52e35b330bc104055f2148006a05952afd63cc0a3a380cad"
+  },
+  "humanReply": {
+    "actor": "human:Ray",
+    "messageId": "Sentinel_4dbca359a4f88191940307c6757e31b0",
+    "timestamp": "2026-10-15T23:12:44Z",
+    "text": "批准上述 WI-1085 最小变更提案。"
+  },
+  "raydotTechnicalReview": "Passed for exactly three parity paths and strict existing profile, other concurrency fields unchanged.",
+  "scope": "Apply the exact approved typed amend; prepare only Runtime-admitted parity/material review inputs and a real new identity-bound review request.",
+  "notGranted": [
+    "confirm_review for an identity not yet generated",
+    "before_finish addition",
+    "PR creation/Ready/merge/close/cleanup"
+  ],
+  "nativeHumanDecisionRecordedByThisFile": false,
+  "hostAuthenticatedIdentityClaim": false
+}

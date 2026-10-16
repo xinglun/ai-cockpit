@@ -1,0 +1,134 @@
+cockpit-agent exit=0
+cockpit-cli exit=0
+cockpit-core exit=0
+cockpit-evidence exit=0
+cockpit-git exit=0
+cockpit-interface exit=0
+cockpit-isolation exit=0
+cockpit-knowledge exit=0
+cockpit-mcp exit=0
+cockpit-protocol exit=0
+cockpit-release exit=0
+[TRACE tini (1457191)] Registered as child subreaper
+[INFO  tini (1457191)] Spawned child process '/usr/bin/timeout' with pid '1457192'
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+cockpit-repository exit=0
+cockpit-verification exit=0
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[TRACE tini (1457191)] No child to reap
+[DEBUG tini (1457191)] Received SIGCHLD
+[DEBUG tini (1457191)] Reaped child with pid: '1457192'
+[INFO  tini (1457191)] Main child exited normally (with status '0')
+[TRACE tini (1457191)] No child to wait
+[TRACE tini (1457191)] Exiting: child has exited

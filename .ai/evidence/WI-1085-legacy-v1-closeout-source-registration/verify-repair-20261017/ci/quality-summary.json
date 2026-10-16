@@ -1,0 +1,76 @@
+{
+  "observedAt": "2026-10-16T18:40:58.453615+00:00",
+  "runId": 38946515596,
+  "qualityJobId": 117128843174,
+  "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+  "testedRevision": "a408ad078eb973e5254806254e44ba0d8102baae",
+  "testedMergeParents": [
+    "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+    "b5a219eab232695fe2b69102c9de5b3062837ec3"
+  ],
+  "testedTreeEqualsSourceHead": true,
+  "testedTree": "bb8cb5a5427ad8e0649dabfd555c7feb9f37df8c",
+  "selectedProfile": "strict",
+  "qualityGateState": "passed",
+  "gateCount": 42,
+  "gateStatusCounts": {
+    "not_applicable": 2,
+    "passed": 40
+  },
+  "launchedGateCount": 40,
+  "reusedGateCount": 0,
+  "workspaceCoverage": {
+    "executed": [
+      "cockpit-agent",
+      "cockpit-cli",
+      "cockpit-core",
+      "cockpit-evidence",
+      "cockpit-git",
+      "cockpit-interface",
+      "cockpit-isolation",
+      "cockpit-knowledge",
+      "cockpit-mcp",
+      "cockpit-protocol",
+      "cockpit-release",
+      "cockpit-repository",
+      "cockpit-verification"
+    ],
+    "executedByCoverageRunner": [
+      "cockpit-agent",
+      "cockpit-cli",
+      "cockpit-core",
+      "cockpit-evidence",
+      "cockpit-git",
+      "cockpit-interface",
+      "cockpit-isolation",
+      "cockpit-knowledge",
+      "cockpit-mcp",
+      "cockpit-protocol",
+      "cockpit-release",
+      "cockpit-repository",
+      "cockpit-verification"
+    ],
+    "executedByHostedRuntime": [],
+    "omitted": [],
+    "planned": [
+      "cockpit-agent",
+      "cockpit-cli",
+      "cockpit-core",
+      "cockpit-evidence",
+      "cockpit-git",
+      "cockpit-interface",
+      "cockpit-isolation",
+      "cockpit-knowledge",
+      "cockpit-mcp",
+      "cockpit-protocol",
+      "cockpit-release",
+      "cockpit-repository",
+      "cockpit-verification"
+    ],
+    "schemaVersion": 1,
+    "state": "passed",
+    "verificationReceiptState": "not_provided"
+  },
+  "notLocalNativeWorkItemReceipt": true,
+  "windowsStillSeparate": true
+}

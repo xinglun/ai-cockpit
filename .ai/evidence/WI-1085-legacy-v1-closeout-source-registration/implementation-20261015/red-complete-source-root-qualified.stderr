@@ -1,0 +1,14 @@
+    Finished `test` profile [unoptimized] target(s) in 0.07s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+
+thread 'complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history' (123301) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:107:9:
+complete old-v1 source must produce a read-only plan: error: unrecognized subcommand 'legacy-closeout-source-plan'
+
+  tip: a similar subcommand exists: 'closeout-recovery-plan'
+
+Usage: ai-cockpit work-item <COMMAND>
+
+For more information, try '--help'.
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-cli --test legacy_closeout_source`

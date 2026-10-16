@@ -1,0 +1,17 @@
+{
+  "workspaceAvailableBytesAfterExecution": 0,
+  "defaultSandboxDiagnostics": {
+    "commands": [
+      "pwd",
+      "process snapshot native-observe-07",
+      "git status --short"
+    ],
+    "exitCode": 1,
+    "stderr": "bwrap: Can't create file /workspace/.git: No space left on device",
+    "observation": "No observation was produced by failed startup; not interpreted as an empty process set."
+  },
+  "readOnlyRecovery": "Read-only diagnosis used approved unsandboxed execution because the default sandbox could not start; process snapshot output and native queries saved to /tmp. Tests were not rerun under this mode.",
+  "resultGitMetadata": "/tmp/wi1085-result-20261016.git",
+  "publicationPlan": "Prepare an evidence-only commit with parent fe205fa70646114d35dd7f618cd840a21a7b035a in /tmp, borrowing existing objects, then normal non-force push to the same WI-1085 branch. The original local branch/index remain unchanged while disk is full.",
+  "localAlignmentPending": "After storage recovery, synchronize original local branch/index/files only after verifying the exact published evidence tree; no reset or cleanup performed."
+}

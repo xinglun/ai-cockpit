@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Ray directly selected confirm_review in parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018, message Sentinel_21246414189481918e85958adaedabc4, as relayed by Raydot. Source evidence .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/human-confirmation-relay.json raw sha256:d7c8a1abe75462ae98ff42a316dec5f5950e3ab82379fc7ab728d13fe2026606; reply time was reported only to minute precision. This is the actual current recording time, not the historical reply time, and is not a claim of direct speech in this core. Approval covers the exact current WI-1085 plan implementation/verification; exclusions remain.",
+  "recordedAt": "2026-10-15T18:21:48.466476Z",
+  "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "schemaVersion": 1,
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

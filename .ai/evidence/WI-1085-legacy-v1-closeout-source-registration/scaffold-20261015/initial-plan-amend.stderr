@@ -1,0 +1,1 @@
+apply typed Contract amendment: repository protocol state error at /workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json: set_requires_leaf at /outOfScope: set assigns a scalar leaf; use replace for an existing structured value

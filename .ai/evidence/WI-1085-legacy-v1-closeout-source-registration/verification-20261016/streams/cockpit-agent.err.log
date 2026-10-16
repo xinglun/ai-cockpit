@@ -1,0 +1,30 @@
+   Compiling unicode-ident v1.0.24
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling syn v3.0.3
+   Compiling serde_derive v1.0.229
+   Compiling serde v1.0.229
+   Compiling thiserror-impl v2.0.20
+   Compiling libc v0.2.189
+   Compiling clap_derive v4.6.7
+   Compiling thiserror v2.0.20
+   Compiling memchr v2.8.3
+   Compiling serde_json v1.0.151
+   Compiling clap v4.6.7
+   Compiling getrandom v0.4.3
+   Compiling cockpit-interface v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-interface)
+   Compiling cockpit-core v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-core)
+   Compiling tempfile v3.27.0
+   Compiling cockpit-protocol v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-protocol)
+   Compiling cockpit-git v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-git)
+   Compiling cockpit-agent v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-agent)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 26.04s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_agent-a7a15907680fcb3e)
+     Running tests/context.rs (target/wi1085-legacy-closeout-source/debug/deps/context-9a1c57580eb5c6ab)
+     Running tests/detection.rs (target/wi1085-legacy-closeout-source/debug/deps/detection-40b0056c3e635103)
+     Running tests/doctor.rs (target/wi1085-legacy-closeout-source/debug/deps/doctor-f37e5fb8373b7182)
+     Running tests/install.rs (target/wi1085-legacy-closeout-source/debug/deps/install-2d7a5573b28dc080)
+     Running tests/isolation.rs (target/wi1085-legacy-closeout-source/debug/deps/isolation-16fabc5c7bef4399)
+     Running tests/outcome_delivery.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_delivery-a08ef32da45c5967)
+     Running tests/outcome_host_command.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_host_command-e0e50b3cb9d55dc0)
+   Doc-tests cockpit_agent

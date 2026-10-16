@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-10-15T23:02:17.701003+00:00",
+  "fixedReviewedSourceHead": "9ecd4495c40ea2574b2f171ebd1bbca9cd6dd89d",
+  "reviewers": [
+    {
+      "actor": "agent:legacy_v1_protocol_design",
+      "result": "No new definite defect in the reviewed scope. Three-language wording and four both-root-loss cases match the declared protocol; source identity checks cover planner/record/publication; final confirmation and Unix cfg corrected.",
+      "mode": "read_only_fixed_git_objects_no_tests_build_fetch_or_edits",
+      "residualCoverage": "The new E-only/both-root-loss test does not explicitly assert rootState=committed and blocking=true, though the prior missing-one-root matrix does. Not a blocking defect."
+    },
+    {
+      "actor": "agent:legacy_v1_test_conflicts",
+      "result": "No new definite defect. Extension final encode/read errors uniformly retain cause under commit_state_unknown. Shared root/common-dir/actual-repository checks and three direct-record negatives reject before publication. Ledger truthfully distinguishes self-source acceptance RED from foreign-source error classification and primitive/full-API evidence.",
+      "mode": "read_only_fixed_git_objects_no_tests_build_fetch_or_edits"
+    }
+  ],
+  "formalVerification": "not_admitted_not_run",
+  "raydotFinalAcceptance": "not_recorded_by_this_implementation_note"
+}

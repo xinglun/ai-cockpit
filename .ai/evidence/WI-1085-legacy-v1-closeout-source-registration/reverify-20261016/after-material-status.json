@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 17,
+    "changedPathCount": 2,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "materialManifest": "sha256:c5c06bb3647d37f31da300b11389cd3ff562d8c4ad3a94eee142302568de1c0b",
+    "materialReviewReceipt": "sha256:9dc8bd004c7de4f1668c3bf49875eec707e2bed71c92078dadcccfc07c014e44",
+    "repositorySnapshot": "sha256:8a858ff1a5139906eef70f06f486e5f18dd68925f3c434eae602045976e425f6",
+    "summary": "sha256:88b4cda6b4da90efff65c5c73b778e4f1c7f04b47bc1163dd6ae5ac3e07d3220"
+  },
+  "unknowns": [
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:c5c06bb3647d37f31da300b11389cd3ff562d8c4ad3a94eee142302568de1c0b",
+  "reviewReceiptDigest": "sha256:9dc8bd004c7de4f1668c3bf49875eec707e2bed71c92078dadcccfc07c014e44",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:8a858ff1a5139906eef70f06f486e5f18dd68925f3c434eae602045976e425f6",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-16T12:51:18.096182209+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_verification",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "governance_controls_unknown",
+        "message": "current projection reports governance_controls_unknown"
+      },
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:997012c5fcc7184de43d6da31ca38f6c23c6fb467f53de4482c6bd57184a9ea0"
+  },
+  "statusDigest": "sha256:39b093da5880e7ff5c8f72cd0cce34f05ae8f1ae8f75049e08031c715c28b386",
+  "historical": false
+}

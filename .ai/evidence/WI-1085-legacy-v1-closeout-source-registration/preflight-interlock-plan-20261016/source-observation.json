@@ -1,0 +1,27 @@
+{
+  "observedAtUtc": "2026-10-15T23:56:09.899555+00:00",
+  "userFacingDateTimezone": "Asia/Tokyo",
+  "source": "GitHub connector fetch_issue_comments",
+  "url": "https://github.com/xinglun/ai-cockpit/issues/1041#issuecomment-6204404531",
+  "commentId": 6204404531,
+  "authorLogin": "xinglun",
+  "createdAt": null,
+  "updatedAt": null,
+  "bodyEncoding": "UTF-8; connector-normalized body saved with final newline by apply_patch",
+  "savedBodyRawSha256": "866eda64532fd29e7e0e6ae3dec3b63bcb0d6d5e520ce9d25e829fec9d371094",
+  "localSentinelInspectedOrModified": false,
+  "wi1085Head": "6339a7712863cbe0b3bd8f07a55ef27f4b90520a",
+  "wi1085ContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "approvedPolicyRequestRawSha256": "d946d7256496a33e52e35b330bc104055f2148006a05952afd63cc0a3a380cad",
+  "scope": "plan and read-only evidence only; no new policy/human decision recorded",
+  "sentinelBindingsReported": {
+    "productCommit": "f96211c8e3b2426735a0ddd2bc7becd455f5201b",
+    "runtimeSource": "253dd007db00a01d3fe3a0e1e90cdc452eb7d5e8",
+    "runtimeSha256": "f6aed2b7f46b4a1b5d475d0d9c3f14900c2cf8021df19b9468fbb05b39906132",
+    "newContractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+    "materialRequestDigest": "sha256:192184b1e0a3d8abe8a8ac57d2fdbefe4b418e9005e8a407a004bdfda1a19d5a",
+    "admissionDigest": "sha256:ef34e5eaacd8c4d28e0b737cecbade0c13e5a52b56334225fe0d6df89e577dea",
+    "freshPreflightDecisionDigest": null,
+    "currentRepositorySnapshotDigest": "not supplied in new comment; do not infer from old issue body"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "recordedAt": "2026-10-16T18:49:50.055054+00:00",
+  "captureMode": "full_capture",
+  "rawNativeAttemptAndCanonicalUntouched": true,
+  "currentPhase": "Before commit, preserve the initially written serialized-hex representation under streams-hex/, and put exactly hex-decoded process bytes under streams/. Every decoded file round-trips to the native field, with bytes/SHA256/truncation/reference.",
+  "priorPhaseClarification": "verify-synced-20261017 streams contain the UTF-8 serialized hex strings described by that phase, not decoded process text. Those already committed bytes and hashes remain unchanged; source9e1e4786 native attempt2199e776 preserves original hex payload. No historical reference or failure receipt is rewritten.",
+  "currentProofUsesDecodedStreams": true
+}

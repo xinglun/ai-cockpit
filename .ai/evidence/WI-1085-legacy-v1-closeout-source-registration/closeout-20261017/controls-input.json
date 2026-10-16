@@ -1,0 +1,809 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "direct_record_rejects_self_source_even_when_every_external_digest_is_resealed",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A1",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A1",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "complete_source_rejects_missing_legacy_identity_header_without_rewriting_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A2",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A2",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A3",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A3",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "forged_resume_cannot_create_a_first_root_after_source_disappears",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "damaged_survivor_cannot_become_original_through_a_fresh_plan",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A4",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A4",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A5",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A5",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "legacy_source_input_is_bounded_before_json_parsing",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "fresh_plan_rejects_identical_content_source_root_replacement",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "history_fifo_is_rejected_without_blocking",
+          "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A6",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A6",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "every_bound_history_file_and_each_root_obligation_remain_required",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A7",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A7",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "lost_archive_keeps_structured_status_and_index_blocking",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "both_missing_root_records_require_a_valid_extension_anchor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A9",
+      "evidence": [
+        {
+          "locator": "already_deleted_before_registration_is_part_of_the_root_inventory",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A9",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A9",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A10",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A10",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "partial_extension_requires_independent_original_and_resumes_both_survivors",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A11",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A11",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "public_finalization_waits_for_the_same_work_item_lifecycle_lock",
+          "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A12",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A12",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A13",
+      "evidence": [
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "legacy source registration / all-local-anchor-loss boundary",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A13",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A13",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A14",
+      "evidence": [
+        {
+          "locator": "actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A14",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A14",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A15",
+      "evidence": [
+        {
+          "locator": "Current Runtime handoff and precise admission proposal; final focused 23/23 + 41/41",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+          "type": "historical_evidence_and_current_plan",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "formalVerificationExecutedThisEnvironment=false",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A15",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A15",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A16",
+      "evidence": [
+        {
+          "locator": "sourceHead / remoteHeadReadback / branch",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A16",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A16",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A17",
+      "evidence": [
+        {
+          "locator": "semantically_valid_successor_raw_change_revokes_registered_predecessor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "initial_registration_rejects_successor_canonical_proof_obligation_damage",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A17",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A17",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "type": "delegated_technical_review",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
+        }
+      ]
+    }
+  ]
+}

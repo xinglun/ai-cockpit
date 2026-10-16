@@ -1,0 +1,11 @@
+
+running 1 test
+test complete_source::lost_archive_keeps_structured_status_and_index_blocking ... FAILED
+
+failures:
+
+failures:
+    complete_source::lost_archive_keeps_structured_status_and_index_blocking
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 1.12s
+

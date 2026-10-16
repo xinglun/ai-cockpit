@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1085-initial-reviewed-plan-v2-20261015",
+  "expectedContractDigest": "sha256:3308ca7e4fd4315c1c37d83d60fd2b4c8a9eceb764e96f247003c518aa7e5751",
+  "reason": "Raydot 已批准窄范围独立 WI scaffold/Contract 准备；记录完整来源与 explicit_attestation、本地双记录、全来源丢失边界、受约束 pending resume、持久原 transition 模板和原结果优先重试、唯一写入核心及单锁调用约定。核心实现仍等独立审阅，不伪造真人门禁。",
+  "changes": [
+    {
+      "path": "/title",
+      "operation": "set",
+      "value": "旧 v1 closeout 的显式现时来源登记与保全"
+    },
+    {
+      "path": "/intent",
+      "operation": "replace",
+      "value": {
+        "businessGoal": "为完整可验证的旧 v1 closeout 建立逐工作项、显式且保留历史的现时来源登记；登记义务存在时，必需证据丢失或损坏不得继续释放关闭状态与 scope。",
+        "userGoal": "维护者能够对完整旧 v1 证据登记现在核验的来源，并在登记后证据丢失或损坏时获得明确阻断，避免错误释放关闭状态与 scope，同时保留真实历史和合法 Retained→Deleted 追加。",
+        "problem": "Existing readable legacy-v1 recovery evidence has no new v2 origin requirement. Losing all legacy provenance can be indistinguishable from ordinary close; no historical origin may be fabricated. A new explicit present-day registration must remember complete proof obligations while preserving the known total-local-loss boundary and lawful append-only Retained-to-Deleted evolution.",
+        "constraints": [
+          "完整原始字节及全部适用 payload/依赖均可验证；无来源返回 provenance_unknown。",
+          "当前操作者仅 explicit_attestation，不重新认证旧 producer；全部本地来源丢失不可识别。",
+          "root 和 extension 的中断恢复仅同 binding/准确原 bytes；单一权威 finalization 写入核心、同 WI lifecycle lock。",
+          "核心实现等待 Raydot 当前独立审阅结论；当前只准备 scaffold/Contract 和必要远端检查点。"
+        ],
+        "nonGoals": [
+          "Rewriting or silently migrating old v1 receipts, historical producer identity/time, archive/Contract/close/verification/provider bytes, or representing historical verification as current execution.",
+          "Remote trusted monotonic registry, new external trust service, bulk migration, and claims that total loss or rollback of all local provenance is detectable.",
+          "Actual source registration or historical repair of real WI-1004 records; this implementation uses isolated fixtures until a separate exact target authority exists.",
+          "WI-1084 reopening, PR1040 body changes, WI-1078 retained resources/evidence, other worktrees or dirty files, local Sentinel, Task9, and global Agent/MCP/security/permission configuration.",
+          "Release publication, tags, new PR creation without direction, Ready/merge, human close, branch/worktree deletion or resource cleanup.",
+          "General finalization, evidence cache or coordination refactoring; unrelated CI/release workflows, assertions or gate weakening."
+        ],
+        "rationale": "将旧 v1 的已知来源丢失边界作为独立新范围，追加现时完整性义务；不重开已完成 WI-1084 或改写历史。"
+      }
+    },
+    {
+      "path": "/outOfScope",
+      "operation": "replace",
+      "value": [
+        "Rewriting or silently migrating old v1 receipts, historical producer identity/time, archive/Contract/close/verification/provider bytes, or representing historical verification as current execution.",
+        "Remote trusted monotonic registry, new external trust service, bulk migration, and claims that total loss or rollback of all local provenance is detectable.",
+        "Actual source registration or historical repair of real WI-1004 records; this implementation uses isolated fixtures until a separate exact target authority exists.",
+        "WI-1084 reopening, PR1040 body changes, WI-1078 retained resources/evidence, other worktrees or dirty files, local Sentinel, Task9, and global Agent/MCP/security/permission configuration.",
+        "Release publication, tags, new PR creation without direction, Ready/merge, human close, branch/worktree deletion or resource cleanup.",
+        "General finalization, evidence cache or coordination refactoring; unrelated CI/release workflows, assertions or gate weakening."
+      ]
+    },
+    {
+      "path": "/sources",
+      "operation": "replace",
+      "value": [
+        "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191800813",
+        "https://github.com/xinglun/ai-cockpit/issues/1004#issuecomment-6191899624",
+        "https://github.com/xinglun/ai-cockpit/commit/681df30e2fe8c869b6a41498822818c017dc4fb6",
+        "Raydot-delegation:01a11856-d6ba-72e0-9aab-25a34cd2f018:20261015:WI-1085-narrow-plan-approved-for-scaffold-contract; core-implementation-awaits-independent-review",
+        "Raydot-review-addendum:20261015:root-and-extension-constrained-resume; exact-durable-transition-template-and-serialization-version; recognize-committed-original-before-next-sequence; one-authoritative-writer"
+      ]
+    },
+    {
+      "path": "/guidelines",
+      "operation": "replace",
+      "value": [
+        "Raydot has ordinary technical review authority delegated by Ray. This approval admits scaffold/Contract preparation; it is not a fresh identity-bound human confirm_review or approval to close, merge, publish or clean resources.",
+        "Pause before core source implementation until Raydot returns the current independent design review conclusion. Runtime admission and any genuine human gate remain mandatory.",
+        "Single core implementation owner; lifecycle, shared files and producer-consumer writes serial. Read-only review or independent documentation may parallelize only without shared mutation; no cross-WI lease is assumed.",
+        "Preserve doctor red attribution to existing historical evidence scripts and five unrelated active records; do not alter them to obtain admission.",
+        "Pending root/extension recovery must be explicitly admitted by exact durable obligation and requested bytes, not by ordinary registered_valid/closed; malformed/conflicting published data never becomes overwriteable."
+      ]
+    },
+    {
+      "path": "/problemStatement",
+      "operation": "set",
+      "value": "Existing readable legacy-v1 recovery evidence has no new v2 origin requirement. Losing all legacy provenance can be indistinguishable from ordinary close; no historical origin may be fabricated. A new explicit present-day registration must remember complete proof obligations while preserving the known total-local-loss boundary and lawful append-only Retained-to-Deleted evolution."
+    },
+    {
+      "path": "/concurrencyBoundary",
+      "operation": "set",
+      "value": {
+        "schemaVersion": 1,
+        "implementationPaths": [
+          "crates/cockpit-protocol/src/lib.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "crates/cockpit-repository/src/historical_compatibility.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/reference/commands.ja.md",
+          "docs/reference/agent-workflow.md",
+          "docs/reference/agent-workflow.zh-CN.md",
+          "docs/reference/agent-workflow.ja.md",
+          "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.md",
+          "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md",
+          "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md"
+        ],
+        "generatedEvidencePaths": [
+          ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.*",
+          ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.*",
+          ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration*",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration*"
+        ],
+        "verificationOutputPaths": [
+          "target/wi1085-legacy-closeout-source/**"
+        ],
+        "serializedProjectionPaths": [],
+        "maxWorkers": 1,
+        "reason": "One core owner, one build job and one isolated target. All lifecycle/registration/finalization/extension writes are serial under the same WI lock. No parallel registration, lease or missing declaration is inferred from this boundary."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "complete_source_and_distinct_producer",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Use a complete old-v1 source with historical producer distinct from present registrar; reject hash-only/incomplete sources.",
+        "expectedOutcome": "Present-day explicit_attestation is truthful; original historical bytes and assurance remain unchanged."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "root_partial_resume",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Interrupt before/after requirement and registration publication; plan and record requirement-only and registration-only cases.",
+        "expectedOutcome": "Only exact original binding/bytes resume; pending does not permanently block its own recovery; conflicting or corrupt records remain preserved and rejected."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "concurrency_and_drift",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Race same/different WI and binding; change source/destination/inventory/head/admission after plan.",
+        "expectedOutcome": "Single immutable winner, no lost update, stale/conflict on drift, no overwrite."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "filesystem_boundaries",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Exercise bounded reads, duplicate keys/paths, symlink/reparse, directory replacement, traversal and hardlink victims.",
+        "expectedOutcome": "No escaped read/write or victim replacement; invalid inputs fail closed."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "proof_loss_and_scope",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Remove/change each required record/dependency; remove archive directory or Contract+manifest; set closeRequired=false or foreign repository.",
+        "expectedOutcome": "Closed revoked, explicit blocker, WI retained in readiness, overlapping scope rejected."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "extension_single_writer_and_lock",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Call normal finalization and explicit extension path with held/unheld lock contexts and concurrent writers.",
+        "expectedOutcome": "One authoritative write sequence; typed held-lock/internal contract prevents recursive acquisition and unlocked exposure."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "extension_committed_retry",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Publish exact transition, fail reporting, then retry with original durable template/version before evaluating next-sequence.",
+        "expectedOutcome": "Read back original exact transition and return original result; no regenerated actor/time/Runtime bytes and no false next-sequence conflict."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "extension_pending_resume_and_forks",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Interrupt extension/transition publication; test lawful Retained→Deleted, already-present Deleted, forks, extra decisions and wrong identity.",
+        "expectedOutcome": "Exact constrained resume works without prior registered_valid/closed; unbound decisions, invalid forks and missing proofs remain blocked."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "legacy_and_surface_compatibility",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Read ordinary closes, v2 and unregistered v1 through repository/CLI/MCP, and test new plan/record input parity.",
+        "expectedOutcome": "Existing compatibility and historical not_ready are retained; plan is read-only and both surfaces share semantics."
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "declared_local_loss_boundary",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "verificationPlan": "Document supported surviving-proof detection and complete local provenance-loss/rollback limits.",
+        "expectedOutcome": "No fabricated historical authentication or remote immutable-anchor guarantee."
+      }
+    }
+  ]
+}

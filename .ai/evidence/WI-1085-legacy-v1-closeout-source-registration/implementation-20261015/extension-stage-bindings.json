@@ -1,0 +1,57 @@
+{
+  "observedAt": "2026-10-15T21:11:14.504499+00:00",
+  "contractCanonicalDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "sourceHeadBeforeStage": "54e04e46c27aeb922412b859a111b47041b6c3ef",
+  "files": [
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "bytes": 223509,
+      "sha256": "67eceb22579b2c11093181a47b3d138d6c3bf5ca32557be7be011d48b1f8eb6f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "bytes": 54851,
+      "sha256": "4bf325c98f5c0a9f10f504ac42ebc5cf4d7f94126d68e5d0df086b611f65eb51"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "bytes": 459170,
+      "sha256": "9f96179073669a3f085ed6074ddf06766511ce6bdc7d874338471115e4c35b1f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "bytes": 590793,
+      "sha256": "30b6468c875b459b374a11685fbfab12840d902f590a4f7bce212f4355986334"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "bytes": 28188,
+      "sha256": "5ed1259058cb7d3241e1faf3362bc253ef3d7c341572849d3074adca693c0c1b"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "bytes": 202248,
+      "sha256": "a71bc542d034159604a4db0c48956e25841976fb76dfe05925d433949b109fee"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+      "bytes": 25730,
+      "sha256": "0b70e585daf73a966954825239f9a1d5428ec18fe04958c6f56e97d6f81fc634"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "bytes": 127453,
+      "sha256": "2a300c99d457a8e89bbc0fde359809475632a7e927a483725dc071eb59bd9476"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+      "bytes": 2098,
+      "sha256": "f975b1a6fa0240324809444f78f7653c9ff9498b22135f9cd8cc78a931675f45"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "bytes": 101167,
+      "sha256": "86f3cc79aaa6cd3627256e895d15d0ab6cf6e853ba12de1e6477b4b49a931b38"
+    }
+  ]
+}

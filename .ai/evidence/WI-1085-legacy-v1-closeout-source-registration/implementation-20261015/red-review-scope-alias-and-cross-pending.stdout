@@ -1,0 +1,15 @@
+
+running 3 tests
+test legacy_closeout_source::query_budget_tests::review_regression_ascii_case_alias_remains_a_canonical_obligation ... FAILED
+test legacy_closeout_source::query_budget_tests::review_regression_named_predecessor_cannot_waive_invalid_obligation ... FAILED
+test legacy_closeout_source::query_budget_tests::review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation ... FAILED
+
+failures:
+
+failures:
+    legacy_closeout_source::query_budget_tests::review_regression_ascii_case_alias_remains_a_canonical_obligation
+    legacy_closeout_source::query_budget_tests::review_regression_named_predecessor_cannot_waive_invalid_obligation
+    legacy_closeout_source::query_budget_tests::review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 145 filtered out; finished in 0.00s
+

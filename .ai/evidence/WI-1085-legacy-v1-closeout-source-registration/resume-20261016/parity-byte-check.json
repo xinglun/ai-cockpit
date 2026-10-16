@@ -1,0 +1,33 @@
+{
+  "kind": "actual-approved-parity-byte-check-not-test-verification",
+  "recordedAt": "2026-10-16T09:47:39.367923+00:00",
+  "approvedRowsFile": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/pending-parity-rows.json",
+  "approvedRowsRawSha256": "24f483bdbd74931bf175e0ea5682fb12325f23f333b080f0b1ef44247b58e096",
+  "preparedPatchRawSha256": "7fc5035f09555d0f76292929d2a5281522355d6ef7c10c506efa10ead6b4d6b4",
+  "rows": [
+    {
+      "path": "docs/reference/reference-parity.md",
+      "beforeSha256": "e7c1f83fcfaf92d10a09a2cab1a8f57c5c0da9b5e235b409e8177198a0fca9de",
+      "afterSha256": "35315f49d86fe6a9ad4dab5b458c76f88aae587f1e5234bd781a0cea539517f3",
+      "exactApprovedRowOnly": true
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "beforeSha256": "2ba4d3bdeccfe6a80a4a3a915761dd20e0dddffe3c1095fe8787180ef742fc24",
+      "afterSha256": "23d8c923ecba7a318f3109aa602957a953f8af8d8b9efce95b2ff056bc5b8fe2",
+      "exactApprovedRowOnly": true
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "beforeSha256": "63ee7f26523ed7251e974d705e466e940b565bb22a105964c75c0853d66a6276",
+      "afterSha256": "6b17f0e1444860674e78ee088412402e9ee178747210b52f914a9b2590d6859a",
+      "exactApprovedRowOnly": true
+    }
+  ],
+  "proceduralCheckFailure": {
+    "observed": "An assertion compared approvedRowsRawSha256 to the derived patch bytes; it failed because the approved digest identifies pending-parity-rows.json, not the patch.",
+    "shellBehavior": "The first shell block did not enable errexit; the subsequent git apply ran and its exact-row check succeeded.",
+    "followup": "Independently checked each original HEAD file against its approved before hash and checked current bytes equal original bytes plus exactly the approved row. Future dependent shell blocks use errexit.",
+    "productTestFailure": false
+  }
+}

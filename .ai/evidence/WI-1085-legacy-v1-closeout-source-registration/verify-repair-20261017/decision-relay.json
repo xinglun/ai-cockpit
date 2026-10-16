@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-10-16T18:25:42.263122+00:00",
+  "recordedBy": "agent:Codex recording actual agent:Raydot finite technical review relayed by parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "parentProvidedBindings": {
+    "requestDigest": "sha256:10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663",
+    "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "sourceSnapshotDigest": "sha256:d769eda16f0a78a672715212f5bb4820b4a443880eb197f5eabcc465e7852871",
+    "materialManifestDigest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+    "reviewedSourceHead": "007fdcba2e81d01285a694dce57cd78e0f74fcf4"
+  },
+  "independentlyRecheckedCurrentRepositorySnapshot": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "actualCurrentHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+  "sourceContinuityEvidence": {
+    "changedPathsSinceReviewedSourceHead": [
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/byte-manifest.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-after.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-before.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-invocation.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-preflight.err.log",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-preflight.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-status.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2.err.log",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2.out.log",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-before-controls-status.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-controls-input.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-controls.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-material-request.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-outcome.zh-CN.txt",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-status.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-validation.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-verification-plan.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/fmt-result.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/fmt.err.log",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/fmt.out.log",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/report.zh-CN.md",
+      ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+    ],
+    "onlyAiRecordsChanged": true,
+    "requestDigestUnchanged": true
+  },
+  "reviewScope": "Raydot recomputed request; verified 32 unchanged entries, zero Finding, same original two permitted syntax Unknowns, five equivalent lint changes and Windows helper lexical path-only repair; carrier has no additional product changes.",
+  "limits": "Actual current formal verification and all four Windows case success lines still required. Windows tests bound directory junction/reparse paths, not all reparse kinds or terminal file symlinks. Ordinary technical acceptance remains Raydot; no new human approval claimed."
+}

@@ -1,0 +1,262 @@
+[
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-agent.out.log",
+    "bytes": 3876,
+    "sha256": "29df61fb902fb00d0d1d1b54675d62677a3bdd200f6e430634be625bbe4f900f",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-agent",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-agent].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-agent.err.log",
+    "bytes": 1000,
+    "sha256": "f53c9eb25af83e44ff526f2b4df943e7481d5497b2ef83719d9096c7f9541e45",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-agent",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-agent].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log",
+    "bytes": 57297,
+    "sha256": "b01c97fe4da587c9646c982cb89b84ffbe6e0f26a48298b5d7969fa484867c6b",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-cli",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-cli].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.err.log",
+    "bytes": 5329,
+    "sha256": "acc4002a65004fd1dacf0505db29a9c237f642c2e2b637570e3bbbd628c5c3c8",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-cli",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-cli].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-core.out.log",
+    "bytes": 3169,
+    "sha256": "338951f8704db22c6d43abb3c5316cffc14432ef1665e9169656339b82953e1d",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-core",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-core].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-core.err.log",
+    "bytes": 933,
+    "sha256": "53ec309332bb1f7902c81f4d69e808eb2ec916ea6f645e60ffeaf4efc94a2131",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-core",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-core].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-evidence.out.log",
+    "bytes": 804,
+    "sha256": "f43f45e914240d0bbb69591f643e128da38cdf67e5888a749e7a4a9cec5357df",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-evidence",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-evidence].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-evidence.err.log",
+    "bytes": 322,
+    "sha256": "cfb87e9a1c1e534ca17339fc366ea78d3a05b29080fec47bbdb22ffd4c2fc027",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-evidence",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-evidence].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-git.out.log",
+    "bytes": 3388,
+    "sha256": "b6f9cf2e9adbb48b0a1813d74e2fd90fe2740f939f57fbd4fa197fa1de8bcaf0",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-git",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-git].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-git.err.log",
+    "bytes": 564,
+    "sha256": "54e36a9ba7cf28ba99db556592b076ca9ed2958e87f6bc485fbf2d63d1c2f245",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-git",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-git].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-interface.out.log",
+    "bytes": 226,
+    "sha256": "d38e6ea6d69ddb377e4a4380b22926f3864806998a850d5e28c8459dfc09f014",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-interface",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-interface].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-interface.err.log",
+    "bytes": 223,
+    "sha256": "133ec8237250703b36a132f5f3c706acb19b2c2db70cd4c04cccf703ba2b13df",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-interface",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-interface].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-isolation.out.log",
+    "bytes": 897,
+    "sha256": "5583ef1c42cb3d84dea035d3ab0ef75df1a9795718020ed58788eae4fc8edabb",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-isolation",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-isolation].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-isolation.err.log",
+    "bytes": 328,
+    "sha256": "f573a4949981e09a72b6042ce1b938f719c841b5dabbbc9ae3e03e8146dc2b47",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-isolation",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-isolation].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-knowledge.out.log",
+    "bytes": 1015,
+    "sha256": "32cc5dd674a98721c0d3381e75fea05ea15d78dcca4125d620840652e0bc5a02",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-knowledge",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-knowledge].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-knowledge.err.log",
+    "bytes": 324,
+    "sha256": "06dc931e24f43bf90cc0b26da57fefd35c5c3c59f3ff487b93e9f7d33971cf5d",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-knowledge",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-knowledge].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-mcp.out.log",
+    "bytes": 5976,
+    "sha256": "d836e386be0261b04e5f9056a1dee1a8e30e8333e349d4d83732aee416f3f7b7",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-mcp",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-mcp].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-mcp.err.log",
+    "bytes": 1165,
+    "sha256": "c2a1916220f0fa0ff40c9b57b71a2773603137f52e6296c01b8d0da851ab8a5b",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-mcp",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-mcp].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-protocol.out.log",
+    "bytes": 11843,
+    "sha256": "2ce950b73b5ad9d7fc5f793e468a88f2959d7d0588a75fc867e492bde7842b0b",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-protocol",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-protocol].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-protocol.err.log",
+    "bytes": 2199,
+    "sha256": "53da6a184c6fabf5f180fea8faa2acb2d5008807a15b388a8704c4ab3e092dce",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-protocol",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-protocol].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-release.out.log",
+    "bytes": 6327,
+    "sha256": "12451fb23f1c8f7e55ab95c52918c5a78800fa02aa17c6731aa7e6fe39358f97",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-release",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-release].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-release.err.log",
+    "bytes": 1443,
+    "sha256": "04e7ed777fe72e2f60f4f35098732e3010597cebd59711a4f4605ee85de497be",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-release",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-release].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log",
+    "bytes": 65536,
+    "sha256": "8b13728c2d15ca5856df1d0ec7f404e5efbe1f6f9f30314b37e592efbee65c14",
+    "truncated": true,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-repository",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-repository].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.err.log",
+    "bytes": 6909,
+    "sha256": "471aa29f9fd9c536dc5e1be2e9972c9370a617a2197455580275c4c14f48722f",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-repository",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-repository].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-verification.out.log",
+    "bytes": 18679,
+    "sha256": "9c2d80f69da929f5cbacb0261e6e4a8e072aa689f5618e5a593c0ba040f286ff",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-verification",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-verification].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-verification.err.log",
+    "bytes": 6547,
+    "sha256": "37fc55c9fc28e912b4f4c0c783f07b72f2cbb323cf9359fbc6f1a3448f8eafa8",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.e749e39f2d3bce872b6bb6e20a912ea3c72d549e38e31f3d2817c78eecf3aec2.json",
+    "nativeAttemptRawSha256": "32908822837089ee103fef908a1864a066b1cf4e022862a246a054f19aa8f89e",
+    "nodeId": "project-command-0-package-cockpit-verification",
+    "field": "executionRecords[nodeId=project-command-0-package-cockpit-verification].stderr"
+  }
+]

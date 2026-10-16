@@ -1,0 +1,8 @@
+{
+  "stagingCorrection": {
+    "initialExitCode": 128,
+    "cause": "The first staging command used material-reviews instead of the native pointer directory material-inspection-review.",
+    "effect": "errexit stopped the block before commit or push; native files were preserved.",
+    "correction": "Read the actual sidecar path from native Summary and stage that exact file."
+  }
+}

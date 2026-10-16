@@ -1,0 +1,16 @@
+{
+  "recordedAt": "2026-10-16T17:42:13.950373+00:00",
+  "runId": 38940242044,
+  "sourceHead": "51bbb20983b762e69c0547e0bd2162157d51d1e4",
+  "testMergeRevision": "62de6a6018f0ee53b7f36bab7671dcb4c73e7840",
+  "testMergeTreeEqualsHead": true,
+  "qualityJob": 117107175310,
+  "qualityConclusion": "failure",
+  "primaryFailure": "docs_governance_integrity: invalid_prearchive_parity_registration (3 WI1085 rows)",
+  "localCorrectionGate": "passed, findings=[]",
+  "windowsConclusionAtObservation": null,
+  "windowsActiveStep": "verify Windows directory-handle containment regressions",
+  "supersededByChangedSource": "2dc2826ff8243f77fb7192835cb2c6a1430a38c1",
+  "policy": "Push of strengthened source will naturally supersede old PR CI under existing concurrency policy; no rerun of that head requested. Windows results from this first head cannot validate strengthened publication case.",
+  "logAcquisition": "Direct gh job-log redirect was forbidden; official connected GitHub app returned decoded log text. Diagnostic artifact ZIP downloaded via connector file reference and matched GitHub-published SHA256; artifact bytes preserved as decoded log. No credential/header/provider configuration changed."
+}

@@ -1,0 +1,35 @@
+{
+  "recordedAt": "2026-10-16T13:03:17.396442+00:00",
+  "kind": "actual-parent-relayed-Raydot-material-decision",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "carrierCommit": "9a23c996e8dcb80e7ebd803d3004fdfecc1f87f6",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "requestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "acceptedUnknowns": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "parentStatement": "Raydot independently recomputed the digest, confirmed original two Rust bytes unchanged and only 31-to-33 changes in the two MCP tests. This is a parent-reported review decision, not an independent identity-authentication claim by Codex.",
+  "bounds": "Only these two syntax Unknowns accepted, no substitute for formal verification or acceptance. No new Sentinel ID or human approval invented."
+}

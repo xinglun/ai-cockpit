@@ -1,0 +1,18 @@
+{
+  "nativeGeneratedPath": ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.preflight-review.cf2cf5b7bd6cf2e1dc8866cf972ebb8d65393f66a59109a8897e5bbf2c72b3fa.json",
+  "rawSha256": "c67cd55b4a153ddf55ba1e37908183fe46354e04d3ce70d2e9d6650d30cecaca",
+  "body": {
+    "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:7b2ccbca2b332f533676c4f3d3e04ac3d83ec9df916977db582212b8a90b3c72",
+    "reason": "Ray replied confirm_review in actual parent message Sentinel_66886c257f5c8191968f2b12ceb7d8de at reported minute 2026-10-16 12:49 UTC, responding to exact bound request Sentinel_ab6f74323d1c8191bd3ba780363751be. Relay source .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/mcp-count-fix-20261016/human-confirm-relay.json raw sha256:0772bb60465e45395c56fbf79fcf2dd9fe77df2b1fe5a1a8cd027c309d7121d1. recordedAt is the actual current recording time, not a backdated human reply time. This covers only continuing after the exact two-file scope adjustment. It does not substitute a final fresh material review, verification or acceptance.",
+    "recordedAt": "2026-10-16T12:51:17.099000+00:00",
+    "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+    "schemaVersion": 1,
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+  },
+  "contractRawBytesUnchangedFrom1947ce33": true
+}

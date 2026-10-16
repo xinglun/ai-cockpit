@@ -339,16 +339,24 @@ evidence、close decision、finalization 链及 provider facts。remote URL 相�
 只有独立的 `work-item closeout-recover` 写入命令可以导入精确验证过的 evidence。plan 返回
 `allowed: true` 不代表获得写权限；仍需要 Runtime 当前准入，以及针对确切 destination 的授权。写操作会锁定
 destination Work Item，重新验证 source/destination 快照，不覆盖不同 bytes，逐文件原子安装 immutable
-证据、记录 recovery receipt、检查最终投影，最后才安装 close decision 作为生命周期提交标记。检测到失败时，
-只回滚本次新建且 filesystem identity 与 bytes 仍一致的文件；外部已修改或无法识别的路径会保留，并报告
-incomplete。close marker 前进程中断时，可能留下精确文件，但 Work Item 仍未关闭；后续查询不能把它投影成
-recovered，可用 fresh plan 和幂等 retry 继续完成。这是可恢复的多文件操作，不是单一 filesystem transaction。
+证据、记录 recovery receipt、检查最终投影，最后才安装 close decision 作为生命周期提交标记。检测到失败后，
+保留每个已发布 canonical 路径，不以 unlink 回滚。close marker 之前可留下准确文件，Work Item 仍未关闭；
+发布后的确认失败可能已有 committed 或 uncertain 结果，应重新查询 status，按相同不可变字节重试。
+临时文件不是证明。这是可恢复的多文件操作，不是单一 filesystem transaction。
 
 MCP 中使用只读 `work_item_closeout_recovery_plan`，只有显式写入时才用
 `work_item_closeout_recover`。两者都需要 `workItemId` 和绝对路径 `sourceRepo`；MCP 绑定的 repository
 就是 destination。通过 `tools/list` 确认 schema。linked worktree 和 independent clone 只有在 Runtime 验证
 相同逻辑 repository identity 后才受支持。完成后核对 destination 的 lifecycle projection 与 source 相同，
 并确认 source bytes 未改变。
+
+## 登记完整旧 v1 来源
+
+仅在对准确 destination 有当前授权时使用[旧 v1 来源显式登记命令](commands.zh-CN.md#旧-v1-来源的显式现时登记)。保留完整独立 source 和完整提交，写入前另存原始 plan 及记录字节。登记是当前 `explicit_attestation`，保留历史 producer、时间、验证及 provider 事实。
+
+只读 plan 与显式 record 是两个动作。先 R 后 G；后续合法 Retained→Deleted 通过同一受 lock 保护的 finalization 核心先固定 E 再写 T。部分状态使用 `resume` 或 `resume_extension`，绑定独立保留的原始字节及摘要。root 修复返回 pending 不会接受不完整 extension 或释放 closed/scope。发布不确定时重新查询 status，保留 canonical 文件。
+
+完整登记后无需保持原 source 在线；显式外部依赖仍须有效。普通 close、v2 及未登记 v1 不自动迁移，全部本地登记锚点一起丢失或回滚不可检测。严格字段角色与有限预算见命令参考。
 
 ## 安全边界
 

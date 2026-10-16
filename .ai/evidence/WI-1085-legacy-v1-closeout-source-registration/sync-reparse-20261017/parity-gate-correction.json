@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-10-16T17:39:58.286409+00:00",
+  "ciFailure": "docs_governance_integrity, invalid_prearchive_parity_registration in all three existing WI1085 rows",
+  "diagnosticArtifact": 12063142304,
+  "artifactZipSha256": "5c677791b92f605f76f9229d40659de9fd1291905fffd7a4ce64064eff0e50dc",
+  "cause": "Existing active-parity validator requires its exact localized conditional status and all four backticked lifecycle target paths; the inherited pending rows had neither. This is an in-scope doc correction, not a validator change.",
+  "changes": [
+    {
+      "path": "docs/reference/reference-parity.md",
+      "before": "| WI-1085-legacy-v1-closeout-source-registration — explicit present-day legacy v1 source registration | In progress; formal verification pending | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |\n",
+      "after": "| WI-1085-legacy-v1-closeout-source-registration — explicit present-day legacy v1 source registration | In progress → Implemented after verified close | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. formal verification pending; lifecycle targets after verified close: `.ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json`, `.ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json`, `.ai/decisions/WI-1085-legacy-v1-closeout-source-registration.finalize.json`, `.ai/decisions/WI-1085-legacy-v1-closeout-source-registration.close.json`. |\n"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "before": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 来源的显式现时登记 | 进行中；正式验证待完成 | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |\n",
+      "after": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 来源的显式现时登记 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. 正式验证待完成；验证关闭后的 lifecycle 目标: `.ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json`, `.ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json`, `.ai/decisions/WI-1085-legacy-v1-closeout-source-registration.finalize.json`, `.ai/decisions/WI-1085-legacy-v1-closeout-source-registration.close.json`. |\n"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "before": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 source の明示的な現時点登録 | 進行中・正式検証待ち | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |\n",
+      "after": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 source の明示的な現時点登録 | 進行中 → 検証済みクローズ後に実装済み | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. 正式検証待ち；検証済みクローズ後の lifecycle 参照先: `.ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json`, `.ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json`, `.ai/decisions/WI-1085-legacy-v1-closeout-source-registration.finalize.json`, `.ai/decisions/WI-1085-legacy-v1-closeout-source-registration.close.json`. |\n"
+    }
+  ],
+  "upstreamWI1086RowsUntouched": true,
+  "futureTargetsNotClaimedAsExistingReceipts": true
+}

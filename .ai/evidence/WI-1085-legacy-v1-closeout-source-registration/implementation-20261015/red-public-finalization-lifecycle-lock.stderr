@@ -1,0 +1,8 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 20.27s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'resource_lifecycle::legacy_source_lock_tests::public_finalization_waits_for_the_same_work_item_lifecycle_lock' (143206) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:11099:9:
+public finalization must acquire the same lifecycle lock before observing or publishing
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --lib`

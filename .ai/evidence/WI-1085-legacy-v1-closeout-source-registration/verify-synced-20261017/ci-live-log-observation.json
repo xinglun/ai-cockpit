@@ -1,0 +1,23 @@
+{
+  "jobId": 117112862223,
+  "runId": 38941726963,
+  "readSucceeded": false,
+  "caseResultsObserved": null,
+  "meaning": "In-progress job log fetch returned BlobNotFound, so test results remain unobserved; not an empty or passing case set.",
+  "toolResult": {
+    "content": [
+      {
+        "type": "text",
+        "text": "GitHub API error 404: ﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.\nRequestId:6b594e19-401e-001f-2998-5d7bb9000000\nTime:2026-10-16T17:59:49.8376842Z</Message></Error>"
+      }
+    ],
+    "structuredContent": {
+      "error": "GitHub API error 404: ﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.\nRequestId:6b594e19-401e-001f-2998-5d7bb9000000\nTime:2026-10-16T17:59:49.8376842Z</Message></Error>",
+      "error_code": "NOT_FOUND",
+      "error_data": {
+        "error_str": "GitHub API error 404: ﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.\nRequestId:6b594e19-401e-001f-2998-5d7bb9000000\nTime:2026-10-16T17:59:49.8376842Z</Message></Error>"
+      }
+    },
+    "isError": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "sourcePath": "crates/cockpit-repository/src/resource_lifecycle.rs",
+  "sourceBeforeSha256": "2fcaa99da300e98aa2d71b0e8ad9230ab00cf7b82b6ec1b8f6edff412ee8b735",
+  "expectedAfterSha256": "f13611b7fa1565f999ecd2556a812561735617caf0835cc4ebe4d0a0140f7a3f",
+  "guardTestPath": "crates/cockpit-repository/tests/resource_finalization.rs",
+  "guardTestSha256": "36cb6f839fb279a65f0f8f12ec4f655711fc7de5804b3dd003d6ccc4ba293bcc",
+  "contractSha256": "84dcb8c5cb3a09e3839c5ada0ad3563b17d34bc22f08ca9cdc118a595a9794cd",
+  "scopeAlreadyCoversSource": true,
+  "actualAfterSha256": "f13611b7fa1565f999ecd2556a812561735617caf0835cc4ebe4d0a0140f7a3f",
+  "onlyModuleImportExpansionChanged": true,
+  "guardAndAllTestBodiesUnchanged": true,
+  "staticProhibitedTextAbsent": true,
+  "testsExecutedAfterPatch": false
+}

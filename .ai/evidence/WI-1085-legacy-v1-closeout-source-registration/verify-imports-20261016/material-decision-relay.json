@@ -1,0 +1,39 @@
+{
+  "kind": "actual-Raydot-material-decision-relayed-by-parent",
+  "recordedAt": "2026-10-16T13:38:36.638513+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "requestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "sourceSnapshotDigest": "sha256:09ae28b7ac5c7c7330373195b8e3be916a33987a0dabc7104a55d67f7a1890f7",
+  "materialManifestDigest": "sha256:2ad0a864dbd4df4db08eb40429dc79835637fa1a9740506a0824789132e42c8a",
+  "reviewedSourceHead": "284e31bed828c7cd04bb41261f5059ad8f1d6e69",
+  "currentHeadDiffersOnlyInAIRecords": true,
+  "acceptedUnknowns": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "actualParentStatement": "Raydot independently recomputed the request digest, confirmed 26 unchanged material entries and original two Unknown byte bindings, and reviewed the sole cfg(test) explicit-import change with guard and assertions unchanged.",
+  "precision": "No new Sentinel ID or human approval invented. The supplied 09ae snapshot is the native sourceSnapshotDigest, not the distinct repositorySnapshotDigest.",
+  "executionOrder": "Native material record and fresh admission, focused guard and three lock tests, bounded same-profile no-run warm-up if needed, then capacity/process baseline and formal 13 nodes. Keep 2GiB reserve and <=900sec."
+}

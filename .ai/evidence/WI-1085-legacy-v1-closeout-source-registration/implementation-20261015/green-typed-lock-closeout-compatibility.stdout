@@ -1,0 +1,18 @@
+
+running 6 tests
+test archived_provider_binding_without_a_matching_finalize_receipt_is_rejected_read_only ... ok
+test extended_recovered_close_preserves_retry_and_complete_next_source_inventory ... ok
+test provider_bound_recovery_rejects_canonical_digest_and_tampered_archive_or_provider_facts ... ok
+test provider_finalization_uses_raw_contract_bytes_while_recovery_plan_keeps_canonical_binding ... ok
+test recovered_close_rejects_unsupported_finalization_extensions ... ok
+test recovered_retained_close_accepts_normal_deleted_transition_without_rewriting_history ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.13s
+
+
+running 2 tests
+test foreign_registration_cannot_release_untrusted_archived_scope ... ok
+test malformed_requirement_remains_pending_when_archive_directory_is_missing ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+

@@ -1,0 +1,34 @@
+{
+  "state": "blocked",
+  "scenarioCoverage": "unknown",
+  "acceptanceEvidence": "unknown",
+  "evidenceClasses": "verified",
+  "intentAlignment": "unknown",
+  "finalDimensions": "not_applicable",
+  "unknowns": [
+    "required_scenario_unverified:complete_source_and_distinct_producer",
+    "required_scenario_unverified:root_partial_resume",
+    "required_scenario_unverified:concurrency_and_drift",
+    "required_scenario_unverified:filesystem_boundaries",
+    "required_scenario_unverified:proof_loss_and_scope",
+    "required_scenario_unverified:extension_single_writer_and_lock",
+    "required_scenario_unverified:extension_committed_retry",
+    "required_scenario_unverified:extension_pending_resume_and_forks",
+    "required_scenario_unverified:legacy_and_surface_compatibility",
+    "required_scenario_unverified:declared_local_loss_boundary",
+    "acceptance_evidence_missing",
+    "intent_alignment_missing"
+  ],
+  "findings": [
+    {
+      "code": "acceptance_evidence_missing",
+      "message": "numbered acceptance criteria have no acceptanceEvidence projection",
+      "severity": "error"
+    },
+    {
+      "code": "intent_alignment_missing",
+      "message": "declared intent has no alignment projection",
+      "severity": "warning"
+    }
+  ]
+}

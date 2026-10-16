@@ -1,0 +1,8 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 0.69s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29)
+
+thread 'extension::committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes' (160013) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:484:116:
+canonical equality cannot replace exact original raw retry binding: Object {"disposition": String("deleted"), "path": String(".ai/decisions/WI-REPOSITORY-CROSS-CHECKOUT-CLOSEOUT.finalize.23b9fcd5ea36cafb0288847ff266859bbd43d6f7cab56c98c94f4c6f2e95e49e.json"), "predecessorPath": String(".ai/decisions/WI-REPOSITORY-CROSS-CHECKOUT-CLOSEOUT.finalize.json"), "sequence": Number(1), "state": String("appended"), "workItemId": String("WI-REPOSITORY-CROSS-CHECKOUT-CLOSEOUT")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test legacy_closeout_source`

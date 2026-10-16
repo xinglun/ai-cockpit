@@ -1,0 +1,30 @@
+{
+  "kind": "actual-compilation-preparation-not-verification",
+  "recordedAt": "2026-10-16T11:55:39.572233+00:00",
+  "sourceHead": "fe205fa70646114d35dd7f618cd840a21a7b035a",
+  "program": "cargo",
+  "args": [
+    "test",
+    "--locked",
+    "--workspace",
+    "--no-run"
+  ],
+  "outerTimeoutSeconds": 890,
+  "killAfterSeconds": 10,
+  "tiniOptions": [
+    "-s",
+    "-g",
+    "-vvv",
+    "-w"
+  ],
+  "rootProcessIdentity": {
+    "pid": 823872,
+    "startTimeTicks": 2589928,
+    "pgrp": 823871,
+    "session": 823871
+  },
+  "targetDirectory": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "cargoBuildJobs": 1,
+  "incremental": false,
+  "testAssertionsExecuted": false
+}

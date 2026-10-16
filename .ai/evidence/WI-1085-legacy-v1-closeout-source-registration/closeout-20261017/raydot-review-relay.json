@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-16T19:06:12.004904+00:00",
+  "recordedBy": "agent:Codex",
+  "source": {
+    "kind": "cloud_thread_delegation",
+    "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "description": "Actual received Raydot controller delegation in this conversation; relay, not a signed provider or human decision receipt."
+  },
+  "reviewerActor": "agent:Raydot",
+  "decision": "technical_acceptance_passed",
+  "assurance": "self_declared",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "reviewedImplementationCommit": "007fdcba2e81d01285a694dce57cd78e0f74fcf4",
+  "reviewedEvidenceHead": "e2d32e20410e34a1ad73e39e087daaa614689fb0",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "repositorySnapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "materialRequestDigest": "sha256:10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663",
+  "materialReviewReceiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+  "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+  "nativeReceiptDigest": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+  "reviewFacts": [
+    "Raydot independently checked canonical and attempt receipt equality: 13/13 actual pass,876971ms,material10f/receipt8e exact.",
+    "55 Linux references and four current Windows cases have actual evidence.",
+    "A6 accepted for the declared bounded coverage; no exhaustive coverage of other reparse tags or terminal file symlinks."
+  ],
+  "retainedLimitations": [
+    "user-visible benefit unknown",
+    "real WI1004 records have not been registered",
+    "complete loss or rollback of every local anchor is not detectable"
+  ],
+  "permittedNext": [
+    "Wait for current-head CI38951742695 terminal result",
+    "Refresh native admission",
+    "Perform admitted finish/archive preparation and safe lifecycle steps",
+    "Draft Sentinel1004 repair/review facts for the controller to send"
+  ],
+  "notAuthorized": [
+    "Ready",
+    "merge",
+    "human close decision",
+    "expanded deletion",
+    "automatic issue closure"
+  ],
+  "noFormalRerunWhenSourceAndBindingsUnchanged": true
+}

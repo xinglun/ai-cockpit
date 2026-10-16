@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-10-16T18:17:54.022981+00:00",
+  "sourceHead": "007fdcba2e81d01285a694dce57cd78e0f74fcf4",
+  "command": [
+    "cargo",
+    "fmt",
+    "--all",
+    "--",
+    "--check"
+  ],
+  "exitCode": 0,
+  "notFormalOrWindowsEvidence": true
+}

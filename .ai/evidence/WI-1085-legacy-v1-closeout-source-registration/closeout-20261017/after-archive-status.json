@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "archived",
+  "governanceState": "yellow",
+  "activityHealth": "inactive",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 17,
+    "changedPathCount": 80,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "archived_work_item_pending_close"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "archived",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "materialManifest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+    "materialReviewReceipt": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+    "repositorySnapshot": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+    "summary": "sha256:1ee93e3266d993d4dcf3040cc7d5a62cfa7e9e052b7612f11ce335818920444a",
+    "verificationEvidence": "sha256:a272a347757399e02f384d7a53fa911dd807e7eacdd32cc9fd0f32825fdd7e9f"
+  },
+  "unknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+  "reviewReceiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [
+    "lifecycle_cleanup_required"
+  ],
+  "snapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-16T18:44:14Z",
+  "updatedAt": "2026-10-16T19:28:39.577922800Z",
+  "safeActions": [
+    "close_after_review",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "close_after_review",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: archived_work_item_pending_close",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "close_decision_pending",
+        "message": "current projection reports close_decision_pending"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:2c37e7e5002cd3d02481f3e6421219fb77feb3192c4b08b66011e3a4bd3b3ba1"
+  },
+  "statusDigest": "sha256:406d2a9cb3b1155040d7ddb360a394bd8fa13344834d07a41fee04f5ec6878a2",
+  "historical": false
+}

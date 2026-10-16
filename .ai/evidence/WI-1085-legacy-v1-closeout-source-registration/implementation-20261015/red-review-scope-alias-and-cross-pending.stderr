@@ -1,0 +1,16 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 34.06s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'legacy_closeout_source::query_budget_tests::review_regression_ascii_case_alias_remains_a_canonical_obligation' (311793) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1939:9:
+assertion failed: has_obligation(&root, "WI-ALIAS")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'legacy_closeout_source::query_budget_tests::review_regression_named_predecessor_cannot_waive_invalid_obligation' (311794) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1954:9:
+assertion failed: scope_with_invalid_obligation(true).iter().any(|blocker|
+        blocker == "archived_work_item_scope_untrusted:WI-SCOPE-REVIEW")
+
+thread 'legacy_closeout_source::query_budget_tests::review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation' (311795) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1958:9:
+assertion failed: scope_with_invalid_obligation(false).iter().any(|blocker|
+        blocker == "archived_work_item_scope_untrusted:WI-SCOPE-REVIEW")
+error: test failed, to rerun pass `-p cockpit-repository --lib`

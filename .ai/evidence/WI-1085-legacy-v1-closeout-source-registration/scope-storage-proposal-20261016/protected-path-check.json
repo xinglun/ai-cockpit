@@ -1,0 +1,82 @@
+{
+  "observedAt": "2026-10-16T12:25:39.473756+00:00",
+  "candidate": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/debug",
+  "protectedPaths": [
+    {
+      "path": "/workspace/ai-cockpit/.ai",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/workspace/ai-cockpit/.git",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/workspace/.git",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": false
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/workspace/ai-cockpit/.ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/tmp",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/workspace/.cloud-tools",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    },
+    {
+      "path": "/home/agent/.cache/ai-cockpit-verify-target",
+      "insideCandidate": false,
+      "candidateInsideProtected": false,
+      "exists": true
+    }
+  ],
+  "uniqueCleanupReceipt": {
+    "path": "/workspace/ai-cockpit/.ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+    "sha256": "7304e582f78f5a49ec751f01f5497a3a310a66c5621fa3353813869c961a6a8d",
+    "preserved": true
+  },
+  "actualRuntime": {
+    "path": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+    "sha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "preserved": true
+  },
+  "candidateSymlinks": [],
+  "candidateNestedMounts": [],
+  "protectedRegularFilesChecked": 35463,
+  "sharedCandidateFileInodesInCheckedProtectedTrees": [],
+  "readErrors": [],
+  "evidenceExclusion": "Full candidate walk contains only the listed Cargo root artifacts, build, deps, .fingerprint, examples and incremental directories; no .ai, native receipt, captured-streams or raw invocation evidence directories. Protected paths are outside the candidate and no symlink or nested mount redirects the candidate walk. /tmp is entirely excluded. Exact compiled-cache bytes are not promised reproducible."
+}

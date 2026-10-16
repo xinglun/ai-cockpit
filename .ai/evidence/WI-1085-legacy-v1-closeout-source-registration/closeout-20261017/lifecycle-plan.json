@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "precondition": {
+    "requiredRunId": 38951742695,
+    "requiredHead": "e2d32e20410e34a1ad73e39e087daaa614689fb0",
+    "requiredConclusion": "success",
+    "requiredVerification": "verified/fresh",
+    "requiredSourceSnapshot": "sha256:d769eda16f0a78a672715212f5bb4820b4a443880eb197f5eabcc465e7852871",
+    "requiredRequestDigest": "sha256:10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663"
+  },
+  "steps": [
+    "Read current CI terminal result and revision binding; do not infer success from the watcher.",
+    "Refresh Work Item status/validate and material-review plan; compare exact source/Contract/request/receipt bindings.",
+    "Record actual relayed Raydot technical review as acceptance evidence via native controls; do not modify decisionEvidence.",
+    "If admitted, native finish; query fresh status before any archive.",
+    "If archive_when_reviewed is admitted, native archive with complete native Outcome; query archived status.",
+    "Stop before close --human-decision and any Ready/merge; prepare one exact binding package.",
+    "Include native lifecycle outputs, technical review relay, complete Outcome, Sentinel DRAFT and hashes in one normal closeout commit/push."
+  ],
+  "formalTestsToRun": [],
+  "manualCiReruns": [],
+  "providerMutations": [
+    "Update authorized existing Draft PR body only"
+  ],
+  "retained": [
+    "worktree",
+    "branches",
+    "primary unique WI1086 cleanup receipt",
+    "historical failed/stale evidence",
+    "old environment",
+    "real Sentinel records"
+  ],
+  "sourceEdits": [],
+  "cleanup": []
+}

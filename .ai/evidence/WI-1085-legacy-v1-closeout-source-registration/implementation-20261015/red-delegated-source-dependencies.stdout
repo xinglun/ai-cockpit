@@ -1,0 +1,11 @@
+
+running 1 test
+test complete_source::delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed ... FAILED
+
+failures:
+
+failures:
+    complete_source::delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.81s
+

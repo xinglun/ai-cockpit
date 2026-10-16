@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-10-16T17:52:28.694856+00:00",
+  "sourceHead": "9e1e478682089ab96e8df5c2a8779fdfb24782ea",
+  "packageExits": {
+    "cockpit-release": 0,
+    "cockpit-interface": 0,
+    "cockpit-repository": 0,
+    "cockpit-knowledge": 0,
+    "cockpit-agent": 0,
+    "cockpit-cli": 0,
+    "cockpit-verification": 0,
+    "cockpit-mcp": 0,
+    "cockpit-core": 0,
+    "cockpit-protocol": 0,
+    "cockpit-evidence": 0,
+    "cockpit-isolation": 0,
+    "cockpit-git": 0
+  },
+  "exitCode": 0,
+  "assertionsExecuted": 0,
+  "beforeZombieCount": 1439,
+  "afterZombieCount": 1439,
+  "addedZombieIdentities": [],
+  "missingZombieIdentities": [],
+  "rootGone": true,
+  "activeCargoRustcAfter": [],
+  "availableBytesAfter": 6409637888,
+  "notFormalExecutionEvidence": true
+}

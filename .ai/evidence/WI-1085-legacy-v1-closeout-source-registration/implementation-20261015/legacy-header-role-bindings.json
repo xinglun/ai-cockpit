@@ -1,0 +1,23 @@
+{
+  "observedAt": "2026-10-15T21:47:00.520441+00:00",
+  "files": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "sha256": "a17bd32b90499408ca8dd57ee5c0f3cd312c9e8d95e48a70364058ebe2e6c096"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+      "sha256": "880f3a2e665aa93aaf1bdede634013c4eb9e437bbb167798180e898972b41b6d"
+    }
+  ],
+  "preserved": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "sha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "sha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5"
+    }
+  ]
+}

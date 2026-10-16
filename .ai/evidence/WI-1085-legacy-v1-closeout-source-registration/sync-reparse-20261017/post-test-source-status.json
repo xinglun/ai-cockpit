@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 17,
+    "changedPathCount": 18,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "material_review_projection_unavailable"
+  ],
+  "missingEvidence": [
+    "evidence_stale"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "repositorySnapshot": "sha256:377d624aa2ad323b4422505ac8cb352b30ae41bb681d31c681862fc4245fb4d5",
+    "summary": "sha256:5944be20ae65169bb69b9c9d1a6ba4d30d0ea396e0df49b57f610c9b3478bf39",
+    "verificationEvidence": "sha256:6fb690426eed049d9f57df43c67e54cd83f9101fa8e8be8d9a026255f1d11fda"
+  },
+  "unknowns": [
+    "evidence_stale",
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "material_review_projection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": null,
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "evidence_stale",
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "material_review_projection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:377d624aa2ad323b4422505ac8cb352b30ae41bb681d31c681862fc4245fb4d5",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-16T14:05:14Z",
+  "updatedAt": "2026-10-16T14:25:35.702072785+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "resolve_blockers",
+    "run_preflight",
+    "stop"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: material_review_projection_unavailable",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "evidence_stale",
+        "message": "current projection reports evidence_stale"
+      },
+      {
+        "kind": "unknown",
+        "code": "governance_controls_unknown",
+        "message": "current projection reports governance_controls_unknown"
+      },
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "material_review_projection_unavailable",
+        "message": "current projection reports material_review_projection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "evidence_stale"
+    ],
+    "admissionDigest": "sha256:c9d2b8bb3418e9fa2c1f91b9faf28735a6f07fed8e80e35064b95321282704b0"
+  },
+  "statusDigest": "sha256:c3f1b1f7bd36d0503ea9fea789ef5fad3cd470bccbe7299bfd176be2eeb6ea27",
+  "historical": false
+}

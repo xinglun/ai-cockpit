@@ -1,0 +1,8 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 0.61s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+
+thread 'complete_source::delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed' (138855) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:409:9:
+raw bytes must be an explicit dependency
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-cli --test legacy_closeout_source`

@@ -1,0 +1,194 @@
+{
+  "recordedAt": "2026-10-16T13:49:47.504101+00:00",
+  "sourceHead": "5c0212c6083abbdc6843c2e2647a6de283232e3d",
+  "runtimeSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "tiniSha256": "8cc70470bb4b21c25ddca7108c5820fa14d5019b5f1ec7e94bfca65de2479990",
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "incrementBudgetBytes": 2147483648,
+  "minimumReserveBytes": 2147483648,
+  "startThresholdBytes": 4294967296,
+  "availableBytes": 6471860224,
+  "cgroup": {
+    "memory.max": "17179869184",
+    "memory.current": "16094134272",
+    "pids.max": "max",
+    "pids.current": "1468"
+  },
+  "oldAttemptNames": [
+    "WI-1085-legacy-v1-closeout-source-registration.verification-attempt.73a36abe3a96eb6f8bf26c040769512d39c05b52b5aa613107e81aab6893f055.json",
+    "WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "WI-1085-legacy-v1-closeout-source-registration.verification-attempt.a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b.json"
+  ],
+  "canonicalBefore": false,
+  "formalCommands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-agent"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-agent",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-cli",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-core"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-core",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-evidence"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-evidence",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-git"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-git",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-interface"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-interface",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-isolation"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-isolation",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-knowledge"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-knowledge",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-mcp",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-protocol"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-protocol",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-release"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-release",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-repository",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-verification"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0-package-cockpit-verification",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    }
+  ],
+  "prewarmIsNotFormalSuccess": true,
+  "previousFullRuntimeMs": 872836,
+  "priorRepositoryFollowingTargetsWereNotExecuted": true,
+  "completionWithinOuterBoundaryIsNotAssumed": true
+}

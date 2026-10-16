@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-10-16T18:13:05.437202+00:00",
+  "sourceHead": "51d1fedef8017dd1ee7ca78975c48cb9b2866d7d",
+  "toolExitCode": 101,
+  "passed": false,
+  "newlyUncoveredAfterRepositoryLintsFixed": "clippy::collapsible_if at crates/cockpit-mcp/src/lib.rs:1137",
+  "beforeZombieCount": 1440,
+  "afterZombieCount": 1440,
+  "rootGone": true,
+  "activeCargoRustcAfter": [],
+  "existingFourRepositoryLintDiagnosticsClearedInThisRun": true,
+  "notFormalVerificationReceipt": true
+}

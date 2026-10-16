@@ -1,0 +1,1158 @@
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 6 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  * verify Windows process and composition lifecycle boundaries
+  * verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 7 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  * verify Windows process and composition lifecycle boundaries
+  * verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 8 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  * verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 8 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 9 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 10 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 11 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 11 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 12 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 13 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 14 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 15 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 15 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 16 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+* quality (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  * run repository gates exactly once
+  * verify workspace package coverage receipt
+  * Cleanup hosted Runtime verification worktree
+  * Upload hosted Work Item verification evidence
+  * verify three-language work-item counterparts
+  * upload deterministic gate receipts
+  * upload repository gate diagnostics
+  * Upload Rust Contract gate receipt
+  * upload workspace package coverage
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 17 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ quality in 12m16s (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  ✓ run repository gates exactly once
+  ✓ verify workspace package coverage receipt
+  - Cleanup hosted Runtime verification worktree
+  - Upload hosted Work Item verification evidence
+  ✓ verify three-language work-item counterparts
+  ✓ upload deterministic gate receipts
+  ✓ upload repository gate diagnostics
+  - Upload Rust Contract gate receipt
+  ✓ upload workspace package coverage
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 18 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ quality in 12m16s (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  ✓ run repository gates exactly once
+  ✓ verify workspace package coverage receipt
+  - Cleanup hosted Runtime verification worktree
+  - Upload hosted Work Item verification evidence
+  ✓ verify three-language work-item counterparts
+  ✓ upload deterministic gate receipts
+  ✓ upload repository gate diagnostics
+  - Upload Rust Contract gate receipt
+  ✓ upload workspace package coverage
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 18 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ quality in 12m16s (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  ✓ run repository gates exactly once
+  ✓ verify workspace package coverage receipt
+  - Cleanup hosted Runtime verification worktree
+  - Upload hosted Work Item verification evidence
+  ✓ verify three-language work-item counterparts
+  ✓ upload deterministic gate receipts
+  ✓ upload repository gate diagnostics
+  - Upload Rust Contract gate receipt
+  ✓ upload workspace package coverage
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* codex/wi1085-legacy-v1-closeout-source-registration ai-cockpit quality xinglun/ai-cockpit#1044 · 38951742695
+Triggered via pull_request about 19 minutes ago
+
+JOBS
+✓ route in 4m25s (ID 117144549087)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Plan the dynamic quality route
+  ✓ Build the shared Rust gate-plan tool once
+  ✓ Execute the dynamic quality route
+  ✓ Upload the shared Rust gate-plan tool
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+* windows-runtime (ID 117146452068)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Bind source and tested revisions
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify Windows agent adapter boundaries
+  ✓ verify Windows process and composition lifecycle boundaries
+  ✓ verify Windows repository boundaries
+  * verify Windows directory-handle containment regressions
+  * verify Windows preflight lifecycle-lock admission
+  * verify Windows governance-controls lifecycle-lock admission
+  * verify Windows explicit cognitive evaluator binary failure modes
+  * verify Windows cognitive evaluator native path parity
+  * verify Windows cognitive evaluator read-only parity
+  * upload Windows revision binding
+  * Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+✓ quality in 12m16s (ID 117146452341)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ Download the shared Rust gate-plan tool
+  ✓ Make the shared Rust gate-plan tool executable
+  ✓ Bind source and tested revisions; validate the shared typed quality route
+  ✓ Upload quality revision binding
+  - verify immutable Runtime shadow
+  - Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+  ✓ Verify the route plan is stable across jobs
+  - Run admitted hosted Work Item verification with the candidate Runtime
+  - Evaluate Rust Contract-aware quality gate
+  ✓ Build legacy Runtime for coordination compatibility
+  ✓ run repository gates exactly once
+  ✓ verify workspace package coverage receipt
+  - Cleanup hosted Runtime verification worktree
+  - Upload hosted Work Item verification evidence
+  ✓ verify three-language work-item counterparts
+  ✓ upload deterministic gate receipts
+  ✓ upload repository gate diagnostics
+  - Upload Rust Contract gate receipt
+  ✓ upload workspace package coverage
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+✓ v1-behavioral-oracle in 30s (ID 117146452481)
+  ✓ Set up job
+  ✓ Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Run dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+  ✓ verify local-only reference-source policy
+  ✓ compare Rust semantics with the committed offline corpus
+  ✓ Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+  ✓ Complete job
+failed to get run: HTTP 401: Bad credentials (https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/38951742695?exclude_pull_requests=true)
+Try authenticating with:  gh auth login

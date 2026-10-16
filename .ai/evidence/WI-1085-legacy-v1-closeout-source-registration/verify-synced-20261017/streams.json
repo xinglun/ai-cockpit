@@ -1,0 +1,210 @@
+[
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-agent.out.log",
+    "bytes": 7752,
+    "sha256": "421717b45fdb4af05f45e61619e8f7452be28d7fe9dc0bcf9c5b4443abc4985b",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[0].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-agent.err.log",
+    "bytes": 2000,
+    "sha256": "90c31cdc3206de4e8faa5d673ed1f3712fb4032d4ca720dbe73649c14e8d383c",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[0].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-cli.out.log",
+    "bytes": 117904,
+    "sha256": "e511e3c9e8502cae2811b5ec758c9d5e991d40075ec7ae36e50cff690fc95dc1",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[1].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-cli.err.log",
+    "bytes": 10658,
+    "sha256": "e348a3d1fa8825c9ab8e59e4850796f5df80bff3089f6169ef8395ae12da3155",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[1].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-core.out.log",
+    "bytes": 6338,
+    "sha256": "59586f065b10f68e8c179789bff24cfc35565008ac5561d611cd1bbca556ecfb",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[2].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-core.err.log",
+    "bytes": 1866,
+    "sha256": "15859fb84120e9ab60836531cdc72cec118871705fe4399a793319aa0a8434c6",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[2].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-evidence.out.log",
+    "bytes": 1608,
+    "sha256": "3053e82bc89236119d1ef4956d0fe3cd4572be5ba29f92f7ec6efef849a1bcf7",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[3].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-evidence.err.log",
+    "bytes": 644,
+    "sha256": "f2aad44edb9e7876eb73c2d87b4f9c795159e7b6f89ccdf25518fcd7cc94e01a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[3].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-git.out.log",
+    "bytes": 6776,
+    "sha256": "792b226dbde49ec6e1b7129d8d8727e61b1518a132a6638b26cc97ee0a76595a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[4].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-git.err.log",
+    "bytes": 1128,
+    "sha256": "97a947a2ba5f2d5364ae9e14618a0568037a7ea2fd197842de3067b3b9c9ec2f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[4].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-interface.out.log",
+    "bytes": 452,
+    "sha256": "c142ef97d8bee4076f061e62c963b84adb9a075cfe003a6164701211551ade1a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[5].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-interface.err.log",
+    "bytes": 446,
+    "sha256": "6d52c5f1d51783a36b46b916a517dbd97bea91d8835b3cee4cc5923575370e86",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[5].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-isolation.out.log",
+    "bytes": 1794,
+    "sha256": "eff19ad300d4368d50ed50f13e2b66dfb6f731fbcb2e24eb809602acc8a7ae8f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[6].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-isolation.err.log",
+    "bytes": 656,
+    "sha256": "8ec2c34c68fda2254e53916bff412ef21952d265df1e1473b3540325c76cb786",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[6].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-knowledge.out.log",
+    "bytes": 2030,
+    "sha256": "b7462a213fe1c0f0471a6a7ef2bcf79f1119d34cf824d3173fc2a705c5b34b4a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[7].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-knowledge.err.log",
+    "bytes": 648,
+    "sha256": "94d77dac5769ecc5f0543c82783fa5c314376f12130f9c39c39d8a124b7ebe25",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[7].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-mcp.out.log",
+    "bytes": 11952,
+    "sha256": "bd6c4c63380d7fa2e8283ca5b3c491b658342c4c591c0ef2887e4ea9b1149ca2",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[8].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-mcp.err.log",
+    "bytes": 2330,
+    "sha256": "cf8e53acde41ead8457409709dd42a0eca3b628c54fccf0fb86d52307d97549f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[8].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-protocol.out.log",
+    "bytes": 23686,
+    "sha256": "96b37fe82f3a57af5d44b2a8273a14eeff0e0bef288d20d77ad528b1048dc07f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[9].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-protocol.err.log",
+    "bytes": 4398,
+    "sha256": "09928d70b3bcdcdacee5245f5da772920989799ef80ea52788052b8e3a9a0dfa",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[9].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-release.out.log",
+    "bytes": 12654,
+    "sha256": "e2893b1013e98bf58e0acf7811f81e0afaf246d0f7d6e59a0a9f294dc9c5f7e0",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[10].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-release.err.log",
+    "bytes": 2886,
+    "sha256": "dbbd8182f5ae1a060ffbd83c2445428c628f45369344445fe05dc3ec34a4d2c0",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[10].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-repository.out.log",
+    "bytes": 131072,
+    "sha256": "6ee1fd8ba879f74346e37d718c0d89be8425062773f8a5aee9b4abd9eb51d39d",
+    "truncated": true,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[11].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-repository.err.log",
+    "bytes": 13818,
+    "sha256": "f7847669c96c28551524fc50af91a90c4412cfb1b02e93ec9609118328d31ceb",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[11].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-verification.out.log",
+    "bytes": 37358,
+    "sha256": "7e3533ff9ac54f5e9353475c86a1c45377dce48087db49c832939974e815555c",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[12].stdout",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/streams/cockpit-verification.err.log",
+    "bytes": 13094,
+    "sha256": "2de4226e2fe7c0448fc8a5f01f61ab922a0165163e76ec9ca28353d27ec1f8ee",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce.json#executionRecords[12].stderr",
+    "encodingMeaning": "Exact UTF-8 bytes of the native captured stream string, no omitted tail reconstructed."
+  }
+]

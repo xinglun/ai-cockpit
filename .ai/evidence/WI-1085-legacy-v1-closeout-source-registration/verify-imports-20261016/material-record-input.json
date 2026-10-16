@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1085 opt-in proposal requires Raydot review before application",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/material-decision-relay.json",
+      "digest": "sha256:c7a66fa36da2eccce953f596c1d9e1b397c99cb42853aa59cbad4047c9e576ac"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/material-request.json",
+      "digest": "sha256:9e7206d2eab28354dedf3f5ff6fd65650813155dda3ed16bfb7d7f577dfc68bd"
+    }
+  ],
+  "rationale": "Record the actual parent-relayed Raydot decision for ce6cf9c9 after rechecking all exact bindings and two unchanged permitted syntax Unknowns. The source284e31be versus current8b00639d difference is AI records only, not source drift. Codex records the relay without impersonating Raydot.",
+  "residualRisk": "Only the two existing readable committed Rust syntax Unknowns are accepted. Raw scanner Unknowns remain. Focused tests, complete formal verification, 11 scenarios, intent, benefit and acceptance are not established by this decision."
+}

@@ -1,0 +1,11 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 0.89s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+
+thread 'complete_source::direct_record_rechecks_actual_source_repository_identity' (407376) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:551:9:
+assertion failed: result.unwrap_err().to_string().contains("independent_source_required")
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'complete_source::direct_record_rejects_self_source_even_when_every_external_digest_is_resealed' (407931) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:513:9:
+external plan is self-consistent but has no independent source: Ok(Object {"changedPaths": Array [String(".ai/decisions/WI-LEGACY-ROOT.legacy-closeout-source-requirement.json"), String(".ai/decisions/WI-LEGACY-ROOT.legacy-closeout-source-registration.json")], "publicationObservedAt": String("2026-10-15T22:50:48Z"), "registrationRawDigest": String("sha256:4546e0b51e24fca4305a0b7c5de3f829bbc81c83928f2b9ee598fc55d83af1b7"), "requirementRawDigest": String("sha256:3174ff31a709be489fa69be2c6e3977f9c568e69bedd58d293ca6c8a119024b5"), "state": String("committed"), "workItemId": String("WI-LEGACY-ROOT")})
+error: test failed, to rerun pass `-p cockpit-cli --test legacy_closeout_source`

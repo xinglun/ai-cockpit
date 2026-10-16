@@ -1,0 +1,31 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-16T22:16:58.355325+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "authority": "Actual user Ray approval relayed by the controller in this conversation",
+  "sourceMessages": [
+    {
+      "actor": "Raydot",
+      "messageId": "Sentinel_54538d0ba08c8191a33d94c2aece236d",
+      "reportedAt": "2026-10-16 22:15 UTC",
+      "text": "只需确认这一项：批准修正 WI-1085 三语文档的完成状态，将关闭收据和文档改动提交、推送到当前工作分支，并检查 CI。你回复“批准”即可。我来完成后续技术审阅。本次不包含 PR 合并或删除分支。"
+    },
+    {
+      "actor": "Ray",
+      "messageId": "Sentinel_d0d3e7dc426c8191be79899dea16c2b5",
+      "reportedAt": "2026-10-16 22:15 UTC",
+      "text": "批准"
+    }
+  ],
+  "authorized": [
+    "Standard post-close documentation promotion",
+    "Commit close receipt and controlled documentation changes to current WI1085 branch",
+    "Push current branch and track PR1044 CI to terminal"
+  ],
+  "excluded": [
+    "Ready",
+    "merge",
+    "deletion"
+  ],
+  "noNewFormalTestsForDocsOnlyChange": true
+}

@@ -1,0 +1,262 @@
+[
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-agent.out.log",
+    "bytes": 3876,
+    "sha256": "f2db3b25c255a3ac85331a8b19ce1a9d125cf0ea59974e300acc8c28c6a51e85",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-agent",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-agent].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-agent.err.log",
+    "bytes": 1000,
+    "sha256": "c106dee90b86850c806d174b10a2b5ab8340552a32a2e83a54d0b410c6bc1b03",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-agent",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-agent].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-cli.out.log",
+    "bytes": 57281,
+    "sha256": "2590dcc7121cc1290ec50fd99b54a74ba1f88bdac351e595b9a4d62176fcd914",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-cli",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-cli].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-cli.err.log",
+    "bytes": 5329,
+    "sha256": "701daa29154f8b19cc8483a668340eba6af202e82a11f04fd1053f9d119b630d",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-cli",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-cli].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-core.out.log",
+    "bytes": 3169,
+    "sha256": "338951f8704db22c6d43abb3c5316cffc14432ef1665e9169656339b82953e1d",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-core",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-core].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-core.err.log",
+    "bytes": 933,
+    "sha256": "53ec309332bb1f7902c81f4d69e808eb2ec916ea6f645e60ffeaf4efc94a2131",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-core",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-core].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-evidence.out.log",
+    "bytes": 804,
+    "sha256": "f43f45e914240d0bbb69591f643e128da38cdf67e5888a749e7a4a9cec5357df",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-evidence",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-evidence].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-evidence.err.log",
+    "bytes": 322,
+    "sha256": "cfb87e9a1c1e534ca17339fc366ea78d3a05b29080fec47bbdb22ffd4c2fc027",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-evidence",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-evidence].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-git.out.log",
+    "bytes": 3388,
+    "sha256": "45c53dbab05697328564cb2ecf6d374b63b47c5ac5751a3cf622bf0a059fa27d",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-git",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-git].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-git.err.log",
+    "bytes": 564,
+    "sha256": "54e36a9ba7cf28ba99db556592b076ca9ed2958e87f6bc485fbf2d63d1c2f245",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-git",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-git].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-interface.out.log",
+    "bytes": 226,
+    "sha256": "d38e6ea6d69ddb377e4a4380b22926f3864806998a850d5e28c8459dfc09f014",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-interface",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-interface].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-interface.err.log",
+    "bytes": 223,
+    "sha256": "133ec8237250703b36a132f5f3c706acb19b2c2db70cd4c04cccf703ba2b13df",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-interface",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-interface].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-isolation.out.log",
+    "bytes": 897,
+    "sha256": "5583ef1c42cb3d84dea035d3ab0ef75df1a9795718020ed58788eae4fc8edabb",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-isolation",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-isolation].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-isolation.err.log",
+    "bytes": 328,
+    "sha256": "b5ad9f60fde5c359c547ceda442e8e85cebbf8827eadc0972a0446a20ba0b049",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-isolation",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-isolation].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-knowledge.out.log",
+    "bytes": 1015,
+    "sha256": "98987490e17103d16d909f79c04afa2fee60a16e43f6ac1a7a23e052cd6ddb5a",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-knowledge",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-knowledge].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-knowledge.err.log",
+    "bytes": 324,
+    "sha256": "72d3363db8d2ab7ffda48e6f0a736188a30ce2d35c26c6011948529097830ace",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-knowledge",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-knowledge].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-mcp.out.log",
+    "bytes": 5976,
+    "sha256": "b9c7597a4afd07455cb55396a05d82e7f58029a8307d5772ea23046b8dc3b382",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-mcp",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-mcp].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-mcp.err.log",
+    "bytes": 1286,
+    "sha256": "b72dc2d8b1c9ef9b9c4c49ca2da3a588cc38d596e085364e9b00c64383e68bff",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-mcp",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-mcp].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-protocol.out.log",
+    "bytes": 11843,
+    "sha256": "965e9c00d19bc79c6c5d63b4a6ea4d302618307ab44b564849603da4f1e30539",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-protocol",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-protocol].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-protocol.err.log",
+    "bytes": 2199,
+    "sha256": "a52a2608d3f57fb669cd8f2e00844ab4ef6722a52ba9a00550fb5e411ea62da7",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-protocol",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-protocol].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-release.out.log",
+    "bytes": 6327,
+    "sha256": "6554695032b4093daa9db0ac2054abd09b1f71906a910f0433505c9b54f2f6e7",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-release",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-release].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-release.err.log",
+    "bytes": 1443,
+    "sha256": "e73cf0b0d80e61aad3de10f649e18ea915db7c47079c59ebe58efa12363376a3",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-release",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-release].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-repository.out.log",
+    "bytes": 65536,
+    "sha256": "2bf0b3afd27aa7e8ebcb157ce799ea24f84033c13ce359a176ad98ddd13c25f0",
+    "truncated": true,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-repository",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-repository].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-repository.err.log",
+    "bytes": 5641,
+    "sha256": "928061fe1d118216d151dcf6db4474144b7123f30089c213d3be7261f3ad5f1c",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-repository",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-repository].stderr"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-verification.out.log",
+    "bytes": 18679,
+    "sha256": "875339f7ccb83544b24787e25ccc91f23c622c717b8566febe0718f6f97277af",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-verification",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-verification].stdout"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/streams/cockpit-verification.err.log",
+    "bytes": 6808,
+    "sha256": "dafdfcf50f8ad66de3cf3bf672870a2c6dc0731a904b1def1dffb1613358d487",
+    "truncated": false,
+    "nativeAttemptPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.88ebd79aefea2bd1d09a69ba0a8d081e492ddc0315091ec9752f3df05dfb39fa.json",
+    "nativeAttemptRawSha256": "93453184905285c3e3dd1b1f89805634ba6315dbe19778c8f9b6e378106b07dc",
+    "nodeId": "project-command-0-package-cockpit-verification",
+    "nativeField": "executionRecords[nodeId=project-command-0-package-cockpit-verification].stderr"
+  }
+]

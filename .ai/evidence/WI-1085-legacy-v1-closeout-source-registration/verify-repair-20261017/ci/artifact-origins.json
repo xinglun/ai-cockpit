@@ -1,0 +1,78 @@
+[
+  {
+    "artifactId": 12067572799,
+    "name": "repository-gate-receipts",
+    "runId": 38946515596,
+    "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+    "artifactUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38946515596/artifacts/12067572799",
+    "zipSha256": "b92a1bcffbd8ad5b9164199f32a916776b91a53298c279c5ab6a8fea4a5d8cd8",
+    "zipMembers": [
+      {
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/governance-integrity-report.json",
+        "zipMember": "governance-integrity-report.json",
+        "bytes": 173618,
+        "sha256": "04a7fcfb8a346a2a193b6acecfe87dde6fb7c8a07080aadfe1052f543c8962fe"
+      },
+      {
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/quality-route.json",
+        "zipMember": "quality-route.json",
+        "bytes": 755880,
+        "sha256": "ac56a615fbd23796e9e6a5d4bd22fedca7d385e9af02311d34ad891e33660538"
+      },
+      {
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/repository-gates.json",
+        "zipMember": "repository-gates.json",
+        "bytes": 18674,
+        "sha256": "b53fe61f16d298a0ff25fba508b05bde22598f27c41d01b3a6c4b5717b0711d1"
+      }
+    ]
+  },
+  {
+    "artifactId": 12067498541,
+    "name": "workspace-package-coverage",
+    "runId": 38946515596,
+    "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+    "artifactUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38946515596/artifacts/12067498541",
+    "zipSha256": "409e51e1566f3dad46d6461c9caabeb7f02dba81fc4d93fb2f7ea1a923a6480a",
+    "zipMembers": [
+      {
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/workspace-package-coverage.json",
+        "zipMember": "workspace-package-coverage.json",
+        "bytes": 1111,
+        "sha256": "27900b08bacbd70c6b7f9a45d47350aff0b02c618cda0efc988b537dedf3bcee"
+      }
+    ]
+  },
+  {
+    "artifactId": 12066452379,
+    "name": "ci-quality-revision-binding",
+    "runId": 38946515596,
+    "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+    "artifactUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38946515596/artifacts/12066452379",
+    "zipSha256": "14a7425e025af236af98b34fba5e3f047156af4ee3ac2689a3d5629e9355256d",
+    "zipMembers": [
+      {
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/ci-revision-binding.json",
+        "zipMember": "ci-revision-binding.json",
+        "bytes": 544,
+        "sha256": "e70cea4c1957f47bea83612638530f096a86542bc3167b642ee2ffa5f79b7528"
+      }
+    ]
+  },
+  {
+    "artifactId": 12068620575,
+    "name": "ci-revision-binding-windows",
+    "runId": 38946515596,
+    "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+    "artifactUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38946515596/artifacts/12068620575",
+    "zipSha256": "7cce766c416d81ed7fda278565130887baf64712968103238db3a78029ba149b",
+    "zipMembers": [
+      {
+        "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/windows-revision-binding.json",
+        "zipMember": "ci-revision-binding.json",
+        "bytes": 558,
+        "sha256": "c151bc1436cdcbfc4c1a3abef2b8930e2fe1e48398765beb5929384f0568289b"
+      }
+    ]
+  }
+]

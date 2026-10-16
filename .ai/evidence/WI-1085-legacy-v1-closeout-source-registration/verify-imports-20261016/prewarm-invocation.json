@@ -1,0 +1,171 @@
+{
+  "recordedAt": "2026-10-16T13:45:25.686988+00:00",
+  "kind": "bounded-compile-only-no-test-assertions",
+  "sourceHeadAtExecution": "30f9f082a171e47dfbf888105b5936423783fb20",
+  "rootIdentity": {
+    "pid": 1163159,
+    "startTimeTicks": 3250053,
+    "pgrp": 1163158,
+    "session": 1163158
+  },
+  "executor": [
+    "/usr/local/bin/docker-init",
+    "-s",
+    "-g",
+    "-vvv",
+    "-w",
+    "--",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "/bin/bash",
+    "-c",
+    "sequential fixed 13 cargo package commands recorded below; raw per-package streams and exit files preserved"
+  ],
+  "commands": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-agent",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-core",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-evidence",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-git",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-interface",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-isolation",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-knowledge",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-protocol",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-release",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--no-run"
+      ]
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-verification",
+        "--no-run"
+      ]
+    }
+  ],
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "minimumReserveBytes": 2147483648,
+  "startThresholdBytes": 4294967296,
+  "formalVerificationNotEstablished": true
+}

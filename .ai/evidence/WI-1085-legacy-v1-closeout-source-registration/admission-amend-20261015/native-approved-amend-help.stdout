@@ -1,0 +1,11 @@
+Amend human-owned Contract fields and automatically record amendment revalidation; query status for the next admitted action
+
+Usage: ai-cockpit work-item amend [OPTIONS] --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>        
+      --id <ID>            
+      --input <INPUT>      Legacy JSON object with additive scopeAppend, outOfScopeAppend, sourcesAppend, verificationAppend, acceptanceAppend, requiredEvidenceClassesAppend, scenarioCoverageAppend, and/or scenarioCoveragePlanAppend arrays
+      --reason <REASON>    Rationale for the legacy additive input adapter
+      --request <REQUEST>  Strict ContractAmendmentRequest JSON; supports recorded set/clear/remove/replace/reorder operations
+  -h, --help               Print help

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1085 opt-in proposal requires Raydot review before application",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/decision-relay.json",
+      "digest": "sha256:5778e53a3beb4cc0b86e3f6adec9c5cd1f992dee8bbe4e1dcc504fede3808f82"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-request.json",
+      "digest": "sha256:c00b4e946f45717f927396007102cc626dbd392681b1adbc3a7562385e9c1f0e"
+    }
+  ],
+  "rationale": "Record actual parent-relayed Raydot decision for exact 10f95e4e request. All provided bindings match; current b5a219ea is an AI-record-only descendant of reviewed source007fdcba with unchanged source snapshot and manifest. Codex records the relay without impersonating reviewer or human.",
+  "residualRisk": "Actual current formal verification and all four Windows case success lines still required. Windows tests bound directory junction/reparse paths, not all reparse kinds or terminal file symlinks. Ordinary technical acceptance remains Raydot; no new human approval claimed. Raw scanner Unknowns remain. This decision is not verification, release, merge or close approval."
+}

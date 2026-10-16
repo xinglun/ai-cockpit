@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "materialManifestDigest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+  "profileDigest": "sha256:8eed971dcbb631b144496cbd91fe2d92059a7aea023552d7dffa2187c6832045",
+  "requestDigest": "sha256:10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663",
+  "reviewedSourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1085 opt-in proposal requires Raydot review before application",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/decision-relay.json",
+      "digest": "sha256:5778e53a3beb4cc0b86e3f6adec9c5cd1f992dee8bbe4e1dcc504fede3808f82"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-request.json",
+      "digest": "sha256:c00b4e946f45717f927396007102cc626dbd392681b1adbc3a7562385e9c1f0e"
+    }
+  ],
+  "rationale": "Record actual parent-relayed Raydot decision for exact 10f95e4e request. All provided bindings match; current b5a219ea is an AI-record-only descendant of reviewed source007fdcba with unchanged source snapshot and manifest. Codex records the relay without impersonating reviewer or human.",
+  "residualRisk": "Actual current formal verification and all four Windows case success lines still required. Windows tests bound directory junction/reparse paths, not all reparse kinds or terminal file symlinks. Ordinary technical acceptance remains Raydot; no new human approval claimed. Raw scanner Unknowns remain. This decision is not verification, release, merge or close approval.",
+  "recordedAt": "2026-10-16T18:25:44Z",
+  "receiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226"
+}

@@ -1,0 +1,22 @@
+{
+  "kind": "observed_red_source_binding",
+  "productionSourceUnchanged": true,
+  "productionBase": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "executionHead": "bacb3146f747448464ac404cd1c3e2353e3049bf",
+  "newTests": [
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "sha256": "7052c1c08d9c7790ac2a0e865fef514c6fc8333d636b573b42dc60b3a699e713"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+      "sha256": "bf71afaf0995b43ef418758d6c8e4d93fdbe2c0021fe5e86f80fdb537613c70d"
+    }
+  ],
+  "observations": [
+    "CLI missing explicit source plan command: actual assertion failure",
+    "Malformed canonical requirement with missing archive directory omitted from readiness: actual assertion failure",
+    "Foreign registration failed to retain untrusted scope: actual start incorrectly succeeded"
+  ],
+  "note": "The runner tracked-diff SHA is empty because these test files were untracked during RED; this manifest binds their actual bytes. No production code was changed before these failures."
+}
