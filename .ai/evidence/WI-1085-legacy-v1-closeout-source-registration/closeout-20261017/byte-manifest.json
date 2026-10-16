@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "scope": "Exact owned closeout artifacts and native archive files; excludes this manifest. Earlier commit manifests remain historical and are not rewritten.",
+  "entries": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/after-archive-status.json",
+      "bytes": 3566,
+      "sha256": "40d8a69cda1e69c9f01231f11247b1b44f9fa6f517a06fb3930a067bf9772a52"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/after-archive-validation.json",
+      "bytes": 237,
+      "sha256": "b293e37d017fe848580a1b246be13e6192542e328f48a345c0073e9e23972609"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/after-disconnect-processes.json",
+      "bytes": 72493,
+      "sha256": "6848610a221e4636b08c805b9cf967e045fe13fdc9ef77e6c9ea2e889f7637bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/after-disconnect-status.json",
+      "bytes": 3314,
+      "sha256": "60bbc079f280b2cf61b0ab36c6d2cef32a04f4f368631e59e4f16cd8b8ab9fea"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/after-finish-status.json",
+      "bytes": 3341,
+      "sha256": "908cdff4e971f9ab8773905df22017234a013ea7c44692b4ee13f4441ed9dd01"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/archive.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/archive.json",
+      "bytes": 169283,
+      "sha256": "2acb66eb9434a375c17c384160ce562169a3f630b83d9889399b200867853d6c"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/before-ci-terminal-status.json",
+      "bytes": 3314,
+      "sha256": "60bbc079f280b2cf61b0ab36c6d2cef32a04f4f368631e59e4f16cd8b8ab9fea"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/before-controls-status.json",
+      "bytes": 3314,
+      "sha256": "60bbc079f280b2cf61b0ab36c6d2cef32a04f4f368631e59e4f16cd8b8ab9fea"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/before-controls-validation.json",
+      "bytes": 237,
+      "sha256": "b293e37d017fe848580a1b246be13e6192542e328f48a345c0073e9e23972609"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/before-finish-status.json",
+      "bytes": 3314,
+      "sha256": "5a5d9d8a07205454364dd2f7861d2a8467cc47dd7e66303123abbc941efc5418"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/artifact-origins.json",
+      "bytes": 2713,
+      "sha256": "c9fd44cef13fd7974419f04fe819197bc844f27f3dbb6d4aa46586854c33389e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/artifacts.json",
+      "bytes": 4440,
+      "sha256": "556e11b1ce034283b0747758d44dd2680926e627cadc871c271b730204e2c8ce"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/ci-revision-binding.json",
+      "bytes": 544,
+      "sha256": "8f61dfccc33974eb96a67b933de0e804db6382783166d7e3e8835fc0bfadbb37"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/governance-integrity-report.json",
+      "bytes": 173618,
+      "sha256": "04a7fcfb8a346a2a193b6acecfe87dde6fb7c8a07080aadfe1052f543c8962fe"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/jobs.json",
+      "bytes": 14162,
+      "sha256": "4780afbae92ddde02a9d61520ba3100fe7badf5e1057b0c4671682f9d436176f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/quality-route.json",
+      "bytes": 851775,
+      "sha256": "d552d4065555a62865a5a8342febad89c88bf2fd54dc5bbdcbf05d9a76b2f649"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/quality-summary.json",
+      "bytes": 636,
+      "sha256": "1f9b43b189f07631cd2a1fc120fb14d5efc9cc079b86fa8aa32d65a89169637e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/repository-gates.json",
+      "bytes": 18674,
+      "sha256": "fb231d50f8c6f434eee86b937b197ba4d7a8d3a6856ad1583f9f4a12fa9c773b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/run.json",
+      "bytes": 12723,
+      "sha256": "a1085e46e1b8d125484fb0d3b22b139aea4c08269f33be9985d2257b7e36bbc8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/tested-commit.json",
+      "bytes": 199,
+      "sha256": "11ed3a6fd7437234fcc22081c70512c1bb6c31484676481f36de737a808890cb"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/windows-revision-binding.json",
+      "bytes": 558,
+      "sha256": "22c9e84d86e12046c324ce403c747561f84645ad1ba4e578bdd99d5e3df7771d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci/workspace-package-coverage.json",
+      "bytes": 1111,
+      "sha256": "27900b08bacbd70c6b7f9a45d47350aff0b02c618cda0efc988b537dedf3bcee"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci-watch1.log",
+      "bytes": 57106,
+      "sha256": "7311b1f3768ca8e2618a7c8412f7e2d2bb512e1edc2f319d95f4fd45732af3f4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci-watch2.log",
+      "bytes": 22418,
+      "sha256": "8285a0485ec5e8666be47a704ae707bacd09a1362b314b300928495a721f7868"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/ci-windows.log",
+      "bytes": 162083,
+      "sha256": "ecb30e84d261fc2dad1058d4d4a9929fcaa4365618080632976f1978934284d1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/close-authority-binding.json",
+      "bytes": 5376,
+      "sha256": "e79ec3009304064f9cf46f26a43a124c5c3f0bbad33342038b8c8d800a8fe391"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/controls-input.json",
+      "bytes": 51628,
+      "sha256": "235a0f8b332d5ad521561960df6934fa6c7f8359244afa2de45de5f9eb10baf4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/disconnect-observation.json",
+      "bytes": 1540,
+      "sha256": "b1ba2739d28f2e4689d78f385412af138a9fe28d7f5b3bdd68806d2410a9ae93"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/finish.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/finish.json",
+      "bytes": 39136,
+      "sha256": "64567436227ef117efd47bec1725d1b18340aff69a1c88cd02d4d91a53ef10a0"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/handoff-processes.json",
+      "bytes": 72674,
+      "sha256": "9455e4a049b2493e660f05d6a391036f344e9d34a2c69a6f77ed629229d2862d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/lifecycle-plan.json",
+      "bytes": 1597,
+      "sha256": "d57041498272793a7e6b2f36bde88a73c82fd68a7c45b55337339f83ff6fd5b5"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/material-request.json",
+      "bytes": 16747,
+      "sha256": "68c7a35a15a554d3e131692b16cfc3a62bac4ea44f160f9c9929f48fba525dd7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/metadata-head-proof.json",
+      "bytes": 20706,
+      "sha256": "773d285feac338f6e550b2949f979b8bd9178e74227e71795e2b42c27b114515"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/native-controls.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/native-controls.json",
+      "bytes": 83003,
+      "sha256": "4adfe40891509e91d6f761fac666679e4b2262b9d74d3b60030ce3a60227e0b4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/outcome.zh-CN.txt",
+      "bytes": 12979,
+      "sha256": "c13bcbecc4ba11b10c272945377083e4c8557b2e6afa118b814b3882552a43e3"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/post-push-material-plan.json",
+      "bytes": 16747,
+      "sha256": "68c7a35a15a554d3e131692b16cfc3a62bac4ea44f160f9c9929f48fba525dd7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/post-push-status.json",
+      "bytes": 3314,
+      "sha256": "60bbc079f280b2cf61b0ab36c6d2cef32a04f4f368631e59e4f16cd8b8ab9fea"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+      "bytes": 2405,
+      "sha256": "ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/report.zh-CN.md",
+      "bytes": 7452,
+      "sha256": "e8706f72b25e4fb5d185474800c16bd1ab69875c71ff2825597f4a366921df58"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/sentinel-1004-comments.observed.jsonl",
+      "bytes": 17243,
+      "sha256": "eaf2019a8ebe918440b617885d78b2b6805a3b4ab79a4f2c3c8ac2200dd835b1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/sentinel-1004-reply.DRAFT.zh-CN.md",
+      "bytes": 4857,
+      "sha256": "b9011b8ff272ea08542753b41f78b9106bc18942861b2eb65bcaae460cb1408a"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/windows-case-result.json",
+      "bytes": 2077,
+      "sha256": "52d6e53e8c81d0cc28cff16cf248e4abf05decd49ae8b0a04c28c7efea78159e"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.archive.json",
+      "bytes": 1814,
+      "sha256": "d0ccf2dd20e277c1b6563437154e56e04d8e355447eb40370f07a04059c704a8"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+      "bytes": 25205,
+      "sha256": "84dcb8c5cb3a09e3839c5ada0ad3563b17d34bc22f08ca9cdc118a595a9794cd"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.events.jsonl",
+      "bytes": 2453,
+      "sha256": "b81232f7fa9e2ef41eb603e2b3e913bb246c61071bcddfb7f77e6167e2ec7cc2"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.outcome.json",
+      "bytes": 37623,
+      "sha256": "844115bc8360daa429af252327caaeae654e7e2bf1a7fede50579891c9006051"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+      "bytes": 83225,
+      "sha256": "227da9f0ef9f1649cdc141330e3651ce5c281d30e24a7a771f90693ae442c7c0"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.json",
+      "bytes": 28880,
+      "sha256": "f9c736f250036cbcd77b3dfdf91492fe2a72e4aee40a514806c689c17e399efd"
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.md",
+      "bytes": 11132,
+      "sha256": "cd46879df9db72e568b614e66b1bd6ad22132c5d0ceb0293fc2b723daa80373a"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-16T19:29:05Z",
+  "files": {
+    "contractDigest": "sha256:84dcb8c5cb3a09e3839c5ada0ad3563b17d34bc22f08ca9cdc118a595a9794cd",
+    "contractPath": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+    "eventsDigest": "sha256:b81232f7fa9e2ef41eb603e2b3e913bb246c61071bcddfb7f77e6167e2ec7cc2",
+    "eventsPath": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.events.jsonl",
+    "outcomeDigest": "sha256:844115bc8360daa429af252327caaeae654e7e2bf1a7fede50579891c9006051",
+    "outcomePath": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.outcome.json",
+    "summaryDigest": "sha256:227da9f0ef9f1649cdc141330e3651ce5c281d30e24a7a771f90693ae442c7c0",
+    "summaryPath": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+    "taskReportDigest": "sha256:f9c736f250036cbcd77b3dfdf91492fe2a72e4aee40a514806c689c17e399efd",
+    "taskReportMarkdownDigest": "sha256:cd46879df9db72e568b614e66b1bd6ad22132c5d0ceb0293fc2b723daa80373a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-16T19:29:05.745802032Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-16T19:29:05.745802032Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

@@ -38,6 +38,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -79,6 +85,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -120,6 +132,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -161,6 +179,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -202,6 +226,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -249,6 +279,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -290,6 +326,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -331,6 +373,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -372,6 +420,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -413,6 +467,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -454,6 +514,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -495,6 +561,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -536,6 +608,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -577,6 +655,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -618,6 +702,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -653,6 +743,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     },
@@ -700,6 +796,12 @@
           "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
           "type": "criterion_assessment",
           "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        },
+        {
+          "locator": "sha256:ef25bbe265aa7971628cb350b208cbbed5e1e39d8ef0b3c8ccb17ea97383f3c8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json",
+          "type": "delegated_technical_review",
+          "verification": "Actual Raydot final technical acceptance relayed by agent:Codex; bounded A6 coverage accepted, benefit remains unknown, no real1004 registration, no human close/Ready/merge authority. Not a human decisionEvidence receipt."
         }
       ]
     }
@@ -784,7 +886,7 @@
     ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prior-native-byte-manifest.json",
     ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/review-before-processes.json",
     ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663.json",
-    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+    ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
   ],
   "checkpointAt": "2026-10-15T18:22:10Z",
   "checkpointContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
@@ -872,6 +974,14 @@
     "state": "resolved"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-16T19:28:39.577922800Z",
+      "recordedAt": "2026-10-16T19:28:39.577922800Z",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -1067,8 +1177,8 @@
       "verificationPlan": "Exercise crate-private matching lock-guard callers, cross-WI cycles/depth, offline original source after complete registration, malformed/foreign canonical registration names and old-v1/provider failures with apparently valid registration."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-16T18:57:42.825249057+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-16T19:28:39.577922800Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -1123,6 +1233,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:6fb690426eed049d9f57df43c67e54cd83f9101fa8e8be8d9a026255f1d11fda",
   "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
 }
