@@ -1,0 +1,96 @@
+{
+  "recordedAt": "2026-10-16T14:26:57.946643+00:00",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/after-status.json",
+      "bytes": 4028,
+      "sha256": "e939ff13c6c0fae17a5d03f804c15e4d46ebb2050b621e397d7648a49d8078b2"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/after-validation.json",
+      "bytes": 297,
+      "sha256": "2fa03ecc3b4d69a59f87a326e0923780f84cba62241be26d4597038c56c51266"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/before-status.json",
+      "bytes": 4028,
+      "sha256": "08f7b3b8ab4e477ae9a00b459a3394826d3444736fe8506582df52128a4dce83"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/benefit.json",
+      "bytes": 977,
+      "sha256": "c34cab7a38fd546ee0af63f8b326fcae355b54fb1d96479cbee904a3b262a64f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/controls-input.json",
+      "bytes": 46525,
+      "sha256": "401595a038fb68d4c13e1b9c2550ccbb751e30b4270af8115848e878941b0c77"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+      "bytes": 30921,
+      "sha256": "ca852136c36ea08a739e4727b373e049016abe7615461fd96be01980dd3aff7b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/final-processes.json",
+      "bytes": 72113,
+      "sha256": "1a4f0578607391c308a681971c63a523ba6f5db87cbc4e618656b434dea427f1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/immediate-before-status.json",
+      "bytes": 4028,
+      "sha256": "08f7b3b8ab4e477ae9a00b459a3394826d3444736fe8506582df52128a4dce83"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/intent.json",
+      "bytes": 1584,
+      "sha256": "3567166d523b18f99b2f9c281163c4ca4de4d8120664e304ff21a3e783373caf"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/main-integration-facts.json",
+      "bytes": 263712,
+      "sha256": "7762510bbb1bf28244ae484dbfa4282ce4c40c2626862832e95424b3df493c22"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/main-merge-tree.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/main-merge-tree.out.log",
+      "bytes": 651,
+      "sha256": "d29f678891dac6f75a37995cc50472863ee252c418f6dc98c0e3e482b16645ef"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/native-controls.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/native-controls.json",
+      "bytes": 58195,
+      "sha256": "9606207450176844778e4895efa2790aed7d2ddf4d69822179223f1fabd7f5b1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/outcome.zh-CN.txt",
+      "bytes": 5099,
+      "sha256": "f3f6da84ab35061b29e6af01b2ac5229357b77fa80915ebf4f93e6b700d2d21d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/report.zh-CN.md",
+      "bytes": 5900,
+      "sha256": "1ad5b9d35afd20e3874cc115acf878e6ff6e849f66c2b221dfd76fe1e556ba42"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
+      "bytes": 52073,
+      "sha256": "77c8f9342133abb38447a7b8f504e49ee3047efaf285160697612c6c51c96ebb"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/work-item-help.txt",
+      "bytes": 3317,
+      "sha256": "e4bbf786f9a47ae5fda0168216b8fe01ddd5c66a0fe8d6597d9ff804b953a4b3"
+    }
+  ],
+  "noProductOrAssertionsChanged": true
+}

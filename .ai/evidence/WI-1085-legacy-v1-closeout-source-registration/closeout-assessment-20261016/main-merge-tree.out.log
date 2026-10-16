@@ -1,0 +1,13 @@
+3dc70451684e83f54a5c52cf4ae82158bcf7a35f
+docs/reference/reference-parity.ja.md
+docs/reference/reference-parity.md
+docs/reference/reference-parity.zh-CN.md
+
+Auto-merging crates/cockpit-repository/src/lib.rs
+Auto-merging crates/cockpit-repository/src/status_projection.rs
+Auto-merging docs/reference/reference-parity.ja.md
+CONFLICT (content): Merge conflict in docs/reference/reference-parity.ja.md
+Auto-merging docs/reference/reference-parity.md
+CONFLICT (content): Merge conflict in docs/reference/reference-parity.md
+Auto-merging docs/reference/reference-parity.zh-CN.md
+CONFLICT (content): Merge conflict in docs/reference/reference-parity.zh-CN.md
