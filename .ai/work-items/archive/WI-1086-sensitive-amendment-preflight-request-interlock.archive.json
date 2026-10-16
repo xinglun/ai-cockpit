@@ -1,0 +1,30 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-16T08:22:12Z",
+  "files": {
+    "contractDigest": "sha256:35e00f6e3eebd190b127c2b3eed737c0b070d9b8c3a1d4a95b4f67c8a103340e",
+    "contractPath": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json",
+    "eventsDigest": "sha256:f60813820d32a549fe993bdbd493ca53bed15dfec47a482fc14aa49bd3478df2",
+    "eventsPath": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.events.jsonl",
+    "intelligenceDigest": "sha256:663836d4cb44d5f21d3f6e7cb5244e526d4077c3f72062e4aea764f042e52ff8",
+    "intelligencePath": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.intelligence.json",
+    "outcomeDigest": "sha256:a9edb95ebb39d10efb785bb501c33f58e477463afa9554db117ac403cdd9648c",
+    "outcomePath": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.outcome.json",
+    "summaryDigest": "sha256:9b2d4e4ee87fcb3d10812c9d909e2d2b4fef6b1dbb08416468051c4a21abd688",
+    "summaryPath": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json",
+    "taskReportDigest": "sha256:e1f45886679abdb6058d75e9e8269ce3cf13ebb05cdf5c90bf843a1ffc2ee4b1",
+    "taskReportMarkdownDigest": "sha256:1a0f239da1a57d12b55b2fe5abc6b712fcfd6ed03ce3cfe3f95c2ac16359b07e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-16T08:22:12.824127654Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-16T08:22:12.824127654Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

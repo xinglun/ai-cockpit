@@ -46,7 +46,7 @@
     ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/preflight.stderr.log",
     ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/report.zh-CN.md",
     ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/technical-review-source.txt",
-    ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
+    ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json"
   ],
   "checkpointAt": "2026-10-16T00:14:08Z",
   "checkpointContractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",

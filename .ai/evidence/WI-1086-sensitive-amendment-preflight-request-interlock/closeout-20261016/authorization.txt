@@ -1,0 +1,7 @@
+执行授权来源：当前用户消息。原文：Ray 已批准 PR #1042 转 Ready、合并 eac3e5a665a98efd1436a7100d1e40feaf0003c2，并按原生流程归档关闭 WI-1086。Raydot 技术审阅通过。执行前核对 head 和 CI；清理先报精确清单。
+
+执行者为 Codex；这是用户转达的 Ray 批准及当前用户执行指令，不声称 Ray 亲自操作 CLI，不伪造 GitHub review。原始批准时间未独立获知；Runtime 记录时间不作为独立人审时间证据。
+
+GitHub Ready/merge 均由已授权工具成功执行。实际 merge commit a05a572d3c03cb45ec602eab3db587a19f77acf3，merged_at=2026-10-16T08:18:37Z（原始GitHub UTC记录）。原 head eac3e5a665a98efd1436a7100d1e40feaf0003c2，run38868840168四jobs成功。
+
+primary /workspace/ai-cockpit 已同步 actual merge commit；关闭上下文为 /workspace/ai-cockpit-wi1086-closeout 上同一工作分支。新上下文原生status验证为verified/fresh，随后原生archive成功。未删除任何分支、worktree、缓存或旧环境。
