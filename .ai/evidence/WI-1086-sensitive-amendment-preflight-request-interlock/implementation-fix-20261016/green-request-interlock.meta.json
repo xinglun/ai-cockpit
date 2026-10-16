@@ -1,0 +1,134 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T01:01:56.976129+00:00",
+  "elapsedSeconds": 32.658,
+  "timeoutSeconds": 900,
+  "timedOut": false,
+  "exitCode": 0,
+  "sourceHead": "c6425e1e0db23ceb629820753457e5f5f109dc50",
+  "testFileRawSha256": "31273957e936f9a379ef92a86669171541d4eda5b0ecd4a3e98fc1d30a66a3da",
+  "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01); cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "environmentOverrides": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "binaryRawSha256": "156d7e19dc24eb4d6c870d2c59d0975646ff70d78d1e560946a6453430bf0272",
+  "ownedDescendantsReaped": [
+    {
+      "pid": 510652,
+      "waitStatus": 0
+    },
+    {
+      "pid": 511164,
+      "waitStatus": 0
+    },
+    {
+      "pid": 511664,
+      "waitStatus": 0
+    },
+    {
+      "pid": 511890,
+      "waitStatus": 0
+    },
+    {
+      "pid": 512115,
+      "waitStatus": 0
+    },
+    {
+      "pid": 512620,
+      "waitStatus": 0
+    },
+    {
+      "pid": 513125,
+      "waitStatus": 0
+    },
+    {
+      "pid": 513223,
+      "waitStatus": 0
+    },
+    {
+      "pid": 513454,
+      "waitStatus": 0
+    },
+    {
+      "pid": 513680,
+      "waitStatus": 0
+    },
+    {
+      "pid": 513926,
+      "waitStatus": 0
+    },
+    {
+      "pid": 514169,
+      "waitStatus": 0
+    },
+    {
+      "pid": 514395,
+      "waitStatus": 0
+    },
+    {
+      "pid": 514622,
+      "waitStatus": 0
+    },
+    {
+      "pid": 515312,
+      "waitStatus": 0
+    },
+    {
+      "pid": 515808,
+      "waitStatus": 0
+    },
+    {
+      "pid": 515960,
+      "waitStatus": 0
+    },
+    {
+      "pid": 516187,
+      "waitStatus": 0
+    },
+    {
+      "pid": 516412,
+      "waitStatus": 0
+    },
+    {
+      "pid": 516667,
+      "waitStatus": 0
+    },
+    {
+      "pid": 516921,
+      "waitStatus": 0
+    },
+    {
+      "pid": 517176,
+      "waitStatus": 0
+    },
+    {
+      "pid": 517429,
+      "waitStatus": 0
+    },
+    {
+      "pid": 517684,
+      "waitStatus": 0
+    }
+  ]
+}

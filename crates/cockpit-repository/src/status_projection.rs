@@ -1481,6 +1481,14 @@ fn work_item_status_snapshot_with_snapshot(
             work_item_id,
             &contract_digest_value,
         ) != super::governance_controls::PreflightDecisionEvidenceState::Valid;
+    let amendment_review_request_available = amendment_review_required
+        && super::contract_amendment::current_amendment_review_request_available(
+            &root,
+            work_item_id,
+            &contract_digest_value,
+            &summary,
+            &lifecycle_phase,
+        )?;
     let snapshot_digest_string = snapshot_digest_value.to_string();
     let contract_digest_string = contract_digest_value.to_string();
     let preflight_binding_current = summary["preflightRepositorySnapshotDigest"].as_str()
@@ -1677,6 +1685,9 @@ fn work_item_status_snapshot_with_snapshot(
             _ => vec!["read_outcome".into()],
         }
     };
+    if amendment_review_request_available {
+        safe_actions.insert(0, "run_preflight".into());
+    }
     let verification_precondition_error = if safe_actions
         .iter()
         .any(|action| action == "run_verification")
@@ -1689,18 +1700,27 @@ fn work_item_status_snapshot_with_snapshot(
     } else {
         None
     };
-    let preflight_recovery_available =
-        verification_precondition_error
-            .as_ref()
-            .is_some_and(|error| {
-                matches!(lifecycle_phase.as_str(), "checkpointed" | "finish_ready")
-                    && preflight_can_recover_verification_precondition(error, &summary)
-            });
+    let preflight_recovery_available = amendment_review_request_available
+        || (!amendment_review_required
+            && verification_precondition_error
+                .as_ref()
+                .is_some_and(|error| {
+                    matches!(lifecycle_phase.as_str(), "checkpointed" | "finish_ready")
+                        && preflight_can_recover_verification_precondition(error, &summary)
+                }));
     if verification_precondition_error.is_some() {
         safe_actions.retain(|action| action != "run_verification");
         if preflight_recovery_available {
             safe_actions.insert(0, "run_preflight".into());
         }
+    }
+    if amendment_review_required
+        && summary["checkpointCount"] == serde_json::json!(1)
+        && !amendment_review_request_available
+    {
+        // A stale-preflight or unavailable-material fallback cannot replace
+        // validation of a post-checkpoint sensitive amendment's provenance.
+        safe_actions.retain(|action| action != "run_preflight");
     }
     if !archived && !matches!(lifecycle_phase.as_str(), "closed" | "recovered") {
         safe_actions.push("record_governance_controls".into());

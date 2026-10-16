@@ -1,0 +1,13 @@
+
+running 2 tests
+test amendment_review_projection_tests::amendment_review_projection_keeps_invalid_receipt_blocking_facts ... FAILED
+test amendment_review_projection_tests::amendment_review_projection_keeps_missing_receipt_blocking_facts ... FAILED
+
+failures:
+
+failures:
+    amendment_review_projection_tests::amendment_review_projection_keeps_invalid_receipt_blocking_facts
+    amendment_review_projection_tests::amendment_review_projection_keeps_missing_receipt_blocking_facts
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 123 filtered out; finished in 0.12s
+
