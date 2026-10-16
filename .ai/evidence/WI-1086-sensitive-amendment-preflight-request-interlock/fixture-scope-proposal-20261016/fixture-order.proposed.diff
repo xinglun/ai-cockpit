@@ -1,0 +1,36 @@
+--- a/crates/cockpit-cli/tests/scope_amendment.rs
++++ b/crates/cockpit-cli/tests/scope_amendment.rs
+@@ -215,6 +215,13 @@
+     );
+     let contract_path = root.join(&contract);
+     let amended_bytes = fs::read(&contract_path).expect("amended Contract");
++
++    let pending_preflight = invoke(&["preflight", "--contract", &contract]);
++    assert!(
++        pending_preflight.status.success(),
++        "{}",
++        String::from_utf8_lossy(&pending_preflight.stderr)
++    );
+ 
+     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+     let summary: serde_json::Value =
+--- a/crates/cockpit-repository/tests/lifecycle_entry.rs
++++ b/crates/cockpit-repository/tests/lifecycle_entry.rs
+@@ -1638,6 +1638,8 @@
+         "invalidate the prior required check after it was recorded",
+     )
+     .expect("amend after verification");
++    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
++        .expect("current amended review request");
+     record_human_preflight_review(directory.path(), work_item_id);
+     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+         .expect("current preflight after amendment");
+@@ -2932,6 +2934,8 @@
+         "add an authorized scope without any required verification gates",
+     )
+     .expect("amend Contract");
++    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
++        .expect("amended review request");
+     record_human_preflight_review(directory.path(), work_item_id);
+     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+         .expect("amended preflight");

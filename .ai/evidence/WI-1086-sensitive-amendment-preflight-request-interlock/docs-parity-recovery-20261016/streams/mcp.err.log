@@ -1,0 +1,10 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running unittests src/lib.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/cockpit_mcp-a1e433a1ad2c783b)
+     Running tests/closeout_recovery.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/closeout_recovery-0edf4ad88e5a50c4)
+     Running tests/collaboration_rpc.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/collaboration_rpc-6ba71831e9c1f9f1)
+     Running tests/material_review.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/material_review-7b5886c28785d1ca)
+     Running tests/rpc.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/rpc-09e055c3e59e4b73)
+     Running tests/security.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/security-ca9aa3ebf462139c)
+     Running tests/usage.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/usage-95feb7b4ba83a0c7)
+     Running tests/work_item_amendment_parity.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/work_item_amendment_parity-8a0a1a695c7f7313)
+   Doc-tests cockpit_mcp

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "selfExcluded": true,
+  "files": [
+    {
+      "path": "RESTORE-INSTRUCTIONS.txt",
+      "bytes": 491,
+      "sha256": "517d35713ebb010d6e1bdd550e2e870a2f9a7443874c26dbf175d92e4ca45e0e"
+    },
+    {
+      "path": "backed-cleanup-execution-20261016/authorization-provenance.json",
+      "bytes": 1018,
+      "sha256": "73e8322bbea217e0a71add8ed7eaacdd37f7103ebbdaba67e4d6796030fd30b4"
+    },
+    {
+      "path": "backed-cleanup-execution-20261016/cleanup-result.json",
+      "bytes": 999,
+      "sha256": "6c4e97788ba8af5c3a3e11983876f3c31fb7930a64fed1a87a53729192528dcd"
+    },
+    {
+      "path": "backed-cleanup-execution-20261016/helper-v1.py.txt",
+      "bytes": 14679,
+      "sha256": "32ed9ca7f1957cbae63bd3f9a9f1587f73125a7ebbd7ab4dbbf99eb066b90738"
+    },
+    {
+      "path": "backed-cleanup-execution-20261016/occupancy-before-backup.json",
+      "bytes": 8809,
+      "sha256": "5591526b817aa69c719b0dc371fcfbafc57a77a3f3c1fd40dfbe050c74ad50c2"
+    },
+    {
+      "path": "backed-cleanup-execution-v2-20261016/authorization-provenance.json",
+      "bytes": 1018,
+      "sha256": "73e8322bbea217e0a71add8ed7eaacdd37f7103ebbdaba67e4d6796030fd30b4"
+    },
+    {
+      "path": "backed-cleanup-execution-v2-20261016/backup-complete-checkpoint.json",
+      "bytes": 814,
+      "sha256": "6c3e43768d512f881900fcd8238ea347df07d50858c87e084e4d1d876dc1e266"
+    },
+    {
+      "path": "backed-cleanup-execution-v2-20261016/backup-verified-manifest.json",
+      "bytes": 149855,
+      "sha256": "2d9ba9d1a45cbbe93f36b1919f41e635de9a977acb28b5f2d6e71b96f70c329d"
+    },
+    {
+      "path": "backed-cleanup-execution-v2-20261016/cleanup-result.json",
+      "bytes": 123611,
+      "sha256": "f7848feadc4f7a7775e89a7bd32c8f1426816a09ac947ba85dbb5f33800e1759"
+    },
+    {
+      "path": "backed-cleanup-execution-v2-20261016/file-removal-results.jsonl",
+      "bytes": 59888,
+      "sha256": "e1fcfee6fbe6f75cd2b743af30c82516b2b7632a7a59e6acd7192ae17d8c729a"
+    },
+    {
+      "path": "backed-cleanup-execution-v2-20261016/occupancy-before-backup.json",
+      "bytes": 8220,
+      "sha256": "e26e208face0b24fe703d7e639bf25b5d82a4acd4f62ca41cb13c3c58b400383"
+    },
+    {
+      "path": "backed-cleanup-execution-v2-20261016/occupancy-before-removal.json",
+      "bytes": 8220,
+      "sha256": "dbd7b3a81568ca06ad3827d7acb9350f252e377aea648ccd0c5596424a8d7140"
+    },
+    {
+      "path": "cleanup-checkpoint.zh-CN.md",
+      "bytes": 2561,
+      "sha256": "097bed343eed3fc301f27a3948d45c1d9e8a6f46433495ddf4b591833a39a60c"
+    },
+    {
+      "path": "excluded-target-files.manifest.json",
+      "bytes": 457875,
+      "sha256": "83d99679bcb20eaa17c6dd75289df88fe189fa45e9b275cd3822caa2717711a0"
+    },
+    {
+      "path": "perform-approved-backup-cleanup-v2.py.txt",
+      "bytes": 16480,
+      "sha256": "7a8a89a4dd7b83aea7a766161f4169210e410c3eac00be642a363aaef34aeb38"
+    },
+    {
+      "path": "proposed-cleanup-283.manifest.json",
+      "bytes": 217198,
+      "sha256": "5881b11f87fd77b5d97a0e528732687a44bc825248aeb8223dea6a5b026a860e"
+    },
+    {
+      "path": "retained-provenance.json",
+      "bytes": 2649,
+      "sha256": "f9eaede3187cb295ee6d7083557f28c9bf81dc04388a1a427ae9cc468a8be67d"
+    },
+    {
+      "path": "run-admitted-formal-verification.py.txt",
+      "bytes": 14434,
+      "sha256": "2c0012656a15c2ea014c01b79897ff8fc345c58879a86142bd90aa6e0f10f94f"
+    },
+    {
+      "path": "sensitive-review-cleanup.json",
+      "bytes": 196,
+      "sha256": "19246211c49c3e9df9df0005c457a10084a343bcae0137d69fe1e55c04741cef"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "observedAt": "2026-10-16T06:14:57.080652+00:00",
+  "newZombies": [],
+  "readErrors": [],
+  "newPid1Zombies": [],
+  "tiniRegisteredLogVisible": true,
+  "tiniFatal": false,
+  "progress": [
+    "Verification progress: started node \"project-command-0-package-cockpit-agent\" (0/13 complete, 0%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-agent\": passed (1/13 complete, 7%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-cli\" (1/13 complete, 7%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-cli\": passed (2/13 complete, 15%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-core\" (2/13 complete, 15%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-core\": passed (3/13 complete, 23%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-evidence\" (3/13 complete, 23%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-evidence\": passed (4/13 complete, 30%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-git\" (4/13 complete, 30%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-git\": passed (5/13 complete, 38%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-interface\" (5/13 complete, 38%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-interface\": passed (6/13 complete, 46%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-isolation\" (6/13 complete, 46%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-isolation\": passed (7/13 complete, 53%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-knowledge\" (7/13 complete, 53%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-knowledge\": passed (8/13 complete, 61%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-mcp\" (8/13 complete, 61%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-mcp\": passed (9/13 complete, 69%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-protocol\" (9/13 complete, 69%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-protocol\": passed (10/13 complete, 76%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-release\" (10/13 complete, 76%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-release\": passed (11/13 complete, 84%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-repository\" (11/13 complete, 84%)"
+  ],
+  "adoptedReapWarnings": 670,
+  "currentSessionProcesses": [
+    {
+      "pid": 282491,
+      "comm": "codex",
+      "state": "S",
+      "ppid": 282490,
+      "pgid": 282491
+    },
+    {
+      "pid": 282492,
+      "comm": "bash",
+      "state": "S",
+      "ppid": 282491,
+      "pgid": 282491
+    },
+    {
+      "pid": 283014,
+      "comm": "docker-init",
+      "state": "S",
+      "ppid": 282492,
+      "pgid": 282491
+    },
+    {
+      "pid": 283015,
+      "comm": "timeout",
+      "state": "S",
+      "ppid": 283014,
+      "pgid": 283015
+    },
+    {
+      "pid": 283016,
+      "comm": "ai-cockpit",
+      "state": "S",
+      "ppid": 283015,
+      "pgid": 283015
+    },
+    {
+      "pid": 366992,
+      "comm": "cargo",
+      "state": "S",
+      "ppid": 283016,
+      "pgid": 366992
+    },
+    {
+      "pid": 444742,
+      "comm": "flock",
+      "state": "S",
+      "ppid": 366992,
+      "pgid": 366992
+    },
+    {
+      "pid": 444743,
+      "comm": "coordination_st",
+      "state": "S",
+      "ppid": 444742,
+      "pgid": 366992
+    }
+  ]
+}

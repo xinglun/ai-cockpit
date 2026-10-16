@@ -1,0 +1,146 @@
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import signal
+import time
+
+ROOT = 805031
+ROOT_START = '24465201'
+NATIVE = 805807
+NATIVE_START = '24465792'
+FLOOR = 512 * 1024 * 1024
+LOG = Path('/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/backed-cleanup-and-full-verification-20261016/stat-fallback-guard-v2')
+LOG.mkdir(exist_ok=False)
+
+def one(pid):
+    try:
+        raw = Path(f'/proc/{pid}/stat').read_text()
+        f = raw[raw.rfind(')') + 2:].split()
+        return {'pid': pid, 'ppid': int(f[1]), 'state': f[0], 'startTimeTicks': f[19],
+                'comm': raw[raw.find('(') + 1:raw.rfind(')')], 'rawStat': raw}
+    except FileNotFoundError:
+        return None
+
+def all_owned():
+    entries = {}
+    for p in Path('/proc').iterdir():
+        if p.name.isdigit():
+            x = one(int(p.name))
+            if x:
+                entries[x['pid']] = x
+    owned = {ROOT}
+    changed = True
+    while changed:
+        changed = False
+        for pid, x in entries.items():
+            if x['ppid'] in owned and pid not in owned:
+                owned.add(pid)
+                changed = True
+    return {pid: entries[pid] for pid in owned if pid in entries}, entries
+
+def free():
+    return {p: os.statvfs(p).f_bavail * os.statvfs(p).f_frsize for p in ['/workspace', '/tmp']}
+
+def elapsed():
+    return float(Path('/proc/uptime').read_text().split()[0]) - int(ROOT_START) / os.sysconf('SC_CLK_TCK')
+
+def save(name, value):
+    with (LOG / name).open('x') as f:
+        json.dump(value, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+
+root = one(ROOT)
+native = one(NATIVE)
+assert root and root['startTimeTicks'] == ROOT_START and root['comm'] == 'python3'
+assert native and native['startTimeTicks'] == NATIVE_START and native['ppid'] == ROOT
+owned, entries = all_owned()
+assert NATIVE in owned
+before = {'observedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    'root': root, 'native': native, 'ownedBefore': list(owned.values()),
+    'ppid1ZombieCount': sum(x['ppid'] == 1 and x['state'] == 'Z' for x in entries.values()),
+    'reason': 'proc task children interface absent; prevent broken supervisor exit from orphaning its adopted zombies',
+    'thisIsNotRuntimeVerificationReceipt': True}
+save('guard-before-pause.json', before)
+# Suspend only the known supervisor; its existing native child keeps running.
+os.kill(ROOT, signal.SIGSTOP)
+for _ in range(100):
+    root = one(ROOT)
+    if root and root['state'] in ['T', 't']:
+        break
+    time.sleep(.01)
+root = one(ROOT)
+assert root and root['startTimeTicks'] == ROOT_START and root['state'] in ['T', 't']
+result = {'startedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    'nativePid': NATIVE, 'nativeStartTimeTicks': NATIVE_START,
+    'supervisorPidRetained': ROOT, 'supervisorStartTimeTicks': ROOT_START,
+    'supervisorPausedToRetainAdoptedZombies': True, 'stopReason': None,
+    'initialFreeBytes': free(), 'minimumFreeBytes': free(), 'observations': [],
+    'noVerificationRestart': True, 'noAssertionsOrGatesChanged': True,
+    'runtimeCommandTotalLimitSeconds': 900, 'cancellationStartsAtElapsedSeconds': 885}
+last_progress = 0
+cancel_time = None
+while True:
+    values = free()
+    for name, value in values.items():
+        result['minimumFreeBytes'][name] = min(result['minimumFreeBytes'][name], value)
+    now_elapsed = elapsed()
+    native = one(NATIVE)
+    if native is None or native['startTimeTicks'] != NATIVE_START:
+        result['stopReason'] = result['stopReason'] or 'native_identity_missing_or_changed'
+        break
+    if native['state'] == 'Z':
+        result['nativeTerminatedStat'] = native
+        result['nativeTerminatedAtElapsedSeconds'] = now_elapsed
+        break
+    reason = None
+    if min(values.values()) <= FLOOR:
+        reason = 'disk_floor_512MiB'
+    elif now_elapsed >= 885:
+        reason = '900s_limit_with_15s_cancellation_budget'
+    if reason and cancel_time is None:
+        result['stopReason'] = reason
+        cancel_time = time.monotonic()
+        owned, _ = all_owned()
+        targets = [x for pid, x in owned.items() if pid != ROOT and x['state'] != 'Z']
+        result['cancellationTargets'] = targets
+        for item in reversed(targets):
+            current = one(item['pid'])
+            if current and current['startTimeTicks'] == item['startTimeTicks']:
+                try:
+                    os.kill(item['pid'], signal.SIGTERM)
+                except ProcessLookupError:
+                    pass
+    if cancel_time is not None and time.monotonic() - cancel_time >= 5:
+        owned, _ = all_owned()
+        for pid, item in owned.items():
+            if pid != ROOT and item['state'] != 'Z':
+                current = one(pid)
+                if current and current['startTimeTicks'] == item['startTimeTicks']:
+                    try:
+                        os.kill(pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+    if time.monotonic() - last_progress >= 45:
+        last_progress = time.monotonic()
+        owned, _ = all_owned()
+        observation = {'elapsedSeconds': round(now_elapsed, 2), 'freeBytes': values,
+            'ownedProcesses': len(owned), 'ownedZombies': sum(x['state'] == 'Z' for x in owned.values()),
+            'liveOwned': [{k: x[k] for k in ['pid', 'ppid', 'comm', 'state', 'startTimeTicks']}
+                          for x in owned.values() if x['state'] != 'Z'],
+            'stopReason': result['stopReason']}
+        result['observations'].append(observation)
+        print(json.dumps({'statGuardProgress': observation}), flush=True)
+    time.sleep(.1)
+owned, entries = all_owned()
+result['ownedAfter'] = list(owned.values())
+result['ppid1ZombieCountAfter'] = sum(x['ppid'] == 1 and x['state'] == 'Z' for x in entries.values())
+result['finalFreeBytes'] = free()
+result['finishedAt'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+result['elapsedFromOriginalSupervisorStartSeconds'] = round(elapsed(), 3)
+result['supervisorRemainsPaused'] = one(ROOT)['state'] in ['T', 't']
+result['notReapedByThisSiblingGuard'] = True
+result['remainingBlocker'] = 'Original supervisor must reap its own adopted children before it can exit; sibling cannot waitpid them. Do not resume or terminate it blindly.'
+save('guard-result.json', result)
+print(json.dumps({k: v for k, v in result.items() if k not in ['observations', 'ownedAfter']}, ensure_ascii=False), flush=True)

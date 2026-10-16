@@ -1638,9 +1638,9 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
         "invalidate the prior required check after it was recorded",
     )
     .expect("amend after verification");
-    record_human_preflight_review(directory.path(), work_item_id);
     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("current preflight after amendment");
+    record_human_preflight_review(directory.path(), work_item_id);
     let replacement_snapshot = GitRepository::discover(directory.path())
         .expect("git repository")
         .snapshot()
@@ -2932,9 +2932,9 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
         "add an authorized scope without any required verification gates",
     )
     .expect("amend Contract");
-    record_human_preflight_review(directory.path(), work_item_id);
     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("amended preflight");
+    record_human_preflight_review(directory.path(), work_item_id);
     let snapshot = GitRepository::discover(directory.path())
         .expect("git repository")
         .snapshot()

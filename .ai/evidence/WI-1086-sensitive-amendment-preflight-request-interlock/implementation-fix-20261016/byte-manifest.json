@@ -1,0 +1,190 @@
+{
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/README.zh-CN.md",
+      "bytes": 3185,
+      "rawSha256": "796f35fbcd971f04012cc9e4c3307d48c2afe48a37e2450a021b71490f925e62"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-blocking-projection.meta.json",
+      "bytes": 1577,
+      "rawSha256": "61534295011eda45a12b6571a2fbaa194ec2206106428065fade85b39264cc5a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-blocking-projection.stderr",
+      "bytes": 351,
+      "rawSha256": "ab80ac8c899b9c63c1a8d92681f61d2b781645a5b769cafbf2bb4a7891e889ed"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-blocking-projection.stdout",
+      "bytes": 339,
+      "rawSha256": "010731193f2cb5d39a9dcdc93f362c00b04036ca12f33d157ad834674a9b9ee3"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-provenance-and-cli-mcp.meta.json",
+      "bytes": 3751,
+      "rawSha256": "1f24d49a1df4293b934980296096946111b80e2b42297424d4eb90f85eef52c3"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-provenance-and-cli-mcp.stderr",
+      "bytes": 363,
+      "rawSha256": "2b37057d2092d685da0dcd12c1f597bcffbe0db703c8003246c020c80f30842a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-provenance-and-cli-mcp.stdout",
+      "bytes": 1495,
+      "rawSha256": "e796bdce34ad0d440c25d702072db3c40c7885fc87e9abfc576638069bae1bda"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-rehashed-contract-chain.meta.json",
+      "bytes": 1465,
+      "rawSha256": "6a00d9cf36225716a36f0d0e3e2202b0d13f14a3d3362785baa0554b7e0d8bb7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-rehashed-contract-chain.stderr",
+      "bytes": 351,
+      "rawSha256": "8aaab9ea19f9e56dccbc205606b07d6de0902967c921421d3370290ba8754967"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-rehashed-contract-chain.stdout",
+      "bytes": 217,
+      "rawSha256": "58af22d9a47144fa0695e4ee98e8f5fbf44a2f5ab6a4be06bdd62e1c71fce101"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-request-interlock.meta.json",
+      "bytes": 2799,
+      "rawSha256": "436c26f65ae6a74c0e69f69ba99a82aed6ec936f3f68d5b13a58b6ec9b63ae5f"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-request-interlock.stderr",
+      "bytes": 638,
+      "rawSha256": "df86dd870787e3017e7a09975b3e81ce3b286e65a375e74d3845b159a862b399"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-request-interlock.stdout",
+      "bytes": 1350,
+      "rawSha256": "1fdb39b59a8c54d9b5390efb57365159ab1c4baba43ce735cc599d1e11f6293a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-validator-boundaries.meta.json",
+      "bytes": 2575,
+      "rawSha256": "74922b56925daca439ae0b9ed4b23585bee73242e3eaca5ad3996cb9604bdd3e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-validator-boundaries.stderr",
+      "bytes": 638,
+      "rawSha256": "2001a23ca90358b4af845c65fdf14e23aadbee689f37ff7156c8dfb7d81c35db"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/green-validator-boundaries.stdout",
+      "bytes": 1071,
+      "rawSha256": "98e791f9a7cc5addf114fe7fa27779840998231880f2cbc1a3617eef6d30fef7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/ledger.md",
+      "bytes": 1409,
+      "rawSha256": "441871d28a0a16704008c5eb0e323b1b6519153271a65b1540c2b52195ce06d3"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-blocking-projection.meta.json",
+      "bytes": 1580,
+      "rawSha256": "21e6e0ca8125c1cc5f5588adb20d138607639312802b57894f4221c673ae4e98"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-blocking-projection.stderr",
+      "bytes": 1088,
+      "rawSha256": "a6b38fb2aa25f47e609dd751e408ac69faa1940433ceaea69bc7d2280b38f48a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-blocking-projection.stdout",
+      "bytes": 581,
+      "rawSha256": "e35f0183482b7f4255bb8932588ea881e7dba5e88a8dd6c91fe37ec4aa023167"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-recorded-preflight-boundaries.meta.json",
+      "bytes": 2042,
+      "rawSha256": "8ee01ced6bdc594fc2d4e5013a50d56f549f51d2e324d6c5bf6a042c57ab5802"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-recorded-preflight-boundaries.stderr",
+      "bytes": 8928,
+      "rawSha256": "c0d12484fab64f81afc8abad4f178e7ebd5d42881594b8e2742ad0a1c11df3ad"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-recorded-preflight-boundaries.stdout",
+      "bytes": 805,
+      "rawSha256": "9a34db887b376b29167248686e07be67ded9afec542a27466cd55ad7bef5ab0a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-contradictory-evidence.meta.json",
+      "bytes": 1706,
+      "rawSha256": "9a55de5a297d9a55b5e05a4db0d40599bd1a67d8a8614b40224ad8a5723f32c8"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-contradictory-evidence.stderr",
+      "bytes": 8840,
+      "rawSha256": "7efc3d8eb1a5242b78f842b29f3393856e910090fcfedd97f149e217c3be5ab5"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-contradictory-evidence.stdout",
+      "bytes": 680,
+      "rawSha256": "a0b93f24a9a057879d54538393b5bec316f3765e70f040d1e5e0de68d45566d2"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-native-red.meta.json",
+      "bytes": 1819,
+      "rawSha256": "bb529f928c7a57fecfae387db9ab601ad0a07e59907f1ee66df4c094dc5242a0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-native-red.stderr",
+      "bytes": 8840,
+      "rawSha256": "7348dadf33816b8a6422fd853fb52ef2d80e45665c358f984bbad42e29777ad0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-native-red.stdout",
+      "bytes": 680,
+      "rawSha256": "d80e2a971364f373eaceed81afe71e14d96a4d8469450adb8bd1249941c44ac0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-schema2.meta.json",
+      "bytes": 1707,
+      "rawSha256": "c932f81dbe413e7476902926996a6f9d15606aa0d1a35e0b31e7782049f3627e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-schema2.stderr",
+      "bytes": 14380,
+      "rawSha256": "76c269848a34fa36d731f275cf0236b0fa0d59b115e6d67c294ae6fcf1ce01ab"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock-schema2.stdout",
+      "bytes": 680,
+      "rawSha256": "dc27f7c0db5c4acc835089e6a126f453aca94202ebee208d6eaae65932bca006"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock.meta.json",
+      "bytes": 1708,
+      "rawSha256": "98f617fad645566b67c184202add54d2d493532b3c7ab288fc08483d97d73a56"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock.stderr",
+      "bytes": 9115,
+      "rawSha256": "db8432374ede43308b76b78bbc6cd28d462c14a01e0acd7c6706090508bb95b8"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/red-request-interlock.stdout",
+      "bytes": 680,
+      "rawSha256": "eef8ed50e5b61642f910d6f5cf4735d64cbf00cdf2fa5ea559fb9fbbc4f8d2ae"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/source-bindings.json",
+      "bytes": 1091,
+      "rawSha256": "063300f8d338ffefae12d807fb6c8174666b1cef72165e568be761ec4cdad2cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/implementation-fix-20261016/source.patch",
+      "bytes": 44532,
+      "rawSha256": "d5050d020e67a3362f6fb611a05be13e9dad70ee1988d9fc8c4a7c4f1902b473"
+    }
+  ],
+  "manifestExcludesItself": true
+}

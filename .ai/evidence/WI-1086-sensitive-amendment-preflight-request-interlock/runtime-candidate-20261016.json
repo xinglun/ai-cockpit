@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-16T05:09:49Z",
+  "purpose": "Build an isolated candidate Runtime from the fixed current repository source for read-only inspection, status, and the current native preflight review request. This candidate was not installed as a shared Runtime.",
+  "repository": {
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "branch": "codex/wi1086-sensitive-amendment-preflight-request-interlock",
+    "sourceCommit": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+    "remoteBranchHeadAtBuild": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+    "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+    "repositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54"
+  },
+  "toolchain": {
+    "rustToolchainFile": "rust-toolchain.toml channel 1.98.1",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "rustcCommitHash": "48a229ceaefd4985c50990b14116b6d856af0985",
+    "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)"
+  },
+  "build": {
+    "command": "/usr/bin/timeout --signal=TERM --kill-after=10s 900s env RUSTUP_HOME=/workspace/.cloud-tools/rustup CARGO_HOME=/workspace/.cloud-tools/cargo CARGO_TARGET_DIR=/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock CARGO_INCREMENTAL=0 /workspace/.cloud-tools/cargo/bin/cargo build --locked --release --package cockpit-cli",
+    "exitCode": 0,
+    "elapsedSeconds": 197,
+    "targetDirectory": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock",
+    "artifactPath": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+    "runtimeVersion": "ai-cockpit 1.0.1",
+    "artifactBytes": 19867288,
+    "artifactSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "elfBuildIdSha1": "c4b8ca482e0126e93c18d5f42cb4440f2b940f56",
+    "runtimeDigestFromInspect": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "runtimeInspect": {
+      "head": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+      "treeDigest": "sha256:1ec56e02c11ec6c7958a510810d2c077b86d3740eac1568265ab4202a87bdc64",
+      "dependencyFingerprint": "sha256:4f135761241806b9c3e25b436d2268a028eabbbd752f1121b1c43ef0b0305f77",
+      "changedPaths": [],
+      "filesRead": 2,
+      "gitCalls": 2
+    }
+  },
+  "adoption": {
+    "kind": "isolated candidate",
+    "absolutePathUsedForRepositoryCommands": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+    "sharedRuntimeInstalledOrReplaced": false,
+    "oldInstalledRuntimeClaim": "The preinstalled Runtime was 1.0.0 with SHA-256 d91b267cf3df92809997db95a61b45f5287aea2301e6d452f38724cee5c899e9; it was not reused to prepare the current decision and was not replaced. No byte-equivalence claim is made."
+  },
+  "nativeReview": {
+    "preflightGeneratedCurrentRequest": true,
+    "decisionId": "contract-preflight-review",
+    "currentContractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+    "currentRepositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+    "decision": "confirm_review",
+    "decisionEvidencePath": ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review.e9770c9ebe15e5a9606fef334f82e591f296d4ab84061125f6a7be9a2a671c0d.json",
+    "recordedBy": "human:conversation-user",
+    "safeActionAfterRecord": "run_verification"
+  },
+  "processBoundary": {
+    "processObservation": "Before the planned tests, PID 1 had two observed zombie git processes: PID 797 (04:44:32 UTC) and PID 3723 (04:56:30 UTC). No cargo/rustc process or additional zombie was observed after the candidate build.",
+    "supportedExecutorBoundary": "The Runtime verification executor creates a process group, waits for its direct child, and sends SIGKILL to any remaining members of that process group after the direct child exits or is terminated. It does not claim to reap unrelated zombies already adopted by PID 1.",
+    "legacySupervisorUsed": false,
+    "testsRun": false
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "attemptId": "sha256:b7990d12bb9f9beebb3d5bb4b33585608ae8cdfde0ddae827944ad799a081362",
+  "commands": [],
+  "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+  "contractExecutionScopeDigest": "sha256:f98e078a7704bdc816a97bb5d7305d134c75f32c9b0637213a0a421b518e9b55",
+  "createdAt": "2026-10-16T05:14:02Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit/Cargo.toml: cargo metadata could not start: No such file or directory (os error 2)"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

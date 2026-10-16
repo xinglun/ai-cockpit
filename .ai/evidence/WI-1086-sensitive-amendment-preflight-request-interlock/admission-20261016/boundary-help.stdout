@@ -1,0 +1,7 @@
+Usage: ai-cockpit work-item boundary --repo <REPO> --id <ID> --file <FILE>
+
+Options:
+      --repo <REPO>  
+      --id <ID>      
+      --file <FILE>  JSON file containing a Contract concurrencyBoundary object
+  -h, --help         Print help

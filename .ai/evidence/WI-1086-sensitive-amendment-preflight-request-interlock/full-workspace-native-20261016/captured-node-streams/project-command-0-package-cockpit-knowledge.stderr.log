@@ -1,0 +1,4 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running unittests src/lib.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/cockpit_knowledge-cc3681fa65113d20)
+     Running tests/query.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/query-2e3c2fe91ebcd866)
+   Doc-tests cockpit_knowledge

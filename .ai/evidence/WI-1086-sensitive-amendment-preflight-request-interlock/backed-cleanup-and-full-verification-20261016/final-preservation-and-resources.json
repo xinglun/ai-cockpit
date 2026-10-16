@@ -1,0 +1,38 @@
+{
+  "observedAt": "2026-10-16T03:42:53.193938+00:00",
+  "backupDirectory": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c",
+  "backupFilesHashVerified": 283,
+  "originalManifestFilesAbsent": 283,
+  "excludedFilesIdentityAndHashVerified": 653,
+  "wi1085GitClean": true,
+  "productMatchesReviewedSource": true,
+  "preservedBinaryHashes": {
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/ai-cockpit": "8f4ce88a9f4ead070f935061ff421652ae53aec3eda75feabe17ce9bb2daf095",
+    "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit": "3da828ca22763d620f2b3d4e7121f9400bb02854bbdd1b1bb1f6f3ff0868688b"
+  },
+  "originalFailureAndNewFailureUnchanged": true,
+  "humanPolicyReceiptUnchanged": true,
+  "noNewPolicyApprovalRecorded": true,
+  "supervisor": {
+    "pid": 805031,
+    "ppid": 805030,
+    "state": "T",
+    "comm": "python3",
+    "startTimeTicks": "24465201"
+  },
+  "supervisorOwnedZombies": 1089,
+  "ppid1Zombies": 21316,
+  "activeCargoRustc": [],
+  "disks": {
+    "/workspace": {
+      "availableBytes": 1158385664,
+      "availableInodes": 1930124
+    },
+    "/tmp": {
+      "availableBytes": 1803739136,
+      "availableInodes": 2247044
+    }
+  },
+  "note": "Supervisor retained paused, not reaped; do not resume/terminate blindly."
+}

@@ -1,0 +1,8 @@
+{
+  "source": "current user message relaying Raydot instruction",
+  "scope": "two existing test files, three current-preflight fixture-order insertions; original assertions preserved",
+  "technicalApproval": true,
+  "humanConfirmReview": false,
+  "cleanupAuthorized": false,
+  "finalAcceptanceAuthorized": false
+}

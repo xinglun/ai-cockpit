@@ -1,0 +1,4 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 0.89s
+     Running tests/lifecycle_entry.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/lifecycle_entry-bf1ed6fc5a56b3dc)
+error: test failed, to rerun pass `-p cockpit-repository --test lifecycle_entry`

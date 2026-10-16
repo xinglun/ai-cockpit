@@ -1,0 +1,4 @@
+Verification progress: started node "project-command-0" (0/1 complete, 0%)
+[WARN  tini (276806)] Reaped zombie process with pid=277145
+[WARN  tini (276806)] Reaped zombie process with pid=277172
+Verification progress: completed node "project-command-0": passed (1/1 complete, 100%)

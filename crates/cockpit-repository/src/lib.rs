@@ -7211,6 +7211,150 @@ fn governance_decision_for_contract_base_internal_with_archive(
     Ok(evaluate(input))
 }
 
+#[cfg(test)]
+mod amendment_review_projection_tests {
+    use super::*;
+
+    fn fixture() -> tempfile::TempDir {
+        let root = tempfile::tempdir().expect("fixture directory");
+        fs::write(root.path().join("README.md"), "fixture\n").expect("README");
+        for args in [
+            vec!["init", "-q", "--initial-branch=main"],
+            vec!["add", "."],
+            vec![
+                "-c",
+                "user.name=Fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ],
+        ] {
+            assert!(
+                std::process::Command::new("git")
+                    .args(args)
+                    .current_dir(root.path())
+                    .status()
+                    .expect("git")
+                    .success()
+            );
+        }
+        attach(root.path()).expect("attach");
+        start_work_item_with_options(
+            root.path(),
+            "WI-REVIEW-PROJECTION",
+            "test review projection",
+            "preserve blocking facts",
+            &["README.md".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                risk: "normal".into(),
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start");
+        let contract_path = root
+            .path()
+            .join(".ai/work-items/active/WI-REVIEW-PROJECTION.contract.json");
+        let request = serde_json::from_value(serde_json::json!({
+            "schemaVersion":1, "changeId":"sensitive-review", "expectedContractDigest":contract_digest(&contract_path).expect("digest"),
+            "reason":"isolated native amendment fixture", "changes":[{"path":"/scope","operation":"add","value":"src/**"}]
+        })).expect("request");
+        contract_amendment::apply_work_item_contract_amendment(
+            root.path(),
+            "WI-REVIEW-PROJECTION",
+            &request,
+            &RuntimeContext {
+                protocol_version: 1,
+                runtime_version: "1.0.1".into(),
+                runtime_digest: Digest::sha256_bytes(b"isolated fixture Runtime"),
+            },
+        )
+        .expect("native amendment");
+        root
+    }
+
+    fn assert_preserved(invalid_receipt: bool) {
+        let root = fixture();
+        let contract = read_contract(
+            &root
+                .path()
+                .join(".ai/work-items/active/WI-REVIEW-PROJECTION.contract.json"),
+        )
+        .expect("Contract");
+        if invalid_receipt {
+            let path = root
+                .path()
+                .join(".ai/work-items/active/WI-REVIEW-PROJECTION.summary.json");
+            let mut summary = read_json(&path).expect("Summary");
+            summary["decisionEvidence"] =
+                serde_json::json!({"schemaVersion":999,"repositoryId":"foreign"});
+            atomic_json(&path, &summary).expect("isolated invalid evidence");
+        }
+        for (state, outcome, blockers) in [
+            (
+                DecisionState::Red,
+                "blocked",
+                vec!["fixture_finding".to_owned()],
+            ),
+            (DecisionState::Red, "blocked", vec![]),
+            (DecisionState::Yellow, "blocked", vec![]),
+            (
+                DecisionState::Yellow,
+                "verification_pending",
+                vec!["fixture_finding".to_owned()],
+            ),
+        ] {
+            let before = GovernanceDecision {
+                state: state.clone(),
+                blockers: blockers.clone(),
+                unknowns: vec!["retained_unknown".into()],
+                raw_scanner_unknowns: vec![],
+                material_manifest_digest: None,
+                review_receipt_digest: None,
+                review_assurance: None,
+                effective_unknowns: vec![],
+                safe_actions: vec![],
+                required_checks: vec![],
+                authority: "authorized".into(),
+                outcome_state: outcome.into(),
+                review_state: None,
+                human_decision_request: None,
+            };
+            let after = apply_preflight_review_evidence(root.path(), &contract, before, false)
+                .expect("projection");
+            assert_eq!(
+                after.state, state,
+                "review must preserve the original decision state"
+            );
+            assert_eq!(
+                after.outcome_state, outcome,
+                "review must preserve the original outcome state"
+            );
+            assert_eq!(
+                after.blockers, blockers,
+                "review must preserve every original blocker"
+            );
+            assert!(after.unknowns.contains(&"retained_unknown".to_owned()));
+            assert!(
+                after.human_decision_request.is_some(),
+                "pending review remains explicit"
+            );
+        }
+    }
+
+    #[test]
+    fn amendment_review_projection_keeps_missing_receipt_blocking_facts() {
+        assert_preserved(false);
+    }
+
+    #[test]
+    fn amendment_review_projection_keeps_invalid_receipt_blocking_facts() {
+        assert_preserved(true);
+    }
+}
+
 fn apply_preflight_review_evidence(
     root: &Path,
     contract: &cockpit_protocol::Contract,
@@ -7230,6 +7374,9 @@ fn apply_preflight_review_evidence(
     if contract.work_item_id.trim().is_empty() || !contract_path.is_file() {
         return Ok(decision);
     }
+    let preserve_blocking_facts = decision.state == DecisionState::Red
+        || decision.outcome_state == "blocked"
+        || !decision.blockers.is_empty();
     let contract_digest = contract_digest(&contract_path)?;
     let evidence_state =
         preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest);
@@ -7241,7 +7388,7 @@ fn apply_preflight_review_evidence(
             // snapshot. Let the common valid-evidence branch below project
             // that review as recorded, even when the underlying preflight
             // decision itself did not independently request human review.
-            if decision.blockers.is_empty() && decision.state != DecisionState::Red {
+            if !preserve_blocking_facts {
                 decision.review_state = Some("needs_human_confirmation".into());
             } else {
                 decision.review_state = Some("human_decision_recorded".into());
@@ -7261,9 +7408,9 @@ fn apply_preflight_review_evidence(
             decision.safe_actions.sort();
             decision.safe_actions.dedup();
             decision.review_state = Some("needs_human_confirmation".into());
-            decision.outcome_state = "needs_human_decision".into();
-            if decision.state != DecisionState::Red && decision.blockers.is_empty() {
+            if !preserve_blocking_facts {
                 decision.state = DecisionState::Yellow;
+                decision.outcome_state = "needs_human_decision".into();
             }
             decision.human_decision_request = Some(cockpit_core::HumanDecisionRequest {
                 decision_id: "contract-preflight-review".into(),
@@ -7298,7 +7445,7 @@ fn apply_preflight_review_evidence(
         governance_controls::PreflightDecisionEvidenceState::Missing => {}
         governance_controls::PreflightDecisionEvidenceState::Valid => {
             if decision.review_state.as_deref() == Some("needs_human_confirmation")
-                && decision.blockers.is_empty()
+                && !preserve_blocking_facts
             {
                 decision.review_state = Some("human_decision_recorded".into());
                 decision.outcome_state = "verification_pending".into();
@@ -7322,8 +7469,10 @@ fn apply_preflight_review_evidence(
             decision.required_checks.push("human_review".into());
             decision.required_checks.sort();
             decision.required_checks.dedup();
-            decision.state = DecisionState::Yellow;
-            decision.outcome_state = "needs_human_decision".into();
+            if !preserve_blocking_facts {
+                decision.state = DecisionState::Yellow;
+                decision.outcome_state = "needs_human_decision".into();
+            }
             decision.review_state = Some("needs_human_confirmation".into());
             decision.human_decision_request = Some(cockpit_core::HumanDecisionRequest {
                 decision_id: "contract-preflight-review".into(),

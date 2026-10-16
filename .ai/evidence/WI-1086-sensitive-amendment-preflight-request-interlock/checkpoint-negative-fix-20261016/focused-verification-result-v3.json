@@ -1,0 +1,122 @@
+{
+  "recordedAt": "2026-10-16T02:30:41.564509+00:00",
+  "sourceHead": "2a5910e967585c3589af382d29143f1b50b0a2c1",
+  "sourceWorkingTreeClean": true,
+  "contractDigest": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+  "currentRepositorySnapshot": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+  "humanReviewReceiptPath": ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review.2ff953ba1280d4180c55f83b91c4b9a23ed2a50f87ab8b5c6fa71888e643df42.json",
+  "humanReviewRawSha256": "3f1f7cec2c558fb7a21eb47116782d48ec0fb88257fa0e920fc6df156793102d",
+  "humanReviewNotReboundAfterSourceChange": true,
+  "runtimeSha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "candidateBinaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "candidateBinarySha256": "3da828ca22763d620f2b3d4e7121f9400bb02854bbdd1b1bb1f6f3ff0868688b",
+  "candidateInstalledAsSharedRuntime": false,
+  "admittedRed": {
+    "sourceHead": "0069033a46afeab1374107cc9bce079b51c24151",
+    "tests": 10,
+    "expectedFailures": 10,
+    "label": "admitted-red-checkpoint-provenance"
+  },
+  "focusedChecks": [
+    {
+      "label": "green-all-amendment-cli-mcp-after-preflight",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--test",
+        "contract_amendment_processes"
+      ],
+      "passed": 28,
+      "failed": 0,
+      "elapsedSeconds": 50.332,
+      "minimumFreeBytes": 673140736,
+      "resourceGuardTriggered": false,
+      "admissionDigest": "sha256:0532169a7d81fd97bc6cc1e7f00e6d26099e3f3cae9297ab3fc9df18ec5c9175"
+    },
+    {
+      "label": "green-cli-fixture-moved-intact",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--test",
+        "scope_amendment"
+      ],
+      "passed": 1,
+      "failed": 0,
+      "elapsedSeconds": 1.622,
+      "minimumFreeBytes": 681955328,
+      "resourceGuardTriggered": false,
+      "admissionDigest": "sha256:0532169a7d81fd97bc6cc1e7f00e6d26099e3f3cae9297ab3fc9df18ec5c9175"
+    },
+    {
+      "label": "green-repository-fixture-moved-intact",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--test",
+        "lifecycle_entry"
+      ],
+      "passed": 52,
+      "failed": 0,
+      "elapsedSeconds": 10.019,
+      "minimumFreeBytes": 680693760,
+      "resourceGuardTriggered": false,
+      "admissionDigest": "sha256:0532169a7d81fd97bc6cc1e7f00e6d26099e3f3cae9297ab3fc9df18ec5c9175"
+    },
+    {
+      "label": "green-repository-unit-regressions",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--lib"
+      ],
+      "passed": 126,
+      "failed": 0,
+      "elapsedSeconds": 131.077,
+      "minimumFreeBytes": 631988224,
+      "resourceGuardTriggered": false,
+      "admissionDigest": "sha256:0532169a7d81fd97bc6cc1e7f00e6d26099e3f3cae9297ab3fc9df18ec5c9175"
+    }
+  ],
+  "focusedPassedTotal": 207,
+  "formatCheck": "passed",
+  "formalWorkspaceVerificationRerun": false,
+  "newHeadCIObserved": false,
+  "originalFullFailureAttemptPreserved": true,
+  "unadmittedObservationPreservedSeparately": true,
+  "cleanup": {
+    "listed": 279,
+    "identityMatched": 279,
+    "deleted": 0,
+    "skippedForUnclearOccupancy": 279,
+    "bytesReclaimed": 0
+  },
+  "runtimeLifecycle": "checkpointed",
+  "runtimeVerification": "not_ready",
+  "runtimeHumanDecisionRequired": false,
+  "runtimeUnknowns": [
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "controlsUnknowns": [
+    "intent_alignment_missing"
+  ],
+  "remaining": [
+    "Raydot review of the two bounded source fixes",
+    "capacity/occupancy resolution before full declared verification and required new-head CI",
+    "current required material/acceptance/intent controls before any final acceptance"
+  ],
+  "mergeCloseInstallCleanupBeyondManifestAuthorized": false
+}

@@ -1,0 +1,18 @@
+{
+  "observedAt": "2026-10-16",
+  "sourceHead": "3609f24cb854f359fe127d1cb218e6e368bccffc",
+  "queries": [
+    {
+      "url": "https://api.github.com/repos/xinglun/ai-cockpit/pulls?state=all&head=xinglun%3Acodex%2Fwi1086-sensitive-amendment-preflight-request-interlock&per_page=10",
+      "response": []
+    },
+    {
+      "url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/runs?head_sha=3609f24cb854f359fe127d1cb218e6e368bccffc&per_page=20",
+      "response": {
+        "total_count": 0,
+        "workflow_runs": []
+      }
+    }
+  ],
+  "mutationPerformed": false
+}

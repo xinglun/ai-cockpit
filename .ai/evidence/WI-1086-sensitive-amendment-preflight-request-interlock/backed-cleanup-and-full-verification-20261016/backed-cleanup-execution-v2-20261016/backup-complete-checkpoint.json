@@ -1,0 +1,33 @@
+{
+  "startedAt": "2026-10-16T03:22:30.078412+00:00",
+  "manifestSha256": "5881b11f87fd77b5d97a0e528732687a44bc825248aeb8223dea6a5b026a860e",
+  "deletedFiles": [],
+  "skippedFiles": [],
+  "backupVerified": true,
+  "backupDirectory": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c",
+  "failure": null,
+  "disksBefore": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 679497728,
+      "availableInodes": 1930068
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 2293882880,
+      "availableInodes": 2249159
+    }
+  },
+  "disksAfterBackup": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 679333888,
+      "availableInodes": 1930066
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 1804091392,
+      "availableInodes": 2248848
+    }
+  }
+}

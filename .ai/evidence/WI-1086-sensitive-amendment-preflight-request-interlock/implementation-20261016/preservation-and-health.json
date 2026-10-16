@@ -1,0 +1,34 @@
+{
+  "observedAt": "2026-10-16T00:23:45.640663+00:00",
+  "priorManifests": [
+    {
+      "manifestPath": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/byte-manifest.json",
+      "entriesVerified": 41
+    },
+    {
+      "manifestPath": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/byte-manifest.json",
+      "entriesVerified": 11
+    },
+    {
+      "manifestPath": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-review-v2-20261016/byte-manifest.json",
+      "entriesVerified": 16
+    }
+  ],
+  "retainedWI1085Head": "f49a001ece01209ed9e4cf743f879b7a5931143c",
+  "retainedWI1085DirtyPaths": [],
+  "otherProtectedFiles": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "rawSha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916"
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "rawSha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5"
+    }
+  ],
+  "realWI1086HumanRecordAbsent": true,
+  "repositoryProductSourceChangedPaths": [],
+  "zombies": 21316,
+  "workspaceFreeBytes": 3218661376,
+  "tmpFreeBytes": 2294198272
+}

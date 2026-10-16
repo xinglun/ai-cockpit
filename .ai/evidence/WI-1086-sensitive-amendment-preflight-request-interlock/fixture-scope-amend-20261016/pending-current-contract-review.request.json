@@ -1,0 +1,16 @@
+{
+  "status": "pending_actual_human_decision_not_recorded",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "contractDigest": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+  "preflightDecisionDigest": "sha256:8920a34f2a16192132227e264543d05da638385c607d50d9502cb6d9cfaf46fd",
+  "repositorySnapshotDigest": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
+  "amendmentJournalDigest": "sha256:d59a0c72fc5167bea82001cc620080509fc63c258901d6a420b0dbd2fd2eea57",
+  "decisionId": "contract-preflight-review",
+  "requestedOption": "confirm_review",
+  "decisionSource": "Must be a real authorized human response to these exact bindings; Raydot technical review alone is not written as human evidence.",
+  "scope": "Two approved test files, three fixture-order corrections, existing scoped checkpoint provenance/material fallback negatives and subsequent admitted verification; preserve assertions and original failed full verification. No large build pending capacity decision; no final acceptance, Runtime installation, merge, close or cleanup.",
+  "retainedPriorReviewRawSha256": "664563196a6d5359192b953ebdf77e841f7ec59c421f1ec36041d5d009855439",
+  "sameContractReuseUnchanged": true,
+  "newDecisionWritten": false
+}

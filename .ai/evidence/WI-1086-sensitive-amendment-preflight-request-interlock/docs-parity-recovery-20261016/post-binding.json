@@ -1,0 +1,11 @@
+{
+  "sourceHead": "4838c6bd4a0cc7f42fbdb805e416007389718d9c",
+  "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+  "repositorySnapshot": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
+  "nativeAttemptId": "sha256:b33bd7be27c53407a22472b08b3b90769bcc6dbc0d35acc7127537c6b6b9d261",
+  "receiptDigest": "sha256:c3e1b50fb7ea44c3cc3c8f6dc0a18f9db67c07aede36f25ef4332bc9aa886004",
+  "verificationEvidenceDigest": "sha256:624fc1876737eb4856608fd8ec760aea99ee17d7e6030f613883420d4c567f85",
+  "outcomeEvidenceDigest": "sha256:624fc1876737eb4856608fd8ec760aea99ee17d7e6030f613883420d4c567f85",
+  "outcomeSnapshot": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
+  "allBindingsEqual": true
+}

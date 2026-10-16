@@ -1,0 +1,15 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 16.53s
+     Running unittests src/lib.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'amendment_review_projection_tests::amendment_review_projection_keeps_invalid_receipt_blocking_facts' (505793) panicked at crates/cockpit-repository/src/lib.rs:7327:13:
+assertion `left == right` failed: review must preserve the original decision state
+  left: Yellow
+ right: Red
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'amendment_review_projection_tests::amendment_review_projection_keeps_missing_receipt_blocking_facts' (505830) panicked at crates/cockpit-repository/src/lib.rs:7331:13:
+assertion `left == right` failed: review must preserve the original outcome state
+  left: "needs_human_decision"
+ right: "blocked"
+error: test failed, to rerun pass `-p cockpit-repository --lib`

@@ -1,0 +1,32 @@
+{
+  "baseCommit": "c6425e1e0db23ceb629820753457e5f5f109dc50",
+  "files": [
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "bytes": 66231,
+      "rawSha256": "3e68b7712b6dde0bfd268019d02b36a8418698cba75a3014e029260d5d316f0b"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "bytes": 82105,
+      "rawSha256": "4c2919bf8c8ed630d2e83cef4dc0e44935c4d0e56d281d1ea14fa5f634b751d9"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "bytes": 593965,
+      "rawSha256": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a"
+    },
+    {
+      "path": "crates/cockpit-repository/src/governance_controls.rs",
+      "bytes": 79471,
+      "rawSha256": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "bytes": 49456,
+      "rawSha256": "a50efb2f18497161982201a82b867cb17e61f3f598c2aa241c6ed0bdde85b491"
+    }
+  ],
+  "formalVerificationRun": false,
+  "installedRuntimeChanged": false
+}

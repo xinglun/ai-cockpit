@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "count": 26,
+  "records": [
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/agent.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/agent.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/cli.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/cli.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/core.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/core.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/evidence.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/evidence.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/git.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/git.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/interface.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/interface.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/isolation.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/isolation.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/knowledge.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/knowledge.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/mcp.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/mcp.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/protocol.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/protocol.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/release.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/release.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/repository.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/repository.out.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/verification.err.log",
+      "nativeCaptureByteMatch": true
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/streams/verification.out.log",
+      "nativeCaptureByteMatch": true
+    }
+  ]
+}

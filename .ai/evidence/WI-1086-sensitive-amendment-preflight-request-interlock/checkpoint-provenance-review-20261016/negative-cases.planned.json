@@ -1,0 +1,94 @@
+{
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "sourceHead": "8ea965d8b21cc908f3cca3941af411807105808c",
+  "currentEvidenceHead": "592a1a8db67fc9f966e46396321eae028885664a",
+  "cases": [
+    {
+      "id": "P01",
+      "mutation": "Remove before_edit.contractHash and latest revalidation.originalBeforeEditContractHash together",
+      "expected": "CLI/MCP preflight rejected; no Summary/Contract/journal/decision receipt write",
+      "staticPrediction": "serde_json missing keys both evaluate to Null; equality alone is true",
+      "status": "not_run",
+      "evidenceLevel": "static_source_review_only",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "requiredControls": [
+        "positive untouched native fixture remains allowed",
+        "same-Contract valid approval reuse remains intact",
+        "existing original assertions unchanged"
+      ]
+    },
+    {
+      "id": "P02",
+      "mutation": "Replace both source hashes with the same well-formed but foreign sha256 digest",
+      "expected": "Reject despite syntactic digest validity; bind before_edit source to authentic native history",
+      "staticPrediction": "Equal forged Value objects satisfy the current equality with no root binding",
+      "status": "not_run",
+      "evidenceLevel": "static_source_review_only",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "requiredControls": [
+        "positive untouched native fixture remains allowed",
+        "same-Contract valid approval reuse remains intact",
+        "existing original assertions unchanged"
+      ]
+    },
+    {
+      "id": "P03",
+      "mutation": "Replace both source hashes with the same malformed non-digest string",
+      "expected": "Reject malformed source; no writes",
+      "staticPrediction": "Equal strings satisfy current source-hash comparison",
+      "status": "not_run",
+      "evidenceLevel": "static_source_review_only",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "requiredControls": [
+        "positive untouched native fixture remains allowed",
+        "same-Contract valid approval reuse remains intact",
+        "existing original assertions unchanged"
+      ]
+    },
+    {
+      "id": "C00",
+      "mutation": "After real checkpointed sensitive amend set Summary.checkpointCount=0 and force material_projection_unavailable via a real fixture condition",
+      "expected": "No run_preflight from material fallback; CLI/MCP reject and preserve all bytes",
+      "staticPrediction": "Strict helper returns false, but fallback removal is conditioned on count==1",
+      "status": "not_run",
+      "evidenceLevel": "static_source_review_only",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "requiredControls": [
+        "positive untouched native fixture remains allowed",
+        "same-Contract valid approval reuse remains intact",
+        "existing original assertions unchanged"
+      ]
+    },
+    {
+      "id": "C02",
+      "mutation": "Same real checkpointed sensitive amend; set checkpointCount=2 with material projection unavailable",
+      "expected": "Same denial and no-write property",
+      "staticPrediction": "Same count==1-only fallback-removal gap",
+      "status": "not_run",
+      "evidenceLevel": "static_source_review_only",
+      "adapters": [
+        "CLI",
+        "MCP"
+      ],
+      "requiredControls": [
+        "positive untouched native fixture remains allowed",
+        "same-Contract valid approval reuse remains intact",
+        "existing original assertions unchanged"
+      ]
+    }
+  ],
+  "executionBlockedBy": "Current Runtime needs actual human decision for amended Contract e7245a06...; no new build until capacity decision",
+  "realRedClaimed": false
+}

@@ -1,0 +1,182 @@
+diff --git a/crates/cockpit-cli/tests/contract_amendment_processes.rs b/crates/cockpit-cli/tests/contract_amendment_processes.rs
+index fd4a68a9..d55f05ef 100644
+--- a/crates/cockpit-cli/tests/contract_amendment_processes.rs
++++ b/crates/cockpit-cli/tests/contract_amendment_processes.rs
+@@ -1342,3 +1342,137 @@ fn interlocked_request_covers_each_eligible_nonterminal_phase() {
+         );
+     }
+ }
++
++fn assert_checkpoint_provenance_rejected(case: &str, use_mcp: bool) {
++    let root = amended_request_fixture(true);
++    let repo = root.path().to_str().expect("repository path");
++    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
++    let summary_path = root.path().join(format!(
++        ".ai/work-items/active/{WORK_ITEM_ID}.summary.json"
++    ));
++    let contract_path = root.path().join(&relative);
++    let decision_path = root.path().join(format!(
++        ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
++    ));
++    let material_fallback = case.starts_with("count_");
++    if material_fallback {
++        // A real non-ancestor HEAD makes committed-material projection
++        // unavailable. Keep the declared base and the native journal intact.
++        git(root.path(), &["checkout", "--orphan", "material-unavailable"]);
++        git(root.path(), &["add", "README.md"]);
++        git(root.path(), &["commit", "-qm", "isolated non-ancestor material HEAD"]);
++    }
++    let read_status = || {
++        let result = run_cli(&[
++            "work-item", "status", "--repo", repo, "--id", WORK_ITEM_ID, "--json",
++        ]);
++        assert_success(&result, "checkpoint provenance status");
++        serde_json::from_slice::<Value>(&result.stdout).expect("status JSON")
++    };
++    let control = read_status();
++    assert!(
++        control["safeActions"].as_array().expect("actions").contains(&json!("run_preflight")),
++        "untampered native checkpoint must admit review-request generation: {control}"
++    );
++    if material_fallback {
++        assert!(
++            control["blockers"].as_array().expect("blockers").contains(&json!("material_review_projection_unavailable")),
++            "the real material fallback must be active: {control}"
++        );
++    }
++    let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
++        .expect("Summary JSON");
++    match case {
++        "missing" | "forged_digest" | "malformed" => {
++            let value = match case {
++                "forged_digest" => Some(json!(Digest::sha256_bytes(b"same forged checkpoint source"))),
++                "malformed" => Some(json!("not-a-contract-digest")),
++                _ => None,
++            };
++            for (stage, field) in [
++                ("before_edit", "contractHash"),
++                ("contract_amendment_revalidation", "originalBeforeEditContractHash"),
++            ] {
++                let record = summary["checkpointEvidence"].as_array_mut().expect("checkpoints")
++                    .iter_mut().rfind(|r| r["stage"] == stage).expect("source checkpoint");
++                if let Some(value) = &value {
++                    assert_ne!(&record[field], value, "the forged source must differ from native history");
++                    record[field] = value.clone();
++                } else {
++                    record.as_object_mut().expect("checkpoint object").remove(field);
++                }
++            }
++        }
++        "count_zero" => summary["checkpointCount"] = json!(0),
++        "count_two" => summary["checkpointCount"] = json!(2),
++        _ => panic!("unknown checkpoint provenance case"),
++    }
++    fs::write(&summary_path, serde_json::to_vec(&summary).expect("Summary JSON"))
++        .expect("isolated Summary tamper");
++    let before_summary = fs::read(&summary_path).expect("before Summary");
++    let before_contract = fs::read(&contract_path).expect("before Contract");
++    let before_history = amendment_history_bytes(root.path());
++    let before_decision = fs::read(&decision_path).ok();
++    let status = read_status();
++    let (rejected, response) = if use_mcp {
++        let response = mcp_call(root.path(), &candidate_runtime(), "preflight", json!({"contract":relative}));
++        (response.pointer("/result/isError") == Some(&json!(true)), response.to_string())
++    } else {
++        let response = run_cli(&["preflight", "--repo", repo, "--contract", &relative]);
++        (!response.status.success(), String::from_utf8_lossy(&response.stdout).into_owned())
++    };
++    assert!(
++        rejected,
++        "{case} transport={} must reject request generation; status={status}; response={response}",
++        if use_mcp { "MCP" } else { "CLI" }
++    );
++    assert!(
++        !status["safeActions"].as_array().expect("actions").contains(&json!("run_preflight")),
++        "{case} must not regain preflight through material fallback: {status}"
++    );
++    assert_eq!(fs::read(&summary_path).expect("after Summary"), before_summary, "{case}");
++    assert_eq!(fs::read(&contract_path).expect("after Contract"), before_contract, "{case}");
++    assert_eq!(amendment_history_bytes(root.path()), before_history, "{case}");
++    assert_eq!(fs::read(&decision_path).ok(), before_decision, "{case}");
++}
++
++#[test]
++fn checkpoint_source_pair_missing_is_rejected_by_cli() {
++    assert_checkpoint_provenance_rejected("missing", false);
++}
++#[test]
++fn checkpoint_source_pair_missing_is_rejected_by_mcp() {
++    assert_checkpoint_provenance_rejected("missing", true);
++}
++#[test]
++fn checkpoint_source_pair_forged_digest_is_rejected_by_cli() {
++    assert_checkpoint_provenance_rejected("forged_digest", false);
++}
++#[test]
++fn checkpoint_source_pair_forged_digest_is_rejected_by_mcp() {
++    assert_checkpoint_provenance_rejected("forged_digest", true);
++}
++#[test]
++fn checkpoint_source_pair_malformed_is_rejected_by_cli() {
++    assert_checkpoint_provenance_rejected("malformed", false);
++}
++#[test]
++fn checkpoint_source_pair_malformed_is_rejected_by_mcp() {
++    assert_checkpoint_provenance_rejected("malformed", true);
++}
++#[test]
++fn checkpoint_count_zero_material_fallback_is_rejected_by_cli() {
++    assert_checkpoint_provenance_rejected("count_zero", false);
++}
++#[test]
++fn checkpoint_count_zero_material_fallback_is_rejected_by_mcp() {
++    assert_checkpoint_provenance_rejected("count_zero", true);
++}
++#[test]
++fn checkpoint_count_two_material_fallback_is_rejected_by_cli() {
++    assert_checkpoint_provenance_rejected("count_two", false);
++}
++#[test]
++fn checkpoint_count_two_material_fallback_is_rejected_by_mcp() {
++    assert_checkpoint_provenance_rejected("count_two", true);
++}
+diff --git a/crates/cockpit-cli/tests/scope_amendment.rs b/crates/cockpit-cli/tests/scope_amendment.rs
+index b5c00818..64df05b8 100644
+--- a/crates/cockpit-cli/tests/scope_amendment.rs
++++ b/crates/cockpit-cli/tests/scope_amendment.rs
+@@ -216,6 +216,13 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
+     let contract_path = root.join(&contract);
+     let amended_bytes = fs::read(&contract_path).expect("amended Contract");
+ 
++    let pending_preflight = invoke(&["preflight", "--contract", &contract]);
++    assert!(
++        pending_preflight.status.success(),
++        "{}",
++        String::from_utf8_lossy(&pending_preflight.stderr)
++    );
++
+     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+     let summary: serde_json::Value =
+         serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))
+diff --git a/crates/cockpit-repository/tests/lifecycle_entry.rs b/crates/cockpit-repository/tests/lifecycle_entry.rs
+index d50ffa85..3a3b3052 100644
+--- a/crates/cockpit-repository/tests/lifecycle_entry.rs
++++ b/crates/cockpit-repository/tests/lifecycle_entry.rs
+@@ -1638,6 +1638,8 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
+         "invalidate the prior required check after it was recorded",
+     )
+     .expect("amend after verification");
++    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
++        .expect("current amended review request");
+     record_human_preflight_review(directory.path(), work_item_id);
+     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+         .expect("current preflight after amendment");
+@@ -2932,6 +2934,8 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
+         "add an authorized scope without any required verification gates",
+     )
+     .expect("amend Contract");
++    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
++        .expect("amended review request");
+     record_human_preflight_review(directory.path(), work_item_id);
+     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+         .expect("amended preflight");

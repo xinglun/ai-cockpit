@@ -1,0 +1,43 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-verification",
+    "--test",
+    "composition",
+    "retry_reconciles_an_interrupted_owner_after_process_exit",
+    "--",
+    "--exact",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T01:27:51.733271+00:00",
+  "elapsedSeconds": 2.221,
+  "timeoutSeconds": 900,
+  "timedOut": false,
+  "exitCode": 0,
+  "sourceHead": "8ea965d8b21cc908f3cca3941af411807105808c",
+  "testFileRawSha256": "a50efb2f18497161982201a82b867cb17e61f3f598c2aa241c6ed0bdde85b491",
+  "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01); cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "environmentOverrides": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "binaryRawSha256": "156d7e19dc24eb4d6c870d2c59d0975646ff70d78d1e560946a6453430bf0272",
+  "ownedDescendantsReaped": [
+    {
+      "pid": 714627,
+      "waitStatus": 0
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "observedAt": "2026-10-16T02:49:09.275582+00:00",
+  "scope": "read-only discovery plus new WI-1086 evidence plan only",
+  "readCommands": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "3609f24cb854f359fe127d1cb218e6e368bccffc\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--name-only",
+        "2a5910e967585c3589af382d29143f1b50b0a2c1",
+        "HEAD",
+        "--",
+        "crates",
+        "Cargo.toml",
+        "Cargo.lock",
+        ".github",
+        "tests"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v1"
+      ],
+      "exitCode": 0,
+      "stdout": "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/complete-verification-ci-plan-20261016/\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/.cargo/bin/rustc",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "rustc 1.98.1 (48a229cea 2026-09-01)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/.cargo/bin/cargo",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "cargo 1.98.1 (797e8a9bc 2026-08-05)\n",
+      "stderr": ""
+    }
+  ],
+  "preservedFileObservations": [
+    {
+      "path": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/.ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json",
+      "rawSha256": "87e52ef2eb1553fda0f2174fd2f1e7b8cc3358de96015e0be79f127185401442",
+      "bytes": 11531
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/.ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review.json",
+      "rawSha256": "664563196a6d5359192b953ebdf77e841f7ec59c421f1ec36041d5d009855439",
+      "bytes": 1058
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.3469bd4b3664e817ac4f86a4e4ba892f7c12083ab397e19ad1eb40e30fe9603e.json",
+      "rawSha256": "d83bb2da7b87d3b9730a132f7f5c9585c3012845c8ec8daed1bf272978cf72d5",
+      "bytes": 639684
+    },
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "rawSha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916",
+      "bytes": 5488
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "rawSha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5",
+      "bytes": 388828
+    },
+    {
+      "path": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+      "rawSha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+      "bytes": 52094536
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+      "rawSha256": "3da828ca22763d620f2b3d4e7121f9400bb02854bbdd1b1bb1f6f3ff0868688b",
+      "bytes": 52132416
+    }
+  ],
+  "boundedPlanEnvironmentOverrides": {
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "queryRunnerEnvironmentOverrides": "read-only-query-runner.py.txt contains additional exact overrides",
+  "fullVerificationExecuted": false,
+  "buildExecuted": false,
+  "ciTriggered": false,
+  "cleanupExecuted": false,
+  "policyReviewRecordedThisStage": false,
+  "capacityProposal": {
+    "minimumStartAvailableBytes": 1073741824,
+    "stopAvailableBytes": 536870912,
+    "reservedEvidenceBytes": 67108864,
+    "status": "not_met; proposal for Raydot technical review, not a new Contract assertion"
+  }
+}

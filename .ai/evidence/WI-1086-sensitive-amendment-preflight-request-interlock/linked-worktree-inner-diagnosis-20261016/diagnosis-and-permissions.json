@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "kind": "single_exact_test_environment_repair",
+  "recordedAt": "2026-10-16T06:00:33.041745+00:00",
+  "sourceHeadAtExecution": "fc5d0759d05f6ff79593ac9a970291b983bc8c0d",
+  "confirmedInnerError": "failed to create directory /home/agent/.cache/ai-cockpit-verify-target: Read-only file system (os error 30)",
+  "cacheDirectoryPreparation": {
+    "cmd": "mkdir -p -- /home/agent/.cache/ai-cockpit-verify-target",
+    "additionalPermissions": {
+      "file_system": {
+        "write": [
+          "/home/agent/.cache"
+        ]
+      }
+    },
+    "exitCode": 0,
+    "observedMode": "0700",
+    "observedOwner": "agent",
+    "systemSettingsChanged": false,
+    "HOMEChanged": false
+  },
+  "sourceOrTestAssertionsChanged": false,
+  "fullWorkspaceExecuted": false,
+  "rows": [
+    {
+      "caseId": "07-exact-strace",
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.3c68c71edcc32107f63dd0de085c48651e3afd28f3406ed68f3f171d40173918.json",
+          "attemptId": "sha256:3c68c71edcc32107f63dd0de085c48651e3afd28f3406ed68f3f171d40173918",
+          "state": "execution_failed",
+          "passed": false,
+          "processesSpawned": 1,
+          "diagnostic": {
+            "code": "verification_execution",
+            "message": "one or more verification nodes failed"
+          },
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": false,
+              "exitCode": 101,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "launchExitCode": 1,
+      "beforeZombieCount": 1404,
+      "afterZombieCount": 1404,
+      "processObservationErrors": {
+        "before": [],
+        "after": []
+      },
+      "newZombies": [],
+      "remainingSessionProcesses": [],
+      "logFiles": {
+        "cargo.stderr.log": {
+          "bytes": 1314,
+          "sha256": "1d885e7ebc29313ba2c4bfeefeb226731b3dbccd143e3b12e13a4573685e876f"
+        },
+        "native-tini.stdout.log": {
+          "bytes": 5622,
+          "sha256": "de69df9ae2ba122394e253199f123a733f0948e0d2f14bc6290c92462a916f9a"
+        },
+        "admission.stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "inner-write-syscalls.log": {
+          "bytes": 52205,
+          "sha256": "9ac0fa154e85847bb20ba645e06e574fae797616ba1e7d3f248bfb3aefd5ede3"
+        },
+        "cargo.stdout.log": {
+          "bytes": 295,
+          "sha256": "52cee3ac3232f0013eec1f304222c743e96717863d6ca46c793a396379a5ec79"
+        },
+        "native-tini.stderr.log": {
+          "bytes": 391,
+          "sha256": "d1141fbcef47f4136b42fc97dea9c65985c6b8e2962ee1bd38cb44e03755895e"
+        }
+      }
+    },
+    {
+      "caseId": "08-exact-cache-write",
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.758e33a450b7cee6ade85b7c980ec80fa6fa505b00e54a148e601bea47009fe5.json",
+          "attemptId": "sha256:758e33a450b7cee6ade85b7c980ec80fa6fa505b00e54a148e601bea47009fe5",
+          "state": "execution_failed",
+          "passed": false,
+          "processesSpawned": 1,
+          "diagnostic": {
+            "code": "verification_execution",
+            "message": "one or more verification nodes failed"
+          },
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": false,
+              "exitCode": 101,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "launchExitCode": 1,
+      "beforeZombieCount": 1404,
+      "afterZombieCount": 1404,
+      "processObservationErrors": {
+        "before": [],
+        "after": []
+      },
+      "newZombies": [],
+      "remainingSessionProcesses": [],
+      "logFiles": {
+        "cargo.stderr.log": {
+          "bytes": 1314,
+          "sha256": "984b87ad997e80ffb598a1e034a2320fffd9909d3d55b07a3cd8dcd4ccd100e0"
+        },
+        "native-tini.stdout.log": {
+          "bytes": 5359,
+          "sha256": "7c5a62eb288a7ddbca3169b7f2430aaaf4dbeba75adcf4ac77441169d8e6e1c3"
+        },
+        "admission.stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "cargo.stdout.log": {
+          "bytes": 295,
+          "sha256": "468f8671c5cf2777294367383864c41fdbb1c3f3a6028218b78c6cb42534431e"
+        },
+        "native-tini.stderr.log": {
+          "bytes": 391,
+          "sha256": "dbc831dd4d4c91357e8560cca92eb0e79d1dd8395f0ef139b1d1e41724bd5818"
+        }
+      }
+    },
+    {
+      "caseId": "09-exact-cache-ready",
+      "attempts": [
+        {
+          "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.ea4afe64d2fcfd7914dd3224144da09337df6d6bde57d6cfad6244888b7b7ccc.json",
+          "attemptId": "sha256:ea4afe64d2fcfd7914dd3224144da09337df6d6bde57d6cfad6244888b7b7ccc",
+          "state": "execution_completed",
+          "passed": true,
+          "processesSpawned": 1,
+          "diagnostic": null,
+          "records": [
+            {
+              "nodeId": "project-command-0",
+              "spawned": true,
+              "passed": true,
+              "exitCode": 0,
+              "timedOut": false,
+              "stdoutTruncated": false,
+              "stderrTruncated": false
+            }
+          ]
+        }
+      ],
+      "launchExitCode": 0,
+      "beforeZombieCount": 1404,
+      "afterZombieCount": 1404,
+      "processObservationErrors": {
+        "before": [],
+        "after": []
+      },
+      "newZombies": [],
+      "remainingSessionProcesses": [],
+      "logFiles": {
+        "cargo.stderr.log": {
+          "bytes": 229,
+          "sha256": "bbe3adacaf31179e752478439eb9fd820ab217e251f031fde9254d04e84a8d74"
+        },
+        "native-tini.stdout.log": {
+          "bytes": 5676,
+          "sha256": "d43241b52d516a3a9ac27d2b275c75abc3eb073cfdca607dd04fcce32ce20632"
+        },
+        "admission.stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "inner-write-syscalls.log": {
+          "bytes": 147092,
+          "sha256": "0f26d74f6f8f1e74c99192f95eba330c96c6bdd4c2a5a3c4e525bab8b1a1704e"
+        },
+        "cargo.stdout.log": {
+          "bytes": 193,
+          "sha256": "d253a4a94c31d33b189f020ff891a4e2f3a310a06724eaf05ea734f7764af24e"
+        },
+        "native-tini.stderr.log": {
+          "bytes": 282,
+          "sha256": "fa367263f7d96bad6be9c09858de7897ec1c380ab03476200ee49f69fb065f39"
+        }
+      }
+    }
+  ]
+}

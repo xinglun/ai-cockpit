@@ -1,0 +1,19 @@
+Inspect or mutate the candidate-only cross-Work-Item coordination store
+
+Usage: ai-cockpit work-item coordination <COMMAND>
+
+Commands:
+  inspect                   
+  register                  
+  report-impact             
+  publish-outcome           
+  request-pause             
+  acknowledge               
+  resume                    
+  recover                   
+  check-environment-drift   Check for unrecorded Runtime-observed environment drift without writing
+  record-environment-drift  Persist Runtime-observed environment drift before a dependent action
+  help                      Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help  Print help

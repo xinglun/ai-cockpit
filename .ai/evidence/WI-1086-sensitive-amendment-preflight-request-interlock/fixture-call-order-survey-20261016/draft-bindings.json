@@ -1,0 +1,16 @@
+{
+  "recordedAt": "2026-10-16T03:57:29.237066+00:00",
+  "sourceHead": "7e256abcd4bfd7748db28053876d52f20b104127",
+  "currentContractDigest": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+  "currentContractRawSha256": "87e52ef2eb1553fda0f2174fd2f1e7b8cc3358de96015e0be79f127185401442",
+  "repositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+  "draftRequestSha256": "e737071c8f02f6f4461a6a9267ff99ca9b3835fbfeb65f1e69f7aca09b38cd4e",
+  "proposedSourceFileSha256": "54cc775080774c8a25cfaf4db67595e38c7c3cfe4a1e42ad10f8f3156cb9c7e4",
+  "unappliedPatchSha256": "f979746ca6bd89d541918665293c970ad101cc920bcb48c91d666b02fcad9a63",
+  "onlyProposedScopeAddition": "crates/cockpit-repository/tests/recovery_decision.rs",
+  "onlyBoundaryDelta": "append the same path to implementationPaths; all other fields retained exactly",
+  "notApplied": true,
+  "newContractOrPreflightDigestNotGenerated": true,
+  "noHumanDecisionRecorded": true,
+  "hostRecoveryHoldStillApplies": true
+}

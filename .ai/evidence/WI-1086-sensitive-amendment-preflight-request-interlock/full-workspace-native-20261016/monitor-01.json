@@ -1,0 +1,26 @@
+{
+  "observedAt": "2026-10-16T06:05:51.635859+00:00",
+  "newZombies": [],
+  "readErrors": [
+    {
+      "pid": 290833,
+      "error": "[Errno 2] No such file or directory: '/proc/290833/stat'",
+      "errno": 2,
+      "entryStillExists": false
+    }
+  ],
+  "newPid1Zombies": [],
+  "tiniRegisteredLogVisible": true,
+  "tiniFatal": false,
+  "progress": [
+    "Verification progress: started node \"project-command-0-package-cockpit-agent\" (0/13 complete, 0%)",
+    "Verification progress: completed node \"project-command-0-package-cockpit-agent\": passed (1/13 complete, 7%)",
+    "Verification progress: started node \"project-command-0-package-cockpit-cli\" (1/13 complete, 7%)"
+  ],
+  "lastStderrLines": [
+    "[WARN  tini (283014)] Reaped zombie process with pid=287511",
+    "[WARN  tini (283014)] Reaped zombie process with pid=287783",
+    "[WARN  tini (283014)] Reaped zombie process with pid=288126",
+    "[WARN  tini (283014)] Reaped zombie process with pid=288399"
+  ]
+}

@@ -1,0 +1,18 @@
+
+running 5 tests
+test foreign_recorded_preflight_contract_rejects_review_without_writes ... FAILED
+test missing_recorded_preflight_state_rejects_review_without_writes ... FAILED
+test not_run_recorded_preflight_state_rejects_review_without_writes ... FAILED
+test unknown_recorded_preflight_state_rejects_review_without_writes ... FAILED
+test valid_recorded_preflight_states_preserve_same_contract_approval ... ok
+
+failures:
+
+failures:
+    foreign_recorded_preflight_contract_rejects_review_without_writes
+    missing_recorded_preflight_state_rejects_review_without_writes
+    not_run_recorded_preflight_state_rejects_review_without_writes
+    unknown_recorded_preflight_state_rejects_review_without_writes
+
+test result: FAILED. 1 passed; 4 failed; 0 ignored; 0 measured; 7 filtered out; finished in 3.55s
+

@@ -1,0 +1,47 @@
+{
+  "command": [
+    "cargo",
+    "fmt",
+    "--all"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T02:18:15.040897+00:00",
+  "diskGuard": {
+    "minimumFreeBytes": 682844160,
+    "stopThresholdBytes": 268435456,
+    "triggered": false,
+    "initialFreeBytes": 682852352,
+    "finalFreeBytes": 682844160
+  },
+  "sourceDiffRawSha256": "8a52b5d040d19f0fe0742411b4bd74a88d2ab53fa47989bad6912a6cbbfaa6a6",
+  "sourceFileRawSha256": {
+    "crates/cockpit-repository/src/contract_amendment.rs": "a7863aa0b6dcd67ed1d9c7405e1547e167024d711a33c3e8ff248346cce601e5",
+    "crates/cockpit-repository/src/status_projection.rs": "6ab6bf4a75437f48adf66b001945d05e53fc3c73780da44ebb33bb54753c4920",
+    "crates/cockpit-repository/src/lib.rs": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a",
+    "crates/cockpit-repository/src/governance_controls.rs": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+    "crates/cockpit-cli/tests/scope_amendment.rs": "0fffdf6f8822f0ced3dab708192b58bd70c885ab3ea736ba719e379232904cb5",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5"
+  },
+  "elapsedSeconds": 1.875,
+  "timeoutSeconds": 900,
+  "timedOut": false,
+  "exitCode": 0,
+  "sourceHead": "0069033a46afeab1374107cc9bce079b51c24151",
+  "testFileRawSha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+  "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01); cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "environmentOverrides": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "binaryRawSha256": "156d7e19dc24eb4d6c870d2c59d0975646ff70d78d1e560946a6453430bf0272",
+  "ownedDescendantsReaped": []
+}

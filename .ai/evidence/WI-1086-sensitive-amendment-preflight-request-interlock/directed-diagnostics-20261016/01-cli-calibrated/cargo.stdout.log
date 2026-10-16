@@ -1,0 +1,55 @@
+
+running 1 test
+test calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:c0b830d8eba1536ff4a5c2b393ea3e078add98a8b10187de19976c7ab6115b3f",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:85be72882af9988c5ee44f602646e1592530388576402343eb7ead14ddab1d40",
+  "tests": [],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+{
+  "profileVersion": 2,
+  "repositoryId": "sha256:c0b830d8eba1536ff4a5c2b393ea3e078add98a8b10187de19976c7ab6115b3f",
+  "repositorySchemaVersion": 2,
+  "state": "calibrated",
+  "profileDigest": "sha256:5a2062f97df77b00a2e7ac53c22088a60d2be4f0b4d46161800045b755f8a1fb",
+  "tests": [
+    {
+      "program": "npm",
+      "args": [
+        "test"
+      ],
+      "state": "verified"
+    }
+  ],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+{
+  "profileVersion": 3,
+  "repositoryId": "sha256:c0b830d8eba1536ff4a5c2b393ea3e078add98a8b10187de19976c7ab6115b3f",
+  "repositorySchemaVersion": 2,
+  "state": "calibrated",
+  "profileDigest": "sha256:d04d022cbe59b419ad283466a1b34b16d3981cb6b21af6c2e03f723f06de5e18",
+  "tests": [
+    {
+      "program": "npm",
+      "args": [
+        "test"
+      ],
+      "state": "verified"
+    }
+  ],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 18 filtered out; finished in 4.54s
+

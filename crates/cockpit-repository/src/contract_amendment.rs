@@ -943,6 +943,126 @@ pub(crate) fn has_sensitive_amendment(
         .any(|receipt| receipt.policy_review_required))
 }
 
+/// Validate the native amendment and its current invalidation projection
+/// before admitting only the operation that generates a review request.
+pub(crate) fn current_amendment_review_request_available(
+    root: &Path,
+    work_item_id: &str,
+    current_contract_digest: &Digest,
+    summary: &Value,
+    lifecycle_phase: &str,
+) -> Result<bool, ObserverError> {
+    if !matches!(
+        lifecycle_phase,
+        "implementation_active" | "checkpointed" | "finish_ready"
+    ) {
+        return Ok(false);
+    }
+    let identity = super::repository_id(root).to_string();
+    let contract_path = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    if !super::is_regular_non_symlink(&contract_path)? {
+        return Ok(false);
+    }
+    let contract = super::read_json(&contract_path)?;
+    if contract["repositoryId"].as_str() != Some(identity.as_str())
+        || contract["workItemId"].as_str() != Some(work_item_id)
+        || summary["repositoryId"].as_str() != Some(identity.as_str())
+        || summary["workItemId"].as_str() != Some(work_item_id)
+        || record_digest(&contract, &contract_path)? != *current_contract_digest
+    {
+        return Err(state_error(
+            &contract_path,
+            "amendment review request identity or current Contract mismatch",
+        ));
+    }
+    // This reader verifies the complete prepared/committed chain, typed
+    // request derivation, identities and digests, and rejects pending work.
+    let history = read_work_item_contract_amendments(root, work_item_id)?;
+    let Some(tail) = history.last() else {
+        return Ok(false);
+    };
+    if history
+        .windows(2)
+        .any(|pair| pair[1].previous_contract_digest != pair[0].new_contract_digest)
+    {
+        return Err(state_error(
+            &contract_path,
+            "amendment Contract transition chain is discontinuous",
+        ));
+    }
+    if tail.new_contract_digest != *current_contract_digest
+        || !history.iter().any(|receipt| receipt.policy_review_required)
+        || !tail.checkpointed
+        || summary["checkpointCount"] != json!(1)
+        || !matches!(
+            summary["preflightState"].as_str(),
+            Some("not_run" | "green" | "yellow" | "red")
+        )
+        || super::governance_controls::preflight_decision_evidence_state(
+            root,
+            work_item_id,
+            current_contract_digest,
+        ) == super::governance_controls::PreflightDecisionEvidenceState::Valid
+    {
+        return Ok(false);
+    }
+    // The first native transition after checkpoint is the immutable source
+    // of before_edit. Comparing two Summary fields alone accepts both null
+    // values or the same forged digest, and the latest transition may refer
+    // to a later Contract after multiple amendments.
+    let Some(original_checkpoint_contract) = history
+        .iter()
+        .find(|receipt| receipt.checkpointed)
+        .map(|receipt| &receipt.previous_contract_digest)
+    else {
+        return Ok(false);
+    };
+    let digest = current_contract_digest.to_string();
+    let invalidation = &summary["verificationInvalidatedByContractAmendment"];
+    let checks = json!(tail.invalidated_required_checks);
+    if invalidation["contractHash"].as_str() != Some(digest.as_str())
+        || invalidation["invalidatedRequiredChecks"] != checks
+    {
+        return Ok(false);
+    }
+    let Some(checkpoints) = summary["checkpointEvidence"].as_array() else {
+        return Ok(false);
+    };
+    let Some(before_edit) = checkpoints
+        .iter()
+        .find(|record| record["stage"] == "before_edit")
+    else {
+        return Ok(false);
+    };
+    let Some(revalidation) = checkpoints
+        .iter()
+        .rfind(|record| record["stage"] == "contract_amendment_revalidation")
+    else {
+        return Ok(false);
+    };
+    for record in [before_edit, revalidation] {
+        if record["schemaVersion"] != json!(1)
+            || record["recorded"] != json!(true)
+            || record["repositoryId"].as_str() != Some(identity.as_str())
+            || record["workItemId"].as_str() != Some(work_item_id)
+        {
+            return Ok(false);
+        }
+    }
+    Ok(
+        revalidation["contractHash"].as_str() == Some(digest.as_str())
+            && revalidation["previousContractHash"] == json!(tail.previous_contract_digest)
+            && before_edit["contractHash"] == json!(original_checkpoint_contract)
+            && revalidation["originalBeforeEditContractHash"]
+                == json!(original_checkpoint_contract)
+            && revalidation["repositorySnapshotDigest"] == json!(tail.repository_snapshot_digest)
+            && revalidation["invalidatedRequiredChecks"] == checks
+            && revalidation["verificationStarted"] == json!(tail.verification_started),
+    )
+}
+
 fn policy_review_requirements(
     request: &ContractAmendmentRequest,
 ) -> Result<Vec<String>, ObserverError> {
@@ -1387,6 +1507,121 @@ mod tests {
 
     fn read_json(path: impl AsRef<Path>) -> Value {
         serde_json::from_slice(&fs::read(path).expect("read JSON file")).expect("valid JSON")
+    }
+
+    #[test]
+    fn request_binding_rejects_a_rehashed_discontinuous_contract_chain() {
+        let directory = repository();
+        let root = directory.path();
+        let id = "WI-REVIEW-CONTRACT-CHAIN";
+        let contract = start_checkpointed(root, id);
+        for path in ["first/**", "second/**"] {
+            amend_work_item_contract(root, id, &json!({"scopeAppend":[path]}), path)
+                .expect("native amendment");
+        }
+        let native_summary =
+            read_json(root.join(format!(".ai/work-items/active/{id}.summary.json")));
+        let native_digest = crate::contract_digest(&contract).expect("current native digest");
+        let native_history = read_work_item_contract_amendments(root, id).expect("native history");
+        assert_ne!(
+            native_history[0].previous_contract_digest,
+            native_history[1].previous_contract_digest
+        );
+        assert!(
+            super::current_amendment_review_request_available(
+                root,
+                id,
+                &native_digest,
+                &native_summary,
+                "checkpointed"
+            )
+            .expect("two consecutive native amendments remain eligible")
+        );
+        let prepared_path = super::amendment_record_path(root, id, 1, "prepared");
+        let committed_path = super::amendment_record_path(root, id, 1, "committed");
+        let mut prepared: super::PreparedRecord =
+            super::read_typed_record(&prepared_path).expect("prepared");
+        let mut committed: super::CommittedRecord =
+            super::read_typed_record(&committed_path).expect("committed");
+        // Preserve all per-record hashes and journal links while forking the
+        // first Contract transition away from the second one's predecessor.
+        prepared.prepared.request.changes[0].value = Some(json!("fork/**"));
+        let derived = super::apply_typed_amendment(
+            &prepared.prepared.previous_contract,
+            &prepared.prepared.request,
+        )
+        .expect("typed fork");
+        prepared.prepared.new_contract =
+            super::apply_runtime_capability_requirements(derived).expect("capabilities");
+        prepared.prepared.request_digest =
+            super::record_digest(&prepared.prepared.request, &prepared_path)
+                .expect("request digest");
+        prepared.prepared.new_contract_digest =
+            super::record_digest(&prepared.prepared.new_contract, &prepared_path)
+                .expect("Contract digest");
+        prepared.prepared_digest =
+            super::record_digest(&prepared.prepared, &prepared_path).expect("prepared digest");
+        committed.prepared_digest = prepared.prepared_digest.clone();
+        committed.receipt.request_digest = prepared.prepared.request_digest.clone();
+        committed.receipt.new_contract_digest = prepared.prepared.new_contract_digest.clone();
+        committed.receipt.changed_values = super::changed_values(
+            &prepared.prepared.previous_contract,
+            &prepared.prepared.new_contract,
+            &prepared.prepared.request,
+        )
+        .expect("changed values");
+        committed.receipt.journal_digest =
+            super::journal_digest(&committed.receipt).expect("first journal digest");
+        fs::write(
+            &prepared_path,
+            serde_json::to_vec(&prepared).expect("prepared JSON"),
+        )
+        .expect("isolated fork");
+        fs::write(
+            &committed_path,
+            serde_json::to_vec(&committed).expect("committed JSON"),
+        )
+        .expect("isolated fork receipt");
+        let second_prepared_path = super::amendment_record_path(root, id, 2, "prepared");
+        let second_committed_path = super::amendment_record_path(root, id, 2, "committed");
+        let mut second: super::PreparedRecord =
+            super::read_typed_record(&second_prepared_path).expect("second prepared");
+        let mut second_commit: super::CommittedRecord =
+            super::read_typed_record(&second_committed_path).expect("second committed");
+        second.prepared.previous_journal_digest = committed.receipt.journal_digest.clone();
+        second.prepared_digest = super::record_digest(&second.prepared, &second_prepared_path)
+            .expect("second prepared digest");
+        second_commit.prepared_digest = second.prepared_digest.clone();
+        second_commit.receipt.previous_journal_digest = committed.receipt.journal_digest;
+        second_commit.receipt.journal_digest =
+            super::journal_digest(&second_commit.receipt).expect("second journal digest");
+        fs::write(
+            &second_prepared_path,
+            serde_json::to_vec(&second).expect("second prepared JSON"),
+        )
+        .expect("isolated link");
+        fs::write(
+            &second_committed_path,
+            serde_json::to_vec(&second_commit).expect("second receipt JSON"),
+        )
+        .expect("isolated linked receipt");
+        assert_eq!(
+            read_work_item_contract_amendments(root, id)
+                .expect("all native per-record and journal checks pass")
+                .len(),
+            2
+        );
+        let summary = read_json(root.join(format!(".ai/work-items/active/{id}.summary.json")));
+        let digest = crate::contract_digest(&contract).expect("current Contract digest");
+        let error = super::current_amendment_review_request_available(
+            root,
+            id,
+            &digest,
+            &summary,
+            "checkpointed",
+        )
+        .expect_err("Contract transition discontinuity must be refused");
+        assert!(error.to_string().contains("discontinuous"), "{error}");
     }
 
     #[test]

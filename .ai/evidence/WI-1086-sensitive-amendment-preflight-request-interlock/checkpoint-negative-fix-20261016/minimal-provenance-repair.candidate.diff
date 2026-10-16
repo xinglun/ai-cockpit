@@ -1,0 +1,168 @@
+diff --git a/crates/cockpit-cli/tests/scope_amendment.rs b/crates/cockpit-cli/tests/scope_amendment.rs
+index 64df05b8..d36796a2 100644
+--- a/crates/cockpit-cli/tests/scope_amendment.rs
++++ b/crates/cockpit-cli/tests/scope_amendment.rs
+@@ -216,11 +216,17 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
+     let contract_path = root.join(&contract);
+     let amended_bytes = fs::read(&contract_path).expect("amended Contract");
+ 
+-    let pending_preflight = invoke(&["preflight", "--contract", &contract]);
++    let refreshed = invoke(&["preflight", "--contract", &contract]);
+     assert!(
+-        pending_preflight.status.success(),
++        refreshed.status.success(),
+         "{}",
+-        String::from_utf8_lossy(&pending_preflight.stderr)
++        String::from_utf8_lossy(&refreshed.stderr)
++    );
++    let refreshed: serde_json::Value =
++        serde_json::from_slice(&refreshed.stdout).expect("fresh preflight");
++    assert_ne!(
++        refreshed["state"], "red",
++        "fresh preflight must admit the additive path"
+     );
+ 
+     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+@@ -283,18 +289,6 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
+         amended_bytes
+     );
+ 
+-    let refreshed = invoke(&["preflight", "--contract", &contract]);
+-    assert!(
+-        refreshed.status.success(),
+-        "{}",
+-        String::from_utf8_lossy(&refreshed.stderr)
+-    );
+-    let refreshed: serde_json::Value =
+-        serde_json::from_slice(&refreshed.stdout).expect("fresh preflight");
+-    assert_ne!(
+-        refreshed["state"], "red",
+-        "fresh preflight must admit the additive path"
+-    );
+     #[cfg(unix)]
+     let program = "sh";
+     #[cfg(windows)]
+diff --git a/crates/cockpit-repository/src/contract_amendment.rs b/crates/cockpit-repository/src/contract_amendment.rs
+index bdd2ccbf..2af3fe5d 100644
+--- a/crates/cockpit-repository/src/contract_amendment.rs
++++ b/crates/cockpit-repository/src/contract_amendment.rs
+@@ -1008,6 +1008,17 @@ pub(crate) fn current_amendment_review_request_available(
+     {
+         return Ok(false);
+     }
++    // The first native transition after checkpoint is the immutable source
++    // of before_edit. Comparing two Summary fields alone accepts both null
++    // values or the same forged digest, and the latest transition may refer
++    // to a later Contract after multiple amendments.
++    let Some(original_checkpoint_contract) = history
++        .iter()
++        .find(|receipt| receipt.checkpointed)
++        .map(|receipt| &receipt.previous_contract_digest)
++    else {
++        return Ok(false);
++    };
+     let digest = current_contract_digest.to_string();
+     let invalidation = &summary["verificationInvalidatedByContractAmendment"];
+     let checks = json!(tail.invalidated_required_checks);
+@@ -1043,7 +1054,9 @@ pub(crate) fn current_amendment_review_request_available(
+     Ok(
+         revalidation["contractHash"].as_str() == Some(digest.as_str())
+             && revalidation["previousContractHash"] == json!(tail.previous_contract_digest)
+-            && revalidation["originalBeforeEditContractHash"] == before_edit["contractHash"]
++            && before_edit["contractHash"] == json!(original_checkpoint_contract)
++            && revalidation["originalBeforeEditContractHash"]
++                == json!(original_checkpoint_contract)
+             && revalidation["repositorySnapshotDigest"] == json!(tail.repository_snapshot_digest)
+             && revalidation["invalidatedRequiredChecks"] == checks
+             && revalidation["verificationStarted"] == json!(tail.verification_started),
+@@ -1506,6 +1519,24 @@ mod tests {
+             amend_work_item_contract(root, id, &json!({"scopeAppend":[path]}), path)
+                 .expect("native amendment");
+         }
++        let native_summary =
++            read_json(root.join(format!(".ai/work-items/active/{id}.summary.json")));
++        let native_digest = crate::contract_digest(&contract).expect("current native digest");
++        let native_history = read_work_item_contract_amendments(root, id).expect("native history");
++        assert_ne!(
++            native_history[0].previous_contract_digest,
++            native_history[1].previous_contract_digest
++        );
++        assert!(
++            super::current_amendment_review_request_available(
++                root,
++                id,
++                &native_digest,
++                &native_summary,
++                "checkpointed"
++            )
++            .expect("two consecutive native amendments remain eligible")
++        );
+         let prepared_path = super::amendment_record_path(root, id, 1, "prepared");
+         let committed_path = super::amendment_record_path(root, id, 1, "committed");
+         let mut prepared: super::PreparedRecord =
+diff --git a/crates/cockpit-repository/src/status_projection.rs b/crates/cockpit-repository/src/status_projection.rs
+index fb85f17f..b89f1c8d 100644
+--- a/crates/cockpit-repository/src/status_projection.rs
++++ b/crates/cockpit-repository/src/status_projection.rs
+@@ -1474,8 +1474,18 @@ fn work_item_status_snapshot_with_snapshot(
+     if governance_state == "green" && !historical {
+         governance_permissions.push("review_evidence".into());
+     }
++    let amendment_history = if archived {
++        Vec::new()
++    } else {
++        super::contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?
++    };
++    let amendment_checkpointed = amendment_history
++        .last()
++        .is_some_and(|receipt| receipt.checkpointed);
+     let amendment_review_required = !archived
+-        && super::contract_amendment::has_sensitive_amendment(&root, work_item_id)?
++        && amendment_history
++            .iter()
++            .any(|receipt| receipt.policy_review_required)
+         && super::governance_controls::preflight_decision_evidence_state(
+             &root,
+             work_item_id,
+@@ -1714,10 +1724,7 @@ fn work_item_status_snapshot_with_snapshot(
+             safe_actions.insert(0, "run_preflight".into());
+         }
+     }
+-    if amendment_review_required
+-        && summary["checkpointCount"] == serde_json::json!(1)
+-        && !amendment_review_request_available
+-    {
++    if amendment_review_required && amendment_checkpointed && !amendment_review_request_available {
+         // A stale-preflight or unavailable-material fallback cannot replace
+         // validation of a post-checkpoint sensitive amendment's provenance.
+         safe_actions.retain(|action| action != "run_preflight");
+diff --git a/crates/cockpit-repository/tests/lifecycle_entry.rs b/crates/cockpit-repository/tests/lifecycle_entry.rs
+index 3a3b3052..a5e91c65 100644
+--- a/crates/cockpit-repository/tests/lifecycle_entry.rs
++++ b/crates/cockpit-repository/tests/lifecycle_entry.rs
+@@ -1638,11 +1638,9 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
+         "invalidate the prior required check after it was recorded",
+     )
+     .expect("amend after verification");
+-    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+-        .expect("current amended review request");
+-    record_human_preflight_review(directory.path(), work_item_id);
+     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+         .expect("current preflight after amendment");
++    record_human_preflight_review(directory.path(), work_item_id);
+     let replacement_snapshot = GitRepository::discover(directory.path())
+         .expect("git repository")
+         .snapshot()
+@@ -2934,11 +2932,9 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
+         "add an authorized scope without any required verification gates",
+     )
+     .expect("amend Contract");
+-    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+-        .expect("amended review request");
+-    record_human_preflight_review(directory.path(), work_item_id);
+     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+         .expect("amended preflight");
++    record_human_preflight_review(directory.path(), work_item_id);
+     let snapshot = GitRepository::discover(directory.path())
+         .expect("git repository")
+         .snapshot()

@@ -1,0 +1,5 @@
+{
+  "filesScanned": 18,
+  "signatureMatches": [],
+  "manualReview": "Only static source order/hashes, existing read-only Runtime projections, single-file draft and unapplied patch. No credentials observed. No host process command injection or new Runtime decision."
+}

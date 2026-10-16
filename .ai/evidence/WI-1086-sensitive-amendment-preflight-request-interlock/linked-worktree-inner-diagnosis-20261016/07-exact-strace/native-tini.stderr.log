@@ -1,0 +1,5 @@
+Verification progress: started node "project-command-0" (0/1 complete, 0%)
+[WARN  tini (279284)] Reaped zombie process with pid=279629
+[WARN  tini (279284)] Reaped zombie process with pid=279638
+Verification progress: completed node "project-command-0": failed (1/1 complete, 100%)
+verification command failed for project-command-0 (reuse_not_configured); structured failure receipt emitted

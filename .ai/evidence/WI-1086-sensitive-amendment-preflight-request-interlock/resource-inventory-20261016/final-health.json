@@ -1,0 +1,77 @@
+{
+  "observedAt": "2026-10-16T01:55:33.498160+00:00",
+  "pid1": "tail",
+  "zombiesByPpid": {
+    "1": 21316
+  },
+  "liveProcesses": [
+    {
+      "pid": 1,
+      "ppid": 0,
+      "state": "S",
+      "comm": "tail"
+    },
+    {
+      "pid": 2,
+      "ppid": 1,
+      "state": "S",
+      "comm": "caas-prefix-tra"
+    },
+    {
+      "pid": 201,
+      "ppid": 1,
+      "state": "S",
+      "comm": "dockerd"
+    },
+    {
+      "pid": 253,
+      "ppid": 201,
+      "state": "S",
+      "comm": "containerd"
+    },
+    {
+      "pid": 717912,
+      "ppid": 2480142,
+      "state": "S",
+      "comm": "codex-linux-san"
+    },
+    {
+      "pid": 717914,
+      "ppid": 717912,
+      "state": "S",
+      "comm": "bwrap"
+    },
+    {
+      "pid": 717915,
+      "ppid": 717914,
+      "state": "S",
+      "comm": "codex"
+    },
+    {
+      "pid": 717916,
+      "ppid": 717915,
+      "state": "S",
+      "comm": "bash"
+    },
+    {
+      "pid": 717919,
+      "ppid": 717916,
+      "state": "R",
+      "comm": "python3"
+    },
+    {
+      "pid": 2480142,
+      "ppid": 0,
+      "state": "S",
+      "comm": "codex"
+    }
+  ],
+  "activeCargoOrRustc": [],
+  "workspaceFreeBytes": 685056000,
+  "originalFullFailureReceiptUnchanged": true,
+  "productAndTestSourceUnchanged": true,
+  "priorHumanReceiptAndSummaryDecisionUnchanged": true,
+  "newHumanDecisionRecorded": false,
+  "largeBuildsRun": false,
+  "cleanupPerformed": false
+}

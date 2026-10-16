@@ -1,0 +1,340 @@
+{
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/README.zh-CN.md",
+      "bytes": 2315,
+      "rawSha256": "27949fe9f8ae46421399134107a8d4cd3741dbb293da77ad53d1372c7971c9f5"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/after-checkpoint-status.meta.json",
+      "bytes": 589,
+      "rawSha256": "c3c1d70c264192c420038f904e7a1c0408eadddfdaa0e8d05e061322b7c05034"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/after-checkpoint-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/after-checkpoint-status.stdout",
+      "bytes": 4686,
+      "rawSha256": "e78e7e40d4c3f806d19b396debd0ee45cf83fa315bf56e3f417a68567a8adf5c"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/after-preflight-status.meta.json",
+      "bytes": 588,
+      "rawSha256": "659d593d615f0693627bb0828b2cdab5d21ff917e534a44203d10c15942ebb07"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/after-preflight-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/after-preflight-status.stdout",
+      "bytes": 3188,
+      "rawSha256": "938fbe692ab84c4d06cd56881ffed288c8c4d3fd5aad9828ed14d96bf39aa68d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/approved-proposal-v2.zh-CN.md",
+      "bytes": 9822,
+      "rawSha256": "4af7747e496726e1dc1415e73502dc8ffc31fb58f1549ed738632fc08f47fabe"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/approved-start-input.json",
+      "bytes": 10843,
+      "rawSha256": "6fd7ff25faab4a7f8707d3cb26ae9434795a2a1a009c2b3554ef49c817fdf73d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/before-preflight-status.meta.json",
+      "bytes": 589,
+      "rawSha256": "811893487fc26da13ac075b31f1b3062b813138b1a1a4e69b30e034e2943f92c"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/before-preflight-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/before-preflight-status.stdout",
+      "bytes": 3195,
+      "rawSha256": "343aa09324ac1d4f5adf0967cd8fb006de8208535c71623bbc19beb6fa3d8363"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/blocked-outcome.meta.json",
+      "bytes": 576,
+      "rawSha256": "e5a2dbd24bec7899eeb245d824b0100d585b4817cb827c644cb651d9e529a36c"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/blocked-outcome.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/blocked-outcome.stdout",
+      "bytes": 2623,
+      "rawSha256": "1989af96f711d1d16373c4274d654db42e5320a7e4319cd21add2a64f326bb52"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/blocked-validation.meta.json",
+      "bytes": 590,
+      "rawSha256": "64aa663bd20ba532b3a54153e4b2448b51f96808f4edfaec65df16db335b9605"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/blocked-validation.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/blocked-validation.stdout",
+      "bytes": 430,
+      "rawSha256": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/boundary-help.meta.json",
+      "bytes": 416,
+      "rawSha256": "3bd6b2e23918fce9b524aa01decf581499ff85e4838b042604b248bea2a09ddf"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/boundary-help.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/boundary-help.stdout",
+      "bytes": 241,
+      "rawSha256": "d45b6ef6b22a52d45ebe7b7565a5173b3b1b2757a68b96fb7624e6e37706468b"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/boundary.input.json",
+      "bytes": 3705,
+      "rawSha256": "a81be2619e91dc5e2c318bf96a4f51f5584fd834e8f53cadf761b4a7b14c33c0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/boundary.v2.input.json",
+      "bytes": 3608,
+      "rawSha256": "610d7eed597d47caaea91bd450cb7b47042b001ca8550f4f67262a6f219c5af4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/checkpoint-help.meta.json",
+      "bytes": 402,
+      "rawSha256": "336133b2235b708f819922d8d8cc644be97fb420ab307c38235e15f20912e8f3"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/checkpoint-help.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/checkpoint-help.stdout",
+      "bytes": 139,
+      "rawSha256": "20841165d070e777326cef22153cfd454e514627f3c21c980de27ec4246e5012"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/declare-help.meta.json",
+      "bytes": 416,
+      "rawSha256": "4243d5fb0d4ed24e7aaf0e4fb3258eb69dba35602bf36cf58abcbc014b2ce0c6"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/declare-help.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/declare-help.stdout",
+      "bytes": 342,
+      "rawSha256": "a757f123cd1716befdd0e01793c28b2b0daf967b5ec1283136e3c3703a1a3a53"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-agent-doctor.meta.json",
+      "bytes": 509,
+      "rawSha256": "5fb96d58ff21c4e6976a9f74baa10a8b90f5a450680df10b23275b7d17749b11"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-agent-doctor.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-agent-doctor.stdout",
+      "bytes": 455,
+      "rawSha256": "5ea7c40439c055f01da089a30dab2b62f6207847e70f36489ee2c7e20c91d0f2"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-doctor.meta.json",
+      "bytes": 482,
+      "rawSha256": "3026eeb1f3349c9a2a909b484e95d77c63ba374ebd0ff09f8106fca4ca5853e0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-doctor.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-doctor.stdout",
+      "bytes": 632,
+      "rawSha256": "43c3d1c2b38d2c8bc793a7d2afc82bbd280e62458632ed94976ac18c92f607bd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-inspect.meta.json",
+      "bytes": 483,
+      "rawSha256": "e7dd6bdcad26569a2c522fdbf8e5e4f993cc1984b3a7c32fb3350d72fc47fd00"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-inspect.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-inspect.stdout",
+      "bytes": 758,
+      "rawSha256": "366b523e71c70b1f70b977fe7145103adaa8e667e2aa1968bdc3b7235695caf4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-status.meta.json",
+      "bytes": 485,
+      "rawSha256": "06ca8ff3412df80dbad95e7c1afe67121a1348a192c29f78d9dce828ec7c249e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/initial-status.stdout",
+      "bytes": 339950,
+      "rawSha256": "7a00bd5d7fd4eb16419872dc1101bb308282f8e4ea383d4bfd64eafad5e52b0e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/milestone-binding.json",
+      "bytes": 2180,
+      "rawSha256": "7148bf0df45b69e070e63a7130e33a07829c25d353229e49e90c1aa6599bfa86"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-boundary-v2.meta.json",
+      "bytes": 657,
+      "rawSha256": "c219e659171c512f0325cdb48d74d918ca8d36e6b041658da4afa1bc607e5d69"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-boundary-v2.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-boundary-v2.stdout",
+      "bytes": 3608,
+      "rawSha256": "610d7eed597d47caaea91bd450cb7b47042b001ca8550f4f67262a6f219c5af4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-boundary.meta.json",
+      "bytes": 653,
+      "rawSha256": "6b3f469da04390167ac7f4e288d86f7b7c39c986457ec98735e52c54ae4c09f5"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-boundary.stderr",
+      "bytes": 244,
+      "rawSha256": "e49f86b4ddbb7678a7f9e3a72bbb04d1fba81dca09dd0c85c18446520f69d6e1"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-boundary.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-checkpoint.meta.json",
+      "bytes": 561,
+      "rawSha256": "64c5873c9f2900de3537d6caa6fba3d2eecdee86219601f7b87811a312dee426"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-checkpoint.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-checkpoint.stdout",
+      "bytes": 144,
+      "rawSha256": "a107727714ecbd509418843bcb720117e40c95f8df2dd653463a0c62abf3704d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-preflight.meta.json",
+      "bytes": 680,
+      "rawSha256": "7056418e08286c09886e24c7e12aa93f4adb000631456fe1fbef4bdfefd9e40e"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-preflight.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-preflight.stdout",
+      "bytes": 4002,
+      "rawSha256": "10f15c5795119583478812230ceec5526a8d31b2cd1571a3b518aaff8ec2c517"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-serial-declaration.meta.json",
+      "bytes": 653,
+      "rawSha256": "b31247eb862bf107d0dc08cc60f92c0ea7db74c59f295ce9e753c2bbc1f5cddd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-serial-declaration.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-serial-declaration.stdout",
+      "bytes": 336,
+      "rawSha256": "235e421964be6e1ace6e856f2ce2b986db6ef48729d4c5ea993f4194a325986a"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-start.meta.json",
+      "bytes": 6274,
+      "rawSha256": "8c2188399d6d1b55e297f887704acaebbc6123d5a09eab4fe08ee6250518a548"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-start.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/native-start.stdout",
+      "bytes": 244207,
+      "rawSha256": "32affcf52d2899c4ca55f135dee26ac751e35eaabefd2e6384281daffbe29782"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/projection-preflight.meta.json",
+      "bytes": 680,
+      "rawSha256": "48351228e0acbf73ab481d1ed68fc7a732bf82a5377e0bcf8ba3276bb2f955f1"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/projection-preflight.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/projection-preflight.stdout",
+      "bytes": 4244,
+      "rawSha256": "10d42a00dc0c1e60ebc080d70453460e956005325feea65e76e1270de91bf647"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/projection-status.meta.json",
+      "bytes": 589,
+      "rawSha256": "446ea883ca87ab9884ddd524b450a6ca6329594b7c043e6699f964b554de358b"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/projection-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/projection-status.stdout",
+      "bytes": 3375,
+      "rawSha256": "5d7016bd3b5d5d759d7a3955585e2b483b0853b3c164d276a1cdf3e874cef33f"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/admission-20261016/run-runtime-reaping.py",
+      "bytes": 2297,
+      "rawSha256": "ec8e5338adc5d71ff09a4087187b992acaf459e6a78c3d27617d7ccf35510ba1"
+    }
+  ],
+  "manifestExcludesItself": true
+}

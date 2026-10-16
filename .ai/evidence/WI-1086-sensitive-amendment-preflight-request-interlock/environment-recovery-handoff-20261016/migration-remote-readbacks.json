@@ -1,0 +1,38 @@
+{
+  "historicalCommit": {
+    "sha": "62427bce7e332d0e3a5741fa405ad62bac3718dc",
+    "tree": "831ff8fa54841b5672549b26f191109bc0bb148b"
+  },
+  "remoteReport": {
+    "url": "https://github.com/xinglun/ai-cockpit/blob/95f459b5db3a51416041a682d1764fadd1a5c89a/.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/governance-integrity.report.json",
+    "bytes": 173015,
+    "sha256": "994cf404cf29049a3750a930fd5b180a97b9626fd5e92cee60b5b4aab8760f15",
+    "expected": "994cf404cf29049a3750a930fd5b180a97b9626fd5e92cee60b5b4aab8760f15",
+    "match": true
+  },
+  "remoteSmall": [
+    {
+      "commit": "95f459b5db3a51416041a682d1764fadd1a5c89a",
+      "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/retained-ignored-target-evidence.manifest.json",
+      "url": "https://github.com/xinglun/ai-cockpit/blob/95f459b5db3a51416041a682d1764fadd1a5c89a/.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/retained-ignored-target-evidence.manifest.json",
+      "bytes": 1713,
+      "sha256": "35fa7f68e5a51c38a515b3ae5960fb742dd1c71b74f5376a4bc6800d1c619c7b"
+    },
+    {
+      "commit": "62427bce7e332d0e3a5741fa405ad62bac3718dc",
+      "path": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/runtime-build-provenance/source-binding.json",
+      "url": "https://github.com/xinglun/ai-cockpit/blob/62427bce7e332d0e3a5741fa405ad62bac3718dc/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.retained-root-20261015/runtime-build-provenance/source-binding.json",
+      "bytes": 323,
+      "sha256": "b1976cbcfff54ab3aef54f39075e84db943078c7c948a4b44a390559ae51d4a1"
+    },
+    {
+      "commit": "62427bce7e332d0e3a5741fa405ad62bac3718dc",
+      "path": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/closed-exact-bindings.json",
+      "url": "https://github.com/xinglun/ai-cockpit/blob/62427bce7e332d0e3a5741fa405ad62bac3718dc/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.deleted-close-20261015/closed-exact-bindings.json",
+      "bytes": 4161,
+      "sha256": "7bedabd2718ab8d23cb2697090806aa3c7156d64ed35058299728e09e7e82f14",
+      "closeRawSha256": "459e36b907043fd5b9a7c03efc0a3213e125945ee523821b2eedc1f45511ecda",
+      "closeRecordedAt": "2026-10-15T07:53:07.838291701Z"
+    }
+  ]
+}

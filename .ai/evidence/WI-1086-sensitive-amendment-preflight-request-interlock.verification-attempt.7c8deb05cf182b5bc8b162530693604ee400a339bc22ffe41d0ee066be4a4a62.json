@@ -1,0 +1,49 @@
+{
+  "attemptId": "sha256:7c8deb05cf182b5bc8b162530693604ee400a339bc22ffe41d0ee066be4a4a62",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "recovery_decision",
+        "pending_retry_survives_a_bounded_contract_amendment",
+        "--",
+        "--exact"
+      ],
+      "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+      "commandDigest": "sha256:eb1555a92825dcc23e646e4b9e91ffbea91d16ad65319018da0891099fac1387",
+      "nodeId": "project-command-0",
+      "program": "/workspace/.cloud-tools/cargo/bin/cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+  "contractExecutionScopeDigest": "sha256:f98e078a7704bdc816a97bb5d7305d134c75f32c9b0637213a0a421b518e9b55",
+  "createdAt": "2026-10-16T05:10:40Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/ai-cockpit/.ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json: repository protocol state error at /workspace/ai-cockpit/.ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"material_review_projection_unavailable\"], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\", \"resolve_blockers\", \"run_preflight\", \"stop\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:bb4e073f0a9c0fba83d6c07d4ac27770d20849256cdce8a18a0f94978cbb544c, issues=[\"material_review_projection_unavailable\", \"user_visible_benefit_not_declared\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /workspace/ai-cockpit/.ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json: verification requires a pr…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

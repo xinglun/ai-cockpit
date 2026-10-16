@@ -1,0 +1,38 @@
+{
+  "startedAt": "2026-10-16T03:21:44.376589+00:00",
+  "manifestSha256": "5881b11f87fd77b5d97a0e528732687a44bc825248aeb8223dea6a5b026a860e",
+  "deletedFiles": [],
+  "skippedFiles": [],
+  "backupVerified": false,
+  "backupDirectory": null,
+  "failure": "AssertionError('new undisclosed process observation uncertainty')",
+  "disksBefore": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 679559168,
+      "availableInodes": 1930074
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 2293882880,
+      "availableInodes": 2249159
+    }
+  },
+  "finishedAt": "2026-10-16T03:21:44.801515+00:00",
+  "disksAfter": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 679546880,
+      "availableInodes": 1930073
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 2293882880,
+      "availableInodes": 2249159
+    }
+  },
+  "actualWorkspaceFreeDeltaBytes": -12288,
+  "actualDeletedCount": 0,
+  "skippedCount": 0,
+  "capacityMeets1GiBPlus64MiB": false
+}
