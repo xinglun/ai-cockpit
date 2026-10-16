@@ -11203,7 +11203,7 @@ mod legacy_source_lock_tests {
         let result = rx.recv_timeout(std::time::Duration::from_secs(5));
         drop(held);
         worker.join().unwrap();
-        assert_eq!(result.unwrap(), true);
+        assert!(result.unwrap());
     }
     #[test]
     fn public_finalization_waits_for_the_same_work_item_lifecycle_lock() {

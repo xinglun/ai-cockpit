@@ -1,0 +1,36 @@
+{
+  "recordedAt": "2026-10-16T17:49:55.339648+00:00",
+  "sourceHead": "9e1e478682089ab96e8df5c2a8779fdfb24782ea",
+  "reviewReceiptDigest": "sha256:80487dba72b48a455d91e72d876137be6ebbb9b7eced3d9e641cc96306b85472",
+  "packages": [
+    "cockpit-agent",
+    "cockpit-cli",
+    "cockpit-core",
+    "cockpit-evidence",
+    "cockpit-git",
+    "cockpit-interface",
+    "cockpit-isolation",
+    "cockpit-knowledge",
+    "cockpit-mcp",
+    "cockpit-protocol",
+    "cockpit-release",
+    "cockpit-repository",
+    "cockpit-verification"
+  ],
+  "commandPerPackage": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "<package>",
+    "--no-run"
+  ],
+  "outerTimeoutSeconds": 890,
+  "killAfterSeconds": 10,
+  "target": "target/wi1085-legacy-closeout-source",
+  "buildJobs": 1,
+  "testThreads": 1,
+  "assertionsExecuted": 0,
+  "formalVerificationNotEstablished": true,
+  "tiniSha256": "8cc70470bb4b21c25ddca7108c5820fa14d5019b5f1ec7e94bfca65de2479990"
+}

@@ -2554,9 +2554,9 @@ mod publication_tests {
                 .ok()
                 .as_deref()
                 == Some("io_failure")
-                && result.is_err()
+                && let Err(error) = &result
             {
-                let error = result.unwrap_err().to_string();
+                let error = error.to_string();
                 assert!(error.contains("commit_state_unknown"), "{error}");
                 assert!(
                     error.contains("injected_"),
@@ -2568,9 +2568,9 @@ mod publication_tests {
                 .ok()
                 .as_deref()
                 == Some("replace_parent")
-                && result.is_err()
+                && let Err(error) = &result
             {
-                let error = result.unwrap_err().to_string();
+                let error = error.to_string();
                 if std::env::var("COCKPIT_TEST_LEGACY_SOURCE_FAULT")
                     .unwrap()
                     .ends_with(":canonical_linked")
@@ -2793,15 +2793,22 @@ mod publication_tests {
 #[cfg(all(test, windows))]
 mod windows_reparse_tests {
     use super::{MAX_BYTES, PinnedRoot, has_obligation, obligation_ids, optional_read, safe_read};
-    use std::{fs, os::windows::fs::MetadataExt, path::Path, process::Command};
+    use std::{
+        fs,
+        os::windows::fs::MetadataExt,
+        path::{Path, PathBuf},
+        process::Command,
+    };
 
     // Junction creation needs no symlink privilege. Failure is a test failure,
     // never a skip that could silently remove the Windows containment evidence.
     pub(super) fn junction(link: &Path, target: &Path) {
+        // mklink treats forward slashes as switches. Rebuild native Windows
+        // separators lexically without resolving away the reparse point.
         let output = Command::new("cmd.exe")
             .args(["/D", "/C", "mklink", "/J"])
-            .arg(link)
-            .arg(target)
+            .arg(link.components().collect::<PathBuf>())
+            .arg(target.components().collect::<PathBuf>())
             .output()
             .expect("create real Windows junction");
         assert!(

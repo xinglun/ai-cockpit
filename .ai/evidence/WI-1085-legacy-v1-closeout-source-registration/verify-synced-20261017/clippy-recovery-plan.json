@@ -1,0 +1,33 @@
+{
+  "observedAt": "2026-10-16T17:55:54.651248+00:00",
+  "ciRunId": 38941726963,
+  "qualityJobId": 117112862119,
+  "ciSourceHead": "9e1e478682089ab96e8df5c2a8779fdfb24782ea",
+  "primaryGateFailure": "workspace_clippy",
+  "diagnosticArtifact": 12063628421,
+  "artifactZipSha256": "7e6f83709a6958376bcb3ee7fb810d630e41bd4f7ebea4285f6d9dceb9a9f000",
+  "diagnostics": [
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "line": 5970,
+      "code": "clippy::type_complexity"
+    },
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "line": 2559,
+      "code": "clippy::unnecessary_unwrap"
+    },
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "line": 2573,
+      "code": "clippy::unnecessary_unwrap"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "line": 11206,
+      "code": "clippy::bool_assert_comparison"
+    }
+  ],
+  "plan": "After active formal run finishes and processes are recovered, apply only equivalent type alias / if-let / boolean assert syntax changes within existing scope; do not change assertion intent or allow/suppress a lint. Fresh material request is mandatory after source change; current 88 review is not automatically reused.",
+  "executionDiscipline": "Do not edit source while current formal verification is active; no current-head rerun has been scheduled. Existing CI continues; no record push yet."
+}

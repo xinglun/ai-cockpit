@@ -5960,6 +5960,8 @@ fn closeout_recovery_collect_source_files(
         .collect())
 }
 
+type LegacySourceHistoryInventory = (serde_json::Value, Vec<(String, Vec<u8>)>, BTreeSet<String>);
+
 /// Validate existing historical semantics without recursively consuming the
 /// source-registration obligation currently being assessed. The caller must
 /// conjoin registration integrity for status; cross-WI visits remain bounded.
@@ -5967,7 +5969,7 @@ pub(super) fn legacy_source_history_inventory(
     root: &Path,
     work_item_id: &str,
     repository_id: &str,
-) -> Result<(serde_json::Value, Vec<(String, Vec<u8>)>, BTreeSet<String>), ObserverError> {
+) -> Result<LegacySourceHistoryInventory, ObserverError> {
     let mut visited = BTreeSet::new();
     let mut completed = BTreeSet::new();
     let facts = validate_closeout_history_chain_inner(

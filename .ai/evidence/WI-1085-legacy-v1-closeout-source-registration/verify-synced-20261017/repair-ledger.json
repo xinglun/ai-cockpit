@@ -1,0 +1,11 @@
+{
+  "recordedAt": "2026-10-16T18:09:35.961479+00:00",
+  "formalFinishedBeforeSourceEdit": true,
+  "formalAttempt": "sha256:2199e77683da7edf443834f0ce239e3144908669102e9f5c96f017dde1d510ce",
+  "fourLintFixAuthority": "Raydot parent delegation expressly approved exact four equivalent changes after actual CI diagnostics.",
+  "windowsFixtureFixAuthority": "User authorized module-local Windows reparse coverage; actual CI RED is at junction setup. Fixing the helper argument separators is necessary to execute that requested coverage.",
+  "sourceChanges": "Private tuple type alias; two borrowed if-let Err branches preserving error assertions and return behavior; equivalent boolean assert; native Windows path separators for mklink arguments only.",
+  "noLintAllowOrAssertionWeakening": true,
+  "newMaterialRequestRequired": true,
+  "historical88DecisionNotReusedForChangedSource": true
+}
