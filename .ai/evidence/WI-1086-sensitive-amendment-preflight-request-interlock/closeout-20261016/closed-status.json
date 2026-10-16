@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "closed",
+  "governanceState": "green",
+  "activityHealth": "inactive",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 7,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 47,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [
+    "close_decision_recorded"
+  ],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "closed",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "pending",
+    "review": "available",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome",
+    "review_evidence"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+    "materialManifest": "sha256:3b384f952450c3fbe0ba3358500f92cdfe83236add6d6870a9319859b25a9d69",
+    "repositorySnapshot": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
+    "summary": "sha256:4802220c053f3d5f66a51294e692d32e7f14e8aecd63fbbbf536820ae29d4824",
+    "verificationEvidence": "sha256:624fc1876737eb4856608fd8ec760aea99ee17d7e6030f613883420d4c567f85"
+  },
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [],
+  "materialManifestDigest": "sha256:3b384f952450c3fbe0ba3358500f92cdfe83236add6d6870a9319859b25a9d69",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:0baea8ae0baf946dd633725e95abe63aa43617ed6705d20bca991ab2b59f1cbe",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-16T07:11:52Z",
+  "updatedAt": "2026-10-16T06:28:26.787140778Z",
+  "safeActions": [
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendationReason": "Runtime cannot identify an admitted next action from current evidence",
+    "admissionState": "unknown",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:7f438a2848b0c16ebd16a972be4af89cddb092916aef7d1abae1b6ed33bd0309"
+  },
+  "statusDigest": "sha256:062081fb3d65b766dcd8d7a001578c12ac961dfcf73b56c04cf6e94f5cae12ef",
+  "historical": false
+}

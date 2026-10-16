@@ -6,9 +6,12 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1086-sensitive-amendment-preflight-request-interlock
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1086-sensitive-amendment-preflight-request-interlock
+terminalArchive: .ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json
+terminalVerification: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json
+terminalDecision: .ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.close.json
 ---
 
 [简体中文](WI-1086-sensitive-amendment-preflight-request-interlock.zh-CN.md) · [日本語](WI-1086-sensitive-amendment-preflight-request-interlock.ja.md)
