@@ -1,0 +1,140 @@
+
+running 4 tests
+test provider::tests::provider_receipt_blocks_digest_or_tag_mismatch ... ok
+test provider::tests::provider_receipt_reuses_only_an_exact_existing_release ... ok
+test version_consistency::tests::accepts_only_plain_three_component_versions ... ok
+test version_consistency::tests::detects_semantic_version_tokens_in_operations_text ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 20 tests
+test all_release_phases_are_explicit_and_ordered ... ok
+test an_already_published_identity_conflict_blocks_public_acceptance ... ok
+test an_unchanged_six_phase_run_reuses_every_result ... ok
+test candidate_scope_reuses_candidate_and_can_continue_to_close_without_publish ... ok
+test candidate_timeout_retries_only_candidate_and_blocks_dependents ... ok
+test cleanup_failure_retries_cleanup_only ... ok
+test cleanup_pending_close_is_retried_without_repeating_publish ... ok
+test concurrent_receipt_updates_preserve_both_phase_results ... ok
+test duplicate_phase_receipts_are_rejected_instead_of_picked_arbitrarily ... ok
+test failed_phase_is_recorded_and_success_replaces_only_the_latest_result ... ok
+test identity_digest_is_deterministic_and_changes_with_inputs ... ok
+test injected_publish_failure_reuses_prior_phases_and_retries_only_publish ... ok
+test input_change_invalidates_from_the_first_phase_and_never_reuses_publish ... ok
+test public_scope_reuses_publish_and_public_acceptance_before_close ... ok
+test receipt_evidence_can_be_revalidated_after_runner_artifact_relocation ... ok
+test receipt_store_rejects_changed_artifact_identity_before_planning ... ok
+test receipt_store_rejects_changed_evidence_before_planning ... ok
+test receipt_store_rejects_contradictory_success_and_failure_fields ... ok
+test receipt_store_reuses_prepare_build_and_publish_after_interruption ... ok
+test scope_change_requires_a_successor_instead_of_a_technical_retry ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+
+running 6 tests
+test archive_with_extra_zip_member_is_rejected ... ok
+test tar_archive_has_stable_exact_members ... ok
+test target_mapping_rejects_unknown_triple ... ok
+test unix_archive_requires_executable_mode ... ok
+test windows_zip_has_stable_exact_members ... ok
+test zip_symlink_member_is_rejected ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 4 tests
+test acceptance_commands_persist_resume_and_fail_closed_on_identity_change ... ok
+test help_lists_all_release_boundary_commands ... ok
+test package_command_emits_record_and_inspect_command_accepts_archive ... ok
+test validate_handoff_binds_public_release_and_asset_digests ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+
+running 2 tests
+test invalid_release_fixture_is_rejected_strictly ... ok
+test valid_release_fixture_matches_the_wire_contract ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test fixture_formula_requires_loopback_and_is_marked_test_only ... ok
+test production_formula_is_stable_and_contains_only_the_macos_arm_variant ... ok
+test production_formula_rejects_non_https_origin ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 7 tests
+test changed_formula_digest_changes_request_identity ... ok
+test expiry_and_clock_skew_are_fail_closed ... ok
+test immutable_tag_recovery_allows_distinct_workflow_and_release_commits ... ok
+test invalid_workflow_revision_is_still_rejected ... ok
+test parse_rejects_expiry_window_over_24_hours ... ok
+test request_id_is_canonical_and_validation_accepts_one_hour_window ... ok
+test unknown_fields_and_wrong_destination_are_rejected ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 19 tests
+test archive_and_sbom_must_have_distinct_filenames ... ok
+test archive_filename_must_be_exact_target_template ... ok
+test checksum_extra_file_is_rejected ... ok
+test checksum_order_and_duplicate_lines_are_rejected ... ok
+test checksum_writer_covers_every_non_self_public_asset_once_in_stable_order ... ok
+test checksums_must_cover_the_public_manifest_and_formula_exactly_once ... ok
+test duplicate_target_is_rejected ... ok
+test malformed_digest_is_rejected ... ok
+test manifest_can_be_built_from_the_four_staged_targets ... ok
+test missing_and_digest_mismatched_checksum_entries_are_rejected ... ok
+test missing_target_is_rejected ... ok
+test orphan_publishable_sbom_is_rejected_even_when_not_listed_in_checksums ... ok
+test runner_image_must_match_target ... ok
+test sbom_filename_must_be_exact_target_template ... ok
+test staged_files_and_checksums_are_verified ... ok
+test unknown_nested_field_is_rejected ... ok
+test unknown_top_level_field_is_rejected ... ok
+test valid_manifest_has_four_sorted_targets_and_stable_bytes ... ok
+test version_must_be_canonical_semver ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 1 test
+test root_license_has_the_approved_mit_notice ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test missing_duplicate_zero_and_mismatched_sbom_bindings_fail_closed ... ok
+test tar_and_zip_sboms_bind_the_exact_archive_and_binary_with_standard_spdx_edges ... ok
+test validator_rejects_a_wrong_target_or_version ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 6 tests
+test rejects_candidate_metadata_drift_and_stable_projection ... ok
+test rejects_noncanonical_or_unsupported_candidate_syntax ... ok
+test rejects_stale_current_baseline ... ok
+test rejects_versioned_operations_baseline ... ok
+test validates_candidate_without_promoting_it_to_stable_installation ... ok
+test validates_source_version_identity_and_document_baselines ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

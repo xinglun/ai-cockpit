@@ -297,11 +297,27 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
-    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/existing-head-checks.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-before-facts.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-before-processes.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-before-status.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-invocation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-01.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-02.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-03.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-04.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-05.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-06.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-07.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-08.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-plan.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-plan.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-root-identity.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal.out.log"
   ],
   "checkpointAt": "2026-10-15T18:22:10Z",
-  "checkpointContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "checkpointContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -359,7 +375,7 @@
       "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "checkpointRepositorySnapshotDigest": "sha256:bddd1a809e3b04e357272e17cd1771cb80fb312f16301bd33f688ea4522a535e",
   "createdAt": "2026-10-15T14:42:12Z",
   "decisionEvidence": {
     "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
@@ -412,11 +428,11 @@
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-16T13:30:59Z",
+  "preflightAt": "2026-10-16T14:05:14Z",
   "preflightContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
-  "preflightDecisionDigest": "sha256:1bccb62390b15b41ce858a5817fee77de9ead4ecdcaef6a7f38e6362099db18c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:bddd1a809e3b04e357272e17cd1771cb80fb312f16301bd33f688ea4522a535e",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -566,10 +582,60 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-16T12:51:18.096182209+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-16T12:38:06Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:6fb690426eed049d9f57df43c67e54cd83f9101fa8e8be8d9a026255f1d11fda",
   "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
 }
