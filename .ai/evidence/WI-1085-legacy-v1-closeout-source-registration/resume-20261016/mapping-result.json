@@ -1,0 +1,535 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "direct_record_rejects_self_source_even_when_every_external_digest_is_resealed",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "complete_source_rejects_missing_legacy_identity_header_without_rewriting_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "forged_resume_cannot_create_a_first_root_after_source_disappears",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "damaged_survivor_cannot_become_original_through_a_fresh_plan",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "legacy_source_input_is_bounded_before_json_parsing",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "fresh_plan_rejects_identical_content_source_root_replacement",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "history_fifo_is_rejected_without_blocking",
+          "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "every_bound_history_file_and_each_root_obligation_remain_required",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "lost_archive_keeps_structured_status_and_index_blocking",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "both_missing_root_records_require_a_valid_extension_anchor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A9",
+      "evidence": [
+        {
+          "locator": "already_deleted_before_registration_is_part_of_the_root_inventory",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "partial_extension_requires_independent_original_and_resumes_both_survivors",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "public_finalization_waits_for_the_same_work_item_lifecycle_lock",
+          "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A13",
+      "evidence": [
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "legacy source registration / all-local-anchor-loss boundary",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "Declared compatibility and local-loss limits are source/documentation claims; historical focused compatibility logs exist. Current formal result remains pending."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A14",
+      "evidence": [
+        {
+          "locator": "actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A15",
+      "evidence": [
+        {
+          "locator": "Current Runtime handoff and precise admission proposal; final focused 23/23 + 41/41",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+          "type": "historical_evidence_and_current_plan",
+          "verification": "Historical focused results and review provenance only. Current declared full workspace execution and formal receipt are still absent; this criterion is not declared accepted."
+        },
+        {
+          "locator": "formalVerificationExecutedThisEnvironment=false",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Current Runtime/source observation and explicit pending full execution; no new formal success is asserted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A16",
+      "evidence": [
+        {
+          "locator": "sourceHead / remoteHeadReadback / branch",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Observed ordinary commit/push ac2c651b on the original WI1085 branch; no WI1085 PR/Ready/merge/close/cleanup was performed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A17",
+      "evidence": [
+        {
+          "locator": "semantically_valid_successor_raw_change_revokes_registered_predecessor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "initial_registration_rejects_successor_canonical_proof_obligation_damage",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Exact existing assertion source inspected for mapping only; current environment has not executed the declared full workspace verification. Planned coverage: cargo test --locked --workspace."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+  ],
+  "checkpointAt": "2026-10-15T18:22:10Z",
+  "checkpointContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "recorded": true,
+      "recordedAt": "2026-10-15T18:22:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "reason": "PROPOSED ONLY: ask Raydot to review the minimum existing-protocol admission amendment. The active documentation projection requires exactly one in-progress row in each existing three-language parity ledger, currently outside scope. The committed readable Rust source material has no Findings but a permitted syntax Unknown and material_review_not_enabled. Add only those three paths and a strict self_declared technical material review opt-in; retain raw Unknowns, all checks/acceptance/history and all non-goals. No authority or human confirm_review is recorded by this proposal.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T23:14:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "createdAt": "2026-10-15T14:42:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:5a64b093bb3ad1f169c2700427e80a8486c415a853b5126fbfd41d334c3c78e0",
+    "reason": "Ray selected \"confirm review\" for these exact WI1085 bindings at 2026-10-16T09:43:28Z in message Sentinel_32136ee1b8208191a09071e601c3fd8e, relayed by Raydot from parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018. Source evidence .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/human-relay.json raw sha256:2e663e83bcd8b156f61b14b569375c94e5f416c897ea673e4def092ade1382ae. recordedAt is the actual current recording time, not a backdated reply time. Preflight remains red; this is not material review, verification success, acceptance, PR/merge/close or cleanup authority.",
+    "recordedAt": "2026-10-16T09:45:20.403216+00:00",
+    "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+    "schemaVersion": 1,
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/acceptance-plan.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json"
+    ],
+    "reason": "The unchanged product source has historical focused evidence and technical review history. Current human review and approved documentation rows are recorded; final exact material review, declared current full workspace verification and criterion acceptance remain pending. No proven user-visible benefit is asserted.",
+    "state": "unresolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T14:44:27.620151778Z",
+      "recordedAt": "2026-10-15T14:44:27.620151778Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T09:48:25Z",
+  "preflightContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "preflightDecisionDigest": "sha256:f4467a1c6ee22a9184c4f176fc4abe5a0fc17ea94f6f7ec1f5b70f7130f83b64",
+  "preflightRepositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Present-day explicit_attestation is truthful; original historical bytes and assurance remain unchanged.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "complete_source_and_distinct_producer",
+      "status": "unverified",
+      "verificationPlan": "Use a complete old-v1 source with historical producer distinct from present registrar; reject hash-only/incomplete sources."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Only exact original binding/bytes resume; pending does not permanently block its own recovery; conflicting or corrupt records remain preserved and rejected.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "root_partial_resume",
+      "status": "unverified",
+      "verificationPlan": "Interrupt before/after requirement and registration publication; plan and record requirement-only and registration-only cases."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Single immutable winner, no lost update, stale/conflict on drift, no overwrite.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "concurrency_and_drift",
+      "status": "unverified",
+      "verificationPlan": "Race same/different WI and binding; change source/destination/inventory/head/admission after plan."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "No escaped read/write or victim replacement; invalid inputs fail closed.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "filesystem_boundaries",
+      "status": "unverified",
+      "verificationPlan": "Exercise bounded reads, duplicate keys/paths, symlink/reparse, directory replacement, traversal and hardlink victims."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Closed revoked, explicit blocker, WI retained in readiness, overlapping scope rejected.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "proof_loss_and_scope",
+      "status": "unverified",
+      "verificationPlan": "Remove/change each required record/dependency; remove archive directory or Contract+manifest; set closeRequired=false or foreign repository."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "One authoritative write sequence; typed held-lock/internal contract prevents recursive acquisition and unlocked exposure.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "extension_single_writer_and_lock",
+      "status": "unverified",
+      "verificationPlan": "Call normal finalization and explicit extension path with held/unheld lock contexts and concurrent writers."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Read back original exact transition and return original result; no regenerated actor/time/Runtime bytes and no false next-sequence conflict.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "extension_committed_retry",
+      "status": "unverified",
+      "verificationPlan": "Publish exact transition, fail reporting, then retry with original durable template/version before evaluating next-sequence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Exact constrained resume works without prior registered_valid/closed; unbound decisions, invalid forks and missing proofs remain blocked.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "extension_pending_resume_and_forks",
+      "status": "unverified",
+      "verificationPlan": "Interrupt extension/transition publication; test lawful Retained→Deleted, already-present Deleted, forks, extra decisions and wrong identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "Existing compatibility and historical not_ready are retained; plan is read-only and both surfaces share semantics.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "legacy_and_surface_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Read ordinary closes, v2 and unregistered v1 through repository/CLI/MCP, and test new plan/record input parity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "No fabricated historical authentication or remote immutable-anchor guarantee.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "declared_local_loss_boundary",
+      "status": "unverified",
+      "verificationPlan": "Document supported surviving-proof detection and complete local provenance-loss/rollback limits."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-module.stdout",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-source-integration.stdout"
+      ],
+      "expectedOutcome": "No recursive lock or unguarded writer, bounded failure for cyclic dependencies, no default permanent source-checkout dependency, damaged canonical records retain scope obligation and all required validity predicates remain conjunctive.",
+      "reason": "Historical focused Linux evidence remains historical. The current source has approved parity rows and actual Contract-bound human review; Raydot final material review and current formal workspace verification remain pending. No scenario is promoted to verified.",
+      "required": true,
+      "scenario": "guarded_bounded_offline_conjunctive_validation",
+      "status": "unverified",
+      "verificationPlan": "Exercise crate-private matching lock-guard callers, cross-WI cycles/depth, offline original source after complete registration, malformed/foreign canonical registration names and old-v1/provider failures with apparently valid registration."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-16T09:51:11.972795368+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-15T23:14:16Z"
+  },
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

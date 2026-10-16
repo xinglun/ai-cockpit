@@ -1,0 +1,17 @@
+{
+  "kind": "observed-source-and-runtime-bindings-not-verification",
+  "sourceHead": "ac2c651b76879e7ae56cbdacc849582a5b1abff1",
+  "sourceProductHead": "9ecd4495c40ea2574b2f171ebd1bbca9cd6dd89d",
+  "remoteHeadReadback": "ac2c651b76879e7ae56cbdacc849582a5b1abff1",
+  "branch": "codex/wi1085-legacy-v1-closeout-source-registration",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "humanDecisionRecorded": true,
+  "materialReviewDecisionRecorded": false,
+  "formalVerificationExecutedThisEnvironment": false,
+  "focusedHistory": {
+    "sourceHead": "9ecd4495c40ea2574b2f171ebd1bbca9cd6dd89d",
+    "moduleTestsPassed": 23,
+    "integrationTestsPassed": 41,
+    "scope": "historical focused Linux evidence only; not current full workspace or Windows acceptance"
+  }
+}

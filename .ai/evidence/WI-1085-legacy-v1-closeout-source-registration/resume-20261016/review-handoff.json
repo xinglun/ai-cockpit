@@ -1,0 +1,72 @@
+{
+  "kind": "actual-material-review-handoff-no-decision-recorded",
+  "recordedAt": "2026-10-16T09:53:32.607861+00:00",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "sourceCodeAndDocsHead": "ac2c651b76879e7ae56cbdacc849582a5b1abff1",
+  "latestProductHead": "9ecd4495c40ea2574b2f171ebd1bbca9cd6dd89d",
+  "requestFile": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/material-request.json",
+  "requestFileRawSha256": "915a042d9c765d6b821b61784362877cd457d6c92ae260de564c603025fc6499",
+  "bindings": {
+    "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1",
+    "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "sourceSnapshotDigest": "sha256:a839198a48b84f5ebdc8406b56f55e3ce9635555cea6c410fa11ce729a0cfc20",
+    "materialManifestDigest": "sha256:7ca05a1112b9eb23ec29939b81322eb885de13dfd2bee92cf7b063661843d33d",
+    "materialInspectionReviewProfileDigest": "sha256:8eed971dcbb631b144496cbd91fe2d92059a7aea023552d7dffa2187c6832045",
+    "analysisImplementationDigest": "sha256:9dcee9c81b0888942520a821f502071bd078a16da9473fdd63f8568a87e54f80",
+    "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a"
+  },
+  "entriesTotal": 25,
+  "reviewableEntries": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "findingCodes": [],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "reviewerRequested": "agent:Raydot",
+  "decision": null,
+  "nativeMaterialReceiptRecorded": false,
+  "currentHumanDecisionRequired": false,
+  "currentSafeActions": [
+    "record_governance_controls",
+    "record_material_review_decision",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "verificationExecuted": false,
+  "acceptanceMappingCount": 17,
+  "acceptanceMeaning": "Mapped real source assertions and historical evidence; no current acceptance pass or formal receipt is declared.",
+  "scenarioCount": 11,
+  "scenariosVerified": 0,
+  "workResult": "not_ready",
+  "remainingUnknowns": [
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_evidence_missing"
+  ],
+  "wi1086CleanupReceipt": "Remains only in primary with unchanged original bytes; not copied into this branch lacking the WI1086 close/archive context."
+}
