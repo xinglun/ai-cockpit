@@ -392,10 +392,10 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:760984b30461462a45ca53fb5c0668225f6b3eda238cefc2247835d62fdaee1b",
-    "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790.json",
-    "receiptDigest": "sha256:9dc8bd004c7de4f1668c3bf49875eec707e2bed71c92078dadcccfc07c014e44",
-    "requestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790"
+    "digest": "sha256:29a87e2753f3bd1ab71b0ccd003771836ca0a5bd4bcfa2cac505b64bffee7dc8",
+    "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1.json",
+    "receiptDigest": "sha256:b8da3c274ae8e8f1ed435b1f0117fa7b20815650e69e4f9af94940d9e63b8523",
+    "requestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1"
   },
   "materialReviewReceiptHistory": [
     {
@@ -403,6 +403,12 @@
       "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1.json",
       "receiptDigest": "sha256:e093474e78b36185793f67fa74adf5583486a2c7d4d731bac19cf36294e61ad8",
       "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1"
+    },
+    {
+      "digest": "sha256:760984b30461462a45ca53fb5c0668225f6b3eda238cefc2247835d62fdaee1b",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790.json",
+      "receiptDigest": "sha256:9dc8bd004c7de4f1668c3bf49875eec707e2bed71c92078dadcccfc07c014e44",
+      "requestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790"
     }
   ],
   "mode": "implementation",
