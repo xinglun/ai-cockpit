@@ -1,0 +1,111 @@
+{
+  "baselineAt": "2026-10-16T12:00:59.156747+00:00",
+  "afterAt": "2026-10-16T12:13:11.754481+00:00",
+  "baselineObservationComplete": true,
+  "afterObservationComplete": true,
+  "baselineZombieCount": 1419,
+  "afterZombieCount": 1419,
+  "addedZombieIdentities": [],
+  "removedZombieIdentities": [],
+  "nativeRoot": {
+    "pid": 829050,
+    "startTimeTicks": 2626162,
+    "pgrp": 829049,
+    "session": 829049
+  },
+  "nativeRootObservedAfter": false,
+  "sameSessionLiveAfter": [],
+  "sampledOwnedIdentities": [
+    [
+      829050,
+      2626162
+    ],
+    [
+      829055,
+      2626170
+    ],
+    [
+      829056,
+      2626170
+    ],
+    [
+      830125,
+      2628977
+    ],
+    [
+      830176,
+      2629787
+    ],
+    [
+      835821,
+      2638247
+    ],
+    [
+      835822,
+      2638247
+    ],
+    [
+      835830,
+      2638341
+    ],
+    [
+      836584,
+      2639041
+    ],
+    [
+      847662,
+      2644907
+    ],
+    [
+      847663,
+      2644907
+    ],
+    [
+      853642,
+      2648734
+    ],
+    [
+      858386,
+      2652186
+    ],
+    [
+      858387,
+      2652187
+    ],
+    [
+      888912,
+      2663058
+    ],
+    [
+      888913,
+      2663058
+    ],
+    [
+      908663,
+      2671824
+    ],
+    [
+      908837,
+      2672350
+    ],
+    [
+      908838,
+      2672350
+    ],
+    [
+      908844,
+      2672350
+    ],
+    [
+      908852,
+      2672350
+    ]
+  ],
+  "sampledOwnedLiveAfter": [],
+  "sampledOwnedZombiesAfter": [],
+  "activeCargoRustcAfter": [],
+  "tiniNormalExitCode1": true,
+  "tiniFinalNoChildToWait": true,
+  "tiniReportedZombieReaps": 296,
+  "observationLimit": "PPID samples do not enumerate every historical descendant; Tini raw logs and the final census are preserved. Transient reads are resolved only by a confirmed-absent follow-up."
+}

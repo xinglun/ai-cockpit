@@ -1,0 +1,4 @@
+error: failed to create directory `/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/.fingerprint/cockpit-verification-1ba6e7cf4418f294`
+
+Caused by:
+  No space left on device (os error 28)

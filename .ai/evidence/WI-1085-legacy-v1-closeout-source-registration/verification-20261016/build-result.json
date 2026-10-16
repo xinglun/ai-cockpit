@@ -1,0 +1,29 @@
+{
+  "kind": "compilation-only-result-not-formal-verification",
+  "exitCode": 0,
+  "recordedAt": "2026-10-16T11:59:31.866699+00:00",
+  "testsExecuted": false,
+  "finishedCompilationLine": [
+    "    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 51s"
+  ],
+  "tiniReportedNormalExit": true,
+  "rootIdentityGone": true,
+  "sameSessionLiveDescendants": [],
+  "observationComplete": true,
+  "zombieCount": 1419,
+  "disk": {
+    "/workspace": {
+      "availableBytes": 6902267904,
+      "freeInodes": 2069393
+    },
+    "/tmp": {
+      "availableBytes": 9409052672,
+      "freeInodes": 2299124
+    }
+  },
+  "tiniExitEvidence": [
+    "[INFO  tini (823872)] Main child exited normally (with status '0')",
+    "[TRACE tini (823872)] Exiting: child has exited"
+  ],
+  "initialDerivedCheckLimitation": "The initial derived exit check inspected stderr alone; Tini diagnostics are also in the preserved stdout log."
+}

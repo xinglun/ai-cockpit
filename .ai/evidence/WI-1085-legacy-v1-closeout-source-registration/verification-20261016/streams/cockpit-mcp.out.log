@@ -1,0 +1,46 @@
+
+running 2 tests
+test tests::capability_projection_helpers_include_every_protocol_parameter ... ok
+test tests::outcome_runtime_bindings_follow_protocol_canonical_specs ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test mcp_exposes_read_only_plan_and_explicit_cross_checkout_recovery ... ok
+test mcp_required_receipt_loss_revokes_closed_and_preserves_historical_verification ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.84s
+
+
+running 5 tests
+test coordination_rejects_mixed_provider_aliases_before_opening_the_store ... ok
+test coordination_rpc_exposes_explicit_read_write_operations_and_stable_projection ... ok
+test coordination_rpc_projections_preserve_exact_persisted_store_bytes ... ok
+test coordination_schema_binds_provider_consumer_and_resume_identities_per_action ... ok
+test publish_outcome_mcp_action_uses_the_same_bound_write_path ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.08s
+
+
+running 5 tests
+test complete_source_parity::complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics ... ok
+test legacy_source_tools_expose_strict_typed_plan_and_record ... ok
+test raw_legacy_rpc_rejects_duplicate_keys_before_repository_access ... ok
+test rpc_line_is_bounded_before_json_parsing ... ok
+test wrong_nested_request_is_rejected_before_repository_access ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.24s
+
+
+running 2 tests
+test material_review_plan_tool_uses_shared_read_only_repository_service ... FAILED
+test material_review_record_tool_fails_closed_without_stage_one_opt_in ... ok
+
+failures:
+
+failures:
+    material_review_plan_tool_uses_shared_read_only_repository_service
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+

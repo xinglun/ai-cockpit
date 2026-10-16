@@ -1,0 +1,27 @@
+[
+  {
+    "path": ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+    "sha256": "7cbbaa07f74c9871379e060babd5e6c27df90f3f54c11708cdd330a0e581d1dc",
+    "unchangedFromExecutionHead": true
+  },
+  {
+    "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+    "sha256": "a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7",
+    "unchangedFromExecutionHead": true
+  },
+  {
+    "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+    "sha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+    "unchangedFromExecutionHead": true
+  },
+  {
+    "path": "crates/cockpit-mcp/tests/material_review.rs",
+    "sha256": "84e8f068534e04916e94e5096cafbc2bd64f253064d72ec5816490f091000134",
+    "unchangedFromExecutionHead": true
+  },
+  {
+    "path": "crates/cockpit-mcp/tests/usage.rs",
+    "sha256": "1381083b73191a27aca9276ac55e5e782ef393099ece07bbbf41364bd2f56c84",
+    "unchangedFromExecutionHead": true
+  }
+]
