@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-10-16T18:16:52.285173+00:00",
+  "sourceHead": "007fdcba2e81d01285a694dce57cd78e0f74fcf4",
+  "toolExitCode": 0,
+  "passed": true,
+  "command": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "--workspace",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "buildElapsedFromActualLog": "42.69s",
+  "beforeZombieCount": 1441,
+  "afterZombieCount": 1441,
+  "addedZombieIdentities": [],
+  "missingZombieIdentities": [],
+  "rootGone": true,
+  "activeCargoRustcAfter": [],
+  "availableBytesAfter": 6306480128,
+  "notFormalVerificationReceipt": true,
+  "notWindowsExecution": true
+}

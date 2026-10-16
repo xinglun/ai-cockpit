@@ -1,0 +1,38 @@
+    Checking cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+    Checking cockpit-isolation v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-isolation)
+    Checking anyhow v1.0.104
+    Checking simd-adler32 v0.3.10
+    Checking crc32fast v1.5.0
+    Checking adler2 v2.0.1
+    Checking miniz_oxide v0.9.1
+    Checking bumpalo v3.20.3
+    Checking equivalent v1.0.2
+    Checking time-core v0.1.9
+    Checking deranged v0.5.8
+    Checking hashbrown v0.17.1
+    Checking log v0.4.33
+    Checking num-conv v0.2.2
+    Checking powerfmt v0.2.0
+    Checking zlib-rs v0.6.7
+    Checking flate2 v1.1.10
+    Checking time v0.3.55
+    Checking zopfli v0.8.3
+    Checking indexmap v2.14.0
+    Checking xattr v1.6.1
+    Checking filetime v0.2.29
+    Checking typed-path v0.12.3
+    Checking zip v7.2.0
+    Checking tar v0.4.46
+    Checking semver v1.0.28
+    Checking cockpit-release v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-release)
+    Checking cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Checking cockpit-agent v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-agent)
+    Checking cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Checking cockpit-knowledge v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-knowledge)
+    Checking cockpit-git v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-git)
+    Checking cockpit-verification v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-verification)
+    Checking cockpit-evidence v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-evidence)
+    Checking cockpit-protocol v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-protocol)
+    Checking cockpit-core v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-core)
+    Checking cockpit-interface v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-interface)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 42.69s

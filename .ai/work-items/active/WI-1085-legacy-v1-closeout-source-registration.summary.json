@@ -665,11 +665,12 @@
   },
   "intentAlignment": {
     "evidence": [
-      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/material-request.json",
-      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json"
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
     ],
-    "reason": "Current synced source requires fresh formal verification and actual Windows legacy_closeout_source reparse case evidence. Historical e749 13/13 and prior material acceptance do not validate this new source.",
+    "reason": "Formal 9e1e4786 passed 13/13, but current repaired source has a different binding. Current full verification and all four Windows case success lines remain pending. User benefit is unmeasured.",
     "state": "unresolved"
   },
   "lifecycleFacts": {
@@ -707,23 +708,23 @@
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-16T18:10:32Z",
+  "preflightAt": "2026-10-16T18:13:46Z",
   "preflightContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
-  "preflightDecisionDigest": "sha256:660b00f046132a362e9934f089489d5dfdc8eea3249738726901ce6b603232fb",
-  "preflightRepositorySnapshotDigest": "sha256:19284872fa6d1902d1f49b00d092e40f82e604f2d1932e492263b4714b147d23",
+  "preflightDecisionDigest": "sha256:6a97cdbf2d8064cffe83f43e700e8f779f576c52faa247c3fcaecd4d97f0fe60",
+  "preflightRepositorySnapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "Present-day explicit_attestation is truthful; original historical bytes and assurance remain unchanged.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "complete_source_and_distinct_producer",
       "status": "unverified",
@@ -731,13 +732,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "Only exact original binding/bytes resume; pending does not permanently block its own recovery; conflicting or corrupt records remain preserved and rejected.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "root_partial_resume",
       "status": "unverified",
@@ -745,13 +746,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "Single immutable winner, no lost update, stale/conflict on drift, no overwrite.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "concurrency_and_drift",
       "status": "unverified",
@@ -759,13 +760,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "No escaped read/write or victim replacement; invalid inputs fail closed.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "filesystem_boundaries",
       "status": "unverified",
@@ -773,13 +774,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "Closed revoked, explicit blocker, WI retained in readiness, overlapping scope rejected.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "proof_loss_and_scope",
       "status": "unverified",
@@ -787,13 +788,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "One authoritative write sequence; typed held-lock/internal contract prevents recursive acquisition and unlocked exposure.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "extension_single_writer_and_lock",
       "status": "unverified",
@@ -801,13 +802,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "Read back original exact transition and return original result; no regenerated actor/time/Runtime bytes and no false next-sequence conflict.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "extension_committed_retry",
       "status": "unverified",
@@ -815,13 +816,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "Exact constrained resume works without prior registered_valid/closed; unbound decisions, invalid forks and missing proofs remain blocked.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "extension_pending_resume_and_forks",
       "status": "unverified",
@@ -829,13 +830,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "Existing compatibility and historical not_ready are retained; plan is read-only and both surfaces share semantics.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "legacy_and_surface_compatibility",
       "status": "unverified",
@@ -843,13 +844,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "No fabricated historical authentication or remote immutable-anchor guarantee.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "declared_local_loss_boundary",
       "status": "unverified",
@@ -857,13 +858,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/clippy2-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/final-binding-for-raydot.json"
       ],
       "expectedOutcome": "No recursive lock or unguarded writer, bounded failure for cyclic dependencies, no default permanent source-checkout dependency, damaged canonical records retain scope obligation and all required validity predicates remain conjunctive.",
-      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "reason": "Current source changed after the actual 9e1e4786 13/13 run for equivalent lint fixes and native Windows fixture argument separators. Preserve that run as historical; current request, fresh formal verification and repaired-version Windows cases remain pending.",
       "required": true,
       "scenario": "guarded_bounded_offline_conjunctive_validation",
       "status": "unverified",
@@ -871,7 +872,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-16T17:34:32.958861918+00:00",
+  "updatedAt": "2026-10-16T18:16:53.265062600+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",

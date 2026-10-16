@@ -1,0 +1,167 @@
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "evidence_stale",
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable"
+  ],
+  "raw_scanner_unknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "material_manifest_digest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+  "effective_unknowns": [
+    "evidence_stale",
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable"
+  ],
+  "safe_actions": [
+    "continue_to_checkpoint",
+    "rerun_affected_checks"
+  ],
+  "required_checks": [
+    "evidence_freshness"
+  ],
+  "authority": "authorized",
+  "outcome_state": "verification_pending",
+  "reviewState": "human_decision_recorded",
+  "changedPaths": [
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+    "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 17,
+      "acceptanceEvidenceEntries": 17,
+      "changedPathCount": 87,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "evidence_stale"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+      "materialManifest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+      "repositorySnapshot": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+      "summary": "sha256:5e26d85d500dacf452eb4f43ab7ed5773a75f4e3dd15cc746bac4e4e2170306d",
+      "verificationEvidence": "sha256:795584af34a4a5bae3486bb0148507f9ec174c604596c4a35d7321ab7acfbbd7"
+    },
+    "unknowns": [
+      "evidence_stale",
+      "governance_controls_unknown",
+      "intent_alignment_insufficient",
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "materialManifestDigest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_stale",
+      "governance_controls_unknown",
+      "intent_alignment_insufficient",
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "lastVerificationAt": "2026-10-16T18:08:05Z",
+    "updatedAt": "2026-10-16T17:34:32.958861918+00:00",
+    "safeActions": [
+      "record_governance_controls",
+      "record_material_review_decision",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_verification",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "evidence_stale",
+          "message": "current projection reports evidence_stale"
+        },
+        {
+          "kind": "unknown",
+          "code": "governance_controls_unknown",
+          "message": "current projection reports governance_controls_unknown"
+        },
+        {
+          "kind": "unknown",
+          "code": "intent_alignment_insufficient",
+          "message": "current projection reports intent_alignment_insufficient"
+        },
+        {
+          "kind": "unknown",
+          "code": "material_review_receipt_stale",
+          "message": "current projection reports material_review_receipt_stale"
+        },
+        {
+          "kind": "unknown",
+          "code": "repository_material_inspection_unavailable",
+          "message": "current projection reports repository_material_inspection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "scenario_coverage_insufficient",
+          "message": "current projection reports scenario_coverage_insufficient"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [
+        "evidence_stale"
+      ],
+      "admissionDigest": "sha256:aa0700213a48ec029b94d38245a8fdc604eddbec1935a1089fd5601d722e3865"
+    },
+    "statusDigest": "sha256:40f0758d83ab2cf76350a3246d6aaf4716cb406be5db65e8e40073d6ea70cee0",
+    "historical": false
+  }
+}

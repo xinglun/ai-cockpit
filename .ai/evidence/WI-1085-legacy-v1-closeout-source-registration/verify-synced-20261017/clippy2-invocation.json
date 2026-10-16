@@ -1,0 +1,34 @@
+{
+  "startedAt": "2026-10-16T18:13:48.556244+00:00",
+  "sourceHead": "007fdcba2e81d01285a694dce57cd78e0f74fcf4",
+  "rootIdentity": {
+    "pid": 1753519,
+    "startTimeTicks": 4859908,
+    "pgrp": 1753518,
+    "session": 1753518
+  },
+  "argv": [
+    "/usr/local/bin/docker-init",
+    "-s",
+    "-g",
+    "-vvv",
+    "-w",
+    "--",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "cargo",
+    "clippy",
+    "--locked",
+    "--workspace",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "target": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "buildJobs": 1,
+  "notFormalVerificationReceipt": true,
+  "notWindowsExecution": true
+}
