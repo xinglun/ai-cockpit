@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "immutableContractBaseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "sourceSnapshotDigest": "sha256:493970c2f4fa0f110d2f0c3c6693fe9448bde14ecbe134ad63b63fea991ba909",
+  "materialManifestDigest": "sha256:2955fc9ba797263d5bd60f688d585260d85d1435cc1f0efcbd8185a797500f05",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:9dcee9c81b0888942520a821f502071bd078a16da9473fdd63f8568a87e54f80",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:8eed971dcbb631b144496cbd91fe2d92059a7aea023552d7dffa2187c6832045",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:f25f2ba06d880439c50ac6c6a8b61c34cfa3a8de1ecc6cdb69af5325b27ffd2a",
+      "afterBlobDigest": "sha256:a71bc542d034159604a4db0c48956e25841976fb76dfe05925d433949b109fee"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1aa90f1f181465999797504fbd6df8f82a6bfcc1ea6b0fd30072cee9640a91e5",
+      "afterBlobDigest": "sha256:713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:124eb876214edd97e6551791c9fca11cc5249813656504cf3b55f16e85a7261c",
+      "afterBlobDigest": "sha256:aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/scope_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:953487925e2abecc29e74b5555b6163c36dd2128ef2637ccd3476aa65f3215b6",
+      "afterBlobDigest": "sha256:0fffdf6f8822f0ced3dab708192b58bd70c885ab3ea736ba719e379232904cb5"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:13bd0c160027faa4093cf18ba8594ea9072bce56675a0518ed1941146bccd0a9",
+      "afterBlobDigest": "sha256:6ee531ed341b80c24d22d53b0c1b6d02dede4ffbfcfbdfee76e159eb45a93529"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:adc5333e79bb4d60f3ebe189609b2b291b1b085b98aef2788b34000fea727bb6",
+      "afterBlobDigest": "sha256:87c80761a930aec9afff119cd6fb7a2d5657229675fd369a35bc7f9a17c04a63"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:c4783859a497560a6d190c3ba5163123cedd1c9a2623b9bd5d16067e17a94194",
+      "afterBlobDigest": "sha256:d44da80601074077d93abd4cf291b9fce393cf1681b654c42021fcbc98fac288"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:fcc3e71bb7eaae28ff0343e098e5fd09a244b0a0dc1d839e9339d8eb19a1aefc",
+      "afterBlobDigest": "sha256:86f3cc79aaa6cd3627256e895d15d0ab6cf6e853ba12de1e6477b4b49a931b38"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:96e8e60bfbb4cf2fb1ae720fd62097ca247b15ee0d4f983ebab6f86eb928de06",
+      "afterBlobDigest": "sha256:fab8ebdb2339dde72c5c652456b225c4acc5c95dd366a6b1bfab663c4ad6ec59"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:07ca94ddfd29f52dfd0d587c5fa8f9bf485c8c57ca2979f963408929e54c1da9",
+      "afterBlobDigest": "sha256:2e70efbe08c59e7fce6cdc9424965136e8c0c3b8feba30c8317968b5c829c429"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:cf23a4e4e85c7ae046cbe27750dea2e09bc1afee6dc4b281e24c5f3e6067b0d1",
+      "afterBlobDigest": "sha256:a7863aa0b6dcd67ed1d9c7405e1547e167024d711a33c3e8ff248346cce601e5"
+    },
+    {
+      "path": "crates/cockpit-repository/src/governance_controls.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8226e7dc93a112436bc430cfa73aa720c94e129422e44372d72dcc32cb7fdf81",
+      "afterBlobDigest": "sha256:b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4"
+    },
+    {
+      "path": "crates/cockpit-repository/src/historical_compatibility.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:06a2bd25355d4574cdacb138d6b623582537442ed295d88ac890237f487d241e",
+      "afterBlobDigest": "sha256:ee153d38dfcee1c1d37012d9cbc9edba2debb6d75dcf4d5fa6f17dada6785b2c"
+    },
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:f5e80d754722e1e5ef0a064ebb1d3b0de04cfdadc640b56200d8a4f47ad4a4b9",
+      "afterBlobDigest": "sha256:b583c1dd90952859eb268e70aede7fa00aeef44d409c2093eaeb8e6b44b1c00e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8d53a697110dc7d08fb75f80e1d0b9315de57d1bd1aadfd7d463ec7f574fd748",
+      "afterBlobDigest": "sha256:adf85e1d5d2f26d2cdcb489785b21fc6af6e70abbd1c1b2b49fb59f1dab3f3a0"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:6235e68ba612a7279375e0b70185960419185dd96b779175931aa44abd4c56e5",
+      "afterBlobDigest": "sha256:15e85af83dacc4e482c2fbfc2b5d57a921e0a0915582ad5a1647f3e8c14bcfea"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3c81977353df5ecc541a48f82942283e8733360297820cb215e3d3d09bac2a4f",
+      "afterBlobDigest": "sha256:f13611b7fa1565f999ecd2556a812561735617caf0835cc4ebe4d0a0140f7a3f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:7be0bda9fb8f17ce9b484948f3cc92aeb93651ecde358e998c6c3590360f4685",
+      "afterBlobDigest": "sha256:11a889d0324946cb1c3496820a13988cd3a078aab6dade1486b8be7f6ce11909"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0022f57329c87f571de0b6bc336e1e5d3a637362e8a1537a2b71b1df1e32c540",
+      "afterBlobDigest": "sha256:2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:fcf0015f225019ed534d46f0da45b0a6784e4f0970e047d2f6bb9dfdb173eb81",
+      "afterBlobDigest": "sha256:27b988ac86c923f60b115694e2766f8f4498ea26689cdbf4e4abf744ecb21b62"
+    },
+    {
+      "path": "docs/reference/agent-workflow.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:b0c4290b5520225819d297747a136327615610d365c5365d7120beb1ecdf8c32",
+      "afterBlobDigest": "sha256:34bbfc563817eebefa3a8853312d44509220921f688c52784c92028d82fbe79d"
+    },
+    {
+      "path": "docs/reference/agent-workflow.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:7a390a54c488c1ba2c3666f69bff701c9f81ccf4ef77903b6493d9fd0edb7b73",
+      "afterBlobDigest": "sha256:5c87c8532a2627259f6d91f56dc085ff73dfd46365700e9d1ee2a11a127b6ac6"
+    },
+    {
+      "path": "docs/reference/agent-workflow.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:cb2d837984ade441d564d4fb967b0a155a2d0e6301ef6d4f2e2a50b10652c5b0",
+      "afterBlobDigest": "sha256:f4c7e485c16b8f1497b03bf0db7c876960d109e3467da4da1bf9c05926a8293f"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8334bf8f82795285f60732347b68ca0bb600a5cd4e3bd4e0d8bc704c1ea3871a",
+      "afterBlobDigest": "sha256:dd3e09d59f32347ba68bae5b3275c2f52e50ca28bcc9e841a41cae6809a379ce"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:f65e9e4aee9009910175213b203d5ec8bece50cad0f20c6bc2672ec08e04cf25",
+      "afterBlobDigest": "sha256:642a67a04f73b141b5440d0b162fece86c5d9bcdcc12e287c6bd9582ffbf70b5"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8020b9c7220ad8311bf0dce12b2bf30a7e614554892e514216def095d38db836",
+      "afterBlobDigest": "sha256:f8e10e20d4c8eb3e50216400dc66f06e280358a7506e8b32cf58da28ecdfa1eb"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:bf48586f09f7d7cb4cd263be7b80e85a20e934d539066be30961f9b7cfbd4ae3",
+      "afterBlobDigest": "sha256:729160afee8936b0d33fb485fb3a376edeb78843e25b35043b0c0026b56931a0"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:9d8971a543c0f190c02462cfe047c14c6d9d1752d1a2a3ee051fd0f5c6dcd6de",
+      "afterBlobDigest": "sha256:ef3e539188a2018d64afe41459053cc9d68d3a6db94020f1cb6c59e10299f869"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:183670a82a417e6b7e3c3dfa96ea891f1acb2f521ab0ba02884f301f3479f671",
+      "afterBlobDigest": "sha256:d1e46e958286dfaa844786a457a1f3fd87a6b95d53a5f8ec21673b84cb795130"
+    },
+    {
+      "path": "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:b5815b622ff04b7b7f97d3bb4ecca61dc0b1ce9c9848c7141ea59f742b2a7c68",
+      "afterBlobDigest": "sha256:f33a397e1e09efced52d8880fb19da2d0ba3967f31998fd96bb571baaf2e3aec"
+    },
+    {
+      "path": "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:29cc01ffbd51632107341ec43f74374698995b2c3c19270ba42def8b8fa4b6c2",
+      "afterBlobDigest": "sha256:b5efcaf23d1789b2597759d6f847ec46cf2f03d0409edbb58be0fbb47a91b635"
+    },
+    {
+      "path": "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:245a85f09aaf8a6ba8d7bb1156064ee5804e0056c6fcd309d94f75e6e0174180",
+      "afterBlobDigest": "sha256:897b36448ed026ca54aa6c81b71f1c4bd8165e96869b7e05c11a21314be66df7"
+    },
+    {
+      "path": "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1fdfc555f2800e6112b6741532444dfdc8f8a50ca4fd94140258431add20df3f",
+      "afterBlobDigest": "sha256:211ad26b6295e6e66c4634b1d8526c83ddc08b4ebb061a83bf547251aed8514d"
+    },
+    {
+      "path": "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:890fcf1e6d961a147e29a9f241bc24568ba955eec5a6ac4090c88323dff644b5",
+      "afterBlobDigest": "sha256:6ae113a4d815e247976787f33843ee70d67ed4dd2adeb92249de4d4ceb7ea278"
+    },
+    {
+      "path": "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d2ad95dc6d6d213d5a038859506b88c47ccf064a974148c34bd7da5cfea7b2e3",
+      "afterBlobDigest": "sha256:4a4298f861ac5cd1127166333882992e8a75e8f8e8f118be945c5bee645784e7"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:6a85a89d5ee402b20f57b46e01609e45dc2f83bb69cddc0ebafa7325f0412cf8",
+  "reviewedSourceHead": "747655cdc56eb7a697dee13c5e8136ea0781571e"
+}
