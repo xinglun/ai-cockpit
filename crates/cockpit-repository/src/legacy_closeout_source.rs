@@ -2723,6 +2723,29 @@ mod publication_tests {
             }
         }
     }
+    #[cfg(windows)]
+    #[test]
+    fn publication_rejects_windows_reparse_parent_before_any_write() {
+        let (owner, root) = fixture();
+        let outside = tempfile::tempdir().unwrap();
+        let name = names(false)[0].clone();
+        let victim = outside.path().join(&name);
+        fs::write(&victim, b"outside victim").unwrap();
+        let dir = Dir::open_ambient_dir(outside.path(), cap_std::ambient_authority()).unwrap();
+        let identity = dir.metadata(&name).unwrap().ino();
+        let guard = acquire_lifecycle_lock(&root, ID).unwrap();
+        let plan = primitive_plan(&root);
+        fs::remove_dir(root.join(".ai/decisions")).unwrap();
+        super::windows_reparse_tests::junction(&owner.path().join(".ai/decisions"), outside.path());
+
+        // Even a supplied capability for the outside target cannot waive the
+        // publication parent's repository-bound no-follow check.
+        assert!(publish(&root, ID, &guard, &plan, &dir, &name, &bytes(&name)).is_err());
+        assert_eq!(fs::read(&victim).unwrap(), b"outside victim");
+        assert_eq!(dir.metadata(&name).unwrap().ino(), identity);
+        assert_eq!(fs::read_dir(outside.path()).unwrap().count(), 1);
+    }
+
     #[cfg(unix)]
     #[test]
     fn no_replace_publication_preserves_hardlink_symlink_and_directory_victims() {
@@ -2763,6 +2786,111 @@ mod publication_tests {
                 assert_eq!(fs::metadata(&canonical).unwrap().ino(), identity);
             }
         }
+    }
+}
+
+#[cfg(all(test, windows))]
+mod windows_reparse_tests {
+    use super::{MAX_BYTES, PinnedRoot, has_obligation, obligation_ids, optional_read, safe_read};
+    use std::{fs, os::windows::fs::MetadataExt, path::Path, process::Command};
+
+    // Junction creation needs no symlink privilege. Failure is a test failure,
+    // never a skip that could silently remove the Windows containment evidence.
+    pub(super) fn junction(link: &Path, target: &Path) {
+        let output = Command::new("cmd.exe")
+            .args(["/D", "/C", "mklink", "/J"])
+            .arg(link)
+            .arg(target)
+            .output()
+            .expect("create real Windows junction");
+        assert!(
+            output.status.success(),
+            "mklink /J failed; stdout: {}; stderr: {}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        const FILE_ATTRIBUTE_REPARSE_POINT: u32 = 0x400;
+        assert_ne!(
+            fs::symlink_metadata(link).unwrap().file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT,
+            0,
+            "fixture must be a real reparse point"
+        );
+    }
+
+    #[test]
+    fn history_reads_reject_windows_reparse_parent() {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().join("repository");
+        let outside = owner.path().join("outside");
+        fs::create_dir_all(root.join(".ai")).unwrap();
+        fs::create_dir(&outside).unwrap();
+        fs::write(outside.join("proof.json"), b"outside proof").unwrap();
+        junction(&root.join(".ai/decisions"), &outside);
+
+        // The ambient read demonstrates the escape this module must reject.
+        assert_eq!(
+            fs::read(root.join(".ai/decisions/proof.json")).unwrap(),
+            b"outside proof"
+        );
+        let root = root.canonicalize().unwrap();
+        assert!(safe_read(&root, ".ai/decisions/proof.json", MAX_BYTES).is_err());
+        assert!(optional_read(&root, ".ai/decisions/proof.json").is_err());
+        assert_eq!(
+            fs::read(outside.join("proof.json")).unwrap(),
+            b"outside proof"
+        );
+    }
+
+    #[test]
+    fn obligation_enumeration_fails_closed_on_windows_reparse_directories() {
+        for component in [".ai", ".ai/decisions"] {
+            let owner = tempfile::tempdir().unwrap();
+            let root = owner.path().join("repository");
+            let outside = owner.path().join("outside");
+            fs::create_dir(&root).unwrap();
+            fs::create_dir(&outside).unwrap();
+            let payload = if component == ".ai" {
+                fs::create_dir(outside.join("decisions")).unwrap();
+                outside.join("decisions")
+            } else {
+                fs::create_dir(root.join(".ai")).unwrap();
+                outside.clone()
+            };
+            let name = "WI-REPARSE.legacy-closeout-source-requirement.json";
+            fs::write(payload.join(name), b"outside obligation").unwrap();
+            junction(&root.join(component), &outside);
+            assert_eq!(
+                fs::read(root.join(".ai/decisions").join(name)).unwrap(),
+                b"outside obligation"
+            );
+
+            let root = root.canonicalize().unwrap();
+            assert!(has_obligation(&root, "WI-REPARSE"));
+            assert!(
+                obligation_ids(&root).is_err(),
+                "{component} reparse must fail enumeration, not follow it or report no obligations"
+            );
+            assert_eq!(fs::read(payload.join(name)).unwrap(), b"outside obligation");
+        }
+    }
+
+    #[test]
+    fn pinned_repository_root_rejects_windows_reparse_alias() {
+        let owner = tempfile::tempdir().unwrap();
+        let root = owner.path().join("repository");
+        let alias = owner.path().join("alias");
+        fs::create_dir_all(root.join(".ai/decisions")).unwrap();
+        fs::write(root.join(".ai/decisions/proof.json"), b"original proof").unwrap();
+        junction(&alias, &root);
+        assert_eq!(
+            fs::read(alias.join(".ai/decisions/proof.json")).unwrap(),
+            b"original proof"
+        );
+
+        // Do not canonicalize the attacker alias before testing the pinning
+        // primitive: doing so would erase the reparse point under test.
+        assert!(PinnedRoot::open(&alias).is_err());
+        assert!(safe_read(&alias, ".ai/decisions/proof.json", MAX_BYTES).is_err());
     }
 }
 
