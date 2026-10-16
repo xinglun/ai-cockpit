@@ -392,11 +392,19 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:eb14ff234c39e5d98d5074e89f05cd6a0beba6293a5889e3c15b278bd0c85cd9",
-    "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1.json",
-    "receiptDigest": "sha256:e093474e78b36185793f67fa74adf5583486a2c7d4d731bac19cf36294e61ad8",
-    "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1"
+    "digest": "sha256:760984b30461462a45ca53fb5c0668225f6b3eda238cefc2247835d62fdaee1b",
+    "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790.json",
+    "receiptDigest": "sha256:9dc8bd004c7de4f1668c3bf49875eec707e2bed71c92078dadcccfc07c014e44",
+    "requestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790"
   },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:eb14ff234c39e5d98d5074e89f05cd6a0beba6293a5889e3c15b278bd0c85cd9",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1.json",
+      "receiptDigest": "sha256:e093474e78b36185793f67fa74adf5583486a2c7d4d731bac19cf36294e61ad8",
+      "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1"
+    }
+  ],
   "mode": "implementation",
   "preflightAt": "2026-10-16T12:52:24Z",
   "preflightContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",

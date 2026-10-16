@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1085 opt-in proposal requires Raydot review before application",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/material-decision-relay.json",
+      "digest": "sha256:67440ef8e924e577c746b7f8c9e8615820fdfeb05145ad37f2e6a68c816e1772"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/reverify-20261016/material-request.json",
+      "digest": "sha256:bc4081afd7750bb76493540283b0b6540e8acf07f0e65ec787c1d1feec24115d"
+    }
+  ],
+  "rationale": "Record the actual parent-relayed Raydot decision bound to final request 661c2ccf. Rechecked current Contract, source, manifest, profile, analyzer, policy and exact two allowed Unknown entries. The two added MCP test entries are clean. Codex records this real relay without impersonating the reviewer.",
+  "residualRisk": "Scanner remains incomplete for the two permitted committed Rust syntax forms. Retain raw Unknowns; formal verification, 11 scenario attestations, intent alignment and acceptance are not established by this technical decision."
+}
