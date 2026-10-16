@@ -1,0 +1,81 @@
+{
+  "observedAt": "2026-10-16T12:24:13.000458+00:00",
+  "candidate": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/debug",
+  "method": "All readable live /proc process identities; exe/cwd/root symlinks, fd symlinks and memory maps. Zombie processes have no live address space or open descriptors and are counted separately. Read races require confirmed absence or changed identity.",
+  "liveProcessesScanned": 7,
+  "zombiesCounted": 1419,
+  "matches": [],
+  "unresolvedReadErrors": [
+    {
+      "pid": 200,
+      "path": "/proc/200/exe",
+      "error": "[Errno 13] Permission denied: '/proc/200/exe'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/cwd",
+      "error": "[Errno 13] Permission denied: '/proc/200/cwd'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/root",
+      "error": "[Errno 13] Permission denied: '/proc/200/root'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/fd",
+      "error": "[Errno 13] Permission denied: '/proc/200/fd'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/maps",
+      "error": "[Errno 13] Permission denied: '/proc/200/maps'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/exe",
+      "error": "[Errno 13] Permission denied: '/proc/251/exe'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/cwd",
+      "error": "[Errno 13] Permission denied: '/proc/251/cwd'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/root",
+      "error": "[Errno 13] Permission denied: '/proc/251/root'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/fd",
+      "error": "[Errno 13] Permission denied: '/proc/251/fd'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/maps",
+      "error": "[Errno 13] Permission denied: '/proc/251/maps'",
+      "followup": "same_process_entry_not_confirmed_absent"
+    }
+  ],
+  "resolvedReadRaces": [
+    {
+      "pid": 917180,
+      "path": "/proc/917180/fd/3",
+      "error": "[Errno 2] No such file or directory: '/proc/917180/fd/3'",
+      "followup": "specific_proc_entry_confirmed_absent"
+    }
+  ],
+  "observationComplete": false,
+  "result": "occupancy_unknown",
+  "limit": "Point-in-time observation; repeat immediately before any subsequently approved deletion."
+}

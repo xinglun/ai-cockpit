@@ -1,0 +1,48 @@
+{
+  "sourceHead": "f168de42038091303801219ed3b8888afce768c8",
+  "toolNamesDeclaration": "crates/cockpit-mcp/src/lib.rs:7 const TOOL_NAMES: [&str; 33]",
+  "newTools": [
+    {
+      "name": "work_item_legacy_closeout_source_plan",
+      "listDeclarationLine": 31,
+      "schemaMatchArmLine": 727,
+      "surface": "read-only plan through native shared repository legacy source service",
+      "toolDescriptionLine": 922,
+      "dispatchMatchArmLine": 2120,
+      "repositoryCallLine": 2133,
+      "repositoryFunctionDefinition": "crates/cockpit-repository/src/legacy_closeout_source.rs:1014"
+    },
+    {
+      "name": "work_item_legacy_closeout_source_record",
+      "listDeclarationLine": 32,
+      "schemaMatchArmLine": 731,
+      "surface": "explicit record through native shared repository legacy source service",
+      "toolDescriptionLine": 926,
+      "dispatchMatchArmLine": 2120,
+      "repositoryCallLine": 2141,
+      "repositoryFunctionDefinition": "crates/cockpit-repository/src/legacy_closeout_source.rs:1361"
+    }
+  ],
+  "testProposal": [
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "line": 88,
+      "function": "material_review_plan_tool_uses_shared_read_only_repository_service",
+      "actualFailure": "left 33 right 31",
+      "proposedExactChange": "assert_eq!(tools.len(), 31); -> assert_eq!(tools.len(), 33);",
+      "otherAssertions": "preserved"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "line": 25,
+      "function": "initialize_and_tool_list_expose_native_usage_record_without_hidden_helper",
+      "executionStatus": "not reached after earlier MCP test binary failed; static old count only",
+      "proposedExactChange": "assert_eq!(tools.len(), 31); -> assert_eq!(tools.len(), 33);",
+      "otherAssertions": "preserved"
+    }
+  ],
+  "allProductAndTestFilesUnmodified": true,
+  "scopeAmendmentApplied": false,
+  "freshMaterialReview": "After any native amendment or subsequent test change, query the new request and report differences. Do not reuse the current 94bdbf... approval for changed bindings.",
+  "existingWorkingExactCountReference": "crates/cockpit-mcp/tests/rpc.rs:426 assert_eq!(listed.len(), 33);"
+}
