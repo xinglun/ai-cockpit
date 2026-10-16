@@ -1,0 +1,120 @@
+{
+  "entries": [
+    {
+      "path": ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.close.json",
+      "bytes": 34095,
+      "sha256": "a61f429650d0dc6bb086d40655a609e6f1ae53d5773731380e1bbd717a1b57fd"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/after-promotion-uncommitted-status.json",
+      "bytes": 3215,
+      "sha256": "f9ee8fc9f4a1d47fa0ff52cd538210f8b89af33d17cdf5f7ef32cba7c1a0dcd5"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/authority-relay.json",
+      "bytes": 1185,
+      "sha256": "725fe944ca3227a823b393d5f8f2c657cedef0097c7931f7da1e4c7e650e41ae"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/before-status.json",
+      "bytes": 3206,
+      "sha256": "da6cd0ec32dd3e28db1769add0ce01abfe2c3e6a31f1d6543306d9f836462bdd"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/governance-check.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/governance-check.missing-cargo.err.log",
+      "bytes": 1298,
+      "sha256": "6c4f705be3eaef4e72f9f4fd008bc057c8deabf6abba4c648012c65260efbc1b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/governance-check.missing-cargo.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/governance-check.out.log",
+      "bytes": 49,
+      "sha256": "10a62b85f476a2ed83f7742d2387c3fd5bbb1265ef70b7bb153a7cde8c20552e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/governance-integrity-report.json",
+      "bytes": 173701,
+      "sha256": "fbdb5315383332e17c0535bfc229a2f412c98da21efb84fe784da2db3e492fdc"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/preserved-native-bytes.json",
+      "bytes": 1509,
+      "sha256": "233f31d7000f65caed16a87971b4e6f62956e7a899a7f8bde473c278d98e91ac"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/promotion-check-all.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/promotion-check-all.json",
+      "bytes": 25188,
+      "sha256": "1b77c192c7456b2f811b6ed149ca01fcaeb4efaf55ce440e674bbd810a2ed446"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/promotion-check.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/promotion-check.json",
+      "bytes": 477,
+      "sha256": "8f5edd16a51a252f2c022fdaa15fa4b129b4488f6e0ed14580c4e957843a82ba"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/promotion.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/promotion.json",
+      "bytes": 843,
+      "sha256": "6548434eb7231b119e5a1a0810e37587dc28679779e273037efa250a3c8f808c"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/docs-promote-20261017/report.zh-CN.md",
+      "bytes": 2718,
+      "sha256": "0efbca6725fb582799335298ba44a8999308a3b1462ef9b7367ff4202fe91766"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "bytes": 379981,
+      "sha256": "ee8a28b6ffabf5e3ec1f480f8bc19b4020e568a15f398f922592454bce6fa1a3"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "bytes": 371658,
+      "sha256": "b526db401f503d9d102cd4181e4cdff6e9c0ac78cfc785c1e99fcc040c7e067d"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "bytes": 362465,
+      "sha256": "0fc994fd922961dfe7d3a5929f113c7433cff6a4e339836a33a8b3a2d534ce29"
+    },
+    {
+      "path": "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md",
+      "bytes": 3882,
+      "sha256": "91103d50cc3755375d5ce7c7a740f76dd82dc27a7938c3de0e6fa2e8d6aa80e2"
+    },
+    {
+      "path": "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.md",
+      "bytes": 3733,
+      "sha256": "d53a262824eb91a0531b373e61fdc8bb0207e764b20fdadf1c06e09f580ee347"
+    },
+    {
+      "path": "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md",
+      "bytes": 3253,
+      "sha256": "6eedd5dcbe95e4736852a3778bd178ef6981b398a6e587f32a79ef32a26907e2"
+    }
+  ],
+  "excludesSelf": true
+}

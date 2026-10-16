@@ -1,0 +1,719 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/after-review-status.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/after-review-validation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/before-review-status.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-quality.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/artifact-origins.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/ci-revision-binding.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/governance-integrity-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/quality-route.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/quality-summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/repository-gates.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/workspace-package-coverage.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/decision-relay.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-processes.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-status.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-validation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-invocation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-plan.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-root-identity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-01.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-02.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-03.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-04.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-request.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-after.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-before.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-invocation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-result.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-sample-01.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.err.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.exit.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.out.log"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prior-canonical.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prior-native-byte-manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/review-before-processes.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/close-authority-binding.json",
+            ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:Ray via user:Ray explicit approval; message_id=Sentinel_6f2048617e1481919ae69aa00bafaa28; sourceThreadId=01a11856-d6ba-72e0-9aab-25a34cd2f018; reportedAt=2026-10-16 22:05 UTC (minute precision); actual decision relayed by controller and recorded by agent:Codex at 2026-10-16T22:05:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "实现本地 requirement + registration 不可变双记录、完整来源及 payload 校验、受约束中断恢复和唯一 Retained→Deleted 扩展写入核心；CLI/MCP 共用实现并保持普通 close、v2 和未登记旧 v1 的兼容边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-16T22:07:11.250843530Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+  },
+  "finalReportDigest": "sha256:6a4ce517f936aa74ec77b971c1d7852ea4ce606f7791bb41547b2d5d7e6bfefa",
+  "humanDecision": "approved",
+  "occurredAt": "2026-10-16T22:07:11.250701177Z",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:d0ccf2dd20e277c1b6563437154e56e04d8e355447eb40370f07a04059c704a8",
+    "branch": "codex/wi1085-legacy-v1-closeout-source-registration",
+    "branchRef": "refs/heads/codex/wi1085-legacy-v1-closeout-source-registration",
+    "capturedAt": "2026-10-16T22:07:11Z",
+    "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "headRevision": "1c69a1ff9048b0272a2ec1b2684f27f24019aefa",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+    "worktreeId": "sha256:ec1b7998ddabf3c04827370e279ab8a6c646a2ff62a187d49e1e4ad473533407",
+    "worktreePath": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:d1165ae9901888bf325245fb874ff70356e53ebb440383ca9bba4f214edaa63a",
+  "recordedAt": "2026-10-16T22:07:11.250701177Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "user:Ray explicit approval; message_id=Sentinel_6f2048617e1481919ae69aa00bafaa28; sourceThreadId=01a11856-d6ba-72e0-9aab-25a34cd2f018; reportedAt=2026-10-16 22:05 UTC (minute precision); actual decision relayed by controller and recorded by agent:Codex",
+    "decidedAt": "2026-10-16T22:05:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/close-authority-binding.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/raydot-review-relay.json"
+    ],
+    "policyRefs": [],
+    "reason": "Ray 原话：我本人 Ray 批准按此完整绑定关闭 WI-1085。批准绑定文件为 head 1c69a1ff9048b0272a2ec1b2684f27f24019aefa 的 .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-20261017/close-authority-binding.json；现场字节及原生绑定已核对一致。本决定仅授权原生 close；由 agent:Codex 记录真实用户决定。来源时间仅精确到分钟，decidedAt 秒位 :00 为 RFC3339 格式归一化。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-16T22:07:11Z",
+  "usageCutoff": "2026-10-16T22:07:11.250843530Z",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

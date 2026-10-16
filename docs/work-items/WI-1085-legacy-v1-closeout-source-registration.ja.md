@@ -6,9 +6,12 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1085-legacy-v1-closeout-source-registration
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1085-legacy-v1-closeout-source-registration
+terminalArchive: .ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json
+terminalVerification: .ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json
+terminalDecision: .ai/decisions/WI-1085-legacy-v1-closeout-source-registration.close.json
 ---
 
 [English](WI-1085-legacy-v1-closeout-source-registration.md) · [简体中文](WI-1085-legacy-v1-closeout-source-registration.zh-CN.md)
