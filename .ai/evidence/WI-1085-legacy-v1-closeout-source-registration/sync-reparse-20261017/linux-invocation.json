@@ -1,0 +1,43 @@
+{
+  "recordedAt": "2026-10-16T17:32:53.760249+00:00",
+  "sourceHead": "51bbb20983b762e69c0547e0bd2162157d51d1e4",
+  "sourceImplementationCommit": "747655cdc56eb7a697dee13c5e8136ea0781571e",
+  "command": [
+    "/usr/local/bin/docker-init",
+    "-s",
+    "-g",
+    "-vvv",
+    "-w",
+    "--",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--lib",
+    "legacy_closeout_source"
+  ],
+  "tiniRootsObserved": [
+    {
+      "pid": 1451231,
+      "comm": "docker-init",
+      "state": "S",
+      "ppid": 1450923,
+      "pgrp": 1450922,
+      "session": 1450922,
+      "startTimeTicks": 4613141
+    }
+  ],
+  "beforeZombieCount": 1437,
+  "minimumDiskReserveBytes": 2147483648,
+  "workers": 1,
+  "buildJobs": 1,
+  "testThreads": 1,
+  "target": "target/wi1085-legacy-closeout-source",
+  "notWindowsExecution": true,
+  "notCanonicalFormalReceipt": true
+}

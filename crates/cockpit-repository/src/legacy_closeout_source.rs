@@ -2729,10 +2729,10 @@ mod publication_tests {
         let (owner, root) = fixture();
         let outside = tempfile::tempdir().unwrap();
         let name = names(false)[0].clone();
-        let victim = outside.path().join(&name);
+        let victim = outside.path().join("outside-victim.json");
         fs::write(&victim, b"outside victim").unwrap();
         let dir = Dir::open_ambient_dir(outside.path(), cap_std::ambient_authority()).unwrap();
-        let identity = dir.metadata(&name).unwrap().ino();
+        let identity = dir.metadata("outside-victim.json").unwrap().ino();
         let guard = acquire_lifecycle_lock(&root, ID).unwrap();
         let plan = primitive_plan(&root);
         fs::remove_dir(root.join(".ai/decisions")).unwrap();
@@ -2741,8 +2741,9 @@ mod publication_tests {
         // Even a supplied capability for the outside target cannot waive the
         // publication parent's repository-bound no-follow check.
         assert!(publish(&root, ID, &guard, &plan, &dir, &name, &bytes(&name)).is_err());
+        assert!(!outside.path().join(&name).exists());
         assert_eq!(fs::read(&victim).unwrap(), b"outside victim");
-        assert_eq!(dir.metadata(&name).unwrap().ino(), identity);
+        assert_eq!(dir.metadata("outside-victim.json").unwrap().ino(), identity);
         assert_eq!(fs::read_dir(outside.path()).unwrap().count(), 1);
     }
 

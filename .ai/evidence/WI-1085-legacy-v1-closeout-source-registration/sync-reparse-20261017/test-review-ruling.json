@@ -1,0 +1,7 @@
+{
+  "recordedAt": "2026-10-16T17:38:02.367798+00:00",
+  "finding": "The first publication junction test pre-created the canonical filename as a victim. An unsafe followed-junction write could then fail on AlreadyExists/readback without proving containment, leaving a false-positive negative assertion.",
+  "fix": "Keep a separate outside-victim.json sentinel, leave the requested canonical filename absent, assert publication errors AND the canonical file was never created, and preserve sentinel bytes/identity and directory entry count.",
+  "scope": "Only strengthens the new Windows publication regression, no product or existing assertion change.",
+  "ciBinding": "First PR run is for 51bbb209. Strengthened test requires a new source/material request and a new current-head Windows CI; do not reuse the first run as final proof."
+}

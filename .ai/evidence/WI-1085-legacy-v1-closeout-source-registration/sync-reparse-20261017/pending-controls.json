@@ -1,0 +1,856 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "direct_record_rejects_self_source_even_when_every_external_digest_is_resealed",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A1",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "complete_source_rejects_missing_legacy_identity_header_without_rewriting_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A2",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A3",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "forged_resume_cannot_create_a_first_root_after_source_disappears",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "damaged_survivor_cannot_become_original_through_a_fresh_plan",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A4",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A5",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "legacy_source_input_is_bounded_before_json_parsing",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "fresh_plan_rejects_identical_content_source_root_replacement",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "history_fifo_is_rejected_without_blocking",
+          "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A6",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "every_bound_history_file_and_each_root_obligation_remain_required",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A7",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "lost_archive_keeps_structured_status_and_index_blocking",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "both_missing_root_records_require_a_valid_extension_anchor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A9",
+      "evidence": [
+        {
+          "locator": "already_deleted_before_registration_is_part_of_the_root_inventory",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A9",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A10",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "partial_extension_requires_independent_original_and_resumes_both_survivors",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A11",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "public_finalization_waits_for_the_same_work_item_lifecycle_lock",
+          "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A12",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A13",
+      "evidence": [
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "legacy source registration / all-local-anchor-loss boundary",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A13",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A14",
+      "evidence": [
+        {
+          "locator": "actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A14",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A15",
+      "evidence": [
+        {
+          "locator": "Current Runtime handoff and precise admission proposal; final focused 23/23 + 41/41",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+          "type": "historical_evidence_and_current_plan",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "formalVerificationExecutedThisEnvironment=false",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A15",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A16",
+      "evidence": [
+        {
+          "locator": "sourceHead / remoteHeadReadback / branch",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A16",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A17",
+      "evidence": [
+        {
+          "locator": "semantically_valid_successor_raw_change_revokes_registered_predecessor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "initial_registration_rejects_successor_canonical_proof_obligation_damage",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Historical/source mapping retained from resume-20261016; see the appended current formal receipt and separate assessment for current execution. This path alone is not a current execution receipt."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Actual fresh Linux execution: 13/13 spawned and passed, 0 reuse/timeout; source HEAD 5c0212c6083abbdc6843c2e2647a6de283232e3d. Does not cover Windows or a subsequent main merge."
+        },
+        {
+          "locator": "A17",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Separate criterion/scenario assessment; A6 remains incomplete because reparse execution is absent; A15 current receipt replaces the old pending execution statement; A16 actions remain within authority, with only separately human-approved old debug cleanup."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/existing-head-checks.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-before-facts.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-before-processes.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-before-status.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-invocation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-01.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-02.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-03.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-04.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-05.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-06.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-07.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-observe-08.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-plan.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-plan.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-root-identity.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal.out.log"
+  ],
+  "checkpointAt": "2026-10-15T18:22:10Z",
+  "checkpointContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "recorded": true,
+      "recordedAt": "2026-10-15T18:22:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "reason": "PROPOSED ONLY: ask Raydot to review the minimum existing-protocol admission amendment. The active documentation projection requires exactly one in-progress row in each existing three-language parity ledger, currently outside scope. The committed readable Rust source material has no Findings but a permitted syntax Unknown and material_review_not_enabled. Add only those three paths and a strict self_declared technical material review opt-in; retain raw Unknowns, all checks/acceptance/history and all non-goals. No authority or human confirm_review is recorded by this proposal.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T23:14:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "reason": "DRAFT ONLY for Raydot review. Actual native attempt a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b failed material_review.rs:88 because tools/list reports the 33 declared tools after the two WI-1085 legacy source tools were added, while this assertion expects 31. Static review finds the same old count at usage.rs:25; that test was not reached in the failed MCP node. Add only these two existing test files to scope and matching concurrencyBoundary.implementationPaths so a later admitted change may update each exact tool-count assertion from 31 to 33, preserving all other assertions, product behavior, checks and acceptance. This proposal applies no amendment and records no human confirmation or fresh material-review decision. Bus error remains an observed signal 7, not attributed to disk by this request.",
+      "recorded": true,
+      "recordedAt": "2026-10-16T12:38:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bddd1a809e3b04e357272e17cd1771cb80fb312f16301bd33f688ea4522a535e",
+  "createdAt": "2026-10-15T14:42:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:7b2ccbca2b332f533676c4f3d3e04ac3d83ec9df916977db582212b8a90b3c72",
+    "reason": "Ray replied confirm_review in actual parent message Sentinel_66886c257f5c8191968f2b12ceb7d8de at reported minute 2026-10-16 12:49 UTC, responding to exact bound request Sentinel_ab6f74323d1c8191bd3ba780363751be. Relay source .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/mcp-count-fix-20261016/human-confirm-relay.json raw sha256:0772bb60465e45395c56fbf79fcf2dd9fe77df2b1fe5a1a8cd027c309d7121d1. recordedAt is the actual current recording time, not a backdated human reply time. This covers only continuing after the exact two-file scope adjustment. It does not substitute a final fresh material review, verification or acceptance.",
+    "recordedAt": "2026-10-16T12:51:17.099000+00:00",
+    "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+    "schemaVersion": 1,
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/material-request.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json"
+    ],
+    "reason": "Current synced source requires fresh formal verification and actual Windows legacy_closeout_source reparse case evidence. Historical e749 13/13 and prior material acceptance do not validate this new source.",
+    "state": "unresolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T14:44:27.620151778Z",
+      "recordedAt": "2026-10-15T14:44:27.620151778Z"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:29a87e2753f3bd1ab71b0ccd003771836ca0a5bd4bcfa2cac505b64bffee7dc8",
+    "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1.json",
+    "receiptDigest": "sha256:b8da3c274ae8e8f1ed435b1f0117fa7b20815650e69e4f9af94940d9e63b8523",
+    "requestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1"
+  },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:eb14ff234c39e5d98d5074e89f05cd6a0beba6293a5889e3c15b278bd0c85cd9",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1.json",
+      "receiptDigest": "sha256:e093474e78b36185793f67fa74adf5583486a2c7d4d731bac19cf36294e61ad8",
+      "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1"
+    },
+    {
+      "digest": "sha256:760984b30461462a45ca53fb5c0668225f6b3eda238cefc2247835d62fdaee1b",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790.json",
+      "receiptDigest": "sha256:9dc8bd004c7de4f1668c3bf49875eec707e2bed71c92078dadcccfc07c014e44",
+      "requestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790"
+    }
+  ],
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T17:28:42Z",
+  "preflightContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "preflightDecisionDigest": "sha256:9d2d8f227f6642da52c25ff7c51ebf9ada0c52dff417103223eeb45c20ed8a01",
+  "preflightRepositorySnapshotDigest": "sha256:377d624aa2ad323b4422505ac8cb352b30ae41bb681d31c681862fc4245fb4d5",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "Present-day explicit_attestation is truthful; original historical bytes and assurance remain unchanged.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "complete_source_and_distinct_producer",
+      "status": "unverified",
+      "verificationPlan": "Use a complete old-v1 source with historical producer distinct from present registrar; reject hash-only/incomplete sources."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "Only exact original binding/bytes resume; pending does not permanently block its own recovery; conflicting or corrupt records remain preserved and rejected.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "root_partial_resume",
+      "status": "unverified",
+      "verificationPlan": "Interrupt before/after requirement and registration publication; plan and record requirement-only and registration-only cases."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "Single immutable winner, no lost update, stale/conflict on drift, no overwrite.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "concurrency_and_drift",
+      "status": "unverified",
+      "verificationPlan": "Race same/different WI and binding; change source/destination/inventory/head/admission after plan."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "No escaped read/write or victim replacement; invalid inputs fail closed.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "filesystem_boundaries",
+      "status": "unverified",
+      "verificationPlan": "Exercise bounded reads, duplicate keys/paths, symlink/reparse, directory replacement, traversal and hardlink victims."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "Closed revoked, explicit blocker, WI retained in readiness, overlapping scope rejected.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "proof_loss_and_scope",
+      "status": "unverified",
+      "verificationPlan": "Remove/change each required record/dependency; remove archive directory or Contract+manifest; set closeRequired=false or foreign repository."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "One authoritative write sequence; typed held-lock/internal contract prevents recursive acquisition and unlocked exposure.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "extension_single_writer_and_lock",
+      "status": "unverified",
+      "verificationPlan": "Call normal finalization and explicit extension path with held/unheld lock contexts and concurrent writers."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "Read back original exact transition and return original result; no regenerated actor/time/Runtime bytes and no false next-sequence conflict.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "extension_committed_retry",
+      "status": "unverified",
+      "verificationPlan": "Publish exact transition, fail reporting, then retry with original durable template/version before evaluating next-sequence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "Exact constrained resume works without prior registered_valid/closed; unbound decisions, invalid forks and missing proofs remain blocked.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "extension_pending_resume_and_forks",
+      "status": "unverified",
+      "verificationPlan": "Interrupt extension/transition publication; test lawful Retained→Deleted, already-present Deleted, forks, extra decisions and wrong identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "Existing compatibility and historical not_ready are retained; plan is read-only and both surfaces share semantics.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "legacy_and_surface_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Read ordinary closes, v2 and unregistered v1 through repository/CLI/MCP, and test new plan/record input parity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "No fabricated historical authentication or remote immutable-anchor guarantee.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "declared_local_loss_boundary",
+      "status": "unverified",
+      "verificationPlan": "Document supported surviving-proof detection and complete local provenance-loss/rollback limits."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
+      ],
+      "expectedOutcome": "No recursive lock or unguarded writer, bounded failure for cyclic dependencies, no default permanent source-checkout dependency, damaged canonical records retain scope obligation and all required validity predicates remain conjunctive.",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
+      "required": true,
+      "scenario": "guarded_bounded_offline_conjunctive_validation",
+      "status": "unverified",
+      "verificationPlan": "Exercise crate-private matching lock-guard callers, cross-WI cycles/depth, offline original source after complete registration, malformed/foreign canonical registration names and old-v1/provider failures with apparently valid registration."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-16T17:34:32.958861918+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:6fb690426eed049d9f57df43c67e54cd83f9101fa8e8be8d9a026255f1d11fda",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

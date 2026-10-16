@@ -1,0 +1,61 @@
+
+running 23 tests
+test legacy_closeout_source::nonregular_tests::caller_input_fifo_is_rejected_without_blocking ... ok
+test legacy_closeout_source::nonregular_tests::fifo_child ... ok
+test legacy_closeout_source::nonregular_tests::history_fifo_is_rejected_without_blocking ... ok
+test legacy_closeout_source::nonregular_tests::replaced_lock_fifo_is_rejected_without_blocking ... ok
+test legacy_closeout_source::publication_tests::abrupt_exit_matrix_preserves_canonical_bytes_and_exact_primitive_retry ... ok
+test legacy_closeout_source::publication_tests::no_replace_publication_preserves_hardlink_symlink_and_directory_victims ... ok
+test legacy_closeout_source::publication_tests::parent_replacement_before_or_after_link_is_rejected_without_rollback ... ok
+test legacy_closeout_source::publication_tests::publication_child ... ok
+test legacy_closeout_source::publication_tests::review_regression_io_failures_after_second_canonical_report_unknown_and_preserve_both ... ok
+test legacy_closeout_source::query_budget_tests::active_query_cannot_fall_back_to_unbound_governance_reads ... ok
+test legacy_closeout_source::query_budget_tests::cycles_fail_closed_and_raii_clears_failed_queries ... ok
+test legacy_closeout_source::query_budget_tests::depth_and_repeated_work_have_independent_query_budgets ... ok
+test legacy_closeout_source::query_budget_tests::held_guard_rejects_replaced_root_and_canonical_lock ... ok
+test legacy_closeout_source::query_budget_tests::lower_historical_json_read_cannot_follow_replaced_parent ... ok
+test legacy_closeout_source::query_budget_tests::obligation_enumeration_has_a_directory_work_budget ... ok
+test legacy_closeout_source::query_budget_tests::one_query_cannot_validate_two_different_bytes_for_the_same_path ... ok
+test legacy_closeout_source::query_budget_tests::query_pins_root_identity_before_its_first_payload_read ... ok
+test legacy_closeout_source::query_budget_tests::query_rejects_same_byte_parent_directory_replacement ... ok
+test legacy_closeout_source::query_budget_tests::relative_paths_reject_aliases_and_explicit_size_budgets ... ok
+test legacy_closeout_source::query_budget_tests::replaced_repository_root_cannot_redirect_a_read ... ok
+test legacy_closeout_source::query_budget_tests::review_regression_ascii_case_alias_remains_a_canonical_obligation ... ok
+test legacy_closeout_source::query_budget_tests::review_regression_named_predecessor_cannot_waive_invalid_obligation ... ok
+test legacy_closeout_source::query_budget_tests::review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 129 filtered out; finished in 0.40s
+
+[TRACE tini (1451231)] Registered as child subreaper
+[INFO  tini (1451231)] Spawned child process '/usr/bin/timeout' with pid '1451232'
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[TRACE tini (1451231)] No child to reap
+[DEBUG tini (1451231)] Received SIGCHLD
+[DEBUG tini (1451231)] Reaped child with pid: '1451232'
+[INFO  tini (1451231)] Main child exited normally (with status '0')
+[TRACE tini (1451231)] No child to wait
+[TRACE tini (1451231)] Exiting: child has exited

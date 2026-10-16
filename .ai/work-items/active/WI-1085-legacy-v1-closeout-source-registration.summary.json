@@ -596,11 +596,11 @@
   },
   "intentAlignment": {
     "evidence": [
-      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/intent.json",
-      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/material-request.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json"
     ],
-    "reason": "核心用户意图有 Linux fixtures 与当前正式收据支持；A6 明列的 Windows reparse 尚无本轮执行证据，因此不将全平台验收/整体现时意图对齐提升为完成。main 集成后的行为也尚未验证。",
+    "reason": "Current synced source requires fresh formal verification and actual Windows legacy_closeout_source reparse case evidence. Historical e749 13/13 and prior material acceptance do not validate this new source.",
     "state": "unresolved"
   },
   "lifecycleFacts": {
@@ -642,58 +642,55 @@
   "scenarioCoverage": [
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "Present-day explicit_attestation is truthful; original historical bytes and assurance remain unchanged.",
-      "reason": "完整来源登记、不同历史 producer 与当前 registrar、拒绝 self-source/错误 repository identity；不重新认证历史验证。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "complete_source_and_distinct_producer",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Use a complete old-v1 source with historical producer distinct from present registrar; reject hash-only/incomplete sources."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "Only exact original binding/bytes resume; pending does not permanently block its own recovery; conflicting or corrupt records remain preserved and rejected.",
-      "reason": "首次准确 bytes/binding 的双方缺一恢复与 abrupt-exit 矩阵已通过；伪造首次 resume 和损坏 survivor 被拒绝。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "root_partial_resume",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Interrupt before/after requirement and registration publication; plan and record requirement-only and registration-only cases."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "Single immutable winner, no lost update, stale/conflict on drift, no overwrite.",
-      "reason": "同 binding 并发权威结果和冲突 plan 保留；相同内容替换根/Git/来源以及来源 HEAD 漂移被拒绝。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "concurrency_and_drift",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Race same/different WI and binding; change source/destination/inventory/head/admission after plan."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-mcp.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "No escaped read/write or victim replacement; invalid inputs fail closed.",
-      "reason": "Linux 实测覆盖 bounded input、重复 JSON key、路径别名、父目录替换、symlink/hardlink/directory victim 和 FIFO；Windows reparse 执行证据缺失。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "filesystem_boundaries",
       "status": "unverified",
@@ -701,110 +698,105 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "Closed revoked, explicit blocker, WI retained in readiness, overlapping scope rejected.",
-      "reason": "逐类原始证明/根记录/委托依赖丢失撤销 closed，archive 丢失仍枚举，foreign scope 不能逃逸，overlap preflight 保持阻断。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "proof_loss_and_scope",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Remove/change each required record/dependency; remove archive directory or Contract+manifest; set closeRequired=false or foreign repository."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "One authoritative write sequence; typed held-lock/internal contract prevents recursive acquisition and unlocked exposure.",
-      "reason": "标准 finalization 和 extension 使用同一 writer；三个真实锁回归验证同 WI 等待、跨 WI 独立、错误 guard 拒绝。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "extension_single_writer_and_lock",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Call normal finalization and explicit extension path with held/unheld lock contexts and concurrent writers."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "Read back original exact transition and return original result; no regenerated actor/time/Runtime bytes and no false next-sequence conflict.",
-      "reason": "已提交原 transition 先于 next-sequence 判断被读回重放；canonical 等价但 raw 改动被拒绝，发布后报告 I/O 失败保留 committed/unknown 事实。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "extension_committed_retry",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Publish exact transition, fail reporting, then retry with original durable template/version before evaluating next-sequence."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "Exact constrained resume works without prior registered_valid/closed; unbound decisions, invalid forks and missing proofs remain blocked.",
-      "reason": "root/extension pending 仅原绑定准确 bytes 恢复；合法已有 Deleted 纳入根，错序/fork/身份/资源仍在保持拒绝。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "extension_pending_resume_and_forks",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Interrupt extension/transition publication; test lawful Retained→Deleted, already-present Deleted, forks, extra decisions and wrong identity."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-mcp.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "Existing compatibility and historical not_ready are retained; plan is read-only and both surfaces share semantics.",
-      "reason": "ordinary/v1 读兼容、v2 identity、CLI/MCP 严格入口与实际 transport/replay/resume/offline/proof-loss 行为通过；无自动迁移。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "legacy_and_surface_compatibility",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Read ordinary closes, v2 and unregistered v1 through repository/CLI/MCP, and test new plan/record input parity."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-cli.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "No fabricated historical authentication or remote immutable-anchor guarantee.",
-      "reason": "三语明确 current explicit_attestation、非历史重新认证、原来源可离线和全部本地锚点消失/回滚不可识别；不宣称远端单调保证。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "declared_local_loss_boundary",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Document supported surviving-proof detection and complete local provenance-loss/rollback limits."
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/scenarios.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/formal-result.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-repository.out.log",
-        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-imports-20261016/streams/cockpit-mcp.out.log"
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/windows-test-design.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/linux-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci-initial.json"
       ],
       "expectedOutcome": "No recursive lock or unguarded writer, bounded failure for cyclic dependencies, no default permanent source-checkout dependency, damaged canonical records retain scope obligation and all required validity predicates remain conjunctive.",
-      "reason": "typed matching guard、循环/深度/重复工作预算、离线原来源、canonical 损坏/foreign 名称枚举与旧验证/provider/登记合取保持 fail closed。",
+      "reason": "Source changed after main sync and four Windows-only regression tests. Historical 13/13/scenario evidence is retained but not current; current full verification and exact module Windows CI are pending. Linux module captured 23 passed separately, with outer tool status discrepancy preserved.",
       "required": true,
       "scenario": "guarded_bounded_offline_conjunctive_validation",
-      "status": "verified",
+      "status": "unverified",
       "verificationPlan": "Exercise crate-private matching lock-guard callers, cross-WI cycles/depth, offline original source after complete registration, malformed/foreign canonical registration names and old-v1/provider failures with apparently valid registration."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-16T14:25:35.702072785+00:00",
+  "updatedAt": "2026-10-16T17:34:32.958861918+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",

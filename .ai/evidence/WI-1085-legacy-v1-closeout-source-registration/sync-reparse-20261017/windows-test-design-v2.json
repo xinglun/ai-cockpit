@@ -1,0 +1,24 @@
+{
+  "recordedAt": "2026-10-16T17:28:39.951888+00:00",
+  "source": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+  "sourceSha256": "1dbe8f0274707c18c117f09739072a85571c3f4ff09e6b81de88d287e777412d",
+  "newTests": [
+    "legacy_closeout_source::windows_reparse_tests::history_reads_reject_windows_reparse_parent",
+    "legacy_closeout_source::windows_reparse_tests::obligation_enumeration_fails_closed_on_windows_reparse_directories",
+    "legacy_closeout_source::windows_reparse_tests::pinned_repository_root_rejects_windows_reparse_alias",
+    "legacy_closeout_source::publication_tests::publication_rejects_windows_reparse_parent_before_any_write"
+  ],
+  "proofMechanism": "Real cmd.exe mklink /J junctions; assert FILE_ATTRIBUTE_REPARSE_POINT and ambient-read escape control. No skip or ignore on junction creation failure; no mock. Native legacy module reads/enumeration/root pin/publication must reject, outside original bytes/identity must remain.",
+  "ci": {
+    "workflow": ".github/workflows/ci.yml",
+    "job": "windows-runtime",
+    "step": "verify Windows directory-handle containment regressions",
+    "command": "cargo test --locked -p cockpit-repository --lib",
+    "workflowChanged": false
+  },
+  "verificationState": "Initial Linux result belongs to 51bbb209; initial Windows run is not current evidence for this strengthened publication test. All four require current-head Windows --lib execution.",
+  "productBehaviorChanged": false,
+  "existingAssertionsWeakened": false,
+  "negativeControlRuling": "No Windows runner is available locally. Do not claim red/green execution or mutate product code to manufacture a failure. Existing production no-follow behavior is what these added regression tests exercise.",
+  "supersedesDesignForPublicationTest": "windows-test-design.json; initial publication victim occupied the target name. test-review-ruling.json explains the stronger absent-canonical assertion."
+}
