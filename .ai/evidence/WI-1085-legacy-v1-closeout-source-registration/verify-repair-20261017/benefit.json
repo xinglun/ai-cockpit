@@ -1,0 +1,10 @@
+{
+  "state": "unknown",
+  "observedUserBenefit": null,
+  "expectedBenefitInference": "The tested proof-loss/scope guards can plausibly reduce mistaken trust in closed legacy items and incorrect scope release. No real-user time saving, adoption or production incident reduction has been measured.",
+  "evidence": [
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+  ],
+  "nativeUserVisibleBenefitFieldNotInvented": true
+}

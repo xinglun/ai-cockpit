@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 17,
+    "changedPathCount": 87,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "evidence_stale"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "materialManifest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+    "materialReviewReceipt": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+    "repositorySnapshot": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+    "summary": "sha256:b84f3190e57328dbc4b56e3a4ddbbc4aa0885c18b992263274c6af768e18cdf2",
+    "verificationEvidence": "sha256:795584af34a4a5bae3486bb0148507f9ec174c604596c4a35d7321ab7acfbbd7"
+  },
+  "unknowns": [
+    "evidence_stale",
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+  "reviewReceiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "evidence_stale",
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-16T18:08:05Z",
+  "updatedAt": "2026-10-16T18:16:53.265062600+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "run_verification",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "evidence_stale",
+        "message": "current projection reports evidence_stale"
+      },
+      {
+        "kind": "unknown",
+        "code": "governance_controls_unknown",
+        "message": "current projection reports governance_controls_unknown"
+      },
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "evidence_stale"
+    ],
+    "admissionDigest": "sha256:7176646f75848992404fd7f5e53005ab4b164b41b87cfd8065284768cfea89ba"
+  },
+  "statusDigest": "sha256:f9b76ac7dbec262ba87bcd057b7e4033179ba9e61949ef09790748fce0c5d125",
+  "historical": false
+}

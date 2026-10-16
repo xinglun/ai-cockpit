@@ -1,0 +1,52 @@
+{
+  "recordedAt": "2026-10-16T18:52:16.662015+00:00",
+  "runId": 38946515596,
+  "jobId": 117128843526,
+  "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+  "testedRevision": "a408ad078eb973e5254806254e44ba0d8102baae",
+  "eventBaseRevision": "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+  "jobConclusion": "success",
+  "unitSummaryLine": "2026-10-16T18:43:30.9466624Z test result: ok. 136 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 856.20s",
+  "unitPassed": 136,
+  "unitFailed": 0,
+  "unitIgnored": 0,
+  "actualUnitElapsedSeconds": 856.2,
+  "caseResults": [
+    {
+      "testName": "legacy_closeout_source::publication_tests::publication_rejects_windows_reparse_parent_before_any_write",
+      "result": "passed",
+      "logLine": 1376,
+      "capturedLine": "2026-10-16T18:29:39.1336756Z test legacy_closeout_source::publication_tests::publication_rejects_windows_reparse_parent_before_any_write ... ok",
+      "logPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-windows.log"
+    },
+    {
+      "testName": "legacy_closeout_source::windows_reparse_tests::history_reads_reject_windows_reparse_parent",
+      "result": "passed",
+      "logLine": 1387,
+      "capturedLine": "2026-10-16T18:29:42.2984668Z test legacy_closeout_source::windows_reparse_tests::history_reads_reject_windows_reparse_parent ... ok",
+      "logPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-windows.log"
+    },
+    {
+      "testName": "legacy_closeout_source::windows_reparse_tests::obligation_enumeration_fails_closed_on_windows_reparse_directories",
+      "result": "passed",
+      "logLine": 1388,
+      "capturedLine": "2026-10-16T18:29:42.3645164Z test legacy_closeout_source::windows_reparse_tests::obligation_enumeration_fails_closed_on_windows_reparse_directories ... ok",
+      "logPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-windows.log"
+    },
+    {
+      "testName": "legacy_closeout_source::windows_reparse_tests::pinned_repository_root_rejects_windows_reparse_alias",
+      "result": "passed",
+      "logLine": 1389,
+      "capturedLine": "2026-10-16T18:29:42.3887344Z test legacy_closeout_source::windows_reparse_tests::pinned_repository_root_rejects_windows_reparse_alias ... ok",
+      "logPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-windows.log"
+    }
+  ],
+  "actualNewCasesPassed": 4,
+  "scope": "Directory junction/reparse read parent, obligation directories (.ai and decisions), root alias and publication parent; no exhaustive claim about all reparse tags or terminal file symlinks.",
+  "artifactId": 12068620575,
+  "artifactUrl": "https://github.com/xinglun/ai-cockpit/actions/runs/38946515596/artifacts/12068620575",
+  "artifactZipSha256": "7cce766c416d81ed7fda278565130887baf64712968103238db3a78029ba149b",
+  "bindingPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/windows-revision-binding.json",
+  "noSourceChangeSinceTestedHead": true,
+  "notStandalonePerCaseReceipt": "Four success lines are bound to the successful actual job and source/tested revisions, not independently signed test receipts."
+}

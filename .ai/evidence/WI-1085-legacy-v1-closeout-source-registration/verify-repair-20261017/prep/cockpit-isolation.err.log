@@ -1,0 +1,3 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_isolation-c12807bcf7e28bba)
+  Executable tests/scanner.rs (target/wi1085-legacy-closeout-source/debug/deps/scanner-61e110d0c28d9bf5)

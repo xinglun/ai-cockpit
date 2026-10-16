@@ -1,0 +1,1128 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "direct_record_rejects_self_source_even_when_every_external_digest_is_resealed",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A1",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A1",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "complete_source_rejects_missing_legacy_identity_header_without_rewriting_history",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A2",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A2",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A3",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A3",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "forged_resume_cannot_create_a_first_root_after_source_disappears",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "damaged_survivor_cannot_become_original_through_a_fresh_plan",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A4",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A4",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A5",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A5",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "legacy_source_input_is_bounded_before_json_parsing",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "fresh_plan_rejects_identical_content_source_root_replacement",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "history_fifo_is_rejected_without_blocking",
+          "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A6",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A6",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "every_bound_history_file_and_each_root_obligation_remain_required",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A7",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A7",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "lost_archive_keeps_structured_status_and_index_blocking",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "both_missing_root_records_require_a_valid_extension_anchor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A8",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A9",
+      "evidence": [
+        {
+          "locator": "already_deleted_before_registration_is_part_of_the_root_inventory",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A9",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A9",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A10",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A10",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "partial_extension_requires_independent_original_and_resumes_both_survivors",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A11",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A11",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "public_finalization_waits_for_the_same_work_item_lifecycle_lock",
+          "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A12",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A12",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A13",
+      "evidence": [
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "legacy source registration / all-local-anchor-loss boundary",
+          "path": "docs/reference/agent-workflow.md",
+          "type": "documentation",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A13",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A13",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A14",
+      "evidence": [
+        {
+          "locator": "actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp",
+          "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A14",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A14",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A15",
+      "evidence": [
+        {
+          "locator": "Current Runtime handoff and precise admission proposal; final focused 23/23 + 41/41",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/ledger.md",
+          "type": "historical_evidence_and_current_plan",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "formalVerificationExecutedThisEnvironment=false",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A15",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A15",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A16",
+      "evidence": [
+        {
+          "locator": "sourceHead / remoteHeadReadback / branch",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/resume-20261016/source-bindings.json",
+          "type": "current_governance_record",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A16",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A16",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A17",
+      "evidence": [
+        {
+          "locator": "semantically_valid_successor_raw_change_revokes_registered_predecessor",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "initial_registration_rejects_successor_canonical_proof_obligation_damage",
+          "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "type": "test_source",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:92989aac97929788723d885157bd1767ae39e7b31a2dd93bf4403409d81eecee",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "A17",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/closeout-assessment-20261016/criteria.json",
+          "type": "assessment",
+          "verification": "Prior source/historical mapping retained; use the appended current native/CI evidence and explicit criterion assessment for current execution."
+        },
+        {
+          "locator": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+          "type": "native_verification",
+          "verification": "Fresh actual repaired-source13/13, 0 reuse/timeout; repositorySnapshot9a97106c / sourceSnapshotd769eda1 and material10f95e4e/receipt8e902015."
+        },
+        {
+          "locator": "A17",
+          "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+          "type": "criterion_assessment",
+          "verification": "Current bounded evidence assessment; A6 has explicit tested/source-only/unexecuted distinctions. Final technical acceptance belongs to Raydot."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/after-review-status.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/after-review-validation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/before-review-status.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-quality.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/artifact-origins.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/ci-revision-binding.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/governance-integrity-report.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/quality-route.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/quality-summary.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/repository-gates.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/workspace-package-coverage.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/decision-relay.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-processes.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-status.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-validation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-invocation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-plan.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-root-identity.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-01.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-02.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-03.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-04.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record-input.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-request.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-after.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-before.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-invocation.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-result.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-sample-01.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.sh",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.err.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.exit.txt",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.out.log",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prior-canonical.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prior-native-byte-manifest.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/review-before-processes.json",
+    ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663.json",
+    ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+  ],
+  "checkpointAt": "2026-10-15T18:22:10Z",
+  "checkpointContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "recorded": true,
+      "recordedAt": "2026-10-15T18:22:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "reason": "PROPOSED ONLY: ask Raydot to review the minimum existing-protocol admission amendment. The active documentation projection requires exactly one in-progress row in each existing three-language parity ledger, currently outside scope. The committed readable Rust source material has no Findings but a permitted syntax Unknown and material_review_not_enabled. Add only those three paths and a strict self_declared technical material review opt-in; retain raw Unknowns, all checks/acceptance/history and all non-goals. No authority or human confirm_review is recorded by this proposal.",
+      "recorded": true,
+      "recordedAt": "2026-10-15T23:14:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+      "previousContractHash": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "reason": "DRAFT ONLY for Raydot review. Actual native attempt a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b failed material_review.rs:88 because tools/list reports the 33 declared tools after the two WI-1085 legacy source tools were added, while this assertion expects 31. Static review finds the same old count at usage.rs:25; that test was not reached in the failed MCP node. Add only these two existing test files to scope and matching concurrencyBoundary.implementationPaths so a later admitted change may update each exact tool-count assertion from 31 to 33, preserving all other assertions, product behavior, checks and acceptance. This proposal applies no amendment and records no human confirmation or fresh material-review decision. Bus error remains an observed signal 7, not attributed to disk by this request.",
+      "recorded": true,
+      "recordedAt": "2026-10-16T12:38:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "createdAt": "2026-10-15T14:42:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:7b2ccbca2b332f533676c4f3d3e04ac3d83ec9df916977db582212b8a90b3c72",
+    "reason": "Ray replied confirm_review in actual parent message Sentinel_66886c257f5c8191968f2b12ceb7d8de at reported minute 2026-10-16 12:49 UTC, responding to exact bound request Sentinel_ab6f74323d1c8191bd3ba780363751be. Relay source .ai/evidence/WI-1085-legacy-v1-closeout-source-registration/mcp-count-fix-20261016/human-confirm-relay.json raw sha256:0772bb60465e45395c56fbf79fcf2dd9fe77df2b1fe5a1a8cd027c309d7121d1. recordedAt is the actual current recording time, not a backdated human reply time. This covers only continuing after the exact two-file scope adjustment. It does not substitute a final fresh material review, verification or acceptance.",
+    "recordedAt": "2026-10-16T12:51:17.099000+00:00",
+    "recordedBy": "agent:Codex recording human:Ray decision relayed by agent:Raydot",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+    "schemaVersion": 1,
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/windows-case-result.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/a6-matrix.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/intent.json"
+    ],
+    "reason": "Maintainer capability and bounded fail-closed behavior align with the declared intent in current source and isolated fixtures. This is separate from final acceptance and measured user benefit.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-15T14:44:27.620151778Z",
+      "recordedAt": "2026-10-15T14:44:27.620151778Z"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:40ee56c6334a7a21de1b22ff01238dd38725dbe5599e6e0a23b14df3dd414c0c",
+    "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663.json",
+    "receiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+    "requestDigest": "sha256:10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663"
+  },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:eb14ff234c39e5d98d5074e89f05cd6a0beba6293a5889e3c15b278bd0c85cd9",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1.json",
+      "receiptDigest": "sha256:e093474e78b36185793f67fa74adf5583486a2c7d4d731bac19cf36294e61ad8",
+      "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1"
+    },
+    {
+      "digest": "sha256:760984b30461462a45ca53fb5c0668225f6b3eda238cefc2247835d62fdaee1b",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790.json",
+      "receiptDigest": "sha256:9dc8bd004c7de4f1668c3bf49875eec707e2bed71c92078dadcccfc07c014e44",
+      "requestDigest": "sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790"
+    },
+    {
+      "digest": "sha256:29a87e2753f3bd1ab71b0ccd003771836ca0a5bd4bcfa2cac505b64bffee7dc8",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1.json",
+      "receiptDigest": "sha256:b8da3c274ae8e8f1ed435b1f0117fa7b20815650e69e4f9af94940d9e63b8523",
+      "requestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1"
+    },
+    {
+      "digest": "sha256:af882d19ac01667dec7050d7c78c4875be7d635acd87264e70f8aa0ba0712f77",
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/88caadcf679c5297c9c04e69d6651f4cabfd0a651621f68d6640653ce24b2a20.json",
+      "receiptDigest": "sha256:80487dba72b48a455d91e72d876137be6ebbb9b7eced3d9e641cc96306b85472",
+      "requestDigest": "sha256:88caadcf679c5297c9c04e69d6651f4cabfd0a651621f68d6640653ce24b2a20"
+    }
+  ],
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T18:44:14Z",
+  "preflightContractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "Present-day explicit_attestation is truthful; original historical bytes and assurance remain unchanged.",
+      "reason": "完整来源登记、不同历史 producer 与当前 registrar、拒绝 self-source/错误 repository identity；不重新认证历史验证。",
+      "required": true,
+      "scenario": "complete_source_and_distinct_producer",
+      "status": "verified",
+      "verificationPlan": "Use a complete old-v1 source with historical producer distinct from present registrar; reject hash-only/incomplete sources."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "Only exact original binding/bytes resume; pending does not permanently block its own recovery; conflicting or corrupt records remain preserved and rejected.",
+      "reason": "首次准确 bytes/binding 的双方缺一恢复与 abrupt-exit 矩阵已通过；伪造首次 resume 和损坏 survivor 被拒绝。",
+      "required": true,
+      "scenario": "root_partial_resume",
+      "status": "verified",
+      "verificationPlan": "Interrupt before/after requirement and registration publication; plan and record requirement-only and registration-only cases."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "Single immutable winner, no lost update, stale/conflict on drift, no overwrite.",
+      "reason": "同 binding 并发权威结果和冲突 plan 保留；相同内容替换根/Git/来源以及来源 HEAD 漂移被拒绝。",
+      "required": true,
+      "scenario": "concurrency_and_drift",
+      "status": "verified",
+      "verificationPlan": "Race same/different WI and binding; change source/destination/inventory/head/admission after plan."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/windows-case-result.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/a6-matrix.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/a6-source-guards.json"
+      ],
+      "expectedOutcome": "No escaped read/write or victim replacement; invalid inputs fail closed.",
+      "reason": "Current Linux path/budget/duplicate-key/no-replace/parent/FIFO fixtures pass; current Windows four directory-junction cases pass. Exact static guard review and unexecuted reparse/file-symlink limits are separated in a6-matrix.json.",
+      "required": true,
+      "scenario": "filesystem_boundaries",
+      "status": "verified",
+      "verificationPlan": "Exercise bounded reads, duplicate keys/paths, symlink/reparse, directory replacement, traversal and hardlink victims."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "Closed revoked, explicit blocker, WI retained in readiness, overlapping scope rejected.",
+      "reason": "逐类原始证明/根记录/委托依赖丢失撤销 closed，archive 丢失仍枚举，foreign scope 不能逃逸，overlap preflight 保持阻断。",
+      "required": true,
+      "scenario": "proof_loss_and_scope",
+      "status": "verified",
+      "verificationPlan": "Remove/change each required record/dependency; remove archive directory or Contract+manifest; set closeRequired=false or foreign repository."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "One authoritative write sequence; typed held-lock/internal contract prevents recursive acquisition and unlocked exposure.",
+      "reason": "标准 finalization 和 extension 使用同一 writer；三个真实锁回归验证同 WI 等待、跨 WI 独立、错误 guard 拒绝。",
+      "required": true,
+      "scenario": "extension_single_writer_and_lock",
+      "status": "verified",
+      "verificationPlan": "Call normal finalization and explicit extension path with held/unheld lock contexts and concurrent writers."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "Read back original exact transition and return original result; no regenerated actor/time/Runtime bytes and no false next-sequence conflict.",
+      "reason": "已提交原 transition 先于 next-sequence 判断被读回重放；canonical 等价但 raw 改动被拒绝，发布后报告 I/O 失败保留 committed/unknown 事实。",
+      "required": true,
+      "scenario": "extension_committed_retry",
+      "status": "verified",
+      "verificationPlan": "Publish exact transition, fail reporting, then retry with original durable template/version before evaluating next-sequence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "Exact constrained resume works without prior registered_valid/closed; unbound decisions, invalid forks and missing proofs remain blocked.",
+      "reason": "root/extension pending 仅原绑定准确 bytes 恢复；合法已有 Deleted 纳入根，错序/fork/身份/资源仍在保持拒绝。",
+      "required": true,
+      "scenario": "extension_pending_resume_and_forks",
+      "status": "verified",
+      "verificationPlan": "Interrupt extension/transition publication; test lawful Retained→Deleted, already-present Deleted, forks, extra decisions and wrong identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "Existing compatibility and historical not_ready are retained; plan is read-only and both surfaces share semantics.",
+      "reason": "ordinary/v1 读兼容、v2 identity、CLI/MCP 严格入口与实际 transport/replay/resume/offline/proof-loss 行为通过；无自动迁移。",
+      "required": true,
+      "scenario": "legacy_and_surface_compatibility",
+      "status": "verified",
+      "verificationPlan": "Read ordinary closes, v2 and unregistered v1 through repository/CLI/MCP, and test new plan/record input parity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "No fabricated historical authentication or remote immutable-anchor guarantee.",
+      "reason": "三语明确 current explicit_attestation、非历史重新认证、原来源可离线和全部本地锚点消失/回滚不可识别；不宣称远端单调保证。",
+      "required": true,
+      "scenario": "declared_local_loss_boundary",
+      "status": "verified",
+      "verificationPlan": "Document supported surviving-proof detection and complete local provenance-loss/rollback limits."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json"
+      ],
+      "expectedOutcome": "No recursive lock or unguarded writer, bounded failure for cyclic dependencies, no default permanent source-checkout dependency, damaged canonical records retain scope obligation and all required validity predicates remain conjunctive.",
+      "reason": "typed matching guard、循环/深度/重复工作预算、离线原来源、canonical 损坏/foreign 名称枚举与旧验证/provider/登记合取保持 fail closed。",
+      "required": true,
+      "scenario": "guarded_bounded_offline_conjunctive_validation",
+      "status": "verified",
+      "verificationPlan": "Exercise crate-private matching lock-guard callers, cross-WI cycles/depth, offline original source after complete registration, malformed/foreign canonical registration names and old-v1/provider failures with apparently valid registration."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-16T18:57:42.825249057+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:6fb690426eed049d9f57df43c67e54cd83f9101fa8e8be8d9a026255f1d11fda",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

@@ -1,0 +1,18 @@
+{
+  "state": "resolved",
+  "userGoal": "维护者能够对完整旧 v1 证据登记现在核验的来源，并在登记后证据丢失或损坏时获得明确阻断，避免错误释放关闭状态与 scope，同时保留真实历史和合法 Retained→Deleted 追加。",
+  "basis": "Maintainer capability and bounded fail-closed behavior align with the declared intent in current source and isolated fixtures. This is separate from final acceptance and measured user benefit.",
+  "demonstrated": [
+    "Complete independent old-v1 registration preserves original producer/bytes; registrar is present-day explicit_attestation.",
+    "Surviving proof obligations revoke closed and block overlapping scope on loss/corruption, while exact original constrained resume and lawful Retained-to-Deleted append remain possible.",
+    "CLI/MCP semantics, typed lock guard, bounded cycles/depth, offline original source and ordinary/v2/unregistered-v1 compatibility are covered by current physical execution.",
+    "Three-language documentation states total-local-anchor loss/rollback is undetectable; no real WI1004 registration or historical repair was performed."
+  ],
+  "evidence": [
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/windows-case-result.json",
+    ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/a6-matrix.json"
+  ],
+  "limits": "Finite fixtures and inspected source. No universal Windows tag/file-symlink guarantee, no human final acceptance, no production adoption claim."
+}

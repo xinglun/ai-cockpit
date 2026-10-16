@@ -1,0 +1,210 @@
+[
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-agent.out.log",
+    "bytes": 7752,
+    "sha256": "c409e6a881cf2f6d0860967842252efe5313581c8c83d582dbcca87be54d59f8",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[0].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-agent.err.log",
+    "bytes": 2000,
+    "sha256": "90c31cdc3206de4e8faa5d673ed1f3712fb4032d4ca720dbe73649c14e8d383c",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[0].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-cli.out.log",
+    "bytes": 117904,
+    "sha256": "963a25c253ccaec29fe96d3bb9dba242286e5928b0c767e9d63e2a90b8bb83eb",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[1].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-cli.err.log",
+    "bytes": 10658,
+    "sha256": "eae16929ae99a8b391f41f1749b44df0e7929192b25f5814421ff484a6a16e2d",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[1].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-core.out.log",
+    "bytes": 6338,
+    "sha256": "59586f065b10f68e8c179789bff24cfc35565008ac5561d611cd1bbca556ecfb",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[2].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-core.err.log",
+    "bytes": 1866,
+    "sha256": "5567521a9226f86552a0331658197cd43b7a86a0712b4713bc4c6fbce74e4c7d",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[2].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-evidence.out.log",
+    "bytes": 1608,
+    "sha256": "3053e82bc89236119d1ef4956d0fe3cd4572be5ba29f92f7ec6efef849a1bcf7",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[3].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-evidence.err.log",
+    "bytes": 644,
+    "sha256": "f2aad44edb9e7876eb73c2d87b4f9c795159e7b6f89ccdf25518fcd7cc94e01a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[3].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-git.out.log",
+    "bytes": 6776,
+    "sha256": "8e5407e4a011de9c7efb3912bd4b290ed23c388a38862af0bc8ecada9e12c9e7",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[4].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-git.err.log",
+    "bytes": 1128,
+    "sha256": "97a947a2ba5f2d5364ae9e14618a0568037a7ea2fd197842de3067b3b9c9ec2f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[4].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-interface.out.log",
+    "bytes": 452,
+    "sha256": "c142ef97d8bee4076f061e62c963b84adb9a075cfe003a6164701211551ade1a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[5].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-interface.err.log",
+    "bytes": 446,
+    "sha256": "309af60ed281f07a815e3177e8c5d2473ea78dfcceb82ae0163f9a3187f6bfff",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[5].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-isolation.out.log",
+    "bytes": 1794,
+    "sha256": "eff19ad300d4368d50ed50f13e2b66dfb6f731fbcb2e24eb809602acc8a7ae8f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[6].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-isolation.err.log",
+    "bytes": 656,
+    "sha256": "8ec2c34c68fda2254e53916bff412ef21952d265df1e1473b3540325c76cb786",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[6].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-knowledge.out.log",
+    "bytes": 2030,
+    "sha256": "b7462a213fe1c0f0471a6a7ef2bcf79f1119d34cf824d3173fc2a705c5b34b4a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[7].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-knowledge.err.log",
+    "bytes": 648,
+    "sha256": "29e34967c75387dbd239d1b5e7d0e056632370a84a408b1d729a3c575283d4bc",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[7].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-mcp.out.log",
+    "bytes": 11952,
+    "sha256": "346333ebc1e815268bce892e61ed279e07c57ffd5fe9eb807135b29a2cccd025",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[8].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-mcp.err.log",
+    "bytes": 2330,
+    "sha256": "fba05f38f2c3ec5f26e234487a527a06adfe1f005df7e255878a2d2487884155",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[8].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-protocol.out.log",
+    "bytes": 23686,
+    "sha256": "96b37fe82f3a57af5d44b2a8273a14eeff0e0bef288d20d77ad528b1048dc07f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[9].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-protocol.err.log",
+    "bytes": 4398,
+    "sha256": "d602eb39696d9e03a938d35740a34eed53619842574c7ed3368379d7dba1084e",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[9].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-release.out.log",
+    "bytes": 12654,
+    "sha256": "f3dbba1098d13e0d81957716742c83ef82778638716ef7be3d6693e2177766f4",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[10].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-release.err.log",
+    "bytes": 2886,
+    "sha256": "dbbd8182f5ae1a060ffbd83c2445428c628f45369344445fe05dc3ec34a4d2c0",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[10].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-repository.out.log",
+    "bytes": 131072,
+    "sha256": "73784b9d0f6c88e25efe6c64032549ddbc871242fb8b6a30c302e4f294b07cd4",
+    "truncated": true,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[11].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-repository.err.log",
+    "bytes": 13818,
+    "sha256": "20857a3bd848ae92572bf53cf6889006f1c4daa0c84ca237d8f4aed5b62ea354",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[11].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-verification.out.log",
+    "bytes": 37358,
+    "sha256": "8244bce02a2e7dddbdad678767c6099496c47c3aa2d37c217d97349300cab439",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[12].stdout",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-verification.err.log",
+    "bytes": 13094,
+    "sha256": "1a234af0baa9686dc9cce464b122469414dc25fb15552cf15889c13a857446ea",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[12].stderr",
+    "encoding": "UTF-8 bytes of serialized native hex string, not decoded process bytes."
+  }
+]

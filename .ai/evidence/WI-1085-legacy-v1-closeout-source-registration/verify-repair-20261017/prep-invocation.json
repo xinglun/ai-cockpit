@@ -1,0 +1,41 @@
+{
+  "startedAt": "2026-10-16T18:26:22.400088+00:00",
+  "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+  "sourceImplementationCommit": "007fdcba2e81d01285a694dce57cd78e0f74fcf4",
+  "rootIdentity": {
+    "pid": 1759202,
+    "startTimeTicks": 4935545,
+    "pgrp": 1759201,
+    "session": 1759201
+  },
+  "reviewReceiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+  "packages": [
+    "cockpit-agent",
+    "cockpit-cli",
+    "cockpit-core",
+    "cockpit-evidence",
+    "cockpit-git",
+    "cockpit-interface",
+    "cockpit-isolation",
+    "cockpit-knowledge",
+    "cockpit-mcp",
+    "cockpit-protocol",
+    "cockpit-release",
+    "cockpit-repository",
+    "cockpit-verification"
+  ],
+  "outerTimeoutSeconds": 890,
+  "killAfterSeconds": 10,
+  "commandPerPackage": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "<package>",
+    "--no-run"
+  ],
+  "assertionsExecuted": 0,
+  "target": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+  "buildJobs": 1,
+  "notFormalExecutionEvidence": true
+}

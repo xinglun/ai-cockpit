@@ -1,0 +1,846 @@
+{
+  "schemaVersion": 1,
+  "scope": "Owned handoff evidence plus exact current native records; excludes this manifest itself. Raw file hashes are distinct from semantic receiptDigest.",
+  "entries": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/a6-matrix.json",
+      "bytes": 17078,
+      "sha256": "c18debcde155d1d5ed1dab2fde8f5f35ee997af5fdba6a5993536698086446a0"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/a6-source-guards.json",
+      "bytes": 4476,
+      "sha256": "c273979c1e7fb4639e6edac5f85828a66e48f3f3134cc866d79d1fd24522f99e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ad-hoc-process-observation.json",
+      "bytes": 72442,
+      "sha256": "c1c8c5b574ab871793134002e3ffc4bd38977e8067d4aabebfb2f5b02e0fb221"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/after-formal-status.json",
+      "bytes": 4028,
+      "sha256": "9e6d3e71df04254ec84c5cb07880bb13ec443e0064c950d1f803c30ef6ed0a69"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/after-review-status.json",
+      "bytes": 4278,
+      "sha256": "c092777513c9327d21b27c83c386022b1d0408303b612c4f2d4794d9fd55e8a8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/after-review-validation.json",
+      "bytes": 961,
+      "sha256": "b91e0806fad3941b96a843aff418d14f2e36266138bff4f1a02313fc7060a729"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/before-controls-status.json",
+      "bytes": 4028,
+      "sha256": "9e6d3e71df04254ec84c5cb07880bb13ec443e0064c950d1f803c30ef6ed0a69"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/before-review-status.json",
+      "bytes": 4675,
+      "sha256": "8baaad66362dbc63a64a852674a5de61601768f576a60f581fa71153af483a47"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/benefit.json",
+      "bytes": 585,
+      "sha256": "bcfad6c118b95863e7c7612d892d977817870e1397a552c118dc08e0c6822cd8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/binding-for-raydot.json",
+      "bytes": 2568,
+      "sha256": "6daa697ea8c28238734677ea64fe15663dca6ece4350e43f2417a33742f36d55"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/canonical-copy.json",
+      "bytes": 435278,
+      "sha256": "ae39c0275aa25afef028e9b444d1b43a6346e923e1493e7513672e1378a57d19"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/artifact-origins.json",
+      "bytes": 3395,
+      "sha256": "14502105d5bb45b7afa9be2562cc914f087f24b0c65a38e8489da9dd85810af1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/ci-revision-binding.json",
+      "bytes": 544,
+      "sha256": "e70cea4c1957f47bea83612638530f096a86542bc3167b642ee2ffa5f79b7528"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/governance-integrity-report.json",
+      "bytes": 173618,
+      "sha256": "04a7fcfb8a346a2a193b6acecfe87dde6fb7c8a07080aadfe1052f543c8962fe"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/jobs.json",
+      "bytes": 14162,
+      "sha256": "0bd4384107c4da1b3932a69c40cbc3f80d0f16dd882a6baed4ef37a6e2b7864f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/quality-route.json",
+      "bytes": 755880,
+      "sha256": "ac56a615fbd23796e9e6a5d4bd22fedca7d385e9af02311d34ad891e33660538"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/quality-summary.json",
+      "bytes": 1973,
+      "sha256": "2eb5953daa457fa7f47d8ca2c34e95016d61db9d6f505d37cd80a22097da91cb"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/repository-gates.json",
+      "bytes": 18674,
+      "sha256": "b53fe61f16d298a0ff25fba508b05bde22598f27c41d01b3a6c4b5717b0711d1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/run.json",
+      "bytes": 12720,
+      "sha256": "c7a38200f21ae023189daf37c8f0c4928a69ad842ba670a1dcdee7f0d1591afc"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/windows-revision-binding.json",
+      "bytes": 558,
+      "sha256": "c151bc1436cdcbfc4c1a3abef2b8930e2fe1e48398765beb5929384f0568289b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci/workspace-package-coverage.json",
+      "bytes": 1111,
+      "sha256": "27900b08bacbd70c6b7f9a45d47350aff0b02c618cda0efc988b537dedf3bcee"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-quality.log",
+      "bytes": 86096,
+      "sha256": "560239266f81e1a4109226ed8b208a407876d8ec9b7bd1d89be06ed1521f41c2"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ci-windows.log",
+      "bytes": 160243,
+      "sha256": "efa74429f0b70fca63f5c9ed2161a95b566d3263742d139ffe37c75cf62552ff"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/controls-input-before-label-correction.json",
+      "bytes": 53481,
+      "sha256": "a57bab4726f74fb999492db239b62c4221ae058779f18c08e76e1025a968eff9"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/controls-input.json",
+      "bytes": 53974,
+      "sha256": "b16b78d264cfd49e117b2fc1a64d2665c172177a06b0f354d555c92bac27c7de"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/controls-label-correction.json",
+      "bytes": 360,
+      "sha256": "489fb4c3e432c7bac25ee33afb2ae604fd663367ddb218a03f1c0c60423ec6d4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/criteria.json",
+      "bytes": 17070,
+      "sha256": "6fa289151a03eb93ba6d9171bedb122c0a489828f4c1569e9e691653bc0538f4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/decision-relay.json",
+      "bytes": 4406,
+      "sha256": "5778e53a3beb4cc0b86e3f6adec9c5cd1f992dee8bbe4e1dcc504fede3808f82"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/final-status.json",
+      "bytes": 3314,
+      "sha256": "60bbc079f280b2cf61b0ab36c6d2cef32a04f4f368631e59e4f16cd8b8ab9fea"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/final-validation.json",
+      "bytes": 237,
+      "sha256": "b293e37d017fe848580a1b246be13e6192542e328f48a345c0073e9e23972609"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-after-processes.json",
+      "bytes": 73535,
+      "sha256": "2fa8d4dc6a7ef4f4e41c20e685d802f62931e27e804358effe3eafeb2339d1e0"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-processes.json",
+      "bytes": 72623,
+      "sha256": "863994d27d837ff19066c5bd35e4f4d4eacc746ce960c980523bd06ada738b78"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-status.json",
+      "bytes": 4278,
+      "sha256": "c092777513c9327d21b27c83c386022b1d0408303b612c4f2d4794d9fd55e8a8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-before-validation.json",
+      "bytes": 961,
+      "sha256": "b91e0806fad3941b96a843aff418d14f2e36266138bff4f1a02313fc7060a729"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-invocation.json",
+      "bytes": 3742,
+      "sha256": "18e31a107ea292a9945f00535ad3e47eb19d6164059bf8b3f4bb2b940c74f4a0"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-plan.json",
+      "bytes": 19868,
+      "sha256": "f56c7961eaf2c2318cc17a52d27b7b601a73ffc15e8db4c070430457a19db3b1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-result.json",
+      "bytes": 7752,
+      "sha256": "24e000a3d7a7937b319a7c5fea7e8b59d92a4bbc1fb3c76b94dd40a7716f8fd4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-root-identity.json",
+      "bytes": 171,
+      "sha256": "08220a65ab0f8b24189312765d2aa7071391fa045fbbd83fc8a73dd055de9656"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-01.json",
+      "bytes": 75573,
+      "sha256": "592a734c7cb0bc3c867cb01e2b18c4ae674debbc04c7cc110e3e02978209db4f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-02.json",
+      "bytes": 75573,
+      "sha256": "e929f60729ab501478daf5e8de1f9be7f1df57ae3b2df60060435a5d894ffcf4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-03.json",
+      "bytes": 75386,
+      "sha256": "812e98f9e8eceb0b78399aa6086352a93618aacd181e24cd36f559e0e690a8e9"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal-sample-04.json",
+      "bytes": 75386,
+      "sha256": "46d348b895706ecacde980d67b52bc9467fae331660ee2cba168243aeab77037"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal.err.log",
+      "bytes": 100843,
+      "sha256": "be4003f5bfc4b04edd65bf3858d8a933ae7843d378eefce22c0cab6996a003d4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/formal.out.log",
+      "bytes": 682573,
+      "sha256": "b7e6c2b91b68385358756e1f37c7670a80c45629ad855c5a17f21b7a15db1c5b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/handoff-processes.json",
+      "bytes": 72623,
+      "sha256": "6154f0e61a37e25ac6545ef1fa3797ac2f448e4758ef7937208ac3e5b9a62bd7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/intent.json",
+      "bytes": 1777,
+      "sha256": "b64ed172ed0e89e5871cc25d5b7bb22f2cdfc26756f803269dcd9fee0ce24f7b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record-input.json",
+      "bytes": 1585,
+      "sha256": "38f283b580aa5eafa3edb956495bc1a018d0dc2e8bf02279aa6df8de701f82c8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-record.json",
+      "bytes": 2343,
+      "sha256": "2510e4cb60a7a2440745125f00d082a846f0252e88d54f3f6a70f0b41839dfb6"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/material-request.json",
+      "bytes": 16747,
+      "sha256": "c00b4e946f45717f927396007102cc626dbd392681b1adbc3a7562385e9c1f0e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/native-controls-before-label-correction.json",
+      "bytes": 73347,
+      "sha256": "bdd5ab243df8bc91b951ab9698da1a2777a9d946cb8148a39c820bdd59ca6f00"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/native-controls.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/native-controls.json",
+      "bytes": 73840,
+      "sha256": "54670876467a8551965272fc96bf3c74f15287ef360c78677748f9579fa318ac"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/observer-output-relocation.json",
+      "bytes": 722,
+      "sha256": "06cd664f17f2889543de12e299884ac5bcb7cdb4441b71eeb65e1c731e2817be"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/outcome.zh-CN.txt",
+      "bytes": 12609,
+      "sha256": "ee6d98dbc84a0ac65235c7f6cdb2b4202719d2ce69a0f1e3edb9a5ae36ac7a1d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.err.log",
+      "bytes": 973,
+      "sha256": "66583a71a541e0fcca56a98e11bc24bb8fe3aed2244277f7c5569cbae70b0f19"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-agent.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.err.log",
+      "bytes": 5332,
+      "sha256": "33da77ac7e8ff664837966e73a524a6e5775d4404dddc0286e6c47a61864c1d5"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-cli.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.err.log",
+      "bytes": 907,
+      "sha256": "f6d69e0392c910b47f0ab822522a322fe975627c1b3353f3b1e387a4a5c45b53"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-core.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.err.log",
+      "bytes": 292,
+      "sha256": "f0097a7ab11a0d027fac513d2f2b95d1ef48a0d6bb783de35cfdb01d7b33832c"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-evidence.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.err.log",
+      "bytes": 539,
+      "sha256": "00f6b7c7691f6580de2775376e004bee195fcd9abd058e9b11057e0b4d810691"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-git.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.err.log",
+      "bytes": 192,
+      "sha256": "63cb36e6aaff8f389ea1f69881e2dc3acaac559a751d01b1d80f99dbfd67af49"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-interface.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.err.log",
+      "bytes": 297,
+      "sha256": "e59f380b04cd02bfbb2c49693e272610e2958909cd7b7416c956dc5e662aef41"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-isolation.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.err.log",
+      "bytes": 293,
+      "sha256": "0cda60d9e5fadfded3453fda0bf4142d7bb7c23329ee915fe3930362a1bade2e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-knowledge.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.err.log",
+      "bytes": 1261,
+      "sha256": "279599a5dd67d691aecbfcc786047dff213f791bc705b9ab90552f76d4d4724b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-mcp.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.err.log",
+      "bytes": 2169,
+      "sha256": "7242cdac387f7b5709d85f48e59ea39278b4ce3e6cf0a1a430202d9caf526382"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-protocol.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.err.log",
+      "bytes": 1414,
+      "sha256": "42011ad3e0d5b1ccfe4cca47820780c4c0295f0a616ace166dddaa34cde1cce8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-release.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.err.log",
+      "bytes": 6822,
+      "sha256": "6f2f94f50e3a295d59a59c78216deec5a1df7157a31b25f6dd6a2facef0a9d65"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-repository.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.err.log",
+      "bytes": 1812,
+      "sha256": "520894d8a6f1d093ee7e55e26a88b1f2e2bd1bd5bff6ba5a0bf8145ac911c837"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.exit.txt",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep/cockpit-verification.out.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-after.json",
+      "bytes": 72623,
+      "sha256": "24011742b22a802c915f0837ef94cb6929a84ef51210b94b708f42ca3355bcb1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-before.json",
+      "bytes": 72623,
+      "sha256": "8a7f70244abe1b300a5b2bcf10fd3c94c4b49394b1a47b685f09b70be4a2bf1a"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-invocation.json",
+      "bytes": 1107,
+      "sha256": "45b51b11fb7941061e7b5c3421c8ddad44b964852b8c0a9815cebd0c196d3458"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-result.json",
+      "bytes": 771,
+      "sha256": "ab50f00931d6b98d0f85b54603fb8c41a80dc4f1841d9bfb748f0626a861fc41"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep-sample-01.json",
+      "bytes": 75343,
+      "sha256": "7fb5632554922ef06815a6a27d28a7251b0ae3c177b3c2ea58e5dabc1b840bc7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.err.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.out.log",
+      "bytes": 5247,
+      "sha256": "b649ddcbdaebd15027d7af967e91ca3df90b3c412bf2ec272bda56af9321a30e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prep.sh",
+      "bytes": 658,
+      "sha256": "8fa0ffb9a89137e164fefe01a8ceb2a4f0bc06b79a48c2dfef660f88be9fde95"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prior-canonical.json",
+      "bytes": 435277,
+      "sha256": "468d0c70f7363c21f3f52515874d3c0e4589ad3305814b606e52895a807875c7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/prior-native-byte-manifest.json",
+      "bytes": 1865,
+      "sha256": "d39e3da3cfc81f4d9a9a6c566da84d299bf0a5c471976bd61cc21964828f8382"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/report.zh-CN.md",
+      "bytes": 10571,
+      "sha256": "d7329678c90c22fa931c0d8f92a5e86d1a769332e98c6e757fcc90b1b7d15dd9"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/review-before-processes.json",
+      "bytes": 73535,
+      "sha256": "01d0dfc735d6b5a84cb67b1d8c0a5a667e9c78042aa76753066dad5245b3ce08"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/scenarios.json",
+      "bytes": 61041,
+      "sha256": "b478927a0befcea7410314edffd85d3007c775d12911492bf395e7e7cdc46161"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/status-before-observer-output-relocation.json",
+      "bytes": 3529,
+      "sha256": "f34bbf41902d1589fb3da90f797be00715042367d4d44fe3adb985b9397c92ca"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/stream-decoding-note.json",
+      "bytes": 787,
+      "sha256": "d01b8efb3d70cb3251ebf21ca675ba96eec419a016e869f6c980820a8f51fcd4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-agent.err.log",
+      "bytes": 1000,
+      "sha256": "9414da52b29cc7f9ff60cded07154f177539fa6d98272a9019f66f785fc61abf"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-agent.out.log",
+      "bytes": 3876,
+      "sha256": "90119b68fb0bd78d0992fae39c3871e92812b9a626dab1e8cefab3e4e55d1fe1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.err.log",
+      "bytes": 5329,
+      "sha256": "2dd2dd4c802d866eb874a3e536d3834d19e3069676b0221d9aa15996088c2287"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+      "bytes": 58952,
+      "sha256": "f919d12e378586bfe4ab7fe6c4f2a8e80df0b6d638fc10fa56cdac8bc024aa3b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-core.err.log",
+      "bytes": 933,
+      "sha256": "37f9477378da176929142884686083508494dd5b2ec147de8aa849a8a1729451"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-core.out.log",
+      "bytes": 3169,
+      "sha256": "338951f8704db22c6d43abb3c5316cffc14432ef1665e9169656339b82953e1d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-evidence.err.log",
+      "bytes": 322,
+      "sha256": "cfb87e9a1c1e534ca17339fc366ea78d3a05b29080fec47bbdb22ffd4c2fc027"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-evidence.out.log",
+      "bytes": 804,
+      "sha256": "f43f45e914240d0bbb69591f643e128da38cdf67e5888a749e7a4a9cec5357df"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-git.err.log",
+      "bytes": 564,
+      "sha256": "54e36a9ba7cf28ba99db556592b076ca9ed2958e87f6bc485fbf2d63d1c2f245"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-git.out.log",
+      "bytes": 3388,
+      "sha256": "11c1206e041a59efe4eee0fc4986eb8541e08988241b23cb7f9c5ff5815a4bba"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-interface.err.log",
+      "bytes": 223,
+      "sha256": "133ec8237250703b36a132f5f3c706acb19b2c2db70cd4c04cccf703ba2b13df"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-interface.out.log",
+      "bytes": 226,
+      "sha256": "d38e6ea6d69ddb377e4a4380b22926f3864806998a850d5e28c8459dfc09f014"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-isolation.err.log",
+      "bytes": 328,
+      "sha256": "213f705a2d55d9242a91847c336475b508effb09c4a35f5084c86b17d706ea73"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-isolation.out.log",
+      "bytes": 897,
+      "sha256": "5583ef1c42cb3d84dea035d3ab0ef75df1a9795718020ed58788eae4fc8edabb"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-knowledge.err.log",
+      "bytes": 324,
+      "sha256": "06dc931e24f43bf90cc0b26da57fefd35c5c3c59f3ff487b93e9f7d33971cf5d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-knowledge.out.log",
+      "bytes": 1015,
+      "sha256": "dd1dbeb4c6373839b7a99612d6501ded4f6de32a9eeb8a6bae681989a146800c"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.err.log",
+      "bytes": 1165,
+      "sha256": "c2a1916220f0fa0ff40c9b57b71a2773603137f52e6296c01b8d0da851ab8a5b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.out.log",
+      "bytes": 5976,
+      "sha256": "f35a9d35c416c91c74655c50f8ff29ea978c2e280b68fd95df9d75647b2784d6"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-protocol.err.log",
+      "bytes": 2199,
+      "sha256": "3aae7753662e1d88bc5a30dbd00fd752e2a5eb6b78837645c57bf9e16de184cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-protocol.out.log",
+      "bytes": 11843,
+      "sha256": "b5c87e6f8ec1416fbefec1eabceed9e708859f88e5f918f6ed5cfc4b1e893e6f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-release.err.log",
+      "bytes": 1443,
+      "sha256": "04e7ed777fe72e2f60f4f35098732e3010597cebd59711a4f4605ee85de497be"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-release.out.log",
+      "bytes": 6327,
+      "sha256": "7347757e553f1eb3ae76241e0e4037f7dc4e3cb724457f49ba38b9cd98047f2f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.err.log",
+      "bytes": 6909,
+      "sha256": "fb95eabe47743301beaa633802295c358d272569047a0843faa6f74274bea54a"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+      "bytes": 65536,
+      "sha256": "7a465abc00d21ae6bb40a14657aa4539ed2c4a08dc7388cbab09f6a817c50fb5"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-verification.err.log",
+      "bytes": 6547,
+      "sha256": "c07096c8ab66b766ed1bc7739cb8bc0103a766a02b011ac4309394ab9389958f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-verification.out.log",
+      "bytes": 18679,
+      "sha256": "6a556b4170a47443734837f60c26700481b36a4d09bf08bdef7295485dd38ca1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-agent.err.log",
+      "bytes": 2000,
+      "sha256": "90c31cdc3206de4e8faa5d673ed1f3712fb4032d4ca720dbe73649c14e8d383c"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-agent.out.log",
+      "bytes": 7752,
+      "sha256": "c409e6a881cf2f6d0860967842252efe5313581c8c83d582dbcca87be54d59f8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-cli.err.log",
+      "bytes": 10658,
+      "sha256": "eae16929ae99a8b391f41f1749b44df0e7929192b25f5814421ff484a6a16e2d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-cli.out.log",
+      "bytes": 117904,
+      "sha256": "963a25c253ccaec29fe96d3bb9dba242286e5928b0c767e9d63e2a90b8bb83eb"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-core.err.log",
+      "bytes": 1866,
+      "sha256": "5567521a9226f86552a0331658197cd43b7a86a0712b4713bc4c6fbce74e4c7d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-core.out.log",
+      "bytes": 6338,
+      "sha256": "59586f065b10f68e8c179789bff24cfc35565008ac5561d611cd1bbca556ecfb"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-evidence.err.log",
+      "bytes": 644,
+      "sha256": "f2aad44edb9e7876eb73c2d87b4f9c795159e7b6f89ccdf25518fcd7cc94e01a"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-evidence.out.log",
+      "bytes": 1608,
+      "sha256": "3053e82bc89236119d1ef4956d0fe3cd4572be5ba29f92f7ec6efef849a1bcf7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-git.err.log",
+      "bytes": 1128,
+      "sha256": "97a947a2ba5f2d5364ae9e14618a0568037a7ea2fd197842de3067b3b9c9ec2f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-git.out.log",
+      "bytes": 6776,
+      "sha256": "8e5407e4a011de9c7efb3912bd4b290ed23c388a38862af0bc8ecada9e12c9e7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-interface.err.log",
+      "bytes": 446,
+      "sha256": "309af60ed281f07a815e3177e8c5d2473ea78dfcceb82ae0163f9a3187f6bfff"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-interface.out.log",
+      "bytes": 452,
+      "sha256": "c142ef97d8bee4076f061e62c963b84adb9a075cfe003a6164701211551ade1a"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-isolation.err.log",
+      "bytes": 656,
+      "sha256": "8ec2c34c68fda2254e53916bff412ef21952d265df1e1473b3540325c76cb786"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-isolation.out.log",
+      "bytes": 1794,
+      "sha256": "eff19ad300d4368d50ed50f13e2b66dfb6f731fbcb2e24eb809602acc8a7ae8f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-knowledge.err.log",
+      "bytes": 648,
+      "sha256": "29e34967c75387dbd239d1b5e7d0e056632370a84a408b1d729a3c575283d4bc"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-knowledge.out.log",
+      "bytes": 2030,
+      "sha256": "b7462a213fe1c0f0471a6a7ef2bcf79f1119d34cf824d3173fc2a705c5b34b4a"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-mcp.err.log",
+      "bytes": 2330,
+      "sha256": "fba05f38f2c3ec5f26e234487a527a06adfe1f005df7e255878a2d2487884155"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-mcp.out.log",
+      "bytes": 11952,
+      "sha256": "346333ebc1e815268bce892e61ed279e07c57ffd5fe9eb807135b29a2cccd025"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-protocol.err.log",
+      "bytes": 4398,
+      "sha256": "d602eb39696d9e03a938d35740a34eed53619842574c7ed3368379d7dba1084e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-protocol.out.log",
+      "bytes": 23686,
+      "sha256": "96b37fe82f3a57af5d44b2a8273a14eeff0e0bef288d20d77ad528b1048dc07f"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-release.err.log",
+      "bytes": 2886,
+      "sha256": "dbbd8182f5ae1a060ffbd83c2445428c628f45369344445fe05dc3ec34a4d2c0"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-release.out.log",
+      "bytes": 12654,
+      "sha256": "f3dbba1098d13e0d81957716742c83ef82778638716ef7be3d6693e2177766f4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-repository.err.log",
+      "bytes": 13818,
+      "sha256": "20857a3bd848ae92572bf53cf6889006f1c4daa0c84ca237d8f4aed5b62ea354"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-repository.out.log",
+      "bytes": 131072,
+      "sha256": "73784b9d0f6c88e25efe6c64032549ddbc871242fb8b6a30c302e4f294b07cd4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-verification.err.log",
+      "bytes": 13094,
+      "sha256": "1a234af0baa9686dc9cce464b122469414dc25fb15552cf15889c13a857446ea"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-verification.out.log",
+      "bytes": 37358,
+      "sha256": "8244bce02a2e7dddbdad678767c6099496c47c3aa2d37c217d97349300cab439"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex.json",
+      "bytes": 14624,
+      "sha256": "395ae6c1ff6fa46e9483a35129b0b7f615618e699e95fc8cfa69a66141502cce"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams.json",
+      "bytes": 18225,
+      "sha256": "a59c9427da5bef4ac5173e949aff87d7fb71089147496dc67966739ac564b284"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/windows-case-result.json",
+      "bytes": 3273,
+      "sha256": "fad5c9a9489f44eec3912216540f0497d58c15dd3cdb3e5ac671d9f9aa9d21fe"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json",
+      "bytes": 864921,
+      "sha256": "be879491d2b17c3d6572367a818bd3097b3ccf20a42e3bbf2c236d8a00dc5fd9"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+      "bytes": 435278,
+      "sha256": "ae39c0275aa25afef028e9b444d1b43a6346e923e1493e7513672e1378a57d19"
+    },
+    {
+      "path": ".ai/evidence/material-inspection-review/WI-1085-legacy-v1-closeout-source-registration/10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663.json",
+      "bytes": 2342,
+      "sha256": "40ee56c6334a7a21de1b22ff01238dd38725dbe5599e6e0a23b14df3dd414c0c"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+      "bytes": 73839,
+      "sha256": "8e0d9cf4b53a0b364afadb629e4b99e108364f485e47a9cce04d99702abdce92"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "reason": "An ad-hoc invocation passed --help to the existing read-only /proc observer, which treats its first argument as an output filename. It created an observation JSON at repository-root --help; Runtime correctly reported an untracked non-.ai source change. The same bytes were relocated into this evidence directory; no source or generated Runtime receipt was edited, and no tests were rerun.",
+  "from": "--help",
+  "to": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/ad-hoc-process-observation.json",
+  "intermediateStatus": "status-before-observer-output-relocation.json",
+  "expectedBinding": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b"
+}
