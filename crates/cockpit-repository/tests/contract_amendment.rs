@@ -192,6 +192,56 @@ fn summary_only_controls_cannot_accept_orphan_activation_markers() {
 }
 
 #[test]
+fn summary_only_controls_reject_existing_native_entries_before_projection() {
+    let mut cases = vec![
+        ("activation-transition", false),
+        ("activation-recovery", false),
+    ];
+    #[cfg(unix)]
+    cases.extend([
+        ("activation-transition", true),
+        ("activation-recovery", true),
+        ("contract", true),
+    ]);
+    for (kind, dangling) in cases {
+        let directory = tempfile::tempdir().expect("Summary-only native-entry fixture");
+        let root = directory.path();
+        let active = root.join(".ai/work-items/active");
+        fs::create_dir_all(&active).expect("active metadata");
+        let summary_path = active.join("WI-ENTRY-CONTROLS.summary.json");
+        let before = br#"{"state":"checkpointed","checkpointCount":1}"#;
+        fs::write(&summary_path, before).expect("fixture Summary");
+        let entry = if kind == "contract" {
+            active.join("WI-ENTRY-CONTROLS.contract.json")
+        } else {
+            let evidence = root.join(".ai/evidence");
+            fs::create_dir_all(&evidence).expect("evidence parent");
+            evidence.join(format!("WI-ENTRY-CONTROLS.{kind}"))
+        };
+        if dangling {
+            #[cfg(unix)]
+            std::os::unix::fs::symlink(root.join("missing-target"), &entry)
+                .expect("dangling native entry");
+        } else {
+            fs::create_dir(&entry).expect("partial native directory");
+        }
+        let result = record_work_item_governance_controls(
+            root,
+            "WI-ENTRY-CONTROLS",
+            &json!({"intentAlignment":{"state":"unknown"}}),
+        );
+        if result.is_ok() {
+            let retained = directory.keep();
+            panic!(
+                "Summary-only compatibility ignored native entry {kind} dangling={dangling}; retained {}",
+                retained.display()
+            );
+        }
+        assert_eq!(fs::read(&summary_path).expect("unchanged Summary"), before);
+    }
+}
+
+#[test]
 fn prospective_chain_rejects_an_unjournaled_current_contract_before_publication() {
     let directory = repository();
     let root = directory.path();
