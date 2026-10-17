@@ -2043,6 +2043,170 @@ fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_revie
         preflight["reviewState"], "needs_human_confirmation",
         "{preflight}"
     );
+    let fresh_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("fresh Summary"))
+            .expect("fresh Summary JSON");
+    let contract: Value = serde_json::from_slice(&before_contract).expect("current Contract");
+    let fresh_review = directory.path().join("post-recovery-fixture-review.json");
+    fs::write(&fresh_review, serde_json::to_vec(&json!({"decisionEvidence": {
+        "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+        "workItemId":id,"repositoryId":contract["repositoryId"],
+        "contractDigest":cockpit_protocol::digest_json(&contract).expect("digest"),
+        "preflightDecisionDigest":fresh_summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest":fresh_summary["preflightRepositorySnapshotDigest"],
+        "recordedAt":record["recordedAt"],"recordedBy":"fixture:separate-post-recovery-review",
+        "reason":"Separate synthetic current-Contract review after the recovery request; no real human approval."
+    }})).expect("fresh review JSON")).expect("fresh review input");
+    assert_success(
+        &cli(&[
+            "work-item",
+            "controls",
+            "--id",
+            id,
+            "--input",
+            fresh_review.to_str().expect("path"),
+        ]),
+        "record separate current fixture review",
+    );
+    assert_success(
+        &cli(&["verify", "--work-item", id, "--workers", "1"]),
+        "only the separately reviewed fixture may verify",
+    );
+    let status = cli(&["work-item", "status", "--id", id, "--json"]);
+    assert_success(
+        &status,
+        "read status after native verification projection refresh",
+    );
+    let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert_eq!(
+        status["humanDecisionRequired"], false,
+        "a native verification refresh must not create a review loop: {status}"
+    );
+    assert!(
+        !status["blockers"]
+            .as_array()
+            .expect("blockers")
+            .contains(&json!("activation_recovery_fresh_contract_review_required")),
+        "{status}"
+    );
+}
+
+fn recovery_metadata_bytes(root: &Path) -> Vec<(PathBuf, Vec<u8>)> {
+    fn walk(path: &Path, values: &mut Vec<(PathBuf, Vec<u8>)>) {
+        if !path.exists() {
+            return;
+        }
+        for entry in fs::read_dir(path).expect("metadata directory") {
+            let entry = entry.expect("metadata entry");
+            if entry.file_type().expect("entry type").is_dir() {
+                walk(&entry.path(), values);
+            } else {
+                values.push((
+                    entry.path(),
+                    fs::read(entry.path()).expect("metadata bytes"),
+                ));
+            }
+        }
+    }
+    let mut values = Vec::new();
+    walk(&root.join(".ai"), &mut values);
+    walk(&root.join(".git/.ai-cockpit"), &mut values);
+    values.sort_by(|left, right| left.0.cmp(&right.0));
+    values
+}
+
+#[test]
+fn invalid_legacy_recovery_plans_preserve_all_metadata_bytes() {
+    for case in [
+        "missing_start",
+        "missing_checkpoint",
+        "forged_checkpoint",
+        "pending_amendment",
+        "partial_recovery",
+        "foreign_owner",
+        "foreign_runtime",
+        "unsupported_runtime",
+        "new_forward_marker",
+    ] {
+        let directory = legacy_activation_fixture();
+        let root = directory.path().join("repo");
+        let id = "WI-CLI-ACTIVATION-CONTINUITY";
+        let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+        let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+            .expect("Summary JSON");
+        match case {
+            "missing_start" => {
+                summary["lifecycleFacts"]
+                    .as_object_mut()
+                    .expect("facts")
+                    .remove("start");
+            }
+            "missing_checkpoint" => {
+                summary["checkpointEvidence"] = json!([]);
+            }
+            "forged_checkpoint" => {
+                for record in summary["checkpointEvidence"]
+                    .as_array_mut()
+                    .expect("checkpoint records")
+                {
+                    if record["stage"] == "before_edit" {
+                        record["contractHash"] = json!(Digest::sha256_bytes(b"forged checkpoint"));
+                    }
+                    if record["stage"] == "contract_amendment_revalidation" {
+                        record["originalBeforeEditContractHash"] =
+                            json!(Digest::sha256_bytes(b"forged checkpoint"));
+                    }
+                }
+            }
+            "pending_amendment" => {
+                fs::remove_file(root.join(format!(
+                    ".ai/evidence/{id}.contract-amendments/00000002.committed.json"
+                )))
+                .expect("model pending fixture");
+            }
+            "partial_recovery" => {
+                let partial = root.join(format!(".ai/evidence/{id}.activation-recovery"));
+                fs::create_dir(&partial).expect("partial directory");
+                fs::write(partial.join("prepared.json"), b"{}").expect("partial fixture phase");
+            }
+            "foreign_owner" => {
+                git(&root, &["checkout", "-qb", "foreign-fixture-owner"]);
+            }
+            "new_forward_marker" => {
+                summary["activationContinuity"] = json!({"capability":"activation_continuity_recovery_v1","journalRelevant":true});
+            }
+            _ => {}
+        }
+        fs::write(
+            &summary_path,
+            serde_json::to_vec(&summary).expect("fixture Summary JSON"),
+        )
+        .expect("fixture mutation");
+        let before = recovery_metadata_bytes(&root);
+        let mut runtime = candidate_runtime();
+        if case == "foreign_runtime" {
+            runtime.runtime_digest = Digest::sha256_bytes(b"foreign fixture Runtime");
+        }
+        if case == "unsupported_runtime" {
+            runtime.runtime_version = "0.2.105".into();
+        }
+        let response = mcp_call(
+            &root,
+            &runtime,
+            "work_item_activation_recovery_plan",
+            json!({"workItemId":id}),
+        );
+        assert_eq!(
+            response.pointer("/result/isError"),
+            Some(&json!(true)),
+            "{case}: {response}"
+        );
+        assert_eq!(
+            recovery_metadata_bytes(&root),
+            before,
+            "{case} must not repair or publish metadata implicitly"
+        );
+    }
 }
 
 #[test]
