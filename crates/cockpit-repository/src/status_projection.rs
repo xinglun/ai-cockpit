@@ -1894,6 +1894,12 @@ fn work_item_status_snapshot_with_snapshot(
         unknowns.push("historical_transition_authentication_unknown".into());
         completion_domains.insert("review".into(), "required".into());
     }
+    // Accepting the present baseline and subsequently reviewing C never
+    // authenticates the historical A-to-B transition. Keep this fact visible
+    // without re-opening that completed current-Contract review.
+    if summary["activationRecovery"]["historicalTransitionAuthentication"] == "unknown" {
+        unknowns.push("historical_transition_authentication_unknown".into());
+    }
     unknowns.sort();
     unknowns.dedup();
     let effective_unknowns = unknowns.clone();

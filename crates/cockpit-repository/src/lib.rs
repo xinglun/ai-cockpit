@@ -12550,6 +12550,25 @@ fn outcome_v2_internal_with_snapshot(
     // digest and the strict evidence validator still passes.
     let current_summary_path = active.join(format!("{work_item_id}.summary.json"));
     let current_summary = read_json(&current_summary_path).ok();
+    let continuity_managed = current_summary.as_ref().is_some_and(|summary| {
+        !summary["activationContinuity"].is_null() || !summary["activationRecovery"].is_null()
+    }) || ["activation-transition", "activation-recovery"].iter().any(
+        |suffix| {
+            fs::symlink_metadata(root.join(format!(".ai/evidence/{work_item_id}.{suffix}"))).is_ok()
+        },
+    );
+    if !archived && continuity_managed {
+        // An evidence-only Outcome cannot hide a partial/orphan native
+        // transition merely because the software receipt is still valid.
+        let history = contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?;
+        let digest = contract_digest(&contract_path)?;
+        contract_amendment::validate_transition_chain(
+            &root,
+            work_item_id,
+            &history,
+            Some(&digest),
+        )?;
+    }
     let recovery_projection_reconciled = if !archived {
         current_summary
             .as_ref()
@@ -12685,6 +12704,13 @@ fn outcome_v2_internal_with_snapshot(
     let summary_value = summary_path
         .as_deref()
         .and_then(|path| read_json(path).ok());
+    if summary_value.as_ref().is_some_and(|summary| {
+        summary["activationRecovery"]["historicalTransitionAuthentication"] == "unknown"
+    }) {
+        unknowns.push("historical_transition_authentication_unknown".into());
+        unknowns.sort();
+        unknowns.dedup();
+    }
     let task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
         contract_path: &contract_path,

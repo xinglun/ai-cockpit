@@ -2154,6 +2154,16 @@ fn assert_legacy_activation_recovery_flow(record_via_mcp: bool, existing_c_revie
             .contains(&json!("historical_transition_authentication_unknown")),
         "separate C review must not erase the missing historical authentication: {status}"
     );
+    let outcome = cli(&["work-item", "outcome", "--id", id, "--json"]);
+    assert_success(&outcome, "read honest post-recovery Outcome");
+    let outcome: Value = serde_json::from_slice(&outcome.stdout).expect("Outcome JSON");
+    assert!(
+        outcome["unknowns"]
+            .as_array()
+            .expect("Outcome unknowns")
+            .contains(&json!("historical_transition_authentication_unknown")),
+        "{outcome}"
+    );
     fs::remove_file(root.join(format!(
         ".ai/evidence/{id}.activation-recovery/committed.json"
     )))
@@ -2169,6 +2179,12 @@ fn assert_legacy_activation_recovery_flow(record_via_mcp: bool, existing_c_revie
             .contains("unresolved activation recovery transaction"),
         "{}",
         String::from_utf8_lossy(&partial.stderr)
+    );
+    assert_eq!(recovery_metadata_bytes(&root), before_partial);
+    let outcome = cli(&["work-item", "outcome", "--id", id, "--json"]);
+    assert!(
+        !outcome.status.success(),
+        "a partial recovery cannot render an apparently complete Outcome"
     );
     assert_eq!(recovery_metadata_bytes(&root), before_partial);
 }

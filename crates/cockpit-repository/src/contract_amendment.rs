@@ -237,6 +237,7 @@ fn legacy_activation_boundary(
         || summary["repositoryId"] != identity
         || summary["workItemId"] != id
         || !summary["activationContinuity"].is_null()
+        || !summary["activationRecovery"].is_null()
         || history
             .last()
             .is_none_or(|tail| tail.new_contract_digest != digest)
@@ -1240,6 +1241,16 @@ pub(crate) fn validate_transition_chain(
 ) -> Result<(), ObserverError> {
     let transition = read_activation_transition(root, id)?;
     let recovery = read_activation_recovery(root, id, history)?;
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    if let Ok(summary) = super::read_json(&summary_path)
+        && ((!summary["activationContinuity"].is_null() && transition.is_none())
+            || (!summary["activationRecovery"].is_null() && recovery.is_none()))
+    {
+        return Err(state_error(
+            summary_path,
+            "orphan continuity Summary marker has no committed native evidence",
+        ));
+    }
     if transition.is_some() && recovery.is_some() {
         return Err(state_error(
             root,
