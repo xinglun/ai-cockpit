@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "worktreePath": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+  "head": "a18bcc7650ca22028cf9a9e6058af7d98b56e787",
+  "generation": 9,
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Actual current a18bcc76 HEAD rebind completed natively at generation8 under the real prior profile. The real transition to process-only debug=0 was observed, explicitly recorded and rechecked pending=false. Settle generation9 with the actual debug=0 baseline so future ordinary head updates do not re-enter the stale-old-head drift path. No new build, product edit, old receipt replay or original WI-1087 change."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  },
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  }
+}

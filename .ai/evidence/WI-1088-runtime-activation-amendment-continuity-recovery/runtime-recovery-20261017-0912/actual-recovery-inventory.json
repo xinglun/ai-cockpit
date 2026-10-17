@@ -1,0 +1,83 @@
+{
+  "kind": "actual_disconnect_recovery_inventory_not_test_success",
+  "observedAt": "2026-10-17T09:18:31.432959+00:00",
+  "executorAvailable": true,
+  "nativeRuntimeVersion": "1.0.1",
+  "nativeRuntimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "pushedSourceHeadAtInventory": "a18bcc7650ca22028cf9a9e6058af7d98b56e787",
+  "uncommittedProductFiles": [
+    "crates/cockpit-protocol/src/lib.rs"
+  ],
+  "uncommittedProductDiff": "111 inserted lines of standalone protocol types; not compiled",
+  "WIPPatchRawSha256": "0b2a6be032e0cb61dd53ca99e83de2124c07de023567e735e339f6793a365942",
+  "knownCompletedFormalCandidateTest": {
+    "sourceHead": "f32e515db12695e06e4f2e1307c4f0dfac91ea72",
+    "endTime": "2026-10-17T09:01:36.677626+00:00",
+    "result": "RED: 0 passed / 1 failed / 28 filtered",
+    "exitCode": 101,
+    "timedOut": false,
+    "preservedInCommit": "a18bcc7650ca22028cf9a9e6058af7d98b56e787"
+  },
+  "activeBuildOrRuntimeProcesses": 0,
+  "twoPreexistingCargoZombiesUntouched": true,
+  "storageWasLost": false,
+  "rootCause": "Generation7 raw registration still held b54caba8 and the pre-debug-profile environment. Its recorded drift event held the effective debug=0 baseline. register compared the raw baseline, attempted to record drift against the stale old HEAD and rejected; inspection filtered that stale registration, causing the misleading missing-provider message.",
+  "failedNativeGeneration8AttemptPreserved": true,
+  "supportedNativeRecovery": "Actually observe prior process profile with only two debug variables unset; native register8 to current real HEAD; actually observe/record the debug=0 transition; native register9 settles its real baseline. No manual record edits or historical replay.",
+  "actualCurrentRegistration": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+    "worktreePath": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+    "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+    "head": "a18bcc7650ca22028cf9a9e6058af7d98b56e787",
+    "generation": 9,
+    "declaration": {
+      "providedOutcomes": [],
+      "consumedOutcomes": [],
+      "resourceClaims": [],
+      "integrationResponsibility": {
+        "responsibleWorkItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+        "targetBranch": "main",
+        "compositionOrder": [],
+        "rationale": "Actual current a18bcc76 HEAD rebind completed natively at generation8 under the real prior profile. The real transition to process-only debug=0 was observed, explicitly recorded and rechecked pending=false. Settle generation9 with the actual debug=0 baseline so future ordinary head updates do not re-enter the stale-old-head drift path. No new build, product edit, old receipt replay or original WI-1087 change."
+      },
+      "compositionVerification": {
+        "compatibilityConstraints": [],
+        "requiredScenarios": [],
+        "reusableNodes": []
+      }
+    },
+    "runtime": {
+      "schemaVersion": 1,
+      "runtimeVersion": "1.0.1",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "capability": "observed_environment_drift_v1"
+    },
+    "environment": {
+      "schemaVersion": 1,
+      "environmentDigest": "sha256:7d482afcdb7509ebb3cf4fb2a4a79cc80662b0c218f276f59469ae06a75e80a0",
+      "observedInputs": [
+        "process-environment",
+        "cargo-executable",
+        "repository-dependency-and-cargo-configuration-inputs",
+        "rustc-toolchain",
+        "operating-system-and-architecture"
+      ]
+    }
+  },
+  "driftPending": false,
+  "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "storedPreflightState": "green",
+  "storedPreflightSnapshot": "sha256:4a7909ca91bbfdd1247634278f6feee06c5d319e84d8e8ea116fa5212d291c0a",
+  "storedPreflightDecision": "sha256:d42a258511bc25ec67ff4d89601d46e868eb620216624aac13832de81878092b",
+  "checkpointCount": 1,
+  "canonicalActualHumanReceiptRawSha256": "b5bb92ec0124ab1962bb3344be3a44a60253dc1547279b3f732117325c3ef75e",
+  "currentVerificationBlocker": "material_review_projection_unavailable because the protocol WIP is uncommitted; stored green preflight describes the prior committed regression snapshot, not the uncompiled WIP.",
+  "wi1087ProtectedHead": "9093ebe1bbccbf2a3429d953c497fa3847f6e474",
+  "wi1087All11RawHashesMatch": true,
+  "newEnvironmentCreated": false,
+  "buildOrVerificationRerunDuringRecovery": false,
+  "next": "Keep WIP intact; commit only ready bounded source work, refresh native current admission before the next build. Use --package (not -p) for the supported implicit Cargo-package 600s budget and inspect plan before launch."
+}
