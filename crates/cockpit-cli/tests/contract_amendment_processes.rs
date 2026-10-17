@@ -1828,8 +1828,7 @@ fn current_contract_review_cannot_hide_a_missing_activation_commit() {
     );
 }
 
-#[test]
-fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review() {
+fn legacy_activation_fixture() -> tempfile::TempDir {
     let directory = activation_checkpoint_fixture();
     let root = directory.path().join("repo");
     let id = "WI-CLI-ACTIVATION-CONTINUITY";
@@ -1895,6 +1894,25 @@ fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_revie
         ]),
         "register exact legacy fixture owner",
     );
+    directory
+}
+
+#[test]
+fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review() {
+    let directory = legacy_activation_fixture();
+    let root = directory.path().join("repo");
+    let id = "WI-CLI-ACTIVATION-CONTINUITY";
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let runtime = candidate_runtime();
+    let cli = |args: &[&str]| {
+        Command::new(candidate_binary())
+            .args(args)
+            .arg("--repo")
+            .arg(&root)
+            .output()
+            .expect("fixture CLI")
+    };
     let before_contract = fs::read(&contract_path).expect("Contract bytes");
     let before_summary = fs::read(&summary_path).expect("Summary bytes");
     let planned = cli(&["work-item", "activation-recovery", "plan", "--id", id]);
@@ -2024,5 +2042,37 @@ fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_revie
     assert_eq!(
         preflight["reviewState"], "needs_human_confirmation",
         "{preflight}"
+    );
+}
+
+#[test]
+fn recovery_request_binds_native_environment_and_raw_review_bytes() {
+    let directory = legacy_activation_fixture();
+    let root = directory.path().join("repo");
+    let id = "WI-CLI-ACTIVATION-CONTINUITY";
+    let planned = run_cli(&[
+        "work-item",
+        "activation-recovery",
+        "plan",
+        "--id",
+        id,
+        "--repo",
+        root.to_str().expect("root"),
+    ]);
+    assert_success(&planned, "plan bound metadata request");
+    let request: Value = serde_json::from_slice(&planned.stdout).expect("request");
+    let observed = cockpit_repository::RepositoryExecutionContext::capture(&root)
+        .expect("context")
+        .observe_environment_identity()
+        .expect("actual environment");
+    assert_eq!(
+        request["environmentDigest"],
+        json!(observed.environment_digest)
+    );
+    let review = fs::read(root.join(format!(".ai/decisions/{id}.preflight-review.json")))
+        .expect("historical review bytes");
+    assert_eq!(
+        request["rawEvidenceDigests"]["preflight-review"],
+        json!(Digest::sha256_bytes(&review))
     );
 }
