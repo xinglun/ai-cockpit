@@ -1,0 +1,103 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:55b479dacf7ac73491fa55a0a672680b90c121f8331d6779404862da5eef6f15",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+    "sequence": 2,
+    "changeId": "wi1087-preserve-two-existing-cleanup-receipts-20261017",
+    "requestDigest": "sha256:53fbc5a9049e978ef694a694ece45ecd9845c68c70e366b16b6d75c6944f2e28",
+    "reason": "Execute Raydot-reviewed P0 planning continuity under the user delegation, relayed explicitly by the controller in thread 01a11856-d6ba-72e0-9aab-25a34cd2f018. Normal merge cc3ff71c5bb8dbdaea583134bdb483c167e225cd preserves existing main close/archive and design ancestry. Add only the two exact preexisting Native cleanup receipt paths with byte-identical carry-forward: WI1085 rawSHA d85bcc5d38ed159e1c92a409d0a0b8feeb36bb16c41826d0e11531e5c565a9b5; WI1086 rawSHA 7304e582f78f5a49ec751f01f5497a3a310a66c5621fa3353813869c961a6a8d. Preserve planning/not_ready, authority=missing, product/activation exclusions and all historical close/archive/receipt bytes. This is agent technical plan review, not human confirm_review; no new cleanup, PR merge, credentials, privilege expansion or direct main push.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**"
+        ],
+        "newValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json"
+        ],
+        "newValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json"
+        ]
+      },
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [
+          "All product source implementation and Runtime activation",
+          "Any change to existing WI-1086 or other authorization/receipt records",
+          "Shared reference-parity ledgers while WI-1086 is active",
+          "New IAM or budget subsystem, remote trusted-time dependency, inferred identity",
+          "PR merge, close, cleanup, actual provider or Sentinel operations"
+        ],
+        "newValue": [
+          "All product source implementation and Runtime activation",
+          "No modification, regeneration, rebinding, replacement or new observation of existing WI-1086 or other authorization/receipt history. A single byte-identical addition of exactly the two existing native cleanup receipts named in scope is permitted only under the reviewed persistence plan and pinned original SHA256; no new cleanup is authorized.",
+          "Shared reference-parity ledgers while WI-1086 is active",
+          "New IAM or budget subsystem, remote trusted-time dependency, inferred identity",
+          "PR merge, close, cleanup, actual provider or Sentinel operations"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:a2bc3623b4953e76702b9c0618aaf739520d6e2c41345f259e432f5273641cc7",
+    "newContractDigest": "sha256:7f827f8bf5b6eaacd599045f243f74ee3a89998bde781fc5aae65af83f877eee",
+    "repositorySnapshotDigest": "sha256:6b431702e36f1d2d200946c3626b8f55521e9af368783265b9b2bb05d666fced",
+    "environmentObservationDigest": "sha256:ea1ec97c32fc4092be8c7d2f8b086cada60e5bdff916e2ef046eeabba072b025",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/outOfScope",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:640d002609192c47355d753ef264100481066067a5b56358202b221a3bdc3f1f",
+    "journalDigest": "sha256:307d55c9a476073bcaa71194f5ed2b01f543e0e9e7a2c05805d91f19aafec648",
+    "recordedAt": "2026-10-17T00:27:45Z"
+  }
+}
