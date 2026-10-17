@@ -1,0 +1,211 @@
+{
+  "registrations": [
+    {
+      "schemaVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "contractDigest": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+      "worktreePath": "/workspace/ai-cockpit",
+      "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+      "head": "9093ebe1bbccbf2a3429d953c497fa3847f6e474",
+      "generation": 13,
+      "declaration": {
+        "providedOutcomes": [],
+        "consumedOutcomes": [],
+        "resourceClaims": [],
+        "integrationResponsibility": {
+          "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+          "targetBranch": "main",
+          "compositionOrder": [],
+          "rationale": "Native amendment sequence 5 is durably committed with no pending transaction, but status/admission fails closed on the historical Contract transition chain. Only preserve/query the actual state and seek a supported native recovery path. No P2a product edits, new human decision, P2b, production grant, merge or lifecycle completion."
+        },
+        "compositionVerification": {
+          "compatibilityConstraints": [],
+          "requiredScenarios": [],
+          "reusableNodes": []
+        }
+      },
+      "runtime": {
+        "schemaVersion": 1,
+        "runtimeVersion": "1.0.1",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+        "capability": "observed_environment_drift_v1"
+      },
+      "environment": {
+        "schemaVersion": 1,
+        "environmentDigest": "sha256:6dd4e0eec661e37aeaade660ff8709e467abdbd2703c3cab35a9b8d0b300860a",
+        "observedInputs": [
+          "process-environment",
+          "cargo-executable",
+          "repository-dependency-and-cargo-configuration-inputs",
+          "rustc-toolchain",
+          "operating-system-and-architecture"
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-10",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 10,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-11",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 11,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-12",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 12,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-13",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 13,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-2",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 2,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-3",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 3,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-4",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 4,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-5",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 5,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-6",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 6,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-7",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 7,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-8",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 8,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    },
+    {
+      "schemaVersion": 1,
+      "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-9",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "generation": 9,
+      "kind": "impact",
+      "source": "registration-identity-changed",
+      "evidenceRefs": [],
+      "evidenceDigests": {},
+      "outcomeIds": [],
+      "environmentChange": null
+    }
+  ],
+  "recoveries": [],
+  "requests": [],
+  "affectedWorkItems": [],
+  "blockers": {},
+  "cycles": [],
+  "unknowns": []
+}

@@ -1,4 +1,11 @@
 ---
+author: AI Cockpit maintainers
+title: "WI-1088 — Runtime activation 连续性与当下 baseline 恢复"
+description: "严格 activation 连续性及当下 baseline 恢复的已审实现与证据。"
+audience:
+  - maintainer
+  - reviewer
+authority: explicit-user-authorization
 workItemId: WI-1088-runtime-activation-amendment-continuity-recovery
 status: in_progress
 lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
@@ -6,7 +13,7 @@ lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
 
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation 连续性与当下恢复
 
-human:Ray 在 08:45:53Z 的真实 confirm_review 已原生记录，checkpoint 1 已建立。实现和聚焦恢复证据已保存；完整验收仍待完成。
+human:Ray 在 08:45:53Z 的真实 confirm_review 已原生记录，checkpoint 1 已建立。实现与真实验证证据已保留；当前仍为进行中的 Draft，不主张终端生命周期完成。
 
 保留真实前向 A/B/owner/Runtime/journal 阶段证据。历史恢复仅当下接受精确 baseline，保留历史未知，仅开启新 preflight。B 曾被审或 CSV 都不是通用豁免。
 
@@ -29,4 +36,4 @@ human:Ray 在 08:45:53Z 的真实 confirm_review 已原生记录，checkpoint 1 
 
 Plan: `../../.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md`. Source: `../../.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/technical-approval-source.json`.
 
-源码 9d2134bd98bdb6409f7bbc90be83472bbc0a7f75 的扩展 CLI amendment/recovery 目标通过 33/33；较早的前向阶段 repository amendment 13/13、lifecycle entry 52/52 通过。这些是绑定各自源码的聚焦历史结果，不代表完整当前验收。仍需完成 CAS/负测、MCP 精确发现与 schema、全 workspace 验证及当前 CI；执行台账保留每次真实 RED、编译失败、GREEN 和源码绑定。
+执行台账保留原生33节点路线、聚焦结果、此前全部 RED、源码绑定及 CI 诊断的精确实际记录。当前验收与精确 HEAD 的 CI 见 Draft PR1047。软件证据不表示 Runtime 已交付、WI-1087 已实际恢复或生命周期已完成。

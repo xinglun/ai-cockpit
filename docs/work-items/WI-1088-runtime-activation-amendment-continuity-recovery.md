@@ -1,4 +1,11 @@
 ---
+author: AI Cockpit maintainers
+title: "WI-1088 — Runtime activation continuity and present-baseline recovery"
+description: "Reviewed implementation and evidence for strict activation continuity and present-baseline recovery."
+audience:
+  - maintainer
+  - reviewer
+authority: explicit-user-authorization
 workItemId: WI-1088-runtime-activation-amendment-continuity-recovery
 status: in_progress
 lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
@@ -6,7 +13,7 @@ lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
 
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation continuity and present recovery
 
-Actual human:Ray confirm_review was natively recorded at 08:45:53Z; checkpoint 1 is established. Implementation and focused recovery evidence are saved; full acceptance remains pending.
+Actual human:Ray confirm_review was natively recorded at 08:45:53Z; checkpoint 1 is established. Implementation and actual verification evidence are preserved. This remains an in-progress Draft with no terminal lifecycle claim.
 
 Preserve true forward A/B/owner/Runtime/journal phase evidence. Legacy recovery accepts an exact present baseline with historical uncertainty retained; it enables only a new preflight. B review and CSV are never broad exemptions.
 
@@ -29,4 +36,4 @@ After the actual human gate: real temporary-repository RED, then fix, negatives 
 
 Plan: `../../.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md`. Source: `../../.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/technical-approval-source.json`.
 
-At source 9d2134bd98bdb6409f7bbc90be83472bbc0a7f75, the expanded CLI amendment/recovery target passed 33/33. The earlier forward stage passed repository amendment 13/13 and lifecycle entry 52/52. These are scoped historical results, not full current acceptance. Complete CAS/negative coverage, exact MCP discovery/schema checks, full workspace verification and current CI remain required. The execution ledger preserves each actual RED, failed compile, GREEN and source binding.
+The execution ledger retains the exact actual native33-node route, scoped results, prior RED attempts, source bindings and CI diagnoses. Current acceptance and exact-head CI are reported in Draft PR1047. Software evidence does not mean Runtime delivery, actual WI-1087 recovery or lifecycle completion.

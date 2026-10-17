@@ -1,0 +1,6 @@
+Status: WI-1088-runtime-activation-amendment-continuity-recovery
+Lifecycle: implementation_active
+Governance: yellow
+Activity health: waiting
+Unknowns: acceptance_evidence_insufficient, acceptance_evidence_missing, scenario_coverage_insufficient, scenario_coverage_required_for_high_risk, user_visible_benefit_not_declared, verification_evidence_missing
+Next action: read `work-item outcome --repo <path> --id WI-1088-runtime-activation-amendment-continuity-recovery`

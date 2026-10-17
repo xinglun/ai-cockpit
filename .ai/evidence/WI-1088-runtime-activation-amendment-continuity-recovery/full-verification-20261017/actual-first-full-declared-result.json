@@ -1,0 +1,577 @@
+{
+  "kind": "agent_actual_result_index_not_native_receipt",
+  "observedAt": "2026-10-17T11:16:48.633374+00:00",
+  "sourceHead": "0ce36465edb99e0dbad7083df9ba6e8b46e32c65",
+  "exitCode": 1,
+  "elapsedSeconds": 1073.611,
+  "passed": false,
+  "nodesExecuted": 33,
+  "nodesPassed": 31,
+  "nodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "processSpawnFailures": 0,
+  "nodeSummary": [
+    {
+      "commandDigest": "sha256:a77c058c9ed05e81075bc2f3c55e7a6a080b6dd9c7d962d33333338e1f265d3e",
+      "deadlineMs": 1792235005977,
+      "elapsedMs": 2338,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:348d21782ab0b3980f1cbd1a65af07a140f991ff2fda1172f19883b9f80472f7",
+      "deadlineMs": 1792235008457,
+      "elapsedMs": 20395,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-agent",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:70c7b7a26b3ede98f1ba906fe67e17c2c5c60668787df7088f2d476510fc7a90",
+      "deadlineMs": 1792235029012,
+      "elapsedMs": 27292,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-cli",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:ed0a3cb06a01a1ba59ff336c1c4706aed192d40e593e630d23179214035af553",
+      "deadlineMs": 1792235056455,
+      "elapsedMs": 8689,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-core",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:8b03877a937ec69da1d0189ac5b21802035a5208255d9221d645c43b9f60fcdf",
+      "deadlineMs": 1792235065290,
+      "elapsedMs": 573,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-evidence",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:af948afcd5b240a0be3353411b5bea869bdfa9b97a90985c8233983ef66b9441",
+      "deadlineMs": 1792235066023,
+      "elapsedMs": 2589,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-git",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:23414a0c0a67168a10163556ca4976388f9939987092781919cf4ad726867bc9",
+      "deadlineMs": 1792235068763,
+      "elapsedMs": 875,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-interface",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:066b9c7d251cb83d268c1ce85463c9b6135adccd4ad2601f84bcce9435ca4943",
+      "deadlineMs": 1792235069789,
+      "elapsedMs": 530,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-isolation",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:7bc4c54b1c658a8dd31975c333782b7832179859b70f4ceb2cd73b338023d304",
+      "deadlineMs": 1792235070454,
+      "elapsedMs": 368,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-knowledge",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:4bda029a362cc089540859b27f05f7f8ded134037a39fb3fc7c96fa632cc604c",
+      "deadlineMs": 1792235070969,
+      "elapsedMs": 1708,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-mcp",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:cf4b8a23834aeaf043db33d5a49ec105dd80215fd06986300ca6034fbc80dcdc",
+      "deadlineMs": 1792235072826,
+      "elapsedMs": 6787,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-protocol",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:dcb6d531eb9c7dae7c237342c09a28ed90276fad552e0c0c9fb20c1dca0d9004",
+      "deadlineMs": 1792235079760,
+      "elapsedMs": 11556,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-release",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:71f0f4e54c40dd70d5fab071bbda003a59e3864ff4e1d3806a911ae99c97b57b",
+      "deadlineMs": 1792235091469,
+      "elapsedMs": 16606,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-repository",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:343527ff681f71f365923cdf6ee18297114795764332380706153b52e9a41642",
+      "deadlineMs": 1792235108291,
+      "elapsedMs": 6167,
+      "exitCode": 0,
+      "nodeId": "project-command-1-package-cockpit-verification",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:262ce9f05a7c4d592a5456eacf9a93315ff2e72c7e84692c8265ccc5fcada3d6",
+      "deadlineMs": 1792235114626,
+      "elapsedMs": 4353,
+      "exitCode": 0,
+      "nodeId": "project-command-2",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:1e050d32d322ba43cdcbab20044d934daa2b47af8891c22b81e650fede9a44a3",
+      "deadlineMs": 1792235119152,
+      "elapsedMs": 15858,
+      "exitCode": 0,
+      "nodeId": "project-command-3",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:eca4d6b1aebfe28227cb5f7ef83fbf15fd56b2ed81afacf43332888a274452bd",
+      "deadlineMs": 1792235135211,
+      "elapsedMs": 157088,
+      "exitCode": 0,
+      "nodeId": "project-command-4",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:3accddabf2d72c4a0b367b3c88443ddfc2e0814daad01669bc95e7b9c16b88bf",
+      "deadlineMs": 1792235292611,
+      "elapsedMs": 1216,
+      "exitCode": 0,
+      "nodeId": "project-command-5",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:bf41fda89f259a149ca7ef492fbdae3af7bc85ac165d373f6ff29c6a5f70b707",
+      "deadlineMs": 1792235294009,
+      "elapsedMs": 700,
+      "exitCode": 0,
+      "nodeId": "project-command-6",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:6ed1973e6391f44939bca69f9ac13f59fe1ae2912cf5bbafc2f731a63cb6d00e",
+      "deadlineMs": 1792235294874,
+      "elapsedMs": 707,
+      "exitCode": 0,
+      "nodeId": "project-command-7",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:091bbb0359a51f11e02f0dfb3852202385e4d7e8ea0a71d234b0d49eb3174ae2",
+      "deadlineMs": 1792235595741,
+      "elapsedMs": 5808,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-agent",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:ce3ad3e26b461909e93eb6ac6b977f2bc291abc1d7390ce649a10383773e120b",
+      "deadlineMs": 1792235601712,
+      "elapsedMs": 435700,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-cli",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:687120ca05b5f3590230fd488ca230d2c0b1cd97ff2d01cc1234f79c526fffb2",
+      "deadlineMs": 1792236037627,
+      "elapsedMs": 6048,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-core",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:b98a47c6706f5a00d80edd34adcd1085c19ad1ce9e3d906c0300772053d4f7f8",
+      "deadlineMs": 1792236043807,
+      "elapsedMs": 841,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-evidence",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:44c0f1370ed6874ccff440ce817b845c14bd6d6b9f1c984392cd4eba915aaecb",
+      "deadlineMs": 1792236044787,
+      "elapsedMs": 14528,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-git",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:4697b0aa1f7eca92f9d93d5395b6c590d8041f6a46a10a125873d715f14af13c",
+      "deadlineMs": 1792236059467,
+      "elapsedMs": 1252,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-interface",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:d519561f2a5994c8d7287d46bba7725ac4edf7cfb5ee133b87f57752719c2dbd",
+      "deadlineMs": 1792236060852,
+      "elapsedMs": 1003,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-isolation",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:08b7a12ce0a2104a4c6dbb33e4ca8bb142b36037c9e371ba14c2c73bd959c522",
+      "deadlineMs": 1792236061994,
+      "elapsedMs": 1030,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-knowledge",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:8ed70e7c729eb18a475df6c7fd64689022814c0ed82258ad1c8ebc49a30bb6bf",
+      "deadlineMs": 1792236063172,
+      "elapsedMs": 16233,
+      "exitCode": 101,
+      "nodeId": "project-command-8-package-cockpit-mcp",
+      "passed": false,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:cfd5d79554f7406bd487e49da321c8216227dc966cac5d87adef23a8dd957e5e",
+      "deadlineMs": 1792236079570,
+      "elapsedMs": 13936,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-protocol",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:97a07659950dc37f2dcce7d12bd49df5262da8433b581a3c591908552f274712",
+      "deadlineMs": 1792236093644,
+      "elapsedMs": 18776,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-release",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:dbc367e2bd6938ea06f9bcaef84d86d7257463725089cf1b14f18d7d02557d36",
+      "deadlineMs": 1792236112563,
+      "elapsedMs": 185710,
+      "exitCode": 101,
+      "nodeId": "project-command-8-package-cockpit-repository",
+      "passed": false,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    },
+    {
+      "commandDigest": "sha256:b3a35944e89b7962ceb47fba3a39638ce0cd49774ba8191f19eb1fca675d2093",
+      "deadlineMs": 1792236298432,
+      "elapsedMs": 77324,
+      "exitCode": 0,
+      "nodeId": "project-command-8-package-cockpit-verification",
+      "passed": true,
+      "spawned": true,
+      "stderrTruncated": false,
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 600
+    }
+  ],
+  "nativeReceiptInventory": [
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.11b94c18be287e4bb9deb3df03976b0eaf25f144295de39c3a73e463cf520100.json",
+      "rawSha256": "76693fc038cabfb7acd0e3b5e854fd490729de54372a307c0da1af4bece9f8ef",
+      "bytes": 10182
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.26aabb6bbb03d29bdbd9f70bf292e76cbe7616dcf05e7142c24b5f49b830611e.json",
+      "rawSha256": "a3270f35d474255d84cede2f030deb745cb8439d638243e357212f9c58d99623",
+      "bytes": 775167
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.454eae667e359542486e705d9d4372105d151b4b188fa2be5894e8ee69e0d3a6.json",
+      "rawSha256": "e3c2ae3f0537743d024b3658549fb0c25f76fb33a0fc9fed6baf63553711ab2c",
+      "bytes": 10253
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.4b7dfdba3c5a4e6e3f11712f789539e939330dcdaa2244536d8ccee1d1425f1f.json",
+      "rawSha256": "000d05cca96fb6e98d956b722809e6a0ca9f382a7f81fe490d6afe1a9c546c62",
+      "bytes": 23637
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.51d23a7d8ccb2241a7a45dd4fff2230ff4be1555e9e0c0d9c8e34dbeecc0db1a.json",
+      "rawSha256": "c7630bfcae75f45069acd6784f6eb2995eb7ceeffb32185dcbe692e3c8a40d79",
+      "bytes": 7778
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.65e2ddae99397afaa75d81daf64e6363be97a7d6a87760959eb5fbe7d0e5eed5.json",
+      "rawSha256": "ad6d09357fd55abc9e9725dff616b96f68b83fdd1b4f111bb72bd1d7253c23aa",
+      "bytes": 8405
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.69cdf063677285a6d0efffae8f717c87cfc487103c1994264608c573d4c95b65.json",
+      "rawSha256": "05c2b4c8a53beafd9c9c0f8c5ea71d3c0dd01fd36c04638b7619ebbf0abe5d37",
+      "bytes": 7636
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.6a15bba193af21826a75720c8e538ebe3a0c74284ac052ef0962019d12db6cc8.json",
+      "rawSha256": "f0d89b0a836d8b927fa3c3d82bd7d862544ec89879d38df16ee609c138e93304",
+      "bytes": 16887
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.6fbe989b3e93e6908fb36c5ccd37bd4ef1a255ba0e79ab57561a1030f7a9c5f6.json",
+      "rawSha256": "fc24c786881e057035528c8e5528b2f212c3dc540a0b26682c355109a2593b76",
+      "bytes": 24713
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.725fae6f8ef95b12bfffaa4cc96388b444cd6b13e1b211e9f844b14417820319.json",
+      "rawSha256": "ef694a48d8886babed2d3d2fd3ce66faf89791c95bb613fdd4edd3628a0c7317",
+      "bytes": 10895
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.76bd9058d57b385549831b257c9c21694e88543f24c17ad3aa03ef722072b102.json",
+      "rawSha256": "9c2591cb99e93c42d11e25aa39026a5f85820055bc3d8f24e645dae1e899a9b8",
+      "bytes": 13521
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.78538b27eb96ff3931a50ea7d7c016a844ca9bae7c5a33d74f5776bc687c9a98.json",
+      "rawSha256": "d2e751a6fad660a22a2d222a9894b7e08d00bfe5a2cbabe336308e71f54406d9",
+      "bytes": 9880
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9541f5370eed6473f5e905b8492fdaab9dd908903d559d26ae1c99d088d5650b.json",
+      "rawSha256": "5288a3e95fd72569f6f5367e253a37a95ce646a6e9fcf41aaa3598c8280f3eb8",
+      "bytes": 25442
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9ad272af524423f15f685b84cc51af6a102afb47217863a86738af139028a005.json",
+      "rawSha256": "a54152541c301a91e082998045f26e677931d862249c841c67fda4fa37c7acd3",
+      "bytes": 10944
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9e223d0a489c4023dee54ec48f92899712253d9456d872aacf218befa2a65cf6.json",
+      "rawSha256": "a7ede1012d1efc5d95574c885b6a73deb132bc5b393493cf7b14920963f05685",
+      "bytes": 10476
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.acb070ad5974da0bb3ac078b28287740b6b381b83524bf87c880a2e6ffae9caf.json",
+      "rawSha256": "b087722222349024ecc3fe79478379dcd840eb38b300c14dfb924b5e0bc66dce",
+      "bytes": 269058
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.b6144c7553a0a3e580d081d9c1c074030e2f3d49d60d4421762aae996206d2fa.json",
+      "rawSha256": "0ab2ca63a2df667533fc52e1ee0199b8d71b20e89296fd9444da90dac627b48f",
+      "bytes": 10192
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.d4dfa50f259258ae6a4cf49ab775f16d580062ab10be02f285731c3106feb4f0.json",
+      "rawSha256": "31c78502ffc3cdb456af5fd9886e26fadc3a5443ad404ebb3211a8fbd33dbfd8",
+      "bytes": 9314
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.dd070e669805591d578c2bcebe15b53d1798b1926369017e93edf0a261bcf0a2.json",
+      "rawSha256": "056fb3cda822b9d683bb76413c470030a258019e2ba6fb2f318f0da5dd7af92c",
+      "bytes": 8274
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.de34c11b0bc0a009da27da278adde36dcaad7354dee12616960ed7b38723b068.json",
+      "rawSha256": "e2ce1c0a2bae9d0896e675444ddb9d6f341c577283f73ddbd31a6e4f9aed0fd4",
+      "bytes": 8694
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.df13027dc6fa561505907420654383324507779c568da5fb37e6aea23b91cf59.json",
+      "rawSha256": "30608951eba3664e775eb7811a7da99ee1fe3648009d51cd00a097449efea117",
+      "bytes": 22261
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.edeb9cc607934ef6bf18feb1ac671f922208531b4021690450243c2985aab424.json",
+      "rawSha256": "631617c9513f0627bde602f347bddef15f296c0accc41420e34f2396a1ed892a",
+      "bytes": 61193
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0024d9bbc9d3c33287a2a4ebc768f32c0d80d6fddd3c368ce48cb6347e12318.json",
+      "rawSha256": "83ddace49ea684daa5e2ad5f29efb3a76add9cab091495c439ac7dc03ac1038d",
+      "bytes": 15539
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0c5bf06627b05e934ee698aacec61b790d6d26d44a93aa0accb2edacef0e597.json",
+      "rawSha256": "24f74302be24534a9ac750950e51bd44c91d1b73893668c8a28b5cc899ca22d2",
+      "bytes": 14013
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f584a2c55a22d31d697d562d4b11ece1a7e3c6d2144491206365796e3808ce4d.json",
+      "rawSha256": "7260ff17f89d692b3d8b9ed622f34c2ad274634b40fe22bddff1a8707413c7c1",
+      "bytes": 8900
+    },
+    {
+      "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
+      "rawSha256": "f83804b18307c8b79c204858bf30791b472f210a11e7f5778f7f61f6c26b8e06",
+      "bytes": 6094
+    }
+  ],
+  "canonicalCaveat": "Canonical verification may retain the earlier focused success. This failed full route is a separate non-reusable structured attempt; no old success is relabelled."
+}

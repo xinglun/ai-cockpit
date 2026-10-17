@@ -1,0 +1,16 @@
+{
+  "kind": "actual_direct_repository_gate_diagnostic_not_native_formal_receipt",
+  "command": [
+    "bash",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "sourceHead": "0ce36465edb99e0dbad7083df9ba6e8b46e32c65",
+  "startedAt": "2026-10-17T11:17:50.706495+00:00",
+  "endedAt": "2026-10-17T11:17:52.955924+00:00",
+  "elapsedSeconds": 2.249,
+  "timeoutSeconds": 300,
+  "exitCode": 1,
+  "stdoutRawSha256": "e1820c78a4b7da43ae673e7d7a3c1ade80837e83f19d3143841c0e997b70d298",
+  "stderrRawSha256": "38af5ccc99b83ffcf151da2a9f414ef6e9d20e23f8bcb8749b569bc3f57cf371"
+}

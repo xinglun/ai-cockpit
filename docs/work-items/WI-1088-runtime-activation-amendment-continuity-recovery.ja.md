@@ -1,4 +1,11 @@
 ---
+author: AI Cockpit maintainers
+title: "WI-1088 — Runtime activation の連続性と現時点 baseline の復旧"
+description: "厳密な activation の連続性と現時点 baseline 復旧の承認済み実装と証拠。"
+audience:
+  - maintainer
+  - reviewer
+authority: explicit-user-authorization
 workItemId: WI-1088-runtime-activation-amendment-continuity-recovery
 status: in_progress
 lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
@@ -6,7 +13,7 @@ lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
 
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation の連続性と現時点の復旧
 
-human:Ray の実際の confirm_review は 08:45:53Z にネイティブ記録済みで、checkpoint 1 が成立しています。実装と対象を限定した復旧証拠を保存済みですが、全体の受入れは未完了です。
+human:Ray の実際の confirm_review は 08:45:53Z にネイティブ記録済みで、checkpoint 1 が成立しています。実装と実際の検証証拠を保持しています。現在も進行中の Draft であり、終端ライフサイクルの完了は主張しません。
 
 実際の前向き A/B/owner/Runtime/journal フェーズ証拠を保持する。旧履歴の復旧は正確な現時点 baseline の受入のみで、履歴の不明点を保持し、新しい preflight の生成だけを許す。B のレビューや CSV は一般的な免除ではない。
 
@@ -29,4 +36,4 @@ human:Ray の実際の confirm_review は 08:45:53Z にネイティブ記録済�
 
 Plan: `../../.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md`. Source: `../../.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/technical-approval-source.json`.
 
-ソース 9d2134bd98bdb6409f7bbc90be83472bbc0a7f75 の拡張 CLI amendment/recovery target は 33/33 成功しました。先行する前向き段階では repository amendment 13/13、lifecycle entry 52/52 が成功しました。これらは各ソースに結び付く限定的な過去の結果であり、現在の全体受入れではありません。CAS/否定ケース、MCP の正確な発見と schema、全 workspace 検証、現在の CI が必要です。実行台帳は各実際の RED、コンパイル失敗、GREEN とソースの対応を保持します。
+実行台帳はネイティブ33ノードのルート、限定的な結果、過去の全 RED、ソース対応、CI 診断の正確な実記録を保持します。現在の受入れと正確な HEAD の CI は Draft PR1047 に記載します。ソフトウェア証拠は Runtime 配布、WI-1087 の実復旧、ライフサイクル完了を意味しません。

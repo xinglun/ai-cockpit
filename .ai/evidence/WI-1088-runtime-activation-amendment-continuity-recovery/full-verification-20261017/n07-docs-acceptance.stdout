@@ -1,0 +1,2 @@
+{"baselineBytes": 22081, "currentBytes": 13247, "files": {".ai/README.md": 1998, ".ai/agent-interface.json": 809, "AGENTS.md": 5639, "agents/skills/README.md": 1762, "agents/skills/ordinary-work-item.md": 3039}, "reductionBytes": 8834, "reductionPercent": 40.0}
+work item status consistency passed
