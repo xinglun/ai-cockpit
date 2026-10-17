@@ -1583,6 +1583,16 @@ fn work_item_status_snapshot_with_snapshot(
     } else {
         super::contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?
     };
+    if !archived {
+        // Contract review never substitutes for complete transition evidence.
+        // Validate even when the current Contract already has a valid review.
+        super::contract_amendment::validate_transition_chain(
+            &root,
+            work_item_id,
+            &amendment_history,
+            Some(&contract_digest_value),
+        )?;
+    }
     let amendment_checkpointed = amendment_history
         .last()
         .is_some_and(|receipt| receipt.checkpointed);

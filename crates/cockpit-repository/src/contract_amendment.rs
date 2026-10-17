@@ -359,7 +359,7 @@ fn read_activation_transition(
     Ok(Some(prepared))
 }
 
-fn validate_transition_chain(
+pub(crate) fn validate_transition_chain(
     root: &Path,
     id: &str,
     history: &[ContractAmendmentReceipt],
