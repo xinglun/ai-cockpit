@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_readable_projection_of_actual_native_human_request_not_a_decision",
+  "observedAt": "2026-10-17T08:22:59.698031+00:00",
+  "nativeProducer": "r17-corrected-implementation-preflight.json exact stdout bytes",
+  "repositoryRoot": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+  "observedSourceHead": "5c6e187d1536cfdb5a81c0e1a9af9dad3008bb5d",
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  },
+  "registrationGenerationAtRequest": 5,
+  "environmentAtRequest": {
+    "environmentDigest": "sha256:1cb2732d54fc42232100596bac0b8564f22fbf61e0bbb250a2b82ec2971de7d3",
+    "observedInputs": [
+      "process-environment",
+      "cargo-executable",
+      "repository-dependency-and-cargo-configuration-inputs",
+      "rustc-toolchain",
+      "operating-system-and-architecture"
+    ],
+    "schemaVersion": 1
+  },
+  "nativePreflightState": "yellow",
+  "nativeBlockers": [],
+  "nativeUnknowns": [
+    "contract_amendment_policy_review_required"
+  ],
+  "nativeHumanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "preflightAt": "2026-10-17T08:22:15Z",
+  "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "preflightDecisionDigest": "sha256:a7d04da85c9c4071feacf4734c6e012f4039ffa2b9bff57d128b163adb09edeb",
+  "repositorySnapshotDigest": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
+  "sourceDigests": {
+    "contract": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+    "materialManifest": "sha256:947a6c6fc0c6a395e7f1f6cf04011464a81419fa0df32123f79f996c1f37acda",
+    "repositorySnapshot": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
+    "summary": "sha256:7214c650fdd87697766b7bf1a1d8f6be770cf6845391a5d53a969c2bc94f16a8"
+  },
+  "statusDigest": "sha256:2192e5d492ba347480a11b5332a31ca0bdc01c6a3d118ac182ce271f05994800",
+  "actionAdmission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "acceptance_evidence_insufficient",
+        "message": "current projection reports acceptance_evidence_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "acceptance_evidence_missing",
+        "message": "current projection reports acceptance_evidence_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "scenario_coverage_summary_missing",
+        "message": "current projection reports scenario_coverage_summary_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [
+      "acceptance_evidence_insufficient",
+      "acceptance_evidence_missing",
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:337bc06784e1942872a591e1de744804008e59796b0039724add3e57895a49fd"
+  },
+  "nativeRequiredChecks": [
+    "human_review"
+  ],
+  "scope": [
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.contract.json",
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json",
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.intelligence.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/**",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.contract-amendments/**",
+    "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.md",
+    "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.zh-CN.md",
+    "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.ja.md",
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/tests/contract_amendment.rs",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-mcp/tests/material_review.rs",
+    "crates/cockpit-mcp/tests/usage.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets -- -D warnings",
+    "cargo test --locked -p cockpit-repository --test contract_amendment",
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry",
+    "cargo test --locked -p cockpit-cli --test contract_amendment_processes",
+    "cargo test --locked -p cockpit-mcp --test material_review",
+    "cargo test --locked -p cockpit-mcp --test usage",
+    "cargo test --locked -p cockpit-repository --test agent_rule_parity",
+    "cargo test --locked --workspace"
+  ],
+  "scenarioPlanCount": 11,
+  "allScenariosUnverified": true,
+  "checkpointCount": 0,
+  "humanResponseRecorded": false,
+  "decisionEvidenceWritten": false,
+  "productOrTestFilesModified": false,
+  "realTemporaryRepositoryRED": "not_run_pending_actual_human_gate",
+  "noStartOrModeReplay": true,
+  "wi1087All11ProtectedHashesMatch": true,
+  "receiptFieldsForAFutureActualResponse": [
+    "schemaVersion",
+    "decisionId",
+    "decision",
+    "workItemId",
+    "repositoryId",
+    "contractDigest",
+    "preflightDecisionDigest",
+    "repositorySnapshotDigest",
+    "recordedAt",
+    "recordedBy",
+    "reason"
+  ],
+  "responseCaveat": "This file copies the actual Runtime request and bindings only. It selects no human option and supplies no human actor/timestamp/reason/response. Technical approval and the earlier planning binding are not reused. If source/Contract/preflight binding changes, rerun native checks before recording any real later response."
+}
