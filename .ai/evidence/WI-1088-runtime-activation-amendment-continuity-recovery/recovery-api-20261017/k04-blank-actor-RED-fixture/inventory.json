@@ -1,0 +1,14 @@
+{
+  "kind": "actual_isolated_failed_test_fixture_copy_not_real_human_or_WI_recovery",
+  "sourceRoot": "/tmp/.tmp97geKW/repo",
+  "rawSha256": {
+    ".ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.contract.json": "f98412ad02e63c84678aaa1138ba423614f950eeef0801573d65ff50952f1a8f",
+    ".ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.summary.json": "43a8fba726cc91eb1ad4acf5443a4d58200098528803583bd6829ca344a2be4e",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY/actual-fixture-response.json": "1a66de8a4cb672a0c1bb3404718238d166bb310de8c9da7f26a251f55be70313",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.activation-recovery/prepared.json": "24a535260135a4656dca82ff21acf4690dd63e09c57621228575d930fa90fb51",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.activation-recovery/committed.json": "24add332a8b2ceec1bc19c6da661055cbf94e0b68b5c7942572c045f132766c8",
+    ".git/.ai-cockpit/coordination/v1/registrations/WI-CLI-ACTIVATION-CONTINUITY.json": "82a56a190ce1b609b8f1fb49d7b9a71412ae0fbe0871ea57f79163a51b0b2981"
+  },
+  "nativeStderrTruncated": true,
+  "missingStderrTail": "not reconstructed"
+}

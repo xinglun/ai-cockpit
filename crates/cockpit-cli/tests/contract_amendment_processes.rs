@@ -2454,9 +2454,10 @@ fn stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata() {
             if output.status.success() {
                 let preserved = directory.keep();
                 panic!(
-                    "{case}: unexpected recovery publication; fixture preserved at {}; {}",
+                    "{case}: unexpected recovery publication; fixture preserved at {}; response bytes={}, raw digest={}",
                     preserved.display(),
-                    String::from_utf8_lossy(&output.stdout)
+                    output.stdout.len(),
+                    Digest::sha256_bytes(&output.stdout)
                 );
             }
         }

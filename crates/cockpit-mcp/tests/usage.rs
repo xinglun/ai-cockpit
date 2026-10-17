@@ -62,6 +62,11 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
                 decision["properties"]["decisionId"]["const"],
                 "activation-present-baseline-review"
             );
+            assert_eq!(decision["properties"]["humanActor"]["minLength"], 7);
+            assert_eq!(
+                decision["properties"]["humanActor"]["pattern"],
+                "^human:\\S"
+            );
         }
     }
     let usage = tools

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:27ec897c1fe52b2d6d2699dfa7abd28b0b8d4b447a94e288d40e457c97ae15de",
+  "workItemId": "WI-CLI-ACTIVATION-CONTINUITY",
+  "contractDigest": "sha256:a904f552b3b321b564d9742b5ad95c2e2960204f86527db4c73115a46ed99c37",
+  "worktreePath": "/tmp/.tmp97geKW/repo",
+  "branch": "fixture/activation",
+  "head": "3fbe49e08cc47c2de5b871350872d34525e9812b",
+  "generation": 1,
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-CLI-ACTIVATION-CONTINUITY",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Isolated recovery fixture; no real authority."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  },
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:37a558e4f05d5433fd78f76cd94640c7c443b7b70649cb448b41625dce219ffa",
+    "capability": "observed_environment_drift_v1"
+  },
+  "environment": {
+    "schemaVersion": 1,
+    "environmentDigest": "sha256:209fa558b4612d8e5e1f7ce9de7a5d4234efd68854a94bc0fc37f8597de577c4",
+    "observedInputs": [
+      "process-environment",
+      "cargo-executable",
+      "repository-dependency-and-cargo-configuration-inputs",
+      "rustc-toolchain",
+      "operating-system-and-architecture"
+    ]
+  }
+}

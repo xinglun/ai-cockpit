@@ -597,7 +597,12 @@ fn validate_recovery_response(
         || decision.assurance != "self_declared"
         || !decision.human_actor.starts_with("human:")
         || decision.human_actor.len() <= "human:".len()
+        || decision.human_actor["human:".len()..].trim().is_empty()
+        || decision.human_actor.trim() != decision.human_actor
+        || decision.human_actor.chars().any(char::is_control)
         || decision.recorder_actor.trim().is_empty()
+        || decision.recorder_actor.trim() != decision.recorder_actor
+        || decision.recorder_actor.chars().any(char::is_control)
         || decision.human_actor == decision.recorder_actor
         || decision.reason.trim().is_empty()
         || chrono::DateTime::parse_from_rfc3339(&decision.responded_at).is_err()

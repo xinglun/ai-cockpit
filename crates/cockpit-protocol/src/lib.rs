@@ -165,7 +165,7 @@ pub fn activation_recovery_decision_schema() -> serde_json::Value {
             "schemaVersion":{"type":"integer","const":1},
             "decisionId":{"type":"string","const":"activation-present-baseline-review"},
             "response":{"type":"string","const":"accept_present_baseline"},
-            "requestDigest":digest, "humanActor":string, "recorderActor":string,
+            "requestDigest":digest, "humanActor":{"type":"string","minLength":7,"pattern":"^human:\\S"}, "recorderActor":string,
             "assurance":{"type":"string","const":"self_declared"},
             "authoritySourcePath":string, "authoritySourceDigest":digest,
             "respondedAt":{"type":"string","format":"date-time"}, "reason":string
