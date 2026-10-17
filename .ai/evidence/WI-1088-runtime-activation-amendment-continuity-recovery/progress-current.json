@@ -1,0 +1,30 @@
+{
+  "kind": "agent_progress_snapshot_not_native_receipt_or_approval",
+  "observedAt": "2026-10-17T10:34:58.072011+00:00",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "testedSourceHead": "9723aa2ca07028c9ca162bc1485a7ecbb9720b79",
+  "activeVerification": null,
+  "actualResults": [
+    {
+      "observation": "k06-recovery-cas-matrix-execute.json",
+      "testResult": "1 passed / 14 rejection cases / no timeout",
+      "nativeNodeSeconds": 112.142,
+      "nodeBudgetSeconds": 600
+    },
+    {
+      "observation": "l01-lifecycle-entry-complete-execute.json",
+      "testResult": "55 passed / 0 failed / no timeout",
+      "nativeNodeSeconds": 14.411,
+      "nodeBudgetSeconds": 600
+    }
+  ],
+  "remaining": [
+    "new valid MCP record flow and schema targets",
+    "repository amendment/unit checks",
+    "full declared acceptance and exact-head CI"
+  ],
+  "historicalTransitionAuthentication": "unknown",
+  "recoveryBusinessAuthorityGranted": false,
+  "freshCurrentContractReviewRequired": true,
+  "originalWI1087Changed": false
+}
