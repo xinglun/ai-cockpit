@@ -1,0 +1,19 @@
+{
+  "kind": "actual_first_forward_fix_GREEN_not_complete_acceptance",
+  "observedAt": "2026-10-17T09:30:48.933589+00:00",
+  "sourceHead": "02c0c7c52fe7a50514e4f04463ceea2cfc703418",
+  "testName": "native_activation_keeps_post_checkpoint_amendment_reviewable",
+  "testsPassed": 1,
+  "testsFailed": 0,
+  "testsFiltered": 28,
+  "nodeCount": 1,
+  "maxConcurrentProcesses": 1,
+  "nativeTimeoutSeconds": 600,
+  "nodeElapsedMs": 40700,
+  "wrapperElapsedSeconds": 42.011,
+  "timedOut": false,
+  "nativeProducerRuntimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "canonicalFocusedReceiptRawSha256": "727d6872b68949e576ec6d4436fb4522866ae83e749976037825ed0636a120bc",
+  "candidateBinaryRawSha256": "3d71a0b1e8727fcfa4a34be7a1fe39684a907f7296bac8de6dd1bc7c4bb24251",
+  "remaining": "Full negative/lifecycle suites, legacy current-baseline recovery API and CLI/MCP, exact tool schemas/counts, docs and full declared verification remain pending."
+}

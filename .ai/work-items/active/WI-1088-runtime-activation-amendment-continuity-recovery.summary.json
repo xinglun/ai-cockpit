@@ -146,14 +146,12 @@
     }
   ],
   "changedPaths": [
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/design.v1.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/technical-direction-source.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/wi1087-preservation-baseline.json"
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
   ],
   "checkpointAt": "2026-10-17T08:47:46Z",
   "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
+  "checkpointRepositorySnapshotDigest": "sha256:bfdd2ccba9128013a1a00e5a22f06d44362e4888cce283cafa8a7d89e64ffff9",
   "createdAt": "2026-10-17T08:05:04Z",
   "decisionEvidence": {
     "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
@@ -187,10 +185,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-17T08:59:05Z",
+  "preflightAt": "2026-10-17T09:29:34Z",
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
-  "preflightDecisionDigest": "sha256:d42a258511bc25ec67ff4d89601d46e868eb620216624aac13832de81878092b",
-  "preflightRepositorySnapshotDigest": "sha256:4a7909ca91bbfdd1247634278f6feee06c5d319e84d8e8ea116fa5212d291c0a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:bfdd2ccba9128013a1a00e5a22f06d44362e4888cce283cafa8a7d89e64ffff9",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -286,5 +284,12 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-17T08:55:19.164435051+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:c40490a6e78b51442e9e83f28288d582e35f41f4a8dda747cc5747e2a2af5d8c",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
 }
