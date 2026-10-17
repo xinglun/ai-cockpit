@@ -1,3 +1,9 @@
+---
+workItemId: WI-1088-runtime-activation-amendment-continuity-recovery
+status: in_progress
+lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
+---
+
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation continuity and present recovery
 
 Technical scope approved; native amendment sequence 2 committed. Fresh actual human review remains pending; product acceptance: not_run.

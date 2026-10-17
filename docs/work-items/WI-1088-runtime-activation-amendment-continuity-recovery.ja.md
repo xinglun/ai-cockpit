@@ -1,3 +1,9 @@
+---
+workItemId: WI-1088-runtime-activation-amendment-continuity-recovery
+status: in_progress
+lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
+---
+
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation の連続性と現時点の復旧
 
 技術スコープ承認済み。ネイティブ amendment sequence 2 は commit 済み。新しい実際の人間レビューは未記録。製品受入: not_run。

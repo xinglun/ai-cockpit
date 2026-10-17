@@ -1,3 +1,9 @@
+---
+workItemId: WI-1088-runtime-activation-amendment-continuity-recovery
+status: in_progress
+lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
+---
+
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation 连续性与当下恢复
 
 技术范围已批准；原生 amendment seq2 已提交。新的真实人工审阅仍待记录；产品验收：not_run。
