@@ -864,7 +864,7 @@ pub fn record_activation_recovery(
                     record: record.clone(),
                 };
                 write_immutable_record(&directory.join("prepared.json"), &prepared)?;
-                super::atomic_write_json(
+                durable_replace_json(
                     &root.join(format!(".ai/work-items/active/{id}.summary.json")),
                     &projected,
                 )?;
