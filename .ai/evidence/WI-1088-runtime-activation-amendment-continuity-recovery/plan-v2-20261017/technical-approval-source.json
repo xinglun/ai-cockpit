@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kind": "relayed_technical_scope_approval_not_native_human_preflight_decision",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "recordedAt": "2026-10-17T08:17:18.252208+00:00",
+  "technicalReviewer": "agent:Raydot",
+  "recorder": "agent:Codex",
+  "rawInstruction": "Raydot终审技术批准修订后的WI1088实施计划：你列的10Rust文件，加crates/cockpit-mcp/tests/material_review.rs及usage.rs两处工具精确计数/schema回归，共12Rust；加三语commands文档和既有本WI治理/三语brief。为避免已知文档登记漏项，也批准仅为本WI追加/更新docs/reference/reference-parity.md、reference-parity.zh-CN.md、reference-parity.ja.md对应真实阶段行，不改其他WI结论。MCP若确新增2工具，从当前33按实际精确更新并断言名称/schema，不降为下限或删断言。\n核心设计不变量按你上条完整描述及独立审阅落实：前向真实A/B/owner/runtime/journal过渡prepared/committed；历史恢复只现在接受精确baseline并保留历史未知，仅生成新preflight，不能自动业务授权或批准C；明确有限字段/阶段白名单和差异摘要，CSV或B曾审绝非通用豁免；prospective全链校验在新事务发布前，错误请求不顺带提交无关pending；全部负测保持。\n请将此技术批准纳入计划，正常保存推送来源材料，原生amend扩实施scope并取得新的真实preflight请求完整绑定后回报。不得复用旧规划人审或代签；没有实际准入前不写产品。注意避免重现1087：WI1088若已start准备，不要为mode变更再重复start重写Contract而未留过渡。若流程本身阻止在修复前激活，请报告最小支持路径，禁止手改。获真人门禁后先真实临时repo RED复现，再代码/全验收与DraftPR1047。正常阶段commit/push已批准，不merge/close/delete，不操作1087真实恢复。",
+  "humanPreflightDecisionRecorded": false,
+  "authorizationBoundary": "Save/push revised technical plan; native amend exact scope; obtain and return actual fresh human request. No product edits before native admission; no start replay; no real WI-1087 recovery."
+}
