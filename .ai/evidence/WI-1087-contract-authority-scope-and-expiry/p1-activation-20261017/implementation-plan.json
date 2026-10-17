@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "phase": "P1 offline data models and Clock only",
+  "base": "476e1212b6bf22b05c6cfca62543b44085910241",
+  "tasks": [
+    {
+      "id": 1,
+      "files": [
+        "crates/cockpit-core/src/clock.rs",
+        "crates/cockpit-core/src/lib.rs"
+      ],
+      "interface": "ClockSample(UTC i64 milliseconds, monotonic u64 milliseconds), Clock trait, SystemClock, FiniteWindow, MonotonicBudget; immutable in-flight expiry and decreasing remaining budget",
+      "tests": "inline clock::tests, then complete core --lib"
+    },
+    {
+      "id": 2,
+      "files": [
+        "crates/cockpit-protocol/src/lib.rs"
+      ],
+      "interface": "Standalone GoalAuthoritySource/Reference/Validity/Deadline/Termination models, strict new serde shapes, existing legacy Contract/AuthorityEvidence unchanged",
+      "tests": "inline goal_authority_model_tests, then complete protocol --lib"
+    },
+    {
+      "id": 3,
+      "files": [
+        "crates/cockpit-repository/src/authority.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "interface": "pure RFC3339-to-UTC-ms normalization, exact precision rejection, FiniteWindow validation, descriptive digest; no authorization/enforcement/storage writes",
+      "tests": "inline authority::tests, then repository --lib and original formal workspace verification"
+    }
+  ],
+  "rulings": [
+    {
+      "decision": "Use exact millisecond UTC and monotonic values; reject finer timestamp precision instead of rounding notBefore earlier or expiresAt later.",
+      "reason": "Core uses std time and existing dependencies; repository already has chrono. No Cargo.toml/Cargo.lock scope expansion.",
+      "costIfWrong": "Interface precision may need a future reviewed additive revision; no runtime enforcement is activated."
+    },
+    {
+      "decision": "Issuer/actor/source fields remain descriptive metadata; validation never returns an authorization decision.",
+      "reason": "P1 excludes actual identity authentication, goal coverage and P2 enforcement.",
+      "costIfWrong": "Later phases must still supply trusted identity and explicit coverage before execution."
+    }
+  ],
+  "interfaceChecks": [
+    "Protocol wire timestamps are RFC3339 strings; repository normalizes exact milliseconds into core FiniteWindow.",
+    "Legacy readable evidence has no added required fields; new models are standalone and opt into strict finite shape.",
+    "No current source/grant head, CAS, live grant or action hook is introduced."
+  ],
+  "commandBounds": {
+    "isolatedTarget": "/workspace/ai-cockpit/target/wi1087-p1",
+    "workers": 1,
+    "cargoJobs": 1,
+    "maxSeconds": 900,
+    "executor": "GNU timeout, standard foreground process; no copied legacy supervisor"
+  },
+  "implementationStartedAt": "2026-10-17T03:26:35.383850+00:00"
+}

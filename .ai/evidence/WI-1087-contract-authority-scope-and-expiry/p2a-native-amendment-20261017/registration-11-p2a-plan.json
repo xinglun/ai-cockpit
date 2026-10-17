@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "worktreePath": "/workspace/ai-cockpit",
+  "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+  "head": "934e8b5855b524f960b6e2c31561e32426aac6ae",
+  "generation": 11,
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  },
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Publish the reviewed two-file P2a plan and actual relayed technical approval; apply only the authorized native amendment and obtain the exact new human preflight request. Product code waits for fresh native admission and human gate. P2b-P4, production opt-in/grants, merge and lifecycle completion remain excluded."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  }
+}

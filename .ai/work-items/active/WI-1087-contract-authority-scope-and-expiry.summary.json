@@ -1,12 +1,138 @@
 {
   "changedPaths": [],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-17T03:21:49Z",
+  "checkpointContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 22,
+      "contractHash": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+      "recorded": true,
+      "recordedAt": "2026-10-17T03:21:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+    },
+    {
+      "acceptanceCount": 22,
+      "contractHash": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+      "previousContractHash": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+      "reason": "Apply the reviewed two-file P2a pure-assessment/source-interface/controlled-fixture plan under the actual relayed technical approval and explicit native-amendment delegation recorded in technical-plan-approval-source-20261017.json. Preserve the reviewed draft SHA-256 3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b and plan SHA-256 c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e. Production opt-in, actual grants, P2b-P4, merge and lifecycle completion remain excluded. This amendment is not a human preflight decision; subsequent code work waits for the exact fresh native review and admission.",
+      "recorded": true,
+      "recordedAt": "2026-10-17T07:32:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
   "createdAt": "2026-10-16T01:06:57Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:f9766bf4ba8467395dbb865863130f54af8e14bd02ad46826149c864554385aa",
+    "reason": "Human decision actor human:Ray replied verbatim \"comfirm review\" to exact request Sentinel_24195062141081919db2e1c764ef1333, response Sentinel_033b23ff060881918e1f25f4fb828914 at 2026-10-17 03:18 UTC. Interpret as confirm_review in this explicit context per controller relay; original preserved at .ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/human-decision-source-20261017.json. Agent:Codex records the supplied human decision, not an agent proxy approval. This confirmation does not waive the six documentation blockers or authorize P2-P4/live grant/system permission/merge/deletion.",
+    "recordedAt": "2026-10-17T03:20:16.992943+00:00",
+    "recordedBy": "agent:Codex",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+    "schemaVersion": 1,
+    "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-17T03:01:32.455200812Z",
+      "recordedAt": "2026-10-17T03:01:32.455200812Z",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1"
+    }
+  },
   "mode": "planning",
+  "preflightAt": "2026-10-17T06:32:04Z",
+  "preflightContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
   "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "not_ready",
-  "updatedAt": "2026-10-16T01:06:57Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-17T03:21:49Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-17T07:32:12Z"
+  },
+  "verificationRecoveryReconciled": "sha256:94d7ec496f9e2c7c7ebc9202f51a49a272e714e13c8c3276245ab89ef1787b33",
   "workItemId": "WI-1087-contract-authority-scope-and-expiry"
 }

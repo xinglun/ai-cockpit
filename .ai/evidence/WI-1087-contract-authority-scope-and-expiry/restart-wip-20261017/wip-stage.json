@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "kind": "honestly_unverified_wip_reconstruction",
+  "actor": "agent:Codex",
+  "technicalAuthority": "Raydot controller relay in thread 01a11856-d6ba-72e0-9aab-25a34cd2f018; explicit staged WIP commit/push before long validation",
+  "recordedAt": "2026-10-17T04:51:47.996476+00:00",
+  "baseHead": "9ca721a2ae0915f96c95add698e29b6f795840a5",
+  "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "changes": [
+    "Check the complete original RFC3339 fractional digits on source start/expiry and reference start/cap; retain exact zero padding.",
+    "Bracket UTC with two monotonic reads; reject cross-millisecond read gaps and raw monotonic rollback without advancing UTC.",
+    "Document cached remaining_millis and require fresh sample then observe with error propagation."
+  ],
+  "files": [
+    {
+      "path": "crates/cockpit-core/src/clock.rs",
+      "sha256": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd"
+    },
+    {
+      "path": "crates/cockpit-repository/src/authority.rs",
+      "sha256": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d"
+    }
+  ],
+  "basicChecks": {
+    "format": "passed",
+    "diffWhitespace": "passed",
+    "evidence": [
+      "b02-format-check.json",
+      "b03-diff-check.json"
+    ]
+  },
+  "currentRoundVerification": {
+    "focused": "not_run",
+    "clippy": "not_run",
+    "formalWorkspace": "not_run",
+    "fullFeatureAcceptance": "not_run"
+  },
+  "historyNotRecovered": {
+    "sameEnvironmentReturnedToPresetSnapshot": true,
+    "priorUnpushedFixesAndNativeLogsRecovered": false,
+    "priorFinalClippySession3105": "unknown terminal state; process and log not recovered",
+    "priorLocalCore19Authority17Protocol12": "historical conversation observations only; not new evidence for this reconstruction",
+    "earlierFormalFirstRound12of13AndIntegration17of17": "handoff statements only; complete original receipts not recovered",
+    "earlierSecondFormal1of13": "terminal state and process unknown",
+    "missingOldSummaryAndVerifyF1": "not reconstructed"
+  },
+  "nativeRecovery": {
+    "freshRegistration": "n07-register.json",
+    "driftCheck": "n08-drift.json",
+    "freshPreflightBeforeEdit": "n09-preflight.json",
+    "oldHumanControlsReplayed": false,
+    "startReplayed": false,
+    "checkpointReplayed": false,
+    "originalHumanReviewReceiptUnchanged": true,
+    "originalHumanReviewRawSha256": "e6a983fc4a36a3588f5c9509d221b7dba4102cf36d043807c9668be284f98fc8"
+  },
+  "limits": [
+    "P1 remains descriptive and offline; no live grant or P2-P4 enforcement is activated.",
+    "Integer-millisecond coherence does not prevent a snapshot from aging after capture; a submillisecond cross-bucket read can be rejected conservatively."
+  ],
+  "excludedActions": [
+    "Sentinel operations",
+    "merge",
+    "finish/archive/close",
+    "resource deletion",
+    "real grants or system permissions"
+  ]
+}

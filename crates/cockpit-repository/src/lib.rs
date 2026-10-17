@@ -50,6 +50,7 @@ use thiserror::Error;
 
 mod action_admission;
 mod audit_query;
+pub mod authority;
 mod collaboration;
 mod contract_amendment;
 mod coordination_store;

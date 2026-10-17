@@ -1,21 +1,21 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-1087 — 有限期間の目標権限と適用範囲"
-description: "承認された目標内の継続作業と、境界を越える際の判断に関するplanned設計。"
+description: "P1 データモデルと Clock 基礎実装。有限権限の強制適用は引き続き計画段階。"
 audience:
   - maintainer
   - reviewer
 workItemId: WI-1087-contract-authority-scope-and-expiry
-status: planned
-authority: design-and-registration-only
-lastVerifiedBy: agent:Codex
+status: in_progress
+authority: p1-software-development-only
+lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 ---
 
 [English](WI-1087-contract-authority-scope-and-expiry.md) · [简体中文](WI-1087-contract-authority-scope-and-expiry.zh-CN.md)
 
 # WI-1087 — 有限期間の目標権限と適用範囲
 
-本件はplanned設計のみです。Runtime newによりplanning/not_readyとして登録し、start、checkpoint、製品実装、実際の権限有効化、merge、cleanupは行いません。製品実装authorityはmissingです。
+現在は同じ WI の P1 ソフトウェア実装段階で、原生 preflight と before-edit checkpoint を記録済みです。対象は独立モデル、テスト可能な Clock、純粋な正規化インターフェースのみです。実際の grant やシステム権限は設定していません。全機能の受入は not_run のままです。
 
 ## Goal
 
@@ -46,3 +46,9 @@ v1の履歴は保持します。v2では撤回とcommitの順序、外部fencing
 
 - [Design v3 clarification](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/addendum-v3.zh-CN.md)
 - [R04 parameterized acceptance — not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/acceptance-delta-v3.json)
+
+## P1 の進捗
+
+局所 TDD とモジュール回帰は Clock 境界、厳密なモデル構造、純粋な UTC 正規化を検査します。初回のモジュール結果は core 12、protocol 12、repository 164（新しい正規化テスト 12 件を含む）が成功しました。workspace 全体の検証と CI は実際の実行後に別途記録します。全機能の受入マトリクスは not_run のままです。
+
+実行者は `agent:Codex`、技術計画のレビュー担当は `agent:Raydot` です。`lastVerifiedBy` は本 WI の参照であり、個人の身元ではありません。[人の決定の出典](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/human-decision-source-20261017.json) に原文を保持しています。[モジュール証拠](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/module-results.json)。P2–P4 と実際の有効化は範囲外です。

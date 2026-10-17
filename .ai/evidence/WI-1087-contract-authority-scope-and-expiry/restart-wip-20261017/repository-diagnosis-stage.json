@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_summary_of_actual_repository_library_diagnosis",
+  "sourceHead": "99d439c36cb20731ca76ef052428613686966da1",
+  "observation": "d01-repository.json",
+  "passed": 169,
+  "failed": 0,
+  "filteredOut": 0,
+  "elapsedSeconds": 174.87,
+  "workspaceVerification": "still incomplete after v02 timeout; this library result does not replace it",
+  "diagnosis": "The suspected lock recovery test completed and all existing library tests passed. No deadlock or product defect was established. Compilation/cache and orchestration costs may have contributed to v02, but exact root cause is unproven.",
+  "next": "one bounded fresh native full-workspace retry with unchanged source, Runtime and process configuration after fresh admission; no prior partial result reused",
+  "draftPR": {
+    "number": 1046,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1046",
+    "state": "open_draft",
+    "sourceHeadAtCreation": "99d439c36cb20731ca76ef052428613686966da1",
+    "ciObserved": "run 39005587616 in_progress, route compiling, no success claimed"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "kind": "actual_read_only_process_progress_not_admission",
+  "observedAt": "2026-10-17T05:31:37.224763+00:00",
+  "processes": [
+    {
+      "pid": 262230,
+      "parent": 262229,
+      "group": 262229,
+      "state": "S",
+      "name": "ai-cockpit"
+    },
+    {
+      "pid": 362018,
+      "parent": 262230,
+      "group": 362018,
+      "state": "S",
+      "name": "cargo"
+    },
+    {
+      "pid": 453079,
+      "parent": 362018,
+      "group": 362018,
+      "state": "S",
+      "name": "flock"
+    },
+    {
+      "pid": 453080,
+      "parent": 453079,
+      "group": 362018,
+      "state": "S",
+      "name": "legacy_closeout"
+    }
+  ]
+}

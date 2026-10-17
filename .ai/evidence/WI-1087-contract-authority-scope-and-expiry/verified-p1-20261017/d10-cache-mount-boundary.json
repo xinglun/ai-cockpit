@@ -1,0 +1,23 @@
+{
+  "kind": "actual_read_only_cache_mount_boundary_after_narrow_provision",
+  "observedAt": "2026-10-17T06:09:31.706390+00:00",
+  "homeUnchanged": "/home/agent",
+  "parent": {
+    "path": "/home/agent/.cache",
+    "readOnlyMount": true,
+    "mode": "drwx------"
+  },
+  "leaf": {
+    "path": "/home/agent/.cache/ai-cockpit-verify-target",
+    "readOnlyMount": false,
+    "mode": "drwx------",
+    "uid": 1000
+  },
+  "provisionCommand": [
+    "mkdir",
+    "--",
+    "/home/agent/.cache/ai-cockpit-verify-target"
+  ],
+  "provisionToolExitCode": 0,
+  "permissionScope": "this command adds write access only to the exact leaf; no parent write authorization, chmod, or HOME redirection"
+}

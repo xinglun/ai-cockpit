@@ -1,0 +1,26 @@
+{
+  "kind": "actual_owned_verification_process_cleanup_observation",
+  "observedAt": "2026-10-17T05:33:59.650887+00:00",
+  "sourceVerification": "v03-workspace-retry.json",
+  "group": 362018,
+  "before": [
+    {
+      "pid": 362018,
+      "parent": 1,
+      "group": 362018,
+      "state": "Z",
+      "name": "cargo"
+    }
+  ],
+  "action": "none; no active members",
+  "after": [
+    {
+      "pid": 362018,
+      "parent": 1,
+      "group": 362018,
+      "state": "Z",
+      "name": "cargo"
+    }
+  ],
+  "notes": "Only the already observed current v03 child group is considered; zombie entries are not running and cannot be reaped by a non-parent."
+}
