@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_current_environment_command_observation",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "/workspace/.cloud-tools/cargo/bin/cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-core",
+    "--lib",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "/workspace/ai-cockpit",
+  "startedAt": "2026-10-17T04:55:11.116944+00:00",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit/target/wi1087-rebuild-p1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "runtimePath": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+  "runtimeSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "999bb5f3a9ee941b59e5fcc1f9a5e991d7d423df",
+  "productSourceHashes": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea"
+  },
+  "exitCode": 0,
+  "endedAt": "2026-10-17T04:55:28.589076+00:00",
+  "elapsedSeconds": 17.205,
+  "stdout": {
+    "encoding": "base64",
+    "bytes": 1655,
+    "rawSha256": "sha256:9002b287306316849f22fcac7a4922a0d795f13d9847bc9e3086e783d1a3efb2",
+    "data": "CnJ1bm5pbmcgMTkgdGVzdHMKdGVzdCBjbG9jazo6dGVzdHM6OmFfY2xvY2tfY2FuX2JlX2luamVjdGVkX3dpdGhvdXRfc2xlZXBfb3JfZ2xvYmFsX3N0YXRlIC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6YnVkZ2V0X3JlcXVpcmVzX2FuX2FjdGl2ZV93aW5kb3cgLi4uIG9rCnRlc3QgY2xvY2s6OnRlc3RzOjpidWRnZXRfdGFrZXNfdGhlX3NtYWxsZXJfY29tbWFuZF9hbmRfd2luZG93X2xpbWl0IC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6Y29oZXJlbnRfcmVhZHNfcHJlc2VydmVfdXRjX3dpdGhvdXRfYWR2YW5jaW5nX2Ffd2luZG93X3N0YXJ0IC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6ZW1wdHlfb3JfcmV2ZXJzZWRfd2luZG93X2lzX3JlamVjdGVkIC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6ZXZlbl9hX3N1Ym1pbGxpc2Vjb25kX3JlYWRfZ2FwX2Nyb3NzaW5nX2FfYnVja2V0X2lzX3JlamVjdGVkIC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6Zm9yd2FyZF93YWxsX2p1bXBfc2hvcnRlbnNfYW5kX3RoZW5fZXhwaXJlc190aGVfYnVkZ2V0IC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6bW9ub3RvbmljX2VsYXBzZWRfdGltZV9kZWNyZWFzZXNfYnVkZ2V0X3doZW5fd2FsbF90aW1lX3N0YWxscyAuLi4gb2sKdGVzdCBjbG9jazo6dGVzdHM6Om1vbm90b25pY19yb2xsYmFja19wb2lzb25pbmdfY2Fubm90X2JlX3JldmVyc2VkIC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6bW9ub3RvbmljX3JvbGxiYWNrX3dpdGhpbl9vbmVfbWlsbGlzZWNvbmRfYnVja2V0X2lzX3JlamVjdGVkIC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6cmVncmVzc2lvbl9nYXBfYWZ0ZXJfdXRjX3JlYWRfaXNfcmVqZWN0ZWRfYmVmb3JlX2FfYnVkZ2V0X2RlY2lzaW9uIC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6cmVncmVzc2lvbl9nYXBfYmVmb3JlX3V0Y19yZWFkX2lzX3JlamVjdGVkIC4uLiBvawp0ZXN0IGNsb2NrOjp0ZXN0czo6cmVncmVzc2lvbl9sYXRlc3Rfc2FtcGxlX2dhcF9jYW5ub3RfbGVhdmVfYV9wb3NpdGl2ZV9idWRnZXRfZGVjaXNpb24gLi4uIG9rCnRlc3QgY2xvY2s6OnRlc3RzOjpyZW1haW5pbmdfbWlsbGlzX2lzX2NhY2hlZF91bnRpbF9hX2ZyZXNoX3NhbXBsZV9pc19vYnNlcnZlZCAuLi4gb2sKdGVzdCBjbG9jazo6dGVzdHM6OnN5c3RlbV9jbG9ja19yZXR1cm5zX2FfY29oZXJlbnRfc2FtcGxlX29yX3JlcG9ydHNfYV9yZWFkX2dhcCAuLi4gb2sKdGVzdCBjbG9jazo6dGVzdHM6OnVuY2hhbmdlZF9vYnNlcnZhdGlvbl9uZXZlcl9yZXBsZW5pc2hlc19hX2NvbnN1bWVkX2J1ZGdldCAuLi4gb2sKdGVzdCBjbG9jazo6dGVzdHM6OndhbGxfcm9sbGJhY2tfcG9pc29uaW5nX2Nhbm5vdF9iZV9yZXZlcnNlZF9ieV9hX2xhdGVyX3NhbXBsZSAuLi4gb2sKdGVzdCBjbG9jazo6dGVzdHM6OndpbmRvd19hcml0aG1ldGljX2NvdmVyc19uZWdhdGl2ZV9hbmRfZXh0cmVtZV9pbnN0YW50cyAuLi4gb2sKdGVzdCBjbG9jazo6dGVzdHM6OndpbmRvd19zdGFydF9pc19pbmNsdXNpdmVfYW5kX2V4cGlyeV9pc19leGNsdXNpdmUgLi4uIG9rCgp0ZXN0IHJlc3VsdDogb2suIDE5IHBhc3NlZDsgMCBmYWlsZWQ7IDAgaWdub3JlZDsgMCBtZWFzdXJlZDsgMCBmaWx0ZXJlZCBvdXQ7IGZpbmlzaGVkIGluIDAuMDBzCgo="
+  },
+  "stderr": {
+    "encoding": "base64",
+    "bytes": 940,
+    "rawSha256": "sha256:6521ef4213e762fa376eae26546677fb942b7606d992d108b6d994990c039715",
+    "data": "ICAgQ29tcGlsaW5nIHByb2MtbWFjcm8yIHYxLjAuMTA3CiAgIENvbXBpbGluZyB1bmljb2RlLWlkZW50IHYxLjAuMjQKICAgQ29tcGlsaW5nIHZlcnNpb25fY2hlY2sgdjAuOS41CiAgIENvbXBpbGluZyBxdW90ZSB2MS4wLjQ3CiAgIENvbXBpbGluZyBnZW5lcmljLWFycmF5IHYwLjE0LjcKICAgQ29tcGlsaW5nIHR5cGVudW0gdjEuMjAuMQogICBDb21waWxpbmcgc3luIHYzLjAuMwogICBDb21waWxpbmcgc2VyZGVfY29yZSB2MS4wLjIyOQogICBDb21waWxpbmcgem1paiB2MS4wLjIzCiAgIENvbXBpbGluZyBibG9jay1idWZmZXIgdjAuMTAuNAogICBDb21waWxpbmcgY3J5cHRvLWNvbW1vbiB2MC4xLjcKICAgQ29tcGlsaW5nIHRoaXNlcnJvciB2Mi4wLjIwCiAgIENvbXBpbGluZyBzZXJkZSB2MS4wLjIyOQogICBDb21waWxpbmcgc2VyZGVfanNvbiB2MS4wLjE1MQogICBDb21waWxpbmcgZGlnZXN0IHYwLjEwLjcKICAgQ29tcGlsaW5nIHRoaXNlcnJvci1pbXBsIHYyLjAuMjAKICAgQ29tcGlsaW5nIHNlcmRlX2Rlcml2ZSB2MS4wLjIyOQogICBDb21waWxpbmcgY2ZnLWlmIHYxLjAuNAogICBDb21waWxpbmcgbWVtY2hyIHYyLjguMwogICBDb21waWxpbmcgaXRvYSB2MS4wLjE4CiAgIENvbXBpbGluZyBjcHVmZWF0dXJlcyB2MC4yLjE3CiAgIENvbXBpbGluZyBzaGEyIHYwLjEwLjkKICAgQ29tcGlsaW5nIGhleCB2MC40LjMKICAgQ29tcGlsaW5nIGNvY2twaXQtY29yZSB2MS4wLjEgKC93b3Jrc3BhY2UvYWktY29ja3BpdC9jcmF0ZXMvY29ja3BpdC1jb3JlKQogICAgRmluaXNoZWQgYHRlc3RgIHByb2ZpbGUgW3Vub3B0aW1pemVkXSB0YXJnZXQocykgaW4gMTcuMTFzCiAgICAgUnVubmluZyB1bml0dGVzdHMgc3JjL2xpYi5ycyAodGFyZ2V0L3dpMTA4Ny1yZWJ1aWxkLXAxL2RlYnVnL2RlcHMvY29ja3BpdF9jb3JlLTFlODRiM2JiYjJjM2JmMGMpCg=="
+  }
+}
