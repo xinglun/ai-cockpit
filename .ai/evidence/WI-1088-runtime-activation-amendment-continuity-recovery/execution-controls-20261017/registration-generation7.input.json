@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "worktreePath": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+  "head": "b54caba8217d6ddfc1292abc0bbe3a94d9a6da0e",
+  "generation": 7,
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Actual human:Ray confirm_review recorded by agent:Codex; native preflight green and checkpoint1. Real isolated native RED preserved: two committed amendment pairs with intact journal link and discontinuous activation Contract boundary. Candidate Rust regression and fix follow within reviewed scope; no original WI-1087 recovery."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  },
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  }
+}
