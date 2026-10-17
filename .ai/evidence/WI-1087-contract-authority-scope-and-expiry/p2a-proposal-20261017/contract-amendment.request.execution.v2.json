@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "changeId": "p2a-pure-assessment-fixtures-v2-apply-20261017",
+  "expectedContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "reason": "Apply the reviewed two-file P2a pure-assessment/source-interface/controlled-fixture plan under the actual relayed technical approval and explicit native-amendment delegation recorded in technical-plan-approval-source-20261017.json. Preserve the reviewed draft SHA-256 3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b and plan SHA-256 c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e. Production opt-in, actual grants, P2b-P4, merge and lifecycle completion remain excluded. This amendment is not a human preflight decision; subsequent code work waits for the exact fresh native review and admission.",
+  "changes": [
+    {
+      "path": "/intent",
+      "operation": "set",
+      "value": "Prepare and, only after explicit stage authority and fresh native admission, implement the bounded P2a offline assessment and fixture slice of WI-1087. Preserve P1 evidence and keep actual production authority enforcement, real grants and P2b-P4 excluded."
+    },
+    {
+      "path": "/goal",
+      "operation": "set",
+      "value": "Implement only pure assessment over supplied finite authority facts, a truthful current-source interface with Unsupported default, and deterministic test-only fixtures in authority.rs and tests/authority_expiry.rs. Assessment is not an action permit. Keep all production writers and legacy unenabled behavior unchanged; production opt-in and actual issuer/current-head/termination adapters wait for a separately reviewed P2b scope."
+    },
+    {
+      "path": "/scope",
+      "operation": "replace",
+      "value": [
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+        ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+        ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-core/src/clock.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/authority.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/authority_expiry.rs"
+      ]
+    },
+    {
+      "path": "/outOfScope",
+      "operation": "replace",
+      "value": [
+        "For new P2a product/test edits, only crates/cockpit-repository/src/authority.rs and crates/cockpit-repository/tests/authority_expiry.rs are proposed. Previously committed P1 product paths remain in scope only to preserve their historical changes; no new edits to Protocol, Clock, core/lib or repository/lib are proposed.",
+        "P2b actual production admission, governanceProfile opt-in, capability activation, status/lifecycle/controls/amendment interception, CLI/MCP wiring and all P3-P4 behavior remain unapproved for this stage.",
+        "Do not modify the no-Runtime governance-controls writer, prepared-amendment recovery, direct Summary revalidation, shared locks or other production writers in P2a. Inventory them read-only; close the complete P2b bypass inventory before proposing its implementation.",
+        "No creation or configuration of live goal grants, actual system/IAM permissions, provider operations, Sentinel operations, new authorization database, remote trusted-time dependency or inferred issuer/actor authentication.",
+        "No production fixture provider, fixture selection through config/environment, or conversion of conditional assessment/supplied fact strings into a Runtime action permit or native human decision.",
+        "Existing WI-1085/WI-1086 and all other Work Item authorization, verification, archive, cleanup and decision bytes remain immutable; no new observation, rebinding or cleanup of their resources.",
+        "No new PR merge, direct main push, Work Item finish/archive/close, branch/worktree/resource deletion, tag mutation or redundant successor Work Item for stage bookkeeping. Continue the existing WI/branch/worktree/PR1046.",
+        "No human approval impersonation, pre-signed contract-preflight-review, replay of the old P1 human decision or blind replay of start/checkpoint/controls. New implementation is blocked until the current native stage requirements are actually satisfied.",
+        "No validator, test, assertion, gate, process-observer or cleanup-safety weakening. Do not claim P2a tests as full-feature, production authorization, durable revocation, external-effect atomicity or CLI/MCP enforcement proof.",
+        "Preserve P1 evidence at 6ee27dcf46aab2aa4352467de2e37f2a7e5ff483 and all failed/unknown/truncated history; do not fabricate missing logs, historical completion, new grant evidence or future human bindings."
+      ]
+    },
+    {
+      "path": "/acceptanceCriteria",
+      "operation": "replace",
+      "value": [
+        "Bounded finite goal authorization is the authority source: current subject, issuer evidence, actor/action/resource constraints, notBefore/expiresAt and termination state must be verifiable; no null or unlimited expiry.",
+        "A new goal B cannot use still-valid authorization for A; valid explicit coverage of one goal permits derived B/C Work Items, sequential/parallel work, repair/retry/recovery without repeated per-WI human confirmation.",
+        "Authority is source grant intersection Work Item narrowing intersection fresh Runtime admission and existing safety/coordination; identity or authoritySource strings and agent summaries are not authentication.",
+        "Finite expiry is mandatory, independently approved from the 900-second single-command timeout; no self-extension or renewal by silence. Only goal completion/revocation/expiry ends its authority, preserving historical facts.",
+        "One approved same-goal deadline extension updates the current source version for eligible active related Work Items while retaining their narrower constraints; closed/revoked/superseded subjects never revive and old versions cannot authorize new operations.",
+        "Fresh checks occur after lock and before actual side effect, retry, recovery and irreversible publish. Controlled Clock and monotonic budgets cover exact boundaries, rollback and in-flight safe stopping without long sleeps.",
+        "Expired management plane supports only bounded own-metadata status/evidence preservation/safe stop/extension requests, no business read/export/delete and no request-generation deadlock.",
+        "CLI/MCP share decisions and failure codes; legacy Contract/evidence stays readable, strict missing deadlines fail closed, migration/rollout and any actual authorization activation require separate review.",
+        "P1 implementation and evidence remain preserved at 6ee27dcf46aab2aa4352467de2e37f2a7e5ff483. The next proposed development slice is P2a pure assessment, a source-interface contract, an Unsupported default and test-only fixtures in the two named files; it does not enable P2b-P4 behavior or complete/close the Work Item.",
+        "P1 additive wire shapes preserve legacy readable evidence; missing/null/unbounded or invalid finite validity intervals fail validation in the new models without retroactively forging historical approval.",
+        "P1 injectable UTC/monotonic Clock has deterministic inline unit evidence for exact boundary and non-extension/rollback behavior; no long sleeps, new process supervisor or external trusted-time service.",
+        "P1 module-level unit tests and the existing full workspace verification remain required, using isolated targets, one worker and at most 900 seconds per command, with truthful not_run/failed/passed evidence.",
+        "Agent execution provenance is agent:Codex; technical review is agent:Raydot. A required human contract-preflight-review binds the then-current native request and is never supplied by agent delegation.",
+        "P2a-A1: Pure assessment reuses the P1 source/reference normalization and reports only eligibility under supplied facts or a structured rejection; it performs no I/O, real issuer authentication, action admission, decision recording or repository mutation.",
+        "P2a-A2: Exact repository/grant/subject and explicit deliverable coverage are required. Unknown issuer/actor/current-head/termination/parent observations, stale or forked versions, unsupported constraints, explicit widening and grant stitching reject conditional eligibility.",
+        "P2a-A3: Source, complete parent-chain and WI narrowing produce finite max-start/min-end windows. InheritSource and fixed cap remain distinct; terminal subjects never revive through ordinary source-version replacement.",
+        "P2a-A4: Deterministic millisecond boundary and fixture tests obtain a fresh Clock sample and observe the original MonotonicBudget for every simulated step; expiry, zero budget, SamplingGap or rollback cause zero new test effects. Positive cached remaining_millis and source extensions cannot bypass or refill the budget.",
+        "P2a-A5: The default current-source resolver returns Unsupported. Fixture providers exist only in test code and cannot be selected by production configuration or environment. Supplied fact strings and RuntimeContext binary identity are not issuer/actor authentication.",
+        "P2a-A6: No governanceProfile authority opt-in, Protocol/Contract field, capability advertisement, production adapter, source database, source writer, system permission or live grant is introduced. Legacy unenabled production behavior remains unchanged.",
+        "P2a-A7: P2b requires a reviewed and closed inventory of all production writes and aliases, including no-Runtime controls, pending finish_prepared before incoming CAS, direct revalidation, lib.rs writers and actual cross-checkout source barriers. P2a fixture success is not production enforcement evidence.",
+        "P2a-A8: Existing P1 receipts, attempts, human review, failed/unknown history and truncation flags remain immutable historical evidence. After any accepted amendment, run fresh required native verification and CI; old P1 results are not relabeled as P2a verification.",
+        "P2a-A9: This draft and relayed planning direction record no new human decision. Implementation waits for explicit stage authority, actual native amendment/preflight and any exact new human review binding; never reuse or pre-sign the P1 human receipt."
+      ]
+    },
+    {
+      "path": "/sources",
+      "operation": "replace",
+      "value": [
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/authority.json",
+          "reason": "Actual relayed Ray software-development delegation and Raydot ordinary technical approval for bounded five-file P1; not native human confirm_review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1-plan.json",
+          "reason": "Reviewed P1 five-file implementation and bounded verification plan; product execution waits for native admission and any exact human preflight review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/p2a-plan.v1.json",
+          "reason": "Exact agent-authored P2a minimal plan published under the relayed technical-plan approval; raw SHA-256 c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e. The plan itself is not a human preflight decision or live grant."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/technical-plan-approval-source-20261017.json",
+          "reason": "Actual relayed ordinary technical approval by agent:Raydot and delegated authority to publish/apply the P2a plan, raw SHA-256 9e7e6475d11545a1d40ff7be7f755e9c5298e44831174384bd3aa9efb80ecd4a. Not a new human preflight decision; implementation remains conditional on fresh native admission and any exact new human gate."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "kind": "agent_summary_of_actual_native_amendment_and_blocker_not_native_receipt_or_human_request",
+  "recordedAt": "2026-10-17T07:35:24.444954+00:00",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "beforeEvidenceCommitHead": "934e8b5855b524f960b6e2c31561e32426aac6ae",
+  "planPublicationRemoteHead": "934e8b5855b524f960b6e2c31561e32426aac6ae",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "reviewedDraftRawSha256": "3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b",
+  "executions": [
+    {
+      "observation": "p2a-u08-native-amend.json",
+      "exitCode": 1,
+      "requestRawSha256": "8dad1c506b242a5cb308b68af3a055150c3c1c7db3d90e17d920605b88013ac5",
+      "result": "set_requires_leaf before prepared record; four existing prepared/committed pairs and native files remained unchanged"
+    },
+    {
+      "observation": "p2a-u09-native-amend-v2.json",
+      "exitCode": 1,
+      "requestRawSha256": "073a06c9109406b0c4905cdb1d1f266a1ea9833d51f3ffd169dc642b8a8f6241",
+      "result": "sequence 5 committed durably; subsequent CLI action-admission refresh failed on Contract transition continuity"
+    }
+  ],
+  "nativeTransaction": {
+    "sequence": 5,
+    "changeId": "p2a-pure-assessment-fixtures-v2-apply-20261017",
+    "requestDigest": "sha256:fb4a68aa35454afaf95d6288ef2af99042b78e818f1acc93249222ea7e0eab56",
+    "previousContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+    "newContractDigest": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+    "journalDigest": "sha256:7b99726f1098a412ee2700d2728c81eddad60fb050e8f209aa2b6aa46e22e809",
+    "checkpointed": true,
+    "verificationStarted": true,
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/outOfScope",
+      "/scope"
+    ]
+  },
+  "preparedCount": 5,
+  "committedCount": 5,
+  "pendingPrepared": [],
+  "currentContractDigest": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+  "currentContractRawSha256": "b0bf5857fefaa918c402d92bb161e31b82b0b29bb8194ba69d2f7a767eee30c5",
+  "currentSummaryRawSha256": "91efd3c6546b7cbed6f6af9da1cd81d7d20f34aac601804904867964dbcce87b",
+  "currentPreflightState": "not_run",
+  "checkpointCount": 1,
+  "blockingError": "amendment Contract transition chain is discontinuous",
+  "blockingReader": "current_amendment_review_request_available; contract_amendment.rs:986-992",
+  "transitionBreaks": [
+    {
+      "fromSequence": 4,
+      "toSequence": 5,
+      "previousNewContractDigest": "sha256:dd79d522e74822cf4e440b025dc6d758920e221c2913241f8d558c6dd6f7eec5",
+      "nextPreviousContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86"
+    }
+  ],
+  "historicalP1Anchors": [
+    {
+      "commit": "9ca721a2ae0915f96c95add698e29b6f795840a5",
+      "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86"
+    },
+    {
+      "commit": "6ee27dcf46aab2aa4352467de2e37f2a7e5ff483",
+      "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86"
+    }
+  ],
+  "historicalFieldDifferences": [
+    "state",
+    "baseRevision",
+    "repositorySnapshotDigest",
+    "outOfScope"
+  ],
+  "diagnosisBoundary": "These differences predate P2a and are present in the saved P1 Contract. No historical record is rewritten or bridged by the agent. Identifying their original producer requires historical evidence; no missing old-environment log is fabricated.",
+  "currentNativeStatus": "query fails with the blocking error; no safeActions or humanDecisionRequired value can be asserted",
+  "currentNativeOutcome": {
+    "observation": "p2a-u13-outcome-blocked.json",
+    "exitCode": 0,
+    "headline": "Outcome: 🟡 验证尚未就绪",
+    "unknowns": [
+      "evidence_stale",
+      "user_visible_benefit_not_declared"
+    ]
+  },
+  "nativeHumanRequestProduced": false,
+  "preflightProducerInvoked": false,
+  "preflightStopReason": "No current run_preflight admission can be obtained because status rejects the transition chain. Do not bypass it through raw/no-Runtime entry points.",
+  "nativeControlsStartCheckpointReplayed": false,
+  "productFilesChanged": false,
+  "p2aCodeStarted": false,
+  "p2bStarted": false,
+  "liveGrantOrPermissionConfigured": false,
+  "p1CanonicalRawSha256": "39b46fbb120ed1996df9d4176cc4fcf3514ed6a7ec17f42cb02f6361ea90b6ca",
+  "nextRequiredAction": "Reviewed supported native recovery/Runtime repair of the historical lifecycle/amendment boundary before producing a fresh exact human review request; no fabricated binding, no transaction replay, no history edit or redundant WI."
+}
