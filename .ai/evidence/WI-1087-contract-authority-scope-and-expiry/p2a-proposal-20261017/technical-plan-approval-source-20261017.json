@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_relayed_technical_plan_approval_and_delegation_source_not_native_human_decision",
+  "recordedAt": "2026-10-17T07:29:45.300Z",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "recordedBy": "agent:Codex",
+  "reportedTechnicalReviewer": "agent:Raydot",
+  "transport": "codex_delegation user instruction",
+  "assurance": "relayed instruction; no authenticated person or provider identity is inferred by this file",
+  "rawInstruction": "Raydot批准该P2a两文件技术计划及必要计划材料入库、原生amendment准备/应用，范围仅authority.rs与tests/authority_expiry.rs及既有WI治理文档。草案SHA3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b需执行前重核；输入若需更新应如实记录差异而非强行匹配。该批准来自已委托普通技术计划审阅，不是新真人preflight决定。先按真实native流程保存计划来源并执行amend，检查当前state/drift及prepared恢复边界，不能为试验重放事务。随后返回唯一精确新真人请求绑定；禁止沿用P1 confirm_review或预签。新准入允许后P2a代码、测试、真实证据commit/push当前分支、更新同一DraftPR1046均属本计划。P2b不得启动，生产optin/grant/真实authority配置均不做。评估名EligibleUnderSuppliedFacts和默认Unsupported界限保持明确，不宣称业务动作已受控。继续及时保存阶段成果，不为长验证等待才push。",
+  "reviewedDraftRawSha256": "3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b",
+  "reviewedPlanRawSha256": "c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e",
+  "authorization": {
+    "publishNecessaryPlanMaterials": true,
+    "nativeAmendmentPreparationAndApplication": true,
+    "p2aImplementationAndVerification": "Only after actual fresh native admission and any required new human preflight decision",
+    "normalCommitPushAndSameDraftPR1046": true,
+    "p2b": false,
+    "productionOptInOrRealGrantOrPermissionConfiguration": false,
+    "mergeFinishArchiveCloseDelete": false
+  },
+  "humanDecision": {
+    "recorded": false,
+    "preflightDecision": false,
+    "priorP1ReviewReusableForNewContract": false
+  },
+  "currentBoundary": "Publish and apply reviewed P2a plan through native governance, then stop and deliver the actual new human request. No P2a product edit before that gate."
+}
