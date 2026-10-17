@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_handoff_summary_not_native_receipt",
+  "recordedAt": "2026-10-17T05:34:58.599534+00:00",
+  "environmentId": "ccarenv_b64_Y2NhcmVudl8wNGEzMjhlNTQ0OTA4MTkxOGY4YTZkNzg2ZjVjNDYwNQ",
+  "verificationSourceHead": "87ac1c860ca9b989721936894aac5b840ed198a4",
+  "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "snapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
+  "admission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_verification",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:30194eb5146180ec9a9380a91e59cbc3b0bf302c05f9538e6af7fe0dc60c90db"
+  },
+  "verification": "not_ready",
+  "formalReceipt": "missing; two external overall timeouts did not produce an aggregate native receipt",
+  "formalAttempts": [
+    {
+      "observation": "v02-workspace.json",
+      "exitCode": 124,
+      "elapsedSeconds": 890.025,
+      "lastProgress": "11/13 packages passed; cockpit-repository no terminal package result; cockpit-verification not started"
+    },
+    {
+      "observation": "v03-workspace-retry.json",
+      "exitCode": 124,
+      "elapsedSeconds": 890.019,
+      "lastProgress": "11/13 packages passed; cockpit-repository no terminal package result; cockpit-verification not started"
+    }
+  ],
+  "tests": {
+    "coreLibrary": {
+      "passed": 19,
+      "failed": 0
+    },
+    "protocolLibrary": {
+      "passed": 12,
+      "failed": 0
+    },
+    "authorityFilteredLibrary": {
+      "passed": 17,
+      "failed": 0,
+      "filteredOut": 152
+    },
+    "fullRepositoryLibraryDiagnosis": {
+      "passed": 169,
+      "failed": 0,
+      "filteredOut": 0,
+      "observation": "d01-repository.json"
+    },
+    "clippyThreePackagesAllTargetsWarningsDenied": "passed"
+  },
+  "originalHumanReview": {
+    "historicalCommit": "9ca721a2ae0915f96c95add698e29b6f795840a5",
+    "path": ".ai/decisions/WI-1087-contract-authority-scope-and-expiry.preflight-review.json",
+    "currentBytesEqualHistorical": true,
+    "rawSha256": "e6a983fc4a36a3588f5c9509d221b7dba4102cf36d043807c9668be284f98fc8",
+    "originalHumanResponse": "comfirm review",
+    "actor": "human:Ray",
+    "recorder": "agent:Codex",
+    "notACompletionDecision": true
+  },
+  "currentNativeOutcome": {
+    "observation": "n42-outcome-retry-timeout.json",
+    "state": "yellow; verification not_ready",
+    "humanDecisionText": "\u672a\u8bb0\u5f55; preserved verbatim, not upgraded using the historical preflight review"
+  },
+  "ciObservation": {
+    "conclusion": "",
+    "headSha": "87ac1c860ca9b989721936894aac5b840ed198a4",
+    "jobs": [
+      {
+        "active": [],
+        "conclusion": "success",
+        "name": "route",
+        "status": "completed"
+      },
+      {
+        "active": [
+          {
+            "conclusion": "",
+            "name": "verify Windows directory-handle containment regressions",
+            "status": "in_progress"
+          }
+        ],
+        "conclusion": "",
+        "name": "windows-runtime",
+        "status": "in_progress"
+      },
+      {
+        "active": [
+          {
+            "conclusion": "",
+            "name": "run repository gates exactly once",
+            "status": "in_progress"
+          }
+        ],
+        "conclusion": "",
+        "name": "quality",
+        "status": "in_progress"
+      },
+      {
+        "active": [],
+        "conclusion": "success",
+        "name": "v1-behavioral-oracle",
+        "status": "completed"
+      }
+    ],
+    "status": "in_progress",
+    "url": "https://github.com/xinglun/ai-cockpit/actions/runs/39005781978"
+  },
+  "unknowns": [
+    "Old disconnected verification terminals and lost uncommitted logs remain unknown; never reconstructed or reused.",
+    "Exact overall-duration cause remains unproven. Repository unit tests passed; a read-only observation showed legacy_closeout integration still running during v03.",
+    "No complete workspace result, full-feature acceptance or live authorization effect is established."
+  ],
+  "stoppingReason": "Two complete-route attempts hit the fixed 890-second outer deadline under the 900-second command ceiling. Stop repeated full-route attempts; determine a supported bounded native orchestration route before trying again. No timeout ceiling, executor, source, scope or test selection was silently changed.",
+  "next": "Preserve this handoff, read current Draft PR/CI, and resolve the bounded full-workspace verification route through native admission. Do not finish/archive/close WI or enter P2-P4."
+}
