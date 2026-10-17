@@ -146,16 +146,12 @@
     }
   ],
   "changedPaths": [
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.51d23a7d8ccb2241a7a45dd4fff2230ff4be1555e9e0c0d9c8e34dbeecc0db1a.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.69cdf063677285a6d0efffae8f717c87cfc487103c1994264608c573d4c95b65.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0c5bf06627b05e934ee698aacec61b790d6d26d44a93aa0accb2edacef0e597.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
     ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
   ],
   "checkpointAt": "2026-10-17T08:47:46Z",
   "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:fc337898c73f37bd1daedc9ece82ac2cd62340a870fcc384db92599327e81806",
+  "checkpointRepositorySnapshotDigest": "sha256:c089c78c2f8f7a6f7fd97d889f4477402359d029b6fe89c682ebbacecd3fc9e6",
   "createdAt": "2026-10-17T08:05:04Z",
   "decisionEvidence": {
     "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
@@ -189,11 +185,11 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-17T10:41:40Z",
+  "preflightAt": "2026-10-17T10:50:56Z",
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
-  "preflightDecisionDigest": "sha256:57857e12eef3c27ec5133e9832f5cb5cdea29f02fbb04573d2f58e77da14286e",
-  "preflightRepositorySnapshotDigest": "sha256:7ef51ed50d053c22fb4e71e480b6bd4453889f05c0ee43db03452bba674ba0cf",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c089c78c2f8f7a6f7fd97d889f4477402359d029b6fe89c682ebbacecd3fc9e6",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
