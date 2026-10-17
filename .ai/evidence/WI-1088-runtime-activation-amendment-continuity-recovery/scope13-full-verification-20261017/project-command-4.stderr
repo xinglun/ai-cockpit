@@ -1,0 +1,3 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1088-runtime-continuity/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 5.46s
+     Running tests/contract_amendment_processes.rs (target/wi1088-runtime-continuity/debug/deps/contract_amendment_processes-51eb1170dae3038b)

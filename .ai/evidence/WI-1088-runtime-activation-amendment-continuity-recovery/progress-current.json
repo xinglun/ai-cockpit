@@ -1,28 +1,29 @@
 {
   "kind": "agent_progress_snapshot_not_native_receipt_or_approval",
-  "observedAt": "2026-10-17T12:34:53.870820+00:00",
+  "observedAt": "2026-10-17T13:03:29.368358+00:00",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
-  "testedSourceHead": "759a65427d9d1dd33b6767f54532549d07cef223",
+  "testedSourceHead": "ee886af0c5a6c7ecfc4e8ea2f7d185ccab9cc23a",
   "activeVerification": null,
   "latestActualResult": {
-    "observation": "p11-verification-service-leaf-complete",
+    "observation": "p15-full-scope13-verify",
     "passed": true,
-    "testsPassed": 17,
-    "testsFailed": 0,
-    "nodeElapsedMs": 5551,
-    "nodeBudgetSeconds": 600,
-    "timedOut": false
+    "nodesPassed": 33,
+    "nodesPlanned": 33,
+    "reused": 0,
+    "coordinatorElapsedSeconds": 1385.131,
+    "nodeTimeouts": 0,
+    "repositoryStdoutTruncated": true
   },
-  "next": "fresh native33-node declared route, including complete repository package, same finite node budgets and exact cache-leaf permission; coordinator has no blanket timeout",
+  "next": "Push saved full33/native controls, then observe final exact-head CI and record its actual terminal.",
   "historicalTransitionAuthentication": "unknown",
   "recoveryBusinessAuthorityGranted": false,
   "freshCurrentContractReviewRequired": true,
   "originalWI1087Changed": false,
   "currentContractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
-  "latestActualResultsContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "latestActualResultsContractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
   "nativeScopeAmendmentSequence": 3,
   "rustScopePathCount": 13,
-  "currentAdmission": "allowed after exact new human response; source RPC change awaiting committed-source recheck",
+  "currentAdmission": "native allowed; humanDecisionRequired=false; record_governance_controls admitted after full33",
   "oldHumanConfirmationReused": false,
   "rpcSourceEdited": true,
   "humanDecisionRequired": false,
@@ -40,5 +41,12 @@
   "humanActor": "human:Ray",
   "humanResponseOccurredAt": "2026-10-17T12:02:13Z",
   "recorder": "agent:Codex",
-  "additionalCommandWriteLeaf": "/home/agent/.cache/ai-cockpit-verify-target/"
+  "additionalCommandWriteLeaf": "/home/agent/.cache/ai-cockpit-verify-target/",
+  "nativeControlsRecorded": true,
+  "verifiedScenarios": 10,
+  "verifiedAcceptance": 11,
+  "unverifiedAcceptance": [
+    "A11"
+  ],
+  "intentAlignment": "resolved_source_level_only"
 }

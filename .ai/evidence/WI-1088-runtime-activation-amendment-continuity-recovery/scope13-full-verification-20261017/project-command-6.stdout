@@ -1,0 +1,8 @@
+
+running 3 tests
+test initialize_and_tool_list_expose_native_usage_record_without_hidden_helper ... ok
+test usage_capability_description_matches_cli_and_mcp_facts ... ok
+test usage_record_requires_explicit_repository_binding ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
