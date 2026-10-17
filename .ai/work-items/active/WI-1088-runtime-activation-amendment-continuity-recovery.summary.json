@@ -4,8 +4,24 @@
     ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/technical-direction-source.json",
     ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/wi1087-preservation-baseline.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-17T08:47:46Z",
+  "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
   "createdAt": "2026-10-17T08:05:04Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:a7d04da85c9c4071feacf4734c6e012f4039ffa2b9bff57d128b163adb09edeb",
+    "reason": "Actual decision by human:Ray: raw response confirm_review at 2026-10-17T08:45:53Z, provided message Sentinel_f70d6433d0ec8191a1c84b351b5e0586, answering the exact Contract/snapshot/decision request supplied in the task transcript. Recorder is agent:Codex, not the human actor. Full source: .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/human-implementation-review-20261017/actual-human-response-source.json. This approves bounded WI-1088 implementation only and is not an original WI-1087 recovery decision.",
+    "recordedAt": "2026-10-17T08:47:37.012663+00:00",
+    "recordedBy": "agent:Codex",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
+    "schemaVersion": 1,
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -17,14 +33,14 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-17T08:22:15Z",
+  "preflightAt": "2026-10-17T08:47:38Z",
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "preflightDecisionDigest": "sha256:a7d04da85c9c4071feacf4734c6e012f4039ffa2b9bff57d128b163adb09edeb",
   "preflightRepositorySnapshotDigest": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-10-17T08:05:04Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-17T08:47:46Z",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
 }
