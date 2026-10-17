@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "changeId": "before-activation",
+  "expectedContractDigest": "sha256:55b15f79df7f67ed7292015afe19cb8ceef7b0c0fb10d1849f713a28dfdde691",
+  "reason": "Isolated WI-1088 regression fixture only; no real Work Item or human authority.",
+  "changes": [
+    {
+      "path": "/intent",
+      "operation": "set",
+      "value": "Exercise the native activation continuity boundary in an isolated fixture"
+    },
+    {
+      "path": "/goal",
+      "operation": "set",
+      "value": "Keep native journal transitions reviewable across activation"
+    },
+    {
+      "path": "/scope",
+      "operation": "replace",
+      "value": [
+        "README.md"
+      ]
+    },
+    {
+      "path": "/outOfScope",
+      "operation": "replace",
+      "value": [
+        "No external providers grants or real Work Items"
+      ]
+    },
+    {
+      "path": "/risk",
+      "operation": "set",
+      "value": "normal"
+    },
+    {
+      "path": "/authority",
+      "operation": "set",
+      "value": "authorized"
+    },
+    {
+      "path": "/acceptanceCriteria",
+      "operation": "replace",
+      "value": [
+        "A post-checkpoint amendment must remain inspectable without a discontinuous Contract chain"
+      ]
+    },
+    {
+      "path": "/verification",
+      "operation": "replace",
+      "value": [
+        "git diff --check"
+      ]
+    }
+  ]
+}

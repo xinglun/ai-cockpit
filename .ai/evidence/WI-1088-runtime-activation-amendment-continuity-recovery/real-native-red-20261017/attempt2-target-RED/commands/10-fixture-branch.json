@@ -1,0 +1,29 @@
+{
+  "kind": "actual_fixture_git_observation",
+  "label": "fixture-branch",
+  "command": [
+    "git",
+    "checkout",
+    "-q",
+    "-b",
+    "fixture/activation-gap"
+  ],
+  "cwd": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo",
+  "startedAt": "2026-10-17T08:50:28.358325+00:00",
+  "endedAt": "2026-10-17T08:50:28.361647+00:00",
+  "elapsedSeconds": 0.003,
+  "exitCode": 0,
+  "runtimeRawSha256": null,
+  "stdout": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  },
+  "stderr": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  }
+}

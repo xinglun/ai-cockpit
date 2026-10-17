@@ -1,0 +1,30 @@
+{
+  "kind": "actual_native_fixture_observation",
+  "label": "fixture-checkpoint",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "checkpoint",
+    "--id",
+    "WI-TEST-ACTIVATION-GAP",
+    "--repo",
+    "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo"
+  ],
+  "cwd": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo",
+  "startedAt": "2026-10-17T08:50:29.380075+00:00",
+  "endedAt": "2026-10-17T08:50:29.414399+00:00",
+  "elapsedSeconds": 0.034,
+  "exitCode": 0,
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "stdout": {
+    "bytes": 111,
+    "rawSha256": "c8168a3fe99f183dbbb73e715c58ece174e164585cd6b0ec2f1d932bf1c3f026",
+    "encoding": "base64",
+    "data": "ewogICJ3b3JrSXRlbUlkIjogIldJLVRFU1QtQUNUSVZBVElPTi1HQVAiLAogICJzdGF0ZSI6ICJjaGVja3BvaW50ZWQiLAogICJ0aW1lc3RhbXAiOiAiMjAyNi0xMC0xN1QwODo1MDoyOVoiCn0K"
+  },
+  "stderr": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  }
+}

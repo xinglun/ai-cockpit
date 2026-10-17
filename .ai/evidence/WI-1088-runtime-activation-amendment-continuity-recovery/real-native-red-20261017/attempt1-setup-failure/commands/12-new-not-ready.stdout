@@ -1,0 +1,70 @@
+Work Item scaffold created.
+
+Known facts:
+  repositoryId              resolved
+  baseRevision              resolved
+  projectProfileDigest      resolved
+  repositorySnapshotDigest resolved
+
+Human input required:
+  intent
+  scope
+  acceptanceCriteria
+  authority
+
+Start cleanup advisory: clear
+
+Next actions:
+  proceed_with_start_entry_checks
+
+State: not_ready
+
+{
+  "workItemId": "WI-TEST-ACTIVATION-GAP",
+  "mode": "implementation",
+  "contractPath": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017/repo/.ai/work-items/active/WI-TEST-ACTIVATION-GAP.contract.json",
+  "state": "not_ready",
+  "knownFacts": {
+    "repositoryId": "sha256:b4be9ba322b3a42cc809a47733103ea0cee2e8d39a18566046e307ea9bf5a3bc",
+    "baseRevision": "3df9239c8ec2f1ca3a43831da3ff923e73e54ef3",
+    "projectProfileDigest": "sha256:4203482fbeb90f6f247429b02d0d7ee73f850bd8b0b6edd519bd546910430f98",
+    "repositorySnapshotDigest": "sha256:e3401b4aee9cbe069b59149ad294a9b291ead4d0441a57348b61eb2cf2360b41"
+  },
+  "humanInputRequired": [
+    "intent",
+    "scope",
+    "acceptanceCriteria",
+    "authority"
+  ],
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:b4be9ba322b3a42cc809a47733103ea0cee2e8d39a18566046e307ea9bf5a3bc",
+    "workItemId": "WI-TEST-ACTIVATION-GAP",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017/repo",
+      "branch": "fixture/activation-gap",
+      "head": "3df9239c8ec2f1ca3a43831da3ff923e73e54ef3",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017/repo",
+        "branch": "fixture/activation-gap",
+        "head": "3df9239c8ec2f1ca3a43831da3ff923e73e54ef3",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
