@@ -1959,7 +1959,8 @@ fn preflight_work_item_internal_unlocked(
         &material_summary_path,
         &mut raw_decision,
     );
-    let decision = apply_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
+    let decision =
+        apply_current_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
     observation_context.validate_current()?;
 
     let mut changed_paths = Vec::new();
@@ -2194,7 +2195,7 @@ fn require_green_or_yellow_preflight_governance(
 ) -> Result<(), ObserverError> {
     let decision =
         governance_decision_for_pre_execution_boundary(root, contract, snapshot, None, None)?;
-    let decision = super::apply_preflight_review_evidence(root, contract, decision, false)?;
+    let decision = super::apply_current_preflight_review_evidence(root, contract, decision, false)?;
     let current_state = decision_state_name(decision.state.clone());
     if current_state == "red" || preflight_state == "red" {
         return Err(ObserverError::State {
@@ -9040,6 +9041,9 @@ fn record_verification_internal(
             current_runtime,
             None,
         )?;
+        // This projection is also replayed while validating captured historical
+        // finish artifacts. Live admission has already checked continuity;
+        // recording software evidence does not admit additional work.
         let decision =
             apply_preflight_review_evidence(&root, &contract, raw_decision.clone(), false)?;
         let reconcile_blocked_outcome = recovery_retry_pending

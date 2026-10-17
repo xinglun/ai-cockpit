@@ -1818,6 +1818,20 @@ fn current_contract_review_cannot_hide_a_missing_activation_commit() {
         "{}",
         String::from_utf8_lossy(&result.stderr)
     );
+    let preflight = cli(&[
+        "preflight",
+        "--contract",
+        contract_path.to_str().expect("path"),
+    ]);
+    assert!(
+        !preflight.status.success(),
+        "current preflight must reject the same missing activation commit"
+    );
+    assert!(
+        String::from_utf8_lossy(&preflight.stderr).contains("unresolved activation transition"),
+        "{}",
+        String::from_utf8_lossy(&preflight.stderr)
+    );
     assert_eq!(
         fs::read(contract_path).expect("Contract unchanged"),
         before_contract

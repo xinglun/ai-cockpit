@@ -5316,7 +5316,7 @@ fn governance_decision_for_pre_execution_quality_gate(
         Some(pre_execution_evidence),
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, decision, archived)
+    apply_current_preflight_review_evidence(root, contract, decision, archived)
 }
 
 /// Evidence that may authorize starting or finishing the current source
@@ -7102,7 +7102,8 @@ pub fn governance_decision_for_observation_context(
         None,
         Some(observation),
     )?;
-    let decision = apply_preflight_review_evidence(observation.root(), contract, decision, false)?;
+    let decision =
+        apply_current_preflight_review_evidence(observation.root(), contract, decision, false)?;
     observation.validate_current()?;
     Ok(decision)
 }
@@ -7168,7 +7169,7 @@ fn governance_decision_for_archived_contract_internal(
         evidence_override,
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, decision, true)
+    apply_current_preflight_review_evidence(root, contract, decision, true)
 }
 
 fn governance_decision_for_contract_internal_with_archive(
@@ -7187,7 +7188,7 @@ fn governance_decision_for_contract_internal_with_archive(
         None,
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, decision, archived)
+    apply_current_preflight_review_evidence(root, contract, decision, archived)
 }
 
 fn governance_decision_for_contract_base_internal_with_archive(
@@ -7421,6 +7422,34 @@ mod amendment_review_projection_tests {
     }
 }
 
+/// Current work admission validates the full continuity chain before it
+/// projects a review. Historical lifecycle reconstruction uses the separate
+/// evidence projection below and does not admit work in that old checkout.
+fn apply_current_preflight_review_evidence(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    decision: GovernanceDecision,
+    archived: bool,
+) -> Result<GovernanceDecision, ObserverError> {
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.contract.json", contract.work_item_id));
+    if !archived && !contract.work_item_id.trim().is_empty() && contract_path.is_file() {
+        let history =
+            contract_amendment::read_work_item_contract_amendments(root, &contract.work_item_id)?;
+        let digest = contract_digest(&contract_path)?;
+        contract_amendment::validate_transition_chain(
+            root,
+            &contract.work_item_id,
+            &history,
+            Some(&digest),
+        )?;
+    }
+    apply_preflight_review_evidence(root, contract, decision, archived)
+}
+
+/// Project recorded review evidence. This helper also reconstructs immutable
+/// historical finish semantics; current admission must use the wrapper above.
 fn apply_preflight_review_evidence(
     root: &Path,
     contract: &cockpit_protocol::Contract,
@@ -7444,14 +7473,6 @@ fn apply_preflight_review_evidence(
         || decision.outcome_state == "blocked"
         || !decision.blockers.is_empty();
     let contract_digest = contract_digest(&contract_path)?;
-    let history =
-        contract_amendment::read_work_item_contract_amendments(root, &contract.work_item_id)?;
-    contract_amendment::validate_transition_chain(
-        root,
-        &contract.work_item_id,
-        &history,
-        Some(&contract_digest),
-    )?;
     let summary = read_json(&root.join(format!(
         ".ai/work-items/active/{}.summary.json",
         contract.work_item_id
@@ -7926,7 +7947,7 @@ fn require_green_governance_internal(
             current_runtime,
             None,
         )?;
-        let decision = apply_preflight_review_evidence(root, contract, decision, false)?;
+        let decision = apply_current_preflight_review_evidence(root, contract, decision, false)?;
         if decision.state != DecisionState::Green {
             return Err(ObserverError::State {
                 path: contract_path.to_path_buf(),
