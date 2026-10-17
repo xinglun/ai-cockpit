@@ -1,6 +1,6 @@
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation continuity and present recovery
 
-Technical scope approved; native scope amendment and actual human gate pending. Product acceptance: not_run.
+Technical scope approved; native amendment sequence 2 committed. Fresh actual human review remains pending; product acceptance: not_run.
 
 Preserve true forward A/B/owner/Runtime/journal phase evidence. Legacy recovery accepts an exact present baseline with historical uncertainty retained; it enables only a new preflight. B review and CSV are never broad exemptions.
 

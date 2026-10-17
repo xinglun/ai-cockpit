@@ -1,6 +1,6 @@
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation の連続性と現時点の復旧
 
-技術スコープ承認済み。ネイティブ scope 修訂と実際の人間判断ゲートは未完了。製品受入: not_run。
+技術スコープ承認済み。ネイティブ amendment sequence 2 は commit 済み。新しい実際の人間レビューは未記録。製品受入: not_run。
 
 実際の前向き A/B/owner/Runtime/journal フェーズ証拠を保持する。旧履歴の復旧は正確な現時点 baseline の受入のみで、履歴の不明点を保持し、新しい preflight の生成だけを許す。B のレビューや CSV は一般的な免除ではない。
 

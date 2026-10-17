@@ -1,6 +1,6 @@
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation 连续性与当下恢复
 
-技术范围已批准；原生 scope 修订及真实人工门禁待完成。产品验收：not_run。
+技术范围已批准；原生 amendment seq2 已提交。新的真实人工审阅仍待记录；产品验收：not_run。
 
 保留真实前向 A/B/owner/Runtime/journal 阶段证据。历史恢复仅当下接受精确 baseline，保留历史未知，仅开启新 preflight。B 曾被审或 CSV 都不是通用豁免。
 
