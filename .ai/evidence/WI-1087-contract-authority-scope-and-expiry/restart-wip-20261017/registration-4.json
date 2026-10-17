@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "worktreePath": "/workspace/ai-cockpit",
+  "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+  "head": "07c0f33e67d8f2007432a8e9450c3de986a9907e",
+  "generation": 4,
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  },
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Present-day registration after same environment ID returned to its preset snapshot. Preserve existing remote human review and P1 Contract. Explicit delegated priority is an honestly unverified WIP push before long validation; no old registration, event, approval or verification is reconstructed."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  }
+}
