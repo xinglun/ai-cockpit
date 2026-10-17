@@ -1,6 +1,6 @@
 {
   "kind": "agent_progress_snapshot_not_native_receipt_or_approval",
-  "observedAt": "2026-10-17T11:47:08.936018+00:00",
+  "observedAt": "2026-10-17T11:49:13.157747+00:00",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
   "testedSourceHead": "6d90bc6e10e0d2b9791cc2e8b53531de0f1a03db",
   "activeVerification": null,
@@ -13,9 +13,16 @@
     "nodeBudgetSeconds": 600,
     "timedOut": false
   },
-  "next": "apply technically approved native scope13 amendment; return actual complete new human gate if required; RPC patch/full repository/fresh33/CI still pending",
+  "next": "native fresh preflight/current admission; if a new human decision is required, return exact actual binding; no RPC code/test action before admission",
   "historicalTransitionAuthentication": "unknown",
   "recoveryBusinessAuthorityGranted": false,
   "freshCurrentContractReviewRequired": true,
-  "originalWI1087Changed": false
+  "originalWI1087Changed": false,
+  "currentContractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+  "latestActualResultsContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "nativeScopeAmendmentSequence": 3,
+  "rustScopePathCount": 13,
+  "currentAdmission": "fresh preflight not yet queried after native scope amendment",
+  "oldHumanConfirmationReused": false,
+  "rpcSourceEdited": false
 }

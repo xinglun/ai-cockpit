@@ -153,6 +153,42 @@
   "checkpointAt": "2026-10-17T08:47:46Z",
   "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+      "recorded": true,
+      "recordedAt": "2026-10-17T08:47:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c7c6d8b16ad9fa88a096d615664675ef1c0ff5c766ed3d796eedce2235f2e992",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+      "previousContractHash": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+      "reason": "Actual parent technical approval in .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-20261017/technical-approval-source.json rawSHA256=dcf6b7ca0204e81ea10b59be9c72fac606c478b7294ce5d9fb39c3782a49624e permits only existing rpc.rs discovery compatibility maintenance: add the2 actual recovery names and keep an exact35 count. Actual full n04 had31/33 nodes; MCP rpc36 passed/2 failed only because old33 assertions were stale. Retain original12 implementation paths, add only this one test path, change no production feature or authority. A new native human decision, if required, is separate; the old6e93 confirmation is not reused.",
+      "recorded": true,
+      "recordedAt": "2026-10-17T11:47:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c7c6d8b16ad9fa88a096d615664675ef1c0ff5c766ed3d796eedce2235f2e992",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:c7c6d8b16ad9fa88a096d615664675ef1c0ff5c766ed3d796eedce2235f2e992",
   "createdAt": "2026-10-17T08:05:04Z",
   "decisionEvidence": {
@@ -191,7 +227,7 @@
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:c7c6d8b16ad9fa88a096d615664675ef1c0ff5c766ed3d796eedce2235f2e992",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -292,6 +328,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-17T11:47:42Z"
+  },
   "verificationRecoveryReconciled": "sha256:c40490a6e78b51442e9e83f28288d582e35f41f4a8dda747cc5747e2a2af5d8c",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
 }

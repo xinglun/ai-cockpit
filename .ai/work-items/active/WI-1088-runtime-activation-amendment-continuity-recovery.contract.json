@@ -8,7 +8,7 @@
     "A5: A valid present recovery record enables only generation of fresh preflight. It does not approve current C, grant business authority, rewrite history, backdate a receipt or reuse an old review as a new human decision.",
     "A6: Validate every existing record and the prospective complete chain before publishing a new transaction under current ownership/CAS. Wrong incoming requests must not finish unrelated pending operations; prepared-only or partial evidence never counts as committed.",
     "A7: Preserve existing journal/hash/sequence checks and rehashed-discontinuous tests. Reject missing start/checkpoint bindings, foreign identity/owner, extra scope/authority/actor/source changes, unexplained post-checkpoint gaps, stale request/history/summary/registration, CAS and pending/partial failures.",
-    "A8: Exactly the twelve reviewed Rust paths implement shared repository recovery APIs, strict standalone protocol types, bounded metadata admission and explicit CLI/MCP plan-record surfaces; no new Contract root field or hidden controls bypass.",
+    "A8: The original twelve reviewed Rust paths implement shared repository recovery APIs, strict standalone protocol types, bounded metadata admission and explicit CLI/MCP plan-record surfaces. One additional Rust test path, crates/cockpit-mcp/tests/rpc.rs, changes only its exact discovery names and count from the actual baseline33 to35. No new Contract root field, production feature or hidden controls bypass.",
     "A9: Preserve exact MCP tool counts and existing usage/material-review assertions. With exactly two recovery tools added to actual baseline 33 assert exactly 35 and exact names plus strict schemas; never weaken to a lower bound or delete count assertions.",
     "A10: Update three-language commands and own briefs consistently. Only append/update WI-1088 actual-stage rows in the three reference-parity files; retain all other WI conclusions unchanged and mark unrun acceptance honestly.",
     "A11: Run all declared checks with one worker, isolated target and each command node at most 900 seconds; preserve actual formal results and CI for the exact pushed HEAD. No success is inferred from old WI evidence.",
@@ -38,7 +38,7 @@
     "Any future real legacy recovery needs a separate actual human acceptance of its exact NOW-bound baseline and retained historical uncertainty; this implementation approval cannot substitute."
   ],
   "implementationSurface": null,
-  "intent": "Implement the reviewed bounded Runtime activation-continuity and explicit present-baseline recovery repair in exactly twelve Rust files and approved documentation, only after the actual native human gate.",
+  "intent": "Implement the reviewed bounded Runtime activation-continuity and explicit present-baseline recovery repair in the original twelve Rust files plus only the existing MCP RPC discovery compatibility test and approved documentation, after the actual native human gate.",
   "mode": "implementation",
   "notCodable": null,
   "operation": null,
@@ -188,7 +188,8 @@
     "docs/reference/commands.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-mcp/tests/rpc.rs"
   ],
   "sources": [
     ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/design.v1.json",
