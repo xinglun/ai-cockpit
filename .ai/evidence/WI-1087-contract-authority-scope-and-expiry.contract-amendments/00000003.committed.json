@@ -1,0 +1,125 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:9d8b1fae8be189d5843a3a3b978303b56d58c690b556623dbac8572da4460e67",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+    "sequence": 3,
+    "changeId": "wi1087-p0-planning-projection-scope-20261017",
+    "requestDigest": "sha256:3b1cdf5462d35edb89ae830a4e2ee76dd230dd0d6ad7819d897f14f7c5c3f98e",
+    "reason": "Execute Raydot ordinary technical scope review explicitly relayed by controller thread01a11856-d6ba-72e0-9aab-25a34cd2f018. Actual PR1045 CI38986839707 source8fb70634/tested3cd928fd failed docs_acceptance (three missing lastVerifiedBy fields) and docs_governance_integrity (three missing prearchive rows). Add exactly three reference-parity paths to planning documentation scope; existing three Work Item briefs are already in scope. Keep all existing rows and assertions, planning/not_ready, authority=missing, product exclusions, cleanup receipt bytes and history. Metadata names actual agent:Codex; conditional prearchive rows explicitly say planning only and product acceptance not_run, with no present verified or implementation claim. This is agent technical review, not human confirm_review; no product activation, merge, deletion, new credentials or privilege expansion.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json"
+        ],
+        "newValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+          "docs/reference/reference-parity.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+          "docs/reference/reference-parity.md"
+        ],
+        "newValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md"
+        ],
+        "newValue": [
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+          "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+          ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+          ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+          ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+          ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:7f827f8bf5b6eaacd599045f243f74ee3a89998bde781fc5aae65af83f877eee",
+    "newContractDigest": "sha256:58529cee9b0eeb656132434a47c7f57374f1cf8e87cf8885710dd394192e7f1d",
+    "repositorySnapshotDigest": "sha256:6b431702e36f1d2d200946c3626b8f55521e9af368783265b9b2bb05d666fced",
+    "environmentObservationDigest": "sha256:ea1ec97c32fc4092be8c7d2f8b086cada60e5bdff916e2ef046eeabba072b025",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:307d55c9a476073bcaa71194f5ed2b01f543e0e9e7a2c05805d91f19aafec648",
+    "journalDigest": "sha256:65b35a075e3dd86f070f7e84656b53f0461c619ef450e8b3d6c2d28ea116bef0",
+    "recordedAt": "2026-10-17T00:49:37Z"
+  }
+}

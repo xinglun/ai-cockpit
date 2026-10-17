@@ -8,6 +8,7 @@ audience:
 workItemId: WI-1087-contract-authority-scope-and-expiry
 status: planned
 authority: design-and-registration-only
+lastVerifiedBy: agent:Codex
 ---
 
 [English](WI-1087-contract-authority-scope-and-expiry.md) · [日本語](WI-1087-contract-authority-scope-and-expiry.ja.md)

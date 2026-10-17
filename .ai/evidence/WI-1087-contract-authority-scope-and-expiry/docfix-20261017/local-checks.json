@@ -1,0 +1,81 @@
+[
+  {
+    "name": "docs-acceptance",
+    "command": [
+      "bash",
+      "tests/docs/documentation_acceptance.sh"
+    ],
+    "boundedExecutor": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=5s",
+      "895s"
+    ],
+    "startedAt": "2026-10-17T00:50:46.701094+00:00",
+    "durationSeconds": 41.081,
+    "exitCode": 0,
+    "actor": "agent:Codex",
+    "scope": "documentation checks, not product acceptance or formal Native verification"
+  },
+  {
+    "name": "docs-governance-integrity",
+    "command": [
+      "python3",
+      "tests/ci/governance_integrity_gate.py",
+      "--repo",
+      ".",
+      "--report",
+      "/tmp/wi1087-docfix-20261017/governance-report.json"
+    ],
+    "boundedExecutor": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=5s",
+      "895s"
+    ],
+    "startedAt": "2026-10-17T00:51:27.782291+00:00",
+    "durationSeconds": 0.274,
+    "exitCode": 0,
+    "actor": "agent:Codex",
+    "scope": "documentation checks, not product acceptance or formal Native verification"
+  },
+  {
+    "name": "docs-status-consistency",
+    "command": [
+      "python3",
+      "tests/docs/work_item_status_consistency.py",
+      "--repo",
+      "."
+    ],
+    "boundedExecutor": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=5s",
+      "895s"
+    ],
+    "startedAt": "2026-10-17T00:51:28.056667+00:00",
+    "durationSeconds": 1.369,
+    "exitCode": 0,
+    "actor": "agent:Codex",
+    "scope": "documentation checks, not product acceptance or formal Native verification"
+  },
+  {
+    "name": "diff-check",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "boundedExecutor": [
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=5s",
+      "895s"
+    ],
+    "startedAt": "2026-10-17T00:51:29.425833+00:00",
+    "durationSeconds": 0.031,
+    "exitCode": 0,
+    "actor": "agent:Codex",
+    "scope": "documentation checks, not product acceptance or formal Native verification"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1087-p0-planning-projection-scope-20261017",
+  "expectedContractDigest": "sha256:7f827f8bf5b6eaacd599045f243f74ee3a89998bde781fc5aae65af83f877eee",
+  "reason": "Execute Raydot ordinary technical scope review explicitly relayed by controller thread01a11856-d6ba-72e0-9aab-25a34cd2f018. Actual PR1045 CI38986839707 source8fb70634/tested3cd928fd failed docs_acceptance (three missing lastVerifiedBy fields) and docs_governance_integrity (three missing prearchive rows). Add exactly three reference-parity paths to planning documentation scope; existing three Work Item briefs are already in scope. Keep all existing rows and assertions, planning/not_ready, authority=missing, product exclusions, cleanup receipt bytes and history. Metadata names actual agent:Codex; conditional prearchive rows explicitly say planning only and product acceptance not_run, with no present verified or implementation claim. This is agent technical review, not human confirm_review; no product activation, merge, deletion, new credentials or privilege expansion.",
+  "changes": [
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "docs/reference/reference-parity.md"
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "docs/reference/reference-parity.zh-CN.md"
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "docs/reference/reference-parity.ja.md"
+    }
+  ]
+}

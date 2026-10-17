@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "not_ready",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": true,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 9,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 0,
+    "checkpointCount": 0
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "not_started",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:7f827f8bf5b6eaacd599045f243f74ee3a89998bde781fc5aae65af83f877eee",
+    "materialManifest": "sha256:1fe5820de7674f9557ceaddebecbfb24656e0d7cfe189357f464b2b90d596c41",
+    "repositorySnapshot": "sha256:6b431702e36f1d2d200946c3626b8f55521e9af368783265b9b2bb05d666fced",
+    "summary": "sha256:2881e09ca60de3728204157b64b6bacb39c596d3a399ebc4554cc4f173dd5714"
+  },
+  "unknowns": [
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:1fe5820de7674f9557ceaddebecbfb24656e0d7cfe189357f464b2b90d596c41",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [
+    "repository protocol state error at /workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry/.ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json: verification preconditions are blocked: documentation_projection_invalid:docs/work-items/WI-1087-contract-authority-scope-and-expiry.md:frontmatter must contain exactly one lastVerifiedBy field, documentation_projection_invalid:docs/work-items/WI-1087-contract-authority-scope-and-expiry.md:frontmatter status must equal in_progress, documentation_projection_invalid:docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md:frontmatter must contain exactly one lastVerifiedBy field, documentation_projection_invalid:docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md:frontmatter status must equal in_progress, documentation_projection_invalid:docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md:frontmatter must contain exactly one lastVerifiedBy field, documentation_projection_invalid:docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md:frontmatter status must equal in_progress, documentation_projection_invalid:docs/reference/reference-parity.md:expected exactly one parity row for WI-1087-contract-authority-scope-and-expiry but found 0, documentation_projection_invalid:docs/reference/reference-parity.zh-CN.md:expected exactly one parity row for WI-1087-contract-authority-scope-and-expiry but found 0, documentation_projection_invalid:docs/reference/reference-parity.ja.md:expected exactly one parity row for WI-1087-contract-authority-scope-and-expiry but found 0"
+  ],
+  "snapshotDigest": "sha256:6b431702e36f1d2d200946c3626b8f55521e9af368783265b9b2bb05d666fced",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-16T01:06:57Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "record_governance_controls",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "unknown",
+        "code": "verification_action_preconditions_blocked",
+        "message": "current projection reports verification_action_preconditions_blocked"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:7ec6a872dc71f90f57d4766ddf50e242bc812979da1ed3b8a29379d39bb6b1bc"
+  },
+  "statusDigest": "sha256:1c07a5d02a84f5efcb31de100e249f61900b6a6503dcc450b7ddb3360a416182",
+  "historical": false
+}

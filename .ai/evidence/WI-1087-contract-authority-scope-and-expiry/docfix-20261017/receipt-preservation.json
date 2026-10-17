@@ -1,0 +1,17 @@
+{
+  "receipts": [
+    {
+      "path": ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+      "bytes": 1020,
+      "rawSha256": "sha256:d85bcc5d38ed159e1c92a409d0a0b8feeb36bb16c41826d0e11531e5c565a9b5",
+      "unchangedInPrimaryBackupAndCurrentWorktree": true
+    },
+    {
+      "path": ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+      "bytes": 1038,
+      "rawSha256": "sha256:7304e582f78f5a49ec751f01f5497a3a310a66c5621fa3353813869c961a6a8d",
+      "unchangedInPrimaryBackupAndCurrentWorktree": true
+    }
+  ],
+  "newCleanup": false
+}
