@@ -291,8 +291,20 @@ fn read_activation_transition(
     }
     let prepared_path = directory.join("prepared.json");
     let committed_path = directory.join("committed.json");
-    let prepared_exists = super::is_regular_non_symlink(&prepared_path)?;
-    let committed_exists = super::is_regular_non_symlink(&committed_path)?;
+    // The directory inventory above has already rejected non-regular entries.
+    // Missing one phase is a partial transaction, not an absent file error.
+    let prepared_exists = prepared_path
+        .try_exists()
+        .map_err(|source| ObserverError::Read {
+            path: prepared_path.clone(),
+            source,
+        })?;
+    let committed_exists = committed_path
+        .try_exists()
+        .map_err(|source| ObserverError::Read {
+            path: committed_path.clone(),
+            source,
+        })?;
     if !prepared_exists && !committed_exists {
         return Ok(None);
     }
