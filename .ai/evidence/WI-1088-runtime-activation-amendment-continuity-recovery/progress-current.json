@@ -1,6 +1,6 @@
 {
   "kind": "agent_progress_snapshot_not_native_receipt_or_approval",
-  "observedAt": "2026-10-17T13:03:29.368358+00:00",
+  "observedAt": "2026-10-17T13:33:19.309031+00:00",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
   "testedSourceHead": "ee886af0c5a6c7ecfc4e8ea2f7d185ccab9cc23a",
   "activeVerification": null,
@@ -14,7 +14,7 @@
     "nodeTimeouts": 0,
     "repositoryStdoutTruncated": true
   },
-  "next": "Push saved full33/native controls, then observe final exact-head CI and record its actual terminal.",
+  "next": "Commit/push only evidence-copy path repair and actual CI failure preservation; wait new exact-head CI. A11/full-CI scenario remain unverified.",
   "historicalTransitionAuthentication": "unknown",
   "recoveryBusinessAuthorityGranted": false,
   "freshCurrentContractReviewRequired": true,
@@ -48,5 +48,24 @@
   "unverifiedAcceptance": [
     "A11"
   ],
-  "intentAlignment": "resolved_source_level_only"
+  "intentAlignment": "resolved_source_level_only",
+  "latestCi": {
+    "runId": 39035217918,
+    "head": "2dd3e22117f78e179c072fc589a746187a1bbd51",
+    "conclusion": "failure",
+    "successfulJobs": [
+      "route",
+      "v1-behavioral-oracle",
+      "quality"
+    ],
+    "failedJob": "windows-runtime",
+    "cause": "fixture clone checkout path too long before evaluator behavior"
+  },
+  "nativeFull33StillPassed": true,
+  "evidenceCopyPathRepair": {
+    "moves": 20,
+    "bytesPreserved": true,
+    "newAddedPathBudget": 180,
+    "map": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/copy-path-map.json"
+  }
 }

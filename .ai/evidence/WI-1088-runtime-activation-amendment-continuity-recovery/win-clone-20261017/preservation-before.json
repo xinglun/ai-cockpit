@@ -1,0 +1,65 @@
+{
+  "kind": "actual_read_only_final_preservation_inventory_not_native_receipt",
+  "observedAt": "2026-10-17T13:23:06.339778+00:00",
+  "head": "2dd3e22117f78e179c072fc589a746187a1bbd51",
+  "full33ProducerHead": "ee886af0c5a6c7ecfc4e8ea2f7d185ccab9cc23a",
+  "sourcePatchHead": "0a9fa45fcd63edcd97a1d0186185d4983f042841",
+  "all13ChangedRustPathsIdenticalToFull33Producer": true,
+  "rustPathRawSha256": {
+    "crates/cockpit-cli/src/main.rs": "a61ca16982e6633758d2f1966f805c15fa1ae70f404d913c9b1ea53eb63b43cf",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "0ace7891e0c4a1847cadc0ad19bc0052d28d87bdf2dd2d6176409d14a5251ace",
+    "crates/cockpit-mcp/src/lib.rs": "05e845caf29ff0a206c2d6aac96af15e8c7d4a2bdf034f00fe8963c20b727c39",
+    "crates/cockpit-mcp/tests/material_review.rs": "b20bb6421c65e5e48bcd75fc8dab2f8021c1c77c25f790b1a70e2c86a63c64a0",
+    "crates/cockpit-mcp/tests/rpc.rs": "6d1925bda676efdaff88eb7e3ba5b47139e9c508d26fb1159dc7ad693192116f",
+    "crates/cockpit-mcp/tests/usage.rs": "d921136209e3d32f9936d98db5a80cca6b4a3f08d9e4efbf617ce2bf113adbca",
+    "crates/cockpit-protocol/src/lib.rs": "96cb15fd79c01739f701fbef6a38622b37892c33a7d7fafea2055629d62a8533",
+    "crates/cockpit-repository/src/contract_amendment.rs": "7263c3121b244c6aa0df832d898aa6a960a8edc4ab6ca3a7108c660ecb0db481",
+    "crates/cockpit-repository/src/lib.rs": "e4c489b6d2f1a48159c80132e58c3a959162c036edeaf71b8627b05e64386c25",
+    "crates/cockpit-repository/src/lifecycle.rs": "ead5cb48507fa89d766f1a3afe7403da3197ff758a4afe19dc1aa2d0db02ff2d",
+    "crates/cockpit-repository/src/status_projection.rs": "b8dbad7ba45a0090a4af52fd2212aab5203543ee05f9cc5511626bf060dcde67",
+    "crates/cockpit-repository/tests/contract_amendment.rs": "18c8779e36f7d6699e7f88c879d0569ec7e713eb485e9d88d883570f8fd5d680",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs": "4b77cb55c02a70cd56d95eed1ba9fb4eccfc0d42ec941e58162cd019a942aebd"
+  },
+  "changesSinceProducerAreOnlyGovernance": true,
+  "otherWIParityLinesByteIdentical": {
+    "docs/reference/reference-parity.md": true,
+    "docs/reference/reference-parity.zh-CN.md": true,
+    "docs/reference/reference-parity.ja.md": true
+  },
+  "protectedWI1087Head": "9093ebe1bbccbf2a3429d953c497fa3847f6e474",
+  "protectedWI1087All11HashesUnchanged": true,
+  "protectedRawHashes": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea",
+    ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json": "b0bf5857fefaa918c402d92bb161e31b82b0b29bb8194ba69d2f7a767eee30c5",
+    ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json": "91efd3c6546b7cbed6f6af9da1cd81d7d20f34aac601804904867964dbcce87b",
+    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000005.prepared.json": "96cba33ffb61e7c980e4390403ed560a5b9d4631f67ea9a856be992e5c44f2a8",
+    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000005.committed.json": "38e8f8a402b558a42b899fa5aa1fd5ef98baedbe3072749c1818138943a8c382",
+    ".ai/decisions/WI-1087-contract-authority-scope-and-expiry.preflight-review.json": "e6a983fc4a36a3588f5c9509d221b7dba4102cf36d043807c9668be284f98fc8",
+    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification.json": "39b46fbb120ed1996df9d4176cc4fcf3514ed6a7ec17f42cb02f6361ea90b6ca"
+  },
+  "allAddedPathsAtMost220": true,
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "workspaceDisk": {
+    "total": 33770192896,
+    "used": 6712283136,
+    "free": 25323147264
+  },
+  "unperformed": [
+    "real WI-1087 recovery",
+    "Runtime installation",
+    "merge",
+    "close",
+    "archive",
+    "deletion",
+    "Sentinel operation"
+  ],
+  "unknowns": [
+    "Old WI-1087 second formal verification terminal and missing old uncommitted evidence",
+    "Own retained registration old-HEAD projection; no cross-WI dependency action attempted",
+    "Deployed user-visible benefit and host display confirmation"
+  ]
+}

@@ -127,7 +127,13 @@
           "locator": "sourceHead=ee886af0; records; complete33 route; sourceSnapshotDigest",
           "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/actual-full33-result.json",
           "type": "actual_command_or_source_evidence",
-          "verification": "Fresh33/33, one worker, isolated target, native finite300/600s nodes; repository560.164s and CLI478.487s passed. Exact-head CI39033099203 is still in progress, so this acceptance remains unverified until terminal CI evidence is available."
+          "verification": "Fresh native33/33 passed at ee886 source snapshot a990, one worker, native300/600s budgets. Exact-head CI39035217918 at2dd3 ended Windows failure during fixture clone before evaluator behavior; route/oracle/quality passed. Only20 own saved fixture copies were renamed byte-identically under180 relative-path budget; source/tests/native originals unchanged. New actual exact-head CI is required; this acceptance remains unverified."
+        },
+        {
+          "locator": "windows-runtime conclusion=failure; cognitive invalid-binary fixture clone",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/ci-2dd3-terminal.raw.json",
+          "type": "actual_github_ci_failure",
+          "verification": "Actual failure preserved with decoded log and complete byte-preserving old/new path map. Native33/33 is not relabelled failed, and Windows recovery is not yet claimed."
         }
       ],
       "status": "unverified"
@@ -352,7 +358,7 @@
       "evidence": [
         ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/actual-full33-result.json",
         ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/canonical-full33.copy.json",
-        "https://github.com/xinglun/ai-cockpit/actions/runs/39033099203 (observed in progress; final CI not yet claimed)"
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/ci-2dd3-terminal.raw.json"
       ],
       "expected": "Fresh fmt/clippy and full workspace verification use isolated target and single worker; actual CI outcome is reported.",
       "required": true,
@@ -362,7 +368,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-17T13:05:54.957817801+00:00",
+  "updatedAt": "2026-10-17T13:33:44.254114824+00:00",
   "verification": [
     {
       "check": "project-command-0",
