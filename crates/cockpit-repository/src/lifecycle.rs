@@ -1959,8 +1959,12 @@ fn preflight_work_item_internal_unlocked(
         &material_summary_path,
         &mut raw_decision,
     );
-    let decision =
-        apply_current_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
+    let decision = super::apply_current_preflight_review_evidence(
+        root,
+        &contract,
+        raw_decision.clone(),
+        false,
+    )?;
     observation_context.validate_current()?;
 
     let mut changed_paths = Vec::new();
