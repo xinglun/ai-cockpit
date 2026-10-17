@@ -1538,3 +1538,212 @@ fn checkpoint_count_two_material_fallback_is_rejected_by_cli() {
 fn checkpoint_count_two_material_fallback_is_rejected_by_mcp() {
     assert_checkpoint_provenance_rejected("count_two", true);
 }
+
+#[test]
+fn native_activation_keeps_post_checkpoint_amendment_reviewable() {
+    let directory = tempfile::tempdir().expect("activation fixture directory");
+    let root = directory.path().join("repo");
+    fs::create_dir(&root).expect("fixture repository");
+    let origin = directory.path().join("origin.git");
+    let id = "WI-CLI-ACTIVATION-CONTINUITY";
+    git(&root, &["init", "-q", "--initial-branch=main"]);
+    git(&root, &["config", "user.name", "Activation fixture"]);
+    git(
+        &root,
+        &["config", "user.email", "activation@example.invalid"],
+    );
+    fs::write(root.join("README.md"), "isolated activation fixture\n").expect("README");
+    git(&root, &["add", "README.md"]);
+    git(&root, &["commit", "-qm", "fixture baseline"]);
+    git(
+        &root,
+        &[
+            "init",
+            "-q",
+            "--bare",
+            "--initial-branch=main",
+            origin.to_str().expect("origin path"),
+        ],
+    );
+    git(
+        &root,
+        &[
+            "remote",
+            "add",
+            "origin",
+            origin.to_str().expect("origin path"),
+        ],
+    );
+    git(&root, &["push", "-q", "-u", "origin", "main"]);
+    git(&root, &["remote", "set-head", "origin", "-a"]);
+    git(&root, &["checkout", "-q", "-b", "fixture/activation"]);
+    let cli = |args: &[&str]| {
+        Command::new(candidate_binary())
+            .args(args)
+            .arg("--repo")
+            .arg(&root)
+            .output()
+            .expect("native fixture command")
+    };
+    assert_success(&cli(&["attach"]), "attach activation fixture");
+    assert_success(
+        &cli(&["work-item", "new", "--id", id, "--mode", "implementation"]),
+        "create real not_ready scaffold",
+    );
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("scaffold"))
+        .expect("scaffold JSON");
+    assert_eq!(contract["state"], "not_ready");
+    let intent = "Exercise a real native activation boundary";
+    let goal = "Keep post-checkpoint amendments reviewable";
+    let acceptance = "The activation boundary preserves strict native amendment admission";
+    let request_path = directory.path().join("before-activation.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&json!({
+            "schemaVersion": 1,
+            "changeId": "before-activation",
+            "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("digest"),
+            "reason": "Isolated test plan; no real Work Item or human authority.",
+            "changes": [
+                {"path":"/intent","operation":"set","value":intent},
+                {"path":"/goal","operation":"set","value":goal},
+                {"path":"/scope","operation":"replace","value":["README.md"]},
+                {"path":"/outOfScope","operation":"replace","value":[]},
+                {"path":"/risk","operation":"set","value":"normal"},
+                {"path":"/authority","operation":"set","value":"authorized"},
+                {"path":"/acceptanceCriteria","operation":"replace","value":[acceptance]},
+                {"path":"/verification","operation":"replace","value":["git diff --check"]}
+            ]
+        }))
+        .expect("request JSON"),
+    )
+    .expect("pre-activation request");
+    assert_success(
+        &cli(&[
+            "work-item",
+            "amend",
+            "--id",
+            id,
+            "--request",
+            request_path.to_str().expect("request path"),
+        ]),
+        "record pre-activation amendment",
+    );
+    assert_success(
+        &cli(&[
+            "start",
+            "--id",
+            id,
+            "--intent",
+            intent,
+            "--goal",
+            goal,
+            "--scope",
+            "README.md",
+            "--risk",
+            "normal",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            acceptance,
+            "--verification",
+            "git diff --check",
+            "--prepare",
+        ]),
+        "activate real scaffold and prepare review",
+    );
+    let active: Value = serde_json::from_slice(&fs::read(&contract_path).expect("active Contract"))
+        .expect("active JSON");
+    let summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let review_path = directory.path().join("fixture-review.json");
+    fs::write(
+        &review_path,
+        serde_json::to_vec_pretty(&json!({"decisionEvidence": {
+            "schemaVersion": 1,
+            "decisionId": "contract-preflight-review",
+            "decision": "confirm_review",
+            "workItemId": id,
+            "repositoryId": active["repositoryId"],
+            "contractDigest": cockpit_protocol::digest_json(&active).expect("active digest"),
+            "preflightDecisionDigest": summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+            "recordedAt": "2026-10-17T00:00:00Z",
+            "recordedBy": "fixture:activation-test-only",
+            "reason": "Synthetic isolated fixture review; not a real human response or history proof."
+        }}))
+        .expect("fixture review JSON"),
+    )
+    .expect("fixture review");
+    assert_success(
+        &cli(&[
+            "work-item",
+            "controls",
+            "--id",
+            id,
+            "--input",
+            review_path.to_str().expect("review path"),
+        ]),
+        "record fixture-only review",
+    );
+    assert_success(
+        &cli(&[
+            "preflight",
+            "--contract",
+            contract_path.to_str().expect("Contract path"),
+        ]),
+        "preflight reviewed fixture",
+    );
+    assert_success(&cli(&["checkpoint", "--id", id]), "fixture checkpoint");
+    let post_path = directory.path().join("after-checkpoint.json");
+    fs::write(
+        &post_path,
+        serde_json::to_vec_pretty(&json!({
+            "schemaVersion": 1,
+            "changeId": "after-checkpoint",
+            "expectedContractDigest": cockpit_protocol::digest_json(&active).expect("digest"),
+            "reason": "Keep the amended fixture plan reviewable without granting its review.",
+            "changes": [{"path":"/goal","operation":"set","value":"Review the current amended fixture plan"}]
+        }))
+        .expect("post-checkpoint JSON"),
+    )
+    .expect("post-checkpoint request");
+    let amended = cli(&[
+        "work-item",
+        "amend",
+        "--id",
+        id,
+        "--request",
+        post_path.to_str().expect("post request path"),
+    ]);
+    let status = cli(&["work-item", "status", "--id", id, "--json"]);
+    let history = cli(&["work-item", "amendments", "--id", id]);
+    assert_success(&history, "read intact amendment journal");
+    let history: Vec<Value> = serde_json::from_slice(&history.stdout).expect("history JSON");
+    assert_eq!(history.len(), 2);
+    assert_eq!(
+        history[1]["previousJournalDigest"],
+        history[0]["journalDigest"]
+    );
+    if !amended.status.success() || !status.status.success() {
+        let preserved = directory.keep();
+        panic!(
+            "real activation boundary must keep amendment admission reviewable; fixture preserved at {}; amendment stderr={}; status stderr={}",
+            preserved.display(),
+            String::from_utf8_lossy(&amended.stderr),
+            String::from_utf8_lossy(&status.stderr)
+        );
+    }
+    let status: Value = serde_json::from_slice(&status.stdout).expect("current status JSON");
+    assert_eq!(status["humanDecisionRequired"], true, "{status}");
+    assert!(
+        !status["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .iter()
+            .any(|action| action == "run_verification"),
+        "the new Contract still needs its own human review: {status}"
+    );
+}
