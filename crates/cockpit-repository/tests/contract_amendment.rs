@@ -193,16 +193,20 @@ fn summary_only_controls_cannot_accept_orphan_activation_markers() {
 
 #[test]
 fn summary_only_controls_reject_existing_native_entries_before_projection() {
-    let mut cases = vec![
+    let cases = vec![
         ("activation-transition", false),
         ("activation-recovery", false),
     ];
     #[cfg(unix)]
-    cases.extend([
-        ("activation-transition", true),
-        ("activation-recovery", true),
-        ("contract", true),
-    ]);
+    let cases = {
+        let mut cases = cases;
+        cases.extend([
+            ("activation-transition", true),
+            ("activation-recovery", true),
+            ("contract", true),
+        ]);
+        cases
+    };
     for (kind, dangling) in cases {
         let directory = tempfile::tempdir().expect("Summary-only native-entry fixture");
         let root = directory.path();

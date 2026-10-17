@@ -136,15 +136,16 @@ pub fn record_work_item_governance_controls(
         path: root.into(),
         source,
     })?;
+    let entry_exists = |path: &Path| match fs::symlink_metadata(path) {
+        Ok(_) => Ok(true),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(false),
+        Err(source) => Err(ObserverError::Read {
+            path: path.into(),
+            source,
+        }),
+    };
     for suffix in ["activation-transition", "activation-recovery"] {
-        if root
-            .join(format!(".ai/evidence/{work_item_id}.{suffix}"))
-            .try_exists()
-            .map_err(|source| ObserverError::Read {
-                path: root.clone(),
-                source,
-            })?
-        {
+        if entry_exists(&root.join(format!(".ai/evidence/{work_item_id}.{suffix}")))? {
             return Err(ObserverError::State { path: root, message: "activation continuity controls require the current Runtime entry point; raw controls cannot record recovery".into() });
         }
     }
@@ -161,13 +162,7 @@ pub fn record_work_item_governance_controls(
     let contract_path = root.join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
-    if contract_path
-        .try_exists()
-        .map_err(|source| ObserverError::Read {
-            path: contract_path.clone(),
-            source,
-        })?
-    {
+    if entry_exists(&contract_path)? {
         let history = contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?;
         let digest = contract_digest(&contract_path)?;
         contract_amendment::validate_transition_chain(

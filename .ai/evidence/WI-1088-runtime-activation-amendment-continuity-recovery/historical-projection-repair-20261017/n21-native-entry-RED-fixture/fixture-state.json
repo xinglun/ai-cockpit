@@ -1,0 +1,9 @@
+{
+  "kind": "actual_retained_synthetic_failure_fixture_not_real_authorization",
+  "retainedFixturePath": "/tmp/.tmpcZvXbR",
+  "summaryRawSha256": "be7aa75060e5fceec7c4126b6dec55e44e6c5ca5667c4b5d98fee516e046fd05",
+  "nativeEntryPath": "/tmp/.tmpcZvXbR/.ai/evidence/WI-ENTRY-CONTROLS.activation-transition",
+  "nativeEntryIsSymlink": true,
+  "nativeEntryTarget": "/tmp/.tmpcZvXbR/missing-target",
+  "failure": "raw Summary-only projection ignored a dangling native transition entry and wrote intentAlignment; no Contract or business authority exists"
+}

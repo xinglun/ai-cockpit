@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "baseCommit": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 12,
+    "acceptanceEvidenceEntries": 12,
+    "changedPathCount": 3,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "evidence_stale"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "high"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+    "materialManifest": "sha256:f1579e5794c2e29e47b5e606c1a608345ddec432fd12aded0c7b5aff51fcc9b6",
+    "repositorySnapshot": "sha256:137b55daa4f2b0f613d3ac5e5eaa3e4c94e9b72c35b678ae25cb07422493134a",
+    "summary": "sha256:4abff1d9ef132a61233e9b931a9ef3732f522ab05dceb9aa14365009b13330a9",
+    "verificationEvidence": "sha256:f6739c5afa253a9bd7049c5c5690162d0f538d32beb0e30c99a9b6a990e03fa3"
+  },
+  "unknowns": [
+    "evidence_stale",
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "required_scenario_unverified",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:f1579e5794c2e29e47b5e606c1a608345ddec432fd12aded0c7b5aff51fcc9b6",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "evidence_stale",
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "required_scenario_unverified",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:137b55daa4f2b0f613d3ac5e5eaa3e4c94e9b72c35b678ae25cb07422493134a",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-17T11:38:18Z",
+  "updatedAt": "2026-10-17T08:55:19.164435051+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "run_verification",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "evidence_stale",
+        "message": "current projection reports evidence_stale"
+      },
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "missing",
+        "code": "required_scenario_unverified",
+        "message": "current projection reports required_scenario_unverified"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "evidence_stale"
+    ],
+    "admissionDigest": "sha256:7c4d24d9e89e114fedd6368de5eaf8bbd1b2329f14589f47b4989e884b09421b"
+  },
+  "statusDigest": "sha256:89161272b12260cf736f5a8b42f65d01534c0b29fe36eb96a49a04f4252e79bf",
+  "historical": false
+}
