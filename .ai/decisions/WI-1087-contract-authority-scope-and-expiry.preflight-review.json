@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:f9766bf4ba8467395dbb865863130f54af8e14bd02ad46826149c864554385aa",
+  "reason": "Human decision actor human:Ray replied verbatim \"comfirm review\" to exact request Sentinel_24195062141081919db2e1c764ef1333, response Sentinel_033b23ff060881918e1f25f4fb828914 at 2026-10-17 03:18 UTC. Interpret as confirm_review in this explicit context per controller relay; original preserved at .ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/human-decision-source-20261017.json. Agent:Codex records the supplied human decision, not an agent proxy approval. This confirmation does not waive the six documentation blockers or authorize P2-P4/live grant/system permission/merge/deletion.",
+  "recordedAt": "2026-10-17T03:20:16.992943+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+  "schemaVersion": 1,
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+}

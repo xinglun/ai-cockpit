@@ -6,9 +6,9 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1087-contract-authority-scope-and-expiry
-status: planned
+status: in_progress
 authority: design-and-registration-only
-lastVerifiedBy: agent:Codex
+lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 ---
 
 [English](WI-1087-contract-authority-scope-and-expiry.md) · [简体中文](WI-1087-contract-authority-scope-and-expiry.zh-CN.md)
