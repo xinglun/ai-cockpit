@@ -1,10 +1,12 @@
 use super::ObserverError;
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    Contract, ContractAmendmentChange, ContractAmendmentError, ContractAmendmentFieldClass,
-    ContractAmendmentOperation, ContractAmendmentRequest, ContractAmendmentValueChange,
-    ContractSource, RuntimeContext, VerificationDeclaration, apply_contract_amendment,
-    apply_contract_amendment_with_trace, contract_amendment_field_class, digest_json,
+    ACTIVATION_CONTINUITY_CAPABILITY, ActivationFieldDifference, ActivationOwnerBinding,
+    ActivationTransitionRecord, Contract, ContractAmendmentChange, ContractAmendmentError,
+    ContractAmendmentFieldClass, ContractAmendmentOperation, ContractAmendmentRequest,
+    ContractAmendmentValueChange, ContractSource, RuntimeContext, VerificationDeclaration,
+    apply_contract_amendment, apply_contract_amendment_with_trace, contract_amendment_field_class,
+    digest_json,
 };
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::{Value, json};
@@ -124,6 +126,421 @@ struct CommittedRecord {
     sequence: u64,
     prepared_digest: Digest,
     receipt: ContractAmendmentReceipt,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub(crate) struct PreparedActivationTransition {
+    record: ActivationTransitionRecord,
+    record_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct ContinuityCommit {
+    schema_version: u32,
+    prepared_digest: Digest,
+    recorded_at: String,
+}
+
+fn activation_directory(root: &Path, id: &str) -> PathBuf {
+    root.join(".ai/evidence")
+        .join(format!("{id}.activation-transition"))
+}
+
+fn observed_activation_owner(root: &Path) -> Result<ActivationOwnerBinding, ObserverError> {
+    let git = cockpit_git::GitRepository::discover(root)
+        .map_err(|error| state_error(root, error.to_string()))?;
+    let topology = git
+        .topology()
+        .map_err(|error| state_error(root, error.to_string()))?;
+    Ok(ActivationOwnerBinding {
+        worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+        common_directory_id: Digest::sha256_bytes(topology.common_dir.to_string_lossy().as_bytes()),
+        branch: topology
+            .branch
+            .ok_or_else(|| state_error(root, "activation owner requires a named branch"))?,
+    })
+}
+
+fn activation_differences(
+    before: &Value,
+    after: &Value,
+    legacy_csv: bool,
+) -> Result<Vec<ActivationFieldDifference>, ObserverError> {
+    let invalid = || {
+        state_error(
+            "activation-transition",
+            "unexplained activation Contract change",
+        )
+    };
+    if before["state"] != "not_ready" || after["state"] != "implementation_active" {
+        return Err(invalid());
+    }
+    let a = before.as_object().ok_or_else(invalid)?;
+    let b = after.as_object().ok_or_else(invalid)?;
+    if a.keys().ne(b.keys()) {
+        return Err(invalid());
+    }
+    let mut differences = Vec::new();
+    for (key, old) in a {
+        let new = &b[key];
+        if old == new {
+            continue;
+        }
+        let permitted = matches!(
+            key.as_str(),
+            "state" | "baseRevision" | "repositorySnapshotDigest"
+        ) || (legacy_csv
+            && key == "outOfScope"
+            && old.as_array().is_some_and(|values| {
+                let mut split = Vec::new();
+                for value in values {
+                    let Some(value) = value.as_str() else {
+                        return false;
+                    };
+                    for part in value.split(',') {
+                        if part.is_empty() {
+                            return false;
+                        }
+                        split.push(Value::String(part.into()));
+                    }
+                }
+                *new == Value::Array(split)
+            }));
+        if !permitted {
+            return Err(state_error(
+                "activation-transition",
+                format!("unexplained activation Contract change at /{key}; amend the plan first"),
+            ));
+        }
+        differences.push(ActivationFieldDifference {
+            path: format!("/{key}"),
+            old_value: old.clone(),
+            new_value: new.clone(),
+        });
+    }
+    Ok(differences)
+}
+
+fn activation_input_digest(contract: &Value) -> Result<Digest, ObserverError> {
+    let fields = [
+        "intent",
+        "goal",
+        "scope",
+        "outOfScope",
+        "risk",
+        "authority",
+        "acceptanceCriteria",
+        "requiredEvidenceClasses",
+        "verification",
+    ];
+    let input = fields
+        .into_iter()
+        .map(|key| (key.to_owned(), contract[key].clone()))
+        .collect::<BTreeMap<_, _>>();
+    record_digest(&input, Path::new("activation-input"))
+}
+
+fn continuity_record_directory(path: &Path) -> Result<bool, ObserverError> {
+    let metadata = match fs::symlink_metadata(path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(false),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: path.into(),
+                source,
+            });
+        }
+    };
+    if !metadata.is_dir() || metadata.file_type().is_symlink() {
+        return Err(state_error(
+            path,
+            "continuity evidence directory must be regular",
+        ));
+    }
+    for entry in fs::read_dir(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
+        if !matches!(
+            entry.file_name().to_str(),
+            Some("prepared.json" | "committed.json")
+        ) || !super::is_regular_non_symlink(&entry.path())?
+        {
+            return Err(state_error(
+                path,
+                "unexpected or non-regular continuity evidence",
+            ));
+        }
+    }
+    Ok(true)
+}
+
+fn read_activation_transition(
+    root: &Path,
+    id: &str,
+) -> Result<Option<PreparedActivationTransition>, ObserverError> {
+    let directory = activation_directory(root, id);
+    if !continuity_record_directory(&directory)? {
+        return Ok(None);
+    }
+    let prepared_path = directory.join("prepared.json");
+    let committed_path = directory.join("committed.json");
+    let prepared_exists = super::is_regular_non_symlink(&prepared_path)?;
+    let committed_exists = super::is_regular_non_symlink(&committed_path)?;
+    if !prepared_exists && !committed_exists {
+        return Ok(None);
+    }
+    if !prepared_exists || !committed_exists {
+        return Err(state_error(
+            directory,
+            "unresolved activation transition transaction",
+        ));
+    }
+    let prepared: PreparedActivationTransition = read_typed_record(&prepared_path)?;
+    let committed: ContinuityCommit = read_typed_record(&committed_path)?;
+    let record = &prepared.record;
+    let expected_start = json!({
+        "eventType":"work_item_started", "occurredAt":record.recorded_at,
+        "recordedAt":record.recorded_at, "actorProvenance":"unknown",
+        "runtimeVersion":record.runtime.runtime_version,
+        "runtimeDigest":record.runtime.runtime_digest,
+    });
+    if prepared.record_digest != record_digest(record, &prepared_path)?
+        || committed.schema_version != 1
+        || committed.prepared_digest != prepared.record_digest
+        || chrono::DateTime::parse_from_rfc3339(&committed.recorded_at).is_err()
+        || record.schema_version != 1
+        || record.capability != ACTIVATION_CONTINUITY_CAPABILITY
+        || record.repository_id != super::repository_id(root).to_string()
+        || record.work_item_id != id
+        || record.owner != observed_activation_owner(root)?
+        || record.runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
+        || record.runtime.runtime_version.trim().is_empty()
+        || !super::valid_git_object_id(&record.observed_head)
+        || record.previous_contract["repositoryId"] != json!(record.repository_id)
+        || record.new_contract["repositoryId"] != json!(record.repository_id)
+        || record.previous_contract["workItemId"] != id
+        || record.new_contract["workItemId"] != id
+        || record.previous_contract_digest
+            != record_digest(&record.previous_contract, &prepared_path)?
+        || record.new_contract_digest != record_digest(&record.new_contract, &prepared_path)?
+        || record.previous_summary_digest
+            != record_digest(&record.previous_summary, &prepared_path)?
+        || record.new_summary_digest != record_digest(&record.new_summary, &prepared_path)?
+        || record.previous_summary["state"] != "not_ready"
+        || record.previous_summary["checkpointCount"] != json!(0)
+        || record.previous_summary["repositoryId"] != json!(record.repository_id)
+        || record.previous_summary["workItemId"] != id
+        || record.new_summary["state"] != "implementation_active"
+        || record.new_summary["checkpointCount"] != json!(0)
+        || record.new_summary["repositoryId"] != json!(record.repository_id)
+        || record.new_summary["workItemId"] != id
+        || record.new_summary["lifecycleFacts"]["start"] != record.start_fact
+        || record.new_contract["repositorySnapshotDigest"]
+            != json!(record.repository_snapshot_digest)
+        || record.new_contract["baseRevision"] != record.observed_base_revision
+        || record.differences
+            != activation_differences(&record.previous_contract, &record.new_contract, false)?
+        || record.input_digest != activation_input_digest(&record.new_contract)?
+        || record.start_fact != expected_start
+        || chrono::DateTime::parse_from_rfc3339(&record.recorded_at).is_err()
+    {
+        return Err(state_error(
+            directory,
+            "activation transition binding or digest is invalid",
+        ));
+    }
+    Ok(Some(prepared))
+}
+
+fn validate_transition_chain(
+    root: &Path,
+    id: &str,
+    history: &[ContractAmendmentReceipt],
+    candidate_previous: Option<&Digest>,
+) -> Result<(), ObserverError> {
+    let transition = read_activation_transition(root, id)?;
+    let mut previous: Option<&ContractAmendmentReceipt> = None;
+    for (index, next_previous) in history
+        .iter()
+        .map(|receipt| &receipt.previous_contract_digest)
+        .chain(candidate_previous)
+        .enumerate()
+    {
+        if let Some(tail) = previous
+            && &tail.new_contract_digest != next_previous
+        {
+            let valid = transition.as_ref().is_some_and(|prepared| {
+                let proof = &prepared.record;
+                !tail.checkpointed
+                    && proof.journal_sequence == tail.sequence
+                    && proof.journal_digest == tail.journal_digest
+                    && proof.previous_contract_digest == tail.new_contract_digest
+                    && &proof.new_contract_digest == next_previous
+            });
+            if !valid {
+                return Err(state_error(
+                    amendment_directory(root, id),
+                    "amendment Contract transition chain is discontinuous",
+                ));
+            }
+        }
+        previous = history.get(index);
+    }
+    Ok(())
+}
+
+/// The caller holds the Work Item lifecycle lock. A zero-history scaffold has
+/// no amendment boundary to bridge; its existing initial-declaration behavior
+/// remains unchanged. Journal-relevant activation is strictly three-field.
+pub(crate) fn prepare_activation_transition(
+    root: &Path,
+    id: &str,
+    before: &Value,
+    after: &Value,
+    previous_summary: &Value,
+    new_summary: &Value,
+    runtime: Option<&RuntimeContext>,
+) -> Result<Option<PreparedActivationTransition>, ObserverError> {
+    let (history, pending) = read_history_with_pending(root, id)?;
+    if pending.is_some() {
+        return Err(state_error(
+            root,
+            "activation cannot finish a pending amendment",
+        ));
+    }
+    validate_transition_chain(root, id, &history, None)?;
+    let Some(tail) = history.last() else {
+        return Ok(None);
+    };
+    let runtime =
+        runtime.ok_or_else(|| state_error(root, "activation proof requires Runtime identity"))?;
+    if runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
+        || runtime.runtime_version.trim().is_empty()
+        || previous_summary["checkpointCount"] != json!(0)
+        || previous_summary["state"] != "not_ready"
+        || previous_summary["repositoryId"] != super::repository_id(root).to_string()
+        || previous_summary["workItemId"] != id
+        || new_summary["checkpointCount"] != json!(0)
+        || new_summary["state"] != "implementation_active"
+        || tail.checkpointed
+        || record_digest(before, root)? != tail.new_contract_digest
+    {
+        return Err(state_error(
+            root,
+            "activation requires an exact uncheckpointed journal baseline",
+        ));
+    }
+    let directory = activation_directory(root, id);
+    if continuity_record_directory(&directory)?
+        && (directory.join("prepared.json").exists() || directory.join("committed.json").exists())
+    {
+        return Err(state_error(
+            directory,
+            "activation transition already exists or is pending",
+        ));
+    }
+    let typed: Contract = serde_json::from_value(after.clone())
+        .map_err(|error| state_error(root, error.to_string()))?;
+    typed
+        .validate()
+        .map_err(|errors| state_error(root, errors.join("; ")))?;
+    if after["repositorySnapshotDigest"] != json!(observed_inputs(root)?.0) {
+        return Err(state_error(
+            root,
+            "activation snapshot changed before preparation",
+        ));
+    }
+    let record = ActivationTransitionRecord {
+        schema_version: 1,
+        capability: ACTIVATION_CONTINUITY_CAPABILITY.into(),
+        repository_id: super::repository_id(root).to_string(),
+        work_item_id: id.into(),
+        owner: observed_activation_owner(root)?,
+        runtime: runtime.clone(),
+        observed_head: cockpit_git::GitRepository::discover(root)
+            .and_then(|git| git.topology())
+            .map_err(|error| state_error(root, error.to_string()))?
+            .head
+            .ok_or_else(|| state_error(root, "activation head is missing"))?,
+        journal_sequence: tail.sequence,
+        journal_digest: tail.journal_digest.clone(),
+        previous_contract: before.clone(),
+        new_contract: after.clone(),
+        previous_contract_digest: record_digest(before, root)?,
+        new_contract_digest: record_digest(after, root)?,
+        previous_summary_digest: record_digest(previous_summary, root)?,
+        new_summary_digest: record_digest(new_summary, root)?,
+        previous_summary: previous_summary.clone(),
+        new_summary: new_summary.clone(),
+        repository_snapshot_digest: after["repositorySnapshotDigest"]
+            .as_str()
+            .ok_or_else(|| state_error(root, "activation snapshot is missing"))?
+            .parse::<Digest>()
+            .map_err(|error| state_error(root, error.to_string()))?,
+        observed_base_revision: after["baseRevision"]
+            .as_str()
+            .ok_or_else(|| state_error(root, "activation base is missing"))?
+            .into(),
+        input_digest: activation_input_digest(after)?,
+        differences: activation_differences(before, after, false)?,
+        start_fact: new_summary["lifecycleFacts"]["start"].clone(),
+        recorded_at: new_summary["lifecycleFacts"]["start"]["recordedAt"]
+            .as_str()
+            .ok_or_else(|| state_error(root, "activation start fact is missing"))?
+            .into(),
+    };
+    let prepared = PreparedActivationTransition {
+        record_digest: record_digest(&record, root)?,
+        record,
+    };
+    write_immutable_record(&directory.join("prepared.json"), &prepared)?;
+    Ok(Some(prepared))
+}
+
+pub(crate) fn commit_activation_transition(
+    root: &Path,
+    id: &str,
+    prepared: &PreparedActivationTransition,
+) -> Result<(), ObserverError> {
+    let record = &prepared.record;
+    let contract =
+        super::read_json(&root.join(format!(".ai/work-items/active/{id}.contract.json")))?;
+    let summary = super::read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    let history = read_work_item_contract_amendments(root, id)?;
+    if record.owner != observed_activation_owner(root)?
+        || cockpit_git::GitRepository::discover(root)
+            .and_then(|git| git.topology())
+            .map_err(|error| state_error(root, error.to_string()))?
+            .head
+            .as_deref()
+            != Some(record.observed_head.as_str())
+        || observed_inputs(root)?.0 != record.repository_snapshot_digest
+        || record_digest(&contract, root)? != record.new_contract_digest
+        || record_digest(&summary, root)? != record.new_summary_digest
+        || history.last().is_none_or(|tail| {
+            tail.sequence != record.journal_sequence || tail.journal_digest != record.journal_digest
+        })
+    {
+        return Err(state_error(
+            root,
+            "activation changed before its commit marker",
+        ));
+    }
+    write_immutable_record(
+        &activation_directory(root, id).join("committed.json"),
+        &ContinuityCommit {
+            schema_version: 1,
+            prepared_digest: prepared.record_digest.clone(),
+            recorded_at: super::usage::lifecycle_now(),
+        },
+    )
 }
 
 const ZERO_JOURNAL_DIGEST_SEED: &[u8] = b"cockpit-contract-amendment-journal-v1";
@@ -983,15 +1400,7 @@ pub(crate) fn current_amendment_review_request_available(
     let Some(tail) = history.last() else {
         return Ok(false);
     };
-    if history
-        .windows(2)
-        .any(|pair| pair[1].previous_contract_digest != pair[0].new_contract_digest)
-    {
-        return Err(state_error(
-            &contract_path,
-            "amendment Contract transition chain is discontinuous",
-        ));
-    }
+    validate_transition_chain(root, work_item_id, &history, None)?;
     if tail.new_contract_digest != *current_contract_digest
         || !history.iter().any(|receipt| receipt.policy_review_required)
         || !tail.checkpointed
@@ -1344,11 +1753,27 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
     }
     let _lock = super::acquire_lifecycle_lock(&root, work_item_id)?;
     let (mut history, pending) = read_history_with_pending(&root, work_item_id)?;
+    let request_digest = record_digest(request, Path::new("contract-amendment-request"))?;
     if let Some(pending) = pending {
+        let same_request = pending.prepared.request_digest == request_digest
+            || (legacy_input_digest.is_some()
+                && pending.prepared.legacy_input_digest == legacy_input_digest);
+        if !same_request {
+            return Err(state_error(
+                amendment_directory(&root, work_item_id),
+                "incoming request cannot finish an unrelated pending amendment",
+            ));
+        }
+        validate_transition_chain(
+            &root,
+            work_item_id,
+            &history,
+            Some(&pending.prepared.previous_contract_digest),
+        )?;
         finish_prepared(&root, &pending)?;
         (history, _) = load_history(&root, work_item_id, false)?;
     }
-    let request_digest = record_digest(request, Path::new("contract-amendment-request"))?;
+    validate_transition_chain(&root, work_item_id, &history, None)?;
     if let Some(existing) = history
         .iter()
         .find(|receipt| receipt.change_id == request.change_id)
@@ -1429,6 +1854,15 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
         return Err(state_error(&contract_path, "Contract scope is malformed"));
     }
     super::validate_contract_amendment_revalidation_ready(&root, work_item_id, &previous_summary)?;
+    // Validate the whole prospective Contract chain before publishing even
+    // its prepared phase. A later admission query must not be the first place
+    // that discovers an unexplained old-to-current Contract boundary.
+    validate_transition_chain(
+        &root,
+        work_item_id,
+        &history,
+        Some(&current_contract_digest),
+    )?;
 
     let sequence = history.len() as u64 + 1;
     let previous_journal_digest = history
@@ -1622,6 +2056,50 @@ mod tests {
         )
         .expect_err("Contract transition discontinuity must be refused");
         assert!(error.to_string().contains("discontinuous"), "{error}");
+    }
+
+    #[test]
+    fn unrelated_request_does_not_finish_a_pending_amendment() {
+        for (suffix, failpoint) in [
+            ("PREPARED", AmendmentFailpoint::Prepared),
+            ("CONTRACT", AmendmentFailpoint::ContractReplaced),
+            ("SUMMARY", AmendmentFailpoint::SummaryProjected),
+        ] {
+            let directory = repository();
+            let root = directory.path();
+            let id = format!("WI-UNRELATED-PENDING-{suffix}");
+            let contract_path = start_checkpointed(root, &id);
+            let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+            let original = read_json(&contract_path);
+            let request = json!({
+                "schemaVersion":1, "changeId":"the-interrupted-request",
+                "expectedContractDigest":cockpit_protocol::digest_json(&original).expect("digest"),
+                "reason":"complete this exact fixture request only",
+                "changes":[{"path":"/goal","operation":"set","value":"the interrupted plan"}]
+            });
+            set_amendment_failpoint(failpoint);
+            amend_work_item_contract(root, &id, &request, "")
+                .expect_err("fixture interrupts the exact transaction");
+            let before_contract = fs::read(&contract_path).expect("current Contract");
+            let before_summary = fs::read(&summary_path).expect("current Summary");
+            let prepared_path = super::amendment_record_path(root, &id, 1, "prepared");
+            let before_prepared = fs::read(&prepared_path).expect("prepared bytes");
+            let current = read_json(&contract_path);
+            let other = json!({
+                "schemaVersion":1, "changeId":"a-different-request",
+                "expectedContractDigest":cockpit_protocol::digest_json(&current).expect("digest"),
+                "reason":"this request must not complete somebody else's transaction",
+                "changes":[{"path":"/goal","operation":"set","value":"a different plan"}]
+            });
+            let error = amend_work_item_contract(root, &id, &other, "")
+                .expect_err("an unrelated request must be rejected before any write");
+            assert!(error.to_string().contains("unrelated pending"), "{error}");
+            assert_eq!(fs::read(&contract_path).expect("Contract"), before_contract);
+            assert_eq!(fs::read(&summary_path).expect("Summary"), before_summary);
+            assert_eq!(fs::read(&prepared_path).expect("prepared"), before_prepared);
+            assert!(!super::amendment_record_path(root, &id, 1, "committed").exists());
+            assert!(read_work_item_contract_amendments(root, &id).is_err());
+        }
     }
 
     #[test]

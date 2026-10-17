@@ -22,6 +22,120 @@ pub use contract_amendment::{
     contract_amendment_field_class,
 };
 
+pub const ACTIVATION_CONTINUITY_CAPABILITY: &str = "activation_continuity_recovery_v1";
+
+/// An observed checkout owner, not an assertion of human identity or authority.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActivationOwnerBinding {
+    pub worktree_path: String,
+    pub common_directory_id: Digest,
+    pub branch: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActivationFieldDifference {
+    pub path: String,
+    pub old_value: serde_json::Value,
+    pub new_value: serde_json::Value,
+}
+
+/// Actual-time evidence emitted by the native writer at a journal-relevant
+/// not_ready activation. A prepared record alone is never a transition.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActivationTransitionRecord {
+    pub schema_version: u32,
+    pub capability: String,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub owner: ActivationOwnerBinding,
+    pub runtime: RuntimeContext,
+    pub observed_head: String,
+    pub journal_sequence: u64,
+    pub journal_digest: Digest,
+    pub previous_contract: serde_json::Value,
+    pub new_contract: serde_json::Value,
+    pub previous_contract_digest: Digest,
+    pub new_contract_digest: Digest,
+    pub previous_summary_digest: Digest,
+    pub new_summary_digest: Digest,
+    pub previous_summary: serde_json::Value,
+    pub new_summary: serde_json::Value,
+    pub repository_snapshot_digest: Digest,
+    pub observed_base_revision: String,
+    pub input_digest: Digest,
+    pub differences: Vec<ActivationFieldDifference>,
+    pub start_fact: serde_json::Value,
+    pub recorded_at: String,
+}
+
+/// A deterministic request to accept a present baseline. It explicitly
+/// preserves the missing historical authentication and grants no work.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActivationRecoveryRequest {
+    pub schema_version: u32,
+    pub capability: String,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub owner: ActivationOwnerBinding,
+    pub runtime: RuntimeContext,
+    pub head: String,
+    pub registration_generation: u64,
+    pub registration_digest: Digest,
+    pub contract_digest: Digest,
+    pub summary_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub journal_sequence: u64,
+    pub journal_digest: Digest,
+    pub boundary_journal_digest: Digest,
+    pub before_activation_contract_digest: Digest,
+    pub after_activation_contract_digest: Digest,
+    pub checkpoint_contract_digest: Digest,
+    pub start_fact_digest: Digest,
+    pub differences: Vec<ActivationFieldDifference>,
+    pub raw_evidence_digests: BTreeMap<String, Digest>,
+    pub historical_transition_authentication: String,
+    pub business_authority_granted: bool,
+    pub fresh_contract_review_required: bool,
+    pub request_digest: Digest,
+}
+
+/// The caller supplies the actual newly received human response. Identity is
+/// self-declared; this type does not authenticate a person or approve Contract C.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActivationRecoveryDecision {
+    pub schema_version: u32,
+    pub decision_id: String,
+    pub response: String,
+    pub request_digest: Digest,
+    pub human_actor: String,
+    pub recorder_actor: String,
+    pub assurance: String,
+    pub authority_source_path: String,
+    pub authority_source_digest: Digest,
+    pub responded_at: String,
+    pub reason: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActivationRecoveryRecord {
+    pub schema_version: u32,
+    pub capability: String,
+    pub request: ActivationRecoveryRequest,
+    pub decision: ActivationRecoveryDecision,
+    pub previous_summary: serde_json::Value,
+    pub projected_summary_digest: Digest,
+    pub historical_transition_authentication: String,
+    pub business_authority_granted: bool,
+    pub fresh_contract_review_required: bool,
+    pub recorded_at: String,
+}
+
 pub use interface_description::{
     CAPABILITY_SHOW_DEFAULT_FORMAT, CAPABILITY_SHOW_DEFAULT_LANGUAGE,
     CAPABILITY_SHOW_FORMAT_DESCRIPTION, CAPABILITY_SHOW_FORMAT_JSON,

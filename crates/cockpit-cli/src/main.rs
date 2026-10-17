@@ -20,7 +20,7 @@ use cockpit_repository::{
     preflight_work_item_with_runtime_report, prepare_archive_outcome_delivery,
     record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
     retire_active_work_item_with_runtime, run_repository_verification_with_process_observer,
-    scaffold_work_item, start_work_item_with_options, verify_resource_finalization,
+    scaffold_work_item, start_work_item_with_options_and_runtime, verify_resource_finalization,
 };
 use cockpit_verification::gate_plan::{
     GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
@@ -1846,9 +1846,16 @@ fn run() -> Result<()> {
                 .context("start and prepare work item")?;
                 println!("{}", serde_json::to_string_pretty(&report)?);
             } else {
-                let receipt =
-                    start_work_item_with_options(&repo, &id, &intent, &goal, &scope, &options)
-                        .context("start work item")?;
+                let receipt = start_work_item_with_options_and_runtime(
+                    &repo,
+                    &id,
+                    &intent,
+                    &goal,
+                    &scope,
+                    &options,
+                    &runtime_context,
+                )
+                .context("start work item")?;
                 println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
         }
