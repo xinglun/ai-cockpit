@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "changeId": "after-checkpoint",
+  "expectedContractDigest": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+  "reason": "Isolated WI-1088 regression fixture only; no real Work Item or human authority.",
+  "changes": [
+    {
+      "path": "/goal",
+      "operation": "set",
+      "value": "Keep the post-checkpoint amended plan natively inspectable"
+    }
+  ]
+}

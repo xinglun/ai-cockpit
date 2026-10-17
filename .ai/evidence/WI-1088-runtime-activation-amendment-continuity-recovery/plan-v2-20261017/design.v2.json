@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_authored_technically_approved_implementation_plan_not_native_human_approval",
+  "status": "technical_scope_approved_pending_native_amendment_and_actual_human_gate",
+  "recordedAt": "2026-10-17T08:17:18.252208+00:00",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "author": "agent:Codex",
+  "technicalReviewer": "agent:Raydot",
+  "baseRevision": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+  "independence": {
+    "blockedWorkItem": "WI-1087-contract-authority-scope-and-expiry",
+    "relationship": "independent Runtime defect repair; not successor/supersede/closure/rebaseline of WI-1087",
+    "protectedHead": "9093ebe1bbccbf2a3429d953c497fa3847f6e474"
+  },
+  "currentAuthority": "Save/push revised technical plan; native amend exact scope; obtain and return actual fresh human request. No product edits before native admission; no start replay; no real WI-1087 recovery.",
+  "problem": "activate_not_ready_scaffold legitimately writes a new active Contract outside the amendment journal; current_amendment_review_request_available later requires every adjacent amendment Contract digest to join. A pre-checkpoint amendment, activation, checkpoint and post-checkpoint amendment can therefore durably commit and then fail post-action admission.",
+  "observedFacts": {
+    "seq4Contract": "sha256:dd79d522e74822cf4e440b025dc6d758920e221c2913241f8d558c6dd6f7eec5",
+    "reviewedP1Contract": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+    "seq5Contract": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+    "journal4EqualsJournal5Predecessor": "sha256:02c3d3aee1f2397997da9a9c1f9f7c46b4c4ec8bd5bfeb500d78cd847f66f728",
+    "seq5Journal": "sha256:7b99726f1098a412ee2700d2728c81eddad60fb050e8f209aa2b6aa46e22e809",
+    "startEventTime": "2026-10-17T03:01:32.455200812Z",
+    "rawStartArgvAndCompleteOutput": "not retained; must remain unknown",
+    "staticReconstruction": "The observed activation-owned field updates and exact legacy CSV split reproduce the stored P1 Contract byte values. This is not proof that an authenticated historical A-to-B transition occurred.",
+    "p1HumanReview": "The existing complete B review proves B was reviewed; it does not prove arbitrary A-to-B history.",
+    "currentNativeStatus": "WI-1087 remains blocked; sequence 5 committed, no pending transaction, P1 bytes preserved."
+  },
+  "selectedSafetyApproach": {
+    "automaticLegacyInference": false,
+    "futureActivations": "Native writer records an immutable, typed, actual-time activation transition, with pinned repository/WI/root ownership, A/B Contract digests, journal head, input fingerprint, Runtime identity and prepared/committed phase. Consumers verify the exact record and checkpoint anchors.",
+    "legacyGap": "Because the original transition receipt/argv is absent, do not manufacture a retrospective activation receipt. Generate a separate native present-time recovery request and, only on the actual bound human response, append a reviewed current-baseline recovery record.",
+    "presentRecordMeaning": "Accept only an explicitly reviewed present baseline for generating the next fresh Contract preflight request. historicalTransitionAuthentication remains unknown; recordedAt is now; businessAuthorityGranted is false.",
+    "noBroadCsvExemption": "Legacy outOfScope CSV fragmentation is a separately enumerated exact discrepancy with old/new array digests and explicit present review. It never authorizes arbitrary scope/authority/actor/acceptance/source changes.",
+    "newSurfaces": "Proposed dedicated activation-recovery request/record metadata actions shared by CLI and MCP; avoid overloading old confirm_review or raw governance-controls as a recovery permit.",
+    "reviewStatus": "Raydot technical approval relayed and preserved. Native current amended-Contract human decision remains required and is not recorded."
+  },
+  "invariants": [
+    "Keep every existing journal/prepared/committed record and native receipt byte-for-byte. Validate all per-record derivation, digests, sequence and journal links before considering any activation boundary.",
+    "Keep request_binding_rejects_a_rehashed_discontinuous_contract_chain and strengthen coverage; never remove global integrity checks as a shortcut.",
+    "A forward activation transition must bind exact A and B, the same repository/WI and pinned active owner/root, actual Runtime, source observations and journal checkpoint. Missing or forged evidence cannot be replaced by matching strings.",
+    "Any unaccounted scope, authority, actor or other human-plan expansion rejects. A B-only review is historical context, not A-to-B authentication.",
+    "A legacy recovery request is eligible only when all required start/checkpoint/history/ownership bindings exist and all discrepancies are within the explicitly reviewed finite policy. Missing, foreign, contradictory or extra plan changes reject without a request or record.",
+    "The current recovery record must bind current Contract, current Summary/source snapshot, exact immutable history/tail and raw evidence, Runtime/registration identity, exact request digest and actual human response. Recheck CAS/currentness immediately before its immutable write.",
+    "No pending prepared/committed mismatch is accepted for recovery request/record. An unrelated incoming amendment/CAS conflict must never silently finish another prepared operation.",
+    "Prepared-only or partially written forward/recovery evidence is not a committed transition. Keep actual phase/unknown state; do not auto-report completion or delete artifacts.",
+    "The present record does not rewrite history, backdate a receipt, count an old B review as a new decision, grant business actions or approve the current C Contract.",
+    "After a valid present recovery record, obtain a fresh native preflight for the current Contract and separately satisfy its actual human gate before product work.",
+    "No P2a/P2b functionality, source grant, real authority policy, IAM/system permission, process supervisor, remote trusted-time dependency or authorization database.",
+    "No direct experiment against WI-1087 state, no start/amend replay, no deletion of sequence 5 and no new WI used to replace or bypass WI-1087."
+  ],
+  "implementationStages": [
+    {
+      "id": "G0",
+      "authority": "authorized now",
+      "deliverable": "Preserve reviewed source and revised plan/brief; normal commit/push; native amend from current active Contract with no start replay; return exact actual human request and stop."
+    },
+    {
+      "id": "R1",
+      "authority": "only after actual native human gate and current admission",
+      "deliverable": "Real isolated temporary-repository RED reproduction before the fix; retain exact original failure bytes."
+    },
+    {
+      "id": "R2",
+      "authority": "after R1 and admitted implementation",
+      "deliverable": "Strict forward transition writer and shared integrity validation; typed native present-time recovery plan/record; prospective validation before transaction publication."
+    },
+    {
+      "id": "R3",
+      "authority": "after admitted implementation",
+      "deliverable": "All retained negative tests, exact MCP 33-to-actual-count/name/schema regressions, three-language command/brief/WI-only parity updates and real declared verification/CI."
+    },
+    {
+      "id": "R4",
+      "authority": "separate reviewed Runtime delivery and actual original-WI recovery authority; not authorized by this request",
+      "deliverable": "No current action on original WI-1087; preserve all P1/history bytes and return only through future native admission."
+    }
+  ],
+  "boundedReproductionNotRun": {
+    "environment": "Fresh temporary Git repository and dedicated linked worktree using the existing test fixture facilities; local bare remote only, no network/provider/grant.",
+    "sequence": [
+      "Create a real native not_ready scaffold on base A.",
+      "Apply a real typed pre-checkpoint amendment and retain its exact prepared/committed bytes.",
+      "Advance the observed local default base to B where needed and invoke actual start --prepare with controlled fixture governance inputs.",
+      "Record only fixture-scoped review and one checkpoint inside the temporary test repository.",
+      "Apply a second real typed amendment; assert the pre-fix durable commit/post-admission continuity failure, count pairs and preserve output.",
+      "After the implementation exists, repeat the fixture with the candidate and require explicit recovery gating or validated forward evidence; no automatic business admission."
+    ],
+    "budget": "One worker and one local heavy build at a time; no long sleeps; each command node <=900 seconds; isolated target. This planning task runs no heavy build or reproduction."
+  },
+  "requiredNegativeMatrix": [
+    "Resealed discontinuous post-checkpoint Contract chain",
+    "Missing start fact or checkpoint source pair",
+    "Foreign repository/WI/worktree owner or changed registration",
+    "Extra scope/authority/actor/acceptance/source changes",
+    "CSV discrepancy other than the exact explicitly reviewed legacy case",
+    "Old B review substituted for a new recovery/current Contract decision",
+    "Stale request/current Contract/Summary/history head or CAS conflict",
+    "Pending prepared transaction or partially written activation/recovery record",
+    "Unknown Runtime capability, unsupported older adapter and raw/no-Runtime writer injection",
+    "CLI/MCP disagreement, duplicate mismatched decision or record publication failure"
+  ],
+  "compatibility": "Readable old evidence remains historical. A legacy gap is blocked until the explicitly reviewed present record exists; no automatic migration or silent downgrade. Unsupported runtimes cannot consume the new recovery action.",
+  "resourcePlan": {
+    "freeGiBAtDiscovery": 26.87,
+    "heavyBuildsStarted": 0,
+    "buildWorkers": 1,
+    "cargoHome": "/workspace/.cloud-tools/cargo",
+    "rustupHome": "/workspace/.cloud-tools/rustup",
+    "futureIsolatedTarget": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity",
+    "existingRuntimeReused": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+  },
+  "nativeEntryPreparation": "The actual WI-1088 is already started in mode implementation/state implementation_active. Expand the exact reviewed scope using one strict native amend and fresh preflight. Do not call start again or rewrite mode; no manual generated-record changes.",
+  "productImplementationAllowedNow": false,
+  "actualHumanDecisionRecorded": false,
+  "successorWorkItemId": null,
+  "authoritySource": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/technical-approval-source.json",
+  "currentExecutionBoundary": "Only governance/plan/brief edits and native scope amendment/request production now. Product, test code, reproduction and builds wait for the actual current native human gate.",
+  "originalPlanOnlyScope": [
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.contract.json",
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json",
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.intelligence.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/**",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.contract-amendments/**",
+    "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.md",
+    "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.zh-CN.md",
+    "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.ja.md"
+  ],
+  "approvedImplementationScope": [
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "originalCandidate": true,
+      "reason": "Shared complete integrity/continuity assessment, strict activation evidence and present recovery validation, pre-publication prospective checks and immutable recovery request/record."
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "originalCandidate": true,
+      "reason": "Activation boundary and legacy recovery, immutable-history/CAS/pending/foreign-binding negatives, existing rehashed-discontinuous test remains strict."
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "originalCandidate": true,
+      "reason": "Actual temporary-repository CLI reproduction first; common CLI/MCP request/record and no-write failure behavior."
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "originalCandidate": false,
+      "reason": "Forward native activation evidence and bounded lock/phase handling; refuse unexplained human-plan changes before writing rather than emitting a fictitious bridge."
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "originalCandidate": false,
+      "reason": "Standalone strict activation/request/recovery record types and explicit capability discovery; no new Contract root field or real grant."
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "originalCandidate": false,
+      "reason": "Expose only the bounded metadata recovery path for precisely eligible gaps while retaining the blocker and withholding business actions. Other invalid cases fail closed."
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "originalCandidate": false,
+      "reason": "Current explicit contract_amendment exports do not expose the proposed common request/record APIs; add only the narrow exports needed by both adapters."
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "originalCandidate": false,
+      "reason": "Explicit native request/record command dispatch; no fallback to old start/amend/review commands."
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "originalCandidate": false,
+      "reason": "Strict schemas and dispatch to the same request/record repository APIs; unsupported older surfaces remain unsupported."
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "originalCandidate": false,
+      "reason": "Actual forward activation writer, phase failures, missing record, plan-field mismatch, duplicate/pending/CAS and ownership tests."
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "originalCandidate": false,
+      "reason": "Preserve exact MCP tool-count assertion; with two new tools assert 35 and exact recovery names/strict schemas while retaining material review regression."
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "originalCandidate": false,
+      "reason": "Preserve exact tools/list count and usage schema regression; assert exact recovery names/schemas, no lower-bound replacement or removed assertions."
+    }
+  ],
+  "approvedDocumentationScope": [
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "documentationRestriction": "Only WI-1088 actual-stage rows in reference-parity; preserve every other WI conclusion byte-for-byte. Commands and own briefs must agree across English/Chinese/Japanese and never claim unrun acceptance.",
+  "finiteTransitionPolicy": {
+    "forwardAllowedFields": [
+      "/state: exactly not_ready -> implementation_active",
+      "/baseRevision: exact Runtime-observed default base",
+      "/repositorySnapshotDigest: exact Runtime-observed snapshot"
+    ],
+    "forwardStage": "Exact initial activation before the first checkpoint; same pinned owner/repository/WI; one prepared/committed transition anchored to the immutable journal. Every other human-plan field must remain identical; intended edits require their own amendment.",
+    "legacyAllowedFields": [
+      "The same three activation-owned fields at the exact stored pre-first-checkpoint boundary",
+      "/outOfScope: only the exact finite legacy CSV fragmentation with complete old/new arrays and digests enumerated in the present request"
+    ],
+    "legacyStage": "Only the identified activation boundary supported by the required start/checkpoint/source bindings; no post-checkpoint unexplained gap. Missing original argv or transition authentication stays unknown.",
+    "differenceSummary": "Native request enumerates field path, old/new values or digests, stage, exact A/B and history anchors, all retained unknowns; human reviews this finite present baseline rather than a broad exemption."
+  },
+  "prospectivePublicationInvariant": "Validate complete current history AND candidate Contract transition under the same lock/current CAS before publishing any new prepared/committed transaction. Reject a wrong request without finishing any unrelated pending operation.",
+  "plannedNativeSurface": {
+    "cli": "work-item activation-recovery plan|record",
+    "mcp": [
+      "work_item_activation_recovery_plan",
+      "work_item_activation_recovery_record"
+    ],
+    "currentExactToolCount": 33,
+    "plannedExactToolCountIfTwoAdded": 35,
+    "protocolTypes": [
+      "ActivationTransitionRecord with prepared/committed phase evidence",
+      "ActivationRecoveryRequest",
+      "ActivationRecoveryDecision",
+      "ActivationRecoveryRecord"
+    ],
+    "contractRootFieldAdded": false,
+    "sharedApis": [
+      "plan_activation_recovery(root: &Path, work_item_id: &str, runtime: &RuntimeContext) -> Result<ActivationRecoveryRequest, ObserverError>",
+      "record_activation_recovery(root: &Path, work_item_id: &str, decision: &ActivationRecoveryDecision, runtime: &RuntimeContext) -> Result<ActivationRecoveryRecord, ObserverError>"
+    ]
+  },
+  "legacyActualDecisionRequirement": "A real authorized human must explicitly accept the exact NOW-bound baseline, finite differences and retained historical uncertainty in the native request. Preserve actual response, actor, recorder and request digest; recheck currentness/CAS at write. Old B review, technical approval of this implementation, guessed actor strings or existing controls cannot substitute. This allows only fresh preflight request generation, not approval of current C or business authority."
+}

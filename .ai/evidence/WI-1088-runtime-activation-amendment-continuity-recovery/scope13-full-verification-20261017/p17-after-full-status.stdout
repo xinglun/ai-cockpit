@@ -1,0 +1,6 @@
+Status: WI-1088-runtime-activation-amendment-continuity-recovery
+Lifecycle: checkpointed
+Governance: yellow
+Activity health: active
+Unknowns: intent_alignment_insufficient, repository_material_inspection_unavailable, required_scenario_unverified, scenario_coverage_insufficient, user_visible_benefit_not_declared
+Next action: read `work-item outcome --repo <path> --id WI-1088-runtime-activation-amendment-continuity-recovery`

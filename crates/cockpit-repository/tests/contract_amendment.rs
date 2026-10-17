@@ -115,6 +115,180 @@ fn typed_request(
 }
 
 #[test]
+fn ordinary_amendment_cannot_obtain_or_inject_activation_recovery() {
+    let directory = repository();
+    let root = directory.path();
+    let id = "WI-NO-ACTIVATION-GAP";
+    let contract = start_checkpointed(root, id);
+    amend_work_item_contract(
+        root,
+        id,
+        &json!({"scopeAppend":["extra/**"]}),
+        "a normal recorded plan change",
+    )
+    .expect("ordinary amendment");
+    let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before_contract = fs::read(&contract).expect("Contract bytes");
+    let before_summary = fs::read(&summary).expect("Summary bytes");
+    let runtime = cockpit_protocol::RuntimeContext {
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"isolated library fixture"),
+    };
+    assert!(cockpit_repository::plan_activation_recovery(root, id, &runtime).is_err());
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(root, id, &runtime)
+        .expect("ordinary status");
+    assert!(!status.safe_actions.iter().any(
+        |action| action == "plan_activation_recovery" || action == "record_activation_recovery"
+    ));
+    assert!(
+        record_work_item_governance_controls(
+            root,
+            id,
+            &json!({"activationRecovery":{
+                "historicalTransitionAuthentication":"authenticated","businessAuthorityGranted":true
+            }})
+        )
+        .is_err(),
+        "raw controls are not a recovery entry point"
+    );
+    assert_eq!(
+        fs::read(contract).expect("Contract unchanged"),
+        before_contract
+    );
+    assert_eq!(
+        fs::read(summary).expect("Summary unchanged"),
+        before_summary
+    );
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{id}.activation-recovery"))
+            .exists()
+    );
+}
+
+#[test]
+fn summary_only_controls_cannot_accept_orphan_activation_markers() {
+    for marker in ["activationContinuity", "activationRecovery"] {
+        let directory = tempfile::tempdir().expect("Summary-only compatibility fixture");
+        let root = directory.path();
+        let active = root.join(".ai/work-items/active");
+        fs::create_dir_all(&active).expect("active metadata");
+        let summary_path = active.join("WI-ORPHAN-CONTROLS.summary.json");
+        let mut summary = json!({"state":"checkpointed", "checkpointCount":1});
+        summary[marker] = json!({"claimed":"without native proof"});
+        let before = serde_json::to_vec(&summary).expect("Summary bytes");
+        fs::write(&summary_path, &before).expect("fixture Summary");
+        let error = record_work_item_governance_controls(
+            root,
+            "WI-ORPHAN-CONTROLS",
+            &json!({"intentAlignment":{"state":"unknown"}}),
+        )
+        .expect_err("Summary-only compatibility cannot write around a native marker");
+        assert!(error.to_string().contains("Runtime entry point"), "{error}");
+        assert_eq!(fs::read(&summary_path).expect("unchanged Summary"), before);
+        assert!(!active.join("WI-ORPHAN-CONTROLS.contract.json").exists());
+    }
+}
+
+#[test]
+fn summary_only_controls_reject_existing_native_entries_before_projection() {
+    let cases = vec![
+        ("activation-transition", false),
+        ("activation-recovery", false),
+    ];
+    #[cfg(unix)]
+    let cases = {
+        let mut cases = cases;
+        cases.extend([
+            ("activation-transition", true),
+            ("activation-recovery", true),
+            ("contract", true),
+        ]);
+        cases
+    };
+    for (kind, dangling) in cases {
+        let directory = tempfile::tempdir().expect("Summary-only native-entry fixture");
+        let root = directory.path();
+        let active = root.join(".ai/work-items/active");
+        fs::create_dir_all(&active).expect("active metadata");
+        let summary_path = active.join("WI-ENTRY-CONTROLS.summary.json");
+        let before = br#"{"state":"checkpointed","checkpointCount":1}"#;
+        fs::write(&summary_path, before).expect("fixture Summary");
+        let entry = if kind == "contract" {
+            active.join("WI-ENTRY-CONTROLS.contract.json")
+        } else {
+            let evidence = root.join(".ai/evidence");
+            fs::create_dir_all(&evidence).expect("evidence parent");
+            evidence.join(format!("WI-ENTRY-CONTROLS.{kind}"))
+        };
+        if dangling {
+            #[cfg(unix)]
+            std::os::unix::fs::symlink(root.join("missing-target"), &entry)
+                .expect("dangling native entry");
+        } else {
+            fs::create_dir(&entry).expect("partial native directory");
+        }
+        let result = record_work_item_governance_controls(
+            root,
+            "WI-ENTRY-CONTROLS",
+            &json!({"intentAlignment":{"state":"unknown"}}),
+        );
+        if result.is_ok() {
+            let retained = directory.keep();
+            panic!(
+                "Summary-only compatibility ignored native entry {kind} dangling={dangling}; retained {}",
+                retained.display()
+            );
+        }
+        assert_eq!(fs::read(&summary_path).expect("unchanged Summary"), before);
+    }
+}
+
+#[test]
+fn prospective_chain_rejects_an_unjournaled_current_contract_before_publication() {
+    let directory = repository();
+    let root = directory.path();
+    let id = "WI-PROSPECTIVE-CONTRACT-CHAIN";
+    let contract_path = start_checkpointed(root, id);
+    amend_work_item_contract(
+        root,
+        id,
+        &json!({"scopeAppend":["first/**"]}),
+        "first native amendment",
+    )
+    .unwrap();
+    let mut current = read_json(&contract_path);
+    current["goal"] = json!("an unexplained current Contract boundary");
+    fs::write(&contract_path, serde_json::to_vec(&current).unwrap()).unwrap();
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before_contract = fs::read(&contract_path).unwrap();
+    let before_summary = fs::read(&summary_path).unwrap();
+    let history = root.join(format!(".ai/evidence/{id}.contract-amendments"));
+    let prepared = fs::read(history.join("00000001.prepared.json")).unwrap();
+    let committed = fs::read(history.join("00000001.committed.json")).unwrap();
+    let request = json!({"schemaVersion":1,"changeId":"do-not-publish-over-a-gap",
+        "expectedContractDigest":cockpit_protocol::digest_json(&current).unwrap(),
+        "reason":"An exact current CAS does not explain the old-to-current boundary.",
+        "changes":[{"path":"/goal","operation":"set","value":"a further proposed change"}]});
+    let error = amend_work_item_contract(root, id, &request, "")
+        .expect_err("reject before any new prepared phase");
+    assert!(error.to_string().contains("discontinuous"), "{error}");
+    assert!(!history.join("00000002.prepared.json").exists());
+    assert!(!history.join("00000002.committed.json").exists());
+    assert_eq!(fs::read(contract_path).unwrap(), before_contract);
+    assert_eq!(fs::read(summary_path).unwrap(), before_summary);
+    assert_eq!(
+        fs::read(history.join("00000001.prepared.json")).unwrap(),
+        prepared
+    );
+    assert_eq!(
+        fs::read(history.join("00000001.committed.json")).unwrap(),
+        committed
+    );
+}
+
+#[test]
 fn typed_request_replaces_goal_without_rewriting_identity() {
     let directory = repository();
     let root = directory.path();

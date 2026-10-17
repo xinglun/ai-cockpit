@@ -1,0 +1,70 @@
+Work Item scaffold created.
+
+Known facts:
+  repositoryId              resolved
+  baseRevision              resolved
+  projectProfileDigest      resolved
+  repositorySnapshotDigest resolved
+
+Human input required:
+  intent
+  scope
+  acceptanceCriteria
+  authority
+
+Start cleanup advisory: clear
+
+Next actions:
+  proceed_with_start_entry_checks
+
+State: not_ready
+
+{
+  "workItemId": "WI-TEST-ACTIVATION-GAP",
+  "mode": "implementation",
+  "contractPath": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo/.ai/work-items/active/WI-TEST-ACTIVATION-GAP.contract.json",
+  "state": "not_ready",
+  "knownFacts": {
+    "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+    "baseRevision": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+    "projectProfileDigest": "sha256:7687037d458f4179f7548b0cd3149a959e2c2de1582bea0edb82418f520ac58e",
+    "repositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea"
+  },
+  "humanInputRequired": [
+    "intent",
+    "scope",
+    "acceptanceCriteria",
+    "authority"
+  ],
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+    "workItemId": "WI-TEST-ACTIVATION-GAP",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo",
+      "branch": "fixture/activation-gap",
+      "head": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo",
+        "branch": "fixture/activation-gap",
+        "head": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}

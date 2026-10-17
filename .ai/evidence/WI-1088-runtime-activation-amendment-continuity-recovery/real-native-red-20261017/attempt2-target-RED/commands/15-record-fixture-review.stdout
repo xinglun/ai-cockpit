@@ -1,0 +1,49 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/evidence/WI-TEST-ACTIVATION-GAP.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-TEST-ACTIVATION-GAP.contract-amendments/00000001.prepared.json",
+    ".ai/locks/WI-TEST-ACTIVATION-GAP.lifecycle.lock",
+    ".ai/project.json",
+    ".ai/work-items/active/WI-TEST-ACTIVATION-GAP.contract.json",
+    ".ai/work-items/active/WI-TEST-ACTIVATION-GAP.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-17T08:50:28Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+    "reason": "Synthetic fixture input only, not a real human response or WI-1087 historical proof.",
+    "recordedAt": "2026-10-17T08:50:29.035340+00:00",
+    "recordedBy": "fixture:WI1088-isolated-test-only",
+    "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+    "repositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+    "schemaVersion": 1,
+    "workItemId": "WI-TEST-ACTIVATION-GAP"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-17T08:50:28.833804131Z",
+      "recordedAt": "2026-10-17T08:50:28.833804131Z",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-17T08:50:28Z",
+  "preflightContractDigest": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-17T08:50:29.122770100+00:00",
+  "workItemId": "WI-TEST-ACTIVATION-GAP"
+}

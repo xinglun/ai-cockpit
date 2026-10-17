@@ -1,0 +1,98 @@
+{
+  "changeId": "before-activation",
+  "changedValues": [
+    {
+      "newValue": "Exercise the native activation continuity boundary in an isolated fixture",
+      "oldValue": "",
+      "operation": "set",
+      "path": "/intent"
+    },
+    {
+      "newValue": "Keep native journal transitions reviewable across activation",
+      "oldValue": "",
+      "operation": "set",
+      "path": "/goal"
+    },
+    {
+      "newValue": [
+        "README.md"
+      ],
+      "oldValue": [],
+      "operation": "replace",
+      "path": "/scope"
+    },
+    {
+      "newValue": [
+        "No external providers grants or real Work Items"
+      ],
+      "oldValue": [],
+      "operation": "replace",
+      "path": "/outOfScope"
+    },
+    {
+      "newValue": "normal",
+      "oldValue": "unknown",
+      "operation": "set",
+      "path": "/risk"
+    },
+    {
+      "newValue": "authorized",
+      "oldValue": "unknown",
+      "operation": "set",
+      "path": "/authority"
+    },
+    {
+      "newValue": [
+        "A post-checkpoint amendment must remain inspectable without a discontinuous Contract chain"
+      ],
+      "oldValue": [],
+      "operation": "replace",
+      "path": "/acceptanceCriteria"
+    },
+    {
+      "newValue": [
+        "git diff --check"
+      ],
+      "oldValue": [],
+      "operation": "replace",
+      "path": "/verification"
+    },
+    {
+      "newValue": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "operation": "set",
+      "path": "/requiredRuntimeCapabilities"
+    }
+  ],
+  "checkpointed": false,
+  "environmentObservationDigest": "sha256:80ee04fd2d6ff5ef6c49c284bd1c39a766fecd7808f6e758de3fcdbaa7e6ea47",
+  "invalidatedEvidence": [],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:ab6317f6bbc443d2b9f2d3d666a04d96a0dd8c0db37639ad357a0ca87cc1a0f0",
+  "newContractDigest": "sha256:4c01e8c5213d316dc5ea31553244066b62309f8d975b55fdd83bda9160f2b9f1",
+  "nextAction": "record_governance_controls",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/acceptanceCriteria",
+    "/authority",
+    "/outOfScope",
+    "/risk",
+    "/scope",
+    "/verification"
+  ],
+  "previousContractDigest": "sha256:55b15f79df7f67ed7292015afe19cb8ceef7b0c0fb10d1849f713a28dfdde691",
+  "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+  "reason": "Isolated WI-1088 regression fixture only; no real Work Item or human authority.",
+  "recordedAt": "2026-10-17T08:50:28Z",
+  "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+  "repositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+  "requestDigest": "sha256:c1b61436072eb8398d7afc543c85b14fcccd8077a86a6e0bffc496c687b9fe91",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "verificationStarted": false,
+  "workItemId": "WI-TEST-ACTIVATION-GAP"
+}

@@ -93,7 +93,8 @@ pub use collaboration::{
     run_composition_supervisor_stdio,
 };
 pub use contract_amendment::{
-    ContractAmendmentChangedValue, ContractAmendmentReceipt, read_work_item_contract_amendments,
+    ContractAmendmentChangedValue, ContractAmendmentReceipt, plan_activation_recovery,
+    read_work_item_contract_amendments, record_activation_recovery,
 };
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
@@ -121,6 +122,58 @@ use execution_context::{
     effective_verification_environment, execution_environment_digest_from_values,
 };
 pub use governance_controls::*;
+
+/// Compatibility controls cannot supply the Runtime identity required by
+/// activation continuity/recovery. Those items use the admitted Runtime
+/// entry point and the separate typed baseline decision instead.
+pub fn record_work_item_governance_controls(
+    root: &Path,
+    work_item_id: &str,
+    controls: &serde_json::Value,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let entry_exists = |path: &Path| match fs::symlink_metadata(path) {
+        Ok(_) => Ok(true),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(false),
+        Err(source) => Err(ObserverError::Read {
+            path: path.into(),
+            source,
+        }),
+    };
+    for suffix in ["activation-transition", "activation-recovery"] {
+        if entry_exists(&root.join(format!(".ai/evidence/{work_item_id}.{suffix}")))? {
+            return Err(ObserverError::State { path: root, message: "activation continuity controls require the current Runtime entry point; raw controls cannot record recovery".into() });
+        }
+    }
+    let summary_path = root.join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    if read_json(&summary_path).is_ok_and(|summary| {
+        !summary["activationContinuity"].is_null() || !summary["activationRecovery"].is_null()
+    }) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "activation continuity controls require the current Runtime entry point"
+                .into(),
+        });
+    }
+    let contract_path = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    if entry_exists(&contract_path)? {
+        let history = contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?;
+        let digest = contract_digest(&contract_path)?;
+        contract_amendment::validate_transition_chain(
+            &root,
+            work_item_id,
+            &history,
+            Some(&digest),
+        )?;
+    }
+    governance_controls::record_work_item_governance_controls(&root, work_item_id, controls)
+}
 pub(crate) use historical_compatibility::{
     canonical_close_decisions, close_decision_is_valid_for_status,
     infer_legacy_shared_worktree_retained, is_canonical_close_decision,
@@ -5282,7 +5335,7 @@ fn governance_decision_for_pre_execution_quality_gate(
         Some(pre_execution_evidence),
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, decision, archived)
+    apply_current_preflight_review_evidence(root, contract, decision, archived)
 }
 
 /// Evidence that may authorize starting or finishing the current source
@@ -7068,7 +7121,8 @@ pub fn governance_decision_for_observation_context(
         None,
         Some(observation),
     )?;
-    let decision = apply_preflight_review_evidence(observation.root(), contract, decision, false)?;
+    let decision =
+        apply_current_preflight_review_evidence(observation.root(), contract, decision, false)?;
     observation.validate_current()?;
     Ok(decision)
 }
@@ -7134,7 +7188,7 @@ fn governance_decision_for_archived_contract_internal(
         evidence_override,
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, decision, true)
+    apply_current_preflight_review_evidence(root, contract, decision, true)
 }
 
 fn governance_decision_for_contract_internal_with_archive(
@@ -7153,7 +7207,7 @@ fn governance_decision_for_contract_internal_with_archive(
         None,
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, decision, archived)
+    apply_current_preflight_review_evidence(root, contract, decision, archived)
 }
 
 fn governance_decision_for_contract_base_internal_with_archive(
@@ -7387,6 +7441,34 @@ mod amendment_review_projection_tests {
     }
 }
 
+/// Current work admission validates the full continuity chain before it
+/// projects a review. Historical lifecycle reconstruction uses the separate
+/// evidence projection below and does not admit work in that old checkout.
+fn apply_current_preflight_review_evidence(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    decision: GovernanceDecision,
+    archived: bool,
+) -> Result<GovernanceDecision, ObserverError> {
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.contract.json", contract.work_item_id));
+    if !archived && !contract.work_item_id.trim().is_empty() && contract_path.is_file() {
+        let history =
+            contract_amendment::read_work_item_contract_amendments(root, &contract.work_item_id)?;
+        let digest = contract_digest(&contract_path)?;
+        contract_amendment::validate_transition_chain(
+            root,
+            &contract.work_item_id,
+            &history,
+            Some(&digest),
+        )?;
+    }
+    apply_preflight_review_evidence(root, contract, decision, archived)
+}
+
+/// Project recorded review evidence. This helper also reconstructs immutable
+/// historical finish semantics; current admission must use the wrapper above.
 fn apply_preflight_review_evidence(
     root: &Path,
     contract: &cockpit_protocol::Contract,
@@ -7410,10 +7492,24 @@ fn apply_preflight_review_evidence(
         || decision.outcome_state == "blocked"
         || !decision.blockers.is_empty();
     let contract_digest = contract_digest(&contract_path)?;
-    let evidence_state =
+    let summary = read_json(&root.join(format!(
+        ".ai/work-items/active/{}.summary.json",
+        contract.work_item_id
+    )))?;
+    let recovery_fresh_review = contract_amendment::activation_recovery_needs_fresh_review(
+        root,
+        &contract.work_item_id,
+        &contract_digest,
+        &summary,
+    )?;
+    let mut evidence_state =
         preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest);
+    if recovery_fresh_review.is_some() {
+        evidence_state = governance_controls::PreflightDecisionEvidenceState::Missing;
+    }
     let sensitive_amendment =
-        contract_amendment::has_sensitive_amendment(root, &contract.work_item_id)?;
+        contract_amendment::has_sensitive_amendment(root, &contract.work_item_id)?
+            || recovery_fresh_review.is_some();
     if sensitive_amendment {
         if evidence_state == governance_controls::PreflightDecisionEvidenceState::Valid {
             // A valid receipt is bound to this exact Contract and preflight
@@ -7471,6 +7567,14 @@ fn apply_preflight_review_evidence(
                 question: "Do you confirm the current amended Contract for continued work?".into(),
                 resume_condition: "A fresh preflight decision receipt matches the current Contract and repository snapshot.".into(),
             });
+            if let Some((request, _)) = &recovery_fresh_review
+                && let Some(human_request) = decision.human_decision_request.as_mut()
+            {
+                human_request.question = format!(
+                    "Do you confirm the current Contract after present-baseline recovery {}? Historical activation authentication remains unknown. The recovery record did not approve this Contract.",
+                    request.request_digest
+                );
+            }
         }
     }
     match evidence_state {
@@ -7862,7 +7966,7 @@ fn require_green_governance_internal(
             current_runtime,
             None,
         )?;
-        let decision = apply_preflight_review_evidence(root, contract, decision, false)?;
+        let decision = apply_current_preflight_review_evidence(root, contract, decision, false)?;
         if decision.state != DecisionState::Green {
             return Err(ObserverError::State {
                 path: contract_path.to_path_buf(),
@@ -12486,6 +12590,25 @@ fn outcome_v2_internal_with_snapshot(
     // digest and the strict evidence validator still passes.
     let current_summary_path = active.join(format!("{work_item_id}.summary.json"));
     let current_summary = read_json(&current_summary_path).ok();
+    let continuity_managed = current_summary.as_ref().is_some_and(|summary| {
+        !summary["activationContinuity"].is_null() || !summary["activationRecovery"].is_null()
+    }) || ["activation-transition", "activation-recovery"].iter().any(
+        |suffix| {
+            fs::symlink_metadata(root.join(format!(".ai/evidence/{work_item_id}.{suffix}"))).is_ok()
+        },
+    );
+    if !archived && continuity_managed {
+        // An evidence-only Outcome cannot hide a partial/orphan native
+        // transition merely because the software receipt is still valid.
+        let history = contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?;
+        let digest = contract_digest(&contract_path)?;
+        contract_amendment::validate_transition_chain(
+            &root,
+            work_item_id,
+            &history,
+            Some(&digest),
+        )?;
+    }
     let recovery_projection_reconciled = if !archived {
         current_summary
             .as_ref()
@@ -12621,6 +12744,13 @@ fn outcome_v2_internal_with_snapshot(
     let summary_value = summary_path
         .as_deref()
         .and_then(|path| read_json(path).ok());
+    if summary_value.as_ref().is_some_and(|summary| {
+        summary["activationRecovery"]["historicalTransitionAuthentication"] == "unknown"
+    }) {
+        unknowns.push("historical_transition_authentication_unknown".into());
+        unknowns.sort();
+        unknowns.dedup();
+    }
     let task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
         contract_path: &contract_path,

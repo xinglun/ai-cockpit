@@ -1,0 +1,7 @@
+# Actual finish block after technical acceptance
+
+p15 native33/33 and exact ead9 CI39037114023 attempt2 passed. Agent Codex initiated the one quality-job retry after preserving the real attempt1 process-observation failure. The old failure is not a mail/cache error, and its root cause remains unknown; final success does not prove an intermittent environment cause.
+
+Actual controls recorded11/11 scenarios and12/12 acceptance. Status then admitted/recommended finish, but the actual finish failed on canonical repository_material_inspection_unavailable. The generated blocked Summary/Outcome/events and exact command streams are retained. Current Runtime status is red, verification unknown, lifecycle checkpointed; it does not admit finish or verification. The unchanged formal receipt still records the historical33/33 pass; do not use that history to override current admission.
+
+Read-only material-review plan isolates one reviewable readable_committed_rust_syntax_unknown in crates/cockpit-repository/tests/contract_amendment.rs, with no findings. Review is disabled (material_review_not_enabled), profile digest null. The next owner decision is whether to authorize the native Contract opt-in; no opt-in, material review record, recovery reset or fresh human confirmation is invented. humanDecisionRequired=false is an actual current Runtime fact. Bindings here were observed at ead9 and must be refreshed after any preservation-only commit.

@@ -1,0 +1,8 @@
+{
+  "kind": "actual_fixture_setup_failure_not_the_target_RED",
+  "observation": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017/commands/13-amend-before-activation.json",
+  "exitCode": 1,
+  "reason": "Strict native amendment rejected set on structured scope array: set_requires_leaf; use replace.",
+  "correction": "Use replace for array/object values in the fixture helper; scalar fields retain set. Preserve attempt1 and use a fresh attempt2 directory.",
+  "productCodeChanged": false
+}

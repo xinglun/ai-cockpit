@@ -1,0 +1,15 @@
+{
+  "kind": "agent_record_of_actual_exec_permission_arguments_not_native_environment_attestation",
+  "sourceCodeUnchanged": true,
+  "nativeBudgetSecondsUnchanged": 600,
+  "reproduction": "p09-default-cache-reproduction: native node Cargo101,0passed/1failed",
+  "comparison": "p10-default-cache-leaf-write:1passed/0failed,node716ms,no timeout/no truncation",
+  "wholeTarget": "p11-verification-service-leaf-complete:17passed/0failed,node5551ms,no timeout/no truncation",
+  "mechanism": "exec_command sandbox_permissions=with_additional_permissions",
+  "additionalWritePaths": [
+    "/home/agent/.cache/ai-cockpit-verify-target/"
+  ],
+  "scope": "only the current command and descendants; HOME, parent directories, chmod and global config were not changed",
+  "diagnosis": "The existing test deliberately removes CARGO_TARGET_DIR; execution_context defaults internal Cargo to the HOME cache leaf plus canonical-checkout hash. The controlled permission-only comparison resolves its failed inner receipt.",
+  "fullRoutePlan": "The forthcoming complete33-node native run will use this exact leaf permission; its repository package will completely rerun. No extra duplicate package run is launched; no full-package pass is inferred from the focused result."
+}

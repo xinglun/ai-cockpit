@@ -1,0 +1,3 @@
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1088-runtime-continuity/crates/cockpit-mcp)
+    Finished `test` profile [unoptimized] target(s) in 0.56s
+     Running tests/usage.rs (target/wi1088-runtime-continuity/debug/deps/usage-20a6f5caf86355f7)

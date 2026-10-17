@@ -22,7 +22,53 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("tools");
-    assert_eq!(tools.len(), 33);
+    assert_eq!(tools.len(), 35);
+    for (name, required) in [
+        ("work_item_activation_recovery_plan", json!(["workItemId"])),
+        (
+            "work_item_activation_recovery_record",
+            json!(["workItemId", "decision"]),
+        ),
+    ] {
+        let matches: Vec<_> = tools.iter().filter(|tool| tool["name"] == name).collect();
+        assert_eq!(matches.len(), 1, "exact recovery tool {name}");
+        let schema = &matches[0]["inputSchema"];
+        assert_eq!(schema["additionalProperties"], false);
+        assert_eq!(schema["required"], required);
+        if name.ends_with("_record") {
+            let decision = &schema["properties"]["decision"];
+            assert_eq!(decision["additionalProperties"], false);
+            assert_eq!(
+                decision["required"],
+                json!([
+                    "schemaVersion",
+                    "decisionId",
+                    "response",
+                    "requestDigest",
+                    "humanActor",
+                    "recorderActor",
+                    "assurance",
+                    "authoritySourcePath",
+                    "authoritySourceDigest",
+                    "respondedAt",
+                    "reason"
+                ])
+            );
+            assert_eq!(
+                decision["properties"]["response"]["const"],
+                "accept_present_baseline"
+            );
+            assert_eq!(
+                decision["properties"]["decisionId"]["const"],
+                "activation-present-baseline-review"
+            );
+            assert_eq!(decision["properties"]["humanActor"]["minLength"], 7);
+            assert_eq!(
+                decision["properties"]["humanActor"]["pattern"],
+                "^human:\\S"
+            );
+        }
+    }
     let usage = tools
         .iter()
         .find(|tool| tool["name"] == "work_item_usage_record")

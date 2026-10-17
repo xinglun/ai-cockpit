@@ -1,0 +1,175 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+    "workItemId": "WI-TEST-ACTIVATION-GAP",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "after-checkpoint",
+      "expectedContractDigest": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+      "reason": "Isolated WI-1088 regression fixture only; no real Work Item or human authority.",
+      "changes": [
+        {
+          "path": "/goal",
+          "operation": "set",
+          "value": "Keep the post-checkpoint amended plan natively inspectable"
+        }
+      ]
+    },
+    "requestDigest": "sha256:50a9fa8d8b9ecb71b7be1d70a4d1b689e936ab6d6254f0a5cf51df8971a54718",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A post-checkpoint amendment must remain inspectable without a discontinuous Contract chain"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-17T08:50:28Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Keep native journal transitions reviewable across activation",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Exercise the native activation continuity boundary in an isolated fixture",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No external providers grants or real Work Items"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:7687037d458f4179f7548b0cd3149a959e2c2de1582bea0edb82418f520ac58e",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+      "repositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "README.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "git diff --check"
+      ],
+      "workItemId": "WI-TEST-ACTIVATION-GAP"
+    },
+    "previousContractDigest": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A post-checkpoint amendment must remain inspectable without a discontinuous Contract chain"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-17T08:50:28Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Keep the post-checkpoint amended plan natively inspectable",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Exercise the native activation continuity boundary in an isolated fixture",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No external providers grants or real Work Items"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:7687037d458f4179f7548b0cd3149a959e2c2de1582bea0edb82418f520ac58e",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+      "repositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "README.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "git diff --check"
+      ],
+      "workItemId": "WI-TEST-ACTIVATION-GAP"
+    },
+    "newContractDigest": "sha256:3fc9a2ffe4a31a7be95fbce0772f6344e4169610a41dfa91cbe0b8c2d53e53e3",
+    "previousSummaryDigest": "sha256:dc76206bffdc0b342a0e3d402326b53c2cd1875765206060a1a2aa95cf06cec6",
+    "repositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+    "environmentObservationDigest": "sha256:80ee04fd2d6ff5ef6c49c284bd1c39a766fecd7808f6e758de3fcdbaa7e6ea47",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:ab6317f6bbc443d2b9f2d3d666a04d96a0dd8c0db37639ad357a0ca87cc1a0f0",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-17T08:50:29Z"
+  },
+  "preparedDigest": "sha256:c7fcdbd79db16a68da959a140f8d1584883777f80e04052786e123ff443d56a5"
+}

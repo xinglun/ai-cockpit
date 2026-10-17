@@ -1,0 +1,354 @@
+{
+  "kind": "agent_index_of_actual_native_finish_block_not_native_receipt_or_approval",
+  "observedAt": "2026-10-17T14:30:34.558924+00:00",
+  "observedHead": "ead9a32d690871a1794f6091b7f724d92531324e",
+  "technicalAcceptance": {
+    "nativeFull33": "Actual p15 passed33/33 with0reuse; original formal receipt remains byte-identical. This is retained historical pass evidence, not a current post-block admission.",
+    "ciRunId": 39037114023,
+    "ciHead": "ead9a32d690871a1794f6091b7f724d92531324e",
+    "ciConclusion": "success",
+    "ciRunAttempt": 2,
+    "ciRetry": "Agent Codex initiated exactly one actual quality-job rerun after reading the real attempt1 procfs failure; no source/test/permissions/config change. The locally rejected gh syntax made no remote request.",
+    "oldProcfsFailure": "Actual /proc fd PermissionDenied led to verifier_process_state_unknown / composition_cleanup_deferred and MCP unsafe_deferred_cleanup_retry. Root cause remains unknown; later pass does not prove environment intermittence or repair the mechanism. Retain as a non-blocking follow-up investigation candidate.",
+    "nativeControls": "Actual p35 recorded11/11 scenarios and12/12 acceptance; p36 was green/fresh and explicitly admitted/recommended finish."
+  },
+  "actualFinish": {
+    "observation": "p37-native-finish",
+    "exitCode": 1,
+    "failedGate": "finish.lifecycle",
+    "reason": "finish is blocked by canonical material Unknowns: repository_material_inspection_unavailable",
+    "currentLifecycle": "checkpointed",
+    "currentGovernance": "red",
+    "currentVerificationProjection": "unknown",
+    "blockers": [
+      "governance_red"
+    ],
+    "issueCount": 3,
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "stop"
+    ],
+    "humanDecisionRequired": false
+  },
+  "materialReviewPlanObservedAtThisHead": {
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "contractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+    "reviewedSourceHead": "ead9a32d690871a1794f6091b7f724d92531324e",
+    "immutableContractBaseRevision": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+    "sourceSnapshotDigest": "sha256:f9c62d5afc12152f92c16a4b46688ff2d9409620e1269abd1e4bc8737ddb150e",
+    "materialManifestDigest": "sha256:415fb1ff57cfd82baaae1065bc8c25932e0129c5003e87ee8d23358a1628862d",
+    "scannerSemanticVersion": "rust-material-v1",
+    "analysisImplementationDigest": "sha256:9dcee9c81b0888942520a821f502071bd078a16da9473fdd63f8568a87e54f80",
+    "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+    "materialInspectionReviewProfileDigest": null,
+    "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+    "requestDigest": "sha256:d9df8823ab548f0d3a671705b34d6f4f80b1731edb68e51ba61f1282aca08074",
+    "rawUnknownCodes": [
+      "repository_material_inspection_unavailable"
+    ],
+    "findingCodes": [],
+    "blockedByFinding": false,
+    "reviewEnabled": false,
+    "reviewDiagnostic": "material_review_not_enabled"
+  },
+  "onlyUnknownEntry": {
+    "path": "crates/cockpit-repository/tests/contract_amendment.rs",
+    "kind": "modified",
+    "contentState": "text",
+    "scannerAssessment": "unknown",
+    "unknownCause": "readable_committed_rust_syntax_unknown",
+    "reviewable": true,
+    "changedHunkDigest": "sha256:c0b432483bf541d4f4faef279e81bcde68514f6e1805441debcb0fa640bb6c9f",
+    "afterBlobDigest": "sha256:18c8779e36f7d6699e7f88c879d0569ec7e713eb485e9d88d883570f8fd5d680"
+  },
+  "bindingDomains": "Material plan sourceSnapshot f9c62... is the committed-material review domain; native source-verification snapshot a990... is retained separately. Do not infer source edits from different digest domains. A preservation-only commit changes reviewedSourceHead, so re-read the read-only plan before any future record.",
+  "ownerDecisionNeeded": "Whether to authorize native Contract opt-in to the supported material-review flow. No such opt-in is currently present. Do not treat this as a new required confirm_review decision: current Runtime humanDecisionRequired=false. Do not reuse prior human preflight approval as material-review opt-in.",
+  "stopDisposition": "No retry of finish, controls overwrite, manually edited generated file, material-review record, Contract amendment, recovery reset, Runtime install, merge/archive/close or real WI-1087 recovery performed.",
+  "preservation": {
+    "all13RustFilesIdenticalToFull33Producer": true,
+    "originalWI1087HeadUnchanged": true,
+    "all11OriginalHashesUnchanged": true
+  },
+  "copies": [
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p30-ead9-readonly-status.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p30-ead9-readonly-status.json",
+      "bytes": 7311,
+      "rawSha256": "72a983278f2fe62dcd8dea55f4b0701897d8dacfe30a5adbe7569cf5f8ce7ade"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p30-ead9-readonly-status.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p30-ead9-readonly-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p30-ead9-readonly-status.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p30-ead9-readonly-status.stdout",
+      "bytes": 3907,
+      "rawSha256": "f6d5b186ebdf0615b5e446841dab134d06ec46e838168001445acdfb7325aa49"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p31-before-ci-quality-retry.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p31-before-ci-quality-retry.json",
+      "bytes": 7311,
+      "rawSha256": "88e086b67d030940607672a19545850291c16a5ec2d463d5ca8a2000b75fbc5d"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p31-before-ci-quality-retry.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p31-before-ci-quality-retry.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p31-before-ci-quality-retry.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p31-before-ci-quality-retry.stdout",
+      "bytes": 3907,
+      "rawSha256": "f6d5b186ebdf0615b5e446841dab134d06ec46e838168001445acdfb7325aa49"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p34-before-ci-green-controls.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p34-before-ci-green-controls.json",
+      "bytes": 7310,
+      "rawSha256": "bb8ce69c4f59ef047ac43f1c2f35661cf1ef0e0834601c70477e848c6d0b4b94"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p34-before-ci-green-controls.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p34-before-ci-green-controls.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p34-before-ci-green-controls.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p34-before-ci-green-controls.stdout",
+      "bytes": 3907,
+      "rawSha256": "f6d5b186ebdf0615b5e446841dab134d06ec46e838168001445acdfb7325aa49"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p35-record-ci-complete-controls.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p35-record-ci-complete-controls.json",
+      "bytes": 40263,
+      "rawSha256": "c665302cd22511da1f68ddff4c905c684797a9b4a0e4d64e39a8a1b95222ff2a"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p35-record-ci-complete-controls.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p35-record-ci-complete-controls.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p35-record-ci-complete-controls.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p35-record-ci-complete-controls.stdout",
+      "bytes": 28517,
+      "rawSha256": "fa932a7b12cd1cff9e94b742af2b3d51b5504ab1680ee7e686ad7ca0be66cf15"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p36-after-ci-controls-status.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p36-after-ci-controls-status.json",
+      "bytes": 6679,
+      "rawSha256": "38e5cfd472062ac6b4fa441720a7ad1cdf1a1cb43dcefb3818b3c034f7fe0ea8"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p36-after-ci-controls-status.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p36-after-ci-controls-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p36-after-ci-controls-status.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p36-after-ci-controls-status.stdout",
+      "bytes": 3434,
+      "rawSha256": "3835087b8ed74f175fda46315472663ef58e474f7427f48e9fea1bbdbfc54b8e"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p37-native-finish.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p37-native-finish.json",
+      "bytes": 9511,
+      "rawSha256": "485ebf9d0724468195674b8fc601b55fdeba15d117117b3f908ddfd5e6715cf2"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p37-native-finish.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p37-native-finish.stderr",
+      "bytes": 5557,
+      "rawSha256": "95a4de8323d29451af9a8cfbe298d13d250b113e5e16f2edeadf40d436f77875"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p37-native-finish.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p37-native-finish.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p38-after-blocked-finish-status.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p38-after-blocked-finish-status.json",
+      "bytes": 6979,
+      "rawSha256": "6e90d377305fc8cb2b9f1350eede35fbafd7ed3ebe26e646f9284f594c9b07ef"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p38-after-blocked-finish-status.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p38-after-blocked-finish-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p38-after-blocked-finish-status.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p38-after-blocked-finish-status.stdout",
+      "bytes": 3659,
+      "rawSha256": "3798d1f04a94139def3d5eb98808d336479391785aac8e420f4385fd7ca58e6d"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p39-after-blocked-finish-inspect.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p39-after-blocked-finish-inspect.json",
+      "bytes": 8513,
+      "rawSha256": "7730715261743eafd7e428465157d7846388a4a9937d89f5fa59fb9ff7eee4a2"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p39-after-blocked-finish-inspect.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p39-after-blocked-finish-inspect.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p39-after-blocked-finish-inspect.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p39-after-blocked-finish-inspect.stdout",
+      "bytes": 4888,
+      "rawSha256": "004290ac9aef3c63034bd9e0b9e26df46dd34bb3503c8db1730d483ff2eeff20"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p40-after-blocked-finish-doctor.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p40-after-blocked-finish-doctor.json",
+      "bytes": 2835,
+      "rawSha256": "47f8108caac30d92bafaa8ad40466275779bf03a136b4557517610c111f3894f"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p40-after-blocked-finish-doctor.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p40-after-blocked-finish-doctor.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p40-after-blocked-finish-doctor.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p40-after-blocked-finish-doctor.stdout",
+      "bytes": 632,
+      "rawSha256": "55a65aba8f9f857ab35aaba1e3f7c26cec0b72b12c1f021e52049b725ae11fc5"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p41-work-item-help-after-block.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p41-work-item-help-after-block.json",
+      "bytes": 6433,
+      "rawSha256": "1f77e16d6e17c3fc9aeac9e9ac7359827309048ba7e18698869fc860acbe8118"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p41-work-item-help-after-block.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p41-work-item-help-after-block.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p41-work-item-help-after-block.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p41-work-item-help-after-block.stdout",
+      "bytes": 3317,
+      "rawSha256": "e4bbf786f9a47ae5fda0168216b8fe01ddd5c66a0fe8d6597d9ff804b953a4b3"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p42-material-review-help.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p42-material-review-help.json",
+      "bytes": 2687,
+      "rawSha256": "35b57d1c4475a1e0433e713f635baf9e3ef6bfb9d31e52fd1343c9792ea5d44c"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p42-material-review-help.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p42-material-review-help.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p42-material-review-help.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p42-material-review-help.stdout",
+      "bytes": 491,
+      "rawSha256": "01b47a11ac4d4ca2d405998436b073e75ac9f5413b4620e468b3e216c571b37e"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p43-material-plan-help.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p43-material-plan-help.json",
+      "bytes": 2447,
+      "rawSha256": "ec01bccde5488712761339173e986f748d4ee9c0823ffcf5ce7cb2efd73dd75e"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p43-material-plan-help.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p43-material-plan-help.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p43-material-plan-help.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p43-material-plan-help.stdout",
+      "bytes": 302,
+      "rawSha256": "18b5cabb3c7ae424556450a2bf46b53009575ecf30fd3094254286703de811e9"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p44-blocked-material-review-plan.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p44-blocked-material-review-plan.json",
+      "bytes": 16339,
+      "rawSha256": "936c14536a83d0db0353857edaf07c5dcbafeddd1cb3f6fa9f8ea6a61c137226"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p44-blocked-material-review-plan.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p44-blocked-material-review-plan.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p44-blocked-material-review-plan.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p44-blocked-material-review-plan.stdout",
+      "bytes": 10672,
+      "rawSha256": "1965c3ea79c67e62346afb1058716123d66b3a9be1aba4f66efa1aa086d6ef11"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p45-current-blocked-human-outcome.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p45-current-blocked-human-outcome.json",
+      "bytes": 17260,
+      "rawSha256": "bb2c9f9db39ba88f1b295e71593be7afaa1c8470e2b8d0060aff0d6fdf07d750"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p45-current-blocked-human-outcome.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p45-current-blocked-human-outcome.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p45-current-blocked-human-outcome.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/p45-current-blocked-human-outcome.stdout",
+      "bytes": 11336,
+      "rawSha256": "46f37c94ef8a556ee31b3ee0067342bc33377cc2dc7b3371b3eb8052d6d8407b"
+    },
+    {
+      "sourcePath": "/workspace/ai-cockpit-wi1088-runtime-continuity/.ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/native-summary-after-block.copy.json",
+      "bytes": 28666,
+      "rawSha256": "ed27dca78e13952d440b256d345ebbda3dbf855398a4c4e73cf19c514a573f63"
+    },
+    {
+      "sourcePath": "/workspace/ai-cockpit-wi1088-runtime-continuity/.ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.outcome.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/native-outcome-after-block.copy.json",
+      "bytes": 8544,
+      "rawSha256": "fbb2ee4e96a9fb00742ed5590ca0695bd8b3627cf32d7be81aa4da677fe80030"
+    },
+    {
+      "sourcePath": "/workspace/ai-cockpit-wi1088-runtime-continuity/.ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.events.jsonl",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/native-events-after-block.copy.jsonl",
+      "bytes": 585,
+      "rawSha256": "eee89cbcf5d08ac7afc97f08ba87292d32652ca8c26d5c3ed673dc382aaf422d"
+    },
+    {
+      "sourcePath": "/workspace/ai-cockpit-wi1088-runtime-continuity/.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/native-finish-block-20261017/native-formal33-after-block.copy.json",
+      "bytes": 472383,
+      "rawSha256": "a738a851c9f953e8e50630d062ea89a711ced0294734aaa259d77455c186a3e1"
+    }
+  ]
+}

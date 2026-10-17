@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_relayed_independent_runtime_repair_preparation_direction_not_human_preflight_approval",
+  "recordedAt": "2026-10-17T08:04:03.881Z",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "recordedBy": "agent:Codex",
+  "reportedTechnicalReviewer": "agent:Raydot",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "rawInstruction": "Raydot技术决策：批准将该原生生命周期/修订连续性缺陷作为独立 bounded Runtime 修复工作项准备，完成后返回原WI1087；不是successor、不关闭/重置1087。先核查现有WI编号与冲突，通过原生流程创建最小计划/独立分支worktree，候选三文件合理，但不要为维持三文件限制而弱化完整性。先提交技术方案和原生新真人请求（若要求），不要在未准入前写产品。\n修复边界：既有journal/prepared/committed全部哈希仍严格核对；只承认严格证据锚定的合法activation转换，保持rehashed_discontinuous负测；缺失start/checkpoint绑定、跨WI、额外scope/authority字段变化、checkpoint后非法断链、pending/CAS冲突继续拒绝。特别注意outOfScope逗号拆分不能作为任意字段变更的通用豁免；已存完整B人审只证明B被审，不自动证明任意A→B历史合法。若只能靠过宽推断才能兼容，应改为新增现在核验的受审恢复记录，不伪造过去发生的收据。需要lifecycle writer的前向预防或额外类型时列出最小增项由我审阅。\n测试先真实临时repo复现not_ready→amend→startprepare→review/checkpoint→amend失败，再修复，保留原失败证据。当前1087真实seq5和P1文件保持原字节，不能直接在其历史上试修。独立工作项正常计划材料commit/push/DraftPR允许，实际真人gate仍必须回报绑定。注意磁盘，复用可用构建缓存但不并发重型build。",
+  "currentPermission": "Preparation, native planning entry and plan publication only; implementation scope additions require technical review and native admission.",
+  "actualHumanDecisionRecorded": false,
+  "scopeAdditionsApproved": false
+}

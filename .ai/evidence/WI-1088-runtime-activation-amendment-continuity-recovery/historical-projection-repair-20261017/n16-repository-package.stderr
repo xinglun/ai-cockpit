@@ -1,0 +1,28 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1088-runtime-continuity/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 32.15s
+     Running unittests src/lib.rs (target/wi1088-runtime-continuity/debug/deps/cockpit_repository-5063e98527cc9fb0)
+     Running tests/active_work_item_retirement.rs (target/wi1088-runtime-continuity/debug/deps/active_work_item_retirement-f69342555a20cf56)
+     Running tests/agent_risk_checkpoint.rs (target/wi1088-runtime-continuity/debug/deps/agent_risk_checkpoint-2df7e0f3fe5c1c4b)
+     Running tests/agent_rule_parity.rs (target/wi1088-runtime-continuity/debug/deps/agent_rule_parity-5e5d02597c9d3bab)
+     Running tests/archive_integrity.rs (target/wi1088-runtime-continuity/debug/deps/archive_integrity-02cf0d8ffc9189bf)
+     Running tests/audit_query.rs (target/wi1088-runtime-continuity/debug/deps/audit_query-2daf1d1501f274de)
+     Running tests/ci_quality_gate.rs (target/wi1088-runtime-continuity/debug/deps/ci_quality_gate-86860e74d4f28a0b)
+Preparing worktree (detached HEAD bef3764)
+Switched to branch 'comparison-base'
+Switched to branch 'master'
+     Running tests/closeout_recovery.rs (target/wi1088-runtime-continuity/debug/deps/closeout_recovery-efd65d00d8e5811e)
+     Running tests/collaboration_admission.rs (target/wi1088-runtime-continuity/debug/deps/collaboration_admission-a2d29608d98dc4f4)
+serializing process-observer test target: collaboration_admission-a2d29608d98dc4f4
+     Running tests/contract_amendment.rs (target/wi1088-runtime-continuity/debug/deps/contract_amendment-ec2a2e7df6262527)
+     Running tests/contract_preflight.rs (target/wi1088-runtime-continuity/debug/deps/contract_preflight-4a11112aa3c7423e)
+     Running tests/contract_schema.rs (target/wi1088-runtime-continuity/debug/deps/contract_schema-2161717394937dc1)
+     Running tests/coordination_store.rs (target/wi1088-runtime-continuity/debug/deps/coordination_store-874a9e4c60a1e10a)
+     Running tests/delegated_evidence_observations.rs (target/wi1088-runtime-continuity/debug/deps/delegated_evidence_observations-bbc8d9c8884f32e5)
+     Running tests/evidence_assurance.rs (target/wi1088-runtime-continuity/debug/deps/evidence_assurance-0cd7c42b56f80eb6)
+     Running tests/evolution.rs (target/wi1088-runtime-continuity/debug/deps/evolution-195ab724d06071c7)
+     Running tests/governance_controls.rs (target/wi1088-runtime-continuity/debug/deps/governance_controls-4df194e08197284e)
+
+thread 'recording_controls_is_bounded_to_projection_fields' (1728541) panicked at crates/cockpit-repository/tests/governance_controls.rs:420:6:
+called `Result::unwrap()` on an `Err` value: Read { path: "/tmp/.tmpCRkiZU/.ai/work-items/active/WI-CONTROLS.contract.json", source: Os { code: 2, kind: NotFound, message: "No such file or directory" } }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test governance_controls`

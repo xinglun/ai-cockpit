@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "contractDigest": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+  "worktreePath": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+  "head": "1d115be592ac8b4b927ce6795e4494cd657b6251",
+  "generation": 1,
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Independent planning-only Runtime continuity repair. Plan and real native outputs are preserved and pushed; current human gate and expanded technical scope review remain pending. No product/test changes, reproduction, Runtime delivery, business admission, or changes to WI-1087."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  },
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  }
+}

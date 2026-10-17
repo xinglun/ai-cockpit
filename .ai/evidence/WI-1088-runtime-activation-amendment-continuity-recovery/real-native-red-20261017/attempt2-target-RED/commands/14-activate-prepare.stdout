@@ -1,0 +1,211 @@
+{
+  "checkpoint": null,
+  "checkpointError": null,
+  "nextActions": [
+    "present_preflight_review_and_wait_for_human_decision"
+  ],
+  "preflight": {
+    "actionAdmission": {
+      "actionExplanation": {
+        "admissionDigest": "sha256:6e638089fb5d252d1424c8c00c85341c454f43c6eedb7f64ecc78a4c507cb392",
+        "admissionState": "needs_human_decision",
+        "guideId": "ordinary-work-item",
+        "humanDecisionRequired": true,
+        "issues": [
+          {
+            "code": "user_visible_benefit_not_declared",
+            "kind": "unknown",
+            "message": "current projection reports user_visible_benefit_not_declared"
+          },
+          {
+            "code": "verification_evidence_missing",
+            "kind": "missing",
+            "message": "current projection reports verification_evidence_missing"
+          }
+        ],
+        "missingInputs": [
+          "verification_evidence_missing"
+        ],
+        "recommendationReason": "Runtime requires a current human decision before continuing",
+        "recommendedAction": "run_preflight"
+      },
+      "activityHealth": "waiting",
+      "baseCommit": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+      "blockers": [],
+      "blocking": false,
+      "completionDomains": {
+        "closure": "open",
+        "implementation": "active",
+        "integration": "not_applicable",
+        "resourceCleanup": "not_started",
+        "review": "required",
+        "verification": "not_ready",
+        "workResult": "not_ready"
+      },
+      "dependencies": [],
+      "diagnostics": [],
+      "effectiveUnknowns": [
+        "user_visible_benefit_not_declared",
+        "verification_evidence_missing"
+      ],
+      "evidenceFreshness": {
+        "reason": "verification evidence is missing",
+        "state": "missing"
+      },
+      "governancePermissions": [
+        "read_status",
+        "read_outcome"
+      ],
+      "governanceState": "yellow",
+      "historical": false,
+      "humanDecisionRequired": true,
+      "humanDecisions": [],
+      "lifecyclePhase": "implementation_active",
+      "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "missingEvidence": [
+        "verification_evidence_missing"
+      ],
+      "progressFacts": {
+        "acceptanceCriteriaDeclared": 1,
+        "acceptanceEvidenceEntries": 0,
+        "changedPathCount": 9,
+        "checkpointCount": 0
+      },
+      "rawScannerUnknowns": [],
+      "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+      "reviewAssurance": null,
+      "reviewReceiptDigest": null,
+      "risks": [
+        "normal"
+      ],
+      "safeActions": [
+        "record_governance_controls",
+        "record_usage",
+        "refresh_status",
+        "run_preflight"
+      ],
+      "schemaVersion": 1,
+      "snapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+      "sourceDigests": {
+        "contract": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+        "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+        "repositorySnapshot": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+        "summary": "sha256:651c95fda357250c54081134296f81f89e7b865e594f3f578a80463b8186c34f"
+      },
+      "statusDigest": "sha256:d8d8752174b820c6b21d0ceab96d4ad0131ddf56bbb5397b58f07030cf5f6e07",
+      "unknowns": [
+        "user_visible_benefit_not_declared",
+        "verification_evidence_missing"
+      ],
+      "updatedAt": "2026-10-17T08:50:28Z",
+      "verification": "not_ready",
+      "workItemId": "WI-TEST-ACTIVATION-GAP"
+    },
+    "authority": "authorized",
+    "blockers": [],
+    "changedPaths": [
+      ".ai/work-items/active/WI-TEST-ACTIVATION-GAP.summary.json"
+    ],
+    "humanDecisionRequest": {
+      "decisionId": "contract-preflight-review",
+      "options": [
+        {
+          "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot.",
+          "id": "confirm_review",
+          "label": "Confirm the amended plan"
+        },
+        {
+          "effect": "Record a further reasoned amendment and rerun preflight.",
+          "id": "amend_contract",
+          "label": "Revise the amended plan"
+        },
+        {
+          "effect": "Leave the item recoverable without starting verification.",
+          "id": "stop_work",
+          "label": "Stop the Work Item"
+        }
+      ],
+      "question": "Do you confirm the current amended Contract for continued work?",
+      "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+      "recommendedOption": "confirm_review",
+      "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot.",
+      "status": "needs_human_confirmation",
+      "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+      "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision."
+    },
+    "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "outcome_state": "needs_human_decision",
+    "required_checks": [
+      "human_review"
+    ],
+    "reviewState": "needs_human_confirmation",
+    "safe_actions": [
+      "record_fresh_preflight_decision"
+    ],
+    "state": "yellow",
+    "unknowns": [
+      "contract_amendment_policy_review_required"
+    ]
+  },
+  "schemaVersion": 1,
+  "sourceAmendment": null,
+  "start": {
+    "startAdvisory": {
+      "activeWorkItems": [
+        {
+          "branch": null,
+          "cleanupRequired": true,
+          "contractPath": ".ai/work-items/active/WI-TEST-ACTIVATION-GAP.contract.json",
+          "state": "not_ready",
+          "workItemId": "WI-TEST-ACTIVATION-GAP",
+          "worktree": null
+        }
+      ],
+      "classification": "advisory",
+      "conflicts": [],
+      "currentWorkItemState": "not_started",
+      "currentWorktree": {
+        "branch": "fixture/activation-gap",
+        "head": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+        "isCurrent": true,
+        "isPrimary": true,
+        "path": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo"
+      },
+      "nextActions": [
+        "review_start_cleanup_advisory_and_continue_if_unrelated",
+        "proceed_with_start_entry_checks"
+      ],
+      "pendingCleanup": [
+        {
+          "branch": null,
+          "cleanupRequired": true,
+          "contractPath": ".ai/work-items/active/WI-TEST-ACTIVATION-GAP.contract.json",
+          "state": "not_ready",
+          "workItemId": "WI-TEST-ACTIVATION-GAP",
+          "worktree": null
+        }
+      ],
+      "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+      "schemaVersion": 1,
+      "unknowns": [],
+      "warnings": [
+        "active_work_items_require_lifecycle_or_cleanup:1"
+      ],
+      "workItemId": "WI-TEST-ACTIVATION-GAP",
+      "worktrees": [
+        {
+          "branch": "fixture/activation-gap",
+          "head": "e9863e889d1e8d801b8eabdaf0f956829b886ebe",
+          "isCurrent": true,
+          "isPrimary": true,
+          "path": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo"
+        }
+      ]
+    },
+    "state": "implementation_active",
+    "timestamp": "2026-10-17T08:50:28Z",
+    "workItemId": "WI-TEST-ACTIVATION-GAP"
+  },
+  "state": "review_required",
+  "workItemId": "WI-TEST-ACTIVATION-GAP"
+}

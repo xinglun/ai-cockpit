@@ -1,0 +1,30 @@
+{
+  "kind": "actual_fixture_git_observation",
+  "label": "bare-origin",
+  "command": [
+    "git",
+    "init",
+    "-q",
+    "--bare",
+    "--initial-branch=main",
+    "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017/origin.git"
+  ],
+  "cwd": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017/repo",
+  "startedAt": "2026-10-17T08:50:04.832577+00:00",
+  "endedAt": "2026-10-17T08:50:04.836959+00:00",
+  "elapsedSeconds": 0.004,
+  "exitCode": 0,
+  "runtimeRawSha256": null,
+  "stdout": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  },
+  "stderr": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  }
+}

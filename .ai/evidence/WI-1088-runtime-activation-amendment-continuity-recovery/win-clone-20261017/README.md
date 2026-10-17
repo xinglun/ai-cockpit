@@ -1,0 +1,5 @@
+# Windows fixture clone evidence paths
+
+CI39035217918 for2dd3e221 returned Windows failure after repository units and both MCP lock checks passed. The cognitive test failed at its fixture Git clone because this WI's saved fixture copies exceeded Windows absolute path limits under the TempDir prefix. The evaluator was not reached. The exact decoded API log, terminal metadata, prior cancelled log and successful quality artifacts are retained here.
+
+Only20 Agent-owned copies were renamed byte-identically. `copy-path-map.json` contains every old/new path, byte count and matching SHA256. Canonical native originals and immutable historical content were not changed. Restore a historical fixture layout only into a disposable directory using this map; no actual Work Item recovery is implied. New branch paths are bounded to180 characters, below the main baseline maximum183; source, test assertions, HOME and Git configuration remain unchanged. Fresh Windows CI is still required. A11 and the full-CI scenario stay unverified.

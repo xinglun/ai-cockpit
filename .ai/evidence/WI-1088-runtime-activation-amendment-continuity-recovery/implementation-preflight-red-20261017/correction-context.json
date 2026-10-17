@@ -1,0 +1,10 @@
+{
+  "kind": "agent_authored_documentation_correction_record_not_test_or_approval",
+  "actualNativePreflight": "r13-fresh-implementation-preflight.json",
+  "result": "red",
+  "cause": "Agent-created own three briefs lacked workItemId/status/lastVerifiedBy frontmatter; nine explicit documentation_projection_invalid blockers.",
+  "correction": "Only add the exact required identity/stage frontmatter to the three authorized own briefs. lastVerifiedBy is the required WI projection identity, not a claim product verification passed.",
+  "redSummaryRawSha256": "64c4c95bbf79751fae7d941e129585dafca2e222b88765fe2c277b6c031f0160",
+  "nativeHumanDecisionRecorded": false,
+  "next": "Commit source correction and regenerate preflight; never ask a human to waive these document errors."
+}

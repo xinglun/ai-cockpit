@@ -1,0 +1,54 @@
+{
+  "kind": "agent_index_not_native_receipt",
+  "observedAt": "2026-10-17T13:06:31.033584+00:00",
+  "copies": [
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p19-after-full-outcome.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p19-after-full-outcome.json",
+      "rawSha256": "0c88edddb8278f861d20f228338b2f81bdac5f475a4ddd256b567361b79f7882"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p19-after-full-outcome.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p19-after-full-outcome.stderr",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p19-after-full-outcome.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p19-after-full-outcome.stdout",
+      "rawSha256": "2d158095aa9049fb18a0034c468651cdc4bb5dd7e32fd8ebc8898cbdf2c54a8e"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p20-actual-controls-ci-pending.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p20-actual-controls-ci-pending.json",
+      "rawSha256": "3aa47fc4c2b5305753edf5c60ec0c29b1023b5eda62e721fe540a0f9fbcee43f"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p20-actual-controls-ci-pending.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p20-actual-controls-ci-pending.stderr",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p20-actual-controls-ci-pending.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p20-actual-controls-ci-pending.stdout",
+      "rawSha256": "4921c7f97fdb99ace476ad406106aa4555cda809bd5df70330d37c0b2c10d0a8"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p21-after-actual-controls-status.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p21-after-actual-controls-status.json",
+      "rawSha256": "b722fa15ef7b2eb71828fcaf95703bf4ec850f436abd8417c26a29df8506c611"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p21-after-actual-controls-status.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p21-after-actual-controls-status.stderr",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p21-after-actual-controls-status.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p21-after-actual-controls-status.stdout",
+      "rawSha256": "5ae7f72b3a51d27f5d7c6643d067f3214ac7294761a6e2407d83628661815a9f"
+    }
+  ],
+  "ciRawSha256": "fe036829971838a892595679fefe7d6ff48f637e1bfc88d1f5a89d0aa1bfedf2",
+  "ciInterpretation": "Actual pre-push CI; running is not passed. A normal evidence-only push may supersede this run under repository concurrency; no manual cancellation.",
+  "unverifiedAcceptance": "A11 remains explicitly unverified pending actual final exact-head CI."
+}

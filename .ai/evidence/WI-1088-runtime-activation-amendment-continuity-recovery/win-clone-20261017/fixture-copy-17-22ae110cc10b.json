@@ -1,0 +1,171 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:9bfbd744345b1a774f2e70eae1dc2fdf0fa0d014e8634f8ea85b3a3dfd40cbc9",
+    "workItemId": "WI-CLI-ACTIVATION-CONTINUITY",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "after-checkpoint",
+      "expectedContractDigest": "sha256:f29a0831e8f32c0297fb625ecc4ba40b1e087872832d1bc49aebb916e430db32",
+      "reason": "Keep the amended fixture plan reviewable without granting its review.",
+      "changes": [
+        {
+          "path": "/goal",
+          "operation": "set",
+          "value": "Review the current amended fixture plan"
+        }
+      ]
+    },
+    "requestDigest": "sha256:0b54446ddd1185eb563e5dc8acdcaaf71ca6d13fdd023c8a5284c8fecbc078bb",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The activation boundary preserves strict native amendment admission"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "632e2ce8bc22df265171e9a193985c7e75a45e55",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-17T10:42:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Keep post-checkpoint amendments reviewable",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Exercise a real native activation boundary",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:144d40d2b6a5a1b836fb1a1bf0285d1e387eec43de905670c8b12c238c45c60f",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:9bfbd744345b1a774f2e70eae1dc2fdf0fa0d014e8634f8ea85b3a3dfd40cbc9",
+      "repositorySnapshotDigest": "sha256:db1834b5e98f3b6a0a708ed2e1f22a7d08262e35f82344398772e5e3dcd1f2e6",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "README.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "git diff --check"
+      ],
+      "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+    },
+    "previousContractDigest": "sha256:f29a0831e8f32c0297fb625ecc4ba40b1e087872832d1bc49aebb916e430db32",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The activation boundary preserves strict native amendment admission"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "632e2ce8bc22df265171e9a193985c7e75a45e55",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-17T10:42:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Review the current amended fixture plan",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Exercise a real native activation boundary",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:144d40d2b6a5a1b836fb1a1bf0285d1e387eec43de905670c8b12c238c45c60f",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:9bfbd744345b1a774f2e70eae1dc2fdf0fa0d014e8634f8ea85b3a3dfd40cbc9",
+      "repositorySnapshotDigest": "sha256:db1834b5e98f3b6a0a708ed2e1f22a7d08262e35f82344398772e5e3dcd1f2e6",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "README.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "git diff --check"
+      ],
+      "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+    },
+    "newContractDigest": "sha256:441fb64d5a1e7791a306e18405be13125261fe36b099aee302af99cb46f4e376",
+    "previousSummaryDigest": "sha256:71902116ae19b36b78cd860972f8e439f0b499f0778ed6c27c2ae418f8565a12",
+    "repositorySnapshotDigest": "sha256:db1834b5e98f3b6a0a708ed2e1f22a7d08262e35f82344398772e5e3dcd1f2e6",
+    "environmentObservationDigest": "sha256:60534ca68602a81c4e5327f97cb1c6b0f349813b26fc9776e0cef667a3e36964",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:a3b3a82c6a07bed0731c3aaa659afe08b4b615d313ee16b845566b9d64ac56c6"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:88692a18a4efd1ceabba818242a29cd0ca20cffc9fb00ab07d0a17916e0564bf",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-17T10:42:08Z"
+  },
+  "preparedDigest": "sha256:fb847f36b61f3da487b59a841af1adfb08a79330257bf7c60effb450a7b93f2b"
+}

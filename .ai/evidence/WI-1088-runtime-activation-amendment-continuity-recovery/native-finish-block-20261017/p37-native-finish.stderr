@@ -1,0 +1,69 @@
+Outcome: 🔴 验证状态未知 — WI-1088-runtime-activation-amendment-continuity-recovery
+结果
+- 验证状态: 验证状态未知
+- 生命周期状态: 已建立检查点
+- 人工决定状态: 未记录
+- 治理信号: 红色；必须停止，不是人工批准
+
+已完成
+- 结果状态未知；当前操作已停止，具体原因见下方。
+- 验收标准（Contract 原文） / Acceptance criteria (Contract language)
+- A1: Preserve original WI-1087 HEAD and all eleven protected raw file hashes including P1 sources and sequence5; no real recovery is performed by this implementation work item.
+- A2: After a real current native human gate, reproduce the actual pre-fix discontinuity in a fresh temporary Git repository before implementing the fix; preserve exact RED output and transaction phase evidence.
+- A3: The forward native activation writer records actual A/B repository WI owner Runtime and journal bindings with prepared/committed evidence. Only state not_ready-to-implementation_active, observed baseRevision and observed repositorySnapshotDigest may change; any other unamended human-plan change rejects.
+- A4: Legacy recovery is a separate current-baseline request and real human decision/record. Enumerate the exact finite fields and pre-first-checkpoint stage plus old/new differences and retained historical unknowns. An old B review or arbitrary CSV match never authenticates A-to-B.
+- A5: A valid present recovery record enables only generation of fresh preflight. It does not approve current C, grant business authority, rewrite history, backdate a receipt or reuse an old review as a new human decision.
+- A6: Validate every existing record and the prospective complete chain before publishing a new transaction under current ownership/CAS. Wrong incoming requests must not finish unrelated pending operations; prepared-only or partial evidence never counts as committed.
+- A7: Preserve existing journal/hash/sequence checks and rehashed-discontinuous tests. Reject missing start/checkpoint bindings, foreign identity/owner, extra scope/authority/actor/source changes, unexplained post-checkpoint gaps, stale request/history/summary/registration, CAS and pending/partial failures.
+- A8: The original twelve reviewed Rust paths implement shared repository recovery APIs, strict standalone protocol types, bounded metadata admission and explicit CLI/MCP plan-record surfaces. One additional Rust test path, crates/cockpit-mcp/tests/rpc.rs, changes only its exact discovery names and count from the actual baseline33 to35. No new Contract root field, production feature or hidden controls bypass.
+- A9: Preserve exact MCP tool counts and existing usage/material-review assertions. With exactly two recovery tools added to actual baseline 33 assert exactly 35 and exact names plus strict schemas; never weaken to a lower bound or delete count assertions.
+- A10: Update three-language commands and own briefs consistently. Only append/update WI-1088 actual-stage rows in the three reference-parity files; retain all other WI conclusions unchanged and mark unrun acceptance honestly.
+- A11: Run all declared checks with one worker, isolated target and each command node at most 900 seconds; preserve actual formal results and CI for the exact pushed HEAD. No success is inferred from old WI evidence.
+- A12: Normal bounded phase commit/push and existing Draft PR1047 updates are authorized. No merge, close, deletion, Runtime installation, direct-main push, P2a/P2b, live grant, Sentinel operation or real WI-1087 recovery.
+
+发现的问题
+- 生命周期门槛失败；当前 Work Item 仍可恢复但未完成。
+- 失败 gate: finish.lifecycle
+- 当前 Contract 未声明 provider finalization；继续遵守生命周期和人工决定门槛。
+
+触发的停止
+- 必需的验证证据尚未生成，不能宣称完成。
+- 恢复条件: 修复失败的治理条件，完成新的检查后重试 finish。
+- 恢复条件: 审阅当前生命周期状态并记录必需的人工作业；验证状态不扩大为授权。
+
+已解决的问题
+- 未记录
+
+避免的风险
+- 未记录
+
+剩余风险
+- Remaining unknown: lifecycle_gate_failed
+- Remaining unknown: user_visible_benefit_not_declared
+- User-visible benefit is not declared by the Work Item owner.
+
+未知项
+- lifecycle_gate_failed
+- user_visible_benefit_not_declared
+
+人工决定
+- 未记录
+
+验证
+- 验证状态未知: .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json
+- 验证状态未知: .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.022d44c456b157be7e8adc605d7a7ee61530adc1d1e14edd2af4820b03e8c1c3.json
+
+用量
+- 用量覆盖: 未知 (unknown); 截止时间: 2026-10-17T14:23:54Z; 未知原因: no_usage_receipts; 记录数: 0
+- 用量小计: 输入 未知, 输出 未知, 缓存输入 未知, 推理 未知
+
+影响
+- 用户可见收益尚未声明。
+
+下一步
+- 修复无效证据并重新验证；在此之前保持停止。
+
+证据
+- .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json
+- .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.022d44c456b157be7e8adc605d7a7ee61530adc1d1e14edd2af4820b03e8c1c3.json
+finish work item: repository protocol state error at /workspace/ai-cockpit-wi1088-runtime-continuity/.ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json: finish is blocked by canonical material Unknowns: repository_material_inspection_unavailable

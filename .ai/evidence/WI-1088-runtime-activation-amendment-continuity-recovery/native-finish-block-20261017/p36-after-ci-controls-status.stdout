@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "baseCommit": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "green",
+  "activityHealth": "active",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 12,
+    "acceptanceEvidenceEntries": 12,
+    "changedPathCount": 0,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "high"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "available",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome",
+    "review_evidence"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+    "materialManifest": "sha256:415fb1ff57cfd82baaae1065bc8c25932e0129c5003e87ee8d23358a1628862d",
+    "repositorySnapshot": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "summary": "sha256:2dc03fc1b76a8244e124a96000f9f28379e44d888ce6c6a5152d817ea808a4cc",
+    "verificationEvidence": "sha256:8beb6a5d1fd4e5605db62f539fd7eb5dcaba32ef090235775a4a3c51f8e778ad"
+  },
+  "unknowns": [
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:415fb1ff57cfd82baaae1065bc8c25932e0129c5003e87ee8d23358a1628862d",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-17T12:59:15Z",
+  "updatedAt": "2026-10-17T14:23:40.129748693+00:00",
+  "safeActions": [
+    "finish",
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "finish",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:8e201aa1810d751901d315e589a44623a8cb75c355dd35a7441e88cd83246710"
+  },
+  "statusDigest": "sha256:4858c00baaa60fe73d30ce58411696aa6a0d6f0a65c381788277c56a9a5943ee",
+  "historical": false
+}

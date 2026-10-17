@@ -1,0 +1,204 @@
+{
+  "kind": "agent_byte_preserving_copy_relocation_index_not_native_receipt",
+  "observedAt": "2026-10-17T13:33:19.309031+00:00",
+  "failedCiRunId": 39035217918,
+  "failedSourceHead": "2dd3e22117f78e179c072fc589a746187a1bbd51",
+  "failureClassification": "existing Windows test fixture Git clone checkout failed on own nested Agent evidence-copy paths; evaluator behavior was not reached",
+  "failedTest": "windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes",
+  "fileAndLine": "crates/cockpit-cli/tests/cognitive_benefit.rs:164",
+  "scope": "Only20 Agent-owned copied fixture records under this WI evidence directory; no canonical native record or other WI record moved or edited.",
+  "newAddedPathBudget": 180,
+  "priorAddedPathBudget": 220,
+  "baselineTrackedMaximumRelativeLength": 183,
+  "currentAddedMaximumRelativeLength": 177,
+  "pathBudgetInterpretation": "Relative220 covered the CI root checkout but not Windows TempDir fixture clone prefixes. New own paths<=180 are shorter than the existing main maximum183. This is static budget evidence; only a new actual Windows CI terminal proves recovery.",
+  "sourceOrTestChanges": false,
+  "globalGitConfigurationChanged": false,
+  "originalNativeFilesChanged": false,
+  "originalWI1087Changed": false,
+  "historicalContentPolicy": "All20 moved copies retain exact bytes and both SHA256 values. Historical observations and paths inside captured records remain immutable; resolve old paths through this mapping.",
+  "moves": [
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/candidate-regression-20261017/exact-candidate-fixture-state.copy/.ai/decisions/WI-CLI-ACTIVATION-CONTINUITY.preflight-review.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-01-4e5fae86b51c.json",
+      "bytes": 728,
+      "rawSha256Before": "4e5fae86b51c47fc48b69557679be8529367e225470b3da3167341d8164e81a7",
+      "rawSha256After": "4e5fae86b51c47fc48b69557679be8529367e225470b3da3167341d8164e81a7"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/candidate-regression-20261017/exact-candidate-fixture-state.copy/.ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.contract.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-02-bd9b4376b0c4.json",
+      "bytes": 2030,
+      "rawSha256Before": "bd9b4376b0c4a6934f40b9a6627a7b0a01e8e622e89973549b1fc97737dcab38",
+      "rawSha256After": "bd9b4376b0c4a6934f40b9a6627a7b0a01e8e622e89973549b1fc97737dcab38"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/candidate-regression-20261017/exact-candidate-fixture-state.copy/.ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.summary.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-03-ef4a1c7f34b2.json",
+      "bytes": 4565,
+      "rawSha256Before": "ef4a1c7f34b25a5b33f004f92383d38b9b964d731a6df231e5fa89c352c406e6",
+      "rawSha256After": "ef4a1c7f34b25a5b33f004f92383d38b9b964d731a6df231e5fa89c352c406e6"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/real-native-red-20261017/attempt2-target-RED/exact-native-state.copy/.ai/decisions/WI-TEST-ACTIVATION-GAP.preflight-review.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-04-9b73c35a18bd.json",
+      "bytes": 745,
+      "rawSha256Before": "9b73c35a18bd8b3c9ee677e46952bd686ba80fc6fa610125f12e6ccc67e477b9",
+      "rawSha256After": "9b73c35a18bd8b3c9ee677e46952bd686ba80fc6fa610125f12e6ccc67e477b9"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/real-native-red-20261017/attempt2-target-RED/exact-native-state.copy/.ai/work-items/active/WI-TEST-ACTIVATION-GAP.contract.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-05-b0e69203ceed.json",
+      "bytes": 2154,
+      "rawSha256Before": "b0e69203ceedaef054e0417d8f4b49a4758867b6857f001a9906af6d941dce74",
+      "rawSha256After": "b0e69203ceedaef054e0417d8f4b49a4758867b6857f001a9906af6d941dce74"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/real-native-red-20261017/attempt2-target-RED/exact-native-state.copy/.ai/work-items/active/WI-TEST-ACTIVATION-GAP.summary.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-06-d31616c97ab2.json",
+      "bytes": 4544,
+      "rawSha256Before": "d31616c97ab2ed2a085ecd034cff3fa1bccbf7e0ebe5b680bc63f3fd4bc838ba",
+      "rawSha256After": "d31616c97ab2ed2a085ecd034cff3fa1bccbf7e0ebe5b680bc63f3fd4bc838ba"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k04-blank-actor-RED-fixture/.ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.activation-recovery/committed.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-07-24add332a8b2.json",
+      "bytes": 169,
+      "rawSha256Before": "24add332a8b2ceec1bc19c6da661055cbf94e0b68b5c7942572c045f132766c8",
+      "rawSha256After": "24add332a8b2ceec1bc19c6da661055cbf94e0b68b5c7942572c045f132766c8"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k04-blank-actor-RED-fixture/.ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.activation-recovery/prepared.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-08-24a535260135.json",
+      "bytes": 332355,
+      "rawSha256Before": "24a535260135a4656dca82ff21acf4690dd63e09c57621228575d930fa90fb51",
+      "rawSha256After": "24a535260135a4656dca82ff21acf4690dd63e09c57621228575d930fa90fb51"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k04-blank-actor-RED-fixture/.ai/evidence/WI-CLI-ACTIVATION-CONTINUITY/actual-fixture-response.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-09-1a66de8a4cb6.json",
+      "bytes": 349,
+      "rawSha256Before": "1a66de8a4cb672a0c1bb3404718238d166bb310de8c9da7f26a251f55be70313",
+      "rawSha256After": "1a66de8a4cb672a0c1bb3404718238d166bb310de8c9da7f26a251f55be70313"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k04-blank-actor-RED-fixture/.ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.contract.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-10-f98412ad02e6.json",
+      "bytes": 2030,
+      "rawSha256Before": "f98412ad02e63c84678aaa1138ba423614f950eeef0801573d65ff50952f1a8f",
+      "rawSha256After": "f98412ad02e63c84678aaa1138ba423614f950eeef0801573d65ff50952f1a8f"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k04-blank-actor-RED-fixture/.ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.summary.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-11-43a8fba726cc.json",
+      "bytes": 4900,
+      "rawSha256Before": "43a8fba726cc91eb1ad4acf5443a4d58200098528803583bd6829ca344a2be4e",
+      "rawSha256After": "43a8fba726cc91eb1ad4acf5443a4d58200098528803583bd6829ca344a2be4e"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k04-blank-actor-RED-fixture/git-metadata/.ai-cockpit/coordination/v1/registrations/WI-CLI-ACTIVATION-CONTINUITY.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-12-82a56a190ce1.json",
+      "bytes": 1464,
+      "rawSha256Before": "82a56a190ce1b609b8f1fb49d7b9a71412ae0fbe0871ea57f79163a51b0b2981",
+      "rawSha256After": "82a56a190ce1b609b8f1fb49d7b9a71412ae0fbe0871ea57f79163a51b0b2981"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/.ai/decisions/WI-CLI-ACTIVATION-CONTINUITY.preflight-review.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-13-861913e4b248.json",
+      "bytes": 728,
+      "rawSha256Before": "861913e4b248093cc902d7bd88c32503dc0762f78b32f87a582c173dfa687bbe",
+      "rawSha256After": "861913e4b248093cc902d7bd88c32503dc0762f78b32f87a582c173dfa687bbe"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/.ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000001.committed.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-14-f4e1c38fc44b.json",
+      "bytes": 3144,
+      "rawSha256Before": "f4e1c38fc44bfd9cb950a32237ab2b5e39134af33b306ee28578472a09a24699",
+      "rawSha256After": "f4e1c38fc44bfd9cb950a32237ab2b5e39134af33b306ee28578472a09a24699"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/.ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000001.prepared.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-15-f08210f69a29.json",
+      "bytes": 6079,
+      "rawSha256Before": "f08210f69a29ef876c10c9be88f1b9c2c074442512013cfeaf2f048bc840c85e",
+      "rawSha256After": "f08210f69a29ef876c10c9be88f1b9c2c074442512013cfeaf2f048bc840c85e"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/.ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000002.committed.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-16-84ca1bc7eb19.json",
+      "bytes": 1758,
+      "rawSha256Before": "84ca1bc7eb198758e026da88fcebf2d82a92734f46cbe45d08793005e3db2335",
+      "rawSha256After": "84ca1bc7eb198758e026da88fcebf2d82a92734f46cbe45d08793005e3db2335"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/.ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000002.prepared.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-17-22ae110cc10b.json",
+      "bytes": 6462,
+      "rawSha256Before": "22ae110cc10b6b5d8e0f9fdf901b18c0b0bda8aa85629e9d1edbee935e1023ab",
+      "rawSha256After": "22ae110cc10b6b5d8e0f9fdf901b18c0b0bda8aa85629e9d1edbee935e1023ab"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/.ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.contract.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-18-3428a1994170.json",
+      "bytes": 2030,
+      "rawSha256Before": "3428a1994170cbe9f935e58aa705596ca378f28672818100a1fcda255a6a5570",
+      "rawSha256After": "3428a1994170cbe9f935e58aa705596ca378f28672818100a1fcda255a6a5570"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/.ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.summary.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-19-fe746534a047.json",
+      "bytes": 4263,
+      "rawSha256Before": "fe746534a047fa7bf46d1d615d52f453227f18fbfded4121469f3f2fcdd46589",
+      "rawSha256After": "fe746534a047fa7bf46d1d615d52f453227f18fbfded4121469f3f2fcdd46589"
+    },
+    {
+      "classification": "agent_saved_fixture_copy_not_canonical_native_record",
+      "oldPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/m02-orphan-marker-RED-fixture/git-metadata/.ai-cockpit/coordination/v1/registrations/WI-CLI-ACTIVATION-CONTINUITY.json",
+      "newPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/fixture-copy-20-73aa98e56fac.json",
+      "bytes": 1464,
+      "rawSha256Before": "73aa98e56fac6152daa213605b72bbcaa0b2b3d4092943b96eba66eb09fc3d1c",
+      "rawSha256After": "73aa98e56fac6152daa213605b72bbcaa0b2b3d4092943b96eba66eb09fc3d1c"
+    }
+  ],
+  "savedActualFailureEvidence": [
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p22-ci-2dd3-watch2-terminal.raw.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/ci-2dd3-terminal.raw.json",
+      "rawSha256": "cca961343f9d3792478de2695f20d39f3a5872b62a4bd66345d30f96ae459d80"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p22-2dd3-windows-failed.decoded.log",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/windows-failed.decoded.log",
+      "rawSha256": "a08d2c58806793d825bf423b1694c76b5e8b3bb38fbf242ea51b4a01297661c8"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p22-ee886-windows-cancelled.log",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/prior-windows-cancelled.decoded.log",
+      "rawSha256": "8eed1e5ef405bc3ea0477f0f89a6427cae9fa1881f1c6c9f4cd968522eeb81d7"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/final-preservation-2dd3e221.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/preservation-before.json",
+      "rawSha256": "4f2e69f2529d18f694313ca7f097e2307920fdb79e733710428ce7009e3aff51"
+    }
+  ]
+}

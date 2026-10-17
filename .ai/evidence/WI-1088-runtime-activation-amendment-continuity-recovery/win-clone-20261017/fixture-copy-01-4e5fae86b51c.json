@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:40b0c9d4b6abff355a43ba47de8fcd8a8bbd3af3703c1403be1f36affdcaf1f1",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "reason": "Synthetic isolated fixture review; not a real human response or history proof.",
+  "recordedAt": "2026-10-17T00:00:00Z",
+  "recordedBy": "fixture:activation-test-only",
+  "repositoryId": "sha256:297296711d0f7af2f013207c9c78355dc4a65502eb29f98731ccda9d3a52625d",
+  "repositorySnapshotDigest": "sha256:1f85aa3871465e88f6a7a4c11b589f3e1ad587ede6226802523f5d01d6df2de4",
+  "schemaVersion": 1,
+  "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+}

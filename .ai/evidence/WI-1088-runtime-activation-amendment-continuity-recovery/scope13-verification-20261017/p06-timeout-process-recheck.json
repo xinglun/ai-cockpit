@@ -1,0 +1,13 @@
+{
+  "kind": "actual_agent_read_only_process_observation",
+  "observedAt": "2026-10-17T12:18:21.651180+00:00",
+  "relatedActiveProcesses": [],
+  "nativeTimedOut": true,
+  "nodeElapsedMs": 600032,
+  "budgetSeconds": 600,
+  "terminationSignal": 9,
+  "stdoutTruncated": true,
+  "stderrTruncated": false,
+  "compileElapsedSecondsObserved": 54.09,
+  "rationaleForOneRetry": "Same full command/budget/environment after preserved timeout; observe a warm-cache full run. No policy change, skipped tests or success inference."
+}

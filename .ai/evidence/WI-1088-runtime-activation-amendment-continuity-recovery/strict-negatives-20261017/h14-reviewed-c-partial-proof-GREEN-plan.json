@@ -1,0 +1,57 @@
+{
+  "kind": "actual_current_environment_native_command_observation",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "verify",
+    "--work-item",
+    "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "--command",
+    "cargo",
+    "--args=test",
+    "--args=--locked",
+    "--args=--package",
+    "--args=cockpit-cli",
+    "--args=--test",
+    "--args=contract_amendment_processes",
+    "--args=current_contract_review_cannot_hide_a_missing_activation_commit",
+    "--args=--",
+    "--args=--exact",
+    "--args=--nocapture",
+    "--workers",
+    "1",
+    "--plan-only",
+    "--repo",
+    "/workspace/ai-cockpit-wi1088-runtime-continuity"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "startedAt": "2026-10-17T09:48:07.028621+00:00",
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "908fe6b90027bb9a10c0d74ff913611c3cae4497",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit-wi1088-runtime-continuity/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "exitCode": 0,
+  "elapsedSeconds": 0.919,
+  "endedAt": "2026-10-17T09:48:07.980136+00:00",
+  "stdout": {
+    "bytes": 2195,
+    "rawSha256": "e8ce8ee1863b4c5061ecc012f4269a957303f1c86bdbbe3d94d8f9b3bd33175e",
+    "encoding": "base64",
+    "data": "ewogICJjb3ZlcmFnZU1hbmlmZXN0IjogbnVsbCwKICAibm9kZXNQbGFubmVkIjogMSwKICAibm9kZXNSZXVzZWQiOiAwLAogICJub2Rlc1RvRXhlY3V0ZSI6IDEsCiAgInBsYW5uZWROb2RlcyI6IFsKICAgIHsKICAgICAgImFjdGlvbiI6ICJleGVjdXRlIiwKICAgICAgImFyZ3MiOiBbCiAgICAgICAgInRlc3QiLAogICAgICAgICItLWxvY2tlZCIsCiAgICAgICAgIi0tcGFja2FnZSIsCiAgICAgICAgImNvY2twaXQtY2xpIiwKICAgICAgICAiLS10ZXN0IiwKICAgICAgICAiY29udHJhY3RfYW1lbmRtZW50X3Byb2Nlc3NlcyIsCiAgICAgICAgImN1cnJlbnRfY29udHJhY3RfcmV2aWV3X2Nhbm5vdF9oaWRlX2FfbWlzc2luZ19hY3RpdmF0aW9uX2NvbW1pdCIsCiAgICAgICAgIi0tIiwKICAgICAgICAiLS1leGFjdCIsCiAgICAgICAgIi0tbm9jYXB0dXJlIgogICAgICBdLAogICAgICAiYmluZGluZ01pc21hdGNoZXMiOiBbXSwKICAgICAgImRlcGVuZGVuY2llcyI6IFtdLAogICAgICAiaWRlbnRpdHlCaW5kaW5nIjogewogICAgICAgICJjb21tYW5kRGlnZXN0IjogInNoYTI1NjpkNWU3NDUyZjY2YWVlZWVhMWMyOGFhOThmODUwYzIyNGM1M2EyNjYzNzFhODJmOWMxMTNhMWQ4NGY3NGM3NTA0IiwKICAgICAgICAicHJvZmlsZURpZ2VzdCI6IG51bGwsCiAgICAgICAgInJlcG9zaXRvcnlJZCI6ICJzaGEyNTY6ZWUwMmEwNGNhMjQyZDgzMDA4NjQzMmJkNGQzZjgxNjAyNTA1MzcxMjY5ODUyNzIxZWU4M2UxMTdlMzVkYTIyYiIsCiAgICAgICAgInJlcG9zaXRvcnlTbmFwc2hvdERpZ2VzdCI6ICJzaGEyNTY6NGYzYzg3ODZkNmM3OTM4MjkzZDg4NjBjNmFkNGVmY2UzM2VjZDc1OGIyODYzODliZDRjNTI2M2U4ZTc2OTY2NiIsCiAgICAgICAgInJ1bnRpbWVEaWdlc3QiOiAic2hhMjU2OjBmZmRjZDIwNzQwZjIyYjk2NjIxY2YwNmFkYjU0NzlkODNmYjQzNWY1MDNhMjZjMThkODI0ZDYxYzRiZmU5YzQiCiAgICAgIH0sCiAgICAgICJub2RlSWQiOiAicHJvamVjdC1jb21tYW5kLTAiLAogICAgICAicGxhbm5pbmdFbGFwc2VkTXMiOiAwLAogICAgICAicHJvZ3JhbSI6ICJjYXJnbyIsCiAgICAgICJyZWFzb24iOiAicmV1c2Vfbm90X2NvbmZpZ3VyZWQiLAogICAgICAicmVjZWlwdElkIjogbnVsbCwKICAgICAgInJldXNlQXV0aG9yaXphdGlvbiI6ICJub3RfcmVxdWVzdGVkIiwKICAgICAgInNhdGlzZmllZEJ5IjogImV4ZWN1dGlvbiIsCiAgICAgICJzdGF0ZSI6ICJub3RfYXBwbGljYWJsZSIsCiAgICAgICJ0aW1lb3V0U2Vjb25kcyI6IDYwMAogICAgfQogIF0sCiAgInByb2Nlc3Nlc1NwYXduZWQiOiAwLAogICJyZXBvc2l0b3J5SWQiOiAic2hhMjU2OmVlMDJhMDRjYTI0MmQ4MzAwODY0MzJiZDRkM2Y4MTYwMjUwNTM3MTI2OTg1MjcyMWVlODNlMTE3ZTM1ZGEyMmIiLAogICJyZXBvc2l0b3J5U25hcHNob3REaWdlc3QiOiAic2hhMjU2OjRmM2M4Nzg2ZDZjNzkzODI5M2Q4ODYwYzZhZDRlZmNlMzNlY2Q3NThiMjg2Mzg5YmQ0YzUyNjNlOGU3Njk2NjYiLAogICJyZXF1ZXN0cyI6IFsKICAgIHsKICAgICAgImFyZ3MiOiBbCiAgICAgICAgInRlc3QiLAogICAgICAgICItLWxvY2tlZCIsCiAgICAgICAgIi0tcGFja2FnZSIsCiAgICAgICAgImNvY2twaXQtY2xpIiwKICAgICAgICAiLS10ZXN0IiwKICAgICAgICAiY29udHJhY3RfYW1lbmRtZW50X3Byb2Nlc3NlcyIsCiAgICAgICAgImN1cnJlbnRfY29udHJhY3RfcmV2aWV3X2Nhbm5vdF9oaWRlX2FfbWlzc2luZ19hY3RpdmF0aW9uX2NvbW1pdCIsCiAgICAgICAgIi0tIiwKICAgICAgICAiLS1leGFjdCIsCiAgICAgICAgIi0tbm9jYXB0dXJlIgogICAgICBdLAogICAgICAiZGVwZW5kZW5jaWVzIjogW10sCiAgICAgICJub2RlSWQiOiAicHJvamVjdC1jb21tYW5kLTAiLAogICAgICAicHJvZ3JhbSI6ICJjYXJnbyIsCiAgICAgICJ0aW1lb3V0U2Vjb25kcyI6IDYwMAogICAgfQogIF0sCiAgInJ1bnRpbWVEaWdlc3QiOiAic2hhMjU2OjBmZmRjZDIwNzQwZjIyYjk2NjIxY2YwNmFkYjU0NzlkODNmYjQzNWY1MDNhMjZjMThkODI0ZDYxYzRiZmU5YzQiLAogICJydW50aW1lVmVyc2lvbiI6ICIxLjAuMSIsCiAgInN0YXRlIjogInBsYW5uZWQiLAogICJ0aW1lb3V0U2Vjb25kcyI6IDYwMCwKICAid29ya0l0ZW1JZCI6ICJXSS0xMDg4LXJ1bnRpbWUtYWN0aXZhdGlvbi1hbWVuZG1lbnQtY29udGludWl0eS1yZWNvdmVyeSIKfQo="
+  },
+  "stderr": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  }
+}

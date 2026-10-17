@@ -1,0 +1,426 @@
+﻿2026-10-17T11:28:18.2499836Z Current runner version: '2.337.0'
+2026-10-17T11:28:18.2521135Z ##[group]Runner Image Provisioner
+2026-10-17T11:28:18.2521822Z Hosted Compute Agent
+2026-10-17T11:28:18.2522246Z Version: 20261002.596
+2026-10-17T11:28:18.2522694Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-17T11:28:18.2523253Z Build Date: 2026-10-02T22:28:27Z
+2026-10-17T11:28:18.2523760Z Worker ID: {850d383f-6f90-47d3-acdd-e832bcef6b36}
+2026-10-17T11:28:18.2524282Z Region: westus3
+2026-10-17T11:28:18.2524703Z Cloud: Azure
+2026-10-17T11:28:18.2525126Z ##[endgroup]
+2026-10-17T11:28:18.2526572Z ##[group]Operating System
+2026-10-17T11:28:18.2527087Z Microsoft Windows Server 2025
+2026-10-17T11:28:18.2527550Z 10.0.26100
+2026-10-17T11:28:18.2527945Z Datacenter
+2026-10-17T11:28:18.2528319Z ##[endgroup]
+2026-10-17T11:28:18.2528721Z ##[group]Runner Image
+2026-10-17T11:28:18.2529153Z Image: windows-2025-vs2026
+2026-10-17T11:28:18.2529591Z Version: 20261007.264.1
+2026-10-17T11:28:18.2530829Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261007.264/images/windows/Windows2025-VS2026-Readme.md
+2026-10-17T11:28:18.2532082Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261007.264
+2026-10-17T11:28:18.2532812Z ##[endgroup]
+2026-10-17T11:28:18.2533657Z ##[group]GITHUB_TOKEN Permissions
+2026-10-17T11:28:18.2535160Z Contents: read
+2026-10-17T11:28:18.2535577Z Metadata: read
+2026-10-17T11:28:18.2536013Z ##[endgroup]
+2026-10-17T11:28:18.2537608Z Secret source: Actions
+2026-10-17T11:28:18.2538277Z Cache mode: write
+2026-10-17T11:28:18.2538800Z Prepare workflow directory
+2026-10-17T11:28:18.2823015Z Prepare all required actions
+2026-10-17T11:28:18.2866185Z Getting action download info
+2026-10-17T11:28:18.5615832Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-17T11:28:18.6664919Z Download action repository 'dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772' (SHA:6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772)
+2026-10-17T11:28:18.8928265Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-17T11:28:19.0961691Z Complete job name: windows-runtime
+2026-10-17T11:28:19.2177616Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-17T11:28:19.2178576Z with:
+2026-10-17T11:28:19.2178876Z   fetch-depth: 0
+2026-10-17T11:28:19.2179204Z   persist-credentials: false
+2026-10-17T11:28:19.2179573Z   repository: xinglun/ai-cockpit
+2026-10-17T11:28:19.2182570Z   token: ***
+2026-10-17T11:28:19.2182871Z   ssh-strict: true
+2026-10-17T11:28:19.2183178Z   ssh-user: git
+2026-10-17T11:28:19.2183472Z   clean: true
+2026-10-17T11:28:19.2183786Z   sparse-checkout-cone-mode: true
+2026-10-17T11:28:19.2184168Z   fetch-tags: false
+2026-10-17T11:28:19.2184480Z   show-progress: true
+2026-10-17T11:28:19.2184791Z   lfs: false
+2026-10-17T11:28:19.2185077Z   submodules: false
+2026-10-17T11:28:19.2185413Z   set-safe-directory: true
+2026-10-17T11:28:19.2185775Z   allow-unsafe-pr-checkout: false
+2026-10-17T11:28:19.2186339Z ##[endgroup]
+2026-10-17T11:28:19.3477524Z Syncing repository: xinglun/ai-cockpit
+2026-10-17T11:28:19.3478923Z ##[group]Getting Git version info
+2026-10-17T11:28:19.3479401Z Working directory is 'D:\a\ai-cockpit\ai-cockpit'
+2026-10-17T11:28:19.4044088Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-17T11:28:19.7345425Z git version 2.56.0.windows.2
+2026-10-17T11:28:19.7385822Z ##[endgroup]
+2026-10-17T11:28:19.7399368Z Temporarily overriding HOME='D:\a\_temp\d5141fbd-a9d1-4f0d-a998-56b11ad4ccfd' before making global git config changes
+2026-10-17T11:28:19.7400724Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-17T11:28:19.7407728Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\ai-cockpit\ai-cockpit
+2026-10-17T11:28:19.8014470Z Deleting the contents of 'D:\a\ai-cockpit\ai-cockpit'
+2026-10-17T11:28:19.8018666Z ##[group]Determining repository object format
+2026-10-17T11:28:19.8020022Z ##[endgroup]
+2026-10-17T11:28:19.8020995Z ##[group]Initializing the repository
+2026-10-17T11:28:19.8027006Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\ai-cockpit\ai-cockpit
+2026-10-17T11:28:19.8821180Z Initialized empty Git repository in D:/a/ai-cockpit/ai-cockpit/.git/
+2026-10-17T11:28:19.8858910Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/xinglun/ai-cockpit
+2026-10-17T11:28:19.9435820Z ##[endgroup]
+2026-10-17T11:28:19.9436514Z ##[group]Disabling automatic garbage collection
+2026-10-17T11:28:19.9443872Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-17T11:28:19.9754300Z ##[endgroup]
+2026-10-17T11:28:19.9755636Z ##[group]Setting up auth
+2026-10-17T11:28:19.9756304Z Removing SSH command configuration
+2026-10-17T11:28:19.9761764Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-17T11:28:20.0052691Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-17T11:28:21.3066036Z Removing HTTP extra header
+2026-10-17T11:28:21.3077389Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-17T11:28:21.3374024Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-17T11:28:21.7721004Z Removing includeIf entries pointing to credentials config files
+2026-10-17T11:28:21.7728386Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-17T11:28:21.8017475Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-17T11:28:22.2510330Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-17T11:28:22.2831711Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path D:\a\_temp\git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:22.3131963Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path D:\a\_temp\git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:22.3483552Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:22.3789550Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:22.4090653Z ##[endgroup]
+2026-10-17T11:28:22.4091200Z ##[group]Fetching the repository
+2026-10-17T11:28:22.4100216Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +98871497772c008294681a59b9b134e03b060471:refs/remotes/pull/1047/merge
+2026-10-17T11:28:29.6795214Z From https://github.com/xinglun/ai-cockpit
+2026-10-17T11:28:29.6798735Z  * [new branch]        codex/wi-1059-input-trust-context -> origin/codex/wi-1059-input-trust-context
+2026-10-17T11:28:29.6800242Z  * [new branch]        codex/wi1051-mac-prerelease-v1-0-1-rc-1 -> origin/codex/wi1051-mac-prerelease-v1-0-1-rc-1
+2026-10-17T11:28:29.6801104Z  * [new branch]        codex/wi1056-retry-amend-preflight -> origin/codex/wi1056-retry-amend-preflight
+2026-10-17T11:28:29.6803259Z  * [new branch]        codex/wi1059-input-trust-context -> origin/codex/wi1059-input-trust-context
+2026-10-17T11:28:29.6804091Z  * [new branch]        codex/wi1068-v1-0-1-stable-release -> origin/codex/wi1068-v1-0-1-stable-release
+2026-10-17T11:28:29.6805230Z  * [new branch]        codex/wi1069-v1-0-1-release-publication -> origin/codex/wi1069-v1-0-1-release-publication
+2026-10-17T11:28:29.6806240Z  * [new branch]        codex/wi1070-wi1068-parity-repair-20261010 -> origin/codex/wi1070-wi1068-parity-repair-20261010
+2026-10-17T11:28:29.6806890Z  * [new branch]        codex/wi1071-release-source-quality-binding -> origin/codex/wi1071-release-source-quality-binding
+2026-10-17T11:28:29.6807536Z  * [new branch]        codex/wi1072-n-minus-one-finish-admission-20261010 -> origin/codex/wi1072-n-minus-one-finish-admission-20261010
+2026-10-17T11:28:29.6808179Z  * [new branch]        codex/wi1073-composition-hosted-diagnostic -> origin/codex/wi1073-composition-hosted-diagnostic
+2026-10-17T11:28:29.6808853Z  * [new branch]        codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011 -> origin/codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011
+2026-10-17T11:28:29.6809615Z  * [new branch]        codex/wi1074-v1-0-1-close-only-jq-filter-20261011 -> origin/codex/wi1074-v1-0-1-close-only-jq-filter-20261011
+2026-10-17T11:28:29.6810349Z  * [new branch]        codex/wi1075-wi1068-close-sync-20261011 -> origin/codex/wi1075-wi1068-close-sync-20261011
+2026-10-17T11:28:29.6810864Z  * [new branch]        codex/wi1078-evidence-recovery-20261014 -> origin/codex/wi1078-evidence-recovery-20261014
+2026-10-17T11:28:29.6811409Z  * [new branch]        codex/wi1081-post-merge-lifecycle-layout -> origin/codex/wi1081-post-merge-lifecycle-layout
+2026-10-17T11:28:29.6812005Z  * [new branch]        codex/wi1087-contract-authority-scope-and-expiry -> origin/codex/wi1087-contract-authority-scope-and-expiry
+2026-10-17T11:28:29.6812691Z  * [new branch]        codex/wi1088-runtime-activation-amendment-continuity -> origin/codex/wi1088-runtime-activation-amendment-continuity
+2026-10-17T11:28:29.6813162Z  * [new branch]        main        -> origin/main
+2026-10-17T11:28:29.6813947Z  * [new tag]           v0.1.0      -> v0.1.0
+2026-10-17T11:28:29.6814167Z  * [new tag]           v0.1.1      -> v0.1.1
+2026-10-17T11:28:29.6814368Z  * [new tag]           v0.2.0      -> v0.2.0
+2026-10-17T11:28:29.6814574Z  * [new tag]           v0.2.1      -> v0.2.1
+2026-10-17T11:28:29.6814771Z  * [new tag]           v0.2.10     -> v0.2.10
+2026-10-17T11:28:29.6814994Z  * [new tag]           v0.2.100    -> v0.2.100
+2026-10-17T11:28:29.6815246Z  * [new tag]           v0.2.101    -> v0.2.101
+2026-10-17T11:28:29.6815444Z  * [new tag]           v0.2.102    -> v0.2.102
+2026-10-17T11:28:29.6815782Z  * [new tag]           v0.2.103    -> v0.2.103
+2026-10-17T11:28:29.6816125Z  * [new tag]           v0.2.104    -> v0.2.104
+2026-10-17T11:28:29.6816745Z  * [new tag]           v0.2.105    -> v0.2.105
+2026-10-17T11:28:29.6816969Z  * [new tag]           v0.2.106    -> v0.2.106
+2026-10-17T11:28:29.6817167Z  * [new tag]           v0.2.107    -> v0.2.107
+2026-10-17T11:28:29.6817359Z  * [new tag]           v0.2.108    -> v0.2.108
+2026-10-17T11:28:29.6817589Z  * [new tag]           v0.2.109    -> v0.2.109
+2026-10-17T11:28:29.6817788Z  * [new tag]           v0.2.11     -> v0.2.11
+2026-10-17T11:28:29.6817987Z  * [new tag]           v0.2.110    -> v0.2.110
+2026-10-17T11:28:29.6818181Z  * [new tag]           v0.2.111    -> v0.2.111
+2026-10-17T11:28:29.6818380Z  * [new tag]           v0.2.112    -> v0.2.112
+2026-10-17T11:28:29.6818575Z  * [new tag]           v0.2.113    -> v0.2.113
+2026-10-17T11:28:29.6818770Z  * [new tag]           v0.2.12     -> v0.2.12
+2026-10-17T11:28:29.6818970Z  * [new tag]           v0.2.13     -> v0.2.13
+2026-10-17T11:28:29.6819175Z  * [new tag]           v0.2.14     -> v0.2.14
+2026-10-17T11:28:29.6819378Z  * [new tag]           v0.2.15     -> v0.2.15
+2026-10-17T11:28:29.6819732Z  * [new tag]           v0.2.16     -> v0.2.16
+2026-10-17T11:28:29.6819932Z  * [new tag]           v0.2.17     -> v0.2.17
+2026-10-17T11:28:29.6820123Z  * [new tag]           v0.2.18     -> v0.2.18
+2026-10-17T11:28:29.6820319Z  * [new tag]           v0.2.19     -> v0.2.19
+2026-10-17T11:28:29.6820517Z  * [new tag]           v0.2.2      -> v0.2.2
+2026-10-17T11:28:29.6820715Z  * [new tag]           v0.2.20     -> v0.2.20
+2026-10-17T11:28:29.6820907Z  * [new tag]           v0.2.21     -> v0.2.21
+2026-10-17T11:28:29.6821102Z  * [new tag]           v0.2.22     -> v0.2.22
+2026-10-17T11:28:29.6821295Z  * [new tag]           v0.2.23     -> v0.2.23
+2026-10-17T11:28:29.6821492Z  * [new tag]           v0.2.24     -> v0.2.24
+2026-10-17T11:28:29.6821683Z  * [new tag]           v0.2.25     -> v0.2.25
+2026-10-17T11:28:29.6821876Z  * [new tag]           v0.2.26     -> v0.2.26
+2026-10-17T11:28:29.6822067Z  * [new tag]           v0.2.27     -> v0.2.27
+2026-10-17T11:28:29.6822261Z  * [new tag]           v0.2.28     -> v0.2.28
+2026-10-17T11:28:29.6822451Z  * [new tag]           v0.2.29     -> v0.2.29
+2026-10-17T11:28:29.6822643Z  * [new tag]           v0.2.3      -> v0.2.3
+2026-10-17T11:28:29.6822852Z  * [new tag]           v0.2.30     -> v0.2.30
+2026-10-17T11:28:29.6823045Z  * [new tag]           v0.2.31     -> v0.2.31
+2026-10-17T11:28:29.6823247Z  * [new tag]           v0.2.32     -> v0.2.32
+2026-10-17T11:28:29.6823437Z  * [new tag]           v0.2.33     -> v0.2.33
+2026-10-17T11:28:29.6823630Z  * [new tag]           v0.2.34     -> v0.2.34
+2026-10-17T11:28:29.6823825Z  * [new tag]           v0.2.35     -> v0.2.35
+2026-10-17T11:28:29.6824163Z  * [new tag]           v0.2.36     -> v0.2.36
+2026-10-17T11:28:29.6824426Z  * [new tag]           v0.2.37     -> v0.2.37
+2026-10-17T11:28:29.6824623Z  * [new tag]           v0.2.38     -> v0.2.38
+2026-10-17T11:28:29.6824816Z  * [new tag]           v0.2.39     -> v0.2.39
+2026-10-17T11:28:29.6825010Z  * [new tag]           v0.2.4      -> v0.2.4
+2026-10-17T11:28:29.6825214Z  * [new tag]           v0.2.40     -> v0.2.40
+2026-10-17T11:28:29.6825412Z  * [new tag]           v0.2.41     -> v0.2.41
+2026-10-17T11:28:29.6825604Z  * [new tag]           v0.2.42     -> v0.2.42
+2026-10-17T11:28:29.6826153Z  * [new tag]           v0.2.43     -> v0.2.43
+2026-10-17T11:28:29.6826353Z  * [new tag]           v0.2.44     -> v0.2.44
+2026-10-17T11:28:29.6826554Z  * [new tag]           v0.2.45     -> v0.2.45
+2026-10-17T11:28:29.6826793Z  * [new tag]           v0.2.46     -> v0.2.46
+2026-10-17T11:28:29.6827123Z  * [new tag]           v0.2.47     -> v0.2.47
+2026-10-17T11:28:29.6827451Z  * [new tag]           v0.2.48     -> v0.2.48
+2026-10-17T11:28:29.6827770Z  * [new tag]           v0.2.49     -> v0.2.49
+2026-10-17T11:28:29.6828003Z  * [new tag]           v0.2.5      -> v0.2.5
+2026-10-17T11:28:29.6828206Z  * [new tag]           v0.2.50     -> v0.2.50
+2026-10-17T11:28:29.6828398Z  * [new tag]           v0.2.51     -> v0.2.51
+2026-10-17T11:28:29.6828660Z  * [new tag]           v0.2.52     -> v0.2.52
+2026-10-17T11:28:29.6828858Z  * [new tag]           v0.2.53     -> v0.2.53
+2026-10-17T11:28:29.6829057Z  * [new tag]           v0.2.54     -> v0.2.54
+2026-10-17T11:28:29.6829252Z  * [new tag]           v0.2.55     -> v0.2.55
+2026-10-17T11:28:29.6829442Z  * [new tag]           v0.2.56     -> v0.2.56
+2026-10-17T11:28:29.6829635Z  * [new tag]           v0.2.57     -> v0.2.57
+2026-10-17T11:28:29.6829824Z  * [new tag]           v0.2.58     -> v0.2.58
+2026-10-17T11:28:29.6830022Z  * [new tag]           v0.2.59     -> v0.2.59
+2026-10-17T11:28:29.6830251Z  * [new tag]           v0.2.6      -> v0.2.6
+2026-10-17T11:28:29.6830478Z  * [new tag]           v0.2.60     -> v0.2.60
+2026-10-17T11:28:29.6830755Z  * [new tag]           v0.2.61     -> v0.2.61
+2026-10-17T11:28:29.6830945Z  * [new tag]           v0.2.62     -> v0.2.62
+2026-10-17T11:28:29.6831134Z  * [new tag]           v0.2.63     -> v0.2.63
+2026-10-17T11:28:29.6831320Z  * [new tag]           v0.2.64     -> v0.2.64
+2026-10-17T11:28:29.6831655Z  * [new tag]           v0.2.65     -> v0.2.65
+2026-10-17T11:28:29.6831857Z  * [new tag]           v0.2.66     -> v0.2.66
+2026-10-17T11:28:29.6832046Z  * [new tag]           v0.2.67     -> v0.2.67
+2026-10-17T11:28:29.6832239Z  * [new tag]           v0.2.68     -> v0.2.68
+2026-10-17T11:28:29.6832434Z  * [new tag]           v0.2.69     -> v0.2.69
+2026-10-17T11:28:29.6832629Z  * [new tag]           v0.2.7      -> v0.2.7
+2026-10-17T11:28:29.6832965Z  * [new tag]           v0.2.70     -> v0.2.70
+2026-10-17T11:28:29.6833271Z  * [new tag]           v0.2.71     -> v0.2.71
+2026-10-17T11:28:29.6833529Z  * [new tag]           v0.2.72     -> v0.2.72
+2026-10-17T11:28:29.6833725Z  * [new tag]           v0.2.73     -> v0.2.73
+2026-10-17T11:28:29.6833949Z  * [new tag]           v0.2.74     -> v0.2.74
+2026-10-17T11:28:29.6834150Z  * [new tag]           v0.2.75     -> v0.2.75
+2026-10-17T11:28:29.6834391Z  * [new tag]           v0.2.76     -> v0.2.76
+2026-10-17T11:28:29.6834687Z  * [new tag]           v0.2.77     -> v0.2.77
+2026-10-17T11:28:29.6834890Z  * [new tag]           v0.2.78     -> v0.2.78
+2026-10-17T11:28:29.6835082Z  * [new tag]           v0.2.79     -> v0.2.79
+2026-10-17T11:28:29.6835282Z  * [new tag]           v0.2.8      -> v0.2.8
+2026-10-17T11:28:29.6835486Z  * [new tag]           v0.2.80     -> v0.2.80
+2026-10-17T11:28:29.6835765Z  * [new tag]           v0.2.81     -> v0.2.81
+2026-10-17T11:28:29.6836040Z  * [new tag]           v0.2.82     -> v0.2.82
+2026-10-17T11:28:29.6836240Z  * [new tag]           v0.2.83     -> v0.2.83
+2026-10-17T11:28:29.6836431Z  * [new tag]           v0.2.84     -> v0.2.84
+2026-10-17T11:28:29.6836622Z  * [new tag]           v0.2.85     -> v0.2.85
+2026-10-17T11:28:29.6836811Z  * [new tag]           v0.2.86     -> v0.2.86
+2026-10-17T11:28:29.6837003Z  * [new tag]           v0.2.87     -> v0.2.87
+2026-10-17T11:28:29.6837191Z  * [new tag]           v0.2.88     -> v0.2.88
+2026-10-17T11:28:29.6837380Z  * [new tag]           v0.2.89     -> v0.2.89
+2026-10-17T11:28:29.6837579Z  * [new tag]           v0.2.9      -> v0.2.9
+2026-10-17T11:28:29.6837768Z  * [new tag]           v0.2.90     -> v0.2.90
+2026-10-17T11:28:29.6837968Z  * [new tag]           v0.2.91     -> v0.2.91
+2026-10-17T11:28:29.6838280Z  * [new tag]           v0.2.92     -> v0.2.92
+2026-10-17T11:28:29.6838480Z  * [new tag]           v0.2.93     -> v0.2.93
+2026-10-17T11:28:29.6838676Z  * [new tag]           v0.2.94     -> v0.2.94
+2026-10-17T11:28:29.6838870Z  * [new tag]           v0.2.95     -> v0.2.95
+2026-10-17T11:28:29.6839062Z  * [new tag]           v0.2.96     -> v0.2.96
+2026-10-17T11:28:29.6839249Z  * [new tag]           v0.2.97     -> v0.2.97
+2026-10-17T11:28:29.6839441Z  * [new tag]           v0.2.98     -> v0.2.98
+2026-10-17T11:28:29.6839630Z  * [new tag]           v0.2.99     -> v0.2.99
+2026-10-17T11:28:29.6839833Z  * [new tag]           v1.0.0      -> v1.0.0
+2026-10-17T11:28:29.6840037Z  * [new tag]           v1.0.1      -> v1.0.1
+2026-10-17T11:28:29.6840255Z  * [new tag]           v1.0.1-rc.1 -> v1.0.1-rc.1
+2026-10-17T11:28:29.6840472Z  * [new tag]           v1.0.1-rc.2 -> v1.0.1-rc.2
+2026-10-17T11:28:29.6840741Z  * [new ref]           98871497772c008294681a59b9b134e03b060471 -> pull/1047/merge
+2026-10-17T11:28:29.6841874Z ##[endgroup]
+2026-10-17T11:28:29.6842137Z ##[group]Determining the checkout info
+2026-10-17T11:28:29.6842429Z ##[endgroup]
+2026-10-17T11:28:29.6844263Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-10-17T11:28:29.7527937Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-10-17T11:28:29.7820863Z ##[group]Checking out the ref
+2026-10-17T11:28:29.7827038Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/1047/merge
+2026-10-17T11:28:30.8428197Z Updating files:  16% (3577/21053)
+2026-10-17T11:28:30.9466091Z Updating files:  17% (3580/21053)
+2026-10-17T11:28:31.0032455Z Updating files:  18% (3790/21053)
+2026-10-17T11:28:31.0514010Z Updating files:  19% (4001/21053)
+2026-10-17T11:28:31.0883343Z Updating files:  20% (4211/21053)
+2026-10-17T11:28:31.1402221Z Updating files:  21% (4422/21053)
+2026-10-17T11:28:31.1810720Z Updating files:  22% (4632/21053)
+2026-10-17T11:28:31.2230876Z Updating files:  23% (4843/21053)
+2026-10-17T11:28:31.2743242Z Updating files:  24% (5053/21053)
+2026-10-17T11:28:31.3090378Z Updating files:  25% (5264/21053)
+2026-10-17T11:28:31.3428541Z Updating files:  26% (5474/21053)
+2026-10-17T11:28:31.5133731Z Updating files:  27% (5685/21053)
+2026-10-17T11:28:31.5483628Z Updating files:  28% (5895/21053)
+2026-10-17T11:28:31.5835505Z Updating files:  29% (6106/21053)
+2026-10-17T11:28:31.6240171Z Updating files:  30% (6316/21053)
+2026-10-17T11:28:31.6667273Z Updating files:  31% (6527/21053)
+2026-10-17T11:28:31.7155332Z Updating files:  32% (6737/21053)
+2026-10-17T11:28:31.7586651Z Updating files:  33% (6948/21053)
+2026-10-17T11:28:31.8065200Z Updating files:  34% (7159/21053)
+2026-10-17T11:28:31.8494280Z Updating files:  35% (7369/21053)
+2026-10-17T11:28:31.8528021Z Updating files:  36% (7580/21053)
+2026-10-17T11:28:31.8966980Z Updating files:  36% (7595/21053)
+2026-10-17T11:28:31.9345145Z Updating files:  37% (7790/21053)
+2026-10-17T11:28:31.9756954Z Updating files:  38% (8001/21053)
+2026-10-17T11:28:32.0276248Z Updating files:  39% (8211/21053)
+2026-10-17T11:28:32.0300344Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.11b94c18be287e4bb9deb3df03976b0eaf25f144295de39c3a73e463cf520100.json: Filename too long
+2026-10-17T11:28:32.0310602Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.26aabb6bbb03d29bdbd9f70bf292e76cbe7616dcf05e7142c24b5f49b830611e.json: Filename too long
+2026-10-17T11:28:32.0314844Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.454eae667e359542486e705d9d4372105d151b4b188fa2be5894e8ee69e0d3a6.json: Filename too long
+2026-10-17T11:28:32.0318254Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.4b7dfdba3c5a4e6e3f11712f789539e939330dcdaa2244536d8ccee1d1425f1f.json: Filename too long
+2026-10-17T11:28:32.0321489Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.51d23a7d8ccb2241a7a45dd4fff2230ff4be1555e9e0c0d9c8e34dbeecc0db1a.json: Filename too long
+2026-10-17T11:28:32.0324749Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.65e2ddae99397afaa75d81daf64e6363be97a7d6a87760959eb5fbe7d0e5eed5.json: Filename too long
+2026-10-17T11:28:32.0326509Z Updating files:  40% (8422/21053)
+2026-10-17T11:28:32.0328607Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.69cdf063677285a6d0efffae8f717c87cfc487103c1994264608c573d4c95b65.json: Filename too long
+2026-10-17T11:28:32.0331868Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.6a15bba193af21826a75720c8e538ebe3a0c74284ac052ef0962019d12db6cc8.json: Filename too long
+2026-10-17T11:28:32.0335290Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.6fbe989b3e93e6908fb36c5ccd37bd4ef1a255ba0e79ab57561a1030f7a9c5f6.json: Filename too long
+2026-10-17T11:28:32.0338523Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.725fae6f8ef95b12bfffaa4cc96388b444cd6b13e1b211e9f844b14417820319.json: Filename too long
+2026-10-17T11:28:32.0341795Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.76bd9058d57b385549831b257c9c21694e88543f24c17ad3aa03ef722072b102.json: Filename too long
+2026-10-17T11:28:32.0344992Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.78538b27eb96ff3931a50ea7d7c016a844ca9bae7c5a33d74f5776bc687c9a98.json: Filename too long
+2026-10-17T11:28:32.0348446Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9541f5370eed6473f5e905b8492fdaab9dd908903d559d26ae1c99d088d5650b.json: Filename too long
+2026-10-17T11:28:32.0351646Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9ad272af524423f15f685b84cc51af6a102afb47217863a86738af139028a005.json: Filename too long
+2026-10-17T11:28:32.0354930Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9e223d0a489c4023dee54ec48f92899712253d9456d872aacf218befa2a65cf6.json: Filename too long
+2026-10-17T11:28:32.0358236Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.acb070ad5974da0bb3ac078b28287740b6b381b83524bf87c880a2e6ffae9caf.json: Filename too long
+2026-10-17T11:28:32.0361417Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.b6144c7553a0a3e580d081d9c1c074030e2f3d49d60d4421762aae996206d2fa.json: Filename too long
+2026-10-17T11:28:32.0364631Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.d4dfa50f259258ae6a4cf49ab775f16d580062ab10be02f285731c3106feb4f0.json: Filename too long
+2026-10-17T11:28:32.0368056Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.dd070e669805591d578c2bcebe15b53d1798b1926369017e93edf0a261bcf0a2.json: Filename too long
+2026-10-17T11:28:32.0371273Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.de34c11b0bc0a009da27da278adde36dcaad7354dee12616960ed7b38723b068.json: Filename too long
+2026-10-17T11:28:32.0374577Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.df13027dc6fa561505907420654383324507779c568da5fb37e6aea23b91cf59.json: Filename too long
+2026-10-17T11:28:32.0377740Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.edeb9cc607934ef6bf18feb1ac671f922208531b4021690450243c2985aab424.json: Filename too long
+2026-10-17T11:28:32.0380915Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0024d9bbc9d3c33287a2a4ebc768f32c0d80d6fddd3c368ce48cb6347e12318.json: Filename too long
+2026-10-17T11:28:32.0384098Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0c5bf06627b05e934ee698aacec61b790d6d26d44a93aa0accb2edacef0e597.json: Filename too long
+2026-10-17T11:28:32.0387512Z ##[error]error: unable to create file .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f584a2c55a22d31d697d562d4b11ece1a7e3c6d2144491206365796e3808ce4d.json: Filename too long
+2026-10-17T11:28:32.1067899Z Updating files:  41% (8632/21053)
+2026-10-17T11:28:32.1407517Z Updating files:  42% (8843/21053)
+2026-10-17T11:28:32.1890713Z Updating files:  43% (9053/21053)
+2026-10-17T11:28:32.2397529Z Updating files:  44% (9264/21053)
+2026-10-17T11:28:32.2803124Z Updating files:  45% (9474/21053)
+2026-10-17T11:28:32.3302675Z Updating files:  46% (9685/21053)
+2026-10-17T11:28:32.3985872Z Updating files:  47% (9895/21053)
+2026-10-17T11:28:32.5103006Z Updating files:  48% (10106/21053)
+2026-10-17T11:28:32.5847204Z Updating files:  49% (10316/21053)
+2026-10-17T11:28:32.6620832Z Updating files:  50% (10527/21053)
+2026-10-17T11:28:32.6944208Z Updating files:  51% (10738/21053)
+2026-10-17T11:28:32.7334945Z Updating files:  52% (10948/21053)
+2026-10-17T11:28:32.9123527Z Updating files:  53% (11159/21053)
+2026-10-17T11:28:32.9173326Z Updating files:  53% (11339/21053)
+2026-10-17T11:28:32.9746702Z Updating files:  54% (11369/21053)
+2026-10-17T11:28:33.0143575Z Updating files:  55% (11580/21053)
+2026-10-17T11:28:33.0531686Z Updating files:  56% (11790/21053)
+2026-10-17T11:28:33.0938021Z Updating files:  57% (12001/21053)
+2026-10-17T11:28:33.1311433Z Updating files:  58% (12211/21053)
+2026-10-17T11:28:33.1717529Z Updating files:  59% (12422/21053)
+2026-10-17T11:28:33.2094693Z Updating files:  60% (12632/21053)
+2026-10-17T11:28:33.2465771Z Updating files:  61% (12843/21053)
+2026-10-17T11:28:33.2839779Z Updating files:  62% (13053/21053)
+2026-10-17T11:28:33.3212950Z Updating files:  63% (13264/21053)
+2026-10-17T11:28:33.3587072Z Updating files:  64% (13474/21053)
+2026-10-17T11:28:33.3963173Z Updating files:  65% (13685/21053)
+2026-10-17T11:28:33.4336381Z Updating files:  66% (13895/21053)
+2026-10-17T11:28:33.4705773Z Updating files:  67% (14106/21053)
+2026-10-17T11:28:33.5077313Z Updating files:  68% (14317/21053)
+2026-10-17T11:28:33.5439362Z Updating files:  69% (14527/21053)
+2026-10-17T11:28:33.5804941Z Updating files:  70% (14738/21053)
+2026-10-17T11:28:33.6167470Z Updating files:  71% (14948/21053)
+2026-10-17T11:28:33.6538674Z Updating files:  72% (15159/21053)
+2026-10-17T11:28:33.6902278Z Updating files:  73% (15369/21053)
+2026-10-17T11:28:33.7305928Z Updating files:  74% (15580/21053)
+2026-10-17T11:28:33.7681725Z Updating files:  75% (15790/21053)
+2026-10-17T11:28:33.8044344Z Updating files:  76% (16001/21053)
+2026-10-17T11:28:33.8411087Z Updating files:  77% (16211/21053)
+2026-10-17T11:28:33.8553610Z Updating files:  78% (16422/21053)
+2026-10-17T11:28:33.8782513Z Updating files:  78% (16502/21053)
+2026-10-17T11:28:33.9652973Z Updating files:  79% (16632/21053)
+2026-10-17T11:28:34.0051155Z Updating files:  80% (16843/21053)
+2026-10-17T11:28:34.0466580Z Updating files:  81% (17053/21053)
+2026-10-17T11:28:34.0840847Z Updating files:  82% (17264/21053)
+2026-10-17T11:28:34.1213342Z Updating files:  83% (17474/21053)
+2026-10-17T11:28:34.1582685Z Updating files:  84% (17685/21053)
+2026-10-17T11:28:34.3281383Z Updating files:  85% (17896/21053)
+2026-10-17T11:28:34.3737558Z Updating files:  86% (18106/21053)
+2026-10-17T11:28:34.4205135Z Updating files:  87% (18317/21053)
+2026-10-17T11:28:34.4575505Z Updating files:  88% (18527/21053)
+2026-10-17T11:28:34.4922033Z Updating files:  89% (18738/21053)
+2026-10-17T11:28:34.5310055Z Updating files:  90% (18948/21053)
+2026-10-17T11:28:34.5714914Z Updating files:  91% (19159/21053)
+2026-10-17T11:28:34.6082245Z Updating files:  92% (19369/21053)
+2026-10-17T11:28:34.6448683Z Updating files:  93% (19580/21053)
+2026-10-17T11:28:34.6811823Z Updating files:  94% (19790/21053)
+2026-10-17T11:28:34.7192853Z Updating files:  95% (20001/21053)
+2026-10-17T11:28:34.7816748Z Updating files:  96% (20211/21053)
+2026-10-17T11:28:34.8215786Z Updating files:  97% (20422/21053)
+2026-10-17T11:28:34.8575324Z Updating files:  98% (20632/21053)
+2026-10-17T11:28:34.8606135Z Updating files:  98% (20828/21053)
+2026-10-17T11:28:34.9113082Z Updating files:  99% (20843/21053)
+2026-10-17T11:28:34.9113358Z Updating files: 100% (21053/21053)
+2026-10-17T11:28:34.9113562Z Updating files: 100% (21053/21053), done.
+2026-10-17T11:28:34.9400105Z Note: switching to 'refs/remotes/pull/1047/merge'.
+2026-10-17T11:28:34.9400440Z 
+2026-10-17T11:28:34.9400677Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-17T11:28:34.9401559Z changes and commit them, and you can discard any commits you make in this
+2026-10-17T11:28:34.9402178Z state without impacting any branches by switching back to a branch.
+2026-10-17T11:28:34.9402525Z 
+2026-10-17T11:28:34.9402764Z If you want to create a new branch to retain commits you create, you may
+2026-10-17T11:28:34.9403318Z do so (now or later) by using -c with the switch command. Example:
+2026-10-17T11:28:34.9403826Z 
+2026-10-17T11:28:34.9404009Z   git switch -c <new-branch-name>
+2026-10-17T11:28:34.9404221Z 
+2026-10-17T11:28:34.9404328Z Or undo this operation with:
+2026-10-17T11:28:34.9404520Z 
+2026-10-17T11:28:34.9404606Z   git switch -
+2026-10-17T11:28:34.9404742Z 
+2026-10-17T11:28:34.9404982Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-17T11:28:34.9405363Z 
+2026-10-17T11:28:34.9405792Z HEAD is now at 98871497 Merge 52d33eff8cae95c15c176cc05e8265842cdc9c7c into 6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31
+2026-10-17T11:28:35.0006004Z ##[group]Removing auth
+2026-10-17T11:28:35.0006270Z Removing SSH command configuration
+2026-10-17T11:28:35.0013458Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-17T11:28:35.0328496Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-17T11:28:35.5194396Z Removing HTTP extra header
+2026-10-17T11:28:35.5201140Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-17T11:28:35.5512755Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-17T11:28:35.9938782Z Removing includeIf entries pointing to credentials config files
+2026-10-17T11:28:35.9946224Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-17T11:28:36.0212855Z includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path
+2026-10-17T11:28:36.0213315Z includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path
+2026-10-17T11:28:36.0213613Z includeif.gitdir:/github/workspace/.git.path
+2026-10-17T11:28:36.0214182Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-17T11:28:36.0246056Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path
+2026-10-17T11:28:36.0507268Z D:\a\_temp\git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:36.0539626Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git.path D\:\\a\\_temp\\git\-credentials\-78e21809\-60cf\-4fef\-9a32\-4c65b2824aff\.config
+2026-10-17T11:28:36.0837010Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path
+2026-10-17T11:28:36.1103869Z D:\a\_temp\git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:36.1134807Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/ai-cockpit/ai-cockpit/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-78e21809\-60cf\-4fef\-9a32\-4c65b2824aff\.config
+2026-10-17T11:28:36.1425188Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-17T11:28:36.1688073Z /github/runner_temp/git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:36.1721395Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-78e21809\-60cf\-4fef\-9a32\-4c65b2824aff\.config
+2026-10-17T11:28:36.2040715Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-17T11:28:36.2300493Z /github/runner_temp/git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config
+2026-10-17T11:28:36.2333212Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-78e21809\-60cf\-4fef\-9a32\-4c65b2824aff\.config
+2026-10-17T11:28:36.2626511Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-17T11:28:36.7243833Z Removing credentials config 'D:\a\_temp\git-credentials-78e21809-60cf-4fef-9a32-4c65b2824aff.config'
+2026-10-17T11:28:36.7253941Z ##[endgroup]
+2026-10-17T11:28:36.7274806Z ##[error]The process 'C:\Program Files\Git\bin\git.exe' failed with exit code 1
+2026-10-17T11:28:36.7613959Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-17T11:28:36.7614323Z with:
+2026-10-17T11:28:36.7614493Z   name: ci-revision-binding-windows
+2026-10-17T11:28:36.7614717Z   path: target/ci-revision-binding.json
+2026-10-17T11:28:36.7614925Z   if-no-files-found: warn
+2026-10-17T11:28:36.7615106Z   retention-days: 7
+2026-10-17T11:28:36.7615256Z   compression-level: 6
+2026-10-17T11:28:36.7615426Z   overwrite: false
+2026-10-17T11:28:36.7615584Z   include-hidden-files: false
+2026-10-17T11:28:36.7615757Z   archive: true
+2026-10-17T11:28:36.7615900Z ##[endgroup]
+2026-10-17T11:28:36.8972793Z ##[warning]No files were found with the provided path: target/ci-revision-binding.json. No artifacts will be uploaded.
+2026-10-17T11:28:36.9297708Z Post job cleanup.
+2026-10-17T11:28:37.0706671Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-17T11:28:37.0984050Z git version 2.56.0.windows.2
+2026-10-17T11:28:37.1035601Z Temporarily overriding HOME='D:\a\_temp\8756d9e9-284a-464d-9b20-243ae404ecbd' before making global git config changes
+2026-10-17T11:28:37.1036425Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-17T11:28:37.1043809Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\ai-cockpit\ai-cockpit
+2026-10-17T11:28:37.1329574Z Removing SSH command configuration
+2026-10-17T11:28:37.1337665Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-17T11:28:37.1642075Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-17T11:28:37.6419281Z Removing HTTP extra header
+2026-10-17T11:28:37.6428156Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-17T11:28:37.6716705Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-17T11:28:38.1161592Z Removing includeIf entries pointing to credentials config files
+2026-10-17T11:28:38.1173164Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-17T11:28:38.1495633Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-17T11:28:38.6071453Z Cleaning up orphan processes

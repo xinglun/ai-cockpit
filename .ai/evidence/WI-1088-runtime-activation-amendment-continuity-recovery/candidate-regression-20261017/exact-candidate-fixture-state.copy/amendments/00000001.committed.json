@@ -1,0 +1,99 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:b32938d6616574094c24c7d548b9ca7f1ae5f889ce12a4143604b59825788738",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:297296711d0f7af2f013207c9c78355dc4a65502eb29f98731ccda9d3a52625d",
+    "workItemId": "WI-CLI-ACTIVATION-CONTINUITY",
+    "sequence": 1,
+    "changeId": "before-activation",
+    "requestDigest": "sha256:4a365f75d8f3a70d421607d4237d9a40f75cbe9995a26d52504612b7e0244628",
+    "reason": "Isolated test plan; no real Work Item or human authority.",
+    "changedValues": [
+      {
+        "path": "/intent",
+        "operation": "set",
+        "oldValue": "",
+        "newValue": "Exercise a real native activation boundary"
+      },
+      {
+        "path": "/goal",
+        "operation": "set",
+        "oldValue": "",
+        "newValue": "Keep post-checkpoint amendments reviewable"
+      },
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "README.md"
+        ]
+      },
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": []
+      },
+      {
+        "path": "/risk",
+        "operation": "set",
+        "oldValue": "unknown",
+        "newValue": "normal"
+      },
+      {
+        "path": "/authority",
+        "operation": "set",
+        "oldValue": "unknown",
+        "newValue": "authorized"
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "The activation boundary preserves strict native amendment admission"
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "replace",
+        "oldValue": [],
+        "newValue": [
+          "git diff --check"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:b1c31bb543c962270579fe160c9cefd1cd4562b7c3177234af6377e10c606b67",
+    "newContractDigest": "sha256:1257cf35fc7bddcbd0ab27e374851ed9382f137f2908eed24d2206e803dd0101",
+    "repositorySnapshotDigest": "sha256:1f85aa3871465e88f6a7a4c11b589f3e1ad587ede6226802523f5d01d6df2de4",
+    "environmentObservationDigest": "sha256:60534ca68602a81c4e5327f97cb1c6b0f349813b26fc9776e0cef667a3e36964",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:f1e72522e125d27a2b0fdb2433ef473a935ee1ec217e1e1324974180db5ba4c5",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/authority",
+      "/outOfScope",
+      "/risk",
+      "/scope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:03ba71c73bb53f85cf6ef626bd82472dde051d0103db5f8c6eceb3a7619d35e3",
+    "recordedAt": "2026-10-17T09:01:35Z"
+  }
+}
