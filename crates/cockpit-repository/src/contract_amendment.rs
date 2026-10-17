@@ -379,7 +379,39 @@ fn recovery_raw_inputs(
             );
         }
     }
+    let review = root.join(format!(".ai/decisions/{id}.preflight-review.json"));
+    let bytes = if review.try_exists().map_err(|source| ObserverError::Read {
+        path: review.clone(),
+        source,
+    })? {
+        bound_raw_bytes(&review)?
+    } else {
+        Vec::new()
+    };
+    if !bytes.is_empty() {
+        let evidence: cockpit_protocol::PreflightDecisionEvidence = serde_json::from_slice(&bytes)
+            .map_err(|error| state_error(&review, error.to_string()))?;
+        if evidence.schema_version != 1
+            || evidence.work_item_id != id
+            || evidence.repository_id != super::repository_id(root).to_string()
+            || evidence.decision_id != "contract-preflight-review"
+            || evidence.decision != "confirm_review"
+        {
+            return Err(state_error(
+                &review,
+                "foreign or contradictory historical review context",
+            ));
+        }
+    }
+    // Empty bytes bind observed absence; they are not a fabricated receipt.
+    inputs.insert("preflight-review".into(), bytes);
     Ok(inputs)
+}
+
+fn recovery_environment_digest(root: &Path) -> Result<Digest, ObserverError> {
+    Ok(super::RepositoryExecutionContext::capture(root)?
+        .observe_environment_identity()?
+        .environment_digest)
 }
 
 fn recovery_request_digest(request: &ActivationRecoveryRequest) -> Result<Digest, ObserverError> {
@@ -477,6 +509,7 @@ fn build_activation_recovery_request(
         registration_digest: Digest::sha256_bytes(&raw["registration"]),
         contract_digest: record_digest(&contract, root)?, summary_digest: record_digest(&summary, root)?,
         repository_snapshot_digest: observed_inputs(root)?.0,
+        environment_digest: recovery_environment_digest(root)?,
         journal_sequence: tail.sequence, journal_digest: tail.journal_digest.clone(),
         boundary_journal_digest: boundary.boundary_journal,
         before_activation_contract_digest: record_digest(&boundary.before, root)?,
@@ -661,7 +694,7 @@ fn read_activation_recovery(
         || record.business_authority_granted
         || !record.fresh_contract_review_required
         || request.request_digest != recovery_request_digest(request)?
-        || record.raw_evidence_snapshots.len() != prefix_length * 2 + 3
+        || record.raw_evidence_snapshots.len() != prefix_length * 2 + 4
         || record.raw_evidence_snapshots.len() != request.raw_evidence_digests.len()
         || record.raw_evidence_snapshots.iter().any(|(name, bytes)| {
             request.raw_evidence_digests.get(name) != Some(&Digest::sha256_bytes(bytes))
@@ -682,6 +715,22 @@ fn read_activation_recovery(
     let summary = decode("summary")?;
     let registration: cockpit_protocol::WorktreeRegistration =
         serde_json::from_value(decode("registration")?).map_err(|_| invalid())?;
+    let review = record
+        .raw_evidence_snapshots
+        .get("preflight-review")
+        .ok_or_else(invalid)?;
+    if !review.is_empty() {
+        let evidence: cockpit_protocol::PreflightDecisionEvidence =
+            serde_json::from_slice(review).map_err(|_| invalid())?;
+        if evidence.schema_version != 1
+            || evidence.repository_id != request.repository_id
+            || evidence.work_item_id != id
+            || evidence.decision_id != "contract-preflight-review"
+            || evidence.decision != "confirm_review"
+        {
+            return Err(invalid());
+        }
+    }
     let boundary =
         legacy_activation_boundary(root, id, &history[..prefix_length], &contract, &summary)?;
     if record.previous_summary != summary
@@ -699,6 +748,7 @@ fn read_activation_recovery(
         || registration.runtime.runtime_version != request.runtime.runtime_version
         || registration.runtime.runtime_digest != request.runtime.runtime_digest
         || registration.runtime.capability != cockpit_protocol::ENVIRONMENT_DRIFT_CAPABILITY
+        || registration.runtime.validate_candidate().is_err()
         || request.journal_digest != history[prefix_length - 1].journal_digest
         || request.boundary_journal_digest != boundary.boundary_journal
         || request.before_activation_contract_digest != record_digest(&boundary.before, &directory)?
@@ -868,15 +918,22 @@ pub fn record_activation_recovery(
                     &root.join(format!(".ai/work-items/active/{id}.summary.json")),
                     &projected,
                 )?;
+                let current_raw = recovery_raw_inputs(&root, id, request.journal_sequence, &store)?;
+                let current_head = cockpit_git::GitRepository::discover(&root)
+                    .and_then(|git| git.topology())
+                    .map_err(|error| state_error(&root, error.to_string()))?
+                    .head;
                 if super::read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?
                     != projected
-                    || raw["contract"]
-                        != bound_raw_bytes(
-                            &root.join(format!(".ai/work-items/active/{id}.contract.json")),
-                        )?
-                    || raw["registration"] != bound_raw_bytes(&store.registration_path(id))?
+                    || raw
+                        .iter()
+                        .filter(|(name, _)| name.as_str() != "summary")
+                        .any(|(name, bytes)| current_raw.get(name) != Some(bytes))
                     || source != bound_raw_bytes(&source_path)?
                     || observed_inputs(&root)?.0 != request.repository_snapshot_digest
+                    || recovery_environment_digest(&root)? != request.environment_digest
+                    || current_head.as_deref() != Some(request.head.as_str())
+                    || observed_activation_owner(&root)? != request.owner
                 {
                     return Err(state_error(
                         &root,

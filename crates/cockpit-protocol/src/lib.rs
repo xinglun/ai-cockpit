@@ -88,6 +88,7 @@ pub struct ActivationRecoveryRequest {
     pub contract_digest: Digest,
     pub summary_digest: Digest,
     pub repository_snapshot_digest: Digest,
+    pub environment_digest: Digest,
     pub journal_sequence: u64,
     pub journal_digest: Digest,
     pub boundary_journal_digest: Digest,
