@@ -1356,7 +1356,7 @@ fn work_item_status_snapshot_with_snapshot(
     }
     .to_string();
     let historical = legacy_verification_evidence(&root, work_item_id);
-    let activity_health = if historical {
+    let mut activity_health = if historical {
         "historical"
     } else if verification == "unknown" {
         "degraded"
@@ -1485,7 +1485,7 @@ fn work_item_status_snapshot_with_snapshot(
     if archived && !close_decision_valid && !historical_recovery_resolved {
         blockers.push("archived_work_item_pending_close".into());
     }
-    let blocking = !blockers.is_empty();
+    let mut blocking = !blockers.is_empty();
     let preflight_human_decision_required =
         summary["preflightState"] == "yellow" && summary["decisionEvidence"].is_null();
     let missing_evidence = unknowns
@@ -1583,29 +1583,44 @@ fn work_item_status_snapshot_with_snapshot(
     } else {
         super::contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?
     };
-    if !archived {
+    let activation_recovery_request = if !archived {
         // Contract review never substitutes for complete transition evidence.
         // Validate even when the current Contract already has a valid review.
-        super::contract_amendment::validate_transition_chain(
+        super::contract_amendment::activation_recovery_request_if_needed(
             &root,
             work_item_id,
+            runtime,
             &amendment_history,
-            Some(&contract_digest_value),
-        )?;
-    }
-    let amendment_checkpointed = amendment_history
-        .last()
-        .is_some_and(|receipt| receipt.checkpointed);
-    let amendment_review_required = !archived
-        && amendment_history
-            .iter()
-            .any(|receipt| receipt.policy_review_required)
-        && super::governance_controls::preflight_decision_evidence_state(
+            &contract_digest_value,
+        )?
+    } else {
+        None
+    };
+    let recovery_fresh_review = if !archived && activation_recovery_request.is_none() {
+        super::contract_amendment::activation_recovery_needs_fresh_review(
             &root,
             work_item_id,
             &contract_digest_value,
-        ) != super::governance_controls::PreflightDecisionEvidenceState::Valid;
-    let amendment_review_request_available = amendment_review_required
+            &summary,
+        )?
+    } else {
+        None
+    };
+    let amendment_checkpointed = amendment_history
+        .last()
+        .is_some_and(|receipt| receipt.checkpointed);
+    let amendment_review_required = recovery_fresh_review.is_some()
+        || (!archived
+            && amendment_history
+                .iter()
+                .any(|receipt| receipt.policy_review_required)
+            && super::governance_controls::preflight_decision_evidence_state(
+                &root,
+                work_item_id,
+                &contract_digest_value,
+            ) != super::governance_controls::PreflightDecisionEvidenceState::Valid);
+    let amendment_review_request_available = activation_recovery_request.is_none()
+        && amendment_review_required
         && super::contract_amendment::current_amendment_review_request_available(
             &root,
             work_item_id,
@@ -1859,6 +1874,26 @@ fn work_item_status_snapshot_with_snapshot(
         unknowns.push("verification_action_preconditions_blocked".into());
         diagnostics.push(error.to_string());
     }
+    if activation_recovery_request.is_some() {
+        safe_actions = vec![
+            "plan_activation_recovery".into(),
+            "record_activation_recovery".into(),
+        ];
+        blockers.push("activation_present_baseline_review_required".into());
+    } else if let Some((_, preflight_generated)) = &recovery_fresh_review {
+        safe_actions = vec!["run_preflight".into()];
+        if *preflight_generated {
+            safe_actions.push("record_governance_controls".into());
+        }
+        blockers.push("activation_recovery_fresh_contract_review_required".into());
+    }
+    if activation_recovery_request.is_some() || recovery_fresh_review.is_some() {
+        blocking = true;
+        governance_state = "yellow".into();
+        activity_health = "waiting".into();
+        unknowns.push("historical_transition_authentication_unknown".into());
+        completion_domains.insert("review".into(), "required".into());
+    }
     unknowns.sort();
     unknowns.dedup();
     let effective_unknowns = unknowns.clone();
@@ -1873,12 +1908,14 @@ fn work_item_status_snapshot_with_snapshot(
     // A yellow preflight may still explicitly admit the first typed
     // verification or its one replacement execution. That action is a
     // governed evidence collection step, not a human decision boundary.
-    let human_decision_required = human_decision_required(
-        preflight_human_decision_required,
-        preflight_recovery_available,
-        amendment_review_required,
-        &safe_actions,
-    );
+    let human_decision_required = activation_recovery_request.is_some()
+        || recovery_fresh_review.is_some()
+        || human_decision_required(
+            preflight_human_decision_required,
+            preflight_recovery_available,
+            amendment_review_required,
+            &safe_actions,
+        );
     let action_explanation = work_item_action_explanation(
         &contract.repository_id,
         work_item_id,

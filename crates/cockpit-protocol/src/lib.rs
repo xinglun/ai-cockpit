@@ -97,6 +97,10 @@ pub struct ActivationRecoveryRequest {
     pub start_fact_digest: Digest,
     pub differences: Vec<ActivationFieldDifference>,
     pub raw_evidence_digests: BTreeMap<String, Digest>,
+    pub stage: String,
+    pub retained_unknowns: Vec<String>,
+    pub required_response: String,
+    pub question: String,
     pub historical_transition_authentication: String,
     pub business_authority_granted: bool,
     pub fresh_contract_review_required: bool,
@@ -123,6 +127,18 @@ pub struct ActivationRecoveryDecision {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActivationRecoveryHumanResponseSource {
+    pub schema_version: u32,
+    pub kind: String,
+    pub request_digest: Digest,
+    pub response: String,
+    pub human_actor: String,
+    pub responded_at: String,
+    pub provenance: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ActivationRecoveryRecord {
     pub schema_version: u32,
     pub capability: String,
@@ -130,10 +146,32 @@ pub struct ActivationRecoveryRecord {
     pub decision: ActivationRecoveryDecision,
     pub previous_summary: serde_json::Value,
     pub projected_summary_digest: Digest,
+    /// Exact retained bytes, not reconstructed historical receipts.
+    pub raw_evidence_snapshots: BTreeMap<String, Vec<u8>>,
+    pub authority_source_bytes: Vec<u8>,
     pub historical_transition_authentication: String,
     pub business_authority_granted: bool,
     pub fresh_contract_review_required: bool,
     pub recorded_at: String,
+}
+
+pub fn activation_recovery_decision_schema() -> serde_json::Value {
+    let string = serde_json::json!({"type":"string","minLength":1});
+    let digest = serde_json::json!({"type":"string","pattern":"^sha256:[0-9a-f]{64}$"});
+    serde_json::json!({
+        "type":"object", "additionalProperties":false,
+        "properties":{
+            "schemaVersion":{"type":"integer","const":1},
+            "decisionId":{"type":"string","const":"activation-present-baseline-review"},
+            "response":{"type":"string","const":"accept_present_baseline"},
+            "requestDigest":digest, "humanActor":string, "recorderActor":string,
+            "assurance":{"type":"string","const":"self_declared"},
+            "authoritySourcePath":string, "authoritySourceDigest":digest,
+            "respondedAt":{"type":"string","format":"date-time"}, "reason":string
+        },
+        "required":["schemaVersion","decisionId","response","requestDigest","humanActor",
+            "recorderActor","assurance","authoritySourcePath","authoritySourceDigest","respondedAt","reason"]
+    })
 }
 
 pub use interface_description::{

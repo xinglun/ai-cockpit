@@ -1839,6 +1839,17 @@ fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_revie
         .expect("model a legacy fixture without a forward receipt");
     let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let mut legacy_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    legacy_summary
+        .as_object_mut()
+        .expect("Summary object")
+        .remove("activationContinuity");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec(&legacy_summary).expect("legacy Summary JSON"),
+    )
+    .expect("model the legacy Summary format without a capability marker");
     let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
         .expect("Contract JSON");
     let runtime = candidate_runtime();

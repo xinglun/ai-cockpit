@@ -2,11 +2,12 @@ use super::ObserverError;
 use cockpit_core::Digest;
 use cockpit_protocol::{
     ACTIVATION_CONTINUITY_CAPABILITY, ActivationFieldDifference, ActivationOwnerBinding,
-    ActivationTransitionRecord, Contract, ContractAmendmentChange, ContractAmendmentError,
-    ContractAmendmentFieldClass, ContractAmendmentOperation, ContractAmendmentRequest,
-    ContractAmendmentValueChange, ContractSource, RuntimeContext, VerificationDeclaration,
-    apply_contract_amendment, apply_contract_amendment_with_trace, contract_amendment_field_class,
-    digest_json,
+    ActivationRecoveryDecision, ActivationRecoveryHumanResponseSource, ActivationRecoveryRecord,
+    ActivationRecoveryRequest, ActivationTransitionRecord, Contract, ContractAmendmentChange,
+    ContractAmendmentError, ContractAmendmentFieldClass, ContractAmendmentOperation,
+    ContractAmendmentRequest, ContractAmendmentValueChange, ContractSource, RuntimeContext,
+    VerificationDeclaration, apply_contract_amendment, apply_contract_amendment_with_trace,
+    contract_amendment_field_class, digest_json,
 };
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::{Value, json};
@@ -146,6 +147,804 @@ struct ContinuityCommit {
 fn activation_directory(root: &Path, id: &str) -> PathBuf {
     root.join(".ai/evidence")
         .join(format!("{id}.activation-transition"))
+}
+
+fn recovery_directory(root: &Path, id: &str) -> PathBuf {
+    root.join(".ai/evidence")
+        .join(format!("{id}.activation-recovery"))
+}
+
+const RECOVERY_PLAN_ACTION: &str = "plan_activation_recovery";
+const RECOVERY_RECORD_ACTION: &str = "record_activation_recovery";
+
+struct LegacyActivationBoundary {
+    before: Value,
+    after: Value,
+    boundary_journal: Digest,
+    checkpoint_contract: Digest,
+    differences: Vec<ActivationFieldDifference>,
+}
+
+fn checkpoint_sources_match(
+    identity: &str,
+    id: &str,
+    history: &[ContractAmendmentReceipt],
+    digest: &Digest,
+    summary: &Value,
+) -> bool {
+    let Some(tail) = history.last() else {
+        return false;
+    };
+    let Some(original) = history.iter().find(|receipt| receipt.checkpointed) else {
+        return false;
+    };
+    let Some(records) = summary["checkpointEvidence"].as_array() else {
+        return false;
+    };
+    let Some(before) = records
+        .iter()
+        .find(|record| record["stage"] == "before_edit")
+    else {
+        return false;
+    };
+    let Some(revalidation) = records
+        .iter()
+        .rfind(|record| record["stage"] == "contract_amendment_revalidation")
+    else {
+        return false;
+    };
+    let checks = json!(tail.invalidated_required_checks);
+    summary["checkpointCount"] == json!(1)
+        && [before, revalidation].iter().all(|record| {
+            record["schemaVersion"] == json!(1)
+                && record["recorded"] == json!(true)
+                && record["repositoryId"] == identity
+                && record["workItemId"] == id
+                && record["recordedAt"]
+                    .as_str()
+                    .is_some_and(|time| chrono::DateTime::parse_from_rfc3339(time).is_ok())
+        })
+        && before["contractHash"] == json!(original.previous_contract_digest)
+        && revalidation["originalBeforeEditContractHash"]
+            == json!(original.previous_contract_digest)
+        && revalidation["contractHash"] == json!(digest)
+        && revalidation["previousContractHash"] == json!(tail.previous_contract_digest)
+        && revalidation["repositorySnapshotDigest"] == json!(tail.repository_snapshot_digest)
+        && revalidation["invalidatedRequiredChecks"] == checks
+        && revalidation["verificationStarted"] == json!(tail.verification_started)
+        && summary["verificationInvalidatedByContractAmendment"]["contractHash"] == json!(digest)
+        && summary["verificationInvalidatedByContractAmendment"]["invalidatedRequiredChecks"]
+            == checks
+}
+
+fn legacy_activation_boundary(
+    root: &Path,
+    id: &str,
+    history: &[ContractAmendmentReceipt],
+    contract: &Value,
+    summary: &Value,
+) -> Result<LegacyActivationBoundary, ObserverError> {
+    let invalid = || {
+        state_error(
+            root,
+            "legacy activation recovery requires exact start/checkpoint/history bindings",
+        )
+    };
+    let identity = super::repository_id(root).to_string();
+    let digest = record_digest(contract, root)?;
+    if contract["repositoryId"] != identity
+        || contract["workItemId"] != id
+        || summary["repositoryId"] != identity
+        || summary["workItemId"] != id
+        || !summary["activationContinuity"].is_null()
+        || history
+            .last()
+            .is_none_or(|tail| tail.new_contract_digest != digest)
+        || !checkpoint_sources_match(&identity, id, history, &digest, summary)
+    {
+        return Err(invalid());
+    }
+    let gaps: Vec<_> = history
+        .windows(2)
+        .enumerate()
+        .filter(|(_, pair)| pair[0].new_contract_digest != pair[1].previous_contract_digest)
+        .collect();
+    if gaps.len() != 1 {
+        return Err(invalid());
+    }
+    let (index, pair) = gaps[0];
+    if pair[0].checkpointed
+        || !pair[1].checkpointed
+        || history[..=index].iter().any(|receipt| receipt.checkpointed)
+    {
+        return Err(state_error(
+            root,
+            "legacy recovery cannot explain a post-checkpoint Contract gap",
+        ));
+    }
+    let a: PreparedRecord = read_typed_record(&amendment_record_path(
+        root,
+        id,
+        pair[0].sequence,
+        "prepared",
+    ))?;
+    let b: PreparedRecord = read_typed_record(&amendment_record_path(
+        root,
+        id,
+        pair[1].sequence,
+        "prepared",
+    ))?;
+    let before = a.prepared.new_contract;
+    let after = b.prepared.previous_contract;
+    let typed: Contract = serde_json::from_value(after.clone())
+        .map_err(|error| state_error(root, error.to_string()))?;
+    typed
+        .validate()
+        .map_err(|errors| state_error(root, errors.join("; ")))?;
+    let differences = activation_differences(&before, &after, true)?;
+    let start = &summary["lifecycleFacts"]["start"];
+    if start["eventType"] != "work_item_started"
+        || start["occurredAt"] != start["recordedAt"]
+        || start["actorProvenance"] != "unknown"
+        || start["recordedAt"]
+            .as_str()
+            .is_none_or(|time| chrono::DateTime::parse_from_rfc3339(time).is_err())
+        || start["runtimeVersion"]
+            .as_str()
+            .is_none_or(|version| version.trim().is_empty())
+        || start["runtimeDigest"]
+            .as_str()
+            .is_none_or(|digest| digest.parse::<Digest>().is_err())
+    {
+        return Err(invalid());
+    }
+    Ok(LegacyActivationBoundary {
+        before,
+        after,
+        boundary_journal: pair[0].journal_digest.clone(),
+        checkpoint_contract: pair[1].previous_contract_digest.clone(),
+        differences,
+    })
+}
+
+fn bound_raw_bytes(path: &Path) -> Result<Vec<u8>, ObserverError> {
+    if !super::is_regular_non_symlink(path)? {
+        return Err(state_error(path, "recovery input must be a regular file"));
+    }
+    let metadata = fs::metadata(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    if metadata.len() > 4 * 1024 * 1024 {
+        return Err(state_error(
+            path,
+            "recovery metadata input exceeds its bound",
+        ));
+    }
+    fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.into(),
+        source,
+    })
+}
+
+fn recovery_store(
+    root: &Path,
+    runtime: &RuntimeContext,
+) -> Result<super::CoordinationStore, ObserverError> {
+    if runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION {
+        return Err(state_error(
+            root,
+            "unsupported activation recovery Runtime protocol",
+        ));
+    }
+    let git = cockpit_git::GitRepository::discover(root)
+        .map_err(|error| state_error(root, error.to_string()))?;
+    super::CoordinationStore::open_read_only(
+        &git,
+        cockpit_protocol::RuntimeCapabilityBinding {
+            schema_version: 1,
+            runtime_version: runtime.runtime_version.clone(),
+            runtime_digest: runtime.runtime_digest.clone(),
+            capability: cockpit_protocol::ENVIRONMENT_DRIFT_CAPABILITY.into(),
+        },
+    )
+    .map_err(|error| state_error(root, error.to_string()))
+}
+
+fn recovery_raw_inputs(
+    root: &Path,
+    id: &str,
+    sequence: u64,
+    store: &super::CoordinationStore,
+) -> Result<BTreeMap<String, Vec<u8>>, ObserverError> {
+    let mut inputs = BTreeMap::new();
+    for (name, path) in [
+        (
+            "contract".to_owned(),
+            root.join(format!(".ai/work-items/active/{id}.contract.json")),
+        ),
+        (
+            "summary".to_owned(),
+            root.join(format!(".ai/work-items/active/{id}.summary.json")),
+        ),
+        ("registration".to_owned(), store.registration_path(id)),
+    ] {
+        inputs.insert(name, bound_raw_bytes(&path)?);
+    }
+    for number in 1..=sequence {
+        for phase in ["prepared", "committed"] {
+            inputs.insert(
+                format!("amendment/{number:08}.{phase}.json"),
+                bound_raw_bytes(&amendment_record_path(root, id, number, phase))?,
+            );
+        }
+    }
+    Ok(inputs)
+}
+
+fn recovery_request_digest(request: &ActivationRecoveryRequest) -> Result<Digest, ObserverError> {
+    let mut value = serde_json::to_value(request)
+        .map_err(|error| state_error("recovery-request", error.to_string()))?;
+    value
+        .as_object_mut()
+        .expect("typed request object")
+        .remove("requestDigest");
+    record_digest(&value, Path::new("recovery-request"))
+}
+
+fn build_activation_recovery_request(
+    root: &Path,
+    id: &str,
+    runtime: &RuntimeContext,
+) -> Result<ActivationRecoveryRequest, ObserverError> {
+    super::validate_work_item_id(id)?;
+    if activation_directory(root, id)
+        .try_exists()
+        .map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?
+        || recovery_directory(root, id)
+            .try_exists()
+            .map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?
+    {
+        return Err(state_error(
+            root,
+            "existing or partial continuity evidence cannot be replaced by legacy recovery",
+        ));
+    }
+    let history = read_work_item_contract_amendments(root, id)?;
+    let contract =
+        super::read_json(&root.join(format!(".ai/work-items/active/{id}.contract.json")))?;
+    let summary = super::read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    let boundary = legacy_activation_boundary(root, id, &history, &contract, &summary)?;
+    let tail = history
+        .last()
+        .ok_or_else(|| state_error(root, "recovery journal is empty"))?;
+    let store = recovery_store(root, runtime)?;
+    let raw = recovery_raw_inputs(root, id, tail.sequence, &store)?;
+    if serde_json::from_slice::<Value>(&raw["contract"])
+        .ok()
+        .as_ref()
+        != Some(&contract)
+        || serde_json::from_slice::<Value>(&raw["summary"])
+            .ok()
+            .as_ref()
+            != Some(&summary)
+    {
+        return Err(state_error(
+            root,
+            "activation recovery inputs changed during observation",
+        ));
+    }
+    let registration: cockpit_protocol::WorktreeRegistration =
+        serde_json::from_slice(&raw["registration"])
+            .map_err(|error| state_error(root, error.to_string()))?;
+    let owner = observed_activation_owner(root)?;
+    let head = cockpit_git::GitRepository::discover(root)
+        .and_then(|git| git.topology())
+        .map_err(|error| state_error(root, error.to_string()))?
+        .head
+        .ok_or_else(|| state_error(root, "missing recovery HEAD"))?;
+    if registration.work_item_id != id
+        || registration.repository_id.to_string() != super::repository_id(root).to_string()
+        || registration.contract_digest != record_digest(&contract, root)?
+        || registration.worktree_path != owner.worktree_path
+        || registration.branch != owner.branch
+        || registration.head != head
+        || registration.runtime.runtime_digest != runtime.runtime_digest
+        || registration.runtime.runtime_version != runtime.runtime_version
+        || store
+            .environment_drift_pending(&cockpit_protocol::EnvironmentDriftRequest {
+                schema_version: 1,
+                work_item_id: id.into(),
+                expected_generation: registration.generation,
+            })
+            .map_err(|error| state_error(root, error.to_string()))?
+    {
+        return Err(state_error(
+            root,
+            "activation recovery requires a current exact owner/Runtime registration without pending drift",
+        ));
+    }
+    let mut request = ActivationRecoveryRequest {
+        schema_version: 1, capability: ACTIVATION_CONTINUITY_CAPABILITY.into(),
+        repository_id: super::repository_id(root).to_string(), work_item_id: id.into(), owner,
+        runtime: runtime.clone(), head, registration_generation: registration.generation,
+        registration_digest: Digest::sha256_bytes(&raw["registration"]),
+        contract_digest: record_digest(&contract, root)?, summary_digest: record_digest(&summary, root)?,
+        repository_snapshot_digest: observed_inputs(root)?.0,
+        journal_sequence: tail.sequence, journal_digest: tail.journal_digest.clone(),
+        boundary_journal_digest: boundary.boundary_journal,
+        before_activation_contract_digest: record_digest(&boundary.before, root)?,
+        after_activation_contract_digest: record_digest(&boundary.after, root)?,
+        checkpoint_contract_digest: boundary.checkpoint_contract,
+        start_fact_digest: record_digest(&summary["lifecycleFacts"]["start"], root)?,
+        differences: boundary.differences,
+        raw_evidence_digests: raw.iter().map(|(name, bytes)| (name.clone(), Digest::sha256_bytes(bytes))).collect(),
+        stage: "before_first_checkpoint".into(),
+        retained_unknowns: vec!["historical_activation_argv_missing".into(), "historical_transition_authentication_unknown".into(), "human_identity_self_declared".into()],
+        required_response: "accept_present_baseline".into(),
+        question: "Accept only this exact present baseline and enumerated differences with historical activation authentication unknown, for a new Contract preflight request? This does not approve Contract C or business actions.".into(),
+        historical_transition_authentication: "unknown".into(), business_authority_granted: false,
+        fresh_contract_review_required: true, request_digest: Digest::sha256_bytes(b"unsealed request"),
+    };
+    request.request_digest = recovery_request_digest(&request)?;
+    Ok(request)
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PreparedActivationRecovery {
+    record: ActivationRecoveryRecord,
+    record_digest: Digest,
+}
+
+fn recovery_summary(previous: &Value, request: &ActivationRecoveryRequest, at: &str) -> Value {
+    let mut summary = previous.clone();
+    summary["preflightState"] = json!("not_run");
+    summary["activationRecovery"] = json!({
+        "schemaVersion":1, "requestDigest":request.request_digest, "recordedAt":at,
+        "historicalTransitionAuthentication":"unknown", "businessAuthorityGranted":false,
+        "freshContractReviewRequired":true,
+    });
+    summary
+}
+
+fn response_source_path(root: &Path, id: &str, relative: &str) -> Result<PathBuf, ObserverError> {
+    let path = Path::new(relative);
+    let prefix = PathBuf::from(format!(".ai/evidence/{id}"));
+    if !path.starts_with(&prefix)
+        || path.extension().is_none_or(|extension| extension != "json")
+        || path
+            .components()
+            .any(|component| !matches!(component, std::path::Component::Normal(_)))
+    {
+        return Err(state_error(
+            path,
+            "recovery response source must be an exact own-WI evidence JSON path",
+        ));
+    }
+    let full = root.join(path);
+    let canonical = fs::canonicalize(&full).map_err(|source| ObserverError::Read {
+        path: full.clone(),
+        source,
+    })?;
+    if canonical != full || !super::is_regular_non_symlink(&full)? {
+        return Err(state_error(
+            full,
+            "recovery response source must not traverse symlinks",
+        ));
+    }
+    Ok(full)
+}
+
+fn validate_recovery_response(
+    root: &Path,
+    id: &str,
+    request: &ActivationRecoveryRequest,
+    decision: &ActivationRecoveryDecision,
+    bytes: &[u8],
+) -> Result<(), ObserverError> {
+    let source: ActivationRecoveryHumanResponseSource =
+        serde_json::from_slice(bytes).map_err(|error| {
+            state_error(
+                root,
+                format!("invalid newly supplied human response source: {error}"),
+            )
+        })?;
+    if bytes.len() > 65536
+        || decision.schema_version != 1
+        || decision.decision_id != "activation-present-baseline-review"
+        || decision.response != "accept_present_baseline"
+        || decision.request_digest != request.request_digest
+        || decision.assurance != "self_declared"
+        || !decision.human_actor.starts_with("human:")
+        || decision.human_actor.len() <= "human:".len()
+        || decision.recorder_actor.trim().is_empty()
+        || decision.human_actor == decision.recorder_actor
+        || decision.reason.trim().is_empty()
+        || chrono::DateTime::parse_from_rfc3339(&decision.responded_at).is_err()
+        || decision.authority_source_digest != Digest::sha256_bytes(bytes)
+        || source.schema_version != 1
+        || source.kind != "human_activation_recovery_response_source"
+        || source.request_digest != request.request_digest
+        || source.response != decision.response
+        || source.human_actor != decision.human_actor
+        || source.responded_at != decision.responded_at
+        || source.provenance.trim().is_empty()
+    {
+        return Err(state_error(
+            root,
+            format!(
+                "{id}: exact newly supplied present-baseline response is required; old review is not recovery authority"
+            ),
+        ));
+    }
+    Ok(())
+}
+
+fn read_activation_recovery(
+    root: &Path,
+    id: &str,
+    history: &[ContractAmendmentReceipt],
+) -> Result<Option<ActivationRecoveryRecord>, ObserverError> {
+    let directory = recovery_directory(root, id);
+    if !continuity_record_directory(&directory)? {
+        return Ok(None);
+    }
+    if !directory
+        .join("prepared.json")
+        .try_exists()
+        .map_err(|source| ObserverError::Read {
+            path: directory.clone(),
+            source,
+        })?
+        || !directory
+            .join("committed.json")
+            .try_exists()
+            .map_err(|source| ObserverError::Read {
+                path: directory.clone(),
+                source,
+            })?
+    {
+        return Err(state_error(
+            directory,
+            "unresolved activation recovery transaction",
+        ));
+    }
+    let prepared: PreparedActivationRecovery = read_typed_record(&directory.join("prepared.json"))?;
+    let commit: ContinuityCommit = read_typed_record(&directory.join("committed.json"))?;
+    let record = prepared.record;
+    let request = &record.request;
+    let invalid = || {
+        state_error(
+            &directory,
+            "activation recovery record binding or retained evidence is invalid",
+        )
+    };
+    let prefix_length = usize::try_from(request.journal_sequence).map_err(|_| invalid())?;
+    if prefix_length == 0
+        || prefix_length > history.len()
+        || prepared.record_digest != record_digest(&record, &directory)?
+        || commit.schema_version != 1
+        || commit.prepared_digest != prepared.record_digest
+        || chrono::DateTime::parse_from_rfc3339(&commit.recorded_at).is_err()
+        || record.schema_version != 1
+        || record.capability != ACTIVATION_CONTINUITY_CAPABILITY
+        || request.schema_version != 1
+        || request.capability != ACTIVATION_CONTINUITY_CAPABILITY
+        || request.repository_id != super::repository_id(root).to_string()
+        || request.work_item_id != id
+        || request.owner != observed_activation_owner(root)?
+        || request.runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
+        || request.runtime.runtime_version.trim().is_empty()
+        || request.runtime.runtime_version == "0.2.105"
+        || !super::valid_git_object_id(&request.head)
+        || request.registration_generation == 0
+        || request.stage != "before_first_checkpoint"
+        || request.required_response != "accept_present_baseline"
+        || request.question.trim().is_empty()
+        || request.retained_unknowns
+            != [
+                "historical_activation_argv_missing",
+                "historical_transition_authentication_unknown",
+                "human_identity_self_declared",
+            ]
+        || request.historical_transition_authentication != "unknown"
+        || request.business_authority_granted
+        || !request.fresh_contract_review_required
+        || record.historical_transition_authentication != "unknown"
+        || record.business_authority_granted
+        || !record.fresh_contract_review_required
+        || request.request_digest != recovery_request_digest(request)?
+        || record.raw_evidence_snapshots.len() != prefix_length * 2 + 3
+        || record.raw_evidence_snapshots.len() != request.raw_evidence_digests.len()
+        || record.raw_evidence_snapshots.iter().any(|(name, bytes)| {
+            request.raw_evidence_digests.get(name) != Some(&Digest::sha256_bytes(bytes))
+        })
+    {
+        return Err(invalid());
+    }
+    let decode = |name: &str| -> Result<Value, ObserverError> {
+        serde_json::from_slice(
+            record
+                .raw_evidence_snapshots
+                .get(name)
+                .ok_or_else(invalid)?,
+        )
+        .map_err(|_| invalid())
+    };
+    let contract = decode("contract")?;
+    let summary = decode("summary")?;
+    let registration: cockpit_protocol::WorktreeRegistration =
+        serde_json::from_value(decode("registration")?).map_err(|_| invalid())?;
+    let boundary =
+        legacy_activation_boundary(root, id, &history[..prefix_length], &contract, &summary)?;
+    if record.previous_summary != summary
+        || request.contract_digest != record_digest(&contract, &directory)?
+        || request.summary_digest != record_digest(&summary, &directory)?
+        || request.registration_digest
+            != Digest::sha256_bytes(&record.raw_evidence_snapshots["registration"])
+        || registration.work_item_id != id
+        || registration.repository_id.to_string() != request.repository_id
+        || registration.contract_digest != request.contract_digest
+        || registration.head != request.head
+        || registration.worktree_path != request.owner.worktree_path
+        || registration.branch != request.owner.branch
+        || registration.generation != request.registration_generation
+        || registration.runtime.runtime_version != request.runtime.runtime_version
+        || registration.runtime.runtime_digest != request.runtime.runtime_digest
+        || registration.runtime.capability != cockpit_protocol::ENVIRONMENT_DRIFT_CAPABILITY
+        || request.journal_digest != history[prefix_length - 1].journal_digest
+        || request.boundary_journal_digest != boundary.boundary_journal
+        || request.before_activation_contract_digest != record_digest(&boundary.before, &directory)?
+        || request.after_activation_contract_digest != record_digest(&boundary.after, &directory)?
+        || request.checkpoint_contract_digest != boundary.checkpoint_contract
+        || request.start_fact_digest
+            != record_digest(&summary["lifecycleFacts"]["start"], &directory)?
+        || request.differences != boundary.differences
+        || record.projected_summary_digest
+            != record_digest(
+                &recovery_summary(&summary, request, &record.recorded_at),
+                &directory,
+            )?
+        || chrono::DateTime::parse_from_rfc3339(&record.recorded_at).is_err()
+    {
+        return Err(invalid());
+    }
+    for receipt in &history[..prefix_length] {
+        for phase in ["prepared", "committed"] {
+            let name = format!("amendment/{:08}.{phase}.json", receipt.sequence);
+            if record.raw_evidence_snapshots.get(&name)
+                != Some(&bound_raw_bytes(&amendment_record_path(
+                    root,
+                    id,
+                    receipt.sequence,
+                    phase,
+                ))?)
+            {
+                return Err(invalid());
+            }
+        }
+    }
+    let source_path = response_source_path(root, id, &record.decision.authority_source_path)?;
+    if bound_raw_bytes(&source_path)? != record.authority_source_bytes {
+        return Err(invalid());
+    }
+    validate_recovery_response(
+        root,
+        id,
+        request,
+        &record.decision,
+        &record.authority_source_bytes,
+    )?;
+    let current_summary =
+        super::read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    let mut marker = current_summary["activationRecovery"].clone();
+    let review_request = marker
+        .as_object_mut()
+        .and_then(|value| value.remove("reviewRequest"));
+    if marker != recovery_summary(&summary, request, &record.recorded_at)["activationRecovery"]
+        || review_request.as_ref().is_some_and(|binding| {
+            binding.as_object().is_none_or(|object| object.len() != 3)
+                || [
+                    "contractDigest",
+                    "preflightDecisionDigest",
+                    "repositorySnapshotDigest",
+                ]
+                .iter()
+                .any(|field| {
+                    binding[*field]
+                        .as_str()
+                        .is_none_or(|value| value.parse::<Digest>().is_err())
+                })
+        })
+    {
+        return Err(state_error(
+            directory,
+            "activation recovery Summary projection is missing or mismatched",
+        ));
+    }
+    Ok(Some(record))
+}
+
+/// Read-only: return a request only for the exact finite legacy boundary.
+pub fn plan_activation_recovery(
+    root: &Path,
+    id: &str,
+    runtime: &RuntimeContext,
+) -> Result<ActivationRecoveryRequest, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let request = build_activation_recovery_request(&root, id, runtime)?;
+    super::require_current_action_admission(&root, id, RECOVERY_PLAN_ACTION, runtime)?;
+    if request != build_activation_recovery_request(&root, id, runtime)? {
+        return Err(state_error(
+            root,
+            "activation recovery request changed while planning",
+        ));
+    }
+    Ok(request)
+}
+
+/// Append a present-time baseline acceptance. This never records a Contract
+/// approval and cannot authenticate the missing historical transition.
+pub fn record_activation_recovery(
+    root: &Path,
+    id: &str,
+    decision: &ActivationRecoveryDecision,
+    runtime: &RuntimeContext,
+) -> Result<ActivationRecoveryRecord, ObserverError> {
+    super::validate_work_item_id(id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    super::require_current_action_admission(&root, id, RECOVERY_RECORD_ACTION, runtime)?;
+    let _lifecycle = super::acquire_lifecycle_lock(&root, id)?;
+    let store = recovery_store(&root, runtime)?;
+    store
+        .with_lock(|| {
+            let operation = || -> Result<ActivationRecoveryRecord, ObserverError> {
+                super::require_current_action_admission(
+                    &root,
+                    id,
+                    RECOVERY_RECORD_ACTION,
+                    runtime,
+                )?;
+                let request = build_activation_recovery_request(&root, id, runtime)?;
+                if request.request_digest != decision.request_digest {
+                    return Err(state_error(
+                        &root,
+                        "stale activation recovery request; no write performed",
+                    ));
+                }
+                let source_path = response_source_path(&root, id, &decision.authority_source_path)?;
+                let source = bound_raw_bytes(&source_path)?;
+                validate_recovery_response(&root, id, &request, decision, &source)?;
+                let raw = recovery_raw_inputs(&root, id, request.journal_sequence, &store)?;
+                let previous_summary: Value = serde_json::from_slice(&raw["summary"])
+                    .map_err(|error| state_error(&root, error.to_string()))?;
+                let at = super::usage::lifecycle_now();
+                let projected = recovery_summary(&previous_summary, &request, &at);
+                let record = ActivationRecoveryRecord {
+                    schema_version: 1,
+                    capability: ACTIVATION_CONTINUITY_CAPABILITY.into(),
+                    request: request.clone(),
+                    decision: decision.clone(),
+                    previous_summary,
+                    projected_summary_digest: record_digest(&projected, &root)?,
+                    raw_evidence_snapshots: raw.clone(),
+                    authority_source_bytes: source.clone(),
+                    historical_transition_authentication: "unknown".into(),
+                    business_authority_granted: false,
+                    fresh_contract_review_required: true,
+                    recorded_at: at,
+                };
+                // Exact CAS is repeated under both locks immediately before the
+                // first immutable publication. Never finish unrelated prepared work.
+                if request != build_activation_recovery_request(&root, id, runtime)?
+                    || raw != recovery_raw_inputs(&root, id, request.journal_sequence, &store)?
+                    || source != bound_raw_bytes(&source_path)?
+                {
+                    return Err(state_error(
+                        &root,
+                        "activation recovery CAS changed before publication",
+                    ));
+                }
+                let directory = recovery_directory(&root, id);
+                let prepared = PreparedActivationRecovery {
+                    record_digest: record_digest(&record, &root)?,
+                    record: record.clone(),
+                };
+                write_immutable_record(&directory.join("prepared.json"), &prepared)?;
+                super::atomic_write_json(
+                    &root.join(format!(".ai/work-items/active/{id}.summary.json")),
+                    &projected,
+                )?;
+                if super::read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?
+                    != projected
+                    || raw["contract"]
+                        != bound_raw_bytes(
+                            &root.join(format!(".ai/work-items/active/{id}.contract.json")),
+                        )?
+                    || raw["registration"] != bound_raw_bytes(&store.registration_path(id))?
+                    || source != bound_raw_bytes(&source_path)?
+                    || observed_inputs(&root)?.0 != request.repository_snapshot_digest
+                {
+                    return Err(state_error(
+                        &root,
+                        "activation recovery changed before commit; prepared state retained",
+                    ));
+                }
+                write_immutable_record(
+                    &directory.join("committed.json"),
+                    &ContinuityCommit {
+                        schema_version: 1,
+                        prepared_digest: prepared.record_digest,
+                        recorded_at: super::usage::lifecycle_now(),
+                    },
+                )?;
+                Ok(record)
+            };
+            operation()
+                .map_err(|error| super::CoordinationError::RecoveryRequired(error.to_string()))
+        })
+        .map_err(|error| state_error(&root, error.to_string()))
+}
+
+pub(crate) fn activation_recovery_request_if_needed(
+    root: &Path,
+    id: &str,
+    runtime: &RuntimeContext,
+    history: &[ContractAmendmentReceipt],
+    current: &Digest,
+) -> Result<Option<ActivationRecoveryRequest>, ObserverError> {
+    match validate_transition_chain(root, id, history, Some(current)) {
+        Ok(()) => Ok(None),
+        Err(error) => {
+            if activation_directory(root, id).exists() || recovery_directory(root, id).exists() {
+                return Err(error);
+            }
+            build_activation_recovery_request(root, id, runtime).map(Some)
+        }
+    }
+}
+
+pub(crate) fn activation_recovery_needs_fresh_review(
+    root: &Path,
+    id: &str,
+    digest: &Digest,
+    summary: &Value,
+) -> Result<Option<(ActivationRecoveryRequest, bool)>, ObserverError> {
+    let history = read_work_item_contract_amendments(root, id)?;
+    let Some(record) = read_activation_recovery(root, id, &history)? else {
+        return Ok(None);
+    };
+    let evidence = &summary["decisionEvidence"];
+    let new_time = evidence["recordedAt"]
+        .as_str()
+        .and_then(|time| chrono::DateTime::parse_from_rfc3339(time).ok());
+    let record_time = chrono::DateTime::parse_from_rfc3339(&record.recorded_at)
+        .map_err(|error| state_error(root, error.to_string()))?;
+    let binding = &summary["activationRecovery"]["reviewRequest"];
+    let preflight_generated = binding["contractDigest"] == json!(digest)
+        && binding["preflightDecisionDigest"].is_string()
+        && binding["preflightDecisionDigest"] != record.previous_summary["preflightDecisionDigest"];
+    let fresh = preflight_generated
+        && super::governance_controls::preflight_decision_evidence_state(root, id, digest)
+            == super::governance_controls::PreflightDecisionEvidenceState::Valid
+        && evidence != &record.previous_summary["decisionEvidence"]
+        && evidence["preflightDecisionDigest"] == binding["preflightDecisionDigest"]
+        && evidence["repositorySnapshotDigest"] == binding["repositorySnapshotDigest"]
+        && new_time.is_some_and(|time| time >= record_time);
+    Ok((!fresh).then_some((record.request, preflight_generated)))
 }
 
 fn observed_activation_owner(root: &Path) -> Result<ActivationOwnerBinding, ObserverError> {
@@ -378,6 +1177,13 @@ pub(crate) fn validate_transition_chain(
     candidate_previous: Option<&Digest>,
 ) -> Result<(), ObserverError> {
     let transition = read_activation_transition(root, id)?;
+    let recovery = read_activation_recovery(root, id, history)?;
+    if transition.is_some() && recovery.is_some() {
+        return Err(state_error(
+            root,
+            "forward proof and legacy recovery cannot explain the same activation",
+        ));
+    }
     let mut previous: Option<&ContractAmendmentReceipt> = None;
     for (index, next_previous) in history
         .iter()
@@ -395,6 +1201,12 @@ pub(crate) fn validate_transition_chain(
                     && proof.journal_digest == tail.journal_digest
                     && proof.previous_contract_digest == tail.new_contract_digest
                     && &proof.new_contract_digest == next_previous
+            }) || recovery.as_ref().is_some_and(|record| {
+                let request = &record.request;
+                !tail.checkpointed
+                    && request.boundary_journal_digest == tail.journal_digest
+                    && request.before_activation_contract_digest == tail.new_contract_digest
+                    && &request.after_activation_contract_digest == next_previous
             });
             if !valid {
                 return Err(state_error(
@@ -435,6 +1247,7 @@ pub(crate) fn prepare_activation_transition(
         runtime.ok_or_else(|| state_error(root, "activation proof requires Runtime identity"))?;
     if runtime.protocol_version != cockpit_protocol::PROTOCOL_VERSION
         || runtime.runtime_version.trim().is_empty()
+        || runtime.runtime_version == "0.2.105"
         || previous_summary["checkpointCount"] != json!(0)
         || previous_summary["state"] != "not_ready"
         || previous_summary["repositoryId"] != super::repository_id(root).to_string()

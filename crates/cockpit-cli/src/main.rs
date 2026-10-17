@@ -613,6 +613,12 @@ enum KnowledgeCommand {
 
 #[derive(Debug, Subcommand)]
 enum WorkItemCommand {
+    /// Inspect an eligible historical activation gap or explicitly record a
+    /// newly supplied present-baseline decision; never approves Contract C.
+    ActivationRecovery {
+        #[command(subcommand)]
+        command: WorkItemActivationRecoveryCommand,
+    },
     New {
         #[arg(long)]
         repo: PathBuf,
@@ -950,6 +956,29 @@ enum WorkItemMaterialReviewCommand {
         #[arg(long, help = "Active Work Item identifier.")]
         id: String,
         #[arg(long, help = "Strict MaterialInspectionReviewDecisionInput JSON file.")]
+        input: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemActivationRecoveryCommand {
+    /// Read-only exact request, including finite differences and retained unknowns.
+    Plan {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    /// Record an actual newly supplied response for this exact request only.
+    Record {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(
+            long,
+            help = "Strict ActivationRecoveryDecision JSON with exact response-source digest."
+        )]
         input: PathBuf,
     },
 }
@@ -3034,6 +3063,31 @@ fn run() -> Result<()> {
                 println!("\nState: {}", receipt.state);
                 println!("\n{}", serde_json::to_string_pretty(&receipt)?);
             }
+            WorkItemCommand::ActivationRecovery { command } => match command {
+                WorkItemActivationRecoveryCommand::Plan { repo, id } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request =
+                        cockpit_repository::plan_activation_recovery(&repo, &id, &runtime_context)
+                            .context("plan activation present-baseline recovery")?;
+                    println!("{}", serde_json::to_string_pretty(&request)?);
+                }
+                WorkItemActivationRecoveryCommand::Record { repo, id, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let decision: cockpit_protocol::ActivationRecoveryDecision =
+                        serde_json::from_slice(&fs::read(&input).with_context(|| {
+                            format!("read recovery decision {}", input.display())
+                        })?)
+                        .context("decode strict activation recovery decision")?;
+                    let record = cockpit_repository::record_activation_recovery(
+                        &repo,
+                        &id,
+                        &decision,
+                        &runtime_context,
+                    )
+                    .context("record activation present-baseline recovery")?;
+                    println!("{}", serde_json::to_string_pretty(&record)?);
+                }
+            },
             WorkItemCommand::RevalidateAmendment { repo, id, reason } => {
                 require_compatible(&repo, &runtime_context)?;
                 let mut record =

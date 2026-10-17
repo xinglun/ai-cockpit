@@ -777,6 +777,14 @@ fn activate_not_ready_scaffold(
     let timestamp = super::usage::lifecycle_now();
     summary["updatedAt"] = serde_json::json!(timestamp);
     summary["lifecycleFacts"]["start"] = start_lifecycle_fact(&timestamp, runtime);
+    if !super::contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?
+        .is_empty()
+    {
+        summary["activationContinuity"] = serde_json::json!({
+            "capability":cockpit_protocol::ACTIVATION_CONTINUITY_CAPABILITY,
+            "journalRelevant":true,
+        });
+    }
     let transition = super::contract_amendment::prepare_activation_transition(
         &root,
         work_item_id,
@@ -2081,11 +2089,19 @@ fn update_preflight_summary(
     raw_decision: &GovernanceDecision,
     snapshot: &RepositorySnapshot,
 ) -> Result<bool, ObserverError> {
-    let decision_value =
+    let mut decision_value =
         serde_json::to_value(raw_decision).map_err(|error| ObserverError::State {
             path: active_contract.to_path_buf(),
             message: error.to_string(),
         })?;
+    if let Some(request_digest) = summary["activationRecovery"]["requestDigest"].as_str() {
+        // Domain-bind a newly generated review request to this present-time
+        // recovery. An old B/C preflight digest cannot be replayed as it.
+        decision_value = serde_json::json!({
+            "governanceDecision":decision_value,
+            "activationRecoveryRequestDigest":request_digest,
+        });
+    }
     let next_fields = [
         (
             "preflightState",
@@ -2111,9 +2127,21 @@ fn update_preflight_summary(
             serde_json::Value::String(contract_digest(active_contract)?.to_string()),
         ),
     ];
-    let changed = next_fields
+    let mut changed = next_fields
         .iter()
         .any(|(key, value)| summary.get(*key) != Some(value));
+    if summary["activationRecovery"]["requestDigest"].is_string()
+        && decision.review_state.as_deref() == Some("needs_human_confirmation")
+    {
+        let binding = serde_json::json!({
+            "contractDigest":contract_digest(active_contract)?,
+            "preflightDecisionDigest":cockpit_protocol::digest_json(&decision_value)
+                .map_err(|error| ObserverError::State { path: summary_path.into(), message: error.to_string() })?,
+            "repositorySnapshotDigest":snapshot_digest(snapshot)?,
+        });
+        changed |= summary["activationRecovery"]["reviewRequest"] != binding;
+        summary["activationRecovery"]["reviewRequest"] = binding;
+    }
     if !changed {
         return Ok(false);
     }

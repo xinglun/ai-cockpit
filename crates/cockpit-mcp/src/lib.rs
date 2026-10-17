@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 33] = [
+const TOOL_NAMES: [&str; 35] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -24,6 +24,8 @@ const TOOL_NAMES: [&str; 33] = [
     "work_item_usage_record",
     "work_item_material_review_plan",
     "work_item_material_review_record",
+    "work_item_activation_recovery_plan",
+    "work_item_activation_recovery_record",
     "audit_query",
     "work_item_recover",
     "work_item_closeout_recovery_plan",
@@ -706,6 +708,15 @@ fn mcp_tool_schema(name: &str) -> Value {
             }),
             &["workItemId", "decision"],
         ),
+        "work_item_activation_recovery_plan" => object_schema(
+            json!({"workItemId": string_property("Active Work Item with an eligible legacy activation gap.")}),
+            &["workItemId"],
+        ),
+        "work_item_activation_recovery_record" => object_schema(
+            json!({"workItemId": string_property("Active Work Item for exact present-baseline recovery."),
+                "decision":cockpit_protocol::activation_recovery_decision_schema()}),
+            &["workItemId", "decision"],
+        ),
         "audit_query" => audit_query_tool_schema(),
         "work_item_recover" => {
             let mut properties = id_properties;
@@ -907,6 +918,14 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Read a filtered, source-bound audit page without writing evidence.",
         ),
         (
+            "work_item_activation_recovery_plan",
+            "Read an exact present-baseline recovery request for an eligible legacy activation gap; preserves historical authentication as unknown and grants no business actions.",
+        ),
+        (
+            "work_item_activation_recovery_record",
+            "Record only the actual newly supplied bound human response; enables fresh Contract preflight generation and never approves that Contract.",
+        ),
+        (
             "work_item_recover",
             "Record an identity-bound retry, successor, or supersede decision.",
         ),
@@ -1006,6 +1025,8 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_usage_record" => Some(&["request"][..]),
         "work_item_material_review_plan" => Some(&["workItemId"][..]),
         "work_item_material_review_record" => Some(&["workItemId", "decision"][..]),
+        "work_item_activation_recovery_plan" => Some(&["workItemId"][..]),
+        "work_item_activation_recovery_record" => Some(&["workItemId", "decision"][..]),
         "audit_query" => Some(
             &[
                 "workItemId",
@@ -1232,6 +1253,19 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         }
         "work_item_material_review_plan" => {
             require_string(object, "workItemId", name)?;
+        }
+        "work_item_activation_recovery_plan" => {
+            require_string(object, "workItemId", name)?;
+        }
+        "work_item_activation_recovery_record" => {
+            require_string(object, "workItemId", name)?;
+            let decision = object
+                .get("decision")
+                .ok_or_else(|| format!("invalid arguments for {name}: decision is required"))?;
+            serde_json::from_value::<cockpit_protocol::ActivationRecoveryDecision>(
+                decision.clone(),
+            )
+            .map_err(|error| format!("invalid arguments for {name}: {error}"))?;
         }
         "work_item_material_review_record" => {
             require_string(object, "workItemId", name)?;
@@ -2107,6 +2141,31 @@ pub fn handle_request_for_repo(
             .map_err(|error| error.to_string())
             .and_then(|receipt| serde_json::to_value(receipt).map_err(|error| error.to_string()))
         }),
+        "work_item_activation_recovery_plan" => require_compatible(repo, runtime).and_then(|_| {
+            let id = arguments["workItemId"]
+                .as_str()
+                .expect("validated recovery Work Item ID");
+            cockpit_repository::plan_activation_recovery(repo, id, runtime)
+                .map_err(|error| error.to_string())
+                .and_then(|request| {
+                    serde_json::to_value(request).map_err(|error| error.to_string())
+                })
+        }),
+        "work_item_activation_recovery_record" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let id = arguments["workItemId"]
+                    .as_str()
+                    .expect("validated recovery Work Item ID");
+                let decision: cockpit_protocol::ActivationRecoveryDecision =
+                    serde_json::from_value(arguments["decision"].clone())
+                        .map_err(|error| error.to_string())?;
+                cockpit_repository::record_activation_recovery(repo, id, &decision, runtime)
+                    .map_err(|error| error.to_string())
+                    .and_then(|record| {
+                        serde_json::to_value(record).map_err(|error| error.to_string())
+                    })
+            })
+        }
         "audit_query" => require_compatible(repo, runtime).and_then(|_| {
             let filters: cockpit_protocol::AuditQueryFilters =
                 serde_json::from_value(arguments).map_err(|error| error.to_string())?;
