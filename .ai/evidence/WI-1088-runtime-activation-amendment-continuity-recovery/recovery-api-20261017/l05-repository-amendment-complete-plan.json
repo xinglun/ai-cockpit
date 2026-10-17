@@ -1,0 +1,55 @@
+{
+  "kind": "actual_current_environment_native_command_observation",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "verify",
+    "--work-item",
+    "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "--command",
+    "cargo",
+    "--args=test",
+    "--args=--locked",
+    "--args=--package",
+    "--args=cockpit-repository",
+    "--args=--test",
+    "--args=contract_amendment",
+    "--args=--",
+    "--args=--nocapture",
+    "--workers",
+    "1",
+    "--plan-only",
+    "--repo",
+    "/workspace/ai-cockpit-wi1088-runtime-continuity"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "startedAt": "2026-10-17T10:37:09.670947+00:00",
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "976ae1a8f262b3d42faf62caaf3a2a8b6adf732e",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit-wi1088-runtime-continuity/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "exitCode": 0,
+  "elapsedSeconds": 1.119,
+  "endedAt": "2026-10-17T10:37:10.845337+00:00",
+  "stdout": {
+    "bytes": 2001,
+    "rawSha256": "0079217c2b09d0fcb35ffa519796df51e2f8fced737ba5b38ed0038c6d5d7aea",
+    "encoding": "base64",
+    "data": "ewogICJjb3ZlcmFnZU1hbmlmZXN0IjogbnVsbCwKICAibm9kZXNQbGFubmVkIjogMSwKICAibm9kZXNSZXVzZWQiOiAwLAogICJub2Rlc1RvRXhlY3V0ZSI6IDEsCiAgInBsYW5uZWROb2RlcyI6IFsKICAgIHsKICAgICAgImFjdGlvbiI6ICJleGVjdXRlIiwKICAgICAgImFyZ3MiOiBbCiAgICAgICAgInRlc3QiLAogICAgICAgICItLWxvY2tlZCIsCiAgICAgICAgIi0tcGFja2FnZSIsCiAgICAgICAgImNvY2twaXQtcmVwb3NpdG9yeSIsCiAgICAgICAgIi0tdGVzdCIsCiAgICAgICAgImNvbnRyYWN0X2FtZW5kbWVudCIsCiAgICAgICAgIi0tIiwKICAgICAgICAiLS1ub2NhcHR1cmUiCiAgICAgIF0sCiAgICAgICJiaW5kaW5nTWlzbWF0Y2hlcyI6IFtdLAogICAgICAiZGVwZW5kZW5jaWVzIjogW10sCiAgICAgICJpZGVudGl0eUJpbmRpbmciOiB7CiAgICAgICAgImNvbW1hbmREaWdlc3QiOiAic2hhMjU2Ojc4YmJjNmY3NmI3NWM3YzQyYjgwMDNjYTJjZDZiODY5MjdmNTFiZDRjMGRlYzM4ZWEyOTlhMmQyMTE5ZWIyNTEiLAogICAgICAgICJwcm9maWxlRGlnZXN0IjogbnVsbCwKICAgICAgICAicmVwb3NpdG9yeUlkIjogInNoYTI1NjplZTAyYTA0Y2EyNDJkODMwMDg2NDMyYmQ0ZDNmODE2MDI1MDUzNzEyNjk4NTI3MjFlZTgzZTExN2UzNWRhMjJiIiwKICAgICAgICAicmVwb3NpdG9yeVNuYXBzaG90RGlnZXN0IjogInNoYTI1NjpmYzMzNzg5OGM3M2YzN2JkMWRhZWRjOWVjZTgyYWMyY2Q2MjM0MGE4NzBmY2MzODRkYjkyNTk5MzI3ZTgxODA2IiwKICAgICAgICAicnVudGltZURpZ2VzdCI6ICJzaGEyNTY6MGZmZGNkMjA3NDBmMjJiOTY2MjFjZjA2YWRiNTQ3OWQ4M2ZiNDM1ZjUwM2EyNmMxOGQ4MjRkNjFjNGJmZTljNCIKICAgICAgfSwKICAgICAgIm5vZGVJZCI6ICJwcm9qZWN0LWNvbW1hbmQtMCIsCiAgICAgICJwbGFubmluZ0VsYXBzZWRNcyI6IDAsCiAgICAgICJwcm9ncmFtIjogImNhcmdvIiwKICAgICAgInJlYXNvbiI6ICJyZXVzZV9ub3RfY29uZmlndXJlZCIsCiAgICAgICJyZWNlaXB0SWQiOiBudWxsLAogICAgICAicmV1c2VBdXRob3JpemF0aW9uIjogIm5vdF9yZXF1ZXN0ZWQiLAogICAgICAic2F0aXNmaWVkQnkiOiAiZXhlY3V0aW9uIiwKICAgICAgInN0YXRlIjogIm5vdF9hcHBsaWNhYmxlIiwKICAgICAgInRpbWVvdXRTZWNvbmRzIjogNjAwCiAgICB9CiAgXSwKICAicHJvY2Vzc2VzU3Bhd25lZCI6IDAsCiAgInJlcG9zaXRvcnlJZCI6ICJzaGEyNTY6ZWUwMmEwNGNhMjQyZDgzMDA4NjQzMmJkNGQzZjgxNjAyNTA1MzcxMjY5ODUyNzIxZWU4M2UxMTdlMzVkYTIyYiIsCiAgInJlcG9zaXRvcnlTbmFwc2hvdERpZ2VzdCI6ICJzaGEyNTY6ZmMzMzc4OThjNzNmMzdiZDFkYWVkYzllY2U4MmFjMmNkNjIzNDBhODcwZmNjMzg0ZGI5MjU5OTMyN2U4MTgwNiIsCiAgInJlcXVlc3RzIjogWwogICAgewogICAgICAiYXJncyI6IFsKICAgICAgICAidGVzdCIsCiAgICAgICAgIi0tbG9ja2VkIiwKICAgICAgICAiLS1wYWNrYWdlIiwKICAgICAgICAiY29ja3BpdC1yZXBvc2l0b3J5IiwKICAgICAgICAiLS10ZXN0IiwKICAgICAgICAiY29udHJhY3RfYW1lbmRtZW50IiwKICAgICAgICAiLS0iLAogICAgICAgICItLW5vY2FwdHVyZSIKICAgICAgXSwKICAgICAgImRlcGVuZGVuY2llcyI6IFtdLAogICAgICAibm9kZUlkIjogInByb2plY3QtY29tbWFuZC0wIiwKICAgICAgInByb2dyYW0iOiAiY2FyZ28iLAogICAgICAidGltZW91dFNlY29uZHMiOiA2MDAKICAgIH0KICBdLAogICJydW50aW1lRGlnZXN0IjogInNoYTI1NjowZmZkY2QyMDc0MGYyMmI5NjYyMWNmMDZhZGI1NDc5ZDgzZmI0MzVmNTAzYTI2YzE4ZDgyNGQ2MWM0YmZlOWM0IiwKICAicnVudGltZVZlcnNpb24iOiAiMS4wLjEiLAogICJzdGF0ZSI6ICJwbGFubmVkIiwKICAidGltZW91dFNlY29uZHMiOiA2MDAsCiAgIndvcmtJdGVtSWQiOiAiV0ktMTA4OC1ydW50aW1lLWFjdGl2YXRpb24tYW1lbmRtZW50LWNvbnRpbnVpdHktcmVjb3ZlcnkiCn0K"
+  },
+  "stderr": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  }
+}

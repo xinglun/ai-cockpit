@@ -1897,7 +1897,7 @@ fn legacy_activation_fixture() -> tempfile::TempDir {
     directory
 }
 
-fn assert_legacy_activation_recovery_flow(record_via_mcp: bool) {
+fn assert_legacy_activation_recovery_flow(record_via_mcp: bool, existing_c_review: bool) {
     let directory = legacy_activation_fixture();
     let root = directory.path().join("repo");
     let id = "WI-CLI-ACTIVATION-CONTINUITY";
@@ -1912,6 +1912,30 @@ fn assert_legacy_activation_recovery_flow(record_via_mcp: bool) {
             .output()
             .expect("fixture CLI")
     };
+    if existing_c_review {
+        // Model a previously stored self-declared C receipt in this isolated
+        // legacy-format fixture. It is not a real human or historical proof.
+        let mut review: Value = serde_json::from_slice(
+            &fs::read(root.join(format!(".ai/decisions/{id}.preflight-review.json"))).unwrap(),
+        )
+        .unwrap();
+        let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+        review["contractDigest"] = json!(cockpit_protocol::digest_json(&contract).unwrap());
+        review["preflightDecisionDigest"] =
+            json!(Digest::sha256_bytes(b"synthetic old C preflight"));
+        let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+        summary["decisionEvidence"] = review.clone();
+        summary["preflightDecisionDigest"] = review["preflightDecisionDigest"].clone();
+        summary["preflightContractDigest"] = review["contractDigest"].clone();
+        summary["preflightRepositorySnapshotDigest"] = review["repositorySnapshotDigest"].clone();
+        summary["preflightState"] = json!("green");
+        fs::write(&summary_path, serde_json::to_vec(&summary).unwrap()).unwrap();
+        fs::write(
+            root.join(format!(".ai/decisions/{id}.preflight-review.json")),
+            serde_json::to_vec(&review).unwrap(),
+        )
+        .unwrap();
+    }
     let before_contract = fs::read(&contract_path).expect("Contract bytes");
     let before_summary = fs::read(&summary_path).expect("Summary bytes");
     let planned = cli(&["work-item", "activation-recovery", "plan", "--id", id]);
@@ -2030,6 +2054,21 @@ fn assert_legacy_activation_recovery_flow(record_via_mcp: bool) {
     assert_eq!(record["historicalTransitionAuthentication"], "unknown");
     assert_eq!(record["businessAuthorityGranted"], false);
     assert_eq!(record["freshContractReviewRequired"], true);
+    let before_duplicate = recovery_metadata_bytes(&root);
+    let mut duplicate = decision.clone();
+    duplicate["reason"] = json!("A different decision cannot overwrite an accepted baseline");
+    let duplicate = mcp_call(
+        &root,
+        &runtime,
+        "work_item_activation_recovery_record",
+        json!({"workItemId":id,"decision":duplicate}),
+    );
+    assert_eq!(
+        duplicate.pointer("/result/isError"),
+        Some(&json!(true)),
+        "{duplicate}"
+    );
+    assert_eq!(recovery_metadata_bytes(&root), before_duplicate);
     assert_eq!(
         fs::read(&contract_path).expect("Contract remains unchanged"),
         before_contract
@@ -2108,16 +2147,45 @@ fn assert_legacy_activation_recovery_flow(record_via_mcp: bool) {
             .contains(&json!("activation_recovery_fresh_contract_review_required")),
         "{status}"
     );
+    assert!(
+        status["unknowns"]
+            .as_array()
+            .expect("unknowns")
+            .contains(&json!("historical_transition_authentication_unknown")),
+        "separate C review must not erase the missing historical authentication: {status}"
+    );
+    fs::remove_file(root.join(format!(
+        ".ai/evidence/{id}.activation-recovery/committed.json"
+    )))
+    .expect("model a valid typed prepared-only recovery phase");
+    let before_partial = recovery_metadata_bytes(&root);
+    let partial = cli(&["work-item", "status", "--id", id, "--json"]);
+    assert!(
+        !partial.status.success(),
+        "reviewed and verified C cannot hide a partial recovery phase"
+    );
+    assert!(
+        String::from_utf8_lossy(&partial.stderr)
+            .contains("unresolved activation recovery transaction"),
+        "{}",
+        String::from_utf8_lossy(&partial.stderr)
+    );
+    assert_eq!(recovery_metadata_bytes(&root), before_partial);
 }
 
 #[test]
 fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review() {
-    assert_legacy_activation_recovery_flow(false);
+    assert_legacy_activation_recovery_flow(false, false);
 }
 
 #[test]
 fn legacy_activation_mcp_record_requires_a_separate_current_contract_review() {
-    assert_legacy_activation_recovery_flow(true);
+    assert_legacy_activation_recovery_flow(true, false);
+}
+
+#[test]
+fn a_preexisting_c_receipt_cannot_preapprove_present_baseline_recovery() {
+    assert_legacy_activation_recovery_flow(false, true);
 }
 
 fn recovery_metadata_bytes(root: &Path) -> Vec<(PathBuf, Vec<u8>)> {
@@ -2156,6 +2224,7 @@ fn invalid_legacy_recovery_plans_preserve_all_metadata_bytes() {
         "foreign_runtime",
         "unsupported_runtime",
         "new_forward_marker",
+        "orphan_recovery_marker",
     ] {
         let directory = legacy_activation_fixture();
         let root = directory.path().join("repo");
@@ -2204,6 +2273,12 @@ fn invalid_legacy_recovery_plans_preserve_all_metadata_bytes() {
             "new_forward_marker" => {
                 summary["activationContinuity"] = json!({"capability":"activation_continuity_recovery_v1","journalRelevant":true});
             }
+            "orphan_recovery_marker" => {
+                summary["activationRecovery"] = json!({"schemaVersion":1,
+                    "requestDigest":Digest::sha256_bytes(b"missing recovery record"),
+                    "historicalTransitionAuthentication":"unknown","businessAuthorityGranted":false,
+                    "freshContractReviewRequired":true});
+            }
             _ => {}
         }
         fs::write(
@@ -2225,11 +2300,13 @@ fn invalid_legacy_recovery_plans_preserve_all_metadata_bytes() {
             "work_item_activation_recovery_plan",
             json!({"workItemId":id}),
         );
-        assert_eq!(
-            response.pointer("/result/isError"),
-            Some(&json!(true)),
-            "{case}: {response}"
-        );
+        if response.pointer("/result/isError") != Some(&json!(true)) {
+            let preserved = directory.keep();
+            panic!(
+                "{case}: unexpected request; fixture preserved at {}; {response}",
+                preserved.display()
+            );
+        }
         assert_eq!(
             recovery_metadata_bytes(&root),
             before,

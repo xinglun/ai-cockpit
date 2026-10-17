@@ -168,6 +168,49 @@ fn ordinary_amendment_cannot_obtain_or_inject_activation_recovery() {
 }
 
 #[test]
+fn prospective_chain_rejects_an_unjournaled_current_contract_before_publication() {
+    let directory = repository();
+    let root = directory.path();
+    let id = "WI-PROSPECTIVE-CONTRACT-CHAIN";
+    let contract_path = start_checkpointed(root, id);
+    amend_work_item_contract(
+        root,
+        id,
+        &json!({"scopeAppend":["first/**"]}),
+        "first native amendment",
+    )
+    .unwrap();
+    let mut current = read_json(&contract_path);
+    current["goal"] = json!("an unexplained current Contract boundary");
+    fs::write(&contract_path, serde_json::to_vec(&current).unwrap()).unwrap();
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before_contract = fs::read(&contract_path).unwrap();
+    let before_summary = fs::read(&summary_path).unwrap();
+    let history = root.join(format!(".ai/evidence/{id}.contract-amendments"));
+    let prepared = fs::read(history.join("00000001.prepared.json")).unwrap();
+    let committed = fs::read(history.join("00000001.committed.json")).unwrap();
+    let request = json!({"schemaVersion":1,"changeId":"do-not-publish-over-a-gap",
+        "expectedContractDigest":cockpit_protocol::digest_json(&current).unwrap(),
+        "reason":"An exact current CAS does not explain the old-to-current boundary.",
+        "changes":[{"path":"/goal","operation":"set","value":"a further proposed change"}]});
+    let error = amend_work_item_contract(root, id, &request, "")
+        .expect_err("reject before any new prepared phase");
+    assert!(error.to_string().contains("discontinuous"), "{error}");
+    assert!(!history.join("00000002.prepared.json").exists());
+    assert!(!history.join("00000002.committed.json").exists());
+    assert_eq!(fs::read(contract_path).unwrap(), before_contract);
+    assert_eq!(fs::read(summary_path).unwrap(), before_summary);
+    assert_eq!(
+        fs::read(history.join("00000001.prepared.json")).unwrap(),
+        prepared
+    );
+    assert_eq!(
+        fs::read(history.join("00000001.committed.json")).unwrap(),
+        committed
+    );
+}
+
+#[test]
 fn typed_request_replaces_goal_without_rewriting_identity() {
     let directory = repository();
     let root = directory.path();

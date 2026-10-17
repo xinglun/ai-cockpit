@@ -146,12 +146,10 @@
     }
   ],
   "changedPaths": [
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.454eae667e359542486e705d9d4372105d151b4b188fa2be5894e8ee69e0d3a6.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.51d23a7d8ccb2241a7a45dd4fff2230ff4be1555e9e0c0d9c8e34dbeecc0db1a.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.69cdf063677285a6d0efffae8f717c87cfc487103c1994264608c573d4c95b65.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0c5bf06627b05e934ee698aacec61b790d6d26d44a93aa0accb2edacef0e597.json",
     ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/implementation-progress.md",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k05-preflight-actor-shape-fix.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k06-recovery-cas-matrix-execute.json",
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/recovery-api-20261017/k06-recovery-cas-matrix-plan.json",
     ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
   ],
   "checkpointAt": "2026-10-17T08:47:46Z",
@@ -191,7 +189,7 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-17T10:33:17Z",
+  "preflightAt": "2026-10-17T10:37:46Z",
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:fc337898c73f37bd1daedc9ece82ac2cd62340a870fcc384db92599327e81806",
