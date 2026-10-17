@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "contractDigest": "sha256:a2bc3623b4953e76702b9c0618aaf739520d6e2c41345f259e432f5273641cc7",
+  "worktreePath": "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry",
+  "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+  "head": "cc3ff71c5bb8dbdaea583134bdb483c167e225cd",
+  "generation": 2,
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  },
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "P0 task-context and observed-environment registration only; no product authority, published outcome, parallel lease or expiry activation is claimed."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  }
+}

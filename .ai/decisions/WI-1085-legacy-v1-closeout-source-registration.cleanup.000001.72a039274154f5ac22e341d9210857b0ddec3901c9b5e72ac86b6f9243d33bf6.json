@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:d1165ae9901888bf325245fb874ff70356e53ebb440383ca9bba4f214edaa63a",
+  "branchRef": "refs/heads/codex/wi1085-legacy-v1-closeout-source-registration",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "headRevision": "1c69a1ff9048b0272a2ec1b2684f27f24019aefa",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-16T23:54:33Z",
+  "operationId": "sha256:193f90c3da40f0afeaa6672244f047c07ac915449ed3cb5a73474c27c508acd1",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "worktreeId": "sha256:ec1b7998ddabf3c04827370e279ab8a6c646a2ff62a187d49e1e4ad473533407"
+}

@@ -1,0 +1,57 @@
+{
+  "kind": "planning document artifact validation only",
+  "v1AndV2DesignFilesByteUnchanged": true,
+  "productSourceSharedLedgerAndNativeWorkItemUnchanged": true,
+  "nativeLifecycle": "not_ready",
+  "checkpointCount": 0,
+  "contractDigest": "sha256:a2bc3623b4953e76702b9c0618aaf739520d6e2c41345f259e432f5273641cc7",
+  "r04ParameterizedVariants": 18,
+  "allVariantsNotRun": true,
+  "entries": [
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/acceptance-delta-v3.json",
+      "bytes": 3645,
+      "sha256": "d0b17cb094aa5c4440680f6271ea6b9ff286c74aa3184c7dc7313e80493e72ee"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/addendum-v3.zh-CN.md",
+      "bytes": 858,
+      "sha256": "f13c894dff5487e54f78432f51daa997ce701545d3e2d6d3d3110c98d8b93265"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/planned-v3-current-status.meta.json",
+      "bytes": 553,
+      "sha256": "d7f4b0bda42905ab6492d9579eca374408ad8a3ee6080d799e352dea33d55769"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/planned-v3-current-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/planned-v3-current-status.stdout",
+      "bytes": 3365,
+      "sha256": "25bd01b9cb7d3a7e07b47d1b1a151c29d927404cd62367a3ccc1e0486167532f"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/review-source.json",
+      "bytes": 371,
+      "sha256": "3910586f2d1a4f9405b9b198c596d434876b241a752d80d12680cd6a378f6b41"
+    },
+    {
+      "path": "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+      "bytes": 3311,
+      "sha256": "3e965a8b9582acdd9f9e4f86b8235256c0b2185d17906f4e9c282f4aac132455"
+    },
+    {
+      "path": "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+      "bytes": 3238,
+      "sha256": "e4c2047511505a8d89c85b27926164d98d631f7849492ccd4f5511720abc86c2"
+    },
+    {
+      "path": "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+      "bytes": 2963,
+      "sha256": "d587883d0c9fd8c61e84e5f9ca570d66246a490bbe1eaa993a01463adc7e7344"
+    }
+  ]
+}

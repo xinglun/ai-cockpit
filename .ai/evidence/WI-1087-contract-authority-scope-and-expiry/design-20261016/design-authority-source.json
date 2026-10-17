@@ -1,0 +1,19 @@
+{
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "source": "Raydot relayed Ray user statements; latest design instruction governs",
+  "actualUserStatements": [
+    "你帮我补完设计，然后指示AI Cockpit开WI对应。",
+    "其实目的是，想防止，agent将之前的授权，继承到新的任务。",
+    "还是觉得方案平衡不够好。AI Cockpit是管理配合agent的，不是给agent上各种限制，打断它的效率。",
+    "有效期不应该是可选，权限的滥用很多时候就是从没有有效期开始的。另外权限本身就一定会带有效期。请重新设计。",
+    "指示AI Cockpit"
+  ],
+  "decisions": [
+    "有期限的目标授权，范围内连续执行，实质越界才决定",
+    "期限必须有限且明确，不采用可选TTL提议",
+    "同目标连续/并行/修复/重试/恢复不新增逐WI人审",
+    "只做设计和planned登记；不实施、不配置实际权限"
+  ],
+  "notAnActualGoalGrant": true,
+  "productImplementationAuthority": false
+}

@@ -1,0 +1,6 @@
+Status: WI-1087-contract-authority-scope-and-expiry
+Lifecycle: not_ready
+Governance: yellow
+Activity health: waiting
+Unknowns: material_review_projection_unavailable, user_visible_benefit_not_declared, verification_evidence_missing
+Next action: read `work-item outcome --repo <path> --id WI-1087-contract-authority-scope-and-expiry`

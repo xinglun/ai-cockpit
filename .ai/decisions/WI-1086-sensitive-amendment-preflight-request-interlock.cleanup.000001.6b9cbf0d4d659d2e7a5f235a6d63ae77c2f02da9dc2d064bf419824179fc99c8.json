@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:99369eab0b23603abf74e12813201cbddef2b8c698b6c5b3f1d470bd30fe2120",
+  "branchRef": "refs/heads/codex/wi1086-sensitive-amendment-preflight-request-interlock",
+  "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+  "headRevision": "de6f2da9bf9a5f3f2f3f0d71b1928e0e6ab38958",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-16T09:07:29Z",
+  "operationId": "sha256:9bd7706b3b717aeb761b923b0e3913abb125817558d5d9b8c8f2388a95ff241f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "worktreeId": "sha256:961aff6be22dce785797a9e015bf04bfed5762bd13c3bc6f90c2957af241644e"
+}

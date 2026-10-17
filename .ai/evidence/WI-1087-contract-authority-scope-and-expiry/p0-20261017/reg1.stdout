@@ -1,0 +1,99 @@
+{
+  "projection": {
+    "affectedWorkItems": [],
+    "blockers": {},
+    "cycles": [],
+    "events": [],
+    "recoveries": [],
+    "registrations": [
+      {
+        "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+        "contractDigest": "sha256:a2bc3623b4953e76702b9c0618aaf739520d6e2c41345f259e432f5273641cc7",
+        "declaration": {
+          "compositionVerification": {
+            "compatibilityConstraints": [],
+            "requiredScenarios": [],
+            "reusableNodes": []
+          },
+          "consumedOutcomes": [],
+          "integrationResponsibility": {
+            "compositionOrder": [],
+            "rationale": "P0 task-context and observed-environment registration only; no product authority, published outcome, parallel lease or expiry activation is claimed.",
+            "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+            "targetBranch": "main"
+          },
+          "providedOutcomes": [],
+          "resourceClaims": []
+        },
+        "environment": {
+          "environmentDigest": "sha256:67a5f6afcf18be42280c1dee66bfe0e26fb8e07911fc9980733b8ee32a0042d6",
+          "observedInputs": [
+            "process-environment",
+            "cargo-executable",
+            "repository-dependency-and-cargo-configuration-inputs",
+            "rustc-toolchain",
+            "operating-system-and-architecture"
+          ],
+          "schemaVersion": 1
+        },
+        "generation": 1,
+        "head": "eb942a0819a40173842d22e90841c8b95c02870f",
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "runtime": {
+          "capability": "observed_environment_drift_v1",
+          "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+          "runtimeVersion": "1.0.1",
+          "schemaVersion": 1
+        },
+        "schemaVersion": 1,
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+        "worktreePath": "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry"
+      }
+    ],
+    "requests": [],
+    "unknowns": []
+  },
+  "result": {
+    "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+    "contractDigest": "sha256:a2bc3623b4953e76702b9c0618aaf739520d6e2c41345f259e432f5273641cc7",
+    "declaration": {
+      "compositionVerification": {
+        "compatibilityConstraints": [],
+        "requiredScenarios": [],
+        "reusableNodes": []
+      },
+      "consumedOutcomes": [],
+      "integrationResponsibility": {
+        "compositionOrder": [],
+        "rationale": "P0 task-context and observed-environment registration only; no product authority, published outcome, parallel lease or expiry activation is claimed.",
+        "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+        "targetBranch": "main"
+      },
+      "providedOutcomes": [],
+      "resourceClaims": []
+    },
+    "environment": {
+      "environmentDigest": "sha256:67a5f6afcf18be42280c1dee66bfe0e26fb8e07911fc9980733b8ee32a0042d6",
+      "observedInputs": [
+        "process-environment",
+        "cargo-executable",
+        "repository-dependency-and-cargo-configuration-inputs",
+        "rustc-toolchain",
+        "operating-system-and-architecture"
+      ],
+      "schemaVersion": 1
+    },
+    "generation": 1,
+    "head": "eb942a0819a40173842d22e90841c8b95c02870f",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtime": {
+      "capability": "observed_environment_drift_v1",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1
+    },
+    "schemaVersion": 1,
+    "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+    "worktreePath": "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry"
+  }
+}

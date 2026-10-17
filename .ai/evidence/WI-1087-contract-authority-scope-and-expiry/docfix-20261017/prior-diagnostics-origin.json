@@ -1,0 +1,18 @@
+{
+  "artifactId": 12083787011,
+  "runId": 38986839707,
+  "zipSha256": "sha256:52b89c04004332e52a3d778a5f97cd90f80c7488925aa24c87d54dde2ecf57d6",
+  "zipBytes": 675,
+  "members": [
+    {
+      "member": "docs_acceptance.log",
+      "bytes": 535,
+      "rawSha256": "sha256:0c5aaec63468a97adfdc596d99b7d890fd9f5c14eec77aa696de29ea19aae10f"
+    },
+    {
+      "member": "docs_governance_integrity.log",
+      "bytes": 347,
+      "rawSha256": "sha256:400a1b0b8e5932d87f15afec0abc1948af74926f7a7d15a649793adc3e416b5c"
+    }
+  ]
+}

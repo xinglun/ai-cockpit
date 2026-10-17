@@ -1,0 +1,117 @@
+{
+  "kind": "agent_authored_document_check_evidence_manifest",
+  "files": {
+    "README.zh-CN.md": {
+      "bytes": 4011,
+      "rawSha256": "sha256:9d864944f71eaefb2647717632619a2c651b6c201161f5a3f53235f3939a3f72"
+    },
+    "after-status.json": {
+      "bytes": 3365,
+      "rawSha256": "sha256:cbad9e8f210196c358954e7a6c9d8aae8a6f81af2547922f9f93aad0ff2e43a7"
+    },
+    "amend.stdout": {
+      "bytes": 9037,
+      "rawSha256": "sha256:2d2b1b52ceb606cb33ac03ce72844247c94175c6e545e717af8a62ee593680d5"
+    },
+    "authority.json": {
+      "bytes": 660,
+      "rawSha256": "sha256:bfc511cb6ee1a8f4255a6b839413972fccc45b447abedbe75e3518aec1d387f4"
+    },
+    "before-status.json": {
+      "bytes": 5424,
+      "rawSha256": "sha256:9d51a461b7e700c475db2aa1feb8f5e075499f59e551d677833042290376910e"
+    },
+    "diff-check.stderr": {
+      "bytes": 0,
+      "rawSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "diff-check.stdout": {
+      "bytes": 0,
+      "rawSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs-acceptance.stderr": {
+      "bytes": 0,
+      "rawSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs-acceptance.stdout": {
+      "bytes": 499,
+      "rawSha256": "sha256:2530d7ac1d85de5d27c90c9de379076d2cc147bf81fdb720feab13c031c515ed"
+    },
+    "docs-governance-integrity.stderr": {
+      "bytes": 0,
+      "rawSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs-governance-integrity.stdout": {
+      "bytes": 49,
+      "rawSha256": "sha256:05b30251feb443dae72da6a045ea5086b3b782ff8b89d635de254fbe19683cf9"
+    },
+    "docs-status-consistency.stderr": {
+      "bytes": 0,
+      "rawSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs-status-consistency.stdout": {
+      "bytes": 36,
+      "rawSha256": "sha256:51b859b1177af20f4cc7c1468e261c7ed2181c4ec157b4b4f89d0cbb9423ddf7"
+    },
+    "drift-before.request.json": {
+      "bytes": 115,
+      "rawSha256": "sha256:6203721af92622f4dcc06e775e829bfa3661d576defc5d3a5b169efffd643ead"
+    },
+    "drift-before.stdout": {
+      "bytes": 23,
+      "rawSha256": "sha256:db0f4c23ea8414d260f817d69b721acc49214f6ef1c7c9d331632ba278f769e8"
+    },
+    "drift5.request.json": {
+      "bytes": 115,
+      "rawSha256": "sha256:6f6b8b010aa208357a892b8a2d489a15ddc5b179f7b83c04bb8cfe5dbee8103c"
+    },
+    "drift5.stdout": {
+      "bytes": 23,
+      "rawSha256": "sha256:db0f4c23ea8414d260f817d69b721acc49214f6ef1c7c9d331632ba278f769e8"
+    },
+    "governance-report.json": {
+      "bytes": 173906,
+      "rawSha256": "sha256:32d5837ae3b0f802f1d24c64be3b655066507bc58fecaecf19c4de7763dc115f"
+    },
+    "local-checks.json": {
+      "bytes": 1960,
+      "rawSha256": "sha256:2031fa1be721f351bba684c1d815b9048d5ecdb01a4916bdfb1e027bd0df16f5"
+    },
+    "prior-ci-revision-binding.json": {
+      "bytes": 544,
+      "rawSha256": "sha256:bb97e411e237a201170329e25786a9aa16c88beee78d7937170831bc4b129382"
+    },
+    "prior-diagnostics-origin.json": {
+      "bytes": 524,
+      "rawSha256": "sha256:c48c69d4551edb0b59c6add9478b1e913e7c2db1223ad0d8043fe263968985c5"
+    },
+    "prior-docs_acceptance.log": {
+      "bytes": 535,
+      "rawSha256": "sha256:0c5aaec63468a97adfdc596d99b7d890fd9f5c14eec77aa696de29ea19aae10f"
+    },
+    "prior-docs_governance_integrity.log": {
+      "bytes": 347,
+      "rawSha256": "sha256:400a1b0b8e5932d87f15afec0abc1948af74926f7a7d15a649793adc3e416b5c"
+    },
+    "receipt-preservation.json": {
+      "bytes": 751,
+      "rawSha256": "sha256:17fc1564fd3103535403af80d99da2407feae402f35b9deb32e52a26ced46c42"
+    },
+    "reg5.request.json": {
+      "bytes": 1310,
+      "rawSha256": "sha256:ce692fb90080d92bd29528c0ac1e1dd202a9b89f217950534552bea2fed78981"
+    },
+    "reg5.stdout": {
+      "bytes": 5961,
+      "rawSha256": "sha256:fcf7988e3b77c07a7a927e3802cad9c7a648e0b3f0e207efe3f9be08e2943a18"
+    },
+    "scope.request.json": {
+      "bytes": 1457,
+      "rawSha256": "sha256:d34eabe1b83d7a29e15004a09a15af48c41a58e24a851ec70180e3bffdd43fa9"
+    },
+    "six-files.diff.json": {
+      "bytes": 14200,
+      "rawSha256": "sha256:489d009cfa808ce656ec197ce1713806da025f84f89ea4816cc35a392d3fc0a7"
+    }
+  }
+}

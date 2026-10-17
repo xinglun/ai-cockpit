@@ -1,0 +1,8 @@
+Usage: ai-cockpit work-item status [OPTIONS] --repo <REPO>
+
+Options:
+      --repo <REPO>  
+      --id <ID>      
+      --all          Aggregate every active and archived Work Item in stable ID order
+      --json         Emit the stable machine-readable status snapshot
+  -h, --help         Print help

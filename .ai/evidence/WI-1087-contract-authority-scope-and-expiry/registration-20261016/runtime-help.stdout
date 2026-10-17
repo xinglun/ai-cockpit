@@ -1,0 +1,37 @@
+Usage: ai-cockpit <COMMAND>
+
+Commands:
+  inspect             
+  preflight           
+  observe             
+  isolation-manifest  Emit a deterministic JSONL filesystem isolation manifest in one Rust process. `--paths-file` accepts a NUL-delimited source path list when Git, rather than a whole-tree walk, defines the source boundary
+  attach              
+  status              
+  compatibility       
+  migrate             
+  start               
+  checkpoint          
+  finish              
+  archive             
+  archive-historical  Archive complete schema-v2 evidence produced by an older Runtime. This explicit compatibility route does not rerun source verification; finalization and close remain required after archive
+  close               
+  verify              
+  gate                Evaluate the Contract/policy route without writing repository governance evidence.  CI uses this before executing its command gate
+  gate-report         Validate an existing Contract quality-gate report against its repository-bound route receipt without executing any gates
+  gate-plan           Build or validate the shared Rust CI gate plan.  The compatibility Python route may delegate here so production and regression paths use one manifest/rule implementation
+  release-plan        Resolve a typed, identity-bound release request into one canonical ReleasePlan envelope. This command performs no build, verification, or publication work
+  evidence            
+  audit               
+  work-item           
+  capability          
+  diagnose            
+  knowledge           
+  profile             
+  mcp                 
+  doctor              
+  agent               
+  help                Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version

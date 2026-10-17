@@ -1,0 +1,139 @@
+{
+  "designVersion": 3,
+  "baseMatrix": "../design-v2-20261016/acceptance-v2.json",
+  "parameterizedCaseId": "R04",
+  "baseCaseCount": 31,
+  "axes": {
+    "trigger": [
+      "revocation",
+      "scope_coverage_lost",
+      "actor_invalid"
+    ],
+    "operation": [
+      "cancellable_managed_process",
+      "bounded_safe_point",
+      "external_dispatched_non_retractable"
+    ],
+    "adapter": [
+      "CLI",
+      "MCP"
+    ]
+  },
+  "variants": [
+    {
+      "trigger": "revocation",
+      "operation": "cancellable_managed_process",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "revocation",
+      "operation": "cancellable_managed_process",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "revocation",
+      "operation": "bounded_safe_point",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "revocation",
+      "operation": "bounded_safe_point",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "revocation",
+      "operation": "external_dispatched_non_retractable",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "revocation",
+      "operation": "external_dispatched_non_retractable",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "scope_coverage_lost",
+      "operation": "cancellable_managed_process",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "scope_coverage_lost",
+      "operation": "cancellable_managed_process",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "scope_coverage_lost",
+      "operation": "bounded_safe_point",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "scope_coverage_lost",
+      "operation": "bounded_safe_point",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "scope_coverage_lost",
+      "operation": "external_dispatched_non_retractable",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "scope_coverage_lost",
+      "operation": "external_dispatched_non_retractable",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "actor_invalid",
+      "operation": "cancellable_managed_process",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "actor_invalid",
+      "operation": "cancellable_managed_process",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "actor_invalid",
+      "operation": "bounded_safe_point",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "actor_invalid",
+      "operation": "bounded_safe_point",
+      "adapter": "MCP",
+      "status": "not_run"
+    },
+    {
+      "trigger": "actor_invalid",
+      "operation": "external_dispatched_non_retractable",
+      "adapter": "CLI",
+      "status": "not_run"
+    },
+    {
+      "trigger": "actor_invalid",
+      "operation": "external_dispatched_non_retractable",
+      "adapter": "MCP",
+      "status": "not_run"
+    }
+  ],
+  "expected": [
+    "No new business step or irreversible commit once coverage/actor validity is lost or revocation is committed.",
+    "Apply the same cancellable/safe-point/external-dispatch limits as v2; retain actual stop or unknown evidence.",
+    "No automatic new business reads, exports, deletion, identity assertion or retroactive authorization.",
+    "Narrowing that still covers the operation rechecks the narrower constraints; source-version replacement alone is not terminal."
+  ],
+  "implementationAuthorized": false
+}

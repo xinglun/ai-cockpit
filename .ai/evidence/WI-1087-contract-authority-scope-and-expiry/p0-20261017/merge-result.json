@@ -1,0 +1,11 @@
+{
+  "head": "cc3ff71c5bb8dbdaea583134bdb483c167e225cd",
+  "parents": [
+    "eb942a0819a40173842d22e90841c8b95c02870f",
+    "1174621c397feb2849812f6ccee4219eb9b6096b"
+  ],
+  "tree": "281746c50e4e38884685a980f56eaf46b3166eeb",
+  "allExistingDesignContractSummaryIntelligenceBytesPreserved": true,
+  "ancestryPreserved": true,
+  "status": "## codex/wi1087-contract-authority-scope-and-expiry"
+}

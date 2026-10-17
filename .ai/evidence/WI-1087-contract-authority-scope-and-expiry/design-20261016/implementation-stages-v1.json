@@ -1,0 +1,104 @@
+{
+  "designVersion": 1,
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "implementationAuthorityGranted": false,
+  "dependsOn": [
+    "WI-1086-sensitive-amendment-preflight-request-interlock"
+  ],
+  "currentParallelizable": false,
+  "stages": [
+    {
+      "id": "P0",
+      "purpose": "本次仅planned登记与版本化设计",
+      "currentAuthorization": "design_and_registration_only",
+      "files": [
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.*",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**"
+      ],
+      "parallelism": "独立设计文档可与WI-1086执行并行；不改共享账本/产品，不build"
+    },
+    {
+      "id": "P1",
+      "purpose": "定稿最小目标来源/引用与可控Clock类型",
+      "proposedOnly": true,
+      "files": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-core/src/clock.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/authority.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "parallelism": "新Clock模块仅在接口/ownership获审且实际准入允许时可独立；共享入口文件串行"
+    },
+    {
+      "id": "P2",
+      "purpose": "目标覆盖、派生引用、当前版本和锁后动作准入",
+      "proposedOnly": true,
+      "files": [
+        "crates/cockpit-repository/src/authority.rs",
+        "crates/cockpit-repository/src/action_admission.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/governance_controls.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/authority_expiry.rs"
+      ],
+      "parallelism": "依赖WI-1086修复与实际集成；与所有这些共享路径串行"
+    },
+    {
+      "id": "P3",
+      "purpose": "受管执行到期停止、metadata-only延期管理面与版本CAS",
+      "proposedOnly": true,
+      "files": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-repository/src/authority.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/authority_expiry.rs"
+      ],
+      "parallelism": "单一集成owner；不能借控制面跳过业务安全规则"
+    },
+    {
+      "id": "P4",
+      "purpose": "CLI/MCP一致性、三语文档、显式迁移上线",
+      "proposedOnly": true,
+      "files": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-cli/tests/authority_expiry.rs",
+        "crates/cockpit-mcp/tests/authority_expiry.rs",
+        "docs/reference/contract-fields.md",
+        "docs/reference/contract-fields.zh-CN.md",
+        "docs/reference/contract-fields.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "parallelism": "共享接口和账本串行；迁移/启用另审，不自动改现有Contract"
+    }
+  ],
+  "entryRequirements": [
+    "Raydot技术设计审阅",
+    "前驱WI-1086所需修复/集成和真实Runtime能力",
+    "各阶段正式Contract范围与可核查授权及实际准入",
+    "新的有限期限目标授权启用另审，非本次planned登记所授予"
+  ],
+  "unresolvedMigrationDecisions": [
+    "权威来源wire/存储与既有索引复用",
+    "可信host/provider身份和goal覆盖能力边界",
+    "Clock回拨诊断与可信度",
+    "纯metadata控制面及有界安全收尾权限",
+    "新强制模式激活、旧活跃任务迁移/回退/版本能力"
+  ]
+}

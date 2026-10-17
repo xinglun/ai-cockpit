@@ -1,0 +1,16 @@
+{
+  "kind": "agent_record_of_controller_relay_not_human_approval",
+  "receivedAt": "2026-10-17T00:49:36.864431+00:00",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "scope": "Native three-parity-path planning scope amendment, six-file docs CI fix, local docs checks, commit/push, update Draft PR1045, observe new-head CI",
+  "excluded": [
+    "product implementation",
+    "gate/assertion weakening",
+    "human confirm_review impersonation",
+    "merge",
+    "deletion"
+  ],
+  "boundContractDigest": "sha256:7f827f8bf5b6eaacd599045f243f74ee3a89998bde781fc5aae65af83f877eee"
+}

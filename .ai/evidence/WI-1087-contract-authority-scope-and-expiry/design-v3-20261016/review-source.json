@@ -1,0 +1,7 @@
+{
+  "source": "Raydot parent delegation relaying actual Ray confirmation and planning review",
+  "receivedOn": "2026-10-16",
+  "v2PlanningDirectionTechnicallyApproved": true,
+  "requestedChange": "Add scope narrowing and actor invalidation as equivalent in-flight stop triggers, parameterized acceptance; planning only.",
+  "actualAuthorityConfigurationChanged": false
+}
