@@ -8,7 +8,10 @@
     ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/progress.md",
     ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-17T03:21:49Z",
+  "checkpointContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:2835ac27fbec43248ed38563ca48776f4a2088482d7be252af4454438856b2bd",
   "createdAt": "2026-10-16T01:06:57Z",
   "decisionEvidence": {
     "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
@@ -34,14 +37,14 @@
     }
   },
   "mode": "planning",
-  "preflightAt": "2026-10-17T03:20:43Z",
+  "preflightAt": "2026-10-17T03:21:48Z",
   "preflightContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
-  "preflightDecisionDigest": "sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a",
+  "preflightDecisionDigest": "sha256:5fa7d6ba12f1a8e9e21bb9dbcdbcd41fe14d47ab15fcae3203181a7bd6766479",
   "preflightRepositorySnapshotDigest": "sha256:2835ac27fbec43248ed38563ca48776f4a2088482d7be252af4454438856b2bd",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-10-17T03:20:17.400570886+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-17T03:21:49Z",
   "workItemId": "WI-1087-contract-authority-scope-and-expiry"
 }

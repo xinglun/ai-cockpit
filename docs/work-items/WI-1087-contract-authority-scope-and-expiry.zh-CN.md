@@ -1,13 +1,13 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-1087 — 有限期限目标授权的范围与到期"
-description: "范围内连续执行、实质越界才决定的planned设计。"
+description: "P1 数据模型与 Clock 基础实现；有限授权强制执行仍为规划。"
 audience:
   - maintainer
   - reviewer
 workItemId: WI-1087-contract-authority-scope-and-expiry
 status: in_progress
-authority: design-and-registration-only
+authority: p1-software-development-only
 lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 ---
 
@@ -15,7 +15,7 @@ lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 
 # WI-1087 — 有限期限目标授权的范围与到期
 
-本项仅planned设计，Runtime通过new登记为planning/not_ready；没有start、checkpoint、产品实现、实际权限启用、合并或清理。产品实施authority保持missing。
+当前为同一 WI 的 P1 软件实施阶段，已记录原生 preflight 和 before-edit checkpoint。获准范围仅包含独立模型、可测试 Clock 与纯归一化接口；未配置真实 grant 或系统权限。全功能产品验收保持 not_run。
 
 ## Goal
 
@@ -46,3 +46,9 @@ v1 原件保留。v2 明确撤销/提交的排序与外部 fencing 能力边界�
 
 - [Design v3 clarification](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/addendum-v3.zh-CN.md)
 - [R04 parameterized acceptance — not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/acceptance-delta-v3.json)
+
+## P1 进展
+
+局部 TDD 与模块回归覆盖 Clock 边界、严格模型结构及纯 UTC 归一化。首轮模块测试通过：core 12、protocol 12、repository 164（含新增归一化测试 12 项）。完整 workspace 验证与 CI 另按实际执行结果记录；全功能验收矩阵继续保持 not_run。
+
+实际执行者为 `agent:Codex`，技术计划审阅者为 `agent:Raydot`。`lastVerifiedBy` 引用本 WI，不代表真人身份；[真人决定来源](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/human-decision-source-20261017.json) 保留用户原文。[模块测试证据](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/module-results.json)。P2–P4 与真实启用仍在范围外。

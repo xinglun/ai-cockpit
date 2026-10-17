@@ -1,13 +1,13 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-1087 — finite goal authority scope and expiry"
-description: "Planned design for finite goal authorization with continuous work inside its approved boundary."
+description: "P1 data models and Clock primitives; finite authority enforcement remains planned."
 audience:
   - maintainer
   - reviewer
 workItemId: WI-1087-contract-authority-scope-and-expiry
 status: in_progress
-authority: design-and-registration-only
+authority: p1-software-development-only
 lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 ---
 
@@ -15,7 +15,7 @@ lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 
 # WI-1087 — finite goal authority scope and expiry
 
-This is a planned design, recorded through Runtime new as planning/not_ready. No start, checkpoint, product implementation, actual permission activation, merge or cleanup. Product implementation authority remains missing.
+Current stage: P1 software implementation on the existing Work Item. Native preflight and the before-edit checkpoint are recorded. The approved change is limited to standalone models, a testable Clock and pure normalization; no live grant or system permission is configured. Full-feature acceptance remains not_run.
 
 ## Goal
 
@@ -46,3 +46,9 @@ Scope narrowing that removes current coverage and actual actor invalidation trig
 
 - [Design v3 clarification](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/addendum-v3.zh-CN.md)
 - [R04 parameterized acceptance — not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v3-20261016/acceptance-delta-v3.json)
+
+## P1 progress
+
+Local TDD and module regression evidence covers Clock boundaries, strict model shapes and pure UTC normalization. Initial suites passed: core 12, protocol 12, repository 164 (including 12 new normalization tests). Full workspace verification and CI are recorded separately when actually run. The complete feature acceptance matrices remain not_run.
+
+The executor is `agent:Codex`; the technical plan reviewer is `agent:Raydot`. `lastVerifiedBy` references this Work Item, not a person. Human review provenance preserves the original response in the [decision source](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/human-decision-source-20261017.json). [Module test evidence](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/module-results.json). P2–P4 and live activation remain excluded.
