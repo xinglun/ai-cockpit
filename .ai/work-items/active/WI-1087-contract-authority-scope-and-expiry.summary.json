@@ -1,17 +1,9 @@
 {
-  "changedPaths": [
-    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000004.committed.json",
-    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000004.prepared.json",
-    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/authority.json",
-    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1-plan.json",
-    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1.request.json",
-    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/progress.md",
-    ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-17T03:21:49Z",
   "checkpointContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:2835ac27fbec43248ed38563ca48776f4a2088482d7be252af4454438856b2bd",
+  "checkpointRepositorySnapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
   "createdAt": "2026-10-16T01:06:57Z",
   "decisionEvidence": {
     "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
@@ -37,14 +29,69 @@
     }
   },
   "mode": "planning",
-  "preflightAt": "2026-10-17T04:51:49Z",
+  "preflightAt": "2026-10-17T06:32:04Z",
   "preflightContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
-  "preflightDecisionDigest": "sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-10-17T03:21:49Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:94d7ec496f9e2c7c7ebc9202f51a49a272e714e13c8c3276245ab89ef1787b33",
   "workItemId": "WI-1087-contract-authority-scope-and-expiry"
 }

@@ -1,0 +1,15 @@
+# WI-1087 P1 成功证据保存
+
+本次仅保存真实证据，产品源码未变。验证与 CI 的源码 HEAD 为 c72161f56bbcdfdf93fa893ab331c7b78e92408b，五个产品文件 hash 与原生执行起点一致。
+
+原生正式验证于2026-10-17T06:32:03Z生成成功 canonical receipt：receiptDigest sha256:960acaeebf14690f28f4a0e26d7a9949e79938374cb0647cee7d27de02532199；原始文件SHA-256 39b46fbb120ed1996df9d4176cc4fcf3514ed6a7ec17f42cb02f6361ea90b6ca。成功attempt为6eda4e34a963c40e60f19e7d7135fb8de6bfe49d2f39dd1f3e1a0ea756cb2c9e。canonical receipt、attempt及Summary按Runtime生成字节原样加入Git，没有手改。
+
+完整13节点全部执行通过、0复用、并发1、各节点600秒、均exit0且timedOut=false。会话总计972.842秒，原生route970895毫秒；最长repository节点529.136秒。聚合器未加890秒外层期限。repository stdout有原生65536字节截断标记，stderr未截断；截断标记原样保留，没有补造缺失stdout。
+
+本地缓存故障证据完整保留：默认HOME缓存叶目录缺失时，最小无依赖夹具返回Read-only file system（os error30），workspace隔离对照通过；仅创建已授权缓存叶目录后，同一默认路径探针及原失败用例原断言通过（1 passed、16 filtered）。父目录仍只读，HOME与产品/测试代码未改。恢复仅涉及批准的精确缓存叶目录。
+
+CI39008478651在上述c72161f5源码上已completed/success，route、quality、v1-behavioral-oracle、windows-runtime四作业全通过。CI连接器实际只读观察保存在ci-v05-terminal.json。旧CI的/proc未知清理失败保持独立事实，不重归因、不弱化fail-closed；本次新CI没有失败或新PID。此证据提交将产生新的HEAD和新的CI，后者必须独立跟踪终态，不把旧HEAD成功冒充新HEAD成功。
+
+历史72fb8a原生失败attempt、早先两个外层124及原始9ca真人preflight review字节不变。丢失旧环境的未知日志/终态仍不补造。没有新真人决定，没有merge/finish/archive/close/delete或P2实施。P2–P4与live授权仍未实施；完整WI保持开放。原生绿色仅表示已声明的软件验证通过，用户可见收益仍未声明。
+
+本文件及文件清单是agent:Codex的保存说明，不替代原生receipt。新提交hash通过提交后的实际远端读回另行报告，不在本文件自填未来hash。
