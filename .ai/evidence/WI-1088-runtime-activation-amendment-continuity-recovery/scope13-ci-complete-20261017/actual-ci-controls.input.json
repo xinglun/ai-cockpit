@@ -1,0 +1,303 @@
+{
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/real-native-red-20261017/attempt2-target-RED/result.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-human-20261017/native-record-result.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#native_activation_keeps_post_checkpoint_amendment_reviewable"
+      ],
+      "expected": "Actual RED for pre-amend/activation/checkpoint/post-amend in a disposable repository; setup failures are distinguished.",
+      "required": true,
+      "scenario": "real_native_pre_fix_reproduction",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-3.stdout#journal_activation_publishes_exact_pair_and_rejects_raw_controls_or_partial_phase",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout"
+      ],
+      "expected": "Only the three forward fields change at the pinned initial activation stage; complete actual phase evidence verifies.",
+      "required": true,
+      "scenario": "forward_exact_activation_transition",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test lifecycle_entry"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#legacy_activation_mcp_record_requires_a_separate_current_contract_review"
+      ],
+      "expected": "Exact NOW baseline with real request-bound human response permits fresh preflight generation only; historical authentication remains unknown.",
+      "required": true,
+      "scenario": "present_baseline_only_recovery",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-repository.stdout#request_binding_rejects_a_rehashed_discontinuous_contract_chain",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#current_contract_review_cannot_hide_a_missing_activation_commit",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stdout"
+      ],
+      "expected": "All record/hash/journal checks remain; rehashed discontinuous post-checkpoint chain is rejected.",
+      "required": true,
+      "scenario": "full_integrity_and_rehashed_discontinuity",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#invalid_legacy_recovery_plans_preserve_all_metadata_bytes",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#recovery_request_binds_native_environment_and_raw_review_bytes",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-3.stdout"
+      ],
+      "expected": "Missing start/checkpoint and foreign owner/repository/WI or extra scope/authority/actor/source fail closed.",
+      "required": true,
+      "scenario": "foreign_missing_or_extra_plan_bindings",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-repository.stdout#finite_activation_policy_rejects_plan_expansion_and_non_exact_csv",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#invalid_legacy_recovery_plans_preserve_all_metadata_bytes"
+      ],
+      "expected": "Only the exact enumerated old/new arrays at the eligible initial boundary are reviewable; broad CSV or B-only inference rejects.",
+      "required": true,
+      "scenario": "finite_legacy_csv_and_stage_policy",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-repository.stdout#unrelated_request_does_not_finish_a_pending_amendment",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout#stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stdout#prospective_chain_rejects_an_unjournaled_current_contract_before_publication"
+      ],
+      "expected": "Before publication reject wrong request and stale/CAS conflicts without finishing unrelated pending; raw bytes remain unchanged.",
+      "required": true,
+      "scenario": "wrong_request_pending_and_prospective_cas",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-3.stdout#journal_activation_publishes_exact_pair_and_rejects_raw_controls_or_partial_phase",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stdout#summary_only_controls_reject_existing_native_entries_before_projection",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stdout#ordinary_amendment_cannot_obtain_or_inject_activation_recovery"
+      ],
+      "expected": "Prepared-only/partial evidence cannot grant committed status or work; unsupported Runtime/adapter/raw writer remains rejected.",
+      "required": true,
+      "scenario": "partial_publication_and_unsupported_surface",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test lifecycle_entry"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-verification-20261017/p05-rpc-exact-discovery-execute.stdout",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-5.stdout",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-6.stdout"
+      ],
+      "expected": "Two strict recovery tools agree with CLI/shared APIs; exact tool count 35 if two added; usage/material-review assertions retained.",
+      "required": true,
+      "scenario": "cli_mcp_shared_request_record_and_exact_schema",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-mcp --test material_review and cargo test --locked -p cockpit-mcp --test usage and cargo test --locked -p cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p16-full-source-scope-preservation.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-7.stdout"
+      ],
+      "expected": "Only WI-1088 parity stage rows change; own briefs/commands match; original WI-1087 eleven hashes stay identical.",
+      "required": true,
+      "scenario": "three_language_wi_only_documentation_and_preservation",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test agent_rule_parity plus exact scoped diff/raw-hash inventory"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/actual-full33-result.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/canonical-full33.copy.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-terminal.raw.json"
+      ],
+      "expected": "Fresh fmt/clippy and full workspace verification use isolated target and single worker; actual CI outcome is reported.",
+      "required": true,
+      "scenario": "full_workspace_acceptance",
+      "status": "verified",
+      "verificationPlan": "cargo fmt --all -- --check and cargo clippy --locked --workspace --all-targets -- -D warnings and cargo test --locked --workspace"
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p16-full-source-scope-preservation.json",
+          "locator": "all11ProtectedHashesUnchanged; protectedWI1087Head; protectedWI1087RawHashes",
+          "verification": "Actual read-only all11 equality and HEAD9093ebe1 verified; original WI-1087 remains unchanged and no real recovery is performed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_pre_fix_native_red",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/real-native-red-20261017/attempt2-target-RED/result.json",
+          "locator": "Actual pre-fix native transaction phases before/after activation/checkpoint/amendment",
+          "verification": "Real temporary Git/native RED was preserved before implementation; actual original and new current human records are separate."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-3.stdout",
+          "locator": "journal_activation_publishes_exact_pair_and_rejects_raw_controls_or_partial_phase; journal_activation_rejects_extra_human_plan_changes_before_any_publication",
+          "verification": "Fresh focused lifecycle55/55 and whole package exit0; actual forward typed prepared/committed pair checks exactly the3 allowed fields."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout",
+          "locator": "invalid_legacy_recovery_plans_preserve_all_metadata_bytes; legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review",
+          "verification": "Fresh CLI36/36 verifies exact finite policy, independent current request/response, and no historical authentication claim."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout",
+          "locator": "a_preexisting_c_receipt_cannot_preapprove_present_baseline_recovery; legacy_activation_mcp_record_requires_a_separate_current_contract_review",
+          "verification": "Fresh CLI36/36 verifies recovery only enables a fresh preflight generation, with separate current-C review and unknown historical authentication retained."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stdout",
+          "locator": "prospective_chain_rejects_an_unjournaled_current_contract_before_publication; summary_only_controls_cannot_accept_orphan_activation_markers; summary_only_controls_reject_existing_native_entries_before_projection",
+          "verification": "Fresh amendment17/17 plus CLI36/36 and complete repository exit0; whole prospective chain and partial/orphan/dangling no-write cases retain strict admission."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout",
+          "locator": "recovery_request_binds_native_environment_and_raw_review_bytes; stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata; current_contract_review_cannot_hide_a_missing_activation_commit",
+          "verification": "Fresh CLI36/36 and whole repository exit0; hash/journal/unit negatives also run in the full package. Truncated repository stdout is not used to invent a missing test tail/count."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p16-full-source-scope-preservation.json",
+          "locator": "changedRustPaths; declaredRustPathCount=13; allChangedRustPathsDeclared=true",
+          "verification": "Actual13/13 Rust scope inventory; RPC change adds only the2 actual names and exact count33→35. Strict standalone protocol/shared APIs remain within the approved scope."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A9",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-verification-20261017/p05-rpc-exact-discovery-execute.stdout",
+          "locator": "executionRecords and actual RPC test output",
+          "verification": "Actual full RPC38/38 passed under new scope; fresh full33 MCP package passed, material-review2/2 and usage3/3. Exact35 and exact names remain asserted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p16-full-source-scope-preservation.json",
+          "locator": "allOtherParityLinesByteIdentical",
+          "verification": "All3 parity files retain every other WI line byte-identically; approved own commands/briefs consistent; fresh parity2/2 and quality CI success observed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/actual-full33-result.json",
+          "locator": "sourceHead=ee886af0; records; complete33 route; sourceSnapshotDigest",
+          "verification": "Fresh native33/33 at frozen ee886 source snapshot a990; one worker, isolated target, finite300/600s node budgets,0reuse,0timeout. Current evidence-only HEADead9a32d690871a1794f6091b7f724d92531324e retains all13 Rust files identically and exact-head CI39037114023 completed success, including quality/oracle/Windows. The historical2dd3 Windows fixture-clone failure and byte-preserving20-copy repair remain preserved. Any subsequent governance-only HEAD receives its own actual CI observation; no future result is inferred."
+        },
+        {
+          "type": "actual_github_ci_failure",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/ci-2dd3-terminal.raw.json",
+          "locator": "windows-runtime conclusion=failure; cognitive invalid-binary fixture clone",
+          "verification": "Actual failure preserved with decoded log and complete byte-preserving old/new path map. Native33/33 is not relabelled failed, and Windows recovery is not yet claimed."
+        },
+        {
+          "type": "actual_github_ci_terminal",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-terminal.raw.json",
+          "locator": "headSha; conclusion; all completed jobs including windows-runtime",
+          "verification": "Actual CI39037114023 passed at exact pushed HEADead9a32d690871a1794f6091b7f724d92531324e. Revision artifact binds sourceHead, tested merge and both parents; all13 workspace packages executed with no omissions."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "status": "verified",
+      "evidence": [
+        {
+          "type": "actual_command_or_source_evidence",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p16-full-source-scope-preservation.json",
+          "locator": "scope and protected original worktree hashes",
+          "verification": "Normal branch commits/push and DraftPR1047 only; no merge/close/archive/delete/install/direct-main/P2/livegrant/Sentinel/actual WI-1087 recovery. Source code frozen since0a9fa45f."
+        }
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "reason": "The approved bounded implementation now passes the actual fresh native33-node route and strict forward/recovery/no-write fixtures within the13 approved Rust paths. This is source-level intent evidence; Runtime installation, real WI-1087 recovery, historical authentication and deployed user-visible benefit are not claimed.",
+    "evidence": [
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-human-20261017/native-record-result.json",
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/actual-full33-result.json",
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout",
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-3.stdout",
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stdout",
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p16-full-source-scope-preservation.json"
+    ]
+  }
+}

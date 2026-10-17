@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "contractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+  "immutableContractBaseRevision": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+  "sourceSnapshotDigest": "sha256:f9c62d5afc12152f92c16a4b46688ff2d9409620e1269abd1e4bc8737ddb150e",
+  "materialManifestDigest": "sha256:415fb1ff57cfd82baaae1065bc8c25932e0129c5003e87ee8d23358a1628862d",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:9dcee9c81b0888942520a821f502071bd078a16da9473fdd63f8568a87e54f80",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": null,
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1d656c154ce93caf0cab32c4c6a228678aa654e0ef5f9dc77e8491ba3f2d2ffa",
+      "afterBlobDigest": "sha256:a61ca16982e6633758d2f1966f805c15fa1ae70f404d913c9b1ea53eb63b43cf"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:323059a7b7c7bca9856428d167df2f1ce2752095f625944f38953a0f6bb21214",
+      "afterBlobDigest": "sha256:0ace7891e0c4a1847cadc0ad19bc0052d28d87bdf2dd2d6176409d14a5251ace"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4c3b6838aa18ddf06cc9fbce1d01d8d41ebdd470baa76123e243e1c860ef1370",
+      "afterBlobDigest": "sha256:05e845caf29ff0a206c2d6aac96af15e8c7d4a2bdf034f00fe8963c20b727c39"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:39ffdc51e5924c02d8878035dacd63870340da7e4b23b564e2b3695134147d50",
+      "afterBlobDigest": "sha256:b20bb6421c65e5e48bcd75fc8dab2f8021c1c77c25f790b1a70e2c86a63c64a0"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:92e2796ec5e81ba0254614cbf5a50e0d8ebc7fba210138326721297f263537b3",
+      "afterBlobDigest": "sha256:6d1925bda676efdaff88eb7e3ba5b47139e9c508d26fb1159dc7ad693192116f"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:208eab2abfce86bf5c5252f05a2d75f00e33910c1be551dcc0d3d3a8f8d72c13",
+      "afterBlobDigest": "sha256:d921136209e3d32f9936d98db5a80cca6b4a3f08d9e4efbf617ce2bf113adbca"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1c21bc8604610b85d7b694b23c9bf31d8ce070c5bcfb3e9669f56f599fb6a2a1",
+      "afterBlobDigest": "sha256:96cb15fd79c01739f701fbef6a38622b37892c33a7d7fafea2055629d62a8533"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:27cabab94d06f051bbad25cb97b886809d95110f353898772b9d284167913925",
+      "afterBlobDigest": "sha256:7263c3121b244c6aa0df832d898aa6a960a8edc4ab6ca3a7108c660ecb0db481"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a6a0d4de9c99275efca09fd635f23c2591b291cc80e6ad78579ae2097846497e",
+      "afterBlobDigest": "sha256:e4c489b6d2f1a48159c80132e58c3a959162c036edeaf71b8627b05e64386c25"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:7de2129606125f9a7cb660c8098e7b32225d663b733d0407e289f62280b400a7",
+      "afterBlobDigest": "sha256:ead5cb48507fa89d766f1a3afe7403da3197ff758a4afe19dc1aa2d0db02ff2d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:549381b97aabf7d5da11ae05299df6a1d6b20421f96e6ea4f941367068f560ba",
+      "afterBlobDigest": "sha256:b8dbad7ba45a0090a4af52fd2212aab5203543ee05f9cc5511626bf060dcde67"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:c0b432483bf541d4f4faef279e81bcde68514f6e1805441debcb0fa640bb6c9f",
+      "afterBlobDigest": "sha256:18c8779e36f7d6699e7f88c879d0569ec7e713eb485e9d88d883570f8fd5d680"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:35f55b5bba4967a28f106245eb9b62b6d807a9d38fd5ed458008f9f32c98e951",
+      "afterBlobDigest": "sha256:4b77cb55c02a70cd56d95eed1ba9fb4eccfc0d42ec941e58162cd019a942aebd"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:939054cafb1e7c2565dfcf2c9977cb62f759c38194bdc1ab010b051359277324",
+      "afterBlobDigest": "sha256:0319a71171accbdca58320c80752ee4bab04fc0e58126ebedcbe50c9c5efc3ba"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:ee648292c0f32b17b131849b02f0da34e8d2b626bb6ee538f264cd770c432b80",
+      "afterBlobDigest": "sha256:5dcbe25e2c84d7af0423dd09d0c97a200500d8faabe01a5b2e246f1e21ba9068"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:f2dd885ce561ff422b5dcf72124a1c1e4b5a972a607c9efa0f394b478b3d3b54",
+      "afterBlobDigest": "sha256:85e4df092d9b57f741ffab1d39946b2d6f2dc71a8749c577b98110a135163b9a"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:17dc698c8af6da6919a4948df331c72fa57c1b389ebe72c94b42792222cf3735",
+      "afterBlobDigest": "sha256:a9ef112fb1b079c175d4f9f92b898b46a085caba718feac39c188e633a61781c"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:c60b038ba8d68f74dea3454b39c068321f165eb105602dd4de269490f328f492",
+      "afterBlobDigest": "sha256:75d1ea329b7cd2e88262ec1f2c154510ed62a2585de303816175eefef56c900c"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:76bf92b0fd487bda6aeaf97f9f6779131b71cf44bd71cbcadaa3ef16d6a8e42e",
+      "afterBlobDigest": "sha256:d02008d1a3d9be21bddcd26afa904970025b0f41e5e4f853d087c90aba8aa612"
+    },
+    {
+      "path": "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:324c16b48db80ae7a7457c5341c8ac45fcaecb28041e1c57386e6775733660ae",
+      "afterBlobDigest": "sha256:aec7aa33179691ebc095863839e65e5716bcc9ca163d2ac8192721e2258f44e4"
+    },
+    {
+      "path": "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a61e01960f6fd1772c09c33cefa3a527464c1295d382cc4884f89f05154a789e",
+      "afterBlobDigest": "sha256:39e51deb19860778650c9fa4141025fc17e1786f70c9d0ae5aed66be6fe1ecb9"
+    },
+    {
+      "path": "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:98c65e76ec42d92328d153234755afd69f014673ce22c9e397310b80c01bac00",
+      "afterBlobDigest": "sha256:77c6430587019f14cc3d302c9ee904d10113e516cf388df20f0494a1186d7fe3"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": false,
+  "reviewDiagnostic": "material_review_not_enabled",
+  "requestDigest": "sha256:d9df8823ab548f0d3a671705b34d6f4f80b1731edb68e51ba61f1282aca08074",
+  "reviewedSourceHead": "ead9a32d690871a1794f6091b7f724d92531324e"
+}

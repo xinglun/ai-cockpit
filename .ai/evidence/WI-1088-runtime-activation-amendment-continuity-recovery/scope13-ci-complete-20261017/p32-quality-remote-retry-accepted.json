@@ -1,0 +1,14 @@
+{
+  "kind": "agent_observation_of_actual_github_tool_response_not_native_receipt",
+  "observedAt": "2026-10-17T14:04:16.407203+00:00",
+  "tool": "github_rerun_workflow_job",
+  "repository": "xinglun/ai-cockpit",
+  "jobId": 117409959440,
+  "runId": 39037114023,
+  "head": "ead9a32d690871a1794f6091b7f724d92531324e",
+  "actualToolResponse": {
+    "success": true
+  },
+  "interpretation": "Exactly one remote job rerun was accepted; this is not verification success. Earlier gh combined run-id/job flags were rejected locally before any request and retained separately.",
+  "sourceTestsPermissionsUnchanged": true
+}

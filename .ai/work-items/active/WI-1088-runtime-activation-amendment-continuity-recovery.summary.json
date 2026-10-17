@@ -127,16 +127,22 @@
           "locator": "sourceHead=ee886af0; records; complete33 route; sourceSnapshotDigest",
           "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/actual-full33-result.json",
           "type": "actual_command_or_source_evidence",
-          "verification": "Fresh native33/33 passed at ee886 source snapshot a990, one worker, native300/600s budgets. Exact-head CI39035217918 at2dd3 ended Windows failure during fixture clone before evaluator behavior; route/oracle/quality passed. Only20 own saved fixture copies were renamed byte-identically under180 relative-path budget; source/tests/native originals unchanged. New actual exact-head CI is required; this acceptance remains unverified."
+          "verification": "Fresh native33/33 at frozen ee886 source snapshot a990; one worker, isolated target, finite300/600s node budgets,0reuse,0timeout. Current evidence-only HEADead9a32d690871a1794f6091b7f724d92531324e retains all13 Rust files identically and exact-head CI39037114023 completed success, including quality/oracle/Windows. The historical2dd3 Windows fixture-clone failure and byte-preserving20-copy repair remain preserved. Any subsequent governance-only HEAD receives its own actual CI observation; no future result is inferred."
         },
         {
           "locator": "windows-runtime conclusion=failure; cognitive invalid-binary fixture clone",
           "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/ci-2dd3-terminal.raw.json",
           "type": "actual_github_ci_failure",
           "verification": "Actual failure preserved with decoded log and complete byte-preserving old/new path map. Native33/33 is not relabelled failed, and Windows recovery is not yet claimed."
+        },
+        {
+          "locator": "headSha; conclusion; all completed jobs including windows-runtime",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-terminal.raw.json",
+          "type": "actual_github_ci_terminal",
+          "verification": "Actual CI39037114023 passed at exact pushed HEADead9a32d690871a1794f6091b7f724d92531324e. Revision artifact binds sourceHead, tested merge and both parents; all13 workspace packages executed with no omissions."
         }
       ],
-      "status": "unverified"
+      "status": "verified"
     },
     {
       "acceptanceId": "A12",
@@ -206,6 +212,7 @@
     "schemaVersion": 1,
     "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
   },
+  "failedGate": "finish.lifecycle",
   "intentAlignment": {
     "evidence": [
       ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-human-20261017/native-record-result.json",
@@ -229,12 +236,14 @@
     }
   },
   "mode": "implementation",
+  "outcomeState": "blocked",
   "preflightAt": "2026-10-17T12:59:16Z",
   "preflightContractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -358,17 +367,17 @@
       "evidence": [
         ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/actual-full33-result.json",
         ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/canonical-full33.copy.json",
-        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/win-clone-20261017/ci-2dd3-terminal.raw.json"
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-terminal.raw.json"
       ],
       "expected": "Fresh fmt/clippy and full workspace verification use isolated target and single worker; actual CI outcome is reported.",
       "required": true,
       "scenario": "full_workspace_acceptance",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "cargo fmt --all -- --check and cargo clippy --locked --workspace --all-targets -- -D warnings and cargo test --locked --workspace"
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-17T13:33:44.254114824+00:00",
+  "updatedAt": "2026-10-17T14:23:54Z",
   "verification": [
     {
       "check": "project-command-0",

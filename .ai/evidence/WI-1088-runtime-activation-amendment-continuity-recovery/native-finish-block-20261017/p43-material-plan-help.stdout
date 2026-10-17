@@ -1,0 +1,8 @@
+Build the canonical read-only material-review request for an active Work Item
+
+Usage: ai-cockpit work-item material-review plan --repo <REPO> --id <ID>
+
+Options:
+      --repo <REPO>  Repository path for source identity.
+      --id <ID>      Active Work Item identifier.
+  -h, --help         Print help
