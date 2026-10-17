@@ -6,7 +6,7 @@
 //! stalled wall clock still consumes monotonic time. Whole-system rollback
 //! across process restarts is outside this local clock's assurance.
 
-use std::time::{Instant, SystemTime, UNIX_EPOCH};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct ClockSample {
@@ -28,11 +28,16 @@ pub enum ClockError {
     WallClockRollback,
     #[error("monotonic clock moved backwards")]
     MonotonicRollback,
+    #[error("clock reads crossed a monotonic millisecond boundary; obtain a new sample")]
+    SamplingGap,
     #[error("clock sample cannot be represented in integer milliseconds")]
     TimeOutOfRange,
 }
 
 pub trait Clock {
+    /// Capture a UTC/monotonic pair coherent at integer-millisecond precision.
+    /// A sampling error must stop the current deadline decision; cached budget
+    /// values cannot replace the failed sample. Samples can age after capture.
     fn sample(&self) -> Result<ClockSample, ClockError>;
 }
 
@@ -50,15 +55,34 @@ impl Default for SystemClock {
 
 impl Clock for SystemClock {
     fn sample(&self) -> Result<ClockSample, ClockError> {
-        let utc_millis = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .map_err(|_| ClockError::TimeOutOfRange)?
+        Self::sample_from(SystemTime::now, || self.origin.elapsed())
+    }
+}
+
+impl SystemClock {
+    fn sample_from(
+        utc_now: impl FnOnce() -> SystemTime,
+        mut monotonic_elapsed: impl FnMut() -> Duration,
+    ) -> Result<ClockSample, ClockError> {
+        let before = monotonic_elapsed();
+        let utc = utc_now();
+        let after = monotonic_elapsed();
+        // The UTC read must lie in one monotonic millisecond bucket. Refuse
+        // a wider read interval instead of losing it at this decision or
+        // advancing UTC (which could prematurely satisfy notBefore).
+        if after < before {
+            return Err(ClockError::MonotonicRollback);
+        }
+        if after.as_millis() != before.as_millis() {
+            return Err(ClockError::SamplingGap);
+        }
+        let monotonic_millis = before
             .as_millis()
             .try_into()
             .map_err(|_| ClockError::TimeOutOfRange)?;
-        let monotonic_millis = self
-            .origin
-            .elapsed()
+        let utc_millis = utc
+            .duration_since(UNIX_EPOCH)
+            .map_err(|_| ClockError::TimeOutOfRange)?
             .as_millis()
             .try_into()
             .map_err(|_| ClockError::TimeOutOfRange)?;
@@ -133,6 +157,11 @@ impl MonotonicBudget {
             poisoned: None,
         })
     }
+    /// Return the cached budget from the last observation without sampling time.
+    ///
+    /// Before a deadline decision, obtain a fresh [`Clock::sample`] and pass it
+    /// to [`Self::observe`], propagating either error. This cache can stay
+    /// positive after actual expiry or a failed sampling attempt.
     pub fn remaining_millis(&self) -> u64 {
         self.remaining_millis
     }
@@ -325,11 +354,124 @@ mod tests {
     }
 
     #[test]
-    fn system_clock_supplies_utc_and_non_decreasing_monotonic_samples() {
+    fn system_clock_returns_a_coherent_sample_or_reports_a_read_gap() {
         let clock = SystemClock::default();
-        let first = clock.sample().unwrap();
-        let second = clock.sample().unwrap();
-        assert!(first.utc_millis > 0);
-        assert!(second.monotonic_millis >= first.monotonic_millis);
+        let inspect = |result: Result<ClockSample, ClockError>| match result {
+            Ok(sample) => {
+                assert!(sample.utc_millis > 0);
+                Some(sample)
+            }
+            Err(ClockError::SamplingGap) => None,
+            Err(error) => panic!("unexpected system clock error: {error}"),
+        };
+        let first = inspect(clock.sample());
+        let second = inspect(clock.sample());
+        if let (Some(first), Some(second)) = (first, second) {
+            assert!(second.monotonic_millis >= first.monotonic_millis);
+        }
+    }
+
+    #[test]
+    fn regression_gap_after_utc_read_is_rejected_before_a_budget_decision() {
+        let elapsed = Cell::new(Duration::ZERO);
+        let paired = SystemClock::sample_from(
+            || {
+                let utc = UNIX_EPOCH + Duration::from_millis(100);
+                elapsed.set(Duration::from_millis(100));
+                utc
+            },
+            || elapsed.get(),
+        );
+        assert_eq!(paired, Err(ClockError::SamplingGap));
+    }
+
+    #[test]
+    fn regression_gap_before_utc_read_is_rejected() {
+        let elapsed = Cell::new(Duration::ZERO);
+        let paired = SystemClock::sample_from(
+            || {
+                elapsed.set(Duration::from_millis(100));
+                UNIX_EPOCH + Duration::from_millis(200)
+            },
+            || elapsed.get(),
+        );
+        assert_eq!(paired, Err(ClockError::SamplingGap));
+    }
+
+    #[test]
+    fn remaining_millis_is_cached_until_a_fresh_sample_is_observed() {
+        let clock = ControlledClock(Cell::new(sample(100, 0)));
+        let mut budget = MonotonicBudget::new(
+            FiniteWindow::new(100, 200).unwrap(),
+            clock.sample().unwrap(),
+            100,
+        )
+        .unwrap();
+        clock.0.set(sample(200, 100));
+        assert_eq!(budget.remaining_millis(), 100);
+        assert_eq!(budget.observe(clock.sample().unwrap()), Ok(0));
+        assert_eq!(budget.remaining_millis(), 0);
+    }
+
+    #[test]
+    fn regression_latest_sample_gap_cannot_leave_a_positive_budget_decision() {
+        let mut budget =
+            MonotonicBudget::new(FiniteWindow::new(0, 150).unwrap(), sample(100, 0), 50).unwrap();
+        let elapsed = Cell::new(Duration::from_millis(10));
+        let decision = SystemClock::sample_from(
+            || {
+                elapsed.set(Duration::from_millis(100));
+                UNIX_EPOCH + Duration::from_millis(100)
+            },
+            || elapsed.get(),
+        )
+        .and_then(|fresh| budget.observe(fresh));
+        assert!(
+            !matches!(decision, Ok(remaining) if remaining > 0),
+            "the latest read gap outlasted the entire budget: {decision:?}"
+        );
+    }
+
+    #[test]
+    fn coherent_reads_preserve_utc_without_advancing_a_window_start() {
+        let window = FiniteWindow::new(100, 150).unwrap();
+        for (utc, remaining) in [
+            (99, Err(ClockError::NotYetValid)),
+            (100, Ok(50)),
+            (150, Err(ClockError::Expired)),
+        ] {
+            let mut ticks = [Duration::from_micros(25), Duration::from_micros(75)].into_iter();
+            let paired = SystemClock::sample_from(
+                || UNIX_EPOCH + Duration::from_millis(utc),
+                || ticks.next().unwrap(),
+            )
+            .unwrap();
+            assert_eq!(paired, sample(utc as i64, 0));
+            assert_eq!(window.remaining_at(paired.utc_millis), remaining);
+        }
+    }
+
+    #[test]
+    fn even_a_submillisecond_read_gap_crossing_a_bucket_is_rejected() {
+        let mut ticks = [Duration::from_micros(999), Duration::from_micros(1001)].into_iter();
+        assert_eq!(
+            SystemClock::sample_from(
+                || UNIX_EPOCH + Duration::from_millis(100),
+                || ticks.next().unwrap(),
+            ),
+            Err(ClockError::SamplingGap)
+        );
+    }
+
+    #[test]
+    fn monotonic_rollback_within_one_millisecond_bucket_is_rejected() {
+        let mut ticks = [Duration::from_micros(900), Duration::from_micros(100)].into_iter();
+        assert_eq!(
+            SystemClock::sample_from(
+                || UNIX_EPOCH + Duration::from_millis(100),
+                || ticks.next().unwrap(),
+            ),
+            Err(ClockError::MonotonicRollback)
+        );
     }
 }

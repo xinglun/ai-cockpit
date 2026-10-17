@@ -101,7 +101,15 @@ fn exact_utc_millis(
     if nanos >= 1_000_000_000 {
         return Err(GoalAuthorityNormalizationError::Timestamp(field));
     }
-    if nanos % 1_000_000 != 0 {
+    // Chrono skips fractional digits beyond nanoseconds. Inspect all original
+    // digits so a nonzero tail cannot disappear before this precision check.
+    if value.split_once('.').is_some_and(|(_, fraction)| {
+        fraction
+            .bytes()
+            .take_while(u8::is_ascii_digit)
+            .skip(3)
+            .any(|digit| digit != b'0')
+    }) {
         return Err(GoalAuthorityNormalizationError::Precision(field));
     }
     Ok(instant.timestamp_millis())
@@ -206,6 +214,107 @@ mod tests {
             normalize_goal_authority_source(&input).unwrap_err(),
             GoalAuthorityNormalizationError::Precision("validity.expiresAt")
         );
+    }
+
+    #[test]
+    fn regression_source_start_rejects_nonzero_digits_beyond_nanoseconds() {
+        for fraction in [
+            "1230000001",
+            "000000000000000000000000001",
+            "9990000000000000001",
+        ] {
+            let mut input = source();
+            input.validity.not_before = format!("2030-01-01T00:00:00.{fraction}Z");
+            assert_eq!(
+                normalize_goal_authority_source(&input).map(|_| ()),
+                Err(GoalAuthorityNormalizationError::Precision(
+                    "validity.notBefore"
+                )),
+                "{}",
+                input.validity.not_before
+            );
+        }
+    }
+
+    #[test]
+    fn regression_source_expiry_rejects_nonzero_digits_beyond_nanoseconds() {
+        for fraction in [
+            "1230000001",
+            "000000000000000000000000001",
+            "9990000000000000001",
+        ] {
+            let mut input = source();
+            input.validity.expires_at = format!("2030-01-01T01:00:00.{fraction}+00:00");
+            assert_eq!(
+                normalize_goal_authority_source(&input).map(|_| ()),
+                Err(GoalAuthorityNormalizationError::Precision(
+                    "validity.expiresAt"
+                )),
+                "{}",
+                input.validity.expires_at
+            );
+        }
+    }
+
+    #[test]
+    fn regression_reference_start_rejects_nonzero_digits_beyond_nanoseconds() {
+        for fraction in [
+            "1230000001",
+            "000000000000000000000000001",
+            "9990000000000000001",
+        ] {
+            let mut input = reference();
+            input.not_before = Some(format!("2030-01-01T00:00:00.{fraction}Z"));
+            assert_eq!(
+                normalize_goal_authority_reference(&input).map(|_| ()),
+                Err(GoalAuthorityNormalizationError::Precision("notBefore")),
+                "{:?}",
+                input.not_before
+            );
+        }
+    }
+
+    #[test]
+    fn regression_reference_cap_rejects_nonzero_digits_beyond_nanoseconds() {
+        for fraction in [
+            "1230000001",
+            "000000000000000000000000001",
+            "9990000000000000001",
+        ] {
+            let mut input = reference();
+            input.deadline = GoalAuthorityDeadline::CapAt {
+                expires_at: format!("2030-01-01T00:30:00.{fraction}-01:00"),
+            };
+            assert_eq!(
+                normalize_goal_authority_reference(&input).map(|_| ()),
+                Err(GoalAuthorityNormalizationError::Precision(
+                    "deadline.expiresAt"
+                )),
+                "{:?}",
+                input.deadline
+            );
+        }
+    }
+
+    #[test]
+    fn arbitrarily_long_zero_padding_preserves_exact_millisecond_boundaries() {
+        for fraction in ["123", "1230", "123000000", "123000000000000000000000000000"] {
+            let mut input = source();
+            input.validity.not_before = format!("2030-01-01T00:00:00.{fraction}+00:00");
+            let value = normalize_goal_authority_source(&input).unwrap();
+            assert_eq!(value.validity.not_before_utc_millis(), 1_893_456_000_123);
+            let mut input = reference();
+            input.not_before = Some(format!("2030-01-01T00:00:00.{fraction}+01:00"));
+            input.deadline = GoalAuthorityDeadline::CapAt {
+                expires_at: format!("2030-01-01T00:30:00.{fraction}Z"),
+            };
+            let value = normalize_goal_authority_reference(&input).unwrap();
+            assert_eq!(value.not_before_utc_millis, Some(1_893_452_400_123));
+            assert_eq!(
+                value.deadline,
+                NormalizedGoalAuthorityDeadline::CapAt(1_893_457_800_123)
+            );
+        }
     }
 
     #[test]
