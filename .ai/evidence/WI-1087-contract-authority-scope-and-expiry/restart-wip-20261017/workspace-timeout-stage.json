@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_summary_of_actual_orchestrator_timeout_not_native_verification_receipt",
+  "sourceHead": "39875ee87abb0cf28d5d0202ed5b4b4704f9be82",
+  "startedAt": "2026-10-17T04:59:12.076917+00:00",
+  "endedAt": "2026-10-17T05:14:02.135443+00:00",
+  "elapsedSeconds": 890.025,
+  "exitCode": 124,
+  "observation": "v02-workspace.json",
+  "progressLastObserved": {
+    "packagesPassed": 11,
+    "packagesPlanned": 13,
+    "activePackageWithoutTerminalResult": "cockpit-repository",
+    "packageNotStarted": "cockpit-verification"
+  },
+  "formalReceiptAfterTimeout": "missing; no native complete verification receipt was produced",
+  "runtimeProjection": "verification_evidence_missing / not_ready; admission allowed; no new human decision required",
+  "timeoutProcessGroupAfterExit": "empty (actual /proc process-group check)",
+  "cause": "overall 890-second orchestrator deadline reached; the underlying repository test duration or cause remains undiagnosed",
+  "fullWorkspace": "not_passed",
+  "oldDisconnectedTerminals": "remain unknown; not reconstructed or reused",
+  "next": "preserve this result, inspect native projections, then bounded repository-only diagnosis under unchanged authority; never blindly repeat full workspace"
+}
