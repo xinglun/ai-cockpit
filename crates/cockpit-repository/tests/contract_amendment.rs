@@ -168,6 +168,30 @@ fn ordinary_amendment_cannot_obtain_or_inject_activation_recovery() {
 }
 
 #[test]
+fn summary_only_controls_cannot_accept_orphan_activation_markers() {
+    for marker in ["activationContinuity", "activationRecovery"] {
+        let directory = tempfile::tempdir().expect("Summary-only compatibility fixture");
+        let root = directory.path();
+        let active = root.join(".ai/work-items/active");
+        fs::create_dir_all(&active).expect("active metadata");
+        let summary_path = active.join("WI-ORPHAN-CONTROLS.summary.json");
+        let mut summary = json!({"state":"checkpointed", "checkpointCount":1});
+        summary[marker] = json!({"claimed":"without native proof"});
+        let before = serde_json::to_vec(&summary).expect("Summary bytes");
+        fs::write(&summary_path, &before).expect("fixture Summary");
+        let error = record_work_item_governance_controls(
+            root,
+            "WI-ORPHAN-CONTROLS",
+            &json!({"intentAlignment":{"state":"unknown"}}),
+        )
+        .expect_err("Summary-only compatibility cannot write around a native marker");
+        assert!(error.to_string().contains("Runtime entry point"), "{error}");
+        assert_eq!(fs::read(&summary_path).expect("unchanged Summary"), before);
+        assert!(!active.join("WI-ORPHAN-CONTROLS.contract.json").exists());
+    }
+}
+
+#[test]
 fn prospective_chain_rejects_an_unjournaled_current_contract_before_publication() {
     let directory = repository();
     let root = directory.path();

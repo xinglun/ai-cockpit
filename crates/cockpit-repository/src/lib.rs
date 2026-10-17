@@ -148,11 +148,35 @@ pub fn record_work_item_governance_controls(
             return Err(ObserverError::State { path: root, message: "activation continuity controls require the current Runtime entry point; raw controls cannot record recovery".into() });
         }
     }
-    let history = contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?;
-    let digest = contract_digest(&root.join(format!(
+    let summary_path = root.join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    if read_json(&summary_path).is_ok_and(|summary| {
+        !summary["activationContinuity"].is_null() || !summary["activationRecovery"].is_null()
+    }) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "activation continuity controls require the current Runtime entry point"
+                .into(),
+        });
+    }
+    let contract_path = root.join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
-    )))?;
-    contract_amendment::validate_transition_chain(&root, work_item_id, &history, Some(&digest))?;
+    ));
+    if contract_path
+        .try_exists()
+        .map_err(|source| ObserverError::Read {
+            path: contract_path.clone(),
+            source,
+        })?
+    {
+        let history = contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?;
+        let digest = contract_digest(&contract_path)?;
+        contract_amendment::validate_transition_chain(
+            &root,
+            work_item_id,
+            &history,
+            Some(&digest),
+        )?;
+    }
     governance_controls::record_work_item_governance_controls(&root, work_item_id, controls)
 }
 pub(crate) use historical_compatibility::{
