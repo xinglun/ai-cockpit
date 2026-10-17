@@ -1,20 +1,19 @@
 {
   "kind": "agent_progress_snapshot_not_native_receipt_or_approval",
-  "observedAt": "2026-10-17T12:18:21.652139+00:00",
+  "observedAt": "2026-10-17T12:34:53.870820+00:00",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
-  "testedSourceHead": "0a9fa45fcd63edcd97a1d0186185d4983f042841",
+  "testedSourceHead": "759a65427d9d1dd33b6767f54532549d07cef223",
   "activeVerification": null,
   "latestActualResult": {
-    "observation": "p06-complete-repository-scope13",
-    "passed": false,
-    "timedOut": true,
-    "nodeElapsedMs": 600032,
+    "observation": "p11-verification-service-leaf-complete",
+    "passed": true,
+    "testsPassed": 17,
+    "testsFailed": 0,
+    "nodeElapsedMs": 5551,
     "nodeBudgetSeconds": 600,
-    "terminationSignal": 9,
-    "stdoutTruncated": true,
-    "stderrTruncated": false
+    "timedOut": false
   },
-  "next": "one native-admitted identical-budget warm-cache complete repository retry; then fresh33 if actual results permit",
+  "next": "fresh native33-node declared route, including complete repository package, same finite node budgets and exact cache-leaf permission; coordinator has no blanket timeout",
   "historicalTransitionAuthentication": "unknown",
   "recoveryBusinessAuthorityGranted": false,
   "freshCurrentContractReviewRequired": true,
@@ -40,5 +39,6 @@
   "newHumanResponseRecorded": true,
   "humanActor": "human:Ray",
   "humanResponseOccurredAt": "2026-10-17T12:02:13Z",
-  "recorder": "agent:Codex"
+  "recorder": "agent:Codex",
+  "additionalCommandWriteLeaf": "/home/agent/.cache/ai-cockpit-verify-target/"
 }
