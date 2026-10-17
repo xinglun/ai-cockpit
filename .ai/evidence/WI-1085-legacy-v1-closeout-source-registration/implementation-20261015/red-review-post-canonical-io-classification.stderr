@@ -1,0 +1,12 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 17.01s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'legacy_closeout_source::publication_tests::review_regression_io_failures_after_second_canonical_report_unknown_and_preserve_both' (317881) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:2655:17:
+parent_sync: 
+thread 'legacy_closeout_source::publication_tests::publication_child' (317884) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:2529:17:
+failed to read repository entry /tmp/.tmp8lMucY/WI-PUBLISH-FAULT.legacy-closeout-source-registration.json: injected_parent_sync_failure
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --lib`

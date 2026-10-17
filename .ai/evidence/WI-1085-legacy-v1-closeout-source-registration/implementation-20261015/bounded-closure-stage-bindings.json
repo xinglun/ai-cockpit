@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-10-15T21:33:45.581966+00:00",
+  "sourceHeadBeforeStage": "cf0c7ebfac4d35f1535bc5e2f136780c339a6361",
+  "files": [
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "bytes": 592520,
+      "sha256": "40e7e2fc548182a6beb912e2e047762975c842f13016a6165f92298d9f2b9524"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "bytes": 440096,
+      "sha256": "15e85af83dacc4e482c2fbfc2b5d57a921e0a0915582ad5a1647f3e8c14bcfea"
+    },
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "bytes": 67048,
+      "sha256": "ae13bb5054fda35b78482a5d1ded6f7323518cbde24d61a20b1352504b67e58b"
+    },
+    {
+      "path": "crates/cockpit-repository/src/historical_compatibility.rs",
+      "bytes": 31665,
+      "sha256": "ee153d38dfcee1c1d37012d9cbc9edba2debb6d75dcf4d5fa6f17dada6785b2c"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "bytes": 459961,
+      "sha256": "518e27d379b88647cb089b316aacd6cb28812013bc86f03d0e5414d960089c59"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "bytes": 48365,
+      "sha256": "c92bd367faccfe94aa3ddb938c9833d40174d1bf003bb76a6b2a0baede454bdc"
+    }
+  ]
+}

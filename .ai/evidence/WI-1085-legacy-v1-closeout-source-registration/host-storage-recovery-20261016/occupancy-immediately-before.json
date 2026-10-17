@@ -1,0 +1,103 @@
+{
+  "recordedAt": "2026-10-16T12:34:45.520645+00:00",
+  "matches": [],
+  "unresolvedReadErrors": [
+    {
+      "pid": 200,
+      "path": "/proc/200/exe",
+      "error": "[Errno 13] Permission denied: '/proc/200/exe'"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/cwd",
+      "error": "[Errno 13] Permission denied: '/proc/200/cwd'"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/root",
+      "error": "[Errno 13] Permission denied: '/proc/200/root'"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/fd",
+      "error": "[Errno 13] Permission denied: '/proc/200/fd'"
+    },
+    {
+      "pid": 200,
+      "path": "/proc/200/maps",
+      "error": "[Errno 13] Permission denied: '/proc/200/maps'"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/exe",
+      "error": "[Errno 13] Permission denied: '/proc/251/exe'"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/cwd",
+      "error": "[Errno 13] Permission denied: '/proc/251/cwd'"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/root",
+      "error": "[Errno 13] Permission denied: '/proc/251/root'"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/fd",
+      "error": "[Errno 13] Permission denied: '/proc/251/fd'"
+    },
+    {
+      "pid": 251,
+      "path": "/proc/251/maps",
+      "error": "[Errno 13] Permission denied: '/proc/251/maps'"
+    }
+  ],
+  "resolvedTransientReads": [
+    {
+      "pid": 918518,
+      "path": "/proc/918518/fd/3",
+      "reason": "specific proc entry confirmed absent"
+    }
+  ],
+  "liveProcesses": [
+    {
+      "pid": 1,
+      "comm": "tail",
+      "startTimeTicks": 24
+    },
+    {
+      "pid": 2,
+      "comm": "caas-prefix-tra",
+      "startTimeTicks": 33
+    },
+    {
+      "pid": 200,
+      "comm": "dockerd",
+      "startTimeTicks": 651
+    },
+    {
+      "pid": 251,
+      "comm": "containerd",
+      "startTimeTicks": 672
+    },
+    {
+      "pid": 519,
+      "comm": "codex",
+      "startTimeTicks": 736
+    },
+    {
+      "pid": 918515,
+      "comm": "bash",
+      "startTimeTicks": 2826040
+    },
+    {
+      "pid": 918518,
+      "comm": "python3",
+      "startTimeTicks": 2826041
+    }
+  ],
+  "observationComplete": false,
+  "result": "occupancy_unknown",
+  "approvalBoundary": "Current user explicitly authorized this exact compiler-cache directory. Existing root service /proc permission limitations remain disclosed; this is not a claim of globally empty users."
+}

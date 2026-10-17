@@ -1,0 +1,5 @@
+error: unexpected argument '--id' found
+
+Usage: ai-cockpit work-item coordination check-environment-drift --repo <REPO> --input <INPUT>
+
+For more information, try '--help'.

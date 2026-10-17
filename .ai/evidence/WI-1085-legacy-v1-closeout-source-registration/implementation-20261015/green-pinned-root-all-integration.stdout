@@ -1,0 +1,40 @@
+
+running 15 tests
+test complete_source::complete_source_rejects_missing_legacy_identity_header_without_rewriting_history ... ok
+test complete_source::damaged_survivor_cannot_become_original_through_a_fresh_plan ... ok
+test complete_source::delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed ... ok
+test complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears ... ok
+test complete_source::fresh_plan_rejects_identical_content_destination_git_replacement ... ok
+test complete_source::fresh_plan_rejects_identical_content_destination_root_replacement ... ok
+test complete_source::fresh_plan_rejects_identical_content_source_root_replacement ... ok
+test complete_source::lost_archive_keeps_structured_status_and_index_blocking ... ok
+test complete_source::malformed_delegated_digest_returns_error_without_panicking ... ok
+test complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration ... ok
+test complete_source::partial_root_resume_preserves_first_exact_bytes_with_independent_binding ... ok
+test complete_source::register_request_cannot_silently_ignore_extension_fields ... ok
+test complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history ... ok
+test explicit_source_plan_and_record_are_discoverable ... ok
+test legacy_source_input_is_bounded_before_json_parsing ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.15s
+
+
+running 2 tests
+test legacy_source_tools_expose_strict_typed_plan_and_record ... ok
+test wrong_nested_request_is_rejected_before_repository_access ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 8 tests
+test cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage ... ok
+test cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor ... ok
+test extension::committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes ... ok
+test extension::partial_extension_requires_independent_original_and_resumes_both_survivors ... ok
+test extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence ... ok
+test extension::registered_root_refuses_unprepared_raw_transition_without_writing ... ok
+test foreign_registration_cannot_release_untrusted_archived_scope ... ok
+test malformed_requirement_remains_pending_when_archive_directory_is_missing ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.79s
+

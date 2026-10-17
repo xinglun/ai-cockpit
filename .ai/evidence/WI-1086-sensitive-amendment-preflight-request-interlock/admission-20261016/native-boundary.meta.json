@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "boundary",
+    "--repo",
+    "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+    "--id",
+    "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "--file",
+    "/workspace/wi1086-scaffold-20261016/boundary.input.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T00:11:50.378157+00:00",
+  "elapsedSeconds": 0.044,
+  "exitCode": 1,
+  "stdoutBytes": 0,
+  "stderrBytes": 244,
+  "subreaper": true,
+  "adoptedDescendantsReaped": []
+}

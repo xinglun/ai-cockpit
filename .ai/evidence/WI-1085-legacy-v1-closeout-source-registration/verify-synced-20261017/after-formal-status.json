@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "active",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 17,
+    "acceptanceEvidenceEntries": 17,
+    "changedPathCount": 87,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "materialManifest": "sha256:61edc9d027091300e3bab4696d9026099bf46e64c4d75bd2d9c46cf587b4c76d",
+    "materialReviewReceipt": "sha256:80487dba72b48a455d91e72d876137be6ebbb9b7eced3d9e641cc96306b85472",
+    "repositorySnapshot": "sha256:373a76c43e857ba33189221b89e3d875cd2c5dad534bd01fc619599a45810d4b",
+    "summary": "sha256:742ac51b89b8c5e064422b0a01ee50a3d26552fe8bcf1dddf6e60ccd64b2fa59",
+    "verificationEvidence": "sha256:795584af34a4a5bae3486bb0148507f9ec174c604596c4a35d7321ab7acfbbd7"
+  },
+  "unknowns": [
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:61edc9d027091300e3bab4696d9026099bf46e64c4d75bd2d9c46cf587b4c76d",
+  "reviewReceiptDigest": "sha256:80487dba72b48a455d91e72d876137be6ebbb9b7eced3d9e641cc96306b85472",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "governance_controls_unknown",
+    "intent_alignment_insufficient",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:373a76c43e857ba33189221b89e3d875cd2c5dad534bd01fc619599a45810d4b",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-16T18:08:05Z",
+  "updatedAt": "2026-10-16T17:34:32.958861918+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "record_governance_controls",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "governance_controls_unknown",
+        "message": "current projection reports governance_controls_unknown"
+      },
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:7e766bd57d55e6705b93ba09beb001a6a4d0ba236a9915126c37d8c6feb8c8ba"
+  },
+  "statusDigest": "sha256:fd77450a353bf16d2a7f4a2ed8fd2401ecf9e406369d03895f57d48893c97781",
+  "historical": false
+}

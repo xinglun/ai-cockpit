@@ -1,0 +1,16 @@
+[
+  {
+    "path": "crates/cockpit-mcp/tests/material_review.rs",
+    "beforeSha256": "84e8f068534e04916e94e5096cafbc2bd64f253064d72ec5816490f091000134",
+    "expectedAfterSha256": "d44da80601074077d93abd4cf291b9fce393cf1681b654c42021fcbc98fac288",
+    "actualAfterSha256": "d44da80601074077d93abd4cf291b9fce393cf1681b654c42021fcbc98fac288",
+    "onlyApprovedOneLineChanged": true
+  },
+  {
+    "path": "crates/cockpit-mcp/tests/usage.rs",
+    "beforeSha256": "1381083b73191a27aca9276ac55e5e782ef393099ece07bbbf41364bd2f56c84",
+    "expectedAfterSha256": "fab8ebdb2339dde72c5c652456b225c4acc5c95dd366a6b1bfab663c4ad6ec59",
+    "actualAfterSha256": "fab8ebdb2339dde72c5c652456b225c4acc5c95dd366a6b1bfab663c4ad6ec59",
+    "onlyApprovedOneLineChanged": true
+  }
+]

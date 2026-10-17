@@ -1,0 +1,16 @@
+{
+  "scope": "New metadata-only handoff files; raw originals/binaries are not included",
+  "checkedFiles": 32,
+  "patterns": [
+    "private-key",
+    "github-token",
+    "aws-access-id",
+    "slack-token",
+    "bearer-value",
+    "credential-in-url"
+  ],
+  "matches": [],
+  "rawOriginalUpload": false,
+  "testsRun": false,
+  "limits": "Pattern scan plus content review; not a proof about files outside this exact handoff."
+}

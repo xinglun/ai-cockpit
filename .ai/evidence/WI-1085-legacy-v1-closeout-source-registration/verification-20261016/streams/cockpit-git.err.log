@@ -1,0 +1,11 @@
+   Compiling rustix v1.1.4
+   Compiling linux-raw-sys v0.12.1
+   Compiling once_cell v1.21.4
+   Compiling tempfile v3.27.0
+   Compiling cockpit-git v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-git)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.23s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_git-718fa01e6ab774fd)
+     Running tests/collaboration_topology.rs (target/wi1085-legacy-closeout-source/debug/deps/collaboration_topology-d5b28d9e151f83eb)
+     Running tests/repository.rs (target/wi1085-legacy-closeout-source/debug/deps/repository-052f44da8a431f58)
+     Running tests/snapshot.rs (target/wi1085-legacy-closeout-source/debug/deps/snapshot-9b42ed00d9faf891)
+   Doc-tests cockpit_git

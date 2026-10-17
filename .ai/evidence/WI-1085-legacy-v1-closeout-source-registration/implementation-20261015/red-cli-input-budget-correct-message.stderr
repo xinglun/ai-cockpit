@@ -1,0 +1,19 @@
+warning: function `read_input_value` is never used
+   --> crates/cockpit-repository/src/legacy_closeout_source.rs:873:15
+    |
+873 | pub(crate) fn read_input_value(path: &Path) -> Result<serde_json::Value, ObserverError> {
+    |               ^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `cockpit-repository` (lib) generated 1 warning
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 5.60s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+
+thread 'legacy_source_input_is_bounded_before_json_parsing' (175952) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:586:5:
+size must be rejected before parsing: parse strict legacy source request: expected value at line 1 column 1
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-cli --test legacy_closeout_source`

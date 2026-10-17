@@ -1,0 +1,11 @@
+{
+  "observationLabel": "red-combined-checkpoint-provenance",
+  "classification": "unadmitted_observation_not_formal_verification",
+  "actualCommandCompleted": true,
+  "elapsedSeconds": 7.663,
+  "actualTestsFailed": 10,
+  "cause": "Orchestration invoked a later tool call despite an earlier admission assertion returning nonzero; source was uncommitted and material_review_projection_unavailable.",
+  "correction": "run-admitted-focused.py checks current Runtime status in-process and refuses to spawn Cargo unless verification is allowed; commit candidate source, refresh preflight/status and rerun.",
+  "formalReceiptClaimed": false,
+  "originalOutputPreserved": true
+}

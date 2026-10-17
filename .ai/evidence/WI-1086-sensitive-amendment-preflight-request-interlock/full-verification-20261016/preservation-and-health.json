@@ -1,0 +1,35 @@
+{
+  "observedAt": "2026-10-16T01:31:16.797057+00:00",
+  "disk": {
+    "/workspace": {
+      "total": 33770192896,
+      "used": 31348285440,
+      "free": 687144960
+    },
+    "/tmp": {
+      "total": 9441349632,
+      "used": 7147466752,
+      "free": 2293882880
+    }
+  },
+  "pid1": "tail",
+  "zombiesByPpid": {
+    "1": 21316
+  },
+  "baselinePpid1Zombies": 21316,
+  "oldWI1085Head": "f49a001ece01209ed9e4cf743f879b7a5931143c",
+  "oldWI1085Clean": true,
+  "protectedEvidenceChecks": [
+    {
+      "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+      "sha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916",
+      "matchesRetained": true
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+      "sha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5",
+      "matchesRetained": true
+    }
+  ],
+  "remainingRisk": "Workspace free space is limited. No cleanup performed; recheck before another full build."
+}

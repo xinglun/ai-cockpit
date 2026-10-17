@@ -1,0 +1,11 @@
+
+running 1 test
+test legacy_closeout_source::query_budget_tests::lower_historical_json_read_cannot_follow_replaced_parent ... FAILED
+
+failures:
+
+failures:
+    legacy_closeout_source::query_budget_tests::lower_historical_json_read_cannot_follow_replaced_parent
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 127 filtered out; finished in 0.00s
+

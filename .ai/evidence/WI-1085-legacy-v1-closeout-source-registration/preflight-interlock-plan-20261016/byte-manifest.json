@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/native-interlock-plan-current-outcome.meta.json",
+      "bytes": 651,
+      "rawSha256": "511d8986538d8ebb7dda8d692ce8fe54a5203fa60045a7a495bf71fada377c0b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/native-interlock-plan-current-outcome.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/native-interlock-plan-current-outcome.stdout",
+      "bytes": 3290,
+      "rawSha256": "37659443c9856d926e8681c7cf48daf839862d8c8edf8511541e3f80073d8a66"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/native-interlock-plan-current-status.meta.json",
+      "bytes": 562,
+      "rawSha256": "515c3fc084724ad44da316a3fa318084873fc06887bfd8f30fe01ebe6c5a7e98"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/native-interlock-plan-current-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/native-interlock-plan-current-status.stdout",
+      "bytes": 5698,
+      "rawSha256": "2165405ebe450e41db62da9b38205f53d3c1be0bcc7d00c0164edcd65d1da627"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/preservation-check.json",
+      "bytes": 392,
+      "rawSha256": "37a897e45caa267aee8b3aee00e5695f77555ada1e9be77359e2971f0c428d72"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/proposal.zh-CN.md",
+      "bytes": 10593,
+      "rawSha256": "e1debe66a289b38b4982c17865b9c5b93d3c2899083cb12bbe9d0dec24df0e9c"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/self-review.json",
+      "bytes": 936,
+      "rawSha256": "24b653b3ce2b4620d446243cbd38c43fd505284e004e26b7a287041ee27d4330"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/sentinel-comment-6204404531.connector-body.md",
+      "bytes": 3764,
+      "rawSha256": "866eda64532fd29e7e0e6ae3dec3b63bcb0d6d5e520ce9d25e829fec9d371094"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/preflight-interlock-plan-20261016/source-observation.json",
+      "bytes": 1621,
+      "rawSha256": "34359042025d62bd8fbbaf75d121d15cefa1d7d9f4af541800b38e41a0bb782c"
+    }
+  ],
+  "manifestExcludesItself": true
+}

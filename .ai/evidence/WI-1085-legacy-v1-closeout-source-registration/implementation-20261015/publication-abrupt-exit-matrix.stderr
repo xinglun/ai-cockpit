@@ -1,0 +1,60 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+error[E0034]: multiple applicable items in scope
+    --> crates/cockpit-repository/src/legacy_closeout_source.rs:2403:59
+     |
+2403 |             let identity = fs::metadata(&victim).unwrap().ino();
+     |                                                           ^^^ multiple `ino` found
+     |
+     = note: candidate #1 is defined in an impl of the trait `cap_fs_ext::MetadataExt` for the type `std::fs::Metadata`
+     = note: candidate #2 is defined in an impl of the trait `std::os::unix::fs::MetadataExt` for the type `std::fs::Metadata`
+help: disambiguate the method for candidate #1
+     |
+2403 -             let identity = fs::metadata(&victim).unwrap().ino();
+2403 +             let identity = cap_fs_ext::MetadataExt::ino(&fs::metadata(&victim).unwrap());
+     |
+help: disambiguate the method for candidate #2
+     |
+2403 -             let identity = fs::metadata(&victim).unwrap().ino();
+2403 +             let identity = std::os::unix::fs::MetadataExt::ino(&fs::metadata(&victim).unwrap());
+     |
+
+error[E0034]: multiple applicable items in scope
+    --> crates/cockpit-repository/src/legacy_closeout_source.rs:2417:55
+     |
+2417 |             assert_eq!(fs::metadata(&victim).unwrap().ino(), identity);
+     |                                                       ^^^ multiple `ino` found
+     |
+     = note: candidate #1 is defined in an impl of the trait `cap_fs_ext::MetadataExt` for the type `std::fs::Metadata`
+     = note: candidate #2 is defined in an impl of the trait `std::os::unix::fs::MetadataExt` for the type `std::fs::Metadata`
+help: disambiguate the method for candidate #1
+     |
+2417 -             assert_eq!(fs::metadata(&victim).unwrap().ino(), identity);
+2417 +             assert_eq!(cap_fs_ext::MetadataExt::ino(&fs::metadata(&victim).unwrap()), identity);
+     |
+help: disambiguate the method for candidate #2
+     |
+2417 -             assert_eq!(fs::metadata(&victim).unwrap().ino(), identity);
+2417 +             assert_eq!(std::os::unix::fs::MetadataExt::ino(&fs::metadata(&victim).unwrap()), identity);
+     |
+
+error[E0034]: multiple applicable items in scope
+    --> crates/cockpit-repository/src/legacy_closeout_source.rs:2431:62
+     |
+2431 |                 assert_eq!(fs::metadata(&canonical).unwrap().ino(), identity);
+     |                                                              ^^^ multiple `ino` found
+     |
+     = note: candidate #1 is defined in an impl of the trait `cap_fs_ext::MetadataExt` for the type `std::fs::Metadata`
+     = note: candidate #2 is defined in an impl of the trait `std::os::unix::fs::MetadataExt` for the type `std::fs::Metadata`
+help: disambiguate the method for candidate #1
+     |
+2431 -                 assert_eq!(fs::metadata(&canonical).unwrap().ino(), identity);
+2431 +                 assert_eq!(cap_fs_ext::MetadataExt::ino(&fs::metadata(&canonical).unwrap()), identity);
+     |
+help: disambiguate the method for candidate #2
+     |
+2431 -                 assert_eq!(fs::metadata(&canonical).unwrap().ino(), identity);
+2431 +                 assert_eq!(std::os::unix::fs::MetadataExt::ino(&fs::metadata(&canonical).unwrap()), identity);
+     |
+
+For more information about this error, try `rustc --explain E0034`.
+error: could not compile `cockpit-repository` (lib test) due to 3 previous errors

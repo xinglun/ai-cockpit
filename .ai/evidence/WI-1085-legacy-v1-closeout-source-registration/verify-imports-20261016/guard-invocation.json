@@ -1,0 +1,45 @@
+{
+  "recordedAt": "2026-10-16T13:40:44.263257+00:00",
+  "kind": "focused-regression-not-canonical-verification",
+  "sourceHeadAtExecution": "67ec9c8ec08928f896ede976f2e42211f432d8c0",
+  "rootIdentity": {
+    "pid": 1162492,
+    "startTimeTicks": 3221912,
+    "pgrp": 1162491,
+    "session": 1162491
+  },
+  "argv": [
+    "/usr/local/bin/docker-init",
+    "-s",
+    "-g",
+    "-vvv",
+    "-w",
+    "--",
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--test",
+    "resource_finalization",
+    "resource_lifecycle_module_uses_explicit_imports",
+    "--",
+    "--exact"
+  ],
+  "environment": {
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "minimumReserveBytes": 2147483648,
+  "startThresholdBytes": 4294967296
+}

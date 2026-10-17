@@ -1,0 +1,81 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-16T00:14:08Z",
+  "checkpointContractDigest": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+      "recorded": true,
+      "recordedAt": "2026-10-16T00:14:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+      "previousContractHash": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+      "reason": "PROPOSED ONLY, not applied: CLI and MCP negative fixtures both accepted current Contract plus retained pre-amendment preflight binding while preflightState=not_run. Request Raydot review of the single additional production validator file to enforce that a recorded preflight belongs to the current Contract before new decision evidence can be written. Keep receipt schema, identity/digest checks, historical receipts and unchanged-Contract approval reuse. No policy change or human confirm_review is recorded.",
+      "recorded": true,
+      "recordedAt": "2026-10-16T00:35:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:411c0eea3b82e9017791d2d2ba926fa99db04c2792b3ed82bb78a3f68c6499b2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "createdAt": "2026-10-16T00:11:39Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e99fb57e73cfd14fffb5de5447ab433fb9d4faa6d33180fdc9ffd8712f56bedd",
+    "reason": "Ray personally confirmed the exact linked WI-1086 Contract/preflight/snapshot and selected confirm_review in message Sentinel_4b362748a3cc81919c1aa9e1d5f24d29 at 2026-10-16T00:43:18Z, relayed by Raydot. RecordedAt is actual recording time. Current bindings checked before recording. Existing approved A/B and single-file validator repair only; no merge, close, cleanup or shifted binding.",
+    "recordedAt": "2026-10-16T00:45:28.164082+00:00",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:411c0eea3b82e9017791d2d2ba926fa99db04c2792b3ed82bb78a3f68c6499b2",
+    "schemaVersion": 1,
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-16T00:11:39.244337237Z",
+      "recordedAt": "2026-10-16T00:11:39.244337237Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T01:14:46Z",
+  "preflightContractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+  "preflightDecisionDigest": "sha256:8920a34f2a16192132227e264543d05da638385c607d50d9502cb6d9cfaf46fd",
+  "preflightRepositorySnapshotDigest": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-16T00:45:28.734032014+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-16T00:35:39Z"
+  },
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

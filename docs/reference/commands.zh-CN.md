@@ -57,7 +57,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。跨 checkout 的 plan 只读；recovery 是独立的显式写入。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover`、`legacy-closeout-source-plan`、`legacy-closeout-source-record` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。跨 checkout 的 plan 只读；recovery 是独立的显式写入。 |
 | 显式用量 | `work-item usage record --repo <path> --input <request.json>` | 仅在当前 Runtime 准入 `record_usage` 时追加严格的 `UsageRecordRequest`；同一请求重放幂等。provider/host 来源标签只是调用方声明，并非已验证遥测。`capability show --surface work-item-usage-record` 只读描述 CLI/MCP 参数。 |
 | 材料审阅 | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` 只读生成针对已提交且非 `.ai` 源码干净快照的规范请求，并显式保留扫描器 Unknown。只有 Contract opt-in 与新鲜 Runtime 准入均允许时，`record` 才接受严格类型化决策并绑定不可变 sidecar 与 Summary 指针。审阅者身份是 self-declared，不是人的身份认证、provider/host 证明或发布批准，也不会把 Unknown 变成机器 Clean。Stage 1 尚无 opt-in，因此 Unknown 不可豁免。用 `capability show --surface work-item-material-review-plan` 与 `--surface work-item-material-review-record` 查看两种传输的参数。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
@@ -142,6 +142,32 @@ MCP 提供 `work_item_amend`、`work_item_amendments` 和 `work_item_environment
 漂移工具区分只读 `action=check` 与显式写入 `action=record`。amendment 后的 Contract 会携带受保护的
 `requiredRuntimeCapabilities`；旧 Runtime `0.2.113` 会在 preflight 解析时拒绝该未知字段，不会进入
 action admission。旧版仍可负责自己的生命周期操作，不代表支持 amendment/drift。调用前应检查 `tools/list` 的实际 schema。
+
+## 旧 v1 来源的显式现时登记
+
+此独立 opt-in 只适用于仍可完整读取的旧 v1 closeout。它追加当前登记人的 `explicit_attestation`，不认证旧 producer，不改原时间或字节，不重跑历史验证，也不自动迁移普通 close、v2 或未登记 v1。
+
+```text
+ai-cockpit work-item legacy-closeout-source-plan --repo <destination> --source-repo <absolute-independent-source> --id <id> --input <request.json>
+ai-cockpit work-item legacy-closeout-source-record --repo <destination> --id <id> --input <exact-plan.json>
+```
+
+Plan 只读。Register 要求独立 Git common directory、相同逻辑 repository identity、完整源码字节已提交在完整 `sourceRevision`，以及 schemaVersion `1`、`operation: "register"`、`actor`、`authoritySource`、`reason` 和明确的 `sourceAccepted: true`。Record 是另行授权的写入，会复核观察、固定目录身份和 source。fresh Register 或 Extend plan 必须仍匹配执行 Runtime，且不超过 300 秒；受约束 resume 和准确 committed replay 无此 TTL。`recordedAt` 是只读模板的观察时刻，返回的 `publicationObservedAt` 是发布观察时刻。写入前应在两个 checkout 之外独立保留准确原始 plan、内嵌记录字节及摘要；重新计算一组自洽摘要不能替代原始绑定。
+
+| operation | 输入及效果 |
+| --- | --- |
+| `register` | 完整固定 source 与当前声明；准备不可变 root requirement R 和 registration G。R 确定性包含准确 G 字节，并先发布。 |
+| `resume` | `originalRegistrationBytes`、`originalRequirementRawDigest`；验证原历史及存留 root 或有效 extension 锚点，只补回原始 R/G。无需重新接受 source 或保留在线原 source。 |
+| `extend` | 准确序列化的 typed `transitionBytes`，当前 `actor`、`authoritySource`、`reason`；先固定 extension E，再追加唯一合法 Retained→Deleted transition T。root 登记前已有的 Deleted 必须包含在原清单中。 |
+| `resume_extension` | `originalExtensionBytes`、`originalExtensionRawDigest`；验证原 root、历史与追加条件后只恢复固定 E/T，不重新生成时间、actor 或 Runtime 元数据。 |
+
+四种请求都拒绝其他操作的字段。已提交的准确重试先返回原结果，再考虑下一序号。普通 finalize 和显式 record 共用同 WI lock 保护的唯一写入核心。canonical 文件不覆盖；不同字节、非普通文件、依赖缺失、分叉、身份错误或资源仍在均 fail closed。ASCII 大小写别名保留证明义务；canonical 证明缺失、不可读或冲突时阻断，单独增加别名不使原本完整的 canonical 证明失效。raw 与 canonical 摘要是独立义务。
+
+extension 证明不完整时，root 修复可返回 `state: "pending"`、`rootState: "committed"`；closed 与 scope 释放仍阻断，须另以原绑定修复 extension。发布后确认失败会报告 `commit_state_unknown`；保留全部 canonical 路径，查询 status，只按准确原始字节重试。不得以 rollback 删除已发布证明。
+
+MCP 提供 `work_item_legacy_closeout_source_plan`（`workItemId`、可选绝对路径 `sourceRepo`、严格 `request`）及 `work_item_legacy_closeout_source_record`（`workItemId`、严格 `plan`），与 CLI 使用相同 repository 服务；先用 `tools/list` 发现嵌套 schema。选定清单上限 128 文件／4 MiB，输入及固定 plan 上限 8 MiB，MCP transport 行上限 16 MiB。依赖深度、重复工作、读文件和目录枚举均有有限预算；超限是错误，不是部分接受。
+
+完整登记后可离线原 source checkout；显式外部依赖仍保留原可用性要求。格式错误的 canonical 名称及 ASCII 大小写别名仍保留证明义务。若某一登记代次的全部本地锚点一起丢失或回滚，没有独立可信 registry 就无法检测。也包括后续 extension 的 E 和 T 一起消失、较早 R/G 仍在的情形：该 root 不记得后来 extension。独立保存的 E 只有显式提交时才能提供这段历史，status 不自动发现外部副本。历史 `not_ready` 仍是历史事实。
 
 ## 重要选项
 

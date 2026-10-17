@@ -1,0 +1,7 @@
+{
+  "pid": 1459329,
+  "startTimeTicks": 4738783,
+  "pgrp": 1459328,
+  "session": 1459328,
+  "note": "Bash root immediately execs Tini; PID and startTime identity are preserved."
+}

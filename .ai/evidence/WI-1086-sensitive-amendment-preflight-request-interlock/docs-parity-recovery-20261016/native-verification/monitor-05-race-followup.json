@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-16T07:06:14.351765+00:00",
+  "source": "monitor-05.json",
+  "readErrors": [
+    {
+      "pid": 659037,
+      "error": "[Errno 2] No such file or directory: '/proc/659037/stat'",
+      "errno": 2
+    }
+  ],
+  "currentExistence": {
+    "659037": false
+  }
+}

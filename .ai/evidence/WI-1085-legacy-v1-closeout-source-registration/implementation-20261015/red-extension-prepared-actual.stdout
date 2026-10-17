@@ -1,0 +1,11 @@
+
+running 1 test
+test extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence ... FAILED
+
+failures:
+
+failures:
+    extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.98s
+

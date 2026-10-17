@@ -1,0 +1,665 @@
+{
+  "recordedAt": "2026-10-16T12:39:48.855783+00:00",
+  "availableBytes": 11881852928,
+  "repositoryTopLevelTestTargets": 51,
+  "repositoryExistingExecutableVariants": 100,
+  "repositoryMaxExistingTestExecutableBytes": 151399848,
+  "repositoryMedianTestExecutableBytes": 127427140.0,
+  "repositoryTargetDetails": [
+    {
+      "testTarget": "task_outcome_events",
+      "existingExecutableVariants": [
+        {
+          "name": "task_outcome_events-75b40284e2006ce6",
+          "bytes": 127298216
+        },
+        {
+          "name": "task_outcome_events-222e6482b6f703f6",
+          "bytes": 127351432
+        }
+      ]
+    },
+    {
+      "testTarget": "active_work_item_retirement",
+      "existingExecutableVariants": [
+        {
+          "name": "active_work_item_retirement-7da08209fbf716c2",
+          "bytes": 126059664
+        }
+      ]
+    },
+    {
+      "testTarget": "contract_schema",
+      "existingExecutableVariants": [
+        {
+          "name": "contract_schema-7cb2492d67274886",
+          "bytes": 24933768
+        }
+      ]
+    },
+    {
+      "testTarget": "knowledge_cache",
+      "existingExecutableVariants": [
+        {
+          "name": "knowledge_cache-75b80f2eaa105640",
+          "bytes": 127800120
+        }
+      ]
+    },
+    {
+      "testTarget": "usage",
+      "existingExecutableVariants": [
+        {
+          "name": "usage-44bddeb7bce942df",
+          "bytes": 149135464
+        },
+        {
+          "name": "usage-d6ec668754267c61",
+          "bytes": 25623120
+        },
+        {
+          "name": "usage-f882b1274aace4de",
+          "bytes": 129519408
+        },
+        {
+          "name": "usage-6306aeacb7e27802",
+          "bytes": 149689976
+        },
+        {
+          "name": "usage-426aa63153bb621e",
+          "bytes": 149669904
+        },
+        {
+          "name": "usage-cf01bf996db5c624",
+          "bytes": 25630816
+        },
+        {
+          "name": "usage-95feb7b4ba83a0c7",
+          "bytes": 149115312
+        }
+      ]
+    },
+    {
+      "testTarget": "legacy_closeout_source",
+      "existingExecutableVariants": [
+        {
+          "name": "legacy_closeout_source-70a9cf4a8cc42423",
+          "bytes": 150288912
+        },
+        {
+          "name": "legacy_closeout_source-6ff53bcc6c1e181c",
+          "bytes": 131800608
+        },
+        {
+          "name": "legacy_closeout_source-053bc85ede7ac702",
+          "bytes": 150268856
+        },
+        {
+          "name": "legacy_closeout_source-faa7dea0e47f83d7",
+          "bytes": 151399848
+        },
+        {
+          "name": "legacy_closeout_source-7587a056ee9c6165",
+          "bytes": 151379304
+        }
+      ]
+    },
+    {
+      "testTarget": "recovery_events",
+      "existingExecutableVariants": [
+        {
+          "name": "recovery_events-ace52465cb28d174",
+          "bytes": 128717896
+        }
+      ]
+    },
+    {
+      "testTarget": "governance_controls",
+      "existingExecutableVariants": [
+        {
+          "name": "governance_controls-d34df6a03755bad8",
+          "bytes": 108194792
+        }
+      ]
+    },
+    {
+      "testTarget": "agent_rule_parity",
+      "existingExecutableVariants": [
+        {
+          "name": "agent_rule_parity-9339899b9e797e7c",
+          "bytes": 7440728
+        }
+      ]
+    },
+    {
+      "testTarget": "governance_signals",
+      "existingExecutableVariants": [
+        {
+          "name": "governance_signals-b3a3e9a20c2d2ffb",
+          "bytes": 107293776
+        }
+      ]
+    },
+    {
+      "testTarget": "parallel_boundary",
+      "existingExecutableVariants": [
+        {
+          "name": "parallel_boundary-94c91569de30bced",
+          "bytes": 127281368
+        },
+        {
+          "name": "parallel_boundary-8b5a21f5dab9ce50",
+          "bytes": 11683936
+        },
+        {
+          "name": "parallel_boundary-e3b1be6bb842c735",
+          "bytes": 24761600
+        },
+        {
+          "name": "parallel_boundary-358a05aa737cff90",
+          "bytes": 24764168
+        },
+        {
+          "name": "parallel_boundary-d7e5ae5b93c6de97",
+          "bytes": 11684208
+        }
+      ]
+    },
+    {
+      "testTarget": "preflight_review",
+      "existingExecutableVariants": [
+        {
+          "name": "preflight_review-27503aee05c2bab7",
+          "bytes": 23600904
+        },
+        {
+          "name": "preflight_review-d0730f9d7246a0bf",
+          "bytes": 127128872
+        },
+        {
+          "name": "preflight_review-4839d61fffb59eda",
+          "bytes": 23607296
+        },
+        {
+          "name": "preflight_review-12e415a5c65cba42",
+          "bytes": 127182064
+        }
+      ]
+    },
+    {
+      "testTarget": "resource_finalization",
+      "existingExecutableVariants": [
+        {
+          "name": "resource_finalization-ff287757793e5027",
+          "bytes": 27821216
+        },
+        {
+          "name": "resource_finalization-f0a97d1a44c97f18",
+          "bytes": 27813792
+        },
+        {
+          "name": "resource_finalization-60e0880eaf61c61f",
+          "bytes": 127235392
+        },
+        {
+          "name": "resource_finalization-88672718dfb81e37",
+          "bytes": 27154712
+        },
+        {
+          "name": "resource_finalization-075ed515b34929d2",
+          "bytes": 27147320
+        },
+        {
+          "name": "resource_finalization-e257c2f669a88b71",
+          "bytes": 127182280
+        }
+      ]
+    },
+    {
+      "testTarget": "observer",
+      "existingExecutableVariants": [
+        {
+          "name": "observer-88d272fa7a44490c",
+          "bytes": 105449976
+        }
+      ]
+    },
+    {
+      "testTarget": "lifecycle_concurrency",
+      "existingExecutableVariants": [
+        {
+          "name": "lifecycle_concurrency-8d60c34197611297",
+          "bytes": 128155656
+        }
+      ]
+    },
+    {
+      "testTarget": "verification_attempts",
+      "existingExecutableVariants": [
+        {
+          "name": "verification_attempts-217cfcf07d4fffb5",
+          "bytes": 129153528
+        }
+      ]
+    },
+    {
+      "testTarget": "resource_finalization_transition",
+      "existingExecutableVariants": [
+        {
+          "name": "resource_finalization_transition-5fb6cf1e60c030ff",
+          "bytes": 130943496
+        }
+      ]
+    },
+    {
+      "testTarget": "audit_query",
+      "existingExecutableVariants": [
+        {
+          "name": "audit_query-1f18fb67d9cae935",
+          "bytes": 130562352
+        },
+        {
+          "name": "audit_query-ed47645fdae608ff",
+          "bytes": 24677080
+        },
+        {
+          "name": "audit_query-36560bd1cdfbbcc9",
+          "bytes": 149383200
+        },
+        {
+          "name": "audit_query-a8d08c7f92d858e3",
+          "bytes": 149363112
+        },
+        {
+          "name": "audit_query-962fa7982d4f017d",
+          "bytes": 24681192
+        }
+      ]
+    },
+    {
+      "testTarget": "verification_context",
+      "existingExecutableVariants": [
+        {
+          "name": "verification_context-2f54742daa08470b",
+          "bytes": 109992040
+        }
+      ]
+    },
+    {
+      "testTarget": "project_governance",
+      "existingExecutableVariants": [
+        {
+          "name": "project_governance-90ae09ddc7d612a3",
+          "bytes": 106986648
+        }
+      ]
+    },
+    {
+      "testTarget": "status_projection",
+      "existingExecutableVariants": [
+        {
+          "name": "status_projection-d48fccccd5dfc82f",
+          "bytes": 133559728
+        }
+      ]
+    },
+    {
+      "testTarget": "verification_route",
+      "existingExecutableVariants": [
+        {
+          "name": "verification_route-7734975b159918d0",
+          "bytes": 128938512
+        }
+      ]
+    },
+    {
+      "testTarget": "input_trust",
+      "existingExecutableVariants": [
+        {
+          "name": "input_trust-81e670ed1560fda2",
+          "bytes": 103083784
+        }
+      ]
+    },
+    {
+      "testTarget": "outcome_report",
+      "existingExecutableVariants": [
+        {
+          "name": "outcome_report-5629556096f51db6",
+          "bytes": 129065064
+        }
+      ]
+    },
+    {
+      "testTarget": "lifecycle_order",
+      "existingExecutableVariants": [
+        {
+          "name": "lifecycle_order-5cb8bc1120f2ea65",
+          "bytes": 129655168
+        }
+      ]
+    },
+    {
+      "testTarget": "lifecycle_entry",
+      "existingExecutableVariants": [
+        {
+          "name": "lifecycle_entry-4fba8f161d46e12d",
+          "bytes": 131215992
+        }
+      ]
+    },
+    {
+      "testTarget": "verification_service",
+      "existingExecutableVariants": [
+        {
+          "name": "verification_service-7634909400a04144",
+          "bytes": 110870224
+        }
+      ]
+    },
+    {
+      "testTarget": "selected_successor_lineage_recovery",
+      "existingExecutableVariants": [
+        {
+          "name": "selected_successor_lineage_recovery-5217a87fdf3e2c19",
+          "bytes": 24250576
+        },
+        {
+          "name": "selected_successor_lineage_recovery-ba142d0efcc883bd",
+          "bytes": 24264736
+        },
+        {
+          "name": "selected_successor_lineage_recovery-f3d9d5b6e7ce1cf1",
+          "bytes": 130061528
+        },
+        {
+          "name": "selected_successor_lineage_recovery-1d4c166da458141a",
+          "bytes": 129914912
+        }
+      ]
+    },
+    {
+      "testTarget": "repository_context",
+      "existingExecutableVariants": [
+        {
+          "name": "repository_context-981d32d463114d9e",
+          "bytes": 126924048
+        },
+        {
+          "name": "repository_context-7bcdf51f36b7b3f0",
+          "bytes": 126970280
+        }
+      ]
+    },
+    {
+      "testTarget": "supersede_archive",
+      "existingExecutableVariants": [
+        {
+          "name": "supersede_archive-fc3d3ba42f603517",
+          "bytes": 129524816
+        },
+        {
+          "name": "supersede_archive-4eb92374372b62eb",
+          "bytes": 129378368
+        }
+      ]
+    },
+    {
+      "testTarget": "archive_integrity",
+      "existingExecutableVariants": [
+        {
+          "name": "archive_integrity-49e3a88c32df4bb1",
+          "bytes": 132502104
+        },
+        {
+          "name": "archive_integrity-07c91408873e70fd",
+          "bytes": 132648272
+        }
+      ]
+    },
+    {
+      "testTarget": "ci_quality_gate",
+      "existingExecutableVariants": [
+        {
+          "name": "ci_quality_gate-3b83b510b76a5ae9",
+          "bytes": 131370496
+        },
+        {
+          "name": "ci_quality_gate-a68dd91a3097729b",
+          "bytes": 131224544
+        }
+      ]
+    },
+    {
+      "testTarget": "recovery_decision",
+      "existingExecutableVariants": [
+        {
+          "name": "recovery_decision-da89a3a7d2dd74ae",
+          "bytes": 132742880
+        }
+      ]
+    },
+    {
+      "testTarget": "intelligence",
+      "existingExecutableVariants": [
+        {
+          "name": "intelligence-c97ec1e5b285a10e",
+          "bytes": 127495040
+        },
+        {
+          "name": "intelligence-f9823ae47b683492",
+          "bytes": 13317944
+        },
+        {
+          "name": "intelligence-60553f9905ac25d5",
+          "bytes": 127441608
+        },
+        {
+          "name": "intelligence-e3772abb5488c570",
+          "bytes": 13319256
+        }
+      ]
+    },
+    {
+      "testTarget": "evidence_assurance",
+      "existingExecutableVariants": [
+        {
+          "name": "evidence_assurance-0f1dab1340a6f9e2",
+          "bytes": 131477808
+        }
+      ]
+    },
+    {
+      "testTarget": "closeout_recovery",
+      "existingExecutableVariants": [
+        {
+          "name": "closeout_recovery-bcdb2c85fddae32f",
+          "bytes": 129797576
+        },
+        {
+          "name": "closeout_recovery-375600ae4e34f3d4",
+          "bytes": 130663728
+        },
+        {
+          "name": "closeout_recovery-0edf4ad88e5a50c4",
+          "bytes": 149691368
+        },
+        {
+          "name": "closeout_recovery-3e6a687fe3a8a557",
+          "bytes": 129944064
+        },
+        {
+          "name": "closeout_recovery-c0d696f0c5caeae4",
+          "bytes": 149711472
+        }
+      ]
+    },
+    {
+      "testTarget": "contract_amendment",
+      "existingExecutableVariants": [
+        {
+          "name": "contract_amendment-4b4bf7519ba0d031",
+          "bytes": 128196792
+        },
+        {
+          "name": "contract_amendment-771e5a07ff29834b",
+          "bytes": 26136120
+        },
+        {
+          "name": "contract_amendment-d320f26dc028b2b7",
+          "bytes": 26125888
+        },
+        {
+          "name": "contract_amendment-9776a159175fd004",
+          "bytes": 128143704
+        }
+      ]
+    },
+    {
+      "testTarget": "contract_preflight",
+      "existingExecutableVariants": [
+        {
+          "name": "contract_preflight-a8739b60bd8c699e",
+          "bytes": 126883424
+        }
+      ]
+    },
+    {
+      "testTarget": "recovery_revalidation",
+      "existingExecutableVariants": [
+        {
+          "name": "recovery_revalidation-99c593a52e9b7392",
+          "bytes": 130210088
+        }
+      ]
+    },
+    {
+      "testTarget": "verification_command_selection",
+      "existingExecutableVariants": [
+        {
+          "name": "verification_command_selection-8e07727c9b75a58e",
+          "bytes": 125674616
+        }
+      ]
+    },
+    {
+      "testTarget": "scenario_matrix_next_action",
+      "existingExecutableVariants": [
+        {
+          "name": "scenario_matrix_next_action-e87f1bce25aaec91",
+          "bytes": 127412672
+        },
+        {
+          "name": "scenario_matrix_next_action-0bb6633fbc509f4f",
+          "bytes": 127465856
+        }
+      ]
+    },
+    {
+      "testTarget": "material_review",
+      "existingExecutableVariants": [
+        {
+          "name": "material_review-8e71d8fbd4b28474",
+          "bytes": 128070528
+        },
+        {
+          "name": "material_review-7b31da3ac0596f5d",
+          "bytes": 104356720
+        },
+        {
+          "name": "material_review-e53e89f63d11ca63",
+          "bytes": 104306376
+        },
+        {
+          "name": "material_review-108d95627e5d5bac",
+          "bytes": 149189056
+        },
+        {
+          "name": "material_review-7b5886c28785d1ca",
+          "bytes": 149168616
+        }
+      ]
+    },
+    {
+      "testTarget": "knowledge_projection",
+      "existingExecutableVariants": [
+        {
+          "name": "knowledge_projection-0d6ee70d5beabae3",
+          "bytes": 128060600
+        }
+      ]
+    },
+    {
+      "testTarget": "collaboration_admission",
+      "existingExecutableVariants": [
+        {
+          "name": "collaboration_admission-a684eeba05ea5d74",
+          "bytes": 136262616
+        }
+      ]
+    },
+    {
+      "testTarget": "coordination_store",
+      "existingExecutableVariants": [
+        {
+          "name": "coordination_store-55de7bac2c182f45",
+          "bytes": 130777544
+        }
+      ]
+    },
+    {
+      "testTarget": "scope_overlap",
+      "existingExecutableVariants": [
+        {
+          "name": "scope_overlap-5a4d00b409dddaa4",
+          "bytes": 125721160
+        }
+      ]
+    },
+    {
+      "testTarget": "delegated_evidence_observations",
+      "existingExecutableVariants": [
+        {
+          "name": "delegated_evidence_observations-6ca92e156fb08dcb",
+          "bytes": 126520456
+        }
+      ]
+    },
+    {
+      "testTarget": "agent_risk_checkpoint",
+      "existingExecutableVariants": [
+        {
+          "name": "agent_risk_checkpoint-a991a3641d1d89d9",
+          "bytes": 126967608
+        }
+      ]
+    },
+    {
+      "testTarget": "evolution",
+      "existingExecutableVariants": [
+        {
+          "name": "evolution-c8e5692371df434a",
+          "bytes": 102312760
+        }
+      ]
+    },
+    {
+      "testTarget": "receipt_store",
+      "existingExecutableVariants": [
+        {
+          "name": "receipt_store-955204aa2cbf1bd8",
+          "bytes": 105581664
+        }
+      ]
+    },
+    {
+      "testTarget": "ordinary_cleanup",
+      "existingExecutableVariants": [
+        {
+          "name": "ordinary_cleanup-84914c058a319c91",
+          "bytes": 102624936
+        }
+      ]
+    }
+  ]
+}

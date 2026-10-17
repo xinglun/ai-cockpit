@@ -1,0 +1,9 @@
+Auto-merging crates/cockpit-repository/src/lib.rs
+Auto-merging crates/cockpit-repository/src/status_projection.rs
+Auto-merging docs/reference/reference-parity.ja.md
+CONFLICT (content): Merge conflict in docs/reference/reference-parity.ja.md
+Auto-merging docs/reference/reference-parity.md
+CONFLICT (content): Merge conflict in docs/reference/reference-parity.md
+Auto-merging docs/reference/reference-parity.zh-CN.md
+CONFLICT (content): Merge conflict in docs/reference/reference-parity.zh-CN.md
+Automatic merge failed; fix conflicts and then commit the result.

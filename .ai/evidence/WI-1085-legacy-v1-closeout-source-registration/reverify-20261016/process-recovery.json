@@ -1,0 +1,178 @@
+{
+  "beforeAt": "2026-10-16T13:07:05.490311+00:00",
+  "afterAt": "2026-10-16T13:22:15.059367+00:00",
+  "beforeObservationComplete": true,
+  "afterObservationComplete": true,
+  "baselineZombieCount": 1425,
+  "afterZombieCount": 1425,
+  "addedZombieIdentities": [],
+  "removedZombieIdentities": [],
+  "baselineLiveThatBecameZombie": [],
+  "nativeRoot": {
+    "pid": 927618,
+    "startTimeTicks": 3020037,
+    "pgrp": 927617,
+    "session": 927617,
+    "imageAtCapture": "bash immediately before exec Tini"
+  },
+  "rootStillObserved": false,
+  "sameSessionLiveAfter": [],
+  "sampledOwnedLiveAfter": [],
+  "sampledOwnedZombieAfter": [],
+  "activeCargoRustcAfter": [],
+  "tiniMainChildNormalExit1": true,
+  "tiniNoChildToWait": true,
+  "tiniReportedZombieReaps": 1233,
+  "samples": [
+    {
+      "path": "observe-01.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 11880173568
+    },
+    {
+      "path": "observe-02.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 11880091648
+    },
+    {
+      "path": "observe-03.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 959473,
+          "readError": "[Errno 2] No such file or directory: '/proc/959473/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 11880005632
+    },
+    {
+      "path": "observe-04.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 11879911424
+    },
+    {
+      "path": "observe-05.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 11879821312
+    },
+    {
+      "path": "observe-06.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 11879735296
+    },
+    {
+      "path": "observe-07.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 8753541120
+    },
+    {
+      "path": "observe-08.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 7036502016
+    },
+    {
+      "path": "observe-09.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 7036407808
+    },
+    {
+      "path": "observe-10.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 7036329984
+    },
+    {
+      "path": "observe-11.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 1045736,
+          "readError": "[Errno 2] No such file or directory: '/proc/1045736/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 7036239872
+    },
+    {
+      "path": "observe-12.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 1073935,
+          "readError": "[Errno 2] No such file or directory: '/proc/1073935/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 7036129280
+    },
+    {
+      "path": "observe-13.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 7036043264
+    },
+    {
+      "path": "observe-14.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 1097110,
+          "readError": "[Errno 2] No such file or directory: '/proc/1097110/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 7035949056
+    },
+    {
+      "path": "observe-15.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 1126493,
+          "readError": "[Errno 2] No such file or directory: '/proc/1126493/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 7035842560
+    },
+    {
+      "path": "observe-16.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 6922190848
+    },
+    {
+      "path": "observe-17.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 6475956224
+    }
+  ],
+  "limit": "Samples do not enumerate every historical descendant. Raw Tini logs prove observed adoptions/reaps; final identity census preserves any unresolved observation errors. Previously observed +6 zombies occurred before this invocation and are separately retained."
+}

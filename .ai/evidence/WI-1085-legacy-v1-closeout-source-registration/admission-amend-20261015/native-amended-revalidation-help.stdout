@@ -1,0 +1,9 @@
+Append a revalidation after a direct Contract change; it is not needed after a successful amend
+
+Usage: ai-cockpit work-item revalidate-amendment --repo <REPO> --id <ID> --reason <REASON>
+
+Options:
+      --repo <REPO>      
+      --id <ID>          
+      --reason <REASON>  
+  -h, --help             Print help

@@ -1,0 +1,3 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 0.72s
+     Running tests/contract_amendment_processes.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/contract_amendment_processes-51eb1170dae3038b)

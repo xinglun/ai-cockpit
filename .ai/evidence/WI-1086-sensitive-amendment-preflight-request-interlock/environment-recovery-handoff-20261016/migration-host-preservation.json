@@ -1,0 +1,32 @@
+{
+  "observedAt": "2026-10-16T04:16:55.919349+00:00",
+  "pausedSupervisor": {
+    "pid": 805031,
+    "ppid": 805030,
+    "comm": "python3",
+    "state": "T",
+    "startTimeTicks": 24465201
+  },
+  "counts": {
+    "zombiesTotal": 22405,
+    "zombiesPPID1": 21316,
+    "zombiesOwned805031": 1089,
+    "activeCargoRustc": []
+  },
+  "capacity": {
+    "/workspace": {
+      "device": 27,
+      "availableBytes": 1156005888,
+      "freeInodes": 1930009
+    },
+    "/tmp": {
+      "device": 33,
+      "availableBytes": 1803735040,
+      "freeInodes": 2247044
+    }
+  },
+  "signalsSent": [],
+  "testsOrBuildsStarted": false,
+  "coordinationStoreExists": false,
+  "originalWI1078WorktreeExists": false
+}

@@ -1,0 +1,17 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 22.67s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-005fe2137d819e4d)
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29)
+
+thread 'extension::already_deleted_before_registration_is_part_of_the_root_inventory' (334278) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:555:14:
+existing Deleted transition is a root obligation
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'extension::registered_extension_rejects_wrong_sequence_fork_identity_and_present_resources' (338278) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:618:13:
+worktree_present must fail before publication
+error: test failed, to rerun pass `-p cockpit-repository --test legacy_closeout_source`
+error: 1 target failed:
+    `-p cockpit-repository --test legacy_closeout_source`

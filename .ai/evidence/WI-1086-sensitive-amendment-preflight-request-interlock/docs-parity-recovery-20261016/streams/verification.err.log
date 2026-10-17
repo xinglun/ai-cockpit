@@ -1,0 +1,47 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/cockpit_verification-1ba6e7cf4418f294)
+serializing process-observer test target: cockpit_verification-1ba6e7cf4418f294
+
+thread 'composition::external_observer_deferred_tests::real_eacces_fixture_rejects_a_diagnostic_for_another_pid' (802583) panicked at crates/cockpit-verification/src/composition.rs:6005:27:
+observer encountered another process instead of controlled child pid=4242: cannot inspect process pid=4343 phase=procfs.cwd errno=13
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'composition::external_observer_deferred_tests::real_eacces_fixture_rejects_a_pid_prefix_collision' (802584) panicked at crates/cockpit-verification/src/composition.rs:6005:27:
+observer encountered another process instead of controlled child pid=4242: cannot inspect process pid=42420 phase=procfs.cwd errno=13
+     Running tests/affected_verification.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/affected_verification-62005723f2ce3c54)
+     Running tests/composition.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/composition-8a5ec805ac823cf4)
+serializing process-observer test target: composition-8a5ec805ac823cf4
+composition_reconcile_trace stage=loaded attempt=composition-sha256:27efe116714361384d0b17d398c6afe634fa12eaa76a5fdfc4116c651a50e47f schema=3 owner_pid=Some(804221) observation_schema=1 group_id=Some(804232) leader=Some(ProcessGroupLeaderIdentity { leader_pid: 804232, leader_start_time_ticks: 887791, process_group_id: 804232, session_id: 547522 }) owned_tree_unknown=false
+composition_reconcile_trace stage=owner_probe owner_pid=804221 kill_result=-1 errno=Some(3) alive=false
+composition_reconcile_trace stage=group_scan pgid=804232 attempt=1 phase=first target_member_count=1 target_members=["804232:S:887791:804232:547522"]
+composition_reconcile_trace stage=group_scan pgid=804232 attempt=1 phase=second target_member_count=1 target_members=["804232:S:887791:804232:547522"]
+composition_reconcile_trace stage=group_classification pgid=804232 attempt=1 leader=Some(ProcessGroupLeaderIdentity { leader_pid: 804232, leader_start_time_ticks: 887791, process_group_id: 804232, session_id: 547522 }) liveness=Active
+composition_reconcile_trace stage=loaded attempt=composition-sha256:27efe116714361384d0b17d398c6afe634fa12eaa76a5fdfc4116c651a50e47f schema=3 owner_pid=Some(804221) observation_schema=1 group_id=Some(804232) leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=owner_probe owner_pid=804221 kill_result=-1 errno=Some(3) alive=false
+composition_reconcile_trace stage=group_scan pgid=804232 attempt=1 phase=first target_member_count=1 target_members=["804232:S:887791:804232:547522"]
+composition_reconcile_trace stage=group_scan pgid=804232 attempt=1 phase=second target_member_count=1 target_members=["804232:S:887791:804232:547522"]
+composition_reconcile_trace stage=group_classification pgid=804232 attempt=1 leader=None liveness=Unknown
+composition_reconcile_trace stage=group_observation_error category=identity_inconsistent
+composition_reconcile_trace stage=loaded attempt=composition-sha256:27efe116714361384d0b17d398c6afe634fa12eaa76a5fdfc4116c651a50e47f schema=3 owner_pid=Some(804221) observation_schema=1 group_id=Some(804232) leader=Some(ProcessGroupLeaderIdentity { leader_pid: 804232, leader_start_time_ticks: 887791, process_group_id: 804232, session_id: 547522 }) owned_tree_unknown=false
+composition_reconcile_trace stage=owner_probe owner_pid=804221 kill_result=-1 errno=Some(3) alive=false
+composition_reconcile_trace stage=group_scan pgid=804232 attempt=1 phase=first target_member_count=1 target_members=["804232:Z:887791:804232:547522"]
+composition_reconcile_trace stage=group_scan pgid=804232 attempt=1 phase=second target_member_count=1 target_members=["804232:Z:887791:804232:547522"]
+composition_reconcile_trace stage=group_classification pgid=804232 attempt=1 leader=Some(ProcessGroupLeaderIdentity { leader_pid: 804232, leader_start_time_ticks: 887791, process_group_id: 804232, session_id: 547522 }) liveness=Exited
+observed detached verifier zombie: pid=804269 state='Z' ppid=804243 pgid=804269 sid=804269; waitid(WNOWAIT)=0; kill(pid, 0)=0
+preserving Unknown/Retained composition fixture: test=unknown_observer_fixture_owners_survive_assertion_unwind attempt=lifecycle-regression repository=/tmp/cockpit-composition-repository-802642-103 state=/tmp/cockpit-composition-retained-unknown-state-802642-104 worktree=/tmp/cockpit-composition-retained-unknown-worktree-owner-802642-102/worktrees/composition manifest=/tmp/cockpit-composition-retained-unknown-state-802642-104/.ai-cockpit-retained-unknown-owner.json
+
+thread 'unknown_observer_fixture_owners_survive_assertion_unwind' (804448) panicked at crates/cockpit-verification/tests/composition.rs:246:9:
+simulate a later assertion failure after the real assertion helper
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+     Running tests/cost_observation.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/cost_observation-65f0ec5221e326ae)
+     Running tests/development_cycle_cost.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/development_cycle_cost-c80fe473814c0039)
+     Running tests/diagnostic_summary.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/diagnostic_summary-963b9f8969e2109f)
+     Running tests/execution.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/execution-a525c60e0dce22ba)
+     Running tests/gate_plan_parity.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/gate_plan_parity-1910e85357579eb5)
+     Running tests/graph.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/graph-2bdf9595d1166338)
+     Running tests/intent_scenario_binding.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/intent_scenario_binding-936c8fa41db9d0cf)
+     Running tests/physical_execution.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/physical_execution-ce42add2b465476d)
+     Running tests/policy_planner.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/policy_planner-d5630de22e6bfa2f)
+     Running tests/route_convergence.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/route_convergence-b073f03bc6c9315c)
+     Running tests/runtime_benchmark_scenarios.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/runtime_benchmark_scenarios-f7ca4ea6f34f4cf3)
+   Doc-tests cockpit_verification

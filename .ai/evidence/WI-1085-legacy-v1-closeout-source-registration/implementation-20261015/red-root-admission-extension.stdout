@@ -1,0 +1,29 @@
+
+running 4 tests
+test complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears ... FAILED
+test complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration ... FAILED
+test complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history ... ok
+test explicit_source_plan_and_record_are_discoverable ... ok
+
+failures:
+
+---- complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears stdout ----
+
+thread 'complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears' (124888) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:138:9:
+resume without a surviving obligation must not publish a first root
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration stdout ----
+
+thread 'complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration' (125429) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:150:9:
+assertion `left != right` failed: a valid root does not authorize a malformed extension
+  left: "closed"
+ right: "closed"
+
+
+failures:
+    complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears
+    complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration
+
+test result: FAILED. 2 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.88s
+

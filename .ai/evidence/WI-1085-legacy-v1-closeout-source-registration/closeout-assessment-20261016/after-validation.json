@@ -1,0 +1,12 @@
+{
+  "state": "unknown",
+  "scenarioCoverage": "unknown",
+  "acceptanceEvidence": "verified",
+  "evidenceClasses": "verified",
+  "intentAlignment": "unresolved",
+  "finalDimensions": "not_applicable",
+  "unknowns": [
+    "required_scenario_unverified:filesystem_boundaries"
+  ],
+  "findings": []
+}

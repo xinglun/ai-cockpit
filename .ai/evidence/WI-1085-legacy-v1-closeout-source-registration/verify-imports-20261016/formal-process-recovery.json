@@ -1,0 +1,164 @@
+{
+  "beforeAt": "2026-10-16T13:51:10.125827+00:00",
+  "afterAt": "2026-10-16T14:06:00.557480+00:00",
+  "beforeObservationComplete": true,
+  "afterObservationComplete": true,
+  "baselineZombieCount": 1431,
+  "afterZombieCount": 1431,
+  "addedZombieIdentities": [],
+  "removedZombieIdentities": [],
+  "baselineLiveBecameZombie": [],
+  "rootIdentity": {
+    "pid": 1165975,
+    "startTimeTicks": 3284499,
+    "pgrp": 1165974,
+    "session": 1165974
+  },
+  "rootStillObserved": false,
+  "sameSessionLiveAfter": [],
+  "sampledOwnedLiveAfter": [],
+  "sampledOwnedZombiesAfter": [],
+  "activeCargoRustcAfter": [],
+  "tiniNormalExitZero": true,
+  "tiniNoChildToWait": true,
+  "tiniReportedZombieReaps": 1528,
+  "memoryEventsBefore": {
+    "low": 0,
+    "high": 0,
+    "max": 145732,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "memoryEventsAfter": {
+    "low": 0,
+    "high": 0,
+    "max": 149052,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "newOOMKills": 0,
+  "samples": [
+    {
+      "path": "formal-observe-01.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 1173879,
+          "readError": "[Errno 2] No such file or directory: '/proc/1173879/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 6471745536
+    },
+    {
+      "path": "formal-observe-02.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 6471663616
+    },
+    {
+      "path": "formal-observe-03.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 6471569408
+    },
+    {
+      "path": "formal-observe-04.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 1237783,
+          "readError": "[Errno 2] No such file or directory: '/proc/1237783/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1237789,
+          "readError": "[Errno 2] No such file or directory: '/proc/1237789/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1237790,
+          "readError": "[Errno 2] No such file or directory: '/proc/1237790/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1237795,
+          "readError": "[Errno 2] No such file or directory: '/proc/1237795/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1237803,
+          "readError": "[Errno 2] No such file or directory: '/proc/1237803/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 6471467008
+    },
+    {
+      "path": "formal-observe-05.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 6471372800
+    },
+    {
+      "path": "formal-observe-06.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 6469963776
+    },
+    {
+      "path": "formal-observe-07.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [
+        {
+          "pid": 1358879,
+          "readError": "[Errno 2] No such file or directory: '/proc/1358879/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1358884,
+          "readError": "[Errno 2] No such file or directory: '/proc/1358884/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1358885,
+          "readError": "[Errno 2] No such file or directory: '/proc/1358885/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1358888,
+          "readError": "[Errno 2] No such file or directory: '/proc/1358888/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1358893,
+          "readError": "[Errno 2] No such file or directory: '/proc/1358893/stat'",
+          "followup": "confirmed_absent"
+        },
+        {
+          "pid": 1358899,
+          "readError": "[Errno 2] No such file or directory: '/proc/1358899/stat'",
+          "followup": "confirmed_absent"
+        }
+      ],
+      "availableBytes": 6469791744
+    },
+    {
+      "path": "formal-observe-08.json",
+      "observationComplete": true,
+      "unresolvedReadErrors": [],
+      "resolvedTransientReads": [],
+      "availableBytes": 6447820800
+    }
+  ],
+  "limit": "Samples do not enumerate every historical descendant. Transient reads are resolved only after confirmed absence. Prior inter-window baseline changes are not attributed to this invocation."
+}

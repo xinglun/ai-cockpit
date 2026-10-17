@@ -1,0 +1,3 @@
+    Finished `test` profile [unoptimized] target(s) in 0.08s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29)
+error: test failed, to rerun pass `-p cockpit-repository --test legacy_closeout_source`

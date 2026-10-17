@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:88caadcf679c5297c9c04e69d6651f4cabfd0a651621f68d6640653ce24b2a20",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1085 opt-in proposal requires Raydot review before application",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/decision-relay.json",
+      "digest": "sha256:705e6e58b88828b2bd219b52c6bb24d2907fa1a060a92b9444f8af5ae612a498"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-synced-20261017/material-request.json",
+      "digest": "sha256:ffd46db196402327fcb816a2aa849de382f777076e2f150445cd6484872ef936"
+    }
+  ],
+  "rationale": "Record the actual Raydot decision for exact 88caadcf request after independently checking Contract/sourceSnapshot/manifest/repositorySnapshot, 36 entries, 0 Finding, same two permitted Unknowns and only AI-record drift from reviewed 2dc2826f to current 9e1e4786.",
+  "residualRisk": "36 entries, 0 Finding, only the original two readable Rust syntax Unknowns. Integration test unchanged; source test additions independently re-reviewed by Raydot. Four Windows cases cover directory junction/reparse paths, not all reparse types or terminal file symlinks. Actual successful current-version case lines required before A6 mapping. Raw scanner Unknowns remain. This receipt is not a verification, human approval or final acceptance."
+}

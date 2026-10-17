@@ -1,0 +1,13 @@
+{
+  "toolSessionId": 52551,
+  "toolReportedShellExitCode": 1,
+  "shellExitTrapRecorded": 1,
+  "execCommandLoginMode": false,
+  "additionalPermissions": {
+    "file_system": {
+      "write": []
+    }
+  },
+  "existingSupervisor": "/usr/local/bin/docker-init",
+  "source": "actual tool request and result; original invocation, native receipts and raw logs preserved"
+}

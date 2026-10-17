@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-10-16T17:48:39.666367+00:00",
+  "recordedBy": "agent:Codex recording actual agent:Raydot technical review relayed by parent thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "bindings": {
+    "requestDigest": "sha256:88caadcf679c5297c9c04e69d6651f4cabfd0a651621f68d6640653ce24b2a20",
+    "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+    "sourceSnapshotDigest": "sha256:ad861c823bb370c2441bbd5bc293909c57ee3d52b7ef48cccb650d9f85e90b62",
+    "materialManifestDigest": "sha256:61edc9d027091300e3bab4696d9026099bf46e64c4d75bd2d9c46cf587b4c76d",
+    "reviewedSourceHead": "2dc2826ff8243f77fb7192835cb2c6a1430a38c1",
+    "repositorySnapshotDigest": "sha256:373a76c43e857ba33189221b89e3d875cd2c5dad534bd01fc619599a45810d4b"
+  },
+  "actualCurrentHead": "9e1e478682089ab96e8df5c2a8779fdfb24782ea",
+  "sourceContinuityEvidence": {
+    "changedPathsSinceReviewedSourceHead": [
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/binding-for-raydot-v2.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/ci1-summary.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/material-request-v2.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/preflight-v2.err.log",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/preflight-v2.json",
+      ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/sync-reparse-20261017/verification-plan-v2.json",
+      ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json"
+    ],
+    "onlyAiRecordsChanged": true,
+    "requestDigestUnchanged": true
+  },
+  "reviewLimits": "36 entries, 0 Finding, only the original two readable Rust syntax Unknowns. Integration test unchanged; source test additions independently re-reviewed by Raydot. Four Windows cases cover directory junction/reparse paths, not all reparse types or terminal file symlinks. Actual successful current-version case lines required before A6 mapping.",
+  "doesNotReplace": "Actual current full verification, Windows/CI output, scenario/intent/benefit acceptance or explicit human lifecycle authority."
+}

@@ -1,0 +1,61 @@
+{
+  "files": [
+    {
+      "path": "Cargo.lock",
+      "sha256": "710c37f6d04e012289a855e468a8777248ceb6c8b83870b2c9029bd69080a78f",
+      "bytes": 35647
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "a7a23801522d469e93021507fc88e9f5651056fce0e6aa22b3d3157c5f3dc6fe",
+      "bytes": 66
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "29c9b72a5e68c31b157c13b4158d203fefac5d41cb7b2f60f4e6bcb5ef0e33a1",
+      "bytes": 1178
+    },
+    {
+      "path": "crates/cockpit-cli/Cargo.toml",
+      "sha256": "e30ef8956746748c32558f15975530f353d0366e41dd8b0c10b7bb1bba940f49",
+      "bytes": 860
+    },
+    {
+      "path": "crates/cockpit-mcp/Cargo.toml",
+      "sha256": "386bfa85c77d2ae8c2332c14edd2cf6fc93b88c362b27d819996318d4b5d23d3",
+      "bytes": 646
+    },
+    {
+      "path": "crates/cockpit-repository/Cargo.toml",
+      "sha256": "2dcc393ab0ea6d007e9d66fedfb15421fc304f3d2fe6805bed6784730d120736",
+      "bytes": 1149
+    },
+    {
+      "path": ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+      "sha256": "7cbbaa07f74c9871379e060babd5e6c27df90f3f54c11708cdd330a0e581d1dc",
+      "bytes": 25017
+    },
+    {
+      "path": ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+      "sha256": "7ae6f9c1d34d119a3b9e51b07208afd7c3313cff51af04292cc64c5cf531e4ea",
+      "bytes": 18281
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/build-baseline.json",
+      "sha256": "5385bc5571eb9d3e3101c5af3280a2aa16269d2f55f1a3de13717be7883bdce2",
+      "bytes": 1125
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/final-reviewed-binary-observation.json",
+      "sha256": "b37a3047ac4c9c7750064754c86115509f52efc9197adc1bb3d0973652764bb9",
+      "bytes": 1177
+    }
+  ],
+  "installedRuntimeExcluded": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+  "preservedCandidateCliPaths": [
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/ai-cockpit",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/deps/ai_cockpit-3be839e3f5de64f3"
+  ],
+  "preservedCandidateCliSha256": "8f4ce88a9f4ead070f935061ff421652ae53aec3eda75feabe17ce9bb2daf095",
+  "historicalBinaryIdentity": "Do not claim a rebuild regenerates the exact historical bytes. Four proposed test executables are cache removal candidates only, with original hashes retained. All raw logs/receipts and candidate CLI bytes remain."
+}

@@ -1,0 +1,147 @@
+{
+  "costObservation": {
+    "advisoryOnly": true,
+    "confidence": "complete",
+    "elapsedMs": 949,
+    "executionElapsedMs": 827,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planningElapsedMs": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "unknowns": []
+  },
+  "diagnosticSummary": [],
+  "elapsedMs": 949,
+  "executionElapsedMs": 827,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:967aa21ff86a744965cff4a17f5463bc1094d89218b79920feb7d5cab20a748e",
+      "deadlineMs": 1792130429901,
+      "elapsedMs": 827,
+      "exitCode": 101,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "filesHashed": 5,
+  "filesRead": 5,
+  "gitCalls": 6,
+  "maxConcurrentProcesses": 1,
+  "nodesExecuted": 1,
+  "nodesPlanned": 1,
+  "nodesReused": 0,
+  "passed": false,
+  "planReceipt": {
+    "affectedPaths": [],
+    "assurance": "repository_verified",
+    "baseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+    "dependencyConfidence": "unknown",
+    "escalations": [],
+    "executedNodes": [
+      "project-command-0"
+    ],
+    "executionElapsedMs": 827,
+    "finalTier": "T0",
+    "initialTier": "T0",
+    "planningElapsedMs": 0,
+    "policyRefs": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+    "requiredAssurance": null,
+    "requiredTier": null,
+    "reusedNodes": [],
+    "savedExecutions": 0,
+    "schemaVersion": 1,
+    "selectionReasons": [
+      "cli_route_stage_explicit"
+    ],
+    "sharedNodes": [],
+    "stage": "task",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "-c",
+        "exec '/usr/bin/strace' '-f' '-s' '4096' '-e' 'trace=write' '-o' '/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/inner-write-syscalls.log' '/workspace/.cloud-tools/cargo/bin/cargo' 'test' '--locked' '--package' 'cockpit-repository' '--test' 'verification_service' 'linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory' '--' '--exact' '--test-threads=1' '--nocapture' >'/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/cargo.stdout.log' 2>'/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/linked-worktree-inner-diagnosis-20261016/07-exact-strace/cargo.stderr.log'"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:967aa21ff86a744965cff4a17f5463bc1094d89218b79920feb7d5cab20a748e",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+        "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+      },
+      "nodeId": "project-command-0",
+      "planningElapsedMs": 0,
+      "program": "/usr/bin/bash",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "not_requested",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    }
+  ],
+  "planningElapsedMs": 0,
+  "processSpawnFailures": 0,
+  "processesSpawned": 1,
+  "protectedNodesExecuted": 0,
+  "protectedNodesSkipped": 0,
+  "receiptCandidates": [],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "rerunStale": 0,
+  "rerunUnknown": 0,
+  "results": [
+    {
+      "action": "execute",
+      "nodeId": "project-command-0",
+      "outputDigest": "sha256:0ff59afa28736054c669fbce6dd22083b7337431ec8d061bb43439b6efa72680",
+      "outputTruncated": false,
+      "passed": false,
+      "protected": false,
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reused": false,
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timedOut": false
+    }
+  ],
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "timeoutSeconds": 300
+}
+[TRACE tini (279284)] Registered as child subreaper
+[INFO  tini (279284)] Spawned child process '/usr/bin/timeout' with pid '279285'
+[TRACE tini (279284)] No child to reap
+[DEBUG tini (279284)] Received SIGCHLD
+[DEBUG tini (279284)] Reaped child with pid: '279629'
+[TRACE tini (279284)] No child to reap
+[DEBUG tini (279284)] Received SIGCHLD
+[DEBUG tini (279284)] Reaped child with pid: '279638'
+[TRACE tini (279284)] No child to reap
+[DEBUG tini (279284)] Received SIGCHLD
+[DEBUG tini (279284)] Reaped child with pid: '279285'
+[INFO  tini (279284)] Main child exited normally (with status '1')
+[TRACE tini (279284)] No child to wait
+[TRACE tini (279284)] Exiting: child has exited

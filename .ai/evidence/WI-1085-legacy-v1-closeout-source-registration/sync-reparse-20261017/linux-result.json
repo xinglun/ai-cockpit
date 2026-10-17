@@ -1,0 +1,24 @@
+{
+  "recordedAt": "2026-10-16T17:34:31.987079+00:00",
+  "sourceHead": "51bbb20983b762e69c0547e0bd2162157d51d1e4",
+  "testResultFromActualLog": "test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 129 filtered out;",
+  "commandExitFromShellFile": 0,
+  "tiniMainChildExit0Observed": true,
+  "outerToolPollReportedExit": 1,
+  "outerToolDiscrepancy": "The tool poll reports 1 despite shell-captured command exit 0 and actual cargo/Tini success output. Preserve both; do not treat this as a canonical full verification receipt or silently normalize it. No rerun performed.",
+  "beforeZombieCount": 1437,
+  "afterZombieCount": 1437,
+  "addedZombieIdentities": [],
+  "missingZombieIdentities": [],
+  "rootGone": true,
+  "activeCargoRustcAfter": [],
+  "observationComplete": true,
+  "beforeAvailableBytes": 6415736832,
+  "afterAvailableBytes": 6415175680,
+  "notWindowsExecution": true,
+  "notFull13NodeExecution": true,
+  "inertChildTestsNotCountedAsStandaloneCoverage": [
+    "fifo_child",
+    "publication_child"
+  ]
+}

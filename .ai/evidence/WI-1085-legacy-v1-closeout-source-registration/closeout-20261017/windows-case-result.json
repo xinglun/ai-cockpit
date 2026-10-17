@@ -1,0 +1,36 @@
+{
+  "runId": 38951742695,
+  "jobId": 117146452068,
+  "sourceHead": "e2d32e20410e34a1ad73e39e087daaa614689fb0",
+  "testedRevision": "b5af84c1c219c8ff7160ac2aa342a358829d7a7b",
+  "eventBaseRevision": "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+  "actualCaseResults": [
+    {
+      "testName": "legacy_closeout_source::publication_tests::publication_rejects_windows_reparse_parent_before_any_write",
+      "result": "passed",
+      "logLine": 1377,
+      "capturedLine": "2026-10-16T19:10:13.1673054Z test legacy_closeout_source::publication_tests::publication_rejects_windows_reparse_parent_before_any_write ... ok"
+    },
+    {
+      "testName": "legacy_closeout_source::windows_reparse_tests::history_reads_reject_windows_reparse_parent",
+      "result": "passed",
+      "logLine": 1387,
+      "capturedLine": "2026-10-16T19:10:13.6314649Z test legacy_closeout_source::windows_reparse_tests::history_reads_reject_windows_reparse_parent ... ok"
+    },
+    {
+      "testName": "legacy_closeout_source::windows_reparse_tests::obligation_enumeration_fails_closed_on_windows_reparse_directories",
+      "result": "passed",
+      "logLine": 1388,
+      "capturedLine": "2026-10-16T19:10:13.6780002Z test legacy_closeout_source::windows_reparse_tests::obligation_enumeration_fails_closed_on_windows_reparse_directories ... ok"
+    },
+    {
+      "testName": "legacy_closeout_source::windows_reparse_tests::pinned_repository_root_rejects_windows_reparse_alias",
+      "result": "passed",
+      "logLine": 1389,
+      "capturedLine": "2026-10-16T19:10:13.6972223Z test legacy_closeout_source::windows_reparse_tests::pinned_repository_root_rejects_windows_reparse_alias ... ok"
+    }
+  ],
+  "libSummaryLine": "2026-10-16T19:22:38.3894072Z test result: ok. 136 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 762.31s",
+  "capture": "UTF-8 bytes of official GitHub connector decoded log string; not pre-decoder transport bytes.",
+  "scope": "Declared bounded Windows directory-junction/reparse coverage only; no other-tag or terminal-file-symlink exhaustive claim."
+}

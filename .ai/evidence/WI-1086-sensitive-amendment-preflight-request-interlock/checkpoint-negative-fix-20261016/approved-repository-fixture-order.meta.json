@@ -1,0 +1,484 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--test",
+    "lifecycle_entry"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T02:16:19.079230+00:00",
+  "runtimeAdmissionBeforeCommand": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 7,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 0,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+      "materialManifest": "sha256:3258a4dd3c28363168f5e00dd465d26d8788609b1d831e4f8579d59f7e15d886",
+      "repositorySnapshot": "sha256:92f95265c34f71d2e627e306799f6cc5463e0500363e69514f58a6e5a98852ff",
+      "summary": "sha256:48e365140cc92cd8987b5bd18cf28a657af7f4d3e8cc2fde5c54bc5368c68710"
+    },
+    "unknowns": [
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:3258a4dd3c28363168f5e00dd465d26d8788609b1d831e4f8579d59f7e15d886",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:92f95265c34f71d2e627e306799f6cc5463e0500363e69514f58a6e5a98852ff",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-16T02:04:23.026023571+00:00",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "run_verification",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:7465bd4e3b05e4cc7194c93709e81f0012c66be6e24eafcac0fd142f3a1a2ef6"
+    },
+    "statusDigest": "sha256:26247f23ef4912e56ea477d7ccc7dec2ef1a188cc6f231765501ad6f2477c267",
+    "historical": false
+  },
+  "diskGuard": {
+    "minimumFreeBytes": 681160704,
+    "stopThresholdBytes": 268435456,
+    "triggered": false,
+    "initialFreeBytes": 682876928,
+    "finalFreeBytes": 682860544
+  },
+  "sourceDiffRawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sourceFileRawSha256": {
+    "crates/cockpit-repository/src/contract_amendment.rs": "3e68b7712b6dde0bfd268019d02b36a8418698cba75a3014e029260d5d316f0b",
+    "crates/cockpit-repository/src/status_projection.rs": "4c2919bf8c8ed630d2e83cef4dc0e44935c4d0e56d281d1ea14fa5f634b751d9",
+    "crates/cockpit-repository/src/lib.rs": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a",
+    "crates/cockpit-repository/src/governance_controls.rs": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+    "crates/cockpit-cli/tests/scope_amendment.rs": "99558b1a44329a1ca0e36421a4c32c23eead23f5869c713d72d4fb5ba06c49be",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs": "89296f823a077186cd68b59a9af86f87cec71895181923e0e911ce8db02562d8"
+  },
+  "elapsedSeconds": 9.018,
+  "timeoutSeconds": 900,
+  "timedOut": false,
+  "exitCode": 101,
+  "sourceHead": "0069033a46afeab1374107cc9bce079b51c24151",
+  "testFileRawSha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+  "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01); cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "environmentOverrides": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "binaryRawSha256": "156d7e19dc24eb4d6c870d2c59d0975646ff70d78d1e560946a6453430bf0272",
+  "ownedDescendantsReaped": [
+    {
+      "pid": 731382,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731405,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731428,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731456,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731483,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731689,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731694,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731730,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731810,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731838,
+      "waitStatus": 0
+    },
+    {
+      "pid": 731918,
+      "waitStatus": 0
+    },
+    {
+      "pid": 732361,
+      "waitStatus": 0
+    },
+    {
+      "pid": 732368,
+      "waitStatus": 0
+    },
+    {
+      "pid": 732551,
+      "waitStatus": 0
+    },
+    {
+      "pid": 732700,
+      "waitStatus": 0
+    },
+    {
+      "pid": 732707,
+      "waitStatus": 0
+    },
+    {
+      "pid": 732829,
+      "waitStatus": 0
+    },
+    {
+      "pid": 732836,
+      "waitStatus": 0
+    },
+    {
+      "pid": 733112,
+      "waitStatus": 0
+    },
+    {
+      "pid": 733434,
+      "waitStatus": 0
+    },
+    {
+      "pid": 733526,
+      "waitStatus": 0
+    },
+    {
+      "pid": 733622,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734127,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734156,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734186,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734262,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734269,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734450,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734542,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734636,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734691,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734766,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734842,
+      "waitStatus": 0
+    },
+    {
+      "pid": 734966,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735106,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735161,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735192,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735223,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735255,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735262,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735289,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735308,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735315,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735342,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735369,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735376,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735498,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735505,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735627,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735634,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735660,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735752,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735800,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735836,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735936,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735972,
+      "waitStatus": 0
+    },
+    {
+      "pid": 735979,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736163,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736467,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736478,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736492,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736508,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736555,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736600,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736624,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736631,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736645,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736664,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736672,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736696,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736710,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736897,
+      "waitStatus": 0
+    },
+    {
+      "pid": 736904,
+      "waitStatus": 0
+    },
+    {
+      "pid": 737231,
+      "waitStatus": 0
+    },
+    {
+      "pid": 737238,
+      "waitStatus": 0
+    },
+    {
+      "pid": 737475,
+      "waitStatus": 0
+    },
+    {
+      "pid": 737529,
+      "waitStatus": 0
+    },
+    {
+      "pid": 737706,
+      "waitStatus": 0
+    },
+    {
+      "pid": 737814,
+      "waitStatus": 0
+    },
+    {
+      "pid": 737849,
+      "waitStatus": 0
+    },
+    {
+      "pid": 738018,
+      "waitStatus": 0
+    },
+    {
+      "pid": 738150,
+      "waitStatus": 0
+    },
+    {
+      "pid": 738177,
+      "waitStatus": 0
+    },
+    {
+      "pid": 738280,
+      "waitStatus": 0
+    }
+  ]
+}

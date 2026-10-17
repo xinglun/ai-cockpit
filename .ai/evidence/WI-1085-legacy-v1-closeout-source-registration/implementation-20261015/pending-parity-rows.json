@@ -1,0 +1,20 @@
+{
+  "status": "proposal_only_not_applied",
+  "rows": [
+    {
+      "path": "docs/reference/reference-parity.md",
+      "operation": "append exactly one row after typed amendment and fresh admission",
+      "row": "| WI-1085-legacy-v1-closeout-source-registration — explicit present-day legacy v1 source registration | In progress; formal verification pending | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "operation": "append exactly one row after typed amendment and fresh admission",
+      "row": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 来源的显式现时登记 | 进行中；正式验证待完成 | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "operation": "append exactly one row after typed amendment and fresh admission",
+      "row": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 source の明示的な現時点登録 | 進行中・正式検証待ち | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |"
+    }
+  ]
+}

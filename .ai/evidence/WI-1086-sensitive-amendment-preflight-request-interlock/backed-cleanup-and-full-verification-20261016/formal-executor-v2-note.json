@@ -1,0 +1,4 @@
+{
+  "reason": "Include the required fresh read-only validate query inside the same fail-closed executor before native planning and verification. Unknown findings remain evidence; actual status still controls admission. No formal verification has started. Original executor snapshot and cleanup manifest remain unchanged.",
+  "sourceSha256": "5f1cf65ddc50cbe5c731a9a5d4ebb23e1eb5d337f576a6bfb0e0909b5047da9c"
+}

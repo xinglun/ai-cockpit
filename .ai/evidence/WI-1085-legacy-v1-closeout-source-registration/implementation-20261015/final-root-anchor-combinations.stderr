@@ -1,0 +1,15 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+error[E0609]: no field `root_registration_raw_digest` on type `LegacyCloseoutSourceExtension`
+   --> crates/cockpit-repository/tests/legacy_closeout_source.rs:811:29
+    |
+811 |                     damaged.root_registration_raw_digest =
+    |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ unknown field
+    |
+help: a field with a similar name exists
+    |
+811 -                     damaged.root_registration_raw_digest =
+811 +                     damaged.registration_raw_digest =
+    |
+
+For more information about this error, try `rustc --explain E0609`.
+error: could not compile `cockpit-repository` (test "legacy_closeout_source") due to 1 previous error

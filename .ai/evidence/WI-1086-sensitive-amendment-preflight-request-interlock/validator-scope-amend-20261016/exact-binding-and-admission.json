@@ -1,0 +1,133 @@
+{
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "approvalKind": "User relayed Raydot technical scope approval; not identity-bound confirm_review",
+  "approvedRequestRawSha256": "bc012d4cd1c9413f5835f05658969b8f77bdbea45c576bed237773ca764b3a71",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "nativeAmendmentSequence": 1,
+  "previousContractDigest": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+  "contractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+  "journalDigest": "sha256:8db8892a01479bc6143b721c0321527d998b568405675a80fdcd0a0a9dbd5bee",
+  "nativeRequestDigest": "sha256:96b2f0ec27845d3c0a2101ae81b3441b0d9e4af277627576ef389fb107163062",
+  "repositorySnapshotDigest": "sha256:411c0eea3b82e9017791d2d2ba926fa99db04c2792b3ed82bb78a3f68c6499b2",
+  "preflightDecisionDigest": "sha256:e99fb57e73cfd14fffb5de5447ab433fb9d4faa6d33180fdc9ffd8712f56bedd",
+  "preflightState": "yellow",
+  "preflightContractDigest": "sha256:5747b1fee5d38a8546a75fecaab50493344fd078adc79dee32d15ab2a44be119",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/concurrencyBoundary",
+    "/scope"
+  ],
+  "nativeHumanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "decisionEvidenceRecorded": false,
+  "actionAdmission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "record_governance_controls",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "unknown",
+        "code": "verification_action_preconditions_blocked",
+        "message": "current projection reports verification_action_preconditions_blocked"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:5e9e7c4ea8c20a2bd5ba7a0a838d866ceb6c0224ef1582ac4c64f9ed56c6f99e"
+  },
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status"
+  ],
+  "changedContractTopLevelKeys": [
+    "adoptionBootstrapPaths",
+    "baselineDirtyPaths",
+    "concurrencyBoundary",
+    "guidelines",
+    "preReviewWarnings",
+    "requiredRuntimeCapabilities",
+    "resumeHistory",
+    "scope",
+    "synchronizationHistory",
+    "unknowns"
+  ],
+  "nativeSerializedDefaultFieldsAdded": [
+    "adoptionBootstrapPaths",
+    "baselineDirtyPaths",
+    "guidelines",
+    "preReviewWarnings",
+    "resumeHistory",
+    "synchronizationHistory",
+    "unknowns"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "nativeRecords": [
+    {
+      "path": ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json",
+      "bytes": 11309,
+      "rawSha256": "d35045822ea7e3d6051964c132414da7818797a018919da42e0bb016230061d4"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json",
+      "bytes": 3670,
+      "rawSha256": "7912b0bbf2f7d44c4f48c8b0c5d252f24aaa9f91b2bb2e59f57ffc7d5b8defe3"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.contract-amendments/00000001.committed.json",
+      "bytes": 16971,
+      "rawSha256": "283f2eccb95bbf9d1029c4260ac4dbccd188a6f815587b74ea57353de09170e2"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.contract-amendments/00000001.prepared.json",
+      "bytes": 29406,
+      "rawSha256": "436cbc9bd3dfaf0a843d8217db7033bdcf865230920ffc3762bccb37c6c19f8c"
+    }
+  ],
+  "productSourceChangedPaths": [],
+  "newTestsRun": false,
+  "formalVerificationRun": false
+}

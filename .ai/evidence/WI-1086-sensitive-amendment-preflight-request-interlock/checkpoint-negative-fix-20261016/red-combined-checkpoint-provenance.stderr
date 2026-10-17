@@ -1,0 +1,807 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 0.75s
+     Running tests/contract_amendment_processes.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/contract_amendment_processes-51eb1170dae3038b)
+
+thread 'checkpoint_count_two_material_fallback_is_rejected_by_cli' (720826) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+count_two transport=CLI must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:a064294e960b4cc27e45d39fb5e5b149cb57d454d4b3a7c6e9f733ed7aa194a4","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"material_review_projection_unavailable","kind":"unknown","message":"current projection reports material_review_projection_unavailable"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"2e67ca956de28f93085ecd2471d540ea5448e642","blockers":["material_review_projection_unavailable","governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":null,"missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":2},"rawScannerUnknowns":[],"repositoryId":"sha256:1359b3b648cfd63310547c302090ba2e955e6fa411e9bc2eef8aa67b567d2db3","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:e69e3af9e2d4693f95d98a4932e944efdca8e108b54c7e608bef7f85db8f594f","sourceDigests":{"contract":"sha256:69197bec51b3faee07ab3c2a6bf416543120f27e576f548bdaed6bf1fe808e7a","repositorySnapshot":"sha256:e69e3af9e2d4693f95d98a4932e944efdca8e108b54c7e608bef7f85db8f594f","summary":"sha256:87f93bf7fc044d683172d8b5714cb17da1bb1a3244c5634561183a867cf4f5a6","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:eaab4543de03daf9664f1573c4857bde906bc00b9ea8fbbaf6db9ae511a198b3","unknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:18Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={
+  "state": "red",
+  "blockers": [
+    "evidence_contradictory",
+    "material_review_projection_unavailable"
+  ],
+  "unknowns": [
+    "contract_amendment_policy_review_required",
+    "material_review_projection_unavailable"
+  ],
+  "effective_unknowns": [
+    "material_review_projection_unavailable"
+  ],
+  "safe_actions": [
+    "record_fresh_preflight_decision",
+    "stop_and_reconcile_evidence"
+  ],
+  "required_checks": [
+    "evidence_consistency",
+    "human_review"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:1359b3b648cfd63310547c302090ba2e955e6fa411e9bc2eef8aa67b567d2db3",
+    "workItemId": "WI-CLI-AMEND-PARITY",
+    "baseCommit": "2e67ca956de28f93085ecd2471d540ea5448e642",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "red",
+    "activityHealth": "degraded",
+    "blocking": true,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 1,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 2
+    },
+    "blockers": [
+      "material_review_projection_unavailable",
+      "governance_red"
+    ],
+    "missingEvidence": [
+      "evidence_contradictory"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [],
+    "verification": "unknown",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "unknown",
+      "workResult": "unknown"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:69197bec51b3faee07ab3c2a6bf416543120f27e576f548bdaed6bf1fe808e7a",
+      "repositorySnapshot": "sha256:e69e3af9e2d4693f95d98a4932e944efdca8e108b54c7e608bef7f85db8f594f",
+      "summary": "sha256:8fb8fd356099f1ca48c26e6b33fc325a436e2897cfab2120ca4c343baad90a96",
+      "verificationEvidence": "sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"
+    },
+    "unknowns": [
+      "evidence_contradictory",
+      "material_review_projection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": null,
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_contradictory",
+      "material_review_projection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:e69e3af9e2d4693f95d98a4932e944efdca8e108b54c7e608bef7f85db8f594f",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "updatedAt": "2026-10-16T02:11:18Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "run_preflight",
+      "stop"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "contradictory",
+          "code": "evidence_contradictory",
+          "message": "current projection reports evidence_contradictory"
+        },
+        {
+          "kind": "unknown",
+          "code": "material_review_projection_unavailable",
+          "message": "current projection reports material_review_projection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "evidence_contradictory"
+      ],
+      "admissionDigest": "sha256:a064294e960b4cc27e45d39fb5e5b149cb57d454d4b3a7c6e9f733ed7aa194a4"
+    },
+    "statusDigest": "sha256:fd7e6221386c0387b83d27e00b006c1b96faa8686d804ae1dfbcb8c3bf103bbc",
+    "historical": false
+  }
+}
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'checkpoint_count_two_material_fallback_is_rejected_by_mcp' (721197) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+count_two transport=MCP must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:6fa0e15d471c1d12fc89402e0c352b306f9e0575bfdedc94ef49b71db72bbc8b","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"material_review_projection_unavailable","kind":"unknown","message":"current projection reports material_review_projection_unavailable"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"67a2e8bf2ad2c8d4ac58949b61ec423f75317e94","blockers":["material_review_projection_unavailable","governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":null,"missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":2},"rawScannerUnknowns":[],"repositoryId":"sha256:8b2f86fd21df635610dcf32aefcc57d055bd166892388ed6fb90762600d01699","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:e287e9bb5e434ece7e95b9365913e403b5f24c4323d8690ab08982a4b6899c5f","sourceDigests":{"contract":"sha256:f7db85547325f68bbfdabde25fe6a0aed5a6d6af2d07bb1bab1ce3c5f0fe0494","repositorySnapshot":"sha256:e287e9bb5e434ece7e95b9365913e403b5f24c4323d8690ab08982a4b6899c5f","summary":"sha256:bd03ce59e225c3b5772559d7ecf33da626cbb9f9bc8b70005f7cecdb52411cd5","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:d09d72b7a5256008565f7866625c17e71ccbe01cf168736586bcbb969f6d0c54","unknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:19Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={"id":1,"jsonrpc":"2.0","result":{"content":[{"text":"{\"actionAdmission\":{\"actionExplanation\":{\"admissionDigest\":\"sha256:6fa0e15d471c1d12fc89402e0c352b306f9e0575bfdedc94ef49b71db72bbc8b\",\"admissionState\":\"needs_human_decision\",\"guideId\":\"verification-failure-recovery\",\"humanDecisionRequired\":true,\"issues\":[{\"code\":\"evidence_contradictory\",\"kind\":\"contradictory\",\"message\":\"current projection reports evidence_contradictory\"},{\"code\":\"material_review_projection_unavailable\",\"kind\":\"unknown\",\"message\":\"current projection reports material_review_projection_unavailable\"},{\"code\":\"user_visible_benefit_not_declared\",\"kind\":\"unknown\",\"message\":\"current projection reports user_visible_benefit_not_declared\"}],\"missingInputs\":[\"evidence_contradictory\"],\"recommendationReason\":\"Runtime requires a current human decision before continuing\",\"recommendedAction\":\"run_preflight\"},\"activityHealth\":\"degraded\",\"baseCommit\":\"67a2e8bf2ad2c8d4ac58949b61ec423f75317e94\",\"blockers\":[\"material_review_projection_unavailable\",\"governance_red\"],\"blocking\":true,\"completionDomains\":{\"closure\":\"open\",\"implementation\":\"active\",\"integration\":\"not_applicable\",\"resourceCleanup\":\"not_started\",\"review\":\"required\",\"verification\":\"unknown\",\"workResult\":\"unknown\"},\"dependencies\":[],\"diagnostics\":[],\"effectiveUnknowns\":[\"evidence_contradictory\",\"material_review_projection_unavailable\",\"user_visible_benefit_not_declared\"],\"evidenceFreshness\":{\"reason\":\"verification evidence exists but does not authorize the current status\",\"state\":\"stale_or_invalid\"},\"governancePermissions\":[\"read_status\",\"read_outcome\"],\"governanceState\":\"red\",\"historical\":false,\"humanDecisionRequired\":true,\"humanDecisions\":[],\"lifecyclePhase\":\"checkpointed\",\"materialManifestDigest\":null,\"missingEvidence\":[\"evidence_contradictory\"],\"progressFacts\":{\"acceptanceCriteriaDeclared\":1,\"acceptanceEvidenceEntries\":0,\"changedPathCount\":4,\"checkpointCount\":2},\"rawScannerUnknowns\":[],\"repositoryId\":\"sha256:8b2f86fd21df635610dcf32aefcc57d055bd166892388ed6fb90762600d01699\",\"reviewAssurance\":null,\"reviewReceiptDigest\":null,\"risks\":[],\"safeActions\":[\"record_governance_controls\",\"record_usage\",\"refresh_status\",\"resolve_blockers\",\"run_preflight\",\"stop\"],\"schemaVersion\":1,\"snapshotDigest\":\"sha256:e287e9bb5e434ece7e95b9365913e403b5f24c4323d8690ab08982a4b6899c5f\",\"sourceDigests\":{\"contract\":\"sha256:f7db85547325f68bbfdabde25fe6a0aed5a6d6af2d07bb1bab1ce3c5f0fe0494\",\"repositorySnapshot\":\"sha256:e287e9bb5e434ece7e95b9365913e403b5f24c4323d8690ab08982a4b6899c5f\",\"summary\":\"sha256:bf2c07fe19f134700215809b64c16821d6826d5c076aea468030aaeb0bdad0f8\",\"verificationEvidence\":\"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9\"},\"statusDigest\":\"sha256:46a21edb5eae371ba9bf611475e93636d43b69ca62ae0dfe16dafe6b274c0202\",\"unknowns\":[\"evidence_contradictory\",\"material_review_projection_unavailable\",\"user_visible_benefit_not_declared\"],\"updatedAt\":\"2026-10-16T02:11:19Z\",\"verification\":\"unknown\",\"workItemId\":\"WI-CLI-AMEND-PARITY\"},\"authority\":\"authorized\",\"blockers\":[\"evidence_contradictory\",\"material_review_projection_unavailable\"],\"changedPaths\":[\".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json\"],\"effective_unknowns\":[\"material_review_projection_unavailable\"],\"humanDecisionRequest\":{\"decisionId\":\"contract-preflight-review\",\"options\":[{\"effect\":\"Record an identity-bound decision for this exact Contract and preflight snapshot.\",\"id\":\"confirm_review\",\"label\":\"Confirm the amended plan\"},{\"effect\":\"Record a further reasoned amendment and rerun preflight.\",\"id\":\"amend_contract\",\"label\":\"Revise the amended plan\"},{\"effect\":\"Leave the item recoverable without starting verification.\",\"id\":\"stop_work\",\"label\":\"Stop the Work Item\"}],\"question\":\"Do you confirm the current amended Contract for continued work?\",\"recommendationReason\":\"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.\",\"recommendedOption\":\"confirm_review\",\"resumeCondition\":\"A fresh preflight decision receipt matches the current Contract and repository snapshot.\",\"status\":\"needs_human_confirmation\",\"whatHappened\":\"A sensitive Contract amendment was recorded and still requires explicit human review.\",\"whyItMatters\":\"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.\"},\"outcome_state\":\"blocked\",\"required_checks\":[\"evidence_consistency\",\"human_review\"],\"reviewState\":\"needs_human_confirmation\",\"safe_actions\":[\"record_fresh_preflight_decision\",\"stop_and_reconcile_evidence\"],\"state\":\"red\",\"unknowns\":[\"contract_amendment_policy_review_required\",\"material_review_projection_unavailable\"]}","type":"text"}],"isError":false,"structuredContent":{"actionAdmission":{"actionExplanation":{"admissionDigest":"sha256:6fa0e15d471c1d12fc89402e0c352b306f9e0575bfdedc94ef49b71db72bbc8b","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"material_review_projection_unavailable","kind":"unknown","message":"current projection reports material_review_projection_unavailable"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"67a2e8bf2ad2c8d4ac58949b61ec423f75317e94","blockers":["material_review_projection_unavailable","governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":null,"missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":2},"rawScannerUnknowns":[],"repositoryId":"sha256:8b2f86fd21df635610dcf32aefcc57d055bd166892388ed6fb90762600d01699","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:e287e9bb5e434ece7e95b9365913e403b5f24c4323d8690ab08982a4b6899c5f","sourceDigests":{"contract":"sha256:f7db85547325f68bbfdabde25fe6a0aed5a6d6af2d07bb1bab1ce3c5f0fe0494","repositorySnapshot":"sha256:e287e9bb5e434ece7e95b9365913e403b5f24c4323d8690ab08982a4b6899c5f","summary":"sha256:bf2c07fe19f134700215809b64c16821d6826d5c076aea468030aaeb0bdad0f8","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:46a21edb5eae371ba9bf611475e93636d43b69ca62ae0dfe16dafe6b274c0202","unknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:19Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"},"authority":"authorized","blockers":["evidence_contradictory","material_review_projection_unavailable"],"changedPaths":[".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"],"effective_unknowns":["material_review_projection_unavailable"],"humanDecisionRequest":{"decisionId":"contract-preflight-review","options":[{"effect":"Record an identity-bound decision for this exact Contract and preflight snapshot.","id":"confirm_review","label":"Confirm the amended plan"},{"effect":"Record a further reasoned amendment and rerun preflight.","id":"amend_contract","label":"Revise the amended plan"},{"effect":"Leave the item recoverable without starting verification.","id":"stop_work","label":"Stop the Work Item"}],"question":"Do you confirm the current amended Contract for continued work?","recommendationReason":"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.","recommendedOption":"confirm_review","resumeCondition":"A fresh preflight decision receipt matches the current Contract and repository snapshot.","status":"needs_human_confirmation","whatHappened":"A sensitive Contract amendment was recorded and still requires explicit human review.","whyItMatters":"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision."},"outcome_state":"blocked","required_checks":["evidence_consistency","human_review"],"reviewState":"needs_human_confirmation","safe_actions":["record_fresh_preflight_decision","stop_and_reconcile_evidence"],"state":"red","unknowns":["contract_amendment_policy_review_required","material_review_projection_unavailable"]}}}
+
+thread 'checkpoint_count_zero_material_fallback_is_rejected_by_cli' (721566) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+count_zero transport=CLI must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:e0408295928b2627a66bfe5c73cec91d3ffc65e8adb818ea8e1395293491d166","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"material_review_projection_unavailable","kind":"unknown","message":"current projection reports material_review_projection_unavailable"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"67a2e8bf2ad2c8d4ac58949b61ec423f75317e94","blockers":["material_review_projection_unavailable","governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":null,"missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":0},"rawScannerUnknowns":[],"repositoryId":"sha256:dbea7fe7d2ebd3a6dd218220ecacbd7ea17a22512512a934bf48099825b46551","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:cf90a8e604a8dc73aef29434aadc4350d6519835906af5fec410544acb7c9c89","sourceDigests":{"contract":"sha256:16c70a1287bfc0160cd50f7fa69b419169ef03ac13f595b8cb406458faa3c476","repositorySnapshot":"sha256:cf90a8e604a8dc73aef29434aadc4350d6519835906af5fec410544acb7c9c89","summary":"sha256:c068f2b7226517bbaf853de5b612b86a7b79805d68b8743dd8fe164aca461f96","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:b9905aca93b49973aff66130b100889776e61cf5250bbef4207d16ff44423a6f","unknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:19Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={
+  "state": "red",
+  "blockers": [
+    "evidence_contradictory",
+    "material_review_projection_unavailable"
+  ],
+  "unknowns": [
+    "contract_amendment_policy_review_required",
+    "material_review_projection_unavailable"
+  ],
+  "effective_unknowns": [
+    "material_review_projection_unavailable"
+  ],
+  "safe_actions": [
+    "record_fresh_preflight_decision",
+    "stop_and_reconcile_evidence"
+  ],
+  "required_checks": [
+    "evidence_consistency",
+    "human_review"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:dbea7fe7d2ebd3a6dd218220ecacbd7ea17a22512512a934bf48099825b46551",
+    "workItemId": "WI-CLI-AMEND-PARITY",
+    "baseCommit": "67a2e8bf2ad2c8d4ac58949b61ec423f75317e94",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "red",
+    "activityHealth": "degraded",
+    "blocking": true,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 1,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 0
+    },
+    "blockers": [
+      "material_review_projection_unavailable",
+      "governance_red"
+    ],
+    "missingEvidence": [
+      "evidence_contradictory"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [],
+    "verification": "unknown",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "unknown",
+      "workResult": "unknown"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:16c70a1287bfc0160cd50f7fa69b419169ef03ac13f595b8cb406458faa3c476",
+      "repositorySnapshot": "sha256:cf90a8e604a8dc73aef29434aadc4350d6519835906af5fec410544acb7c9c89",
+      "summary": "sha256:f908d74a20597c60e9b2db687dc1e4cb0e9c8a3047542f1dee131dde946d0e0f",
+      "verificationEvidence": "sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"
+    },
+    "unknowns": [
+      "evidence_contradictory",
+      "material_review_projection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": null,
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_contradictory",
+      "material_review_projection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:cf90a8e604a8dc73aef29434aadc4350d6519835906af5fec410544acb7c9c89",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "updatedAt": "2026-10-16T02:11:19Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "run_preflight",
+      "stop"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "contradictory",
+          "code": "evidence_contradictory",
+          "message": "current projection reports evidence_contradictory"
+        },
+        {
+          "kind": "unknown",
+          "code": "material_review_projection_unavailable",
+          "message": "current projection reports material_review_projection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "evidence_contradictory"
+      ],
+      "admissionDigest": "sha256:e0408295928b2627a66bfe5c73cec91d3ffc65e8adb818ea8e1395293491d166"
+    },
+    "statusDigest": "sha256:506f417a71e5609dedd359139ae460b38215df5b40c37f8942d5451c088d3bb9",
+    "historical": false
+  }
+}
+
+
+thread 'checkpoint_count_zero_material_fallback_is_rejected_by_mcp' (721941) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+count_zero transport=MCP must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:80df23d217b5c0436da71493197b8be6967da8ecb848c87ee9648b3faa602783","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"material_review_projection_unavailable","kind":"unknown","message":"current projection reports material_review_projection_unavailable"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"00a7deac569a7490bfe616dd90a32242fa8969b9","blockers":["material_review_projection_unavailable","governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":null,"missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":0},"rawScannerUnknowns":[],"repositoryId":"sha256:306081c0b8ca75527e7734d470a2695057f830672e85df3eb704be4c41aefaa7","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:d4c40bba1f9dd290350a2b76f58a6ce8d15de79a306e088fbad4cff715b611c6","sourceDigests":{"contract":"sha256:cd323b04bb968d683dfb4ea569b5fa2d835824ccb17bfc601dc8d52b706f99b6","repositorySnapshot":"sha256:d4c40bba1f9dd290350a2b76f58a6ce8d15de79a306e088fbad4cff715b611c6","summary":"sha256:368c2ab62d11dfb56dced703d2a2240f131019c546e9fda3d4f6dc7f12cb9454","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:eb5abed682885457c0352aeb13ac50f1c4e6ef17518af121ddb02f5ff110e7df","unknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:20Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={"id":1,"jsonrpc":"2.0","result":{"content":[{"text":"{\"actionAdmission\":{\"actionExplanation\":{\"admissionDigest\":\"sha256:80df23d217b5c0436da71493197b8be6967da8ecb848c87ee9648b3faa602783\",\"admissionState\":\"needs_human_decision\",\"guideId\":\"verification-failure-recovery\",\"humanDecisionRequired\":true,\"issues\":[{\"code\":\"evidence_contradictory\",\"kind\":\"contradictory\",\"message\":\"current projection reports evidence_contradictory\"},{\"code\":\"material_review_projection_unavailable\",\"kind\":\"unknown\",\"message\":\"current projection reports material_review_projection_unavailable\"},{\"code\":\"user_visible_benefit_not_declared\",\"kind\":\"unknown\",\"message\":\"current projection reports user_visible_benefit_not_declared\"}],\"missingInputs\":[\"evidence_contradictory\"],\"recommendationReason\":\"Runtime requires a current human decision before continuing\",\"recommendedAction\":\"run_preflight\"},\"activityHealth\":\"degraded\",\"baseCommit\":\"00a7deac569a7490bfe616dd90a32242fa8969b9\",\"blockers\":[\"material_review_projection_unavailable\",\"governance_red\"],\"blocking\":true,\"completionDomains\":{\"closure\":\"open\",\"implementation\":\"active\",\"integration\":\"not_applicable\",\"resourceCleanup\":\"not_started\",\"review\":\"required\",\"verification\":\"unknown\",\"workResult\":\"unknown\"},\"dependencies\":[],\"diagnostics\":[],\"effectiveUnknowns\":[\"evidence_contradictory\",\"material_review_projection_unavailable\",\"user_visible_benefit_not_declared\"],\"evidenceFreshness\":{\"reason\":\"verification evidence exists but does not authorize the current status\",\"state\":\"stale_or_invalid\"},\"governancePermissions\":[\"read_status\",\"read_outcome\"],\"governanceState\":\"red\",\"historical\":false,\"humanDecisionRequired\":true,\"humanDecisions\":[],\"lifecyclePhase\":\"checkpointed\",\"materialManifestDigest\":null,\"missingEvidence\":[\"evidence_contradictory\"],\"progressFacts\":{\"acceptanceCriteriaDeclared\":1,\"acceptanceEvidenceEntries\":0,\"changedPathCount\":4,\"checkpointCount\":0},\"rawScannerUnknowns\":[],\"repositoryId\":\"sha256:306081c0b8ca75527e7734d470a2695057f830672e85df3eb704be4c41aefaa7\",\"reviewAssurance\":null,\"reviewReceiptDigest\":null,\"risks\":[],\"safeActions\":[\"record_governance_controls\",\"record_usage\",\"refresh_status\",\"resolve_blockers\",\"run_preflight\",\"stop\"],\"schemaVersion\":1,\"snapshotDigest\":\"sha256:d4c40bba1f9dd290350a2b76f58a6ce8d15de79a306e088fbad4cff715b611c6\",\"sourceDigests\":{\"contract\":\"sha256:cd323b04bb968d683dfb4ea569b5fa2d835824ccb17bfc601dc8d52b706f99b6\",\"repositorySnapshot\":\"sha256:d4c40bba1f9dd290350a2b76f58a6ce8d15de79a306e088fbad4cff715b611c6\",\"summary\":\"sha256:84eb275a6a3bcd39965584da3b3a461e76f489e61b10343601b5384fb7c45e95\",\"verificationEvidence\":\"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9\"},\"statusDigest\":\"sha256:c53d1257edcd3506ba95eef5604df373b50467de02ce8ffc81adc91bb734cd37\",\"unknowns\":[\"evidence_contradictory\",\"material_review_projection_unavailable\",\"user_visible_benefit_not_declared\"],\"updatedAt\":\"2026-10-16T02:11:20Z\",\"verification\":\"unknown\",\"workItemId\":\"WI-CLI-AMEND-PARITY\"},\"authority\":\"authorized\",\"blockers\":[\"evidence_contradictory\",\"material_review_projection_unavailable\"],\"changedPaths\":[\".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json\"],\"effective_unknowns\":[\"material_review_projection_unavailable\"],\"humanDecisionRequest\":{\"decisionId\":\"contract-preflight-review\",\"options\":[{\"effect\":\"Record an identity-bound decision for this exact Contract and preflight snapshot.\",\"id\":\"confirm_review\",\"label\":\"Confirm the amended plan\"},{\"effect\":\"Record a further reasoned amendment and rerun preflight.\",\"id\":\"amend_contract\",\"label\":\"Revise the amended plan\"},{\"effect\":\"Leave the item recoverable without starting verification.\",\"id\":\"stop_work\",\"label\":\"Stop the Work Item\"}],\"question\":\"Do you confirm the current amended Contract for continued work?\",\"recommendationReason\":\"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.\",\"recommendedOption\":\"confirm_review\",\"resumeCondition\":\"A fresh preflight decision receipt matches the current Contract and repository snapshot.\",\"status\":\"needs_human_confirmation\",\"whatHappened\":\"A sensitive Contract amendment was recorded and still requires explicit human review.\",\"whyItMatters\":\"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.\"},\"outcome_state\":\"blocked\",\"required_checks\":[\"evidence_consistency\",\"human_review\"],\"reviewState\":\"needs_human_confirmation\",\"safe_actions\":[\"record_fresh_preflight_decision\",\"stop_and_reconcile_evidence\"],\"state\":\"red\",\"unknowns\":[\"contract_amendment_policy_review_required\",\"material_review_projection_unavailable\"]}","type":"text"}],"isError":false,"structuredContent":{"actionAdmission":{"actionExplanation":{"admissionDigest":"sha256:80df23d217b5c0436da71493197b8be6967da8ecb848c87ee9648b3faa602783","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"material_review_projection_unavailable","kind":"unknown","message":"current projection reports material_review_projection_unavailable"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"00a7deac569a7490bfe616dd90a32242fa8969b9","blockers":["material_review_projection_unavailable","governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":null,"missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":0},"rawScannerUnknowns":[],"repositoryId":"sha256:306081c0b8ca75527e7734d470a2695057f830672e85df3eb704be4c41aefaa7","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:d4c40bba1f9dd290350a2b76f58a6ce8d15de79a306e088fbad4cff715b611c6","sourceDigests":{"contract":"sha256:cd323b04bb968d683dfb4ea569b5fa2d835824ccb17bfc601dc8d52b706f99b6","repositorySnapshot":"sha256:d4c40bba1f9dd290350a2b76f58a6ce8d15de79a306e088fbad4cff715b611c6","summary":"sha256:84eb275a6a3bcd39965584da3b3a461e76f489e61b10343601b5384fb7c45e95","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:c53d1257edcd3506ba95eef5604df373b50467de02ce8ffc81adc91bb734cd37","unknowns":["evidence_contradictory","material_review_projection_unavailable","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:20Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"},"authority":"authorized","blockers":["evidence_contradictory","material_review_projection_unavailable"],"changedPaths":[".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"],"effective_unknowns":["material_review_projection_unavailable"],"humanDecisionRequest":{"decisionId":"contract-preflight-review","options":[{"effect":"Record an identity-bound decision for this exact Contract and preflight snapshot.","id":"confirm_review","label":"Confirm the amended plan"},{"effect":"Record a further reasoned amendment and rerun preflight.","id":"amend_contract","label":"Revise the amended plan"},{"effect":"Leave the item recoverable without starting verification.","id":"stop_work","label":"Stop the Work Item"}],"question":"Do you confirm the current amended Contract for continued work?","recommendationReason":"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.","recommendedOption":"confirm_review","resumeCondition":"A fresh preflight decision receipt matches the current Contract and repository snapshot.","status":"needs_human_confirmation","whatHappened":"A sensitive Contract amendment was recorded and still requires explicit human review.","whyItMatters":"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision."},"outcome_state":"blocked","required_checks":["evidence_consistency","human_review"],"reviewState":"needs_human_confirmation","safe_actions":["record_fresh_preflight_decision","stop_and_reconcile_evidence"],"state":"red","unknowns":["contract_amendment_policy_review_required","material_review_projection_unavailable"]}}}
+
+thread 'checkpoint_source_pair_forged_digest_is_rejected_by_cli' (722316) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+forged_digest transport=CLI must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:acf65f731910de443dd317a4ae1d7625664b0e81d7269269653653b7daefe1d4","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"346220f5c7c74efc7935e9e2cac9a043e6d2075d","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:b5b37d6d76dfa635dc207c7533e0689168140a4158e5f3189128f4ede0b1667f","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:fcf19258efd1360b531c4867e629d82cfd2b5d41a4f2ac324f3549ebb582c04c","sourceDigests":{"contract":"sha256:d74aeb0c8ff616d3b5d15dbcf628f58c4b5ed8e25209329b3b1beb6086e44c32","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:fcf19258efd1360b531c4867e629d82cfd2b5d41a4f2ac324f3549ebb582c04c","summary":"sha256:36376bae0ac52d2141b919454ee38eee86f7777093be506ce071e2271fc990ed","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:47fb8fb95e132548c744ab4c6aa14f175951240c272bc294a150ba95e0e0ebef","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:21Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={
+  "state": "red",
+  "blockers": [
+    "evidence_contradictory"
+  ],
+  "unknowns": [
+    "contract_amendment_policy_review_required"
+  ],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "safe_actions": [
+    "record_fresh_preflight_decision",
+    "stop_and_reconcile_evidence"
+  ],
+  "required_checks": [
+    "evidence_consistency",
+    "human_review"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:b5b37d6d76dfa635dc207c7533e0689168140a4158e5f3189128f4ede0b1667f",
+    "workItemId": "WI-CLI-AMEND-PARITY",
+    "baseCommit": "346220f5c7c74efc7935e9e2cac9a043e6d2075d",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "red",
+    "activityHealth": "degraded",
+    "blocking": true,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 1,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 1
+    },
+    "blockers": [
+      "governance_red"
+    ],
+    "missingEvidence": [
+      "evidence_contradictory"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [],
+    "verification": "unknown",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "unknown",
+      "workResult": "unknown"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:d74aeb0c8ff616d3b5d15dbcf628f58c4b5ed8e25209329b3b1beb6086e44c32",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:fcf19258efd1360b531c4867e629d82cfd2b5d41a4f2ac324f3549ebb582c04c",
+      "summary": "sha256:df506b4cb3f9e68bf8df9b711895d557e36cd7544b205e28db014129d74fd96a",
+      "verificationEvidence": "sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"
+    },
+    "unknowns": [
+      "evidence_contradictory",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_contradictory",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:fcf19258efd1360b531c4867e629d82cfd2b5d41a4f2ac324f3549ebb582c04c",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "updatedAt": "2026-10-16T02:11:21Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "run_preflight",
+      "stop"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "contradictory",
+          "code": "evidence_contradictory",
+          "message": "current projection reports evidence_contradictory"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "evidence_contradictory"
+      ],
+      "admissionDigest": "sha256:acf65f731910de443dd317a4ae1d7625664b0e81d7269269653653b7daefe1d4"
+    },
+    "statusDigest": "sha256:3501d996cfe877de3533a289acabb2e18334ed26afa873327cfb106ec3c99221",
+    "historical": false
+  }
+}
+
+
+thread 'checkpoint_source_pair_forged_digest_is_rejected_by_mcp' (722757) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+forged_digest transport=MCP must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:51565208ddca1fdd59480619dd478324c3c5d9dca7235ebf55f3c6a23224a746","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"346220f5c7c74efc7935e9e2cac9a043e6d2075d","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:d7d3842614217374dd11fbe2e7cf65081763f1dafcf2271d597063dc104e6acd","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:fbd4708d2369089d97a84100b0650bce77a338928bd0cce642274bf020ae200b","sourceDigests":{"contract":"sha256:67f04efce01b00da37ad4acdcb7438edd9e327eceb14f7e1fab0731b7a018040","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:fbd4708d2369089d97a84100b0650bce77a338928bd0cce642274bf020ae200b","summary":"sha256:4671a9083c251518a9999ffc8026fde63c1bf2556e216afb480313460ca54478","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:1ef3fe509666feeec81781b4e4384134fc723486ea17fda8ddf31d2363e3d265","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:22Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={"id":1,"jsonrpc":"2.0","result":{"content":[{"text":"{\"actionAdmission\":{\"actionExplanation\":{\"admissionDigest\":\"sha256:51565208ddca1fdd59480619dd478324c3c5d9dca7235ebf55f3c6a23224a746\",\"admissionState\":\"needs_human_decision\",\"guideId\":\"verification-failure-recovery\",\"humanDecisionRequired\":true,\"issues\":[{\"code\":\"evidence_contradictory\",\"kind\":\"contradictory\",\"message\":\"current projection reports evidence_contradictory\"},{\"code\":\"user_visible_benefit_not_declared\",\"kind\":\"unknown\",\"message\":\"current projection reports user_visible_benefit_not_declared\"}],\"missingInputs\":[\"evidence_contradictory\"],\"recommendationReason\":\"Runtime requires a current human decision before continuing\",\"recommendedAction\":\"run_preflight\"},\"activityHealth\":\"degraded\",\"baseCommit\":\"346220f5c7c74efc7935e9e2cac9a043e6d2075d\",\"blockers\":[\"governance_red\"],\"blocking\":true,\"completionDomains\":{\"closure\":\"open\",\"implementation\":\"active\",\"integration\":\"not_applicable\",\"resourceCleanup\":\"not_started\",\"review\":\"required\",\"verification\":\"unknown\",\"workResult\":\"unknown\"},\"dependencies\":[],\"diagnostics\":[],\"effectiveUnknowns\":[\"evidence_contradictory\",\"user_visible_benefit_not_declared\"],\"evidenceFreshness\":{\"reason\":\"verification evidence exists but does not authorize the current status\",\"state\":\"stale_or_invalid\"},\"governancePermissions\":[\"read_status\",\"read_outcome\"],\"governanceState\":\"red\",\"historical\":false,\"humanDecisionRequired\":true,\"humanDecisions\":[],\"lifecyclePhase\":\"checkpointed\",\"materialManifestDigest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"missingEvidence\":[\"evidence_contradictory\"],\"progressFacts\":{\"acceptanceCriteriaDeclared\":1,\"acceptanceEvidenceEntries\":0,\"changedPathCount\":4,\"checkpointCount\":1},\"rawScannerUnknowns\":[],\"repositoryId\":\"sha256:d7d3842614217374dd11fbe2e7cf65081763f1dafcf2271d597063dc104e6acd\",\"reviewAssurance\":null,\"reviewReceiptDigest\":null,\"risks\":[],\"safeActions\":[\"record_governance_controls\",\"record_usage\",\"refresh_status\",\"resolve_blockers\",\"run_preflight\",\"stop\"],\"schemaVersion\":1,\"snapshotDigest\":\"sha256:fbd4708d2369089d97a84100b0650bce77a338928bd0cce642274bf020ae200b\",\"sourceDigests\":{\"contract\":\"sha256:67f04efce01b00da37ad4acdcb7438edd9e327eceb14f7e1fab0731b7a018040\",\"materialManifest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"repositorySnapshot\":\"sha256:fbd4708d2369089d97a84100b0650bce77a338928bd0cce642274bf020ae200b\",\"summary\":\"sha256:99f77f63b362beb8867c9ca98ec032f28d95f9e76301eb2bc552abd689c923bc\",\"verificationEvidence\":\"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9\"},\"statusDigest\":\"sha256:809530102f15e743491e10e4826e71f6404c87c9a0818b47a2e149a9ae98aa49\",\"unknowns\":[\"evidence_contradictory\",\"user_visible_benefit_not_declared\"],\"updatedAt\":\"2026-10-16T02:11:22Z\",\"verification\":\"unknown\",\"workItemId\":\"WI-CLI-AMEND-PARITY\"},\"authority\":\"authorized\",\"blockers\":[\"evidence_contradictory\"],\"changedPaths\":[\".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json\"],\"humanDecisionRequest\":{\"decisionId\":\"contract-preflight-review\",\"options\":[{\"effect\":\"Record an identity-bound decision for this exact Contract and preflight snapshot.\",\"id\":\"confirm_review\",\"label\":\"Confirm the amended plan\"},{\"effect\":\"Record a further reasoned amendment and rerun preflight.\",\"id\":\"amend_contract\",\"label\":\"Revise the amended plan\"},{\"effect\":\"Leave the item recoverable without starting verification.\",\"id\":\"stop_work\",\"label\":\"Stop the Work Item\"}],\"question\":\"Do you confirm the current amended Contract for continued work?\",\"recommendationReason\":\"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.\",\"recommendedOption\":\"confirm_review\",\"resumeCondition\":\"A fresh preflight decision receipt matches the current Contract and repository snapshot.\",\"status\":\"needs_human_confirmation\",\"whatHappened\":\"A sensitive Contract amendment was recorded and still requires explicit human review.\",\"whyItMatters\":\"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.\"},\"material_manifest_digest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"outcome_state\":\"blocked\",\"required_checks\":[\"evidence_consistency\",\"human_review\"],\"reviewState\":\"needs_human_confirmation\",\"safe_actions\":[\"record_fresh_preflight_decision\",\"stop_and_reconcile_evidence\"],\"state\":\"red\",\"unknowns\":[\"contract_amendment_policy_review_required\"]}","type":"text"}],"isError":false,"structuredContent":{"actionAdmission":{"actionExplanation":{"admissionDigest":"sha256:51565208ddca1fdd59480619dd478324c3c5d9dca7235ebf55f3c6a23224a746","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"346220f5c7c74efc7935e9e2cac9a043e6d2075d","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:d7d3842614217374dd11fbe2e7cf65081763f1dafcf2271d597063dc104e6acd","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:fbd4708d2369089d97a84100b0650bce77a338928bd0cce642274bf020ae200b","sourceDigests":{"contract":"sha256:67f04efce01b00da37ad4acdcb7438edd9e327eceb14f7e1fab0731b7a018040","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:fbd4708d2369089d97a84100b0650bce77a338928bd0cce642274bf020ae200b","summary":"sha256:99f77f63b362beb8867c9ca98ec032f28d95f9e76301eb2bc552abd689c923bc","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:809530102f15e743491e10e4826e71f6404c87c9a0818b47a2e149a9ae98aa49","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:22Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"},"authority":"authorized","blockers":["evidence_contradictory"],"changedPaths":[".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"],"humanDecisionRequest":{"decisionId":"contract-preflight-review","options":[{"effect":"Record an identity-bound decision for this exact Contract and preflight snapshot.","id":"confirm_review","label":"Confirm the amended plan"},{"effect":"Record a further reasoned amendment and rerun preflight.","id":"amend_contract","label":"Revise the amended plan"},{"effect":"Leave the item recoverable without starting verification.","id":"stop_work","label":"Stop the Work Item"}],"question":"Do you confirm the current amended Contract for continued work?","recommendationReason":"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.","recommendedOption":"confirm_review","resumeCondition":"A fresh preflight decision receipt matches the current Contract and repository snapshot.","status":"needs_human_confirmation","whatHappened":"A sensitive Contract amendment was recorded and still requires explicit human review.","whyItMatters":"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision."},"material_manifest_digest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","outcome_state":"blocked","required_checks":["evidence_consistency","human_review"],"reviewState":"needs_human_confirmation","safe_actions":["record_fresh_preflight_decision","stop_and_reconcile_evidence"],"state":"red","unknowns":["contract_amendment_policy_review_required"]}}}
+
+thread 'checkpoint_source_pair_malformed_is_rejected_by_cli' (723200) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+malformed transport=CLI must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:7b268bfbb4e6bec200ff07f6022d9c4a3b0453648c7fd27d1cc5b5a4bb594f5f","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"bf770b67f40eb10a92c1a18ddae72d77406baae6","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:f616e16a664835ae72834eb3f927cc1c7c3a6a4a1eb558ec6d415fe3cbc282a3","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:63f27c212d7340f2fe72144df409b1dda791ce7cef6ab85047136195afefcd55","sourceDigests":{"contract":"sha256:2d3e009739b1c8fe9c34edd01c6c8bd28eb922ffaee94d58e5c5d90b15e7a73d","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:63f27c212d7340f2fe72144df409b1dda791ce7cef6ab85047136195afefcd55","summary":"sha256:98cbbe36370810d3b662bd88cb44c54f94ecf8cf16c8ffe8febf6b55331fbfa8","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:f12e29adbbb6825ac08a41973cf654b86af30b26d6f7f0231edc0706bb0a1565","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:22Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={
+  "state": "red",
+  "blockers": [
+    "evidence_contradictory"
+  ],
+  "unknowns": [
+    "contract_amendment_policy_review_required"
+  ],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "safe_actions": [
+    "record_fresh_preflight_decision",
+    "stop_and_reconcile_evidence"
+  ],
+  "required_checks": [
+    "evidence_consistency",
+    "human_review"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:f616e16a664835ae72834eb3f927cc1c7c3a6a4a1eb558ec6d415fe3cbc282a3",
+    "workItemId": "WI-CLI-AMEND-PARITY",
+    "baseCommit": "bf770b67f40eb10a92c1a18ddae72d77406baae6",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "red",
+    "activityHealth": "degraded",
+    "blocking": true,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 1,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 1
+    },
+    "blockers": [
+      "governance_red"
+    ],
+    "missingEvidence": [
+      "evidence_contradictory"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [],
+    "verification": "unknown",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "unknown",
+      "workResult": "unknown"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:2d3e009739b1c8fe9c34edd01c6c8bd28eb922ffaee94d58e5c5d90b15e7a73d",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:63f27c212d7340f2fe72144df409b1dda791ce7cef6ab85047136195afefcd55",
+      "summary": "sha256:42ddaf91ae8706c6adfde0394215082d3d971daadeed814eac2099379edfd137",
+      "verificationEvidence": "sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"
+    },
+    "unknowns": [
+      "evidence_contradictory",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_contradictory",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:63f27c212d7340f2fe72144df409b1dda791ce7cef6ab85047136195afefcd55",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "updatedAt": "2026-10-16T02:11:22Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "run_preflight",
+      "stop"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "contradictory",
+          "code": "evidence_contradictory",
+          "message": "current projection reports evidence_contradictory"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "evidence_contradictory"
+      ],
+      "admissionDigest": "sha256:7b268bfbb4e6bec200ff07f6022d9c4a3b0453648c7fd27d1cc5b5a4bb594f5f"
+    },
+    "statusDigest": "sha256:bbdfd9d8f2f0b2005f1f74218bda055e7ef77a1752b8609839287f2e7cd71ecb",
+    "historical": false
+  }
+}
+
+
+thread 'checkpoint_source_pair_malformed_is_rejected_by_mcp' (723645) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+malformed transport=MCP must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:14fb93300ba6f68d6e056f9ea443588ca62c673ebd70abbe69613cd9247bb524","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"0c274b4981087568575f36decb2ff1ab4828148c","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:0a60c372c007d2ceb0f95b62f296fbdde29eb54db2e3cffc8993ca3a15a64b2d","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:76cea5c524264d65408ed662af4e76f978d05bc4a400358ea7ad32bbfeca73e8","sourceDigests":{"contract":"sha256:dfe93103dadb46713ee7634a67692b1c65063a8c5be9c0c3092c6f4c347aaa92","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:76cea5c524264d65408ed662af4e76f978d05bc4a400358ea7ad32bbfeca73e8","summary":"sha256:7dc3b2903c4e02e2f29d7e1d3eab63149ad24a57793bc61eb7cb360dd43d909f","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:882da2b87f68d11d73e74c455a0167497eaa3af30d34bf30914c6fc21de09d0f","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:23Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={"id":1,"jsonrpc":"2.0","result":{"content":[{"text":"{\"actionAdmission\":{\"actionExplanation\":{\"admissionDigest\":\"sha256:14fb93300ba6f68d6e056f9ea443588ca62c673ebd70abbe69613cd9247bb524\",\"admissionState\":\"needs_human_decision\",\"guideId\":\"verification-failure-recovery\",\"humanDecisionRequired\":true,\"issues\":[{\"code\":\"evidence_contradictory\",\"kind\":\"contradictory\",\"message\":\"current projection reports evidence_contradictory\"},{\"code\":\"user_visible_benefit_not_declared\",\"kind\":\"unknown\",\"message\":\"current projection reports user_visible_benefit_not_declared\"}],\"missingInputs\":[\"evidence_contradictory\"],\"recommendationReason\":\"Runtime requires a current human decision before continuing\",\"recommendedAction\":\"run_preflight\"},\"activityHealth\":\"degraded\",\"baseCommit\":\"0c274b4981087568575f36decb2ff1ab4828148c\",\"blockers\":[\"governance_red\"],\"blocking\":true,\"completionDomains\":{\"closure\":\"open\",\"implementation\":\"active\",\"integration\":\"not_applicable\",\"resourceCleanup\":\"not_started\",\"review\":\"required\",\"verification\":\"unknown\",\"workResult\":\"unknown\"},\"dependencies\":[],\"diagnostics\":[],\"effectiveUnknowns\":[\"evidence_contradictory\",\"user_visible_benefit_not_declared\"],\"evidenceFreshness\":{\"reason\":\"verification evidence exists but does not authorize the current status\",\"state\":\"stale_or_invalid\"},\"governancePermissions\":[\"read_status\",\"read_outcome\"],\"governanceState\":\"red\",\"historical\":false,\"humanDecisionRequired\":true,\"humanDecisions\":[],\"lifecyclePhase\":\"checkpointed\",\"materialManifestDigest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"missingEvidence\":[\"evidence_contradictory\"],\"progressFacts\":{\"acceptanceCriteriaDeclared\":1,\"acceptanceEvidenceEntries\":0,\"changedPathCount\":4,\"checkpointCount\":1},\"rawScannerUnknowns\":[],\"repositoryId\":\"sha256:0a60c372c007d2ceb0f95b62f296fbdde29eb54db2e3cffc8993ca3a15a64b2d\",\"reviewAssurance\":null,\"reviewReceiptDigest\":null,\"risks\":[],\"safeActions\":[\"record_governance_controls\",\"record_usage\",\"refresh_status\",\"resolve_blockers\",\"run_preflight\",\"stop\"],\"schemaVersion\":1,\"snapshotDigest\":\"sha256:76cea5c524264d65408ed662af4e76f978d05bc4a400358ea7ad32bbfeca73e8\",\"sourceDigests\":{\"contract\":\"sha256:dfe93103dadb46713ee7634a67692b1c65063a8c5be9c0c3092c6f4c347aaa92\",\"materialManifest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"repositorySnapshot\":\"sha256:76cea5c524264d65408ed662af4e76f978d05bc4a400358ea7ad32bbfeca73e8\",\"summary\":\"sha256:03d0591387d3d626675dab1be2e0ba4d2f6b6778b2a4b06becd62b9c8987f823\",\"verificationEvidence\":\"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9\"},\"statusDigest\":\"sha256:6bd49f3306d8a0196b665d55808e6f2c279fa19a4fa865c0749ff26df6cc68ee\",\"unknowns\":[\"evidence_contradictory\",\"user_visible_benefit_not_declared\"],\"updatedAt\":\"2026-10-16T02:11:23Z\",\"verification\":\"unknown\",\"workItemId\":\"WI-CLI-AMEND-PARITY\"},\"authority\":\"authorized\",\"blockers\":[\"evidence_contradictory\"],\"changedPaths\":[\".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json\"],\"humanDecisionRequest\":{\"decisionId\":\"contract-preflight-review\",\"options\":[{\"effect\":\"Record an identity-bound decision for this exact Contract and preflight snapshot.\",\"id\":\"confirm_review\",\"label\":\"Confirm the amended plan\"},{\"effect\":\"Record a further reasoned amendment and rerun preflight.\",\"id\":\"amend_contract\",\"label\":\"Revise the amended plan\"},{\"effect\":\"Leave the item recoverable without starting verification.\",\"id\":\"stop_work\",\"label\":\"Stop the Work Item\"}],\"question\":\"Do you confirm the current amended Contract for continued work?\",\"recommendationReason\":\"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.\",\"recommendedOption\":\"confirm_review\",\"resumeCondition\":\"A fresh preflight decision receipt matches the current Contract and repository snapshot.\",\"status\":\"needs_human_confirmation\",\"whatHappened\":\"A sensitive Contract amendment was recorded and still requires explicit human review.\",\"whyItMatters\":\"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.\"},\"material_manifest_digest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"outcome_state\":\"blocked\",\"required_checks\":[\"evidence_consistency\",\"human_review\"],\"reviewState\":\"needs_human_confirmation\",\"safe_actions\":[\"record_fresh_preflight_decision\",\"stop_and_reconcile_evidence\"],\"state\":\"red\",\"unknowns\":[\"contract_amendment_policy_review_required\"]}","type":"text"}],"isError":false,"structuredContent":{"actionAdmission":{"actionExplanation":{"admissionDigest":"sha256:14fb93300ba6f68d6e056f9ea443588ca62c673ebd70abbe69613cd9247bb524","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"0c274b4981087568575f36decb2ff1ab4828148c","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:0a60c372c007d2ceb0f95b62f296fbdde29eb54db2e3cffc8993ca3a15a64b2d","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:76cea5c524264d65408ed662af4e76f978d05bc4a400358ea7ad32bbfeca73e8","sourceDigests":{"contract":"sha256:dfe93103dadb46713ee7634a67692b1c65063a8c5be9c0c3092c6f4c347aaa92","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:76cea5c524264d65408ed662af4e76f978d05bc4a400358ea7ad32bbfeca73e8","summary":"sha256:03d0591387d3d626675dab1be2e0ba4d2f6b6778b2a4b06becd62b9c8987f823","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:6bd49f3306d8a0196b665d55808e6f2c279fa19a4fa865c0749ff26df6cc68ee","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:23Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"},"authority":"authorized","blockers":["evidence_contradictory"],"changedPaths":[".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"],"humanDecisionRequest":{"decisionId":"contract-preflight-review","options":[{"effect":"Record an identity-bound decision for this exact Contract and preflight snapshot.","id":"confirm_review","label":"Confirm the amended plan"},{"effect":"Record a further reasoned amendment and rerun preflight.","id":"amend_contract","label":"Revise the amended plan"},{"effect":"Leave the item recoverable without starting verification.","id":"stop_work","label":"Stop the Work Item"}],"question":"Do you confirm the current amended Contract for continued work?","recommendationReason":"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.","recommendedOption":"confirm_review","resumeCondition":"A fresh preflight decision receipt matches the current Contract and repository snapshot.","status":"needs_human_confirmation","whatHappened":"A sensitive Contract amendment was recorded and still requires explicit human review.","whyItMatters":"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision."},"material_manifest_digest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","outcome_state":"blocked","required_checks":["evidence_consistency","human_review"],"reviewState":"needs_human_confirmation","safe_actions":["record_fresh_preflight_decision","stop_and_reconcile_evidence"],"state":"red","unknowns":["contract_amendment_policy_review_required"]}}}
+
+thread 'checkpoint_source_pair_missing_is_rejected_by_cli' (724084) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+missing transport=CLI must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:00b756c968abe3797445351efe532bc5a952d62a424082500f4447ea0941eb76","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"0c274b4981087568575f36decb2ff1ab4828148c","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:314236da6250b8901f08e9a5fab2578af110c57b8bf980ded59476e3e33cc350","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:d32aaef3d755980eca7ffa9bb16aa14f5a3bfaaa7464d1e9fe4b47026e681b38","sourceDigests":{"contract":"sha256:77c59a71665887435497c034fce317c7478402aeef7a85199ec2114e359079a8","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:d32aaef3d755980eca7ffa9bb16aa14f5a3bfaaa7464d1e9fe4b47026e681b38","summary":"sha256:369816a67bce6c4343e93fa80ce5bdaa22b1147f1861598a5c716ebd38ab032f","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:af3c34d271c887160602f85a1f87d3a24e02b2a4f4623de370b75a0f43963895","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:24Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={
+  "state": "red",
+  "blockers": [
+    "evidence_contradictory"
+  ],
+  "unknowns": [
+    "contract_amendment_policy_review_required"
+  ],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "safe_actions": [
+    "record_fresh_preflight_decision",
+    "stop_and_reconcile_evidence"
+  ],
+  "required_checks": [
+    "evidence_consistency",
+    "human_review"
+  ],
+  "authority": "authorized",
+  "outcome_state": "blocked",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:314236da6250b8901f08e9a5fab2578af110c57b8bf980ded59476e3e33cc350",
+    "workItemId": "WI-CLI-AMEND-PARITY",
+    "baseCommit": "0c274b4981087568575f36decb2ff1ab4828148c",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "red",
+    "activityHealth": "degraded",
+    "blocking": true,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 1,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 1
+    },
+    "blockers": [
+      "governance_red"
+    ],
+    "missingEvidence": [
+      "evidence_contradictory"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [],
+    "verification": "unknown",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "unknown",
+      "workResult": "unknown"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:77c59a71665887435497c034fce317c7478402aeef7a85199ec2114e359079a8",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:d32aaef3d755980eca7ffa9bb16aa14f5a3bfaaa7464d1e9fe4b47026e681b38",
+      "summary": "sha256:5992f4da7c1790c198c058855ad6a8f71da0a8d263374ad7b2a59022b4d2d20e",
+      "verificationEvidence": "sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"
+    },
+    "unknowns": [
+      "evidence_contradictory",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_contradictory",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:d32aaef3d755980eca7ffa9bb16aa14f5a3bfaaa7464d1e9fe4b47026e681b38",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "updatedAt": "2026-10-16T02:11:24Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "run_preflight",
+      "stop"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "contradictory",
+          "code": "evidence_contradictory",
+          "message": "current projection reports evidence_contradictory"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "evidence_contradictory"
+      ],
+      "admissionDigest": "sha256:00b756c968abe3797445351efe532bc5a952d62a424082500f4447ea0941eb76"
+    },
+    "statusDigest": "sha256:5539d2f1c8ede9279970ecfbc755a32c97aaf47789f833b10e4e87fbf5599b1e",
+    "historical": false
+  }
+}
+
+
+thread 'checkpoint_source_pair_missing_is_rejected_by_mcp' (724526) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:1471:5:
+missing transport=MCP must reject request generation; status={"actionExplanation":{"admissionDigest":"sha256:6da3d323e580bfdaf240cf5acab5b4984619416c4c9791ff6a1edd2de12c0807","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"173ff287202b91671ee6ddfba1b9b98c14875bde","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:fb7856637b75b953335a2c982403ca4d07211f57caff506e405fe1d4bdc25be6","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:3c8fa6a3c06d7a81c1115a21ebed0ccd0b3fb095307704603b84466863ee88c3","sourceDigests":{"contract":"sha256:2a370bcacff941ebb2e6726961454a1b64717aa66d75349d7490a1a37591e806","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:3c8fa6a3c06d7a81c1115a21ebed0ccd0b3fb095307704603b84466863ee88c3","summary":"sha256:04d40f49a4a5e595eb9fcee4f64311c4ab07780cc0a52a6fca6bc2392d936b55","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:209b5699e9e5e8a6633304cb3a1a8cb2cb1d6e81cf0d6b865fb9887629b83bba","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:24Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"}; response={"id":1,"jsonrpc":"2.0","result":{"content":[{"text":"{\"actionAdmission\":{\"actionExplanation\":{\"admissionDigest\":\"sha256:6da3d323e580bfdaf240cf5acab5b4984619416c4c9791ff6a1edd2de12c0807\",\"admissionState\":\"needs_human_decision\",\"guideId\":\"verification-failure-recovery\",\"humanDecisionRequired\":true,\"issues\":[{\"code\":\"evidence_contradictory\",\"kind\":\"contradictory\",\"message\":\"current projection reports evidence_contradictory\"},{\"code\":\"user_visible_benefit_not_declared\",\"kind\":\"unknown\",\"message\":\"current projection reports user_visible_benefit_not_declared\"}],\"missingInputs\":[\"evidence_contradictory\"],\"recommendationReason\":\"Runtime requires a current human decision before continuing\",\"recommendedAction\":\"run_preflight\"},\"activityHealth\":\"degraded\",\"baseCommit\":\"173ff287202b91671ee6ddfba1b9b98c14875bde\",\"blockers\":[\"governance_red\"],\"blocking\":true,\"completionDomains\":{\"closure\":\"open\",\"implementation\":\"active\",\"integration\":\"not_applicable\",\"resourceCleanup\":\"not_started\",\"review\":\"required\",\"verification\":\"unknown\",\"workResult\":\"unknown\"},\"dependencies\":[],\"diagnostics\":[],\"effectiveUnknowns\":[\"evidence_contradictory\",\"user_visible_benefit_not_declared\"],\"evidenceFreshness\":{\"reason\":\"verification evidence exists but does not authorize the current status\",\"state\":\"stale_or_invalid\"},\"governancePermissions\":[\"read_status\",\"read_outcome\"],\"governanceState\":\"red\",\"historical\":false,\"humanDecisionRequired\":true,\"humanDecisions\":[],\"lifecyclePhase\":\"checkpointed\",\"materialManifestDigest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"missingEvidence\":[\"evidence_contradictory\"],\"progressFacts\":{\"acceptanceCriteriaDeclared\":1,\"acceptanceEvidenceEntries\":0,\"changedPathCount\":4,\"checkpointCount\":1},\"rawScannerUnknowns\":[],\"repositoryId\":\"sha256:fb7856637b75b953335a2c982403ca4d07211f57caff506e405fe1d4bdc25be6\",\"reviewAssurance\":null,\"reviewReceiptDigest\":null,\"risks\":[],\"safeActions\":[\"record_governance_controls\",\"record_usage\",\"refresh_status\",\"resolve_blockers\",\"run_preflight\",\"stop\"],\"schemaVersion\":1,\"snapshotDigest\":\"sha256:3c8fa6a3c06d7a81c1115a21ebed0ccd0b3fb095307704603b84466863ee88c3\",\"sourceDigests\":{\"contract\":\"sha256:2a370bcacff941ebb2e6726961454a1b64717aa66d75349d7490a1a37591e806\",\"materialManifest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"repositorySnapshot\":\"sha256:3c8fa6a3c06d7a81c1115a21ebed0ccd0b3fb095307704603b84466863ee88c3\",\"summary\":\"sha256:5d28460e9583947794d1c546ba3fa6b3cac261d33e307d573c73776168dd952a\",\"verificationEvidence\":\"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9\"},\"statusDigest\":\"sha256:849a477662cea00cbc041daf34545aea465471fbff7538515f6e943a75fb62f1\",\"unknowns\":[\"evidence_contradictory\",\"user_visible_benefit_not_declared\"],\"updatedAt\":\"2026-10-16T02:11:24Z\",\"verification\":\"unknown\",\"workItemId\":\"WI-CLI-AMEND-PARITY\"},\"authority\":\"authorized\",\"blockers\":[\"evidence_contradictory\"],\"changedPaths\":[\".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json\"],\"humanDecisionRequest\":{\"decisionId\":\"contract-preflight-review\",\"options\":[{\"effect\":\"Record an identity-bound decision for this exact Contract and preflight snapshot.\",\"id\":\"confirm_review\",\"label\":\"Confirm the amended plan\"},{\"effect\":\"Record a further reasoned amendment and rerun preflight.\",\"id\":\"amend_contract\",\"label\":\"Revise the amended plan\"},{\"effect\":\"Leave the item recoverable without starting verification.\",\"id\":\"stop_work\",\"label\":\"Stop the Work Item\"}],\"question\":\"Do you confirm the current amended Contract for continued work?\",\"recommendationReason\":\"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.\",\"recommendedOption\":\"confirm_review\",\"resumeCondition\":\"A fresh preflight decision receipt matches the current Contract and repository snapshot.\",\"status\":\"needs_human_confirmation\",\"whatHappened\":\"A sensitive Contract amendment was recorded and still requires explicit human review.\",\"whyItMatters\":\"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.\"},\"material_manifest_digest\":\"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d\",\"outcome_state\":\"blocked\",\"required_checks\":[\"evidence_consistency\",\"human_review\"],\"reviewState\":\"needs_human_confirmation\",\"safe_actions\":[\"record_fresh_preflight_decision\",\"stop_and_reconcile_evidence\"],\"state\":\"red\",\"unknowns\":[\"contract_amendment_policy_review_required\"]}","type":"text"}],"isError":false,"structuredContent":{"actionAdmission":{"actionExplanation":{"admissionDigest":"sha256:6da3d323e580bfdaf240cf5acab5b4984619416c4c9791ff6a1edd2de12c0807","admissionState":"needs_human_decision","guideId":"verification-failure-recovery","humanDecisionRequired":true,"issues":[{"code":"evidence_contradictory","kind":"contradictory","message":"current projection reports evidence_contradictory"},{"code":"user_visible_benefit_not_declared","kind":"unknown","message":"current projection reports user_visible_benefit_not_declared"}],"missingInputs":["evidence_contradictory"],"recommendationReason":"Runtime requires a current human decision before continuing","recommendedAction":"run_preflight"},"activityHealth":"degraded","baseCommit":"173ff287202b91671ee6ddfba1b9b98c14875bde","blockers":["governance_red"],"blocking":true,"completionDomains":{"closure":"open","implementation":"active","integration":"not_applicable","resourceCleanup":"not_started","review":"required","verification":"unknown","workResult":"unknown"},"dependencies":[],"diagnostics":[],"effectiveUnknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"evidenceFreshness":{"reason":"verification evidence exists but does not authorize the current status","state":"stale_or_invalid"},"governancePermissions":["read_status","read_outcome"],"governanceState":"red","historical":false,"humanDecisionRequired":true,"humanDecisions":[],"lifecyclePhase":"checkpointed","materialManifestDigest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","missingEvidence":["evidence_contradictory"],"progressFacts":{"acceptanceCriteriaDeclared":1,"acceptanceEvidenceEntries":0,"changedPathCount":4,"checkpointCount":1},"rawScannerUnknowns":[],"repositoryId":"sha256:fb7856637b75b953335a2c982403ca4d07211f57caff506e405fe1d4bdc25be6","reviewAssurance":null,"reviewReceiptDigest":null,"risks":[],"safeActions":["record_governance_controls","record_usage","refresh_status","resolve_blockers","run_preflight","stop"],"schemaVersion":1,"snapshotDigest":"sha256:3c8fa6a3c06d7a81c1115a21ebed0ccd0b3fb095307704603b84466863ee88c3","sourceDigests":{"contract":"sha256:2a370bcacff941ebb2e6726961454a1b64717aa66d75349d7490a1a37591e806","materialManifest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","repositorySnapshot":"sha256:3c8fa6a3c06d7a81c1115a21ebed0ccd0b3fb095307704603b84466863ee88c3","summary":"sha256:5d28460e9583947794d1c546ba3fa6b3cac261d33e307d573c73776168dd952a","verificationEvidence":"sha256:2934245c778a82b3b79bb32de3a64095a3a3bb40d8535c281fd1a3caee08eff9"},"statusDigest":"sha256:849a477662cea00cbc041daf34545aea465471fbff7538515f6e943a75fb62f1","unknowns":["evidence_contradictory","user_visible_benefit_not_declared"],"updatedAt":"2026-10-16T02:11:24Z","verification":"unknown","workItemId":"WI-CLI-AMEND-PARITY"},"authority":"authorized","blockers":["evidence_contradictory"],"changedPaths":[".ai/work-items/active/WI-CLI-AMEND-PARITY.summary.json"],"humanDecisionRequest":{"decisionId":"contract-preflight-review","options":[{"effect":"Record an identity-bound decision for this exact Contract and preflight snapshot.","id":"confirm_review","label":"Confirm the amended plan"},{"effect":"Record a further reasoned amendment and rerun preflight.","id":"amend_contract","label":"Revise the amended plan"},{"effect":"Leave the item recoverable without starting verification.","id":"stop_work","label":"Stop the Work Item"}],"question":"Do you confirm the current amended Contract for continued work?","recommendationReason":"Only an identity-bound human decision can satisfy the review required by a sensitive plan change.","recommendedOption":"confirm_review","resumeCondition":"A fresh preflight decision receipt matches the current Contract and repository snapshot.","status":"needs_human_confirmation","whatHappened":"A sensitive Contract amendment was recorded and still requires explicit human review.","whyItMatters":"The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision."},"material_manifest_digest":"sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d","outcome_state":"blocked","required_checks":["evidence_consistency","human_review"],"reviewState":"needs_human_confirmation","safe_actions":["record_fresh_preflight_decision","stop_and_reconcile_evidence"],"state":"red","unknowns":["contract_amendment_policy_review_required"]}}}
+error: test failed, to rerun pass `-p cockpit-cli --test contract_amendment_processes`

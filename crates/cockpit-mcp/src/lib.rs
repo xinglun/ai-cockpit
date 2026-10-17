@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 31] = [
+const TOOL_NAMES: [&str; 33] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -28,6 +28,8 @@ const TOOL_NAMES: [&str; 31] = [
     "work_item_recover",
     "work_item_closeout_recovery_plan",
     "work_item_closeout_recover",
+    "work_item_legacy_closeout_source_plan",
+    "work_item_legacy_closeout_source_record",
     "work_item_recover_selected_lineage",
     "verify",
     "work_item_parallel",
@@ -37,6 +39,55 @@ const TOOL_NAMES: [&str; 31] = [
     "work_item_amendments",
     "work_item_environment_drift",
 ];
+
+fn legacy_source_payload_schema(plan: bool) -> Value {
+    let directory_binding = object_schema(
+        json!({
+            "rootIdentity":{"type":"array","items":{"type":"integer","minimum":0},"minItems":2,"maxItems":2},
+            "gitCommonDirectory":{"type":"string"},
+            "gitCommonDirectoryIdentity":{"type":"array","items":{"type":"integer","minimum":0},"minItems":2,"maxItems":2}
+        }),
+        &[
+            "rootIdentity",
+            "gitCommonDirectory",
+            "gitCommonDirectoryIdentity",
+        ],
+    );
+    let properties = if plan {
+        json!({
+            "schemaVersion":{"type":"integer","const":1}, "kind":{"type":"string","const":"legacy_closeout_source_plan"},"state":{"type":"string","const":"prepared"},
+            "operation":{"type":"string","enum":["register","resume","extend","resume_extension"]},
+            "repositoryId":{"type":"string"},"workItemId":{"type":"string"},"destinationRoot":{"type":"string"},"destinationBinding":directory_binding,"sourceBinding":{"anyOf":[directory_binding,{"type":"null"}]},"registrationBytes":{"type":"string"},"requirementBytes":{"type":"string"},"registrationRawDigest":{"type":"string"},"requirementRawDigest":{"type":"string"},"observationDigest":{"type":"string"},"planDigest":{"type":"string"},"extensionBytes":{"type":["string","null"]},"extensionRawDigest":{"type":["string","null"]}
+        })
+    } else {
+        json!({
+            "schemaVersion":{"type":"integer","const":1}, "operation":{"type":"string","enum":["register","resume","extend","resume_extension"]},
+            "sourceRevision":{"type":["string","null"]},"actor":{"type":["string","null"]},"authoritySource":{"type":["string","null"]},"reason":{"type":["string","null"]},"sourceAccepted":{"type":"boolean"},"originalRegistrationBytes":{"type":["string","null"]},"originalRequirementRawDigest":{"type":["string","null"]},"transitionBytes":{"type":["string","null"]},"originalExtensionBytes":{"type":["string","null"]},"originalExtensionRawDigest":{"type":["string","null"]}
+        })
+    };
+    let required = if plan {
+        vec![
+            "schemaVersion",
+            "kind",
+            "state",
+            "operation",
+            "repositoryId",
+            "workItemId",
+            "destinationRoot",
+            "destinationBinding",
+            "sourceBinding",
+            "registrationBytes",
+            "requirementBytes",
+            "registrationRawDigest",
+            "requirementRawDigest",
+            "observationDigest",
+            "planDigest",
+        ]
+    } else {
+        vec!["schemaVersion", "operation"]
+    };
+    object_schema(properties, &required)
+}
 
 fn string_property(description: &str) -> Value {
     json!({
@@ -673,6 +724,14 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_legacy_closeout_source_plan" => object_schema(
+            json!({"workItemId":string_property("Selected legacy Work Item identifier."),"sourceRepo":string_property("Optional independent pinned source checkout for first registration."),"request":legacy_source_payload_schema(false)}),
+            &["workItemId", "request"],
+        ),
+        "work_item_legacy_closeout_source_record" => object_schema(
+            json!({"workItemId":string_property("Selected legacy Work Item identifier."),"plan":legacy_source_payload_schema(true)}),
+            &["workItemId", "plan"],
+        ),
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => object_schema(
             json!({
                 "workItemId": string_property("Canonical closed Work Item identifier whose closeout is being inspected or recovered."),
@@ -860,6 +919,14 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Explicitly import exact validated closeout evidence from the source checkout into the current destination checkout; this is the write operation.",
         ),
         (
+            "work_item_legacy_closeout_source_plan",
+            "Read-only exact plan for explicit present-day legacy-v1 source registration, constrained resume or one Retained-to-Deleted extension; preserves historical producer bytes.",
+        ),
+        (
+            "work_item_legacy_closeout_source_record",
+            "Explicitly publish an independently retained exact legacy source or extension plan under the same Work Item lifecycle lock; never rewrites historical evidence.",
+        ),
+        (
             "work_item_recover_selected_lineage",
             "Record append-only recovery for an already selected multi-hop successor lineage without creating a competing successor.",
         ),
@@ -953,6 +1020,10 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             ][..],
         ),
         "work_item_recover" => Some(&["workItemId", "id", "receipt", "input"][..]),
+        "work_item_legacy_closeout_source_plan" => {
+            Some(&["workItemId", "sourceRepo", "request"][..])
+        }
+        "work_item_legacy_closeout_source_record" => Some(&["workItemId", "plan"][..]),
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
             Some(&["workItemId", "sourceRepo"][..])
         }
@@ -1061,6 +1132,40 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             }
         }
         "work_item_amendments" => require_string(object, "workItemId", name)?,
+        "work_item_legacy_closeout_source_plan" | "work_item_legacy_closeout_source_record" => {
+            require_string(object, "workItemId", name)?;
+            if let Some(source) = object.get("sourceRepo")
+                && (!source.is_string()
+                    || source
+                        .as_str()
+                        .is_none_or(|path| !Path::new(path).is_absolute()))
+            {
+                return Err("sourceRepo must be an absolute path".into());
+            }
+            let field = if name.ends_with("_plan") {
+                "request"
+            } else {
+                "plan"
+            };
+            let payload = object
+                .get(field)
+                .cloned()
+                .ok_or_else(|| format!("{field} is required"))?;
+            if serde_json::to_vec(&payload)
+                .map_err(|error| error.to_string())?
+                .len()
+                > 8 * 1024 * 1024
+            {
+                return Err("legacy_closeout_source:record_budget_exceeded".into());
+            }
+            if field == "request" {
+                let _: cockpit_protocol::LegacyCloseoutSourceRequest =
+                    serde_json::from_value(payload).map_err(|error| error.to_string())?;
+            } else {
+                let _: cockpit_protocol::LegacyCloseoutSourcePlan =
+                    serde_json::from_value(payload).map_err(|error| error.to_string())?;
+            }
+        }
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
             require_string(object, "workItemId", name)?;
             require_string(object, "sourceRepo", name)?;
@@ -2011,6 +2116,32 @@ pub fn handle_request_for_repo(
         }),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
+        "work_item_legacy_closeout_source_plan" | "work_item_legacy_closeout_source_record" => {
+            require_compatible(repo, runtime).and_then(|_| {
+                let id = arguments["workItemId"]
+                    .as_str()
+                    .ok_or("workItemId is required")?;
+                validate_id(id)?;
+                if name.ends_with("_plan") {
+                    let request = serde_json::from_value(arguments["request"].clone())
+                        .map_err(|error| error.to_string())?;
+                    let source = arguments
+                        .get("sourceRepo")
+                        .and_then(Value::as_str)
+                        .map(Path::new);
+                    cockpit_repository::plan_legacy_closeout_source(
+                        repo, source, id, &request, runtime,
+                    )
+                    .map_err(|error| error.to_string())
+                    .and_then(|plan| serde_json::to_value(plan).map_err(|error| error.to_string()))
+                } else {
+                    let plan = serde_json::from_value(arguments["plan"].clone())
+                        .map_err(|error| error.to_string())?;
+                    cockpit_repository::record_legacy_closeout_source(repo, id, &plan, runtime)
+                        .map_err(|error| error.to_string())
+                }
+            })
+        }
         "work_item_closeout_recovery_plan" => require_compatible(repo, runtime)
             .and_then(|_| work_item_closeout_recovery_plan(repo, &arguments, runtime)),
         "work_item_closeout_recover" => require_compatible(repo, runtime)
@@ -2946,19 +3077,53 @@ fn tool_error_response(id: Value, message: &str) -> Value {
     })
 }
 
+fn read_rpc_line(reader: &mut impl BufRead) -> io::Result<Option<String>> {
+    const MAXIMUM: u64 = 16 * 1024 * 1024;
+    let mut bytes = Vec::new();
+    let count = std::io::Read::take(reader, MAXIMUM + 1).read_until(b'\n', &mut bytes)?;
+    if count == 0 {
+        return Ok(None);
+    }
+    if bytes.len() as u64 > MAXIMUM {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "legacy_closeout_source:rpc_line_budget_exceeded",
+        ));
+    }
+    String::from_utf8(bytes)
+        .map(Some)
+        .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))
+}
+fn legacy_wire_error(request: &Value, line: &str) -> Option<Value> {
+    if request["method"] == "tools/call"
+        && matches!(
+            request["params"]["name"].as_str(),
+            Some(
+                "work_item_legacy_closeout_source_plan" | "work_item_legacy_closeout_source_record"
+            )
+        )
+    {
+        cockpit_repository::validate_legacy_closeout_source_wire(line.as_bytes())
+            .err()
+            .map(|message| tool_error_response(request["id"].clone(), &message))
+    } else {
+        None
+    }
+}
+
 pub fn serve<R: BufRead, W: Write>(
-    reader: R,
+    mut reader: R,
     mut writer: W,
     runtime: &cockpit_protocol::RuntimeContext,
 ) -> io::Result<()> {
-    for line in reader.lines() {
-        let line = line?;
+    while let Some(line) = read_rpc_line(&mut reader)? {
         if line.trim().is_empty() {
             continue;
         }
         let request: Value = serde_json::from_str(&line)
             .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
-        let response = handle_request(&request, runtime);
+        let response =
+            legacy_wire_error(&request, &line).unwrap_or_else(|| handle_request(&request, runtime));
         if !response.is_null() {
             writeln!(writer, "{}", response)?;
             writer.flush()?;
@@ -2968,19 +3133,19 @@ pub fn serve<R: BufRead, W: Write>(
 }
 
 pub fn serve_with_repo<R: BufRead, W: Write>(
-    reader: R,
+    mut reader: R,
     mut writer: W,
     repo: &Path,
     runtime: &cockpit_protocol::RuntimeContext,
 ) -> io::Result<()> {
-    for line in reader.lines() {
-        let line = line?;
+    while let Some(line) = read_rpc_line(&mut reader)? {
         if line.trim().is_empty() {
             continue;
         }
         let request: Value = serde_json::from_str(&line)
             .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
-        let response = handle_request_for_repo(&request, repo, runtime);
+        let response = legacy_wire_error(&request, &line)
+            .unwrap_or_else(|| handle_request_for_repo(&request, repo, runtime));
         if !response.is_null() {
             writeln!(writer, "{}", response)?;
             writer.flush()?;

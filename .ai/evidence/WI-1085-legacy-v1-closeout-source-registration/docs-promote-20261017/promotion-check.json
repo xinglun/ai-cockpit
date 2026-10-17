@@ -1,0 +1,12 @@
+{
+  "changedPaths": [],
+  "mode": "check",
+  "state": "current",
+  "terminalEvidence": {
+    "archive": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+    "close": ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.close.json",
+    "finalization": null,
+    "verification": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+  },
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

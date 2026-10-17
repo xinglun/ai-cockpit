@@ -1,0 +1,56 @@
+{
+  "observedAt": "2026-10-16T12:35:57.648446+00:00",
+  "protectedMetadataUnchanged": true,
+  "protectedMetadataAfter": [
+    {
+      "path": "/workspace/ai-cockpit/.ai",
+      "entries": 16044,
+      "metadataSha256": "a2af3169abd40e032d9e4b28658e03b3766efc537eef7a10262f7568869dac91"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai",
+      "entries": 15792,
+      "metadataSha256": "b772aa40fed4713f6b585f5a4fbaf2efd648b43aaa79296b442491b2d8c72a82"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target",
+      "entries": 3983,
+      "metadataSha256": "ab7c8c07a5237698627ae5813e27af3a67f98cefebce0bfd5bd1235b825e9e40"
+    },
+    {
+      "path": "/tmp/wi1085-result-20261016",
+      "entries": 46,
+      "metadataSha256": "624246a1837add5dba2b6ba06f8667b1dfbb2069878df03edfaf7ad30cbd0f84"
+    },
+    {
+      "path": "/tmp/wi1085-scope-storage-proposal-20261016",
+      "entries": 11,
+      "metadataSha256": "d319c00786e0feeff1b957fe86c2bab92cae75fde4502a7553c45f3645b4037c"
+    }
+  ],
+  "protectedHashChecks": [
+    {
+      "path": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit",
+      "expectedSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "actualSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+    },
+    {
+      "path": "/workspace/ai-cockpit/.ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+      "expectedSha256": "7304e582f78f5a49ec751f01f5497a3a310a66c5621fa3353813869c961a6a8d",
+      "actualSha256": "7304e582f78f5a49ec751f01f5497a3a310a66c5621fa3353813869c961a6a8d"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+      "expectedSha256": "7cbbaa07f74c9871379e060babd5e6c27df90f3f54c11708cdd330a0e581d1dc",
+      "actualSha256": "7cbbaa07f74c9871379e060babd5e6c27df90f3f54c11708cdd330a0e581d1dc"
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b.json",
+      "expectedSha256": "0c07ee1e2f0c0c6a4bd56370a380a4b39eea1f5fe6d7d2f384083ecb738e1b48",
+      "actualSha256": "0c07ee1e2f0c0c6a4bd56370a380a4b39eea1f5fe6d7d2f384083ecb738e1b48"
+    }
+  ],
+  "allProtectedHashesUnchanged": true,
+  "availableBytesAfter": 11884736512,
+  "defaultSandboxStartedSuccessfully": true
+}

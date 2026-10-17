@@ -1,0 +1,262 @@
+[
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-agent.out.log",
+    "bytes": 3876,
+    "sha256": "90119b68fb0bd78d0992fae39c3871e92812b9a626dab1e8cefab3e4e55d1fe1",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[0].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-agent.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-agent.err.log",
+    "bytes": 1000,
+    "sha256": "9414da52b29cc7f9ff60cded07154f177539fa6d98272a9019f66f785fc61abf",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[0].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-agent.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+    "bytes": 58952,
+    "sha256": "f919d12e378586bfe4ab7fe6c4f2a8e80df0b6d638fc10fa56cdac8bc024aa3b",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[1].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-cli.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.err.log",
+    "bytes": 5329,
+    "sha256": "2dd2dd4c802d866eb874a3e536d3834d19e3069676b0221d9aa15996088c2287",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[1].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-cli.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-core.out.log",
+    "bytes": 3169,
+    "sha256": "338951f8704db22c6d43abb3c5316cffc14432ef1665e9169656339b82953e1d",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[2].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-core.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-core.err.log",
+    "bytes": 933,
+    "sha256": "37f9477378da176929142884686083508494dd5b2ec147de8aa849a8a1729451",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[2].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-core.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-evidence.out.log",
+    "bytes": 804,
+    "sha256": "f43f45e914240d0bbb69591f643e128da38cdf67e5888a749e7a4a9cec5357df",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[3].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-evidence.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-evidence.err.log",
+    "bytes": 322,
+    "sha256": "cfb87e9a1c1e534ca17339fc366ea78d3a05b29080fec47bbdb22ffd4c2fc027",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[3].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-evidence.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-git.out.log",
+    "bytes": 3388,
+    "sha256": "11c1206e041a59efe4eee0fc4986eb8541e08988241b23cb7f9c5ff5815a4bba",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[4].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-git.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-git.err.log",
+    "bytes": 564,
+    "sha256": "54e36a9ba7cf28ba99db556592b076ca9ed2958e87f6bc485fbf2d63d1c2f245",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[4].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-git.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-interface.out.log",
+    "bytes": 226,
+    "sha256": "d38e6ea6d69ddb377e4a4380b22926f3864806998a850d5e28c8459dfc09f014",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[5].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-interface.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-interface.err.log",
+    "bytes": 223,
+    "sha256": "133ec8237250703b36a132f5f3c706acb19b2c2db70cd4c04cccf703ba2b13df",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[5].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-interface.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-isolation.out.log",
+    "bytes": 897,
+    "sha256": "5583ef1c42cb3d84dea035d3ab0ef75df1a9795718020ed58788eae4fc8edabb",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[6].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-isolation.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-isolation.err.log",
+    "bytes": 328,
+    "sha256": "213f705a2d55d9242a91847c336475b508effb09c4a35f5084c86b17d706ea73",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[6].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-isolation.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-knowledge.out.log",
+    "bytes": 1015,
+    "sha256": "dd1dbeb4c6373839b7a99612d6501ded4f6de32a9eeb8a6bae681989a146800c",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[7].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-knowledge.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-knowledge.err.log",
+    "bytes": 324,
+    "sha256": "06dc931e24f43bf90cc0b26da57fefd35c5c3c59f3ff487b93e9f7d33971cf5d",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[7].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-knowledge.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.out.log",
+    "bytes": 5976,
+    "sha256": "f35a9d35c416c91c74655c50f8ff29ea978c2e280b68fd95df9d75647b2784d6",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[8].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-mcp.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.err.log",
+    "bytes": 1165,
+    "sha256": "c2a1916220f0fa0ff40c9b57b71a2773603137f52e6296c01b8d0da851ab8a5b",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[8].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-mcp.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-protocol.out.log",
+    "bytes": 11843,
+    "sha256": "b5c87e6f8ec1416fbefec1eabceed9e708859f88e5f918f6ed5cfc4b1e893e6f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[9].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-protocol.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-protocol.err.log",
+    "bytes": 2199,
+    "sha256": "3aae7753662e1d88bc5a30dbd00fd752e2a5eb6b78837645c57bf9e16de184cd",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[9].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-protocol.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-release.out.log",
+    "bytes": 6327,
+    "sha256": "7347757e553f1eb3ae76241e0e4037f7dc4e3cb724457f49ba38b9cd98047f2f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[10].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-release.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-release.err.log",
+    "bytes": 1443,
+    "sha256": "04e7ed777fe72e2f60f4f35098732e3010597cebd59711a4f4605ee85de497be",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[10].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-release.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+    "bytes": 65536,
+    "sha256": "7a465abc00d21ae6bb40a14657aa4539ed2c4a08dc7388cbab09f6a817c50fb5",
+    "truncated": true,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[11].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-repository.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.err.log",
+    "bytes": 6909,
+    "sha256": "fb95eabe47743301beaa633802295c358d272569047a0843faa6f74274bea54a",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[11].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-repository.err.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-verification.out.log",
+    "bytes": 18679,
+    "sha256": "6a556b4170a47443734837f60c26700481b36a4d09bf08bdef7295485dd38ca1",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[12].stdout",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-verification.out.log"
+  },
+  {
+    "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-verification.err.log",
+    "bytes": 6547,
+    "sha256": "c07096c8ab66b766ed1bc7739cb8bc0103a766a02b011ac4309394ab9389958f",
+    "truncated": false,
+    "nativeReference": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832.json#executionRecords[12].stderr",
+    "nativeEncoding": "hex",
+    "roundTripHexMatchesNativeField": true,
+    "serializedHexRepresentationPath": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams-hex/cockpit-verification.err.log"
+  }
+]

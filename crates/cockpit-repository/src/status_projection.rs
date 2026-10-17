@@ -607,10 +607,11 @@ fn unclosed_archived_work_items_with_id(
     root: &Path,
     expected_repository_id: &str,
 ) -> Result<Vec<String>, ObserverError> {
+    let required_ids = super::legacy_closeout_source::obligation_ids(root)?;
     let archive = root.join(".ai/work-items/archive");
     let entries = match fs::read_dir(&archive) {
-        Ok(entries) => entries,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Ok(entries) => Some(entries),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
         Err(source) => {
             return Err(ObserverError::Read {
                 path: archive,
@@ -618,8 +619,8 @@ fn unclosed_archived_work_items_with_id(
             });
         }
     };
-    let mut archived_ids = std::collections::BTreeSet::new();
-    for entry in entries {
+    let mut archived_ids = required_ids.clone();
+    for entry in entries.into_iter().flatten() {
         let entry = entry.map_err(|source| ObserverError::Read {
             path: archive.clone(),
             source,
@@ -636,6 +637,15 @@ fn unclosed_archived_work_items_with_id(
     let mut pending = archived_ids
         .into_iter()
         .filter(|work_item_id| {
+            if required_ids.contains(work_item_id)
+                && !super::legacy_closeout_source::integrity_allows_close(
+                    root,
+                    work_item_id,
+                    expected_repository_id,
+                )
+            {
+                return true;
+            }
             archive_requires_close(root, work_item_id)
                 && !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id)
                 && !recovery_successor_resolves_pending_close(
@@ -1114,6 +1124,93 @@ pub fn work_item_status_snapshot_with_runtime(
     work_item_status_snapshot_with_snapshot(root, work_item_id, runtime, None)
 }
 
+/// A surviving explicit obligation remains observable even if its archived
+/// Contract disappears or becomes foreign. No untrusted Contract facts are
+/// promoted into authority in this diagnostic projection.
+fn blocked_legacy_source_status(
+    root: &Path,
+    work_item_id: &str,
+    problem: String,
+    snapshot_override: Option<(&RepositorySnapshot, &Digest)>,
+) -> Result<WorkItemStatusSnapshot, ObserverError> {
+    let snapshot_value = if let Some((_, digest)) = snapshot_override {
+        digest.clone()
+    } else {
+        let git =
+            cockpit_git::GitRepository::discover(root).map_err(|error| ObserverError::State {
+                path: root.into(),
+                message: error.to_string(),
+            })?;
+        let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+            path: root.into(),
+            message: error.to_string(),
+        })?;
+        snapshot_digest(&snapshot)?
+    };
+    let code = "legacy_closeout_source_integrity_invalid".to_string();
+    let mut status = WorkItemStatusSnapshot {
+        schema_version: 1,
+        repository_id: repository_id(root).to_string(),
+        work_item_id: work_item_id.into(),
+        base_commit: String::new(),
+        branch: None,
+        lifecycle_phase: "not_ready".into(),
+        governance_state: "red".into(),
+        activity_health: "degraded".into(),
+        blocking: true,
+        human_decision_required: false,
+        progress_facts: BTreeMap::new(),
+        blockers: vec![code.clone()],
+        missing_evidence: vec![code.clone()],
+        dependencies: Vec::new(),
+        human_decisions: Vec::new(),
+        risks: Vec::new(),
+        verification: "not_ready".into(),
+        completion_domains: BTreeMap::from([
+            ("closure".into(), "unknown".into()),
+            ("verification".into(), "not_ready".into()),
+        ]),
+        governance_permissions: vec!["read_status".into(), "read_outcome".into()],
+        source_digests: BTreeMap::new(),
+        unknowns: vec![code.clone()],
+        raw_scanner_unknowns: Vec::new(),
+        material_manifest_digest: None,
+        review_receipt_digest: None,
+        review_assurance: None,
+        effective_unknowns: vec![code],
+        diagnostics: vec![problem],
+        snapshot_digest: snapshot_value,
+        evidence_freshness: WorkItemEvidenceFreshness {
+            state: "stale_or_invalid".into(),
+            reason: "explicit legacy source proof obligations are incomplete or invalid".into(),
+        },
+        last_verification_at: None,
+        updated_at: None,
+        safe_actions: vec![
+            "refresh_status".into(),
+            "resolve_blockers".into(),
+            "stop".into(),
+        ],
+        action_explanation: None,
+        status_digest: Digest::sha256_bytes(b"uninitialized"),
+        historical: true,
+    };
+    let mut value = serde_json::to_value(&status).map_err(|error| ObserverError::State {
+        path: root.into(),
+        message: error.to_string(),
+    })?;
+    value
+        .as_object_mut()
+        .expect("typed status object")
+        .remove("statusDigest");
+    status.status_digest =
+        cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+            path: root.into(),
+            message: error.to_string(),
+        })?;
+    Ok(status)
+}
+
 /// Project one Work Item using a snapshot captured by the caller.  The
 /// aggregate status path uses this to avoid recapturing the same Git snapshot
 /// once per Work Item; the snapshot and its digest remain request-scoped and
@@ -1129,6 +1226,13 @@ fn work_item_status_snapshot_with_snapshot(
         path: root.into(),
         source,
     })?;
+    if let Some(problem) = super::legacy_closeout_source::integrity_problem(
+        &root,
+        work_item_id,
+        &repository_id(&root).to_string(),
+    ) {
+        return blocked_legacy_source_status(&root, work_item_id, problem, snapshot_override);
+    }
     let active = root.join(".ai/work-items/active");
     let archive = root.join(".ai/work-items/archive");
     let (contract_path, archived) = [
@@ -1474,13 +1578,31 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "green" && !historical {
         governance_permissions.push("review_evidence".into());
     }
+    let amendment_history = if archived {
+        Vec::new()
+    } else {
+        super::contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?
+    };
+    let amendment_checkpointed = amendment_history
+        .last()
+        .is_some_and(|receipt| receipt.checkpointed);
     let amendment_review_required = !archived
-        && super::contract_amendment::has_sensitive_amendment(&root, work_item_id)?
+        && amendment_history
+            .iter()
+            .any(|receipt| receipt.policy_review_required)
         && super::governance_controls::preflight_decision_evidence_state(
             &root,
             work_item_id,
             &contract_digest_value,
         ) != super::governance_controls::PreflightDecisionEvidenceState::Valid;
+    let amendment_review_request_available = amendment_review_required
+        && super::contract_amendment::current_amendment_review_request_available(
+            &root,
+            work_item_id,
+            &contract_digest_value,
+            &summary,
+            &lifecycle_phase,
+        )?;
     let snapshot_digest_string = snapshot_digest_value.to_string();
     let contract_digest_string = contract_digest_value.to_string();
     let preflight_binding_current = summary["preflightRepositorySnapshotDigest"].as_str()
@@ -1677,6 +1799,9 @@ fn work_item_status_snapshot_with_snapshot(
             _ => vec!["read_outcome".into()],
         }
     };
+    if amendment_review_request_available {
+        safe_actions.insert(0, "run_preflight".into());
+    }
     let verification_precondition_error = if safe_actions
         .iter()
         .any(|action| action == "run_verification")
@@ -1689,18 +1814,24 @@ fn work_item_status_snapshot_with_snapshot(
     } else {
         None
     };
-    let preflight_recovery_available =
-        verification_precondition_error
-            .as_ref()
-            .is_some_and(|error| {
-                matches!(lifecycle_phase.as_str(), "checkpointed" | "finish_ready")
-                    && preflight_can_recover_verification_precondition(error, &summary)
-            });
+    let preflight_recovery_available = amendment_review_request_available
+        || (!amendment_review_required
+            && verification_precondition_error
+                .as_ref()
+                .is_some_and(|error| {
+                    matches!(lifecycle_phase.as_str(), "checkpointed" | "finish_ready")
+                        && preflight_can_recover_verification_precondition(error, &summary)
+                }));
     if verification_precondition_error.is_some() {
         safe_actions.retain(|action| action != "run_verification");
         if preflight_recovery_available {
             safe_actions.insert(0, "run_preflight".into());
         }
+    }
+    if amendment_review_required && amendment_checkpointed && !amendment_review_request_available {
+        // A stale-preflight or unavailable-material fallback cannot replace
+        // validation of a post-checkpoint sensitive amendment's provenance.
+        safe_actions.retain(|action| action != "run_preflight");
     }
     if !archived && !matches!(lifecycle_phase.as_str(), "closed" | "recovered") {
         safe_actions.push("record_governance_controls".into());
@@ -1861,6 +1992,9 @@ pub fn work_item_status_index_with_runtime(
     let expected_repository_id = repository_id(&root).to_string();
 
     let mut work_item_ids = BTreeMap::<String, ()>::new();
+    for id in super::legacy_closeout_source::obligation_ids(&root)? {
+        work_item_ids.insert(id, ());
+    }
     let mut index_unknowns = Vec::new();
     let mut index_diagnostics = Vec::new();
     for relative in [".ai/work-items/active", ".ai/work-items/archive"] {

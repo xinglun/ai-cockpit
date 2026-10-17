@@ -1,0 +1,20 @@
+{
+  "observedAt": "2026-10-16T12:27:26.388553+00:00",
+  "processes": [
+    {
+      "Name": "dockerd",
+      "State": "S (sleeping)",
+      "Pid": "200",
+      "PPid": "1",
+      "Uid": "0\t0\t0\t0"
+    },
+    {
+      "Name": "containerd",
+      "State": "S (sleeping)",
+      "Pid": "251",
+      "PPid": "200",
+      "Uid": "0\t0\t0\t0"
+    }
+  ],
+  "limit": "Names and UIDs do not discharge inaccessible exe/cwd/fd/maps observations. No privileged bypass attempted."
+}

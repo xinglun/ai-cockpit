@@ -1,0 +1,9 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+error[E0609]: no field `verified` on type `std::string::String`
+   --> crates/cockpit-repository/tests/legacy_closeout_source.rs:467:33
+    |
+467 |     assert!(!after.verification.verified);
+    |                                 ^^^^^^^^ unknown field
+
+For more information about this error, try `rustc --explain E0609`.
+error: could not compile `cockpit-repository` (test "legacy_closeout_source") due to 1 previous error

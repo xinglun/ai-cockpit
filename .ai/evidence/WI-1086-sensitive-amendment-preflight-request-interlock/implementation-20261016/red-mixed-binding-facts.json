@@ -1,0 +1,52 @@
+{
+  "source": "Decoded selected fields from raw Cargo stderr fixture responses, not original file bytes",
+  "rawStderrSha256": "f088b0c5727ecb402a30f732a682ff9f2485d506084fac43f6516af68d1d0912",
+  "facts": [
+    {
+      "adapter": "CLI",
+      "repositoryId": "sha256:0366dc5306275d2d7cc4171440c4189bbb57d1b6e09a4d56b6d75eb7b7f76a89",
+      "workItemId": "WI-CLI-AMEND-PARITY",
+      "preflightState": "not_run",
+      "preflightContractDigest": "sha256:61a47eff32eeb92688b758570c099e0eec90c725006b10f40004d4d357b8bbfe",
+      "nativeAmendmentCurrentContractDigest": "sha256:b1e204bcb2c6cb8ddf2877b7996231909727ee898dd1619bb5103ac02bb13f4e",
+      "acceptedDecisionEvidence": {
+        "contractDigest": "sha256:b1e204bcb2c6cb8ddf2877b7996231909727ee898dd1619bb5103ac02bb13f4e",
+        "decision": "confirm_review",
+        "decisionId": "contract-preflight-review",
+        "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+        "reason": "negative automated fixture only; not an actual human approval",
+        "recordedAt": "2026-10-16T00:00:00Z",
+        "recordedBy": "human:isolated-automated-test-fixture",
+        "repositoryId": "sha256:0366dc5306275d2d7cc4171440c4189bbb57d1b6e09a4d56b6d75eb7b7f76a89",
+        "repositorySnapshotDigest": "sha256:58b4268eae955119c5824ac36d89c28570bb8b468b9f953369e3295ac416a484",
+        "schemaVersion": 1,
+        "workItemId": "WI-CLI-AMEND-PARITY"
+      },
+      "evidenceContractMatchesNewContract": true,
+      "preflightContractDiffersFromEvidenceContract": true
+    },
+    {
+      "adapter": "MCP",
+      "repositoryId": "sha256:17838a9ef2e2e80e757bbd8584846eba9ba0fa277225650a12625261707f70c2",
+      "workItemId": "WI-CLI-AMEND-PARITY",
+      "preflightState": "not_run",
+      "preflightContractDigest": "sha256:dbb91432a57e63fb0fe322e13c111a3b6b3a777da0c415880b4c402937d329fb",
+      "nativeAmendmentCurrentContractDigest": "sha256:8c5e0c0d4a659dc43e4d5755a715c16fd31658b889d7b2c5604aa70848f7f60c",
+      "acceptedDecisionEvidence": {
+        "contractDigest": "sha256:8c5e0c0d4a659dc43e4d5755a715c16fd31658b889d7b2c5604aa70848f7f60c",
+        "decision": "confirm_review",
+        "decisionId": "contract-preflight-review",
+        "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+        "reason": "negative automated fixture only; not an actual human approval",
+        "recordedAt": "2026-10-16T00:00:00Z",
+        "recordedBy": "human:isolated-automated-test-fixture",
+        "repositoryId": "sha256:17838a9ef2e2e80e757bbd8584846eba9ba0fa277225650a12625261707f70c2",
+        "repositorySnapshotDigest": "sha256:be5d0b264020e715fdd1bf844b26e24c04a2caa40db083b6b615e578b2ee7980",
+        "schemaVersion": 1,
+        "workItemId": "WI-CLI-AMEND-PARITY"
+      },
+      "evidenceContractMatchesNewContract": true,
+      "preflightContractDiffersFromEvidenceContract": true
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/README.md",
+      "bytes": 3148,
+      "rawSha256": "555e7b7ef9c0e64bd3db296e74bf65d14e117d7f8cbed8f7ad48dee646890025"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/blocked-human-review-binding.json",
+      "bytes": 3798,
+      "rawSha256": "67aac7d0983fe20b5dc7ec9a0164504eda4c01403eef4e633f07683d6e58382b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/material-review.preparation.json",
+      "bytes": 2462,
+      "rawSha256": "5f75c0a26b7eb4392e73a85e6c6808d1ec7f3c76265bb0e9318c5d304a0ba6b5"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-before-projection-status.meta.json",
+      "bytes": 562,
+      "rawSha256": "904a30e27b6a4d118e60741305eb56a680225b0c95274db090a068e24481995b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-before-projection-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-before-projection-status.stdout",
+      "bytes": 5698,
+      "rawSha256": "2165405ebe450e41db62da9b38205f53d3c1be0bcc7d00c0164edcd65d1da627"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-journal-read.meta.json",
+      "bytes": 554,
+      "rawSha256": "435194bc44671e6f51c9dc138e02827b4bee03b66904c9be78ce81d88cc138e7"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-journal-read.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-journal-read.stdout",
+      "bytes": 113640,
+      "rawSha256": "bdb2e7e49073d9e034dce22ac8d9d5fd67acd25964820d6b09538df7437362d1"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-material-plan.meta.json",
+      "bytes": 569,
+      "rawSha256": "e989262849690fbffe5d2cca16e0c7d20f23602c882f5ee4fb754214f0f45d77"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-material-plan.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-material-plan.stdout",
+      "bytes": 10728,
+      "rawSha256": "5542e5753d0d3154f6e631ef73706a664043b39cb3c099b6613cb96eea891ed4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-revalidation-help.meta.json",
+      "bytes": 420,
+      "rawSha256": "ca6ced6ff167992194de252cf2ac19d0bbf30aded500bf4fc0ad5985038a9a22"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-revalidation-help.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-revalidation-help.stdout",
+      "bytes": 312,
+      "rawSha256": "416c643306dbb2036d8073f07afd2b9182936bd7c3199bf7bc0422f6294d8d43"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-review-request-preflight.meta.json",
+      "bytes": 642,
+      "rawSha256": "389105bbfc1e7a7fde8bac99ca7858ff1c4996278f64b6a78d40c929e53d2a4e"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-review-request-preflight.stderr",
+      "bytes": 854,
+      "rawSha256": "1980ca214715e90cce2b5c9b1045d38c70bf15b4fa98995b895cbab6529d81fe"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-amended-review-request-preflight.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-before-status.meta.json",
+      "bytes": 562,
+      "rawSha256": "149a214452a79f501e5ba4eea547c6c0fc2b04c954b7e78a37b1e7ad8f74d4f4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-before-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-before-status.stdout",
+      "bytes": 5696,
+      "rawSha256": "c7d948d0c18aa2aee7c8fabbe56f515d56f2279edf8a4e9e8210ddb000938439"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-handoff-outcome.meta.json",
+      "bytes": 651,
+      "rawSha256": "35d2a12b4195d678aeddcdd73f43ad6b2b11185470c91ee4b8505c20fb3392a8"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-handoff-outcome.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-handoff-outcome.stdout",
+      "bytes": 3290,
+      "rawSha256": "37659443c9856d926e8681c7cf48daf839862d8c8edf8511541e3f80073d8a66"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-handoff-status.meta.json",
+      "bytes": 562,
+      "rawSha256": "7d678a19bde5e32f80190fe8eaf71f150592e8380c1693d063a0c3508e7d3ab6"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-handoff-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-handoff-status.stdout",
+      "bytes": 5698,
+      "rawSha256": "2165405ebe450e41db62da9b38205f53d3c1be0bcc7d00c0164edcd65d1da627"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-help.meta.json",
+      "bytes": 405,
+      "rawSha256": "b5fd5339b4fe2f8a7ae2fb0939934c468bcb1944d184eb16a8afdfa2969cbf2d"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-help.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-amend-help.stdout",
+      "bytes": 740,
+      "rawSha256": "d73639042859047cd6513e8d142aff7d84c451ef76864da75d95265725524992"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-typed-amend-record.meta.json",
+      "bytes": 769,
+      "rawSha256": "0d5017ed33f4e6c2de2f1e9e0bef018e337ceca676cc831b95f80425d7d7fee6"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-typed-amend-record.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/native-approved-typed-amend-record.stdout",
+      "bytes": 21239,
+      "rawSha256": "f21807d34b173064f2b5bcba282bd2facb9276b631ef35b2b2724910544526e4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/parity-append.preparation.json",
+      "bytes": 1748,
+      "rawSha256": "32b40178014206b05d1da81c42deecd410e48d2ee78abca2534d299ae4999dbf"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/parity-append.prepared.patch",
+      "bytes": 7442,
+      "rawSha256": "7fc5035f09555d0f76292929d2a5281522355d6ef7c10c506efa10ead6b4d6b4"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/proposal-approval-relay.json",
+      "bytes": 1458,
+      "rawSha256": "3f6c1441c7c4923a2ed2281dbda89779c9541476009260926df1ae7c5b29721b"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/admission-amend-20261015/scope-and-resource-check.json",
+      "bytes": 455,
+      "rawSha256": "2c2d9a0e200fcda36066223de25d3adccddd1e8b0d30235dd1decd0aa569a17e"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+      "bytes": 25017,
+      "rawSha256": "7cbbaa07f74c9871379e060babd5e6c27df90f3f54c11708cdd330a0e581d1dc"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+      "bytes": 18281,
+      "rawSha256": "7ae6f9c1d34d119a3b9e51b07208afd7c3313cff51af04292cc64c5cf531e4ea"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.contract-amendments/00000004.prepared.json",
+      "bytes": 59560,
+      "rawSha256": "3d32c01be3a7b607ddcdeb63c8afad42cb80381680ee2ec9f9160d059bd5472c"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.contract-amendments/00000004.committed.json",
+      "bytes": 22057,
+      "rawSha256": "12f753808d3b97d1e0367670dfcec483566ed8762ac6ffaa769b7149cc6289a8"
+    }
+  ],
+  "manifestExcludesItself": true
+}

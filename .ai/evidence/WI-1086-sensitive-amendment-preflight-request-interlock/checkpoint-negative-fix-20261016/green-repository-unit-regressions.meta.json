@@ -1,0 +1,791 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--lib"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T02:24:56.865474+00:00",
+  "runtimeAdmissionBeforeCommand": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 7,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 0,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+      "materialManifest": "sha256:225239b51f3027c57f5a3184ce2f212b485f857df5f608e367d41d26494ab08d",
+      "repositorySnapshot": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+      "summary": "sha256:56d4882ecefdd37a1d8aee924c0525cfb226002cdd649d89d3e17d7fed4c4547"
+    },
+    "unknowns": [
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:225239b51f3027c57f5a3184ce2f212b485f857df5f608e367d41d26494ab08d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-16T02:04:23.026023571+00:00",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "run_verification",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:0532169a7d81fd97bc6cc1e7f00e6d26099e3f3cae9297ab3fc9df18ec5c9175"
+    },
+    "statusDigest": "sha256:83d11cfd9156cbebeda94c44390abaef4b84e233b099c0f251893834d0a0a61c",
+    "historical": false
+  },
+  "diskGuard": {
+    "minimumFreeBytes": 631988224,
+    "stopThresholdBytes": 268435456,
+    "triggered": false,
+    "initialFreeBytes": 682344448,
+    "finalFreeBytes": 682467328
+  },
+  "sourceDiffRawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sourceFileRawSha256": {
+    "crates/cockpit-repository/src/contract_amendment.rs": "a7863aa0b6dcd67ed1d9c7405e1547e167024d711a33c3e8ff248346cce601e5",
+    "crates/cockpit-repository/src/status_projection.rs": "6ab6bf4a75437f48adf66b001945d05e53fc3c73780da44ebb33bb54753c4920",
+    "crates/cockpit-repository/src/lib.rs": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a",
+    "crates/cockpit-repository/src/governance_controls.rs": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+    "crates/cockpit-cli/tests/scope_amendment.rs": "0fffdf6f8822f0ced3dab708192b58bd70c885ab3ea736ba719e379232904cb5",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5"
+  },
+  "elapsedSeconds": 131.077,
+  "timeoutSeconds": 900,
+  "timedOut": false,
+  "exitCode": 0,
+  "sourceHead": "2a5910e967585c3589af382d29143f1b50b0a2c1",
+  "testFileRawSha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+  "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01); cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "environmentOverrides": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "binaryRawSha256": "3da828ca22763d620f2b3d4e7121f9400bb02854bbdd1b1bb1f6f3ff0868688b",
+  "ownedDescendantsReaped": [
+    {
+      "pid": 766221,
+      "waitStatus": 0
+    },
+    {
+      "pid": 766258,
+      "waitStatus": 0
+    },
+    {
+      "pid": 766298,
+      "waitStatus": 0
+    },
+    {
+      "pid": 766423,
+      "waitStatus": 0
+    },
+    {
+      "pid": 766620,
+      "waitStatus": 0
+    },
+    {
+      "pid": 766821,
+      "waitStatus": 0
+    },
+    {
+      "pid": 767314,
+      "waitStatus": 0
+    },
+    {
+      "pid": 767404,
+      "waitStatus": 0
+    },
+    {
+      "pid": 767523,
+      "waitStatus": 0
+    },
+    {
+      "pid": 767628,
+      "waitStatus": 0
+    },
+    {
+      "pid": 767747,
+      "waitStatus": 0
+    },
+    {
+      "pid": 768019,
+      "waitStatus": 0
+    },
+    {
+      "pid": 768495,
+      "waitStatus": 0
+    },
+    {
+      "pid": 768767,
+      "waitStatus": 0
+    },
+    {
+      "pid": 769063,
+      "waitStatus": 0
+    },
+    {
+      "pid": 769335,
+      "waitStatus": 0
+    },
+    {
+      "pid": 769758,
+      "waitStatus": 0
+    },
+    {
+      "pid": 770030,
+      "waitStatus": 0
+    },
+    {
+      "pid": 770331,
+      "waitStatus": 0
+    },
+    {
+      "pid": 770603,
+      "waitStatus": 0
+    },
+    {
+      "pid": 771132,
+      "waitStatus": 0
+    },
+    {
+      "pid": 771404,
+      "waitStatus": 0
+    },
+    {
+      "pid": 771656,
+      "waitStatus": 0
+    },
+    {
+      "pid": 771932,
+      "waitStatus": 0
+    },
+    {
+      "pid": 772193,
+      "waitStatus": 0
+    },
+    {
+      "pid": 772470,
+      "waitStatus": 0
+    },
+    {
+      "pid": 772779,
+      "waitStatus": 0
+    },
+    {
+      "pid": 773055,
+      "waitStatus": 0
+    },
+    {
+      "pid": 773476,
+      "waitStatus": 0
+    },
+    {
+      "pid": 773752,
+      "waitStatus": 0
+    },
+    {
+      "pid": 774109,
+      "waitStatus": 0
+    },
+    {
+      "pid": 774382,
+      "waitStatus": 0
+    },
+    {
+      "pid": 775884,
+      "waitStatus": 0
+    },
+    {
+      "pid": 776156,
+      "waitStatus": 0
+    },
+    {
+      "pid": 776634,
+      "waitStatus": 0
+    },
+    {
+      "pid": 776906,
+      "waitStatus": 0
+    },
+    {
+      "pid": 777385,
+      "waitStatus": 0
+    },
+    {
+      "pid": 777657,
+      "waitStatus": 0
+    },
+    {
+      "pid": 778135,
+      "waitStatus": 0
+    },
+    {
+      "pid": 778407,
+      "waitStatus": 0
+    },
+    {
+      "pid": 778537,
+      "waitStatus": 0
+    },
+    {
+      "pid": 778809,
+      "waitStatus": 0
+    },
+    {
+      "pid": 779280,
+      "waitStatus": 0
+    },
+    {
+      "pid": 779552,
+      "waitStatus": 0
+    },
+    {
+      "pid": 780023,
+      "waitStatus": 0
+    },
+    {
+      "pid": 780295,
+      "waitStatus": 0
+    },
+    {
+      "pid": 780766,
+      "waitStatus": 0
+    },
+    {
+      "pid": 781038,
+      "waitStatus": 0
+    },
+    {
+      "pid": 781509,
+      "waitStatus": 0
+    },
+    {
+      "pid": 781781,
+      "waitStatus": 0
+    },
+    {
+      "pid": 782257,
+      "waitStatus": 0
+    },
+    {
+      "pid": 782532,
+      "waitStatus": 0
+    },
+    {
+      "pid": 782999,
+      "waitStatus": 0
+    },
+    {
+      "pid": 783271,
+      "waitStatus": 0
+    },
+    {
+      "pid": 783751,
+      "waitStatus": 0
+    },
+    {
+      "pid": 784034,
+      "waitStatus": 0
+    },
+    {
+      "pid": 784507,
+      "waitStatus": 0
+    },
+    {
+      "pid": 784781,
+      "waitStatus": 0
+    },
+    {
+      "pid": 785252,
+      "waitStatus": 0
+    },
+    {
+      "pid": 785524,
+      "waitStatus": 0
+    },
+    {
+      "pid": 785835,
+      "waitStatus": 0
+    },
+    {
+      "pid": 786107,
+      "waitStatus": 0
+    },
+    {
+      "pid": 786389,
+      "waitStatus": 0
+    },
+    {
+      "pid": 786663,
+      "waitStatus": 0
+    },
+    {
+      "pid": 787722,
+      "waitStatus": 0
+    },
+    {
+      "pid": 787968,
+      "waitStatus": 0
+    },
+    {
+      "pid": 788240,
+      "waitStatus": 0
+    },
+    {
+      "pid": 788594,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789064,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789765,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789802,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789839,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789870,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789884,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789890,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789904,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789916,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789936,
+      "waitStatus": 0
+    },
+    {
+      "pid": 789948,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790034,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790818,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790834,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790840,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790846,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790852,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790857,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790866,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790875,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790881,
+      "waitStatus": 0
+    },
+    {
+      "pid": 790894,
+      "waitStatus": 0
+    },
+    {
+      "pid": 791414,
+      "waitStatus": 0
+    },
+    {
+      "pid": 792453,
+      "waitStatus": 0
+    },
+    {
+      "pid": 795285,
+      "waitStatus": 0
+    },
+    {
+      "pid": 795761,
+      "waitStatus": 0
+    },
+    {
+      "pid": 796273,
+      "waitStatus": 0
+    },
+    {
+      "pid": 796662,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797298,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797429,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797465,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797470,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797475,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797493,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797511,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797516,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797534,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797539,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797544,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797562,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797575,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797580,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797589,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797594,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797603,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797608,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797617,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797622,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797631,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797636,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797645,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797650,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797655,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797660,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797678,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797683,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797688,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797693,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797699,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797704,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797723,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797728,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797742,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797776,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797793,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797964,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797970,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797974,
+      "waitStatus": 0
+    },
+    {
+      "pid": 797993,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798089,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798183,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798189,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798424,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798453,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798484,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798655,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798661,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798665,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798684,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798780,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798874,
+      "waitStatus": 0
+    },
+    {
+      "pid": 798880,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800003,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800174,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800180,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800184,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800203,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800299,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800393,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800399,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800635,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800672,
+      "waitStatus": 0
+    },
+    {
+      "pid": 800871,
+      "waitStatus": 0
+    }
+  ]
+}

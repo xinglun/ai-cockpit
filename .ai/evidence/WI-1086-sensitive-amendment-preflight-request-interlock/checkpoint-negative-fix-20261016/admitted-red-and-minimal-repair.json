@@ -1,0 +1,18 @@
+{
+  "admittedRedSourceHead": "0069033a46afeab1374107cc9bce079b51c24151",
+  "admittedRedTests": 10,
+  "admittedRedFailures": 10,
+  "candidateRuntimeSha256": "156d7e19dc24eb4d6c870d2c59d0975646ff70d78d1e560946a6453430bf0272",
+  "admissionDigest": "sha256:7465bd4e3b05e4cc7194c93709e81f0012c66be6e24eafcac0fd142f3a1a2ef6",
+  "redSourceSnapshot": "sha256:92f95265c34f71d2e627e306799f6cc5463e0500363e69514f58a6e5a98852ff",
+  "productionRepairPaths": [
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/status_projection.rs"
+  ],
+  "repair": "Bind both before_edit source hashes to the first verified checkpointed native transition previousContractDigest; remove preflight fallback based on native tail.checkpointed even when Summary count is 0/2.",
+  "fixtureOrderCorrection": "Move original full preflight/assert blocks before reading current bindings and recording fixture review; no extra post-review preflight that Runtime does not admit.",
+  "originalFixtureAssertionMacroCountsPreserved": true,
+  "fixtureInsertOnlyTrials": "CLI1 and repository50/52 failed at the redundant post-review preflight; raw logs retained.",
+  "greenVerificationPending": true,
+  "fullWorkspaceFailureStillPreserved": true
+}

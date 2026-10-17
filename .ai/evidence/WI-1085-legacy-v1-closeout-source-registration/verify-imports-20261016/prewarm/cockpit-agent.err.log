@@ -1,0 +1,9 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+  Executable unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_agent-a7a15907680fcb3e)
+  Executable tests/context.rs (target/wi1085-legacy-closeout-source/debug/deps/context-9a1c57580eb5c6ab)
+  Executable tests/detection.rs (target/wi1085-legacy-closeout-source/debug/deps/detection-40b0056c3e635103)
+  Executable tests/doctor.rs (target/wi1085-legacy-closeout-source/debug/deps/doctor-f37e5fb8373b7182)
+  Executable tests/install.rs (target/wi1085-legacy-closeout-source/debug/deps/install-2d7a5573b28dc080)
+  Executable tests/isolation.rs (target/wi1085-legacy-closeout-source/debug/deps/isolation-16fabc5c7bef4399)
+  Executable tests/outcome_delivery.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_delivery-a08ef32da45c5967)
+  Executable tests/outcome_host_command.rs (target/wi1085-legacy-closeout-source/debug/deps/outcome_host_command-e0e50b3cb9d55dc0)

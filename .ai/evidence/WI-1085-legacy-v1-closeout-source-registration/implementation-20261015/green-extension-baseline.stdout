@@ -1,0 +1,9 @@
+
+running 4 tests
+test extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence ... ok
+test extension::registered_root_refuses_unprepared_raw_transition_without_writing ... ok
+test foreign_registration_cannot_release_untrusted_archived_scope ... ok
+test malformed_requirement_remains_pending_when_archive_directory_is_missing ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.20s
+

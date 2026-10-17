@@ -1,0 +1,24 @@
+{
+  "status": "prepared_only_not_applied_due_to_current_human_gate",
+  "approvedRowsRawSha256": "24f483bdbd74931bf175e0ea5682fb12325f23f333b080f0b1ef44247b58e096",
+  "files": [
+    {
+      "path": "docs/reference/reference-parity.md",
+      "beforeRawSha256": "e7c1f83fcfaf92d10a09a2cab1a8f57c5c0da9b5e235b409e8177198a0fca9de",
+      "row": "| WI-1085-legacy-v1-closeout-source-registration — explicit present-day legacy v1 source registration | In progress; formal verification pending | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |",
+      "canonicalFileModified": false
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "beforeRawSha256": "2ba4d3bdeccfe6a80a4a3a915761dd20e0dddffe3c1095fe8787180ef742fc24",
+      "row": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 来源的显式现时登记 | 进行中；正式验证待完成 | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |",
+      "canonicalFileModified": false
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "beforeRawSha256": "63ee7f26523ed7251e974d705e466e940b565bb22a105964c75c0853d66a6276",
+      "row": "| WI-1085-legacy-v1-closeout-source-registration — 旧 v1 source の明示的な現時点登録 | 進行中・正式検証待ち | [Work Item](../work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md); current explicit_attestation, preserved history, per-generation local-anchor-loss limit. |",
+      "canonicalFileModified": false
+    }
+  ]
+}

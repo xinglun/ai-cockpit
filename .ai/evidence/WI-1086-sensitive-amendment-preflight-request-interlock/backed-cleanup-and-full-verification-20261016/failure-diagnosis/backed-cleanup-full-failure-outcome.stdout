@@ -1,0 +1,56 @@
+Outcome: 🟡 Verification not ready — WI-1086-sensitive-amendment-preflight-request-interlock
+Result
+- Verification: Verification not ready
+- Lifecycle: Checkpointed
+- Human decision: Not recorded
+- Governance signal: Yellow; not a human approval
+- The outcome is not ready; see the reasons below for the specific governance gap.
+- Evidence refs: .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json
+- Usage coverage: unknown; cutoff: 2026-10-16T02:04:23.026023571+00:00; unknown reasons: no_usage_receipts; records: 0
+- Usage totals: input unknown, output unknown, cached input unknown, reasoning unknown
+
+Key changes
+- Not recorded
+
+Remaining uncertainty
+- Verification may have passed, but intent-alignment evidence is insufficient; this does not mean verification evidence is invalid.
+- Governance reason: governance_gate_failed.
+- Verification evidence is missing; the current result is not ready.
+- Failed gate: verification_or_human_input
+- Recovery condition: Repair the failed governance condition, complete fresh checks, and retry finish.
+- User-visible benefit is not declared by the Work Item owner. [Evidence refs: .ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json]
+- Inference: Remaining unknown: user_visible_benefit_not_declared
+- Inference: Remaining unknown: verification_evidence_missing
+- user_visible_benefit_not_declared
+- verification_evidence_missing
+- User-visible benefit has not been declared.
+- Risk findings: Not assessed; no usable evidence scope is recorded.
+- The current Contract does not declare provider finalization; lifecycle and human-decision gates still apply.
+
+Human next step
+- Complete intent-alignment evidence and reassess; do not treat verification pass as intent alignment.
+- Not recorded
+- Full evidence report: use ai-cockpit work-item outcome --repo <repository> --id <work-item> --view full in CLI, or view: full with MCP work_item_outcome.
+Time zone: Asia/Tokyo; start: 2026-10-16T09:11:39.244337237+09:00; finish: unknown; archive: unknown; close: unknown; wall elapsed (includes waiting): unknown
+Cross-WI coordination: WI-1086-sensitive-amendment-preflight-request-interlock
+- State: allowed
+- Implementation state: separate_lifecycle_outcome
+- Composition verification: not_observed
+- Execution outcome: unknown
+- Execution evidence complete: false
+- Composition applicability: not_observed
+- Target merge: not_observed
+- Cleanup: not_observed
+- Cleanup disposition: unknown
+- Providers: 
+- Consumers: 
+- Waiting edges: 
+- Impact events: 
+- Blockers: 
+- Unknowns: 
+- Human decision: false
+- Revalidation: not_required
+- Reusable checks: 
+- Next action: refresh dependency state before the next dependent action
+- integration owner/order: not observed/
+

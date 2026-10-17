@@ -1,0 +1,25 @@
+{
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "repositorySnapshotDigest": "sha256:6bcd443d4cdb6326a937021ef096717ef1beb5a6b7375456be93bb500ed818a7",
+  "preflightDecisionDigest": "sha256:7b2ccbca2b332f533676c4f3d3e04ac3d83ec9df916977db582212b8a90b3c72",
+  "humanDecisionRequired": true,
+  "nativeDecisionId": "contract-preflight-review",
+  "options": [
+    "complete_contract",
+    "confirm_review",
+    "stop_work"
+  ],
+  "recommendedOption": "confirm_review",
+  "materialRequestDigest": "sha256:81878ba626fe354bfbbe24f1fd573c57485e41d73942a7173b5a1e3b9894be63",
+  "oldMaterialRequestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1",
+  "sourceSnapshotDigest": "sha256:a839198a48b84f5ebdc8406b56f55e3ce9635555cea6c410fa11ce729a0cfc20",
+  "materialManifestDigest": "sha256:7ca05a1112b9eb23ec29939b81322eb885de13dfd2bee92cf7b063661843d33d",
+  "materialRequestIsBeforeTestPatch": true,
+  "materialReviewDecisionRecordedForThisRequest": false,
+  "materialOldReceiptReused": false,
+  "productAndTestFilesModified": false,
+  "testExecutionSinceFailedAttempt": false,
+  "currentHead": "3235316534fd0798fc6a83625df72a36662ab443"
+}

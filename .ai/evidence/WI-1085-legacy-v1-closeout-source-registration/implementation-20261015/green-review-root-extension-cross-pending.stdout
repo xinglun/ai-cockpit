@@ -1,0 +1,6 @@
+
+running 1 test
+test extension::review_regression_root_loss_during_extension_pending_has_ordered_exact_recovery ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 6.45s
+

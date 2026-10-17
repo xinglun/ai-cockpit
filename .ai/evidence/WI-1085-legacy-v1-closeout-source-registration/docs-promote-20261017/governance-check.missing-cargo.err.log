@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/tests/ci/governance_integrity_gate.py", line 3156, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/tests/ci/governance_integrity_gate.py", line 2236, in main
+    release = current_release(repo)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/tests/ci/governance_integrity_gate.py", line 55, in current_release
+    completed = subprocess.run(
+                ^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cargo'

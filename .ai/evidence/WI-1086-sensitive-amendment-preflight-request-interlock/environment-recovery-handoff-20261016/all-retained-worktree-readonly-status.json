@@ -1,0 +1,99 @@
+{
+  "method": "git worktree list then status only; no filesystem-wide scan",
+  "worktrees": [
+    {
+      "worktree": "/workspace/ai-cockpit",
+      "HEAD": "707ba00c99b96b060df3b8ba997e1aad03431ea1",
+      "exists": true,
+      "status": []
+    },
+    {
+      "worktree": "/tmp/wi1078-main-bcd76ae7-20261015/source",
+      "HEAD": "bcd76ae76f61650a890267f511099c96dc6a47fd",
+      "exists": true,
+      "status": []
+    },
+    {
+      "worktree": "/workspace/ai-cockpit-control",
+      "HEAD": "508a0a0f47dcbb957aacb8b03220f6234a87549d",
+      "branch": "refs/heads/main",
+      "exists": true,
+      "status": [
+        " M .ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+      ]
+    },
+    {
+      "worktree": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+      "HEAD": "62427bce7e332d0e3a5741fa405ad62bac3718dc",
+      "branch": "refs/heads/codex/wi1078-retained-evidence-00461714",
+      "exists": true,
+      "status": []
+    },
+    {
+      "worktree": "/workspace/ai-cockpit-control-wi1084-final-b1487517",
+      "HEAD": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+      "exists": true,
+      "status": []
+    },
+    {
+      "worktree": "/workspace/ai-cockpit-main37cc-review",
+      "HEAD": "feafd0fe72dc44c41107a85840f93bffc060a5ca",
+      "branch": "refs/heads/codex/wi1080-v3-actual-merge-first-parent",
+      "exists": true,
+      "status": [
+        " M crates/cockpit-repository/src/resource_lifecycle.rs"
+      ]
+    },
+    {
+      "worktree": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+      "HEAD": "f49a001ece01209ed9e4cf743f879b7a5931143c",
+      "branch": "refs/heads/codex/wi1085-legacy-v1-closeout-source-registration",
+      "exists": true,
+      "status": []
+    },
+    {
+      "worktree": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+      "HEAD": "95f459b5db3a51416041a682d1764fadd1a5c89a",
+      "branch": "refs/heads/codex/wi1086-sensitive-amendment-preflight-request-interlock",
+      "exists": true,
+      "status": [
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-coordination-help.meta.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-coordination-help.stderr",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-coordination-help.stdout",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-current-backup-readback.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1085-status.meta.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1085-status.stderr",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1085-status.stdout",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1086-status-json.meta.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1086-status-json.stderr",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1086-status-json.stdout",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1086-status.meta.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1086-status.stderr",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-final-wi1086-status.stdout",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-historical-small-files.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-host-preservation.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-inspect-help.meta.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-inspect-help.stderr",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-inspect-help.stdout",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-native-coordination-inspect.meta.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-native-coordination-inspect.stderr",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-native-coordination-inspect.stdout",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-outcome-read.meta.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-outcome-read.stderr",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-outcome-read.stdout",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-remote-readbacks.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-retained-binaries.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/migration-worktrees.json",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/report.zh-CN.md",
+        "?? .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/environment-recovery-handoff-20261016/retention-classification.json"
+      ]
+    },
+    {
+      "worktree": "/workspace/ai-cockpit-wi1087-contract-authority-scope-and-expiry",
+      "HEAD": "eb942a0819a40173842d22e90841c8b95c02870f",
+      "branch": "refs/heads/codex/wi1087-contract-authority-scope-and-expiry",
+      "exists": true,
+      "status": []
+    }
+  ]
+}

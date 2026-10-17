@@ -1,0 +1,39 @@
+[TRACE tini (1752773)] Registered as child subreaper
+[INFO  tini (1752773)] Spawned child process '/usr/bin/timeout' with pid '1753080'
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[TRACE tini (1752773)] No child to reap
+[DEBUG tini (1752773)] Received SIGCHLD
+[DEBUG tini (1752773)] Reaped child with pid: '1753080'
+[INFO  tini (1752773)] Main child exited normally (with status '101')
+[TRACE tini (1752773)] No child to wait
+[TRACE tini (1752773)] Exiting: child has exited

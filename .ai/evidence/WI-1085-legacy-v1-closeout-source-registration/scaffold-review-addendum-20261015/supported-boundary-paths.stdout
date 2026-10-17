@@ -1,0 +1,63 @@
+{
+  "changeId": "wi1085-supported-generated-boundary-paths-20261015",
+  "changedValues": [
+    {
+      "newValue": [
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/**",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.contract-amendments/**",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.intelligence.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.approach.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.outcome.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.events.jsonl",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.task-report.json",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.task-report.md",
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.archive.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.summary.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.intelligence.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.approach.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.outcome.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.events.jsonl",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.json",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.task-report.md",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.archive.json",
+        ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.preflight-review.json"
+      ],
+      "oldValue": [
+        ".ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.*",
+        ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.*",
+        ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration*",
+        ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration*"
+      ],
+      "operation": "replace",
+      "path": "/concurrencyBoundary/generatedEvidencePaths"
+    }
+  ],
+  "checkpointed": false,
+  "environmentObservationDigest": "sha256:3e4a0f403b60d217dd1d4fe81cd4200fc13744ee3f7e03daa8c9356f6f31507c",
+  "invalidatedEvidence": [],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:072a86d0cef8c9e88206fe49f43c53cc5d32c44f1c858ce9d92debeedcb8fe82",
+  "newContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "nextAction": "run_preflight",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/concurrencyBoundary/generatedEvidencePaths"
+  ],
+  "previousContractDigest": "sha256:03c33967b9201262a0993643f3a152382aaa963eac7efacbcc53d1af6879536b",
+  "previousJournalDigest": "sha256:c0eb4a3300524f18fe332fe0aea5846f959f274c3ebc14f44c18c01070cb9f8b",
+  "reason": "Native work-item inspect 明确拒绝 concurrencyBoundary.generatedEvidencePaths 的文件名前缀 glob。使用现有协议支持的精确本 WI 文件和两个本 WI 目录 /** 替代，不扩大 scope、不宣称获得并行兼容或 lease；保留拒绝日志和原 Contract 历史。",
+  "recordedAt": "2026-10-15T14:50:39Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "requestDigest": "sha256:09e5c4e3fe07ecfc452a13f21e114aa13d0bf19adecdfd6c30241de7e6c48d92",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 3,
+  "verificationStarted": false,
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

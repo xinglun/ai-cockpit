@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": "user:Ray current-conversation delegation of ordinary technical review to agent:Raydot; this exact WI-1085 opt-in proposal requires Raydot review before application",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/material-decision-relay.json",
+      "digest": "sha256:2a0a23e7eabc1673fb6be07a03c36a106d19106a6f4dd93f905412a03179bb09"
+    },
+    {
+      "path": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verification-20261016/material-request.json",
+      "digest": "sha256:594bfbadb1519a1bb6010e937c939d6140bc6775cb9b2b0cd82902bca22f462e"
+    }
+  ],
+  "rationale": "The current user reports Raydot accepts only the source and matching test legacy_closeout_source.rs readable_committed_rust_syntax_unknown entries bound to this exact request. Current request, policy, profile, source, manifest, analyzer, hunks and blobs were rechecked unchanged; no Finding or foreign identity is accepted. Codex records the reported decision without claiming to be Raydot.",
+  "residualRisk": "The bounded scanner remains incomplete for these two committed Rust syntax forms. Raw scanner Unknowns remain auditable. This self_declared material decision does not establish formal verification, acceptance, a user-visible benefit or release authority."
+}

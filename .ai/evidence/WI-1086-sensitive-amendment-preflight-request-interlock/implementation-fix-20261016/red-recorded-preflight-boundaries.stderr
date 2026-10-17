@@ -1,0 +1,192 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 0.94s
+     Running tests/contract_amendment_processes.rs (target/wi1086-sensitive-amendment-preflight-request-interlock/debug/deps/contract_amendment_processes-51eb1170dae3038b)
+
+thread 'foreign_recorded_preflight_contract_rejects_review_without_writes' (497840) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:903:9:
+assertion `left == right` failed: state=Some("yellow"), current_contract=false: {
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-16T00:48:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:2251890c434fbebf44c1285c2b37897e37043f61117dd230d0a738d3c7e85c90",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+    "reason": "automated boundary fixture; no real human approval",
+    "recordedAt": "2026-10-16T00:00:00Z",
+    "recordedBy": "human:isolated-test-fixture",
+    "repositoryId": "sha256:b42994fa0d8584b72729a24b9cb0abd13386399a2f9b61ad606dca7b77f9105a",
+    "repositorySnapshotDigest": "sha256:973c9f38961ad794a5698965321afb7dbf748e34f927b7fb014a642b56173e1e",
+    "schemaVersion": 1,
+    "workItemId": "WI-CLI-AMEND-PARITY"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-16T00:48:12.625728007Z",
+      "recordedAt": "2026-10-16T00:48:12.625728007Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T00:48:12Z",
+  "preflightContractDigest": "sha256:b81c53a07a163f1446eae35c6a67e388a3c6ba14b365b6e5b81ba8bad057b79f",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:973c9f38961ad794a5698965321afb7dbf748e34f927b7fb014a642b56173e1e",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:b42994fa0d8584b72729a24b9cb0abd13386399a2f9b61ad606dca7b77f9105a",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-16T00:48:12.885546035+00:00",
+  "workItemId": "WI-CLI-AMEND-PARITY"
+}
+
+  left: true
+ right: false
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'missing_recorded_preflight_state_rejects_review_without_writes' (498068) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:903:9:
+assertion `left == right` failed: state=None, current_contract=true: {
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-16T00:48:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:313bd3c76fb960dca4790c5db2333580abf4c186c9c250d22174ab614603eeb8",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+    "reason": "automated boundary fixture; no real human approval",
+    "recordedAt": "2026-10-16T00:00:00Z",
+    "recordedBy": "human:isolated-test-fixture",
+    "repositoryId": "sha256:8d55178f43d96e37078c581dc3e6b84dde2cdc1453b9ab6b8dee30a1fd45b8d1",
+    "repositorySnapshotDigest": "sha256:84381cb4ee9e9b9c073d32ad3549592719479c1537280cab79b693d228c110c8",
+    "schemaVersion": 1,
+    "workItemId": "WI-CLI-AMEND-PARITY"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-16T00:48:12.934616529Z",
+      "recordedAt": "2026-10-16T00:48:12.934616529Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T00:48:13Z",
+  "preflightContractDigest": "sha256:313bd3c76fb960dca4790c5db2333580abf4c186c9c250d22174ab614603eeb8",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:84381cb4ee9e9b9c073d32ad3549592719479c1537280cab79b693d228c110c8",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:8d55178f43d96e37078c581dc3e6b84dde2cdc1453b9ab6b8dee30a1fd45b8d1",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-16T00:48:13.176026141+00:00",
+  "workItemId": "WI-CLI-AMEND-PARITY"
+}
+
+  left: true
+ right: false
+
+thread 'not_run_recorded_preflight_state_rejects_review_without_writes' (498297) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:903:9:
+assertion `left == right` failed: state=Some("not_run"), current_contract=true: {
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-16T00:48:13Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:282e1f1deb4f726c0c104b846b714a871eb3c515a39cb84a3f1ef9940766e850",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+    "reason": "automated boundary fixture; no real human approval",
+    "recordedAt": "2026-10-16T00:00:00Z",
+    "recordedBy": "human:isolated-test-fixture",
+    "repositoryId": "sha256:3efb49b359cd3885c6a24e53e59be9489a3e18d6567114e78621de687348a28a",
+    "repositorySnapshotDigest": "sha256:b1c03b5f1fdd9369e1a8d2126bdd463d4b045dc7baa149ce8d51383c0373bf93",
+    "schemaVersion": 1,
+    "workItemId": "WI-CLI-AMEND-PARITY"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-16T00:48:13.218137361Z",
+      "recordedAt": "2026-10-16T00:48:13.218137361Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T00:48:13Z",
+  "preflightContractDigest": "sha256:282e1f1deb4f726c0c104b846b714a871eb3c515a39cb84a3f1ef9940766e850",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:b1c03b5f1fdd9369e1a8d2126bdd463d4b045dc7baa149ce8d51383c0373bf93",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:3efb49b359cd3885c6a24e53e59be9489a3e18d6567114e78621de687348a28a",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-16T00:48:13.464110007+00:00",
+  "workItemId": "WI-CLI-AMEND-PARITY"
+}
+
+  left: true
+ right: false
+
+thread 'unknown_recorded_preflight_state_rejects_review_without_writes' (498527) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:903:9:
+assertion `left == right` failed: state=Some("unknown"), current_contract=true: {
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-16T00:48:13Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:be40972eadc399b70822b606a57af873086264ff3050ee77d665d755fb571b80",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+    "reason": "automated boundary fixture; no real human approval",
+    "recordedAt": "2026-10-16T00:00:00Z",
+    "recordedBy": "human:isolated-test-fixture",
+    "repositoryId": "sha256:a44fdb98127182895257d8c133d9479859a6ae0527712847c9aaf9d13a3b7ccd",
+    "repositorySnapshotDigest": "sha256:bafe9b7aea99727db222bb6edfb1904bf0d36a95f47807288df02d4f976d45d7",
+    "schemaVersion": 1,
+    "workItemId": "WI-CLI-AMEND-PARITY"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-16T00:48:13.507646207Z",
+      "recordedAt": "2026-10-16T00:48:13.507646207Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T00:48:13Z",
+  "preflightContractDigest": "sha256:be40972eadc399b70822b606a57af873086264ff3050ee77d665d755fb571b80",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:bafe9b7aea99727db222bb6edfb1904bf0d36a95f47807288df02d4f976d45d7",
+  "preflightState": "unknown",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:a44fdb98127182895257d8c133d9479859a6ae0527712847c9aaf9d13a3b7ccd",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-16T00:48:13.763043676+00:00",
+  "workItemId": "WI-CLI-AMEND-PARITY"
+}
+
+  left: true
+ right: false
+error: test failed, to rerun pass `-p cockpit-cli --test contract_amendment_processes`

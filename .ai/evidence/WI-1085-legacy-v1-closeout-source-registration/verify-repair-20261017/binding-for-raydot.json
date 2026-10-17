@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-10-16T19:00:21.484878+00:00",
+  "purpose": "Raydot final technical review handoff; no Ready/merge/archive/close authorization",
+  "implementationCommit": "007fdcba2e81d01285a694dce57cd78e0f74fcf4",
+  "locallyVerifiedAndCiSourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "sourceSnapshotDigest": "sha256:d769eda16f0a78a672715212f5bb4820b4a443880eb197f5eabcc465e7852871",
+  "repositorySnapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "materialManifestDigest": "sha256:b17c12d60094a36f04cfd9ba4b5895dd7e92c38c5dcb361aa87eef771afc82cf",
+  "requestDigest": "sha256:10f95e4ec0a84e26ab0ccd9f240c515217340b0bef949a92f144d3005a6bc663",
+  "materialDecision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "reviewAssurance": "self_declared",
+  "materialReviewReceiptDigest": "sha256:8e9020154c5e308bfc9296b326a59408bdd3ca41ed22d4d4b4c96bc24c22f226",
+  "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+  "nativeReceiptDigest": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+  "localActualNodes": {
+    "executed": 13,
+    "passed": 13,
+    "reused": 0,
+    "timedOut": 0,
+    "elapsedMs": 876971
+  },
+  "ciRunId": 38946515596,
+  "ciConclusion": "success",
+  "ciTestedRevision": "a408ad078eb973e5254806254e44ba0d8102baae",
+  "ciBase": "9e370e1c2c2e2dceda79de62ca4e849ae313624c",
+  "windowsActualNewCasesPassed": 4,
+  "windowsLib": {
+    "passed": 136,
+    "failed": 0,
+    "ignored": 0,
+    "elapsedSeconds": 856.2
+  },
+  "a6Scope": "Current representative Linux and four Windows directory-junction cases plus explicitly separated static guard inspection; other reparse tags and terminal file symlinks not executed. Final acceptance pending Raydot.",
+  "runtimeVerification": "verified",
+  "runtimeEvidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "runtimeBlockers": [],
+  "humanDecisionRequired": false,
+  "intentAlignment": "resolved",
+  "userVisibleBenefit": "unknown; risk reduction inference only",
+  "handoffCommitSha": "Not self-embedded; the forthcoming evidence-only commit contains this record and is reported separately in the PR/visible Outcome.",
+  "reviewRequestDigestExcludesHeadProvenance": true,
+  "preservedPrimaryCleanupReceiptSha256": "7304e582f78f5a49ec751f01f5497a3a310a66c5621fa3353813869c961a6a8d"
+}

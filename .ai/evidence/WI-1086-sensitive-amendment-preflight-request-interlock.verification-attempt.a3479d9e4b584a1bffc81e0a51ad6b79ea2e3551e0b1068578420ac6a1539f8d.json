@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:a3479d9e4b584a1bffc81e0a51ad6b79ea2e3551e0b1068578420ac6a1539f8d",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+      "commandDigest": "sha256:4a5e115e9cf658c9273942258740c1188daac0d60d4e6a943a89973cf1df7efc",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+  "contractExecutionScopeDigest": "sha256:f98e078a7704bdc816a97bb5d7305d134c75f32c9b0637213a0a421b518e9b55",
+  "createdAt": "2026-10-16T06:53:05Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/ai-cockpit/.ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"archive_when_reviewed\", \"record_governance_controls\", \"record_usage\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"archive_when_reviewed\"), admissionDigest=sha256:cfd492cfb58f7c5ad3b16c28842c9dd4319a5fae60e35724f2e05fa360617a2b, issues=[\"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5f85b933a4ccd16836dfc7f1271a87e950154ab5bcb7bf0da816791ac95f88d8",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "relayed_parent_conversation_human_approval",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "transport": "cloud_threads.send_message",
+  "relayActor": "agent:Raydot",
+  "recordingActor": "agent:Codex",
+  "humanDecisionActor": "human:Ray",
+  "occurrenceLocation": "parent_conversation_not_this_core",
+  "requestMessage": {
+    "id": "Sentinel_100a9adc115881918cefc24bb44dbe6b",
+    "occurredAt": "2026-10-15T14:56:33.916092Z",
+    "requestCommit": "309e6f60bbe07fcc42eea04ba170e83bdf8b5163",
+    "requestRawDigest": "sha256:27abfc329958b9f053c3b69e1e8215efcc107a1aaf3818615ff5274f5c77cc70"
+  },
+  "replyMessage": {
+    "id": "Sentinel_21246414189481918e85958adaedabc4",
+    "receivedAtAsReported": "2026-10-15 18:18 UTC",
+    "timePrecisionAsReported": "minute",
+    "quotedReply": "我本人 Ray 确认上述 WI-1085 完整绑定，选择 confirm_review。"
+  },
+  "decision": "confirm_review",
+  "bindings": {
+    "workItemId": "WI-1085-legacy-v1-closeout-source-registration",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034"
+  },
+  "observedAndRecordedAt": "2026-10-15T18:21:48.466476Z",
+  "assurance": "Parent coordinator supplies transcript evidence of Ray direct approval; this core records the relay truthfully. Runtime schema binds actor/reason/digests but does not authenticate parent-chat identity. No claim that Ray spoke directly in this core, and no backdated recording timestamp.",
+  "excluded": "PR1040 public-body correction, real Sentinel data registration, merge, release and deletion are outside this approval."
+}

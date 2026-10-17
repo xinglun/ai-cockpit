@@ -1,0 +1,51 @@
+thread 'windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes' (6568) panicked at crates\cockpit-cli\tests\cognitive_benefit.rs:164:9:
+2026-10-16T07:37:27.7635369Z clone failed: Note: switching to 'b0a9e1c9354bd8c371462cc80959b5b9e4e47796'.
+2026-10-16T07:37:27.7635956Z 
+2026-10-16T07:37:27.7636351Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-16T07:37:27.7637313Z changes and commit them, and you can discard any commits you make in this
+2026-10-16T07:37:27.7638330Z state without impacting any branches by switching back to a branch.
+2026-10-16T07:37:27.7639132Z 
+2026-10-16T07:37:27.7639489Z If you want to create a new branch to retain commits you create, you may
+2026-10-16T07:37:27.7640430Z do so (now or later) by using -c with the switch command. Example:
+2026-10-16T07:37:27.7641148Z 
+2026-10-16T07:37:27.7641296Z   git switch -c <new-branch-name>
+2026-10-16T07:37:27.7641569Z 
+2026-10-16T07:37:27.7641702Z Or undo this operation with:
+2026-10-16T07:37:27.7641948Z 
+2026-10-16T07:37:27.7642057Z   git switch -
+2026-10-16T07:37:27.7642231Z 
+2026-10-16T07:37:27.7642564Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-16T07:37:27.7643061Z 
+2026-10-16T07:37:27.7647395Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-agent.stderr.log: Filename too long
+2026-10-16T07:37:27.7650641Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-agent.stdout.log: Filename too long
+2026-10-16T07:37:27.7653780Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-cli.stderr.log: Filename too long
+2026-10-16T07:37:27.7656903Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-cli.stdout.log: Filename too long
+2026-10-16T07:37:27.7660197Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-core.stderr.log: Filename too long
+2026-10-16T07:37:27.7662109Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-core.stdout.log: Filename too long
+2026-10-16T07:37:27.7663964Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-evidence.stderr.log: Filename too long
+2026-10-16T07:37:27.7665803Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-evidence.stdout.log: Filename too long
+2026-10-16T07:37:27.7667648Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-git.stderr.log: Filename too long
+2026-10-16T07:37:27.7669639Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-git.stdout.log: Filename too long
+2026-10-16T07:37:27.7671616Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-interface.stderr.log: Filename too long
+2026-10-16T07:37:27.7673799Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-interface.stdout.log: Filename too long
+2026-10-16T07:37:27.7676764Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-isolation.stderr.log: Filename too long
+2026-10-16T07:37:27.7678687Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-isolation.stdout.log: Filename too long
+2026-10-16T07:37:27.7681286Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-knowledge.stderr.log: Filename too long
+2026-10-16T07:37:27.7684226Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-knowledge.stdout.log: Filename too long
+2026-10-16T07:37:27.7686115Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-mcp.stderr.log: Filename too long
+2026-10-16T07:37:27.7687910Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-mcp.stdout.log: Filename too long
+2026-10-16T07:37:27.7689720Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-protocol.stderr.log: Filename too long
+2026-10-16T07:37:27.7691544Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-protocol.stdout.log: Filename too long
+2026-10-16T07:37:27.7693349Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-release.stderr.log: Filename too long
+2026-10-16T07:37:27.7695156Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-release.stdout.log: Filename too long
+2026-10-16T07:37:27.7697550Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-repository.stderr.log: Filename too long
+2026-10-16T07:37:27.7699474Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-repository.stdout.log: Filename too long
+2026-10-16T07:37:27.7701487Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-verification.stderr.log: Filename too long
+2026-10-16T07:37:27.7703457Z error: unable to create file .ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/docs-parity-recovery-20261016/native-verification/captured-node-streams/project-command-0-package-cockpit-verification.stdout.log: Filename too long
+2026-10-16T07:37:27.7704610Z fatal: unable to checkout working tree
+2026-10-16T07:37:27.7704953Z warning: Clone succeeded, but checkout failed.
+2026-10-16T07:37:27.7705356Z You can inspect what was checked out with 'git status'
+2026-10-16T07:37:27.7705754Z and retry with 'git restore --source=HEAD :/'
+2026-10-16T07:37:27.7706001Z 
+2026-10-16T07:37:27.7706005Z 
+2026-10-16T07:37:27.7706261Z 

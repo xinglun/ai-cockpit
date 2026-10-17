@@ -1,0 +1,77 @@
+{
+  "kind": "directed_diagnostic_only",
+  "caseId": "08-exact-cache-write",
+  "launchExitCode": 1,
+  "checks": {
+    "launchExitZero": false,
+    "subreaperRegistered": true,
+    "tiniExitObserved": true,
+    "noObservationErrors": true,
+    "noNewZombies": true,
+    "noNewSessionProcesses": true,
+    "tiniAbsentAfter": true,
+    "cargoResultPresent": true,
+    "cargoLogsPresent": true,
+    "nativeAttemptPassed": false
+  },
+  "mayContinue": false,
+  "beforeZombieCount": 1404,
+  "afterZombieCount": 1404,
+  "newZombies": [],
+  "newSessionProcesses": [],
+  "newOtherProcesses": [],
+  "observationErrors": {
+    "before": [],
+    "after": []
+  },
+  "tiniPids": [
+    279977
+  ],
+  "remainingTiniProcesses": [],
+  "attempts": [
+    {
+      "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.758e33a450b7cee6ade85b7c980ec80fa6fa505b00e54a148e601bea47009fe5.json",
+      "attemptId": "sha256:758e33a450b7cee6ade85b7c980ec80fa6fa505b00e54a148e601bea47009fe5",
+      "state": "execution_failed",
+      "passed": false,
+      "processesSpawned": 1,
+      "diagnostic": {
+        "code": "verification_execution",
+        "message": "one or more verification nodes failed"
+      },
+      "records": [
+        {
+          "nodeId": "project-command-0",
+          "spawned": true,
+          "passed": false,
+          "exitCode": 101,
+          "timedOut": false,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        }
+      ]
+    }
+  ],
+  "logs": {
+    "cargo.stdout.log": {
+      "exists": true,
+      "bytes": 295,
+      "sha256": "468f8671c5cf2777294367383864c41fdbb1c3f3a6028218b78c6cb42534431e"
+    },
+    "cargo.stderr.log": {
+      "exists": true,
+      "bytes": 1314,
+      "sha256": "984b87ad997e80ffb598a1e034a2320fffd9909d3d55b07a3cd8dcd4ccd100e0"
+    },
+    "native-tini.stdout.log": {
+      "exists": true,
+      "bytes": 5359,
+      "sha256": "7c5a62eb288a7ddbca3169b7f2430aaaf4dbeba75adcf4ac77441169d8e6e1c3"
+    },
+    "native-tini.stderr.log": {
+      "exists": true,
+      "bytes": 391,
+      "sha256": "dbc831dd4d4c91357e8560cca92eb0e79d1dd8395f0ef139b1d1e41724bd5818"
+    }
+  }
+}

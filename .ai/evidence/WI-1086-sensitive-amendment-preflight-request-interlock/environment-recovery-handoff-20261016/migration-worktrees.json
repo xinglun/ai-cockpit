@@ -1,0 +1,48 @@
+{
+  "observedAt": "2026-10-16T04:16:55.919349+00:00",
+  "worktrees": [
+    {
+      "path": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+      "head": "95f459b5db3a51416041a682d1764fadd1a5c89a",
+      "branch": "codex/wi1086-sensitive-amendment-preflight-request-interlock",
+      "status": [],
+      "remoteBranchReadback": "95f459b5db3a51416041a682d1764fadd1a5c89a\trefs/heads/codex/wi1086-sensitive-amendment-preflight-request-interlock",
+      "ignoredAiFiles": [
+        ".ai/locks/WI-1086-sensitive-amendment-preflight-request-interlock.lifecycle.lock"
+      ]
+    },
+    {
+      "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+      "head": "f49a001ece01209ed9e4cf743f879b7a5931143c",
+      "branch": "codex/wi1085-legacy-v1-closeout-source-registration",
+      "status": [],
+      "remoteBranchReadback": "f49a001ece01209ed9e4cf743f879b7a5931143c\trefs/heads/codex/wi1085-legacy-v1-closeout-source-registration",
+      "ignoredAiFiles": [
+        ".ai/locks/WI-1085-legacy-v1-closeout-source-registration.lifecycle.lock"
+      ]
+    },
+    {
+      "path": "/workspace/ai-cockpit-control-wi1078-retained-00461714",
+      "head": "62427bce7e332d0e3a5741fa405ad62bac3718dc",
+      "branch": "codex/wi1078-retained-evidence-00461714",
+      "status": [],
+      "remoteBranchReadback": ""
+    },
+    {
+      "path": "/workspace/ai-cockpit-control",
+      "head": "508a0a0f47dcbb957aacb8b03220f6234a87549d",
+      "branch": "main",
+      "status": [
+        " M .ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+      ]
+    },
+    {
+      "path": "/workspace/ai-cockpit-main37cc-review",
+      "head": "feafd0fe72dc44c41107a85840f93bffc060a5ca",
+      "branch": "codex/wi1080-v3-actual-merge-first-parent",
+      "status": [
+        " M crates/cockpit-repository/src/resource_lifecycle.rs"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_release-5a45c7f27cd1adf0)
+     Running unittests src/main.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_release-edb0697a88314357)
+     Running tests/acceptance_recovery.rs (target/wi1085-legacy-closeout-source/debug/deps/acceptance_recovery-02ac1626ecb5e536)
+     Running tests/archive.rs (target/wi1085-legacy-closeout-source/debug/deps/archive-2a5a136dd17866b3)
+     Running tests/cli.rs (target/wi1085-legacy-closeout-source/debug/deps/cli-d98246f5233fbb39)
+     Running tests/fixtures.rs (target/wi1085-legacy-closeout-source/debug/deps/fixtures-9a7a31ca404a378d)
+     Running tests/formula.rs (target/wi1085-legacy-closeout-source/debug/deps/formula-4b24718992ea8937)
+     Running tests/handoff.rs (target/wi1085-legacy-closeout-source/debug/deps/handoff-dd31b309eab9760e)
+     Running tests/manifest.rs (target/wi1085-legacy-closeout-source/debug/deps/manifest-5b44ab68e05fdf20)
+     Running tests/package_boundary.rs (target/wi1085-legacy-closeout-source/debug/deps/package_boundary-667f2895f5e65a55)
+     Running tests/sbom.rs (target/wi1085-legacy-closeout-source/debug/deps/sbom-14b29502c59ee721)
+     Running tests/version_consistency.rs (target/wi1085-legacy-closeout-source/debug/deps/version_consistency-d28290e7c4edfc9b)
+   Doc-tests cockpit_release

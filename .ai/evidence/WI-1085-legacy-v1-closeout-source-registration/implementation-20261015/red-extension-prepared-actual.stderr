@@ -1,0 +1,8 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 0.64s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-dda35c53c2bb4a29)
+
+thread 'extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence' (157529) panicked at crates/cockpit-repository/tests/legacy_closeout_source.rs:450:351:
+typed extension request supported: Error("unknown variant `extend`, expected `register` or `resume`", line: 0, column: 0)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test legacy_closeout_source`

@@ -1,0 +1,74 @@
+{
+  "kind": "directed_diagnostic_only",
+  "caseId": "05-mcp-failed-execution",
+  "launchExitCode": 0,
+  "checks": {
+    "launchExitZero": true,
+    "subreaperRegistered": true,
+    "tiniExitObserved": true,
+    "noObservationErrors": true,
+    "noNewZombies": true,
+    "noNewSessionProcesses": true,
+    "tiniAbsentAfter": true,
+    "cargoResultPresent": true,
+    "cargoLogsPresent": true,
+    "nativeAttemptPassed": true
+  },
+  "mayContinue": true,
+  "beforeZombieCount": 1403,
+  "afterZombieCount": 1403,
+  "newZombies": [],
+  "newSessionProcesses": [],
+  "newOtherProcesses": [],
+  "observationErrors": {
+    "before": [],
+    "after": []
+  },
+  "tiniPids": [
+    276806
+  ],
+  "remainingTiniProcesses": [],
+  "attempts": [
+    {
+      "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.9fdfeb216d865353940774c92d8000cbaf6dcf79299388724eb7fb950ffc30f7.json",
+      "attemptId": "sha256:9fdfeb216d865353940774c92d8000cbaf6dcf79299388724eb7fb950ffc30f7",
+      "state": "execution_completed",
+      "passed": true,
+      "processesSpawned": 1,
+      "diagnostic": null,
+      "records": [
+        {
+          "nodeId": "project-command-0",
+          "spawned": true,
+          "passed": true,
+          "exitCode": 0,
+          "timedOut": false,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        }
+      ]
+    }
+  ],
+  "logs": {
+    "cargo.stdout.log": {
+      "exists": true,
+      "bytes": 199,
+      "sha256": "d9f797e1a126319c45330acd9e5f833c2157c17ac1e16450e2563cc60d4da954"
+    },
+    "cargo.stderr.log": {
+      "exists": true,
+      "bytes": 195,
+      "sha256": "f2b9767200023dc8301fe9f2d8789454462b31cd1ab064568e8f76274998304a"
+    },
+    "native-tini.stdout.log": {
+      "exists": true,
+      "bytes": 5358,
+      "sha256": "4dfca6c12195b975ef6a87926035a8c88fa2f71309c390687a101b1500fda356"
+    },
+    "native-tini.stderr.log": {
+      "exists": true,
+      "bytes": 282,
+      "sha256": "2ae9822ba037246d90e367e37342fad500e597a1a8fa945aaf370f8e36ce8af8"
+    }
+  }
+}

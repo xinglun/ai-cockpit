@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.md",
+    "docs/reference/reference-parity.md",
+    "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.zh-CN.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.ja.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "mode": "write",
+  "state": "promoted",
+  "terminalEvidence": {
+    "archive": ".ai/work-items/archive/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json",
+    "close": ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.close.json",
+    "finalization": null,
+    "verification": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json"
+  },
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

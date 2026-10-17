@@ -1,0 +1,13 @@
+cockpit-agent
+cockpit-cli
+cockpit-core
+cockpit-evidence
+cockpit-git
+cockpit-interface
+cockpit-isolation
+cockpit-knowledge
+cockpit-mcp
+cockpit-protocol
+cockpit-release
+cockpit-repository
+cockpit-verification

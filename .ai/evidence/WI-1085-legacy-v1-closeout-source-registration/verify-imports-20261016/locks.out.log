@@ -1,0 +1,39 @@
+
+running 3 tests
+test resource_lifecycle::legacy_source_lock_tests::different_work_item_locks_do_not_block_each_other ... ok
+test resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard ... ok
+test resource_lifecycle::legacy_source_lock_tests::public_finalization_waits_for_the_same_work_item_lifecycle_lock ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 146 filtered out; finished in 0.12s
+
+[TRACE tini (1162583)] Registered as child subreaper
+[INFO  tini (1162583)] Spawned child process '/usr/bin/timeout' with pid '1162588'
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[TRACE tini (1162583)] No child to reap
+[DEBUG tini (1162583)] Received SIGCHLD
+[DEBUG tini (1162583)] Reaped child with pid: '1162588'
+[INFO  tini (1162583)] Main child exited normally (with status '0')
+[TRACE tini (1162583)] No child to wait
+[TRACE tini (1162583)] Exiting: child has exited

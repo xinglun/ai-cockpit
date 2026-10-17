@@ -1,0 +1,45 @@
+{
+  "status": "technical_review_inputs_only_no_decision_or_native_receipt_recorded",
+  "requestDigest": "sha256:03661bfdc146e57c2d2acc4dbb92b4c14f83bab0471a8040a35c7cc9b72a25d3",
+  "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "profileDigest": "sha256:8eed971dcbb631b144496cbd91fe2d92059a7aea023552d7dffa2187c6832045",
+  "sourceSnapshotDigest": "sha256:7f6f6f53c09c4e3f9bf1055b1722885130418c5758a7cf994b54ee91a422e068",
+  "materialManifestDigest": "sha256:c349576ab9e4fe2dba27a8d2edcbb844f9c1dc5f6176eb45c648e5f5eddbbd4d",
+  "sourceHead": "08430cd4d868176ad0b70ee3881a8a68cabce69a",
+  "codeReviewedHead": "9ecd4495c40ea2574b2f171ebd1bbca9cd6dd89d",
+  "nonAiContentUnchangedSinceCodeReview": true,
+  "reviewableEntries": [
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:efe7571aebfc0cad1a1fa7a3b2288241f133640c46c659b4ab2675791541bdef",
+      "afterBlobDigest": "sha256:a1bf4777908ab94c3645eb23685b93a2d29d44902680a0ca124b415530752ee7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:d8679cdcd44abfa53350e8a4ad6856a70943db3e20358d90b00a1edcd7381af4",
+      "afterBlobDigest": "sha256:8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "reviewEnabled": true,
+  "intendedTechnicalReviewer": "agent:Raydot",
+  "requiredBeforeRecord": [
+    "supported fresh preflight request generation and any actual identity-bound human review",
+    "current Runtime admission for record_material_review_decision",
+    "Raydot review of the exact current canonical material request; regenerate if Contract/profile/source/hunk/policy/analyzer bindings change"
+  ],
+  "boundary": "Only the permitted readable committed Rust syntax Unknown. Raw scanner Unknown remains visible; Findings, identity/provenance errors and other Unknowns remain blocked. No human/provider/release approval is represented."
+}

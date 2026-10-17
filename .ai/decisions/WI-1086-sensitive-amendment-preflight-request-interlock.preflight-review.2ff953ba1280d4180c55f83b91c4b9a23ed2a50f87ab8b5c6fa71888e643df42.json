@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:8920a34f2a16192132227e264543d05da638385c607d50d9502cb6d9cfaf46fd",
+  "reason": "Actual Ray confirmation in message Sentinel_5d7751dc43408191bcdd0ee444d28cdc at 2026-10-16 02:01 UTC (minute precision), relayed by Raydot; exact current request in commit 75e3efe226288fef6c7211e0ce18ffb377bd08d0 rechecked. Bounded fixture-order repair, checkpoint provenance/material fallback negatives and admitted verification only. Cleanup is separately bound to its exact manifest. No merge, close, shared Runtime installation or expanded cleanup. RecordedAt is actual recording time.",
+  "recordedAt": "2026-10-16T02:04:10.447623+00:00",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:64cb4b61537e49744e32a763dcf03f971ce179ceaf4cccd10d1843f5b1c7c9d1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

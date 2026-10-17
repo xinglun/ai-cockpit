@@ -1,0 +1,11 @@
+{
+  "url": "https://api.github.com/repos/xinglun/ai-cockpit/pulls?state=open&head=xinglun:codex/wi1086-sensitive-amendment-preflight-request-interlock",
+  "rawResponse": "[]",
+  "openPullRequests": 0,
+  "workflowPushBranches": [
+    "main"
+  ],
+  "pullRequestTrigger": true,
+  "requestedCI": false,
+  "createdPR": false
+}

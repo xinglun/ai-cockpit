@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-10-16T13:43:18.017235+00:00",
+  "sourceHead": "67ec9c8ec08928f896ede976f2e42211f432d8c0",
+  "results": [
+    {
+      "kind": "guard",
+      "exitCode": 0,
+      "passedTests": 1,
+      "failedTests": 0,
+      "testNames": [
+        "resource_lifecycle_module_uses_explicit_imports"
+      ],
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 25.22s",
+      "beforeZombieCount": 1429,
+      "afterZombieCount": 1429,
+      "addedZombieIdentities": [],
+      "rootGone": true,
+      "activeCargoRustcAfter": [],
+      "stdoutBytes": 1561,
+      "stdoutSha256": "5a710c54639c6a22f62054ddbc544d326e05a7b91c98bb4dfa1e17e3870e944e",
+      "stderrSha256": "6ab1ae5474329e539b5135e0184c379e928a9a5243d97bd5dbd60ba6674cca7c",
+      "notCanonicalVerificationReceipt": true
+    },
+    {
+      "kind": "locks",
+      "exitCode": 0,
+      "passedTests": 3,
+      "failedTests": 0,
+      "testNames": [
+        "resource_lifecycle::legacy_source_lock_tests::different_work_item_locks_do_not_block_each_other",
+        "resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard",
+        "resource_lifecycle::legacy_source_lock_tests::public_finalization_waits_for_the_same_work_item_lifecycle_lock"
+      ],
+      "cargoBuildLine": "Finished `test` profile [unoptimized + debuginfo] target(s) in 24.67s",
+      "beforeZombieCount": 1429,
+      "afterZombieCount": 1429,
+      "addedZombieIdentities": [],
+      "rootGone": true,
+      "activeCargoRustcAfter": [],
+      "stdoutBytes": 1811,
+      "stdoutSha256": "a209531c5806fc0473c7a15fa021b9780345a700361acb8df20aaf4457acc0d9",
+      "stderrSha256": "8ed68e377aaedcd352340bc68fc48ed80af4a6297f3598a0400a9905bb84c9ed",
+      "notCanonicalVerificationReceipt": true
+    }
+  ],
+  "totalFocusedPassed": 4,
+  "formal13NodeResultNotEstablished": true
+}

@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "sha256",
+  "note": "Handoff additions only. Excludes this manifest itself. Original backups and generated governance records are not rewritten.",
+  "files": [
+    {
+      "path": "all-retained-worktree-readonly-status.json",
+      "bytes": 6895,
+      "sha256": "cfab38f2b7792830dc0185261a45e74894a9aeecab4c72e623060dc41d11a216"
+    },
+    {
+      "path": "migration-coordination-help.meta.json",
+      "bytes": 421,
+      "sha256": "815773219d6163b1901cc3b0670d07c29b71f795f6e887800c106e23ae45c485"
+    },
+    {
+      "path": "migration-coordination-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "migration-coordination-help.stdout",
+      "bytes": 685,
+      "sha256": "d07aaa05a9877736112aa5d8248bff2e7625ea0308975e98c8bd0350f816c0ec"
+    },
+    {
+      "path": "migration-current-backup-readback.json",
+      "bytes": 177824,
+      "sha256": "21766585aee928e34b2625e976423180197d83533c02eae58967e01dfd37cd87"
+    },
+    {
+      "path": "migration-final-wi1085-status.meta.json",
+      "bytes": 556,
+      "sha256": "7999385b406fe56ff8ceb95b962796a592e30abf13e4d6da07ec5580fee553d0"
+    },
+    {
+      "path": "migration-final-wi1085-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "migration-final-wi1085-status.stdout",
+      "bytes": 515,
+      "sha256": "9c696d9d569402c62c3bf2a3a756225cb98e919f558d0fc164f7ccf908027db0"
+    },
+    {
+      "path": "migration-final-wi1086-status-json.meta.json",
+      "bytes": 589,
+      "sha256": "b778df665d8133cab215507f69bd2345572b1b7556da8129089575d7619393cb"
+    },
+    {
+      "path": "migration-final-wi1086-status-json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "migration-final-wi1086-status-json.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": "migration-final-wi1086-status.meta.json",
+      "bytes": 574,
+      "sha256": "0159dd5cb00f676717ec5dff801164a7b889f74910a5d7c8dc1fe28bbc444cbd"
+    },
+    {
+      "path": "migration-final-wi1086-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "migration-final-wi1086-status.stdout",
+      "bytes": 320,
+      "sha256": "e051c51d0092db472e364ee471afc98315b6b31d78df1943a76741e9df94eb1b"
+    },
+    {
+      "path": "migration-historical-small-files.json",
+      "bytes": 71970,
+      "sha256": "cdd25a11b5560b84538b1132628988436f08708356f85834a33818154b5ec2ce"
+    },
+    {
+      "path": "migration-host-preservation.json",
+      "bytes": 694,
+      "sha256": "09f3f6523878b09879555667349b50f5ae09045e5397a521ac9513286aa972fb"
+    },
+    {
+      "path": "migration-inspect-help.meta.json",
+      "bytes": 436,
+      "sha256": "3fc80f61af7bb9320f5a1c6cd90221e61e70f2159968af355bb1a6103e461c7f"
+    },
+    {
+      "path": "migration-inspect-help.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "migration-inspect-help.stdout",
+      "bytes": 127,
+      "sha256": "75cf62172aa0a5aff3335ca41d78744848566d4a4b14cf7d3f3944616687e653"
+    },
+    {
+      "path": "migration-native-coordination-inspect.meta.json",
+      "bytes": 520,
+      "sha256": "afe390ad47c748fd6f1f386aa1d0e70d052d8a358111bced18218cf1dd8c32be"
+    },
+    {
+      "path": "migration-native-coordination-inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "migration-native-coordination-inspect.stdout",
+      "bytes": 159,
+      "sha256": "9c4935a9f84d27021b5bd81f690b757cfc3f6c1c00325aeedbf810c452b5bfab"
+    },
+    {
+      "path": "migration-outcome-read.meta.json",
+      "bytes": 576,
+      "sha256": "8c3b449351e0e1724ecf65488b605fff1e9584b67b3b5f02c1fca1f4b18d9316"
+    },
+    {
+      "path": "migration-outcome-read.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "migration-outcome-read.stdout",
+      "bytes": 2629,
+      "sha256": "0db332676b13aea23ad34b0b02adc53c30935ed88bc0da46d69d049043c5a8e3"
+    },
+    {
+      "path": "migration-remote-readbacks.json",
+      "bytes": 2426,
+      "sha256": "9f7cbf77aab6f8cb4003e392f27115745473a6a96aefe9b36b9a32a96db351d1"
+    },
+    {
+      "path": "migration-retained-binaries.json",
+      "bytes": 8764,
+      "sha256": "ff820723498d4169c91262cc1765a7171a70c33ede58d0be535e1297dea38c57"
+    },
+    {
+      "path": "migration-worktrees.json",
+      "bytes": 1907,
+      "sha256": "c8fa538842ffe37b4581a38664511521f823b80abbedb4f3dfa0d461128c06ad"
+    },
+    {
+      "path": "no-new-ci-plan.json",
+      "bytes": 322,
+      "sha256": "a25c11f882f46e3f80fa3008e5540a2a4b20b90a8f56bbb16cc74e3d6ccb4495"
+    },
+    {
+      "path": "observed-installed-toolchain.json",
+      "bytes": 451,
+      "sha256": "a3181f831e937e574807aa29270846e3cb4def3c4310045ac005274404245520"
+    },
+    {
+      "path": "report.zh-CN.md",
+      "bytes": 15520,
+      "sha256": "5c06443fefe2c568fb32e04eb43911985d99eccbf0a74576358599289bb52612"
+    },
+    {
+      "path": "retention-classification.json",
+      "bytes": 7658,
+      "sha256": "2b2de50e0da20c8ffef39787e272a238679c0a6af7499069a92bddc46ee71a28"
+    },
+    {
+      "path": "sensitive-pattern-check.json",
+      "bytes": 425,
+      "sha256": "ad153112ded50fec64c0931441f4bd2176c3fa5f0f10cfe42ee34fb3e7561007"
+    }
+  ]
+}

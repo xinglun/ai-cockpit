@@ -1,0 +1,41 @@
+{
+  "recordedAt": "2026-10-15T22:57:26.626374+00:00",
+  "kind": "implementation-review-not-runtime-admission",
+  "fixedReviewedHead": "70ba38785c3bf88dba570b1a314ab41e7423c21c",
+  "reviewers": [
+    {
+      "actor": "agent:legacy_v1_protocol_design",
+      "mode": "read_only_no_build_no_test_no_fetch",
+      "conclusion": "No new root-repair authority escape identified; three documentation corrections and both-root-loss test boundary identified.",
+      "findings": [
+        "ASCII case aliases retain obligation, not unconditional rejection of every extra alias",
+        "fresh Extend also requires current Runtime and <=300s, template time distinct from publication time",
+        "total-local-anchor-loss limit applies per root or extension generation",
+        "dedicated both-R/G-loss E positive, T-only and damaged-E negatives absent in reviewed head"
+      ]
+    },
+    {
+      "actor": "agent:legacy_v1_test_conflicts",
+      "mode": "read_only_no_build_no_test_no_fetch",
+      "conclusion": "Earlier four corrections landed; final extension readback error classification residual and fork wording correction identified.",
+      "findings": [
+        "post-publication extension encode/safe_read must all map to commit_state_unknown preserving cause",
+        "fork test is a rejected request after one committed extension, not two persisted heads",
+        "focused counts and primitive/API evidence distinctions accurate"
+      ]
+    }
+  ],
+  "parentReview": {
+    "actor": "agent:Raydot",
+    "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "fixedReviewedHead": "19bb15eb77558be81f92f489b34128d33efa30c2",
+    "findings": [
+      "first public Register record and publication checks must independently enforce different root, different common-dir and actual matching source repository identity; external plan digests can be recomputed",
+      "Unix symlink unit needs explicit platform gate"
+    ]
+  },
+  "implementationResponse": "All listed changes implemented in the subsequent uncommitted source checkpoint; test and publication evidence are in the adjacent immutable logs. Final fixed-head confirmation remains pending.",
+  "formalVerification": "not_run",
+  "contractAmendmentProposal": "not_applied",
+  "humanDecision": "no_new_decision_recorded"
+}

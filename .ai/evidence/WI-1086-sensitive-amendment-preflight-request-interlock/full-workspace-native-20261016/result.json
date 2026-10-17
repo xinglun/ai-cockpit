@@ -1,0 +1,199 @@
+{
+  "kind": "full_workspace_native_verification",
+  "sourceHeadAtExecution": "e84740eb0ecdf0c2bb895cfd8ddc94af4c475e0b",
+  "launchExitCode": 0,
+  "checks": {
+    "launchExitZero": true,
+    "subreaperRegistered": true,
+    "tiniExitObserved": true,
+    "noObservationErrors": true,
+    "noNewZombies": true,
+    "noNewSessionProcesses": true,
+    "noTiniFatal": true,
+    "all13ExecutedPassedNoReuse": true,
+    "formalReceiptExactlyMatchesAttempt": true
+  },
+  "completeVerificationPassed": true,
+  "beforeZombieCount": 1405,
+  "afterZombieCount": 1405,
+  "newZombies": [],
+  "remainingSessionProcesses": [],
+  "newOtherProcesses": [],
+  "observationErrors": {
+    "before": [],
+    "after": []
+  },
+  "adoptedZombieReapLogEntries": 1401,
+  "attempts": [
+    {
+      "path": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification-attempt.2538ee3a9aabafa3b55338fc32a3e7fab2c125cbd2ee366508f6cfc4c0335adc.json",
+      "attemptId": "sha256:2538ee3a9aabafa3b55338fc32a3e7fab2c125cbd2ee366508f6cfc4c0335adc",
+      "state": "execution_completed",
+      "passed": true,
+      "processesSpawned": 13,
+      "diagnostic": null,
+      "nodesPlanned": 13,
+      "nodesExecuted": 13,
+      "nodesReused": 0,
+      "elapsedMs": 743167,
+      "records": [
+        {
+          "nodeId": "project-command-0-package-cockpit-agent",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 533,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-cli",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 309448,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-core",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 264,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-evidence",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 144,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-git",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 10020,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-interface",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 178,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-isolation",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 143,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-knowledge",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 437,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-mcp",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 8220,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-protocol",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 1177,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-release",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 868,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-repository",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 357574,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": true,
+          "stderrTruncated": false
+        },
+        {
+          "nodeId": "project-command-0-package-cockpit-verification",
+          "passed": true,
+          "exitCode": 0,
+          "spawned": true,
+          "timedOut": false,
+          "elapsedMs": 51996,
+          "timeoutSeconds": 600,
+          "stdoutTruncated": false,
+          "stderrTruncated": false
+        }
+      ]
+    }
+  ],
+  "formalReceiptPath": "/workspace/ai-cockpit/.ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock.verification.json",
+  "formalReceiptCreatedAt": "2026-10-16T06:17:36Z",
+  "formalReceiptDigest": "sha256:dfcda2d31913981195bea528b1d078bce0edd4e231a2f3d8ad2675c98e6903c3",
+  "externalLogs": {
+    "native-tini.stdout.log": {
+      "bytes": 650614,
+      "sha256": "ac9ae55ceb4f16821d53c4c45ee6dac4418e3ebaffdb076556ec53fe0557b2c8"
+    },
+    "native-tini.stderr.log": {
+      "bytes": 86819,
+      "sha256": "fd9b5e525db227b9663dde2accababa3e946422ef61626b1565a7924a1d07487"
+    }
+  }
+}

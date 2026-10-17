@@ -1,0 +1,10 @@
+{
+  "observedAtUtc": "2026-10-15T23:56:57.550344+00:00",
+  "priorAmendmentManifestBindingsChecked": 41,
+  "mismatches": [],
+  "coreDocsContractSummaryDecisionsJournalTrackedDiffEmpty": true,
+  "currentContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "newHumanDecisionRecorded": false,
+  "policyChanged": false,
+  "implementationTestsRun": false
+}

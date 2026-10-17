@@ -1,0 +1,8 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 18.30s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'legacy_closeout_source::query_budget_tests::one_query_cannot_validate_two_different_bytes_for_the_same_path' (187474) panicked at crates/cockpit-repository/src/legacy_closeout_source.rs:1389:9:
+lower reads and final inventory must describe one consistent observation
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --lib`

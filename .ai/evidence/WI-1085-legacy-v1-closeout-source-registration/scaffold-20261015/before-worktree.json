@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-10-15T14:41:06.371948+00:00",
+  "head": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "originMain": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "fetchHead": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "status": "",
+  "commonDir": "/workspace/ai-cockpit/.git",
+  "superproject": "",
+  "candidateId": "WI-1085-legacy-v1-closeout-source-registration",
+  "candidateNumberAlreadyPresent": false,
+  "exactContractResourceConflicts": [],
+  "localBranchExists": false,
+  "targetExists": false,
+  "availableBytes": 5408968704
+}

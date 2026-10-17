@@ -1,0 +1,32 @@
+{
+  "recordedAt": "2026-10-16T17:33:09.599850+00:00",
+  "priorRequestDigest": "sha256:ce6cf9c9070014665e70ff86e1bdb09291911b6352ef1857ee77163d7f11acf1",
+  "currentRequestDigest": "sha256:6a85a89d5ee402b20f57b46e01609e45dc2f83bb69cddc0ebafa7325f0412cf8",
+  "priorEntries": 27,
+  "currentEntries": 36,
+  "unchangedEntryCount": 21,
+  "changedExistingEntries": [
+    "crates/cockpit-repository/src/legacy_closeout_source.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "addedUpstreamMainEntries": [
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "crates/cockpit-cli/tests/scope_amendment.rs",
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.ja.md",
+    "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.md",
+    "docs/work-items/WI-1086-sensitive-amendment-preflight-request-interlock.zh-CN.md"
+  ],
+  "removedEntries": [],
+  "sameTwoReviewableUnknownPaths": true,
+  "findingCodes": [],
+  "noDecisionRecordedForNewRequest": true,
+  "note": "Entry changes include upstream main combined hunks and both retained parity rows, plus test-only additions to legacy source. No implicit reuse of the old acceptance. Complete canonical request entries are available to Raydot."
+}

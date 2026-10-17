@@ -1,0 +1,39 @@
+{
+  "observedAt": "2026-10-15T22:18:10.587066+00:00",
+  "files": [
+    {
+      "path": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+      "sha256": "bfc1f29169136b9852f406abd1abb37875673319f4b2009c96d37cb0a947b425"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "sha256": "6ee531ed341b80c24d22d53b0c1b6d02dede4ffbfcfbdfee76e159eb45a93529"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+      "sha256": "87c80761a930aec9afff119cd6fb7a2d5657229675fd369a35bc7f9a17c04a63"
+    },
+    {
+      "path": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+      "sha256": "f27c0383f1a5d31da4e5dbff0da52c641494d2b100be9edf72684f1cb97b2511"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "sha256": "0dc40fcb533f8be89032535f4b740fdfb68d26d0f717244eee0c83e6b97bdca4"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "sha256": "2fcaa99da300e98aa2d71b0e8ad9230ab00cf7b82b6ec1b8f6edff412ee8b735"
+    }
+  ],
+  "availableBytes": {
+    "/workspace": 4147400704,
+    "/tmp": 2294226944
+  },
+  "processStates": {
+    "S": 10,
+    "Z": 21316,
+    "R": 1
+  },
+  "formalRuntimeVerification": "not_run"
+}

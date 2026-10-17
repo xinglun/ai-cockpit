@@ -1,0 +1,7 @@
+{
+  "originalSourceSha256": "54cc775080774c8a25cfaf4db67595e38c7c3cfe4a1e42ad10f8f3156cb9c7e4",
+  "patchSha256": "f979746ca6bd89d541918665293c970ad101cc920bcb48c91d666b02fcad9a63",
+  "applied": false,
+  "tested": false,
+  "requiresTechnicalReviewAndTypedScopeAmendment": true
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+    "work-item",
+    "amend",
+    "--repo",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+    "--id",
+    "WI-1085-legacy-v1-closeout-source-registration",
+    "--request",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/evidence/WI-1085-legacy-v1-closeout-source-registration/implementation-20261015/pending-minimal-admission-amend.request.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration",
+  "startedAt": "2026-10-15T23:14:16.423862+00:00",
+  "elapsedSeconds": 3.154,
+  "exitCode": 0,
+  "stdoutBytes": 21239,
+  "stderrBytes": 0,
+  "subreaper": true,
+  "adoptedDescendantsReaped": []
+}

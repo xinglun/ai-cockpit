@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-16T07:00:00.395121+00:00",
+  "source": "monitor-01.json",
+  "readErrors": [
+    {
+      "pid": 549764,
+      "error": "[Errno 2] No such file or directory: '/proc/549764/stat'",
+      "errno": 2
+    }
+  ],
+  "currentExistence": {
+    "549764": false
+  }
+}

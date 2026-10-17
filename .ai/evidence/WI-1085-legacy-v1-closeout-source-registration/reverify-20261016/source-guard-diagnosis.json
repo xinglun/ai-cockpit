@@ -1,0 +1,14 @@
+{
+  "test": "crates/cockpit-repository/tests/resource_finalization.rs:36",
+  "testFunction": "resource_lifecycle_module_uses_explicit_imports",
+  "source": "crates/cockpit-repository/src/resource_lifecycle.rs:11180",
+  "module": "legacy_source_lock_tests",
+  "introducedByCommit": "54e04e46c27aeb922412b859a111b47041b6c3ef",
+  "rootCause": "Existing integration guard scans the entire resource_lifecycle.rs file for the literal wildcard import. The newly added cfg(test) legacy_source_lock_tests module uses that prohibited import. It uses exactly three parent functions and three external names.",
+  "scopeAlreadyIncludesSource": true,
+  "sourceBeforeSha256": "2fcaa99da300e98aa2d71b0e8ad9230ab00cf7b82b6ec1b8f6edff412ee8b735",
+  "testBeforeSha256": "36cb6f839fb279a65f0f8f12ec4f655711fc7de5804b3dd003d6ccc4ba293bcc",
+  "minimalRepair": "Replace only the test module wildcard with super::{acquire_lifecycle_lock, record_resource_finalization, record_resource_finalization_locked}, cockpit_core::Digest, cockpit_protocol::RuntimeContext and std::process::Command. Keep all tests/assertions, production behavior and Contract unchanged.",
+  "repairStatus": "prepared for next implementation commit; not applied in this failed-attempt evidence commit",
+  "nextReview": "After actual import patch commit, refresh material binding and obtain the real Raydot decision; do not reuse 661c2ccf approval for new source."
+}

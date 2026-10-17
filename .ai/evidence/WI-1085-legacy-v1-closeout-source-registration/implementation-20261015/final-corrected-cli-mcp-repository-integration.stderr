@@ -1,0 +1,12 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 22.84s
+     Running tests/legacy_closeout_source.rs (target/wi1085-legacy-closeout-source/debug/deps/legacy_closeout_source-321d641e37605416)
+
+thread 'complete_source::actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp' (362755) panicked at crates/cockpit-cli/tests/legacy_closeout_source.rs:408:9:
+assertion `left == right` failed
+  left: Object {"changedPaths": Array [String(".ai/decisions/WI-LEGACY-ROOT.legacy-closeout-source-registration.json")], "publicationObservedAt": String("2026-10-15T22:45:52Z"), "registrationRawDigest": String("sha256:748221f409e15ab9c114dbdbaddfddd38ec67e733fc2c715bde1ced0e799e4a3"), "requirementRawDigest": String("sha256:6bf95c456742a3ad3c178fbb5a97f5674ac8d274f0699218844150e25c16c6b7"), "state": String("committed"), "workItemId": String("WI-LEGACY-ROOT")}
+ right: Object {"changedPaths": Array [], "registrationRawDigest": String("sha256:748221f409e15ab9c114dbdbaddfddd38ec67e733fc2c715bde1ced0e799e4a3"), "requirementRawDigest": String("sha256:6bf95c456742a3ad3c178fbb5a97f5674ac8d274f0699218844150e25c16c6b7"), "state": String("committed"), "workItemId": String("WI-LEGACY-ROOT")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-cli --test legacy_closeout_source`

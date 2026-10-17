@@ -1485,6 +1485,11 @@ fn pending_retry_survives_a_bounded_contract_amendment() {
         "cover a bounded Contract amendment after retry",
     )
     .expect("bounded Contract amendment");
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    preflight_work_item(directory.path(), &contract_path)
+        .expect("preflight after bounded Contract amendment");
     record_human_preflight_review(directory.path(), id);
 
     assert_action_admitted(directory.path(), id, "run_verification", &runtime);

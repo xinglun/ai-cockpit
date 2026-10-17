@@ -1,0 +1,25 @@
+{
+  "differences": [
+    {
+      "field": "contractDigest",
+      "old": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+      "new": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1"
+    },
+    {
+      "field": "requestDigest",
+      "old": "sha256:94bdbf788b5bc75f54766d9cff37830f166b57cf6aa5ef629df84525bc4728d1",
+      "new": "sha256:81878ba626fe354bfbbe24f1fd573c57485e41d73942a7173b5a1e3b9894be63"
+    },
+    {
+      "field": "reviewedSourceHead",
+      "old": "ac2c651b76879e7ae56cbdacc849582a5b1abff1",
+      "new": "3235316534fd0798fc6a83625df72a36662ab443"
+    }
+  ],
+  "entriesCount": 25,
+  "findingCodes": [],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "note": "Current request is read-only after amendment and before the two-line test patch. It is provided for Raydot review; after a permitted test patch and commit, regenerate again for the final actual source. No old decision is reused."
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b217077be18ddb78c731de6e4188e048416e914f63acb89a1b0e95781a325360",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:4a854e8637aa5c82dc6b5547f54e3d7cae4d2c812054fe109f109eed5df7ef28",
+  "reason": "The human user replied confirm_review to the current decision prompt after reviewing the exact repository, Work Item, amended Contract and repository snapshot bindings listed here. This records only that bounded review choice; it does not assert successful verification or completion.",
+  "recordedAt": "2026-10-16T05:03:52Z",
+  "recordedBy": "human:conversation-user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0840ed40a921b36f42e61d97d8db8eb664882c5239bdd6f9336744cea3918e54",
+  "schemaVersion": 1,
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock"
+}

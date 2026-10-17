@@ -1,0 +1,29 @@
+
+running 10 tests
+test checkpoint_count_two_material_fallback_is_rejected_by_cli ... FAILED
+test checkpoint_count_two_material_fallback_is_rejected_by_mcp ... FAILED
+test checkpoint_count_zero_material_fallback_is_rejected_by_cli ... FAILED
+test checkpoint_count_zero_material_fallback_is_rejected_by_mcp ... FAILED
+test checkpoint_source_pair_forged_digest_is_rejected_by_cli ... FAILED
+test checkpoint_source_pair_forged_digest_is_rejected_by_mcp ... FAILED
+test checkpoint_source_pair_malformed_is_rejected_by_cli ... FAILED
+test checkpoint_source_pair_malformed_is_rejected_by_mcp ... FAILED
+test checkpoint_source_pair_missing_is_rejected_by_cli ... FAILED
+test checkpoint_source_pair_missing_is_rejected_by_mcp ... FAILED
+
+failures:
+
+failures:
+    checkpoint_count_two_material_fallback_is_rejected_by_cli
+    checkpoint_count_two_material_fallback_is_rejected_by_mcp
+    checkpoint_count_zero_material_fallback_is_rejected_by_cli
+    checkpoint_count_zero_material_fallback_is_rejected_by_mcp
+    checkpoint_source_pair_forged_digest_is_rejected_by_cli
+    checkpoint_source_pair_forged_digest_is_rejected_by_mcp
+    checkpoint_source_pair_malformed_is_rejected_by_cli
+    checkpoint_source_pair_malformed_is_rejected_by_mcp
+    checkpoint_source_pair_missing_is_rejected_by_cli
+    checkpoint_source_pair_missing_is_rejected_by_mcp
+
+test result: FAILED. 0 passed; 10 failed; 0 ignored; 0 measured; 18 filtered out; finished in 6.85s
+

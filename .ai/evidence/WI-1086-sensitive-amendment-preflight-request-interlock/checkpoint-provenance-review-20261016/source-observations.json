@@ -1,0 +1,14 @@
+[
+  {
+    "path": "crates/cockpit-repository/src/contract_amendment.rs",
+    "rawSha256": "3e68b7712b6dde0bfd268019d02b36a8418698cba75a3014e029260d5d316f0b",
+    "line": 1046,
+    "excerpt": "    }\n    Ok(\n        revalidation[\"contractHash\"].as_str() == Some(digest.as_str())\n            && revalidation[\"previousContractHash\"] == json!(tail.previous_contract_digest)\n            && revalidation[\"originalBeforeEditContractHash\"] == before_edit[\"contractHash\"]\n            && revalidation[\"repositorySnapshotDigest\"] == json!(tail.repository_snapshot_digest)\n            && revalidation[\"invalidatedRequiredChecks\"] == checks\n            && revalidation[\"verificationStarted\"] == json!(tail.verification_started),\n    )\n}\n"
+  },
+  {
+    "path": "crates/cockpit-repository/src/status_projection.rs",
+    "rawSha256": "4c2919bf8c8ed630d2e83cef4dc0e44935c4d0e56d281d1ea14fa5f634b751d9",
+    "line": 1718,
+    "excerpt": "            safe_actions.insert(0, \"run_preflight\".into());\n        }\n    }\n    if amendment_review_required\n        && summary[\"checkpointCount\"] == serde_json::json!(1)\n        && !amendment_review_request_available\n    {\n        // A stale-preflight or unavailable-material fallback cannot replace\n        // validation of a post-checkpoint sensitive amendment's provenance.\n        safe_actions.retain(|action| action != \"run_preflight\");\n    }"
+  }
+]

@@ -1,0 +1,207 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+    "checkpoint_",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+  "startedAt": "2026-10-16T02:15:16.121357+00:00",
+  "runtimeAdmissionBeforeCommand": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+    "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 7,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 0,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:e7245a06dd9fc2a45346800a300183c2e3207a40a71bf579f2c5ec138538387f",
+      "materialManifest": "sha256:3258a4dd3c28363168f5e00dd465d26d8788609b1d831e4f8579d59f7e15d886",
+      "repositorySnapshot": "sha256:92f95265c34f71d2e627e306799f6cc5463e0500363e69514f58a6e5a98852ff",
+      "summary": "sha256:48e365140cc92cd8987b5bd18cf28a657af7f4d3e8cc2fde5c54bc5368c68710"
+    },
+    "unknowns": [
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:3258a4dd3c28363168f5e00dd465d26d8788609b1d831e4f8579d59f7e15d886",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:92f95265c34f71d2e627e306799f6cc5463e0500363e69514f58a6e5a98852ff",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-16T02:04:23.026023571+00:00",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "run_verification",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:7465bd4e3b05e4cc7194c93709e81f0012c66be6e24eafcac0fd142f3a1a2ef6"
+    },
+    "statusDigest": "sha256:26247f23ef4912e56ea477d7ccc7dec2ef1a188cc6f231765501ad6f2477c267",
+    "historical": false
+  },
+  "diskGuard": {
+    "minimumFreeBytes": 682917888,
+    "stopThresholdBytes": 268435456,
+    "triggered": false,
+    "initialFreeBytes": 683016192,
+    "finalFreeBytes": 682905600
+  },
+  "sourceDiffRawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sourceFileRawSha256": {
+    "crates/cockpit-repository/src/contract_amendment.rs": "3e68b7712b6dde0bfd268019d02b36a8418698cba75a3014e029260d5d316f0b",
+    "crates/cockpit-repository/src/status_projection.rs": "4c2919bf8c8ed630d2e83cef4dc0e44935c4d0e56d281d1ea14fa5f634b751d9",
+    "crates/cockpit-repository/src/lib.rs": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a",
+    "crates/cockpit-repository/src/governance_controls.rs": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+    "crates/cockpit-cli/tests/scope_amendment.rs": "99558b1a44329a1ca0e36421a4c32c23eead23f5869c713d72d4fb5ba06c49be",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs": "89296f823a077186cd68b59a9af86f87cec71895181923e0e911ce8db02562d8"
+  },
+  "elapsedSeconds": 7.017,
+  "timeoutSeconds": 900,
+  "timedOut": false,
+  "exitCode": 101,
+  "sourceHead": "0069033a46afeab1374107cc9bce079b51c24151",
+  "testFileRawSha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be",
+  "toolchain": "rustc 1.98.1 (48a229cea 2026-09-01); cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "environmentOverrides": {
+    "HOME": "/tmp/wi1084-runtime-home-20261015",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock"
+  },
+  "binaryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+  "binaryRawSha256": "156d7e19dc24eb4d6c870d2c59d0975646ff70d78d1e560946a6453430bf0272",
+  "ownedDescendantsReaped": [
+    {
+      "pid": 725972,
+      "waitStatus": 0
+    },
+    {
+      "pid": 726164,
+      "waitStatus": 0
+    },
+    {
+      "pid": 726343,
+      "waitStatus": 0
+    },
+    {
+      "pid": 726535,
+      "waitStatus": 0
+    },
+    {
+      "pid": 726712,
+      "waitStatus": 0
+    },
+    {
+      "pid": 726904,
+      "waitStatus": 0
+    },
+    {
+      "pid": 727083,
+      "waitStatus": 0
+    },
+    {
+      "pid": 727275,
+      "waitStatus": 0
+    },
+    {
+      "pid": 727452,
+      "waitStatus": 0
+    },
+    {
+      "pid": 727893,
+      "waitStatus": 0
+    },
+    {
+      "pid": 728332,
+      "waitStatus": 0
+    },
+    {
+      "pid": 728773,
+      "waitStatus": 0
+    },
+    {
+      "pid": 729212,
+      "waitStatus": 0
+    },
+    {
+      "pid": 729653,
+      "waitStatus": 0
+    }
+  ]
+}

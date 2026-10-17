@@ -1,0 +1,24 @@
+{
+  "sourceHead": "7e256abcd4bfd7748db28053876d52f20b104127",
+  "all401SourceFilesHashUnchanged": true,
+  "productOrTestSourceChanged": false,
+  "contractRawSha256": "87e52ef2eb1553fda0f2174fd2f1e7b8cc3358de96015e0be79f127185401442",
+  "draftOnlyTwoExactChangesVerified": true,
+  "currentContractNotAmended": true,
+  "supervisorIdentity": {
+    "pid": 805031,
+    "ppid": 805030,
+    "state": "T",
+    "comm": "python3",
+    "startTimeTicks": "24465201"
+  },
+  "supervisorDirectZombieChildren": 1089,
+  "ppid1Zombies": 21316,
+  "backupDirectory": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c",
+  "backupOriginalFilesHashVerified": 283,
+  "signalsSentThisTurn": [],
+  "originalExec1926NotAltered": true,
+  "testsBuildsVerificationPreflightAmendControlsInvoked": false,
+  "activeCargoRustc": [],
+  "recordedAt": "2026-10-16T04:00:19.328714+00:00"
+}

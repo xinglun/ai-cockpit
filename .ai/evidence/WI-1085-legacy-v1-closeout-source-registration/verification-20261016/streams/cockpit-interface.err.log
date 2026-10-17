@@ -1,0 +1,5 @@
+   Compiling serde v1.0.229
+   Compiling cockpit-interface v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-interface)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.09s
+     Running unittests src/lib.rs (target/wi1085-legacy-closeout-source/debug/deps/cockpit_interface-faa43eb92491d3a6)
+   Doc-tests cockpit_interface

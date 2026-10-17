@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.md",
+    "docs/reference/reference-parity.md",
+    "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.zh-CN.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1085-legacy-v1-closeout-source-registration.ja.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "mode": "write",
+  "state": "promoted",
+  "terminalEvidence": {
+    "archive": ".ai/work-items/archive/WI-1085-legacy-v1-closeout-source-registration.contract.json",
+    "close": ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.close.json",
+    "finalization": null,
+    "verification": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification.json"
+  },
+  "workItemId": "WI-1085-legacy-v1-closeout-source-registration"
+}

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "kind": "non-executing-retention-classification",
+  "deletionAuthorized": false,
+  "A": {
+    "meaning": "Still needed for recovery",
+    "objects": [
+      {
+        "path": "/tmp/wi1085-approved-build-preservation-20261016-nyk7nr4c",
+        "rawFiles": 283,
+        "rawLogicalBytes": 488903192,
+        "reason": "Approved rollback bytes; all SHA-256/modes read back; only current old-environment raw copy established; /tmp is volatile."
+      },
+      {
+        "path": "/tmp/wi1084-closeout-execution-retained-b1487517/ai-cockpit",
+        "sha256": "5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+        "reason": "Current installed Runtime and receipt producer; not replaced."
+      },
+      {
+        "path": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/ai-cockpit",
+        "reason": "Current reviewed candidate producer, not shared installed Runtime."
+      },
+      {
+        "path": "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/target/wi1085-legacy-closeout-source/debug/ai-cockpit",
+        "reason": "Preserved WI-1085 reviewed candidate; same-inode deps hardlink is not an independent backup."
+      },
+      {
+        "path": "/workspace/ai-cockpit-control/.ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json",
+        "sha256": "ed2d0889a81dcc0e40273b274a6184aba197312dddcfda6ae900a5cdc5a98916",
+        "reason": "Uncommitted historical governance original; identical old-environment retained copy exists, independent persistent copy not established."
+      },
+      {
+        "path": "/workspace/ai-cockpit-main37cc-review/crates/cockpit-repository/src/resource_lifecycle.rs",
+        "sha256": "f0fe9eb4f99c4f0dddd385c92072002cc07c0c0385d62abe99b924529d7376d5",
+        "reason": "Uncommitted historical review code; independent preservation not established."
+      }
+    ]
+  },
+  "B": {
+    "meaning": "Purpose ended and independent exact bytes read back; eligibility is limited to these files, not their parent directory; no deletion this round",
+    "files": [
+      {
+        "path": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-ignored-target-evidence/governance-integrity.json",
+        "exists": true,
+        "symlink": false,
+        "bytes": 173015,
+        "device": 27,
+        "inode": 1203544,
+        "mode": "0o600",
+        "linkCount": 1,
+        "sha256": "994cf404cf29049a3750a930fd5b180a97b9626fd5e92cee60b5b4aab8760f15",
+        "matchingKnownCommittedPaths": [
+          {
+            "repositoryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+            "commit": "95f459b5db3a51416041a682d1764fadd1a5c89a",
+            "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/governance-integrity.report.json",
+            "gitBlob": "2906031113076b33d6eb2412378a3a51724d7647"
+          }
+        ],
+        "remoteBytesVerified": true,
+        "remoteByteReadbackUrl": "https://github.com/xinglun/ai-cockpit/blob/95f459b5db3a51416041a682d1764fadd1a5c89a/.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/governance-integrity.report.json",
+        "retentionClass": "B-purpose-ended-independent-bytes-verified",
+        "purposeEndBasis": "Historical preservation before original WI-1084 exact-resource cleanup; the two reports and retention manifest are byte-identical to remote committed records. No deletion authorized in this handoff."
+      },
+      {
+        "path": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-ignored-target-evidence/post-formal-governance-integrity.json",
+        "exists": true,
+        "symlink": false,
+        "bytes": 173015,
+        "device": 27,
+        "inode": 1203545,
+        "mode": "0o600",
+        "linkCount": 1,
+        "sha256": "994cf404cf29049a3750a930fd5b180a97b9626fd5e92cee60b5b4aab8760f15",
+        "matchingKnownCommittedPaths": [
+          {
+            "repositoryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+            "commit": "95f459b5db3a51416041a682d1764fadd1a5c89a",
+            "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/governance-integrity.report.json",
+            "gitBlob": "2906031113076b33d6eb2412378a3a51724d7647"
+          }
+        ],
+        "remoteBytesVerified": true,
+        "remoteByteReadbackUrl": "https://github.com/xinglun/ai-cockpit/blob/95f459b5db3a51416041a682d1764fadd1a5c89a/.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/p2-transition-20261015/governance-integrity.report.json",
+        "retentionClass": "B-purpose-ended-independent-bytes-verified",
+        "purposeEndBasis": "Historical preservation before original WI-1084 exact-resource cleanup; the two reports and retention manifest are byte-identical to remote committed records. No deletion authorized in this handoff."
+      },
+      {
+        "path": "/workspace/wi1084-final-approval-b1487517/after-merge-execution/retained-ignored-target-evidence/retention-manifest.json",
+        "exists": true,
+        "symlink": false,
+        "bytes": 1713,
+        "device": 27,
+        "inode": 1203546,
+        "mode": "0o600",
+        "linkCount": 1,
+        "sha256": "35fa7f68e5a51c38a515b3ae5960fb742dd1c71b74f5376a4bc6800d1c619c7b",
+        "matchingKnownCommittedPaths": [
+          {
+            "repositoryPath": "/workspace/ai-cockpit-wi1086-sensitive-amendment-preflight-request-interlock",
+            "commit": "95f459b5db3a51416041a682d1764fadd1a5c89a",
+            "path": ".ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/retained-ignored-target-evidence.manifest.json",
+            "gitBlob": "5b50fa0dcf48a7bf4aa8abfa72587fecdfe315a2"
+          }
+        ],
+        "remoteBytesVerified": true,
+        "remoteByteReadbackUrl": "https://github.com/xinglun/ai-cockpit/blob/95f459b5db3a51416041a682d1764fadd1a5c89a/.ai/evidence/WI-1084-cross-checkout-closeout-receipt-integrity/post-close-20261015/after-merge-cleanup-20261015/retained-ignored-target-evidence.manifest.json",
+        "retentionClass": "B-purpose-ended-independent-bytes-verified",
+        "purposeEndBasis": "Historical preservation before original WI-1084 exact-resource cleanup; the two reports and retention manifest are byte-identical to remote committed records. No deletion authorized in this handoff."
+      }
+    ]
+  },
+  "C": {
+    "meaning": "Remaining purpose or independent copy not established",
+    "exactKnownRoots": [
+      "/workspace/wi1078-preserved-evidence-20261013",
+      "/tmp/wi1078-retained-00461714-target",
+      "/tmp/wi1078-main-bcd76ae7-20261015",
+      "/tmp/wi1081-build-00461714-20261014",
+      "/tmp/wi1084-runtime-checkpoints-20261015",
+      "/workspace/.home/.cache/ai-cockpit-verify-target/ec9dc514276685dc3ff47011e8497b3987b3c90466848455758df44466684773",
+      "/workspace/.tmp-wi1083-target-00461714-20261015"
+    ],
+    "scopeNote": "Only direct small files and recorded exact Runtime paths were read. Whole target directories have not been recursively inventoried or authorized for deletion.",
+    "resolution": "Review original lifecycle purpose and exact dependencies. Ended purpose plus verified independent copy can move exact objects to B; required unique bytes move to A and need approved transfer before old-environment loss. Do not retain indefinitely without this disposition review."
+  }
+}

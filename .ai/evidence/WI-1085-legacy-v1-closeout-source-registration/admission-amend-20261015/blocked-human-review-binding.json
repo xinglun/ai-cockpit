@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "status": "blocked_before_new_preflight_request_generation_not_a_ready_human_confirmation_request",
+  "recordedAt": "2026-10-15T23:19:36.524652+00:00",
+  "sourceHeadBeforeGovernanceCommit": "08430cd4d868176ad0b70ee3881a8a68cabce69a",
+  "approvedProposalRawSha256": "d946d7256496a33e52e35b330bc104055f2148006a05952afd63cc0a3a380cad",
+  "humanProposalAuthorization": "Sentinel_4dbca359a4f88191940307c6757e31b0 at 2026-10-15T23:12:44Z, relayed by Raydot; not confirm_review",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "previousContractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+  "newContractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+  "newContractRawSha256": "7cbbaa07f74c9871379e060babd5e6c27df90f3f54c11708cdd330a0e581d1dc",
+  "amendmentSequence": 4,
+  "amendmentNativeRequestDigest": "sha256:63cfd6f95ed4f1770163c83e2c1cfc8ee120516c2837a3113d9e3a9e24f4f1b5",
+  "amendmentJournalDigest": "sha256:74c3f7649500d6416d4c2df88ba68ad925759d95674a01525ac94dc1fbb4c822",
+  "previousJournalDigest": "sha256:072a86d0cef8c9e88206fe49f43c53cc5d32c44f1c858ce9d92debeedcb8fe82",
+  "currentRepositorySnapshotDigest": "sha256:19489503de52038fb36e93e091d7797d1b77825c4492fd6ca9e788f9c6b4d783",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "runtimeVersion": "1.0.1",
+  "humanDecisionRequired": true,
+  "admissionState": "needs_human_decision",
+  "admissionDigest": "sha256:7b475950fa9932c88fd242c9cc9c0aec11d5961af705d62a39dae111df129245",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status"
+  ],
+  "newPreflightDecisionDigest": null,
+  "newPreflightRepositorySnapshotDigest": null,
+  "nativePreflightAttempt": {
+    "exitCode": 1,
+    "stdoutBytes": 0,
+    "diagnostic": "run_preflight rejected: NeedsHumanDecision; safeActions contain no run_preflight",
+    "newIdentityGenerated": false
+  },
+  "retainedHistoricalPreflight": {
+    "contractDigest": "sha256:c3e63a0ef72144f030f012f57929d12a84fb014e82a8e952f9aaa356aa5fd4e0",
+    "preflightDecisionDigest": "sha256:e533424bdeed816bd875d5b6e1c9bd0f65168d06c1c7de8094b6ff9918929e72",
+    "repositorySnapshotDigest": "sha256:1cb31f9daa23add1feb9ee9c3a048ddf696a5c093d4d68bdd32b12a0aae58fd0",
+    "currentPreflightState": "not_run",
+    "reuseForNewConfirmation": false
+  },
+  "materialReview": {
+    "contractDigest": "sha256:eae15cbbdbc36606635db999976611d3c036260296d2b5b24b9afa183ae03bd5",
+    "sourceSnapshotDigest": "sha256:7f6f6f53c09c4e3f9bf1055b1722885130418c5758a7cf994b54ee91a422e068",
+    "materialManifestDigest": "sha256:c349576ab9e4fe2dba27a8d2edcbb844f9c1dc5f6176eb45c648e5f5eddbbd4d",
+    "materialInspectionReviewProfileDigest": "sha256:8eed971dcbb631b144496cbd91fe2d92059a7aea023552d7dffa2187c6832045",
+    "requestDigest": "sha256:03661bfdc146e57c2d2acc4dbb92b4c14f83bab0471a8040a35c7cc9b72a25d3",
+    "analysisImplementationDigest": "sha256:6a6a0069fcc7c2394bd90728a9838e8093d854fdb219e965d2b02e94f2da9a16",
+    "rawUnknownCodes": [
+      "repository_material_inspection_unavailable"
+    ],
+    "findingCodes": [],
+    "reviewEnabled": true
+  },
+  "canonicalParityFilesModified": false,
+  "parityPatchPreparedOnly": true,
+  "materialDecisionRecorded": false,
+  "newConfirmReviewRecorded": false,
+  "beforeFinishAdded": false,
+  "codeChangesMade": false,
+  "formalVerificationStarted": false,
+  "requiredNextActionForRaydot": "Resolve the supported Runtime request-generation admission route for this exact current Contract/snapshot, then obtain actual fresh human confirm_review and re-admit parity/material actions. Do not reuse historical preflight identity or rewrite generated records."
+}

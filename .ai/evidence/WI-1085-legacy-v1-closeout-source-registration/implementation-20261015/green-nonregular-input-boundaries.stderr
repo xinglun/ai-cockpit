@@ -1,0 +1,22 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+error[E0034]: multiple applicable items in scope
+   --> crates/cockpit-repository/src/legacy_closeout_source.rs:326:10
+    |
+326 |     file.by_ref()
+    |          ^^^^^^ multiple `by_ref` found
+    |
+    = note: candidate #1 is defined in an impl of the trait `std::io::Read` for the type `cap_std::fs::File`
+    = note: candidate #2 is defined in an impl of the trait `std::io::Write` for the type `cap_std::fs::File`
+help: disambiguate the method for candidate #1
+    |
+326 -     file.by_ref()
+326 +     std::io::Read::by_ref(&mut file)
+    |
+help: disambiguate the method for candidate #2
+    |
+326 -     file.by_ref()
+326 +     std::io::Write::by_ref(&mut file)
+    |
+
+For more information about this error, try `rustc --explain E0034`.
+error: could not compile `cockpit-repository` (lib test) due to 1 previous error

@@ -1,0 +1,29 @@
+# WI-1085 两行修正与最终材料交接
+
+Outcome: 🟡 真人确认已真实记录，两行已批准修正已提交推送；等待Raydot对最终绑定的材料审阅，尚未执行修正后的正式验证或验收。
+
+## 实施与真人门禁
+
+Ray真实回复confirm_review的父线程消息Sentinel_66886c257f5c8191968f2b12ceb7d8de绑定1947ce33请求；核对repository/WI/Contract7fea3f7d…/review snapshot6bcd443d…/preflightDecision7b2ccbca…全部一致后原生controls记录，生成cf2cf5b7…preflight-review文件。记录者明确为agent:Codex recording human:Ray decision relayed by agent:Raydot，实际录入时间不冒充人回复时间。
+
+当前原生humanDecisionRequired=false、blockers=[]、admissionState=allowed。修正后的repositorySnapshot为sha256:8a858ff1a5139906eef70f06f486e5f18dd68925f3c434eae602045976e425f6；人审收据原字节仍绑定实际审阅时的6bcd…，没有手改为新快照，Native未要求追加真人决定。
+
+source HEAD f1fc7b88766d32b03d9bb705133afe8a1cfdc44a 已正常推送。仅修改crates/cockpit-mcp/tests/material_review.rs:88和usage.rs:25的tools.len()精确计数31→33；两文件逐字节等于旧版本仅替换各一行，其他断言、产品、validator及Contract均不变。预先已有真实material_review红灯；usage本轮未执行到，未补造其失败或通过证据。
+
+## 最终材料
+
+最终原生requestDigest=sha256:661c2ccff137c0ab8ba11172bf38443de3e97f9c1daad94f762658ff50d47790；sourceSnapshot=sha256:034d7b8bd19efcac2a577bb43915337700f5fcad0ff793f4b6adc4af23eb7b6c；manifest=sha256:c5c06bb3647d37f31da300b11389cd3ff562d8c4ad3a94eee142302568de1c0b；request raw SHA256=acce52e26cfeb8e8e1ccf7fb54aa99a69352b71a44c55517437a4e5ad0fe800f。27条材料、0Finding，原25条全部材料事实不变；新增两份计数测试均clean。仍仅原legacy_closeout_source.rs源码与对应测试这两份reviewable syntax Unknown，hunk/blob均不变。完整精确请求、差异与审阅载体见final-material-request.json、final-binding-comparison.json、material-review-handoff.zh-CN.md。
+
+旧94bdbf…决定和81878b…中间绑定均不复用，当前reviewReceiptDigest=null。Native当前允许run_verification，但本任务明确要求先Raydot作新绑定材料审阅，因此尚未执行测试或记录虚构决定；不把Runtime准入说成技术审阅已完成。
+
+## 原生拒绝与诊断限制
+
+未提交两份Rust修改时，material-review plan明确拒绝非.ai source dirty；对应原始错误和exit1保留。提交后投影自然恢复。随后额外run_preflight被Native拒绝：当前admission已Allowed且safeActions不含run_preflight，stdout为空、exit1，未启动测试；后续status确认无blocker/human gate。显示helper对空stdout的JSONDecodeError亦记录，未作为成功或空进程集合处理。详见diagnostic-notes.json。未修改Runtime或门禁来绕过该拒绝。
+
+## 资源与后续
+
+最新可用11,880,894,464字节；保守增量预算9,063,569,528，另保留2GiB，启动阈值11,211,053,176，当前满足估算但非未来体积保证。执行前仍须重新核对。继续单worker、build jobs1、test threads1、同一隔离target、890秒+10秒kill边界与已有Tini/observer runner。没有进一步清理授权。
+
+旧失败attempt a1f426…原字节保留，不能归为新Contract/新source通过。repository实际signal7因果仍未知，若重现须诊断；verification的os error28与磁盘满已另记录。旧WI1086 debug已按授权删除，release Runtime与唯一清理收据仍保留；当前WI1085 target未清理。
+
+当前Native actionExplanation共7项issue；11场景仍未验证、intentAlignment仍未解决、用户可见收益未声明、成功canonical verification缺失。不称为验收、finish、PR、Ready、merge、archive或close。下一步为Raydot真实材料决定→原生record→新鲜容量/准入核对→正式验证→提交真实结果。Native Outcome原文在outcome.zh-CN.txt，聊天另行显式交付。

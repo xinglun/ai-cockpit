@@ -1,0 +1,450 @@
+{
+  "algorithm": "sha256",
+  "entries": [
+    {
+      "path": ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.preflight-review.2ff953ba1280d4180c55f83b91c4b9a23ed2a50f87ab8b5c6fa71888e643df42.json",
+      "bytes": 1159,
+      "sha256": "3f1f7cec2c558fb7a21eb47116782d48ec0fb88257fa0e920fc6df156793102d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/README.zh-CN.md",
+      "bytes": 1246,
+      "sha256": "2eda3e631c9fd1e7dd6dda619e2f8921c98593a70b7bbc772adf1e4307d72136"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/admitted-red-and-minimal-repair.json",
+      "bytes": 1246,
+      "sha256": "49780c98b7088b79a20b3b90b5974af1a606f8b1d12dfc691da0b5cab11a73f7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/admitted-red-checkpoint-provenance.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/admitted-red-checkpoint-provenance.admission.stdout",
+      "bytes": 3198,
+      "sha256": "ea0985a90f383b62c7baa39f9e01432f1444989998c4747f2fae0c462ed005cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/admitted-red-checkpoint-provenance.meta.json",
+      "bytes": 6845,
+      "sha256": "51fb1bc2581e98a794ed4e97169148e295e7fbae125c856f55b679074f073272"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/admitted-red-checkpoint-provenance.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/admitted-red-checkpoint-provenance.stderr",
+      "bytes": 106366,
+      "sha256": "2351abcd518fc7ff081a13f6613dac17ceba6cb2b954963966f41bacd5b435b0"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/admitted-red-checkpoint-provenance.stdout",
+      "bytes": 1442,
+      "sha256": "2ba7ed469a2ee32fabcbe5038dd8dcc1a95fee048e6c59139aa65a4a862b926d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/approved-repository-fixture-order.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/approved-repository-fixture-order.admission.stdout",
+      "bytes": 3198,
+      "sha256": "ea0985a90f383b62c7baa39f9e01432f1444989998c4747f2fae0c462ed005cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/approved-repository-fixture-order.meta.json",
+      "bytes": 10711,
+      "sha256": "44c471c0abe9c47cd80b29a2ae947f8c38690fc000fa2548f47ffc3d298ee810"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/approved-repository-fixture-order.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/approved-repository-fixture-order.stderr",
+      "bytes": 432,
+      "sha256": "172ad22701b8bf624e1a6ff36fd5c771c518012080f8f31ff783ebf669caaa36"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/approved-repository-fixture-order.stdout",
+      "bytes": 6184,
+      "sha256": "80b37291e63affba6dfcfd470a63f8fb62fc3553fcc757334d54df8a399cd814"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/committed-checkpoint-red-preflight.meta.json",
+      "bytes": 602,
+      "sha256": "b6d2be46fe5029b2629342443497ec74fc0f76f3eb19ca4de6409954598f56b5"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/committed-checkpoint-red-preflight.stderr",
+      "bytes": 646,
+      "sha256": "1c9ce8610ce782f50da307d899d3bf00defce20e97423d7ded38fa4722985c2d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/committed-checkpoint-red-preflight.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/current-stage-v2.zh-CN.md",
+      "bytes": 1358,
+      "sha256": "17d5694c5c575a0209e6f797eed3fcf9ac16e3a8ffeffcd767435362b03607bf"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/current-stage-v3.zh-CN.md",
+      "bytes": 1833,
+      "sha256": "dde445332a94d21bb8f4bd1612144158615164c750a0d1e94c718448b29e9533"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-controls-validation.meta.json",
+      "bytes": 576,
+      "sha256": "478aaf69a00a6aa1445d7d3b826913d4a9b2af90058afee4a57bf217f78d4e79"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-controls-validation.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-controls-validation.stdout",
+      "bytes": 285,
+      "sha256": "71cd0d19e3c8fbb3f12a99f9a22b2176f875dc97d895cfa38ea94e87b0bb6cd6"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-format-check.meta.json",
+      "bytes": 2520,
+      "sha256": "c1b333d19a67c545508c42b05835d21842a5cc432a1a62f0224579296feb0c05"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-format-check.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-format-check.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-format-check.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-outcome.meta.json",
+      "bytes": 633,
+      "sha256": "463731ed757fbf30b4d8c91d2629c52ee175cb505cecb4da005a0728e9568ec5"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-outcome.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-outcome.stdout",
+      "bytes": 4333,
+      "sha256": "32a52e7d90c370630ca5afd6b9316c553814791dbe048b4daf01f37001f3a2e2"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-status.meta.json",
+      "bytes": 589,
+      "sha256": "7992bec37c4bf4b355e29327583de34056045fa0bbb08f2f0c9686c8a584b54c"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-status.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-focused-status.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/final-resource-preservation-v3.json",
+      "bytes": 828,
+      "sha256": "f0020f2612eebc43dc22d2661fe9acb7db5e12b83dee806190626905aa8e2b10"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/focused-verification-result-v3.json",
+      "bytes": 4209,
+      "sha256": "1e25dc1916ffc2362095e1d0adcea2ba6703084cf47b5079498cfdfae6786c38"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-minimal-provenance-repair.meta.json",
+      "bytes": 2495,
+      "sha256": "878df32e597bde5e66f12e9ae7e6cf2a7831d3a62a3d976f578b0026ba340843"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-minimal-provenance-repair.source.diff",
+      "bytes": 7847,
+      "sha256": "8a52b5d040d19f0fe0742411b4bd74a88d2ab53fa47989bad6912a6cbbfaa6a6"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-minimal-provenance-repair.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-minimal-provenance-repair.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.meta.json",
+      "bytes": 2495,
+      "sha256": "f219838fe0bebf538ed20f12bf5562f389736e1f5a5133b6a7f0a1296e628965"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.source.diff",
+      "bytes": 8877,
+      "sha256": "797b646ba8548033fc46bca5f16a57c75166cca9f0c4184d62fe7fa54fd97e81"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/format-new-checkpoint-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp-after-preflight.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp-after-preflight.admission.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp-after-preflight.meta.json",
+      "bytes": 9092,
+      "sha256": "5e79ccc5b7f77bb531d707d6b6ca77a0a1de555e48ae0377b30fe4129695d061"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp-after-preflight.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp-after-preflight.stderr",
+      "bytes": 638,
+      "sha256": "72986239fe90ba8a0f380d971ed129424a5a3c28f81eab27c24d2c5862a41cb5"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp-after-preflight.stdout",
+      "bytes": 2165,
+      "sha256": "3c67549e3e7851a3134d3890dc7dd85ff1cb7e8e09108936af4eeb72453effdf"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-all-amendment-cli-mcp.admission.stdout",
+      "bytes": 3775,
+      "sha256": "0ec76f156ddd507cec50fbd1ce9c7591dac9e0aa73b62eaae28e28d6a882ad23"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-approved-cli-fixture-order.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-approved-cli-fixture-order.admission.stdout",
+      "bytes": 3198,
+      "sha256": "ea0985a90f383b62c7baa39f9e01432f1444989998c4747f2fae0c462ed005cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-approved-cli-fixture-order.meta.json",
+      "bytes": 6112,
+      "sha256": "f319de76d5404dd3999f1f4884f4f7eed0159003c1c758e7e1b458c9f3dd9d15"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-approved-cli-fixture-order.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-approved-cli-fixture-order.stderr",
+      "bytes": 411,
+      "sha256": "4eb3e53c79e909c38c808fb1b9c91daf27714bf129e0504e42cc8cc93f5fc173"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-approved-cli-fixture-order.stdout",
+      "bytes": 1205,
+      "sha256": "0ec5ebba5c51f8080b3a66c6071f85cb7b018410761e0f58ba7bfbc96abfdaf9"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-cli-fixture-moved-intact.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-cli-fixture-moved-intact.admission.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-cli-fixture-moved-intact.meta.json",
+      "bytes": 6110,
+      "sha256": "74e63b3a0673abe0bb695159c823d09e03c586567c800f2386738efd3e872c73"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-cli-fixture-moved-intact.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-cli-fixture-moved-intact.stderr",
+      "bytes": 337,
+      "sha256": "47e3075045a7a5ac7ca9abd10ba09f8241e12f9add8ebb6de1935b7ebc3c0fa4"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-cli-fixture-moved-intact.stdout",
+      "bytes": 203,
+      "sha256": "c41b2749c48549cea6f7e835353d4ef5e8cbf55e512e5d4b0bcd1178eeee207d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-fixture-moved-intact.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-fixture-moved-intact.admission.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-fixture-moved-intact.meta.json",
+      "bytes": 10710,
+      "sha256": "86a7bfee8549d0f695fd9a726102e6de69c8e17dcee97436e1c3654d149ec7dd"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-fixture-moved-intact.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-fixture-moved-intact.stderr",
+      "bytes": 351,
+      "sha256": "d1079cb04bb15cb2b9d9d07c6f4503c99e9600d436b1f7c9bb6fb234b47ebff7"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-fixture-moved-intact.stdout",
+      "bytes": 4250,
+      "sha256": "93dc73c06d4f4636026032ed10e7613cfba6617caad936c3247f65e247e578ba"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-unit-regressions.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-unit-regressions.admission.stdout",
+      "bytes": 3198,
+      "sha256": "2abe6d21b2ccf9a8d0ff7616bbb5e09d55c4015997a437f2fe0d66331fe7a59d"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-unit-regressions.meta.json",
+      "bytes": 14999,
+      "sha256": "8aea2acc6078aefb9c815c7655ef183ee813dbf1418699d264fb8bb1866cda00"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-unit-regressions.source.diff",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-unit-regressions.stderr",
+      "bytes": 351,
+      "sha256": "423f3d6d5df469c80f12f3bd1b5651c51023aaae6e28d3c93e0a4b7cce29720b"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/green-repository-unit-regressions.stdout",
+      "bytes": 14503,
+      "sha256": "380871811b50c1004335f5e96c4449844f996cb053c089d334fdf9aef69f0f65"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/guard-denies-uncommitted-material.admission.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/guard-denies-uncommitted-material.admission.stdout",
+      "bytes": 3416,
+      "sha256": "73e4d56f06efa0c049a11f12ddcf8cb6223f78074bcba6c03a77fc933ccffafa"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/minimal-provenance-repair.candidate.diff",
+      "bytes": 8348,
+      "sha256": "ca395d16897b8c63b55f95aa6302073de69c490c124024a1f0e79d85930f0e66"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.meta.json",
+      "bytes": 3421,
+      "sha256": "d2cda116dd01a2c54ae95ba9f5e9cd12ec3286c7aab5f308fdcca78f64853e67"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.source.diff",
+      "bytes": 9777,
+      "sha256": "71e24dc32b980d5f81b01430fbe9f4750abbe6eb66bfd8bc983d005ed48d4eba"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.stderr",
+      "bytes": 106496,
+      "sha256": "9ab120646088db070f603a52dd16a70b379f471e1ab1cb55f7b1e308397a5d36"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/red-combined-checkpoint-provenance.stdout",
+      "bytes": 1442,
+      "sha256": "205c5174feba4d6cea56de9ac7a67c982248c797a31f8210806c248e0a7c2c70"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/repaired-source-current-preflight.meta.json",
+      "bytes": 602,
+      "sha256": "15202e09335da7a362cb8a8567070645be3845c97106b946c0c3a9b473c64727"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/repaired-source-current-preflight.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/repaired-source-current-preflight.stdout",
+      "bytes": 4045,
+      "sha256": "76382281186be6a5867e6891be5d408b31c9eb3bb4fc40d0b3910f1e4ea12e72"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/run-admitted-focused.py",
+      "bytes": 7066,
+      "sha256": "00a9bfeb3ec192c24b03e7fa1da36c7f2c347d2a81ffde9bb9db42192d76ea4b"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/run-bounded-focused-disk-guard.py",
+      "bytes": 6016,
+      "sha256": "75581f86411202a52dab04fadbe95d573287d1454f5a5e9eb43c69889bcf8176"
+    },
+    {
+      "path": ".ai/evidence/WI-1086-sensitive-amendment-preflight-request-interlock/checkpoint-negative-fix-20261016/unadmitted-observation-notice.json",
+      "bytes": 672,
+      "sha256": "e3aea076d4d92d92ada5163d10b72c15943d3827ecfad008f2d9dc16803ee6cf"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json",
+      "bytes": 6450,
+      "sha256": "99bd26aa430f087dd18b546273c1f939b8c9271269e75df0bdf84d6d3ab32dd8"
+    }
+  ]
+}

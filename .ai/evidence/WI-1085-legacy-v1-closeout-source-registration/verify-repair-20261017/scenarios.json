@@ -1,0 +1,829 @@
+{
+  "recordedAt": "2026-10-16T18:53:51.527540+00:00",
+  "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+  "contractDigest": "sha256:7fea3f7d77255e61459ff1c51ac46ce9e9b73ff4a627939ad3b844d96ed093a1",
+  "repositorySnapshotDigest": "sha256:9a97106cf5ce0a70f760d4837d554570e1fd7792a3cce29280c32f054a77e21b",
+  "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+  "canonicalReceiptDigest": "sha256:7cc40bfb22a726cbff4e98551c56951f7a283db0e41774d9c44992c2b82b695c",
+  "reviewActor": "agent:Codex",
+  "verifiedScenarioCount": 11,
+  "unverifiedScenarioCount": 0,
+  "selectedActualLinuxSuccessReferences": 55,
+  "scenarios": [
+    {
+      "scenario": "complete_source_and_distinct_producer",
+      "assessment": "verified",
+      "claim": "完整来源登记、不同历史 producer 与当前 registrar、拒绝 self-source/错误 repository identity；不重新认证历史验证。",
+      "tests": [
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 222,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 382,
+          "capturedText": "test complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::direct_record_rejects_self_source_even_when_every_external_digest_is_resealed",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 493,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 369,
+          "capturedText": "test complete_source::direct_record_rejects_self_source_even_when_every_external_digest_is_resealed ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::direct_record_rechecks_actual_source_repository_identity",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 531,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 367,
+          "capturedText": "test complete_source::direct_record_rechecks_actual_source_repository_identity ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "root_partial_resume",
+      "assessment": "verified",
+      "claim": "首次准确 bytes/binding 的双方缺一恢复与 abrupt-exit 矩阵已通过；伪造首次 resume 和损坏 survivor 被拒绝。",
+      "tests": [
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::partial_root_resume_preserves_first_exact_bytes_with_independent_binding",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 789,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 378,
+          "capturedText": "test complete_source::partial_root_resume_preserves_first_exact_bytes_with_independent_binding ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 626,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 371,
+          "capturedText": "test complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::damaged_survivor_cannot_become_original_through_a_fresh_plan",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 840,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 365,
+          "capturedText": "test complete_source::damaged_survivor_cannot_become_original_through_a_fresh_plan ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::publication_tests::abrupt_exit_matrix_preserves_canonical_bytes_and_exact_primitive_retry",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2619,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 33,
+          "capturedText": "test legacy_closeout_source::publication_tests::abrupt_exit_matrix_preserves_canonical_bytes_and_exact_primitive_retry ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "concurrency_and_drift",
+      "assessment": "verified",
+      "claim": "同 binding 并发权威结果和冲突 plan 保留；相同内容替换根/Git/来源以及来源 HEAD 漂移被拒绝。",
+      "tests": [
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 1032,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 364,
+          "capturedText": "test complete_source::concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::fresh_plan_rejects_identical_content_destination_root_replacement",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 956,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 373,
+          "capturedText": "test complete_source::fresh_plan_rejects_identical_content_destination_root_replacement ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::fresh_plan_rejects_identical_content_destination_git_replacement",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 960,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 372,
+          "capturedText": "test complete_source::fresh_plan_rejects_identical_content_destination_git_replacement ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::fresh_plan_rejects_identical_content_source_root_replacement",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 964,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 374,
+          "capturedText": "test complete_source::fresh_plan_rejects_identical_content_source_root_replacement ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 332,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 362,
+          "capturedText": "test complete_source::actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "filesystem_boundaries",
+      "assessment": "verified",
+      "claim": "Current Linux path/budget/duplicate-key/no-replace/parent/FIFO fixtures pass; current Windows four directory-junction cases pass. Exact static guard review and unexecuted reparse/file-symlink limits are separated in a6-matrix.json.",
+      "tests": [
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::query_budget_tests::relative_paths_reject_aliases_and_explicit_size_budgets",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2227,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 47,
+          "capturedText": "test legacy_closeout_source::query_budget_tests::relative_paths_reject_aliases_and_explicit_size_budgets ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::publication_tests::no_replace_publication_preserves_hardlink_symlink_and_directory_victims",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2752,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 34,
+          "capturedText": "test legacy_closeout_source::publication_tests::no_replace_publication_preserves_hardlink_symlink_and_directory_victims ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::publication_tests::parent_replacement_before_or_after_link_is_rejected_without_rollback",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2708,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 35,
+          "capturedText": "test legacy_closeout_source::publication_tests::parent_replacement_before_or_after_link_is_rejected_without_rollback ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::nonregular_tests::history_fifo_is_rejected_without_blocking",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2969,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 31,
+          "capturedText": "test legacy_closeout_source::nonregular_tests::history_fifo_is_rejected_without_blocking ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::query_budget_tests::obligation_enumeration_has_a_directory_work_budget",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2239,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 43,
+          "capturedText": "test legacy_closeout_source::query_budget_tests::obligation_enumeration_has_a_directory_work_budget ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "legacy_source_input_is_bounded_before_json_parsing",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 1344,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 385,
+          "capturedText": "test legacy_source_input_is_bounded_before_json_parsing ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-mcp",
+          "testName": "raw_legacy_rpc_rejects_duplicate_keys_before_repository_access",
+          "sourcePath": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "sourceLine": 55,
+          "sourceRawSha256": "87c80761a930aec9afff119cd6fb7a2d5657229675fd369a35bc7f9a17c04a63",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.out.log",
+          "capturedLine": 29,
+          "capturedText": "test raw_legacy_rpc_rejects_duplicate_keys_before_repository_access ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ],
+      "windowsCaseEvidence": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/windows-case-result.json",
+      "strictA6Matrix": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/a6-matrix.json"
+    },
+    {
+      "scenario": "proof_loss_and_scope",
+      "assessment": "verified",
+      "claim": "逐类原始证明/根记录/委托依赖丢失撤销 closed，archive 丢失仍枚举，foreign scope 不能逃逸，overlap preflight 保持阻断。",
+      "tests": [
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::every_bound_history_file_and_each_root_obligation_remain_required",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 1191,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 370,
+          "capturedText": "test complete_source::every_bound_history_file_and_each_root_obligation_remain_required ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::lost_archive_keeps_structured_status_and_index_blocking",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 680,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 375,
+          "capturedText": "test complete_source::lost_archive_keeps_structured_status_and_index_blocking ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 1284,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 381,
+          "capturedText": "test complete_source::registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "foreign_registration_cannot_release_untrusted_archived_scope",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 71,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 691,
+          "capturedText": "test foreign_registration_cannot_release_untrusted_archived_scope ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::both_missing_root_records_require_a_valid_extension_anchor",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 787,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 684,
+          "capturedText": "test extension::both_missing_root_records_require_a_valid_extension_anchor ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 710,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 366,
+          "capturedText": "test complete_source::delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "extension_single_writer_and_lock",
+      "assessment": "verified",
+      "claim": "标准 finalization 和 extension 使用同一 writer；三个真实锁回归验证同 WI 等待、跨 WI 独立、错误 guard 拒绝。",
+      "tests": [
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 880,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 687,
+          "capturedText": "test extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::registered_root_refuses_unprepared_raw_transition_without_writing",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 507,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 689,
+          "capturedText": "test extension::registered_root_refuses_unprepared_raw_transition_without_writing ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "resource_lifecycle::legacy_source_lock_tests::different_work_item_locks_do_not_block_each_other",
+          "sourcePath": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "sourceLine": 11188,
+          "sourceRawSha256": "68f48380e6f6f620ac63398c00806ff9c397f016909a4a81cb385d05c67ff03c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 106,
+          "capturedText": "test resource_lifecycle::legacy_source_lock_tests::different_work_item_locks_do_not_block_each_other ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard",
+          "sourcePath": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "sourceLine": 11254,
+          "sourceRawSha256": "68f48380e6f6f620ac63398c00806ff9c397f016909a4a81cb385d05c67ff03c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 107,
+          "capturedText": "test resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "resource_lifecycle::legacy_source_lock_tests::public_finalization_waits_for_the_same_work_item_lifecycle_lock",
+          "sourcePath": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "sourceLine": 11209,
+          "sourceRawSha256": "68f48380e6f6f620ac63398c00806ff9c397f016909a4a81cb385d05c67ff03c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 108,
+          "capturedText": "test resource_lifecycle::legacy_source_lock_tests::public_finalization_waits_for_the_same_work_item_lifecycle_lock ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "extension_committed_retry",
+      "assessment": "verified",
+      "claim": "已提交原 transition 先于 next-sequence 判断被读回重放；canonical 等价但 raw 改动被拒绝，发布后报告 I/O 失败保留 committed/unknown 事实。",
+      "tests": [
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 880,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 687,
+          "capturedText": "test extension::prepared_extension_uses_one_writer_and_replays_original_before_next_sequence ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 934,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 685,
+          "capturedText": "test extension::committed_raw_retry_rejects_canonical_equal_but_changed_raw_bytes ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::publication_tests::review_regression_io_failures_after_second_canonical_report_unknown_and_preserve_both",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2663,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 37,
+          "capturedText": "test legacy_closeout_source::publication_tests::review_regression_io_failures_after_second_canonical_report_unknown_and_preserve_both ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "extension_pending_resume_and_forks",
+      "assessment": "verified",
+      "claim": "root/extension pending 仅原绑定准确 bytes 恢复；合法已有 Deleted 纳入根，错序/fork/身份/资源仍在保持拒绝。",
+      "tests": [
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::partial_extension_requires_independent_original_and_resumes_both_survivors",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 964,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 686,
+          "capturedText": "test extension::partial_extension_requires_independent_original_and_resumes_both_survivors ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::review_regression_root_loss_during_extension_pending_has_ordered_exact_recovery",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 689,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 690,
+          "capturedText": "test extension::review_regression_root_loss_during_extension_pending_has_ordered_exact_recovery ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::registered_extension_rejects_wrong_sequence_fork_identity_and_present_resources",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 588,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 688,
+          "capturedText": "test extension::registered_extension_rejects_wrong_sequence_fork_identity_and_present_resources ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "extension::already_deleted_before_registration_is_part_of_the_root_inventory",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 546,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 683,
+          "capturedText": "test extension::already_deleted_before_registration_is_part_of_the_root_inventory ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 659,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 377,
+          "capturedText": "test complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "legacy_and_surface_compatibility",
+      "assessment": "verified",
+      "claim": "ordinary/v1 读兼容、v2 identity、CLI/MCP 严格入口与实际 transport/replay/resume/offline/proof-loss 行为通过；无自动迁移。",
+      "tests": [
+        {
+          "package": "cockpit-repository",
+          "testName": "lifecycle::cross_checkout_closeout_tests::ordinary_close_and_existing_v1_recovery_keep_legacy_semantics_and_bytes",
+          "sourcePath": "crates/cockpit-repository/src/lifecycle.rs",
+          "sourceLine": 10773,
+          "sourceRawSha256": "1823f4b3b701963df1e30fb1e3a1c66b45373c67f0b8e5ddacd22ade041304eb",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 57,
+          "capturedText": "test lifecycle::cross_checkout_closeout_tests::ordinary_close_and_existing_v1_recovery_keep_legacy_semantics_and_bytes ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "resource_lifecycle::post_merge_sync_tests::schema_v2_retained_requires_exact_local_worktree_identity",
+          "sourcePath": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "sourceLine": 11120,
+          "sourceRawSha256": "68f48380e6f6f620ac63398c00806ff9c397f016909a4a81cb385d05c67ff03c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 140,
+          "capturedText": "test resource_lifecycle::post_merge_sync_tests::schema_v2_retained_requires_exact_local_worktree_identity ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-mcp",
+          "testName": "complete_source_parity::complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "sourcePath": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "sourceLine": 300,
+          "sourceRawSha256": "87c80761a930aec9afff119cd6fb7a2d5657229675fd369a35bc7f9a17c04a63",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.out.log",
+          "capturedLine": 27,
+          "capturedText": "test complete_source_parity::complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-mcp",
+          "testName": "legacy_source_tools_expose_strict_typed_plan_and_record",
+          "sourcePath": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "sourceLine": 13,
+          "sourceRawSha256": "87c80761a930aec9afff119cd6fb7a2d5657229675fd369a35bc7f9a17c04a63",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.out.log",
+          "capturedLine": 28,
+          "capturedText": "test legacy_source_tools_expose_strict_typed_plan_and_record ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 332,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 362,
+          "capturedText": "test complete_source::actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    },
+    {
+      "scenario": "declared_local_loss_boundary",
+      "assessment": "verified",
+      "claim": "三语明确 current explicit_attestation、非历史重新认证、原来源可离线和全部本地锚点消失/回滚不可识别；不宣称远端单调保证。",
+      "tests": [
+        {
+          "package": "cockpit-cli",
+          "testName": "complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history",
+          "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+          "sourceLine": 222,
+          "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+          "capturedLine": 382,
+          "capturedText": "test complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ],
+      "documentEvidence": [
+        {
+          "path": "docs/reference/agent-workflow.md",
+          "line": 624
+        },
+        {
+          "path": "docs/reference/agent-workflow.zh-CN.md",
+          "line": 355
+        },
+        {
+          "path": "docs/reference/agent-workflow.ja.md",
+          "line": 405
+        }
+      ]
+    },
+    {
+      "scenario": "guarded_bounded_offline_conjunctive_validation",
+      "assessment": "verified",
+      "claim": "typed matching guard、循环/深度/重复工作预算、离线原来源、canonical 损坏/foreign 名称枚举与旧验证/provider/登记合取保持 fail closed。",
+      "tests": [
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::query_budget_tests::cycles_fail_closed_and_raii_clears_failed_queries",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2291,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 39,
+          "capturedText": "test legacy_closeout_source::query_budget_tests::cycles_fail_closed_and_raii_clears_failed_queries ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::query_budget_tests::depth_and_repeated_work_have_independent_query_budgets",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2304,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 40,
+          "capturedText": "test legacy_closeout_source::query_budget_tests::depth_and_repeated_work_have_independent_query_budgets ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::query_budget_tests::review_regression_ascii_case_alias_remains_a_canonical_obligation",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2079,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 49,
+          "capturedText": "test legacy_closeout_source::query_budget_tests::review_regression_ascii_case_alias_remains_a_canonical_obligation ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::query_budget_tests::review_regression_named_predecessor_cannot_waive_invalid_obligation",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2118,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 50,
+          "capturedText": "test legacy_closeout_source::query_budget_tests::review_regression_named_predecessor_cannot_waive_invalid_obligation ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "legacy_closeout_source::query_budget_tests::review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation",
+          "sourcePath": "crates/cockpit-repository/src/legacy_closeout_source.rs",
+          "sourceLine": 2126,
+          "sourceRawSha256": "a226d453c68fea9da1533d3cd86e61ae4c3ebcfb8bacdc1945aa20c202286615",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 51,
+          "capturedText": "test legacy_closeout_source::query_budget_tests::review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 1459,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 682,
+          "capturedText": "test cross_wi::semantically_valid_successor_raw_change_revokes_registered_predecessor ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage",
+          "sourcePath": "crates/cockpit-repository/tests/legacy_closeout_source.rs",
+          "sourceLine": 1501,
+          "sourceRawSha256": "8ff977bb0bae80322a0a95e4a97e2298f544611384eb1a41201bd801d64789a5",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 681,
+          "capturedText": "test cross_wi::initial_registration_rejects_successor_canonical_proof_obligation_damage ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-mcp",
+          "testName": "complete_source_parity::complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics",
+          "sourcePath": "crates/cockpit-mcp/tests/legacy_closeout_source.rs",
+          "sourceLine": 300,
+          "sourceRawSha256": "87c80761a930aec9afff119cd6fb7a2d5657229675fd369a35bc7f9a17c04a63",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-mcp.out.log",
+          "capturedLine": 27,
+          "capturedText": "test complete_source_parity::complete_history_plan_record_resume_offline_and_proof_loss_share_repository_semantics ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        },
+        {
+          "package": "cockpit-repository",
+          "testName": "resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard",
+          "sourcePath": "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "sourceLine": 11254,
+          "sourceRawSha256": "68f48380e6f6f620ac63398c00806ff9c397f016909a4a81cb385d05c67ff03c",
+          "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-repository.out.log",
+          "capturedLine": 107,
+          "capturedText": "test resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard ... ok",
+          "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+          "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+        }
+      ],
+      "sourceHead": "b5a219eab232695fe2b69102c9de5b3062837ec3",
+      "assurance": "agent self-declared evidence mapping; final technical acceptance belongs to Raydot",
+      "limitations": [
+        "Verification describes the declared bounded fixtures/source inspection, not an exhaustive guarantee for all inputs or platforms."
+      ]
+    }
+  ],
+  "extraA6ExecutionReferences": [
+    {
+      "package": "cockpit-cli",
+      "testName": "complete_source::direct_record_rejects_different_source_path_with_shared_git_common_directory",
+      "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+      "sourceLine": 561,
+      "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+      "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+      "capturedLine": 368,
+      "capturedText": "test complete_source::direct_record_rejects_different_source_path_with_shared_git_common_directory ... ok",
+      "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+      "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+    },
+    {
+      "package": "cockpit-cli",
+      "testName": "complete_source::review_regression_cli_and_mcp_reject_relative_source_paths",
+      "sourcePath": "crates/cockpit-cli/tests/legacy_closeout_source.rs",
+      "sourceLine": 1145,
+      "sourceRawSha256": "aca487c813223fb7912730b208c56748d706ab23a5804ad3a28f371afef4e62c",
+      "capturedStream": ".ai/evidence/WI-1085-legacy-v1-closeout-source-registration/verify-repair-20261017/streams/cockpit-cli.out.log",
+      "capturedLine": 383,
+      "capturedText": "test complete_source::review_regression_cli_and_mcp_reject_relative_source_paths ... ok",
+      "nativeAttemptId": "sha256:65fc3b515bee5d59944b2b9da3f26a40fd66425ec175ed025b41154dd5dba832",
+      "evidenceMeaning": "Actual success line in hex-decoded native process bytes plus fresh unfiltered package receipt; not an independent per-test receipt."
+    }
+  ],
+  "notFinalIndependentAcceptance": true,
+  "inertChildrenNotCountedAsPositiveCoverage": [
+    "publication_child",
+    "fifo_child"
+  ]
+}

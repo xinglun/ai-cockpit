@@ -1,0 +1,17 @@
+
+running 4 tests
+test documentation_first_interlocked_request_is_generated_by_cli ... FAILED
+test documentation_first_interlocked_request_is_generated_by_mcp ... FAILED
+test governance_red_interlocked_request_is_generated_by_cli ... FAILED
+test governance_red_interlocked_request_is_generated_by_mcp ... FAILED
+
+failures:
+
+failures:
+    documentation_first_interlocked_request_is_generated_by_cli
+    documentation_first_interlocked_request_is_generated_by_mcp
+    governance_red_interlocked_request_is_generated_by_cli
+    governance_red_interlocked_request_is_generated_by_mcp
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 12 filtered out; finished in 1.66s
+

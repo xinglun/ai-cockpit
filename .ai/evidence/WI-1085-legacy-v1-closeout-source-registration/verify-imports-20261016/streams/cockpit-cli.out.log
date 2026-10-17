@@ -1,0 +1,1567 @@
+
+running 23 tests
+test cognitive_benefit::tests::evidence_reference_parser_and_injection_filter_preserve_safety_boundary ... ok
+test cognitive_benefit::tests::fixed_answer_key_covers_every_archived_case_without_inferred_approval ... ok
+test cognitive_benefit::tests::fixture_oracle_rejects_drift_in_security_relevant_answer_keys ... ok
+test cognitive_benefit::tests::localized_summary_requires_all_four_headings ... ok
+test cognitive_benefit::tests::markdown_file_newlines_match_python_text_mode_on_each_platform ... ok
+test cognitive_benefit::tests::markdown_is_explicit_about_no_human_study_and_preserves_case_identity ... ok
+test cognitive_benefit::tests::provenance_digests_are_sha256_of_exact_bytes ... ok
+test cognitive_benefit::tests::runtime_binary_report_path_normalizes_windows_verbatim_paths_only ... ok
+test cognitive_benefit::tests::writing_mode_places_both_artifacts_only_under_selected_repository ... ok
+test runtime_identity::tests::missing_executable_path_fails_closed ... ok
+test tests::aggregate_receipt_reports_the_longest_node_deadline ... ok
+test tests::archived_recovery_reads_declared_commands_from_the_archive_contract ... ok
+test tests::capability_description_defaults_and_values_come_from_protocol_facts ... ok
+test tests::capability_description_parser_has_a_read_only_surface_and_format ... ok
+test tests::concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time ... ok
+test tests::declared_verification_parser_preserves_environment_prefix_without_shell_evaluation ... ok
+test tests::declared_verification_parser_rejects_shell_syntax ... ok
+test tests::ordinary_cleanup_command_surfaces_repository_boundary_rejection_without_receipt ... ok
+test tests::ordinary_cleanup_parser_requires_repository_and_work_item_identity ... ok
+test tests::outcome_description_facts_match_clap_arguments ... ok
+test tests::outcome_parser_accepts_the_active_conversation_language ... ok
+test tests::outcome_parser_returns_the_protocol_owned_query_arguments ... ok
+test tests::start_parser_preserves_repeated_explicit_verification_commands ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
+
+
+running 10 tests
+test agent_auto_install_selects_the_shared_agents_surface ... ok
+test agent_commands_require_repo ... ok
+test agent_detach_refuses_modified_content ... ok
+test agent_help_exposes_the_first_start_gate ... ok
+test agent_install_and_doctor_are_repository_bound ... ok
+test agent_install_does_not_touch_global_files ... ok
+test cli_agent_operation_does_not_require_mcp ... ok
+test cli_cursor_install_uses_mdc_without_overwriting_legacy_user_rules ... ok
+test first_start_output_matches_the_installed_adapter_projection ... ok
+test first_start_prints_the_canonical_gate_without_mutating_an_unattached_repo ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.33s
+
+
+running 5 tests
+test attach_creates_only_protocol_state_and_is_idempotent ... ok
+test attached_repository_identity_survives_a_repository_move ... ok
+test migration_rejects_an_unreviewed_schema_without_skipping_history ... ok
+test old_repository_requires_explicit_migration_and_preserves_history ... ok
+test status_reports_calibration_required_before_first_profile_confirmation ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.15s
+
+
+running 5 tests
+test audit_help_and_mcp_initialize_expose_only_public_query_surface ... ok
+test cli_and_mcp_audit_query_share_filtered_page_and_discovery ... ok
+test cli_and_mcp_share_combined_filters_and_bound_cursor_pages ... ok
+test filtered_export_preserves_legacy_wire_and_output_conflict ... ok
+test unfiltered_export_accepts_existing_schema_one_bytes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.23s
+
+
+running 5 tests
+test gate_cli_emits_green_report_without_writing_ai ... ok
+test gate_cli_stops_when_required_evidence_is_missing ... ok
+test gate_report_cli_rejects_tampered_repository_identity ... ok
+test gate_report_cli_rejects_unignored_out_of_scope_source ... ok
+test gate_report_cli_validates_repository_bound_report ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.95s
+
+
+running 6 tests
+test cli_and_mcp_interface_descriptions_share_the_protocol_facts ... ok
+test cli_outcome_help_projects_protocol_owned_parameter_descriptions ... ok
+test cli_outcome_view_uses_protocol_values_for_parsing ... ok
+test cli_subprocess_and_mcp_handler_agree_on_the_same_outcome ... ok
+test outcome_timezone_view_is_shared_by_cli_and_mcp_without_changing_facts ... ok
+test public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.66s
+
+
+running 6 tests
+test archived_provider_context_binding_requires_its_finalization_receipt ... ok
+test cli_required_receipt_loss_revokes_closed_without_promoting_historical_verification ... ok
+test recovery_imports_exact_closeout_and_is_idempotent_without_mutating_source ... ok
+test recovery_plan_recognizes_a_closed_item_from_an_independent_checkout ... ok
+test recovery_preserves_a_closed_historical_projection_without_promoting_verification ... ok
+test tampered_historical_close_report_is_rejected_before_destination_writes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.33s
+
+
+running 8 tests
+test cli_entrypoint_runs_with_windows_sized_main_stack ... ok
+test generated_json_and_markdown_match_python_in_an_isolated_checkout ... ok
+test malformed_answer_key_fixture_is_rejected_before_check_writes ... ok
+test missing_archived_outcome_fails_without_creating_evidence ... ok
+test missing_explicit_binary_fails_before_archive_lookup_without_writing_evidence ... ok
+test non_executable_explicit_binary_does_not_fall_back_or_build ... ok
+test repository_gate_runs_without_invoking_python ... ok
+test rust_check_matches_the_existing_python_gate_without_rewriting_evidence ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 54.60s
+
+
+running 2 tests
+test coordination_cli_and_mcp_queries_preserve_store_bytes_across_processes ... ok
+test publish_outcome_cli_binds_selected_generation_to_exact_evidence_bytes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.86s
+
+
+running 2 tests
+test displayed_option_state_and_runtime_transition_stay_consistent_through_resume ... ok
+test finish_requires_fresh_green_preflight_after_verification ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.09s
+
+
+running 1 test
+test new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.89s
+
+
+running 1 test
+test collaboration_outcome_projection_preserves_semantics_in_all_languages ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes ... ok
+test collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio ... ok
+test finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales ... ok
+test unknown_finalization_case_is_explicitly_unavailable_in_the_matrix ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 40.44s
+
+
+running 5 tests
+test amend_help_exposes_typed_request_and_preserves_legacy_adapter ... ok
+test inspect_accepts_null_optional_concurrency_boundary_after_amendment ... ok
+test retry_pending_amendment_admits_bound_review_request_without_verification_spawn ... ok
+test sensitive_amendment_blocks_cli_verification_before_command_spawn ... ok
+test typed_cli_and_mcp_share_receipt_and_read_history_without_writes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.90s
+
+
+running 3 tests
+test cli_imports_and_lists_a_bound_delegated_evidence_receipt ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:3e5d78262ea65ebcba5a0d12c6251d3c87abd1664dadb810cf029d30cd1b8973",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:bb8dabf30b4f523d2862b30e18a59a4acc78dda406c8e0ff17fc3c614459838f",
+  "tests": [],
+  "buildSystems": []
+}
+{
+  "workItemId": "WI-EXTERNAL-CLI",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T13:53:25Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:3e5d78262ea65ebcba5a0d12c6251d3c87abd1664dadb810cf029d30cd1b8973",
+    "workItemId": "WI-EXTERNAL-CLI",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-cli-delegated-evidence-1190976-1792158805421732172-0",
+      "branch": "master",
+      "head": "0000000000000000000000000000000000000000",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-cli-delegated-evidence-1190976-1792158805421732172-0",
+        "branch": "master",
+        "head": "0000000000000000000000000000000000000000",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+ok
+test cli_observes_corrected_source_for_identical_raw_bytes_without_replacing_legacy_receipt ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:60ad30a54372b8411d1fc9dafa5558b28e2b18591219902fcd169c45e5913ff1",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:e8c561ed52e890bb581b82ba42ae15398da28f3dde4208912ac5b35d22a732e8",
+  "tests": [],
+  "buildSystems": []
+}
+{
+  "workItemId": "WI-EXTERNAL-OBSERVATION",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T13:53:26Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:60ad30a54372b8411d1fc9dafa5558b28e2b18591219902fcd169c45e5913ff1",
+    "workItemId": "WI-EXTERNAL-OBSERVATION",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-cli-delegated-evidence-1190976-1792158805941135669-1",
+      "branch": "master",
+      "head": "0000000000000000000000000000000000000000",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-cli-delegated-evidence-1190976-1792158805941135669-1",
+        "branch": "master",
+        "head": "0000000000000000000000000000000000000000",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+ok
+test legacy_import_rejects_an_observation_selector_instead_of_ignoring_it ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:72236318be5b532fb9c2925aa136126a58d60b32c664c6a9847c1b33b070d49e",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:b61719c92d271d0f0b06c3fe240c6aeef2f3df44d29f6f033e2121d079989f45",
+  "tests": [],
+  "buildSystems": []
+}
+{
+  "workItemId": "WI-EXTERNAL-LEGACY-STRICT",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T13:53:27Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:72236318be5b532fb9c2925aa136126a58d60b32c664c6a9847c1b33b070d49e",
+    "workItemId": "WI-EXTERNAL-LEGACY-STRICT",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-cli-delegated-evidence-1190976-1792158806745514554-2",
+      "branch": "master",
+      "head": "0000000000000000000000000000000000000000",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-cli-delegated-evidence-1190976-1792158806745514554-2",
+        "branch": "master",
+        "head": "0000000000000000000000000000000000000000",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.72s
+
+
+running 2 tests
+test doctor_reports_protocol_and_runtime_thin_repository_checks ... ok
+test status_rejects_unsupported_repository_protocol ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.95s
+
+
+running 4 tests
+test gate_plan_cli_reads_git_facts_and_validates_the_same_receipt ... ok
+test gate_plan_cli_rejects_a_summary_symlink_with_invalid_lifecycle_failure ... ok
+test gate_plan_cli_rejects_empty_covers_with_compatibility_failure_fields ... ok
+test gate_plan_cli_reports_base_mismatch_with_compatibility_failure_fields ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+
+running 3 tests
+test inspect_returns_structured_runtime_and_repository_context ... ok
+test read_only_diagnostics_accept_explicit_json_flag ... ok
+test read_only_queries_leave_governance_bytes_and_git_diff_unchanged ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.00s
+
+
+running 5 tests
+test all_work_item_status_cli_emits_stable_repository_index ... ok
+test cli_rejects_tampered_verification_timestamp_before_finish ... ok
+test cli_status_changes_from_archived_to_closed_only_after_valid_close ... ok
+test intelligence_commands_emit_repository_bound_json_and_unknowns ... ok
+test read_only_projection_commands_leave_repository_bytes_unchanged ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.45s
+
+
+running 1 test
+test knowledge_query_projects_archived_work_item_records_deterministically ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.14s
+
+
+running 24 tests
+test complete_source::actual_cli_transport_replay_resume_proof_loss_and_source_drift_match_mcp ... ok
+test complete_source::complete_source_rejects_missing_legacy_identity_header_without_rewriting_history ... ok
+test complete_source::concurrent_root_writers_share_one_winner_and_preserve_conflicting_plans ... ok
+test complete_source::damaged_survivor_cannot_become_original_through_a_fresh_plan ... ok
+test complete_source::delegated_observation_and_raw_dependencies_are_bound_and_loss_revokes_closed ... ok
+test complete_source::direct_record_rechecks_actual_source_repository_identity ... ok
+test complete_source::direct_record_rejects_different_source_path_with_shared_git_common_directory ... ok
+test complete_source::direct_record_rejects_self_source_even_when_every_external_digest_is_resealed ... ok
+test complete_source::every_bound_history_file_and_each_root_obligation_remain_required ... ok
+test complete_source::forged_resume_cannot_create_a_first_root_after_source_disappears ... ok
+test complete_source::fresh_plan_rejects_identical_content_destination_git_replacement ... ok
+test complete_source::fresh_plan_rejects_identical_content_destination_root_replacement ... ok
+test complete_source::fresh_plan_rejects_identical_content_source_root_replacement ... ok
+test complete_source::lost_archive_keeps_structured_status_and_index_blocking ... ok
+test complete_source::malformed_delegated_digest_returns_error_without_panicking ... ok
+test complete_source::malformed_extension_remains_an_obligation_after_valid_root_registration ... ok
+test complete_source::partial_root_resume_preserves_first_exact_bytes_with_independent_binding ... ok
+test complete_source::read_only_plan_cannot_return_an_unrecordable_oversized_template ... ok
+test complete_source::register_request_cannot_silently_ignore_extension_fields ... ok
+test complete_source::registered_scope_cannot_be_changed_and_resealed_before_candidate_preflight ... ok
+test complete_source::registers_complete_old_source_without_rewriting_or_revalidating_history ... ok
+test complete_source::review_regression_cli_and_mcp_reject_relative_source_paths ... ok
+test explicit_source_plan_and_record_are_discoverable ... ok
+test legacy_source_input_is_bounded_before_json_parsing ... ok
+
+test result: ok. 24 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 44.68s
+
+
+running 14 tests
+test amend_cli_reports_automatic_revalidation_and_the_single_next_action ... ok
+test archive_failure_keeps_active_files_for_recovery ... ok
+test close_rechecks_governance_after_archive ... ok
+test current_cli_rejects_foreign_runtime_verification_evidence ... ok
+test finish_command_requires_finalize_plan_for_bound_resource_and_preserves_active_files ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:8b4a1f0de4454fd14a5419acfd95dbd784545a3595aa871438e4f9d9841b58f1",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:8c7a97d5521593da9434b142726e55ec4e8f4831f20dc6d9fa79d79c3ca00c5d",
+  "tests": [],
+  "buildSystems": []
+}
+ok
+test finish_rejects_self_declared_completion_without_receipt ... ok
+test in_scope_committed_changes_do_not_stale_contract_and_unreviewable_scope_escape_cannot_finish ... ok
+test invalid_work_item_id_is_rejected_without_path_traversal ... ok
+test preflight_blocks_prompt_injection_without_echoing_material ... ok
+test preflight_is_blocked_by_test_and_coverage_weakening_from_tracked_diff ... ok
+test prepared_start_preserves_human_review_and_does_not_checkpoint ... ok
+test prepared_start_records_sources_preflight_and_one_checkpoint_in_one_command ... ok
+test start_preserves_commas_inside_repeated_acceptance_criteria ... ok
+test work_item_lifecycle_is_atomic_and_archive_is_content_bound ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.71s
+
+
+running 4 tests
+test material_review_command_is_discoverable_from_work_item_help ... ok
+test material_review_plan_is_read_only_and_reports_stage_one_disabled_state ... ok
+test material_review_record_fails_closed_when_stage_one_has_no_opt_in ... ok
+test material_review_record_help_exposes_admission_and_self_declared_limits ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.46s
+
+
+running 2 tests
+test cli_and_mcp_subprocesses_expose_equivalent_verification_decisions_and_metrics ... ok
+test mcp_command_serves_json_rpc_over_stdio ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.62s
+
+
+running 2 tests
+test observe_accepts_the_attached_profile_wrapper ... ok
+test observe_returns_languages_build_systems_and_evolution ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.40s
+
+
+running 10 tests
+test archive_normal_output_has_the_same_full_body_as_structured_stdout ... ok
+test archive_uses_configured_host_command_and_reports_actual_display_receipts ... ok
+test archived_outcome_delivery_does_not_mix_in_a_later_close_decision ... ok
+test archived_outcome_delivery_query_reuses_the_full_body_without_rearchiving ... ok
+test archived_outcome_delivery_rejects_an_outcome_that_no_longer_matches_its_manifest ... ok
+test blocked_finish_emits_persisted_handoff_and_remains_nonzero ... ok
+test default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json ... ok
+test explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout ... ok
+test interrupted_host_delivery_is_retried_from_persisted_progress_without_rearchive ... ok
+test outcome_command_defaults_to_summary_and_full_view_is_explicit ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 25.49s
+
+
+running 3 tests
+test human_outcome_projects_structured_decision_in_all_supported_languages ... ok
+test malformed_or_foreign_decision_records_are_visible_as_unknown ... ok
+test symlink_decision_record_is_not_projected_as_valid ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.59s
+
+
+running 1 test
+test cli_binds_contract_boundary_and_manages_slot_lease ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.81s
+
+
+running 2 tests
+test observation_medium_fixture_is_measured_once ... ok
+test status_warm_startup_is_measured_and_bounded ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:4071d8270adac919ba2ab44250374bbecc7ce43aabdb8c98f9a24b60d7545f36",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:192de67d660faea18daf6ee575db972921d0a69e69356a5a768543df020c26ee",
+  "tests": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "state": "detected"
+    }
+  ],
+  "buildSystems": [
+    "Cargo"
+  ]
+}
+ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.19s
+
+
+running 6 tests
+test preflight_and_status_share_versioned_action_admission ... ok
+test preflight_rejects_a_repository_that_requires_migration ... ok
+test preflight_rejects_a_repository_with_an_unsupported_future_schema ... ok
+test preflight_reports_yellow_when_required_evidence_is_missing ... ok
+test preflight_turns_green_after_matching_verification_evidence ... ok
+test repeated_preflight_is_idempotent_and_reports_written_paths ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.51s
+
+
+running 1 test
+test profile_confirmation_creates_a_new_version_and_decision_receipt ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+
+running 1 test
+test profile_propose_is_candidate_only_and_does_not_change_baseline ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+
+running 2 tests
+test packaged_cli_emits_isolation_manifest_without_runtime_bootstrap ... ok
+test packaged_cli_scans_nul_delimited_selected_paths_once ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 1 test
+test cli_emits_the_canonical_release_plan_envelope ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 9 tests
+test cli_appends_governance_bound_merge_observation_and_cleanup ... ok
+test cli_direct_merge_plan_round_trips_through_recovery_and_finalize ... ok
+test cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close ... ok
+test cli_post_merge_sync_v3_combined_absent_advanced_base_closeout ... ok
+test cli_post_merge_sync_v3_separate_projected_advanced_base_closeout ... ok
+test finalize_recovery_help_describes_first_direct_merge_apply ... ok
+test historical_recovery_commands_are_discoverable_in_work_item_help ... ok
+test runtime_accepts_explicitly_abandoned_unmerged_cleanup ... ok
+test runtime_close_requires_explicit_resource_finalization_receipt ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 32.50s
+
+
+running 1 test
+test retirement_command_is_exposed_in_work_item_help ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 1 test
+test out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.16s
+
+
+running 3 tests
+test cli_and_mcp_record_have_identical_receipts_and_conflict_outcomes ... ok
+test closed_outcome_cli_and_mcp_include_usage_recorded_after_archive ... ok
+test usage_help_and_canonical_description_are_discoverable ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.71s
+
+
+running 19 tests
+test calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:a3791b58d444b65386bc288e565e0146e6d0ffa22c846c995dcd661eae943bf7",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:f360e742400b3b89c61a2502d144645a121a9a33621b98cce40ebf653f77e1f0",
+  "tests": [],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+{
+  "profileVersion": 2,
+  "repositoryId": "sha256:a3791b58d444b65386bc288e565e0146e6d0ffa22c846c995dcd661eae943bf7",
+  "repositorySchemaVersion": 2,
+  "state": "calibrated",
+  "profileDigest": "sha256:83b9d53a4b16ef84b0de540fb3a0457eb1e54d296ef57a220b33a34784430be0",
+  "tests": [
+    {
+      "program": "npm",
+      "args": [
+        "test"
+      ],
+      "state": "verified"
+    }
+  ],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+{
+  "profileVersion": 3,
+  "repositoryId": "sha256:a3791b58d444b65386bc288e565e0146e6d0ffa22c846c995dcd661eae943bf7",
+  "repositorySchemaVersion": 2,
+  "state": "calibrated",
+  "profileDigest": "sha256:0991ee9c743d4bc7ac8347279833767947a51fbef4f1e2408e781c7660d7ddd9",
+  "tests": [
+    {
+      "program": "npm",
+      "args": [
+        "test"
+      ],
+      "state": "verified"
+    }
+  ],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+ok
+test checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh ... ok
+test cli_rejected_formal_receipt_supersedes_execution_attempt_in_outcome ... ok
+test verification_evidence_uses_snapshot_after_command_side_effects ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:ccbab9afe9385c024a9f778bbf80180862a0d22cd2a654dca066668164fdb7a1",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:147d3dca9e992a9ac66976e8f21d3fdf18ea3e86d34b95b394152aed4008255a",
+  "tests": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "state": "detected"
+    }
+  ],
+  "buildSystems": [
+    "Cargo"
+  ]
+}
+{
+  "workItemId": "WI-SIDE-EFFECT",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T13:56:18Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ccbab9afe9385c024a9f778bbf80180862a0d22cd2a654dca066668164fdb7a1",
+    "workItemId": "WI-SIDE-EFFECT",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-verify-side-effect-1237766-1792158978463664234-3",
+      "branch": "master",
+      "head": "6ffed6711ecb33c5cf747287d8b762e998ce56c4",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-verify-side-effect-1237766-1792158978463664234-3",
+        "branch": "master",
+        "head": "6ffed6711ecb33c5cf747287d8b762e998ce56c4",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "required_evidence_missing"
+  ],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "effective_unknowns": [
+    "required_evidence_missing"
+  ],
+  "safe_actions": [
+    "collect_required_evidence"
+  ],
+  "required_checks": [
+    "verification"
+  ],
+  "authority": "authorized",
+  "outcome_state": "verification_pending",
+  "reviewState": "verification_pending",
+  "changedPaths": [
+    ".ai/work-items/active/WI-SIDE-EFFECT.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ccbab9afe9385c024a9f778bbf80180862a0d22cd2a654dca066668164fdb7a1",
+    "workItemId": "WI-SIDE-EFFECT",
+    "baseCommit": "6ffed6711ecb33c5cf747287d8b762e998ce56c4",
+    "branch": "feature/WI-SIDE-EFFECT",
+    "lifecyclePhase": "implementation_active",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 0,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 0
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "pending",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:c4e96f6090e731aa993e6a9080b4c9451e1a47ee34cf7589aef2f974b3440a98",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:66a7586a21c892d45519e99b4b1eb4c7b473cc76c47a030223d6978c6da2f2dd",
+      "summary": "sha256:04899d8deeebec009a6d38895887234033a69cbcc403bebb98e9b59aa05c08ed"
+    },
+    "unknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:66a7586a21c892d45519e99b4b1eb4c7b473cc76c47a030223d6978c6da2f2dd",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-16T13:56:18Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_preflight"
+    ],
+    "actionExplanation": {
+      "guideId": "provider-resource-finalization",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "acceptanceCriteria",
+          "message": "current projection reports acceptanceCriteria"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:ec0779e6588241dcbd52677500a1f8ef85e8a9c7f1a191deffaf6849de6abb77"
+    },
+    "statusDigest": "sha256:79521e33ea3bcc7b837f596cbd7782224a1f720710b39fcca64ac1ccebdc75c6",
+    "historical": false
+  }
+}
+{
+  "workItemId": "WI-SIDE-EFFECT",
+  "state": "checkpointed",
+  "timestamp": "2026-10-16T13:56:19Z"
+}
+{
+  "costObservation": {
+    "advisoryOnly": true,
+    "confidence": "complete",
+    "elapsedMs": 192,
+    "executionElapsedMs": 153,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planningElapsedMs": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "repositoryId": "sha256:ccbab9afe9385c024a9f778bbf80180862a0d22cd2a654dca066668164fdb7a1",
+    "runtimeDigest": "sha256:0f3c4344e7d203528c9183035b4e2d59bf6116e01ab1a7cd5037d25e17fc4608",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "unknowns": []
+  },
+  "diagnosticSummary": [],
+  "elapsedMs": 192,
+  "executionElapsedMs": 153,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:74a6c3ac0a4ebfd1bd6c186816908800fff3ba01f02624908ee2f2e51f16900e",
+      "deadlineMs": 1792159279637,
+      "elapsedMs": 152,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "202020436f6d70696c696e6720736964652d6566666563742d666978747572652076302e312e3020282f746d702f636f636b7069742d7665726966792d736964652d6566666563742d313233373736362d313739323135383937383436333636343233342d33290a2020202046696e69736865642060646576602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20302e3134730a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "filesHashed": 4,
+  "filesRead": 4,
+  "gitCalls": 6,
+  "maxConcurrentProcesses": 1,
+  "nodesExecuted": 1,
+  "nodesPlanned": 1,
+  "nodesReused": 0,
+  "passed": true,
+  "planReceipt": {
+    "affectedPaths": [],
+    "assurance": "repository_verified",
+    "baseRevision": "6ffed6711ecb33c5cf747287d8b762e998ce56c4",
+    "dependencyConfidence": "unknown",
+    "escalations": [],
+    "executedNodes": [
+      "project-command-0"
+    ],
+    "executionElapsedMs": 153,
+    "finalTier": "T0",
+    "initialTier": "T0",
+    "planningElapsedMs": 0,
+    "policyRefs": [],
+    "repositoryId": "sha256:ccbab9afe9385c024a9f778bbf80180862a0d22cd2a654dca066668164fdb7a1",
+    "repositorySnapshotDigest": "sha256:e3a9625c8f3a33b252d59c76a87902a37e070fecd1c4612da1a9e27ff0e91bdf",
+    "requiredAssurance": null,
+    "requiredTier": null,
+    "reusedNodes": [],
+    "savedExecutions": 0,
+    "schemaVersion": 1,
+    "selectionReasons": [
+      "cli_route_stage_explicit"
+    ],
+    "sharedNodes": [],
+    "stage": "task",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-SIDE-EFFECT"
+  },
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "check"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:74a6c3ac0a4ebfd1bd6c186816908800fff3ba01f02624908ee2f2e51f16900e",
+        "profileDigest": null,
+        "repositoryId": "sha256:ccbab9afe9385c024a9f778bbf80180862a0d22cd2a654dca066668164fdb7a1",
+        "repositorySnapshotDigest": "sha256:66a7586a21c892d45519e99b4b1eb4c7b473cc76c47a030223d6978c6da2f2dd",
+        "runtimeDigest": "sha256:0f3c4344e7d203528c9183035b4e2d59bf6116e01ab1a7cd5037d25e17fc4608"
+      },
+      "nodeId": "project-command-0",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "not_requested",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    }
+  ],
+  "planningElapsedMs": 0,
+  "processSpawnFailures": 0,
+  "processesSpawned": 1,
+  "protectedNodesExecuted": 0,
+  "protectedNodesSkipped": 0,
+  "receiptCandidates": [],
+  "repositoryId": "sha256:ccbab9afe9385c024a9f778bbf80180862a0d22cd2a654dca066668164fdb7a1",
+  "rerunStale": 0,
+  "rerunUnknown": 0,
+  "results": [
+    {
+      "action": "execute",
+      "nodeId": "project-command-0",
+      "outputDigest": "sha256:14c2372777512fbee73412238bff1c90a3f61695d84b6aecfc87f1b0be8280c4",
+      "outputTruncated": false,
+      "passed": true,
+      "protected": false,
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reused": false,
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timedOut": false
+    }
+  ],
+  "runtimeDigest": "sha256:0f3c4344e7d203528c9183035b4e2d59bf6116e01ab1a7cd5037d25e17fc4608",
+  "runtimeVersion": "1.0.1",
+  "timeoutSeconds": 300
+}
+ok
+test verification_rejects_uncommitted_command_side_effects_at_finish ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:01ea5b9203794e2f811d3a43ae82f0693ca59eafe4b8ef39e8bce5a20ad3e20c",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:6206e3c19f637a10f40d8d1795acfacc8f72d043c27c2cc117a8593299fc0a27",
+  "tests": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "state": "detected"
+    }
+  ],
+  "buildSystems": [
+    "Cargo"
+  ]
+}
+{
+  "workItemId": "WI-UNCOMMITTED-SIDE-EFFECT",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T13:56:20Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:01ea5b9203794e2f811d3a43ae82f0693ca59eafe4b8ef39e8bce5a20ad3e20c",
+    "workItemId": "WI-UNCOMMITTED-SIDE-EFFECT",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-verify-uncommitted-side-effect-1237766-1792158980414974153-4",
+      "branch": "master",
+      "head": "9084aad5d43475bc8484a25fd10f97e1b0f2361d",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-verify-uncommitted-side-effect-1237766-1792158980414974153-4",
+        "branch": "master",
+        "head": "9084aad5d43475bc8484a25fd10f97e1b0f2361d",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "required_evidence_missing"
+  ],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "effective_unknowns": [
+    "required_evidence_missing"
+  ],
+  "safe_actions": [
+    "collect_required_evidence"
+  ],
+  "required_checks": [
+    "verification"
+  ],
+  "authority": "authorized",
+  "outcome_state": "verification_pending",
+  "reviewState": "verification_pending",
+  "changedPaths": [
+    ".ai/work-items/active/WI-UNCOMMITTED-SIDE-EFFECT.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:01ea5b9203794e2f811d3a43ae82f0693ca59eafe4b8ef39e8bce5a20ad3e20c",
+    "workItemId": "WI-UNCOMMITTED-SIDE-EFFECT",
+    "baseCommit": "9084aad5d43475bc8484a25fd10f97e1b0f2361d",
+    "branch": "feature/WI-UNCOMMITTED-SIDE-EFFECT",
+    "lifecyclePhase": "implementation_active",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 0,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 0
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "pending",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:b1913ca77b8e6d0d0333c54bdd2fef24e8e0084930f49662b281cb88b8a06caf",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:98edd3ea23982ba69987eaeff62ddb15592ab759b64c906c6b81abcc296efa71",
+      "summary": "sha256:9b069a7d85a4016409afb0aa8512aa84a53775fc4ec04013d30189f5d8bad17c"
+    },
+    "unknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:98edd3ea23982ba69987eaeff62ddb15592ab759b64c906c6b81abcc296efa71",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-16T13:56:20Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_preflight"
+    ],
+    "actionExplanation": {
+      "guideId": "provider-resource-finalization",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "acceptanceCriteria",
+          "message": "current projection reports acceptanceCriteria"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:c817297fd8400f97af06aa1a921359d922e1452e3bc9aa875d6decc35c2c4784"
+    },
+    "statusDigest": "sha256:0f92eab4fd530f9edd939db13ea7e6159c3209f827c17b3138a6fd682539276d",
+    "historical": false
+  }
+}
+{
+  "workItemId": "WI-UNCOMMITTED-SIDE-EFFECT",
+  "state": "checkpointed",
+  "timestamp": "2026-10-16T13:56:21Z"
+}
+ok
+test verify_cli_accepts_policy_authorized_timeout_and_rejects_the_runtime_cap_before_spawn ... ok
+test verify_cli_rejects_missing_intent_before_starting_the_command ... ok
+test verify_cli_surfaces_grouped_diagnostics_for_a_failed_execution ... ok
+test verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry ... ok
+test verify_plan_only_does_not_spawn_project_commands ... ok
+test verify_preserves_multiple_explicit_command_compatibility ... ok
+test verify_rejects_an_unknown_typed_stage ... ok
+test verify_returns_nonzero_and_structured_receipt_when_command_fails ... ok
+test verify_workspace_route_emits_coverage_manifest_and_execution_records ... ok
+test work_item_detected_command_uses_dynamic_profile_authorized_reuse ... ok
+test work_item_parallel_verification_fails_closed_and_serial_execution_remains_available ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:f51d03b627334222ff88546f88e70cec10a9b3aee8165c3734be4226d1cea739",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:78da1f9b4fa324b53d84f542ab3314bd9a3533530b4f272a50ccd8f9693d5642",
+  "tests": [],
+  "buildSystems": []
+}
+{
+  "workItemId": "WI-FINAL-SNAPSHOT",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T13:56:27Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:f51d03b627334222ff88546f88e70cec10a9b3aee8165c3734be4226d1cea739",
+    "workItemId": "WI-FINAL-SNAPSHOT",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-verify-final-snapshot-1237766-1792158987059391254",
+      "branch": "master",
+      "head": "a18c57af1ea1302d4c891cffcc94e4ccbb6b5c3b",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-verify-final-snapshot-1237766-1792158987059391254",
+        "branch": "master",
+        "head": "a18c57af1ea1302d4c891cffcc94e4ccbb6b5c3b",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "required_evidence_missing"
+  ],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "effective_unknowns": [
+    "required_evidence_missing"
+  ],
+  "safe_actions": [
+    "collect_required_evidence"
+  ],
+  "required_checks": [
+    "verification"
+  ],
+  "authority": "authorized",
+  "outcome_state": "verification_pending",
+  "reviewState": "verification_pending",
+  "changedPaths": [
+    ".ai/work-items/active/WI-FINAL-SNAPSHOT.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:f51d03b627334222ff88546f88e70cec10a9b3aee8165c3734be4226d1cea739",
+    "workItemId": "WI-FINAL-SNAPSHOT",
+    "baseCommit": "a18c57af1ea1302d4c891cffcc94e4ccbb6b5c3b",
+    "branch": "feature/WI-FINAL-SNAPSHOT",
+    "lifecyclePhase": "implementation_active",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 0,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 0
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "pending",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:c00fdd005eea4eddeb342d8a6b74c07a82563e15037996c5e6dcdc56dd90bb47",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:05e26d7b4c68ea30b61070a56d0a418ba2f45a118762612e4735895deae2fd8a",
+      "summary": "sha256:0e211e2f28e17e640e2cc343d4cf006470a3d6af988d556af45c2aeac1d1363c"
+    },
+    "unknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:05e26d7b4c68ea30b61070a56d0a418ba2f45a118762612e4735895deae2fd8a",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-16T13:56:27Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_preflight"
+    ],
+    "actionExplanation": {
+      "guideId": "provider-resource-finalization",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "acceptanceCriteria",
+          "message": "current projection reports acceptanceCriteria"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:10bdad508a782f1e8b40b42c43757a6cc64930610768d57bfc075e224661616c"
+    },
+    "statusDigest": "sha256:a672c499caa7a727b155d79fff4bb7f1791464353044af7804cde34ffc4519c8",
+    "historical": false
+  }
+}
+{
+  "workItemId": "WI-FINAL-SNAPSHOT",
+  "state": "checkpointed",
+  "timestamp": "2026-10-16T13:56:27Z"
+}
+ok
+test work_item_plan_includes_each_declared_verification_command ... {
+  "profileVersion": 1,
+  "repositoryId": "sha256:62596d4458e9daaf9affa7efbd9f3b07f2746f1528ec1db4781752487d247235",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:69fb6b058693370d8e881a93d469a3ad401479efc22f26217bc40d2a5ea3869d",
+  "tests": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "state": "detected"
+    }
+  ],
+  "buildSystems": [
+    "Cargo"
+  ]
+}
+{
+  "profileVersion": 2,
+  "repositoryId": "sha256:62596d4458e9daaf9affa7efbd9f3b07f2746f1528ec1db4781752487d247235",
+  "repositorySchemaVersion": 2,
+  "state": "calibrated",
+  "profileDigest": "sha256:bbaaa82cf5f526a01641497a09cf7e352f57448edd150524544da1b478ebf1a8",
+  "tests": [
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "state": "verified"
+    },
+    {
+      "program": "cargo",
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "state": "detected"
+    }
+  ],
+  "buildSystems": [
+    "Cargo"
+  ]
+}
+{
+  "workItemId": "WI-DECLARED-VERIFY",
+  "state": "implementation_active",
+  "timestamp": "2026-10-16T13:56:30Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:62596d4458e9daaf9affa7efbd9f3b07f2746f1528ec1db4781752487d247235",
+    "workItemId": "WI-DECLARED-VERIFY",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/tmp/cockpit-verify-declared-commands-1237766-14",
+      "branch": "master",
+      "head": "16f24d5989596197bb66688e0f159d38b42c0da7",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/tmp/cockpit-verify-declared-commands-1237766-14",
+        "branch": "master",
+        "head": "16f24d5989596197bb66688e0f159d38b42c0da7",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}
+{
+  "state": "green",
+  "blockers": [],
+  "unknowns": [],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "safe_actions": [],
+  "required_checks": [],
+  "authority": "authorized",
+  "outcome_state": "ready",
+  "reviewState": "ready",
+  "changedPaths": [
+    ".ai/work-items/active/WI-DECLARED-VERIFY.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:62596d4458e9daaf9affa7efbd9f3b07f2746f1528ec1db4781752487d247235",
+    "workItemId": "WI-DECLARED-VERIFY",
+    "baseCommit": "16f24d5989596197bb66688e0f159d38b42c0da7",
+    "lifecyclePhase": "implementation_active",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 0,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 5,
+      "checkpointCount": 0
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:c06a49f156d370dec98deccfeacab096dc49076814237da168ff076a394f53b8",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:8233293e492349a7021f4d6f87a5d451c79047cc7b7213be40d5a7f0fd785614",
+      "summary": "sha256:ea9969df4b605ffb34e3e58bca60de40795bc9d35a09ccbbe2d16288e7a0adec"
+    },
+    "unknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "acceptanceCriteria",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:8233293e492349a7021f4d6f87a5d451c79047cc7b7213be40d5a7f0fd785614",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-16T13:56:30Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_preflight"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase implementation_active",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "acceptanceCriteria",
+          "message": "current projection reports acceptanceCriteria"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:72269c20ce28d1d8edf4674a585cceeedb89c03c0fc0e272d8ca5eb3f948f50f"
+    },
+    "statusDigest": "sha256:b93c652f2e93e9f161d439555e8ab18e1528b9821521b4c683fae074940da224",
+    "historical": false
+  }
+}
+{
+  "workItemId": "WI-DECLARED-VERIFY",
+  "state": "checkpointed",
+  "timestamp": "2026-10-16T13:56:30Z"
+}
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/decisions/profile-v2.json",
+    ".ai/project.json"
+  ],
+  "checkpointAt": "2026-10-16T13:56:30Z",
+  "checkpointContractDigest": "sha256:c06a49f156d370dec98deccfeacab096dc49076814237da168ff076a394f53b8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8233293e492349a7021f4d6f87a5d451c79047cc7b7213be40d5a7f0fd785614",
+  "createdAt": "2026-10-16T13:56:30Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs-gate.sh"
+    ],
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-16T13:56:30.395246458Z",
+      "recordedAt": "2026-10-16T13:56:30.395246458Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-16T13:56:30Z",
+  "preflightContractDigest": "sha256:c06a49f156d370dec98deccfeacab096dc49076814237da168ff076a394f53b8",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:8233293e492349a7021f4d6f87a5d451c79047cc7b7213be40d5a7f0fd785614",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:62596d4458e9daaf9affa7efbd9f3b07f2746f1528ec1db4781752487d247235",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-16T13:56:30.953068214+00:00",
+  "workItemId": "WI-DECLARED-VERIFY"
+}
+ok
+test work_item_verification_persists_strict_receipt_without_cli_plan_projection ... ok
+test workers_bound_parallel_execution_of_multiple_explicit_commands ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 23.07s
+
+
+running 9 tests
+test concurrent_work_item_new_same_id_has_exactly_one_success ... ok
+test concurrent_work_item_new_same_id_isolated_between_repositories ... ok
+test new_work_item_keeps_unscoped_pending_close_visible_without_blocking_scaffold ... ok
+test new_work_item_reports_facts_and_keeps_human_decisions_empty ... ok
+test work_item_new_existing_id_fails_closed_without_reservation_left_behind ... ok
+test work_item_new_recreates_active_directory_after_archival ... ok
+test work_item_new_rejects_a_repository_that_requires_migration ... ok
+test work_item_new_rejects_a_repository_with_an_unsupported_future_schema ... ok
+test work_item_new_requires_an_explicit_repository ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.60s
+
+
+running 2 tests
+test linked_worktree_without_unambiguous_default_base_is_rejected ... ok
+test primary_worktree_and_default_branch_are_rejected_but_linked_worktree_is_accepted ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.93s
+

@@ -1,0 +1,17 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/crates/cockpit-repository)
+error: this file contains an unclosed delimiter
+    --> crates/cockpit-repository/src/legacy_closeout_source.rs:1454:3
+     |
+1228 | ) -> Result<serde_json::Value, ObserverError> {
+     |                                               - unclosed delimiter
+...
+1248 |     if existing_extension.is_some() && existing_transition.is_some() {
+     |                                                                      - this delimiter might not be properly closed...
+...
+1255 | }
+     | - ...as it matches this but it has different indentation
+...
+1454 | }
+     |  ^
+
+error: could not compile `cockpit-repository` (lib test) due to 1 previous error

@@ -1,0 +1,48 @@
+{
+  "observedAt": "2026-10-16T00:16:57.477275+00:00",
+  "workItemId": "WI-1086-sensitive-amendment-preflight-request-interlock",
+  "baseCommit": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+  "approvedPlanCommit": "f49a001ece01209ed9e4cf743f879b7a5931143c",
+  "approvedPlanRawSha256": "4af7747e496726e1dc1415e73502dc8ffc31fb58f1549ed738632fc08f47fabe",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:5307ba5324d397e0fb971aa8b926ba8176336a0a6e76dfae7bd3a6e5cd11fa38",
+  "contractDigest": "sha256:36b1a87c47d85caedd16259c4b685ce0097ddbf127cbceb4e53b520f0516c734",
+  "beforeEditSnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+  "checkpointCount": 1,
+  "checkpointAt": "2026-10-16T00:14:08Z",
+  "initialPreflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "startAdvisory": {
+    "classification": "advisory",
+    "warnings": [
+      "active_work_items_require_lifecycle_or_cleanup:5",
+      "archived_resource_obligations_present:603",
+      "non_default_remote_branches_present:3",
+      "uncleaned_linked_worktrees_present:6"
+    ],
+    "conflicts": [],
+    "unknowns": []
+  },
+  "humanConfirmationWritten": false,
+  "productRustChanges": [],
+  "testsRun": false,
+  "formalVerificationRun": false,
+  "retainedWI1085Head": "f49a001ece01209ed9e4cf743f879b7a5931143c",
+  "retainedWI1085DirtyPaths": [],
+  "nativeRecords": [
+    {
+      "path": ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.contract.json",
+      "bytes": 10081,
+      "rawSha256": "3632febedb05bed6093be7bcd34f98f94d6aa7a180b7e5c3a8b4fb9852ca9ef3"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.intelligence.json",
+      "bytes": 335,
+      "rawSha256": "663836d4cb44d5f21d3f6e7cb5244e526d4077c3f72062e4aea764f042e52ff8"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1086-sensitive-amendment-preflight-request-interlock.summary.json",
+      "bytes": 1259,
+      "rawSha256": "3069ebfd55b627804d3e39680ca62445b745c0fa4bee982b5e42510cbe6e43fa"
+    }
+  ]
+}

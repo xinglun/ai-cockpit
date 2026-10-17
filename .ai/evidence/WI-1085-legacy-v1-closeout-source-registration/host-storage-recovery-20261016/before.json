@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-10-16T12:34:00.636630+00:00",
+  "exactApprovedPath": "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/debug/",
+  "currentUserDecision": "\u6279\u51c6\u4ec5\u5220\u9664\u8be5 debug \u76ee\u5f55",
+  "decisionSource": "Actual current user response to the earlier exact-candidate question; no Sentinel ID or native cleanup receipt invented.",
+  "sourceInventoryCommit": "3235316534fd0798fc6a83625df72a36662ab443",
+  "candidateMatchesPublishedInventory": true,
+  "symlinkCount": 0,
+  "nestedMounts": [],
+  "allocatedBytesPreviouslyMeasured": 11885486080,
+  "availableBytesBefore": 0,
+  "protectedHashes": {
+    "/workspace/ai-cockpit/target/wi1086-sensitive-amendment-preflight-request-interlock/release/ai-cockpit": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "/workspace/ai-cockpit/.ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json": "7304e582f78f5a49ec751f01f5497a3a310a66c5621fa3353813869c961a6a8d",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/work-items/active/WI-1085-legacy-v1-closeout-source-registration.contract.json": "7cbbaa07f74c9871379e060babd5e6c27df90f3f54c11708cdd330a0e581d1dc",
+    "/workspace/ai-cockpit-wi1085-legacy-v1-closeout-source-registration/.ai/evidence/WI-1085-legacy-v1-closeout-source-registration.verification-attempt.a1f426f3b6e44021d6cc094ba17f251f84ef8c276b4dbcd5f0f47c67268e655b.json": "0c07ee1e2f0c0c6a4bd56370a380a4b39eea1f5fe6d7d2f384083ecb738e1b48"
+  },
+  "occupancy": "Fresh scan pending; earlier PID200/251 limitations retained, not treated as an empty set.",
+  "operationClass": "Explicitly authorized host compiler-cache removal, not native Work Item branch/worktree cleanup or provider finalization."
+}
