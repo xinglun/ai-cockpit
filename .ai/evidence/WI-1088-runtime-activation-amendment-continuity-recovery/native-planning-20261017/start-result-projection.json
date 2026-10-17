@@ -1,0 +1,191 @@
+{
+  "kind": "agent-readable-projection-of-preserved-native-output",
+  "observedAt": "2026-10-17T08:08:28.691104+00:00",
+  "source": "n06-start-planning.json stdoutBase64",
+  "projection": {
+    "schemaVersion": 1,
+    "state": "review_required",
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "checkpoint": null,
+    "checkpointError": null,
+    "nextActions": [
+      "present_preflight_review_and_wait_for_human_decision"
+    ],
+    "preflight": {
+      "actionAdmission": {
+        "actionExplanation": {
+          "admissionDigest": "sha256:388978ea706374d195d26cedbcaba28954648b149ec87da3757166e2a9df5624",
+          "admissionState": "needs_human_decision",
+          "guideId": "ordinary-work-item",
+          "humanDecisionRequired": true,
+          "issues": [
+            {
+              "code": "acceptance_evidence_insufficient",
+              "kind": "unknown",
+              "message": "current projection reports acceptance_evidence_insufficient"
+            },
+            {
+              "code": "acceptance_evidence_missing",
+              "kind": "missing",
+              "message": "current projection reports acceptance_evidence_missing"
+            },
+            {
+              "code": "scenario_coverage_insufficient",
+              "kind": "unknown",
+              "message": "current projection reports scenario_coverage_insufficient"
+            },
+            {
+              "code": "scenario_coverage_required_for_high_risk",
+              "kind": "missing",
+              "message": "current projection reports scenario_coverage_required_for_high_risk"
+            },
+            {
+              "code": "user_visible_benefit_not_declared",
+              "kind": "unknown",
+              "message": "current projection reports user_visible_benefit_not_declared"
+            },
+            {
+              "code": "verification_evidence_missing",
+              "kind": "missing",
+              "message": "current projection reports verification_evidence_missing"
+            }
+          ],
+          "missingInputs": [
+            "acceptance_evidence_insufficient",
+            "acceptance_evidence_missing",
+            "verification_evidence_missing"
+          ],
+          "recommendationReason": "Runtime requires a current human decision before continuing",
+          "recommendedAction": "run_preflight"
+        },
+        "activityHealth": "waiting",
+        "baseCommit": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+        "blockers": [],
+        "blocking": false,
+        "completionDomains": {
+          "closure": "open",
+          "implementation": "active",
+          "integration": "not_applicable",
+          "resourceCleanup": "not_started",
+          "review": "required",
+          "verification": "not_ready",
+          "workResult": "not_ready"
+        },
+        "dependencies": [],
+        "diagnostics": [],
+        "effectiveUnknowns": [
+          "acceptance_evidence_insufficient",
+          "acceptance_evidence_missing",
+          "scenario_coverage_insufficient",
+          "scenario_coverage_required_for_high_risk",
+          "user_visible_benefit_not_declared",
+          "verification_evidence_missing"
+        ],
+        "evidenceFreshness": {
+          "reason": "verification evidence is missing",
+          "state": "missing"
+        },
+        "governancePermissions": [
+          "read_status",
+          "read_outcome"
+        ],
+        "governanceState": "yellow",
+        "historical": false,
+        "humanDecisionRequired": true,
+        "humanDecisions": [],
+        "lifecyclePhase": "implementation_active",
+        "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+        "missingEvidence": [
+          "acceptance_evidence_insufficient",
+          "acceptance_evidence_missing",
+          "verification_evidence_missing"
+        ],
+        "progressFacts": {
+          "acceptanceCriteriaDeclared": 7,
+          "acceptanceEvidenceEntries": 0,
+          "changedPathCount": 3,
+          "checkpointCount": 0
+        },
+        "rawScannerUnknowns": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "reviewAssurance": null,
+        "reviewReceiptDigest": null,
+        "risks": [
+          "high"
+        ],
+        "safeActions": [
+          "record_governance_controls",
+          "record_usage",
+          "refresh_status",
+          "run_preflight"
+        ],
+        "schemaVersion": 1,
+        "snapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+        "sourceDigests": {
+          "contract": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+          "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+          "repositorySnapshot": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+          "summary": "sha256:331b4849d7d4479a56598621943f8d0723829087ed5469cd3ba0923cb9ff10b7"
+        },
+        "statusDigest": "sha256:7256efcd93bd938b07cc182e052e623237918731c20d6d51a6ccffe9398f6053",
+        "unknowns": [
+          "acceptance_evidence_insufficient",
+          "acceptance_evidence_missing",
+          "scenario_coverage_insufficient",
+          "scenario_coverage_required_for_high_risk",
+          "user_visible_benefit_not_declared",
+          "verification_evidence_missing"
+        ],
+        "updatedAt": "2026-10-17T08:05:04Z",
+        "verification": "not_ready",
+        "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+      },
+      "authority": "authorized",
+      "blockers": [],
+      "changedPaths": [
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
+      ],
+      "effective_unknowns": [
+        "scenario_coverage_required_for_high_risk"
+      ],
+      "humanDecisionRequest": {
+        "decisionId": "contract-preflight-review",
+        "options": [
+          {
+            "effect": "Provide the missing human-owned facts, then rerun preflight.",
+            "id": "complete_contract",
+            "label": "Complete or amend the Contract"
+          },
+          {
+            "effect": "Bind an identity-matched review receipt before checkpoint.",
+            "id": "confirm_review",
+            "label": "Confirm a bounded human decision"
+          },
+          {
+            "effect": "Leave the item recoverable without entering implementation.",
+            "id": "stop_work",
+            "label": "Stop the Work Item"
+          }
+        ],
+        "question": "Which bounded decision should authorize the next step?",
+        "recommendationReason": "The unresolved fields are human-owned and cannot be inferred from repository facts.",
+        "recommendedOption": "complete_contract",
+        "resumeCondition": "A repository-bound human review receipt matches repository, Work Item, Contract, and snapshot digests.",
+        "status": "needs_human_confirmation",
+        "whatHappened": "The current Contract contains unresolved governance facts.",
+        "whyItMatters": "An Agent must not turn uncertainty about intent, authority, scope, or policy into an implementation decision."
+      },
+      "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "outcome_state": "needs_human_decision",
+      "required_checks": [],
+      "reviewState": "needs_human_confirmation",
+      "safe_actions": [
+        "collect_missing_evidence"
+      ],
+      "state": "yellow",
+      "unknowns": [
+        "scenario_coverage_required_for_high_risk"
+      ]
+    }
+  }
+}
