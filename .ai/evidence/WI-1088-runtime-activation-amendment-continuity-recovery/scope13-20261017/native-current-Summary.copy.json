@@ -1,0 +1,338 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A1; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A2; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A3; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A4; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A5; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A6; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A7; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A8; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A9",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A9; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A10; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A11; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "Contract acceptance A12; approved Task 1-4 plan",
+          "path": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md",
+          "type": "planned_acceptance_mapping_not_pass_evidence",
+          "verification": "not_run: implementation and candidate verification pending; this entry maps the planned evidence only"
+        }
+      ],
+      "status": "unverified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.bdffb0f81fc50384abe33b749fe0546bdbfb3e11cf20f4a26d064287a960f6e4.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-10-17T08:47:46Z",
+  "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+      "recorded": true,
+      "recordedAt": "2026-10-17T08:47:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c7c6d8b16ad9fa88a096d615664675ef1c0ff5c766ed3d796eedce2235f2e992",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+      "previousContractHash": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+      "reason": "Actual parent technical approval in .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-20261017/technical-approval-source.json rawSHA256=dcf6b7ca0204e81ea10b59be9c72fac606c478b7294ce5d9fb39c3782a49624e permits only existing rpc.rs discovery compatibility maintenance: add the2 actual recovery names and keep an exact35 count. Actual full n04 had31/33 nodes; MCP rpc36 passed/2 failed only because old33 assertions were stale. Retain original12 implementation paths, add only this one test path, change no production feature or authority. A new native human decision, if required, is separate; the old6e93 confirmation is not reused.",
+      "recorded": true,
+      "recordedAt": "2026-10-17T11:47:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c7c6d8b16ad9fa88a096d615664675ef1c0ff5c766ed3d796eedce2235f2e992",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c7c6d8b16ad9fa88a096d615664675ef1c0ff5c766ed3d796eedce2235f2e992",
+  "createdAt": "2026-10-17T08:05:04Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:a7d04da85c9c4071feacf4734c6e012f4039ffa2b9bff57d128b163adb09edeb",
+    "reason": "Actual decision by human:Ray: raw response confirm_review at 2026-10-17T08:45:53Z, provided message Sentinel_f70d6433d0ec8191a1c84b351b5e0586, answering the exact Contract/snapshot/decision request supplied in the task transcript. Recorder is agent:Codex, not the human actor. Full source: .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/human-implementation-review-20261017/actual-human-response-source.json. This approves bounded WI-1088 implementation only and is not an original WI-1087 recovery decision.",
+    "recordedAt": "2026-10-17T08:47:37.012663+00:00",
+    "recordedBy": "agent:Codex",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
+    "schemaVersion": 1,
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/human-implementation-review-20261017/actual-human-response-source.json",
+      ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/real-native-red-20261017/attempt2-target-RED/result.json"
+    ],
+    "reason": "The actual human reviewed the bounded intent/scope; implemented behavior and user-visible benefit remain unproven pending the fix and verification.",
+    "state": "unknown"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-17T08:05:04.485435558Z",
+      "recordedAt": "2026-10-17T08:05:04.485435558Z",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-17T11:49:31Z",
+  "preflightContractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+  "preflightDecisionDigest": "sha256:34e6d3f6dffbf1ddcc6f012b3283636716e96070293320b161c2054d9019053c",
+  "preflightRepositorySnapshotDigest": "sha256:398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Actual RED for pre-amend/activation/checkpoint/post-amend in a disposable repository; setup failures are distinguished.",
+      "required": true,
+      "scenario": "real_native_pre_fix_reproduction",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [],
+      "expected": "Only the three forward fields change at the pinned initial activation stage; complete actual phase evidence verifies.",
+      "required": true,
+      "scenario": "forward_exact_activation_transition",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test lifecycle_entry"
+    },
+    {
+      "evidence": [],
+      "expected": "Exact NOW baseline with real request-bound human response permits fresh preflight generation only; historical authentication remains unknown.",
+      "required": true,
+      "scenario": "present_baseline_only_recovery",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [],
+      "expected": "All record/hash/journal checks remain; rehashed discontinuous post-checkpoint chain is rejected.",
+      "required": true,
+      "scenario": "full_integrity_and_rehashed_discontinuity",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [],
+      "expected": "Missing start/checkpoint and foreign owner/repository/WI or extra scope/authority/actor/source fail closed.",
+      "required": true,
+      "scenario": "foreign_missing_or_extra_plan_bindings",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [],
+      "expected": "Only the exact enumerated old/new arrays at the eligible initial boundary are reviewable; broad CSV or B-only inference rejects.",
+      "required": true,
+      "scenario": "finite_legacy_csv_and_stage_policy",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [],
+      "expected": "Before publication reject wrong request and stale/CAS conflicts without finishing unrelated pending; raw bytes remain unchanged.",
+      "required": true,
+      "scenario": "wrong_request_pending_and_prospective_cas",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+    },
+    {
+      "evidence": [],
+      "expected": "Prepared-only/partial evidence cannot grant committed status or work; unsupported Runtime/adapter/raw writer remains rejected.",
+      "required": true,
+      "scenario": "partial_publication_and_unsupported_surface",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test lifecycle_entry"
+    },
+    {
+      "evidence": [],
+      "expected": "Two strict recovery tools agree with CLI/shared APIs; exact tool count 35 if two added; usage/material-review assertions retained.",
+      "required": true,
+      "scenario": "cli_mcp_shared_request_record_and_exact_schema",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-mcp --test material_review and cargo test --locked -p cockpit-mcp --test usage and cargo test --locked -p cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [],
+      "expected": "Only WI-1088 parity stage rows change; own briefs/commands match; original WI-1087 eleven hashes stay identical.",
+      "required": true,
+      "scenario": "three_language_wi_only_documentation_and_preservation",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked -p cockpit-repository --test agent_rule_parity plus exact scoped diff/raw-hash inventory"
+    },
+    {
+      "evidence": [],
+      "expected": "Fresh fmt/clippy and full workspace verification use isolated target and single worker; actual CI outcome is reported.",
+      "required": true,
+      "scenario": "full_workspace_acceptance",
+      "status": "unverified",
+      "verificationPlan": "cargo fmt --all -- --check and cargo clippy --locked --workspace --all-targets -- -D warnings and cargo test --locked --workspace"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-17T08:55:19.164435051+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-17T11:47:42Z"
+  },
+  "verificationRecoveryReconciled": "sha256:c40490a6e78b51442e9e83f28288d582e35f41f4a8dda747cc5747e2a2af5d8c",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+}

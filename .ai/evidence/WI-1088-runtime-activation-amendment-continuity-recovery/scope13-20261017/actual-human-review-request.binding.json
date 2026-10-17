@@ -1,0 +1,84 @@
+{
+  "kind": "actual_native_human_review_request_binding_not_a_decision_receipt",
+  "observedAt": "2026-10-17T11:52:26.740687+00:00",
+  "requiredBinding": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+    "preflightDecisionDigest": "sha256:34e6d3f6dffbf1ddcc6f012b3283636716e96070293320b161c2054d9019053c",
+    "repositorySnapshotDigest": "sha256:398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265"
+  },
+  "nativeHumanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "The recorded preflight decision evidence is missing, stale, or invalid.",
+    "whyItMatters": "A previous human review cannot authorize a changed or foreign Contract.",
+    "options": [
+      {
+        "id": "complete_contract",
+        "label": "Complete or amend the Contract",
+        "effect": "Provide current human-owned facts and rerun preflight."
+      },
+      {
+        "id": "confirm_review",
+        "label": "Confirm a bounded human decision",
+        "effect": "Record a new identity-bound receipt for this exact Contract and snapshot."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without entering implementation."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "The previous receipt cannot be reused after its binding facts changed.",
+    "question": "Which bounded decision should authorize the next step?",
+    "resumeCondition": "A fresh repository-bound preflight decision receipt matches the current Contract and snapshot."
+  },
+  "nativeHumanDecisionRequired": true,
+  "nativeSafeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_preflight"
+  ],
+  "nativeAdmissionDigest": "sha256:ffbd10aca19c1c421e2a132ed9f7bf2ef5c7bed21c4a973d0f44d3ac5d869d47",
+  "nativeStatusDigest": "sha256:0208783fcee9241a0d7eec2334a8fc81053a4a6c228131cd97831fe6c100c95c",
+  "context": {
+    "repositoryPath": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+    "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+    "headAtNativeRequest": "6925280a9ad859da5d676e17f553a6b3a5c15ecd",
+    "runtimeBinary": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "baseCommit": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+    "amendmentSequence": 3,
+    "amendmentRequestDigest": "sha256:5ecaf393a94426e251a9c322c4ad0b0fecdd29a81475b2fc0fdbe02c333f15aa",
+    "amendmentJournalDigest": "sha256:75ba1b7bd5b64a66a2add235fca49747e01353b4e927b55119a7e5bafc7118e6"
+  },
+  "contractRawSha256": "8a63b3875db302f08457503e7c9f0da1635aaaaa19e6bb3701857065ba8561cf",
+  "summaryRawSha256": "07f586aaeac65886f03fb38c2ef5f581f6bc8608588c0e8a7fa374052edd1ec2",
+  "priorHumanEvidence": {
+    "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+    "canonicalRawSha256": "b5bb92ec0124ab1962bb3344be3a44a60253dc1547279b3f732117325c3ef75e",
+    "retained": true,
+    "applicableToNewContract": false
+  },
+  "newHumanResponseRecorded": false,
+  "newDecisionEvidenceWritten": false,
+  "rpcSourceEdited": false,
+  "expectedHumanActor": "human:Ray",
+  "intendedRecorder": "agent:Codex",
+  "hostDisplayConfirmation": "unknown",
+  "issueCountInNativeActionExplanation": 7,
+  "pending": [
+    "actual new human response for this exact binding",
+    "minimal RPC exact2 names and33-to35 maintenance",
+    "complete current repository package",
+    "fresh complete33-node declared verification",
+    "exact final-head CI including Windows",
+    "truthful current scenario/acceptance/intent controls"
+  ]
+}
