@@ -1,0 +1,32 @@
+{
+  "kind": "actual_native_fixture_observation",
+  "label": "status-after-post-amend",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "work-item",
+    "status",
+    "--id",
+    "WI-TEST-ACTIVATION-GAP",
+    "--json",
+    "--repo",
+    "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo"
+  ],
+  "cwd": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo",
+  "startedAt": "2026-10-17T08:50:29.574042+00:00",
+  "endedAt": "2026-10-17T08:50:29.653303+00:00",
+  "elapsedSeconds": 0.079,
+  "exitCode": 1,
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "stdout": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  },
+  "stderr": {
+    "bytes": 255,
+    "rawSha256": "96e0312398e2ff4924ae0dad74a1217dbe27faa745d44b5e2f06b9b4d699da91",
+    "encoding": "base64",
+    "data": "cmVhZCBXb3JrIEl0ZW0gc3RhdHVzOiByZXBvc2l0b3J5IHByb3RvY29sIHN0YXRlIGVycm9yIGF0IC93b3Jrc3BhY2Uvc2NyYXRjaC93aTEwODgtcnVudGltZS1jb250aW51aXR5L3JlYWwtbmF0aXZlLXJlZC0yMDI2MTAxNy1hdHRlbXB0Mi9yZXBvLy5haS93b3JrLWl0ZW1zL2FjdGl2ZS9XSS1URVNULUFDVElWQVRJT04tR0FQLmNvbnRyYWN0Lmpzb246IGFtZW5kbWVudCBDb250cmFjdCB0cmFuc2l0aW9uIGNoYWluIGlzIGRpc2NvbnRpbnVvdXMK"
+  }
+}

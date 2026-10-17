@@ -1,0 +1,196 @@
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "contract_amendment_policy_review_required",
+    "evidence_stale",
+    "preflight_decision_evidence_invalid",
+    "repository_material_inspection_unavailable"
+  ],
+  "raw_scanner_unknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "material_manifest_digest": "sha256:e3a7b92065aa28b97157508aba8b3fcf83ba1f501bb0dd1957d6f2d163ebd661",
+  "effective_unknowns": [
+    "evidence_stale",
+    "repository_material_inspection_unavailable"
+  ],
+  "safe_actions": [
+    "record_fresh_preflight_decision",
+    "rerun_affected_checks"
+  ],
+  "required_checks": [
+    "evidence_freshness",
+    "human_review"
+  ],
+  "authority": "authorized",
+  "outcome_state": "needs_human_decision",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "The recorded preflight decision evidence is missing, stale, or invalid.",
+    "whyItMatters": "A previous human review cannot authorize a changed or foreign Contract.",
+    "options": [
+      {
+        "id": "complete_contract",
+        "label": "Complete or amend the Contract",
+        "effect": "Provide current human-owned facts and rerun preflight."
+      },
+      {
+        "id": "confirm_review",
+        "label": "Confirm a bounded human decision",
+        "effect": "Record a new identity-bound receipt for this exact Contract and snapshot."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without entering implementation."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "The previous receipt cannot be reused after its binding facts changed.",
+    "question": "Which bounded decision should authorize the next step?",
+    "resumeCondition": "A fresh repository-bound preflight decision receipt matches the current Contract and snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "baseCommit": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 12,
+      "acceptanceEvidenceEntries": 12,
+      "changedPathCount": 3,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "evidence_stale"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "high"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+      "materialManifest": "sha256:e3a7b92065aa28b97157508aba8b3fcf83ba1f501bb0dd1957d6f2d163ebd661",
+      "repositorySnapshot": "sha256:398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265",
+      "summary": "sha256:04632d7459359ef7c12540a7fa7e18022ab1d4cd5f3567098b76369bc79488d3",
+      "verificationEvidence": "sha256:8efad18dfbc27eb87f00ac6111a60fa52523169150cefbd79f8f5bb62de1fcfd"
+    },
+    "unknowns": [
+      "evidence_stale",
+      "intent_alignment_insufficient",
+      "repository_material_inspection_unavailable",
+      "required_scenario_unverified",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared",
+      "verification_action_preconditions_blocked"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "materialManifestDigest": "sha256:e3a7b92065aa28b97157508aba8b3fcf83ba1f501bb0dd1957d6f2d163ebd661",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "evidence_stale",
+      "intent_alignment_insufficient",
+      "repository_material_inspection_unavailable",
+      "required_scenario_unverified",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared",
+      "verification_action_preconditions_blocked"
+    ],
+    "diagnostics": [
+      "repository protocol state error at /workspace/ai-cockpit-wi1088-runtime-continuity/.ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.contract.json: contract_amendment_policy_review_required: verification waits for identity-bound human review of the current amended Contract"
+    ],
+    "snapshotDigest": "sha256:398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "lastVerificationAt": "2026-10-17T11:43:38Z",
+    "updatedAt": "2026-10-17T08:55:19.164435051+00:00",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_preflight"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "evidence_stale",
+          "message": "current projection reports evidence_stale"
+        },
+        {
+          "kind": "unknown",
+          "code": "intent_alignment_insufficient",
+          "message": "current projection reports intent_alignment_insufficient"
+        },
+        {
+          "kind": "unknown",
+          "code": "repository_material_inspection_unavailable",
+          "message": "current projection reports repository_material_inspection_unavailable"
+        },
+        {
+          "kind": "missing",
+          "code": "required_scenario_unverified",
+          "message": "current projection reports required_scenario_unverified"
+        },
+        {
+          "kind": "unknown",
+          "code": "scenario_coverage_insufficient",
+          "message": "current projection reports scenario_coverage_insufficient"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "unknown",
+          "code": "verification_action_preconditions_blocked",
+          "message": "current projection reports verification_action_preconditions_blocked"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "evidence_stale"
+      ],
+      "admissionDigest": "sha256:ffbd10aca19c1c421e2a132ed9f7bf2ef5c7bed21c4a973d0f44d3ac5d869d47"
+    },
+    "statusDigest": "sha256:0208783fcee9241a0d7eec2334a8fc81053a4a6c228131cd97831fe6c100c95c",
+    "historical": false
+  }
+}

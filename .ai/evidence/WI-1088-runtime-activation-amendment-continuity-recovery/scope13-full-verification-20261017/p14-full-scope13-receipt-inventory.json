@@ -1,0 +1,6 @@
+{
+  "kind": "read_only_agent_receipt_inventory_not_native_receipt",
+  "canonicalPresent": true,
+  "canonicalRawSha256": "4a5db05ae6e9c879c0cd344fe2c0ab56c2a0be07a0784fc3333cfbf33ac8c5fb",
+  "note": "Current canonical is focused verification_service17/17, not complete33; only following native plan can admit reuse."
+}

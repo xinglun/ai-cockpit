@@ -1,0 +1,20 @@
+{
+  "kind": "actual_preservation_recheck_not_a_verification_receipt",
+  "observedAt": "2026-10-17T08:11:15.328644+00:00",
+  "head": "9093ebe1bbccbf2a3429d953c497fa3847f6e474",
+  "all11RawHashesMatch": true,
+  "hashes": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea",
+    ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json": "b0bf5857fefaa918c402d92bb161e31b82b0b29bb8194ba69d2f7a767eee30c5",
+    ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json": "91efd3c6546b7cbed6f6af9da1cd81d7d20f34aac601804904867964dbcce87b",
+    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000005.prepared.json": "96cba33ffb61e7c980e4390403ed560a5b9d4631f67ea9a856be992e5c44f2a8",
+    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000005.committed.json": "38e8f8a402b558a42b899fa5aa1fd5ef98baedbe3072749c1818138943a8c382",
+    ".ai/decisions/WI-1087-contract-authority-scope-and-expiry.preflight-review.json": "e6a983fc4a36a3588f5c9509d221b7dba4102cf36d043807c9668be284f98fc8",
+    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification.json": "39b46fbb120ed1996df9d4176cc4fcf3514ed6a7ec17f42cb02f6361ea90b6ca"
+  },
+  "gitStatusPorcelain": ""
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "worktreePath": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+  "head": "02c0c7c52fe7a50514e4f04463ceea2cfc703418",
+  "generation": 11,
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Ready first forward-transition/prospective-validation source batch committed after real candidate RED. Product source is not yet compiled or verified. Refresh actual material/admission and run only the existing focused regression under the native package-test600 budget before claiming GREEN. Legacy recovery entry and full acceptance remain pending; original WI-1087 untouched."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  },
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  }
+}

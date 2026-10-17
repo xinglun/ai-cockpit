@@ -1,0 +1,37 @@
+Usage: ai-cockpit work-item <COMMAND>
+
+Commands:
+  new                                 
+  revalidate-amendment                Append a revalidation after a direct Contract change; it is not needed after a successful amend
+  amend                               Amend human-owned Contract fields and automatically record amendment revalidation; query status for the next admitted action
+  amendments                          Read the append-only history of accepted Contract amendments
+  revalidate-archived                 Append a successor revalidation for an archived Contract that was legitimately amended after its historical verification.  The predecessor archive/evidence bytes remain immutable
+  approach                            
+  outcome                             Actual CLI parser arguments for the discoverable Outcome query
+  usage                               Record an explicit repository-bound usage claim through Runtime admission
+  material-review                     Inspect the exact committed material considered by the review boundary
+  reconcile-artifacts                 Move failed-attempt artifacts left by an older/interrupted archive into the immutable archive and bind them with a reconciliation receipt
+  retire                              Retire an active Work Item as already integrated or explicitly replaced. The input is a strict ActiveWorkItemRetirementRequest JSON document
+  finalize-plan                       Bind branch/worktree/provider/PR context before archive
+  finalize                            Record a strict provider-side finalization receipt after archive
+  finalize-verify                     Revalidate the stored finalization receipt and local cleanup state
+  ordinary-cleanup                    Append an exact local branch/worktree cleanup observation for a closed ordinary Work Item. Provider-bound Work Items keep using finalize
+  finalize-recovery                   Classify an immutable legacy receipt, or record a first direct-merge finalization when no predecessor exists, without rewriting history
+  finalize-recovery-plan              Inspect immutable legacy finalization facts and print a recovery skeleton without writing repository state
+  closeout-recovery-plan              Inspect a verified closeout in another checkout without writing either checkout
+  closeout-recover                    Import exact verified closeout evidence from another checkout of the same repository
+  status                              
+  inspect                             
+  declare                             
+  validate                            
+  controls                            
+  recover                             
+  recover-selected-successor-lineage  Record an append-only recovery for an already selected multi-hop successor lineage without creating another successor Work Item
+  boundary                            
+  slot                                
+  coordination                        Inspect or mutate the candidate-only cross-Work-Item coordination store
+  composition                         Execute an exact composition in an isolated temporary worktree after refreshing cross-Work-Item admission
+  help                                Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help  Print help

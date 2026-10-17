@@ -1,0 +1,6 @@
+{
+  "kind": "agent_read_only_receipt_inventory_not_native_receipt",
+  "canonicalPresent": true,
+  "canonicalRawSha256": "0fe26f83553535e485c57cfea5b9666896ad36bc28581a9bc0476fa0baece2ff",
+  "reuseAuthority": "only the following native plan can admit reuse; this inventory grants none"
+}

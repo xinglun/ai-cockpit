@@ -1,0 +1,180 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-9f5f6ae9f23559377b5938396365bdaa047b6bb96452fe1e2029433ffd9f7480",
+      "expectedContractDigest": "sha256:956997ab7a62093628f4cbe73cf38864358d4beaba4d93a75f2134b26685d61d",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/design.v1.json"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/technical-direction-source.json"
+        }
+      ]
+    },
+    "requestDigest": "sha256:bf9112063677e3ea3c0569bbdfd4a9d13f22b42280a124fe9b9e7a3f669e1c0a",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "A1: Preserve the eleven protected WI-1087 files and its current HEAD byte-for-byte; this work item is independent and is not its successor.",
+        "A2: Publish a concrete design distinguishing strict forward activation proof from a present-time reviewed baseline recovery record; B review never authenticates arbitrary A-to-B history.",
+        "A3: Preserve all journal/prepared/committed integrity checks and the rehashed_discontinuous negative test; missing bindings, foreign WI, extra scope/authority changes, post-checkpoint gaps, pending and CAS conflicts remain rejected.",
+        "A4: List the minimal extra implementation paths with reasons and await technical review; the active scope permits only plan metadata and own documentation.",
+        "A5: Specify a real temporary-repository failing reproduction before any later fix and preserve that failure evidence; no reproduction or heavy build is run during planning.",
+        "A6: Obtain and deliver the exact native human request if required; no human decision is pre-signed or inherited from WI-1087.",
+        "A7: Normal planning commit/push and one Draft PR are allowed; merge and lifecycle completion are excluded; full Runtime repair and actual WI-1087 recovery remain not_run."
+      ],
+      "authority": "authorized",
+      "baseRevision": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+      "createdAt": "2026-10-17T08:05:04Z",
+      "goal": "Prepare and review the minimal strict activation evidence and present-time recovery design. Preserve all journal hashes and negative integrity checks. Current execution is planning metadata and documentation only; product implementation waits for technical approval of the listed additions and any actual native human review.",
+      "intent": "Prepare a bounded independent Runtime continuity repair without changing WI-1087 history or any product code before reviewed scope and native admission.",
+      "mode": "implementation",
+      "outOfScope": [
+        "All product and test implementation until the additional implementation scope is technically reviewed and natively admitted",
+        "No changes to WI-1087 real worktree P1 files sequence5 history or existing human decisions",
+        "No successor reset close merge archive deletion Runtime installation or direct main push",
+        "No broad inference from old B review CSV splitting or unverified historical strings",
+        "No P2a P2b live grant authority configuration system permissions or Sentinel operations",
+        "No fabricated past transition receipts new human approvals or verification results"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+      "requiredEvidenceClasses": [],
+      "risk": "high",
+      "scope": [
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.contract.json",
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json",
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.intelligence.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/**",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.contract-amendments/**",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.md",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.zh-CN.md",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+    },
+    "previousContractDigest": "sha256:956997ab7a62093628f4cbe73cf38864358d4beaba4d93a75f2134b26685d61d",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A1: Preserve the eleven protected WI-1087 files and its current HEAD byte-for-byte; this work item is independent and is not its successor.",
+        "A2: Publish a concrete design distinguishing strict forward activation proof from a present-time reviewed baseline recovery record; B review never authenticates arbitrary A-to-B history.",
+        "A3: Preserve all journal/prepared/committed integrity checks and the rehashed_discontinuous negative test; missing bindings, foreign WI, extra scope/authority changes, post-checkpoint gaps, pending and CAS conflicts remain rejected.",
+        "A4: List the minimal extra implementation paths with reasons and await technical review; the active scope permits only plan metadata and own documentation.",
+        "A5: Specify a real temporary-repository failing reproduction before any later fix and preserve that failure evidence; no reproduction or heavy build is run during planning.",
+        "A6: Obtain and deliver the exact native human request if required; no human decision is pre-signed or inherited from WI-1087.",
+        "A7: Normal planning commit/push and one Draft PR are allowed; merge and lifecycle completion are excluded; full Runtime repair and actual WI-1087 recovery remain not_run."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-17T08:05:04Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Prepare and review the minimal strict activation evidence and present-time recovery design. Preserve all journal hashes and negative integrity checks. Current execution is planning metadata and documentation only; product implementation waits for technical approval of the listed additions and any actual native human review.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Prepare a bounded independent Runtime continuity repair without changing WI-1087 history or any product code before reviewed scope and native admission.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "All product and test implementation until the additional implementation scope is technically reviewed and natively admitted",
+        "No changes to WI-1087 real worktree P1 files sequence5 history or existing human decisions",
+        "No successor reset close merge archive deletion Runtime installation or direct main push",
+        "No broad inference from old B review CSV splitting or unverified historical strings",
+        "No P2a P2b live grant authority configuration system permissions or Sentinel operations",
+        "No fabricated past transition receipts new human approvals or verification results"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.contract.json",
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json",
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.intelligence.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/**",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.contract-amendments/**",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.md",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.zh-CN.md",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.ja.md"
+      ],
+      "sources": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/design.v1.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/technical-direction-source.json"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+    },
+    "newContractDigest": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+    "previousSummaryDigest": "sha256:9086586bb1c50e199502493b254323f318ba4bf3367f991cdbbe91d6af99f12d",
+    "repositorySnapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+    "environmentObservationDigest": "sha256:5f3fcb090fdbb237fad5c03e2401eeb144e6de512333477bc7750f3789ed490d",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:9f5f6ae9f23559377b5938396365bdaa047b6bb96452fe1e2029433ffd9f7480",
+    "preparedAt": "2026-10-17T08:05:04Z"
+  },
+  "preparedDigest": "sha256:d3cf7c091d4852b9345997096e17940a61754552dbf70b57ee8fc00313caa110"
+}

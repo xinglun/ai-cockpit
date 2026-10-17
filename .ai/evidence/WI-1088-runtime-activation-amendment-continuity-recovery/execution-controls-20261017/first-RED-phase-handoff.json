@@ -1,0 +1,63 @@
+{
+  "kind": "actual_first_RED_phase_handoff_not_repair_completion",
+  "observedAt": "2026-10-17T08:56:30.921422+00:00",
+  "humanActor": "human:Ray",
+  "recorder": "agent:Codex",
+  "nativeReviewState": "human_decision_recorded",
+  "preflightState": "green",
+  "checkpointCount": 1,
+  "nativeActionAdmission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_verification",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "required_scenario_unverified",
+        "message": "current projection reports required_scenario_unverified"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:10d2f05ca1607384b234f5170eb175d592552d8a13445dca9753422591d79d3b"
+  },
+  "nativeSafeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "declaredVerificationReceiptExists": false,
+  "all11Scenarios": "unverified",
+  "all12AcceptanceEntries": "unverified planned mappings; not passed acceptance",
+  "intentAlignment": "unknown; user-visible benefit unproven",
+  "originalWI1087All11HashesMatch": true,
+  "productOrTestSourceChanged": false,
+  "cargoBuildAndCandidateRustRegression": "not_run",
+  "realNativeRED": "preserved in commit b54caba8217d6ddfc1292abc0bbe3a94d9a6da0e",
+  "outcomeProjectionCaveat": "Native Outcome remains yellow and its human-decision text says unrecorded, whereas canonical decision receipt plus preflight say human_decision_recorded and status has humanDecisionRequired=false. Preserve this visible projection discrepancy; no Outcome or generated record was manually edited. It does not override the actual allowed action admission.",
+  "next": "Add/run the candidate Rust regression before a production fix, then implement only approved scope using native current admission. No new human approval is requested at this milestone."
+}

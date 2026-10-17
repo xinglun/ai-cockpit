@@ -1,0 +1,14 @@
+{
+  "kind": "actual_agent_diff_check_not_native_receipt",
+  "files": {
+    "docs/reference/reference-parity.md": {
+      "otherLinesByteIdentical": true
+    },
+    "docs/reference/reference-parity.zh-CN.md": {
+      "otherLinesByteIdentical": true
+    },
+    "docs/reference/reference-parity.ja.md": {
+      "otherLinesByteIdentical": true
+    }
+  }
+}

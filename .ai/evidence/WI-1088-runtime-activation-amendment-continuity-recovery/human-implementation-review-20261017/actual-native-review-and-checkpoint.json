@@ -1,0 +1,23 @@
+{
+  "kind": "agent_projection_of_actual_native_human_record_and_checkpoint",
+  "observedAt": "2026-10-17T08:48:18.029781+00:00",
+  "humanActor": "human:Ray",
+  "recorder": "agent:Codex",
+  "rawHumanResponse": "confirm_review",
+  "humanResponseOccurredAt": "2026-10-17T08:45:53Z",
+  "canonicalNativeReceiptPath": ".ai/decisions/WI-1088-runtime-activation-amendment-continuity-recovery.preflight-review.json",
+  "canonicalNativeReceiptRawSha256": "b5bb92ec0124ab1962bb3344be3a44a60253dc1547279b3f732117325c3ef75e",
+  "recordedBy": "agent:Codex",
+  "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "preflightDecisionDigest": "sha256:a7d04da85c9c4071feacf4734c6e012f4039ffa2b9bff57d128b163adb09edeb",
+  "repositorySnapshotDigest": "sha256:e8be1aaa4ec1098cffcc2c64c25167a79e37d93dffe83bdce776d30de8c1c9a2",
+  "nativePreflightState": "green",
+  "nativeReviewState": "human_decision_recorded",
+  "checkpoint": {
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "state": "checkpointed",
+    "timestamp": "2026-10-17T08:47:46Z"
+  },
+  "productImplementationAndRED": "not_run_at_this_record",
+  "originalWI1087RecoveryApproved": false
+}

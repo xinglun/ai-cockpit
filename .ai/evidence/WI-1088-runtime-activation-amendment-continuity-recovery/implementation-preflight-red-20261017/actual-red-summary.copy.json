@@ -1,0 +1,30 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/design.v1.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/technical-direction-source.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/wi1087-preservation-baseline.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-17T08:05:04Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-17T08:05:04.485435558Z",
+      "recordedAt": "2026-10-17T08:05:04.485435558Z",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-17T08:21:06Z",
+  "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "preflightDecisionDigest": "sha256:024ab86c8334e397e982da021a12b805ca9518e26bb1f282c17dad809016e702",
+  "preflightRepositorySnapshotDigest": "sha256:e3a5ffbc1fbe6ad789b33c488881416c0ea27008e72c99599cb05c6e4c4dd7b4",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-17T08:05:04Z",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+}

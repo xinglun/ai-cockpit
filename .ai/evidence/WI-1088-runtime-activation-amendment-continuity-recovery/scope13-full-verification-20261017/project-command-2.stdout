@@ -1,0 +1,37 @@
+
+running 17 tests
+test amendment_audit_records_each_ordered_operation_value ... [master (root-commit) 37bad24] fixture baseline
+ok
+test amendment_history_chains_receipts_and_rejects_a_tampered_commit ... [master (root-commit) 37bad24] fixture baseline
+ok
+test amendment_history_rejects_a_resealed_receipt_detached_from_its_request ... [master (root-commit) 37bad24] fixture baseline
+ok
+test amendment_history_survives_archive_without_rewriting_archived_bytes ... [master (root-commit) 3a9bfbf] fixture baseline
+ok
+test competing_amendments_from_one_contract_digest_allow_only_the_first_commit ... [master (root-commit) 3a9bfbf] fixture baseline
+ok
+test material_review_profile_amendment_adds_audited_protected_guard ... [master (root-commit) 3a9bfbf] fixture baseline
+ok
+test ordinary_amendment_cannot_obtain_or_inject_activation_recovery ... [master (root-commit) 3a9bfbf] fixture baseline
+ok
+test post_verification_amendment_receipt_lists_invalidated_required_checks ... [master (root-commit) 6321c7e] fixture baseline
+ok
+test prospective_chain_rejects_an_unjournaled_current_contract_before_publication ... [master (root-commit) 6321c7e] fixture baseline
+ok
+test retrying_the_same_change_id_returns_the_original_amendment_receipt ... [master (root-commit) 6321c7e] fixture baseline
+ok
+test sensitive_amendment_requires_human_review_before_verification ... [master (root-commit) 6321c7e] fixture baseline
+ok
+test sensitive_plan_amendment_records_its_policy_review_requirement ... [master (root-commit) fb9c754] fixture baseline
+ok
+test stale_contract_digest_rejects_without_writing ... [master (root-commit) fb9c754] fixture baseline
+ok
+test summary_only_controls_cannot_accept_orphan_activation_markers ... ok
+test summary_only_controls_reject_existing_native_entries_before_projection ... ok
+test typed_request_replaces_goal_without_rewriting_identity ... [master (root-commit) fb9c754] fixture baseline
+ok
+test uncheckpointed_amendment_persists_runtime_capability_requirements ... [master (root-commit) fb9c754] fixture baseline
+ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.57s
+

@@ -1,0 +1,16 @@
+{
+  "kind": "agent_record_of_actual_exec_arguments_not_native_permission_attestation",
+  "nativeObservation": "p15-full-scope13-verify.json",
+  "execSandboxPermissions": "with_additional_permissions",
+  "additionalWritePaths": [
+    "/home/agent/.cache/ai-cockpit-verify-target/"
+  ],
+  "noOtherAdditionalPermissionsRequested": true,
+  "budgetPolicyChanged": false,
+  "coordinatorOuterTimeoutSeconds": null,
+  "nativeNodeBudgetsSeconds": [
+    300,
+    600
+  ],
+  "sourceFrozenHead": "ee886af0c5a6c7ecfc4e8ea2f7d185ccab9cc23a"
+}

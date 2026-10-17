@@ -1,0 +1,159 @@
+{
+  "kind": "agent_index_of_actual_ci_success_not_native_receipt",
+  "observedAt": "2026-10-17T14:23:26.983931+00:00",
+  "ciRunId": 39037114023,
+  "ciHead": "ead9a32d690871a1794f6091b7f724d92531324e",
+  "ciConclusion": "success",
+  "ciLatestAttempt": 2,
+  "ciTestedMergeRevision": "f6d569466dc0712e82752e377dd5e91533c65dfa",
+  "ciTestedParents": [
+    "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+    "ead9a32d690871a1794f6091b7f724d92531324e"
+  ],
+  "ciWorkspacePackageCount": 13,
+  "ciWorkspaceOmitted": [],
+  "full33ProducerHead": "ee886af0c5a6c7ecfc4e8ea2f7d185ccab9cc23a",
+  "sourcePatchHead": "0a9fa45fcd63edcd97a1d0186185d4983f042841",
+  "pathRepair": "20 Agent fixture copies renamed byte-identically; map retained under win-clone-20261017. Original native files and source unchanged.",
+  "previousCi": "39035217918 Windows failed at fixture clone; previous quality/oracle/route passed. The actual failure is retained, not relabelled passed.",
+  "sameHeadCiRetry": "39037114023 attempt1 Windows/route/oracle passed; quality failed safely on /proc fd PermissionDenied after executionOutcome passed. Exactly one remote quality-job retry was accepted. Attempt1 failed logs and diagnostics remain preserved. A locally rejected gh argument combination made no remote request.",
+  "remainingBoundaries": [
+    "DraftPR human code review and any separately authorized merge",
+    "No Runtime installation or real WI-1087 recovery in this task",
+    "Old uncommitted evidence and old second formal terminal remain unknown",
+    "Own registration old-HEAD projection remains a separate coordination unknown",
+    "Deployed user-visible benefit and host display acknowledgement remain unknown"
+  ],
+  "copies": [
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p33-ci-ead9-attempt2-watch2-terminal.raw.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-terminal.raw.json",
+      "rawSha256": "82accd8ef80360bf3c589ee568c7546f18f006a9302fa7733b0f9091e846a298"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/final-preservation-ead9a32d.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/preservation-before-controls.json",
+      "rawSha256": "65de4837acc7134ef755bc8f27dc638aebfe5f629ef6b5cd277f97ca1ffdb356"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-artifact-index.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-artifact-index.json",
+      "rawSha256": "ec0a338909c7e1472ee7cafa2a5a45b9381f58f77ec57e5ad53bf72c7c0541a7"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-ci-revision-binding.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-ci-revision-binding.json",
+      "rawSha256": "29448a6b2edf4e378ef21ce9a9b905e685d6ff1a2b3323bff32661badf3f235b"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-coverage.zip",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-coverage.zip",
+      "rawSha256": "885586e14369ce451719cccebc2f8989abf6eb578cf051dbd6c5f05ba8f8cbf0"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-gate-receipts.zip",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-gate-receipts.zip",
+      "rawSha256": "879a22713d5c669878652e35bcbcf1fde7a10665d93fd1e2e309f423ebec3f64"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-governance-integrity-report.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-governance-integrity-report.json",
+      "rawSha256": "afa7d0923bfd8b52a539810043ba64a2184438fe164ff931cfdb95308d2259f8"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-quality-route.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-quality-route.json",
+      "rawSha256": "7827fe4a37cf736ea459752a795deaa7730dbc47ad5aac69709282d8a9e24c5a"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-repository-gates.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-repository-gates.json",
+      "rawSha256": "3228a696a4d1dbf2e5def7bcf7a291715d447e576e5a4c63a0744a8bace63543"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-revision.zip",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-revision.zip",
+      "rawSha256": "497dcff2db4ac990631ddea6eb4da147dc110a2198d98fd1c9ceee97e43bcce8"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-run-terminal-api.raw.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-run-terminal-api.raw.json",
+      "rawSha256": "167452b94f2878a65738b1746027d6cf9b291790151a150f3aae4b9c4d511920"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-windows-ci-revision-binding.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-windows-ci-revision-binding.json",
+      "rawSha256": "b5ac0ada6b6a527e88b6b4aca4e4bc8fdbf16dcbac843ffd30a2f5774ff4bb49"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-windows-revision.zip",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-windows-revision.zip",
+      "rawSha256": "314b51875f82f60202937720bdf68853528aefd9b6bda095a6a1910cd74dc900"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9a32d-workspace-package-coverage.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-ead9a32d-workspace-package-coverage.json",
+      "rawSha256": "27900b08bacbd70c6b7f9a45d47350aff0b02c618cda0efc988b537dedf3bcee"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p29-ci-ead9-watch1.jsonl",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-watch-1.jsonl",
+      "rawSha256": "05e03fa64ca59be9ba3debcb619b9c12b9ec39297390dcc6803c590093c9e69f"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p29-ci-ead9-watch2.jsonl",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-watch-2.jsonl",
+      "rawSha256": "245c581e1c657da73d33b70069650245af79c979307ffd5a678f0a7fdc0beba1"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p33-ci-ead9-attempt2-watch1.jsonl",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-attempt2-watch-1.jsonl",
+      "rawSha256": "89594982f59ed02177fb44024641d4080a4a77bb1869d3151f2e9a25c1e4408f"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p33-ci-ead9-attempt2-watch2.jsonl",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/ci-attempt2-watch-2.jsonl",
+      "rawSha256": "4223853c4aa4212db25bece2d51ddba06c91dd3083c9b4704353ee3d15209099"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9-quality-failed.decoded.log",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/prior-quality-failed.decoded.log",
+      "rawSha256": "0a16c2a95b67ca49717eac8299d1f437d9ed292b3ea678d37ea71e25687f69f2"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9-quality-diagnostics.zip",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/prior-quality-diagnostics.zip",
+      "rawSha256": "b680f979d9ae40bec63de2acf536ca939016d7fff9d2004702b3b659af64c5e5"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9-workspace_package_tests.log",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/prior-workspace_package_tests.log",
+      "rawSha256": "e6bedcd16f41005830d5d718dca11bdffe0ca8cb9f4c0b68a86e1f4b1780681e"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9-conformance_cross_wi_coordination_processes.log",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/prior-conformance_cross_wi_coordination_processes.log",
+      "rawSha256": "3ba33401a9637d35f85ce04d7f5cc1726c702202f4605916b2c6253ba14193fb"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/ci-ead9-attempt1-terminal-api.raw.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/prior-attempt1-terminal-api.raw.json",
+      "rawSha256": "2c93ece320aaf44bf06c7b36551243c4d3b486f0f1ffd9cbc13556f8155e4b4b"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p29-ci-ead9-watch2-terminal.raw.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/p29-prior-watch2-terminal.raw.json",
+      "rawSha256": "f7201539bbf385f8b5dcd3b60c270c328e8001b8e5b4c39c06f623693b0f057d"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p32-same-head-quality-retry-request.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/p32-same-head-quality-retry-request.json",
+      "rawSha256": "12598a86044221d09c4ee7d6e695ab5378d5f7223abe777ab58eab7b8a86dd94"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p32-quality-remote-retry-accepted.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-ci-complete-20261017/p32-quality-remote-retry-accepted.json",
+      "rawSha256": "1daf164050ee251421ff2c3f816b94255e158c20e3b7ca0bb739811c6ec61f80"
+    }
+  ]
+}

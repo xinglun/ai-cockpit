@@ -1,0 +1,18 @@
+{
+  "kind": "agent_authored_native_amendment_observation_not_human_decision",
+  "observedAt": "2026-10-17T08:20:41.218132+00:00",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "nativeAmendmentSequence": 2,
+  "previousContractDigest": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+  "newContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
+  "requestDigest": "sha256:3291842a58c08bb8ee333ed237f0dac2b88d9dc72cc6b34ea922d7ad365ad0cd",
+  "journalDigest": "sha256:c5e8c5adba7258d250e0a30339b0c8ae49f0cbb073e1f515af5e6310c69d29f3",
+  "nativeHistoryEntryCount": 2,
+  "policyReviewRequired": true,
+  "checkpointCount": 0,
+  "productOrTestFilesModified": false,
+  "wi1087ProtectedHead": "9093ebe1bbccbf2a3429d953c497fa3847f6e474",
+  "wi1087All11HashesMatch": true,
+  "referenceParityOtherRowsByteIdentical": true,
+  "next": "Commit/push source and actual-stage metadata then register current Contract/head and obtain fresh native preflight. No real human response recorded."
+}

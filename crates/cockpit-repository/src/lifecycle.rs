@@ -143,12 +143,9 @@ fn start_work_item_with_options_internal(
         recovery_continuation,
         &start_advisory.conflicts,
     )?;
-    if let Some(mut receipt) =
-        activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
+    if let Some(receipt) =
+        activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options, runtime)?
     {
-        let timestamp = now();
-        record_start_lifecycle_fact(root, work_item_id, &super::usage::lifecycle_now(), runtime)?;
-        receipt.timestamp = timestamp;
         return Ok(LifecycleReceipt {
             start_advisory: Some(start_advisory),
             ..receipt
@@ -184,19 +181,22 @@ fn record_start_lifecycle_fact(
 ) -> Result<(), ObserverError> {
     let path = root.join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&path)?;
-    summary["lifecycleFacts"]["start"] = serde_json::json!({
+    summary["lifecycleFacts"]["start"] = start_lifecycle_fact(timestamp, runtime);
+    atomic_json(&path, &summary)
+}
+
+fn start_lifecycle_fact(timestamp: &str, runtime: Option<&RuntimeContext>) -> serde_json::Value {
+    let mut fact = serde_json::json!({
         "eventType": "work_item_started",
         "occurredAt": timestamp,
         "recordedAt": timestamp,
         "actorProvenance": "unknown",
     });
     if let Some(runtime) = runtime {
-        summary["lifecycleFacts"]["start"]["runtimeVersion"] =
-            runtime.runtime_version.clone().into();
-        summary["lifecycleFacts"]["start"]["runtimeDigest"] =
-            runtime.runtime_digest.to_string().into();
+        fact["runtimeVersion"] = runtime.runtime_version.clone().into();
+        fact["runtimeDigest"] = runtime.runtime_digest.to_string().into();
     }
-    atomic_json(&path, &summary)
+    fact
 }
 
 /// Inspect residual Work Item resources before a new Work Item is started.
@@ -672,6 +672,7 @@ fn activate_not_ready_scaffold(
     goal: &str,
     scope: &[String],
     options: &WorkItemStartOptions,
+    runtime: Option<&RuntimeContext>,
 ) -> Result<Option<LifecycleReceipt>, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -683,6 +684,7 @@ fn activate_not_ready_scaffold(
     if !contract_path.is_file() || !summary_path.is_file() {
         return Ok(None);
     }
+    let _lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let mut contract = read_json(&contract_path)?;
     let mut summary = read_json(&summary_path)?;
     if contract["state"] != serde_json::json!("not_ready")
@@ -690,6 +692,8 @@ fn activate_not_ready_scaffold(
     {
         return Ok(None);
     }
+    let previous_contract = contract.clone();
+    let previous_summary = summary.clone();
     if contract["workItemId"] != serde_json::json!(work_item_id)
         || summary["workItemId"] != serde_json::json!(work_item_id)
         || contract["repositoryId"] != serde_json::json!(repository_id(&root).to_string())
@@ -770,13 +774,35 @@ fn activate_not_ready_scaffold(
     summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
     summary["checkpointCount"] = serde_json::json!(0);
     summary["preflightState"] = serde_json::json!("not_run");
-    summary["updatedAt"] = serde_json::json!(now());
+    let timestamp = super::usage::lifecycle_now();
+    summary["updatedAt"] = serde_json::json!(timestamp);
+    summary["lifecycleFacts"]["start"] = start_lifecycle_fact(&timestamp, runtime);
+    if !super::contract_amendment::read_work_item_contract_amendments(&root, work_item_id)?
+        .is_empty()
+    {
+        summary["activationContinuity"] = serde_json::json!({
+            "capability":cockpit_protocol::ACTIVATION_CONTINUITY_CAPABILITY,
+            "journalRelevant":true,
+        });
+    }
+    let transition = super::contract_amendment::prepare_activation_transition(
+        &root,
+        work_item_id,
+        &previous_contract,
+        &contract,
+        &previous_summary,
+        &summary,
+        runtime,
+    )?;
     atomic_json(&contract_path, &contract)?;
     atomic_json(&summary_path, &summary)?;
+    if let Some(transition) = transition {
+        super::contract_amendment::commit_activation_transition(&root, work_item_id, &transition)?;
+    }
     Ok(Some(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "implementation_active".into(),
-        timestamp: now(),
+        timestamp,
         start_advisory: None,
     }))
 }
@@ -1933,7 +1959,12 @@ fn preflight_work_item_internal_unlocked(
         &material_summary_path,
         &mut raw_decision,
     );
-    let decision = apply_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
+    let decision = super::apply_current_preflight_review_evidence(
+        root,
+        &contract,
+        raw_decision.clone(),
+        false,
+    )?;
     observation_context.validate_current()?;
 
     let mut changed_paths = Vec::new();
@@ -2063,11 +2094,19 @@ fn update_preflight_summary(
     raw_decision: &GovernanceDecision,
     snapshot: &RepositorySnapshot,
 ) -> Result<bool, ObserverError> {
-    let decision_value =
+    let mut decision_value =
         serde_json::to_value(raw_decision).map_err(|error| ObserverError::State {
             path: active_contract.to_path_buf(),
             message: error.to_string(),
         })?;
+    if let Some(request_digest) = summary["activationRecovery"]["requestDigest"].as_str() {
+        // Domain-bind a newly generated review request to this present-time
+        // recovery. An old B/C preflight digest cannot be replayed as it.
+        decision_value = serde_json::json!({
+            "governanceDecision":decision_value,
+            "activationRecoveryRequestDigest":request_digest,
+        });
+    }
     let next_fields = [
         (
             "preflightState",
@@ -2093,9 +2132,21 @@ fn update_preflight_summary(
             serde_json::Value::String(contract_digest(active_contract)?.to_string()),
         ),
     ];
-    let changed = next_fields
+    let mut changed = next_fields
         .iter()
         .any(|(key, value)| summary.get(*key) != Some(value));
+    if summary["activationRecovery"]["requestDigest"].is_string()
+        && decision.review_state.as_deref() == Some("needs_human_confirmation")
+    {
+        let binding = serde_json::json!({
+            "contractDigest":contract_digest(active_contract)?,
+            "preflightDecisionDigest":cockpit_protocol::digest_json(&decision_value)
+                .map_err(|error| ObserverError::State { path: summary_path.into(), message: error.to_string() })?,
+            "repositorySnapshotDigest":snapshot_digest(snapshot)?,
+        });
+        changed |= summary["activationRecovery"]["reviewRequest"] != binding;
+        summary["activationRecovery"]["reviewRequest"] = binding;
+    }
     if !changed {
         return Ok(false);
     }
@@ -2148,7 +2199,7 @@ fn require_green_or_yellow_preflight_governance(
 ) -> Result<(), ObserverError> {
     let decision =
         governance_decision_for_pre_execution_boundary(root, contract, snapshot, None, None)?;
-    let decision = super::apply_preflight_review_evidence(root, contract, decision, false)?;
+    let decision = super::apply_current_preflight_review_evidence(root, contract, decision, false)?;
     let current_state = decision_state_name(decision.state.clone());
     if current_state == "red" || preflight_state == "red" {
         return Err(ObserverError::State {
@@ -8994,6 +9045,9 @@ fn record_verification_internal(
             current_runtime,
             None,
         )?;
+        // This projection is also replayed while validating captured historical
+        // finish artifacts. Live admission has already checked continuity;
+        // recording software evidence does not admit additional work.
         let decision =
             apply_preflight_review_evidence(&root, &contract, raw_decision.clone(), false)?;
         let reconcile_blocked_outcome = recovery_retry_pending

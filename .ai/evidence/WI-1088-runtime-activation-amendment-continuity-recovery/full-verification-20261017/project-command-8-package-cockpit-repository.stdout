@@ -1,0 +1,195 @@
+
+running 154 tests
+test amendment_review_projection_tests::amendment_review_projection_keeps_invalid_receipt_blocking_facts ... ok
+test amendment_review_projection_tests::amendment_review_projection_keeps_missing_receipt_blocking_facts ... ok
+test audit_query::lifecycle_elapsed_tests::wall_elapsed_includes_wait_and_rejects_clock_rollback ... ok
+test collaboration::outcome_publication_tests::pause_committed_after_initial_admission_blocks_the_process_start_boundary ... ok
+test collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_back_is_rejected_without_timestamp_resolution ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_back_race_is_rejected ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_cannot_redirect_contract_read ... ok
+test collaboration::registered_worktree_file_tests::outcome_verification_uses_event_bound_bytes_and_digest_bound_contract ... ok
+test contract_amendment::tests::amendment_recovers_exactly_once_at_every_durable_boundary ... ok
+test contract_amendment::tests::finite_activation_policy_rejects_plan_expansion_and_non_exact_csv ... ok
+test contract_amendment::tests::request_binding_rejects_a_rehashed_discontinuous_contract_chain ... ok
+test contract_amendment::tests::unrelated_request_does_not_finish_a_pending_amendment ... ok
+test coordination_store::lock_recovery_tests::coordination_lock_child_helper ... ok
+test coordination_store::lock_recovery_tests::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event ... ok
+test coordination_store::registered_worktree_file_tests::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged ... ok
+test coordination_store::registered_worktree_file_tests::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged ... ok
+test environment_identity_tests::cargo_executable_case_variant_keeps_package_deadline_and_target_isolation ... ok
+test environment_identity_tests::cargo_verification_defaults_to_checkout_specific_home_target_when_not_declared ... ok
+test environment_identity_tests::cargo_verification_preserves_explicit_non_incremental_target ... ok
+test environment_identity_tests::command_environment_changes_still_invalidate_exact_reuse ... ok
+test environment_identity_tests::empty_home_still_gets_an_absolute_checkout_specific_cargo_target ... ok
+test environment_identity_tests::mise_session_metadata_does_not_invalidate_exact_reuse ... ok
+test environment_identity_tests::non_cargo_verification_keeps_declared_environment ... ok
+test environment_identity_tests::pinned_cargo_execution_preserves_inherited_target_directory ... ok
+test evidence_store::windows_rename_refusal_tests::windows_rename_refusal_code_matrix ... ok
+test historical_compatibility::tests::canonical_close_vocabulary_remains_explicit_and_finite ... ok
+test historical_compatibility::tests::legacy_evidence_projection_rejects_current_schema_and_malformed_records ... ok
+test legacy_closeout_source::nonregular_tests::caller_input_fifo_is_rejected_without_blocking ... ok
+test legacy_closeout_source::nonregular_tests::fifo_child ... ok
+test legacy_closeout_source::nonregular_tests::history_fifo_is_rejected_without_blocking ... ok
+test legacy_closeout_source::nonregular_tests::replaced_lock_fifo_is_rejected_without_blocking ... ok
+test legacy_closeout_source::publication_tests::abrupt_exit_matrix_preserves_canonical_bytes_and_exact_primitive_retry ... ok
+test legacy_closeout_source::publication_tests::no_replace_publication_preserves_hardlink_symlink_and_directory_victims ... ok
+test legacy_closeout_source::publication_tests::parent_replacement_before_or_after_link_is_rejected_without_rollback ... ok
+test legacy_closeout_source::publication_tests::publication_child ... ok
+test legacy_closeout_source::publication_tests::review_regression_io_failures_after_second_canonical_report_unknown_and_preserve_both ... ok
+test legacy_closeout_source::query_budget_tests::active_query_cannot_fall_back_to_unbound_governance_reads ... ok
+test legacy_closeout_source::query_budget_tests::cycles_fail_closed_and_raii_clears_failed_queries ... ok
+test legacy_closeout_source::query_budget_tests::depth_and_repeated_work_have_independent_query_budgets ... ok
+test legacy_closeout_source::query_budget_tests::held_guard_rejects_replaced_root_and_canonical_lock ... ok
+test legacy_closeout_source::query_budget_tests::lower_historical_json_read_cannot_follow_replaced_parent ... ok
+test legacy_closeout_source::query_budget_tests::obligation_enumeration_has_a_directory_work_budget ... ok
+test legacy_closeout_source::query_budget_tests::one_query_cannot_validate_two_different_bytes_for_the_same_path ... ok
+test legacy_closeout_source::query_budget_tests::query_pins_root_identity_before_its_first_payload_read ... ok
+test legacy_closeout_source::query_budget_tests::query_rejects_same_byte_parent_directory_replacement ... ok
+test legacy_closeout_source::query_budget_tests::relative_paths_reject_aliases_and_explicit_size_budgets ... ok
+test legacy_closeout_source::query_budget_tests::replaced_repository_root_cannot_redirect_a_read ... ok
+test legacy_closeout_source::query_budget_tests::review_regression_ascii_case_alias_remains_a_canonical_obligation ... ok
+test legacy_closeout_source::query_budget_tests::review_regression_named_predecessor_cannot_waive_invalid_obligation ... ok
+test legacy_closeout_source::query_budget_tests::review_regression_resealed_foreign_scope_cannot_hide_invalid_obligation ... ok
+test lifecycle::cross_checkout_closeout_tests::abrupt_exit_before_close_is_pending_and_retry_completes ... ok
+test lifecycle::cross_checkout_closeout_tests::crash_child ... ok
+test lifecycle::cross_checkout_closeout_tests::detected_destination_addition_preserves_partial_recovery_and_user_file ... ok
+test lifecycle::cross_checkout_closeout_tests::failed_recovery_preserves_installed_payload_for_safe_retry ... ok
+test lifecycle::cross_checkout_closeout_tests::modified_racing_target_and_other_payloads_are_never_unlinked ... ok
+test lifecycle::cross_checkout_closeout_tests::ordinary_close_and_existing_v1_recovery_keep_legacy_semantics_and_bytes ... ok
+test lifecycle::cross_checkout_closeout_tests::postcommit_reporting_error_preserves_close_marker_for_read_only_recheck ... ok
+test lifecycle::cross_checkout_closeout_tests::postcommit_status_read_failure_reports_commit_without_unlinking_marker ... ok
+test lifecycle::cross_checkout_closeout_tests::preexisting_payload_deleted_before_commit_cannot_leave_close_marker ... ok
+test lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_only_receipt_disappears ... ok
+test lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_payload_disappears ... ok
+test lifecycle::cross_checkout_closeout_tests::required_origin_and_receipt_reject_invalid_bindings_without_fallback ... ok
+test lifecycle::cross_checkout_closeout_tests::required_proof_loss_before_close_preserves_partial_recovery_and_retry ... ok
+test lifecycle::cross_checkout_closeout_tests::required_recovery_proofs_reject_symlinks ... ok
+test lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes ... ok
+test lifecycle::cross_checkout_closeout_tests::source_change_during_recovery_preserves_pending_destination_writes ... ok
+test lifecycle::cross_checkout_closeout_tests::supported_retry_restores_each_required_proof_and_accepts_a_recovered_source ... ok
+test lifecycle::cross_checkout_closeout_tests::tampered_recovery_receipt_cannot_omit_missing_archived_payload ... ok
+test lifecycle::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification ... ok
+test lifecycle::recovery_retry_consumption_tests::explicit_supersession_overrides_tied_attempt_digest_order ... ok
+test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded ... ok
+test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded_for_rejected_projection ... ok
+test lifecycle::recovery_retry_consumption_tests::verification_after_failed_finish_requires_retry ... ok
+test material_review::tests::checkout_source_open_refuses_symlinks_and_does_not_block_on_fifo ... ok
+test material_review::tests::implementation_digest_is_build_independent_and_source_sensitive ... ok
+test material_review::tests::material_request_digest_binds_finding_categories ... ok
+test material_review::tests::material_review_amendment_anchor_requires_adjacent_unique_receipt_edges ... ok
+test material_review::tests::material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract ... ok
+test material_review::tests::material_review_amendment_chain_rejects_duplicate_receipt_anchor ... ok
+test material_review::tests::material_review_initial_base_anchor_requires_a_unique_origin ... ok
+test observation_ledger::tests::detects_file_and_candidate_set_drift ... ok
+test observation_ledger::tests::detects_type_and_symlink_target_drift ... ok
+test observation_ledger::tests::request_cache_deduplicates_initial_reads_but_refreshes_at_boundary ... ok
+test outcome_render::render_tests::archive_delivery_segments_reassemble_without_truncation ... ok
+test outcome_render::render_tests::archived_unclosed_recommends_close_decision ... ok
+test outcome_render::render_tests::cleanup_summary_lists_evidence_bound_objects_counts_reason_and_action_in_all_languages ... ok
+test outcome_render::render_tests::finalization_recovery_actions_follow_classified_facts ... ok
+test outcome_render::render_tests::human_renderer_preserves_blockers_and_unknowns_in_summary ... ok
+test outcome_render::render_tests::invalid_decision_is_visible_as_unknown ... ok
+test outcome_render::render_tests::outcome_assembly_registers_event_stream_drift ... ok
+test outcome_render::render_tests::outcome_assembly_rejects_a_symlinked_active_contract ... ok
+test outcome_render::render_tests::outcome_assembly_retries_once_after_deterministic_record_change ... ok
+test outcome_render::render_tests::outcome_assembly_stops_after_bounded_record_changes ... ok
+test outcome_render::render_tests::receipt_next_action_is_executable_and_retained_action_is_non_destructive ... ok
+test outcome_render::render_tests::renderer_is_driven_by_in_memory_facts_for_missing_decision ... ok
+test outcome_render::render_tests::renderer_preserves_valid_decision_and_assurance ... ok
+test outcome_render::render_tests::reobserve_action_is_executable_and_repository_bound ... ok
+test outcome_render::render_tests::resource_facts_are_read_once_and_reused_by_boundary_digests ... ok
+test outcome_render::render_tests::superseded_history_is_not_rendered_as_current_failure ... ok
+test outcome_render::render_tests::timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read ... ok
+test outcome_render::render_tests::validated_receipt_projection_classifies_deleted_retained_and_unknown_without_guessing ... ok
+test post_prepare_identity_tests::cockpit_config_byte_drift_after_prepare_forces_execution ... ok
+test post_prepare_identity_tests::project_config_byte_drift_after_prepare_forces_execution ... ok
+test post_prepare_identity_tests::unchanged_identity_reuses_candidate_after_post_prepare_barrier ... ok
+test resource_lifecycle::legacy_source_lock_tests::different_work_item_locks_do_not_block_each_other ... ok
+test resource_lifecycle::legacy_source_lock_tests::held_finalization_core_rejects_a_different_work_item_guard ... ok
+test resource_lifecycle::legacy_source_lock_tests::public_finalization_waits_for_the_same_work_item_lifecycle_lock ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_absent_projection_rejects_existing_pages_parity_and_active_refs ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_merge_proof_rejects_wrong_base_extra_content_and_conflict ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_nested_checkout_uses_local_paths_with_spaces ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_recipe_comparison_accepts_only_platform_line_endings ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_rejects_wrong_m1_parents_non_ancestor_base_and_tampered_tree ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_accepts_the_real_archive_pending_close_projection ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_current_archive_must_match_the_selected_archive_commit ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_document_projection_preserves_pending_state ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_success_with_truncated_output ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_accepts_only_append_only_attempt_commits ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_historical_json_is_read_from_the_committed_revision ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence ... ok
+test resource_lifecycle::post_merge_sync_tests::record_resource_finalization_accepts_tempdir_bound_initial_contract ... ok
+test resource_lifecycle::post_merge_sync_tests::record_resource_finalization_accepts_tempdir_bound_schema_v3_history ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v2_deleted_requires_branch_worktree_and_gitdir_absence ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v2_first_root_must_be_retained ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v2_retained_requires_exact_local_worktree_identity ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v4_deleted_head_revalidates_retained_remote_observation ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v4_deleted_transition_preserves_source_selectors_and_appends_remote_selector ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v4_rejects_source_sync_observation_selector_role_swap ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v4_requires_explicit_versioned_observation_selectors_and_keeps_v3_closed ... ok
+test resource_lifecycle::post_merge_sync_tests::schema_v4_uses_the_selected_corrected_observation_when_raw_digest_is_ambiguous ... ok
+test rust_material::diagnosis_tests::direct_malicious_literal_remains_finding ... ok
+test rust_material::diagnosis_tests::typed_causes_do_not_turn_missing_or_invalid_evidence_into_reviewable_syntax ... ok
+test status_projection::human_decision_tests::admitted_verification_does_not_reopen_an_ordinary_preflight_decision ... ok
+test status_projection::human_decision_tests::pending_amendment_review_stays_human_required_during_preflight_recovery ... ok
+test status_projection::pending_retry_amendment_preflight_tests::only_unreviewed_amendment_with_pending_retry_recovers_preflight ... ok
+test status_projection::transition_index_tests::historical_finalization_transition_is_parsed_once_per_observation ... ok
+test status_projection::transition_index_tests::indexed_resolution_preserves_canonical_error_precedence ... ok
+test usage::lifecycle_clock_tests::injectable_lifecycle_clock_keeps_same_second_order_and_utc ... ok
+test usage::lifecycle_clock_tests::injected_clock_drives_real_lifecycle_transitions_and_negative_wall_is_unknown ... ok
+
+failures:
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid' (1558072) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:8273:10:
+real separate lifecycle and pending-close projection remain supported: State { path: "/tmp/cockpit-finalization-history-1532968-1792235618592011019/repository/.ai/evidence/WI-1076-governance-recovered-predecessor-projection.contract-amendments", message: "amendment Contract transition chain is discontinuous" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts' (1558278) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:7171:14:
+actual combined artifacts and frozen prior attempts must validate against a synthetic clean advanced-base merge: State { path: "/tmp/cockpit-finalization-history-1532968-1792235624481816008/repository/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.contract-amendments", message: "amendment Contract transition chain is discontinuous" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent' (1558725) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:7367:77:
+the same v3 receipt must pass provider-byte, Git-stage, and local-state validation: State { path: "/tmp/cockpit-finalization-history-1532968-1792235633275753076/repository/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.contract-amendments", message: "amendment Contract transition chain is discontinuous" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material' (1561931) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:8588:10:
+valid historical material must still pass with unchanged green preflight fields: State { path: "/tmp/cockpit-finalization-history-1532968-1792235674377554983/repository/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.contract-amendments", message: "amendment Contract transition chain is discontinuous" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent' (1562431) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:8232:9:
+documentation absence must include actual M1 first parent, got State { path: "/tmp/cockpit-finalization-history-1532968-1792235682643569274/repository/.ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.contract-amendments", message: "amendment Contract transition chain is discontinuous" }
+
+
+failures:
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent
+
+test result: FAILED. 149 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 141.39s
+

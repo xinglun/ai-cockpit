@@ -1,0 +1,11 @@
+{
+  "kind": "actual_relayed_parent_technical_approval_not_human_preflight_decision",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "observedAt": "2026-10-17T11:45:19.451529+00:00",
+  "sourceText": "独立审阅补充：已确认84b7dc49 m04四项通过、52d33eff CLI36/36通过，两旧缺口已修复。首33项失败为MCP rpc精确工具列表/33→35，以及repository五项历史post_merge_layout受当前连续性误拦；后续n16才是Summary-only缺Contract。请据实际阶段区分，不混为环境问题。\n技术上批准最小补充 crates/cockpit-mcp/tests/rpc.rs：只加入两个实际 recovery 工具名称并把精确数量33更新为35，不降低断言。若未在当前Contract范围，先原生范围变更；若原生要求新的真人确认，提交准确绑定，不能沿用旧确认。验证Summary-only正例与孤儿标记零写入反例，再完整repository及新鲜33项声明验证。Windows长路径映射修复应以最终headCI为准。继续既定范围，不实际恢复WI1087。",
+  "approvedAdditionalRustPath": "crates/cockpit-mcp/tests/rpc.rs",
+  "scopeOfApproval": "only add the2 actual recovery discovery names and update exact33 to35; preserve all other assertions",
+  "recordsHumanPreflightDecision": false,
+  "oldConfirmationMayBeReused": false,
+  "recorder": "agent:Codex"
+}

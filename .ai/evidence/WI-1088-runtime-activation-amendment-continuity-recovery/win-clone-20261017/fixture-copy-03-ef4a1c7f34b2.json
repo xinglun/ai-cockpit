@@ -1,0 +1,93 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000001.prepared.json",
+    ".ai/locks/WI-CLI-ACTIVATION-CONTINUITY.lifecycle.lock",
+    ".ai/project.json",
+    ".ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.contract.json",
+    ".ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.summary.json"
+  ],
+  "checkpointAt": "2026-10-17T09:01:36Z",
+  "checkpointContractDigest": "sha256:40b0c9d4b6abff355a43ba47de8fcd8a8bbd3af3703c1403be1f36affdcaf1f1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:40b0c9d4b6abff355a43ba47de8fcd8a8bbd3af3703c1403be1f36affdcaf1f1",
+      "recorded": true,
+      "recordedAt": "2026-10-17T09:01:36Z",
+      "repositoryId": "sha256:297296711d0f7af2f013207c9c78355dc4a65502eb29f98731ccda9d3a52625d",
+      "repositorySnapshotDigest": "sha256:1f85aa3871465e88f6a7a4c11b589f3e1ad587ede6226802523f5d01d6df2de4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+    },
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:949cbf5c8279f5f0e49e66394ae6f9a26f812a2efad00d62e0ba40f7ccfb6d83",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:40b0c9d4b6abff355a43ba47de8fcd8a8bbd3af3703c1403be1f36affdcaf1f1",
+      "previousContractHash": "sha256:40b0c9d4b6abff355a43ba47de8fcd8a8bbd3af3703c1403be1f36affdcaf1f1",
+      "reason": "Keep the amended fixture plan reviewable without granting its review.",
+      "recorded": true,
+      "recordedAt": "2026-10-17T09:01:36Z",
+      "repositoryId": "sha256:297296711d0f7af2f013207c9c78355dc4a65502eb29f98731ccda9d3a52625d",
+      "repositorySnapshotDigest": "sha256:1f85aa3871465e88f6a7a4c11b589f3e1ad587ede6226802523f5d01d6df2de4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:1f85aa3871465e88f6a7a4c11b589f3e1ad587ede6226802523f5d01d6df2de4",
+  "createdAt": "2026-10-17T09:01:35Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:40b0c9d4b6abff355a43ba47de8fcd8a8bbd3af3703c1403be1f36affdcaf1f1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+    "reason": "Synthetic isolated fixture review; not a real human response or history proof.",
+    "recordedAt": "2026-10-17T00:00:00Z",
+    "recordedBy": "fixture:activation-test-only",
+    "repositoryId": "sha256:297296711d0f7af2f013207c9c78355dc4a65502eb29f98731ccda9d3a52625d",
+    "repositorySnapshotDigest": "sha256:1f85aa3871465e88f6a7a4c11b589f3e1ad587ede6226802523f5d01d6df2de4",
+    "schemaVersion": 1,
+    "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-17T09:01:35.443872644Z",
+      "recordedAt": "2026-10-17T09:01:35.443872644Z",
+      "runtimeDigest": "sha256:f1e72522e125d27a2b0fdb2433ef473a935ee1ec217e1e1324974180db5ba4c5",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-17T09:01:35Z",
+  "preflightContractDigest": "sha256:40b0c9d4b6abff355a43ba47de8fcd8a8bbd3af3703c1403be1f36affdcaf1f1",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:1f85aa3871465e88f6a7a4c11b589f3e1ad587ede6226802523f5d01d6df2de4",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:297296711d0f7af2f013207c9c78355dc4a65502eb29f98731ccda9d3a52625d",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-17T09:01:36Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:949cbf5c8279f5f0e49e66394ae6f9a26f812a2efad00d62e0ba40f7ccfb6d83",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-17T09:01:36Z"
+  },
+  "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+}

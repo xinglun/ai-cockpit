@@ -1,0 +1,26 @@
+{
+  "kind": "actual_pre_fix_native_temporary_repository_RED_not_product_verification",
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "runtimeSourceRevision": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+  "repository": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo",
+  "fixtureWorkItemId": "WI-TEST-ACTIVATION-GAP",
+  "activationBeforeContractDigest": "sha256:4c01e8c5213d316dc5ea31553244066b62309f8d975b55fdd83bda9160f2b9f1",
+  "activationAfterContractDigest": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+  "postAmendExitCode": 1,
+  "statusExitCode": 1,
+  "postAmendContainsExpectedContinuityError": true,
+  "statusContainsExpectedContinuityError": true,
+  "preparedCount": 2,
+  "committedCount": 2,
+  "nativeHistoryCount": 2,
+  "checkpointCount": 1,
+  "journalLinkIntact": true,
+  "contractBoundaryDiscontinuous": true,
+  "historyRawHashes": {
+    "00000001.committed.json": "3a642c1e84e45cb934a2e12ada2b8be7d20c011c3ec92f5f42d4b57d85a0e46c",
+    "00000001.prepared.json": "a043423e924899d10f5261fe348ff112d37cdba678f61dfc134c0735347db217",
+    "00000002.committed.json": "c0303d9d6c599fa3447bb2e552c5acad9bb3904bea554e1d1e9b70fcd3b72c51",
+    "00000002.prepared.json": "c99d7b95720f06e8824e74e7f34e198af1aaa94b8dd15f210383d7c861410693"
+  },
+  "testAuthority": "Synthetic isolated fixture only; no real human review or historical transition authentication claimed."
+}

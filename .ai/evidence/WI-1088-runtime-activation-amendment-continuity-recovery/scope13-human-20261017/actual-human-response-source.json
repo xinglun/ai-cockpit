@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_human_response_relayed_in_authorized_task_transcript",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "humanActor": "human:Ray",
+  "recorder": "agent:Codex",
+  "capturedAt": "2026-10-17T12:03:46.820975+00:00",
+  "requestMessage": {
+    "occurredAt": "2026-10-17T11:56:58Z",
+    "providedMessageId": "Sentinel_38c63f7a70f4819191c441968d6c3d53",
+    "speaker": "agent:Raydot",
+    "rawText": "两处审阅缺口和旧格式兼容问题已修复，相关回归通过。现在还需补一个 RPC 测试文件：加入新增的两个工具名称，将精确数量从 33 更新为 35，保持断言严格。\n\n我已通过技术审阅，但原生流程因范围由 12 个 Rust 文件增加到 13 个，要求新的真人确认。请对 WI-1088 回复 confirm_review。\n\nContract：2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976\nSnapshot：398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265\nDecision：34e6d3f6dffbf1ddcc6f012b3283636716e96070293320b161c2054d9019053c\n\n[完整绑定与证据](https://github.com/xinglun/ai-cockpit/blob/5516ed5698255149fd4fdc019c429015c0ab6f1f/.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-20261017/actual-human-review-request.binding.json)\n确认后应用补丁，再跑新范围的完整验证；目前还不能宣称整体验收通过。"
+  },
+  "responseMessage": {
+    "occurredAt": "2026-10-17T12:02:13Z",
+    "providedMessageId": "Sentinel_0f2b0915dd088191a18b17f3279c0787",
+    "speaker": "human:Ray",
+    "rawText": "confirm_review"
+  },
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "contractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+  "preflightDecisionDigest": "sha256:34e6d3f6dffbf1ddcc6f012b3283636716e96070293320b161c2054d9019053c",
+  "repositorySnapshotDigest": "sha256:398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265",
+  "scopeBoundary": "Current WI-1088 amended13-path implementation only; RPC exact2 names and33-to35 assertion maintenance plus full declared verification. No actual WI-1087 recovery, Runtime installation, merge, close or deletion.",
+  "provenanceCaveat": "Actual request/response supplied by authorized parent transcript; no Sentinel tool called. Human actor and recorder are distinct; no platform-authenticated identity is claimed."
+}

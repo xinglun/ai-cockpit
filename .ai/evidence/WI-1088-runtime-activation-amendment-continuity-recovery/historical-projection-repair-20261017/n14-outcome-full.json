@@ -1,0 +1,45 @@
+{
+  "kind": "actual_current_environment_native_command_observation",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "work-item",
+    "outcome",
+    "--id",
+    "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "--view",
+    "full",
+    "--language",
+    "zh-CN",
+    "--repo",
+    "/workspace/ai-cockpit-wi1088-runtime-continuity"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "startedAt": "2026-10-17T08:10:19.518997+00:00",
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "1d115be592ac8b4b927ce6795e4494cd657b6251",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit-wi1088-runtime-continuity/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "exitCode": 0,
+  "elapsedSeconds": 0.466,
+  "endedAt": "2026-10-17T08:10:20.014204+00:00",
+  "stdout": {
+    "bytes": 3394,
+    "rawSha256": "09143ff9b6dca387e7ca35b249fe46b456bf5f6cf1d11fa0e47d13a4859f0b2a",
+    "encoding": "base64",
+    "data": "T3V0Y29tZTog8J+foSDpqozor4HlsJrmnKrlsLHnu6og4oCUIFdJLTEwODgtcnVudGltZS1hY3RpdmF0aW9uLWFtZW5kbWVudC1jb250aW51aXR5LXJlY292ZXJ5Cue7k+aenAotIOmqjOivgeeKtuaAgTog6aqM6K+B5bCa5pyq5bCx57uqCi0g55Sf5ZG95ZGo5pyf54q25oCBOiDlrp7mlr3kuK0KLSDkurrlt6XlhrPlrprnirbmgIE6IOacquiusOW9lQotIOayu+eQhuS/oeWPtzog6buE6Imy77yb6ZyA6KaB5YWz5rOo77yM5LiN5piv5Lq65bel5om55YeGCgrlt7LlrozmiJAKLSDnu5PmnpzlsJrmnKrlh4blpIflpb3vvJvlhbfkvZPmsrvnkIbnvLrlj6Pop4HkuIvmlrnljp/lm6DjgIIKLSBDaGFuZ2VkIHBhdGg6IC5haS9ldmlkZW5jZS9XSS0xMDg4LXJ1bnRpbWUtYWN0aXZhdGlvbi1hbWVuZG1lbnQtY29udGludWl0eS1yZWNvdmVyeS9wbGFuLXYxLTIwMjYxMDE3L2Rlc2lnbi52MS5qc29uCi0gQ2hhbmdlZCBwYXRoOiAuYWkvZXZpZGVuY2UvV0ktMTA4OC1ydW50aW1lLWFjdGl2YXRpb24tYW1lbmRtZW50LWNvbnRpbnVpdHktcmVjb3ZlcnkvcGxhbi12MS0yMDI2MTAxNy90ZWNobmljYWwtZGlyZWN0aW9uLXNvdXJjZS5qc29uCi0gQ2hhbmdlZCBwYXRoOiAuYWkvZXZpZGVuY2UvV0ktMTA4OC1ydW50aW1lLWFjdGl2YXRpb24tYW1lbmRtZW50LWNvbnRpbnVpdHktcmVjb3ZlcnkvcGxhbi12MS0yMDI2MTAxNy93aTEwODctcHJlc2VydmF0aW9uLWJhc2VsaW5lLmpzb24KLSDpqozmlLbmoIflh4bvvIhDb250cmFjdCDljp/mlofvvIkgLyBBY2NlcHRhbmNlIGNyaXRlcmlhIChDb250cmFjdCBsYW5ndWFnZSkKCuWPkeeOsOeahOmXrumimAotIOmqjOivgeWPr+S7pemAmui/h++8jOS9humqjOaUtuivgeaNruS4jei2s++8m+i/meS4jeaYr+mqjOivgeivgeaNruaXoOaViOOAggotIOayu+eQhuWOn+WboO+8mmdvdmVybmFuY2VfZ2F0ZV9mYWlsZWTjgIIKLSDpqozor4Hlj6/ku6XpgJrov4fvvIzkvYbmhI/lm77lr7npvZDor4Hmja7kuI3otrPvvJvov5nkuI3mmK/pqozor4Hor4Hmja7ml6DmlYjjgIIKLSDlnLrmma/opobnm5bor4Hmja7kuI3otrPvvJvlvZPliY3msrvnkIbmnaHku7bmnKrlrozmiJDjgIIKLSDpqozor4Hor4Hmja7nvLrlpLHvvJvlvZPliY3nu5PmnpzlsJrmnKrlh4blpIflpb3jgIIKLSDlpLHotKUgZ2F0ZTogdmVyaWZpY2F0aW9uX29yX2h1bWFuX2lucHV0Ci0g5b2T5YmNIENvbnRyYWN0IOacquWjsOaYjiBwcm92aWRlciBmaW5hbGl6YXRpb27vvJvnu6fnu63pgbXlrojnlJ/lkb3lkajmnJ/lkozkurrlt6XlhrPlrprpl6jmp5vjgIIKCuinpuWPkeeahOWBnOatogotIOmqjOivgeWPr+S7pemAmui/h++8jOS9humqjOaUtuivgeaNruS4jei2s++8m+i/meS4jeaYr+mqjOivgeivgeaNruaXoOaViOOAggotIOayu+eQhuWOn+WboO+8mmdvdmVybmFuY2VfZ2F0ZV9mYWlsZWTjgIIKLSDpqozor4Hlj6/ku6XpgJrov4fvvIzkvYbmhI/lm77lr7npvZDor4Hmja7kuI3otrPvvJvov5nkuI3mmK/pqozor4Hor4Hmja7ml6DmlYjjgIIKLSDlnLrmma/opobnm5bor4Hmja7kuI3otrPvvJvlvZPliY3msrvnkIbmnaHku7bmnKrlrozmiJDjgIIKLSDpqozor4Hor4Hmja7nvLrlpLHvvJvlvZPliY3nu5PmnpzlsJrmnKrlh4blpIflpb3jgIIKLSDmgaLlpI3mnaHku7Y6IOS/ruWkjeWksei0peeahOayu+eQhuadoeS7tu+8jOWujOaIkOaWsOeahOajgOafpeWQjumHjeivlSBmaW5pc2jjgIIKLSDmgaLlpI3mnaHku7Y6IOWuoemYheW9k+WJjeeUn+WRveWRqOacn+eKtuaAgeW5tuiusOW9leW/hemcgOeahOS6uuW3peS9nOS4mu+8m+mqjOivgeeKtuaAgeS4jeaJqeWkp+S4uuaOiOadg+OAggoK5bey6Kej5Yaz55qE6Zeu6aKYCi0g5pyq6K6w5b2VCgrpgb/lhY3nmoTpo47pmakKLSDmnKrorrDlvZUKCuWJqeS9memjjumZqQotIEluZmVyZW5jZTogUmVtYWluaW5nIHVua25vd246IHVzZXJfdmlzaWJsZV9iZW5lZml0X25vdF9kZWNsYXJlZAotIEluZmVyZW5jZTogUmVtYWluaW5nIHVua25vd246IHZlcmlmaWNhdGlvbl9ldmlkZW5jZV9taXNzaW5nCi0gVXNlci12aXNpYmxlIGJlbmVmaXQgaXMgbm90IGRlY2xhcmVkIGJ5IHRoZSBXb3JrIEl0ZW0gb3duZXIuCgrmnKrnn6XpobkKLSB1c2VyX3Zpc2libGVfYmVuZWZpdF9ub3RfZGVjbGFyZWQKLSB2ZXJpZmljYXRpb25fZXZpZGVuY2VfbWlzc2luZwoK5Lq65bel5Yaz5a6aCi0g5pyq6K6w5b2VCgrpqozor4EKLSDpqozor4HlsJrmnKrlsLHnu6o6IC5haS9ldmlkZW5jZS9XSS0xMDg4LXJ1bnRpbWUtYWN0aXZhdGlvbi1hbWVuZG1lbnQtY29udGludWl0eS1yZWNvdmVyeS52ZXJpZmljYXRpb24uanNvbgoK55So6YePCi0g55So6YeP6KaG55uWOiDmnKrnn6UgKHVua25vd24pOyDmiKrmraLml7bpl7Q6IDIwMjYtMTAtMTdUMDg6MDU6MDRaOyDmnKrnn6Xljp/lm6A6IG5vX3VzYWdlX3JlY2VpcHRzOyDorrDlvZXmlbA6IDAKLSDnlKjph4/lsI/orqE6IOi+k+WFpSDmnKrnn6UsIOi+k+WHuiDmnKrnn6UsIOe8k+WtmOi+k+WFpSDmnKrnn6UsIOaOqOeQhiDmnKrnn6UKCuW9seWTjQotIOeUqOaIt+WPr+ingeaUtuebiuWwmuacquWjsOaYjuOAggoK5LiL5LiA5q2lCi0g6KGl6b2Q6aqM5pS26K+B5o2u5pig5bCE5bm26YeN5paw6L+Q6KGM5a+55bqU5qOA5p+l77yb5LiN6ZyA6KaB5LuF5Zug6K+l57y65Y+j6YeN5YGa5bey6YCa6L+H55qE6aqM6K+B44CCCgror4Hmja4KLSAuYWkvZXZpZGVuY2UvV0ktMTA4OC1ydW50aW1lLWFjdGl2YXRpb24tYW1lbmRtZW50LWNvbnRpbnVpdHktcmVjb3ZlcnkudmVyaWZpY2F0aW9uLmpzb24K6LeoIFdJIOWNj+iwgzogV0ktMTA4OC1ydW50aW1lLWFjdGl2YXRpb24tYW1lbmRtZW50LWNvbnRpbnVpdHktcmVjb3ZlcnkKLSDnirbmgIE6IGFsbG93ZWQKLSDlrp7njrDnirbmgIE6IHNlcGFyYXRlX2xpZmVjeWNsZV9vdXRjb21lCi0g57uE5ZCI6aqM6K+BOiBub3Rfb2JzZXJ2ZWQKLSDmiafooYznu5Pmnpw6IHVua25vd24KLSDmiafooYzor4Hmja7lrozmlbQ6IGZhbHNlCi0g57uE5ZCI6YCC55So5oCnOiBub3Rfb2JzZXJ2ZWQKLSDnm67moIflkIjlubY6IG5vdF9vYnNlcnZlZAotIOa4heeQhjogbm90X29ic2VydmVkCi0g5riF55CG5aSE572uOiB1bmtub3duCi0g5o+Q5L6b5pa5OiAKLSDmtojotLnogIU6IAotIOetieW+hei+uTogCi0g5b2x5ZON5LqL5Lu2OiAKLSDpmLvloZ46IAotIOacquefpTogCi0g5Lq65bel5Yaz5a6aOiBmYWxzZQotIOWkjemqjDogbm90X3JlcXVpcmVkCi0g5Y+v5aSN55So5qOA5p+lOiAKLSDkuIvkuIDmraU6IHJlZnJlc2ggZGVwZW5kZW5jeSBzdGF0ZSBiZWZvcmUgdGhlIG5leHQgZGVwZW5kZW50IGFjdGlvbgotIGludGVncmF0aW9uIG93bmVyL29yZGVyOiBXSS0xMDg4LXJ1bnRpbWUtYWN0aXZhdGlvbi1hbWVuZG1lbnQtY29udGludWl0eS1yZWNvdmVyeS8KCg=="
+  },
+  "stderr": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  }
+}
