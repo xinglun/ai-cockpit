@@ -151,7 +151,7 @@
   "checkpointAt": "2026-10-17T08:47:46Z",
   "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:c21b8dbb588a344d902a4528ec58b45dd86ddfb58ae00efe288281e243eec6af",
+  "checkpointRepositorySnapshotDigest": "sha256:f86aa1bb8f84e812e1ab827416178530de848362ee9f4d296cbd869fd1e857ef",
   "createdAt": "2026-10-17T08:05:04Z",
   "decisionEvidence": {
     "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
@@ -185,10 +185,10 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-17T10:10:23Z",
+  "preflightAt": "2026-10-17T10:14:37Z",
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:c21b8dbb588a344d902a4528ec58b45dd86ddfb58ae00efe288281e243eec6af",
+  "preflightRepositorySnapshotDigest": "sha256:f86aa1bb8f84e812e1ab827416178530de848362ee9f4d296cbd869fd1e857ef",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",

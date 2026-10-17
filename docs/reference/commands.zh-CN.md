@@ -483,3 +483,22 @@ verification 之前绑定 resource context，避免晚绑定使已记录的验�
 
 `tests/conformance/final_replacement_acceptance.sh` 是源码仓库的最终替代边界，记录安装的 Runtime identity、锁定的
 reference oracle、conformance/adversarial/performance gate 和无复制检查，并生成 `acceptance.json` 与 `SHA256SUMS`。
+
+## Activation 连续性与当下基线恢复
+
+存在 amendment 日志的原生 `not_ready` 激活会为精确 A/B Contract、owner、Runtime、journal 和观察写入 typed prepared/committed 过渡。该边界只允许改变 `state`、`baseRevision`、`repositorySnapshotDigest`；其他人工计划字段必须先 amend。即使当前 Contract 已审阅，缺失、部分、外来或不匹配证据仍 fail closed。
+
+符合有限条件的历史缺口使用独立显式元数据入口：
+
+```sh
+ai-cockpit work-item activation-recovery plan --repo <repository> --id <work-item>
+ai-cockpit work-item activation-recovery record --repo <repository> --id <work-item> --input <decision.json>
+```
+
+Plan 只读。确定性请求枚举有限差异（适用时仅精确 legacy CSV 拆分）、当前 Contract/Summary/HEAD/owner/registration、原生环境与源码快照、原始证据 digest、checkpoint/start 锚点及保留未知。请求变化后必须重新审阅。缺失锚点、额外计划变更、checkpoint 后缺口和 pending 事务不能取得恢复许可。
+
+只有实际授权真人针对完整请求给出 `accept_present_baseline` 后，才将真实响应保存在 `.ai/evidence/<work-item>/` 下的严格 source JSON。字段为 `schemaVersion: 1`、`kind: "human_activation_recovery_response_source"`、`requestDigest`、`response`、`humanActor`、`respondedAt`、`provenance`；provenance 指向实际请求/回复或原始记录，禁止编造回复或复用历史审阅。decision 输入精确要求 `schemaVersion: 1`、`decisionId: "activation-present-baseline-review"`、`response: "accept_present_baseline"`、`requestDigest`、`humanActor`、`recorderActor`、`assurance: "self_declared"`、`authoritySourcePath`、`authoritySourceDigest`、`respondedAt`、`reason`。source digest 是原始文件字节的 SHA-256；actor、响应、请求及时间必须一致，未知字段拒绝。
+
+Record 在原生锁内复查 currentness，并追加独立的当下阶段证据。它不改写旧收据、不证明历史 A→B 合法、不授予业务权限，也不批准当前 Contract C。`historicalTransitionAuthentication` 保持 `unknown`，`businessAuthorityGranted` 保持 `false`，`freshContractReviewRequired` 保持 `true`。只有新的 preflight 及另行完成的当前 Contract 审阅才能恢复普通 admission。actor 标签与自报 assurance 不是身份认证；保留 source 原字节及每个部分或失败阶段。
+
+MCP 通过同一服务提供 `work_item_activation_recovery_plan`（`workItemId`）及 `work_item_activation_recovery_record`（`workItemId`、严格 `decision`），增加两项后精确工具数为 35。不支持的旧入口及 raw governance-controls 调用不能提供恢复授权。

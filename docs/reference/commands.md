@@ -804,3 +804,22 @@ not an unpublish or rewrite of Release truth.
 replacement boundary. It records installed Runtime identity, the locked
 reference oracle, conformance/adversarial/performance gates, and the no-copy
 check, then emits `acceptance.json` and `SHA256SUMS`.
+
+## Activation continuity and present-baseline recovery
+
+A journal-relevant native `not_ready` activation writes a typed prepared/committed transition for the exact A/B Contracts, owner, Runtime, journal and observations. Only `state`, `baseRevision` and `repositorySnapshotDigest` may change at this boundary. Amend other human plan fields first. Missing, partial, foreign or mismatched evidence fails closed even when the current Contract already has a review.
+
+An eligible legacy gap has a separate explicit metadata route:
+
+```sh
+ai-cockpit work-item activation-recovery plan --repo <repository> --id <work-item>
+ai-cockpit work-item activation-recovery record --repo <repository> --id <work-item> --input <decision.json>
+```
+
+Plan is read-only. Its deterministic request enumerates the finite differences (including only the exact legacy CSV split when applicable), current Contract/Summary/HEAD/owner/registration, native environment/source snapshot, raw evidence digests, checkpoint/start anchors and retained unknowns. A changed request must be reviewed again. Missing anchors, extra plan changes, post-checkpoint gaps and pending transactions do not receive a recovery permit.
+
+Only after the actual authorized human supplies `accept_present_baseline` for that complete request, preserve the real response in a strict source JSON under `.ai/evidence/<work-item>/`. Its fields are `schemaVersion: 1`, `kind: "human_activation_recovery_response_source"`, `requestDigest`, `response`, `humanActor`, `respondedAt` and `provenance`. Provenance identifies the actual request/reply or transcript; never invent a reply or reuse a historical review. The decision input requires exactly `schemaVersion: 1`, `decisionId: "activation-present-baseline-review"`, `response: "accept_present_baseline"`, `requestDigest`, `humanActor`, `recorderActor`, `assurance: "self_declared"`, `authoritySourcePath`, `authoritySourceDigest`, `respondedAt` and `reason`. The source digest is SHA-256 of the exact file bytes; actor, response, request and timestamp must match. Unknown fields reject.
+
+Record rechecks currentness under the native locks and appends separate present-time phase evidence. It does not rewrite an old receipt, authenticate historical A→B, grant business authority or approve current Contract C. `historicalTransitionAuthentication` stays `unknown`, `businessAuthorityGranted` stays `false`, and `freshContractReviewRequired` stays `true`. Only a fresh preflight and its separate current-Contract review can restore ordinary admission. Actor labels and the declared assurance are not identity authentication. Preserve source bytes and every partial or failed phase.
+
+MCP uses the same services through `work_item_activation_recovery_plan` (`workItemId`) and `work_item_activation_recovery_record` (`workItemId`, strict `decision`). The two additions make the exact discovery count 35. Older unsupported surfaces and raw governance-controls calls do not supply recovery authority.

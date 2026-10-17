@@ -1897,8 +1897,7 @@ fn legacy_activation_fixture() -> tempfile::TempDir {
     directory
 }
 
-#[test]
-fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review() {
+fn assert_legacy_activation_recovery_flow(record_via_mcp: bool) {
     let directory = legacy_activation_fixture();
     let root = directory.path().join("repo");
     let id = "WI-CLI-ACTIVATION-CONTINUITY";
@@ -1996,17 +1995,37 @@ fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_revie
         serde_json::to_vec(&decision).expect("decision JSON"),
     )
     .expect("decision input");
-    let recorded = cli(&[
-        "work-item",
-        "activation-recovery",
-        "record",
-        "--id",
-        id,
-        "--input",
-        decision_path.to_str().expect("path"),
-    ]);
-    assert_success(&recorded, "record exact present fixture baseline");
-    let record: Value = serde_json::from_slice(&recorded.stdout).expect("record JSON");
+    let record: Value = if record_via_mcp {
+        let recorded = mcp_call(
+            &root,
+            &runtime,
+            "work_item_activation_recovery_record",
+            json!({"workItemId":id,"decision":decision}),
+        );
+        assert_eq!(
+            recorded.pointer("/result/isError"),
+            Some(&json!(false)),
+            "{recorded}"
+        );
+        serde_json::from_str(
+            recorded["result"]["content"][0]["text"]
+                .as_str()
+                .expect("record text"),
+        )
+        .expect("MCP record JSON")
+    } else {
+        let recorded = cli(&[
+            "work-item",
+            "activation-recovery",
+            "record",
+            "--id",
+            id,
+            "--input",
+            decision_path.to_str().expect("path"),
+        ]);
+        assert_success(&recorded, "record exact present fixture baseline");
+        serde_json::from_slice(&recorded.stdout).expect("CLI record JSON")
+    };
     assert_eq!(record["request"], request);
     assert_eq!(record["historicalTransitionAuthentication"], "unknown");
     assert_eq!(record["businessAuthorityGranted"], false);
@@ -2089,6 +2108,16 @@ fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_revie
             .contains(&json!("activation_recovery_fresh_contract_review_required")),
         "{status}"
     );
+}
+
+#[test]
+fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review() {
+    assert_legacy_activation_recovery_flow(false);
+}
+
+#[test]
+fn legacy_activation_mcp_record_requires_a_separate_current_contract_review() {
+    assert_legacy_activation_recovery_flow(true);
 }
 
 fn recovery_metadata_bytes(root: &Path) -> Vec<(PathBuf, Vec<u8>)> {
@@ -2239,4 +2268,203 @@ fn recovery_request_binds_native_environment_and_raw_review_bytes() {
         request["rawEvidenceDigests"]["preflight-review"],
         json!(Digest::sha256_bytes(&review))
     );
+}
+
+fn fixture_present_recovery_decision(root: &Path, request: &Value) -> Value {
+    let id = "WI-CLI-ACTIVATION-CONTINUITY";
+    let relative = format!(".ai/evidence/{id}/actual-fixture-response.json");
+    let path = root.join(&relative);
+    fs::create_dir_all(path.parent().expect("response parent")).expect("response directory");
+    let source = json!({"schemaVersion":1,"kind":"human_activation_recovery_response_source",
+        "requestDigest":request["requestDigest"],"response":"accept_present_baseline",
+        "humanActor":"human:isolated-test-fixture","respondedAt":"2026-10-17T00:00:00Z",
+        "provenance":"Synthetic response in an isolated test only; no real human authentication."});
+    let bytes = serde_json::to_vec(&source).expect("response JSON");
+    fs::write(path, &bytes).expect("fixture response source");
+    json!({"schemaVersion":1,"decisionId":"activation-present-baseline-review",
+        "response":"accept_present_baseline","requestDigest":request["requestDigest"],
+        "humanActor":"human:isolated-test-fixture","recorderActor":"agent:test-fixture",
+        "assurance":"self_declared","authoritySourcePath":relative,
+        "authoritySourceDigest":Digest::sha256_bytes(&bytes),"respondedAt":"2026-10-17T00:00:00Z",
+        "reason":"Accept only the exact isolated present baseline, retaining all historical unknowns."})
+}
+
+#[test]
+fn stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata() {
+    for case in [
+        "request",
+        "summary",
+        "contract",
+        "history",
+        "head",
+        "registration",
+        "environment",
+        "source",
+        "agent_as_human",
+        "blank_human",
+        "old_review_source",
+        "partial_recovery",
+        "pending_amendment",
+        "unknown_field",
+    ] {
+        let directory = legacy_activation_fixture();
+        let root = directory.path().join("repo");
+        let id = "WI-CLI-ACTIVATION-CONTINUITY";
+        let planned = run_cli(&[
+            "work-item",
+            "activation-recovery",
+            "plan",
+            "--id",
+            id,
+            "--repo",
+            root.to_str().expect("root"),
+        ]);
+        assert_success(&planned, "plan current recovery fixture");
+        let request: Value = serde_json::from_slice(&planned.stdout).expect("request");
+        let mut decision = fixture_present_recovery_decision(&root, &request);
+        let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+        let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+        let source_path = root.join(
+            decision["authoritySourcePath"]
+                .as_str()
+                .expect("source path"),
+        );
+        match case {
+            "request" => {
+                decision["requestDigest"] = json!(Digest::sha256_bytes(b"another request"));
+            }
+            "summary" => {
+                let mut value: Value =
+                    serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+                value["fixtureNote"] = json!("changed after request");
+                fs::write(&summary_path, serde_json::to_vec(&value).unwrap()).unwrap();
+            }
+            "contract" => {
+                let mut value: Value =
+                    serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+                value["goal"] = json!("a different current Contract");
+                fs::write(&contract_path, serde_json::to_vec(&value).unwrap()).unwrap();
+            }
+            "history" => {
+                let path = root.join(format!(
+                    ".ai/evidence/{id}.contract-amendments/00000001.prepared.json"
+                ));
+                let mut value: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                value["prepared"]["request"]["reason"] = json!("changed raw history after request");
+                fs::write(path, serde_json::to_vec(&value).unwrap()).unwrap();
+            }
+            "head" => {
+                git(
+                    &root,
+                    &[
+                        "commit",
+                        "--allow-empty",
+                        "-qm",
+                        "advance isolated fixture HEAD",
+                    ],
+                );
+            }
+            "registration" => {
+                let input = directory.path().join("registration.json");
+                let mut value: Value = serde_json::from_slice(&fs::read(&input).unwrap()).unwrap();
+                value["generation"] = json!(2);
+                fs::write(&input, serde_json::to_vec(&value).unwrap()).unwrap();
+                let registered = run_cli(&[
+                    "work-item",
+                    "coordination",
+                    "register",
+                    "--repo",
+                    root.to_str().unwrap(),
+                    "--input",
+                    input.to_str().unwrap(),
+                ]);
+                assert_success(&registered, "advance actual native fixture registration");
+            }
+            "source" => {
+                fs::write(&source_path, b"{}").unwrap();
+            }
+            "agent_as_human" | "blank_human" => {
+                let mut value: Value =
+                    serde_json::from_slice(&fs::read(&source_path).unwrap()).unwrap();
+                value["humanActor"] = if case == "blank_human" {
+                    json!("human:   ")
+                } else {
+                    json!("agent:cannot-supply-human-decision")
+                };
+                let bytes = serde_json::to_vec(&value).unwrap();
+                fs::write(&source_path, &bytes).unwrap();
+                decision["humanActor"] = value["humanActor"].clone();
+                decision["authoritySourceDigest"] = json!(Digest::sha256_bytes(&bytes));
+            }
+            "old_review_source" => {
+                let bytes =
+                    fs::read(root.join(format!(".ai/decisions/{id}.preflight-review.json")))
+                        .unwrap();
+                fs::write(&source_path, &bytes).unwrap();
+                decision["authoritySourceDigest"] = json!(Digest::sha256_bytes(&bytes));
+            }
+            "partial_recovery" => {
+                let partial = root.join(format!(".ai/evidence/{id}.activation-recovery"));
+                fs::create_dir(&partial).unwrap();
+                fs::write(partial.join("prepared.json"), b"{}").unwrap();
+            }
+            "pending_amendment" => {
+                fs::remove_file(root.join(format!(
+                    ".ai/evidence/{id}.contract-amendments/00000002.committed.json"
+                )))
+                .unwrap();
+            }
+            "unknown_field" => {
+                decision["unsupported"] = json!(true);
+            }
+            _ => {}
+        }
+        let input = directory.path().join("recovery-decision.json");
+        fs::write(&input, serde_json::to_vec(&decision).unwrap()).unwrap();
+        let before = recovery_metadata_bytes(&root);
+        if case == "unknown_field" {
+            let response = mcp_call(
+                &root,
+                &candidate_runtime(),
+                "work_item_activation_recovery_record",
+                json!({"workItemId":id,"decision":decision}),
+            );
+            assert_eq!(
+                response.pointer("/result/isError"),
+                Some(&json!(true)),
+                "{case}: {response}"
+            );
+        } else {
+            let mut command = Command::new(candidate_binary());
+            command.args([
+                "work-item",
+                "activation-recovery",
+                "record",
+                "--repo",
+                root.to_str().unwrap(),
+                "--id",
+                id,
+                "--input",
+                input.to_str().unwrap(),
+            ]);
+            if case == "environment" {
+                command.env("CARGO_BUILD_JOBS", "2");
+            } // Metadata-only rejection: no build is launched.
+            let output = command.output().expect("record fixture decision");
+            if output.status.success() {
+                let preserved = directory.keep();
+                panic!(
+                    "{case}: unexpected recovery publication; fixture preserved at {}; {}",
+                    preserved.display(),
+                    String::from_utf8_lossy(&output.stdout)
+                );
+            }
+        }
+
+        assert_eq!(
+            recovery_metadata_bytes(&root),
+            before,
+            "{case}: refusal must preserve every existing phase and byte"
+        );
+    }
 }

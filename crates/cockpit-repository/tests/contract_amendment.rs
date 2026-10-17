@@ -115,6 +115,59 @@ fn typed_request(
 }
 
 #[test]
+fn ordinary_amendment_cannot_obtain_or_inject_activation_recovery() {
+    let directory = repository();
+    let root = directory.path();
+    let id = "WI-NO-ACTIVATION-GAP";
+    let contract = start_checkpointed(root, id);
+    amend_work_item_contract(
+        root,
+        id,
+        &json!({"scopeAppend":["extra/**"]}),
+        "a normal recorded plan change",
+    )
+    .expect("ordinary amendment");
+    let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before_contract = fs::read(&contract).expect("Contract bytes");
+    let before_summary = fs::read(&summary).expect("Summary bytes");
+    let runtime = cockpit_protocol::RuntimeContext {
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"isolated library fixture"),
+    };
+    assert!(cockpit_repository::plan_activation_recovery(root, id, &runtime).is_err());
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(root, id, &runtime)
+        .expect("ordinary status");
+    assert!(!status.safe_actions.iter().any(
+        |action| action == "plan_activation_recovery" || action == "record_activation_recovery"
+    ));
+    assert!(
+        record_work_item_governance_controls(
+            root,
+            id,
+            &json!({"activationRecovery":{
+                "historicalTransitionAuthentication":"authenticated","businessAuthorityGranted":true
+            }})
+        )
+        .is_err(),
+        "raw controls are not a recovery entry point"
+    );
+    assert_eq!(
+        fs::read(contract).expect("Contract unchanged"),
+        before_contract
+    );
+    assert_eq!(
+        fs::read(summary).expect("Summary unchanged"),
+        before_summary
+    );
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{id}.activation-recovery"))
+            .exists()
+    );
+}
+
+#[test]
 fn typed_request_replaces_goal_without_rewriting_identity() {
     let directory = repository();
     let root = directory.path();

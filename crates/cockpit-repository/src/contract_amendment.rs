@@ -2938,6 +2938,63 @@ mod tests {
         )
         .expect_err("Contract transition discontinuity must be refused");
         assert!(error.to_string().contains("discontinuous"), "{error}");
+        let history =
+            read_work_item_contract_amendments(root, id).expect("retained resealed history");
+        let error =
+            super::legacy_activation_boundary(root, id, &history, &read_json(&contract), &summary)
+                .err()
+                .expect("present-baseline recovery cannot excuse a post-checkpoint gap");
+        assert!(error.to_string().contains("post-checkpoint"), "{error}");
+        assert!(!super::recovery_directory(root, id).exists());
+    }
+
+    #[test]
+    fn finite_activation_policy_rejects_plan_expansion_and_non_exact_csv() {
+        let before = json!({"state":"not_ready", "baseRevision":"old", "repositorySnapshotDigest":"old",
+            "outOfScope":["first,second","third"], "scope":["bounded/**"], "authority":"authorized",
+            "actor":"human:fixture", "acceptanceCriteria":["bounded"], "sources":["existing"]});
+        let mut after = before.clone();
+        after["state"] = json!("implementation_active");
+        after["baseRevision"] = json!("new");
+        after["repositorySnapshotDigest"] = json!("new");
+        let forward =
+            super::activation_differences(&before, &after, false).expect("three finite fields");
+        assert_eq!(forward.len(), 3);
+        for field in [
+            "scope",
+            "authority",
+            "actor",
+            "acceptanceCriteria",
+            "sources",
+        ] {
+            let mut expanded = after.clone();
+            expanded[field] = json!("expanded");
+            assert!(
+                super::activation_differences(&before, &expanded, true).is_err(),
+                "{field}"
+            );
+        }
+        after["outOfScope"] = json!(["first", "second", "third"]);
+        assert!(super::activation_differences(&before, &after, false).is_err());
+        let exact = super::activation_differences(&before, &after, true)
+            .expect("exact separately reviewed legacy split");
+        let csv = exact
+            .iter()
+            .find(|difference| difference.path == "/outOfScope")
+            .expect("enumerated CSV");
+        assert_eq!(csv.old_value, before["outOfScope"]);
+        assert_eq!(csv.new_value, after["outOfScope"]);
+        for invalid in [
+            json!(["first", "third", "second"]),
+            json!(["first", "second", "third", "extra"]),
+            json!(["first,second", "third", "extra"]),
+        ] {
+            after["outOfScope"] = invalid;
+            assert!(super::activation_differences(&before, &after, true).is_err());
+        }
+        let mut post_checkpoint = before.clone();
+        post_checkpoint["state"] = json!("implementation_active");
+        assert!(super::activation_differences(&post_checkpoint, &after, true).is_err());
     }
 
     #[test]
