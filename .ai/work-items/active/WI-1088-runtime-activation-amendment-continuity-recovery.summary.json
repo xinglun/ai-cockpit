@@ -146,7 +146,7 @@
     }
   ],
   "changedPaths": [
-    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.11b94c18be287e4bb9deb3df03976b0eaf25f144295de39c3a73e463cf520100.json"
   ],
   "checkpointAt": "2026-10-17T08:47:46Z",
   "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
@@ -185,7 +185,7 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-17T09:29:34Z",
+  "preflightAt": "2026-10-17T09:32:42Z",
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:bfdd2ccba9128013a1a00e5a22f06d44362e4888cce283cafa8a7d89e64ffff9",

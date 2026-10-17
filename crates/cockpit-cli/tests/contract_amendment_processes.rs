@@ -1539,8 +1539,7 @@ fn checkpoint_count_two_material_fallback_is_rejected_by_mcp() {
     assert_checkpoint_provenance_rejected("count_two", true);
 }
 
-#[test]
-fn native_activation_keeps_post_checkpoint_amendment_reviewable() {
+fn activation_checkpoint_fixture() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("activation fixture directory");
     let root = directory.path().join("repo");
     fs::create_dir(&root).expect("fixture repository");
@@ -1745,5 +1744,86 @@ fn native_activation_keeps_post_checkpoint_amendment_reviewable() {
             .iter()
             .any(|action| action == "run_verification"),
         "the new Contract still needs its own human review: {status}"
+    );
+    directory
+}
+
+#[test]
+fn native_activation_keeps_post_checkpoint_amendment_reviewable() {
+    activation_checkpoint_fixture();
+}
+
+#[test]
+fn current_contract_review_cannot_hide_a_missing_activation_commit() {
+    let directory = activation_checkpoint_fixture();
+    let root = directory.path().join("repo");
+    let id = "WI-CLI-ACTIVATION-CONTINUITY";
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let cli = |args: &[&str]| {
+        Command::new(candidate_binary())
+            .args(args)
+            .arg("--repo")
+            .arg(&root)
+            .output()
+            .expect("native fixture command")
+    };
+    assert_success(
+        &cli(&[
+            "preflight",
+            "--contract",
+            contract_path.to_str().expect("path"),
+        ]),
+        "prepare current Contract review",
+    );
+    let current: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let review_path = directory.path().join("current-fixture-review.json");
+    fs::write(&review_path, serde_json::to_vec(&json!({"decisionEvidence": {
+        "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
+        "workItemId":id, "repositoryId":current["repositoryId"],
+        "contractDigest":cockpit_protocol::digest_json(&current).expect("digest"),
+        "preflightDecisionDigest":summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+        "recordedAt":"2026-10-17T00:00:00Z", "recordedBy":"fixture:current-review-only",
+        "reason":"Synthetic current Contract review never authenticates a missing activation phase."
+    }})).expect("review JSON")).expect("review source");
+    assert_success(
+        &cli(&[
+            "work-item",
+            "controls",
+            "--id",
+            id,
+            "--input",
+            review_path.to_str().expect("path"),
+        ]),
+        "record current fixture review",
+    );
+    let before_contract = fs::read(&contract_path).expect("Contract bytes");
+    let before_summary = fs::read(&summary_path).expect("Summary bytes");
+    fs::remove_file(root.join(format!(
+        ".ai/evidence/{id}.activation-transition/committed.json"
+    )))
+    .expect("simulate isolated partial publication");
+    let result = cli(&["work-item", "status", "--id", id, "--json"]);
+    assert!(
+        !result.status.success(),
+        "current review must not hide missing activation commit: {}",
+        String::from_utf8_lossy(&result.stdout)
+    );
+    assert!(
+        String::from_utf8_lossy(&result.stderr).contains("unresolved activation transition"),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert_eq!(
+        fs::read(contract_path).expect("Contract unchanged"),
+        before_contract
+    );
+    assert_eq!(
+        fs::read(summary_path).expect("Summary unchanged"),
+        before_summary
     );
 }
