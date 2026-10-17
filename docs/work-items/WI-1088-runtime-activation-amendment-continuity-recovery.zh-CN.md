@@ -13,7 +13,7 @@ lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
 
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation 连续性与当下恢复
 
-先前 human:Ray 在08:45:53Z 对 Contract sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7 的真实 confirm_review 与 checkpoint1 均保留。11:47:42Z 的原生 amendment sequence3 绑定 sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976，仅增加既有 RPC discovery 兼容测试路径。此次范围交接尚未记录新的真人 preflight 决定，也未修改 RPC 源码；当前 admission 与证据见 Draft PR1047。
+human:Ray 在12:02:13Z 对当前13路径 Contract sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976 的真实 confirm_review 已由 agent:Codex 原生记录。checkpoint1 与此前请求均保留，旧6e93确认未复用。当前实现、验收及精确 HEAD 的 CI 证据见 Draft PR1047。
 
 保留真实前向 A/B/owner/Runtime/journal 阶段证据。历史恢复仅当下接受精确 baseline，保留历史未知，仅开启新 preflight。B 曾被审或 CSV 都不是通用豁免。
 

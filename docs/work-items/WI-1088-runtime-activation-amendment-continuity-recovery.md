@@ -13,7 +13,7 @@ lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
 
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation continuity and present recovery
 
-Prior actual human:Ray confirm_review at08:45:53Z for Contract sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7 and checkpoint1 are preserved. Native amendment sequence3 at11:47:42Z binds sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976 and adds only the existing RPC discovery compatibility test. No new human preflight decision or RPC source edit is recorded at this scope handoff; current admission and evidence are reported in Draft PR1047.
+Actual human:Ray confirm_review at12:02:13Z for the current13-path Contract sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976 is natively recorded by agent:Codex. Checkpoint1 and both historical requests remain preserved; the previous6e93 confirmation was not reused. Current implementation, acceptance and exact-head CI evidence are reported in Draft PR1047.
 
 Preserve true forward A/B/owner/Runtime/journal phase evidence. Legacy recovery accepts an exact present baseline with historical uncertainty retained; it enables only a new preflight. B review and CSV are never broad exemptions.
 

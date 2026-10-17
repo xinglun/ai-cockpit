@@ -13,7 +13,7 @@ lastVerifiedBy: WI-1088-runtime-activation-amendment-continuity-recovery
 
 # WI-1088-runtime-activation-amendment-continuity-recovery — Runtime activation の連続性と現時点の復旧
 
-08:45:53Z の Contract sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7 に対する実際の human:Ray confirm_review と checkpoint1 を保持しています。11:47:42Z のネイティブ amendment sequence3 は sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976 に結び付き、既存 RPC discovery 互換テストだけを追加しました。この範囲の引継ぎでは新しい人間の preflight 決定も RPC ソース変更も記録していません。現在の admission と証拠は Draft PR1047 に記載します。
+現在の13パス Contract sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976 に対する12:02:13Z の実際の human:Ray confirm_review は agent:Codex によりネイティブ記録済みです。checkpoint1 と過去の要求を保持し、以前の6e93確認を再利用していません。現在の実装・受入れ・正確な HEAD の CI 証拠は Draft PR1047 に記載します。
 
 実際の前向き A/B/owner/Runtime/journal フェーズ証拠を保持する。旧履歴の復旧は正確な現時点 baseline の受入のみで、履歴の不明点を保持し、新しい preflight の生成だけを許す。B のレビューや CSV は一般的な免除ではない。
 

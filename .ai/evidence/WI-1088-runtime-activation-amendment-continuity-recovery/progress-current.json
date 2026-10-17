@@ -1,6 +1,6 @@
 {
   "kind": "agent_progress_snapshot_not_native_receipt_or_approval",
-  "observedAt": "2026-10-17T11:53:22.873918+00:00",
+  "observedAt": "2026-10-17T12:06:09.024107+00:00",
   "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
   "testedSourceHead": "6d90bc6e10e0d2b9791cc2e8b53531de0f1a03db",
   "activeVerification": null,
@@ -13,7 +13,7 @@
     "nodeBudgetSeconds": 600,
     "timedOut": false
   },
-  "next": "return exact actual binding to parent/human; record only an actual new response, then minimal RPC maintenance and full repository/fresh33/exact-head CI under fresh native admission",
+  "next": "commit/push exact RPC patch, fresh native admission, RPC target/full repository/fresh33 and final-head CI",
   "historicalTransitionAuthentication": "unknown",
   "recoveryBusinessAuthorityGranted": false,
   "freshCurrentContractReviewRequired": true,
@@ -22,11 +22,11 @@
   "latestActualResultsContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "nativeScopeAmendmentSequence": 3,
   "rustScopePathCount": 13,
-  "currentAdmission": "needs_human_decision",
+  "currentAdmission": "allowed after exact new human response; source RPC change awaiting committed-source recheck",
   "oldHumanConfirmationReused": false,
-  "rpcSourceEdited": false,
-  "humanDecisionRequired": true,
-  "nativeReviewState": "needs_human_confirmation",
+  "rpcSourceEdited": true,
+  "humanDecisionRequired": false,
+  "nativeReviewState": "human_decision_recorded",
   "currentReviewBinding": {
     "schemaVersion": 1,
     "decisionId": "contract-preflight-review",
@@ -36,5 +36,8 @@
     "preflightDecisionDigest": "sha256:34e6d3f6dffbf1ddcc6f012b3283636716e96070293320b161c2054d9019053c",
     "repositorySnapshotDigest": "sha256:398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265"
   },
-  "newHumanResponseRecorded": false
+  "newHumanResponseRecorded": true,
+  "humanActor": "human:Ray",
+  "humanResponseOccurredAt": "2026-10-17T12:02:13Z",
+  "recorder": "agent:Codex"
 }
