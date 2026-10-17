@@ -146,12 +146,26 @@
     }
   ],
   "changedPaths": [
-    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.11b94c18be287e4bb9deb3df03976b0eaf25f144295de39c3a73e463cf520100.json"
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.65e2ddae99397afaa75d81daf64e6363be97a7d6a87760959eb5fbe7d0e5eed5.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.76bd9058d57b385549831b257c9c21694e88543f24c17ad3aa03ef722072b102.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9ad272af524423f15f685b84cc51af6a102afb47217863a86738af139028a005.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.df13027dc6fa561505907420654383324507779c568da5fb37e6aea23b91cf59.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0024d9bbc9d3c33287a2a4ebc768f32c0d80d6fddd3c368ce48cb6347e12318.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/implementation-progress.md",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/strict-negatives-20261017/i01-preflight-partial-classification.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/strict-negatives-20261017/i02-reviewed-c-partial-proof-execute.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/strict-negatives-20261017/i02-reviewed-c-partial-proof-plan.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/strict-negatives-20261017/i03-cli-amendment-suite-execute.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/strict-negatives-20261017/i03-cli-amendment-suite-plan.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/strict-negatives-20261017/i04-repository-amendment-suite-execute.json",
+    ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/strict-negatives-20261017/i04-repository-amendment-suite-plan.json",
+    ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json"
   ],
   "checkpointAt": "2026-10-17T08:47:46Z",
   "checkpointContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:bfdd2ccba9128013a1a00e5a22f06d44362e4888cce283cafa8a7d89e64ffff9",
+  "checkpointRepositorySnapshotDigest": "sha256:69d7aec2e1ab82fbbac8dd9cc553a7ba8916b3d114c3b1cc74aa03f16f730058",
   "createdAt": "2026-10-17T08:05:04Z",
   "decisionEvidence": {
     "contractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
@@ -185,11 +199,11 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-17T09:48:05Z",
+  "preflightAt": "2026-10-17T09:52:38Z",
   "preflightContractDigest": "sha256:6e93cf3ec7618a3b95cddc8796942c09e37ae43c3d9eb1dd454e7c99452013a7",
-  "preflightDecisionDigest": "sha256:24e959625db2f4f0575a08d830544f94f12f8c34dd57d3c40779aef4a76a9e21",
-  "preflightRepositorySnapshotDigest": "sha256:4f3c8786d6c7938293d8860c6ad4efce33ecd758b286389bd4c5263e8e769666",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:69d7aec2e1ab82fbbac8dd9cc553a7ba8916b3d114c3b1cc74aa03f16f730058",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [

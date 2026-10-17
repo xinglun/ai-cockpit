@@ -1827,3 +1827,191 @@ fn current_contract_review_cannot_hide_a_missing_activation_commit() {
         before_summary
     );
 }
+
+#[test]
+fn legacy_activation_requires_an_exact_present_baseline_decision_and_fresh_review() {
+    let directory = activation_checkpoint_fixture();
+    let root = directory.path().join("repo");
+    let id = "WI-CLI-ACTIVATION-CONTINUITY";
+    // This isolated fixture models the old on-disk format. Removing its new
+    // proof does not authenticate the historical transition or any real WI.
+    fs::remove_dir_all(root.join(format!(".ai/evidence/{id}.activation-transition")))
+        .expect("model a legacy fixture without a forward receipt");
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let runtime = candidate_runtime();
+    let head = Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(&root)
+        .output()
+        .expect("fixture HEAD");
+    let branch = Command::new("git")
+        .args(["branch", "--show-current"])
+        .current_dir(&root)
+        .output()
+        .expect("fixture branch");
+    let input = directory.path().join("registration.json");
+    fs::write(&input, serde_json::to_vec(&json!({
+        "schemaVersion":1, "repositoryId":contract["repositoryId"], "workItemId":id,
+        "contractDigest":cockpit_protocol::digest_json(&contract).expect("digest"),
+        "worktreePath":root.canonicalize().expect("root").to_string_lossy(),
+        "branch":String::from_utf8(branch.stdout).expect("branch UTF8").trim(),
+        "head":String::from_utf8(head.stdout).expect("head UTF8").trim(), "generation":1,
+        "runtime":{"schemaVersion":1,"runtimeVersion":runtime.runtime_version,
+            "runtimeDigest":runtime.runtime_digest,"capability":"observed_environment_drift_v1"},
+        "declaration":{"providedOutcomes":[],"consumedOutcomes":[],"resourceClaims":[],
+            "integrationResponsibility":{"responsibleWorkItemId":id,"targetBranch":"main",
+                "compositionOrder":[],"rationale":"Isolated recovery fixture; no real authority."},
+            "compositionVerification":{"compatibilityConstraints":[],"requiredScenarios":[],"reusableNodes":[]}}
+    })).expect("registration JSON")).expect("registration input");
+    let cli = |args: &[&str]| {
+        Command::new(candidate_binary())
+            .args(args)
+            .arg("--repo")
+            .arg(&root)
+            .output()
+            .expect("fixture CLI")
+    };
+    assert_success(
+        &cli(&[
+            "work-item",
+            "coordination",
+            "register",
+            "--input",
+            input.to_str().expect("path"),
+        ]),
+        "register exact legacy fixture owner",
+    );
+    let before_contract = fs::read(&contract_path).expect("Contract bytes");
+    let before_summary = fs::read(&summary_path).expect("Summary bytes");
+    let planned = cli(&["work-item", "activation-recovery", "plan", "--id", id]);
+    assert_success(&planned, "plan explicit present-baseline recovery");
+    let request: Value = serde_json::from_slice(&planned.stdout).expect("recovery request");
+    assert_eq!(request["historicalTransitionAuthentication"], "unknown");
+    assert_eq!(request["businessAuthorityGranted"], false);
+    assert_eq!(request["freshContractReviewRequired"], true);
+    assert_eq!(request["requiredResponse"], "accept_present_baseline");
+    assert_eq!(request["registrationGeneration"], 1);
+    let mcp = mcp_call(
+        &root,
+        &runtime,
+        "work_item_activation_recovery_plan",
+        json!({"workItemId":id}),
+    );
+    assert_ne!(mcp.pointer("/result/isError"), Some(&json!(true)), "{mcp}");
+    let mcp_request: Value = serde_json::from_str(
+        mcp["result"]["content"][0]["text"]
+            .as_str()
+            .expect("MCP text"),
+    )
+    .expect("MCP request");
+    assert_eq!(request, mcp_request);
+    assert_eq!(
+        fs::read(&contract_path).expect("read Contract"),
+        before_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("read Summary"),
+        before_summary
+    );
+
+    let relative_source = format!(".ai/evidence/{id}/present-response.json");
+    let source_path = root.join(&relative_source);
+    fs::create_dir_all(source_path.parent().expect("parent")).expect("evidence directory");
+    let source = json!({"schemaVersion":1,"kind":"human_activation_recovery_response_source",
+        "requestDigest":request["requestDigest"],"response":"accept_present_baseline",
+        "humanActor":"human:isolated-test-fixture","respondedAt":"2026-10-17T00:00:00Z",
+        "provenance":"Synthetic fixture response only; no real human or historical authentication."});
+    let source_bytes = serde_json::to_vec(&source).expect("source JSON");
+    fs::write(&source_path, &source_bytes).expect("fixture-only response source");
+    let decision = json!({"schemaVersion":1,"decisionId":"activation-present-baseline-review",
+        "response":"accept_present_baseline","requestDigest":request["requestDigest"],
+        "humanActor":"human:isolated-test-fixture","recorderActor":"agent:test-fixture",
+        "assurance":"self_declared","authoritySourcePath":relative_source,
+        "authoritySourceDigest":Digest::sha256_bytes(&source_bytes),
+        "respondedAt":"2026-10-17T00:00:00Z","reason":"Review only the exact present fixture baseline and retained unknowns."});
+    let decision_path = directory.path().join("decision.json");
+    let mut old_review = decision.clone();
+    old_review["response"] = json!("confirm_review");
+    fs::write(
+        &decision_path,
+        serde_json::to_vec(&old_review).expect("old review JSON"),
+    )
+    .expect("invalid decision input");
+    let rejected = cli(&[
+        "work-item",
+        "activation-recovery",
+        "record",
+        "--id",
+        id,
+        "--input",
+        decision_path.to_str().expect("path"),
+    ]);
+    assert!(
+        !rejected.status.success(),
+        "old B-style review cannot recover the gap"
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary unchanged"),
+        before_summary
+    );
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{id}.activation-recovery"))
+            .exists()
+    );
+    fs::write(
+        &decision_path,
+        serde_json::to_vec(&decision).expect("decision JSON"),
+    )
+    .expect("decision input");
+    let recorded = cli(&[
+        "work-item",
+        "activation-recovery",
+        "record",
+        "--id",
+        id,
+        "--input",
+        decision_path.to_str().expect("path"),
+    ]);
+    assert_success(&recorded, "record exact present fixture baseline");
+    let record: Value = serde_json::from_slice(&recorded.stdout).expect("record JSON");
+    assert_eq!(record["request"], request);
+    assert_eq!(record["historicalTransitionAuthentication"], "unknown");
+    assert_eq!(record["businessAuthorityGranted"], false);
+    assert_eq!(record["freshContractReviewRequired"], true);
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract remains unchanged"),
+        before_contract
+    );
+    let status = cli(&["work-item", "status", "--id", id, "--json"]);
+    assert_success(&status, "read recovered metadata status");
+    let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status["safeActions"]
+            .as_array()
+            .expect("actions")
+            .contains(&json!("run_preflight")),
+        "{status}"
+    );
+    assert!(
+        !status["safeActions"]
+            .as_array()
+            .expect("actions")
+            .contains(&json!("run_verification")),
+        "{status}"
+    );
+    let preflight = cli(&[
+        "preflight",
+        "--contract",
+        contract_path.to_str().expect("path"),
+    ]);
+    assert_success(&preflight, "generate fresh current Contract review request");
+    let preflight: Value = serde_json::from_slice(&preflight.stdout).expect("preflight JSON");
+    assert_eq!(
+        preflight["reviewState"], "needs_human_confirmation",
+        "{preflight}"
+    );
+}
