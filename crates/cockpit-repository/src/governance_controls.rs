@@ -1604,6 +1604,7 @@ fn record_work_item_governance_controls_unlocked(
         path: temporary.clone(),
         source,
     })?;
+    let _goal_commit = goal_authority.before_commit()?;
     fs::rename(&temporary, &summary_path).map_err(|source| ObserverError::Read {
         path: summary_path.clone(),
         source,

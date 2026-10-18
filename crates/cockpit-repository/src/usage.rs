@@ -31,6 +31,7 @@ pub(super) fn write_immutable_sidecar(
     path: &Path,
     bytes: &[u8],
 ) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(path)?;
     let sequence = NEXT_USAGE_WRITE_ID.fetch_add(1, Ordering::Relaxed);
     let temporary = format!("{name}.receipt-tmp-{}-{sequence}", std::process::id());
     let temporary_path = path.with_file_name(&temporary);
@@ -48,6 +49,10 @@ pub(super) fn write_immutable_sidecar(
         return Err(read_error(&temporary_path, source));
     }
     drop(file);
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let installed = match parent.hard_link(&temporary, parent, name) {
         Ok(()) => Ok(()),
         Err(error) if error.kind() == ErrorKind::AlreadyExists => {

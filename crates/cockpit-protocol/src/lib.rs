@@ -4210,7 +4210,45 @@ pub struct Contract {
     pub required_runtime_capabilities: Vec<String>,
 }
 
+/// A request for goal-authority enforcement, never an authenticated enrollment
+/// or grant. An independent trusted source must bind enabled mode; deleting or
+/// editing this declaration cannot be used as a source of that assurance.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GoalAuthorityDeclaration {
+    pub required: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reference: Option<GoalAuthorityReference>,
+}
+
+impl GoalAuthorityDeclaration {
+    pub fn validate_shape(&self) -> Result<(), GoalAuthorityModelError> {
+        if let Some(reference) = &self.reference {
+            reference.validate_shape()?;
+        }
+        Ok(())
+    }
+}
+
 impl Contract {
+    /// Parse only the strict optional declaration, preserving legacy Contract
+    /// wire layout and struct-literal compatibility. This does not admit work.
+    pub fn goal_authority_declaration(&self) -> Result<Option<GoalAuthorityDeclaration>, String> {
+        let Some(value) = self
+            .governance_profile
+            .as_ref()
+            .and_then(|profile| profile.get("goalAuthority"))
+        else {
+            return Ok(None);
+        };
+        let declaration: GoalAuthorityDeclaration = serde_json::from_value(value.clone())
+            .map_err(|error| format!("goalAuthority is invalid: {error}"))?;
+        declaration
+            .validate_shape()
+            .map_err(|error| error.to_string())?;
+        Ok(Some(declaration))
+    }
+
     pub fn material_inspection_review_profile(
         &self,
     ) -> Result<Option<MaterialInspectionReviewProfile>, String> {
@@ -4236,6 +4274,9 @@ impl Contract {
     /// Work Item appear ready while it still has unresolved unknowns.
     pub fn validate(&self) -> Result<(), Vec<String>> {
         let mut errors = Vec::new();
+        if let Err(error) = self.goal_authority_declaration() {
+            errors.push(error);
+        }
         let is_v2 = self.contract_version == Some(2);
 
         let mut previous_capability: Option<&str> = None;
@@ -6346,5 +6387,31 @@ mod goal_authority_model_tests {
         let value = source_value()["issuerEvidence"].clone();
         let evidence: AuthorityEvidence = serde_json::from_value(value.clone()).unwrap();
         assert_eq!(serde_json::to_value(evidence).unwrap(), value);
+    }
+}
+
+#[cfg(test)]
+mod goal_authority_declaration_tests {
+    use super::*;
+    use serde_json::json;
+    #[test]
+    fn declaration_is_strict_and_never_fills_a_default_grant() {
+        for value in [
+            json!({}),
+            json!({"required":null}),
+            json!({"required":"true"}),
+            json!({"required":false,"grant":{}}),
+        ] {
+            assert!(serde_json::from_value::<GoalAuthorityDeclaration>(value).is_err());
+        }
+        for required in [false, true] {
+            let value = json!({"required":required});
+            let declaration: GoalAuthorityDeclaration =
+                serde_json::from_value(value.clone()).unwrap();
+            assert!(declaration.reference.is_none());
+            assert!(declaration.validate_shape().is_ok());
+            assert_eq!(serde_json::to_value(declaration).unwrap(), value);
+        }
+        assert!(!AGENT_INTERFACE_CAPABILITIES.contains(&"goal-authority-admission-v1"));
     }
 }

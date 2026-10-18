@@ -1202,6 +1202,7 @@ impl ObservationContext {
     /// This deliberately takes a fresh observation boundary; a struct holding
     /// an old snapshot is not treated as an atomic multi-file transaction.
     pub fn validate_current(&self) -> Result<(), ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         let git = cockpit_git::GitRepository::discover(&self.root).map_err(|error| {
             ObserverError::State {
                 path: self.root.clone(),
@@ -1549,6 +1550,7 @@ impl RepositoryExecutionContext {
     }
 
     pub fn observe(&self) -> Result<&RepositoryObservation, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         if let Some(observation) = self.observation.get() {
             return Ok(observation);
         }
@@ -1579,6 +1581,7 @@ impl RepositoryExecutionContext {
         runtime: Option<&RuntimeContext>,
         contract_digest: Option<Digest>,
     ) -> Result<ObservationContext, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         self.observe_phase_with_bindings(
             phase,
             runtime,
@@ -1598,6 +1601,7 @@ impl RepositoryExecutionContext {
         runtime: Option<&RuntimeContext>,
         contract_path: &Path,
     ) -> Result<ObservationContext, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         let contract_path = validate_contract_path(&self.root, contract_path)?;
         let (contract_digest, contract_model_digest) = contract_digests(&contract_path)?;
         self.observe_phase_with_bindings(
@@ -1619,6 +1623,7 @@ impl RepositoryExecutionContext {
         runtime: Option<&RuntimeContext>,
         contract_path: &Path,
     ) -> Result<ObservationContext, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         let contract_path = validate_contract_path(&self.root, contract_path)?;
         let (contract_digest, contract_model_digest) = contract_digests(&contract_path)?;
         self.observe_phase_with_bindings(
@@ -1643,6 +1648,7 @@ impl RepositoryExecutionContext {
         contract_path: Option<PathBuf>,
         options: ObservationPhaseOptions,
     ) -> Result<ObservationContext, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         let observation = if options.use_persistent_cache {
             self.observe()?.clone()
         } else {
@@ -1675,6 +1681,7 @@ impl RepositoryExecutionContext {
     }
 
     fn observe_uncached(&self) -> Result<&RepositoryObservation, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         if let Some(observation) = self.observation.get() {
             return Ok(observation);
         }

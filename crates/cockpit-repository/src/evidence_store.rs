@@ -673,6 +673,7 @@ fn write_cap_immutable(
     display_path: &Path,
     bytes: &[u8],
 ) -> Result<usize, ObserverError> {
+    let authority = crate::authority_admission::context_for_path(display_path)?;
     let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
     let temporary = format!("{name}.receipt-tmp-{}-{sequence}", std::process::id());
     let mut options = CapOpenOptions::new();
@@ -695,6 +696,10 @@ fn write_cap_immutable(
         });
     }
     drop(file);
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let installed = match parent.hard_link(&temporary, parent, name) {
         Ok(()) => Ok(0),
         Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
@@ -721,6 +726,11 @@ fn write_cap_immutable(
 }
 
 fn write_cap_commit_marker(parent: &Dir, display_path: &Path) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(display_path)?;
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let marker_path = display_path.join("index.pending");
     let mut options = CapOpenOptions::new();
     options
@@ -750,6 +760,7 @@ fn atomic_replace_cap_strict(
     display_path: &Path,
     bytes: &[u8],
 ) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(display_path)?;
     if let Ok(metadata) = parent.symlink_metadata(name)
         && (metadata.file_type().is_symlink() || !metadata.is_file())
     {
@@ -791,6 +802,10 @@ fn atomic_replace_cap_strict(
             source,
         });
     }
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let replace_result = replace_cap_entry(parent, &file, &temporary, name, display_path);
     drop(file);
     if let Err(source) = replace_result {

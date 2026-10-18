@@ -154,3 +154,32 @@ fn b11_mcp_stdio_keeps_discovery_available_and_denies_business_calls() {
             .contains("goal_authority_source_unsupported")
     );
 }
+
+#[test]
+fn b15_hidden_supervisor_denies_before_backend_or_launch_validation() {
+    use std::{io::Write, process::Stdio};
+    let dir = fixture();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .arg("__composition-supervisor")
+        .current_dir(dir.path())
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let message = serde_json::json!({"repositoryRoot":dir.path()}).to_string() + "\n";
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(message.as_bytes())
+        .unwrap();
+    let output = child.wait_with_output().unwrap();
+    assert!(!output.status.success());
+    assert!(
+        String::from_utf8_lossy(&output.stderr).contains("goal_authority_source_unsupported"),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(!dir.path().join(".ai/locks").exists());
+}

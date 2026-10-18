@@ -1515,6 +1515,7 @@ pub fn read_legacy_closeout_source_input(path: &Path) -> Result<serde_json::Valu
     parse(path, &read_input_bytes(path)?)
 }
 pub(crate) fn read_input_bytes(path: &Path) -> Result<Vec<u8>, ObserverError> {
+    crate::authority_admission::require_goal_authority_path_access(path)?;
     // Caller-selected inputs may be outside the repository. Resolve the parent
     // once (including platform temp aliases), then pin it and reject leaf links.
     // Repository evidence uses safe_read instead and never resolves symlinks.

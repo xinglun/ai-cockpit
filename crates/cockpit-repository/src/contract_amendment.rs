@@ -1839,6 +1839,7 @@ fn read_typed_record<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<T, Obs
 }
 
 fn write_immutable_record<T: Serialize>(path: &Path, value: &T) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(path)?;
     let bytes =
         serde_json::to_vec_pretty(value).map_err(|error| state_error(path, error.to_string()))?;
     if path.exists() {
@@ -1881,6 +1882,10 @@ fn write_immutable_record<T: Serialize>(path: &Path, value: &T) -> Result<(), Ob
                 path: temporary.clone(),
                 source,
             })?;
+        let _commit = authority
+            .as_ref()
+            .map(|context| context.before_commit())
+            .transpose()?;
         fs::rename(&temporary, path).map_err(|source| ObserverError::Read {
             path: path.to_path_buf(),
             source,
@@ -1895,6 +1900,7 @@ fn write_immutable_record<T: Serialize>(path: &Path, value: &T) -> Result<(), Ob
 }
 
 fn durable_replace_json(path: &Path, value: &Value) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(path)?;
     let bytes =
         serde_json::to_vec_pretty(value).map_err(|error| state_error(path, error.to_string()))?;
     let parent = path
@@ -1922,6 +1928,10 @@ fn durable_replace_json(path: &Path, value: &Value) -> Result<(), ObserverError>
                 path: temporary.clone(),
                 source,
             })?;
+        let _commit = authority
+            .as_ref()
+            .map(|context| context.before_commit())
+            .transpose()?;
         fs::rename(&temporary, path).map_err(|source| ObserverError::Read {
             path: path.to_path_buf(),
             source,
@@ -3068,6 +3078,96 @@ mod tests {
             assert_eq!(fs::read(&prepared_path).expect("prepared"), before_prepared);
             assert!(!super::amendment_record_path(root, &id, 1, "committed").exists());
             assert!(read_work_item_contract_amendments(root, &id).is_err());
+        }
+    }
+
+    #[test]
+    fn required_authority_rejects_raw_amendment_sinks_before_creation_or_replace() {
+        let d = repository();
+        let root = d.path();
+        let id = "WI-AUTHORITY-RAW-SINK";
+        let path = start_checkpointed(root, id);
+        let mut contract = read_json(&path);
+        contract["governanceProfile"] = json!({"goalAuthority":{"required":true}});
+        fs::write(&path, serde_json::to_vec(&contract).unwrap()).unwrap();
+        let output = root.join(".ai/evidence/authority-raw-fixture.json");
+        assert!(
+            super::write_immutable_record(&output, &json!({"must":"not commit"}))
+                .unwrap_err()
+                .to_string()
+                .contains("goal_authority_source_unsupported")
+        );
+        assert!(!output.exists());
+        let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+        let before = fs::read(&summary).unwrap();
+        assert!(
+            super::durable_replace_json(&summary, &json!({"must":"not commit"}))
+                .unwrap_err()
+                .to_string()
+                .contains("goal_authority_source_unsupported")
+        );
+        assert_eq!(fs::read(summary).unwrap(), before);
+    }
+
+    #[test]
+    fn required_authority_preserves_real_pending_amendment_at_every_durable_boundary() {
+        for failpoint in [
+            AmendmentFailpoint::Prepared,
+            AmendmentFailpoint::ContractReplaced,
+            AmendmentFailpoint::SummaryProjected,
+            AmendmentFailpoint::CommitMarked,
+        ] {
+            let directory = repository();
+            let root = directory.path();
+            let id = "WI-AUTHORITY-PENDING";
+            let path = start_checkpointed(root, id);
+            let original = read_json(&path);
+            let request = json!({"schemaVersion":1,"changeId":"authority-pending",
+                "expectedContractDigest":cockpit_protocol::digest_json(&original).unwrap(),
+                "reason":"isolated pending boundary fixture",
+                "changes":[{"path":"/goal","operation":"set","value":"interrupted fixture"}]});
+            set_amendment_failpoint(failpoint);
+            assert!(
+                amend_work_item_contract(root, id, &request, "")
+                    .unwrap_err()
+                    .to_string()
+                    .contains("injected interruption")
+            );
+            let prepared_path = super::amendment_record_path(root, id, 1, "prepared");
+            let prepared: super::PreparedRecord = super::read_typed_record(&prepared_path).unwrap();
+            let mut current = read_json(&path);
+            current["governanceProfile"] = json!({"goalAuthority":{"required":true}});
+            fs::write(&path, serde_json::to_vec(&current).unwrap()).unwrap();
+            let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+            let committed = super::amendment_record_path(root, id, 1, "committed");
+            let before = [
+                fs::read(&path).ok(),
+                fs::read(&summary).ok(),
+                fs::read(&prepared_path).ok(),
+                fs::read(&committed).ok(),
+            ];
+            // Exercise both the actual public retry and the private pending finisher.
+            assert!(
+                amend_work_item_contract(root, id, &request, "")
+                    .unwrap_err()
+                    .to_string()
+                    .contains("goal_authority_source_unsupported")
+            );
+            assert!(
+                super::finish_prepared(root, &prepared)
+                    .unwrap_err()
+                    .to_string()
+                    .contains("goal_authority_source_unsupported")
+            );
+            assert_eq!(
+                before,
+                [
+                    fs::read(&path).ok(),
+                    fs::read(&summary).ok(),
+                    fs::read(&prepared_path).ok(),
+                    fs::read(&committed).ok()
+                ]
+            );
         }
     }
 

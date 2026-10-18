@@ -1,13 +1,13 @@
 ---
 author: AI Cockpit maintainers
 title: "WI-1087 — finite goal authority scope and expiry"
-description: "P1 data models and Clock primitives; finite authority enforcement remains planned."
+description: "P1/P2a primitives and P2b denial wiring; production authority remains Unsupported."
 audience:
   - maintainer
   - reviewer
 workItemId: WI-1087-contract-authority-scope-and-expiry
 status: in_progress
-authority: p1-software-development-only
+authority: p2b-software-development-only
 lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 ---
 
@@ -15,7 +15,7 @@ lastVerifiedBy: WI-1087-contract-authority-scope-and-expiry
 
 # WI-1087 — finite goal authority scope and expiry
 
-Current stage: P1 software implementation on the existing Work Item. Native preflight and the before-edit checkpoint are recorded. The approved change is limited to standalone models, a testable Clock and pure normalization; no live grant or system permission is configured. Full-feature acceptance remains not_run.
+Current stage: P2b software wiring on the same Work Item, reusing P1 exact UTC/Clock primitives and the P2a offline evaluator. The production source is Unsupported; no real grant, trusted enrollment or system permission is configured. Full-feature acceptance remains not_run.
 
 ## Goal
 
@@ -35,7 +35,7 @@ WI-1086 is the implementation dependency. Shared amendment/status/admission/rece
 
 ## Version 2 clarifications
 
-The v1 history remains unchanged. The v2 addendum defines revocation/commit ordering and external fencing limits, source-version replacement versus terminal grant/WI state, inherited versus fixed earlier deadlines, and truthful in-flight stop evidence. Product implementation remains unauthorized.
+The v1 history remains unchanged. The v2 addendum defines revocation/commit ordering and external fencing limits, source-version replacement versus terminal grant/WI state, inherited versus fixed earlier deadlines, and truthful in-flight stop evidence. Current approved software scope is described below; production activation remains excluded.
 
 - [Design v2 addendum](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/addendum-v2.zh-CN.md)
 - [Acceptance v2 — planned / not_run](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/design-v2-20261016/acceptance-v2.json)
@@ -51,4 +51,14 @@ Scope narrowing that removes current coverage and actual actor invalidation trig
 
 Local TDD and module regression evidence covers Clock boundaries, strict model shapes and pure UTC normalization. Initial suites passed: core 12, protocol 12, repository 164 (including 12 new normalization tests). Full workspace verification and CI are recorded separately when actually run. The complete feature acceptance matrices remain not_run.
 
-The executor is `agent:Codex`; the technical plan reviewer is `agent:Raydot`. `lastVerifiedBy` references this Work Item, not a person. Human review provenance preserves the original response in the [decision source](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/human-decision-source-20261017.json). [Module test evidence](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/module-results.json). P2–P4 and live activation remain excluded.
+The executor is `agent:Codex`; the technical plan reviewer is `agent:Raydot`. `lastVerifiedBy` references this Work Item, not a person. Human review provenance preserves the original response in the [decision source](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/human-decision-source-20261017.json). [Module test evidence](../../.ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/module-results.json). P1 originally excluded later stages; the approved P2b substage is described below.
+
+## P2b wiring substage
+
+The optional strict `governanceProfile.goalAuthority` declaration requests enforcement; it does not authenticate an issuer, actor, grant, or enabled mode. Its reference reuses P1 shape and exact precision checks. No default TTL or grant is created. Independently trusted enrollment is required to prevent enabled-mode downgrade; editable declarations cannot prove that assurance.
+
+A shared private check rejects required requests before repository business reads, controls, amendment recovery, shared Store/context operations, verification dispatch and CLI/MCP business handling. Cached contexts recheck. Static help/schema and MCP discovery remain available. Durable write helpers recheck immediately before their commit boundary; the byte-pinned historical material recipe is preserved through external wrappers.
+
+The private ordered-source protocol reuses current P2a facts, fresh Clock samples and the original MonotonicBudget after waits. Existing operation locks precede the bounded source fence, which covers one durable commit or dispatch. Isolated test-owned adapters exercise real linked worktrees and cross-process commit/revocation ordering. These fixtures do not authenticate a production source. A local lock does not freeze time or establish an external atomic commit; unsupported strong external guarantees are rejected.
+
+Directed tests and regression evidence are recorded privately; final Native verification and CI must bind the actual candidate. Temporary process diagnostics were removed by an ordinary reverse commit. Historical failed/unknown attempts remain preserved. This is a development-stage projection, not WI completion or production qualification. P3 managed stopping, metadata-only recovery and source writers, and P4 real adapter qualification/activation remain not_run.

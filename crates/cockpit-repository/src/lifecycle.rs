@@ -7779,6 +7779,11 @@ pub fn selected_successor_lineage_recovery_resolves_pending_close(
     work_item_id: &str,
     expected_repository_id: &str,
 ) -> bool {
+    if crate::authority_admission::require_goal_authority_access(root, Some(work_item_id)).is_err()
+    {
+        return false;
+    }
+
     let decisions = root.join(".ai/decisions");
     let Ok(entries) = fs::read_dir(&decisions) else {
         return false;

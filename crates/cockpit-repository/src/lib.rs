@@ -1240,6 +1240,7 @@ fn prepare_repository_verification_command(
     request: &RepositoryVerificationRequest,
     snapshot: &RepositorySnapshot,
 ) -> Result<PreparedRepositoryVerificationCommand, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let mut store_files_read = 0;
     let mut store_unavailable_reason = None;
     let execution_identity = resolved_executable_identity(root, &request.program);
@@ -1377,6 +1378,7 @@ pub fn plan_repository_verification_action(
     snapshot: &RepositorySnapshot,
     now_epoch_seconds: i64,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     validate_verification_request(root, request)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
