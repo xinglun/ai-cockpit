@@ -1,0 +1,78 @@
+{
+  "state": "blocked",
+  "scenarioCoverage": "blocked",
+  "acceptanceEvidence": "verified",
+  "evidenceClasses": "verified",
+  "intentAlignment": "unknown",
+  "finalDimensions": "not_applicable",
+  "unknowns": [
+    "required_scenario_unverified:real_native_pre_fix_reproduction",
+    "required_scenario_unverified:forward_exact_activation_transition",
+    "required_scenario_unverified:present_baseline_only_recovery",
+    "required_scenario_unverified:full_integrity_and_rehashed_discontinuity",
+    "required_scenario_unverified:foreign_missing_or_extra_plan_bindings",
+    "required_scenario_unverified:finite_legacy_csv_and_stage_policy",
+    "required_scenario_unverified:wrong_request_pending_and_prospective_cas",
+    "required_scenario_unverified:partial_publication_and_unsupported_surface",
+    "required_scenario_unverified:cli_mcp_shared_request_record_and_exact_schema",
+    "required_scenario_unverified:three_language_wi_only_documentation_and_preservation",
+    "required_scenario_unverified:full_workspace_acceptance"
+  ],
+  "findings": [
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario real_native_pre_fix_reproduction is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario forward_exact_activation_transition is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario present_baseline_only_recovery is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario full_integrity_and_rehashed_discontinuity is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario foreign_missing_or_extra_plan_bindings is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario finite_legacy_csv_and_stage_policy is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario wrong_request_pending_and_prospective_cas is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario partial_publication_and_unsupported_surface is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario cli_mcp_shared_request_record_and_exact_schema is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario three_language_wi_only_documentation_and_preservation is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario full_workspace_acceptance is unverified",
+      "severity": "error"
+    }
+  ]
+}

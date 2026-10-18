@@ -1,0 +1,641 @@
+{
+  "kind": "agent_index_of_actual_native_full_verification_not_receipt",
+  "observedAt": "2026-10-17T13:03:29.368358+00:00",
+  "sourceHead": "ee886af0c5a6c7ecfc4e8ea2f7d185ccab9cc23a",
+  "sourcePatchHead": "0a9fa45fcd63edcd97a1d0186185d4983f042841",
+  "contractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+  "sourceSnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "startedAt": "2026-10-17T12:36:11.125022+00:00",
+  "endedAt": "2026-10-17T12:59:16.257942+00:00",
+  "coordinatorElapsedSeconds": 1385.131,
+  "coordinatorOuterTimeoutSeconds": null,
+  "passed": true,
+  "planned": 33,
+  "executed": 33,
+  "reused": 0,
+  "maximumConcurrentProcesses": 1,
+  "processSpawnFailures": 0,
+  "additionalPerCommandWriteLeaf": "/home/agent/.cache/ai-cockpit-verify-target/",
+  "records": [
+    {
+      "nodeId": "project-command-0",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 2640,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-agent",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 237,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-cli",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 17312,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-core",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 123,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-evidence",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 123,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-git",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 138,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-interface",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 124,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-isolation",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 138,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-knowledge",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 133,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-mcp",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 1734,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-protocol",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 134,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-release",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 145,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-repository",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 18694,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-1-package-cockpit-verification",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 133,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-2",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 3762,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-3",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 14133,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-4",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 162452,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-5",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 1254,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-6",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 628,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-7",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 124,
+      "timeoutSeconds": 300,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-agent",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 705,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-cli",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 478487,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-core",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 424,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-evidence",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 177,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-git",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 10301,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-interface",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 165,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-isolation",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 164,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-knowledge",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 420,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-mcp",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 16946,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-protocol",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 1467,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-release",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 963,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-repository",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 560164,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": true,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-8-package-cockpit-verification",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 75595,
+      "timeoutSeconds": 600,
+      "timedOut": false,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    }
+  ],
+  "truncationInterpretation": "Only repository stdout is truncated at the native limit; its actual exitCode=0, passed=true, timedOut=false and complete stderr establish command success. No missing tail or complete test count is reconstructed.",
+  "historicalUnknowns": [
+    "Old WI-1087 second formal verification terminal and uncommitted old-environment evidence remain unknown; not restored or relabelled.",
+    "Current own registration projection retains an older HEAD; no native registration/store replay was attempted."
+  ],
+  "preservation": "Protected WI-1087 HEAD and all eleven raw hashes unchanged; no actual recovery, installation, merge, close, archive or deletion.",
+  "copies": [
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p12-full-scope13-status.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p12-full-scope13-status.json",
+      "bytes": 7639,
+      "rawSha256": "d1c3f3119ed677ed09c5383ef9eb23f5dee903e4354d58e691ebb022139a3d75"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p12-full-scope13-status.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p12-full-scope13-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p12-full-scope13-status.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p12-full-scope13-status.stdout",
+      "bytes": 4153,
+      "rawSha256": "78a75a6bf095168e4a72216ef079d0a56f1a2876615e9ee9a9060d55fc349d0b"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p13-full-scope13-validate.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p13-full-scope13-validate.json",
+      "bytes": 6101,
+      "rawSha256": "adc343390ee8f56aa5449774564367bb091db0677b92c4d073f4f124e2445fe1"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p13-full-scope13-validate.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p13-full-scope13-validate.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p13-full-scope13-validate.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p13-full-scope13-validate.stdout",
+      "bytes": 2999,
+      "rawSha256": "93d401b8e0141414284a6d4fbdac70a3519f9d7445996e86277a9486ed82b75a"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p14-full-scope13-plan.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p14-full-scope13-plan.json",
+      "bytes": 65665,
+      "rawSha256": "82ce38e44c9c81f277418bb07228b2d6e4bc8025b16156f2f74d03239720c5cd"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p14-full-scope13-plan.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p14-full-scope13-plan.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p14-full-scope13-plan.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p14-full-scope13-plan.stdout",
+      "bytes": 47656,
+      "rawSha256": "23a380da1992933c4a5d90960f202aa807ccafccac567f7baf88afde4cca93da"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p14-full-scope13-receipt-inventory.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p14-full-scope13-receipt-inventory.json",
+      "bytes": 318,
+      "rawSha256": "091719b80ea15b8d6b97f01fa045906e40e96c2b19b5277aa79485c2aa4236b8"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-command-access.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p15-full-scope13-command-access.json",
+      "bytes": 529,
+      "rawSha256": "9761978cba0671f71c2822a1e13111fa502b4e152e9af48c2ffd856407d339cf"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p15-full-scope13-verify.json",
+      "bytes": 683641,
+      "rawSha256": "4fc54d09107c4128c7bfd9a4f83261e9409eb61febff150d2d333394578b8411"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p15-full-scope13-verify.stderr",
+      "bytes": 6697,
+      "rawSha256": "45702ec21d5721eebce68a5b90614618cf28e1fc929d5173e0c0d4471c544f3c"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p15-full-scope13-verify.stdout",
+      "bytes": 504196,
+      "rawSha256": "b2d953b3dd9c96286545f5314313d4cd762789c9e5f722bc912871ff0dc9c09e"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p17-after-full-status.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p17-after-full-status.json",
+      "bytes": 2656,
+      "rawSha256": "dea5d0bca423db2d84560329495c0be0377f91e1171e966585b3310251bb501e"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p17-after-full-status.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p17-after-full-status.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p17-after-full-status.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p17-after-full-status.stdout",
+      "bytes": 427,
+      "rawSha256": "820663f8a8991bfc2d2910d440368c9b8b52d3793c9e88a85a9502c79e1414a8"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p18-after-full-status-json.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p18-after-full-status-json.json",
+      "bytes": 7634,
+      "rawSha256": "d6cd5a17d7d1a17282c19fa3060f1bb94c3c2b4e09443b29df1ac9ebe1c1de9a"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p18-after-full-status-json.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p18-after-full-status-json.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p18-after-full-status-json.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p18-after-full-status-json.stdout",
+      "bytes": 4152,
+      "rawSha256": "6391be454eec28de0a9c4d77fe20d69c7dc5d287cf11c386934cd48599569331"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/p16-full-source-scope-preservation.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/p16-full-source-scope-preservation.json",
+      "bytes": 3002,
+      "rawSha256": "eb5cd233892e431cda486647fe54cdc8dab5cbeace8cca6c99c8bae00d82ada0"
+    },
+    {
+      "sourcePath": "/workspace/ai-cockpit-wi1088-runtime-continuity/.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/canonical-full33.copy.json",
+      "bytes": 472383,
+      "rawSha256": "a738a851c9f953e8e50630d062ea89a711ced0294734aaa259d77455c186a3e1"
+    },
+    {
+      "sourcePath": "/workspace/ai-cockpit-wi1088-runtime-continuity/.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.022d44c456b157be7e8adc605d7a7ee61530adc1d1e14edd2af4820b03e8c1c3.json",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/native-attempt-full33.copy.json",
+      "bytes": 940750,
+      "rawSha256": "91c34db50657784135ded824032dcd4daa88428e7d22cdb7fd73151d4936c55d"
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-2.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stdout",
+      "bytes": 2134,
+      "rawSha256": "c8abc87d1538b28e0a41ec604376956d83c4250801ffd714d2d8e7f4ccb21c47",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-2.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-2.stderr",
+      "bytes": 184,
+      "rawSha256": "59cf8b7e620f880315bfa8cd7de0748d8b61c1313d22ad24317d0af70771b37b",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-3.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-3.stdout",
+      "bytes": 4520,
+      "rawSha256": "ebb82c7a51c74e9ebcf227ebb3e20c24b872bf376a1f14a73b7f9bed9aeea0e4",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-3.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-3.stderr",
+      "bytes": 178,
+      "rawSha256": "21d05d71d308d4f28bc5ae060ca749297754d2d89fd784f5070fcfab17b5db0d",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-4.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stdout",
+      "bytes": 2801,
+      "rawSha256": "3760b0bdfa8caf2227ee1a2c81c4b8e0b472d3a6d8e4e06781f182f48164f7c0",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-4.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-4.stderr",
+      "bytes": 305,
+      "rawSha256": "0e6f629c8014343cad3af96e65eb73b402f932783f0d6f5957584cbcc3d78a50",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-5.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-5.stdout",
+      "bytes": 270,
+      "rawSha256": "4b944a9c10e6c23c16d3b99be622c8d93531a7722fd7f4e422ea5308ded622b7",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-5.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-5.stderr",
+      "bytes": 279,
+      "rawSha256": "c1d1dfa2817945201d238d89225d52e51e55d613dd37e8b2e1f9167d157bdf1c",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-6.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-6.stdout",
+      "bytes": 328,
+      "rawSha256": "d9c96d9aa31fbd632312b25a9f18561d51b572354cf67f11828cba0fcee987a7",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-6.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-6.stderr",
+      "bytes": 259,
+      "rawSha256": "552227f896005a8ff885eb819843c9022659a4a4c6737f0ac7b941a3afe663e0",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-7.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-7.stdout",
+      "bytes": 258,
+      "rawSha256": "0290fd7b1828a1e51546a732e89cbce04e13d6af2273d57da48138b0fd3804d6",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-7.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-7.stderr",
+      "bytes": 182,
+      "rawSha256": "69a7794eecd56b6573151d946353b3eb33b95639e5ca9e2de55081ecc226e9cf",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-8-package-cockpit-cli.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-cli.stdout",
+      "bytes": 59694,
+      "rawSha256": "44123b30b3dd5a1552db490c8baf895aa2fb6c9cf569ffc157893dd145c43316",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-8-package-cockpit-cli.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-cli.stderr",
+      "bytes": 5117,
+      "rawSha256": "fcc0966885b21546dd11d1893902194b8b6b82486b020e341287acf670707bdb",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-8-package-cockpit-mcp.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-mcp.stdout",
+      "bytes": 5976,
+      "rawSha256": "c1d8f7b76618dd4d74dde3e0f9313f7814f683e99e78247aadb292b92ee942cc",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-8-package-cockpit-mcp.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-mcp.stderr",
+      "bytes": 1218,
+      "rawSha256": "999ee35f80d7bc343e430833582cc594584ee135cc5c52bb6719157ea7f0cc56",
+      "truncatedByNativeRuntime": false
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-8-package-cockpit-repository.stdout",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-repository.stdout",
+      "bytes": 65536,
+      "rawSha256": "3db4cc3f07bebaa17d0925ce001498a2c10c64baf63aee4352b2d24036e13835",
+      "truncatedByNativeRuntime": true
+    },
+    {
+      "sourcePath": "/workspace/scratch/wi1088-runtime-continuity/commands/p15-full-scope13-verify.stdout",
+      "locator": "project-command-8-package-cockpit-repository.stderr",
+      "copyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-full-verification-20261017/project-command-8-package-cockpit-repository.stderr",
+      "bytes": 6689,
+      "rawSha256": "96d13ce577d5d2722482f08f9f4bb72903122631496e66cce89a7b7ed663583a",
+      "truncatedByNativeRuntime": false
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:fb847f36b61f3da487b59a841af1adfb08a79330257bf7c60effb450a7b93f2b",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:9bfbd744345b1a774f2e70eae1dc2fdf0fa0d014e8634f8ea85b3a3dfd40cbc9",
+    "workItemId": "WI-CLI-ACTIVATION-CONTINUITY",
+    "sequence": 2,
+    "changeId": "after-checkpoint",
+    "requestDigest": "sha256:0b54446ddd1185eb563e5dc8acdcaaf71ca6d13fdd023c8a5284c8fecbc078bb",
+    "reason": "Keep the amended fixture plan reviewable without granting its review.",
+    "changedValues": [
+      {
+        "path": "/goal",
+        "operation": "set",
+        "oldValue": "Keep post-checkpoint amendments reviewable",
+        "newValue": "Review the current amended fixture plan"
+      }
+    ],
+    "previousContractDigest": "sha256:f29a0831e8f32c0297fb625ecc4ba40b1e087872832d1bc49aebb916e430db32",
+    "newContractDigest": "sha256:441fb64d5a1e7791a306e18405be13125261fe36b099aee302af99cb46f4e376",
+    "repositorySnapshotDigest": "sha256:db1834b5e98f3b6a0a708ed2e1f22a7d08262e35f82344398772e5e3dcd1f2e6",
+    "environmentObservationDigest": "sha256:60534ca68602a81c4e5327f97cb1c6b0f349813b26fc9776e0cef667a3e36964",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:a3b3a82c6a07bed0731c3aaa659afe08b4b615d313ee16b845566b9d64ac56c6",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:88692a18a4efd1ceabba818242a29cd0ca20cffc9fb00ab07d0a17916e0564bf",
+    "journalDigest": "sha256:6877c35f15a62c19857a7cd678951643ca703c9406254bc4cba66076b830a571",
+    "recordedAt": "2026-10-17T10:42:08Z"
+  }
+}

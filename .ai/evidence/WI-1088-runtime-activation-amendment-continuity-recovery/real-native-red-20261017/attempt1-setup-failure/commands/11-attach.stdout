@@ -1,0 +1,9 @@
+{
+  "profileVersion": 1,
+  "repositoryId": "sha256:b4be9ba322b3a42cc809a47733103ea0cee2e8d39a18566046e307ea9bf5a3bc",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:4203482fbeb90f6f247429b02d0d7ee73f850bd8b0b6edd519bd546910430f98",
+  "tests": [],
+  "buildSystems": []
+}

@@ -1,0 +1,312 @@
+{
+  "projection": {
+    "affectedWorkItems": [],
+    "blockers": {},
+    "cycles": [],
+    "events": [
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-10",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 10,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-11",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 11,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-12",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 12,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-13",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 13,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-2",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 2,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-3",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 3,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-4",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 4,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-5",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 5,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-6",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 6,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-7",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 7,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-8",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 8,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1087-contract-authority-scope-and-expiry-9",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 9,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+      },
+      {
+        "environmentChange": null,
+        "eventId": "auto-impact-WI-1088-runtime-activation-amendment-continuity-recovery-2",
+        "evidenceDigests": {},
+        "evidenceRefs": [],
+        "generation": 2,
+        "kind": "impact",
+        "outcomeIds": [],
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "schemaVersion": 1,
+        "source": "registration-identity-changed",
+        "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery"
+      }
+    ],
+    "recoveries": [],
+    "registrations": [
+      {
+        "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+        "contractDigest": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+        "declaration": {
+          "compositionVerification": {
+            "compatibilityConstraints": [],
+            "requiredScenarios": [],
+            "reusableNodes": []
+          },
+          "consumedOutcomes": [],
+          "integrationResponsibility": {
+            "compositionOrder": [],
+            "rationale": "Native amendment sequence 5 is durably committed with no pending transaction, but status/admission fails closed on the historical Contract transition chain. Only preserve/query the actual state and seek a supported native recovery path. No P2a product edits, new human decision, P2b, production grant, merge or lifecycle completion.",
+            "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+            "targetBranch": "main"
+          },
+          "providedOutcomes": [],
+          "resourceClaims": []
+        },
+        "environment": {
+          "environmentDigest": "sha256:6dd4e0eec661e37aeaade660ff8709e467abdbd2703c3cab35a9b8d0b300860a",
+          "observedInputs": [
+            "process-environment",
+            "cargo-executable",
+            "repository-dependency-and-cargo-configuration-inputs",
+            "rustc-toolchain",
+            "operating-system-and-architecture"
+          ],
+          "schemaVersion": 1
+        },
+        "generation": 13,
+        "head": "9093ebe1bbccbf2a3429d953c497fa3847f6e474",
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "runtime": {
+          "capability": "observed_environment_drift_v1",
+          "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+          "runtimeVersion": "1.0.1",
+          "schemaVersion": 1
+        },
+        "schemaVersion": 1,
+        "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+        "worktreePath": "/workspace/ai-cockpit"
+      },
+      {
+        "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+        "contractDigest": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+        "declaration": {
+          "compositionVerification": {
+            "compatibilityConstraints": [],
+            "requiredScenarios": [],
+            "reusableNodes": []
+          },
+          "consumedOutcomes": [],
+          "integrationResponsibility": {
+            "compositionOrder": [],
+            "rationale": "Planning-only Draft PR 1047 and all preparation observations are saved and pushed at the actual final HEAD. Expanded implementation scope awaits technical review and a new native Contract/human gate; no code, reproduction, build, or WI-1087 state changes.",
+            "responsibleWorkItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+            "targetBranch": "main"
+          },
+          "providedOutcomes": [],
+          "resourceClaims": []
+        },
+        "environment": {
+          "environmentDigest": "sha256:1cb2732d54fc42232100596bac0b8564f22fbf61e0bbb250a2b82ec2971de7d3",
+          "observedInputs": [
+            "process-environment",
+            "cargo-executable",
+            "repository-dependency-and-cargo-configuration-inputs",
+            "rustc-toolchain",
+            "operating-system-and-architecture"
+          ],
+          "schemaVersion": 1
+        },
+        "generation": 2,
+        "head": "f32029e5e8a34965b1928fdfac38ec20a76b1387",
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "runtime": {
+          "capability": "observed_environment_drift_v1",
+          "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+          "runtimeVersion": "1.0.1",
+          "schemaVersion": 1
+        },
+        "schemaVersion": 1,
+        "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+        "worktreePath": "/workspace/ai-cockpit-wi1088-runtime-continuity"
+      }
+    ],
+    "requests": [],
+    "unknowns": []
+  },
+  "result": {
+    "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+    "contractDigest": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+    "declaration": {
+      "compositionVerification": {
+        "compatibilityConstraints": [],
+        "requiredScenarios": [],
+        "reusableNodes": []
+      },
+      "consumedOutcomes": [],
+      "integrationResponsibility": {
+        "compositionOrder": [],
+        "rationale": "Planning-only Draft PR 1047 and all preparation observations are saved and pushed at the actual final HEAD. Expanded implementation scope awaits technical review and a new native Contract/human gate; no code, reproduction, build, or WI-1087 state changes.",
+        "responsibleWorkItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+        "targetBranch": "main"
+      },
+      "providedOutcomes": [],
+      "resourceClaims": []
+    },
+    "environment": {
+      "environmentDigest": "sha256:1cb2732d54fc42232100596bac0b8564f22fbf61e0bbb250a2b82ec2971de7d3",
+      "observedInputs": [
+        "process-environment",
+        "cargo-executable",
+        "repository-dependency-and-cargo-configuration-inputs",
+        "rustc-toolchain",
+        "operating-system-and-architecture"
+      ],
+      "schemaVersion": 1
+    },
+    "generation": 2,
+    "head": "f32029e5e8a34965b1928fdfac38ec20a76b1387",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtime": {
+      "capability": "observed_environment_drift_v1",
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1
+    },
+    "schemaVersion": 1,
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "worktreePath": "/workspace/ai-cockpit-wi1088-runtime-continuity"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-TEST-ACTIVATION-GAP",
+    "repositoryId": "sha256:684e80bf817a6204fa963325540f574e511e9b56055b3e598f2cb1351f53409f",
+    "contractDigest": "sha256:aba658e88294904aa2fdd7b7fb4242c3a5ee0ad2f9c63bc7b9314d0da6c287af",
+    "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+    "repositorySnapshotDigest": "sha256:eaa2cc627ef73adfec4447077cc247c66da0c5b7dce48fd80a8b334d3983ddea",
+    "recordedAt": "2026-10-17T08:50:29.035340+00:00",
+    "recordedBy": "fixture:WI1088-isolated-test-only",
+    "reason": "Synthetic fixture input only, not a real human response or WI-1087 historical proof."
+  }
+}

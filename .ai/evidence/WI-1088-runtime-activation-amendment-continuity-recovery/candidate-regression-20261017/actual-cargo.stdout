@@ -1,0 +1,11 @@
+
+running 1 test
+test native_activation_keeps_post_checkpoint_amendment_reviewable ... FAILED
+
+failures:
+
+failures:
+    native_activation_keeps_post_checkpoint_amendment_reviewable
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 28 filtered out; finished in 1.69s
+

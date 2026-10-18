@@ -1,0 +1,44 @@
+{
+  "kind": "actual_current_environment_native_command_observation",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "work-item",
+    "coordination",
+    "register",
+    "--input",
+    "/workspace/scratch/wi1088-runtime-continuity/registration-generation13.input.json",
+    "--repo",
+    "/workspace/ai-cockpit-wi1088-runtime-continuity"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "startedAt": "2026-10-17T09:45:21.980988+00:00",
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "919032545d27dd1b418c778779f0b9365276f627",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit-wi1088-runtime-continuity/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "exitCode": 1,
+  "elapsedSeconds": 0.515,
+  "endedAt": "2026-10-17T09:45:22.533462+00:00",
+  "stdout": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  },
+  "stderr": {
+    "bytes": 244,
+    "rawSha256": "654d2ee2247eeee74a8116b9f4979b568baa5ef2b33ed149306e1ee36a2eabfc",
+    "encoding": "base64",
+    "data": "cmVnaXN0ZXIgV29yayBJdGVtOiBjb29yZGluYXRpb24gcmVjb3JkIHJlcXVpcmVzIHJlY292ZXJ5OiBoZWFkIG1pc21hdGNoIGZvciBXSS0xMDg4LXJ1bnRpbWUtYWN0aXZhdGlvbi1hbWVuZG1lbnQtY29udGludWl0eS1yZWNvdmVyeTogZGVjbGFyZWQgYWU3N2VhNmZhYTYzNGQ3OWZjNTUzZWIzNDg4NzZlYmMyOTE4MmM4YSwgb2JzZXJ2ZWQgU29tZSgiOTE5MDMyNTQ1ZDI3ZGQxYjQxOGM3Nzg3NzlmMGI5MzY1Mjc2ZjYyNyIpCg=="
+  }
+}

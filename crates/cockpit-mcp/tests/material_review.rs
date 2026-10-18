@@ -85,7 +85,26 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
-    assert_eq!(tools.len(), 33);
+    assert_eq!(tools.len(), 35);
+    for (name, required) in [
+        ("work_item_activation_recovery_plan", json!(["workItemId"])),
+        (
+            "work_item_activation_recovery_record",
+            json!(["workItemId", "decision"]),
+        ),
+    ] {
+        let matches: Vec<_> = tools.iter().filter(|tool| tool["name"] == name).collect();
+        assert_eq!(matches.len(), 1, "exact recovery tool {name}");
+        let schema = &matches[0]["inputSchema"];
+        assert_eq!(schema["additionalProperties"], false);
+        assert_eq!(schema["required"], required);
+        if name.ends_with("_record") {
+            assert_eq!(
+                schema["properties"]["decision"],
+                cockpit_protocol::activation_recovery_decision_schema()
+            );
+        }
+    }
     let plan_tool = tools
         .iter()
         .find(|tool| tool["name"] == "work_item_material_review_plan")

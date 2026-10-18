@@ -65,7 +65,7 @@ failed/unknown は pass ではありません。
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover`、`legacy-closeout-source-plan`、`legacy-closeout-source-record` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence が無効化されるため、`work-item status` を確認し、Runtime が現在 admit する次の action に従ってください（通常は `run_preflight` ですが固定ではありません）。cross-checkout plan は読み取り専用で、recovery は別の明示的な write です。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`activation-recovery`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover`、`legacy-closeout-source-plan`、`legacy-closeout-source-record` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence が無効化されるため、`work-item status` を確認し、Runtime が現在 admit する次の action に従ってください（通常は `run_preflight` ですが固定ではありません）。cross-checkout plan は読み取り専用で、recovery は別の明示的な write です。 |
 | 明示的な使用量 | `work-item usage record --repo <path> --input <request.json>` | 現在の Runtime が `record_usage` を admit するときだけ strict な `UsageRecordRequest` を追記します。同一 request の replay は冪等です。provider/host の出所ラベルは申告であり、検証済み telemetry ではありません。`capability show --surface work-item-usage-record` は CLI/MCP parameter を読み取り専用で記述します。 |
 | Material review | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` は読み取り専用で、commit 済みかつ `.ai` 以外が clean な source snapshot の canonical request を返し、scanner Unknown を raw のまま示します。`record` は Contract opt-in と新鮮な Runtime admission がある場合だけ typed decision を受け、immutable sidecar と Summary pointer に bind します。reviewer identity は self-declared で、本人認証・provider/host の証明・人による承認・release approval ではなく、Unknown を machine Clean に変えません。Stage 1 は opt-in がないため Unknown は discharge されません。`capability show --surface work-item-material-review-plan` と `--surface work-item-material-review-record` で両 transport を確認できます。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
@@ -528,3 +528,22 @@ archive bytes は書き換えません。同じ context の replay は idempoten
 
 `tests/conformance/final_replacement_acceptance.sh` は source repository の最終置換 boundary です。installed Runtime identity、固定した
 reference oracle、conformance/adversarial/performance gate、コピーなし検査を記録し、`acceptance.json` と `SHA256SUMS` を生成します。
+
+## Activation の連続性と現時点 baseline の復旧
+
+amendment journal があるネイティブ `not_ready` activation は、正確な A/B Contract、owner、Runtime、journal、観測を結ぶ typed prepared/committed 遷移を記録します。この境界で変更できるのは `state`、`baseRevision`、`repositorySnapshotDigest` だけです。他の人間の計画項目は先に amend します。現在の Contract にレビューがあっても、欠落・部分・別 owner・不一致の証拠は fail closed です。
+
+有限条件を満たす legacy gap には専用の明示的な metadata 経路があります。
+
+```sh
+ai-cockpit work-item activation-recovery plan --repo <repository> --id <work-item>
+ai-cockpit work-item activation-recovery record --repo <repository> --id <work-item> --input <decision.json>
+```
+
+Plan は読み取り専用です。決定的な request は有限の差分（該当する場合も正確な legacy CSV 分割だけ）、現在の Contract/Summary/HEAD/owner/registration、ネイティブ環境とソース snapshot、raw evidence digest、checkpoint/start anchor、残る不明点を列挙します。request が変われば再レビューが必要です。anchor 欠落、余分な計画変更、checkpoint 後の gap、pending transaction は復旧許可を取得しません。
+
+実際の権限を持つ人間が完全な request に対して `accept_present_baseline` を返した後だけ、実際の応答を `.ai/evidence/<work-item>/` 以下の厳密な source JSON に保存します。項目は `schemaVersion: 1`、`kind: "human_activation_recovery_response_source"`、`requestDigest`、`response`、`humanActor`、`respondedAt`、`provenance` です。provenance は実際の request/reply または原記録を示し、応答の捏造や過去のレビュー再利用を禁じます。decision 入力は正確に `schemaVersion: 1`、`decisionId: "activation-present-baseline-review"`、`response: "accept_present_baseline"`、`requestDigest`、`humanActor`、`recorderActor`、`assurance: "self_declared"`、`authoritySourcePath`、`authoritySourceDigest`、`respondedAt`、`reason` を要求します。source digest は元ファイル bytes の SHA-256 で、actor・応答・request・時刻が一致しなければなりません。不明な項目は拒否します。
+
+Record はネイティブ lock 内で currentness を再確認し、独立した現時点の phase evidence を追記します。過去の receipt を書き換えず、過去の A→B を認証せず、業務権限や現在の Contract C の承認を与えません。`historicalTransitionAuthentication` は `unknown`、`businessAuthorityGranted` は `false`、`freshContractReviewRequired` は `true` のままです。新しい preflight と別途の現在 Contract レビューだけが通常 admission を回復します。actor label と自己申告 assurance は本人認証ではありません。source の元 bytes と部分・失敗 phase を保存します。
+
+MCP は同じサービスで `work_item_activation_recovery_plan`（`workItemId`）と `work_item_activation_recovery_record`（`workItemId` と厳密な `decision`）を提供します。2 件追加後の正確な tool 数は 35 です。未対応の旧 surface と raw governance-controls 呼出しは復旧権限を供給しません。

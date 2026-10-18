@@ -1,0 +1,100 @@
+{
+  "kind": "agent_authored_exact_native_gate_projection_not_human_approval",
+  "repositoryRoot": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+  "observedHead": "1d115be592ac8b4b927ce6795e4494cd657b6251",
+  "branch": "codex/wi1088-runtime-activation-amendment-continuity",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceDigests": {
+    "contract": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+    "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "repositorySnapshot": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+    "summary": "sha256:331b4849d7d4479a56598621943f8d0723829087ed5469cd3ba0923cb9ff10b7"
+  },
+  "snapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+  "statusDigest": "sha256:7256efcd93bd938b07cc182e052e623237918731c20d6d51a6ccffe9398f6053",
+  "actionAdmission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "acceptance_evidence_insufficient",
+        "message": "current projection reports acceptance_evidence_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "acceptance_evidence_missing",
+        "message": "current projection reports acceptance_evidence_missing"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "missing",
+        "code": "scenario_coverage_required_for_high_risk",
+        "message": "current projection reports scenario_coverage_required_for_high_risk"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [
+      "acceptance_evidence_insufficient",
+      "acceptance_evidence_missing",
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:388978ea706374d195d26cedbcaba28954648b149ec87da3757166e2a9df5624"
+  },
+  "nativeHumanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "The current Contract contains unresolved governance facts.",
+    "whyItMatters": "An Agent must not turn uncertainty about intent, authority, scope, or policy into an implementation decision.",
+    "options": [
+      {
+        "id": "complete_contract",
+        "label": "Complete or amend the Contract",
+        "effect": "Provide the missing human-owned facts, then rerun preflight."
+      },
+      {
+        "id": "confirm_review",
+        "label": "Confirm a bounded human decision",
+        "effect": "Bind an identity-matched review receipt before checkpoint."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without entering implementation."
+      }
+    ],
+    "recommendedOption": "complete_contract",
+    "recommendationReason": "The unresolved fields are human-owned and cannot be inferred from repository facts.",
+    "question": "Which bounded decision should authorize the next step?",
+    "resumeCondition": "A repository-bound human review receipt matches repository, Work Item, Contract, and snapshot digests."
+  },
+  "nativePreflightUnknowns": [
+    "scenario_coverage_required_for_high_risk"
+  ],
+  "checkpointCount": 0,
+  "lastRecordedPreflightDecisionDigest": "sha256:e4c891bdd6f084308ae31ceda00372fa803a9bbf33a2cdfc0994c5fe25be7b7d",
+  "lastRecordedPreflightAt": "2026-10-17T08:05:05Z",
+  "decisionDigestCaveat": "The fresh preflight returned no decisionDigest. The recorded digest above is read from the unchanged native Summary at the stated time, not invented for the fresh result.",
+  "nativeEvidence": "n13-fresh-planning-preflight.json exact stdout bytes",
+  "actualHumanDecisionRecorded": false,
+  "scopeCaveat": "This exact Contract authorizes planning files only. It cannot authorize the proposed product scope. Review the added paths first; any later amendment requires fresh native gate and binding."
+}

@@ -1,0 +1,18 @@
+{
+  "kind": "static_code_comparison_not_a_runtime_verification",
+  "runtimeSourceRevision": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+  "currentImplementationBase": "291b5a84",
+  "criticalFunctions": {
+    "fn activate_not_ready_scaffold(": {
+      "sameBytes": true,
+      "currentRawSha256": "92550874f9a401709cc8828dc086f7a719e36aee7144995d05d5add86298b714",
+      "runtimeSourceRawSha256": "92550874f9a401709cc8828dc086f7a719e36aee7144995d05d5add86298b714"
+    },
+    "pub(crate) fn current_amendment_review_request_available(": {
+      "sameBytes": true,
+      "currentRawSha256": "849ed44bd28505e6acb79b1d2c162b6088b191075e583e1d7316e5250cc444a2",
+      "runtimeSourceRawSha256": "849ed44bd28505e6acb79b1d2c162b6088b191075e583e1d7316e5250cc444a2"
+    }
+  },
+  "cargoCandidateRegression": "not_run_yet"
+}

@@ -1,0 +1,189 @@
+{
+  "kind": "actual_agent_copy_path_relocation_not_native_receipt",
+  "observedAt": "2026-10-17T11:35:59.313241+00:00",
+  "reason": "CI39028478620 Windows checkout rejected25 relative paths of length260; preserve exact copy bytes with shorter names. Native original receipts and Git history are untouched.",
+  "copies": [
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.11b94c18be287e4bb9deb3df03976b0eaf25f144295de39c3a73e463cf520100.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-01-76693fc038ca.json",
+      "rawSha256": "76693fc038cabfb7acd0e3b5e854fd490729de54372a307c0da1af4bece9f8ef",
+      "bytes": 10182,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.26aabb6bbb03d29bdbd9f70bf292e76cbe7616dcf05e7142c24b5f49b830611e.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-02-a3270f35d474.json",
+      "rawSha256": "a3270f35d474255d84cede2f030deb745cb8439d638243e357212f9c58d99623",
+      "bytes": 775167,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.454eae667e359542486e705d9d4372105d151b4b188fa2be5894e8ee69e0d3a6.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-03-e3c2ae3f0537.json",
+      "rawSha256": "e3c2ae3f0537743d024b3658549fb0c25f76fb33a0fc9fed6baf63553711ab2c",
+      "bytes": 10253,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.4b7dfdba3c5a4e6e3f11712f789539e939330dcdaa2244536d8ccee1d1425f1f.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-04-000d05cca96f.json",
+      "rawSha256": "000d05cca96fb6e98d956b722809e6a0ca9f382a7f81fe490d6afe1a9c546c62",
+      "bytes": 23637,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.51d23a7d8ccb2241a7a45dd4fff2230ff4be1555e9e0c0d9c8e34dbeecc0db1a.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-05-c7630bfcae75.json",
+      "rawSha256": "c7630bfcae75f45069acd6784f6eb2995eb7ceeffb32185dcbe692e3c8a40d79",
+      "bytes": 7778,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.65e2ddae99397afaa75d81daf64e6363be97a7d6a87760959eb5fbe7d0e5eed5.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-06-ad6d09357fd5.json",
+      "rawSha256": "ad6d09357fd55abc9e9725dff616b96f68b83fdd1b4f111bb72bd1d7253c23aa",
+      "bytes": 8405,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.69cdf063677285a6d0efffae8f717c87cfc487103c1994264608c573d4c95b65.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-07-05c2b4c8a53b.json",
+      "rawSha256": "05c2b4c8a53beafd9c9c0f8c5ea71d3c0dd01fd36c04638b7619ebbf0abe5d37",
+      "bytes": 7636,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.6a15bba193af21826a75720c8e538ebe3a0c74284ac052ef0962019d12db6cc8.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-08-f0d89b0a836d.json",
+      "rawSha256": "f0d89b0a836d8b927fa3c3d82bd7d862544ec89879d38df16ee609c138e93304",
+      "bytes": 16887,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.6fbe989b3e93e6908fb36c5ccd37bd4ef1a255ba0e79ab57561a1030f7a9c5f6.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-09-fc24c786881e.json",
+      "rawSha256": "fc24c786881e057035528c8e5528b2f212c3dc540a0b26682c355109a2593b76",
+      "bytes": 24713,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.725fae6f8ef95b12bfffaa4cc96388b444cd6b13e1b211e9f844b14417820319.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-10-ef694a48d888.json",
+      "rawSha256": "ef694a48d8886babed2d3d2fd3ce66faf89791c95bb613fdd4edd3628a0c7317",
+      "bytes": 10895,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.76bd9058d57b385549831b257c9c21694e88543f24c17ad3aa03ef722072b102.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-11-9c2591cb99e9.json",
+      "rawSha256": "9c2591cb99e93c42d11e25aa39026a5f85820055bc3d8f24e645dae1e899a9b8",
+      "bytes": 13521,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.78538b27eb96ff3931a50ea7d7c016a844ca9bae7c5a33d74f5776bc687c9a98.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-12-d2e751a6fad6.json",
+      "rawSha256": "d2e751a6fad660a22a2d222a9894b7e08d00bfe5a2cbabe336308e71f54406d9",
+      "bytes": 9880,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9541f5370eed6473f5e905b8492fdaab9dd908903d559d26ae1c99d088d5650b.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-13-5288a3e95fd7.json",
+      "rawSha256": "5288a3e95fd72569f6f5367e253a37a95ce646a6e9fcf41aaa3598c8280f3eb8",
+      "bytes": 25442,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9ad272af524423f15f685b84cc51af6a102afb47217863a86738af139028a005.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-14-a54152541c30.json",
+      "rawSha256": "a54152541c301a91e082998045f26e677931d862249c841c67fda4fa37c7acd3",
+      "bytes": 10944,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.9e223d0a489c4023dee54ec48f92899712253d9456d872aacf218befa2a65cf6.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-15-a7ede1012d1e.json",
+      "rawSha256": "a7ede1012d1efc5d95574c885b6a73deb132bc5b393493cf7b14920963f05685",
+      "bytes": 10476,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.acb070ad5974da0bb3ac078b28287740b6b381b83524bf87c880a2e6ffae9caf.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-16-b08772222234.json",
+      "rawSha256": "b087722222349024ecc3fe79478379dcd840eb38b300c14dfb924b5e0bc66dce",
+      "bytes": 269058,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.b6144c7553a0a3e580d081d9c1c074030e2f3d49d60d4421762aae996206d2fa.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-17-0ab2ca63a2df.json",
+      "rawSha256": "0ab2ca63a2df667533fc52e1ee0199b8d71b20e89296fd9444da90dac627b48f",
+      "bytes": 10192,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.d4dfa50f259258ae6a4cf49ab775f16d580062ab10be02f285731c3106feb4f0.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-18-31c78502ffc3.json",
+      "rawSha256": "31c78502ffc3cdb456af5fd9886e26fadc3a5443ad404ebb3211a8fbd33dbfd8",
+      "bytes": 9314,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.dd070e669805591d578c2bcebe15b53d1798b1926369017e93edf0a261bcf0a2.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-19-056fb3cda822.json",
+      "rawSha256": "056fb3cda822b9d683bb76413c470030a258019e2ba6fb2f318f0da5dd7af92c",
+      "bytes": 8274,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.de34c11b0bc0a009da27da278adde36dcaad7354dee12616960ed7b38723b068.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-20-e2ce1c0a2bae.json",
+      "rawSha256": "e2ce1c0a2bae9d0896e675444ddb9d6f341c577283f73ddbd31a6e4f9aed0fd4",
+      "bytes": 8694,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.df13027dc6fa561505907420654383324507779c568da5fb37e6aea23b91cf59.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-21-30608951eba3.json",
+      "rawSha256": "30608951eba3664e775eb7811a7da99ee1fe3648009d51cd00a097449efea117",
+      "bytes": 22261,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.edeb9cc607934ef6bf18feb1ac671f922208531b4021690450243c2985aab424.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-22-631617c9513f.json",
+      "rawSha256": "631617c9513f0627bde602f347bddef15f296c0accc41420e34f2396a1ed892a",
+      "bytes": 61193,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0024d9bbc9d3c33287a2a4ebc768f32c0d80d6fddd3c368ce48cb6347e12318.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-23-83ddace49ea6.json",
+      "rawSha256": "83ddace49ea684daa5e2ad5f29efb3a76add9cab091495c439ac7dc03ac1038d",
+      "bytes": 15539,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f0c5bf06627b05e934ee698aacec61b790d6d26d44a93aa0accb2edacef0e597.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-24-24f74302be24.json",
+      "rawSha256": "24f74302be24534a9ac750950e51bd44c91d1b73893668c8a28b5cc899ca22d2",
+      "bytes": 14013,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification-attempt.f584a2c55a22d31d697d562d4b11ece1a7e3c6d2144491206365796e3808ce4d.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-25-7260ff17f89d.json",
+      "rawSha256": "7260ff17f89d692b3d8b9ed622f34c2ad274634b40fe22bddff1a8707413c7c1",
+      "bytes": 8900,
+      "contentUnchanged": true
+    },
+    {
+      "formerCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/observed-native-WI-1088-runtime-activation-amendment-continuity-recovery.verification.json",
+      "newCopyPath": ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/native-copy-26-f83804b18307.json",
+      "rawSha256": "f83804b18307c8b79c204858bf30791b472f210a11e7f5778f7f61f6c26b8e06",
+      "bytes": 6094,
+      "contentUnchanged": true
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/workspace/ai-cockpit-wi1088-runtime-continuity/tests/docs/reference_comparison_metadata_test.py", line 251, in <module>
+    main()
+  File "/workspace/ai-cockpit-wi1088-runtime-continuity/tests/docs/reference_comparison_metadata_test.py", line 133, in main
+    if metadata["workspaceCandidateVersion"] != workspace_version():
+                                                ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/ai-cockpit-wi1088-runtime-continuity/tests/docs/reference_comparison_metadata_test.py", line 69, in workspace_version
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1955, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cargo'

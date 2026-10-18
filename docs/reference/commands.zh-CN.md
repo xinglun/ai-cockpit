@@ -57,7 +57,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover`、`legacy-closeout-source-plan`、`legacy-closeout-source-record` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。跨 checkout 的 plan 只读；recovery 是独立的显式写入。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`activation-recovery`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover`、`legacy-closeout-source-plan`、`legacy-closeout-source-record` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。跨 checkout 的 plan 只读；recovery 是独立的显式写入。 |
 | 显式用量 | `work-item usage record --repo <path> --input <request.json>` | 仅在当前 Runtime 准入 `record_usage` 时追加严格的 `UsageRecordRequest`；同一请求重放幂等。provider/host 来源标签只是调用方声明，并非已验证遥测。`capability show --surface work-item-usage-record` 只读描述 CLI/MCP 参数。 |
 | 材料审阅 | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` 只读生成针对已提交且非 `.ai` 源码干净快照的规范请求，并显式保留扫描器 Unknown。只有 Contract opt-in 与新鲜 Runtime 准入均允许时，`record` 才接受严格类型化决策并绑定不可变 sidecar 与 Summary 指针。审阅者身份是 self-declared，不是人的身份认证、provider/host 证明或发布批准，也不会把 Unknown 变成机器 Clean。Stage 1 尚无 opt-in，因此 Unknown 不可豁免。用 `capability show --surface work-item-material-review-plan` 与 `--surface work-item-material-review-record` 查看两种传输的参数。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
@@ -483,3 +483,22 @@ verification 之前绑定 resource context，避免晚绑定使已记录的验�
 
 `tests/conformance/final_replacement_acceptance.sh` 是源码仓库的最终替代边界，记录安装的 Runtime identity、锁定的
 reference oracle、conformance/adversarial/performance gate 和无复制检查，并生成 `acceptance.json` 与 `SHA256SUMS`。
+
+## Activation 连续性与当下基线恢复
+
+存在 amendment 日志的原生 `not_ready` 激活会为精确 A/B Contract、owner、Runtime、journal 和观察写入 typed prepared/committed 过渡。该边界只允许改变 `state`、`baseRevision`、`repositorySnapshotDigest`；其他人工计划字段必须先 amend。即使当前 Contract 已审阅，缺失、部分、外来或不匹配证据仍 fail closed。
+
+符合有限条件的历史缺口使用独立显式元数据入口：
+
+```sh
+ai-cockpit work-item activation-recovery plan --repo <repository> --id <work-item>
+ai-cockpit work-item activation-recovery record --repo <repository> --id <work-item> --input <decision.json>
+```
+
+Plan 只读。确定性请求枚举有限差异（适用时仅精确 legacy CSV 拆分）、当前 Contract/Summary/HEAD/owner/registration、原生环境与源码快照、原始证据 digest、checkpoint/start 锚点及保留未知。请求变化后必须重新审阅。缺失锚点、额外计划变更、checkpoint 后缺口和 pending 事务不能取得恢复许可。
+
+只有实际授权真人针对完整请求给出 `accept_present_baseline` 后，才将真实响应保存在 `.ai/evidence/<work-item>/` 下的严格 source JSON。字段为 `schemaVersion: 1`、`kind: "human_activation_recovery_response_source"`、`requestDigest`、`response`、`humanActor`、`respondedAt`、`provenance`；provenance 指向实际请求/回复或原始记录，禁止编造回复或复用历史审阅。decision 输入精确要求 `schemaVersion: 1`、`decisionId: "activation-present-baseline-review"`、`response: "accept_present_baseline"`、`requestDigest`、`humanActor`、`recorderActor`、`assurance: "self_declared"`、`authoritySourcePath`、`authoritySourceDigest`、`respondedAt`、`reason`。source digest 是原始文件字节的 SHA-256；actor、响应、请求及时间必须一致，未知字段拒绝。
+
+Record 在原生锁内复查 currentness，并追加独立的当下阶段证据。它不改写旧收据、不证明历史 A→B 合法、不授予业务权限，也不批准当前 Contract C。`historicalTransitionAuthentication` 保持 `unknown`，`businessAuthorityGranted` 保持 `false`，`freshContractReviewRequired` 保持 `true`。只有新的 preflight 及另行完成的当前 Contract 审阅才能恢复普通 admission。actor 标签与自报 assurance 不是身份认证；保留 source 原字节及每个部分或失败阶段。
+
+MCP 通过同一服务提供 `work_item_activation_recovery_plan`（`workItemId`）及 `work_item_activation_recovery_record`（`workItemId`、严格 `decision`），增加两项后精确工具数为 35。不支持的旧入口及 raw governance-controls 调用不能提供恢复授权。

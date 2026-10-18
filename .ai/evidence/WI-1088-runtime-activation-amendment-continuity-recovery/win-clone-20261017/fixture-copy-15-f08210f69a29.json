@@ -1,0 +1,174 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:9bfbd744345b1a774f2e70eae1dc2fdf0fa0d014e8634f8ea85b3a3dfd40cbc9",
+    "workItemId": "WI-CLI-ACTIVATION-CONTINUITY",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "before-activation",
+      "expectedContractDigest": "sha256:42dcba461632bc5b2b910b23a1688755337e0000a25250da128b4af6be22e63a",
+      "reason": "Isolated test plan; no real Work Item or human authority.",
+      "changes": [
+        {
+          "path": "/intent",
+          "operation": "set",
+          "value": "Exercise a real native activation boundary"
+        },
+        {
+          "path": "/goal",
+          "operation": "set",
+          "value": "Keep post-checkpoint amendments reviewable"
+        },
+        {
+          "path": "/scope",
+          "operation": "replace",
+          "value": [
+            "README.md"
+          ]
+        },
+        {
+          "path": "/outOfScope",
+          "operation": "replace",
+          "value": []
+        },
+        {
+          "path": "/risk",
+          "operation": "set",
+          "value": "normal"
+        },
+        {
+          "path": "/authority",
+          "operation": "set",
+          "value": "authorized"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "replace",
+          "value": [
+            "The activation boundary preserves strict native amendment admission"
+          ]
+        },
+        {
+          "path": "/verification",
+          "operation": "replace",
+          "value": [
+            "git diff --check"
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:d53cbcad6e33421b673bd83df24053e8460d93f0217d9ba4270cab328deab214",
+    "previousContract": {
+      "acceptanceCriteria": [],
+      "authority": "unknown",
+      "baseRevision": "632e2ce8bc22df265171e9a193985c7e75a45e55",
+      "createdAt": "2026-10-17T10:42:07Z",
+      "goal": "",
+      "intent": "",
+      "mode": "implementation",
+      "outOfScope": [],
+      "projectProfileDigest": "sha256:144d40d2b6a5a1b836fb1a1bf0285d1e387eec43de905670c8b12c238c45c60f",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:9bfbd744345b1a774f2e70eae1dc2fdf0fa0d014e8634f8ea85b3a3dfd40cbc9",
+      "repositorySnapshotDigest": "sha256:db1834b5e98f3b6a0a708ed2e1f22a7d08262e35f82344398772e5e3dcd1f2e6",
+      "requiredEvidenceClasses": [],
+      "risk": "unknown",
+      "scope": [],
+      "sources": [],
+      "state": "not_ready",
+      "verification": [],
+      "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+    },
+    "previousContractDigest": "sha256:42dcba461632bc5b2b910b23a1688755337e0000a25250da128b4af6be22e63a",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The activation boundary preserves strict native amendment admission"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "632e2ce8bc22df265171e9a193985c7e75a45e55",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-17T10:42:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Keep post-checkpoint amendments reviewable",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Exercise a real native activation boundary",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:144d40d2b6a5a1b836fb1a1bf0285d1e387eec43de905670c8b12c238c45c60f",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:9bfbd744345b1a774f2e70eae1dc2fdf0fa0d014e8634f8ea85b3a3dfd40cbc9",
+      "repositorySnapshotDigest": "sha256:db1834b5e98f3b6a0a708ed2e1f22a7d08262e35f82344398772e5e3dcd1f2e6",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "README.md"
+      ],
+      "sources": [],
+      "state": "not_ready",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "git diff --check"
+      ],
+      "workItemId": "WI-CLI-ACTIVATION-CONTINUITY"
+    },
+    "newContractDigest": "sha256:6655405093121f68c94c759ce0103ba15e25afcfc4d27f2a8bba92992aad2d66",
+    "previousSummaryDigest": "sha256:159e01245f32f2a08789c85f262b73ebb55fceba41a1ab15f81ad421d59dba1b",
+    "repositorySnapshotDigest": "sha256:db1834b5e98f3b6a0a708ed2e1f22a7d08262e35f82344398772e5e3dcd1f2e6",
+    "environmentObservationDigest": "sha256:60534ca68602a81c4e5327f97cb1c6b0f349813b26fc9776e0cef667a3e36964",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:a3b3a82c6a07bed0731c3aaa659afe08b4b615d313ee16b845566b9d64ac56c6"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/authority",
+      "/outOfScope",
+      "/risk",
+      "/scope",
+      "/verification"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-17T10:42:07Z"
+  },
+  "preparedDigest": "sha256:ee75256542602393deb35d6c0d18ae14c42f665c502278ed04a484248bcf0040"
+}

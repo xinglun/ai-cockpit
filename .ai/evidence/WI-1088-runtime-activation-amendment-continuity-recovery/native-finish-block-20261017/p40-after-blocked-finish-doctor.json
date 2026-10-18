@@ -1,0 +1,40 @@
+{
+  "kind": "actual_current_environment_native_command_observation",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "doctor",
+    "--repo",
+    "/workspace/ai-cockpit-wi1088-runtime-continuity"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "startedAt": "2026-10-17T14:24:39.614329+00:00",
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "ead9a32d690871a1794f6091b7f724d92531324e",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit-wi1088-runtime-continuity/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "exitCode": 0,
+  "elapsedSeconds": 0.115,
+  "endedAt": "2026-10-17T14:24:39.787011+00:00",
+  "stdout": {
+    "bytes": 632,
+    "rawSha256": "55a65aba8f9f857ab35aaba1e3f7c26cec0b72b12c1f021e52049b725ae11fc5",
+    "encoding": "base64",
+    "data": "ewogICJjb21wYXRpYmlsaXR5IjogewogICAgInByb3RvY29sVmVyc2lvbiI6IDEsCiAgICAicmVwb3NpdG9yeVNjaGVtYVZlcnNpb24iOiAyLAogICAgInJlcXVpcmVkUmVwb3NpdG9yeVNjaGVtYVZlcnNpb24iOiAyLAogICAgInJ1bnRpbWVEaWdlc3QiOiAic2hhMjU2OjBmZmRjZDIwNzQwZjIyYjk2NjIxY2YwNmFkYjU0NzlkODNmYjQzNWY1MDNhMjZjMThkODI0ZDYxYzRiZmU5YzQiLAogICAgInJ1bnRpbWVWZXJzaW9uIjogIjEuMC4xIiwKICAgICJzYWZlQWN0aW9ucyI6IFtdLAogICAgInN0YXRlIjogIkNPTVBBVElCTEUiCiAgfSwKICAicHJvdG9jb2xWZXJzaW9uIjogMSwKICAicmVwb3NpdG9yeUlkIjogInNoYTI1NjplZTAyYTA0Y2EyNDJkODMwMDg2NDMyYmQ0ZDNmODE2MDI1MDUzNzEyNjk4NTI3MjFlZTgzZTExN2UzNWRhMjJiIiwKICAicmVwb3NpdG9yeVNjaGVtYVZlcnNpb24iOiAyLAogICJydW50aW1lQ29kZUluUmVwb3NpdG9yeSI6IHRydWUsCiAgInJ1bnRpbWVEaWdlc3QiOiAic2hhMjU2OjBmZmRjZDIwNzQwZjIyYjk2NjIxY2YwNmFkYjU0NzlkODNmYjQzNWY1MDNhMjZjMThkODI0ZDYxYzRiZmU5YzQiLAogICJydW50aW1lVmVyc2lvbiI6ICIxLjAuMSIsCiAgInN0YXRlIjogInJlZCIKfQo="
+  },
+  "stderr": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "workItemId": "WI-1088-runtime-activation-amendment-continuity-recovery",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:2396f1f19893040061798a298976e9be9d1c570825c13ba313c5124c024c4976",
+    "preflightDecisionDigest": "sha256:34e6d3f6dffbf1ddcc6f012b3283636716e96070293320b161c2054d9019053c",
+    "repositorySnapshotDigest": "sha256:398cea1ed45a8f03c43181d3817755e365e027a7ea29ce11ce0e059c71960265",
+    "decision": "confirm_review",
+    "recordedAt": "2026-10-17T12:03:46.820975+00:00",
+    "recordedBy": "agent:Codex",
+    "reason": "Actual human:Ray response confirm_review at2026-10-17T12:02:13Z, supplied message Sentinel_0f2b0915dd088191a18b17f3279c0787, answers the exact13-path Contract/snapshot/decision request. Recorder agent:Codex is not the human actor. Source .ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/scope13-human-20261017/actual-human-response-source.json rawSHA256=df46b75664ae5d5038fb3c39a4bebdf5bd53fa8a469285c0e78b27d49394817a. Prior6e93 confirmation is retained and not reused. No actual WI-1087 recovery or other excluded operation is approved."
+  }
+}

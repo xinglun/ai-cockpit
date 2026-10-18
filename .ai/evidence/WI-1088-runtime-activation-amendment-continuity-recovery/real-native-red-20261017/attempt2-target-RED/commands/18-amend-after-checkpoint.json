@@ -1,0 +1,33 @@
+{
+  "kind": "actual_native_fixture_observation",
+  "label": "amend-after-checkpoint",
+  "command": [
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "work-item",
+    "amend",
+    "--id",
+    "WI-TEST-ACTIVATION-GAP",
+    "--request",
+    "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/after-checkpoint.json",
+    "--repo",
+    "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo"
+  ],
+  "cwd": "/workspace/scratch/wi1088-runtime-continuity/real-native-red-20261017-attempt2/repo",
+  "startedAt": "2026-10-17T08:50:29.432092+00:00",
+  "endedAt": "2026-10-17T08:50:29.554807+00:00",
+  "elapsedSeconds": 0.123,
+  "exitCode": 1,
+  "runtimeRawSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "stdout": {
+    "bytes": 0,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "encoding": "base64",
+    "data": ""
+  },
+  "stderr": {
+    "bytes": 291,
+    "rawSha256": "c61c7547a010d168ce733064d133f9836122b50b59f74137fefd9285641d7b8d",
+    "encoding": "base64",
+    "data": "cmVmcmVzaCBSdW50aW1lIGFjdGlvbiBhZG1pc3Npb24gYWZ0ZXIgQ29udHJhY3QgYW1lbmRtZW50OiByZXBvc2l0b3J5IHByb3RvY29sIHN0YXRlIGVycm9yIGF0IC93b3Jrc3BhY2Uvc2NyYXRjaC93aTEwODgtcnVudGltZS1jb250aW51aXR5L3JlYWwtbmF0aXZlLXJlZC0yMDI2MTAxNy1hdHRlbXB0Mi9yZXBvLy5haS93b3JrLWl0ZW1zL2FjdGl2ZS9XSS1URVNULUFDVElWQVRJT04tR0FQLmNvbnRyYWN0Lmpzb246IGFtZW5kbWVudCBDb250cmFjdCB0cmFuc2l0aW9uIGNoYWluIGlzIGRpc2NvbnRpbnVvdXMK"
+  }
+}

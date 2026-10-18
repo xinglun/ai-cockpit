@@ -1,0 +1,27 @@
+{
+  "kind": "actual_direct_repository_gate_diagnostic_not_native_formal_receipt",
+  "command": [
+    "python3",
+    "tests/ci/governance_integrity_gate.py",
+    "--repo",
+    "/workspace/ai-cockpit-wi1088-runtime-continuity",
+    "--report",
+    "/workspace/ai-cockpit-wi1088-runtime-continuity/.ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/full-verification-20261017/n10-governance-report.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "sourceHead": "0ce36465edb99e0dbad7083df9ba6e8b46e32c65",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity"
+  },
+  "startedAt": "2026-10-17T11:18:12.971535+00:00",
+  "endedAt": "2026-10-17T11:18:13.358865+00:00",
+  "elapsedSeconds": 0.387,
+  "timeoutSeconds": 300,
+  "exitCode": 0,
+  "stdoutRawSha256": "598b135f7f4623e0cda38e960cb51e9f6870c5d7707585706fa1dbfdfdfb45ee",
+  "stderrRawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

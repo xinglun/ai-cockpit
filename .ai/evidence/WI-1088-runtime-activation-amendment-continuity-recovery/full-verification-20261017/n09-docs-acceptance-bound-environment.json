@@ -1,0 +1,23 @@
+{
+  "kind": "actual_direct_repository_gate_diagnostic_not_native_formal_receipt",
+  "command": [
+    "bash",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1088-runtime-continuity",
+  "sourceHead": "0ce36465edb99e0dbad7083df9ba6e8b46e32c65",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1088-runtime-continuity/target/wi1088-runtime-continuity"
+  },
+  "startedAt": "2026-10-17T11:18:07.692607+00:00",
+  "endedAt": "2026-10-17T11:18:12.971230+00:00",
+  "elapsedSeconds": 5.279,
+  "timeoutSeconds": 300,
+  "exitCode": 0,
+  "stdoutRawSha256": "2530d7ac1d85de5d27c90c9de379076d2cc147bf81fdb720feab13c031c515ed",
+  "stderrRawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

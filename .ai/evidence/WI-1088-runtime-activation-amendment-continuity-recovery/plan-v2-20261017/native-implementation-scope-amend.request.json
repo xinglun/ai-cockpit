@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1088-reviewed-12-rust-implementation-scope-20261017",
+  "expectedContractDigest": "sha256:f6d47216da61c52d06ffb558271c4b7bf23436608627dbc459c4473314868db5",
+  "reason": "Raydot final technical scope approval is preserved in plan-v2-20261017/technical-approval-source.json. Expand the existing already-active WI by native amendment only to the exact 12 Rust and 6 reference documents plus existing own governance/briefs. Require the fresh real human preflight gate; no product code or original-WI recovery now.",
+  "changes": [
+    {
+      "path": "/intent",
+      "operation": "set",
+      "value": "Implement the reviewed bounded Runtime activation-continuity and explicit present-baseline recovery repair in exactly twelve Rust files and approved documentation, only after the actual native human gate."
+    },
+    {
+      "path": "/goal",
+      "operation": "set",
+      "value": "Produce true forward activation proof and strict current-baseline recovery without weakening immutable journal integrity. Start with actual temporary-repository RED, then the bounded fix and complete negative/CLI/MCP/documentation verification. Preserve original WI-1087 and keep its real recovery separate."
+    },
+    {
+      "path": "/scope",
+      "operation": "replace",
+      "value": [
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.contract.json",
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.summary.json",
+        ".ai/work-items/active/WI-1088-runtime-activation-amendment-continuity-recovery.intelligence.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/**",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery.contract-amendments/**",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.md",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.zh-CN.md",
+        "docs/work-items/WI-1088-runtime-activation-amendment-continuity-recovery.ja.md",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/tests/contract_amendment.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "crates/cockpit-mcp/tests/material_review.rs",
+        "crates/cockpit-mcp/tests/usage.rs",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ]
+    },
+    {
+      "path": "/outOfScope",
+      "operation": "replace",
+      "value": [
+        "Any product or test code before the fresh native amended-Contract human decision and actual admission",
+        "Any edit to original WI-1087 P1 worktree files sequence5 history or existing real decisions",
+        "Any broad inference from old B review or CSV splitting or unverified historical strings",
+        "Any real WI-1087 recovery or Runtime installation or delivery",
+        "Any merge close archive deletion tag mutation direct-main push or Sentinel operation",
+        "Any P2a P2b live grant authority configuration system permission service or authorization database",
+        "Any change to reference-parity conclusions for another Work Item",
+        "Any fabricated prior transition approval human response verification result or retrospective receipt"
+      ]
+    },
+    {
+      "path": "/acceptanceCriteria",
+      "operation": "replace",
+      "value": [
+        "A1: Preserve original WI-1087 HEAD and all eleven protected raw file hashes including P1 sources and sequence5; no real recovery is performed by this implementation work item.",
+        "A2: After a real current native human gate, reproduce the actual pre-fix discontinuity in a fresh temporary Git repository before implementing the fix; preserve exact RED output and transaction phase evidence.",
+        "A3: The forward native activation writer records actual A/B repository WI owner Runtime and journal bindings with prepared/committed evidence. Only state not_ready-to-implementation_active, observed baseRevision and observed repositorySnapshotDigest may change; any other unamended human-plan change rejects.",
+        "A4: Legacy recovery is a separate current-baseline request and real human decision/record. Enumerate the exact finite fields and pre-first-checkpoint stage plus old/new differences and retained historical unknowns. An old B review or arbitrary CSV match never authenticates A-to-B.",
+        "A5: A valid present recovery record enables only generation of fresh preflight. It does not approve current C, grant business authority, rewrite history, backdate a receipt or reuse an old review as a new human decision.",
+        "A6: Validate every existing record and the prospective complete chain before publishing a new transaction under current ownership/CAS. Wrong incoming requests must not finish unrelated pending operations; prepared-only or partial evidence never counts as committed.",
+        "A7: Preserve existing journal/hash/sequence checks and rehashed-discontinuous tests. Reject missing start/checkpoint bindings, foreign identity/owner, extra scope/authority/actor/source changes, unexplained post-checkpoint gaps, stale request/history/summary/registration, CAS and pending/partial failures.",
+        "A8: Exactly the twelve reviewed Rust paths implement shared repository recovery APIs, strict standalone protocol types, bounded metadata admission and explicit CLI/MCP plan-record surfaces; no new Contract root field or hidden controls bypass.",
+        "A9: Preserve exact MCP tool counts and existing usage/material-review assertions. With exactly two recovery tools added to actual baseline 33 assert exactly 35 and exact names plus strict schemas; never weaken to a lower bound or delete count assertions.",
+        "A10: Update three-language commands and own briefs consistently. Only append/update WI-1088 actual-stage rows in the three reference-parity files; retain all other WI conclusions unchanged and mark unrun acceptance honestly.",
+        "A11: Run all declared checks with one worker, isolated target and each command node at most 900 seconds; preserve actual formal results and CI for the exact pushed HEAD. No success is inferred from old WI evidence.",
+        "A12: Normal bounded phase commit/push and existing Draft PR1047 updates are authorized. No merge, close, deletion, Runtime installation, direct-main push, P2a/P2b, live grant, Sentinel operation or real WI-1087 recovery."
+      ]
+    },
+    {
+      "path": "/sources",
+      "operation": "replace",
+      "value": [
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/design.v1.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v1-20261017/technical-direction-source.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/technical-approval-source.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/design.v2.json",
+        ".ai/evidence/WI-1088-runtime-activation-amendment-continuity-recovery/plan-v2-20261017/implementation-plan.v2.md"
+      ]
+    },
+    {
+      "path": "/verification",
+      "operation": "replace",
+      "value": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets -- -D warnings",
+        "cargo test --locked -p cockpit-repository --test contract_amendment",
+        "cargo test --locked -p cockpit-repository --test lifecycle_entry",
+        "cargo test --locked -p cockpit-cli --test contract_amendment_processes",
+        "cargo test --locked -p cockpit-mcp --test material_review",
+        "cargo test --locked -p cockpit-mcp --test usage",
+        "cargo test --locked -p cockpit-repository --test agent_rule_parity",
+        "cargo test --locked --workspace"
+      ]
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "set",
+      "value": [
+        {
+          "scenario": "real_native_pre_fix_reproduction",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Actual RED for pre-amend/activation/checkpoint/post-amend in a disposable repository; setup failures are distinguished.",
+          "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes"
+        },
+        {
+          "scenario": "forward_exact_activation_transition",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Only the three forward fields change at the pinned initial activation stage; complete actual phase evidence verifies.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test lifecycle_entry"
+        },
+        {
+          "scenario": "present_baseline_only_recovery",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Exact NOW baseline with real request-bound human response permits fresh preflight generation only; historical authentication remains unknown.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+        },
+        {
+          "scenario": "full_integrity_and_rehashed_discontinuity",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "All record/hash/journal checks remain; rehashed discontinuous post-checkpoint chain is rejected.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+        },
+        {
+          "scenario": "foreign_missing_or_extra_plan_bindings",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Missing start/checkpoint and foreign owner/repository/WI or extra scope/authority/actor/source fail closed.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+        },
+        {
+          "scenario": "finite_legacy_csv_and_stage_policy",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Only the exact enumerated old/new arrays at the eligible initial boundary are reviewable; broad CSV or B-only inference rejects.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+        },
+        {
+          "scenario": "wrong_request_pending_and_prospective_cas",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Before publication reject wrong request and stale/CAS conflicts without finishing unrelated pending; raw bytes remain unchanged.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test contract_amendment"
+        },
+        {
+          "scenario": "partial_publication_and_unsupported_surface",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Prepared-only/partial evidence cannot grant committed status or work; unsupported Runtime/adapter/raw writer remains rejected.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test lifecycle_entry"
+        },
+        {
+          "scenario": "cli_mcp_shared_request_record_and_exact_schema",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Two strict recovery tools agree with CLI/shared APIs; exact tool count 35 if two added; usage/material-review assertions retained.",
+          "verificationPlan": "cargo test --locked -p cockpit-mcp --test material_review and cargo test --locked -p cockpit-mcp --test usage and cargo test --locked -p cockpit-cli --test contract_amendment_processes"
+        },
+        {
+          "scenario": "three_language_wi_only_documentation_and_preservation",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Only WI-1088 parity stage rows change; own briefs/commands match; original WI-1087 eleven hashes stay identical.",
+          "verificationPlan": "cargo test --locked -p cockpit-repository --test agent_rule_parity plus exact scoped diff/raw-hash inventory"
+        },
+        {
+          "scenario": "full_workspace_acceptance",
+          "required": true,
+          "status": "unverified",
+          "evidence": [],
+          "expected": "Fresh fmt/clippy and full workspace verification use isolated target and single worker; actual CI outcome is reported.",
+          "verificationPlan": "cargo fmt --all -- --check and cargo clippy --locked --workspace --all-targets -- -D warnings and cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "path": "/humanDecisionPoints",
+      "operation": "set",
+      "value": [
+        "Fresh identity-bound human review of this exact amended Contract and current preflight snapshot before product/test code or reproduction. Raydot technical approval is not this native decision.",
+        "Any future real legacy recovery needs a separate actual human acceptance of its exact NOW-bound baseline and retained historical uncertainty; this implementation approval cannot substitute."
+      ]
+    },
+    {
+      "path": "/documentationImpact",
+      "operation": "set",
+      "value": "Three-language commands and own WI briefs; reference-parity changes only WI-1088 actual-stage rows in English Chinese Japanese; every other WI conclusion remains unchanged."
+    }
+  ]
+}

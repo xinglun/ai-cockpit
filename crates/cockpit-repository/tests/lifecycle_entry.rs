@@ -81,6 +81,193 @@ fn start_options() -> WorkItemStartOptions {
     }
 }
 
+fn journal_activation_fixture() -> tempfile::TempDir {
+    let directory = repository();
+    let root = directory.path();
+    fs::write(root.join("README.md"), "bounded activation fixture\n").expect("README");
+    commit_fixture_baseline(root);
+    run(root, &["branch", "-M", "main"]);
+    let base = output(root, &["rev-parse", "HEAD"]);
+    run(
+        root,
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://example.invalid/activation-fixture.git",
+        ],
+    );
+    run(
+        root,
+        &["update-ref", "refs/remotes/origin/main", base.trim()],
+    );
+    run(
+        root,
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    run(root, &["checkout", "-qb", "activation-fixture"]);
+    let id = "WI-LIBRARY-ACTIVATION";
+    scaffold_work_item(root, id, "implementation").expect("not_ready scaffold");
+    let path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let contract: Value =
+        serde_json::from_slice(&fs::read(path).expect("Contract")).expect("Contract JSON");
+    amend_work_item_contract(root, id, &json!({
+        "schemaVersion":1,"changeId":"declare-before-activation",
+        "expectedContractDigest":cockpit_protocol::digest_json(&contract).expect("digest"),
+        "reason":"Isolated library fixture; no real authority.",
+        "changes":[
+            {"path":"/intent","operation":"set","value":"Bound native activation"},
+            {"path":"/goal","operation":"set","value":"Preserve exact activation evidence"},
+            {"path":"/scope","operation":"replace","value":["README.md"]},
+            {"path":"/risk","operation":"set","value":"normal"},
+            {"path":"/authority","operation":"set","value":"authorized"},
+            {"path":"/acceptanceCriteria","operation":"replace","value":["only a committed transition is evidence"]},
+            {"path":"/verification","operation":"replace","value":["git diff --check"]}
+        ]
+    }), "").expect("native pre-activation amendment");
+    directory
+}
+
+fn activation_fixture_options() -> WorkItemStartOptions {
+    WorkItemStartOptions {
+        risk: "normal".into(),
+        authority: "authorized".into(),
+        acceptance_criteria: vec!["only a committed transition is evidence".into()],
+        verification_commands: vec!["git diff --check".into()],
+        ..Default::default()
+    }
+}
+
+fn activation_fixture_runtime() -> RuntimeContext {
+    RuntimeContext {
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_digest: Digest::sha256_bytes(b"self-declared isolated library test Runtime"),
+    }
+}
+
+#[test]
+fn journal_activation_rejects_extra_human_plan_changes_before_any_publication() {
+    let directory = journal_activation_fixture();
+    let root = directory.path();
+    let id = "WI-LIBRARY-ACTIVATION";
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before_contract = fs::read(&contract_path).expect("Contract bytes");
+    let before_summary = fs::read(&summary_path).expect("Summary bytes");
+    let error = cockpit_repository::start_work_item_with_options_and_runtime(
+        root,
+        id,
+        "Bound native activation",
+        "An unamended wider human goal",
+        &["README.md".into()],
+        &activation_fixture_options(),
+        &activation_fixture_runtime(),
+    )
+    .expect_err("amend human goal first");
+    assert!(
+        error
+            .to_string()
+            .contains("unexplained activation Contract change"),
+        "{error}"
+    );
+    assert_eq!(fs::read(contract_path).unwrap(), before_contract);
+    assert_eq!(fs::read(summary_path).unwrap(), before_summary);
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{id}.activation-transition"))
+            .exists()
+    );
+}
+
+#[test]
+fn journal_activation_without_runtime_identity_preserves_the_original_baseline() {
+    let directory = journal_activation_fixture();
+    let root = directory.path();
+    let id = "WI-LIBRARY-ACTIVATION";
+    let contract = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before_contract = fs::read(&contract).unwrap();
+    let before_summary = fs::read(&summary).unwrap();
+    let error = start_work_item_with_options(
+        root,
+        id,
+        "Bound native activation",
+        "Preserve exact activation evidence",
+        &["README.md".into()],
+        &activation_fixture_options(),
+    )
+    .expect_err("a raw writer cannot claim a Runtime activation proof");
+    assert!(
+        error.to_string().contains("requires Runtime identity"),
+        "{error}"
+    );
+    assert_eq!(fs::read(contract).unwrap(), before_contract);
+    assert_eq!(fs::read(summary).unwrap(), before_summary);
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{id}.activation-transition"))
+            .exists()
+    );
+}
+
+#[test]
+fn journal_activation_publishes_exact_pair_and_rejects_raw_controls_or_partial_phase() {
+    let directory = journal_activation_fixture();
+    let root = directory.path();
+    let id = "WI-LIBRARY-ACTIVATION";
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    let runtime = activation_fixture_runtime();
+    cockpit_repository::start_work_item_with_options_and_runtime(
+        root,
+        id,
+        "Bound native activation",
+        "Preserve exact activation evidence",
+        &["README.md".into()],
+        &activation_fixture_options(),
+        &runtime,
+    )
+    .expect("native forward activation");
+    let after: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    let directory = root.join(format!(".ai/evidence/{id}.activation-transition"));
+    let prepared: Value =
+        serde_json::from_slice(&fs::read(directory.join("prepared.json")).unwrap()).unwrap();
+    let committed: Value =
+        serde_json::from_slice(&fs::read(directory.join("committed.json")).unwrap()).unwrap();
+    assert_eq!(prepared["record"]["previousContract"], before);
+    assert_eq!(prepared["record"]["newContract"], after);
+    assert_eq!(
+        prepared["record"]["runtime"],
+        serde_json::to_value(&runtime).unwrap()
+    );
+    assert_eq!(prepared["recordDigest"], committed["preparedDigest"]);
+    assert!(
+        prepared["record"]["differences"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|difference| matches!(
+                difference["path"].as_str(),
+                Some("/state" | "/baseRevision" | "/repositorySnapshotDigest")
+            ))
+    );
+    let before_summary = fs::read(&summary_path).unwrap();
+    assert!(
+        record_work_item_governance_controls(root, id, &json!({"decisionEvidence":{}})).is_err()
+    );
+    assert_eq!(fs::read(&summary_path).unwrap(), before_summary);
+    fs::remove_file(directory.join("committed.json")).expect("isolated partial-phase fixture");
+    assert!(work_item_status_snapshot_with_runtime(root, id, &runtime).is_err());
+    assert_eq!(fs::read(&summary_path).unwrap(), before_summary);
+    assert!(!directory.join("committed.json").exists());
+}
+
 fn record_human_preflight_review(root: &Path, work_item_id: &str) {
     let active = root.join(".ai/work-items/active");
     let contract: Value = serde_json::from_slice(

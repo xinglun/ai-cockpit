@@ -1,0 +1,441 @@
+[1m[92m    Blocking[0m waiting for file lock on package cache
+[1m[92m    Blocking[0m waiting for file lock on package cache
+[1m[92m    Blocking[0m waiting for file lock on package cache
+[1m[92m    Blocking[0m waiting for file lock on build directory
+[1m[92m   Compiling[0m libc v0.2.189
+[1m[92m   Compiling[0m autocfg v1.5.1
+[1m[92m   Compiling[0m proc-macro2 v1.0.107
+[1m[92m   Compiling[0m siphasher v1.0.4
+[1m[92m   Compiling[0m quote v1.0.47
+[1m[92m   Compiling[0m unicode-ident v1.0.24
+[1m[92m   Compiling[0m phf_shared v0.12.1
+[1m[92m   Compiling[0m iana-time-zone v0.1.65
+[1m[92m   Compiling[0m num-traits v0.2.19
+[1m[92m   Compiling[0m chrono-tz v0.10.4
+[1m[92m   Compiling[0m phf v0.12.1
+[1m[92m   Compiling[0m cockpit-evidence v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-evidence)
+[1m[92m   Compiling[0m getrandom v0.4.3
+[1m[92m   Compiling[0m chrono v0.4.45
+[1m[92m   Compiling[0m cockpit-verification v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-verification)
+[1m[92m   Compiling[0m tempfile v3.27.0
+[1m[92m   Compiling[0m syn v2.0.119
+[1m[92m   Compiling[0m cockpit-knowledge v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-knowledge)
+[1m[92m   Compiling[0m anyhow v1.0.104
+[1m[92m   Compiling[0m cockpit-agent v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-agent)
+[1m[92m   Compiling[0m cockpit-isolation v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-isolation)
+[1m[92m   Compiling[0m cockpit-repository v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-repository)
+[1m[92m   Compiling[0m cockpit-mcp v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-mcp)
+[1m[92m   Compiling[0m cockpit-cli v1.0.1 (/home/runner/work/ai-cockpit/ai-cockpit/crates/cockpit-cli)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 52.88s
+[1m[92m     Running[0m unittests src/main.rs (target/x86_64-unknown-linux-gnu/debug/deps/ai_cockpit-aec3a7838c644e92)
+
+running 23 tests
+test cognitive_benefit::tests::fixture_oracle_rejects_drift_in_security_relevant_answer_keys ... ok
+test cognitive_benefit::tests::evidence_reference_parser_and_injection_filter_preserve_safety_boundary ... ok
+test cognitive_benefit::tests::fixed_answer_key_covers_every_archived_case_without_inferred_approval ... ok
+test cognitive_benefit::tests::localized_summary_requires_all_four_headings ... ok
+test cognitive_benefit::tests::markdown_file_newlines_match_python_text_mode_on_each_platform ... ok
+test cognitive_benefit::tests::provenance_digests_are_sha256_of_exact_bytes ... ok
+test cognitive_benefit::tests::markdown_is_explicit_about_no_human_study_and_preserves_case_identity ... ok
+test cognitive_benefit::tests::runtime_binary_report_path_normalizes_windows_verbatim_paths_only ... ok
+test runtime_identity::tests::missing_executable_path_fails_closed ... ok
+test cognitive_benefit::tests::writing_mode_places_both_artifacts_only_under_selected_repository ... ok
+test tests::archived_recovery_reads_declared_commands_from_the_archive_contract ... ok
+test tests::concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time ... ok
+test tests::capability_description_defaults_and_values_come_from_protocol_facts ... ok
+test tests::declared_verification_parser_rejects_shell_syntax ... ok
+test tests::declared_verification_parser_preserves_environment_prefix_without_shell_evaluation ... ok
+test tests::capability_description_parser_has_a_read_only_surface_and_format ... ok
+test tests::ordinary_cleanup_parser_requires_repository_and_work_item_identity ... ok
+test tests::outcome_description_facts_match_clap_arguments ... ok
+test tests::outcome_parser_accepts_the_active_conversation_language ... ok
+test tests::outcome_parser_returns_the_protocol_owned_query_arguments ... ok
+test tests::start_parser_preserves_repeated_explicit_verification_commands ... ok
+test tests::ordinary_cleanup_command_surfaces_repository_boundary_rejection_without_receipt ... ok
+test tests::aggregate_receipt_reports_the_longest_node_deadline ... ok
+
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.32s
+
+[1m[92m     Running[0m tests/agent.rs (target/x86_64-unknown-linux-gnu/debug/deps/agent-bf9addc4ddaf5851)
+
+running 10 tests
+test agent_commands_require_repo ... ok
+test agent_help_exposes_the_first_start_gate ... ok
+test agent_install_does_not_touch_global_files ... ok
+test agent_auto_install_selects_the_shared_agents_surface ... ok
+test agent_install_and_doctor_are_repository_bound ... ok
+test agent_detach_refuses_modified_content ... ok
+test cli_cursor_install_uses_mdc_without_overwriting_legacy_user_rules ... ok
+test first_start_prints_the_canonical_gate_without_mutating_an_unattached_repo ... ok
+test cli_agent_operation_does_not_require_mcp ... ok
+test first_start_output_matches_the_installed_adapter_projection ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.51s
+
+[1m[92m     Running[0m tests/attach.rs (target/x86_64-unknown-linux-gnu/debug/deps/attach-2b41b0b712f7a211)
+
+running 5 tests
+test attached_repository_identity_survives_a_repository_move ... ok
+test attach_creates_only_protocol_state_and_is_idempotent ... ok
+test migration_rejects_an_unreviewed_schema_without_skipping_history ... ok
+test status_reports_calibration_required_before_first_profile_confirmation ... ok
+test old_repository_requires_explicit_migration_and_preserves_history ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.08s
+
+[1m[92m     Running[0m tests/audit_query.rs (target/x86_64-unknown-linux-gnu/debug/deps/audit_query-fa5bcac951bcdd72)
+
+running 5 tests
+test audit_help_and_mcp_initialize_expose_only_public_query_surface ... ok
+test unfiltered_export_accepts_existing_schema_one_bytes ... ok
+test filtered_export_preserves_legacy_wire_and_output_conflict ... ok
+test cli_and_mcp_audit_query_share_filtered_page_and_discovery ... ok
+test cli_and_mcp_share_combined_filters_and_bound_cursor_pages ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.95s
+
+[1m[92m     Running[0m tests/ci_gate.rs (target/x86_64-unknown-linux-gnu/debug/deps/ci_gate-89cfff1696d5b9ff)
+
+running 5 tests
+test gate_cli_emits_green_report_without_writing_ai ... ok
+test gate_cli_stops_when_required_evidence_is_missing ... ok
+test gate_report_cli_rejects_tampered_repository_identity ... ok
+test gate_report_cli_rejects_unignored_out_of_scope_source ... ok
+test gate_report_cli_validates_repository_bound_report ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.90s
+
+[1m[92m     Running[0m tests/cli_mcp_outcome_parity.rs (target/x86_64-unknown-linux-gnu/debug/deps/cli_mcp_outcome_parity-89030b6311c87014)
+
+running 6 tests
+test cli_outcome_help_projects_protocol_owned_parameter_descriptions ... ok
+test cli_outcome_view_uses_protocol_values_for_parsing ... ok
+test cli_and_mcp_interface_descriptions_share_the_protocol_facts ... ok
+test public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper ... ok
+test outcome_timezone_view_is_shared_by_cli_and_mcp_without_changing_facts ... ok
+test cli_subprocess_and_mcp_handler_agree_on_the_same_outcome ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.39s
+
+[1m[92m     Running[0m tests/closeout_recovery.rs (target/x86_64-unknown-linux-gnu/debug/deps/closeout_recovery-f3e1cac91890ea24)
+
+running 6 tests
+test recovery_plan_recognizes_a_closed_item_from_an_independent_checkout ... ok
+test archived_provider_context_binding_requires_its_finalization_receipt ... ok
+test recovery_imports_exact_closeout_and_is_idempotent_without_mutating_source ... ok
+test tampered_historical_close_report_is_rejected_before_destination_writes ... ok
+test cli_required_receipt_loss_revokes_closed_without_promoting_historical_verification ... ok
+test recovery_preserves_a_closed_historical_projection_without_promoting_verification ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.11s
+
+[1m[92m     Running[0m tests/cognitive_benefit.rs (target/x86_64-unknown-linux-gnu/debug/deps/cognitive_benefit-29ac32a2ac27e5da)
+
+running 8 tests
+test cli_entrypoint_runs_with_windows_sized_main_stack ... ok
+test missing_explicit_binary_fails_before_archive_lookup_without_writing_evidence ... ok
+test missing_archived_outcome_fails_without_creating_evidence ... ok
+test non_executable_explicit_binary_does_not_fall_back_or_build ... ok
+test repository_gate_runs_without_invoking_python ... ok
+test malformed_answer_key_fixture_is_rejected_before_check_writes ... ok
+test rust_check_matches_the_existing_python_gate_without_rewriting_evidence ... ok
+test generated_json_and_markdown_match_python_in_an_isolated_checkout ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 48.41s
+
+[1m[92m     Running[0m tests/collaboration_cli.rs (target/x86_64-unknown-linux-gnu/debug/deps/collaboration_cli-d06ec58e4d76e717)
+
+running 2 tests
+test publish_outcome_cli_binds_selected_generation_to_exact_evidence_bytes ... ok
+test coordination_cli_and_mcp_queries_preserve_store_bytes_across_processes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.22s
+
+[1m[92m     Running[0m tests/collaboration_consistency.rs (target/x86_64-unknown-linux-gnu/debug/deps/collaboration_consistency-cc81b33e7974dfbb)
+
+running 2 tests
+Verification progress: started node "project-command-0" (0/1 complete, 0%)
+test finish_requires_fresh_green_preflight_after_verification ... ok
+test displayed_option_state_and_runtime_transition_stay_consistent_through_resume ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.63s
+
+[1m[92m     Running[0m tests/collaboration_handoff.rs (target/x86_64-unknown-linux-gnu/debug/deps/collaboration_handoff-632e84cdb2eac340)
+
+running 1 test
+test new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.72s
+
+[1m[92m     Running[0m tests/collaboration_outcome_parity.rs (target/x86_64-unknown-linux-gnu/debug/deps/collaboration_outcome_parity-34b94dbfac3da84d)
+
+running 1 test
+test collaboration_outcome_projection_preserves_semantics_in_all_languages ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+[1m[92m     Running[0m tests/collaboration_scenario_matrix.rs (target/x86_64-unknown-linux-gnu/debug/deps/collaboration_scenario_matrix-d1eb7857814faf35)
+
+running 4 tests
+test unknown_finalization_case_is_explicitly_unavailable_in_the_matrix ... ok
+test finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales ... ok
+test cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes ... FAILED
+test collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio has been running for over 60 seconds
+test collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio ... ok
+
+failures:
+
+---- cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes stdout ----
+
+thread 'cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes' (119356) panicked at crates/cockpit-cli/tests/collaboration_scenario_matrix.rs:593:5:
+assertion `left == right` failed: CLI composition attempt failed. Full CLI/MCP diagnostics:
+CLI failure reason: "composition_cleanup_deferred"
+CLI attempt:
+{
+  "activeExecutionNode": null,
+  "activeProcessGroupId": null,
+  "attemptId": "composition-sha256:a69e17c197ad595703c93c66733709a03126193c0a2682c2e065e68c35a72eab",
+  "binding": {
+    "bindingId": "cli-mcp-composition",
+    "contractDigests": [
+      "sha256:73a15c700771c947cd08d1a9abb0d7ef6d25c0e044fa08c8af61c6ebad3b7d23"
+    ],
+    "participantHeads": [
+      "ea7a2b8fb41f419e6601911f50b4c77b32c8f9dc"
+    ],
+    "participantWorkItems": [
+      "WI-CLI-MCP-COMPOSITION"
+    ],
+    "repositoryId": "sha256:d3dd8c7ebb71fa1b2aed3c33d7f66628abe021ac2ff046c51bb84b5c08e5fd79",
+    "schemaVersion": 1,
+    "targetBranch": "main",
+    "targetSha": "ea7a2b8fb41f419e6601911f50b4c77b32c8f9dc",
+    "verifier": {
+      "capability": "observed_environment_drift_v1",
+      "runtimeDigest": "sha256:2fef0431746758ae27e86a238dc3e6fed636fab358333339c9c7367536ef73fc",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1
+    }
+  },
+  "cleanup": {
+    "attempted": false,
+    "error": "verifier_process_state_unknown:cannot inspect process pid=150391 filter_uid=Some(1001) phase=procfs.fd-directory error_kind=PermissionDenied errno=13 identity_state=observed identity_before=observed(pid=150391,starttime_ticks=70402,pgid=91327,sid=91327,state=R) identity_after=observed(pid=150391,starttime_ticks=70402,pgid=91327,sid=91327,state=R) message=Permission denied (os error 13) file descriptors",
+    "removed": false
+  },
+  "cleanupDisposition": "deferred",
+  "executionEvidenceComplete": true,
+  "executionOutcome": "passed",
+  "executionRecords": [
+    {
+      "args": [],
+      "exitCode": 0,
+      "identityDigest": "sha256:66019d86179dbdc42484b731c3548e8fcc7209d660ec0df614b21833be51983d",
+      "nodeId": "check",
+      "outputDigest": "sha256:563d208468fc0a5368bf3e44894c6e46bd9d074da31e59ad9000c53eda64920a",
+      "passed": true,
+      "predecessorAttemptId": null,
+      "program": "true",
+      "reused": false,
+      "spawned": true,
+      "stderr": "",
+      "stdout": "",
+      "timedOut": false
+    }
+  ],
+  "failure": "composition_cleanup_deferred",
+  "identity": {
+    "commandDigest": "sha256:e95162b2ec7de04be7dea4f0eda67e4b4b8f469ec6177e3b1696ae83d58a53c1",
+    "configurationDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "dependencyDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "environmentDigest": "[redacted]",
+    "generatedInputDigest": "sha256:d57941889be4b5797e568529164c80fae054b83f53994011b466d54fda61579a",
+    "interfaceDigest": "sha256:28de62b1accea3bf41712509afb2368d291fec4d38a00ad6f29deae075332316",
+    "lockfileDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "sourceDigest": "sha256:b1d170c6446f1a26f3a951807509900fc9517e128f1c2169705ec7ffad07d2a0",
+    "toolchainDigest": "sha256:60c5195bf18d4d6363acd83e252eae5795d197194625ae9a108dd9eed4a31559",
+    "verifierDigest": "sha256:60c5195bf18d4d6363acd83e252eae5795d197194625ae9a108dd9eed4a31559"
+  },
+  "isolatedWorktree": "/tmp/ai-cockpit-composition-150868-1792244979886294857-0/composition",
+  "ownerPid": 150868,
+  "passed": false,
+  "preconditions": [
+    {
+      "name": "registration-identity-observed",
+      "reason": "observed and bound",
+      "satisfied": true
+    },
+    {
+      "name": "composition-target-observed",
+      "reason": "observed and bound",
+      "satisfied": true
+    },
+    {
+      "name": "required-checks-covered",
+      "reason": "observed and bound",
+      "satisfied": true
+    }
+  ],
+  "processObservationSchemaVersion": 1,
+  "processesSpawned": 1,
+  "recordedAtUnixNanos": 1792244979882498030,
+  "reuseDecision": {
+    "kind": "execute",
+    "predecessorAttemptId": null,
+    "reason": "one or more nodes were executed because their observed inputs or upstream receipts changed"
+  },
+  "schemaVersion": 3,
+  "supervisorReceipt": {
+    "attemptId": "composition-sha256:a69e17c197ad595703c93c66733709a03126193c0a2682c2e065e68c35a72eab",
+    "backend": "linux_subreaper",
+    "commandPlanDigest": "sha256:e95162b2ec7de04be7dea4f0eda67e4b4b8f469ec6177e3b1696ae83d58a53c1",
+    "descendantsReapedToEchild": true,
+    "environmentDigest": "[redacted]",
+    "executionRecordsDigest": "sha256:01e499d83b9a5196f17f6e9875b3963f1f6d61338ddaaf4a3adc22e372b9d4ad",
+    "generation": 1,
+    "inputEnvironmentDigest": "[redacted]",
+    "linuxBootId": "[redacted]",
+    "owner": {
+      "processGroupId": 91327,
+      "processId": 150538,
+      "sessionId": 91327,
+      "startTimeTicks": 70437
+    },
+    "repositoryId": "sha256:d3dd8c7ebb71fa1b2aed3c33d7f66628abe021ac2ff046c51bb84b5c08e5fd79",
+    "runNonce": "sha256:529c02dbe507fd299959961e606e697971cc20795d57434c09517c3cc361851e",
+    "runtimeDigest": "sha256:2fef0431746758ae27e86a238dc3e6fed636fab358333339c9c7367536ef73fc",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "snapshotDigest": "sha256:b1d170c6446f1a26f3a951807509900fc9517e128f1c2169705ec7ffad07d2a0",
+    "supervisor": {
+      "processGroupId": 91327,
+      "processId": 150868,
+      "sessionId": 91327,
+      "startTimeTicks": 70515
+    },
+    "targetSha": "ea7a2b8fb41f419e6601911f50b4c77b32c8f9dc"
+  },
+  "textConflicts": []
+}
+MCP failure reason: "unsafe_deferred_cleanup_retry:command effects are outside the safe retry allowlist"
+MCP attempt:
+{
+  "activeExecutionNode": null,
+  "activeProcessGroupId": null,
+  "attemptId": "composition-sha256:caa1485cacc1363809c7ff1cb2330e81aa23b367cd2f496f92c441884063ef49",
+  "binding": {
+    "bindingId": "cli-mcp-composition",
+    "contractDigests": [
+      "sha256:73a15c700771c947cd08d1a9abb0d7ef6d25c0e044fa08c8af61c6ebad3b7d23"
+    ],
+    "participantHeads": [
+      "ea7a2b8fb41f419e6601911f50b4c77b32c8f9dc"
+    ],
+    "participantWorkItems": [
+      "WI-CLI-MCP-COMPOSITION"
+    ],
+    "repositoryId": "sha256:d3dd8c7ebb71fa1b2aed3c33d7f66628abe021ac2ff046c51bb84b5c08e5fd79",
+    "schemaVersion": 1,
+    "targetBranch": "main",
+    "targetSha": "ea7a2b8fb41f419e6601911f50b4c77b32c8f9dc",
+    "verifier": {
+      "capability": "observed_environment_drift_v1",
+      "runtimeDigest": "sha256:2fef0431746758ae27e86a238dc3e6fed636fab358333339c9c7367536ef73fc",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1
+    }
+  },
+  "cleanup": {
+    "attempted": false,
+    "error": null,
+    "removed": true
+  },
+  "cleanupDisposition": "cleaned",
+  "executionEvidenceComplete": true,
+  "executionOutcome": "failed",
+  "executionRecords": [],
+  "failure": "unsafe_deferred_cleanup_retry:command effects are outside the safe retry allowlist",
+  "identity": {
+    "commandDigest": "sha256:e95162b2ec7de04be7dea4f0eda67e4b4b8f469ec6177e3b1696ae83d58a53c1",
+    "configurationDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "dependencyDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "environmentDigest": "[redacted]",
+    "generatedInputDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "interfaceDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "lockfileDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "sourceDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "toolchainDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "verifierDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe"
+  },
+  "isolatedWorktree": "",
+  "ownerPid": 151749,
+  "passed": false,
+  "preconditions": [
+    {
+      "name": "registration-identity-observed",
+      "reason": "observed and bound",
+      "satisfied": true
+    },
+    {
+      "name": "composition-target-observed",
+      "reason": "observed and bound",
+      "satisfied": true
+    },
+    {
+      "name": "required-checks-covered",
+      "reason": "observed and bound",
+      "satisfied": true
+    }
+  ],
+  "processObservationSchemaVersion": 1,
+  "processesSpawned": 0,
+  "recordedAtUnixNanos": 1792244981839293551,
+  "reuseDecision": {
+    "kind": "unknown",
+    "predecessorAttemptId": "composition-sha256:a69e17c197ad595703c93c66733709a03126193c0a2682c2e065e68c35a72eab",
+    "reason": "reuse classification requires runtime-observed node inputs"
+  },
+  "schemaVersion": 3,
+  "supervisorReceipt": {
+    "attemptId": "composition-sha256:caa1485cacc1363809c7ff1cb2330e81aa23b367cd2f496f92c441884063ef49",
+    "backend": "linux_subreaper",
+    "commandPlanDigest": "sha256:e95162b2ec7de04be7dea4f0eda67e4b4b8f469ec6177e3b1696ae83d58a53c1",
+    "descendantsReapedToEchild": false,
+    "environmentDigest": "[redacted]",
+    "executionRecordsDigest": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "generation": 1,
+    "inputEnvironmentDigest": "[redacted]",
+    "linuxBootId": "[redacted]",
+    "owner": {
+      "processGroupId": 91327,
+      "processId": 151455,
+      "sessionId": 91327,
+      "startTimeTicks": 70626
+    },
+    "repositoryId": "sha256:d3dd8c7ebb71fa1b2aed3c33d7f66628abe021ac2ff046c51bb84b5c08e5fd79",
+    "runNonce": "sha256:588df1f2dfa50517ba3723fe8600f1551445a1189f0c2c4bdedd278db8f8bb59",
+    "runtimeDigest": "sha256:2fef0431746758ae27e86a238dc3e6fed636fab358333339c9c7367536ef73fc",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "snapshotDigest": "sha256:b1d170c6446f1a26f3a951807509900fc9517e128f1c2169705ec7ffad07d2a0",
+    "supervisor": {
+      "processGroupId": 91327,
+      "processId": 151749,
+      "sessionId": 91327,
+      "startTimeTicks": 70703
+    },
+    "targetSha": "ea7a2b8fb41f419e6601911f50b4c77b32c8f9dc"
+  },
+  "textConflicts": []
+}
+  left: Bool(false)
+ right: true
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes
+
+test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 61.73s
+
+[1m[91merror[0m: test failed, to rerun pass `-p cockpit-cli --test collaboration_scenario_matrix`
+workspace package coverage failed: phase=package_test package=cockpit-cli exitCode=101

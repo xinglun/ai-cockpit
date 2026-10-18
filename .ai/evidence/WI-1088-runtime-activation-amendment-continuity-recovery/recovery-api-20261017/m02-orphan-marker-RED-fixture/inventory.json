@@ -1,0 +1,16 @@
+{
+  "kind": "actual_synthetic_orphan_marker_failed_fixture_copy_not_real_human_or_WI_recovery",
+  "sourceRoot": "/tmp/.tmp7BoANi/repo",
+  "rawSha256": {
+    ".ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.contract.json": "3428a1994170cbe9f935e58aa705596ca378f28672818100a1fcda255a6a5570",
+    ".ai/work-items/active/WI-CLI-ACTIVATION-CONTINUITY.summary.json": "fe746534a047fa7bf46d1d615d52f453227f18fbfded4121469f3f2fcdd46589",
+    ".ai/decisions/WI-CLI-ACTIVATION-CONTINUITY.preflight-review.json": "861913e4b248093cc902d7bd88c32503dc0762f78b32f87a582c173dfa687bbe",
+    ".git/.ai-cockpit/coordination/v1/registrations/WI-CLI-ACTIVATION-CONTINUITY.json": "73aa98e56fac6152daa213605b72bbcaa0b2b3d4092943b96eba66eb09fc3d1c",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000002.committed.json": "84ca1bc7eb198758e026da88fcebf2d82a92734f46cbe45d08793005e3db2335",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000002.prepared.json": "22ae110cc10b6b5d8e0f9fdf901b18c0b0bda8aa85629e9d1edbee935e1023ab",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000001.committed.json": "f4e1c38fc44bfd9cb950a32237ab2b5e39134af33b306ee28578472a09a24699",
+    ".ai/evidence/WI-CLI-ACTIVATION-CONTINUITY.contract-amendments/00000001.prepared.json": "f08210f69a29ef876c10c9be88f1b9c2c074442512013cfeaf2f048bc840c85e"
+  },
+  "recoveryDirectoryPresent": false,
+  "nativeStderrTruncated": false
+}

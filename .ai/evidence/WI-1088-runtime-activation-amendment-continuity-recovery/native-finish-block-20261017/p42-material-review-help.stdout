@@ -1,0 +1,11 @@
+Inspect the exact committed material considered by the review boundary
+
+Usage: ai-cockpit work-item material-review <COMMAND>
+
+Commands:
+  plan    Build the canonical read-only material-review request for an active Work Item
+  record  Record a self-declared typed decision only when Contract opt-in and current Runtime admission allow it; this is not human, provider, or release approval
+  help    Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help  Print help

@@ -1,0 +1,57 @@
+{
+  "kind": "agent_observation_of_actual_ci_retry_request_not_native_receipt",
+  "startedAt": "2026-10-17T14:03:37.862704+00:00",
+  "head": "ead9a32d690871a1794f6091b7f724d92531324e",
+  "runId": 39037114023,
+  "attemptBeforeRequest": 1,
+  "targetFailedJob": 117409959440,
+  "command": [
+    "gh",
+    "run",
+    "rerun",
+    "39037114023",
+    "--repo",
+    "xinglun/ai-cockpit",
+    "--job",
+    "117409959440"
+  ],
+  "reason": "Actual /proc fd-directory PermissionDenied made composition cleanup fail closed despite executionOutcome passed. Same source case passed in native full33 and prior2dd3 quality; bounded one unchanged-job rerun tests repeatability. No source/test/permission/config change.",
+  "priorTerminalRawSha256": "f7201539bbf385f8b5dcd3b60c270c328e8001b8e5b4c39c06f623693b0f057d",
+  "priorDiagnosticZipRawSha256": "b680f979d9ae40bec63de2acf536ca939016d7fff9d2004702b3b659af64c5e5",
+  "nativeAdmission": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "record_governance_controls",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "missing",
+        "code": "required_scenario_unverified",
+        "message": "current projection reports required_scenario_unverified"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:f29b76d98d0e4aa2ba187820f28a0c676ba08e7bebb526ef2970f3bc82c6e8ba"
+  },
+  "exitCode": 1,
+  "endedAt": "2026-10-17T14:03:37.958888+00:00",
+  "stdoutBase64": "",
+  "stderrBase64": "c3BlY2lmeSBvbmx5IG9uZSBvZiBgPHJ1bi1pZD5gIG9yIGAtLWpvYmAKClVzYWdlOiAgZ2ggcnVuIHJlcnVuIFs8cnVuLWlkPl0gW2ZsYWdzXQoKRmxhZ3M6CiAgLWQsIC0tZGVidWcgICAgICAgIFJlcnVuIHdpdGggZGVidWcgbG9nZ2luZwogICAgICAtLWZhaWxlZCAgICAgICBSZXJ1biBvbmx5IGZhaWxlZCBqb2JzLCBpbmNsdWRpbmcgZGVwZW5kZW5jaWVzCiAgLWosIC0tam9iIHN0cmluZyAgIFJlcnVuIGEgc3BlY2lmaWMgam9iIGZyb20gYSBydW4sIGluY2x1ZGluZyBkZXBlbmRlbmNpZXMKICAK",
+  "interpretation": "Exit0 confirms rerun request accepted, not test success."
+}

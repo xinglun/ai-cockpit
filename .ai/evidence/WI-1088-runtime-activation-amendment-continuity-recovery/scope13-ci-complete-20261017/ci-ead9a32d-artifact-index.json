@@ -1,0 +1,83 @@
+{
+  "kind": "actual_github_artifact_metadata_no_download_urls",
+  "runId": 39037114023,
+  "head": "ead9a32d690871a1794f6091b7f724d92531324e",
+  "selected": [
+    {
+      "id": 12102239848,
+      "name": "ci-quality-revision-binding",
+      "size_in_bytes": 393,
+      "url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12102239848",
+      "archive_download_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12102239848/zip",
+      "expired": false,
+      "created_at": "2026-10-17T14:04:24Z",
+      "expires_at": "2026-10-24T14:04:24Z",
+      "updated_at": "2026-10-17T14:04:24Z",
+      "digest": "sha256:497dcff2db4ac990631ddea6eb4da147dc110a2198d98fd1c9ceee97e43bcce8",
+      "workflow_run": {
+        "id": 39037114023,
+        "repository_id": 1341189248,
+        "head_repository_id": 1341189248,
+        "head_branch": "codex/wi1088-runtime-activation-amendment-continuity",
+        "head_sha": "ead9a32d690871a1794f6091b7f724d92531324e"
+      }
+    },
+    {
+      "id": 12102933804,
+      "name": "ci-revision-binding-windows",
+      "size_in_bytes": 397,
+      "url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12102933804",
+      "archive_download_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12102933804/zip",
+      "expired": false,
+      "created_at": "2026-10-17T14:02:36Z",
+      "expires_at": "2026-10-24T14:02:35Z",
+      "updated_at": "2026-10-17T14:02:36Z",
+      "digest": "sha256:314b51875f82f60202937720bdf68853528aefd9b6bda095a6a1910cd74dc900",
+      "workflow_run": {
+        "id": 39037114023,
+        "repository_id": 1341189248,
+        "head_repository_id": 1341189248,
+        "head_branch": "codex/wi1088-runtime-activation-amendment-continuity",
+        "head_sha": "ead9a32d690871a1794f6091b7f724d92531324e"
+      }
+    },
+    {
+      "id": 12104010686,
+      "name": "workspace-package-coverage",
+      "size_in_bytes": 399,
+      "url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12104010686",
+      "archive_download_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12104010686/zip",
+      "expired": false,
+      "created_at": "2026-10-17T14:22:08Z",
+      "expires_at": "2026-10-24T14:22:08Z",
+      "updated_at": "2026-10-17T14:22:08Z",
+      "digest": "sha256:885586e14369ce451719cccebc2f8989abf6eb578cf051dbd6c5f05ba8f8cbf0",
+      "workflow_run": {
+        "id": 39037114023,
+        "repository_id": 1341189248,
+        "head_repository_id": 1341189248,
+        "head_branch": "codex/wi1088-runtime-activation-amendment-continuity",
+        "head_sha": "ead9a32d690871a1794f6091b7f724d92531324e"
+      }
+    },
+    {
+      "id": 12103398208,
+      "name": "repository-gate-receipts",
+      "size_in_bytes": 44703,
+      "url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12103398208",
+      "archive_download_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/artifacts/12103398208/zip",
+      "expired": false,
+      "created_at": "2026-10-17T14:22:07Z",
+      "expires_at": "2026-10-24T14:22:06Z",
+      "updated_at": "2026-10-17T14:22:07Z",
+      "digest": "sha256:879a22713d5c669878652e35bcbcf1fde7a10665d93fd1e2e309f423ebec3f64",
+      "workflow_run": {
+        "id": 39037114023,
+        "repository_id": 1341189248,
+        "head_repository_id": 1341189248,
+        "head_branch": "codex/wi1088-runtime-activation-amendment-continuity",
+        "head_sha": "ead9a32d690871a1794f6091b7f724d92531324e"
+      }
+    }
+  ]
+}
