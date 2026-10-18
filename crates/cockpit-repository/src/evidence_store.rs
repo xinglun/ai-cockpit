@@ -37,6 +37,7 @@ pub fn load_reusable_receipt(
     root: &Path,
     binding: &ReceiptStoreBinding,
 ) -> Result<ReceiptStoreLoad, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -227,6 +228,7 @@ pub fn persist_reusable_receipt(
     binding: &ReceiptStoreBinding,
     receipt: &cockpit_evidence::ReusableReceipt,
 ) -> Result<ReceiptStoreWrite, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -426,6 +428,23 @@ pub(super) fn open_cap_directory_nofollow_strict(
     })
 }
 
+/// Optional metadata location, preserving the same no-follow implementation
+/// on Windows and Unix. Other open/type/race errors remain errors.
+pub(super) fn open_optional_cap_directory_nofollow_strict(
+    parent: &Dir,
+    name: &str,
+    display_path: &Path,
+) -> Result<Option<Dir>, ObserverError> {
+    match open_cap_directory_nofollow(parent, name, display_path) {
+        Ok(directory) => Ok(Some(directory)),
+        Err("evidence_missing") => Ok(None),
+        Err(reason) => Err(ObserverError::State {
+            path: display_path.into(),
+            message: format!("receipt store directory rejected: {reason}"),
+        }),
+    }
+}
+
 pub(super) fn create_and_open_cap_directory(
     parent: &Dir,
     name: &str,
@@ -558,7 +577,7 @@ pub(super) fn read_cap_file_nofollow_bounded(
     Ok(bytes)
 }
 
-fn read_optional_cap_file_nofollow_bounded(
+pub(super) fn read_optional_cap_file_nofollow_bounded(
     parent: &Dir,
     name: &str,
     display_path: &Path,

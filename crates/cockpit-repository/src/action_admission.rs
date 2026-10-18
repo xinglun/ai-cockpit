@@ -10,6 +10,7 @@ pub fn require_current_action_admission(
     requested_action: &str,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemActionExplanation, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let status = super::work_item_status_snapshot_with_runtime(root, work_item_id, runtime)?;
     let explanation = status
         .action_explanation

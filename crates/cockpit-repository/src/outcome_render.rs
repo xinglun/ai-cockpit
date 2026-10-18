@@ -68,6 +68,7 @@ pub fn outcome_render_input(
     root: &Path,
     work_item_id: &str,
 ) -> Result<OutcomeRenderInput, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     assemble_outcome_render_input(root, work_item_id, None)
 }
 
@@ -76,6 +77,7 @@ pub fn outcome_render_input_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<OutcomeRenderInput, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     assemble_outcome_render_input(root, work_item_id, Some(runtime))
 }
 
@@ -1230,6 +1232,7 @@ pub fn render_human_outcome_with_timezone(
     view: OutcomeRenderView,
     display_timezone: &str,
 ) -> Result<String, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     render_human_outcome_with_timezone_with_hook(
         root,
         input,
@@ -1496,6 +1499,7 @@ pub fn prepare_archive_outcome_delivery(
     _runtime: &RuntimeContext,
     language: &str,
 ) -> Result<OutcomeDelivery, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let manifest_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));

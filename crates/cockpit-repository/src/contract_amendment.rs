@@ -834,6 +834,7 @@ pub fn plan_activation_recovery(
     id: &str,
     runtime: &RuntimeContext,
 ) -> Result<ActivationRecoveryRequest, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -857,6 +858,7 @@ pub fn record_activation_recovery(
     decision: &ActivationRecoveryDecision,
     runtime: &RuntimeContext,
 ) -> Result<ActivationRecoveryRecord, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     super::validate_work_item_id(id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -969,6 +971,7 @@ pub(crate) fn activation_recovery_request_if_needed(
     history: &[ContractAmendmentReceipt],
     current: &Digest,
 ) -> Result<Option<ActivationRecoveryRequest>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     match validate_transition_chain(root, id, history, Some(current)) {
         Ok(()) => Ok(None),
         Err(error) => {
@@ -986,6 +989,7 @@ pub(crate) fn activation_recovery_needs_fresh_review(
     digest: &Digest,
     summary: &Value,
 ) -> Result<Option<(ActivationRecoveryRequest, bool)>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let history = read_work_item_contract_amendments(root, id)?;
     let Some(record) = read_activation_recovery(root, id, &history)? else {
         return Ok(None);
@@ -1239,6 +1243,7 @@ pub(crate) fn validate_transition_chain(
     history: &[ContractAmendmentReceipt],
     candidate_previous: Option<&Digest>,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let transition = read_activation_transition(root, id)?;
     let recovery = read_activation_recovery(root, id, history)?;
     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
@@ -1305,6 +1310,7 @@ pub(crate) fn prepare_activation_transition(
     new_summary: &Value,
     runtime: Option<&RuntimeContext>,
 ) -> Result<Option<PreparedActivationTransition>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let (history, pending) = read_history_with_pending(root, id)?;
     if pending.is_some() {
         return Err(state_error(
@@ -1407,6 +1413,7 @@ pub(crate) fn commit_activation_transition(
     id: &str,
     prepared: &PreparedActivationTransition,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let record = &prepared.record;
     let contract =
         super::read_json(&root.join(format!(".ai/work-items/active/{id}.contract.json")))?;
@@ -2173,6 +2180,7 @@ pub fn read_work_item_contract_amendments(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Vec<ContractAmendmentReceipt>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     super::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
@@ -2253,6 +2261,7 @@ pub(crate) fn has_sensitive_amendment(
     root: &Path,
     work_item_id: &str,
 ) -> Result<bool, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     Ok(read_work_item_contract_amendments(root, work_item_id)?
         .iter()
         .any(|receipt| receipt.policy_review_required))
@@ -2267,6 +2276,7 @@ pub(crate) fn current_amendment_review_request_available(
     summary: &Value,
     lifecycle_phase: &str,
 ) -> Result<bool, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     if !matches!(
         lifecycle_phase,
         "implementation_active" | "checkpointed" | "finish_ready"
@@ -2536,6 +2546,8 @@ fn finish_prepared(
     root: &Path,
     prepared: &PreparedRecord,
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
+    let _goal_authority =
+        crate::authority_admission::enter(root, Some(&prepared.prepared.work_item_id))?;
     let data = &prepared.prepared;
     let directory = amendment_directory(root, &data.work_item_id);
     if data.repository_id != super::repository_id(root).to_string() {
@@ -2626,6 +2638,7 @@ pub fn apply_work_item_contract_amendment(
     request: &ContractAmendmentRequest,
     runtime: &RuntimeContext,
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     apply_work_item_contract_amendment_with_legacy_input(root, work_item_id, request, runtime, None)
 }
 
@@ -2636,6 +2649,7 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
     runtime: &RuntimeContext,
     legacy_input_digest: Option<Digest>,
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     super::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),

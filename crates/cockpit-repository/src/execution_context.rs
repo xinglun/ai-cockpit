@@ -20,6 +20,7 @@ pub fn assess_verification_reuse(
     snapshot: &RepositorySnapshot,
     input: &VerificationContextInput,
 ) -> Result<VerificationReuseAssessment, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     assess_verification_reuse_measured(
         root,
         snapshot,
@@ -36,6 +37,7 @@ pub(super) fn assess_verification_reuse_measured(
     pre_resolved: Option<&ResolvedExecutableIdentity>,
     cost: &mut VerificationIdentityCost,
 ) -> Result<VerificationReuseAssessment, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -242,6 +244,7 @@ pub(super) fn refresh_verification_context(
     authorization: &VerificationReuseAuthorization,
     cost: &mut VerificationIdentityCost,
 ) -> Result<Option<cockpit_evidence::EvidenceContext>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let snapshot_root = fs::canonicalize(&snapshot.root).map_err(|source| ObserverError::Read {
         path: snapshot.root.clone(),
         source,
@@ -357,6 +360,7 @@ pub(super) fn digest_raw_bytes(bytes: &[u8]) -> String {
 pub(super) fn read_verification_identity_files(
     root: &Path,
 ) -> Result<(Vec<u8>, Vec<u8>), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
         ObserverError::Read {
             path: root.to_path_buf(),
@@ -1443,6 +1447,7 @@ impl std::fmt::Debug for RepositoryExecutionContext {
 
 impl RepositoryExecutionContext {
     pub fn capture(root: &Path) -> Result<Self, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(root, None)?;
         let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
             path: root.into(),
             source,
@@ -1485,6 +1490,7 @@ impl RepositoryExecutionContext {
     pub fn observe_environment_identity(
         &self,
     ) -> Result<cockpit_protocol::EnvironmentObservation, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(&self.root, None)?;
         let process_environment_digest = execution_environment_digest(&self.root, "cargo")?;
         let dependency_inputs = observe_dependency_inputs(&self.root)?;
         let executable = resolved_executable_identity(&self.root, "cargo").ok_or_else(|| {
@@ -1924,6 +1930,7 @@ impl RuntimeSession {
     }
 
     pub fn bind(&self, root: &Path) -> Result<Arc<RepositoryExecutionContext>, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(root, None)?;
         let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
             path: root.into(),
             source,
@@ -1941,6 +1948,7 @@ impl RuntimeSession {
     }
 
     pub fn refresh(&self, root: &Path) -> Result<Arc<RepositoryExecutionContext>, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(root, None)?;
         let canonical = fs::canonicalize(root).map_err(|source| ObserverError::Read {
             path: root.into(),
             source,

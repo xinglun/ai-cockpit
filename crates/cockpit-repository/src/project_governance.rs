@@ -306,6 +306,7 @@ pub(crate) fn observe_project_governance(
     expected_repository_id: &Digest,
     expected_snapshot_digest: &Digest,
 ) -> Result<ProjectGovernanceFacts, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,
@@ -337,6 +338,7 @@ pub fn project_governance_projection(
     root: &Path,
     snapshot: &RepositorySnapshot,
 ) -> Result<ProjectGovernanceProjection, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,
@@ -364,6 +366,7 @@ pub fn project_governance_unknowns(
     contract: &Contract,
     snapshot: &RepositorySnapshot,
 ) -> Result<Vec<String>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let expected_repository_id = repository_id(root);
     let expected_snapshot_digest = snapshot_digest(snapshot)?;
     project_governance_unknowns_with_identity(
@@ -380,6 +383,7 @@ pub(super) fn project_governance_unknowns_with_identity(
     expected_repository_id: &Digest,
     expected_snapshot_digest: &Digest,
 ) -> Result<Vec<String>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,
@@ -447,6 +451,7 @@ pub fn project_success_criteria(
     root: &Path,
     snapshot: &RepositorySnapshot,
 ) -> Result<Option<ProjectSuccessCriteriaDeclaration>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,

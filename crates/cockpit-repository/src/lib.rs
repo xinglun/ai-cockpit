@@ -51,6 +51,8 @@ use thiserror::Error;
 mod action_admission;
 mod audit_query;
 pub mod authority;
+mod authority_admission;
+pub use authority_admission::{require_goal_authority_access, require_goal_authority_path_access};
 mod collaboration;
 mod contract_amendment;
 mod coordination_store;
@@ -72,9 +74,39 @@ mod usage;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
-    MaterialReviewRequestError, material_review_request, plan_work_item_material_review,
-    record_work_item_material_review, validate_material_review_decision,
+    MaterialReviewRequestError, validate_material_review_decision,
 };
+
+// Historical receipts pin the complete material-review recipe source bytes.
+// Keep admission outside that byte-pinned implementation, without changing
+// either the historical recipe comparator or the material validators.
+pub fn material_review_request(
+    root: &Path,
+    contract: &Contract,
+) -> Result<MaterialReviewRequest, MaterialReviewRequestError> {
+    let _authority = authority_admission::enter(root, Some(&contract.work_item_id))
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    material_review::material_review_request(root, contract)
+}
+
+pub fn plan_work_item_material_review(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<MaterialReviewRequest, MaterialReviewRequestError> {
+    let _authority = authority_admission::enter(root, Some(work_item_id))
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    material_review::plan_work_item_material_review(root, work_item_id)
+}
+
+pub fn record_work_item_material_review(
+    root: &Path,
+    work_item_id: &str,
+    input: &cockpit_protocol::MaterialInspectionReviewDecisionInput,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::MaterialInspectionReviewDecisionReceipt, ObserverError> {
+    let _authority = authority_admission::enter(root, Some(work_item_id))?;
+    material_review::record_work_item_material_review(root, work_item_id, input, runtime)
+}
 pub use rust_material::MaterialUnknownCause;
 use rust_material::{
     RustMaterialAssessment, RustMaterialDiagnosis, contains_strong_instruction_injection,
@@ -132,6 +164,7 @@ pub fn record_work_item_governance_controls(
     work_item_id: &str,
     controls: &serde_json::Value,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _authority = authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -492,6 +525,7 @@ pub fn plan_repository_verification(
     root: &Path,
     request: &RepositoryVerificationRequest,
 ) -> Result<RepositoryVerificationPlan, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let is_workspace_route = request.program == "cargo"
         && root.join("Cargo.toml").is_file()
         && request.args.iter().any(|arg| arg == "--workspace")
@@ -1405,6 +1439,7 @@ pub fn run_repository_verification(
     root: &Path,
     request: &RepositoryVerificationRequest,
 ) -> Result<RepositoryVerificationRun, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     run_repository_verification_with_process_observer(
         root,
         request,
@@ -1423,6 +1458,7 @@ pub fn run_repository_verification_with_process_observer<F>(
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
 {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     run_repository_verification_inner(root, request, process_observer, |_| {})
 }
 
@@ -1687,6 +1723,7 @@ where
 }
 
 pub fn attach(root: &Path) -> Result<AttachedProfile, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -1985,6 +2022,7 @@ pub fn compatibility_report(
     root: &Path,
     runtime: &RuntimeContext,
 ) -> Result<RepositoryCompatibility, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let (config, _, _, _) = migration_inputs(root)?;
     let (state, safe_actions) =
         if config.repository_schema_version == cockpit_protocol::REPOSITORY_SCHEMA_VERSION {
@@ -2015,6 +2053,7 @@ pub fn compatibility_report(
 }
 
 pub fn migration_plan(root: &Path) -> Result<MigrationPlan, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     migration_plan_with_runtime(root, None)
 }
 
@@ -2026,6 +2065,7 @@ pub fn migration_plan_with_runtime(
     root: &Path,
     runtime: Option<&RuntimeContext>,
 ) -> Result<MigrationPlan, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let (config, _, _, _) = migration_inputs(root)?;
     let target = cockpit_protocol::REPOSITORY_SCHEMA_VERSION;
     let (state, migration_type, planned_changes, steps) =
@@ -2081,6 +2121,7 @@ pub fn apply_migration(
     root: &Path,
     runtime: &RuntimeContext,
 ) -> Result<MigrationReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -2749,6 +2790,7 @@ pub fn set_evidence_retention_policy(
     retention: EvidenceRetention,
     runtime: &RuntimeContext,
 ) -> Result<EvidenceRetentionPolicy, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     validate_evidence_retention(&retention).map_err(|error| ObserverError::State {
         path: root
@@ -2805,6 +2847,7 @@ pub fn read_evidence_retention_policy(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Option<EvidenceRetentionPolicy>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -2886,6 +2929,7 @@ pub fn evidence_purge_plan(
     root: &Path,
     now_epoch_seconds: u64,
 ) -> Result<Vec<EvidenceDispositionItem>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -3038,6 +3082,7 @@ pub fn export_audit_events(
     root: &Path,
     runtime: &RuntimeContext,
 ) -> Result<AuditExportManifest, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -3687,6 +3732,7 @@ pub fn import_delegated_evidence(
     raw_bytes: &[u8],
     runtime: &RuntimeContext,
 ) -> Result<DelegatedEvidenceReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -3800,6 +3846,7 @@ pub fn list_delegated_evidence(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Vec<DelegatedEvidenceReceipt>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let Some(external) = existing_external_evidence_directory(root)? else {
         return Ok(Vec::new());
@@ -3969,6 +4016,7 @@ pub fn import_delegated_evidence_observation(
     raw_bytes: &[u8],
     runtime: &RuntimeContext,
 ) -> Result<DelegatedEvidenceObservation, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -4057,6 +4105,7 @@ pub fn list_delegated_evidence_observations(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Vec<DelegatedEvidenceObservation>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let Some(directory) = delegated_evidence_observation_directory(root, false)? else {
         return Ok(Vec::new());
@@ -4517,6 +4566,7 @@ pub fn effective_policy_for_contract(
     root: &Path,
     contract: &Contract,
 ) -> Result<Option<GovernancePolicy>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let Some(document) = policy_document(root)? else {
         return Ok(None);
     };
@@ -4555,6 +4605,7 @@ pub fn resolve_verification_route(
     runner: &str,
     snapshot: &RepositorySnapshot,
 ) -> Result<VerificationRoute, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -4588,6 +4639,7 @@ pub fn resolve_archived_verification_route(
     runner: &str,
     snapshot: &RepositorySnapshot,
 ) -> Result<VerificationRoute, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     if stage != VerificationStage::PullRequest {
         return Err(ObserverError::State {
@@ -4784,6 +4836,7 @@ pub fn evaluate_contract_quality_gate(
     expected_base_revision: Option<&str>,
     runtime: &RuntimeContext,
 ) -> Result<ContractQualityGateReport, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -5043,6 +5096,7 @@ pub fn validate_contract_quality_gate_report(
     report_path: &Path,
     route_receipt_path: &Path,
 ) -> Result<ContractQualityGateReport, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -5349,6 +5403,7 @@ pub(crate) fn pre_execution_quality_state(
     current_runtime: Option<&RuntimeContext>,
     archived: bool,
 ) -> Result<EvidenceState, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     // `verification` is the only completion class that can be meaningfully
     // required by the entry gate: an existing receipt can prove that the
     // current source was already verified, and a missing or stale one must
@@ -5380,6 +5435,7 @@ pub(crate) fn governance_decision_for_pre_execution_boundary(
     current_runtime: Option<&RuntimeContext>,
     observation: Option<&ObservationContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let evidence = pre_execution_quality_state(root, contract, snapshot, current_runtime, false)?;
     governance_decision_for_contract_base_internal_with_archive(
         root,
@@ -5454,6 +5510,7 @@ pub fn require_policy_for_verification(
     root: &Path,
     work_item_id: &str,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -5497,6 +5554,7 @@ pub fn require_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let admission = action_admission::require_current_action_admission(
         root,
         work_item_id,
@@ -5536,6 +5594,7 @@ pub fn require_serial_work_item_verification(
     work_item_id: &str,
     workers: usize,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     if workers <= 1 {
         return Ok(());
     }
@@ -5559,6 +5618,7 @@ pub(crate) fn check_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -7021,6 +7081,7 @@ pub fn contract_freshness_findings(
     contract: &cockpit_protocol::Contract,
     _snapshot: &RepositorySnapshot,
 ) -> Result<Vec<String>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     contract_freshness_findings_with_identity(root, contract, &repository_id(root))
 }
 
@@ -7067,6 +7128,7 @@ pub fn governance_decision_for_contract(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
 ) -> Result<GovernanceDecision, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     governance_decision_for_contract_internal(root, contract, snapshot, None)
 }
 
@@ -7080,6 +7142,7 @@ pub fn governance_decision_for_contract_with_runtime(
     snapshot: &RepositorySnapshot,
     runtime: &RuntimeContext,
 ) -> Result<GovernanceDecision, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     governance_decision_for_contract_internal(root, contract, snapshot, Some(runtime))
 }
 
@@ -8090,6 +8153,7 @@ pub(crate) fn verification_evidence_state_from_bytes(
     current_runtime: Option<&RuntimeContext>,
     bytes: &[u8],
 ) -> Result<EvidenceState, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let evidence = match serde_json::from_slice(bytes) {
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Unknown),
@@ -8677,6 +8741,7 @@ pub fn evidence_state_for_contract(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
 ) -> Result<EvidenceState, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     evidence_state_for_contract_internal(root, contract, snapshot, None)
 }
 
@@ -8686,6 +8751,7 @@ pub fn evidence_state_for_contract_with_runtime(
     snapshot: &RepositorySnapshot,
     runtime: &RuntimeContext,
 ) -> Result<EvidenceState, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     evidence_state_for_contract_internal(root, contract, snapshot, Some(runtime))
 }
 
@@ -8721,6 +8787,7 @@ pub(crate) fn evidence_class_projection_state(
     summary: &serde_json::Value,
     archived: bool,
 ) -> Result<EvidenceState, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let required = custom_required_evidence_classes(contract);
     if required.is_empty() {
         return Ok(EvidenceState::Complete);
@@ -8957,6 +9024,7 @@ pub fn archive_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     archive_work_item_internal(root, work_item_id, None, None)
 }
 
@@ -8967,6 +9035,7 @@ pub fn archive_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     archive_work_item_internal(root, work_item_id, Some(runtime), None)
 }
 
@@ -8981,6 +9050,7 @@ pub fn archive_historical_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     archive_work_item_internal(root, work_item_id, None, Some(runtime))
 }
 
@@ -8996,6 +9066,7 @@ pub fn retire_active_work_item_with_runtime(
     request: &ActiveWorkItemRetirementRequest,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     if request.schema_version != 1 || request.decision_id != "work-item-retirement" {
         return Err(ObserverError::State {
@@ -9427,6 +9498,7 @@ pub fn reconcile_active_artifacts(
     root: &Path,
     work_item_id: &str,
 ) -> Result<ActiveArtifactReconciliationReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -10197,6 +10269,7 @@ fn require_explicit_resource_finalization_plan(
 /// archived.  The operation is deliberately explicit and idempotent only for
 /// the same context; replacing a complete context after planning is refused.
 pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     Err(ObserverError::State {
         path: root.join(".ai/decisions"),
@@ -10209,6 +10282,7 @@ pub fn close_work_item_with_decision(
     work_item_id: &str,
     human_decision: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     if human_decision.trim().is_empty() {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
@@ -10239,6 +10313,7 @@ pub fn close_work_item_with_decision_and_runtime(
     human_decision: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     if human_decision.trim().is_empty() {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
@@ -10269,6 +10344,7 @@ pub fn close_work_item_with_structured_decision(
     work_item_id: &str,
     human_decision: &HumanDecision,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     close_work_item_with_structured_decision_internal(root, work_item_id, human_decision, None)
 }
 
@@ -10278,6 +10354,7 @@ pub fn close_work_item_with_structured_decision_and_runtime(
     human_decision: &HumanDecision,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     close_work_item_with_structured_decision_internal(
         root,
         work_item_id,
@@ -11187,6 +11264,7 @@ fn verify_historical_supersede_manifest(
 }
 
 pub fn outcome_v2(root: &Path, work_item_id: &str) -> Result<OutcomeV2, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     outcome_v2_internal(root, work_item_id, None)
 }
 
@@ -11199,6 +11277,7 @@ pub fn outcome_v2_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<OutcomeV2, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     outcome_v2_internal(root, work_item_id, Some(runtime))
 }
 
@@ -12798,6 +12877,7 @@ fn outcome_v2_internal_with_snapshot(
 /// profile evidence. Detection is not treated as verification unless a
 /// repository profile explicitly confirmed the command.
 pub fn capability_truth_registry(root: &Path) -> Result<CapabilityTruthRegistry, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     capability_truth_registry_internal(root, None)
 }
 
@@ -12805,6 +12885,7 @@ pub fn capability_truth_registry_with_runtime(
     root: &Path,
     runtime: &RuntimeContext,
 ) -> Result<CapabilityTruthRegistry, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     capability_truth_registry_internal(root, Some(runtime))
 }
 
@@ -13037,6 +13118,7 @@ pub fn performance_diagnosis(
     root: &Path,
     work_item_id: Option<&str>,
 ) -> Result<PerformanceDiagnosis, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let total_start = Instant::now();
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -13271,6 +13353,7 @@ pub fn set_work_item_intelligence(
     conflicts_with: Vec<String>,
     parallelizable: bool,
 ) -> Result<WorkItemIntelligence, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -13315,6 +13398,7 @@ pub fn set_work_item_concurrency_boundary(
     work_item_id: &str,
     boundary: ConcurrencyBoundary,
 ) -> Result<ConcurrencyBoundary, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     validate_boundary_for_parallel_use(&boundary).map_err(|message| ObserverError::State {
         path: root.join(".ai/work-items/active"),
@@ -14084,6 +14168,7 @@ pub fn acquire_parallel_slot(
     root: &Path,
     work_item_id: &str,
 ) -> Result<ParallelSlotLease, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -14204,6 +14289,7 @@ pub fn release_parallel_slot(
     work_item_id: &str,
     lease_id: &str,
 ) -> Result<ParallelSlotLease, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     if lease_id.trim().is_empty() {
         return Err(ObserverError::State {
@@ -14255,6 +14341,7 @@ pub fn release_parallel_slot(
 /// Read all repository-local leases in deterministic slot order.  Any
 /// malformed or symlink lease is an error rather than an ignored slot.
 pub fn list_parallel_slots(root: &Path) -> Result<Vec<ParallelSlotLease>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -14544,6 +14631,7 @@ pub fn work_item_compatibility(
     root: &Path,
     work_item_id: &str,
 ) -> Result<WorkItemCompatibility, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -14771,6 +14859,8 @@ fn validate_work_item_id(id: &str) -> Result<(), ObserverError> {
 /// Other callers retain their existing ordinary read behavior.
 fn read_governance_bytes(path: impl AsRef<Path>) -> std::io::Result<Vec<u8>> {
     let path = path.as_ref();
+    let _authority = authority_admission::context_for_path(path)
+        .map_err(|error| std::io::Error::new(std::io::ErrorKind::PermissionDenied, error))?;
     match legacy_closeout_source::read_under_query(path) {
         Some(result) => result,
         None => fs::read(path),
@@ -14778,6 +14868,8 @@ fn read_governance_bytes(path: impl AsRef<Path>) -> std::io::Result<Vec<u8>> {
 }
 fn read_governance_text(path: impl AsRef<Path>) -> std::io::Result<String> {
     let path = path.as_ref();
+    let _authority = authority_admission::context_for_path(path)
+        .map_err(|error| std::io::Error::new(std::io::ErrorKind::PermissionDenied, error))?;
     match legacy_closeout_source::read_under_query(path) {
         Some(result) => String::from_utf8(result?)
             .map_err(|error| std::io::Error::new(std::io::ErrorKind::InvalidData, error)),
@@ -14856,6 +14948,7 @@ mod lifecycle_lock_guard {
             root: &Path,
             work_item_id: &str,
         ) -> Result<(), ObserverError> {
+            let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
             if root != self.root || work_item_id != self.work_item_id {
                 return Err(ObserverError::State {
                     path: root.into(),
@@ -14901,6 +14994,7 @@ mod lifecycle_lock_guard {
         root: &Path,
         work_item_id: &str,
     ) -> Result<LifecycleLockGuard, ObserverError> {
+        let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
         let pinned_root = legacy_closeout_source::PinnedRoot::open(root)?;
         let root_dir = pinned_root.directory()?;
         let ai_path = root.join(".ai");
@@ -14974,12 +15068,17 @@ fn now() -> String {
 }
 
 fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), ObserverError> {
+    let authority = authority_admission::context_for_path(path)?;
     let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
     let temporary = path.with_extension(format!("tmp-{}-{sequence}", std::process::id()));
     fs::write(&temporary, bytes).map_err(|source| ObserverError::Read {
         path: temporary.clone(),
         source,
     })?;
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     fs::rename(&temporary, path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
@@ -14990,6 +15089,7 @@ pub fn observe(
     root: &Path,
     snapshot: &RepositorySnapshot,
 ) -> Result<RepositoryObservation, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -15099,6 +15199,7 @@ pub fn observe_cached(
     root: &Path,
     snapshot: &RepositorySnapshot,
 ) -> Result<RepositoryObservation, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -15213,6 +15314,7 @@ pub fn confirm_profile_update(
     program: &str,
     args: &[String],
 ) -> Result<AttachedProfile, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,

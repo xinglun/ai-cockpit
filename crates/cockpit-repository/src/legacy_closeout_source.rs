@@ -69,6 +69,7 @@ pub(super) fn has_obligation(root: &Path, id: &str) -> bool {
 }
 
 pub(super) fn obligation_ids(root: &Path) -> Result<BTreeSet<String>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let pinned = PinnedRoot::open(root)?;
     let path = root.join(".ai/decisions");
     let ambient = root_directory(root)?;
@@ -360,6 +361,7 @@ fn safe_read(root: &Path, relative: &str, maximum: u64) -> Result<Vec<u8>, Obser
     Ok(bytes)
 }
 pub(super) fn optional_read(root: &Path, relative: &str) -> Result<Option<Vec<u8>>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     match fs::symlink_metadata(root.join(relative)) {
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(None),
         Err(source) => Err(ObserverError::Read {
@@ -1018,6 +1020,7 @@ pub fn plan_legacy_closeout_source(
     request: &Request,
     runtime: &RuntimeContext,
 ) -> Result<Plan, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     validate_work_item_id(id)?;
     if source.is_some_and(|path| !path.is_absolute()) {
         return Err(ObserverError::State {
@@ -1364,6 +1367,7 @@ pub fn record_legacy_closeout_source(
     plan: &Plan,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     validate_work_item_id(id)?;
     let root = canonical(root)?;
     require_plan_directory(&root, plan)?;
@@ -1948,6 +1952,7 @@ pub(crate) fn record_finalization_locked(
     runtime: &RuntimeContext,
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     guard.require_subject(root, id)?;
     let _query = QuerySession::start();
     let _visit = QueryVisit::enter(root, id, "finalization_write")?;
@@ -2065,6 +2070,7 @@ pub(super) fn enter_recovery_query(
     root: &Path,
     id: &str,
 ) -> Result<Option<QueryVisit>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     if QUERY_BUDGET.with(|state| state.borrow().is_some()) {
         QueryVisit::enter(root, id, "recovery").map(Some)
     } else {
