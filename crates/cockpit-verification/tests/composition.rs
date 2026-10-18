@@ -2755,14 +2755,94 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         escaped_process_guard.reaped = true;
     }
 
-    let retry = run_composition(input(
+    let before_retry_bytes = fs::read(&attempt_path);
+    let retry_result = run_composition(input(
         root.path(),
         state.path(),
         binding(&base, vec![base.clone(), base.clone()]),
         vec![command("recovered", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
-    ))
-    .expect("retry reconciles the dead owner");
+    ));
+    if retry_result.is_err() {
+        use std::io::Write as _;
+        use std::os::unix::fs::{DirBuilderExt as _, OpenOptionsExt as _};
+
+        let sequence = NEXT_TEMP_DIR.fetch_add(1, Ordering::Relaxed);
+        let diagnostic_dir = std::env::temp_dir().join(format!(
+            "cockpit-interrupted-owner-diagnostic-{}-{sequence}",
+            std::process::id()
+        ));
+        match fs::DirBuilder::new().mode(0o700).create(&diagnostic_dir) {
+            Ok(()) => {
+                let save = |name: &str, bytes: std::io::Result<Vec<u8>>| {
+                    let path = diagnostic_dir.join(name);
+                    let mut stage = "read";
+                    let result = bytes.and_then(|bytes| {
+                        let digest = Digest::sha256_bytes(&bytes);
+                        stage = "open";
+                        let mut file = fs::OpenOptions::new()
+                            .write(true)
+                            .create_new(true)
+                            .mode(0o600)
+                            .open(&path)?;
+                        stage = "write";
+                        file.write_all(&bytes)?;
+                        stage = "sync";
+                        file.sync_all()?;
+                        Ok((bytes.len(), digest))
+                    });
+                    match result {
+                        Ok((bytes, digest)) => {
+                            eprintln!(
+                                "test_diagnostic_saved path={} sha256={} bytes={bytes}",
+                                path.display(), digest
+                            );
+                            serde_json::json!({
+                                "path": path, "saved": true,
+                                "sha256": digest.to_string(), "bytes": bytes
+                            })
+                        }
+                        Err(error) => {
+                            eprintln!(
+                                "test_diagnostic_save_failed path={} stage={stage} kind={:?} errno={:?}",
+                                path.display(), error.kind(), error.raw_os_error()
+                            );
+                            serde_json::json!({
+                                "path": path, "saved": false, "stage": stage,
+                                "errorKind": format!("{:?}", error.kind()),
+                                "errno": error.raw_os_error()
+                            })
+                        }
+                    }
+                };
+                let before = save("before.raw", before_retry_bytes);
+                let after = save("after.raw", fs::read(&attempt_path));
+                let processes = [std::process::id(), owner_pid, escaped_process_id]
+                    .into_iter()
+                    .map(|pid| {
+                        match cockpit_verification::observe_composition_process_identity(pid) {
+                            Ok(identity) => serde_json::json!({"pid": pid, "identity": identity}),
+                            Err(error) => serde_json::json!({"pid": pid, "unknown": error}),
+                        }
+                    })
+                    .collect::<Vec<_>>();
+                let observation = serde_json::to_vec_pretty(&serde_json::json!({
+                    "schemaVersion": 1,
+                    "kind": "test_diagnostic_not_runtime_receipt",
+                    "test": "retry_reconciles_an_interrupted_owner_after_process_exit",
+                    "observedAfterRetryError": true,
+                    "before": before, "after": after, "processes": processes
+                }))
+                .map_err(std::io::Error::other);
+                save("owner-observation.json", observation);
+            }
+            Err(error) => eprintln!(
+                "test_diagnostic_save_failed path={} stage=directory kind={:?} errno={:?}",
+                diagnostic_dir.display(), error.kind(), error.raw_os_error()
+            ),
+        }
+    }
+    let retry = retry_result.expect("retry reconciles the dead owner");
 
     assert!(retry.passed, "recovered attempt failed: {retry:?}");
     assert_eq!(retry.processes_spawned, 1);
