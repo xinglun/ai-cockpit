@@ -2631,18 +2631,18 @@ pub fn record_work_item_material_review(
             message: "material review decision is not enabled by the current Contract".into(),
         });
     }
+    require_current_action_admission(
+        &root,
+        work_item_id,
+        "record_material_review_decision",
+        runtime,
+    )?;
     let replacement_proof = finite_authority_source_replacement_proof(
         &root,
         contract,
         &document.digest,
         &request,
         &root.join(format!(".ai/work-items/active/{work_item_id}.summary.json")),
-    )?;
-    require_current_action_admission(
-        &root,
-        work_item_id,
-        "record_material_review_decision",
-        runtime,
     )?;
     let recorded_by = format!(
         "runtime:{}:{}",
