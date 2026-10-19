@@ -106,6 +106,359 @@ fn typed_request(root: &Path) -> ContractAmendmentRequest {
     }
 }
 
+fn confirm_current_fixture_preflight(root: &Path) {
+    let active = root.join(".ai/work-items/active");
+    let contract: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{WORK_ITEM_ID}.contract.json"))).expect("Contract"),
+    )
+    .expect("Contract JSON");
+    let summary: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{WORK_ITEM_ID}.summary.json"))).expect("Summary"),
+    )
+    .expect("Summary JSON");
+    record_work_item_governance_controls_with_runtime(
+        root,
+        WORK_ITEM_ID,
+        &json!({"decisionEvidence": {
+            "schemaVersion": 1,
+            "decisionId": "contract-preflight-review",
+            "decision": "confirm_review",
+            "workItemId": WORK_ITEM_ID,
+            "repositoryId": repository_id(root),
+            "contractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+            "preflightDecisionDigest": summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+            "recordedAt": "2026-10-19T00:00:00Z",
+            "recordedBy": "human:isolated-test-fixture",
+            "reason": "synthetic adapter test review for the exact current Contract"
+        }}),
+        &candidate_runtime(),
+    )
+    .expect("record exact synthetic Contract review");
+}
+
+fn assert_blocked_material_recovery_adapters(record_via_mcp: bool) {
+    let directory = repository();
+    let root = directory.path();
+    let repo = root.to_str().expect("repository path");
+    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    let contract_path = root.join(&relative);
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let opt_in = json!({
+        "schemaVersion": 1,
+        "changeId": "adapter-material-opt-in",
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("digest"),
+        "reason": "synthetic material opt-in before checkpoint",
+        "changes": [{"path": "/governanceProfile", "operation": "set", "value": {
+            "materialInspectionReview": {
+                "schemaVersion": 1,
+                "permittedUnknown": "repository_material_inspection_unavailable",
+                "permittedCause": "readable_committed_rust_syntax_unknown",
+                "assurance": "self_declared",
+                "reviewerActor": "agent:fixture-reviewer",
+                "authoritySource": "test-fixture:bounded-review",
+                "acceptResidualRisk": true
+            }
+        }}]
+    });
+    let amended = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_amend",
+        json!({"workItemId": WORK_ITEM_ID, "request": opt_in}),
+    );
+    assert_eq!(
+        amended.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{amended}"
+    );
+    assert_success(
+        &run_cli(&["preflight", "--repo", repo, "--contract", &relative]),
+        "initial fixture preflight",
+    );
+    confirm_current_fixture_preflight(root);
+    assert_success(
+        &run_cli(&["checkpoint", "--repo", repo, "--id", WORK_ITEM_ID]),
+        "fixture checkpoint",
+    );
+    let failed = run_cli(&["finish", "--repo", repo, "--id", WORK_ITEM_ID]);
+    assert!(
+        !failed.status.success(),
+        "fixture must persist a failed Outcome"
+    );
+    let blocked_path = root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.outcome.json"));
+    assert_eq!(
+        serde_json::from_slice::<Value>(&fs::read(&blocked_path).expect("Outcome"))
+            .expect("Outcome JSON")["state"],
+        "blocked"
+    );
+
+    fs::create_dir_all(root.join("src")).expect("source directory");
+    fs::write(root.join("src/material.rs"),
+        "fn material() -> String { let mut s = String::from(\"token\"); s.push_str(\"ization\"); s }\n")
+        .expect("reviewable source");
+    git(root, &["add", "-A"]);
+    git(root, &["commit", "-qm", "commit reviewable material"]);
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let scope_change = json!({
+        "schemaVersion": 1,
+        "changeId": "adapter-sensitive-scope",
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("digest"),
+        "reason": "review the committed Rust source in the amended scope",
+        "changes": [{"path": "/scope", "operation": "replace",
+            "value": ["README.md", "src/material.rs"]}]
+    });
+    let amended = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_amend",
+        json!({"workItemId": WORK_ITEM_ID, "request": scope_change}),
+    );
+    assert_eq!(
+        amended.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{amended}"
+    );
+    assert_success(
+        &run_cli(&["preflight", "--repo", repo, "--contract", &relative]),
+        "current amended preflight",
+    );
+    let before = run_cli(&[
+        "work-item",
+        "status",
+        "--repo",
+        repo,
+        "--id",
+        WORK_ITEM_ID,
+        "--json",
+    ]);
+    assert_success(&before, "status before current human review");
+    let before: Value = serde_json::from_slice(&before.stdout).expect("status JSON");
+    assert!(
+        !before["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .contains(&json!("record_material_review_decision"))
+    );
+    confirm_current_fixture_preflight(root);
+    let status = run_cli(&[
+        "work-item",
+        "status",
+        "--repo",
+        repo,
+        "--id",
+        WORK_ITEM_ID,
+        "--json",
+    ]);
+    assert_success(&status, "CLI status after exact human review");
+    let status: Value = serde_json::from_slice(&status.stdout).expect("CLI status JSON");
+    assert_eq!(status["governanceState"], "red");
+    assert!(
+        status["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .contains(&json!("record_material_review_decision")),
+        "{status}"
+    );
+    assert!(
+        !status["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .contains(&json!("run_verification"))
+    );
+    let mcp_status = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_status",
+        json!({"workItemId": WORK_ITEM_ID}),
+    );
+    assert_eq!(
+        mcp_status.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{mcp_status}"
+    );
+    assert_eq!(
+        mcp_status["result"]["structuredContent"]["safeActions"],
+        status["safeActions"]
+    );
+
+    let cli_plan = run_cli(&[
+        "work-item",
+        "material-review",
+        "plan",
+        "--repo",
+        repo,
+        "--id",
+        WORK_ITEM_ID,
+    ]);
+    assert_success(&cli_plan, "CLI material plan");
+    let cli_plan: Value = serde_json::from_slice(&cli_plan.stdout).expect("CLI plan JSON");
+    let mcp_plan = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_material_review_plan",
+        json!({"workItemId": WORK_ITEM_ID}),
+    );
+    assert_eq!(
+        mcp_plan.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{mcp_plan}"
+    );
+    assert_eq!(
+        mcp_plan["result"]["structuredContent"]["requestDigest"],
+        cli_plan["requestDigest"]
+    );
+    let input = json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": cli_plan["requestDigest"],
+        "reviewerActor": "agent:fixture-reviewer",
+        "authoritySource": "test-fixture:bounded-review",
+        "assurance": "self_declared",
+        "evidenceRefs": [{"path": "src/material.rs", "digest": cli_plan["materialManifestDigest"]}],
+        "rationale": "The committed fixture has the exact bounded Unknown.",
+        "residualRisk": "The bounded syntax scanner is incomplete."
+    });
+    let mut stale_input = input.clone();
+    stale_input["requestDigest"] = json!(Digest::sha256_bytes(b"foreign material request"));
+    let summary_path = root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+    let summary_before_stale = fs::read(&summary_path).expect("Summary before stale input");
+    let stale_file = tempfile::NamedTempFile::new().expect("stale input file");
+    fs::write(
+        stale_file.path(),
+        serde_json::to_vec(&stale_input).expect("stale input JSON"),
+    )
+    .expect("stale input bytes");
+    let stale_cli = run_cli(&[
+        "work-item",
+        "material-review",
+        "record",
+        "--repo",
+        repo,
+        "--id",
+        WORK_ITEM_ID,
+        "--input",
+        stale_file.path().to_str().expect("stale input path"),
+    ]);
+    assert!(
+        !stale_cli.status.success(),
+        "foreign material request must fail"
+    );
+    let stale_mcp = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_material_review_record",
+        json!({"workItemId": WORK_ITEM_ID, "decision": stale_input}),
+    );
+    assert_eq!(
+        stale_mcp.pointer("/result/isError"),
+        Some(&json!(true)),
+        "{stale_mcp}"
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after denied stale inputs"),
+        summary_before_stale
+    );
+    let input_file = tempfile::NamedTempFile::new().expect("material input file");
+    fs::write(
+        input_file.path(),
+        serde_json::to_vec(&input).expect("material input JSON"),
+    )
+    .expect("material input bytes");
+    if record_via_mcp {
+        let recorded = mcp_call(
+            root,
+            &candidate_runtime(),
+            "work_item_material_review_record",
+            json!({"workItemId": WORK_ITEM_ID, "decision": input.clone()}),
+        );
+        assert_eq!(
+            recorded.pointer("/result/isError"),
+            Some(&json!(false)),
+            "{recorded}"
+        );
+    } else {
+        let recorded = run_cli(&[
+            "work-item",
+            "material-review",
+            "record",
+            "--repo",
+            repo,
+            "--id",
+            WORK_ITEM_ID,
+            "--input",
+            input_file.path().to_str().expect("input path"),
+        ]);
+        assert_success(&recorded, "CLI typed material receipt");
+    }
+    let after = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_status",
+        json!({"workItemId": WORK_ITEM_ID}),
+    );
+    assert_eq!(
+        after.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{after}"
+    );
+    let after = &after["result"]["structuredContent"];
+    assert_eq!(after["governanceState"], "red");
+    assert!(
+        after["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .contains(&json!("run_verification")),
+        "{after}"
+    );
+    assert!(
+        !after["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .contains(&json!("finish"))
+    );
+    let cli_after = run_cli(&[
+        "work-item",
+        "status",
+        "--repo",
+        repo,
+        "--id",
+        WORK_ITEM_ID,
+        "--json",
+    ]);
+    assert_success(&cli_after, "CLI status after typed material receipt");
+    let cli_after: Value = serde_json::from_slice(&cli_after.stdout).expect("CLI status JSON");
+    assert_eq!(cli_after["safeActions"], after["safeActions"]);
+    let summary_before_replay = fs::read(&summary_path).expect("Summary after material receipt");
+    let replay = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_material_review_record",
+        json!({"workItemId": WORK_ITEM_ID, "decision": input}),
+    );
+    assert_eq!(
+        replay.pointer("/result/isError"),
+        Some(&json!(true)),
+        "{replay}"
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after denied replay"),
+        summary_before_replay
+    );
+}
+
+#[test]
+fn blocked_material_recovery_cli_and_mcp_share_exact_admission_and_receipt() {
+    assert_blocked_material_recovery_adapters(false);
+}
+
+#[test]
+fn blocked_material_recovery_mcp_record_matches_cli_and_rejects_replay() {
+    assert_blocked_material_recovery_adapters(true);
+}
+
 fn mcp_call(root: &Path, runtime: &RuntimeContext, name: &str, arguments: Value) -> Value {
     cockpit_mcp::handle_request_for_repo(
         &json!({

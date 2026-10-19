@@ -1,0 +1,84 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-19T04:29:52Z",
+  "checkpointContractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "createdAt": "2026-10-19T04:22:04Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "Ray explicitly replied \"确认上述 WI-1089 绑定，confirm_review\" as relayed by Raydot (source IDs Sentinel_52e516f8e8648191b99301bc260832e1 and Sentinel_2395e00d946881918bdeafac19cd95f6); provenance at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/start-20261019/human-contract-review-relayed.agent-recorded.json. This confirms only the exact amended Contract, not material residual risk.",
+    "recordedAt": "2026-10-19T04:29:14Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "schemaVersion": 1,
+    "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T04:22:04.808362362Z",
+      "recordedAt": "2026-10-19T04:22:04.808362362Z",
+      "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-19T04:24:18Z",
+  "preflightContractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "preflightRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Persist real failed Outcome, amend sensitive Contract, obtain fresh preflight and identity-bound human review; old failure remains red.",
+      "required": true,
+      "scenario": "A1 blocked Outcome and amendment",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [],
+      "expected": "Only current clean committed reviewable Rust syntax Unknown with no Finding and matched Contract preflight review request and policy admits independently accepted typed material decision.",
+      "required": true,
+      "scenario": "A2 exact material decision",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Material receipt admits fresh Native verification; only actual passing receipt can supersede old failure for finish or archive and history remains readable.",
+      "required": true,
+      "scenario": "A3 real verification recovery",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [],
+      "expected": "Dirty source unavailable projection Finding stale foreign tampered inputs or wrong retry remain rejected without business effects or extra governance writes.",
+      "required": true,
+      "scenario": "A4 rejection matrix",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Composed HEAD retains the WI-1087 authority guard and both WI regression suites pass after serial integration.",
+      "required": true,
+      "scenario": "A5 serial WI-1087 composition",
+      "status": "unverified",
+      "verificationPlan": "On a separately admitted serial composed HEAD run repository status_projection and WI-1087 authority-admission regressions plus current Native verification and CI"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T04:53:54.961026814+00:00",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+}

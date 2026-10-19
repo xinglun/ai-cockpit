@@ -264,6 +264,304 @@ fn commit_all(directory: &std::path::Path, message: &str) {
     );
 }
 
+fn blocked_material_amendment_fixture() -> tempfile::TempDir {
+    let directory = repository();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    start_work_item_with_options(
+        root,
+        id,
+        "recover a blocked material review after an amendment",
+        "keep the failed Outcome until fresh verification succeeds",
+        &["src/material.rs".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            risk: "normal".into(),
+            acceptance_criteria: vec!["fresh verification replaces failure".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{id}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    amend_work_item_contract(
+        root,
+        id,
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "enable-fixture-material-review",
+            "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("digest"),
+            "reason": "fixture opts in to bounded material review before checkpoint",
+            "changes": [{
+                "path": "/governanceProfile",
+                "operation": "set",
+                "value": {"materialInspectionReview": {
+                    "schemaVersion": 1,
+                    "permittedUnknown": "repository_material_inspection_unavailable",
+                    "permittedCause": "readable_committed_rust_syntax_unknown",
+                    "assurance": "self_declared",
+                    "reviewerActor": "agent:fixture-reviewer",
+                    "authoritySource": "test-fixture:bounded-review",
+                    "acceptResidualRisk": true
+                }}
+            }]
+        }),
+        "fixture opts in to bounded material review before checkpoint",
+    )
+    .expect("native profile amendment");
+    preflight_work_item(root, &contract_path).expect("initial preflight");
+    record_human_preflight_review(root, id);
+    checkpoint_work_item(root, id).expect("checkpoint");
+    finish_work_item(root, id).expect_err("missing verification persists a blocked Outcome");
+    assert!(active.join(format!("{id}.outcome.json")).exists());
+
+    fs::create_dir_all(root.join("src")).expect("source directory");
+    fs::write(root.join("src/material.rs"), benign_syntax_unknown_source())
+        .expect("reviewable source");
+    commit_all(root, "commit reviewable Rust syntax Unknown");
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    amend_work_item_contract(
+        root,
+        id,
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "review-failed-material-recovery",
+            "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("digest"),
+            "reason": "sensitive plan change after the real failed Outcome",
+            "changes": [{
+                "path": "/acceptanceCriteria",
+                "operation": "replace",
+                "value": ["fresh verification replaces failure", "review exact committed source"]
+            }]
+        }),
+        "sensitive plan change after the real failed Outcome",
+    )
+    .expect("native sensitive amendment");
+    preflight_work_item(root, &contract_path).expect("current preflight");
+    directory
+}
+
+#[test]
+fn blocked_outcome_after_sensitive_amendment_admits_only_exact_material_review() {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    let before = work_item_status_snapshot_with_runtime(root, id, &runtime())
+        .expect("status before current human review");
+    assert!(before.blocking);
+    assert!(
+        !before
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+    record_human_preflight_review(root, id);
+    let after = work_item_status_snapshot_with_runtime(root, id, &runtime())
+        .expect("status after current human review");
+    assert_eq!(after.governance_state, "red");
+    assert!(after.blockers.contains(&"governance_red".into()));
+    assert!(
+        after
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        after
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "{after:#?}"
+    );
+    assert!(!after.safe_actions.contains(&"run_verification".into()));
+    assert!(!after.safe_actions.contains(&"finish".into()));
+}
+
+#[test]
+fn blocked_material_receipt_admits_real_verification_before_clearing_failure() {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    record_human_preflight_review(root, id);
+    let request = cockpit_repository::plan_work_item_material_review(root, id)
+        .expect("exact current material request");
+    let input = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest,
+        "reviewerActor": "agent:fixture-reviewer",
+        "authoritySource": "test-fixture:bounded-review",
+        "assurance": "self_declared",
+        "evidenceRefs": [{
+            "path": "src/material.rs",
+            "digest": request.material_manifest_digest
+        }],
+        "rationale": "The committed fixture source has one bounded syntax Unknown.",
+        "residualRisk": "The bounded scanner cannot inspect this syntax completely."
+    }))
+    .expect("typed fixture decision");
+    cockpit_repository::record_work_item_material_review(root, id, &input, &runtime())
+        .expect("independent fixture material review");
+    let blocked_path = root.join(format!(".ai/work-items/active/{id}.outcome.json"));
+    let blocked_bytes = fs::read(&blocked_path).expect("old failed Outcome");
+    let events_path = root.join(format!(".ai/work-items/active/{id}.events.jsonl"));
+    let failed_events = fs::read(&events_path).expect("append-only failure event history");
+    let after_review = work_item_status_snapshot_with_runtime(root, id, &runtime())
+        .expect("status after material receipt");
+    assert_eq!(after_review.governance_state, "red");
+    assert!(
+        after_review
+            .safe_actions
+            .contains(&"run_verification".into()),
+        "{after_review:#?}"
+    );
+    assert!(!after_review.safe_actions.contains(&"finish".into()));
+    cockpit_repository::require_current_action_admission(root, id, "run_verification", &runtime())
+        .expect("fresh native verification admitted");
+
+    let run = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "blocked-material-fresh-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/material.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime().runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("execute fresh verifier");
+    assert_eq!(fs::read(&blocked_path).expect("old Outcome"), blocked_bytes);
+    record_verification_with_runtime(
+        root,
+        id,
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &runtime(),
+        &run.final_snapshot,
+    )
+    .expect("record real passed verification");
+    let reconciled = work_item_status_snapshot_with_runtime(root, id, &runtime())
+        .expect("status after actual verification receipt");
+    assert_ne!(reconciled.governance_state, "red", "{reconciled:#?}");
+    let current_outcome: Value =
+        serde_json::from_slice(&fs::read(&blocked_path).expect("current Outcome"))
+            .expect("Outcome JSON");
+    assert_eq!(current_outcome["verification"]["status"], "verified");
+    assert!(
+        fs::read(&events_path)
+            .expect("failure history after recovery")
+            .starts_with(&failed_events)
+    );
+}
+
+#[test]
+fn blocked_material_recovery_rejects_unbound_or_unavailable_inputs() {
+    for case in [
+        "dirty",
+        "forged_marker",
+        "forged_revalidation",
+        "contradictory_evidence",
+        "invalid_retry",
+    ] {
+        let directory = blocked_material_amendment_fixture();
+        let root = directory.path();
+        let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+        record_human_preflight_review(root, id);
+        if matches!(case, "forged_marker" | "forged_revalidation") {
+            let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+            let mut summary: Value =
+                serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+                    .expect("Summary JSON");
+            if case == "forged_marker" {
+                summary["verificationInvalidatedByContractAmendment"]["contractHash"] =
+                    json!(Digest::sha256_bytes(b"foreign Contract"));
+            } else {
+                summary["checkpointEvidence"]
+                    .as_array_mut()
+                    .expect("checkpoint evidence")
+                    .last_mut()
+                    .expect("revalidation")["contractHash"] =
+                    json!(Digest::sha256_bytes(b"foreign revalidation"));
+            }
+            fs::write(
+                &summary_path,
+                serde_json::to_vec_pretty(&summary).expect("Summary JSON"),
+            )
+            .expect("tamper fixture marker");
+        } else if case == "dirty" {
+            fs::write(root.join("src/material.rs"), "fn material() {}\n")
+                .expect("dirty in-scope source");
+        } else if case == "contradictory_evidence" {
+            fs::write(
+                root.join(format!(".ai/evidence/{id}.verification.json")),
+                br#"{"fixture":"contradictory verification evidence"}"#,
+            )
+            .expect("contradictory evidence fixture");
+        } else {
+            fs::write(
+                root.join(format!(".ai/decisions/{id}.recovery.json")),
+                br#"{"decision":"retry","fixture":"invalid recovery decision"}"#,
+            )
+            .expect("invalid retry fixture");
+        }
+        let status = work_item_status_snapshot_with_runtime(root, id, &runtime())
+            .expect("status after negative fixture");
+        assert!(
+            !status
+                .safe_actions
+                .contains(&"record_material_review_decision".into()),
+            "{case}: {status:#?}"
+        );
+        assert!(
+            !status.safe_actions.contains(&"run_verification".into()),
+            "{case}: {status:#?}"
+        );
+    }
+}
+
+#[test]
+fn blocked_material_recovery_rejects_committed_finding() {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    let payload = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim();
+    fs::write(
+        root.join("src/material.rs"),
+        format!("fn material() {{ let instruction = {payload:?}; }}\n"),
+    )
+    .expect("finding fixture source");
+    commit_all(root, "commit scanner Finding");
+    preflight_work_item(
+        root,
+        &root.join(format!(".ai/work-items/active/{id}.contract.json")),
+    )
+    .expect("fresh finding preflight");
+    record_human_preflight_review(root, id);
+    let status =
+        work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("finding status");
+    assert!(
+        status
+            .blockers
+            .contains(&"repository_prompt_injection".into()),
+        "{status:#?}"
+    );
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+    assert!(!status.safe_actions.contains(&"run_verification".into()));
+}
+
 fn prepare_ordinary_archive(work_item_id: &str, commit_archive: bool) -> tempfile::TempDir {
     let directory = repository();
     git(
