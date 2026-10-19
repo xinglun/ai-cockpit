@@ -2138,14 +2138,21 @@ fn finite_authority_source_replacement_proof(
                 "raw historical inputs changed after native validation",
             ));
         }
-        let (derived, _) =
-            cockpit_protocol::apply_contract_amendment_with_trace(&before, &amendment)
-                .map_err(|_| replacement_error(&path, "historical operation replay rejected"))?;
-        if derived != after {
-            return Err(replacement_error(
-                &path,
-                "historical replay does not reach recorded Contract",
-            ));
+        // The native loader already replays the complete prefix, including
+        // Runtime-derived capability metadata on initial profile activation.
+        // H/P starts at the receipt; its capabilities must remain unchanged.
+        if index >= *start {
+            let (derived, _) =
+                cockpit_protocol::apply_contract_amendment_with_trace(&before, &amendment)
+                    .map_err(|_| {
+                        replacement_error(&path, "historical operation replay rejected")
+                    })?;
+            if derived != after {
+                return Err(replacement_error(
+                    &path,
+                    "historical replay does not reach recorded Contract",
+                ));
+            }
         }
         raw_bindings.extend([prepared_raw, committed_raw]);
         if item.policy_review_required {
