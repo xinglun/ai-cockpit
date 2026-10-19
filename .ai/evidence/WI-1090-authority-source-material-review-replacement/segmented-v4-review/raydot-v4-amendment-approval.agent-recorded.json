@@ -1,0 +1,29 @@
+{
+  "kind": "actual_Raydot_technical_approval_relay_agent_recorded_not_human_confirm_or_risk_grant",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T13:35:08.574231+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "sourceMessageId": "not_supplied",
+  "approvedBy": "agent:Raydot",
+  "approvedWorkItem": "WI-1090-authority-source-material-review-replacement",
+  "approvedRequestRawSha256": "235ff9508a2f40d61d65e602adb4cf21727fc2c9061aa5a9f579bf44fe37032e",
+  "approvedAction": "Apply this exact native WI1090 amendment and produce one complete actual new human review binding; no source implementation before confirmation.",
+  "reviewBoundaries": [
+    "Keep eight scope paths, seven checks and high risk.",
+    "Use H/P/C and atomic failure/recovery cases in the reviewed complete proposal.",
+    "Do not describe evidenceRefs format validation as authenticated human identity; preserve the native trust model.",
+    "Ray accepted the same three exact blob/hunk materials. A derived digest change from an actual source-only rebinding does not automatically require repeated risk acceptance; objectively compare unchanged contents and risks first.",
+    "Actual new native Contract identity confirmation, if required, must be shown truthfully and obtained without impersonation.",
+    "Combined new Rust material is outside the prior consent.",
+    "Consumer leaf request7396342c is technically valid but must NOT be executed until WI1090 support candidate is verified."
+  ],
+  "notAuthorizedNow": [
+    "source implementation",
+    "consumer amendment",
+    "human confirm recording without actual reply",
+    "new material risk acceptance",
+    "full verification",
+    "Sentinel",
+    "real WI terminal/merge/cleanup/release"
+  ]
+}
