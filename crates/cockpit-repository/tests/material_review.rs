@@ -222,14 +222,16 @@ fn amend_segmented_fixture(
     confirm_segmented_fixture(root, runtime);
 }
 
-fn segmented_authority_fixture() -> (
+type SegmentedMaterialFixture = (
     tempfile::TempDir,
     cockpit_protocol::RuntimeContext,
     PathBuf,
     Vec<u8>,
     serde_json::Value,
     MaterialInspectionReviewDecisionInput,
-) {
+);
+
+fn segmented_authority_fixture() -> SegmentedMaterialFixture {
     segmented_authority_fixture_with_changes(&[], false, &[])
 }
 
@@ -237,14 +239,21 @@ fn segmented_authority_fixture_with_changes(
     historical_changes: &[serde_json::Value],
     whole_profile_replace: bool,
     adjacent_extra: &[serde_json::Value],
-) -> (
-    tempfile::TempDir,
-    cockpit_protocol::RuntimeContext,
-    PathBuf,
-    Vec<u8>,
-    serde_json::Value,
-    MaterialInspectionReviewDecisionInput,
-) {
+) -> SegmentedMaterialFixture {
+    segmented_fixture_with_profile_field(
+        historical_changes,
+        whole_profile_replace,
+        adjacent_extra,
+        false,
+    )
+}
+
+fn segmented_fixture_with_profile_field(
+    historical_changes: &[serde_json::Value],
+    whole_profile_replace: bool,
+    adjacent_extra: &[serde_json::Value],
+    add_null_profile_field: bool,
+) -> SegmentedMaterialFixture {
     let (directory, _) = fixture();
     let root = directory.path();
     let runtime = review_runtime();
@@ -343,6 +352,9 @@ fn segmented_authority_fixture_with_changes(
         let mut profile = current["governanceProfile"].clone();
         profile["materialInspectionReview"]["authoritySource"] =
             json!("fixture:new-current-risk-source");
+        if add_null_profile_field {
+            profile["anotherProfileField"] = serde_json::Value::Null;
+        }
         vec![json!({"path":"/governanceProfile", "operation":"replace", "value":profile})]
     } else {
         vec![
@@ -600,6 +612,13 @@ fn segmented_whole_profile_replace_has_source_only_projection() {
     );
     assert!(status.review_receipt_digest.is_none());
     assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+}
+
+#[test]
+fn segmented_rejects_source_replace_that_adds_another_null_profile_field() {
+    let (directory, runtime, _path, _bytes, _pointer, input) =
+        segmented_fixture_with_profile_field(&[], true, &[], true);
+    assert_segmented_rejection_is_read_only(directory.path(), &runtime, &input);
 }
 
 #[test]
