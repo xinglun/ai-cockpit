@@ -3050,6 +3050,7 @@ fn write_replacement_summary(
     path: &Path,
     bytes: &[u8],
 ) -> Result<(), ObserverError> {
+    use cap_fs_ext::OpenOptionsFollowExt as _;
     use std::io::Write as _;
     static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
     let sequence = NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
