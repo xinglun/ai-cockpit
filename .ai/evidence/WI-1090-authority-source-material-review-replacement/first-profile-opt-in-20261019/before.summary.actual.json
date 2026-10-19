@@ -1,0 +1,164 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-19T19:18:36Z",
+  "checkpointContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "createdAt": "2026-10-19T08:35:04Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "Ray replied literally 确认上述 WI-1090 v4 新 Contract 完整绑定，confirm_review in Sentinel_063178386aa4819189ca3bb7cf350917 to Raydot exact request Sentinel_a5e37b861a6c8191b6c120807100b60b. Relayed in the parent thread; recorder agent:Codex. Full binding, exact reply and provenance limit at .ai/evidence/WI-1090-authority-source-material-review-replacement/contract-review-v4-20261019/human-confirm-review-relayed.agent-recorded.json. Confirms only the new v4 Contract identity; no new material residual-risk acceptance, consumer amendment, verification, merge/release or real WI/Sentinel terminal.",
+    "recordedAt": "2026-10-19T19:18:03Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "schemaVersion": 1,
+    "workItemId": "WI-1090-authority-source-material-review-replacement"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M1-M5-clause-to-evidence-map.actual.agent-recorded.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-two-case-execution-summary.actual.agent-recorded.json"
+    ],
+    "reason": "Raydot technical review and both approved M6 synthetic fixture lifecycles are now recorded. M1/M3/M4 are mapped to retained passing current-source assertions; M2/M5 named coverage and real-material workflow gaps remain explicit. Current real profile is null and no new WI1090 material residual-risk consent exists; no complete real-consumer benefit is asserted.",
+    "state": "unknown"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T08:35:04.513592209Z",
+      "recordedAt": "2026-10-19T08:35:04.513592209Z",
+      "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-19T21:52:53Z",
+  "preflightContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Complete valid R-to-A history permits only reviewed scope/acceptanceCriteria/scenarioCoverage/sources transitions with unchanged profile; real adjacent A-to-B changes only authoritySource, including correct whole-object governanceProfile replace. H/P only permit a NEW current decision; old receipt remains invalid/no discharge.",
+      "reason": "All original positive H/P/new-decision/no-discharge clauses map to passing native fixture integration tests and both actual M6 encodings.",
+      "required": true,
+      "scenario": "M1 authoritySource-only proof",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Missing required historical review, broken/foreign/pending native chain, intermediate forbidden profile/risk/base changes including revert, Summary-forged or nonadjacent anchors, mixed root-replace changes and unjournaled edits reject without new material writes.",
+      "reason": "Original clauses now have actual native finite-fixture negative coverage including independent foreign/fork/base/nonterminal/direct boundaries; all reject without governance writes. Protected base native refusal is not a successful amendment.",
+      "required": true,
+      "scenario": "M2 forbidden amendments",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Projection and under-lock record use the same H/P/C0 typed helper, preserving strict invalid diagnostics and blockers; record separately validates actual C1 current-request/reviewer/source/assurance input. Current exact material and actual approval/review provenance are required; self_declared human-authentication limits remain explicit.",
+      "reason": "Shared private proof and native admission under lifecycle lock plus actual independent C1 fixtures/wrong-input rejection; assurance remains self_declared, not a real WI1090 risk grant.",
+      "required": true,
+      "scenario": "M3 shared admission and service proof",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Injected failures before/after prepare publish, receipt publish and one atomic Summary commit preserve old canonical bytes/history. Only exact pending continuation commits once; committed replay, wrong/conflicting input and CAS races reject without duplicate history or discharge from residue.",
+      "reason": "Actual six publication boundaries, exact original receipt retry, wrong/conflicting pending, replay, CAS/current-source/review/namespace races all passed; cooperative-lock logical atomicity only.",
+      "required": true,
+      "scenario": "M4 logical atomicity and bounded resume",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Finding, other Unknown, dirty/unavailable source, missing/stale/foreign current authorization, changed request/blob/hunk/profile/scanner/policy, corrupt/duplicate/symlinked receipt/pointer/history/chain and material/source changes after the adjacent anchor reject. Workflow review rejects falsely extending old approval to new bindings.",
+      "reason": "Existing validator/planner/transaction cases plus independent stale/foreign current review, actual Rust blob/hunk change, genuine foreign history receipt and Unix journal symlink passed. M5.7 proves refusal of old bindings; actual WI1090 risk consent remains a separate pending workflow.",
+      "required": true,
+      "scenario": "M5 integrity and source rejection",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-two-case-execution-summary.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/current-verification.native.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/current-verification.native.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/F1-real-history-readonly-audit.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M6-source-manifest-and-reuse.readonly-supplement.actual.agent-recorded.json"
+      ],
+      "expected": "Frozen real 17c4100f-to-a5 history and a native-produced mixed-then-source-only fixture are covered. With a separately approved combined ba1+WI1090 candidate, actual blocked predecessor Outcome proceeds through NEW material decision, four fresh executed checks/reuse0/max1, fresh green preflight and actual fixture finish/archive. Same-profile and existing CLI/MCP regressions remain compatible; no actual consumer lifecycle completion is inferred.",
+      "reason": "Approved exact ba1+33d79 source recipe actually built; leaf set and whole-profile replace synthetic fixtures each preserved old four-node canonical/blocked Outcome/material receipt, actual20-op R-to-A, source-only adjacent B and independent new decision; plan0/new executed4/reuse0/max1/fresh green/actual finish/archive passed. Actual frozen cloud history queried read-only; no Sentinel/real-consumer or old-producer-upgrade claim. Existing seven-check compatibility evidence remains tied to unchanged WI1090 source33/5b, not a new formal seven-node combined-source run. Both actual receipt node reasons are reuse_not_configured: zero reuse proves actual required executions only, not configured-cache invalidation or Runtime-change reuse prevention.",
+      "required": true,
+      "scenario": "M6 preserved compatibility and fixed candidate",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-cli --test contract_amendment_processes; cargo test --locked --package cockpit-mcp --test material_review"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T21:53:54.138151430+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:d95bafb274ff552d06369a75d89adfd73addacefff53bc3819e9600e21638a96",
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}

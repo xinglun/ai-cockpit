@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-authority-source-material-review-replacement",
+  "baseCommit": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": true,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 7,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 0,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "evidence_stale"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "high"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+    "materialManifest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+    "repositorySnapshot": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "summary": "sha256:afe080ecd5c90f4c6198786ccc0f2e0bc8196dc30190e757e596ba04acc4eaa6",
+    "verificationEvidence": "sha256:79e04346a518095d004997e03a19d5c9a0cfbbb45eac58b84735a649f0e5b0fc"
+  },
+  "unknowns": [
+    "evidence_stale",
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "evidence_stale",
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked"
+  ],
+  "diagnostics": [
+    "repository protocol state error at /workspace/ai-cockpit-wi1090-material-replacement/.ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json: verification requires a preflight result for the current Contract"
+  ],
+  "snapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-19T21:52:52Z",
+  "updatedAt": "2026-10-19T21:53:54.138151430+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_preflight"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "run_preflight",
+    "recommendationReason": "Runtime requires a current human decision before continuing",
+    "admissionState": "needs_human_decision",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "evidence_stale",
+        "message": "current projection reports evidence_stale"
+      },
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "unknown",
+        "code": "verification_action_preconditions_blocked",
+        "message": "current projection reports verification_action_preconditions_blocked"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "missingInputs": [
+      "evidence_stale"
+    ],
+    "admissionDigest": "sha256:abcd0419b09008885cf57c4a1ad4878ac878ec0881d50c47ace938dc6ed3352d"
+  },
+  "statusDigest": "sha256:dab554c0d6212a074e90c2d996095ef59ac8430c0cc4aa63384cd75de3b27e79",
+  "historical": false
+}

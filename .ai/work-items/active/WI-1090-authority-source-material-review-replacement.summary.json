@@ -3,6 +3,42 @@
   "checkpointAt": "2026-10-19T19:18:36Z",
   "checkpointContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "recorded": true,
+      "recordedAt": "2026-10-19T19:18:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "previousContractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "reason": "Proposal only for a first WI1090 material-review opt-in. No current material risk consent or reviewer decision is recorded by this proposal. Preserve scope, verification, old history and all non-profile policy; obtain actual new native review/material bindings before any material record.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T22:27:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
   "createdAt": "2026-10-19T08:35:04Z",
   "decisionEvidence": {
@@ -37,11 +73,11 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-19T21:52:53Z",
-  "preflightContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightAt": "2026-10-19T22:28:32Z",
+  "preflightContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+  "preflightDecisionDigest": "sha256:530d11843008f5fe306fdc19fae652d30724caa9ab39d7293eabd7c0d92cadca",
   "preflightRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
-  "preflightState": "green",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -159,6 +195,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-19T22:27:51Z"
+  },
   "verificationRecoveryReconciled": "sha256:d95bafb274ff552d06369a75d89adfd73addacefff53bc3819e9600e21638a96",
   "workItemId": "WI-1090-authority-source-material-review-replacement"
 }
