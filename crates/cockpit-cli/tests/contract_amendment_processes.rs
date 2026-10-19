@@ -145,7 +145,14 @@ const RETAINED_FIXTURE_CHECKS: [&str; 4] = [
 ];
 
 fn retained_cli(root: &Path, args: &[&str]) -> Output {
-    Command::new(candidate_binary())
+    retained_command(root, args)
+        .output()
+        .expect("retained-history fixture CLI")
+}
+
+fn retained_command(root: &Path, args: &[&str]) -> Command {
+    let mut command = Command::new(candidate_binary());
+    command
         .args(args)
         .arg("--repo")
         .arg(root)
@@ -153,9 +160,8 @@ fn retained_cli(root: &Path, args: &[&str]) -> Output {
         .env("CARGO_TARGET_DIR", root.join(".ai/fixture-target"))
         .env("CARGO_BUILD_JOBS", "1")
         .env("CARGO_INCREMENTAL", "0")
-        .env("CARGO_NET_OFFLINE", "true")
-        .output()
-        .expect("retained-history fixture CLI")
+        .env("CARGO_NET_OFFLINE", "true");
+    command
 }
 
 fn retained_document(root: &Path, suffix: &str) -> Value {
@@ -233,6 +239,12 @@ struct RetainedCanonicalFixture {
 }
 
 fn retained_canonical_amendment_fixture() -> RetainedCanonicalFixture {
+    retained_canonical_amendment_fixture_with_source_change(false)
+}
+
+fn retained_canonical_amendment_fixture_with_source_change(
+    change_source: bool,
+) -> RetainedCanonicalFixture {
     let directory = tempfile::tempdir().expect("retained fixture");
     let root = directory.path();
     git(root, &["init", "-q", "--initial-branch=main"]);
@@ -335,7 +347,7 @@ fn retained_canonical_amendment_fixture() -> RetainedCanonicalFixture {
         "fixture checkpoint",
     );
     fs::create_dir(root.join("tests")).expect("tests directory");
-    fs::write(root.join("tests/material.rs"), "fn material() -> String {\n    let mut label = String::from(\"token\");\n    label.push_str(\"ization\");\n    label\n}\n\n#[test]\nfn composed_label_matches() {\n    assert_eq!(material(), \"tokenization\");\n    assert_eq!(retained_fixture::expected_date(), \"2026-10-14\");\n}\n")
+    fs::write(root.join("tests/material.rs"), "fn material() -> String {\n    let mut label = String::from(\"token\");\n    label.push_str(\"ization\");\n    label\n}\n\n#[test]\nfn composed_label_matches() {\n    assert!(\n        std::env::var_os(\"RETAINED_FIXTURE_FAIL\").is_none(),\n        \"requested isolated fixture failure\"\n    );\n    assert_eq!(material(), \"tokenization\");\n    assert_eq!(retained_fixture::expected_date(), \"2026-10-14\");\n}\n")
         .expect("reviewable committed test source");
     git(root, &["add", "-A"]);
     git(
@@ -397,6 +409,18 @@ fn retained_canonical_amendment_fixture() -> RetainedCanonicalFixture {
         &candidate_runtime(),
     )
     .expect("record actual old-cycle scenario evidence");
+    if change_source {
+        fs::write(
+            root.join("README.md"),
+            "A committed source change requires fresh verification.\n",
+        )
+        .expect("source change before the current amendment/review");
+        git(root, &["add", "README.md"]);
+        git(
+            root,
+            &["commit", "-qm", "current source after the old verification"],
+        );
+    }
     retained_amend(
         root,
         "sensitive-after-retained-success-and-failed-finish",
@@ -515,6 +539,297 @@ fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archive
         ))
         .is_file()
     );
+}
+
+#[test]
+fn retained_history_integrity_is_separate_from_current_source_freshness() {
+    let fixture = retained_canonical_amendment_fixture_with_source_change(true);
+    let root = fixture.directory.path();
+    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
+    let current = retained_cli(
+        root,
+        &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
+    );
+    assert_success(&current, "current source status");
+    let current: Value = serde_json::from_slice(&current.stdout).expect("status");
+    assert_ne!(
+        old["repositorySnapshotDigest"],
+        current["sourceDigests"]["repositorySnapshot"]
+    );
+    assert_success(
+        &retained_record_material(root, &retained_material_input(root)),
+        "a separately reviewed current source does not corrupt an intact historical receipt",
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json")).expect("original"),
+        fixture.old_evidence
+    );
+}
+
+#[test]
+fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh() {
+    let fixture = retained_canonical_amendment_fixture();
+    let root = fixture.directory.path();
+    assert_success(
+        &retained_record_material(root, &retained_material_input(root)),
+        "current material decision before any retry",
+    );
+    let failed = retained_command(
+        root,
+        &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+    )
+    .env("RETAINED_FIXTURE_FAIL", "1")
+    .output()
+    .expect("actual failing fixture verification");
+    assert!(
+        !failed.status.success(),
+        "a real required-check failure must remain failed"
+    );
+    let failed_result: Value =
+        serde_json::from_slice(&failed.stdout).expect("failed execution result");
+    assert!(
+        failed_result["receipt"]["processesSpawned"]
+            .as_u64()
+            .unwrap_or(0)
+            > 0,
+        "{failed_result}"
+    );
+    assert_eq!(failed_result["receipt"]["passed"], false);
+    assert_eq!(
+        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("old canonical survives failed execution"),
+        fixture.old_evidence
+    );
+    assert!(
+        !retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"])
+            .status
+            .success()
+    );
+    let contract = retained_document(root, "contract");
+    let summary = retained_document(root, "summary");
+    let runtime = candidate_runtime();
+    record_recovery_decision(root, WORK_ITEM_ID, &json!({
+        "schemaVersion": 1, "decisionId": "work-item-recovery", "decision": "retry",
+        "workItemId": WORK_ITEM_ID, "repositoryId": repository_id(root),
+        "predecessorWorkItemId": WORK_ITEM_ID,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "runtimeVersion": runtime.runtime_version, "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:isolated-fixture", "authoritySource": "test-fixture:actual-failed-check",
+        "reason": "Retry the actual failed fixture execution after current material review; not a material bypass.",
+        "decidedAt": "2026-10-19T00:00:00Z", "resumeCondition": "Run one fresh replacement fixture cycle"
+    }), &runtime).expect("exact native retry after actual failure");
+    assert_success(
+        &retained_cli(
+            root,
+            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+        ),
+        "fresh exact retry without the fixture failure",
+    );
+    let current: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("new canonical"),
+    )
+    .expect("new envelope");
+    assert_eq!(current["receipt"]["nodesExecuted"], 4);
+    assert_eq!(current["receipt"]["nodesReused"], 0);
+    assert_eq!(current["passed"], true);
+    assert_ne!(
+        retained_document(root, "summary")["recoveryRetryPending"],
+        true
+    );
+}
+
+fn assert_retained_history_rejection(case: &str) {
+    let fixture = retained_canonical_amendment_fixture();
+    let root = fixture.directory.path();
+    let mut input = retained_material_input(root);
+    let path = root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json"));
+    let mut envelope: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
+    match case {
+        "foreign_repository" => {
+            envelope["repositoryId"] = json!(Digest::sha256_bytes(b"foreign repo"))
+        }
+        "foreign_work_item" => envelope["workItemId"] = json!("WI-FOREIGN"),
+        "non_predecessor" => {
+            envelope["contractDigest"] = json!(Digest::sha256_bytes(b"not an ancestor Contract"))
+        }
+        "receipt_digest" => {
+            envelope["receiptDigest"] = json!(Digest::sha256_bytes(b"wrong receipt digest"))
+        }
+        "nested_failure" => {
+            envelope["receipt"]["results"][0]["passed"] = json!(false);
+            envelope["receiptDigest"] =
+                json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
+        }
+        "producer_runtime_identity" => {
+            envelope["runtimeDigest"] = json!(Digest::sha256_bytes(b"wrong producer"))
+        }
+        "unsupported_schema" => envelope["evidenceSchemaVersion"] = json!(99),
+        "bad_marker" | "bad_transition" | "missing_current_review" => {
+            let summary_path =
+                root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+            let mut summary = retained_document(root, "summary");
+            if case == "bad_marker" {
+                summary["verificationInvalidatedByContractAmendment"]["contractHash"] =
+                    json!(Digest::sha256_bytes(b"wrong marker"));
+            } else if case == "bad_transition" {
+                summary["checkpointEvidence"]
+                    .as_array_mut()
+                    .expect("checkpoints")
+                    .last_mut()
+                    .expect("revalidation")["previousContractHash"] =
+                    json!(Digest::sha256_bytes(b"wrong transition"));
+            } else {
+                summary
+                    .as_object_mut()
+                    .expect("Summary")
+                    .remove("decisionEvidence");
+            }
+            fs::write(
+                summary_path,
+                serde_json::to_vec_pretty(&summary).expect("Summary JSON"),
+            )
+            .expect("negative fixture mutation");
+        }
+        "bad_journal" => {
+            let directory = root.join(format!(".ai/evidence/{WORK_ITEM_ID}.contract-amendments"));
+            let committed = directory.join("00000002.committed.json");
+            let mut value: Value =
+                serde_json::from_slice(&fs::read(&committed).expect("committed record"))
+                    .expect("record JSON");
+            value["receipt"]["journalDigest"] = json!(Digest::sha256_bytes(b"wrong journal"));
+            fs::write(
+                committed,
+                serde_json::to_vec_pretty(&value).expect("record JSON"),
+            )
+            .expect("negative journal mutation");
+        }
+        "dirty_source" => {
+            fs::write(root.join("tests/material.rs"), "fn changed() {}\n").expect("dirty source")
+        }
+        "finding" => {
+            fs::write(root.join("tests/material.rs"), include_str!("../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"))
+                .expect("isolated Finding fixture");
+            git(root, &["add", "tests/material.rs"]);
+            git(root, &["commit", "-qm", "isolated committed Finding"]);
+        }
+        "stale_request" => input["requestDigest"] = json!(Digest::sha256_bytes(b"stale request")),
+        "invalid_retry" => fs::write(
+            root.join(format!(".ai/decisions/{WORK_ITEM_ID}.recovery.json")),
+            br#"{"decision":"retry","fixture":"invalid"}"#,
+        )
+        .expect("invalid retry fixture"),
+        "malformed_json" | "duplicate_keys" => {}
+        #[cfg(unix)]
+        "symlink" => {
+            fs::remove_file(&path).expect("isolated negative only");
+            std::os::unix::fs::symlink(
+                root.join(".ai/evidence/fixture-preserved-old-cycle.json"),
+                &path,
+            )
+            .expect("negative symlink fixture");
+        }
+        _ => panic!("unknown rejection case {case}"),
+    }
+    if matches!(case, "malformed_json") {
+        fs::write(&path, b"{").expect("malformed envelope");
+    } else if case == "duplicate_keys" {
+        let text = serde_json::to_string(&envelope).expect("envelope");
+        fs::write(&path, format!("{{\"passed\":true,{}", &text[1..]))
+            .expect("duplicate-key envelope");
+    } else if case != "symlink" {
+        fs::write(
+            &path,
+            serde_json::to_vec_pretty(&envelope).expect("envelope JSON"),
+        )
+        .expect("negative envelope fixture");
+    }
+    let summary_before =
+        fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")))
+            .expect("Summary before rejection");
+    let record = retained_record_material(root, &input);
+    assert!(
+        !record.status.success(),
+        "{case} unexpectedly admitted material: {}",
+        String::from_utf8_lossy(&record.stdout)
+    );
+    assert_eq!(
+        fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")))
+            .expect("Summary after rejection"),
+        summary_before,
+        "{case}"
+    );
+    let request_hex = input["requestDigest"]
+        .as_str()
+        .expect("request digest")
+        .strip_prefix("sha256:")
+        .expect("digest prefix");
+    assert!(
+        !root
+            .join(format!(
+                ".ai/evidence/material-inspection-review/{WORK_ITEM_ID}/{request_hex}.json"
+            ))
+            .exists(),
+        "{case} published a successful current material receipt"
+    );
+    let plan = retained_cli(
+        root,
+        &[
+            "verify",
+            "--work-item",
+            WORK_ITEM_ID,
+            "--workers",
+            "1",
+            "--plan-only",
+        ],
+    );
+    assert!(
+        !plan.status.success(),
+        "{case} unexpectedly admitted verification"
+    );
+    let output: Value = serde_json::from_slice(&plan.stdout).expect("precondition rejection JSON");
+    let processes = output
+        .pointer("/attempt/processesSpawned")
+        .or_else(|| output.get("processesSpawned"));
+    assert_eq!(processes, Some(&json!(0)), "{case}: {output}");
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json"))
+            .expect("retained original"),
+        fixture.old_evidence,
+        "{case}"
+    );
+}
+
+#[test]
+fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorized_inputs() {
+    for case in [
+        "foreign_repository",
+        "foreign_work_item",
+        "non_predecessor",
+        "receipt_digest",
+        "nested_failure",
+        "producer_runtime_identity",
+        "unsupported_schema",
+        "bad_marker",
+        "bad_transition",
+        "bad_journal",
+        "dirty_source",
+        "finding",
+        "missing_current_review",
+        "stale_request",
+        "invalid_retry",
+        "malformed_json",
+        "duplicate_keys",
+    ] {
+        assert_retained_history_rejection(case);
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn retained_history_recovery_rejects_symlinked_canonical_verification() {
+    assert_retained_history_rejection("symlink");
 }
 
 fn assert_blocked_material_recovery_adapters(record_via_mcp: bool) {

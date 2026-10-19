@@ -121,6 +121,24 @@ struct PreparedRecord {
     prepared_digest: Digest,
 }
 
+/// A historical Contract obtained from a completely validated committed
+/// amendment chain. No caller can construct this from an arbitrary digest or
+/// a mutable Summary invalidation marker.
+pub(crate) struct ValidatedAmendmentPredecessor {
+    contract: Contract,
+    digest: Digest,
+}
+
+impl ValidatedAmendmentPredecessor {
+    pub(crate) fn contract(&self) -> &Contract {
+        &self.contract
+    }
+
+    pub(crate) fn digest(&self) -> &Digest {
+        &self.digest
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct CommittedRecord {
@@ -1961,10 +1979,69 @@ fn load_history(
     work_item_id: &str,
     allow_pending: bool,
 ) -> Result<(Vec<ContractAmendmentReceipt>, Option<PreparedRecord>), ObserverError> {
+    let (history, pending, _) =
+        load_history_with_predecessor(root, work_item_id, allow_pending, None)?;
+    Ok((history, pending))
+}
+
+type HistoryWithPredecessor = (
+    Vec<ContractAmendmentReceipt>,
+    Option<PreparedRecord>,
+    Option<PredecessorCandidate>,
+);
+
+struct PredecessorCandidate {
+    contract: Value,
+    checkpointed_verification: bool,
+}
+
+fn load_history_with_predecessor(
+    root: &Path,
+    work_item_id: &str,
+    allow_pending: bool,
+    predecessor: Option<&Digest>,
+) -> Result<HistoryWithPredecessor, ObserverError> {
     let directory = amendment_directory(root, work_item_id);
     if !directory.exists() {
-        return Ok((Vec::new(), None));
+        return Ok((Vec::new(), None, None));
     }
+    // The historical-recovery reader pins every parent and reads each record
+    // without following symlinks. Its parsed values and digest checks consume
+    // the same bytes, even if the path is replaced during observation.
+    let pinned_directory = if predecessor.is_some() {
+        let root_dir = cap_std::fs::Dir::open_ambient_dir(root, cap_std::ambient_authority())
+            .map_err(|source| ObserverError::Read {
+                path: root.into(),
+                source,
+            })?;
+        let ai = super::open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+        let evidence =
+            super::open_cap_directory_nofollow_strict(&ai, "evidence", &root.join(".ai/evidence"))?;
+        Some(super::open_cap_directory_nofollow_strict(
+            &evidence,
+            &format!("{work_item_id}.contract-amendments"),
+            &directory,
+        )?)
+    } else {
+        None
+    };
+    let read_record = |path: &Path| -> Result<Value, ObserverError> {
+        let Some(pinned) = pinned_directory.as_ref() else {
+            return super::read_json(path);
+        };
+        let name = path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .ok_or_else(|| state_error(path, "invalid amendment record filename"))?;
+        let bytes = super::read_cap_file_nofollow_bounded(
+            pinned,
+            name,
+            path,
+            cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+        )?;
+        super::reject_duplicate_json_keys(&bytes).map_err(|message| state_error(path, message))?;
+        serde_json::from_slice(&bytes).map_err(|error| state_error(path, error.to_string()))
+    };
     let mut records = BTreeMap::<u64, (Option<PreparedRecord>, Option<CommittedRecord>)>::new();
     for item in fs::read_dir(&directory).map_err(|source| ObserverError::Read {
         path: directory.clone(),
@@ -1999,8 +2076,18 @@ fn load_history(
         let suffix = suffix.strip_suffix(".json").unwrap_or_default();
         let pair = records.entry(sequence).or_default();
         match suffix {
-            "prepared" if pair.0.is_none() => pair.0 = Some(read_typed_record(&path)?),
-            "committed" if pair.1.is_none() => pair.1 = Some(read_typed_record(&path)?),
+            "prepared" if pair.0.is_none() => {
+                pair.0 = Some(
+                    serde_json::from_value(read_record(&path)?)
+                        .map_err(|error| state_error(&path, error.to_string()))?,
+                );
+            }
+            "committed" if pair.1.is_none() => {
+                pair.1 = Some(
+                    serde_json::from_value(read_record(&path)?)
+                        .map_err(|error| state_error(&path, error.to_string()))?,
+                );
+            }
             _ => {
                 return Err(state_error(
                     &path,
@@ -2014,6 +2101,7 @@ fn load_history(
     let mut previous_digest = Digest::sha256_bytes(ZERO_JOURNAL_DIGEST_SEED);
     let repository_identity = super::repository_id(root).to_string();
     let mut pending = None;
+    let mut predecessor_contract = None;
     for (expected_sequence, (sequence, (prepared, committed))) in records
         .into_iter()
         .enumerate()
@@ -2147,9 +2235,59 @@ fn load_history(
             ));
         }
         previous_digest = receipt.journal_digest.clone();
+        if predecessor == Some(&prepared.prepared.previous_contract_digest) {
+            if predecessor_contract.is_some() {
+                return Err(state_error(
+                    &directory,
+                    "historical Contract has an ambiguous predecessor position",
+                ));
+            }
+            predecessor_contract = Some(PredecessorCandidate {
+                contract: prepared.prepared.previous_contract,
+                checkpointed_verification: receipt.checkpointed && receipt.verification_started,
+            });
+        }
         receipts.push(receipt);
     }
-    Ok((receipts, pending))
+    Ok((receipts, pending, predecessor_contract))
+}
+
+pub(crate) fn validated_amendment_predecessor(
+    root: &Path,
+    work_item_id: &str,
+    predecessor: &Digest,
+    current: &Digest,
+) -> Result<Option<ValidatedAmendmentPredecessor>, ObserverError> {
+    if predecessor == current {
+        return Ok(None);
+    }
+    let (history, pending, contract) =
+        load_history_with_predecessor(root, work_item_id, false, Some(predecessor))?;
+    if pending.is_some()
+        || history
+            .last()
+            .is_none_or(|tail| tail.new_contract_digest != *current)
+    {
+        return Ok(None);
+    }
+    validate_transition_chain(root, work_item_id, &history, Some(current))?;
+    let Some(candidate) = contract else {
+        return Ok(None);
+    };
+    if !candidate.checkpointed_verification {
+        return Ok(None);
+    }
+    let contract: Contract = serde_json::from_value(candidate.contract)
+        .map_err(|error| state_error(root, error.to_string()))?;
+    if contract.repository_id != super::repository_id(root).to_string()
+        || contract.work_item_id != work_item_id
+    {
+        return Ok(None);
+    }
+    Ok(Some(ValidatedAmendmentPredecessor {
+        contract,
+        digest: predecessor.clone(),
+    }))
 }
 
 fn records_len_hint(directory: &Path) -> Result<u64, ObserverError> {

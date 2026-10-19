@@ -1809,7 +1809,25 @@ fn work_item_status_snapshot_with_snapshot(
         && !malformed_evidence
         && snapshot_ref.is_some_and(|snapshot| {
             super::verification_evidence_state(&root, &contract, snapshot, false, Some(runtime))
-                .is_ok_and(|state| state == EvidenceState::Missing)
+                .is_ok_and(|state| {
+                    if state == EvidenceState::Missing {
+                        return true;
+                    }
+                    match super::amendment_invalidated_verification_is_complete_history(
+                        &root,
+                        &contract,
+                        &contract_digest_value,
+                        snapshot,
+                    ) {
+                        Ok(ready) => ready,
+                        Err(error) => {
+                            diagnostics.push(format!(
+                                "historical verification recovery rejected: {error}"
+                            ));
+                            false
+                        }
+                    }
+                })
         })
         && matches!(
             load_recovery_decision(&root, work_item_id, Some(runtime)),

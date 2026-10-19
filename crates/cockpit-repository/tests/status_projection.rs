@@ -526,6 +526,45 @@ fn blocked_material_recovery_rejects_unbound_or_unavailable_inputs() {
 }
 
 #[test]
+fn a_stale_header_cannot_invent_prior_verification_in_a_trusted_amendment_chain() {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    record_human_preflight_review(root, id);
+    let history = cockpit_repository::read_work_item_contract_amendments(root, id)
+        .expect("native amendment history");
+    let snapshot = cockpit_git::GitRepository::discover(root)
+        .expect("Git repository")
+        .snapshot()
+        .expect("current snapshot");
+    // Deliberately forged negative input, never a claimed successful old
+    // execution. Its predecessor and digest-consistent header are insufficient.
+    let bogus_receipt = json!({"fixture": "not a typed verification receipt"});
+    let envelope = json!({
+        "protocolVersion": 1, "evidenceSchemaVersion": 2,
+        "workItemId": id, "repositoryId": repository_id(root),
+        "runtimeVersion": runtime().runtime_version, "runtimeDigest": runtime().runtime_digest,
+        "repositorySnapshotDigest": cockpit_repository::snapshot_digest(&snapshot).expect("digest"),
+        "contractDigest": history.last().expect("tail").previous_contract_digest,
+        "passed": true, "receiptDigest": cockpit_protocol::digest_json(&bogus_receipt).expect("digest"),
+        "captureMode": "full_capture", "createdAt": "2026-10-19T00:00:00Z",
+        "receipt": bogus_receipt
+    });
+    let path = root.join(format!(".ai/evidence/{id}.verification.json"));
+    let bytes = serde_json::to_vec_pretty(&envelope).expect("negative envelope JSON");
+    fs::write(&path, &bytes).expect("forged negative fixture input");
+    let status = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("status");
+    assert!(status.blocking);
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+    assert!(!status.safe_actions.contains(&"run_verification".into()));
+    assert_eq!(fs::read(path).expect("preserved rejected bytes"), bytes);
+}
+
+#[test]
 fn blocked_material_recovery_rejects_committed_finding() {
     let directory = blocked_material_amendment_fixture();
     let root = directory.path();

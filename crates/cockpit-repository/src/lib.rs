@@ -8111,6 +8111,112 @@ fn verification_evidence_state_from_value(
     current_runtime: Option<&RuntimeContext>,
     evidence: serde_json::Value,
 ) -> Result<EvidenceState, ObserverError> {
+    verification_evidence_state_from_value_with_predecessor(
+        root,
+        contract,
+        snapshot,
+        archived,
+        current_runtime,
+        evidence,
+        None,
+    )
+}
+
+/// A stale classification is not a historical integrity proof: current
+/// evidence validation may stop at a changed Contract or snapshot before
+/// reaching the nested receipt. This lane validates the retained bytes in
+/// their proven predecessor context, solely to admit new evidence production.
+fn amendment_invalidated_verification_is_complete_history(
+    root: &Path,
+    current: &cockpit_protocol::Contract,
+    current_digest: &Digest,
+    snapshot: &RepositorySnapshot,
+) -> Result<bool, ObserverError> {
+    let root_dir = cap_std::fs::Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(
+        |source| ObserverError::Read {
+            path: root.into(),
+            source,
+        },
+    )?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let evidence_dir =
+        open_cap_directory_nofollow_strict(&ai, "evidence", &root.join(".ai/evidence"))?;
+    let name = format!("{}.verification.json", current.work_item_id);
+    let path = root.join(".ai/evidence").join(&name);
+    let bytes = read_cap_file_nofollow_bounded(
+        &evidence_dir,
+        &name,
+        &path,
+        cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )?;
+    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+        path: path.clone(),
+        message,
+    })?;
+    let evidence: serde_json::Value =
+        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?;
+    let envelope: VerificationEvidenceEnvelope =
+        serde_json::from_value(evidence.clone()).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: error.to_string(),
+        })?;
+    if !matches!(
+        envelope.capture_mode,
+        VerificationCaptureMode::FullCapture | VerificationCaptureMode::RedactedCapture
+    ) {
+        return Ok(false);
+    }
+    let Some(old_digest) = envelope.contract_digest.as_ref() else {
+        return Ok(false);
+    };
+    let Some(predecessor) = contract_amendment::validated_amendment_predecessor(
+        root,
+        &current.work_item_id,
+        old_digest,
+        current_digest,
+    )?
+    else {
+        return Ok(false);
+    };
+    if predecessor.contract().base_revision != current.base_revision {
+        return Ok(false);
+    }
+    // No current Runtime identity is inferred from an old producer. The
+    // supported v2 typed envelope must instead be completely self-consistent;
+    // current Runtime/policy/source authority remains independently required
+    // by the recovery action and service entrypoints.
+    let state = verification_evidence_state_from_value_with_predecessor(
+        root,
+        predecessor.contract(),
+        snapshot,
+        false,
+        None,
+        evidence,
+        Some(&predecessor),
+    )?;
+    if state != EvidenceState::Complete {
+        return Err(ObserverError::State {
+            path,
+            message: format!(
+                "retained verification failed complete historical validation: {state:?}"
+            ),
+        });
+    }
+    Ok(true)
+}
+
+fn verification_evidence_state_from_value_with_predecessor(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+    current_runtime: Option<&RuntimeContext>,
+    evidence: serde_json::Value,
+    predecessor: Option<&contract_amendment::ValidatedAmendmentPredecessor>,
+) -> Result<EvidenceState, ObserverError> {
     let envelope = match serde_json::from_value::<VerificationEvidenceEnvelope>(evidence.clone()) {
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Contradictory),
@@ -8153,7 +8259,10 @@ fn verification_evidence_state_from_value(
     {
         return Ok(EvidenceState::Contradictory);
     }
-    let expected_contract_digest = contract_digest_for_evidence(root, contract)?;
+    let expected_contract_digest = match predecessor {
+        Some(proof) => proof.digest().clone(),
+        None => contract_digest_for_evidence(root, contract)?,
+    };
     // An explicit Contract amendment deliberately invalidates the previous
     // verification cycle.  Treat only that bound predecessor digest as
     // stale so a fresh verify can replace it; malformed, foreign, or
@@ -8222,7 +8331,14 @@ fn verification_evidence_state_from_value(
             EvidenceState::Contradictory
         });
     }
-    let current_snapshot_digest = snapshot_digest(snapshot)?;
+    let current_snapshot_digest = if predecessor.is_some() {
+        // Historical plan/snapshot bindings are checked against their own
+        // recorded context. New verification must check the current source;
+        // a source change does not make an intact predecessor malformed.
+        envelope.repository_snapshot_digest.clone()
+    } else {
+        snapshot_digest(snapshot)?
+    };
     if !archived && envelope.repository_snapshot_digest != current_snapshot_digest {
         return Ok(EvidenceState::Stale);
     }
@@ -8245,14 +8361,26 @@ fn verification_evidence_state_from_value(
                     Ok(value) => value,
                     Err(_) => return Ok(EvidenceState::Contradictory),
                 };
-            if !validate_plan_receipt_binding(
-                root,
-                contract,
-                snapshot,
-                &envelope,
-                typed.plan_receipt.as_ref(),
-                archived,
-            )? {
+            let plan_valid = if predecessor.is_some() {
+                validate_plan_receipt_binding_for_snapshot_digest(
+                    root,
+                    contract,
+                    &current_snapshot_digest,
+                    &envelope,
+                    typed.plan_receipt.as_ref(),
+                    archived,
+                )?
+            } else {
+                validate_plan_receipt_binding(
+                    root,
+                    contract,
+                    snapshot,
+                    &envelope,
+                    typed.plan_receipt.as_ref(),
+                    archived,
+                )?
+            };
+            if !plan_valid {
                 return Ok(EvidenceState::Contradictory);
             }
             if !typed.passed
@@ -8501,6 +8629,24 @@ fn validate_plan_receipt_binding(
     plan: Option<&cockpit_verification::VerificationPlanReceipt>,
     archived: bool,
 ) -> Result<bool, ObserverError> {
+    validate_plan_receipt_binding_for_snapshot_digest(
+        root,
+        contract,
+        &snapshot_digest(snapshot)?,
+        envelope,
+        plan,
+        archived,
+    )
+}
+
+fn validate_plan_receipt_binding_for_snapshot_digest(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    expected_snapshot: &Digest,
+    envelope: &VerificationEvidenceEnvelope,
+    plan: Option<&cockpit_verification::VerificationPlanReceipt>,
+    archived: bool,
+) -> Result<bool, ObserverError> {
     let Some(plan) = plan else {
         let has_policy_requirement = effective_policy_for_contract(root, contract)?
             .as_ref()
@@ -8535,7 +8681,6 @@ fn validate_plan_receipt_binding(
         {
             return Ok(true);
         }
-        let expected_snapshot = snapshot_digest(snapshot)?;
         let snapshot_matches_current = archived
             || plan.repository_snapshot_digest.as_deref()
                 == Some(expected_snapshot.to_string().as_str());
@@ -8554,7 +8699,6 @@ fn validate_plan_receipt_binding(
     {
         return Ok(false);
     }
-    let expected_snapshot = snapshot_digest(snapshot)?;
     if !archived
         && plan
             .repository_snapshot_digest
