@@ -253,6 +253,13 @@ fn retained_canonical_amendment_fixture() -> RetainedCanonicalFixture {
 fn retained_canonical_amendment_fixture_with_source_change(
     change_source: bool,
 ) -> RetainedCanonicalFixture {
+    retained_canonical_fixture_with_checks(change_source, RETAINED_FIXTURE_CHECKS)
+}
+
+fn retained_canonical_fixture_with_checks(
+    change_source: bool,
+    checks: [&str; 4],
+) -> RetainedCanonicalFixture {
     let directory = tempfile::tempdir().expect("retained fixture");
     let root = directory.path();
     git(root, &["init", "-q", "--initial-branch=main"]);
@@ -314,7 +321,7 @@ fn retained_canonical_amendment_fixture_with_source_change(
     ] {
         start.extend(["--scope", path]);
     }
-    for command in RETAINED_FIXTURE_CHECKS {
+    for command in checks {
         start.extend(["--verification", command]);
     }
     assert_success(&retained_cli(root, &start), "start retained fixture");
@@ -763,6 +770,44 @@ fn assert_retained_history_rejection(baseline: &RetainedCanonicalFixture, case: 
             envelope["receiptDigest"] =
                 json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
         }
+        "missing_coverage_manifest"
+        | "wrong_command_without_manifest"
+        | "wrong_command_then_remove_manifest" => {
+            let manifest = envelope["receipt"]["planReceipt"].get("coverageManifest");
+            if case != "wrong_command_without_manifest" {
+                assert!(
+                    manifest.is_some(),
+                    "deletion must mutate a real native manifest"
+                );
+            }
+            let node = manifest
+                .and_then(|m| m["nodeIds"][0].as_str())
+                .map(str::to_owned);
+            if case != "missing_coverage_manifest" {
+                let records = envelope["receipt"]["executionRecords"]
+                    .as_array_mut()
+                    .expect("records");
+                let record = if let Some(node) = node {
+                    records
+                        .iter_mut()
+                        .find(|r| r["nodeId"] == node)
+                        .expect("manifest node record")
+                } else {
+                    &mut records[0]
+                };
+                record["commandDigest"] = json!(Digest::sha256_bytes(
+                    b"different command with valid digest format"
+                ));
+            }
+            if case != "wrong_command_without_manifest" {
+                envelope["receipt"]["planReceipt"]
+                    .as_object_mut()
+                    .expect("plan")
+                    .remove("coverageManifest");
+            }
+            envelope["receiptDigest"] =
+                json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
+        }
         "missing_execution_records"
         | "failed_execution_exit"
         | "plan_result_mismatch"
@@ -972,6 +1017,29 @@ fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorize
 fn retained_history_recovery_rejects_symlinked_canonical_verification() {
     let fixture = retained_canonical_amendment_fixture();
     assert_retained_history_rejection(&fixture, "symlink");
+}
+
+#[test]
+fn retained_history_rejects_removing_a_native_manifest_and_rehashing_the_receipt() {
+    let mut checks = RETAINED_FIXTURE_CHECKS;
+    checks[2] = "cargo test --workspace --locked --offline";
+    let fixture = retained_canonical_fixture_with_checks(false, checks);
+    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
+    assert!(old["receipt"]["planReceipt"]["coverageManifest"].is_object());
+    assert_retained_history_rejection(&fixture, "missing_coverage_manifest");
+    assert_retained_history_rejection(&fixture, "wrong_command_then_remove_manifest");
+}
+
+#[test]
+fn retained_history_rejects_unbound_command_digest_in_native_nonpartitioned_receipt() {
+    let fixture = retained_canonical_amendment_fixture();
+    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
+    assert!(
+        old["receipt"]["planReceipt"]
+            .get("coverageManifest")
+            .is_none()
+    );
+    assert_retained_history_rejection(&fixture, "wrong_command_without_manifest");
 }
 
 fn assert_blocked_material_recovery_adapters(record_via_mcp: bool) {
