@@ -1,0 +1,12 @@
+{
+  "recordedBy": "agent:Codex",
+  "startedAt": "2026-10-19T22:45:09.200350Z",
+  "terminal": "returned",
+  "kind": "actual native material review record",
+  "contractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+  "requestDigest": "sha256:c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+  "exitCode": 0,
+  "endedAt": "2026-10-19T22:45:10.927659+00:00"
+}

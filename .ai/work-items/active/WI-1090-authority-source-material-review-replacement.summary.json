@@ -42,15 +42,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
   "createdAt": "2026-10-19T08:35:04Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+    "contractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
-    "reason": "Ray replied literally 确认上述 WI-1090 v4 新 Contract 完整绑定，confirm_review in Sentinel_063178386aa4819189ca3bb7cf350917 to Raydot exact request Sentinel_a5e37b861a6c8191b6c120807100b60b. Relayed in the parent thread; recorder agent:Codex. Full binding, exact reply and provenance limit at .ai/evidence/WI-1090-authority-source-material-review-replacement/contract-review-v4-20261019/human-confirm-review-relayed.agent-recorded.json. Confirms only the new v4 Contract identity; no new material residual-risk acceptance, consumer amendment, verification, merge/release or real WI/Sentinel terminal.",
-    "recordedAt": "2026-10-19T19:18:03Z",
+    "preflightDecisionDigest": "sha256:530d11843008f5fe306fdc19fae652d30724caa9ab39d7293eabd7c0d92cadca",
+    "reason": "Ray replied literally 确认上述 WI-1090 修约后完整绑定，confirm_review。 in Sentinel_5e627daabe548191ac72167f9a8963c3 to exact request Sentinel_09302e9f41a88191bcd960ffe84f27fa; relayed by agent:Raydot, recorder agent:Codex. Actual full binding and provenance at .ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/ray-new-contract-confirmation.relayed.agent-recorded.json. This is the new b6d2 Contract confirmation, not replay of c9, no invented new risk acceptance, ordinary acceptance, Sentinel recovery or release approval.",
+    "recordedAt": "2026-10-19T22:44:19.339363Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
     "schemaVersion": 1,
     "workItemId": "WI-1090-authority-source-material-review-replacement"
   },
@@ -71,6 +71,12 @@
       "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
       "runtimeVersion": "1.0.1"
     }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:0f3949bae38b9a306bcb677c9441bbeb77af17368c8ea561db65fcd489f819b5",
+    "path": ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7.json",
+    "receiptDigest": "sha256:bf8fbd2e07bfad7fef99ae386f33038d5d7f031fc6161e63328e1400c9d9d9a0",
+    "requestDigest": "sha256:c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7"
   },
   "mode": "implementation",
   "preflightAt": "2026-10-19T22:28:32Z",
@@ -164,7 +170,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-19T21:53:54.138151430+00:00",
+  "updatedAt": "2026-10-19T22:44:20.186772347+00:00",
   "verification": [
     {
       "check": "project-command-0",
