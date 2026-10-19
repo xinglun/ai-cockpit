@@ -1,0 +1,7 @@
+
+running 2 tests
+test material_review_plan_tool_uses_shared_read_only_repository_service ... ok
+test material_review_record_tool_fails_closed_without_stage_one_opt_in ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
