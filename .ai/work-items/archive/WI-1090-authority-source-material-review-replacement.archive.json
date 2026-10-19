@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-19T23:36:46Z",
+  "files": {
+    "contractDigest": "sha256:19f761ca3b0bb1e770a7ecf023ef4cd92b68ad07a0be7433955fc8f82c8e3c50",
+    "contractPath": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.contract.json",
+    "eventsDigest": "sha256:9d1fa486587305413524d0794d3bc1a7b47468fc612fe96db79d9ec04558524b",
+    "eventsPath": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.events.jsonl",
+    "outcomeDigest": "sha256:d5847711c23cb99c5ee2030e75c773a98c0629ca67ea1bdb4d1c9a145e906047",
+    "outcomePath": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.outcome.json",
+    "summaryDigest": "sha256:85aa5b758f00f72fc59562a9a29140bbc9b2b4b8da87deb390be2edda7886b00",
+    "summaryPath": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.summary.json",
+    "taskReportDigest": "sha256:8047ceea1ad2d58d31b4180e4af0a673544fcb16ef26f3180a58994272f8e5e0",
+    "taskReportMarkdownDigest": "sha256:f8dbd95c84ab4041d4733e7da8afd8b157e5fa90f843cc30aff2e89a51b88de7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-19T23:36:46.918400249Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-19T23:36:46.918400249Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}

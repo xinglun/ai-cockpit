@@ -1,0 +1,156 @@
+{
+  "acceptanceResults": [
+    "Establish separate H historical-integrity, P adjacent-source-change and C current-decision proofs. H validates the immutable old receipt R and complete native chain to A; only policy-reviewed scope, acceptanceCriteria, scenarioCoverage and sources changes are permitted on R-to-A, with the entire review profile constant per operation. Historical evidence grants no current material discharge.",
+    "P must derive A from the actual last adjacent committed native prepared/committed transition to current B, never a Summary marker or arbitrary earlier digest. Replay each operation: only one real authoritySource semantic leaf change is permitted. Support governanceProfile whole-object replace when semantically source-only; reject mixed, reverted, no-op-outside-anchor, pending, forked, direct or nonadjacent changes.",
+    "The old profile-mismatched receipt remains invalid and discharges no Unknown. One private typed finite eligibility is consumed by existing material action projection and recomputed under lifecycle lock by record, without status_projection.rs edits, generic Stale/Invalid waivers or a broad action allow-list bypass.",
+    "Require the full exact current request and member blob/hunk identities, current native authorization and required new Contract review, clean committed source, no Finding and only permitted reviewable Unknown. Validate the actual new reviewer decision independently. Preserve truthful current risk-approval/review provenance and self_declared limits: evidenceRefs syntax does not authenticate humans or extend an old grant to a new binding.",
+    "Preserve immutable receipt/pointer/history and all raw/canonical/native amendment identities. Use a sealed prepare, immutable new sidecar and one atomic current-Summary pointer/history commit with exact pending resume and at-most-once history. Validation failures publish no new material artifacts; precommit residue grants no evidence, committed replay and conflicting retries reject. No physical multi-file atomicity claim.",
+    "Reproduce the real R=17c4100f to A=a5deac9a mixed reviewed history and an actual native adjacent source-only B. Prove shared projection/record behavior, all negative and fault cases, same-profile/CLI/MCP compatibility, and an isolated full four-node lifecycle with actual blocked predecessor Outcome, fresh execution4/reuse0/max1 and actual fixture finish/archive. Do not substitute Missing, all-reuse or mutated positive digests.",
+    "Preserve c960/Contract420 history and delivered ba1c6c90/Contracta5/CI39249701684 unchanged during this implementation. Later real-consumer composition requires a separately reviewed exact candidate containing both ba1 and completed WI1090 with fresh native runtime/admission/material bindings. No Sentinel, real WI finish/archive/closure, merge, live grant, broad profile migration or automatic Runtime adoption. The sole exception, superseding earlier referenced lifecycle prohibitions only to this extent, is WI-1090-authority-source-material-review-replacement's own finish and subsequent archive, each only under current native admission; close/closure and every other excluded action remain prohibited."
+  ],
+  "createdAt": "2026-10-19T23:36:42.471423601Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fbc04fbbc2887caf3ede03cc227bd8a12d7e5dcaf9b454652a9f410322f5b413",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1090-authority-source-material-review-replacement.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide separately proven finite eligibility for a new current material decision using historical-integrity R-to-A proof, strictly adjacent source-only A-to-B proof and independent current authorization, with logically atomic recoverable replacement; preserve the delivered c960/420 history and ba1/a5 consumer until separately admitted composition."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-19T23:36:42.471423601Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    "workItemId": "WI-1090-authority-source-material-review-replacement"
+  },
+  "taskReportDigest": "sha256:8047ceea1ad2d58d31b4180e4af0a673544fcb16ef26f3180a58994272f8e5e0",
+  "taskReportMarkdownDigest": "sha256:f8dbd95c84ab4041d4733e7da8afd8b157e5fa90f843cc30aff2e89a51b88de7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}
