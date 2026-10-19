@@ -11,6 +11,7 @@ use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
+use std::sync::OnceLock;
 
 const WORK_ITEM_ID: &str = "WI-CLI-AMEND-PARITY";
 
@@ -75,13 +76,20 @@ fn assert_success(output: &Output, label: &str) {
 }
 
 fn candidate_runtime() -> RuntimeContext {
-    RuntimeContext {
-        runtime_version: env!("CARGO_PKG_VERSION").into(),
-        protocol_version: PROTOCOL_VERSION,
-        runtime_digest: Digest::sha256_bytes(
-            &fs::read(candidate_binary()).expect("read candidate executable"),
-        ),
-    }
+    // Cargo supplies one immutable candidate executable for this test process.
+    // Hash its actual bytes once; every fixture still gets its own context clone.
+    // Rehashing the large debug binary for each control/MCP call can exhaust the
+    // native 600-second test deadline without adding an identity observation.
+    static RUNTIME: OnceLock<RuntimeContext> = OnceLock::new();
+    RUNTIME
+        .get_or_init(|| RuntimeContext {
+            runtime_version: env!("CARGO_PKG_VERSION").into(),
+            protocol_version: PROTOCOL_VERSION,
+            runtime_digest: Digest::sha256_bytes(
+                &fs::read(candidate_binary()).expect("read candidate executable"),
+            ),
+        })
+        .clone()
 }
 
 fn typed_request(root: &Path) -> ContractAmendmentRequest {
