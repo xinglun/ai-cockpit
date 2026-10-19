@@ -2609,6 +2609,13 @@ pub fn record_work_item_material_review(
             message: "material review decision is not enabled by the current Contract".into(),
         });
     }
+    let replacement_proof = finite_authority_source_replacement_proof(
+        &root,
+        contract,
+        &document.digest,
+        &request,
+        &root.join(format!(".ai/work-items/active/{work_item_id}.summary.json")),
+    )?;
     require_current_action_admission(
         &root,
         work_item_id,
@@ -2678,15 +2685,15 @@ pub fn record_work_item_material_review(
         &document.digest,
         &request,
         &summary_path,
-    )? {
-        MaterialReviewReceiptState::Missing => None,
-        MaterialReviewReceiptState::Current(_) => {
+    ) {
+        Ok(MaterialReviewReceiptState::Missing) => None,
+        Ok(MaterialReviewReceiptState::Current(_)) => {
             return Err(ObserverError::State {
                 path: summary_path,
                 message: "material-review receipt is already recorded; replay is rejected".into(),
             });
         }
-        MaterialReviewReceiptState::Stale => Some(
+        Ok(MaterialReviewReceiptState::Stale) => Some(
             summary
                 .get("materialReviewReceipt")
                 .cloned()
@@ -2695,6 +2702,12 @@ pub fn record_work_item_material_review(
                     message: "stale material-review receipt pointer disappeared".into(),
                 })?,
         ),
+        Err(error) => match replacement_proof.as_ref() {
+            Some(proof) if summary.get("materialReviewReceipt") == Some(&proof.prior_pointer) => {
+                Some(proof.prior_pointer.clone())
+            }
+            _ => return Err(error),
+        },
     };
 
     let summary_object = summary
