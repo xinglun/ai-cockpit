@@ -1,0 +1,55 @@
+{
+  "kind": "actual_native_attempt3_receipt_readback",
+  "sourceHead": "a7a31e612904b188eb0307f1e6524ee6b8d7cd7b",
+  "codeHead": "7e8d629b11c36235d96c80c28adbf2b91d013e47",
+  "nodesExecuted": 6,
+  "nodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "passed": true,
+  "facts": [
+    {
+      "nodeId": "project-command-0",
+      "timeoutSeconds": 300,
+      "elapsedSeconds": 3.649,
+      "testSummaries": []
+    },
+    {
+      "nodeId": "project-command-1",
+      "timeoutSeconds": 300,
+      "elapsedSeconds": 80.94,
+      "testSummaries": []
+    },
+    {
+      "nodeId": "project-command-2",
+      "timeoutSeconds": 600,
+      "elapsedSeconds": 51.569,
+      "testSummaries": [
+        "test result: ok. 47 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 46.99s"
+      ]
+    },
+    {
+      "nodeId": "project-command-3",
+      "timeoutSeconds": 600,
+      "elapsedSeconds": 510.737,
+      "testSummaries": [
+        "test result: ok. 46 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 510.36s"
+      ]
+    },
+    {
+      "nodeId": "project-command-4",
+      "timeoutSeconds": 600,
+      "elapsedSeconds": 4.885,
+      "testSummaries": [
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.42s"
+      ]
+    },
+    {
+      "nodeId": "project-command-5",
+      "timeoutSeconds": 600,
+      "elapsedSeconds": 28.409,
+      "testSummaries": [
+        "test result: ok. 41 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.99s"
+      ]
+    }
+  ]
+}

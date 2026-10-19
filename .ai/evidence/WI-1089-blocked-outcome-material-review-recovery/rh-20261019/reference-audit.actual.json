@@ -1,0 +1,23 @@
+{
+  "kind": "actual_windows_path_repair_reference_audit_not_native_receipt",
+  "copiedInventoryEntriesChecked": 503,
+  "frozenInventoryOriginalBytesPreserved": true,
+  "originalPathsResolvedByExplicitMap": 157,
+  "summaryRepositoryFileReferencesChecked": 42,
+  "summaryMissingPaths": [],
+  "materialPointerRawDigestChecks": [
+    {
+      "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/8fd7f3fa730f4aa6547660a9339102532b55a4f4a18f95dba58d533903ea03f2.json",
+      "digestMatches": true
+    },
+    {
+      "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+      "digestMatches": true
+    }
+  ],
+  "contractAndAuthoritySourceNotChanged": true,
+  "historicalControlInputOutputCopiesPreservedUnchanged": true,
+  "historicalIndexReferencesAreOriginalLocationsWithSeparateCurrentIndex": true,
+  "staticPathBudget": 180,
+  "windowsExecutionStillUnverified": true
+}

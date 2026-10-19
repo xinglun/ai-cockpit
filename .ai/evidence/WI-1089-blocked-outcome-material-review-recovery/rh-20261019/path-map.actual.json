@@ -1,0 +1,1281 @@
+{
+  "kind": "actual_byte_preserving_agent_evidence_copy_path_repair_not_native_receipt",
+  "at": "2026-10-19T11:56:26.750739+00:00",
+  "headBefore": "a7a31e612904b188eb0307f1e6524ee6b8d7cd7b",
+  "reason": "Actual Windows CI39244097789 fixture clone Filename too long, before evaluator. Preserve originals in immutable Git history and external evidence copy. Rename only own Agent copies; no product/test/workflow/global configuration edits. Native scenario references updated only via controls.",
+  "newOwnBudget": 180,
+  "moves": [
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/current-material-proposal/source/crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-001-1e90ecada9bc.rs",
+      "bytes": 150220,
+      "rawSha256": "1e90ecada9bc92eafc61d3719c3c8e3c8569da85cdd75e206928a9f8dbad2d17",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 98
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/current-material-proposal/source/crates/cockpit-repository/src/contract_amendment.rs",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-002-f35da6858c0a.rs",
+      "bytes": 133314,
+      "rawSha256": "f35da6858c0a00f4ceef0d67d358c673160fb69c3e40021a4149a68cb13882f1",
+      "oldRelativeLength": 183,
+      "newRelativeLength": 98
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/current-material-proposal/source/crates/cockpit-repository/src/status_projection.rs",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-003-6cb86c09ced6.rs",
+      "bytes": 95484,
+      "rawSha256": "6cb86c09ced6bd6dab648ca17976bf4581ea736604b2587c873c72bed7aff122",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 98
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/current-material-proposal/source/crates/cockpit-repository/tests/status_projection.rs",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-004-7ad8af929617.rs",
+      "bytes": 137224,
+      "rawSha256": "7ad8af92961788e6ac65f47ef9130417a645984cb1c356b6363cac4e9625d6d6",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 98
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-01/logs/23-sensitive-after-old-success-and-failed-finish.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-005-aeab16fd56ab.json",
+      "bytes": 751,
+      "rawSha256": "aeab16fd56abf2f31019c625573189ce2889f0fea5cb62b29b6c523191c23b39",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/09-fixture-profile-before-checkpoint.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-006-436c817d08ab.json",
+      "bytes": 769,
+      "rawSha256": "436c817d08ab2c0cc4a26ada7cf1e9a63b3f15da1e56a1b96a9b5cdb4ece8113",
+      "oldRelativeLength": 189,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/09-fixture-profile-before-checkpoint.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-007-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/09-fixture-profile-before-checkpoint.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-008-57b3e380665b.stdout",
+      "bytes": 2707,
+      "rawSha256": "57b3e380665b68592fe35de6a21a8b8f41394ab662fb8d8aa1cec0c7522db738",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/19-old-cycle-material-record.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-009-e86aef9bf73e.json",
+      "bytes": 776,
+      "rawSha256": "e86aef9bf73e698f443634999693c42f076607c6319c2f163942bc9875818ad7",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/21-real-finish-blocked-by-planned-scenario.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-010-5da2eab9ec2c.json",
+      "bytes": 593,
+      "rawSha256": "5da2eab9ec2cbb0f12686415e01bbeb439094802c40246760e5af0ffa14e7efd",
+      "oldRelativeLength": 195,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/21-real-finish-blocked-by-planned-scenario.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-011-45e0ad68f0ce.stderr",
+      "bytes": 672,
+      "rawSha256": "45e0ad68f0cea6026f539fd79d3af8c1aa233e26858130794a3a195744ea1766",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/21-real-finish-blocked-by-planned-scenario.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-012-e3b0c44298fc.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/22-old-cycle-scenario-evidence.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-013-bad53143b9ca.json",
+      "bytes": 764,
+      "rawSha256": "bad53143b9ca5b024b57ac462d35cb74c6e4b33d5b637147e65876f891846eb6",
+      "oldRelativeLength": 183,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/24-git-current-source-commit.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-014-494820b0a6c8.json",
+      "bytes": 389,
+      "rawSha256": "494820b0a6c88246974f4ae6a0d9782ea95ba57dfbf313727b5f3a4d2fb87ffe",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/25-sensitive-after-old-success-and-failed-finish.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-015-82748e329aa8.json",
+      "bytes": 781,
+      "rawSha256": "82748e329aa8465dc770aaa4f098b15eedda5d3d5e58cd0bbc1a22d30b301f62",
+      "oldRelativeLength": 201,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/25-sensitive-after-old-success-and-failed-finish.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-016-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 194,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/25-sensitive-after-old-success-and-failed-finish.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-017-0cc0a4f77dac.stdout",
+      "bytes": 1876,
+      "rawSha256": "0cc0a4f77daceeebf04b59bd0b5172323149a6e725650bd345a639b96501929d",
+      "oldRelativeLength": 194,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/28-status-before-material-recovery.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-018-4b2df8802e93.json",
+      "bytes": 610,
+      "rawSha256": "4b2df8802e93bf305b234dbf495118f580bbc72adcfa03b144139e7617cf0d9b",
+      "oldRelativeLength": 187,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/29-current-material-recovery-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-019-89123d569e25.json",
+      "bytes": 617,
+      "rawSha256": "89123d569e255ae1385312785b36cb7ffd5b30db5a33b1f217d3725f6c274128",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/30-current-material-recovery-record.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-020-88039786f941.json",
+      "bytes": 783,
+      "rawSha256": "88039786f94185e668e5d99df9bd94a5559daf918f846647b780c2fbf0027643",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/30-current-material-recovery-record.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-021-f191b4f815fc.stderr",
+      "bytes": 775,
+      "rawSha256": "f191b4f815fc53a556b55c0e59bb4fba48995584613d678b882700c64ab37281",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/logs/30-current-material-recovery-record.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-022-e3b0c44298fc.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-02-changed-source/sensitive-after-old-success-and-failed-finish.input.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-023-25011ea245be.json",
+      "bytes": 451,
+      "rawSha256": "25011ea245bec6e9e359fe98510c5a7b3a5982ed3a2f6d59416b553427090d3a",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-03-real-producer-change/logs/01-current-candidate-preflight.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-024-5ed3256b5cfd.json",
+      "bytes": 650,
+      "rawSha256": "5ed3256b5cfd474e623e3c7fbe87c433978b13f687a3505293bab13b132ee112",
+      "oldRelativeLength": 189,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-03-real-producer-change/logs/01-current-candidate-preflight.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-025-13c5a68a4150.stderr",
+      "bytes": 782,
+      "rawSha256": "13c5a68a41504d21a9054fd97f6971adc3f97497299620b2675dcc366290c4de",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-03-real-producer-change/logs/01-current-candidate-preflight.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-026-e3b0c44298fc.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-03-real-producer-change/original-native-attempt.input.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-027-847066e181f2.json",
+      "bytes": 16983,
+      "rawSha256": "847066e181f2a245605b2f04c5bdfde66aaacc0b900593217487193b6c360031",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/actual-producer-binaries-preserved.agent-recorded.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-028-7e294a503982.json",
+      "bytes": 1263,
+      "rawSha256": "7e294a50398203d7d2a1051102b15e7a158448622e811ff3e580d9ea65b19379",
+      "oldRelativeLength": 194,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/01-current-candidate-initial-admission.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-029-8631b7e23bb0.json",
+      "bytes": 636,
+      "rawSha256": "8631b7e23bb0e9d2f4d464ef1f4ef290b821b12ee416c22dfb0a7edcb700a19f",
+      "oldRelativeLength": 197,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/01-current-candidate-initial-admission.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-030-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/01-current-candidate-initial-admission.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-031-2e6c583633a5.stdout",
+      "bytes": 3911,
+      "rawSha256": "2e6c583633a5a1cd8c30d20dab8471b075df1eb6ce95611086ac15b5496f2b46",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/02-current-candidate-status.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-032-36e24bdac16d.json",
+      "bytes": 636,
+      "rawSha256": "36e24bdac16ddf356b8b1bfea95b1d17479c8f3a1b13ef008e890150be44ea43",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/03-current-candidate-material-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-033-909fa1cd728a.json",
+      "bytes": 643,
+      "rawSha256": "909fa1cd728af93a1a423327834b4625873ed22f0e3c9122dee6fd5afe6425f3",
+      "oldRelativeLength": 193,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/03-current-candidate-material-plan.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-034-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/03-current-candidate-material-plan.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-035-c489a315fb5a.stdout",
+      "bytes": 1782,
+      "rawSha256": "c489a315fb5a57b684a6988aff508dcd1d19a17117e4538dd7248db0dc604d18",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/04-current-candidate-material-record.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-036-3faa5512f673.json",
+      "bytes": 816,
+      "rawSha256": "3faa5512f673b7b1f9356e1fcd1dd98eee0462ef19be81207afcccdf1a6c0b98",
+      "oldRelativeLength": 195,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/04-current-candidate-material-record.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-037-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/04-current-candidate-material-record.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-038-912b0f7c5690.stdout",
+      "bytes": 1373,
+      "rawSha256": "912b0f7c56902fd9b6e7903d07bb5242b95ee91e0a332aae5e57eedd35e01f14",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/05-current-candidate-verify-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-039-f5ca99daa6b6.json",
+      "bytes": 657,
+      "rawSha256": "f5ca99daa6b64c520c37ab676da21b7d8cdabb77efe624ed99f1faae6dcb5242",
+      "oldRelativeLength": 191,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/05-current-candidate-verify-plan.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-040-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/05-current-candidate-verify-plan.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-041-59fd26a27d2e.stdout",
+      "bytes": 5539,
+      "rawSha256": "59fd26a27d2ee2057b2004e0716a71973c08face5f006d04bca57b44b6e0a063",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/06-current-candidate-four-actual-checks.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-042-731b37248f3e.json",
+      "bytes": 638,
+      "rawSha256": "731b37248f3e4c5d8739a17607c1d90f8c466c6977d4dbbc8faf51787806b418",
+      "oldRelativeLength": 198,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/06-current-candidate-four-actual-checks.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-043-5191a667dd35.stderr",
+      "bytes": 648,
+      "rawSha256": "5191a667dd35fbc0e815b392ecba123409f5d3c60a02c29334c1ac091a5d900f",
+      "oldRelativeLength": 191,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/06-current-candidate-four-actual-checks.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-044-9edf71e77148.stdout",
+      "bytes": 12889,
+      "rawSha256": "9edf71e771482ed3ae010a7d9ebc2512bdcc821dd5cef909a8af52dc3cc9474a",
+      "oldRelativeLength": 191,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/07-current-candidate-fixture-finish.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-045-b2ff122975a5.json",
+      "bytes": 619,
+      "rawSha256": "b2ff122975a56a97feaf4393089a854414ab656b9cb7e01fc72839ae4583d34a",
+      "oldRelativeLength": 194,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/07-current-candidate-fixture-finish.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-046-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 187,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/07-current-candidate-fixture-finish.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-047-2c3259d01670.stdout",
+      "bytes": 22276,
+      "rawSha256": "2c3259d016707261083d0296b144ed7173477d90bb5aecf02a0080ed440f10b6",
+      "oldRelativeLength": 187,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/08-current-candidate-fixture-archive.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-048-8b71eb8700cd.json",
+      "bytes": 620,
+      "rawSha256": "8b71eb8700cde0de7b8b04de21c78647ce1ea640b9695f06833b75e968ef79a4",
+      "oldRelativeLength": 195,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/08-current-candidate-fixture-archive.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-049-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/logs/08-current-candidate-fixture-archive.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-050-14fd6d3ea977.stdout",
+      "bytes": 100518,
+      "rawSha256": "14fd6d3ea97760d99430da4893765bea947dbdc9b47146b752206ef5ca28232c",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-04-real-producer-change/original-native-attempt.input.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-051-847066e181f2.json",
+      "bytes": 16983,
+      "rawSha256": "847066e181f2a245605b2f04c5bdfde66aaacc0b900593217487193b6c360031",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/current-material-recovery.input.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-052-05358b14dc9d.json",
+      "bytes": 631,
+      "rawSha256": "05358b14dc9d16485152edff8ac7c88c9aa06c9187f378a7002a623170a43a2d",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/fixture-profile-before-checkpoint.input.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-053-1c945aa3b06c.json",
+      "bytes": 1188,
+      "rawSha256": "1c945aa3b06cd4c6068c6414885e062ad6f2a399f6f18ac3b81816c507b2896e",
+      "oldRelativeLength": 189,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/04-generate-lockfile.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-054-e77333d58c89.json",
+      "bytes": 363,
+      "rawSha256": "e77333d58c891539079af0bfc2cac283dfb05144cf8f6676f63f45597b604a63",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/06-git-base-commit.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-055-6453655172b2.json",
+      "bytes": 368,
+      "rawSha256": "6453655172b28a793140aca78a2aad1e8da04a387af6c3cf2562d1bb1c986a99",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/09-fixture-profile-before-checkpoint.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-056-f960821bad95.json",
+      "bytes": 791,
+      "rawSha256": "f960821bad958cf060da49d68f3b4331f3060c9d175955749693db5a5209c95d",
+      "oldRelativeLength": 200,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/09-fixture-profile-before-checkpoint.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-057-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 193,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/09-fixture-profile-before-checkpoint.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-058-ab0d57095427.stdout",
+      "bytes": 2707,
+      "rawSha256": "ab0d57095427f3db8b70100f75e128b59951f41a67423bb27cce7ebb592d3366",
+      "oldRelativeLength": 193,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/10-initial-preflight.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-059-0c690a721acf.json",
+      "bytes": 635,
+      "rawSha256": "0c690a721acf7ccc6277343c13bc3a9faa7dde15fcf5d6604e6e6790375626ea",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/11-initial-fixture-review.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-060-ae438e5ef6be.json",
+      "bytes": 781,
+      "rawSha256": "ae438e5ef6be296c6f79919cd9a24c2d3a495314249e2eebe649230e4e6f9942",
+      "oldRelativeLength": 189,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/11-initial-fixture-review.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-061-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/11-initial-fixture-review.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-062-b90d17cc3efc.stdout",
+      "bytes": 2013,
+      "rawSha256": "b90d17cc3efc5bbac07d04c4ee877f4cc2ec5e5372733cb8f30de83ae34fbabf",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/12-planned-fixture-scenario.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-063-0e1d14ac6d34.json",
+      "bytes": 783,
+      "rawSha256": "0e1d14ac6d34c0a9084285e6422e9fe42ab0b3cc430c5493b96ddaf82479a403",
+      "oldRelativeLength": 191,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/12-planned-fixture-scenario.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-064-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/12-planned-fixture-scenario.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-065-b5fa58ef0a89.stdout",
+      "bytes": 2328,
+      "rawSha256": "b5fa58ef0a8916738adfea22bca7a0250bd194b762dd7e03cf0bea663e38dbee",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/14-git-material-add.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-066-a2a489f9e2e3.json",
+      "bytes": 340,
+      "rawSha256": "a2a489f9e2e36ef68f402d86fb0923164f231111898e1c090376d22406e40b2e",
+      "oldRelativeLength": 183,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/15-git-material-commit.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-067-95fbaba85bb9.json",
+      "bytes": 387,
+      "rawSha256": "95fbaba85bb98cb0854f628e95cc56ffe2afcd7ea29fa517ab6a5cf688decc90",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/16-old-cycle-preflight.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-068-83a1c61765de.json",
+      "bytes": 635,
+      "rawSha256": "83a1c61765dea4783f54b51ce287165068ba5452f2c37308a05a95843729eefd",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/17-old-cycle-fixture-review.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-069-7681cdf252bc.json",
+      "bytes": 783,
+      "rawSha256": "7681cdf252bc43019f623f9ca6b6028fced7c097b17dc9d1c7e8839df9b4ef88",
+      "oldRelativeLength": 191,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/17-old-cycle-fixture-review.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-070-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/17-old-cycle-fixture-review.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-071-a19766987f5e.stdout",
+      "bytes": 2581,
+      "rawSha256": "a19766987f5e2dc14d475f22b8385ca0e33ef31b1dad7a5e9f22375ff93eb339",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/18-old-cycle-material-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-072-03617e20a8e7.json",
+      "bytes": 628,
+      "rawSha256": "03617e20a8e78d372a335400d421e0227f270e28e6c5835c03adf92a98790751",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/18-old-cycle-material-plan.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-073-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 183,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/18-old-cycle-material-plan.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-074-6945ceb796fb.stdout",
+      "bytes": 1782,
+      "rawSha256": "6945ceb796fb924e84cb441f4ff4729e7f49492a1ba3b3de09ef9383e8d2c188",
+      "oldRelativeLength": 183,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/19-old-cycle-material-record.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-075-da180163e7eb.json",
+      "bytes": 798,
+      "rawSha256": "da180163e7eb90b937a43105944a2f14a00291f5608a114b13101731ff1317cb",
+      "oldRelativeLength": 192,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/19-old-cycle-material-record.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-076-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 185,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/19-old-cycle-material-record.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-077-68c55045d362.stdout",
+      "bytes": 1373,
+      "rawSha256": "68c55045d3627d0fc0ddc2ff25dcbfc204a221a0e744a398c410ee025965c79b",
+      "oldRelativeLength": 185,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/20-old-four-check-verify.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-078-0b84fa7fec83.json",
+      "bytes": 623,
+      "rawSha256": "0b84fa7fec83f94055b989c5a11520a9579f0191d818a22fcd8610e952f69013",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/20-old-four-check-verify.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-079-856ad84dfad3.stderr",
+      "bytes": 698,
+      "rawSha256": "856ad84dfad302bd11854bfe2802db72ac5f6f9f895a107443ebbae2cef413d8",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/20-old-four-check-verify.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-080-642383e0273c.stdout",
+      "bytes": 13834,
+      "rawSha256": "642383e0273cb8f6a9ca891d20a6347233c691620ee57cea49698d61804f66b7",
+      "oldRelativeLength": 181,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/21-real-finish-blocked-by-planned-scenario.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-081-c0a523a45fe4.json",
+      "bytes": 604,
+      "rawSha256": "c0a523a45fe41cd2f744db32d2c05f26bd3fea81ca1344281062eeadcf17690d",
+      "oldRelativeLength": 206,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/21-real-finish-blocked-by-planned-scenario.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-082-e16fe4058e1d.stderr",
+      "bytes": 683,
+      "rawSha256": "e16fe4058e1d7f74e2d4d22eb30a5b195bfe8a9b9c897b4ca98e358ccd8e6968",
+      "oldRelativeLength": 199,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/21-real-finish-blocked-by-planned-scenario.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-083-e3b0c44298fc.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 199,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/22-old-cycle-scenario-evidence.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-084-2313f2e75c1e.json",
+      "bytes": 786,
+      "rawSha256": "2313f2e75c1effe36e8b257c2a2c135cafd515e62d539a2ce349817dcd92143b",
+      "oldRelativeLength": 194,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/22-old-cycle-scenario-evidence.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-085-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 187,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/22-old-cycle-scenario-evidence.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-086-2accaeb9a7b5.stdout",
+      "bytes": 7673,
+      "rawSha256": "2accaeb9a7b5ad16a2a07d5ea7f0d1a37b2b3b705638930dd009749291b4ec15",
+      "oldRelativeLength": 187,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/23-sensitive-after-old-success-and-failed-finish.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-087-745d56793ae3.json",
+      "bytes": 803,
+      "rawSha256": "745d56793ae3455a93092a4e4e8602044be04b7868de84fd4c09f952d266e41a",
+      "oldRelativeLength": 212,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/23-sensitive-after-old-success-and-failed-finish.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-088-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 205,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/23-sensitive-after-old-success-and-failed-finish.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-089-55a945324a51.stdout",
+      "bytes": 1876,
+      "rawSha256": "55a945324a518c9590c4118817283d8e392c985300b757cfa2161df522e258f8",
+      "oldRelativeLength": 205,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/24-amended-preflight.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-090-5a2501ee8629.json",
+      "bytes": 635,
+      "rawSha256": "5a2501ee86295db736b3698e026b3ad4b3e3bf20652651562b0d4e6e05b870ab",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/25-amended-fixture-review.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-091-c1db3460375a.json",
+      "bytes": 781,
+      "rawSha256": "c1db3460375aa127d359caf21543324ee2735c35ce1e987c73f3f90da0439243",
+      "oldRelativeLength": 189,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/25-amended-fixture-review.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-092-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/25-amended-fixture-review.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-093-3285888ea817.stdout",
+      "bytes": 9587,
+      "rawSha256": "3285888ea81747a58f3e5820deaf1d634a08705dcb67ad7dd9c86a88333d21ad",
+      "oldRelativeLength": 182,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/26-status-before-material-recovery.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-094-c2914aabea6a.json",
+      "bytes": 621,
+      "rawSha256": "c2914aabea6ae12de9dfb8edc82fd5f978426f177c59614a49f769a1bc26b566",
+      "oldRelativeLength": 198,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/26-status-before-material-recovery.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-095-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 191,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/26-status-before-material-recovery.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-096-3a2135a88930.stdout",
+      "bytes": 3893,
+      "rawSha256": "3a2135a88930ab86109aeb17518294435065c5bcaf6dff0f56463b1c7b9ec521",
+      "oldRelativeLength": 191,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/27-current-material-recovery-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-097-d4b8b2c97cf5.json",
+      "bytes": 628,
+      "rawSha256": "d4b8b2c97cf5032626e224bcda0d34754d0fb45b323baa5e592bc452b7890088",
+      "oldRelativeLength": 197,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/27-current-material-recovery-plan.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-098-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/27-current-material-recovery-plan.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-099-36768331ea23.stdout",
+      "bytes": 1782,
+      "rawSha256": "36768331ea23ed2ba351c05ea8abea9bad540a049c143514d649f719882016cb",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/28-current-material-recovery-record.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-100-1d354f7db0ff.json",
+      "bytes": 805,
+      "rawSha256": "1d354f7db0ff46531585cde9080275cb2589bd9e32058e1cece0ff7f294cf139",
+      "oldRelativeLength": 199,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/28-current-material-recovery-record.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-101-7055686c7f1a.stderr",
+      "bytes": 786,
+      "rawSha256": "7055686c7f1a6bc4c0a300579d789bdab0615b8accf0ebf4f1abd519e5d75706",
+      "oldRelativeLength": 192,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/28-current-material-recovery-record.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-102-e3b0c44298fc.stdout",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 192,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/logs/29-current-verify-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-103-f0cb2b16600e.json",
+      "bytes": 642,
+      "rawSha256": "f0cb2b16600e5001ea18a943ecdc0627e28408dcaa88ab12683c1c874133186c",
+      "oldRelativeLength": 186,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/old-cycle-scenario-evidence.input.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-104-3cb155fb3715.json",
+      "bytes": 378,
+      "rawSha256": "3cb155fb3715d776eb4b358cb08fdf93c916e21c30b85b24915f371de3468314",
+      "oldRelativeLength": 183,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-05-native-workspace-manifest/sensitive-after-old-success-and-failed-finish.input.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-105-d99db60e735a.json",
+      "bytes": 451,
+      "rawSha256": "d99db60e735acfa4a6fc7b18bed8572bf72e2c8d8557cfc6476271c063532970",
+      "oldRelativeLength": 201,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/acceptance.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-106-32fb00362fb5.json",
+      "bytes": 1574,
+      "rawSha256": "32fb00362fb5046a51d6a252375c141b0ddc1d16916381c5748f968bbd82e41e",
+      "oldRelativeLength": 184,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/actual-new-producer-preserved.agent-recorded.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-107-2796753d2c9c.json",
+      "bytes": 430,
+      "rawSha256": "2796753d2c9ce978b8b62e562680e5b4feed35e2ee16f69f4c135bc82f272726",
+      "oldRelativeLength": 211,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/archive.output.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-108-1da36bd00e04.json",
+      "bytes": 1695,
+      "rawSha256": "1da36bd00e04f642c6fcea18a4eccd051d5a5708a79bae632e68085ef8b968eb",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/complete-node-records.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-109-5ea24a5f423b.json",
+      "bytes": 9660,
+      "rawSha256": "5ea24a5f423b53d16cca6720e697209edeb88d0cbe5266663b22a04cab8717c8",
+      "oldRelativeLength": 195,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/current-candidate-material.input.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-110-3afa7e7767b9.json",
+      "bytes": 631,
+      "rawSha256": "3afa7e7767b9cfc9a1635ec8659dc4559895388aefee3d994ebf9253ce0dfa4c",
+      "oldRelativeLength": 199,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/current-canonical.output.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-111-7d98f310edc9.json",
+      "bytes": 10135,
+      "rawSha256": "7d98f310edc9ad3f6b51ef0aac63e9644250af34edb61e456ad450880e508cb8",
+      "oldRelativeLength": 198,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/current-summary.output.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-112-8a72605bbcc6.json",
+      "bytes": 10921,
+      "rawSha256": "8a72605bbcc62294c94788462ac7b7f24875d16b2d8f26ab665b47c320958a86",
+      "oldRelativeLength": 196,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/01-current-candidate-initial-admission.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-113-2d3829c96a85.json",
+      "bytes": 658,
+      "rawSha256": "2d3829c96a855a4a11c7df640c66303a3219040024b9fe801d7b69078373b98d",
+      "oldRelativeLength": 219,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/01-current-candidate-initial-admission.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-114-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 212,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/01-current-candidate-initial-admission.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-115-f1a2f7c1a06a.stdout",
+      "bytes": 3911,
+      "rawSha256": "f1a2f7c1a06aa242f8ba2cf1f7c35dd4ddd5d10b8320601c9e731036de68239f",
+      "oldRelativeLength": 212,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/02-current-candidate-status.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-116-936d7b7d0e72.json",
+      "bytes": 658,
+      "rawSha256": "936d7b7d0e720f884c43c8374987af3f1b27ade2a2ba613be94c6b5f62821175",
+      "oldRelativeLength": 208,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/02-current-candidate-status.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-117-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 201,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/02-current-candidate-status.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-118-f1a2f7c1a06a.stdout",
+      "bytes": 3911,
+      "rawSha256": "f1a2f7c1a06aa242f8ba2cf1f7c35dd4ddd5d10b8320601c9e731036de68239f",
+      "oldRelativeLength": 201,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/03-current-candidate-material-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-119-652ad3a978fa.json",
+      "bytes": 665,
+      "rawSha256": "652ad3a978faa5e7f60d1e08884ffd17fab0cef8180220330bb38631c745b21d",
+      "oldRelativeLength": 215,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/03-current-candidate-material-plan.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-120-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 208,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/03-current-candidate-material-plan.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-121-17c706babe89.stdout",
+      "bytes": 1782,
+      "rawSha256": "17c706babe8950f4534ef309b8bca0f9a8494e635c393fabb964dbec41b98fad",
+      "oldRelativeLength": 208,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/04-current-candidate-material-record.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-122-5a2db62658f3.json",
+      "bytes": 860,
+      "rawSha256": "5a2db62658f337718f4d8ec00aae8ad12d38cff4a0bcf44a902580e38ed8100d",
+      "oldRelativeLength": 217,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/04-current-candidate-material-record.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-123-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 210,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/04-current-candidate-material-record.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-124-4b771419a62c.stdout",
+      "bytes": 1373,
+      "rawSha256": "4b771419a62c7f9ded1de5d0792eb65e5702bcde7938802955e5b13873a21c40",
+      "oldRelativeLength": 210,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/05-current-candidate-verify-plan.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-125-dc1532f8b53e.json",
+      "bytes": 679,
+      "rawSha256": "dc1532f8b53e8ee52d47e83b1cfe8973de03ebbe9f1b4c49cbe5a31cd029b975",
+      "oldRelativeLength": 213,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/05-current-candidate-verify-plan.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-126-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 206,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/05-current-candidate-verify-plan.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-127-b1d3cd8a708c.stdout",
+      "bytes": 5539,
+      "rawSha256": "b1d3cd8a708c843e813754a902843b6fc02205ac82717dff4e66aed181f933e0",
+      "oldRelativeLength": 206,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/06-current-candidate-four-actual-checks.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-128-fea9d02fab9b.json",
+      "bytes": 660,
+      "rawSha256": "fea9d02fab9ba355d551f2d783685b8eea83f79167ad68ddecf3ee9b8cc3b52e",
+      "oldRelativeLength": 220,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/06-current-candidate-four-actual-checks.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-129-5191a667dd35.stderr",
+      "bytes": 648,
+      "rawSha256": "5191a667dd35fbc0e815b392ecba123409f5d3c60a02c29334c1ac091a5d900f",
+      "oldRelativeLength": 213,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/06-current-candidate-four-actual-checks.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-130-4e032cfa9818.stdout",
+      "bytes": 13021,
+      "rawSha256": "4e032cfa9818b568552a215f6fe8825154f368c60b347a23e7ab9be5357443b8",
+      "oldRelativeLength": 213,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/07-current-candidate-fixture-finish.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-131-b4a31baa1175.json",
+      "bytes": 641,
+      "rawSha256": "b4a31baa11759e1ef450d5389646b2f4ded281c6232f9409d4f5d3a66b02e741",
+      "oldRelativeLength": 216,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/07-current-candidate-fixture-finish.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-132-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 209,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/07-current-candidate-fixture-finish.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-133-359dd3f87c82.stdout",
+      "bytes": 22276,
+      "rawSha256": "359dd3f87c8249535c37afe282c508f298a93c6fa80808fbe295edff4e2cee5d",
+      "oldRelativeLength": 209,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/08-current-candidate-fixture-archive.metadata.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-134-af6c7b2fdde4.json",
+      "bytes": 642,
+      "rawSha256": "af6c7b2fdde4541b99f005c03daacc6b194a2ce12a205da8954a486ff2689f23",
+      "oldRelativeLength": 217,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/08-current-candidate-fixture-archive.stderr",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-135-e3b0c44298fc.stderr",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 210,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/logs/08-current-candidate-fixture-archive.stdout",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-136-c97bf17e2ea8.stdout",
+      "bytes": 100518,
+      "rawSha256": "c97bf17e2ea8d4037145f0a181803119b1a8153c73a506217b1edb4e034eecd8",
+      "oldRelativeLength": 210,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/old-blocked-outcome.input.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-137-647abc6e37dd.json",
+      "bytes": 17469,
+      "rawSha256": "647abc6e37dda80a7f06fc8e64a2bd05b016a6eba7146cff9b8518bad680d4d6",
+      "oldRelativeLength": 199,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/old-canonical.input.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-138-c140524bc845.json",
+      "bytes": 9877,
+      "rawSha256": "c140524bc845e36f3713715b1da14871acba5d69eac6e30a3d09b324bcce9484",
+      "oldRelativeLength": 193,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/external/fixture-06-real-producer-change-after-attempt-binding/original-native-attempt.input.actual.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-139-847066e181f2.json",
+      "bytes": 16983,
+      "rawSha256": "847066e181f2a245605b2f04c5bdfde66aaacc0b900593217487193b6c360031",
+      "oldRelativeLength": 203,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/remove_manifest/baseline-status.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-140-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/remove_manifest/baseline-status.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-141-8ba027195520.actual",
+      "bytes": 3911,
+      "rawSha256": "8ba0271955203764fa00d347f205526d05fc087a3714bee6697dc57ad7df9332",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/remove_manifest/material-plan.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-142-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/remove_manifest/material-plan.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-143-4545b8ccf194.actual",
+      "bytes": 1782,
+      "rawSha256": "4545b8ccf194f0cca351c4596d746316fdf859944e78b21eed4fef20f40f8679",
+      "oldRelativeLength": 188,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/remove_manifest/material-record.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-144-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/remove_manifest/material-record.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-145-21c019c88ef3.actual",
+      "bytes": 1373,
+      "rawSha256": "21c019c88ef3fdd2e60ba945011c21b380834f145fc4824f0d2549659e19fec5",
+      "oldRelativeLength": 190,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_then_remove_manifest/baseline-status.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-146-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 209,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_then_remove_manifest/baseline-status.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-147-8ba027195520.actual",
+      "bytes": 3911,
+      "rawSha256": "8ba0271955203764fa00d347f205526d05fc087a3714bee6697dc57ad7df9332",
+      "oldRelativeLength": 209,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_then_remove_manifest/input.probe.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-148-e43a0685db08.json",
+      "bytes": 585,
+      "rawSha256": "e43a0685db088322f3528a136caf17e6b10f7986a6d7fe0837b3abdf5adf06d4",
+      "oldRelativeLength": 196,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_then_remove_manifest/material-plan.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-149-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 207,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_then_remove_manifest/material-plan.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-150-4545b8ccf194.actual",
+      "bytes": 1782,
+      "rawSha256": "4545b8ccf194f0cca351c4596d746316fdf859944e78b21eed4fef20f40f8679",
+      "oldRelativeLength": 207,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_then_remove_manifest/material-record.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-151-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 209,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_then_remove_manifest/material-record.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-152-c5c5f99f2c5f.actual",
+      "bytes": 1373,
+      "rawSha256": "c5c5f99f2c5ff24910a46cba191bb44c4dbcc06c596f308537da53e32b7a16e7",
+      "oldRelativeLength": 209,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_with_manifest/baseline-status.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-153-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 202,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_with_manifest/baseline-status.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-154-8ba027195520.actual",
+      "bytes": 3911,
+      "rawSha256": "8ba0271955203764fa00d347f205526d05fc087a3714bee6697dc57ad7df9332",
+      "oldRelativeLength": 202,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_with_manifest/input.probe.json",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-155-e43a0685db08.json",
+      "bytes": 585,
+      "rawSha256": "e43a0685db088322f3528a136caf17e6b10f7986a6d7fe0837b3abdf5adf06d4",
+      "oldRelativeLength": 189,
+      "newRelativeLength": 100
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_with_manifest/material-plan.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-156-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 200,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_with_manifest/material-plan.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-157-4545b8ccf194.actual",
+      "bytes": 1782,
+      "rawSha256": "4545b8ccf194f0cca351c4596d746316fdf859944e78b21eed4fef20f40f8679",
+      "oldRelativeLength": 200,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_with_manifest/material-record.stderr.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-158-50020b59db23.actual",
+      "bytes": 812,
+      "rawSha256": "50020b59db23c460fc4223a87bea3728c40ae90b9536f56b462f08eb481ee13f",
+      "oldRelativeLength": 202,
+      "newRelativeLength": 102
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/retained-history-validation-20261019/review-red/manifest-removal.before-fix.actual/wrong_command_with_manifest/material-record.stdout.actual",
+      "newPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/rh-20261019/copy-159-e3b0c44298fc.actual",
+      "bytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "oldRelativeLength": 202,
+      "newRelativeLength": 102
+    }
+  ]
+}
