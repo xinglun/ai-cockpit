@@ -621,6 +621,171 @@ fn segmented_rejects_source_replace_that_adds_another_null_profile_field() {
     assert_segmented_rejection_is_read_only(directory.path(), &runtime, &input);
 }
 
+fn copy_segmented_fixture(source: &Path, target: &Path) {
+    for entry in fs::read_dir(source).unwrap() {
+        let entry = entry.unwrap();
+        let destination = target.join(entry.file_name());
+        if entry.file_type().unwrap().is_dir() {
+            fs::create_dir(&destination).unwrap();
+            copy_segmented_fixture(&entry.path(), &destination);
+        } else {
+            assert!(entry.file_type().unwrap().is_file());
+            fs::copy(entry.path(), destination).unwrap();
+        }
+    }
+}
+
+#[test]
+fn segmented_native_history_integrity_and_false_anchor_matrix() {
+    let (baseline, runtime, _path, _bytes, _pointer, input) = segmented_authority_fixture();
+    for mutation in [
+        "broken-journal",
+        "pending-native-tail",
+        "duplicate-native-json",
+        "fake-summary-adjacency",
+        "missing-current-review",
+        "duplicate-receipt-json",
+    ] {
+        let directory = tempfile::tempdir().unwrap();
+        copy_segmented_fixture(baseline.path(), directory.path());
+        let root = directory.path();
+        let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+            root,
+            "WI-MATERIAL",
+            &runtime,
+        )
+        .unwrap();
+        assert!(
+            status
+                .safe_actions
+                .contains(&"record_material_review_decision".into()),
+            "copied native context must be eligible BEFORE mutation {mutation}: {status:#?}"
+        );
+        let journal = root.join(".ai/evidence/WI-MATERIAL.contract-amendments");
+        let summary_path = root.join(".ai/work-items/active/WI-MATERIAL.summary.json");
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+        match mutation {
+            "broken-journal" => {
+                let path = journal.join("00000002.committed.json");
+                let mut value: serde_json::Value =
+                    serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                value["receipt"]["journalDigest"] =
+                    json!(cockpit_core::Digest::sha256_bytes(b"foreign journal"));
+                fs::write(path, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+            }
+            "pending-native-tail" => {
+                fs::remove_file(journal.join("00000003.committed.json")).unwrap()
+            }
+            "duplicate-native-json" => {
+                let path = journal.join("00000002.prepared.json");
+                let text = fs::read_to_string(&path).unwrap();
+                fs::write(
+                    path,
+                    format!(
+                        "{{\"preparedDigest\":\"{}\",{}",
+                        cockpit_core::Digest::sha256_bytes(b"duplicate"),
+                        text.trim_start_matches('{')
+                    ),
+                )
+                .unwrap();
+            }
+            "fake-summary-adjacency" => {
+                fs::remove_file(journal.join("00000003.prepared.json")).unwrap();
+                fs::remove_file(journal.join("00000003.committed.json")).unwrap();
+                summary["authoritySourceReplacementAnchor"] = json!({"claimedCommitted":true,"currentContract":summary["preflightContractDigest"]});
+                fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+            }
+            "missing-current-review" => {
+                let expected = summary["decisionEvidence"].clone();
+                let mut removed = 0;
+                for entry in fs::read_dir(root.join(".ai/decisions")).unwrap() {
+                    let path = entry.unwrap().path();
+                    let value: serde_json::Value =
+                        serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+                    if value == expected {
+                        fs::remove_file(path).unwrap();
+                        removed += 1;
+                    }
+                }
+                assert_eq!(removed, 1);
+            }
+            "duplicate-receipt-json" => {
+                let path = root.join(summary["materialReviewReceipt"]["path"].as_str().unwrap());
+                let text = fs::read_to_string(&path).unwrap();
+                let duplicate = format!("{{\"schemaVersion\":1,{}", text.trim_start_matches('{'));
+                fs::write(&path, duplicate.as_bytes()).unwrap();
+                summary["materialReviewReceipt"]["digest"] =
+                    json!(cockpit_core::Digest::sha256_bytes(duplicate.as_bytes()));
+                fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+            }
+            _ => unreachable!(),
+        }
+        if std::panic::catch_unwind(|| {
+            assert_segmented_rejection_is_read_only(root, &runtime, &input)
+        })
+        .is_err()
+        {
+            let retained = directory.keep();
+            panic!("negative native case {mutation} failed, retained {retained:?}");
+        }
+    }
+}
+
+#[test]
+fn segmented_wrong_current_inputs_publish_no_prepare_or_receipt() {
+    let (directory, runtime, _path, _bytes, _pointer, input) = segmented_authority_fixture();
+    let root = directory.path();
+    let summary_path = root.join(".ai/work-items/active/WI-MATERIAL.summary.json");
+    let before = fs::read(&summary_path).unwrap();
+    let evidence = root.join(".ai/evidence/material-inspection-review/WI-MATERIAL");
+    let names = || {
+        fs::read_dir(&evidence)
+            .unwrap()
+            .map(|entry| entry.unwrap().file_name())
+            .collect::<std::collections::BTreeSet<_>>()
+    };
+    let original = names();
+    for mutation in [
+        "request",
+        "reviewer",
+        "source",
+        "schema",
+        "evidence",
+        "rationale",
+    ] {
+        let mut wrong = input.clone();
+        match mutation {
+            "request" => {
+                wrong.request_digest = cockpit_core::Digest::sha256_bytes(b"other request")
+            }
+            "reviewer" => wrong.reviewer_actor = "agent:other-fixture".into(),
+            "source" => wrong.authority_source = "fixture:foreign-risk".into(),
+            "schema" => wrong.schema_version += 1,
+            "evidence" => wrong.evidence_refs.clear(),
+            "rationale" => wrong.rationale = " ".into(),
+            _ => unreachable!(),
+        }
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &wrong, &runtime)
+            .expect_err("wrong actual current input must reject before publication");
+        assert_eq!(fs::read(&summary_path).unwrap(), before, "{mutation}");
+        assert_eq!(names(), original, "{mutation}");
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn segmented_old_sidecar_symlink_does_not_gain_replacement_eligibility() {
+    let (directory, runtime, old_sidecar, old_bytes, _pointer, input) =
+        segmented_authority_fixture();
+    let root = directory.path();
+    let retained = root.join(".ai/evidence/retained-old-material.json");
+    fs::write(&retained, old_bytes).unwrap();
+    fs::remove_file(&old_sidecar).unwrap();
+    std::os::unix::fs::symlink(retained, old_sidecar).unwrap();
+    assert_segmented_rejection_is_read_only(root, &runtime, &input);
+}
+
 #[test]
 fn active_material_plan_digest_matches_persisted_contract_across_json_shapes() {
     let (directory, mut contract) = fixture();

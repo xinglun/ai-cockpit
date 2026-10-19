@@ -1,5 +1,5 @@
-//! Read-only, committed-source material identity. No decision or discharge is
-//! performed here; the opt-in is only reported to a future review service.
+//! Committed material identity and exact opt-in review decisions. Historical
+//! replacement eligibility never makes an invalid old receipt current.
 
 use super::{
     ObserverError, acquire_lifecycle_lock, contains_strong_instruction_injection,
@@ -3620,6 +3620,106 @@ mod tests {
             .expect_err("rehashed target is not a valid sealed current decision");
         assert_eq!(transaction_artifacts(root), corrupted);
         assert_eq!(fs::read(summary_path).unwrap(), before);
+    }
+
+    #[test]
+    fn replacement_pending_summary_conflict_preserves_concurrent_state() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, _sidecar, _bytes) = transaction_fixture();
+        let root = directory.path();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_prepare")));
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("actual pending preparation");
+        let path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        summary["concurrentPendingNote"] = serde_json::json!(true);
+        let concurrent = serde_json::to_vec_pretty(&summary).unwrap();
+        fs::write(&path, &concurrent).unwrap();
+        let artifacts = transaction_artifacts(root);
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("changed Summary cannot consume original pending");
+        assert_eq!(fs::read(path).unwrap(), concurrent);
+        assert_eq!(transaction_artifacts(root), artifacts);
+    }
+
+    #[test]
+    fn replacement_orphan_sidecar_without_prepare_is_not_adopted() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, _sidecar, _bytes) = transaction_fixture();
+        let root = directory.path();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_sidecar")));
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("actual staged sidecar");
+        let name = format!(
+            "{}.prepare.json",
+            input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        );
+        fs::remove_file(
+            root.join(".ai/evidence/material-inspection-review")
+                .join(ITEM)
+                .join(name),
+        )
+        .unwrap();
+        let summary = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let before = fs::read(&summary).unwrap();
+        let artifacts = transaction_artifacts(root);
+        let error = record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("unproven orphan cannot be normalized into a fresh transaction");
+        assert!(error.to_string().contains("without sealed prepare"));
+        assert_eq!(fs::read(summary).unwrap(), before);
+        assert_eq!(transaction_artifacts(root), artifacts);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn replacement_pending_symlinks_reject_without_following_or_overwriting() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        for link_prepare in [true, false] {
+            let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+            let root = directory.path();
+            REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_prepare")));
+            record_work_item_material_review(root, ITEM, &input, &runtime)
+                .expect_err("actual sealed preparation");
+            let hex = input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap();
+            let parent = root
+                .join(".ai/evidence/material-inspection-review")
+                .join(ITEM);
+            let target = if link_prepare {
+                let path = parent.join(format!("{hex}.prepare.json"));
+                let retained = root.join(".ai/evidence/retained-prepare.json");
+                fs::copy(&path, &retained).unwrap();
+                fs::remove_file(&path).unwrap();
+                std::os::unix::fs::symlink(retained, &path).unwrap();
+                path
+            } else {
+                let path = parent.join(format!("{hex}.json"));
+                std::os::unix::fs::symlink(&old_sidecar, &path).unwrap();
+                path
+            };
+            let summary = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+            let before = fs::read(&summary).unwrap();
+            let artifacts = transaction_artifacts(root);
+            record_work_item_material_review(root, ITEM, &input, &runtime)
+                .expect_err("symlinked pending files cannot be consumed");
+            assert!(
+                fs::symlink_metadata(target)
+                    .unwrap()
+                    .file_type()
+                    .is_symlink()
+            );
+            assert_eq!(fs::read(summary).unwrap(), before);
+            assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+            assert_eq!(transaction_artifacts(root), artifacts);
+        }
     }
 
     #[test]
