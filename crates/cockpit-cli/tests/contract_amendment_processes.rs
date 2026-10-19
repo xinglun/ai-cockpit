@@ -442,7 +442,10 @@ fn retained_canonical_amendment_fixture_with_source_change(
 
 #[test]
 fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives() {
-    let fixture = retained_canonical_amendment_fixture();
+    // A committed source change invalidates otherwise legitimate attempt reuse.
+    // The real consumer also changes producer Runtime; this portable equivalent
+    // fixture uses source freshness without fabricating a historical producer.
+    let fixture = retained_canonical_amendment_fixture_with_source_change(true);
     let root = fixture.directory.path();
     let material = retained_record_material(root, &retained_material_input(root));
     assert_success(
@@ -542,6 +545,43 @@ fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archive
 }
 
 #[test]
+fn retained_history_with_unchanged_execution_bindings_preserves_valid_reuse() {
+    let fixture = retained_canonical_amendment_fixture();
+    let root = fixture.directory.path();
+    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
+    assert_success(
+        &retained_record_material(root, &retained_material_input(root)),
+        "same-source historical integrity still permits current material review",
+    );
+    let plan = retained_cli(
+        root,
+        &[
+            "verify",
+            "--work-item",
+            WORK_ITEM_ID,
+            "--workers",
+            "1",
+            "--plan-only",
+        ],
+    );
+    assert_success(&plan, "valid existing attempt reuse");
+    let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
+    assert_eq!(plan["processesSpawned"], 0);
+    assert_eq!(plan["nodesPlanned"], 4);
+    assert_eq!(plan["nodesToExecute"], 0);
+    assert_eq!(plan["nodesReused"], 4);
+    assert_eq!(
+        old["repositorySnapshotDigest"],
+        retained_document(root, "summary")["preflightRepositorySnapshotDigest"]
+    );
+    assert_eq!(
+        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("old canonical is still historical"),
+        fixture.old_evidence
+    );
+}
+
+#[test]
 fn retained_history_integrity_is_separate_from_current_source_freshness() {
     let fixture = retained_canonical_amendment_fixture_with_source_change(true);
     let root = fixture.directory.path();
@@ -568,7 +608,7 @@ fn retained_history_integrity_is_separate_from_current_source_freshness() {
 
 #[test]
 fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh() {
-    let fixture = retained_canonical_amendment_fixture();
+    let fixture = retained_canonical_amendment_fixture_with_source_change(true);
     let root = fixture.directory.path();
     assert_success(
         &retained_record_material(root, &retained_material_input(root)),
