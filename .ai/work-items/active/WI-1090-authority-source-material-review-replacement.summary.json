@@ -56,11 +56,14 @@
   },
   "intentAlignment": {
     "evidence": [
-      ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M1-M5-clause-to-evidence-map.actual.agent-recorded.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/new-contract-verification-and-records.actual.agent-recorded.json",
+      ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json",
       ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-two-case-execution-summary.actual.agent-recorded.json"
     ],
-    "reason": "Raydot technical review and both approved M6 synthetic fixture lifecycles are now recorded. M1/M3/M4 are mapped to retained passing current-source assertions; M2/M5 named coverage and real-material workflow gaps remain explicit. Current real profile is null and no new WI1090 material residual-risk consent exists; no complete real-consumer benefit is asserted.",
-    "state": "unknown"
+    "reason": "The bounded WI1090 implementation intent is supported by actual H/P/C/current-decision/transaction negative tests, both explicitly limited M6 synthetic fixture lifecycles, actual Ray-confirmed b6d2 Contract, exact current c5dd material record under the previously granted conditional risk acceptance, and a newly executed seven-node b6d2 formal verification. Old invalid receipts never grant current discharge. This states tested implementation alignment only: no real WI1089/Sentinel recovery, adoption, cache invalidation or producer-upgrade claim. Ordinary acceptance must be reviewed by Raydot before this proposed control is recorded.",
+    "state": "resolved"
   },
   "lifecycleFacts": {
     "start": {
@@ -170,7 +173,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-19T22:44:20.186772347+00:00",
+  "updatedAt": "2026-10-19T22:57:24.440575245+00:00",
   "verification": [
     {
       "check": "project-command-0",
