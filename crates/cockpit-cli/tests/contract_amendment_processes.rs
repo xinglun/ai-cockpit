@@ -651,6 +651,9 @@ fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh(
     );
     let contract = retained_document(root, "contract");
     let summary = retained_document(root, "summary");
+    let outcome = retained_document(root, "outcome");
+    let events = fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.events.jsonl")))
+        .expect("actual native failure events");
     let runtime = candidate_runtime();
     record_recovery_decision(root, WORK_ITEM_ID, &json!({
         "schemaVersion": 1, "decisionId": "work-item-recovery", "decision": "retry",
@@ -658,6 +661,8 @@ fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh(
         "predecessorWorkItemId": WORK_ITEM_ID,
         "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
         "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(&events),
         "runtimeVersion": runtime.runtime_version, "runtimeDigest": runtime.runtime_digest,
         "actor": "human:isolated-fixture", "authoritySource": "test-fixture:actual-failed-check",
         "reason": "Retry the actual failed fixture execution after current material review; not a material bypass.",

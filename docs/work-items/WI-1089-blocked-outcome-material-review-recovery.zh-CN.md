@@ -24,5 +24,18 @@ Outcome 仍为红色；随后当前投影才会更新，追加式失败事件仍
 archive 仍被阻止。脏源码、不可用的
 材料投影、Finding、矛盾证据、过期或外来审阅输入及错误的恢复决定均继续被拒绝。
 
-当前实现范围仅含 repository 状态投影、repository/CLI/MCP 回归测试和本 WI 三语
-文档。reference-parity 登记需要单独的 Contract 范围决定。
+保留的 canonical 收据不是 Missing。恢复入口通过有界、禁止跟随符号链接的读取，
+对同一份原字节校验完整的类型化计划、执行和保留策略绑定；前驱 Contract 必须来自
+已验证的原生修约链。历史 snapshot 与 producer 身份和当前源码、执行权限分别校验。
+不支持或不完整的历史继续阻塞，并给出有界诊断；普通 Stale 不授予此操作。
+
+等价夹具保留真实旧四项成功收据及真实 blocked Outcome。验收要求当前精确材料决定、
+plan-only 零进程、单 worker 真实执行四项且零复用、fresh green preflight，然后实际
+完成夹具 finish 和 archive。其他测试保留相同绑定下的合法复用，拒绝损坏或不完整
+历史；真实检查失败须另行精确原生 retry。这不是 Sentinel 真实验收，也不授权实际
+工作项 finish 或归档。
+
+修约后的范围包括 repository 的修约、证据校验、状态投影三个实现文件，repository/CLI
+测试以及六份三语 WI/parity 文档。先前六节点与组合源码结果继续保留为历史证据。
+新候选须完成自己的检查和独立精确材料决定；旧的有限风险同意不覆盖新 Rust 字节。
+PR1048 保持 Draft，WI1090 继续暂停。
