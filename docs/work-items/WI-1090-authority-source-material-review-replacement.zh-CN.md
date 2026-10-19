@@ -20,8 +20,12 @@ H核验不可变旧收据及R→A已审原生历史，仅允许四类历史字�
 
 投影与持锁record共用有限证明；替换采用不可变sealed prepare与sidecar、一次Summary原子提交及精确pending恢复。evidenceRefs格式不认证真人，self_declared保证不升级。
 
-范围仅两份Rust文件与六份治理文档。当前候选七项正式检查尚未执行。不操作Sentinel、真实消费者修约、真实工作项终态、合并、发版或Runtime采用。
+范围仅两份Rust文件与六份治理文档。七项声明检查以原生验证收据为准，本页不宣称终态验收。不操作Sentinel、真实消费者修约、真实工作项终态、合并、发版或Runtime采用。
 
 Active [Contract](../../.ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json): `sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c`. Runtime evidence remains authoritative.
 
 Spec: `../../.ai/evidence/WI-1090-authority-source-material-review-replacement/segmented-v4-review/segmented-authority-source-replacement.v4.proposal-only.json`.
+
+原生等价夹具保留真实20操作混合历史，并在相邻来源换绑之前独立改变当前材料；测试 actor 明确为 synthetic。本页不证明跨文件物理原子性、真实消费者/Sentinel恢复或Runtime采用。
+
+Native verification: `../../.ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json`.

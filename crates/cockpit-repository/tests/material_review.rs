@@ -312,22 +312,37 @@ fn segmented_fixture_with_profile_field(
     let old_pointer = summary["materialReviewReceipt"].clone();
     let old_sidecar = root.join(old_pointer["path"].as_str().unwrap());
     let old_bytes = fs::read(&old_sidecar).unwrap();
+    // Mirror the real 17c→a5 operation shape: 2 scope, 8 acceptance,
+    // 3 scenario and 7 source additions, with the entire profile unchanged.
+    let mut mixed = Vec::new();
+    for index in 0..2 {
+        mixed.push(json!({"path":"/scope","operation":"add","value":format!("docs/fixture-review-{index}.md")}));
+    }
+    for index in 0..8 {
+        mixed.push(json!({"path":"/acceptanceCriteria","operation":"add","value":format!("retain reviewed historical requirement {index}")}));
+    }
+    for index in 0..3 {
+        mixed.push(json!({"path":"/scenarioCoverage","operation":"add","value":{
+        "scenario":format!("native mixed historical amendment {index}"),"required":true,
+        "expected":"old receipt remains historical","verificationPlan":"cargo test --test material_review","status":"unverified","evidence":[]
+    }}));
+    }
+    for index in 0..7 {
+        mixed.push(json!({"path":"/sources","operation":"add","value":{
+        "path":format!(".ai/evidence/fixture-reviewed-history-{index}"),"reason":"synthetic native context"
+    }}));
+    }
     amend_segmented_fixture(
         root,
         &runtime,
         "fixture-reviewed-mixed-history-A",
-        json!([
-            {"path":"/scope", "operation":"add", "value":"docs/fixture-review.md"},
-            {"path":"/acceptanceCriteria", "operation":"add", "value":"retain complete reviewed native history"},
-            {"path":"/scenarioCoverage", "operation":"add", "value": {
-                "scenario":"native mixed historical amendment", "required":true,
-                "expected":"old receipt remains historical", "verificationPlan":"cargo test --test material_review",
-                "status":"unverified", "evidence":[]
-            }},
-            {"path":"/sources", "operation":"add", "value": {
-                "path":".ai/evidence/fixture-reviewed-history", "reason":"synthetic native context"
-            }}
-        ]),
+        json!(mixed),
+    );
+    assert_eq!(
+        read_work_item_contract_amendments(root, "WI-MATERIAL").unwrap()[1]
+            .changed_values
+            .len(),
+        20
     );
     let a =
         cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
@@ -344,6 +359,14 @@ fn segmented_fixture_with_profile_field(
             changes.clone(),
         );
     }
+    // Historical reviews keep their own old snapshots. Current material may
+    // legitimately differ before the final source-only transition and review.
+    fs::write(
+        root.join("README.md"),
+        "current material changed after reviewed history, before adjacent source binding\n",
+    )
+    .unwrap();
+    commit(root);
     let mut adjacent = if whole_profile_replace {
         let current: serde_json::Value = serde_json::from_slice(
             &fs::read(root.join(".ai/work-items/active/WI-MATERIAL.contract.json")).unwrap(),
@@ -369,6 +392,10 @@ fn segmented_fixture_with_profile_field(
         json!(adjacent),
     );
     let request = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
+    assert_ne!(
+        request.source_snapshot_digest,
+        old_request.source_snapshot_digest
+    );
     input.request_digest = request.request_digest;
     input.authority_source = "fixture:new-current-risk-source".into();
     (
