@@ -2921,10 +2921,12 @@ fn replacement_prepared_digest(
 fn revalidate_material_replacement(
     context: &MaterialReplacementContext<'_>,
     prepared: &MaterialReplacementPreparation,
+    evidence: &Dir,
 ) -> Result<(), ObserverError> {
     context
         .lifecycle_lock
         .require_subject(context.root, &context.contract.work_item_id)?;
+    revalidate_replacement_directories(context, evidence)?;
     let document = read_active_contract_document(context.root, &context.contract.work_item_id)
         .map_err(|error| replacement_error(context.root, error.to_string()))?;
     if document.digest != *context.contract_digest || document.contract != *context.contract {
@@ -2994,6 +2996,7 @@ fn revalidate_material_replacement(
 fn validate_material_replacement_preparation(
     context: &MaterialReplacementContext<'_>,
     envelope: &PreparedMaterialReplacement,
+    evidence: &Dir,
 ) -> Result<(), ObserverError> {
     let prepared = &envelope.prepared;
     if prepared.schema_version != 1
@@ -3042,7 +3045,62 @@ fn validate_material_replacement_preparation(
             "sealed receipt or target Summary does not match the current decision",
         ));
     }
-    revalidate_material_replacement(context, prepared)
+    revalidate_material_replacement(context, prepared, evidence)
+}
+
+fn replacement_directory_identity(directory: &Dir, path: &Path) -> Result<[u64; 2], ObserverError> {
+    // Handle-derived identifiers also work on Windows, matching the native
+    // lifecycle lock's identity model rather than comparing mutable mtimes.
+    use cap_fs_ext::MetadataExt as _;
+    let metadata = directory
+        .dir_metadata()
+        .map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
+    Ok([metadata.dev(), metadata.ino()])
+}
+
+fn revalidate_replacement_directories(
+    context: &MaterialReplacementContext<'_>,
+    evidence: &Dir,
+) -> Result<(), ObserverError> {
+    let root_dir = Dir::open_ambient_dir(context.root, ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: context.root.into(),
+            source,
+        }
+    })?;
+    let ai_path = context.root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+    let items_path = ai_path.join("work-items");
+    let items = open_cap_directory_nofollow_strict(&ai, "work-items", &items_path)?;
+    let active_path = items_path.join("active");
+    let active = open_cap_directory_nofollow_strict(&items, "active", &active_path)?;
+    if replacement_directory_identity(&active, &active_path)?
+        != replacement_directory_identity(context.active, &active_path)?
+    {
+        return Err(replacement_error(
+            &active_path,
+            "active directory identity changed before canonical commit",
+        ));
+    }
+    let current_evidence =
+        material_review_work_item_directory(context.root, &context.contract.work_item_id, false)?;
+    let evidence_path = context
+        .root
+        .join(".ai/evidence")
+        .join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY)
+        .join(&context.contract.work_item_id);
+    if replacement_directory_identity(&current_evidence, &evidence_path)?
+        != replacement_directory_identity(evidence, &evidence_path)?
+    {
+        return Err(replacement_error(
+            &evidence_path,
+            "evidence directory identity changed before canonical commit",
+        ));
+    }
+    Ok(())
 }
 
 fn write_replacement_summary(
@@ -3138,7 +3196,7 @@ fn record_prepared_material_replacement(
             prepared,
         }
     };
-    validate_material_replacement_preparation(&context, &envelope)?;
+    validate_material_replacement_preparation(&context, &envelope, &directory)?;
     let prepared_bytes = serde_json::to_vec_pretty(&envelope)
         .map_err(|error| replacement_error(&prepared_path, error.to_string()))?;
     let receipt_bytes = serde_json::to_vec_pretty(&envelope.prepared.receipt)
@@ -3189,7 +3247,7 @@ fn record_prepared_material_replacement(
     });
     // Recompute both source/authority proof and raw Summary CAS immediately
     // before the only commit point. Staged files never discharge Unknowns.
-    revalidate_material_replacement(&context, &envelope.prepared)?;
+    revalidate_material_replacement(&context, &envelope.prepared, &directory)?;
     #[cfg(test)]
     replacement_test_boundary(context.root, "before_summary")?;
     let summary_name = format!("{}.summary.json", context.contract.work_item_id);
@@ -3203,6 +3261,7 @@ fn record_prepared_material_replacement(
     let result = result.and_then(|()| replacement_test_boundary(context.root, "after_summary"));
     // A returned error can occur after rename. Read the canonical state to
     // distinguish committed, exact pending, and conflict; never blind retry.
+    revalidate_replacement_directories(&context, &directory)?;
     let canonical = read_cap_file_nofollow_bounded(
         context.active,
         &summary_name,
@@ -3565,7 +3624,13 @@ mod tests {
     #[test]
     fn replacement_rechecks_source_review_and_summary_before_commit() {
         const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
-        for mutation in ["summary", "source", "review", "active-directory"] {
+        for mutation in [
+            "summary",
+            "source",
+            "review",
+            "active-directory",
+            "evidence-directory",
+        ] {
             let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
             let root = directory.path();
             let summary_path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
@@ -3574,6 +3639,7 @@ mod tests {
             let old_pointer = changed["materialReviewReceipt"].clone();
             let mutation_root = root.to_path_buf();
             let mutation_summary = summary_path.clone();
+            let old_name = old_sidecar.file_name().unwrap().to_owned();
             match mutation {
                 "summary" => changed["concurrentFixtureNote"] = serde_json::json!(true),
                 "review" => {
@@ -3582,11 +3648,12 @@ mod tests {
                 }
                 _ => {}
             }
-            let expected = if ["source", "active-directory"].contains(&mutation) {
-                before.clone()
-            } else {
-                serde_json::to_vec_pretty(&changed).unwrap()
-            };
+            let expected =
+                if ["source", "active-directory", "evidence-directory"].contains(&mutation) {
+                    before.clone()
+                } else {
+                    serde_json::to_vec_pretty(&changed).unwrap()
+                };
             let callback_bytes = expected.clone();
             REPLACEMENT_BEFORE_COMMIT.with(|callback| {
                 *callback.borrow_mut() = Some(Box::new(move || {
@@ -3606,6 +3673,15 @@ mod tests {
                             let entry = entry.unwrap();
                             fs::copy(entry.path(), active.join(entry.file_name())).unwrap();
                         }
+                    } else if mutation == "evidence-directory" {
+                        let material = mutation_root
+                            .join(".ai/evidence/material-inspection-review")
+                            .join(ITEM);
+                        let previous =
+                            mutation_root.join(".ai/evidence/retained-material-before-swap");
+                        fs::rename(&material, &previous).unwrap();
+                        fs::create_dir(&material).unwrap();
+                        fs::copy(previous.join(&old_name), material.join(&old_name)).unwrap();
                     } else {
                         fs::write(mutation_summary, callback_bytes).unwrap();
                     }
@@ -3633,11 +3709,21 @@ mod tests {
                 serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
             assert_eq!(current["materialReviewReceipt"], old_pointer);
             assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
-            assert_eq!(
-                transaction_artifacts(root).len(),
-                3,
-                "staged evidence remains pending, not silently deleted"
-            );
+            if mutation == "evidence-directory" {
+                assert_eq!(transaction_artifacts(root).len(), 1);
+                assert_eq!(
+                    fs::read_dir(root.join(".ai/evidence/retained-material-before-swap"))
+                        .unwrap()
+                        .count(),
+                    3
+                );
+            } else {
+                assert_eq!(
+                    transaction_artifacts(root).len(),
+                    3,
+                    "staged evidence remains pending, not silently deleted"
+                );
+            }
         }
     }
 
