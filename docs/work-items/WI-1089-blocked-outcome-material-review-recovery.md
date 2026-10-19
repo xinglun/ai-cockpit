@@ -50,3 +50,13 @@ three-language WI/parity documents. Earlier six-node and combined-source results
 remain historical evidence. The amended candidate needs its own complete checks
 and exact independent material decision; unchanged finite consent is not approval
 of new Rust blobs. PR1048 remains Draft; WI1090 stays paused.
+
+A coverage manifest covers partitioned workspace nodes and may be absent in a
+native nonpartitioned receipt. Historical recovery therefore also requires the
+original native verification-attempt record: its filename/content digest,
+predecessor Contract/scope, snapshot, producer, complete unchanged receipt and
+per-node command/timeout bindings must agree. Every declared argv command must
+be represented, including manifest-bound workspace expansion. Missing or altered
+attempt evidence is diagnosed and rejected. Ordinary non-recovery compatibility
+is unchanged. This is structural evidence at the existing Native assurance level,
+not a new cryptographic producer attestation.

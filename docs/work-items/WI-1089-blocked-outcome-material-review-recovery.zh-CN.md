@@ -39,3 +39,10 @@ plan-only 零进程、单 worker 真实执行四项且零复用、fresh green pr
 测试以及六份三语 WI/parity 文档。先前六节点与组合源码结果继续保留为历史证据。
 新候选须完成自己的检查和独立精确材料决定；旧的有限风险同意不覆盖新 Rust 字节。
 PR1048 保持 Draft，WI1090 继续暂停。
+
+coverage manifest 只覆盖分区的 workspace 节点，真实原生非分区收据也可能没有它。
+因此历史恢复还必须取得原始原生 verification-attempt：文件名/内容摘要、前驱
+Contract/范围、snapshot、producer、完整未改动收据及每节点命令/时限绑定均须一致。
+所有声明的 argv 命令必须被覆盖，包括由 manifest 绑定的 workspace 展开。
+缺少或篡改该证据时给出诊断并拒绝，正常非恢复兼容语义不变。这仍是现有原生保证
+级别下的结构证据，不新增密码学生产者认证。

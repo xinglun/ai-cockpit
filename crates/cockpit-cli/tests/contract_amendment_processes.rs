@@ -831,6 +831,69 @@ fn assert_retained_history_rejection(baseline: &RetainedCanonicalFixture, case: 
             envelope["receiptDigest"] =
                 json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
         }
+        "missing_original_attempt"
+        | "tampered_original_attempt"
+        | "foreign_command_argv_rehashed_attempt"
+        | "duplicate_attempt_keys"
+        | "symlink_original_attempt" => {
+            let prefix = format!("{WORK_ITEM_ID}.verification-attempt.");
+            let attempt_path = fs::read_dir(root.join(".ai/evidence"))
+                .expect("evidence")
+                .map(|entry| entry.expect("entry").path())
+                .find(|path| {
+                    path.file_name()
+                        .and_then(|name| name.to_str())
+                        .is_some_and(|name| name.starts_with(&prefix) && name.ends_with(".json"))
+                        && serde_json::from_slice::<Value>(&fs::read(path).expect("attempt"))
+                            .is_ok_and(|value| {
+                                value["passed"] == true && value["receipt"] == envelope["receipt"]
+                            })
+                })
+                .expect("original native matching execution attempt");
+            let bytes = fs::read(&attempt_path).expect("attempt bytes");
+            let preserved = attempt_path.with_extension("json.preserved");
+            fs::rename(&attempt_path, &preserved).expect("preserve original in negative copy");
+            if matches!(
+                case,
+                "tampered_original_attempt" | "foreign_command_argv_rehashed_attempt"
+            ) {
+                let mut attempt: Value = serde_json::from_slice(&bytes).expect("attempt JSON");
+                if case == "tampered_original_attempt" {
+                    attempt["commands"][0]["commandDigest"] =
+                        json!(Digest::sha256_bytes(b"different native command"));
+                } else {
+                    attempt["commands"][0]["args"][0] = json!("metadata");
+                }
+                attempt.as_object_mut().expect("object").remove("attemptId");
+                let digest = cockpit_protocol::digest_json(&attempt).expect("attempt digest");
+                attempt["attemptId"] = json!(digest);
+                let name = format!(
+                    "{prefix}{}.json",
+                    digest.as_str().strip_prefix("sha256:").expect("hex")
+                );
+                fs::write(
+                    root.join(".ai/evidence").join(name),
+                    serde_json::to_vec_pretty(&attempt).expect("JSON"),
+                )
+                .expect("rehash negative sidecar");
+            } else if case == "duplicate_attempt_keys" {
+                let text = String::from_utf8(bytes).expect("UTF8");
+                fs::write(
+                    attempt_path,
+                    format!(
+                        "{{\"passed\":true,{}",
+                        text.trim_start().strip_prefix('{').expect("object")
+                    ),
+                )
+                .expect("duplicate sidecar keys");
+            } else if case == "symlink_original_attempt" {
+                #[cfg(unix)]
+                std::os::unix::fs::symlink(preserved, attempt_path)
+                    .expect("negative sidecar symlink");
+                #[cfg(not(unix))]
+                panic!("symlink mutation is Unix-only");
+            }
+        }
         "producer_runtime_identity" => {
             envelope["runtimeDigest"] = json!(Digest::sha256_bytes(b"wrong producer"))
         }
@@ -992,6 +1055,10 @@ fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorize
         "failed_execution_exit",
         "plan_result_mismatch",
         "missing_bound_plan",
+        "missing_original_attempt",
+        "tampered_original_attempt",
+        "foreign_command_argv_rehashed_attempt",
+        "duplicate_attempt_keys",
         "producer_runtime_identity",
         "unsupported_schema",
         "unsupported_protocol",
@@ -1017,6 +1084,7 @@ fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorize
 fn retained_history_recovery_rejects_symlinked_canonical_verification() {
     let fixture = retained_canonical_amendment_fixture();
     assert_retained_history_rejection(&fixture, "symlink");
+    assert_retained_history_rejection(&fixture, "symlink_original_attempt");
 }
 
 #[test]
