@@ -230,6 +230,21 @@ fn segmented_authority_fixture() -> (
     serde_json::Value,
     MaterialInspectionReviewDecisionInput,
 ) {
+    segmented_authority_fixture_with_changes(&[], false, &[])
+}
+
+fn segmented_authority_fixture_with_changes(
+    historical_changes: &[serde_json::Value],
+    whole_profile_replace: bool,
+    adjacent_extra: &[serde_json::Value],
+) -> (
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    PathBuf,
+    Vec<u8>,
+    serde_json::Value,
+    MaterialInspectionReviewDecisionInput,
+) {
     let (directory, _) = fixture();
     let root = directory.path();
     let runtime = review_runtime();
@@ -312,14 +327,34 @@ fn segmented_authority_fixture() -> (
         a.effective_unknowns
             .contains(&"material_review_receipt_stale".into())
     );
+    for (index, changes) in historical_changes.iter().enumerate() {
+        amend_segmented_fixture(
+            root,
+            &runtime,
+            &format!("fixture-extra-history-{index}"),
+            changes.clone(),
+        );
+    }
+    let mut adjacent = if whole_profile_replace {
+        let current: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.join(".ai/work-items/active/WI-MATERIAL.contract.json")).unwrap(),
+        )
+        .unwrap();
+        let mut profile = current["governanceProfile"].clone();
+        profile["materialInspectionReview"]["authoritySource"] =
+            json!("fixture:new-current-risk-source");
+        vec![json!({"path":"/governanceProfile", "operation":"replace", "value":profile})]
+    } else {
+        vec![
+            json!({"path":"/governanceProfile/materialInspectionReview/authoritySource", "operation":"set", "value":"fixture:new-current-risk-source"}),
+        ]
+    };
+    adjacent.extend_from_slice(adjacent_extra);
     amend_segmented_fixture(
         root,
         &runtime,
         "fixture-adjacent-authority-source-B",
-        json!([{
-            "path":"/governanceProfile/materialInspectionReview/authoritySource",
-            "operation":"set", "value":"fixture:new-current-risk-source"
-        }]),
+        json!(adjacent),
     );
     let request = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
     input.request_digest = request.request_digest;
@@ -363,6 +398,183 @@ fn segmented_authority_source_change_exposes_only_new_decision() {
             "reviewed mixed history plus an adjacent source-only transition must permit only a NEW exact decision; retained fixture {retained:?}: {status:#?}"
         );
     }
+}
+
+#[test]
+fn segmented_new_decision_preserves_history_and_rejects_committed_replay() {
+    for whole_profile_replace in [false, true] {
+        let (directory, runtime, old_sidecar, old_bytes, pointer, input) =
+            segmented_authority_fixture_with_changes(&[], whole_profile_replace, &[]);
+        let root = directory.path();
+        let receipt = cockpit_repository::record_work_item_material_review(
+            root,
+            "WI-MATERIAL",
+            &input,
+            &runtime,
+        )
+        .expect("new exact decision must be recorded independently of invalid historical receipt");
+        assert_eq!(receipt.request_digest, input.request_digest);
+        assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+        let summary_path = root.join(".ai/work-items/active/WI-MATERIAL.summary.json");
+        let bytes = fs::read(&summary_path).unwrap();
+        let summary: serde_json::Value = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(summary["materialReviewReceiptHistory"], json!([pointer]));
+        assert_eq!(
+            summary["materialReviewReceipt"]["requestDigest"],
+            json!(input.request_digest)
+        );
+        let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+            root,
+            "WI-MATERIAL",
+            &runtime,
+        )
+        .unwrap();
+        assert_eq!(status.review_receipt_digest, Some(receipt.receipt_digest));
+        assert!(
+            !status
+                .effective_unknowns
+                .contains(&"repository_material_inspection_unavailable".into())
+        );
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect_err("already committed decision cannot be replayed");
+        assert_eq!(fs::read(summary_path).unwrap(), bytes);
+    }
+}
+
+fn assert_segmented_rejection_is_read_only(
+    root: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+    input: &MaterialInspectionReviewDecisionInput,
+) {
+    let summary = root.join(".ai/work-items/active/WI-MATERIAL.summary.json");
+    let before = fs::read(&summary).unwrap();
+    let directory = root.join(".ai/evidence/material-inspection-review/WI-MATERIAL");
+    let entries = || {
+        let mut names = fs::read_dir(&directory)
+            .unwrap()
+            .map(|entry| entry.unwrap().file_name())
+            .collect::<Vec<_>>();
+        names.sort();
+        names
+    };
+    let original_entries = entries();
+    if let Ok(status) =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", runtime)
+    {
+        assert!(
+            !status
+                .safe_actions
+                .contains(&"record_material_review_decision".into()),
+            "invalid finite proof cannot offer a new-decision action: {status:#?}"
+        );
+    }
+    cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", input, runtime)
+        .expect_err("invalid finite proof rejects record");
+    assert_eq!(fs::read(summary).unwrap(), before);
+    assert_eq!(
+        entries(),
+        original_entries,
+        "rejection must publish no new material artifact"
+    );
+}
+
+#[test]
+fn segmented_rejects_forbidden_intermediate_history_and_mixed_adjacency() {
+    let cases = [
+        (
+            vec![json!([{"path":"/goal","operation":"set","value":"forbidden historical goal"}])],
+            vec![],
+        ),
+        (
+            vec![json!([{"path":"/risk","operation":"set","value":"normal"}])],
+            vec![],
+        ),
+        (
+            vec![
+                json!([{"path":"/governanceProfile/materialInspectionReview/reviewerActor","operation":"set","value":"agent:other-fixture"}]),
+                json!([{"path":"/governanceProfile/materialInspectionReview/reviewerActor","operation":"set","value":"agent:material-fixture"}]),
+            ],
+            vec![],
+        ),
+        (
+            vec![],
+            vec![json!({"path":"/scope","operation":"add","value":"src/extra.rs"})],
+        ),
+        (
+            vec![],
+            vec![
+                json!({"path":"/goal","operation":"set","value":"retain historical evidence and independently decide current material"}),
+            ],
+        ),
+    ];
+    for (historical, adjacent) in cases {
+        let (directory, runtime, _path, _bytes, _pointer, input) =
+            segmented_authority_fixture_with_changes(&historical, false, &adjacent);
+        assert_segmented_rejection_is_read_only(directory.path(), &runtime, &input);
+    }
+}
+
+#[test]
+fn segmented_requires_each_historical_review_even_with_valid_current_confirmation() {
+    let (directory, runtime, _path, _bytes, _pointer, input) = segmented_authority_fixture();
+    let root = directory.path();
+    let history = read_work_item_contract_amendments(root, "WI-MATERIAL").unwrap();
+    let digest = &history[0].new_contract_digest;
+    let mut removed = 0;
+    for entry in fs::read_dir(root.join(".ai/decisions")).unwrap() {
+        let path = entry.unwrap().path();
+        let value: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        if value["contractDigest"] == json!(digest) {
+            fs::remove_file(path).unwrap();
+            removed += 1;
+        }
+    }
+    assert_eq!(removed, 1);
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .unwrap();
+    assert!(
+        !status.human_decision_required,
+        "current confirmation is deliberately intact"
+    );
+    assert_segmented_rejection_is_read_only(root, &runtime, &input);
+}
+
+#[test]
+fn segmented_rejects_corrupt_old_receipt_and_foreign_pointer_history() {
+    for corrupt_sidecar in [false, true] {
+        let (directory, runtime, old_sidecar, old_bytes, _pointer, input) =
+            segmented_authority_fixture();
+        let root = directory.path();
+        if corrupt_sidecar {
+            let mut corrupt = old_bytes;
+            corrupt.push(b' ');
+            fs::write(old_sidecar, corrupt).unwrap();
+        } else {
+            let path = root.join(".ai/work-items/active/WI-MATERIAL.summary.json");
+            let mut summary: serde_json::Value =
+                serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+            summary["materialReviewReceiptHistory"] = json!(["foreign-history-member"]);
+            fs::write(path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+        }
+        assert_segmented_rejection_is_read_only(root, &runtime, &input);
+    }
+}
+
+#[test]
+fn segmented_rejects_committed_source_changed_after_adjacent_anchor() {
+    let (directory, runtime, _path, _bytes, _pointer, mut input) = segmented_authority_fixture();
+    let root = directory.path();
+    fs::write(
+        root.join("README.md"),
+        "changed material after source-only anchor\n",
+    )
+    .unwrap();
+    commit(root);
+    input.request_digest = plan_work_item_material_review(root, "WI-MATERIAL")
+        .unwrap()
+        .request_digest;
+    assert_segmented_rejection_is_read_only(root, &runtime, &input);
 }
 
 #[test]
