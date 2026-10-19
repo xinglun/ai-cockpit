@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_current_environment_command_observation",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "/workspace/.cloud-tools/cargo/bin/cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-protocol",
+    "--lib",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "/workspace/ai-cockpit",
+  "startedAt": "2026-10-17T04:55:28.629493+00:00",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit/target/wi1087-rebuild-p1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "runtimePath": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+  "runtimeSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "999bb5f3a9ee941b59e5fcc1f9a5e991d7d423df",
+  "productSourceHashes": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea"
+  },
+  "exitCode": 0,
+  "endedAt": "2026-10-17T04:55:54.823858+00:00",
+  "elapsedSeconds": 26.163,
+  "stdout": {
+    "encoding": "base64",
+    "bytes": 1307,
+    "rawSha256": "sha256:2c5385fc0882e2b6fc9ff462230e57a7578ec665070b6e270bbbaa8b6fc69282",
+    "data": "CnJ1bm5pbmcgMTIgdGVzdHMKdGVzdCBnb2FsX2F1dGhvcml0eV9tb2RlbF90ZXN0czo6Y29uc3RyYWludHNfYW5kX2lzc3Vlcl9tZXRhZGF0YV9hcmVfdmFsaWRhdGVkX3dpdGhvdXRfYXV0aG9yaXppbmcgLi4uIG9rCnRlc3QgZ29hbF9hdXRob3JpdHlfbW9kZWxfdGVzdHM6OmZpbml0ZV93aW5kb3dfZmllbGRzX2Nhbm5vdF9iZV9taXNzaW5nX29yX251bGwgLi4uIG9rCnRlc3QgZ29hbF9hdXRob3JpdHlfbW9kZWxfdGVzdHM6OmluaGVyaXRfbW9kZV9jYW5ub3RfaGlkZV9hX2ZpeGVkX2NhcF9hbmRfY2FwX2Nhbm5vdF9iZV9udWxsIC4uLiBvawp0ZXN0IGdvYWxfYXV0aG9yaXR5X21vZGVsX3Rlc3RzOjpsZWdhY3lfYXV0aG9yaXR5X2V2aWRlbmNlX2hhc19ub19uZXdfcmVxdWlyZWRfZmllbGRzIC4uLiBvawp0ZXN0IGdvYWxfYXV0aG9yaXR5X21vZGVsX3Rlc3RzOjptYWxmb3JtZWRfcmVwb3NpdG9yeV92ZXJzaW9uX2FuZF9lbXB0eV9pZGVudGlmaWVyc19hcmVfcmVqZWN0ZWQgLi4uIG9rCnRlc3QgZ29hbF9hdXRob3JpdHlfbW9kZWxfdGVzdHM6Om5ld19zb3VyY2VfYW5kX3ZhbGlkaXR5X3NoYXBlc19yZWplY3RfdW5rbm93bl9maWVsZHMgLi4uIG9rCnRlc3QgZ29hbF9hdXRob3JpdHlfbW9kZWxfdGVzdHM6OnJlZmVyZW5jZV9zaGFwZV9yZWplY3RzX2JsYW5rX2lkc19kZWxpdmVyYWJsZXNfYW5kX3RpbWVfZmllbGRzIC4uLiBvawp0ZXN0IGdvYWxfYXV0aG9yaXR5X21vZGVsX3Rlc3RzOjpyZWZlcmVuY2VzX3JlcXVpcmVfZXhwbGljaXRfY3VycmVudF92ZXJzaW9uX2FuZF9kZWFkbGluZV9tb2RlcyAuLi4gb2sKdGVzdCBnb2FsX2F1dGhvcml0eV9tb2RlbF90ZXN0czo6cmVxdWlyZWRfY292ZXJhZ2VfbGlzdHNfcmVqZWN0X2VtcHR5X2JsYW5rX2FuZF9kdXBsaWNhdGVfbWVtYmVycyAuLi4gb2sKdGVzdCBnb2FsX2F1dGhvcml0eV9tb2RlbF90ZXN0czo6c291cmNlX3ZlcnNpb25fcHJlZGVjZXNzb3JfaXNfZXhwbGljaXRfYW5kX2Nhbm9uaWNhbCAuLi4gb2sKdGVzdCBnb2FsX2F1dGhvcml0eV9tb2RlbF90ZXN0czo6dGVybWluYXRpb25faXNfcmVhZGFibGVfaGlzdG9yeV9hbmRfcmVxdWlyZXNfZXZpZGVuY2UgLi4uIG9rCnRlc3QgZ29hbF9hdXRob3JpdHlfbW9kZWxfdGVzdHM6OnZhbGlkX3NvdXJjZV9zaGFwZV9yb3VuZHRyaXBzX3dpdGhvdXRfY2xhaW1pbmdfaWRlbnRpdHlfYXV0aGVudGljYXRpb24gLi4uIG9rCgp0ZXN0IHJlc3VsdDogb2suIDEyIHBhc3NlZDsgMCBmYWlsZWQ7IDAgaWdub3JlZDsgMCBtZWFzdXJlZDsgMCBmaWx0ZXJlZCBvdXQ7IGZpbmlzaGVkIGluIDAuMDBzCgo="
+  },
+  "stderr": {
+    "encoding": "base64",
+    "bytes": 1296,
+    "rawSha256": "sha256:0b5facd8ebf9dc586a15717018fd0d8079ca862fa1db6c01a88b379eca070ee2",
+    "data": "ICAgQ29tcGlsaW5nIHNlcmRlX2NvcmUgdjEuMC4yMjkKICAgQ29tcGlsaW5nIHN5biB2My4wLjMKICAgQ29tcGlsaW5nIHV0ZjhwYXJzZSB2MC4yLjIKICAgQ29tcGlsaW5nIGFuc3R5bGUtcGFyc2UgdjEuMC4wCiAgIENvbXBpbGluZyBpc190ZXJtaW5hbF9wb2x5ZmlsbCB2MS43MC4yCiAgIENvbXBpbGluZyBhbnN0eWxlIHYxLjAuMTQKICAgQ29tcGlsaW5nIGNvbG9yY2hvaWNlIHYxLjAuNQogICBDb21waWxpbmcgYW5zdHlsZS1xdWVyeSB2MS4xLjUKICAgQ29tcGlsaW5nIGFuc3RyZWFtIHYxLjAuMAogICBDb21waWxpbmcgc2VyZGVfZGVyaXZlIHYxLjAuMjI5CiAgIENvbXBpbGluZyBzdHJzaW0gdjAuMTEuMQogICBDb21waWxpbmcgY2xhcF9sZXggdjEuMS4wCiAgIENvbXBpbGluZyBoZWNrIHYwLjUuMAogICBDb21waWxpbmcgY2xhcF9kZXJpdmUgdjQuNi43CiAgIENvbXBpbGluZyBjbGFwX2J1aWxkZXIgdjQuNi43CiAgIENvbXBpbGluZyBzZXJkZSB2MS4wLjIyOQogICBDb21waWxpbmcgdGhpc2Vycm9yLWltcGwgdjIuMC4yMAogICBDb21waWxpbmcgd2lubm93IHYxLjAuNAogICBDb21waWxpbmcgc2VyZGVfanNvbiB2MS4wLjE1MQogICBDb21waWxpbmcgdG9tbF9wYXJzZXIgdjEuMS4zK3NwZWMtMS4xLjAKICAgQ29tcGlsaW5nIHRoaXNlcnJvciB2Mi4wLjIwCiAgIENvbXBpbGluZyBjbGFwIHY0LjYuNwogICBDb21waWxpbmcgdG9tbF9kYXRldGltZSB2MC43LjUrc3BlYy0xLjEuMAogICBDb21waWxpbmcgc2VyZGVfc3Bhbm5lZCB2MS4xLjEKICAgQ29tcGlsaW5nIHRvbWxfd3JpdGVyIHYxLjEuMitzcGVjLTEuMS4wCiAgIENvbXBpbGluZyB3aW5ub3cgdjAuNy4xNQogICBDb21waWxpbmcgdG9tbCB2MC45LjEyK3NwZWMtMS4xLjAKICAgQ29tcGlsaW5nIGNvY2twaXQtY29yZSB2MS4wLjEgKC93b3Jrc3BhY2UvYWktY29ja3BpdC9jcmF0ZXMvY29ja3BpdC1jb3JlKQogICBDb21waWxpbmcgY29ja3BpdC1pbnRlcmZhY2UgdjEuMC4xICgvd29ya3NwYWNlL2FpLWNvY2twaXQvY3JhdGVzL2NvY2twaXQtaW50ZXJmYWNlKQogICBDb21waWxpbmcgY29ja3BpdC1wcm90b2NvbCB2MS4wLjEgKC93b3Jrc3BhY2UvYWktY29ja3BpdC9jcmF0ZXMvY29ja3BpdC1wcm90b2NvbCkKICAgIEZpbmlzaGVkIGB0ZXN0YCBwcm9maWxlIFt1bm9wdGltaXplZF0gdGFyZ2V0KHMpIGluIDI2LjExcwogICAgIFJ1bm5pbmcgdW5pdHRlc3RzIHNyYy9saWIucnMgKHRhcmdldC93aTEwODctcmVidWlsZC1wMS9kZWJ1Zy9kZXBzL2NvY2twaXRfcHJvdG9jb2wtNTY4NDRlZjI2OWI0ZmJiNSkK"
+  }
+}

@@ -1,0 +1,331 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1087-p1-five-file-implementation-activation-20261017",
+      "expectedContractDigest": "sha256:58529cee9b0eeb656132434a47c7f57374f1cf8e87cf8885710dd394192e7f1d",
+      "reason": "Raydot explicitly approves this ordinary P1 software-development plan within Ray delegation and removes the temporary read-only boundary. Activate the same WI from actual main, bound to five product files, necessary own governance documents and unchanged full workspace checks. Preserve every historical record. No live grant, system permissions, P2-P4, merge/close/deletion or human confirm_review is authorized by this request; generate any exact native human review and stop before protected implementation.",
+      "changes": [
+        {
+          "path": "/mode",
+          "operation": "set",
+          "value": "implementation"
+        },
+        {
+          "path": "/intent",
+          "operation": "set",
+          "value": "Implement the reviewed P1 software-development slice of the finite goal authority design under Ray delegation and Raydot technical plan approval; preserve truthful human-review and legacy evidence boundaries."
+        },
+        {
+          "path": "/goal",
+          "operation": "set",
+          "value": "Implement only backward-readable finite goal authority source/reference and deadline-mode shapes, an injectable UTC/monotonic Clock, and minimal module interfaces in the approved five product files. Keep P2-P4, live grant configuration and actual system permission changes excluded; retain wider feature acceptance as not_run until implemented and verified."
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-core/src/clock.rs"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-core/src/lib.rs"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-repository/src/authority.rs"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "path": "/outOfScope",
+          "operation": "replace",
+          "value": [
+            "All product implementation outside the five named P1 files; P2-P4 action interception, lifecycle/status enforcement, persistent grant heads/CAS/revocation and CLI/MCP behavior remain unapproved.",
+            "No creation/configuration of live goal grants, actual authority policy activation, real system permission changes, new IAM/budget subsystem, remote trusted-time dependency or inferred identity.",
+            "Existing WI-1085/WI-1086 or other authorization, verification, archive, cleanup and decision bytes remain immutable; no new observation, rebinding or cleanup is authorized.",
+            "No new PR merge, Work Item finish/archive/close, branch/worktree/resource deletion, actual Provider/Sentinel operations or direct main push.",
+            "No human approval impersonation, pre-signed contract-preflight-review, validator/test/gate weakening or use of P1 module tests as full-feature acceptance."
+          ]
+        },
+        {
+          "path": "/authority",
+          "operation": "set",
+          "value": "authorized"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "replace",
+          "value": [
+            "Bounded finite goal authorization is the authority source: current subject, issuer evidence, actor/action/resource constraints, notBefore/expiresAt and termination state must be verifiable; no null or unlimited expiry.",
+            "A new goal B cannot use still-valid authorization for A; valid explicit coverage of one goal permits derived B/C Work Items, sequential/parallel work, repair/retry/recovery without repeated per-WI human confirmation.",
+            "Authority is source grant intersection Work Item narrowing intersection fresh Runtime admission and existing safety/coordination; identity or authoritySource strings and agent summaries are not authentication.",
+            "Finite expiry is mandatory, independently approved from the 900-second single-command timeout; no self-extension or renewal by silence. Only goal completion/revocation/expiry ends its authority, preserving historical facts.",
+            "One approved same-goal deadline extension updates the current source version for eligible active related Work Items while retaining their narrower constraints; closed/revoked/superseded subjects never revive and old versions cannot authorize new operations.",
+            "Fresh checks occur after lock and before actual side effect, retry, recovery and irreversible publish. Controlled Clock and monotonic budgets cover exact boundaries, rollback and in-flight safe stopping without long sleeps.",
+            "Expired management plane supports only bounded own-metadata status/evidence preservation/safe stop/extension requests, no business read/export/delete and no request-generation deadlock.",
+            "CLI/MCP share decisions and failure codes; legacy Contract/evidence stays readable, strict missing deadlines fail closed, migration/rollout and any actual authorization activation require separate review.",
+            "P1 only: implement the five named model/Clock/module-interface files under delegated software-development authority; no live grant, actual system permissions or P2-P4 behavior is enabled. Completing P1 does not complete or close the full Work Item.",
+            "P1 additive wire shapes preserve legacy readable evidence; missing/null/unbounded or invalid finite validity intervals fail validation in the new models without retroactively forging historical approval.",
+            "P1 injectable UTC/monotonic Clock has deterministic inline unit evidence for exact boundary and non-extension/rollback behavior; no long sleeps, new process supervisor or external trusted-time service.",
+            "P1 module-level unit tests and the existing full workspace verification remain required, using isolated targets, one worker and at most 900 seconds per command, with truthful not_run/failed/passed evidence.",
+            "Agent execution provenance is agent:Codex; technical review is agent:Raydot. A required human contract-preflight-review binds the then-current native request and is never supplied by agent delegation."
+          ]
+        },
+        {
+          "path": "/sources",
+          "operation": "replace",
+          "value": [
+            {
+              "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/authority.json",
+              "reason": "Actual relayed Ray software-development delegation and Raydot ordinary technical approval for bounded five-file P1; not native human confirm_review."
+            },
+            {
+              "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1-plan.json",
+              "reason": "Reviewed P1 five-file implementation and bounded verification plan; product execution waits for native admission and any exact human preflight review."
+            }
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:e1d5a83bee7b588e8b9cf712774e07f3a95c420017e8e812559be07b7cd344da",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Bounded finite goal authorization is the authority source: current subject, issuer evidence, actor/action/resource constraints, notBefore/expiresAt and termination state must be verifiable; no null or unlimited expiry.",
+        "A new goal B cannot use still-valid authorization for A; valid explicit coverage of one goal permits derived B/C Work Items, sequential/parallel work, repair/retry/recovery without repeated per-WI human confirmation.",
+        "Authority is source grant intersection Work Item narrowing intersection fresh Runtime admission and existing safety/coordination; identity or authoritySource strings and agent summaries are not authentication.",
+        "Finite expiry is mandatory, independently approved from the 900-second single-command timeout; no self-extension or renewal by silence. Only goal completion/revocation/expiry ends its authority, preserving historical facts.",
+        "One approved same-goal deadline extension updates the current source version for eligible active related Work Items while retaining their narrower constraints; closed/revoked/superseded subjects never revive and old versions cannot authorize new operations.",
+        "Fresh checks occur after lock and before actual side effect, retry, recovery and irreversible publish. Controlled Clock and monotonic budgets cover exact boundaries, rollback and in-flight safe stopping without long sleeps.",
+        "Expired management plane supports only bounded own-metadata status/evidence preservation/safe stop/extension requests, no business read/export/delete and no request-generation deadlock.",
+        "CLI/MCP share decisions and failure codes; legacy Contract/evidence stays readable, strict missing deadlines fail closed, migration/rollout and any actual authorization activation require separate review.",
+        "Design and planned registration only; dependency WI-1086 and all overlapping core/receipt/status/amendment files serialize. No source implementation, build, activation, change to existing permissions, merge or cleanup."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "missing",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-16T01:06:57Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Design a finite, verifiable goal authority source reused by explicitly covered Work Items with narrowing only; publish versioned design, acceptance and staged implementation scope. This planning record grants no product implementation or actual authority configuration.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Ray requested a completed design and planned Work Item for finite goal authorization that prevents reuse of old-task approval for a new goal while preserving continuous work efficiency.",
+      "mode": "planning",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "All product source implementation and Runtime activation",
+        "No modification, regeneration, rebinding, replacement or new observation of existing WI-1086 or other authorization/receipt history. A single byte-identical addition of exactly the two existing native cleanup receipts named in scope is permitted only under the reviewed persistence plan and pinned original SHA256; no new cleanup is authorized.",
+        "Shared reference-parity ledgers while WI-1086 is active",
+        "New IAM or budget subsystem, remote trusted-time dependency, inferred identity",
+        "PR merge, close, cleanup, actual provider or Sentinel operations"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+        ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+        ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "sources": [],
+      "state": "not_ready",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+    },
+    "previousContractDigest": "sha256:58529cee9b0eeb656132434a47c7f57374f1cf8e87cf8885710dd394192e7f1d",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Bounded finite goal authorization is the authority source: current subject, issuer evidence, actor/action/resource constraints, notBefore/expiresAt and termination state must be verifiable; no null or unlimited expiry.",
+        "A new goal B cannot use still-valid authorization for A; valid explicit coverage of one goal permits derived B/C Work Items, sequential/parallel work, repair/retry/recovery without repeated per-WI human confirmation.",
+        "Authority is source grant intersection Work Item narrowing intersection fresh Runtime admission and existing safety/coordination; identity or authoritySource strings and agent summaries are not authentication.",
+        "Finite expiry is mandatory, independently approved from the 900-second single-command timeout; no self-extension or renewal by silence. Only goal completion/revocation/expiry ends its authority, preserving historical facts.",
+        "One approved same-goal deadline extension updates the current source version for eligible active related Work Items while retaining their narrower constraints; closed/revoked/superseded subjects never revive and old versions cannot authorize new operations.",
+        "Fresh checks occur after lock and before actual side effect, retry, recovery and irreversible publish. Controlled Clock and monotonic budgets cover exact boundaries, rollback and in-flight safe stopping without long sleeps.",
+        "Expired management plane supports only bounded own-metadata status/evidence preservation/safe stop/extension requests, no business read/export/delete and no request-generation deadlock.",
+        "CLI/MCP share decisions and failure codes; legacy Contract/evidence stays readable, strict missing deadlines fail closed, migration/rollout and any actual authorization activation require separate review.",
+        "P1 only: implement the five named model/Clock/module-interface files under delegated software-development authority; no live grant, actual system permissions or P2-P4 behavior is enabled. Completing P1 does not complete or close the full Work Item.",
+        "P1 additive wire shapes preserve legacy readable evidence; missing/null/unbounded or invalid finite validity intervals fail validation in the new models without retroactively forging historical approval.",
+        "P1 injectable UTC/monotonic Clock has deterministic inline unit evidence for exact boundary and non-extension/rollback behavior; no long sleeps, new process supervisor or external trusted-time service.",
+        "P1 module-level unit tests and the existing full workspace verification remain required, using isolated targets, one worker and at most 900 seconds per command, with truthful not_run/failed/passed evidence.",
+        "Agent execution provenance is agent:Codex; technical review is agent:Raydot. A required human contract-preflight-review binds the then-current native request and is never supplied by agent delegation."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "681df30e2fe8c869b6a41498822818c017dc4fb6",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-16T01:06:57Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Implement only backward-readable finite goal authority source/reference and deadline-mode shapes, an injectable UTC/monotonic Clock, and minimal module interfaces in the approved five product files. Keep P2-P4, live grant configuration and actual system permission changes excluded; retain wider feature acceptance as not_run until implemented and verified.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Implement the reviewed P1 software-development slice of the finite goal authority design under Ray delegation and Raydot technical plan approval; preserve truthful human-review and legacy evidence boundaries.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "All product implementation outside the five named P1 files; P2-P4 action interception, lifecycle/status enforcement, persistent grant heads/CAS/revocation and CLI/MCP behavior remain unapproved.",
+        "No creation/configuration of live goal grants, actual authority policy activation, real system permission changes, new IAM/budget subsystem, remote trusted-time dependency or inferred identity.",
+        "Existing WI-1085/WI-1086 or other authorization, verification, archive, cleanup and decision bytes remain immutable; no new observation, rebinding or cleanup is authorized.",
+        "No new PR merge, Work Item finish/archive/close, branch/worktree/resource deletion, actual Provider/Sentinel operations or direct main push.",
+        "No human approval impersonation, pre-signed contract-preflight-review, validator/test/gate weakening or use of P1 module tests as full-feature acceptance."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bb7449e818c942a915d5e4cbdaa5ed3a2aab004d4145cca1b8f398dbff833034",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.zh-CN.md",
+        "docs/work-items/WI-1087-contract-authority-scope-and-expiry.ja.md",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+        ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.intelligence.json",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/**",
+        ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/**",
+        ".ai/decisions/WI-1085-legacy-v1-closeout-source-registration.cleanup.000001.72a039274154f5ac22e341d9210857b0ddec3901c9b5e72ac86b6f9243d33bf6.json",
+        ".ai/decisions/WI-1086-sensitive-amendment-preflight-request-interlock.cleanup.000001.6b9cbf0d4d659d2e7a5f235a6d63ae77c2f02da9dc2d064bf419824179fc99c8.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-core/src/clock.rs",
+        "crates/cockpit-core/src/lib.rs",
+        "crates/cockpit-repository/src/authority.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "sources": [
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/authority.json",
+          "reason": "Actual relayed Ray software-development delegation and Raydot ordinary technical approval for bounded five-file P1; not native human confirm_review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1-plan.json",
+          "reason": "Reviewed P1 five-file implementation and bounded verification plan; product execution waits for native admission and any exact human preflight review."
+        }
+      ],
+      "state": "not_ready",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry"
+    },
+    "newContractDigest": "sha256:dd79d522e74822cf4e440b025dc6d758920e221c2913241f8d558c6dd6f7eec5",
+    "previousSummaryDigest": "sha256:2881e09ca60de3728204157b64b6bacb39c596d3a399ebc4554cc4f173dd5714",
+    "repositorySnapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+    "environmentObservationDigest": "sha256:ea1ec97c32fc4092be8c7d2f8b086cada60e5bdff916e2ef046eeabba072b025",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:65b35a075e3dd86f070f7e84656b53f0461c619ef450e8b3d6c2d28ea116bef0",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/authority",
+      "/mode",
+      "/outOfScope",
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-17T03:01:01Z"
+  },
+  "preparedDigest": "sha256:ebbfdd68255b612da5257cf3631693e9aef5d6db7ff0717ff242d8d5464c3a73"
+}

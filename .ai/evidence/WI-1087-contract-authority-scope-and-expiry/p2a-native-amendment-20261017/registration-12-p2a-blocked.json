@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "contractDigest": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+  "worktreePath": "/workspace/ai-cockpit",
+  "branch": "codex/wi1087-contract-authority-scope-and-expiry",
+  "head": "934e8b5855b524f960b6e2c31561e32426aac6ae",
+  "generation": 12,
+  "runtime": {
+    "schemaVersion": 1,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+    "capability": "observed_environment_drift_v1"
+  },
+  "declaration": {
+    "providedOutcomes": [],
+    "consumedOutcomes": [],
+    "resourceClaims": [],
+    "integrationResponsibility": {
+      "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "targetBranch": "main",
+      "compositionOrder": [],
+      "rationale": "Native amendment sequence 5 is durably committed with no pending transaction, but status/admission fails closed on the historical Contract transition chain. Only preserve/query the actual state and seek a supported native recovery path. No P2a product edits, new human decision, P2b, production grant, merge or lifecycle completion."
+    },
+    "compositionVerification": {
+      "compatibilityConstraints": [],
+      "requiredScenarios": [],
+      "reusableNodes": []
+    }
+  }
+}

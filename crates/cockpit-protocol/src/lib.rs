@@ -909,6 +909,167 @@ pub struct AuthorityEvidence {
     pub evidence_refs: Vec<String>,
 }
 
+/// Standalone P1 wire models. Their metadata is not authentication or action
+/// admission, and these types are not installed into existing Contracts.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct FiniteGoalValidity {
+    pub not_before: String,
+    pub expires_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum GoalAuthorityTerminationKind {
+    Completed,
+    Revoked,
+    Replaced,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GoalAuthorityTermination {
+    pub kind: GoalAuthorityTerminationKind,
+    pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GoalAuthoritySource {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub grant_id: String,
+    pub subject_ref: String,
+    pub source_version: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_version_digest: Option<Digest>,
+    pub goal: String,
+    pub deliverable_refs: Vec<String>,
+    pub actors: Vec<String>,
+    pub operations: Vec<String>,
+    pub resources: Vec<String>,
+    pub constraints: Vec<String>,
+    pub issuer_evidence: AuthorityEvidence,
+    pub validity: FiniteGoalValidity,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub termination: Option<GoalAuthorityTermination>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum GoalAuthorityVersionResolution {
+    Current,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "mode", rename_all = "snake_case", deny_unknown_fields)]
+pub enum GoalAuthorityDeadline {
+    InheritSource {},
+    CapAt {
+        #[serde(rename = "expiresAt")]
+        expires_at: String,
+    },
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GoalAuthorityReference {
+    pub grant_id: String,
+    pub subject_ref: String,
+    pub version_resolution: GoalAuthorityVersionResolution,
+    pub deliverable_refs: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub not_before: Option<String>,
+    pub deadline: GoalAuthorityDeadline,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Error)]
+pub enum GoalAuthorityModelError {
+    #[error("invalid goal authority field: {0}")]
+    InvalidField(&'static str),
+}
+
+impl GoalAuthoritySource {
+    /// Check metadata shape only. Actual timestamp normalization and all
+    /// identity, coverage, current-head and admission checks are separate.
+    pub fn validate_shape(&self) -> Result<(), GoalAuthorityModelError> {
+        if self.schema_version != 1 {
+            return Err(GoalAuthorityModelError::InvalidField("schemaVersion"));
+        }
+        self.repository_id
+            .parse::<Digest>()
+            .map_err(|_| GoalAuthorityModelError::InvalidField("repositoryId"))?;
+        if self.source_version == 0 {
+            return Err(GoalAuthorityModelError::InvalidField("sourceVersion"));
+        }
+        match (self.source_version, &self.predecessor_version_digest) {
+            (1, None) => {}
+            (2.., Some(digest)) if digest.as_str().parse::<Digest>().is_ok() => {}
+            _ => {
+                return Err(GoalAuthorityModelError::InvalidField(
+                    "predecessorVersionDigest",
+                ));
+            }
+        }
+        goal_authority_text(&self.grant_id, "grantId")?;
+        goal_authority_text(&self.subject_ref, "subjectRef")?;
+        goal_authority_text(&self.goal, "goal")?;
+        goal_authority_list(&self.deliverable_refs, "deliverableRefs", true)?;
+        goal_authority_list(&self.actors, "actors", true)?;
+        goal_authority_list(&self.operations, "operations", true)?;
+        goal_authority_list(&self.resources, "resources", true)?;
+        goal_authority_list(&self.constraints, "constraints", false)?;
+        validate_authority_evidence(&self.issuer_evidence)
+            .map_err(|_| GoalAuthorityModelError::InvalidField("issuerEvidence"))?;
+        goal_authority_text(&self.validity.not_before, "validity.notBefore")?;
+        goal_authority_text(&self.validity.expires_at, "validity.expiresAt")?;
+        if let Some(termination) = &self.termination {
+            goal_authority_list(&termination.evidence_refs, "termination.evidenceRefs", true)?;
+        }
+        Ok(())
+    }
+}
+
+impl GoalAuthorityReference {
+    pub fn validate_shape(&self) -> Result<(), GoalAuthorityModelError> {
+        goal_authority_text(&self.grant_id, "grantId")?;
+        goal_authority_text(&self.subject_ref, "subjectRef")?;
+        goal_authority_list(&self.deliverable_refs, "deliverableRefs", true)?;
+        if let Some(not_before) = &self.not_before {
+            goal_authority_text(not_before, "notBefore")?;
+        }
+        if let GoalAuthorityDeadline::CapAt { expires_at } = &self.deadline {
+            goal_authority_text(expires_at, "deadline.expiresAt")?;
+        }
+        Ok(())
+    }
+}
+
+fn goal_authority_text(value: &str, field: &'static str) -> Result<(), GoalAuthorityModelError> {
+    if value.is_empty() || value.trim() != value {
+        return Err(GoalAuthorityModelError::InvalidField(field));
+    }
+    Ok(())
+}
+
+fn goal_authority_list(
+    values: &[String],
+    field: &'static str,
+    required: bool,
+) -> Result<(), GoalAuthorityModelError> {
+    if required && values.is_empty() {
+        return Err(GoalAuthorityModelError::InvalidField(field));
+    }
+    let mut seen = std::collections::BTreeSet::new();
+    for value in values {
+        goal_authority_text(value, field)?;
+        if !seen.insert(value) {
+            return Err(GoalAuthorityModelError::InvalidField(field));
+        }
+    }
+    Ok(())
+}
+
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum AuthorityEvidenceError {
     #[error("authority actor must be explicit")]
@@ -4049,7 +4210,45 @@ pub struct Contract {
     pub required_runtime_capabilities: Vec<String>,
 }
 
+/// A request for goal-authority enforcement, never an authenticated enrollment
+/// or grant. An independent trusted source must bind enabled mode; deleting or
+/// editing this declaration cannot be used as a source of that assurance.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct GoalAuthorityDeclaration {
+    pub required: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reference: Option<GoalAuthorityReference>,
+}
+
+impl GoalAuthorityDeclaration {
+    pub fn validate_shape(&self) -> Result<(), GoalAuthorityModelError> {
+        if let Some(reference) = &self.reference {
+            reference.validate_shape()?;
+        }
+        Ok(())
+    }
+}
+
 impl Contract {
+    /// Parse only the strict optional declaration, preserving legacy Contract
+    /// wire layout and struct-literal compatibility. This does not admit work.
+    pub fn goal_authority_declaration(&self) -> Result<Option<GoalAuthorityDeclaration>, String> {
+        let Some(value) = self
+            .governance_profile
+            .as_ref()
+            .and_then(|profile| profile.get("goalAuthority"))
+        else {
+            return Ok(None);
+        };
+        let declaration: GoalAuthorityDeclaration = serde_json::from_value(value.clone())
+            .map_err(|error| format!("goalAuthority is invalid: {error}"))?;
+        declaration
+            .validate_shape()
+            .map_err(|error| error.to_string())?;
+        Ok(Some(declaration))
+    }
+
     pub fn material_inspection_review_profile(
         &self,
     ) -> Result<Option<MaterialInspectionReviewProfile>, String> {
@@ -4075,6 +4274,9 @@ impl Contract {
     /// Work Item appear ready while it still has unresolved unknowns.
     pub fn validate(&self) -> Result<(), Vec<String>> {
         let mut errors = Vec::new();
+        if let Err(error) = self.goal_authority_declaration() {
+            errors.push(error);
+        }
         let is_v2 = self.contract_version == Some(2);
 
         let mut previous_capability: Option<&str> = None;
@@ -5956,4 +6158,260 @@ pub fn canonical_json<T: Serialize>(value: &T) -> Result<Vec<u8>, serde_json::Er
 
 pub fn digest_json<T: Serialize>(value: &T) -> Result<Digest, serde_json::Error> {
     Ok(Digest::sha256_bytes(&canonical_json(value)?))
+}
+
+#[cfg(test)]
+mod goal_authority_model_tests {
+    use super::*;
+    use serde_json::{Value, json};
+
+    fn source_value() -> Value {
+        json!({
+            "schemaVersion": 1,
+            "repositoryId": Digest::sha256_bytes(b"model-test-repository").to_string(),
+            "grantId": "grant-a", "subjectRef": "goal-a", "sourceVersion": 1,
+            "goal": "Implement the explicitly covered test deliverable",
+            "deliverableRefs": ["deliverable-a"],
+            "actors": ["agent:implementer"], "operations": ["source.modify"],
+            "resources": ["repo:src/example.rs"], "constraints": [],
+            "issuerEvidence": {
+                "assurance": "self_declared", "actor": "human:fixture",
+                "authoritySource": "fixture-only", "operations": ["source.modify"],
+                "policyRefs": [], "evidenceRefs": []
+            },
+            "validity": {"notBefore":"2030-01-01T00:00:00Z", "expiresAt":"2030-01-01T01:00:00Z"}
+        })
+    }
+
+    fn reference_value() -> Value {
+        json!({"grantId":"grant-a", "subjectRef":"goal-a", "versionResolution":"current",
+            "deliverableRefs":["deliverable-a"], "deadline":{"mode":"inherit_source"}})
+    }
+
+    #[test]
+    fn valid_source_shape_roundtrips_without_claiming_identity_authentication() {
+        let source: GoalAuthoritySource = serde_json::from_value(source_value()).unwrap();
+        assert_eq!(source.validate_shape(), Ok(()));
+        let again: GoalAuthoritySource =
+            serde_json::from_value(serde_json::to_value(&source).unwrap()).unwrap();
+        assert_eq!(again, source);
+        assert_eq!(source.issuer_evidence.actor, "human:fixture");
+    }
+
+    #[test]
+    fn finite_window_fields_cannot_be_missing_or_null() {
+        for field in ["notBefore", "expiresAt"] {
+            let mut value = source_value();
+            value["validity"].as_object_mut().unwrap().remove(field);
+            assert!(serde_json::from_value::<GoalAuthoritySource>(value).is_err());
+            let mut value = source_value();
+            value["validity"][field] = Value::Null;
+            assert!(serde_json::from_value::<GoalAuthoritySource>(value).is_err());
+        }
+    }
+
+    #[test]
+    fn new_source_and_validity_shapes_reject_unknown_fields() {
+        let mut value = source_value();
+        value["unlimited"] = json!(true);
+        assert!(serde_json::from_value::<GoalAuthoritySource>(value).is_err());
+        let mut value = source_value();
+        value["validity"]["untilDone"] = json!(true);
+        assert!(serde_json::from_value::<GoalAuthoritySource>(value).is_err());
+    }
+
+    #[test]
+    fn malformed_repository_version_and_empty_identifiers_are_rejected() {
+        for (field, replacement) in [
+            ("repositoryId", json!("repository-name")),
+            ("schemaVersion", json!(2)),
+            ("sourceVersion", json!(0)),
+            ("grantId", json!("")),
+            ("subjectRef", json!(" ")),
+            ("goal", json!("")),
+        ] {
+            let mut value = source_value();
+            value[field] = replacement;
+            let source: GoalAuthoritySource = serde_json::from_value(value).unwrap();
+            assert!(source.validate_shape().is_err(), "{field}");
+        }
+    }
+
+    #[test]
+    fn required_coverage_lists_reject_empty_blank_and_duplicate_members() {
+        for field in ["deliverableRefs", "actors", "operations", "resources"] {
+            for replacement in [json!([]), json!([""]), json!(["same", "same"])] {
+                let mut value = source_value();
+                value[field] = replacement;
+                let source: GoalAuthoritySource = serde_json::from_value(value).unwrap();
+                assert_eq!(
+                    source.validate_shape(),
+                    Err(GoalAuthorityModelError::InvalidField(field))
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn constraints_and_issuer_metadata_are_validated_without_authorizing() {
+        let mut value = source_value();
+        value["constraints"] = json!([" "]);
+        assert_eq!(
+            serde_json::from_value::<GoalAuthoritySource>(value)
+                .unwrap()
+                .validate_shape(),
+            Err(GoalAuthorityModelError::InvalidField("constraints"))
+        );
+        let mut value = source_value();
+        value["issuerEvidence"]["actor"] = json!("");
+        assert_eq!(
+            serde_json::from_value::<GoalAuthoritySource>(value)
+                .unwrap()
+                .validate_shape(),
+            Err(GoalAuthorityModelError::InvalidField("issuerEvidence"))
+        );
+    }
+
+    #[test]
+    fn source_version_predecessor_is_explicit_and_canonical() {
+        let mut value = source_value();
+        value["sourceVersion"] = json!(2);
+        assert!(
+            serde_json::from_value::<GoalAuthoritySource>(value.clone())
+                .unwrap()
+                .validate_shape()
+                .is_err()
+        );
+        value["predecessorVersionDigest"] = json!("bad");
+        assert!(
+            serde_json::from_value::<GoalAuthoritySource>(value.clone())
+                .unwrap()
+                .validate_shape()
+                .is_err()
+        );
+        value["predecessorVersionDigest"] = json!(Digest::sha256_bytes(b"previous").to_string());
+        assert_eq!(
+            serde_json::from_value::<GoalAuthoritySource>(value.clone())
+                .unwrap()
+                .validate_shape(),
+            Ok(())
+        );
+        value["sourceVersion"] = json!(1);
+        assert!(
+            serde_json::from_value::<GoalAuthoritySource>(value)
+                .unwrap()
+                .validate_shape()
+                .is_err()
+        );
+    }
+
+    #[test]
+    fn termination_is_readable_history_and_requires_evidence() {
+        for kind in ["completed", "revoked", "replaced"] {
+            let mut value = source_value();
+            value["termination"] = json!({"kind":kind,"evidenceRefs":["decision:fixture"]});
+            assert_eq!(
+                serde_json::from_value::<GoalAuthoritySource>(value.clone())
+                    .unwrap()
+                    .validate_shape(),
+                Ok(())
+            );
+            value["termination"]["evidenceRefs"] = json!([]);
+            assert!(
+                serde_json::from_value::<GoalAuthoritySource>(value)
+                    .unwrap()
+                    .validate_shape()
+                    .is_err()
+            );
+        }
+    }
+
+    #[test]
+    fn references_require_explicit_current_version_and_deadline_modes() {
+        let value = reference_value();
+        let reference: GoalAuthorityReference = serde_json::from_value(value.clone()).unwrap();
+        assert_eq!(reference.validate_shape(), Ok(()));
+        for field in ["versionResolution", "deadline"] {
+            let mut invalid = value.clone();
+            invalid.as_object_mut().unwrap().remove(field);
+            assert!(serde_json::from_value::<GoalAuthorityReference>(invalid).is_err());
+        }
+        let mut invalid = value;
+        invalid["versionResolution"] = json!("old_receipt");
+        assert!(serde_json::from_value::<GoalAuthorityReference>(invalid).is_err());
+    }
+
+    #[test]
+    fn inherit_mode_cannot_hide_a_fixed_cap_and_cap_cannot_be_null() {
+        let mut value = reference_value();
+        value["deadline"]["expiresAt"] = json!("2030-01-01T00:30:00Z");
+        assert!(serde_json::from_value::<GoalAuthorityReference>(value).is_err());
+        let mut value = reference_value();
+        value["deadline"] = json!({"mode":"cap_at","expiresAt":null});
+        assert!(serde_json::from_value::<GoalAuthorityReference>(value).is_err());
+        let mut value = reference_value();
+        value["deadline"] = json!({"mode":"cap_at","expiresAt":"2030-01-01T00:30:00Z"});
+        let reference: GoalAuthorityReference = serde_json::from_value(value).unwrap();
+        assert_eq!(reference.validate_shape(), Ok(()));
+    }
+
+    #[test]
+    fn reference_shape_rejects_blank_ids_deliverables_and_time_fields() {
+        for (field, replacement) in [
+            ("grantId", json!(" ")),
+            ("subjectRef", json!("")),
+            ("deliverableRefs", json!([])),
+            ("notBefore", json!(" ")),
+        ] {
+            let mut value = reference_value();
+            value[field] = replacement;
+            assert!(
+                serde_json::from_value::<GoalAuthorityReference>(value)
+                    .unwrap()
+                    .validate_shape()
+                    .is_err()
+            );
+        }
+        let mut value = reference_value();
+        value["deadline"] = json!({"mode":"cap_at","expiresAt":""});
+        assert!(
+            serde_json::from_value::<GoalAuthorityReference>(value)
+                .unwrap()
+                .validate_shape()
+                .is_err()
+        );
+    }
+
+    #[test]
+    fn legacy_authority_evidence_has_no_new_required_fields() {
+        let value = source_value()["issuerEvidence"].clone();
+        let evidence: AuthorityEvidence = serde_json::from_value(value.clone()).unwrap();
+        assert_eq!(serde_json::to_value(evidence).unwrap(), value);
+    }
+}
+
+#[cfg(test)]
+mod goal_authority_declaration_tests {
+    use super::*;
+    use serde_json::json;
+    #[test]
+    fn declaration_is_strict_and_never_fills_a_default_grant() {
+        for value in [
+            json!({}),
+            json!({"required":null}),
+            json!({"required":"true"}),
+            json!({"required":false,"grant":{}}),
+        ] {
+            assert!(serde_json::from_value::<GoalAuthorityDeclaration>(value).is_err());
+        }
+        for required in [false, true] {
+            let value = json!({"required":required});
+            let declaration: GoalAuthorityDeclaration =
+                serde_json::from_value(value.clone()).unwrap();
+            assert!(declaration.reference.is_none());
+            assert!(declaration.validate_shape().is_ok());
+            assert_eq!(serde_json::to_value(declaration).unwrap(), value);
+        }
+        assert!(!AGENT_INTERFACE_CAPABILITIES.contains(&"goal-authority-admission-v1"));
+    }
 }

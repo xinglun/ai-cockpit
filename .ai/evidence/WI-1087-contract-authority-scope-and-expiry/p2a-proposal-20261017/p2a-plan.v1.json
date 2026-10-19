@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_authored_p2a_plan_draft_not_authority_or_native_receipt",
+  "status": "draft_not_applied_not_executed",
+  "recordedAt": "2026-10-17T07:23:54.017Z",
+  "author": "agent:Codex",
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "frozenHead": "6ee27dcf46aab2aa4352467de2e37f2a7e5ff483",
+  "expectedBaseContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "planningDirection": {
+    "scope": "P2a pure assessment, source-interface contract and controlled fixtures only",
+    "implementationAuthorizedByThisArtifact": false,
+    "humanDecisionRecorded": false,
+    "independentP1Review": "Relayed as passed; this document does not impersonate the independent reviewer or a native human decision.",
+    "relayedInstruction": "P1审阅已通过；遵守现Contract不merge，保留同WI/PR1046继续。P2方向仅批准先纯评估、可信来源接口契约与受控fixture，不先宣称生产授权闭环。仅准备一份可执行最小范围、测试和新真人门禁绑定准备路径，不开始代码或新授权配置。"
+  },
+  "objective": "Implement and test a pure, conditional assessment over supplied authority facts. Specify the requirements of a future trusted current-source resolver, expose an unsupported production default, and prove bounded fixture scenarios without wiring assessment into any production action or write path.",
+  "stageBoundary": {
+    "p2a": "Pure assessment plus a test-only simulated effect counter; no real repository action is admitted by a passing assessment.",
+    "p2b": "Actual opt-in, trusted adapter, source/termination persistence and all production write/recovery entry guards remain deferred. Bypass inventory must be closed before P2b implementation or activation.",
+    "noProductionClosedLoopClaim": true
+  },
+  "exactProductAndTestFiles": [
+    {
+      "path": "crates/cockpit-repository/src/authority.rs",
+      "change": "Add offline assessment types/functions, source-resolution interface requirements, unsupported default resolver and inline cfg(test) fixture provider/harness; preserve P1 normalization behavior."
+    },
+    {
+      "path": "crates/cockpit-repository/tests/authority_expiry.rs",
+      "change": "Exercise the public offline API and unsupported default, using test-owned facts only; no runtime-wide opt-in or production provider injection."
+    }
+  ],
+  "filesNotToModify": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-core/src/clock.rs",
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-repository/src/action_admission.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/coordination_store.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs"
+  ],
+  "moduleReason": "repository/src/lib.rs:53 already declares pub mod authority. Callers/tests use cockpit_repository::authority directly. P2a needs no root re-export, RuntimeContext change or new Contract/Protocol field.",
+  "p1Reuse": [
+    "GoalAuthoritySource, GoalAuthorityReference and GoalAuthorityDeadline remain unchanged.",
+    "normalize_goal_authority_source and normalize_goal_authority_reference remain the only exact millisecond normalization boundary.",
+    "Reuse Clock::sample, FiniteWindow and MonotonicBudget; never treat remaining_millis as a fresh observation.",
+    "Preserve the exact P1 evidence at frozen commit 6ee27dcf46aab2aa4352467de2e37f2a7e5ff483."
+  ],
+  "proposedInterfaces": [
+    {
+      "name": "GoalAuthoritySubjectKey",
+      "shape": "repositoryId + grantId + subjectRef; exact stable identifiers, not natural-language goal similarity",
+      "semantics": "Location/binding key only, never authentication."
+    },
+    {
+      "name": "GoalAuthorityActionFacts",
+      "shape": "actor identifier, operation identifier, normalized resource identifier, requested deliverable identifiers and explicit Work Item/parent narrowing facts",
+      "semantics": "Supplied inputs for conditional evaluation; no host identity is authenticated by constructing these Rust values."
+    },
+    {
+      "name": "ResolvedGoalAuthorityFacts",
+      "shape": "P1 source bytes; observed current source version/digest; complete version-chain observation; stable subject termination state; issuer/actor/currentness observations; complete parent narrowing chain",
+      "semantics": "A fact snapshot for evaluation, not a trusted grant token. Unknown, conflicting or incomplete required facts reject eligibility. The production default never manufactures this snapshot from actor/authoritySource strings."
+    },
+    {
+      "name": "CurrentGoalAuthorityResolver::resolve_current",
+      "signature": "fn resolve_current(&self, key: &GoalAuthoritySubjectKey) -> Result<ResolvedGoalAuthorityFacts, GoalAuthorityResolutionError>",
+      "requirements": [
+        "A future production adapter must independently bind the executing repository, stable grant/subject, authenticated issuer/delegation and actual actor context.",
+        "It must resolve the current head and stable termination evidence consistently, distinguish version replacement from subject termination, and report missing/forked/stale/unknown state.",
+        "Observation timestamps and Runtime binary identity alone are insufficient.",
+        "All source writers and consumers must eventually share a proven ordering/fencing contract. P2a does not choose a storage database or claim this contract exists.",
+        "P2a's concrete production default returns Unsupported. There is no environment-variable, config-file, serde field or arbitrary string that selects a fixture provider."
+      ]
+    },
+    {
+      "name": "assess_goal_authority",
+      "signature": "fn assess_goal_authority(facts: &ResolvedGoalAuthorityFacts, reference: &GoalAuthorityReference, action: &GoalAuthorityActionFacts, sample: ClockSample) -> Result<GoalAuthorityAssessment, GoalAuthorityAssessmentError>",
+      "result": "EligibleUnderSuppliedFacts { source_digest, reference_digest, effective_window } or a structured rejection. Neither variant is a Runtime action permit or admission receipt.",
+      "purity": "No filesystem, provider, clock acquisition, native lifecycle, grant persistence, permission mutation or decision recording."
+    }
+  ],
+  "assessmentRules": [
+    "Normalize source/reference through P1; preserve original descriptive bytes and digests.",
+    "Require exact repository/grant/subject identity and explicit deliverable coverage; unknown coverage fails. Do not infer coverage from prose or stitch grants.",
+    "Require the supplied issuer, actor, current-head, termination and parent-chain observations to be complete and acceptable; their acceptance is conditional input evaluation, not authentication performed by this module.",
+    "Intersect source constraints and all explicit narrowing; initial explicit widening rejects. Unknown resource/constraint semantics reject as unsupported rather than creating a policy DSL.",
+    "effectiveStart=max(source start, complete parent starts, WI start); effectiveEnd=min(current source end, complete parent ends, fixed cap). InheritSource is finite because source is finite.",
+    "Use start <= now < end at integer-millisecond precision; nonrepresentable submillisecond inputs reject, with no rounding or grace.",
+    "Stable completed/revoked/replaced subjects and terminal WIs never revive. Ordinary source-version replacement alone does not terminate a stable active subject.",
+    "No current production handler consumes EligibleUnderSuppliedFacts. No governanceProfile opt-in, capability advertisement, active grant or migration is introduced in P2a."
+  ],
+  "fixtureBoundary": {
+    "providerLocation": "Inline #[cfg(test)] module in authority.rs; integration-test-only helpers, if needed, stay in the test file. No production fixture provider or injection switch.",
+    "effect": "Test-owned counter only, not Contract/Summary/receipt mutation or a real action.",
+    "freshSequence": "At each simulated step: resolve fixture facts anew; obtain Clock::sample; observe the original MonotonicBudget; require positive budget; assess; then increment the test counter only if conditionally eligible.",
+    "afterWait": "Inject an explicit fixture barrier before the final sample/assessment. It does not represent a real lifecycle or cross-checkout source lock.",
+    "onError": "SamplingGap, rollback, resolver error/Unsupported, rejected assessment or zero budget causes zero new simulated effects. Never fall back to cached remaining_millis or replenish an existing operation budget.",
+    "assurance": "Fixture success proves the supplied deterministic scenario only. It is not production issuer verification, a durable revocation barrier, CLI/MCP admission parity or full-feature acceptance."
+  },
+  "tests": [
+    {
+      "id": "P2a-01",
+      "name": "offline_exact_goal_and_deliverable_coverage",
+      "assertions": [
+        "same repository/grant/subject with explicit coverage is conditionally eligible",
+        "different goal, absent deliverable coverage and grant stitching reject"
+      ]
+    },
+    {
+      "id": "P2a-02",
+      "name": "offline_unknown_identity_head_termination_or_parent_facts_reject",
+      "assertions": [
+        "valid-looking issuer/actor strings alone do not satisfy required fact observations",
+        "unknown/conflicting/stale/forked head or incomplete parent/termination facts reject"
+      ]
+    },
+    {
+      "id": "P2a-03",
+      "name": "offline_narrowing_and_finite_windows",
+      "assertions": [
+        "explicit child expansion rejects",
+        "effective start is maximum and end minimum",
+        "inherit follows supplied current source while fixed cap remains unchanged",
+        "unsupported constraints reject"
+      ]
+    },
+    {
+      "id": "P2a-04",
+      "name": "offline_integer_millisecond_boundaries",
+      "assertions": [
+        "notBefore-1ms rejects; notBefore permits; expiresAt-1ms permits; expiresAt rejects",
+        "missing/null/unbounded/malformed/unsupported submillisecond validity rejects via P1 normalization"
+      ]
+    },
+    {
+      "id": "P2a-05",
+      "name": "offline_current_version_and_stable_termination",
+      "assertions": [
+        "ordinary version replacement is distinct from grant termination",
+        "old head cannot authorize a fresh simulated step",
+        "terminal subjects cannot be revived by a later version missing its termination field"
+      ]
+    },
+    {
+      "id": "P2a-06",
+      "name": "fixture_fresh_sample_after_wait_and_no_cache_fallback",
+      "assertions": [
+        "expiry advanced at fixture barrier yields effectCount=0",
+        "positive cached remaining_millis cannot override a sampling failure or zero observe result",
+        "resolver/clock calls occur anew for each simulated step"
+      ]
+    },
+    {
+      "id": "P2a-07",
+      "name": "fixture_original_budget_not_refilled",
+      "assertions": [
+        "source extension may affect future new steps but does not replenish the current operation budget",
+        "wall/monotonic rollback and stalled UTC consume/reject according to P1 behavior",
+        "no sleeps or persisted remaining-budget replay"
+      ]
+    },
+    {
+      "id": "P2a-08",
+      "name": "public_default_resolver_is_unsupported",
+      "assertions": [
+        "default production-facing resolution returns Unsupported",
+        "public offline assessment is not accepted by any Runtime write handler and creates no native decision/admission receipt",
+        "no test-provider selector exists in production configuration"
+      ]
+    },
+    {
+      "id": "P2a-09",
+      "name": "legacy_regression_and_evidence_preservation",
+      "assertions": [
+        "reuse existing legacy Contract/AuthorityEvidence tests and full workspace verification",
+        "no Protocol/Contract fields or production entry behavior are changed",
+        "P1 success/failure/unknown/truncation history remains immutable"
+      ]
+    }
+  ],
+  "executionTasks": [
+    {
+      "task": 1,
+      "deliverable": "Pure evaluator and explicit conditional result types",
+      "files": [
+        "crates/cockpit-repository/src/authority.rs"
+      ],
+      "sequence": [
+        "Write focused failing unit tests P2a-01..05",
+        "Run focused tests and capture the real failure",
+        "Implement only the pure assessment",
+        "Run focused tests; review that no action-admission side effect is introduced"
+      ]
+    },
+    {
+      "task": 2,
+      "deliverable": "Unsupported resolver boundary and deterministic test-only fixture loop",
+      "files": [
+        "crates/cockpit-repository/src/authority.rs",
+        "crates/cockpit-repository/tests/authority_expiry.rs"
+      ],
+      "sequence": [
+        "Write failing default-resolver and fixture tests P2a-06..08",
+        "Implement Unsupported default and cfg(test)-only fixture wiring",
+        "Run focused tests and existing legacy tests",
+        "Inspect exports and call sites to ensure no production entry is wired"
+      ]
+    },
+    {
+      "task": 3,
+      "deliverable": "Fresh declared verification and honest P2a handoff",
+      "files": [
+        "existing same-WI native evidence and governance outputs only"
+      ],
+      "sequence": [
+        "Read actual native status/validate and current receipt freshness",
+        "Run admitted complete verification with one worker and isolated target",
+        "Run required CI on the actual committed head",
+        "Report P2a evidence separately; P2b/P3/P4 and live activation remain not_run"
+      ]
+    }
+  ],
+  "plannedChecksNotRun": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --lib authority::tests -- --test-threads=1",
+    "cargo test --locked -p cockpit-repository --test authority_expiry -- --test-threads=1",
+    "cargo clippy --locked -p cockpit-repository --all-targets -- -D warnings",
+    "Fresh repository-bound native verify --work-item WI-1087-contract-authority-scope-and-expiry --workers 1, using the then-current admitted Runtime"
+  ],
+  "executionLimits": "No checks/builds are run for this planning task. Later execution uses isolated target, one worker, command-node timeout <=900 seconds (currently declared native nodes 600), without an outer coordinator timeout.",
+  "p2bBypassInventory": {
+    "status": "confirmed_initial_inventory_not_closed_not_implementation_authority",
+    "items": [
+      {
+        "id": "B01",
+        "source": "governance_controls.rs:1315/1332/1353/1542-1607",
+        "facts": "Public no-Runtime path takes only the checkout/WI lifecycle lock and calls the same unlocked writer. CLI/MCP currently call the with_runtime wrapper, but raw Rust API is publicly re-exported.",
+        "requiredFutureGuard": "Strict opt-in must reject absent Runtime/authority context before decision-receipt or Summary writes at the shared sink; guarding only with_runtime is insufficient. Legacy explicitly unenabled behavior stays unchanged. Metadata exceptions require their own bounded authorization."
+      },
+      {
+        "id": "B02",
+        "source": "contract_amendment.rs:1228/1347-1349/1372/1452-1454",
+        "facts": "Pending finish_prepared can mutate before the incoming request's CAS. The same routine also finalizes a newly prepared transaction.",
+        "requiredFutureGuard": "Treat pending recovery and new amendment as separate requested actions. Guard Contract replacement, Summary revalidation and committed-marker writes using fresh subject/authority/time bindings. Do not borrow the incoming CAS or old prepared approval as recovery authority. Preserve unresolved bytes on Unsupported; never use amend with a stale digest as a dry run."
+      },
+      {
+        "id": "B03",
+        "source": "lifecycle.rs:1454/1590 and 1808",
+        "facts": "revalidate_contract_amendment is a public direct Summary writer; lifecycle also exports a direct typed-amendment wrapper.",
+        "requiredFutureGuard": "Include direct public/library aliases and projection-reconciliation writes in the guard inventory, not only CLI request handlers."
+      },
+      {
+        "id": "B04",
+        "source": "lifecycle.rs:56/571/815/1179/1830/2178/2619/7879/7907/8656/8680 and recovery entry families",
+        "facts": "Legacy/runtime wrappers, checkpoint/preflight/finish, verification receipt/attempt persistence and recovery are distinct callable paths.",
+        "requiredFutureGuard": "Complete caller-to-first-write/commit inventory, classify read-only/own-metadata/business effects and test each strict rejection before enabling P2b."
+      },
+      {
+        "id": "B05",
+        "source": "lib.rs:13137/13183/8852/10095/13953; evidence_store, usage, material_review and resource_lifecycle public exports",
+        "facts": "set_work_item_intelligence directly writes its sidecar; set_work_item_concurrency_boundary directly replaces Contract bytes. More archive/close/slot/evidence paths live outside the original eight files.",
+        "requiredFutureGuard": "P2b cannot assume eight files suffice. Include lib.rs if these writers or shared lock/context helpers require protection; audit exported modules before freezing the final P2b scope."
+      },
+      {
+        "id": "B06",
+        "source": "lib.rs:14715-14840; coordination_store.rs:107-121/1568; protocol/src/lib.rs:198",
+        "facts": "LifecycleLockGuard pins checkout root/repository/WI/lock inode under checkout .ai/locks. CoordinationStore uses common-dir .ai-cockpit/coordination/v1/.lock. RuntimeContext binds only binary/protocol/version.",
+        "requiredFutureGuard": "A checkout lock is not a cross-checkout source barrier; a coordination lock is not issuer authentication. Require an explicit authenticated adapter, consistent head/termination observation and proven writer/consumer ordering. Audit acquisition order before implementing any multi-lock guard."
+      }
+    ],
+    "recoveryStateRules": [
+      "Prepared-only recovery may create a new Contract effect and requires fresh authorization before replacement.",
+      "Already-replaced Contract with missing projection/commit marker is not permission to finish silently; require an explicitly authorized bounded metadata recovery action, otherwise return Unsupported/pending without rollback, deletion or a fabricated completion receipt.",
+      "An already committed exact receipt may be read as history; it never grants a new action.",
+      "A later incoming CAS conflict must not be described as 'no writes occurred' if an independently admitted recovery actually wrote first."
+    ],
+    "activationGate": "No production strict opt-in or P2b implementation until all public aliases, internal sinks, pending-recovery phases, library callers and actual shared-source adapters are inventoried and reviewed."
+  },
+  "nativeGatePreparation": [
+    "Review this P2a plan and obtain explicit permission for the next governance/apply and P2a implementation stage; this artifact records no such permission.",
+    "Only if authorized, publish these exact plan bytes and actual relayed direction/delegation evidence under same-WI evidence paths. The draft Contract source path is prospective and currently absent from the repository; do not apply until that prerequisite is satisfied.",
+    "Read current native inspect/status/validate, append-only amendments and environment-drift check with explicit --repo. Check for pending prepared transactions; no unapproved recovery writes. Refresh expectedContractDigest if the Contract changes; never silently rebase a stale request.",
+    "Apply only the reviewed native work-item amend --request after explicit authorization. Do not hand-edit generated Contract/Summary, replay start, or blindly repeat checkpoint/control records.",
+    "Read native status and run the actually admitted fresh preflight. Scope/outOfScope/acceptance edits are sensitive and require current policy review; the prior P1 human receipt does not bind the new Contract.",
+    "If returned, deliver the actual complete humanDecisionRequest/review binding: repository and WI, new Contract digest, preflight decision/request digests, source/snapshot/profile/material and executing Runtime/environment bindings required by that actual schema. Do not guess future hashes or fabricate a pre-signed decision.",
+    "Record only the actual new human response through the native admitted path, preserving actor versus recorder. Then refresh status and begin only the two-file P2a work if admitted.",
+    "Keep WI-1087, the current branch/worktree and PR1046. No merge/finish/archive/close/delete; no redundant WI for stage bookkeeping."
+  ],
+  "currentHumanBinding": "No new native request exists because no amendment/preflight mutation has been executed. Current P1 status humanDecisionRequired=false does not authorize the proposed P2a scope.",
+  "draftSourcePublicationTarget": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/p2a-plan.v1.json",
+  "todayMutations": "Only untracked proposal JSON files outside /workspace/ai-cockpit. No repository code, governance records, commits, push, PR mutation, checks or live grants."
+}

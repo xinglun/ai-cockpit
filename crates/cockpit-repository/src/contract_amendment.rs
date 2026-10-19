@@ -834,6 +834,7 @@ pub fn plan_activation_recovery(
     id: &str,
     runtime: &RuntimeContext,
 ) -> Result<ActivationRecoveryRequest, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -857,6 +858,7 @@ pub fn record_activation_recovery(
     decision: &ActivationRecoveryDecision,
     runtime: &RuntimeContext,
 ) -> Result<ActivationRecoveryRecord, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     super::validate_work_item_id(id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -969,6 +971,7 @@ pub(crate) fn activation_recovery_request_if_needed(
     history: &[ContractAmendmentReceipt],
     current: &Digest,
 ) -> Result<Option<ActivationRecoveryRequest>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     match validate_transition_chain(root, id, history, Some(current)) {
         Ok(()) => Ok(None),
         Err(error) => {
@@ -986,6 +989,7 @@ pub(crate) fn activation_recovery_needs_fresh_review(
     digest: &Digest,
     summary: &Value,
 ) -> Result<Option<(ActivationRecoveryRequest, bool)>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let history = read_work_item_contract_amendments(root, id)?;
     let Some(record) = read_activation_recovery(root, id, &history)? else {
         return Ok(None);
@@ -1239,6 +1243,7 @@ pub(crate) fn validate_transition_chain(
     history: &[ContractAmendmentReceipt],
     candidate_previous: Option<&Digest>,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let transition = read_activation_transition(root, id)?;
     let recovery = read_activation_recovery(root, id, history)?;
     let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
@@ -1305,6 +1310,7 @@ pub(crate) fn prepare_activation_transition(
     new_summary: &Value,
     runtime: Option<&RuntimeContext>,
 ) -> Result<Option<PreparedActivationTransition>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let (history, pending) = read_history_with_pending(root, id)?;
     if pending.is_some() {
         return Err(state_error(
@@ -1407,6 +1413,7 @@ pub(crate) fn commit_activation_transition(
     id: &str,
     prepared: &PreparedActivationTransition,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let record = &prepared.record;
     let contract =
         super::read_json(&root.join(format!(".ai/work-items/active/{id}.contract.json")))?;
@@ -1832,6 +1839,7 @@ fn read_typed_record<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<T, Obs
 }
 
 fn write_immutable_record<T: Serialize>(path: &Path, value: &T) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(path)?;
     let bytes =
         serde_json::to_vec_pretty(value).map_err(|error| state_error(path, error.to_string()))?;
     if path.exists() {
@@ -1874,6 +1882,10 @@ fn write_immutable_record<T: Serialize>(path: &Path, value: &T) -> Result<(), Ob
                 path: temporary.clone(),
                 source,
             })?;
+        let _commit = authority
+            .as_ref()
+            .map(|context| context.before_commit())
+            .transpose()?;
         fs::rename(&temporary, path).map_err(|source| ObserverError::Read {
             path: path.to_path_buf(),
             source,
@@ -1888,6 +1900,7 @@ fn write_immutable_record<T: Serialize>(path: &Path, value: &T) -> Result<(), Ob
 }
 
 fn durable_replace_json(path: &Path, value: &Value) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(path)?;
     let bytes =
         serde_json::to_vec_pretty(value).map_err(|error| state_error(path, error.to_string()))?;
     let parent = path
@@ -1915,6 +1928,10 @@ fn durable_replace_json(path: &Path, value: &Value) -> Result<(), ObserverError>
                 path: temporary.clone(),
                 source,
             })?;
+        let _commit = authority
+            .as_ref()
+            .map(|context| context.before_commit())
+            .transpose()?;
         fs::rename(&temporary, path).map_err(|source| ObserverError::Read {
             path: path.to_path_buf(),
             source,
@@ -2173,6 +2190,7 @@ pub fn read_work_item_contract_amendments(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Vec<ContractAmendmentReceipt>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     super::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
@@ -2253,6 +2271,7 @@ pub(crate) fn has_sensitive_amendment(
     root: &Path,
     work_item_id: &str,
 ) -> Result<bool, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     Ok(read_work_item_contract_amendments(root, work_item_id)?
         .iter()
         .any(|receipt| receipt.policy_review_required))
@@ -2267,6 +2286,7 @@ pub(crate) fn current_amendment_review_request_available(
     summary: &Value,
     lifecycle_phase: &str,
 ) -> Result<bool, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     if !matches!(
         lifecycle_phase,
         "implementation_active" | "checkpointed" | "finish_ready"
@@ -2536,6 +2556,8 @@ fn finish_prepared(
     root: &Path,
     prepared: &PreparedRecord,
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
+    let _goal_authority =
+        crate::authority_admission::enter(root, Some(&prepared.prepared.work_item_id))?;
     let data = &prepared.prepared;
     let directory = amendment_directory(root, &data.work_item_id);
     if data.repository_id != super::repository_id(root).to_string() {
@@ -2626,6 +2648,7 @@ pub fn apply_work_item_contract_amendment(
     request: &ContractAmendmentRequest,
     runtime: &RuntimeContext,
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     apply_work_item_contract_amendment_with_legacy_input(root, work_item_id, request, runtime, None)
 }
 
@@ -2636,6 +2659,7 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
     runtime: &RuntimeContext,
     legacy_input_digest: Option<Digest>,
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     super::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
@@ -3054,6 +3078,96 @@ mod tests {
             assert_eq!(fs::read(&prepared_path).expect("prepared"), before_prepared);
             assert!(!super::amendment_record_path(root, &id, 1, "committed").exists());
             assert!(read_work_item_contract_amendments(root, &id).is_err());
+        }
+    }
+
+    #[test]
+    fn required_authority_rejects_raw_amendment_sinks_before_creation_or_replace() {
+        let d = repository();
+        let root = d.path();
+        let id = "WI-AUTHORITY-RAW-SINK";
+        let path = start_checkpointed(root, id);
+        let mut contract = read_json(&path);
+        contract["governanceProfile"] = json!({"goalAuthority":{"required":true}});
+        fs::write(&path, serde_json::to_vec(&contract).unwrap()).unwrap();
+        let output = root.join(".ai/evidence/authority-raw-fixture.json");
+        assert!(
+            super::write_immutable_record(&output, &json!({"must":"not commit"}))
+                .unwrap_err()
+                .to_string()
+                .contains("goal_authority_source_unsupported")
+        );
+        assert!(!output.exists());
+        let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+        let before = fs::read(&summary).unwrap();
+        assert!(
+            super::durable_replace_json(&summary, &json!({"must":"not commit"}))
+                .unwrap_err()
+                .to_string()
+                .contains("goal_authority_source_unsupported")
+        );
+        assert_eq!(fs::read(summary).unwrap(), before);
+    }
+
+    #[test]
+    fn required_authority_preserves_real_pending_amendment_at_every_durable_boundary() {
+        for failpoint in [
+            AmendmentFailpoint::Prepared,
+            AmendmentFailpoint::ContractReplaced,
+            AmendmentFailpoint::SummaryProjected,
+            AmendmentFailpoint::CommitMarked,
+        ] {
+            let directory = repository();
+            let root = directory.path();
+            let id = "WI-AUTHORITY-PENDING";
+            let path = start_checkpointed(root, id);
+            let original = read_json(&path);
+            let request = json!({"schemaVersion":1,"changeId":"authority-pending",
+                "expectedContractDigest":cockpit_protocol::digest_json(&original).unwrap(),
+                "reason":"isolated pending boundary fixture",
+                "changes":[{"path":"/goal","operation":"set","value":"interrupted fixture"}]});
+            set_amendment_failpoint(failpoint);
+            assert!(
+                amend_work_item_contract(root, id, &request, "")
+                    .unwrap_err()
+                    .to_string()
+                    .contains("injected interruption")
+            );
+            let prepared_path = super::amendment_record_path(root, id, 1, "prepared");
+            let prepared: super::PreparedRecord = super::read_typed_record(&prepared_path).unwrap();
+            let mut current = read_json(&path);
+            current["governanceProfile"] = json!({"goalAuthority":{"required":true}});
+            fs::write(&path, serde_json::to_vec(&current).unwrap()).unwrap();
+            let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+            let committed = super::amendment_record_path(root, id, 1, "committed");
+            let before = [
+                fs::read(&path).ok(),
+                fs::read(&summary).ok(),
+                fs::read(&prepared_path).ok(),
+                fs::read(&committed).ok(),
+            ];
+            // Exercise both the actual public retry and the private pending finisher.
+            assert!(
+                amend_work_item_contract(root, id, &request, "")
+                    .unwrap_err()
+                    .to_string()
+                    .contains("goal_authority_source_unsupported")
+            );
+            assert!(
+                super::finish_prepared(root, &prepared)
+                    .unwrap_err()
+                    .to_string()
+                    .contains("goal_authority_source_unsupported")
+            );
+            assert_eq!(
+                before,
+                [
+                    fs::read(&path).ok(),
+                    fs::read(&summary).ok(),
+                    fs::read(&prepared_path).ok(),
+                    fs::read(&committed).ok()
+                ]
+            );
         }
     }
 

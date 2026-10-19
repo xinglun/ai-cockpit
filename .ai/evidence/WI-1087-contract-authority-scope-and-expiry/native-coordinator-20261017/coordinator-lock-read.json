@@ -1,0 +1,8 @@
+{
+  "kind": "read_only_process_observer_lock_diagnosis",
+  "lockPath": "/tmp/ai-cockpit-process-observer-1000.lock",
+  "present": true,
+  "matchingLocks": [],
+  "fdHolders": [],
+  "inode": 1186
+}

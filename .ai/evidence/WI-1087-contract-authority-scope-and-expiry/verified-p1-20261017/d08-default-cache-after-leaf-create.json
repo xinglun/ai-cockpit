@@ -1,0 +1,35 @@
+{
+  "kind": "same_isolated_default_cache_probe_after_exact_leaf_creation_not_formal_receipt",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "590s",
+    "/workspace/.cloud-tools/cargo/bin/cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/workspace/scratch/wi1087-rebuild-20261017/minimal-cache-diagnosis/fixture-1",
+  "target": "/home/agent/.cache/ai-cockpit-verify-target/b1e6cf82dca8c6795a454bfb45830bc1feae7708bf74f0278b709823a8f860eb",
+  "homeUnchanged": "/home/agent",
+  "onlyEnvironmentalRepair": "mkdir of /home/agent/.cache/ai-cockpit-verify-target; no chmod, HOME override, or parent authorization",
+  "startedAt": "2026-10-17T06:07:28.477968+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 0.245,
+  "endedAt": "2026-10-17T06:07:28.722945+00:00",
+  "stdout": {
+    "encoding": "base64",
+    "bytes": 342,
+    "sha256": "4142dd4cfb95df2084d1698b18a9d1957f246326d7360b8df7e91375d2949496",
+    "data": "CnJ1bm5pbmcgMSB0ZXN0CnRlc3QgbWFuaWZlc3RfcGF0aCAuLi4gTUFOSUZFU1RfUEFUSD0vd29ya3NwYWNlL3NjcmF0Y2gvd2kxMDg3LXJlYnVpbGQtMjAyNjEwMTcvbWluaW1hbC1jYWNoZS1kaWFnbm9zaXMvZml4dHVyZS0xCm9rCgp0ZXN0IHJlc3VsdDogb2suIDEgcGFzc2VkOyAwIGZhaWxlZDsgMCBpZ25vcmVkOyAwIG1lYXN1cmVkOyAwIGZpbHRlcmVkIG91dDsgZmluaXNoZWQgaW4gMC4wMHMKCgpydW5uaW5nIDAgdGVzdHMKCnRlc3QgcmVzdWx0OiBvay4gMCBwYXNzZWQ7IDAgZmFpbGVkOyAwIGlnbm9yZWQ7IDAgbWVhc3VyZWQ7IDAgZmlsdGVyZWQgb3V0OyBmaW5pc2hlZCBpbiAwLjAwcwoK"
+  },
+  "stderr": {
+    "encoding": "base64",
+    "bytes": 403,
+    "sha256": "4c12341c2aa0a4ab0569813cac3235b9e9ce844ec6d6f98d719a8f5702845108",
+    "data": "ICAgQ29tcGlsaW5nIHdpMTA4Ny1jYWNoZS1wcm9iZSB2MC4xLjAgKC93b3Jrc3BhY2Uvc2NyYXRjaC93aTEwODctcmVidWlsZC0yMDI2MTAxNy9taW5pbWFsLWNhY2hlLWRpYWdub3Npcy9maXh0dXJlLTEpCiAgICBGaW5pc2hlZCBgdGVzdGAgcHJvZmlsZSBbdW5vcHRpbWl6ZWRdIHRhcmdldChzKSBpbiAwLjIwcwogICAgIFJ1bm5pbmcgdW5pdHRlc3RzIHNyYy9saWIucnMgKC9ob21lL2FnZW50Ly5jYWNoZS9haS1jb2NrcGl0LXZlcmlmeS10YXJnZXQvYjFlNmNmODJkY2E4YzY3OTVhNDU0YmZiNDU4MzBiYzFmZWFlNzcwOGJmNzRmMDI3OGI3MDk4MjNhOGY4NjBlYi9kZWJ1Zy9kZXBzL3dpMTA4N19jYWNoZV9wcm9iZS04ODA4ODZmZTczNGYwYzU4KQogICBEb2MtdGVzdHMgd2kxMDg3X2NhY2hlX3Byb2JlCg=="
+  }
+}

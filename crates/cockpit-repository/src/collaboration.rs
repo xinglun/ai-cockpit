@@ -122,6 +122,7 @@ pub enum CollaborationExecutionError {
 pub fn collaboration_projection(
     store: &CoordinationStore,
 ) -> Result<CollaborationProjection, CoordinationError> {
+    store.check_authority()?;
     let inspection = store.inspect()?;
     let registrations = inspection.registrations;
     let events = inspection.events;
@@ -1302,6 +1303,11 @@ pub fn collaboration_outcome_projection(
         human_decision_required: false,
         next_action: "resolve collaboration capability or recovery unknowns".into(),
     };
+    if let Err(error) =
+        crate::authority_admission::require_goal_authority_access(root, Some(work_item_id))
+    {
+        return fallback("unsupported", error.to_string());
+    }
     let binding = RuntimeCapabilityBinding {
         schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
         runtime_version: runtime.runtime_version.clone(),
@@ -1710,6 +1716,7 @@ pub fn refresh_dependency_state(
     _work_item_id: &str,
     _generation: u64,
 ) -> Result<CollaborationProjection, CoordinationError> {
+    store.check_authority()?;
     collaboration_projection(store)
 }
 
@@ -1719,6 +1726,7 @@ pub fn admit_collaboration_action(
     generation: u64,
     action: CollaborationAction,
 ) -> Result<CollaborationAdmission, CoordinationError> {
+    store.check_authority()?;
     let projection = refresh_dependency_state(store, work_item_id, generation)?;
     let unknowns =
         environment_refresh_unknowns(store, &projection, work_item_id, generation, &action);
@@ -1740,6 +1748,7 @@ pub fn refresh_and_admit_collaboration_action(
     generation: u64,
     action: CollaborationAction,
 ) -> Result<CollaborationAdmission, CoordinationError> {
+    store.check_authority()?;
     store.with_lock(|| {
         refresh_and_admit_collaboration_action_under_lock(store, work_item_id, generation, action)
     })
@@ -1751,6 +1760,7 @@ pub(crate) fn refresh_and_admit_collaboration_action_under_lock(
     generation: u64,
     action: CollaborationAction,
 ) -> Result<CollaborationAdmission, CoordinationError> {
+    store.check_authority()?;
     let mut projection = refresh_dependency_state(store, work_item_id, generation)?;
     let mut environment_unknowns = Vec::new();
     if let Some(registration) = projection
@@ -1929,6 +1939,7 @@ where
     V: FnOnce() -> Result<(), String>,
     F: FnOnce() -> Result<T, String>,
 {
+    store.check_authority().map_err(|error| error.to_string())?;
     store
         .with_lock(|| {
             let admission = refresh_and_admit_collaboration_action_under_lock(
@@ -1966,6 +1977,7 @@ pub fn run_admitted_composition(
     generation: u64,
     input: CompositionInput,
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    store.check_authority()?;
     let executable = std::env::current_exe().map_err(|error| {
         CollaborationExecutionError::Coordination(CoordinationError::RecoveryRequired(format!(
             "resolve exact Runtime composition helper: {error}"
@@ -1993,6 +2005,7 @@ pub fn run_admitted_composition_with_supervisor_executable(
     arguments: &[String],
     environment: &[(String, String)],
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    store.check_authority()?;
     let input = prepare_admitted_composition(store, work_item_id, generation, input)?;
     launch_composition_supervisor(
         store,
@@ -2018,6 +2031,7 @@ pub fn run_admitted_composition_supervisor(
     input: CompositionInput,
     receipt: CompositionSupervisorReceipt,
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    store.check_authority()?;
     run_admitted_composition_in_process(store, work_item_id, generation, input, receipt)
 }
 
@@ -2027,6 +2041,7 @@ fn prepare_admitted_composition(
     generation: u64,
     mut input: CompositionInput,
 ) -> Result<CompositionInput, CollaborationExecutionError> {
+    store.check_authority()?;
     let action = composition_action(store, work_item_id)?;
     let admission =
         refresh_and_admit_collaboration_action(store, work_item_id, generation, action)?;
@@ -2054,6 +2069,7 @@ fn composition_action(
     store: &CoordinationStore,
     work_item_id: &str,
 ) -> Result<CollaborationAction, CoordinationError> {
+    store.check_authority()?;
     let outcomes = store
         .inspect()?
         .registrations
@@ -2085,6 +2101,7 @@ fn run_admitted_composition_in_process(
     input: CompositionInput,
     supervisor_receipt: CompositionSupervisorReceipt,
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    store.check_authority()?;
     let input = prepare_admitted_composition(store, work_item_id, generation, input)?;
     let action = composition_action(store, work_item_id)?;
     let check_store = store.clone();
@@ -2149,6 +2166,7 @@ fn launch_composition_supervisor(
     arguments: &[String],
     extra_environment: &[(String, String)],
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    store.check_authority()?;
     let actual_runtime_digest = executable_digest(executable).map_err(recovery_error)?;
     let expected_runtime_digest = &input.binding.verifier.runtime_digest;
     if actual_runtime_digest != *expected_runtime_digest
@@ -2381,11 +2399,6 @@ where
     R: BufRead,
     W: Write,
 {
-    let backend = cockpit_verification::initialize_composition_supervisor_backend()?;
-    let supervisor = current_composition_process_identity()?;
-    let executable = std::env::current_exe()
-        .map_err(|error| format!("resolve running Runtime executable: {error}"))?;
-    let actual_runtime_digest = executable_digest(&executable)?;
     let mut line = String::new();
     if reader
         .read_line(&mut line)
@@ -2394,6 +2407,20 @@ where
     {
         return Err("composition supervisor launch channel closed before request".into());
     }
+    // Only locator metadata is decoded before the request-only authority check.
+    let locator: serde_json::Value = serde_json::from_str(&line)
+        .map_err(|error| format!("decode supervisor authority locator: {error}"))?;
+    let root = locator
+        .get("repositoryRoot")
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| "composition supervisor repositoryRoot must be explicit".to_owned())?;
+    crate::authority_admission::require_goal_authority_access(Path::new(root), None)
+        .map_err(|error| error.to_string())?;
+    let backend = cockpit_verification::initialize_composition_supervisor_backend()?;
+    let supervisor = current_composition_process_identity()?;
+    let executable = std::env::current_exe()
+        .map_err(|error| format!("resolve running Runtime executable: {error}"))?;
+    let actual_runtime_digest = executable_digest(&executable)?;
     let launch: CompositionSupervisorLaunch = serde_json::from_str(&line)
         .map_err(|error| format!("decode composition supervisor launch: {error}"))?;
     let runtime_version = env!("CARGO_PKG_VERSION");
@@ -2416,11 +2443,12 @@ where
     write_supervisor_message(&mut writer, &ready)?;
 
     line.clear();
-    if reader
+    let control_bytes = reader
         .read_line(&mut line)
-        .map_err(|error| format!("read composition supervisor release: {error}"))?
-        == 0
-    {
+        .map_err(|error| format!("read composition supervisor release: {error}"))?;
+    crate::authority_admission::require_goal_authority_access(&launch.repository_root, None)
+        .map_err(|error| error.to_string())?;
+    if control_bytes == 0 {
         let failure = "composition supervisor control channel closed before release".to_owned();
         let receipt = read_supervisor_registration(&launch.input.state_dir, &launch.attempt_id)?;
         let attempt = cockpit_verification::record_composition_supervisor_failure(
@@ -2836,6 +2864,7 @@ fn validate_composition_identity_for_process_start(
     generation: u64,
     input: &CompositionInput,
 ) -> Result<(), String> {
+    store.check_authority().map_err(|error| error.to_string())?;
     let mut current_input = input.clone();
     let blockers = verify_composition_identity(store, work_item_id, generation, &mut current_input)
         .map_err(|error| error.to_string())?;
@@ -2987,6 +3016,7 @@ fn verify_composition_identity(
     generation: u64,
     input: &mut CompositionInput,
 ) -> Result<Vec<String>, CoordinationError> {
+    store.check_authority()?;
     let inspection = store.inspect()?;
     let mut blockers = inspection
         .unknowns
@@ -3428,6 +3458,7 @@ pub fn report_impact(
     store: &CoordinationStore,
     event: CoordinationEvent,
 ) -> Result<CoordinationEvent, CoordinationError> {
+    store.check_authority()?;
     if event.kind != cockpit_protocol::CoordinationEventKind::Impact {
         return Err(CoordinationError::RecoveryRequired(
             "report_impact accepts only Impact events; use publish_outcome for OutcomePublished events"
@@ -3443,6 +3474,7 @@ pub fn publish_outcome(
     generation: u64,
     outcome_id: &str,
 ) -> Result<CoordinationEvent, CoordinationError> {
+    store.check_authority()?;
     publish_outcome_with_pre_append(store, work_item_id, generation, outcome_id, || {})
 }
 
@@ -3456,6 +3488,7 @@ fn publish_outcome_with_pre_append<F>(
 where
     F: FnOnce(),
 {
+    store.check_authority()?;
     let projection = collaboration_projection(store)?;
     if !projection.unknowns.is_empty() {
         return Err(CoordinationError::RecoveryRequired(format!(
@@ -3596,6 +3629,7 @@ pub fn recover_impact(
     consumer_work_item_id: &str,
     consumer_generation: u64,
 ) -> Result<CoordinationRecovery, CoordinationError> {
+    store.check_authority()?;
     store.recover_event(event_id, consumer_work_item_id, consumer_generation)
 }
 
@@ -3603,6 +3637,7 @@ pub fn request_safe_pause(
     store: &CoordinationStore,
     request: CoordinationRequest,
 ) -> Result<CoordinationRequest, CoordinationError> {
+    store.check_authority()?;
     if request.intent != CoordinationIntent::RequestSafePause {
         return Err(CoordinationError::RecoveryRequired(
             "request_safe_pause requires request_safe_pause intent".into(),
@@ -3616,6 +3651,7 @@ pub fn acknowledge_pause(
     request_id: &str,
     state: CoordinationRequestState,
 ) -> Result<CoordinationRequest, CoordinationError> {
+    store.check_authority()?;
     if !matches!(
         state,
         CoordinationRequestState::Acknowledged
@@ -3635,6 +3671,7 @@ pub fn resume_and_re_evaluate(
     work_item_id: &str,
     generation: u64,
 ) -> Result<CollaborationAdmission, CoordinationError> {
+    store.check_authority()?;
     let projection = refresh_dependency_state(store, work_item_id, generation)?;
     let request_ids = projection
         .requests

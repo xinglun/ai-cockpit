@@ -1,0 +1,9 @@
+{
+  "kind": "agent_summary_of_actual_log_download_failure",
+  "observationRetainedPrivately": "/workspace/scratch/wi1087-rebuild-20261017/commands/r20-quality-job-log-rest.json",
+  "api": "repos/xinglun/ai-cockpit/actions/jobs/117321662476/logs",
+  "redirectHost": "productionresultssa19.blob.core.windows.net",
+  "result": "Forbidden / 403 on redirected request",
+  "signedRedirectUrlOmitted": true,
+  "bypassAttempted": false
+}

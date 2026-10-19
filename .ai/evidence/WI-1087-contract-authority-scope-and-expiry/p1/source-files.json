@@ -1,0 +1,27 @@
+[
+  {
+    "path": "crates/cockpit-core/src/clock.rs",
+    "bytes": 10974,
+    "sha256": "2e361c72fcb4e77e318d7353e1dc8464a9d3a1a3b978fbee960fec4ef4f9b4a1"
+  },
+  {
+    "path": "crates/cockpit-core/src/lib.rs",
+    "bytes": 42918,
+    "sha256": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3"
+  },
+  {
+    "path": "crates/cockpit-protocol/src/lib.rs",
+    "bytes": 239095,
+    "sha256": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18"
+  },
+  {
+    "path": "crates/cockpit-repository/src/authority.rs",
+    "bytes": 12095,
+    "sha256": "7b0bd80b6a3bf82d39c6f49a6718af17c5fc573cd5629757a74b3d2479f9ac71"
+  },
+  {
+    "path": "crates/cockpit-repository/src/lib.rs",
+    "bytes": 601283,
+    "sha256": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea"
+  }
+]

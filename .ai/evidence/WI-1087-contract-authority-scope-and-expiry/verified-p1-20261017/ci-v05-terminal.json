@@ -1,0 +1,232 @@
+{
+  "kind": "actual_read_only_github_connector_observations",
+  "sourceCommit": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+  "repo": "xinglun/ai-cockpit",
+  "runId": 39008478651,
+  "observations": [
+    {
+      "observedAt": "2026-10-17T06:22:43.850Z",
+      "runId": 39008478651,
+      "jobs": [
+        {
+          "id": 117325785341,
+          "name": "route",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571484,
+          "name": "quality",
+          "status": "in_progress",
+          "conclusion": null,
+          "active": [
+            {
+              "name": "run repository gates exactly once",
+              "status": "in_progress",
+              "conclusion": null
+            }
+          ]
+        },
+        {
+          "id": 117326571491,
+          "name": "v1-behavioral-oracle",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571557,
+          "name": "windows-runtime",
+          "status": "in_progress",
+          "conclusion": null,
+          "active": [
+            {
+              "name": "verify Windows directory-handle containment regressions",
+              "status": "in_progress",
+              "conclusion": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-17T06:25:12.252Z",
+      "runId": 39008478651,
+      "jobs": [
+        {
+          "id": 117325785341,
+          "name": "route",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571484,
+          "name": "quality",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571491,
+          "name": "v1-behavioral-oracle",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571557,
+          "name": "windows-runtime",
+          "status": "in_progress",
+          "conclusion": null,
+          "active": [
+            {
+              "name": "verify Windows directory-handle containment regressions",
+              "status": "in_progress",
+              "conclusion": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-17T06:26:42.742Z",
+      "runId": 39008478651,
+      "jobs": [
+        {
+          "id": 117325785341,
+          "name": "route",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571484,
+          "name": "quality",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571491,
+          "name": "v1-behavioral-oracle",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571557,
+          "name": "windows-runtime",
+          "status": "in_progress",
+          "conclusion": null,
+          "active": [
+            {
+              "name": "verify Windows explicit cognitive evaluator binary failure modes",
+              "status": "in_progress",
+              "conclusion": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-17T06:28:55.553Z",
+      "runId": 39008478651,
+      "jobs": [
+        {
+          "id": 117325785341,
+          "name": "route",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571484,
+          "name": "quality",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571491,
+          "name": "v1-behavioral-oracle",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571557,
+          "name": "windows-runtime",
+          "status": "in_progress",
+          "conclusion": null,
+          "active": [
+            {
+              "name": "verify Windows cognitive evaluator native path parity",
+              "status": "in_progress",
+              "conclusion": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "observedAt": "2026-10-17T06:31:00.185Z",
+      "runId": 39008478651,
+      "jobs": [
+        {
+          "id": 117325785341,
+          "name": "route",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571484,
+          "name": "quality",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571491,
+          "name": "v1-behavioral-oracle",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        },
+        {
+          "id": 117326571557,
+          "name": "windows-runtime",
+          "status": "completed",
+          "conclusion": "success",
+          "active": []
+        }
+      ]
+    }
+  ],
+  "terminalResponse": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "workflow_runs": [
+        {
+          "id": 39008478651,
+          "name": "ai-cockpit quality",
+          "status": "completed",
+          "conclusion": "success",
+          "run_number": 5090,
+          "jobs_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/39008478651/jobs",
+          "logs_url": "https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/39008478651/logs",
+          "workflow_id": 338986437
+        }
+      ]
+    },
+    "isError": false
+  },
+  "recordedAt": "2026-10-17T06:34:05.397Z"
+}

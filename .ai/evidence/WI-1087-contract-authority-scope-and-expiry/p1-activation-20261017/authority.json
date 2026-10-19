@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "kind": "relayed_delegated_software_development_plan_evidence_not_native_human_decision",
+  "receivedAt": "2026-10-17T03:00:46.529619+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "executedBy": "agent:Codex",
+  "technicalReviewer": "agent:Raydot",
+  "assurance": "self_declared",
+  "authoritySource": "Raydot controller delegation explicitly authorizing the reviewed five-file P1 under Ray software-development delegation; source quotations below are relayed transcript evidence, not a fresh contract-preflight-review.",
+  "relayedUserInstructions": [
+    "你帮我补完设计，然后指示AI Cockpit开WI对应。",
+    "继续，我授权给你继续推进。",
+    "在已委托的 AI Cockpit 软件开发范围内，普通技术方案评审、代码工作项计划确认、依据真实测试结果进行的软件验收确认，由 Raydot 自行判断，无需再次询问。此规则不授权与其他 agent 通信，不适用于法律合同、交易、权限或安全设置、不可恢复删除，也不替代明确要求真人执行的审批；不得伪造证据或冒充真人。",
+    "AI Cockpit这边你来下指示。Sentinel这边，你给我依赖，我来联系。"
+  ],
+  "raydotDecision": "Approve reviewed five-file P1 native activation preparation, typed amendment, build/test plan and necessary governance documents; normal commit/push current branch and Draft PR/CI only after real gates. Remove the previous read-only preparation boundary.",
+  "productPaths": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-core/src/clock.rs",
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-repository/src/authority.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "allowedOperations": [
+    "ff-only align existing worktree to actual main",
+    "native task-context refresh and typed Contract amendment",
+    "native same-WI activation and generation of exact pending human review",
+    "P1 source implementation/build/tests/governance documentation only after applicable native human gate and admission",
+    "normal commit and branch push, Draft PR and CI after gates"
+  ],
+  "excluded": [
+    "creating a live grant or changing actual system permissions",
+    "P2-P4 implementation",
+    "new PR merge or WI close",
+    "branch/worktree/resource deletion",
+    "fabricating or proxy-signing human contract-preflight-review"
+  ],
+  "nativeHumanConfirmReviewRecorded": false
+}

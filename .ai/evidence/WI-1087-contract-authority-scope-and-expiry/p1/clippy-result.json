@@ -1,0 +1,23 @@
+{
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "895s",
+    "cargo",
+    "clippy",
+    "--locked",
+    "-p",
+    "cockpit-core",
+    "-p",
+    "cockpit-protocol",
+    "-p",
+    "cockpit-repository",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exitCode": 0,
+  "seconds": 59.621
+}

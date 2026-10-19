@@ -31,6 +31,7 @@ pub(super) fn write_immutable_sidecar(
     path: &Path,
     bytes: &[u8],
 ) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(path)?;
     let sequence = NEXT_USAGE_WRITE_ID.fetch_add(1, Ordering::Relaxed);
     let temporary = format!("{name}.receipt-tmp-{}-{sequence}", std::process::id());
     let temporary_path = path.with_file_name(&temporary);
@@ -48,6 +49,10 @@ pub(super) fn write_immutable_sidecar(
         return Err(read_error(&temporary_path, source));
     }
     drop(file);
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let installed = match parent.hard_link(&temporary, parent, name) {
         Ok(()) => Ok(()),
         Err(error) if error.kind() == ErrorKind::AlreadyExists => {
@@ -344,6 +349,7 @@ pub(super) fn validate_frozen_usage_snapshot(
     root: &Path,
     frozen: &UsageSummary,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let observed =
         query_work_item_usage_unchecked(root, &frozen.work_item_id, Some(&frozen.cutoff), None)?;
     if observed.receipt_refs != frozen.receipt_refs {
@@ -359,6 +365,7 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
     root: &Path,
     work_item_id: &str,
 ) -> Result<Option<UsageSummary>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let mut prior_usage_claim = false;
     for phase in ["active", "archive"] {
         let relative = format!(".ai/work-items/{phase}/{work_item_id}.task-report.json");
@@ -636,6 +643,7 @@ pub fn record_work_item_usage(
     request: &UsageRecordRequest,
     runtime: &RuntimeContext,
 ) -> Result<UsageReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
     request
         .validate()
@@ -730,6 +738,7 @@ pub fn read_work_item_usage(
     work_item_id: &str,
     cutoff: Option<&str>,
 ) -> Result<UsageSummary, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     query_work_item_usage(root, work_item_id, cutoff, None)
 }
 
@@ -741,6 +750,7 @@ pub fn query_work_item_usage(
     cutoff: Option<&str>,
     reported_model: Option<&str>,
 ) -> Result<UsageSummary, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     if reported_model.is_some_and(str::is_empty) {
         return Err(state_error(root, "reported model filter is empty"));
@@ -781,6 +791,7 @@ pub fn read_work_item_usage_receipts(
     work_item_id: &str,
     cutoff: Option<&str>,
 ) -> Result<Vec<UsageReceipt>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
     let _ = validate_existing_frozen_usage_snapshots(&root, work_item_id)?;
@@ -812,6 +823,7 @@ pub fn read_work_item_usage_receipts(
 pub(super) fn all_usage_receipts(
     root: &Path,
 ) -> Result<Vec<(UsageReceipt, UsageReceiptRef)>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let Some(usage) = usage_directory(root, false)? else {
         return Ok(Vec::new());
     };

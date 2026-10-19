@@ -1,0 +1,30 @@
+{
+  "kind": "agent_summary_of_confirmed_local_cache_recovery_and_separate_ci_boundary",
+  "recordedAt": "2026-10-17T06:12:24.011879+00:00",
+  "head": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+  "productHashesUnchangedFromNativeAttempt": true,
+  "local": {
+    "originalNativeAttempt": "sha256:72fb8a020a1f127da1126a5320ae0dd1c65129c3447c8e712a45c75420980713",
+    "minimalProbe": "commands/d07-minimal-cache-probe.json",
+    "observedDefaultError": "failed to create directory /home/agent/.cache/ai-cockpit-verify-target: Read-only file system (os error 30)",
+    "workspaceControl": "passed, diagnostic only",
+    "onlyRepair": "mkdir -- /home/agent/.cache/ai-cockpit-verify-target, one exact-leaf provisioning command; no parent authorization, chmod or HOME redirection",
+    "sameDefaultProbeAfter": "commands/d08-default-cache-after-leaf-create.json, exit0, 1 passed",
+    "originalFocusedTestAfter": "commands/d09-linked-worktree-focused.json, exit0, 1 passed, 16 filtered",
+    "mountBoundary": "commands/d10-cache-mount-boundary.json: parent read-only, only leaf writable in an explicitly scoped command",
+    "fullNativePassedReceipt": "not produced; failed attempt is preserved, no 12-node reuse claimed"
+  },
+  "ci": {
+    "evidenceOrigin": "independent artifact review relayed by user; artifact metadata independently read; artifact content could not be downloaded here after403 and was not bypassed",
+    "artifactId": 12091582335,
+    "sourceHead": "87643464e733ca9f65657659779e8f76c10bf3f3",
+    "test": "cockpit-cli/tests/collaboration_scenario_matrix.rs:593 cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes",
+    "reportedDiagnostic": "procfs.fd-directory PermissionDenied errno13 PID114735; owned true execution passed, global observation unknown, composition_cleanup_deferred; MCP unsafe_deferred_cleanup_retry",
+    "sourceConfirmed": "composition.rs converts observation Err into deferred/retained cleanup and rejects unsafe retries; these files and runner have no diff from main6a40",
+    "scopeClassification": "process observation / fixture environment boundary; precise kernel transition and process provenance are not yet established; do not attribute to the local cache failure",
+    "noCodeChange": true,
+    "smallestNextInvestigation": "Read the full identity_before/identity_after/filter_uid tuple and supervisor ownership from the independent artifact. Determine whether fixture process-view isolation is insufficient before choosing a single fixture/runner change. Preserve real CLI/MCP assertions and fail-closed behavior; no EACCES ignore, KnownEmpty substitution, or deferred-as-pass change. Any fixture/runner edit is outside P1 five files and needs the requested technical review before implementation."
+  },
+  "noFullBlindRerun": true,
+  "probeRawLogsNotYetCommitted": "Kept in scratch and facts synchronized to DraftPR; avoid another record push while the new c72161f5 CI is running."
+}

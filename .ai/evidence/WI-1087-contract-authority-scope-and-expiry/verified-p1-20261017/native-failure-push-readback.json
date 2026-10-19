@@ -1,0 +1,6 @@
+{
+  "head": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+  "remoteReadback": "c72161f56bbcdfdf93fa893ab331c7b78e92408b\trefs/heads/codex/wi1087-contract-authority-scope-and-expiry",
+  "credentialRecovery": "per-command gh auth git-credential helper; no global config change",
+  "observedAt": "2026-10-17T06:04:44.780690+00:00"
+}

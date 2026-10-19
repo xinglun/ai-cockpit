@@ -1672,6 +1672,337 @@ fn main() {
     }
 }
 
+// Exhaustive routing: adding a CLI variant must account for its admission boundary.
+trait GoalAuthorityCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>);
+}
+
+impl GoalAuthorityCommand for CommandKind {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Inspect { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Preflight { repo, contract, .. } => {
+                (Some(repo.as_path()), vec![contract.as_path()])
+            }
+            Self::Observe { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::IsolationManifest {
+                root,
+                output,
+                paths_file,
+                mask_ancestors_of,
+                ..
+            } => {
+                let mut paths = Vec::new();
+                if let Some(path) = output {
+                    paths.push(path.as_path());
+                }
+                if let Some(path) = paths_file {
+                    paths.push(path.as_path());
+                }
+                if let Some(path) = mask_ancestors_of {
+                    paths.push(path.as_path());
+                }
+                (Some(root.as_path()), paths)
+            }
+            Self::Attach { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Status { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Compatibility { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Migrate { command } => command.authority_paths(),
+            Self::Start { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Checkpoint { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Finish { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Archive { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::ArchiveHistorical { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Close { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Verify { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Gate {
+                repo,
+                contract,
+                report,
+                ..
+            } => {
+                let mut paths = vec![contract.as_path()];
+                if let Some(path) = report {
+                    paths.push(path.as_path());
+                }
+                (Some(repo.as_path()), paths)
+            }
+            Self::GateReport {
+                repo,
+                report,
+                route_receipt,
+                ..
+            } => (
+                Some(repo.as_path()),
+                vec![report.as_path(), route_receipt.as_path()],
+            ),
+            Self::GatePlan {
+                repo,
+                manifest,
+                contract,
+                receipt,
+                ..
+            } => {
+                let mut paths = vec![manifest.as_path(), receipt.as_path()];
+                if let Some(path) = contract {
+                    paths.push(path.as_path());
+                }
+                (Some(repo.as_path()), paths)
+            }
+            Self::ReleasePlan { input, output, .. } => {
+                let mut paths = vec![input.as_path()];
+                if let Some(path) = output {
+                    paths.push(path.as_path());
+                }
+                (None, paths)
+            }
+            Self::Evidence { command } => command.authority_paths(),
+            Self::Audit { command } => command.authority_paths(),
+            Self::WorkItem { command } => command.authority_paths(),
+            Self::Capability { command } => command.authority_paths(),
+            Self::Diagnose { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Knowledge { command } => command.authority_paths(),
+            Self::Profile { command } => command.authority_paths(),
+            Self::Mcp { .. } => (None, Vec::new()),
+            Self::Doctor { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Agent { command } => command.authority_paths(),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for EvidenceCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Import {
+                repo,
+                metadata,
+                raw,
+                ..
+            } => (
+                Some(repo.as_path()),
+                vec![metadata.as_path(), raw.as_path()],
+            ),
+            Self::Observe {
+                repo,
+                metadata,
+                raw,
+                ..
+            } => (
+                Some(repo.as_path()),
+                vec![metadata.as_path(), raw.as_path()],
+            ),
+            Self::List { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::ListObservations { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Policy { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::PurgePlan { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for AuditCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::CognitiveBenefit { repo, binary, .. } => {
+                let mut paths = Vec::new();
+                if let Some(path) = binary {
+                    paths.push(path.as_path());
+                }
+                (Some(repo.as_path()), paths)
+            }
+            Self::Export { repo, output, .. } => {
+                let mut paths = Vec::new();
+                if let Some(path) = output {
+                    paths.push(path.as_path());
+                }
+                (Some(repo.as_path()), paths)
+            }
+            Self::Query { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for AgentCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::FirstStart { .. } => (None, Vec::new()),
+            Self::List { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Install { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Doctor { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Repair { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Detach { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for KnowledgeCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Query { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for WorkItemCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::ActivationRecovery { command } => command.authority_paths(),
+            Self::New { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::RevalidateAmendment { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Amend {
+                repo,
+                input,
+                request,
+                ..
+            } => {
+                let mut paths = Vec::new();
+                if let Some(path) = input {
+                    paths.push(path.as_path());
+                }
+                if let Some(path) = request {
+                    paths.push(path.as_path());
+                }
+                (Some(repo.as_path()), paths)
+            }
+            Self::Amendments { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::RevalidateArchived { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Approach { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Outcome { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Usage { command } => command.authority_paths(),
+            Self::MaterialReview { command } => command.authority_paths(),
+            Self::ReconcileArtifacts { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Retire { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::FinalizePlan { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::Finalize { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::FinalizeVerify { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::OrdinaryCleanup { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::FinalizeRecovery { repo, input, .. } => {
+                (Some(repo.as_path()), vec![input.as_path()])
+            }
+            Self::FinalizeRecoveryPlan { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::LegacyCloseoutSourcePlan {
+                repo,
+                source_repo,
+                input,
+                ..
+            } => {
+                let mut paths = vec![input.as_path()];
+                if let Some(path) = source_repo {
+                    paths.push(path.as_path());
+                }
+                (Some(repo.as_path()), paths)
+            }
+            Self::LegacyCloseoutSourceRecord { repo, input, .. } => {
+                (Some(repo.as_path()), vec![input.as_path()])
+            }
+            Self::CloseoutRecoveryPlan {
+                repo, source_repo, ..
+            } => (Some(repo.as_path()), vec![source_repo.as_path()]),
+            Self::CloseoutRecover {
+                repo, source_repo, ..
+            } => (Some(repo.as_path()), vec![source_repo.as_path()]),
+            Self::Status { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Inspect { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Declare { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Validate { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Controls { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::Recover { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::RecoverSelectedSuccessorLineage { repo, input, .. } => {
+                (Some(repo.as_path()), vec![input.as_path()])
+            }
+            Self::Boundary { repo, file, .. } => (Some(repo.as_path()), vec![file.as_path()]),
+            Self::Slot { command } => command.authority_paths(),
+            Self::Coordination { command } => command.authority_paths(),
+            Self::Composition { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for WorkItemUsageCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Record { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for WorkItemMaterialReviewCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Plan { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Record { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for WorkItemActivationRecoveryCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Plan { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Record { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for WorkItemSlotCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Acquire { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Release { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::List { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for WorkItemCoordinationCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Inspect { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Register { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::ReportImpact { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::PublishOutcome { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::RequestPause { repo, input, .. } => (Some(repo.as_path()), vec![input.as_path()]),
+            Self::Acknowledge { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Resume { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Recover { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::CheckEnvironmentDrift { repo, input, .. } => {
+                (Some(repo.as_path()), vec![input.as_path()])
+            }
+            Self::RecordEnvironmentDrift { repo, input, .. } => {
+                (Some(repo.as_path()), vec![input.as_path()])
+            }
+        }
+    }
+}
+
+impl GoalAuthorityCommand for CapabilityCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Show {
+                surface: Some(_), ..
+            } => (None, Vec::new()),
+            Self::Show { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for ProfileCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Confirm { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Propose { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
+impl GoalAuthorityCommand for MigrateCommand {
+    fn authority_paths(&self) -> (Option<&Path>, Vec<&Path>) {
+        match self {
+            Self::Plan { repo, .. } => (Some(repo.as_path()), Vec::new()),
+            Self::Apply { repo, .. } => (Some(repo.as_path()), Vec::new()),
+        }
+    }
+}
+
 fn run() -> Result<()> {
     if std::env::args_os().nth(1).as_deref()
         == Some(std::ffi::OsStr::new("__composition-supervisor"))
@@ -1679,6 +2010,13 @@ fn run() -> Result<()> {
         return cockpit_repository::run_composition_supervisor_stdio().map_err(anyhow::Error::msg);
     }
     let cli = Cli::parse();
+    let (authority_root, resource_paths) = cli.command.authority_paths();
+    if let Some(root) = authority_root {
+        cockpit_repository::require_goal_authority_access(root, None)?;
+    }
+    for path in resource_paths {
+        cockpit_repository::require_goal_authority_path_access(path)?;
+    }
     if let CommandKind::IsolationManifest {
         root,
         output,
@@ -3880,10 +4218,9 @@ fn run() -> Result<()> {
             }
         },
         CommandKind::Mcp { repo } => {
-            require_compatible(&repo, &runtime_context)?;
             let stdin = std::io::stdin();
             let stdout = std::io::stdout();
-            cockpit_mcp::serve_with_repo(
+            cockpit_mcp::serve_with_repo_checked(
                 std::io::BufReader::new(stdin.lock()),
                 stdout.lock(),
                 &repo,

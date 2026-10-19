@@ -1,3 +1,5 @@
+pub mod clock;
+
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::{fmt, str::FromStr};

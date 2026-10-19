@@ -1,0 +1,153 @@
+{
+  "kind": "actual_native_coordinator_result_summary_not_a_success_receipt",
+  "sourceHead": "87643464e733ca9f65657659779e8f76c10bf3f3",
+  "elapsedSeconds": 921.069,
+  "exitCode": 1,
+  "passed": false,
+  "nodesPlanned": 13,
+  "nodesExecuted": 13,
+  "nodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "allNodeTimeoutsSeconds": [
+    600
+  ],
+  "allNodesTimedOut": false,
+  "sourceFilesStillMatchStart": true,
+  "attemptPath": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification-attempt.72fb8a020a1f127da1126a5320ae0dd1c65129c3447c8e712a45c75420980713.json",
+  "records": [
+    {
+      "nodeId": "project-command-0-package-cockpit-agent",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 1300,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-cli",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 308337,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-core",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 390,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-evidence",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 155,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-git",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 10340,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-interface",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 193,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-isolation",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 153,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-knowledge",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 436,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-mcp",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 12772,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-protocol",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 1487,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-release",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 963,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-repository",
+      "passed": false,
+      "exitCode": 101,
+      "timedOut": false,
+      "elapsedMs": 498329,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": true,
+      "stderrTruncated": false
+    },
+    {
+      "nodeId": "project-command-0-package-cockpit-verification",
+      "passed": true,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 82747,
+      "timeoutSeconds": 600,
+      "stdoutTruncated": false,
+      "stderrTruncated": false
+    }
+  ],
+  "knownFailedTest": "linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory",
+  "innerFailureReason": "run.receipt.passed assertion false; inner Cargo stderr was not emitted by the unchanged test assertion; cause remains unproven",
+  "captureLimit": "repository stdout retained first 65536 bytes and was truncated; stderr retained complete 7326 bytes",
+  "scope": "No product/test/Contract modifications; no commit, push or CI cancellation"
+}

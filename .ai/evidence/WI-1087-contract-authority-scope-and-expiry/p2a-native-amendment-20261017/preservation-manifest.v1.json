@@ -1,0 +1,114 @@
+{
+  "kind": "agent_manifest_of_preserved_current_native_and_diagnostic_bytes",
+  "beforeCommitHead": "934e8b5855b524f960b6e2c31561e32426aac6ae",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/drift-11-p2a-plan.json",
+      "bytes": 116,
+      "rawSha256": "476c5ada939fe2b38a3c4a4e84a342aa93838e4add668ef7714391fbbda59227"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/drift-12-p2a-blocked.json",
+      "bytes": 116,
+      "rawSha256": "7c7ceb78f46f4e93c91a9aa5a0f4990afce552e0f91de97cf70839976a3bc871"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/native-amendment-blocker.v1.json",
+      "bytes": 4832,
+      "rawSha256": "948aa3b3ef6ed2079e5b389afd1368704e0cbe473300d099a1bfb14a6988186b"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u04-drift-after-publication.json",
+      "bytes": 3019,
+      "rawSha256": "5a6281440ad16556a336e4d075896881d98592cebbe081cf35364abe66784401"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u05-coordination-after-publication.json",
+      "bytes": 7512,
+      "rawSha256": "a940cff1da941ebcda2e95654853b5f2af7696900434b60f215f972327943110"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u06-register-plan-head.json",
+      "bytes": 15185,
+      "rawSha256": "67c7257eed15a22b0efe6e6789591655bf56ceab117d4c19781c510f97fb225b"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u07-drift-before-amend.json",
+      "bytes": 2827,
+      "rawSha256": "72d01fa8474b34ede7fa7b625ef0d7b5f5bb88d31925e96f2fbea066d114a92f"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u08-native-amend.json",
+      "bytes": 3267,
+      "rawSha256": "8132d411ae10377a83a06cf18137f7569f10754649d7d0a83750950c087e4556"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u09-native-amend-v2.json",
+      "bytes": 3239,
+      "rawSha256": "adcd188791e4abdf751d094f3438acfc36cb06e2cd210393ea3bd9bca505a4d9"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u10-status-after-amend.json",
+      "bytes": 3036,
+      "rawSha256": "ec068c0e37e9f059c49d811a4d1cf6104b80581f28c336872f9b05bfab968c9c"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u11-register-current-amended-contract.json",
+      "bytes": 15924,
+      "rawSha256": "53f6fa73bfdd1d07be649f08fb74099f90177612f806c4738d6e6e8b978c7350"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u12-drift-current.json",
+      "bytes": 2830,
+      "rawSha256": "c48f48d8dd242d21f82a4570e2504d98b6d164109bd687fe79e507c7249f8260"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/p2a-u13-outcome-blocked.json",
+      "bytes": 13697,
+      "rawSha256": "6d6d2661dc7758edc1ce6180f7195d1e7b2a4afe32b77912a5d6d25907960b20"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/registration-11-p2a-plan.json",
+      "bytes": 1434,
+      "rawSha256": "691c31a4114a058430a586fa7b3359c939e6551cc233b55361c3ffabffe4c612"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-native-amendment-20261017/registration-12-p2a-blocked.json",
+      "bytes": 1452,
+      "rawSha256": "67464fe61f3bf73f9d5f4bbc9e39a6bc76aa54d0beeef78d718fdaacd3332c16"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json",
+      "bytes": 13210,
+      "rawSha256": "b0bf5857fefaa918c402d92bb161e31b82b0b29bb8194ba69d2f7a767eee30c5"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+      "bytes": 6618,
+      "rawSha256": "91efd3c6546b7cbed6f6af9da1cd81d7d20f34aac601804904867964dbcce87b"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000005.prepared.json",
+      "bytes": 37423,
+      "rawSha256": "96cba33ffb61e7c980e4390403ed560a5b9d4631f67ea9a856be992e5c44f2a8"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.contract-amendments/00000005.committed.json",
+      "bytes": 21551,
+      "rawSha256": "38e8f8a402b558a42b899fa5aa1fd5ef98baedbe3072749c1818138943a8c382"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/contract-amendment.request.execution.v2.json",
+      "bytes": 12991,
+      "rawSha256": "073a06c9109406b0c4905cdb1d1f266a1ea9833d51f3ffd169dc642b8a8f6241"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/request-revision-execution-v1-to-v2.json",
+      "bytes": 1474,
+      "rawSha256": "d7ab7eeb154d68a8071c215acd0e519dd15ccbb36f43310828a123d262749454"
+    }
+  ],
+  "selfHashExcluded": true,
+  "nativeGeneratedFilesManuallyEdited": false,
+  "codeOrHistoryRewritten": false
+}

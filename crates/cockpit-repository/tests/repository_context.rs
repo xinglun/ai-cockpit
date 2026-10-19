@@ -191,10 +191,14 @@ fn observation_phase_rejects_a_symlinked_contract_before_canonicalizing_it() {
     scaffold_work_item(&root, "WI-SYMLINK-CONTRACT", "code").expect("scaffold");
     let contract = root.join(".ai/work-items/active/WI-SYMLINK-CONTRACT.contract.json");
     let target = root.join(".ai/work-items/active/WI-SYMLINK-CONTRACT.contract.target.json");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
     fs::rename(&contract, &target).expect("move contract target");
     symlink(&target, &contract).expect("symlink contract");
 
-    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    assert!(
+        RepositoryExecutionContext::capture(&root).is_err(),
+        "capture must reject an already symlinked authority locator"
+    );
     let error = context
         .observe_phase_with_contract(ObservationPhase::BeforeGovernance, None, &contract)
         .expect_err("symlinked Contract must fail closed");
@@ -260,9 +264,13 @@ fn observation_rejects_symlinked_contract_and_active_governance_file() {
     let contract = root.join(".ai/work-items/active/WI-SYMLINK-OBSERVATION.contract.json");
     let contract_target =
         root.join(".ai/work-items/active/WI-SYMLINK-OBSERVATION.contract.target.json");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
     fs::rename(&contract, &contract_target).expect("move contract target");
     symlink(&contract_target, &contract).expect("contract symlink");
-    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    assert!(
+        RepositoryExecutionContext::capture(&root).is_err(),
+        "capture must reject an already symlinked authority locator"
+    );
     let contract_error = context
         .observe_phase_with_contract(ObservationPhase::BeforeGovernance, None, &contract)
         .expect_err("observation must reject a symlinked Contract");

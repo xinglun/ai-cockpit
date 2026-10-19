@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1087-p1-five-file-implementation-activation-20261017",
+  "expectedContractDigest": "sha256:58529cee9b0eeb656132434a47c7f57374f1cf8e87cf8885710dd394192e7f1d",
+  "reason": "Raydot explicitly approves this ordinary P1 software-development plan within Ray delegation and removes the temporary read-only boundary. Activate the same WI from actual main, bound to five product files, necessary own governance documents and unchanged full workspace checks. Preserve every historical record. No live grant, system permissions, P2-P4, merge/close/deletion or human confirm_review is authorized by this request; generate any exact native human review and stop before protected implementation.",
+  "changes": [
+    {
+      "path": "/mode",
+      "operation": "set",
+      "value": "implementation"
+    },
+    {
+      "path": "/intent",
+      "operation": "set",
+      "value": "Implement the reviewed P1 software-development slice of the finite goal authority design under Ray delegation and Raydot technical plan approval; preserve truthful human-review and legacy evidence boundaries."
+    },
+    {
+      "path": "/goal",
+      "operation": "set",
+      "value": "Implement only backward-readable finite goal authority source/reference and deadline-mode shapes, an injectable UTC/monotonic Clock, and minimal module interfaces in the approved five product files. Keep P2-P4, live grant configuration and actual system permission changes excluded; retain wider feature acceptance as not_run until implemented and verified."
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "crates/cockpit-protocol/src/lib.rs"
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "crates/cockpit-core/src/clock.rs"
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "crates/cockpit-core/src/lib.rs"
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "crates/cockpit-repository/src/authority.rs"
+    },
+    {
+      "path": "/scope",
+      "operation": "add",
+      "value": "crates/cockpit-repository/src/lib.rs"
+    },
+    {
+      "path": "/outOfScope",
+      "operation": "replace",
+      "value": [
+        "All product implementation outside the five named P1 files; P2-P4 action interception, lifecycle/status enforcement, persistent grant heads/CAS/revocation and CLI/MCP behavior remain unapproved.",
+        "No creation/configuration of live goal grants, actual authority policy activation, real system permission changes, new IAM/budget subsystem, remote trusted-time dependency or inferred identity.",
+        "Existing WI-1085/WI-1086 or other authorization, verification, archive, cleanup and decision bytes remain immutable; no new observation, rebinding or cleanup is authorized.",
+        "No new PR merge, Work Item finish/archive/close, branch/worktree/resource deletion, actual Provider/Sentinel operations or direct main push.",
+        "No human approval impersonation, pre-signed contract-preflight-review, validator/test/gate weakening or use of P1 module tests as full-feature acceptance."
+      ]
+    },
+    {
+      "path": "/authority",
+      "operation": "set",
+      "value": "authorized"
+    },
+    {
+      "path": "/acceptanceCriteria",
+      "operation": "replace",
+      "value": [
+        "Bounded finite goal authorization is the authority source: current subject, issuer evidence, actor/action/resource constraints, notBefore/expiresAt and termination state must be verifiable; no null or unlimited expiry.",
+        "A new goal B cannot use still-valid authorization for A; valid explicit coverage of one goal permits derived B/C Work Items, sequential/parallel work, repair/retry/recovery without repeated per-WI human confirmation.",
+        "Authority is source grant intersection Work Item narrowing intersection fresh Runtime admission and existing safety/coordination; identity or authoritySource strings and agent summaries are not authentication.",
+        "Finite expiry is mandatory, independently approved from the 900-second single-command timeout; no self-extension or renewal by silence. Only goal completion/revocation/expiry ends its authority, preserving historical facts.",
+        "One approved same-goal deadline extension updates the current source version for eligible active related Work Items while retaining their narrower constraints; closed/revoked/superseded subjects never revive and old versions cannot authorize new operations.",
+        "Fresh checks occur after lock and before actual side effect, retry, recovery and irreversible publish. Controlled Clock and monotonic budgets cover exact boundaries, rollback and in-flight safe stopping without long sleeps.",
+        "Expired management plane supports only bounded own-metadata status/evidence preservation/safe stop/extension requests, no business read/export/delete and no request-generation deadlock.",
+        "CLI/MCP share decisions and failure codes; legacy Contract/evidence stays readable, strict missing deadlines fail closed, migration/rollout and any actual authorization activation require separate review.",
+        "P1 only: implement the five named model/Clock/module-interface files under delegated software-development authority; no live grant, actual system permissions or P2-P4 behavior is enabled. Completing P1 does not complete or close the full Work Item.",
+        "P1 additive wire shapes preserve legacy readable evidence; missing/null/unbounded or invalid finite validity intervals fail validation in the new models without retroactively forging historical approval.",
+        "P1 injectable UTC/monotonic Clock has deterministic inline unit evidence for exact boundary and non-extension/rollback behavior; no long sleeps, new process supervisor or external trusted-time service.",
+        "P1 module-level unit tests and the existing full workspace verification remain required, using isolated targets, one worker and at most 900 seconds per command, with truthful not_run/failed/passed evidence.",
+        "Agent execution provenance is agent:Codex; technical review is agent:Raydot. A required human contract-preflight-review binds the then-current native request and is never supplied by agent delegation."
+      ]
+    },
+    {
+      "path": "/sources",
+      "operation": "replace",
+      "value": [
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/authority.json",
+          "reason": "Actual relayed Ray software-development delegation and Raydot ordinary technical approval for bounded five-file P1; not native human confirm_review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1-plan.json",
+          "reason": "Reviewed P1 five-file implementation and bounded verification plan; product execution waits for native admission and any exact human preflight review."
+        }
+      ]
+    }
+  ]
+}
