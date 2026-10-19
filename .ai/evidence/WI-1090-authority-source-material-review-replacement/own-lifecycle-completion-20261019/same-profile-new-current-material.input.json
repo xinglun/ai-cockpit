@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+      "digest": "sha256:2068443c4ccd9d2b01af29d9d032679a9c87effca3364f3434b15fe3376add5e"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-completion-20261019/conditional-risk-application-1cc7-5e60.agent-recorded.json",
+      "digest": "sha256:5333c616ec2a3743941eada23561d49528e9f03525063bff5f0557004a8f331f"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-completion-20261019/raydot-same-material-renewal.delegated.agent-recorded.json",
+      "digest": "sha256:8ceeaa8461a89c8e64513b33d9c95676181f913a5f36fe03759c4e792a1851ac"
+    }
+  ],
+  "rationale": "New exact current 1cc7/5e60 decision through the fixed Runtime same-profile stale renewal path. Original conditional human risk acceptance is applied only after all8 material/scanner/profile conditions were explicitly rechecked unchanged; original consent bytes and c5dd receipt remain historical. Scope permission and generated identity confirmation are separate actual Ray decisions. Recorder agent:Codex under delegated agent:Raydot review, not a new human risk decision.",
+  "residualRisk": "扫描器仍不能完整判断唯一固定 material_review.rs syntax Unknown，代码审阅和测试可能遗漏问题。仅适用于本次未变的8项固定材料和原许可cause/profile；不证明真实consumer/Sentinel恢复、身份认证、发布或其他禁项。"
+}

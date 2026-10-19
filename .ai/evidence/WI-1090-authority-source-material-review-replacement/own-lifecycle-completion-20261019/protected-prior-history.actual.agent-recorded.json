@@ -1,0 +1,54 @@
+[
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000001.committed.json",
+    "rawSha256": "07b7d9f24d611ad10154077872dfe408abecdafea8c53a3f72cc4cdc0230b906"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000001.prepared.json",
+    "rawSha256": "fae767a5db190fce4b30d935fc37d9945a9bffd7dfbb1eb27b6d8bc4b37a381d"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000002.committed.json",
+    "rawSha256": "f0280dfbeaa501b44a639299bfc6f3e0a1556f5ad0a4aa5cf22708472e1f232f"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000002.prepared.json",
+    "rawSha256": "d24d4285d75d42a03f9c3ffee412a57dcf58134f5cfc0847780787e6c164e696"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000003.committed.json",
+    "rawSha256": "eb422080b92712b0e66ed8dd650abf0d326181d29b1f61c06b1d3c95f785df23"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000003.prepared.json",
+    "rawSha256": "a830ec62fc70d2e03ab09b2007cf6268bb454a4432ffc21447b029d724bbb7b6"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000004.committed.json",
+    "rawSha256": "210a4f37d250aab9118e249ff5119c3ee577d1f1a9c3b997d891414f47db1533"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000004.prepared.json",
+    "rawSha256": "3c5484902ba271e380c2116086cbd3bb04abc9f932c96f25e80a093f95b6c0e1"
+  },
+  {
+    "path": ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7.json",
+    "rawSha256": "0f3949bae38b9a306bcb677c9441bbeb77af17368c8ea561db65fcd489f819b5"
+  },
+  {
+    "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.affadc192ceb8f7dbd717501160417b0a22ba9175da1108b9d8016fa27103adf.json",
+    "rawSha256": "6603cbb3bd38f6f0db82b0da8dbcdd20e8e3824dcacc780b78d7cc999e41022d"
+  },
+  {
+    "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.c880589e207ac11cc4d07253edff74bbfa5bc9ffd397378acf230d8df5313532.json",
+    "rawSha256": "7140bec515d8d3f30d3b4b16304c88f90baeca4b8e166b290c43e9c558ec0b7b"
+  },
+  {
+    "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.json",
+    "rawSha256": "499b6ac64a13949c5ab5211c4a5aa34aad3dfeac911d126042ab850cdd99f5be"
+  },
+  {
+    "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+    "rawSha256": "2068443c4ccd9d2b01af29d9d032679a9c87effca3364f3434b15fe3376add5e"
+  }
+]

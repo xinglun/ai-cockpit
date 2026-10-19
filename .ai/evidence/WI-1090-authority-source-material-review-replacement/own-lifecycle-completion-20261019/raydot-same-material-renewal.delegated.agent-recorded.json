@@ -1,0 +1,13 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:24:46.656928Z",
+  "recordType": "delegated current decision for identical previously reviewed material",
+  "reviewerActor": "agent:Raydot",
+  "actualPriorReview": "78ffc397 exact material, native confirmation/material record, fresh seven checks and bounded implementation intent independently accepted by Raydot.",
+  "actualCurrentInstruction": "Check supported same-profile stale-material renewal after actual new scope confirmation; preserve and verify original consent evidence and conditions.",
+  "sourceBlobsHunksScannerAndMaterialProfileUnchanged": true,
+  "newCurrentRequestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+  "reviewedSourceRemainsFixed8Members": true,
+  "noSeparateUnreportedReviewSessionClaimed": true,
+  "noNewHumanRiskAcceptanceInvented": true
+}

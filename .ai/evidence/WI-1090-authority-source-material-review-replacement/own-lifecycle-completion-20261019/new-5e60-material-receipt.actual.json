@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-authority-source-material-review-replacement",
+  "contractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "materialManifestDigest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+  "profileDigest": "sha256:e2a40be4695c566d35fac65e5854678b8877cb9d23828d10cea3a82cdaf172e9",
+  "requestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+  "reviewedSourceHead": "5f8e6fbfa3065b47a2ddc4cd8e15809adc2f47ac",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "authoritySource": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+      "digest": "sha256:2068443c4ccd9d2b01af29d9d032679a9c87effca3364f3434b15fe3376add5e"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-completion-20261019/conditional-risk-application-1cc7-5e60.agent-recorded.json",
+      "digest": "sha256:5333c616ec2a3743941eada23561d49528e9f03525063bff5f0557004a8f331f"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-completion-20261019/raydot-same-material-renewal.delegated.agent-recorded.json",
+      "digest": "sha256:8ceeaa8461a89c8e64513b33d9c95676181f913a5f36fe03759c4e792a1851ac"
+    }
+  ],
+  "rationale": "New exact current 1cc7/5e60 decision through the fixed Runtime same-profile stale renewal path. Original conditional human risk acceptance is applied only after all8 material/scanner/profile conditions were explicitly rechecked unchanged; original consent bytes and c5dd receipt remain historical. Scope permission and generated identity confirmation are separate actual Ray decisions. Recorder agent:Codex under delegated agent:Raydot review, not a new human risk decision.",
+  "residualRisk": "扫描器仍不能完整判断唯一固定 material_review.rs syntax Unknown，代码审阅和测试可能遗漏问题。仅适用于本次未变的8项固定材料和原许可cause/profile；不证明真实consumer/Sentinel恢复、身份认证、发布或其他禁项。",
+  "recordedAt": "2026-10-19T23:24:48Z",
+  "receiptDigest": "sha256:b09f40987129791c62f86a9a73c0d7b5aaf7a0421bf0eca364121e1796357449"
+}
