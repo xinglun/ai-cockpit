@@ -2108,7 +2108,7 @@ fn finite_authority_source_replacement_proof(
             replacement_json(&directory, &prepared_name, &path.join(&prepared_name))?;
         let (committed, committed_raw) =
             replacement_json(&directory, &committed_name, &path.join(&committed_name))?;
-        let native: cockpit_protocol::ContractAmendmentReceipt =
+        let native: super::ContractAmendmentReceipt =
             serde_json::from_value(committed["receipt"].clone())
                 .map_err(|error| replacement_error(&path, error.to_string()))?;
         let data = &prepared["prepared"];
