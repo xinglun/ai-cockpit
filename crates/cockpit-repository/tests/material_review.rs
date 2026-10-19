@@ -167,6 +167,167 @@ fn active_recorded_material_review_fixture() -> (
     )
 }
 
+// Production regression: removing the finite H/P/C lane must remove only the
+// ability to submit a NEW decision, while the invalid old receipt stays visible.
+fn confirm_segmented_fixture(root: &Path, runtime: &cockpit_protocol::RuntimeContext) {
+    let contract_path = root.join(".ai/work-items/active/WI-MATERIAL.contract.json");
+    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, runtime)
+        .expect("native fixture preflight");
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".ai/work-items/active/WI-MATERIAL.summary.json")).unwrap(),
+    )
+    .unwrap();
+    record_work_item_governance_controls_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({"decisionEvidence": {
+            "schemaVersion": 1,
+            "decisionId": "contract-preflight-review",
+            "decision": "confirm_review",
+            "workItemId": "WI-MATERIAL",
+            "repositoryId": cockpit_repository::repository_id(root).to_string(),
+            "contractDigest": cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest": summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+            "recordedAt": "2026-10-19T00:00:00Z",
+            "recordedBy": "human:material-fixture",
+            "reason": "Synthetic fixture confirms this exact native Contract; no real human is impersonated."
+        }}),
+        runtime,
+    )
+    .expect("native exact synthetic fixture review");
+}
+
+fn amend_segmented_fixture(
+    root: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+    change_id: &str,
+    changes: serde_json::Value,
+) {
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".ai/work-items/active/WI-MATERIAL.contract.json")).unwrap(),
+    )
+    .unwrap();
+    let request = json!({
+        "schemaVersion": 1,
+        "changeId": change_id,
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract).unwrap(),
+        "reason": "Synthetic native mixed-history replacement fixture, not real consumer authority.",
+        "changes": changes
+    });
+    amend_work_item_contract_with_runtime(root, "WI-MATERIAL", &request, "", runtime)
+        .expect("native journaled fixture amendment");
+    confirm_segmented_fixture(root, runtime);
+}
+
+fn segmented_authority_fixture() -> (
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    PathBuf,
+    Vec<u8>,
+    serde_json::Value,
+    MaterialInspectionReviewDecisionInput,
+) {
+    let (directory, _) = fixture();
+    let root = directory.path();
+    let runtime = review_runtime();
+    cockpit_repository::attach(root).unwrap();
+    cockpit_repository::start_work_item_with_options_and_runtime(
+        root,
+        "WI-MATERIAL",
+        "prove finite material replacement",
+        "retain historical evidence and independently decide current material",
+        &["README.md".into(), "src/**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            risk: "high".into(),
+            acceptance_criteria: vec!["independent current decision".into()],
+            ..Default::default()
+        },
+        &runtime,
+    )
+    .expect("native fixture start");
+    fs::create_dir_all(root.join("src")).unwrap();
+    fs::write(root.join("src/material.rs"), benign_syntax_unknown_source()).unwrap();
+    commit(root);
+    amend_segmented_fixture(
+        root,
+        &runtime,
+        "fixture-initial-profile-R",
+        json!([{
+            "path": "/governanceProfile", "operation": "set", "value": {
+                "materialInspectionReview": {
+                    "schemaVersion": 1,
+                    "permittedUnknown": "repository_material_inspection_unavailable",
+                    "permittedCause": "readable_committed_rust_syntax_unknown",
+                    "assurance": "self_declared",
+                    "reviewerActor": "agent:material-fixture",
+                    "authoritySource": "fixture:old-risk-source",
+                    "acceptResidualRisk": true
+                }
+            }
+        }]),
+    );
+    let old_request = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
+    let mut input: MaterialInspectionReviewDecisionInput = serde_json::from_value(json!({
+        "schemaVersion": 1, "decision": "accept_permitted_unknowns",
+        "requestDigest": old_request.request_digest,
+        "reviewerActor": "agent:material-fixture", "authoritySource": "fixture:old-risk-source",
+        "assurance": "self_declared",
+        "evidenceRefs": [{"path":"fixture-review", "digest":cockpit_core::Digest::sha256_bytes(b"synthetic fixture review")}],
+        "rationale": "Synthetic exact material review, not an actual person decision.",
+        "residualRisk": "Synthetic fixture accepts only its exact readable syntax unknown."
+    })).unwrap();
+    cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+        .expect("native original immutable material receipt R");
+    let summary_path = root.join(".ai/work-items/active/WI-MATERIAL.summary.json");
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    let old_pointer = summary["materialReviewReceipt"].clone();
+    let old_sidecar = root.join(old_pointer["path"].as_str().unwrap());
+    let old_bytes = fs::read(&old_sidecar).unwrap();
+    amend_segmented_fixture(root, &runtime, "fixture-reviewed-mixed-history-A", json!([
+        {"path":"/scope", "operation":"add", "value":"docs/fixture-review.md"},
+        {"path":"/acceptanceCriteria", "operation":"add", "value":"retain complete reviewed native history"},
+        {"path":"/scenarioCoverage", "operation":"add", "value": {
+            "scenario":"native mixed historical amendment", "required":true,
+            "expected":"old receipt remains historical", "verificationPlan":"cargo test --test material_review",
+            "status":"unverified", "evidence":[]
+        }},
+        {"path":"/sources", "operation":"add", "value": {
+            "path":".ai/evidence/fixture-reviewed-history", "reason":"synthetic native context"
+        }}
+    ]));
+    let a = cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+        .unwrap();
+    assert!(a.effective_unknowns.contains(&"material_review_receipt_stale".into()));
+    amend_segmented_fixture(root, &runtime, "fixture-adjacent-authority-source-B", json!([{
+        "path":"/governanceProfile/materialInspectionReview/authoritySource",
+        "operation":"set", "value":"fixture:new-current-risk-source"
+    }]));
+    let request = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
+    input.request_digest = request.request_digest;
+    input.authority_source = "fixture:new-current-risk-source".into();
+    (directory, runtime, old_sidecar, old_bytes, old_pointer, input)
+}
+
+#[test]
+fn segmented_authority_source_change_exposes_only_new_decision() {
+    let (directory, runtime, old_sidecar, old_bytes, _pointer, _input) =
+        segmented_authority_fixture();
+    let root = directory.path();
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+        .expect("current exact fixture status");
+    assert!(status.effective_unknowns.contains(&"material_review_receipt_invalid".into()));
+    assert!(status.effective_unknowns.contains(&"repository_material_inspection_unavailable".into()));
+    assert!(status.review_receipt_digest.is_none());
+    assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+    assert!(status.safe_actions.contains(&"record_material_review_decision".into()),
+        "reviewed mixed history plus an adjacent source-only transition must permit only a NEW exact decision: {status:#?}");
+}
+
 #[test]
 fn active_material_plan_digest_matches_persisted_contract_across_json_shapes() {
     let (directory, mut contract) = fixture();
