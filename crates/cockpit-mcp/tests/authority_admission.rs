@@ -1,38 +1,22 @@
 //! P2b denial wiring through the real MCP dispatcher; no production fixture provider.
 use serde_json::{Value, json};
-use std::{
-    fs,
-    path::{Path, PathBuf},
-    time::{SystemTime, UNIX_EPOCH},
-};
+use std::{fs, path::Path};
 
-struct Fixture(PathBuf);
+struct Fixture(tempfile::TempDir);
 impl Fixture {
     fn new() -> Self {
-        let nonce = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .unwrap()
-            .as_nanos();
-        let root = std::env::temp_dir().join(format!(
-            "cockpit-authority-mcp-{}-{nonce}",
-            std::process::id()
-        ));
-        let active = root.join(".ai/work-items/active");
+        let directory = tempfile::tempdir().unwrap();
+        let active = directory.path().join(".ai/work-items/active");
         fs::create_dir_all(&active).unwrap();
         fs::write(
             active.join("WI-FIXTURE.contract.json"),
             br#"{"governanceProfile":{"goalAuthority":{"required":true}}}"#,
         )
         .unwrap();
-        Self(root)
+        Self(directory)
     }
     fn root(&self) -> &Path {
-        &self.0
-    }
-}
-impl Drop for Fixture {
-    fn drop(&mut self) {
-        let _ = fs::remove_dir_all(&self.0);
+        self.0.path()
     }
 }
 fn runtime() -> cockpit_protocol::RuntimeContext {
