@@ -50,6 +50,7 @@ const MATERIAL_REVIEW_EVIDENCE_DIRECTORY: &str = "material-inspection-review";
 #[cfg(test)]
 thread_local! {
     static REPLACEMENT_FAILURE: std::cell::Cell<Option<&'static str>> = const { std::cell::Cell::new(None) };
+    static REPLACEMENT_BEFORE_COMMIT: std::cell::RefCell<Option<Box<dyn FnOnce()>>> = const { std::cell::RefCell::new(None) };
 }
 
 #[cfg(test)]
@@ -3180,6 +3181,12 @@ fn record_prepared_material_replacement(
     )?;
     #[cfg(test)]
     replacement_test_boundary(context.root, "after_sidecar")?;
+    #[cfg(test)]
+    REPLACEMENT_BEFORE_COMMIT.with(|callback| {
+        if let Some(callback) = callback.borrow_mut().take() {
+            callback();
+        }
+    });
     // Recompute both source/authority proof and raw Summary CAS immediately
     // before the only commit point. Staged files never discharge Unknowns.
     revalidate_material_replacement(&context, &envelope.prepared)?;
@@ -3425,6 +3432,213 @@ mod tests {
         assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
         record_work_item_material_review(root, ITEM, &input, &runtime)
             .expect_err("committed replay rejects");
+    }
+
+    fn transaction_artifacts(root: &Path) -> BTreeMap<String, Vec<u8>> {
+        fs::read_dir(
+            root.join(".ai/evidence/material-inspection-review/WI-REPLACEMENT-TRANSACTION"),
+        )
+        .unwrap()
+        .map(|entry| {
+            let entry = entry.unwrap();
+            (
+                entry.file_name().into_string().unwrap(),
+                fs::read(entry.path()).unwrap(),
+            )
+        })
+        .collect()
+    }
+
+    #[test]
+    fn replacement_transaction_failure_matrix() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        for stage in [
+            "before_prepare",
+            "after_prepare",
+            "before_sidecar",
+            "after_sidecar",
+            "before_summary",
+            "after_summary",
+        ] {
+            let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+            let root = directory.path();
+            let summary_path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+            let before = fs::read(&summary_path).unwrap();
+            let old_pointer=serde_json::from_slice::<serde_json::Value>(&before).unwrap()["materialReviewReceipt"].clone();
+            REPLACEMENT_FAILURE.with(|failure| failure.set(Some(stage)));
+            let result = record_work_item_material_review(root, ITEM, &input, &runtime);
+            let receipt = if stage == "after_summary" {
+                result.expect("post-rename error is resolved from actual committed canonical state")
+            } else {
+                let error = result.expect_err("exact injected publication boundary must interrupt");
+                assert!(
+                    error.to_string().contains("injected interruption"),
+                    "{stage}: {error}"
+                );
+                assert_eq!(fs::read(&summary_path).unwrap(), before, "{stage}");
+                let status =
+                    crate::work_item_status_snapshot_with_runtime(root, ITEM, &runtime).unwrap();
+                assert!(
+                    status.review_receipt_digest.is_none(),
+                    "staged evidence cannot discharge at {stage}"
+                );
+                assert!(
+                    status
+                        .effective_unknowns
+                        .contains(&"repository_material_inspection_unavailable".into())
+                );
+                let names = transaction_artifacts(root);
+                if stage == "before_prepare" {
+                    assert_eq!(names.len(), 1);
+                }
+                if ["after_prepare", "before_sidecar"].contains(&stage) {
+                    assert_eq!(names.len(), 2);
+                }
+                record_work_item_material_review(root, ITEM, &input, &runtime)
+                    .expect("exact pending continuation commits")
+            };
+            assert_eq!(fs::read(&old_sidecar).unwrap(), old_bytes);
+            let committed = fs::read(&summary_path).unwrap();
+            let summary: serde_json::Value = serde_json::from_slice(&committed).unwrap();
+            assert_eq!(
+                summary["materialReviewReceiptHistory"],
+                serde_json::json!([old_pointer])
+            );
+            let sidecar = root.join(summary["materialReviewReceipt"]["path"].as_str().unwrap());
+            assert_eq!(
+                fs::read(sidecar).unwrap(),
+                serde_json::to_vec_pretty(&receipt).unwrap()
+            );
+            let artifacts = transaction_artifacts(root);
+            record_work_item_material_review(root, ITEM, &input, &runtime)
+                .expect_err("committed replay must not write");
+            assert_eq!(transaction_artifacts(root), artifacts);
+            assert_eq!(fs::read(summary_path).unwrap(), committed);
+        }
+    }
+
+    #[test]
+    fn replacement_pending_rejects_wrong_input_runtime_and_rehashed_target() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, _old_sidecar, _old_bytes) = transaction_fixture();
+        let root = directory.path();
+        let summary_path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let before = fs::read(&summary_path).unwrap();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_prepare")));
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("retain actual sealed pending");
+        let original = transaction_artifacts(root);
+        let mut wrong = input.clone();
+        wrong.rationale.push_str(" different decision");
+        record_work_item_material_review(root, ITEM, &wrong, &runtime)
+            .expect_err("wrong input cannot consume pending");
+        let mut wrong_runtime = runtime.clone();
+        wrong_runtime.runtime_digest = Digest::sha256_bytes(b"different fixture runtime");
+        record_work_item_material_review(root, ITEM, &input, &wrong_runtime)
+            .expect_err("wrong runtime cannot consume pending");
+        assert_eq!(transaction_artifacts(root), original);
+        assert_eq!(fs::read(&summary_path).unwrap(), before);
+        let name = format!(
+            "{}.prepare.json",
+            input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        );
+        let path = root
+            .join(".ai/evidence/material-inspection-review")
+            .join(ITEM)
+            .join(&name);
+        let mut envelope: PreparedMaterialReplacement =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        envelope.prepared.target_summary["injectedForeignSummaryField"] = serde_json::json!(true);
+        envelope.prepared_digest = replacement_prepared_digest(&envelope.prepared).unwrap();
+        fs::write(&path, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
+        let corrupted = transaction_artifacts(root);
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("rehashed target is not a valid sealed current decision");
+        assert_eq!(transaction_artifacts(root), corrupted);
+        assert_eq!(fs::read(summary_path).unwrap(), before);
+    }
+
+    #[test]
+    fn replacement_rechecks_source_review_and_summary_before_commit() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        for mutation in ["summary", "source", "review", "active-directory"] {
+            let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+            let root = directory.path();
+            let summary_path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+            let before = fs::read(&summary_path).unwrap();
+            let mut changed: serde_json::Value = serde_json::from_slice(&before).unwrap();
+            let old_pointer = changed["materialReviewReceipt"].clone();
+            let mutation_root = root.to_path_buf();
+            let mutation_summary = summary_path.clone();
+            match mutation {
+                "summary" => changed["concurrentFixtureNote"] = serde_json::json!(true),
+                "review" => {
+                    changed["decisionEvidence"]["recordedBy"] =
+                        serde_json::json!("human:unbound-fixture")
+                }
+                _ => {}
+            }
+            let expected = if ["source", "active-directory"].contains(&mutation) {
+                before.clone()
+            } else {
+                serde_json::to_vec_pretty(&changed).unwrap()
+            };
+            let callback_bytes = expected.clone();
+            REPLACEMENT_BEFORE_COMMIT.with(|callback| {
+                *callback.borrow_mut() = Some(Box::new(move || {
+                    if mutation == "source" {
+                        fs::write(
+                            mutation_root.join("README.md"),
+                            "source changed before commit\n",
+                        )
+                        .unwrap();
+                    } else if mutation == "active-directory" {
+                        let active = mutation_root.join(".ai/work-items/active");
+                        let previous =
+                            mutation_root.join(".ai/work-items/retained-active-before-swap");
+                        fs::rename(&active, &previous).unwrap();
+                        fs::create_dir(&active).unwrap();
+                        for entry in fs::read_dir(&previous).unwrap() {
+                            let entry = entry.unwrap();
+                            fs::copy(entry.path(), active.join(entry.file_name())).unwrap();
+                        }
+                    } else {
+                        fs::write(mutation_summary, callback_bytes).unwrap();
+                    }
+                }))
+            });
+            let result = record_work_item_material_review(root, ITEM, &input, &runtime);
+            let error = match result {
+                Err(error) => error,
+                Ok(_) => {
+                    let retained = directory.keep();
+                    panic!(
+                        "actual precommit mutation {mutation} must reject, retained {retained:?}"
+                    )
+                }
+            };
+            if mutation == "summary" {
+                assert!(error.to_string().contains("compare-and-swap"), "{error}");
+            }
+            assert_eq!(
+                fs::read(&summary_path).unwrap(),
+                expected,
+                "producer must preserve concurrent state"
+            );
+            let current: serde_json::Value =
+                serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+            assert_eq!(current["materialReviewReceipt"], old_pointer);
+            assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+            assert_eq!(
+                transaction_artifacts(root).len(),
+                3,
+                "staged evidence remains pending, not silently deleted"
+            );
+        }
     }
 
     #[test]
