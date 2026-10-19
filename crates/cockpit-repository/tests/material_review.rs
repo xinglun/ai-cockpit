@@ -288,29 +288,50 @@ fn segmented_authority_fixture() -> (
     let old_pointer = summary["materialReviewReceipt"].clone();
     let old_sidecar = root.join(old_pointer["path"].as_str().unwrap());
     let old_bytes = fs::read(&old_sidecar).unwrap();
-    amend_segmented_fixture(root, &runtime, "fixture-reviewed-mixed-history-A", json!([
-        {"path":"/scope", "operation":"add", "value":"docs/fixture-review.md"},
-        {"path":"/acceptanceCriteria", "operation":"add", "value":"retain complete reviewed native history"},
-        {"path":"/scenarioCoverage", "operation":"add", "value": {
-            "scenario":"native mixed historical amendment", "required":true,
-            "expected":"old receipt remains historical", "verificationPlan":"cargo test --test material_review",
-            "status":"unverified", "evidence":[]
-        }},
-        {"path":"/sources", "operation":"add", "value": {
-            "path":".ai/evidence/fixture-reviewed-history", "reason":"synthetic native context"
-        }}
-    ]));
-    let a = cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-        .unwrap();
-    assert!(a.effective_unknowns.contains(&"material_review_receipt_stale".into()));
-    amend_segmented_fixture(root, &runtime, "fixture-adjacent-authority-source-B", json!([{
-        "path":"/governanceProfile/materialInspectionReview/authoritySource",
-        "operation":"set", "value":"fixture:new-current-risk-source"
-    }]));
+    amend_segmented_fixture(
+        root,
+        &runtime,
+        "fixture-reviewed-mixed-history-A",
+        json!([
+            {"path":"/scope", "operation":"add", "value":"docs/fixture-review.md"},
+            {"path":"/acceptanceCriteria", "operation":"add", "value":"retain complete reviewed native history"},
+            {"path":"/scenarioCoverage", "operation":"add", "value": {
+                "scenario":"native mixed historical amendment", "required":true,
+                "expected":"old receipt remains historical", "verificationPlan":"cargo test --test material_review",
+                "status":"unverified", "evidence":[]
+            }},
+            {"path":"/sources", "operation":"add", "value": {
+                "path":".ai/evidence/fixture-reviewed-history", "reason":"synthetic native context"
+            }}
+        ]),
+    );
+    let a =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .unwrap();
+    assert!(
+        a.effective_unknowns
+            .contains(&"material_review_receipt_stale".into())
+    );
+    amend_segmented_fixture(
+        root,
+        &runtime,
+        "fixture-adjacent-authority-source-B",
+        json!([{
+            "path":"/governanceProfile/materialInspectionReview/authoritySource",
+            "operation":"set", "value":"fixture:new-current-risk-source"
+        }]),
+    );
     let request = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
     input.request_digest = request.request_digest;
     input.authority_source = "fixture:new-current-risk-source".into();
-    (directory, runtime, old_sidecar, old_bytes, old_pointer, input)
+    (
+        directory,
+        runtime,
+        old_sidecar,
+        old_bytes,
+        old_pointer,
+        input,
+    )
 }
 
 #[test]
@@ -318,14 +339,27 @@ fn segmented_authority_source_change_exposes_only_new_decision() {
     let (directory, runtime, old_sidecar, old_bytes, _pointer, _input) =
         segmented_authority_fixture();
     let root = directory.path();
-    let status = cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-        .expect("current exact fixture status");
-    assert!(status.effective_unknowns.contains(&"material_review_receipt_invalid".into()));
-    assert!(status.effective_unknowns.contains(&"repository_material_inspection_unavailable".into()));
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("current exact fixture status");
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
     assert!(status.review_receipt_digest.is_none());
     assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
-    assert!(status.safe_actions.contains(&"record_material_review_decision".into()),
-        "reviewed mixed history plus an adjacent source-only transition must permit only a NEW exact decision: {status:#?}");
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "reviewed mixed history plus an adjacent source-only transition must permit only a NEW exact decision: {status:#?}"
+    );
 }
 
 #[test]
