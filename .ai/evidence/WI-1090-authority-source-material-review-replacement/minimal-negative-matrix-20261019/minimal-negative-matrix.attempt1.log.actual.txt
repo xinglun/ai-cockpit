@@ -1,0 +1,22 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1090-material-replacement/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 3.10s
+     Running tests/material_review.rs (/workspace/scratch/wi1090-v4-verify-target-20261019/debug/deps/material_review-c71d29be6e2965a3)
+
+running 1 test
+test segmented_minimal_independent_integrity_boundaries ... FAILED
+
+failures:
+
+---- segmented_minimal_independent_integrity_boundaries stdout ----
+
+thread 'segmented_minimal_independent_integrity_boundaries' (656091) panicked at crates/cockpit-repository/tests/material_review.rs:960:22:
+individual native pairs remain internally valid, but predecessor forks R instead of A: State { path: "/tmp/.tmpEfk1Jl/.ai/evidence/WI-MATERIAL.contract-amendments", message: "Contract amendment prepared record failed its identity or digest chain" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    segmented_minimal_independent_integrity_boundaries
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 52 filtered out; finished in 9.63s
+
+error: test failed, to rerun pass `-p cockpit-repository --test material_review`

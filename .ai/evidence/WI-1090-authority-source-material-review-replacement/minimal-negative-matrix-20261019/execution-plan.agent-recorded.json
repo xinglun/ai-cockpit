@@ -1,0 +1,27 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T21:42:49.862626+00:00",
+  "sourceHead": "7bd427437d75b8222322662fde0125fbc37809a4",
+  "authorization": "Raydot delegated technical scope: minimum independent M2/M5 negative cases in existing two Rust files; source stable then one native seven-node formal run; no profile opt-in or risk consent",
+  "cases": [
+    "foreign native identity",
+    "disconnected predecessor with self-consistent native records",
+    "native forbidden base then tampered base rejection",
+    "nonterminal source-only anchor via native later amendment",
+    "direct Contract edit",
+    "stale current review",
+    "foreign current review",
+    "post-anchor committed Rust blob/hunk change",
+    "genuine foreign receipt in pointer history",
+    "journal symlink (Unix)"
+  ],
+  "invariants": [
+    "baseline eligible before mutation",
+    "projection no record action or fail closed",
+    "record rejects",
+    "all fixture .ai regular bytes, symlink targets and path set unchanged",
+    "old receipt unchanged and no new prepare/sidecar"
+  ],
+  "existingEquivalent": "missing current review, malformed/duplicate history, wrong current inputs, corrupt journal, pending tail and fake Summary anchor retained without duplication",
+  "riskConsent": "none; actual WI1090 material workflow separate"
+}

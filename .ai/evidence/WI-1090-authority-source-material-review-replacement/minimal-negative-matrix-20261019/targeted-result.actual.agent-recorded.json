@@ -1,0 +1,13 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T21:45:51.100265+00:00",
+  "testedHead": "5c5ce4a56cd43792014223292379c8813d48c836",
+  "productionCodeChanged": false,
+  "test": "segmented_minimal_independent_integrity_boundaries",
+  "independentCases": 10,
+  "attempt1": "exit101: test adversarial prepared serialization used Value key order; semantic-chain assertion not reached. This is not a product defect proof.",
+  "attempt2": "exit0 1/1, 11.13s test; native per-record-valid disconnected predecessor established before refusal.",
+  "assertions": "every copied baseline eligible, mutated projection absent action or fails closed, record Err, all .ai bytes/link targets/path set unchanged, original receipt unchanged; forbidden base Native amendment Err before attack; Rust afterblob and hunk and request differ; old and fresh inputs both refuse stale anchor",
+  "riskConsent": "None; proposed profile remains null and no actual consent file created",
+  "testSourceSha256": "34c75a96e883a1f607c6097a48493b2b168507b9c709c7b56655cd9c1c617267"
+}
