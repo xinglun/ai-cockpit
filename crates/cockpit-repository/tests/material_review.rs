@@ -841,14 +841,43 @@ fn segmented_wrong_current_inputs_publish_no_prepare_or_receipt() {
 
 // Resealing is exclusively adversarial fixture construction. It proves that
 // semantic/identity rejection does not merely depend on a stale outer hash.
+// Prepared hashes serialize this exact typed field order, not a sorted Value.
+#[derive(serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct SegmentedAttackPrepared {
+    schema_version: u32,
+    repository_id: String,
+    work_item_id: String,
+    sequence: u64,
+    request: cockpit_protocol::ContractAmendmentRequest,
+    request_digest: cockpit_core::Digest,
+    previous_contract: serde_json::Value,
+    previous_contract_digest: cockpit_core::Digest,
+    new_contract: serde_json::Value,
+    new_contract_digest: cockpit_core::Digest,
+    previous_summary_digest: cockpit_core::Digest,
+    repository_snapshot_digest: cockpit_core::Digest,
+    environment_observation_digest: cockpit_core::Digest,
+    runtime: cockpit_protocol::RuntimeContext,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    verification_started: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    checkpointed: Option<bool>,
+    previous_journal_digest: cockpit_core::Digest,
+    policy_review_requirements: Vec<String>,
+    legacy_input_digest: Option<cockpit_core::Digest>,
+    prepared_at: String,
+}
+
 fn reseal_segmented_journal_attack(
     journal: &Path,
     sequence: u64,
     mut prepared: serde_json::Value,
     mut committed: serde_json::Value,
 ) {
-    prepared["preparedDigest"] =
-        json!(cockpit_protocol::digest_json(&prepared["prepared"]).unwrap());
+    let typed: SegmentedAttackPrepared =
+        serde_json::from_value(prepared["prepared"].clone()).unwrap();
+    prepared["preparedDigest"] = json!(cockpit_protocol::digest_json(&typed).unwrap());
     committed["preparedDigest"] = prepared["preparedDigest"].clone();
     let mut core = committed["receipt"].clone();
     core.as_object_mut().unwrap().remove("journalDigest");
