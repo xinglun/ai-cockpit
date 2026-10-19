@@ -8177,34 +8177,11 @@ fn amendment_invalidated_verification_is_complete_history(
             Ok(receipt) => receipt,
             Err(_) => return Ok(false),
         };
-    let result_ids = typed
-        .results
-        .iter()
-        .map(|result| result.node_id.as_str())
-        .collect::<BTreeSet<_>>();
-    if !typed.passed
-        || typed.results.is_empty()
-        || typed.process_spawn_failures != 0
-        || typed
-            .results
-            .iter()
-            .any(|result| !result.passed || result.timed_out)
-        || result_ids.len() != typed.results.len()
-        || typed.nodes_planned != typed.results.len()
-        || typed.nodes_executed.checked_add(typed.nodes_reused) != Some(typed.nodes_planned)
-    {
-        return Ok(false);
-    }
-    if let Some(plan) = typed.plan_receipt.as_ref() {
-        let planned_ids = plan
-            .executed_nodes
-            .iter()
-            .chain(&plan.reused_nodes)
-            .map(String::as_str)
-            .collect::<BTreeSet<_>>();
-        if planned_ids != result_ids {
-            return Ok(false);
-        }
+    if !complete_historical_execution(&typed) {
+        return Err(ObserverError::State {
+            path,
+            message: "retained verification lacks a complete bound plan and successful durable execution records".into(),
+        });
     }
     let Some(old_digest) = envelope.contract_digest.as_ref() else {
         return Ok(false);
@@ -8218,7 +8195,15 @@ fn amendment_invalidated_verification_is_complete_history(
     else {
         return Ok(false);
     };
-    if predecessor.contract().base_revision != current.base_revision {
+    if predecessor.contract().base_revision != current.base_revision
+        || typed.plan_receipt.as_ref().is_none_or(|plan| {
+            plan.base_revision.as_deref() != Some(predecessor.contract().base_revision.as_str())
+                || plan.work_item_id.as_deref() != Some(current.work_item_id.as_str())
+                || plan.repository_id.as_deref() != Some(current.repository_id.as_str())
+                || plan.repository_snapshot_digest.as_deref()
+                    != Some(envelope.repository_snapshot_digest.as_str())
+        })
+    {
         return Ok(false);
     }
     // No current Runtime identity is inferred from an old producer. The
@@ -8243,6 +8228,86 @@ fn amendment_invalidated_verification_is_complete_history(
         });
     }
     Ok(true)
+}
+
+/// Historical recovery cannot rely on the general validator's compatibility
+/// lane for receipts without a coverage manifest or durable execution records.
+fn complete_historical_execution(typed: &cockpit_verification::VerificationReceipt) -> bool {
+    use cockpit_verification::{PlannedAction, PlannedSatisfaction};
+
+    let Some(plan) = typed.plan_receipt.as_ref() else {
+        return false;
+    };
+    let result_ids = typed
+        .results
+        .iter()
+        .map(|result| result.node_id.as_str())
+        .collect::<BTreeSet<_>>();
+    if !typed.passed
+        || typed.results.is_empty()
+        || typed.process_spawn_failures != 0
+        || typed
+            .results
+            .iter()
+            .any(|result| !result.passed || result.timed_out)
+        || result_ids.len() != typed.results.len()
+        || typed.nodes_planned != typed.results.len()
+        || typed.nodes_executed.checked_add(typed.nodes_reused) != Some(typed.nodes_planned)
+    {
+        return false;
+    }
+    let executed = plan
+        .executed_nodes
+        .iter()
+        .map(String::as_str)
+        .collect::<BTreeSet<_>>();
+    let reused = plan
+        .reused_nodes
+        .iter()
+        .map(String::as_str)
+        .collect::<BTreeSet<_>>();
+    if executed.len() != plan.executed_nodes.len()
+        || reused.len() != plan.reused_nodes.len()
+        || !executed.is_disjoint(&reused)
+        || executed.union(&reused).copied().collect::<BTreeSet<_>>() != result_ids
+        || executed.len() != typed.nodes_executed
+        || reused.len() != typed.nodes_reused
+        || typed.execution_records.len() != executed.len()
+        || typed.processes_spawned != typed.execution_records.len()
+        || typed.results.iter().any(|result| {
+            if result.reused {
+                !reused.contains(result.node_id.as_str())
+                    || result.action != PlannedAction::Reuse
+                    || result.satisfied_by != PlannedSatisfaction::ReusedReceipt
+                    || result.protected
+                    || result
+                        .receipt_id
+                        .as_deref()
+                        .is_none_or(|id| id.parse::<Digest>().is_err())
+            } else {
+                !executed.contains(result.node_id.as_str())
+                    || result.action != PlannedAction::Execute
+                    || result.satisfied_by != PlannedSatisfaction::Execution
+                    || result
+                        .output_digest
+                        .as_deref()
+                        .is_none_or(|digest| digest.parse::<Digest>().is_err())
+            }
+        })
+    {
+        return false;
+    }
+    let mut record_ids = BTreeSet::new();
+    typed.execution_records.iter().all(|record| {
+        record_ids.insert(record.node_id.as_str())
+            && executed.contains(record.node_id.as_str())
+            && record.command_digest.parse::<Digest>().is_ok()
+            && record.spawned
+            && record.passed
+            && record.exit_code == Some(0)
+            && record.termination_signal.is_none()
+            && !record.timed_out
+    })
 }
 
 fn verification_evidence_state_from_value_with_predecessor(

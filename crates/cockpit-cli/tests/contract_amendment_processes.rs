@@ -549,9 +549,16 @@ fn retained_history_with_unchanged_execution_bindings_preserves_valid_reuse() {
     let fixture = retained_canonical_amendment_fixture();
     let root = fixture.directory.path();
     let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
-    assert_success(
-        &retained_record_material(root, &retained_material_input(root)),
-        "same-source historical integrity still permits current material review",
+    let recorded = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_material_review_record",
+        json!({"workItemId": WORK_ITEM_ID, "decision": retained_material_input(root)}),
+    );
+    assert_eq!(
+        recorded.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{recorded}"
     );
     let plan = retained_cli(
         root,
@@ -628,13 +635,10 @@ fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh(
     let failed_result: Value =
         serde_json::from_slice(&failed.stdout).expect("failed execution result");
     assert!(
-        failed_result["receipt"]["processesSpawned"]
-            .as_u64()
-            .unwrap_or(0)
-            > 0,
+        failed_result["processesSpawned"].as_u64().unwrap_or(0) > 0,
         "{failed_result}"
     );
-    assert_eq!(failed_result["receipt"]["passed"], false);
+    assert_eq!(failed_result["passed"], false);
     assert_eq!(
         fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
             .expect("old canonical survives failed execution"),
@@ -743,6 +747,29 @@ fn assert_retained_history_rejection(baseline: &RetainedCanonicalFixture, case: 
         }
         "nested_failure" => {
             envelope["receipt"]["results"][0]["passed"] = json!(false);
+            envelope["receiptDigest"] =
+                json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
+        }
+        "missing_execution_records"
+        | "failed_execution_exit"
+        | "plan_result_mismatch"
+        | "missing_bound_plan" => {
+            match case {
+                "missing_execution_records" => envelope["receipt"]["executionRecords"] = json!([]),
+                "failed_execution_exit" => {
+                    envelope["receipt"]["executionRecords"][0]["exitCode"] = json!(23)
+                }
+                "plan_result_mismatch" => {
+                    envelope["receipt"]["planReceipt"]["executedNodes"][0] = json!("foreign-node")
+                }
+                "missing_bound_plan" => {
+                    envelope["receipt"]
+                        .as_object_mut()
+                        .expect("receipt")
+                        .remove("planReceipt");
+                }
+                _ => unreachable!(),
+            }
             envelope["receiptDigest"] =
                 json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
         }
@@ -903,6 +930,10 @@ fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorize
         "non_predecessor",
         "receipt_digest",
         "nested_failure",
+        "missing_execution_records",
+        "failed_execution_exit",
+        "plan_result_mismatch",
+        "missing_bound_plan",
         "producer_runtime_identity",
         "unsupported_schema",
         "unsupported_protocol",
