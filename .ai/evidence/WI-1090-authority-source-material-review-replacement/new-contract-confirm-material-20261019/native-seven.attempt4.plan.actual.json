@@ -1,0 +1,327 @@
+{
+  "coverageManifest": null,
+  "nodesPlanned": 7,
+  "nodesReused": 0,
+  "nodesToExecute": 7,
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:ce2c9ae868a8efaad6c3546f38fc8d3f1d4faba695608ee366e69653f48413b3",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "project-command-0",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    },
+    {
+      "action": "execute",
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--package",
+        "cockpit-cli",
+        "--package",
+        "cockpit-mcp",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:a09e600b33dd88a04af65741b4f05970189efd3f466292f4ea29e7bca59863c2",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "project-command-1",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--lib",
+        "material_review"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:7e43b03f3ff7c0958553ebd4f4c0009b507a6c301cffe519d1cffac07a28bd38",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "project-command-2",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--test",
+        "material_review"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:7692b87bddf8bc718a41673497bb87bc59f605abab25b3f0d32f5a8e37aa32e3",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "project-command-3",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--test",
+        "status_projection"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:00426349510c809883aa73fdd8b200465bf116bb8828f5d65b951114f60cb822",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "project-command-4",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--test",
+        "contract_amendment_processes"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:4717c47bbe034a8fb51da1b9a427c9ed99c31074e827f6ea9686a333b6b05469",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "project-command-5",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp",
+        "--test",
+        "material_review"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:3112eecf8ad176561e53200a4717f2bf2939e38ced03e72a6caffc3608b9fb54",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "project-command-6",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 600
+    }
+  ],
+  "processesSpawned": 0,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "requests": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--package",
+        "cockpit-cli",
+        "--package",
+        "cockpit-mcp",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--lib",
+        "material_review"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--test",
+        "material_review"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--test",
+        "status_projection"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--test",
+        "contract_amendment_processes"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp",
+        "--test",
+        "material_review"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-6",
+      "program": "cargo",
+      "timeoutSeconds": 600
+    }
+  ],
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "state": "planned",
+  "timeoutSeconds": 600,
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}

@@ -1,0 +1,47 @@
+
+running 42 tests
+test all_work_item_status_is_sorted_counted_and_digest_stable ... ok
+test all_work_item_status_keeps_malformed_member_as_visible_unknown ... ok
+test all_work_item_status_rejects_foreign_contract_identity ... ok
+test checkpointed_sensitive_amendment_never_admits_verification_before_review ... ok
+test concurrent_all_work_item_status_is_repository_isolated ... ok
+test current_archive_without_close_blocks_new_work_item_entry ... ok
+test finish_and_archive_reject_canonical_material_unknowns ... ok
+test foreign_close_repository_identity_never_promotes_archived_status ... ok
+test historical_noncanonical_close_receipt_does_not_block_new_work_item_entry ... ok
+test incomplete_successor_does_not_resolve_preserved_historical_close ... ok
+test invalid_close_decision_never_promotes_archived_status ... ok
+test legacy_closed_archive_does_not_block_new_work_item_entry ... ok
+test malformed_recovery_receipt_cannot_authorize_archived_scope_overlap ... ok
+test mismatched_recovery_edge_cannot_skip_unknown_historical_scope ... ok
+test only_the_explicitly_named_recovery_successor_may_overlap_archived_scope ... ok
+test ordinary_cleanup_keeps_unobservable_worktree_unknown_instead_of_verified_removed ... ok
+test ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_removed ... ok
+test ordinary_cleanup_rejects_tampered_binding_without_writing_a_receipt ... ok
+test ordinary_cleanup_summary_rejects_an_invalid_close_decision ... ok
+test ordinary_close_keeps_verified_work_result_while_cleanup_is_pending ... ok
+test ordinary_close_preserves_cleanup_binding_for_valid_historical_evidence ... ok
+test ordinary_close_rejects_primary_discovered_default_checkout_without_writing_receipts ... ok
+test ordinary_close_rejects_unprovable_worktree_binding_without_writing_receipts ... ok
+test ordinary_work_item_keeps_unknown_historical_scope_blocking ... ok
+test recovery_successor_can_skip_a_proven_disjoint_unknown_historical_scope ... ok
+test status_does_not_admit_finish_when_required_scenario_controls_are_incomplete ... ok
+test status_progress_counts_array_acceptance_evidence_entries ... ok
+test status_projection_distinguishes_archived_from_valid_closed_decision ... ok
+test status_projection_is_read_only_and_contains_fact_counts ... ok
+test status_projection_isolated_between_repositories ... ok
+test status_projection_keeps_material_finding_categories_distinct ... ok
+test status_projection_recommends_resource_actions_in_prerequisite_order ... ok
+test status_projection_routes_failed_provider_and_release_work_to_recovery_first ... ok
+test status_projection_selects_recovery_guide_for_invalid_verification_evidence ... ok
+test status_rechecks_committed_contract_base_material_with_empty_worktree_diff ... ok
+test successor_contract_uses_its_exact_append_only_recovery_path_for_scope_lineage ... ok
+test tampered_successor_does_not_resolve_preserved_historical_close ... ok
+test terminal_successor_recovery_resolves_preserved_historical_close ... ok
+test test_weakening_scanner_distinguishes_diagnostic_text_from_bypass_calls ... ok
+test unavailable_material_projection_blocks_verification_even_with_pending_retry ... ok
+test verified_checkpoint_requires_fresh_green_preflight_before_finish ... ok
+test verified_checkpointed_item_source_is_inspectable_as_path_composition ... ok
+
+test result: ok. 42 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 31.23s
+
