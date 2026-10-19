@@ -47,6 +47,26 @@ const MAX_PATCH_BYTES: usize = MAX_BOUNDED_GIT_OUTPUT_BYTES;
 const MAX_ACTIVE_CONTRACT_BYTES: u64 = MAX_BOUNDED_GIT_OUTPUT_BYTES as u64;
 const MATERIAL_REVIEW_EVIDENCE_DIRECTORY: &str = "material-inspection-review";
 
+#[cfg(test)]
+thread_local! {
+    static REPLACEMENT_FAILURE: std::cell::Cell<Option<&'static str>> = const { std::cell::Cell::new(None) };
+}
+
+#[cfg(test)]
+fn replacement_test_boundary(root: &Path, stage: &'static str) -> Result<(), ObserverError> {
+    REPLACEMENT_FAILURE.with(|failure| {
+        if failure.get() == Some(stage) {
+            failure.set(None);
+            Err(replacement_error(
+                root,
+                format!("injected interruption: {stage}"),
+            ))
+        } else {
+            Ok(())
+        }
+    })
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum MaterialScannerAssessment {
@@ -2767,6 +2787,10 @@ pub fn record_work_item_material_review(
         &sidecar_path,
         &sidecar_bytes,
     )?;
+    #[cfg(test)]
+    if replacement_proof.is_some() {
+        replacement_test_boundary(&root, "after_sidecar")?;
+    }
     super::atomic_json(&active_path.join(summary_name), &summary)?;
     Ok(receipt)
 }
@@ -2774,6 +2798,199 @@ pub fn record_work_item_material_review(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn transaction_git(root: &Path, args: &[&str]) {
+        let output = std::process::Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .output()
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    fn transaction_fixture_amend(
+        root: &Path,
+        runtime: &RuntimeContext,
+        changes: serde_json::Value,
+    ) {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let path = root.join(format!(".ai/work-items/active/{ITEM}.contract.json"));
+        let contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        let sequence = crate::read_work_item_contract_amendments(root, ITEM)
+            .unwrap()
+            .len()
+            + 1;
+        crate::amend_work_item_contract_with_runtime(root, ITEM, &serde_json::json!({
+            "schemaVersion":1, "changeId":format!("synthetic-transaction-{sequence}"),
+            "expectedContractDigest":digest_json(&contract).unwrap(),
+            "reason":"Synthetic native transaction fixture, not actual person authority.", "changes":changes
+        }), "", runtime).unwrap();
+        crate::preflight_work_item_with_runtime(root, &path, runtime).unwrap();
+        let contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        let summary: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.join(format!(".ai/work-items/active/{ITEM}.summary.json"))).unwrap(),
+        )
+        .unwrap();
+        crate::record_work_item_governance_controls_with_runtime(root, ITEM, &serde_json::json!({"decisionEvidence":{
+            "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
+            "repositoryId":crate::repository_id(root).to_string(), "workItemId":ITEM,
+            "contractDigest":digest_json(&contract).unwrap(), "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos,true),
+            "recordedBy":"human:transaction-fixture", "reason":"Synthetic exact native fixture review; no real person impersonated."
+        }}), runtime).unwrap();
+    }
+
+    fn transaction_fixture() -> (
+        tempfile::TempDir,
+        RuntimeContext,
+        MaterialInspectionReviewDecisionInput,
+        PathBuf,
+        Vec<u8>,
+    ) {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let directory = tempfile::tempdir().unwrap();
+        let root = directory.path();
+        transaction_git(root, &["init", "-q"]);
+        fs::write(root.join("README.md"), "base\n").unwrap();
+        transaction_git(root, &["add", "."]);
+        transaction_git(
+            root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "base",
+            ],
+        );
+        crate::attach(root).unwrap();
+        let runtime = RuntimeContext {
+            runtime_version: "transaction-fixture".into(),
+            runtime_digest: Digest::sha256_bytes(b"transaction-fixture"),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        };
+        crate::start_work_item_with_options_and_runtime(
+            root,
+            ITEM,
+            "recover an exact material decision",
+            "preserve history during replacement",
+            &["README.md".into(), "src/**".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                risk: "high".into(),
+                acceptance_criteria: vec!["bounded synthetic current decision".into()],
+                ..Default::default()
+            },
+            &runtime,
+        )
+        .unwrap();
+        fs::create_dir_all(root.join("src")).unwrap();
+        fs::write(root.join("src/material.rs"),"fn material() -> String { let mut text=String::from(\"token\"); text.push_str(\"ization\"); text }\n").unwrap();
+        transaction_git(root, &["add", "."]);
+        transaction_git(
+            root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "material",
+            ],
+        );
+        transaction_fixture_amend(
+            root,
+            &runtime,
+            serde_json::json!([{"path":"/governanceProfile","operation":"set","value":{"materialInspectionReview":{
+                "schemaVersion":1,"permittedUnknown":"repository_material_inspection_unavailable","permittedCause":"readable_committed_rust_syntax_unknown",
+                "assurance":"self_declared","reviewerActor":"agent:transaction-fixture","authoritySource":"fixture:old-risk","acceptResidualRisk":true
+            }}}]),
+        );
+        let request = crate::plan_work_item_material_review(root, ITEM).unwrap();
+        let mut input: MaterialInspectionReviewDecisionInput = serde_json::from_value(serde_json::json!({
+            "schemaVersion":1,"decision":"accept_permitted_unknowns","requestDigest":request.request_digest,
+            "reviewerActor":"agent:transaction-fixture","authoritySource":"fixture:old-risk","assurance":"self_declared",
+            "evidenceRefs":[{"path":"synthetic-review","digest":Digest::sha256_bytes(b"synthetic review")}],
+            "rationale":"Synthetic fixture reviews its exact material.","residualRisk":"Synthetic readable syntax scanner unknown."
+        })).unwrap();
+        record_work_item_material_review(root, ITEM, &input, &runtime).unwrap();
+        let summary: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.join(format!(".ai/work-items/active/{ITEM}.summary.json"))).unwrap(),
+        )
+        .unwrap();
+        let old_sidecar = root.join(summary["materialReviewReceipt"]["path"].as_str().unwrap());
+        let old_bytes = fs::read(&old_sidecar).unwrap();
+        transaction_fixture_amend(
+            root,
+            &runtime,
+            serde_json::json!([
+                {"path":"/scope","operation":"add","value":"docs/fixture.md"},
+                {"path":"/acceptanceCriteria","operation":"add","value":"retain native mixed history"},
+                {"path":"/scenarioCoverage","operation":"add","value":{"scenario":"replacement transaction","required":true,"status":"unverified","evidence":[],"expected":"recover exact pending decision","verificationPlan":"cargo test --lib material_review"}},
+                {"path":"/sources","operation":"add","value":{"path":".ai/evidence/synthetic-history","reason":"synthetic native history"}}
+            ]),
+        );
+        transaction_fixture_amend(
+            root,
+            &runtime,
+            serde_json::json!([{"path":"/governanceProfile/materialInspectionReview/authoritySource","operation":"set","value":"fixture:new-risk"}]),
+        );
+        input.request_digest = crate::plan_work_item_material_review(root, ITEM)
+            .unwrap()
+            .request_digest;
+        input.authority_source = "fixture:new-risk".into();
+        (directory, runtime, input, old_sidecar, old_bytes)
+    }
+
+    #[test]
+    fn replacement_pending_retry_reuses_immutable_receipt() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+        let root = directory.path();
+        let summary = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let before = fs::read(&summary).unwrap();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_sidecar")));
+        let error = record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("actual injected interruption");
+        assert!(error.to_string().contains("injected interruption"));
+        assert_eq!(fs::read(&summary).unwrap(), before);
+        assert_eq!(fs::read(&old_sidecar).unwrap(), old_bytes);
+        let sidecar = root.join(format!(
+            ".ai/evidence/material-inspection-review/{ITEM}/{}.json",
+            input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        ));
+        let staged =
+            fs::read(&sidecar).expect("immutable current sidecar published before interruption");
+        let retried = record_work_item_material_review(root, ITEM, &input, &runtime);
+        let receipt = match retried {
+            Ok(receipt) => receipt,
+            Err(error) => {
+                let retained = directory.keep();
+                panic!(
+                    "exact pending retry must reuse staged original receipt; retained {retained:?}: {error}"
+                )
+            }
+        };
+        assert_eq!(serde_json::to_vec_pretty(&receipt).unwrap(), staged);
+        assert_eq!(fs::read(sidecar).unwrap(), staged);
+        assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("committed replay rejects");
+    }
 
     #[test]
     fn material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract() {
