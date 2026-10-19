@@ -3,18 +3,54 @@
   "checkpointAt": "2026-10-19T04:29:52Z",
   "checkpointContractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+      "recorded": true,
+      "recordedAt": "2026-10-19T04:29:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+      "previousContractHash": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+      "reason": "After actual human:Ray residual-risk authorization, apply Raydot-approved tri-language parity registration and one exact bounded material-review opt-in, with repository material-review tests added to verification; preserve the seven existing source paths and all prior verification checks.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T05:11:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
   "createdAt": "2026-10-19T04:22:04Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+    "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
-    "reason": "Ray explicitly replied \"确认上述 WI-1089 绑定，confirm_review\" as relayed by Raydot (source IDs Sentinel_52e516f8e8648191b99301bc260832e1 and Sentinel_2395e00d946881918bdeafac19cd95f6); provenance at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/start-20261019/human-contract-review-relayed.agent-recorded.json. This confirms only the exact amended Contract, not material residual risk.",
-    "recordedAt": "2026-10-19T04:29:14Z",
+    "preflightDecisionDigest": "sha256:09b50c73414c6cc5db4c81c858aa50309b331fdedd1119a89f4b922a9544bcb4",
+    "reason": "Ray replied literally confirm_review at 2026-10-19 05:14 UTC to Raydot request Sentinel_9074840549a08191bdbd7a70818ad851; reply Sentinel_033238439f408191837db4dff3eb632f. Agent:Codex records the relayed human decision; exact words, binding and provenance limit at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json. Confirms only amended Contract; not material review, verification, merge or close.",
+    "recordedAt": "2026-10-19T05:15:31Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
     "schemaVersion": 1,
     "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
   },
@@ -29,11 +65,11 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-19T04:24:18Z",
-  "preflightContractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
-  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
-  "preflightRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
-  "preflightState": "yellow",
+  "preflightAt": "2026-10-19T05:11:52Z",
+  "preflightContractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "preflightDecisionDigest": "sha256:09b50c73414c6cc5db4c81c858aa50309b331fdedd1119a89f4b922a9544bcb4",
+  "preflightRepositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+  "preflightState": "red",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -79,6 +115,11 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-19T04:53:54.961026814+00:00",
+  "updatedAt": "2026-10-19T05:15:36.810722476+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-19T05:11:27Z"
+  },
   "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
 }

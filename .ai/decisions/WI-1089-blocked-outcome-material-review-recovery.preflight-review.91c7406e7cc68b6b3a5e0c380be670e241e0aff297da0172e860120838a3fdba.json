@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:09b50c73414c6cc5db4c81c858aa50309b331fdedd1119a89f4b922a9544bcb4",
+  "reason": "Ray replied literally confirm_review at 2026-10-19 05:14 UTC to Raydot request Sentinel_9074840549a08191bdbd7a70818ad851; reply Sentinel_033238439f408191837db4dff3eb632f. Agent:Codex records the relayed human decision; exact words, binding and provenance limit at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json. Confirms only amended Contract; not material review, verification, merge or close.",
+  "recordedAt": "2026-10-19T05:15:31Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+  "schemaVersion": 1,
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+}

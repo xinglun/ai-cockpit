@@ -1,0 +1,20 @@
+{
+  "kind": "human_contract_review_transcript_relay_agent_recorded_not_native_receipt",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "humanActorAsRelayed": "human:Ray",
+  "relay": "agent:Raydot via parent thread",
+  "recorder": "agent:Codex",
+  "raydotRequestSourceId": "Sentinel_9074840549a08191bdbd7a70818ad851",
+  "rayReplySourceId": "Sentinel_033238439f408191837db4dff3eb632f",
+  "rayReplyTimeAsRelayed": "2026-10-19 05:14 UTC",
+  "rayReplyVerbatim": "confirm_review",
+  "raydotRequestVerbatim": "合并修约已完成，三份 Rust 内容未变。还需确认生成后的新 Contract 绑定，才能补文档登记、记录材料审阅并正式验证。\n\nWI：WI-1089-blocked-outcome-material-review-recovery\nHEAD：aab9205ea103ea0287585aa7f4a4a99512c5a725\nBase：b8ec2690976ab4c554aa9f5b2aa7fcca715156ca\nRepository ID：ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b\n新 Contract：17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07\nPreflight：09b50c73414c6cc5db4c81c858aa50309b331fdedd1119a89f4b922a9544bcb4\nSnapshot：a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80\n\n变更仅为已说明的三语登记范围、有限材料审阅配置与批准来源，以及一条材料回归命令。\n\n请回复「确认 WI-1089 新 Contract 绑定，confirm_review」。",
+  "decisionId": "contract-preflight-review",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "preflightDecisionDigest": "sha256:09b50c73414c6cc5db4c81c858aa50309b331fdedd1119a89f4b922a9544bcb4",
+  "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+  "baseCommit": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "headAtRequest": "aab9205ea103ea0287585aa7f4a4a99512c5a725",
+  "scopeOfDecision": "Confirm only the newly amended WI-1089 Contract at this exact preflight binding. This is separate from the earlier bounded material scanner residual-risk acceptance and does not assert that agent:Raydot has completed the independent material review, any formal verification, merge, or close.",
+  "provenanceLimit": "The recorder saw a parent-thread transcript relay, not a direct host-authenticated Ray message. Sentinel identifiers are quoted as relay references only; no Sentinel checkout or tool was accessed."
+}
