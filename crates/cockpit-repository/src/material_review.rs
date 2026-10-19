@@ -33,7 +33,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     fs::{self, File},
     io,
-    path::Path,
+    path::{Path, PathBuf},
 };
 use thiserror::Error;
 
@@ -1288,6 +1288,14 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
             Ok(MaterialReviewReceiptState::Current(receipt)) => (Some(*receipt), false),
             Ok(MaterialReviewReceiptState::Stale) => (None, true),
             Err(_error) => {
+                let review_decision_available = finite_authority_source_replacement_proof(
+                    root,
+                    contract,
+                    contract_digest,
+                    &request,
+                    summary_path,
+                )
+                .is_ok_and(|proof| proof.is_some());
                 let mut effective_unknowns = request.raw_unknown_codes.clone();
                 effective_unknowns.push("material_review_receipt_invalid".into());
                 effective_unknowns.sort();
@@ -1304,7 +1312,7 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
                     finding_codes: request.finding_codes,
                     blocked_by_finding,
                     projection_unavailable: false,
-                    review_decision_available: false,
+                    review_decision_available,
                 });
             }
         };
@@ -1566,13 +1574,23 @@ pub(crate) fn require_material_review_gate(
     Ok(projection)
 }
 
-fn read_material_review_receipt(
+struct BoundMaterialReviewReceipt {
+    root: PathBuf,
+    summary: serde_json::Value,
+    pointer: serde_json::Value,
+    receipt: MaterialInspectionReviewDecisionReceipt,
+    sidecar_path: PathBuf,
+    stale_request: bool,
+}
+
+/// Only immutable file/pointer integrity. Current-profile validity is kept in
+/// the strict reader below; historical integrity alone grants no discharge.
+fn read_material_review_receipt_binding(
     root: &Path,
     contract: &Contract,
-    contract_digest: &Digest,
     request: &MaterialReviewRequest,
     summary_path: &Path,
-) -> Result<MaterialReviewReceiptState, ObserverError> {
+) -> Result<Option<BoundMaterialReviewReceipt>, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,
@@ -1629,7 +1647,7 @@ fn read_material_review_receipt(
     ) {
         Ok(bytes) => bytes,
         Err(_error) if !summary_path.exists() => {
-            return Ok(MaterialReviewReceiptState::Missing);
+            return Ok(None);
         }
         Err(error) => return Err(error),
     };
@@ -1643,7 +1661,7 @@ fn read_material_review_receipt(
             message: format!("invalid Summary JSON: {error}"),
         })?;
     let Some(pointer) = summary.get("materialReviewReceipt") else {
-        return Ok(MaterialReviewReceiptState::Missing);
+        return Ok(None);
     };
     let path = pointer.get("path").and_then(serde_json::Value::as_str);
     let file_digest = pointer.get("digest").and_then(serde_json::Value::as_str);
@@ -1730,6 +1748,33 @@ fn read_material_review_receipt(
                 .into(),
         });
     }
+    Ok(Some(BoundMaterialReviewReceipt {
+        root,
+        pointer: pointer.clone(),
+        summary,
+        receipt,
+        sidecar_path,
+        stale_request,
+    }))
+}
+
+fn read_material_review_receipt(
+    root: &Path,
+    contract: &Contract,
+    contract_digest: &Digest,
+    request: &MaterialReviewRequest,
+    summary_path: &Path,
+) -> Result<MaterialReviewReceiptState, ObserverError> {
+    let Some(BoundMaterialReviewReceipt {
+        root,
+        receipt,
+        sidecar_path,
+        stale_request,
+        ..
+    }) = read_material_review_receipt_binding(root, contract, request, summary_path)?
+    else {
+        return Ok(MaterialReviewReceiptState::Missing);
+    };
     let current_profile = contract
         .material_inspection_review_profile()
         .map_err(|message| ObserverError::State {
@@ -1830,6 +1875,421 @@ fn read_material_review_receipt(
         });
     }
     Ok(MaterialReviewReceiptState::Current(Box::new(receipt)))
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct AuthoritySourceReplacementProof {
+    prior_pointer: serde_json::Value,
+    prior_receipt_digest: Digest,
+    historical_bindings_digest: Digest,
+    journal_digest: Digest,
+    current_review_digest: Digest,
+    repository_snapshot_digest: Digest,
+}
+
+fn replacement_error(path: &Path, message: impl Into<String>) -> ObserverError {
+    ObserverError::State {
+        path: path.into(),
+        message: format!("finite material-review replacement: {}", message.into()),
+    }
+}
+
+fn replacement_json(
+    directory: &Dir,
+    name: &str,
+    path: &Path,
+) -> Result<(serde_json::Value, Digest), ObserverError> {
+    let bytes =
+        read_cap_file_nofollow_bounded(directory, name, path, MAX_BOUNDED_GIT_OUTPUT_BYTES as u64)?;
+    super::reject_duplicate_json_keys(&bytes)
+        .map_err(|message| replacement_error(path, message))?;
+    let value = serde_json::from_slice(&bytes)
+        .map_err(|error| replacement_error(path, error.to_string()))?;
+    Ok((value, Digest::sha256_bytes(&bytes)))
+}
+
+/// Objects are compared recursively; a changed collection is one semantic
+/// field. This supports a native whole-profile replace without hiding leaves.
+fn replacement_changed_paths(
+    before: &serde_json::Value,
+    after: &serde_json::Value,
+    prefix: &str,
+    paths: &mut Vec<String>,
+) {
+    if before == after {
+        return;
+    }
+    if let (Some(before), Some(after)) = (before.as_object(), after.as_object()) {
+        let keys = before.keys().chain(after.keys()).collect::<BTreeSet<_>>();
+        for key in keys {
+            let escaped = key.replace('~', "~0").replace('/', "~1");
+            replacement_changed_paths(
+                before.get(key).unwrap_or(&serde_json::Value::Null),
+                after.get(key).unwrap_or(&serde_json::Value::Null),
+                &format!("{prefix}/{escaped}"),
+                paths,
+            );
+        }
+    } else {
+        paths.push(prefix.to_owned());
+    }
+}
+
+fn replacement_review_matches(
+    value: &serde_json::Value,
+    contract: &Contract,
+    digest: &Digest,
+    snapshot: &Digest,
+) -> bool {
+    let valid_digest_field = |key: &str| {
+        value[key]
+            .as_str()
+            .and_then(|text| text.parse::<Digest>().ok())
+            .is_some_and(|digest| valid_digest(&digest))
+    };
+    value["schemaVersion"] == 1
+        && value["decisionId"] == "contract-preflight-review"
+        && value["decision"] == "confirm_review"
+        && value["repositoryId"] == contract.repository_id
+        && value["workItemId"] == contract.work_item_id
+        && value["contractDigest"].as_str() == Some(digest.as_str())
+        && value["repositorySnapshotDigest"].as_str() == Some(snapshot.as_str())
+        && valid_digest_field("preflightDecisionDigest")
+        && value["recordedAt"]
+            .as_str()
+            .is_some_and(valid_utc_runtime_timestamp)
+        && ["recordedBy", "reason"].iter().all(|key| {
+            value[*key]
+                .as_str()
+                .is_some_and(|text| !text.trim().is_empty() && text.trim() == text)
+        })
+}
+
+fn replacement_review_records(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Vec<(serde_json::Value, Digest)>, ObserverError> {
+    let root_dir =
+        Dir::open_ambient_dir(root, ambient_authority()).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let path = root.join(".ai/decisions");
+    let directory = open_cap_directory_nofollow_strict(&ai, "decisions", &path)?;
+    let mut names = Vec::new();
+    for entry in directory.entries().map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if names.len() >= MAX_MATERIAL_CHANGED_FILES {
+            return Err(replacement_error(
+                &path,
+                "too many historical review records",
+            ));
+        }
+        let name = entry.file_name();
+        let Some(name) = name.to_str() else { continue };
+        if name.starts_with(&format!("{work_item_id}.preflight-review")) && name.ends_with(".json")
+        {
+            names.push(name.to_owned());
+        }
+    }
+    names.sort();
+    names
+        .into_iter()
+        .map(|name| replacement_json(&directory, &name, &path.join(&name)))
+        .collect()
+}
+
+/// H/P/C0 is a separate eligibility for NEW evidence, never a replacement for
+/// strict current receipt validation or current Runtime action admission.
+fn finite_authority_source_replacement_proof(
+    root: &Path,
+    contract: &Contract,
+    contract_digest: &Digest,
+    request: &MaterialReviewRequest,
+    summary_path: &Path,
+) -> Result<Option<AuthoritySourceReplacementProof>, ObserverError> {
+    const SOURCE: &str = "/governanceProfile/materialInspectionReview/authoritySource";
+    const HISTORY: &[&str] = &["scope", "acceptanceCriteria", "scenarioCoverage", "sources"];
+    let unknowns = request
+        .entries
+        .iter()
+        .filter(|entry| entry.scanner_assessment == MaterialScannerAssessment::Unknown)
+        .collect::<Vec<_>>();
+    if !request.review_enabled
+        || contract.authority != "authorized"
+        || request.blocked_by_finding
+        || !request.finding_codes.is_empty()
+        || request.raw_unknown_codes != ["repository_material_inspection_unavailable"]
+        || unknowns.is_empty()
+        || unknowns
+            .iter()
+            .any(|entry| !entry.reviewable || entry.after_blob_digest.is_none())
+    {
+        return Ok(None);
+    }
+    let Some(bound) = read_material_review_receipt_binding(root, contract, request, summary_path)?
+    else {
+        return Ok(None);
+    };
+    let profile = contract
+        .material_inspection_review_profile()
+        .map_err(|message| replacement_error(root, message))?
+        .ok_or_else(|| replacement_error(root, "current profile missing"))?;
+    if !bound.stale_request
+        || json_digest(&profile).map_err(|error| replacement_error(root, error.to_string()))?
+            == bound.receipt.profile_digest
+    {
+        return Ok(None);
+    }
+    if bound.summary["workItemId"] != contract.work_item_id
+        || bound.summary["repositoryId"] != contract.repository_id
+        || bound
+            .summary
+            .get("materialReviewReceiptHistory")
+            .is_some_and(|value| !value.is_array())
+    {
+        return Err(replacement_error(
+            summary_path,
+            "invalid historical Summary identity/history",
+        ));
+    }
+    let history = super::read_work_item_contract_amendments(root, &contract.work_item_id)?;
+    super::contract_amendment::validate_transition_chain(
+        root,
+        &contract.work_item_id,
+        &history,
+        Some(contract_digest),
+    )?;
+    let Some(tail) = history.last() else {
+        return Ok(None);
+    };
+    if tail.new_contract_digest != *contract_digest {
+        return Err(replacement_error(
+            root,
+            "current Contract is not the committed native tail",
+        ));
+    }
+    let starts = history
+        .iter()
+        .enumerate()
+        .filter_map(|(index, item)| {
+            (item.previous_contract_digest == bound.receipt.contract_digest).then_some(index)
+        })
+        .collect::<Vec<_>>();
+    let [start] = starts.as_slice() else {
+        return Ok(None);
+    };
+    let root_dir =
+        Dir::open_ambient_dir(root, ambient_authority()).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let evidence = open_cap_directory_nofollow_strict(&ai, "evidence", &root.join(".ai/evidence"))?;
+    let name = format!("{}.contract-amendments", contract.work_item_id);
+    let path = root.join(".ai/evidence").join(&name);
+    let directory = open_cap_directory_nofollow_strict(&evidence, &name, &path)?;
+    let reviews = replacement_review_records(root, &contract.work_item_id)?;
+    let mut raw_bindings = Vec::new();
+    let mut old_profile = None;
+    let mut expected = bound.receipt.contract_digest.clone();
+    for (index, item) in history.iter().enumerate() {
+        let prepared_name = format!("{:08}.prepared.json", item.sequence);
+        let committed_name = format!("{:08}.committed.json", item.sequence);
+        let (prepared, prepared_raw) =
+            replacement_json(&directory, &prepared_name, &path.join(&prepared_name))?;
+        let (committed, committed_raw) =
+            replacement_json(&directory, &committed_name, &path.join(&committed_name))?;
+        let native: cockpit_protocol::ContractAmendmentReceipt =
+            serde_json::from_value(committed["receipt"].clone())
+                .map_err(|error| replacement_error(&path, error.to_string()))?;
+        let data = &prepared["prepared"];
+        let before: Contract = serde_json::from_value(data["previousContract"].clone())
+            .map_err(|error| replacement_error(&path, error.to_string()))?;
+        let after: Contract = serde_json::from_value(data["newContract"].clone())
+            .map_err(|error| replacement_error(&path, error.to_string()))?;
+        let amendment: cockpit_protocol::ContractAmendmentRequest =
+            serde_json::from_value(data["request"].clone())
+                .map_err(|error| replacement_error(&path, error.to_string()))?;
+        if native != *item
+            || prepared["preparedDigest"] != committed["preparedDigest"]
+            || json_digest(&data["previousContract"])
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+                != item.previous_contract_digest
+            || json_digest(&data["newContract"])
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+                != item.new_contract_digest
+            || json_digest(&amendment)
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+                != item.request_digest
+            || data["repositorySnapshotDigest"].as_str()
+                != Some(item.repository_snapshot_digest.as_str())
+        {
+            return Err(replacement_error(
+                &path,
+                "raw historical inputs changed after native validation",
+            ));
+        }
+        let (derived, _) =
+            cockpit_protocol::apply_contract_amendment_with_trace(&before, &amendment)
+                .map_err(|_| replacement_error(&path, "historical operation replay rejected"))?;
+        if derived != after {
+            return Err(replacement_error(
+                &path,
+                "historical replay does not reach recorded Contract",
+            ));
+        }
+        raw_bindings.extend([prepared_raw, committed_raw]);
+        if item.policy_review_required {
+            let Some((_, digest)) = reviews.iter().find(|(value, _)| {
+                replacement_review_matches(
+                    value,
+                    contract,
+                    &item.new_contract_digest,
+                    &item.repository_snapshot_digest,
+                )
+            }) else {
+                return Err(replacement_error(
+                    &path,
+                    "a required historical Contract review is missing or foreign",
+                ));
+            };
+            raw_bindings.push(digest.clone());
+        }
+        if index < *start {
+            continue;
+        }
+        if item.previous_contract_digest != expected {
+            return Err(replacement_error(
+                &path,
+                "receipt-to-anchor segment is discontinuous",
+            ));
+        }
+        expected = item.new_contract_digest.clone();
+        if index == *start {
+            old_profile = before
+                .material_inspection_review_profile()
+                .map_err(|message| replacement_error(&path, message))?;
+        }
+        let mut changes = Vec::new();
+        replacement_changed_paths(
+            &data["previousContract"],
+            &data["newContract"],
+            "",
+            &mut changes,
+        );
+        if index + 1 == history.len() {
+            if changes != [SOURCE] || item.changed_values.len() != 1 {
+                return Err(replacement_error(
+                    &path,
+                    "last adjacent transition is not one source-only change",
+                ));
+            }
+            let change = &item.changed_values[0];
+            let mut leaves = Vec::new();
+            replacement_changed_paths(
+                change
+                    .old_value
+                    .as_ref()
+                    .unwrap_or(&serde_json::Value::Null),
+                change
+                    .new_value
+                    .as_ref()
+                    .unwrap_or(&serde_json::Value::Null),
+                &change.path,
+                &mut leaves,
+            );
+            if leaves != [SOURCE] {
+                return Err(replacement_error(
+                    &path,
+                    "adjacent request mixes or reverts another semantic field",
+                ));
+            }
+        } else {
+            if before.governance_profile != after.governance_profile
+                || changes
+                    .iter()
+                    .any(|path| !HISTORY.contains(&path.split('/').nth(1).unwrap_or_default()))
+                || item.changed_values.iter().any(|change| {
+                    !HISTORY.contains(&change.path.split('/').nth(1).unwrap_or_default())
+                })
+            {
+                return Err(replacement_error(
+                    &path,
+                    "historical segment changes a forbidden field/profile",
+                ));
+            }
+        }
+    }
+    let old_profile =
+        old_profile.ok_or_else(|| replacement_error(root, "old review profile unavailable"))?;
+    if json_digest(&old_profile).map_err(|error| replacement_error(root, error.to_string()))?
+        != bound.receipt.profile_digest
+        || old_profile.reviewer_actor != bound.receipt.reviewer_actor
+        || old_profile.authority_source != bound.receipt.authority_source
+        || bound.receipt.assurance != MaterialInspectionReviewAssurance::SelfDeclared
+        || !valid_utc_runtime_timestamp(&bound.receipt.recorded_at)
+    {
+        return Err(replacement_error(
+            root,
+            "old immutable receipt does not match its historical profile",
+        ));
+    }
+    let context = super::RepositoryExecutionContext::capture(root)?;
+    let observed = super::snapshot_digest(context.snapshot())?;
+    let current_review = &bound.summary["decisionEvidence"];
+    if observed != tail.repository_snapshot_digest
+        || bound.summary["preflightContractDigest"].as_str() != Some(contract_digest.as_str())
+        || bound.summary["preflightRepositorySnapshotDigest"].as_str() != Some(observed.as_str())
+        || !replacement_review_matches(current_review, contract, contract_digest, &observed)
+        || bound.summary["preflightDecisionDigest"] != current_review["preflightDecisionDigest"]
+        || !reviews.iter().any(|(value, _)| value == current_review)
+        || super::governance_controls::preflight_decision_evidence_state(
+            root,
+            &contract.work_item_id,
+            contract_digest,
+        ) != super::governance_controls::PreflightDecisionEvidenceState::Valid
+    {
+        return Err(replacement_error(
+            root,
+            "current source or independent native review is not bound to adjacent transition",
+        ));
+    }
+    let reviewed = bound
+        .receipt
+        .reviewed_source_head
+        .as_deref()
+        .ok_or_else(|| replacement_error(root, "old source-head provenance missing"))?;
+    let git = GitRepository::discover(root)
+        .map_err(|error| replacement_error(root, error.to_string()))?;
+    if !git
+        .is_ancestor_bounded(reviewed, &request.reviewed_source_head, 1024)
+        .map_err(|error| replacement_error(root, error.to_string()))?
+        || history != super::read_work_item_contract_amendments(root, &contract.work_item_id)?
+    {
+        return Err(replacement_error(
+            root,
+            "historical ancestry/inputs changed during observation",
+        ));
+    }
+    Ok(Some(AuthoritySourceReplacementProof {
+        prior_pointer: bound.pointer,
+        prior_receipt_digest: bound.receipt.receipt_digest,
+        historical_bindings_digest: json_digest(&raw_bindings)
+            .map_err(|error| replacement_error(root, error.to_string()))?,
+        journal_digest: tail.journal_digest.clone(),
+        current_review_digest: json_digest(current_review)
+            .map_err(|error| replacement_error(root, error.to_string()))?,
+        repository_snapshot_digest: observed,
+    }))
 }
 
 fn material_review_contract_amendment_chain_reaches(
