@@ -137,6 +137,386 @@ fn confirm_current_fixture_preflight(root: &Path) {
     .expect("record exact synthetic Contract review");
 }
 
+const RETAINED_FIXTURE_CHECKS: [&str; 4] = [
+    "cargo test --locked --offline --test material",
+    "cargo fmt --all -- --check",
+    "cargo test --locked --offline",
+    "cargo clippy --locked --offline --all-targets -- -D warnings",
+];
+
+fn retained_cli(root: &Path, args: &[&str]) -> Output {
+    Command::new(candidate_binary())
+        .args(args)
+        .arg("--repo")
+        .arg(root)
+        .current_dir(root)
+        .env("CARGO_TARGET_DIR", root.join(".ai/fixture-target"))
+        .env("CARGO_BUILD_JOBS", "1")
+        .env("CARGO_INCREMENTAL", "0")
+        .env("CARGO_NET_OFFLINE", "true")
+        .output()
+        .expect("retained-history fixture CLI")
+}
+
+fn retained_document(root: &Path, suffix: &str) -> Value {
+    serde_json::from_slice(
+        &fs::read(root.join(format!(
+            ".ai/work-items/active/{WORK_ITEM_ID}.{suffix}.json"
+        )))
+        .expect("native fixture document"),
+    )
+    .expect("native fixture JSON")
+}
+
+fn retained_amend(root: &Path, change_id: &str, changes: Value) {
+    let contract = retained_document(root, "contract");
+    let result = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_amend",
+        json!({"workItemId": WORK_ITEM_ID, "request": {
+            "schemaVersion": 1, "changeId": change_id,
+            "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("digest"),
+            "reason": "Isolated equivalent historical fixture; no real consumer authority.",
+            "changes": changes
+        }}),
+    );
+    assert_eq!(
+        result.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{result}"
+    );
+}
+
+fn retained_material_input(root: &Path) -> Value {
+    let output = retained_cli(
+        root,
+        &["work-item", "material-review", "plan", "--id", WORK_ITEM_ID],
+    );
+    assert_success(&output, "retained-history material plan");
+    let request: Value = serde_json::from_slice(&output.stdout).expect("material request");
+    assert_eq!(request["findingCodes"], json!([]), "{request}");
+    assert_eq!(request["reviewEnabled"], true);
+    json!({
+        "schemaVersion": 1, "decision": "accept_permitted_unknowns",
+        "requestDigest": request["requestDigest"],
+        "reviewerActor": "agent:fixture-reviewer",
+        "authoritySource": "test-fixture:bounded-review", "assurance": "self_declared",
+        "evidenceRefs": [{"path": "tests/material.rs", "digest":
+            Digest::sha256_bytes(&fs::read(root.join("tests/material.rs")).expect("fixture source"))}],
+        "rationale": "Read the exact isolated fixture source and bounded syntax Unknown.",
+        "residualRisk": "The bounded scanner is incomplete; synthetic fixture scope only."
+    })
+}
+
+fn retained_record_material(root: &Path, input: &Value) -> Output {
+    let file = tempfile::NamedTempFile::new().expect("material decision input");
+    fs::write(file.path(), serde_json::to_vec(input).expect("input JSON")).expect("material input");
+    retained_cli(
+        root,
+        &[
+            "work-item",
+            "material-review",
+            "record",
+            "--id",
+            WORK_ITEM_ID,
+            "--input",
+            file.path().to_str().expect("input path"),
+        ],
+    )
+}
+
+struct RetainedCanonicalFixture {
+    directory: tempfile::TempDir,
+    old_evidence: Vec<u8>,
+    old_outcome: Vec<u8>,
+}
+
+fn retained_canonical_amendment_fixture() -> RetainedCanonicalFixture {
+    let directory = tempfile::tempdir().expect("retained fixture");
+    let root = directory.path();
+    git(root, &["init", "-q", "--initial-branch=main"]);
+    git(root, &["config", "user.name", "Retained Fixture"]);
+    git(root, &["config", "user.email", "fixture@example.invalid"]);
+    fs::write(
+        root.join("README.md"),
+        "Equivalent lifecycle fixture, not Sentinel.\n",
+    )
+    .expect("README");
+    fs::write(
+        root.join("Cargo.toml"),
+        "[package]\nname = \"retained_fixture\"\nversion = \"0.1.0\"\nedition = \"2024\"\n",
+    )
+    .expect("fixture manifest");
+    fs::create_dir(root.join("src")).expect("source directory");
+    fs::write(
+        root.join("src/lib.rs"),
+        "pub fn expected_date() -> &'static str {\n    \"2026-10-14\"\n}\n",
+    )
+    .expect("fixture library");
+    let lock = Command::new("cargo")
+        .args(["generate-lockfile", "--offline"])
+        .current_dir(root)
+        .output()
+        .expect("fixture lockfile");
+    assert_success(
+        &lock,
+        "generate actual fixture Cargo.lock before source inventory",
+    );
+    git(root, &["add", "."]);
+    git(root, &["commit", "-qm", "fixture source baseline"]);
+    assert_success(&retained_cli(root, &["attach"]), "attach retained fixture");
+    let mut start = vec![
+        "start",
+        "--id",
+        WORK_ITEM_ID,
+        "--intent",
+        "Exercise preserved canonical verification recovery",
+        "--goal",
+        "Run all four checks through isolated fixture finish and archive",
+        "--risk",
+        "normal",
+        "--authority",
+        "authorized",
+        "--out-of-scope",
+        "No real consumer or human authorization",
+        "--acceptance",
+        "All four checks execute and history remains intact",
+        "--required-evidence",
+        "verification_receipt",
+    ];
+    for path in [
+        "README.md",
+        "Cargo.toml",
+        "Cargo.lock",
+        "src/lib.rs",
+        "tests/material.rs",
+    ] {
+        start.extend(["--scope", path]);
+    }
+    for command in RETAINED_FIXTURE_CHECKS {
+        start.extend(["--verification", command]);
+    }
+    assert_success(&retained_cli(root, &start), "start retained fixture");
+    let mut scenario = json!({
+        "scenario": "old fixture four-check cycle", "required": true,
+        "status": "unverified", "evidence": [],
+        "expected": "The old cycle executes every declared fixture check.",
+        "verificationPlan": "Native verification of all four declared fixture commands."
+    });
+    retained_amend(
+        root,
+        "retained-profile-before-checkpoint",
+        json!([
+            {"path": "/governanceProfile", "operation": "set", "value": {"materialInspectionReview": {
+                "schemaVersion": 1, "permittedUnknown": "repository_material_inspection_unavailable",
+                "permittedCause": "readable_committed_rust_syntax_unknown", "assurance": "self_declared",
+                "reviewerActor": "agent:fixture-reviewer", "authoritySource": "test-fixture:bounded-review",
+                "acceptResidualRisk": true
+            }}},
+            {"path": "/scenarioCoverage", "operation": "add", "value": scenario}
+        ]),
+    );
+    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    assert_success(
+        &retained_cli(root, &["preflight", "--contract", &relative]),
+        "initial preflight",
+    );
+    confirm_current_fixture_preflight(root);
+    record_work_item_governance_controls_with_runtime(
+        root,
+        WORK_ITEM_ID,
+        &json!({"scenarioCoverage": [scenario]}),
+        &candidate_runtime(),
+    )
+    .expect("planned fixture scenario");
+    assert_success(
+        &retained_cli(root, &["checkpoint", "--id", WORK_ITEM_ID]),
+        "fixture checkpoint",
+    );
+    fs::create_dir(root.join("tests")).expect("tests directory");
+    fs::write(root.join("tests/material.rs"), "fn material() -> String {\n    let mut label = String::from(\"token\");\n    label.push_str(\"ization\");\n    label\n}\n\n#[test]\nfn composed_label_matches() {\n    assert_eq!(material(), \"tokenization\");\n    assert_eq!(retained_fixture::expected_date(), \"2026-10-14\");\n}\n")
+        .expect("reviewable committed test source");
+    git(root, &["add", "-A"]);
+    git(
+        root,
+        &["commit", "-qm", "commit reviewable fixture material"],
+    );
+    assert_success(
+        &retained_cli(root, &["preflight", "--contract", &relative]),
+        "old-cycle preflight",
+    );
+    confirm_current_fixture_preflight(root);
+    assert_success(
+        &retained_record_material(root, &retained_material_input(root)),
+        "old-cycle material receipt",
+    );
+    assert_success(
+        &retained_cli(
+            root,
+            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+        ),
+        "old four real fixture checks",
+    );
+    let old_evidence =
+        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("old canonical exists before blocked Outcome");
+    let envelope: Value = serde_json::from_slice(&old_evidence).expect("typed old envelope");
+    assert_eq!(envelope["passed"], true);
+    assert_eq!(envelope["receipt"]["nodesExecuted"], 4);
+    assert_eq!(envelope["receipt"]["nodesReused"], 0);
+    assert_eq!(envelope["receipt"]["processesSpawned"], 4);
+    let finish = retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"]);
+    assert!(
+        !finish.status.success(),
+        "unverified scenario must create a real failed finish"
+    );
+    let old_outcome =
+        fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.outcome.json")))
+            .expect("native blocked Outcome");
+    assert_eq!(
+        serde_json::from_slice::<Value>(&old_outcome).expect("Outcome")["state"],
+        "blocked"
+    );
+    fs::write(
+        root.join(".ai/evidence/fixture-preserved-old-cycle.json"),
+        &old_evidence,
+    )
+    .expect("retain actual old receipt bytes outside current pointer");
+    fs::write(
+        root.join(".ai/evidence/fixture-preserved-blocked-outcome.json"),
+        &old_outcome,
+    )
+    .expect("retain actual blocked Outcome bytes");
+    scenario["status"] = json!("verified");
+    scenario["evidence"] = json!([".ai/evidence/fixture-preserved-old-cycle.json"]);
+    record_work_item_governance_controls_with_runtime(
+        root,
+        WORK_ITEM_ID,
+        &json!({"scenarioCoverage": [scenario]}),
+        &candidate_runtime(),
+    )
+    .expect("record actual old-cycle scenario evidence");
+    retained_amend(
+        root,
+        "sensitive-after-retained-success-and-failed-finish",
+        json!([
+            {"path": "/acceptanceCriteria", "operation": "add", "value": "Reverify the amended plan before fixture finish and archive"}
+        ]),
+    );
+    assert_success(
+        &retained_cli(root, &["preflight", "--contract", &relative]),
+        "amended preflight",
+    );
+    confirm_current_fixture_preflight(root);
+    RetainedCanonicalFixture {
+        directory,
+        old_evidence,
+        old_outcome,
+    }
+}
+
+#[test]
+fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives() {
+    let fixture = retained_canonical_amendment_fixture();
+    let root = fixture.directory.path();
+    let material = retained_record_material(root, &retained_material_input(root));
+    assert_success(
+        &material,
+        "retained canonical must admit exact current material recovery",
+    );
+    let plan = retained_cli(
+        root,
+        &[
+            "verify",
+            "--work-item",
+            WORK_ITEM_ID,
+            "--workers",
+            "1",
+            "--plan-only",
+        ],
+    );
+    assert_success(&plan, "plan four fresh checks");
+    let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
+    assert_eq!(plan["processesSpawned"], 0);
+    assert_eq!(plan["nodesPlanned"], 4);
+    assert_eq!(plan["nodesToExecute"], 4);
+    assert_eq!(plan["nodesReused"], 0);
+    assert_eq!(
+        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("old canonical"),
+        fixture.old_evidence
+    );
+    assert_success(
+        &retained_cli(
+            root,
+            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+        ),
+        "all four fresh checks",
+    );
+    let evidence: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("fresh canonical"),
+    )
+    .expect("fresh envelope");
+    assert_eq!(evidence["passed"], true);
+    assert_eq!(evidence["receipt"]["nodesExecuted"], 4);
+    assert_eq!(evidence["receipt"]["nodesReused"], 0);
+    assert_eq!(evidence["receipt"]["processesSpawned"], 4);
+    assert_eq!(evidence["receipt"]["maxConcurrentProcesses"], 1);
+    assert_eq!(
+        evidence["receipt"]["executionRecords"]
+            .as_array()
+            .expect("execution records")
+            .len(),
+        4
+    );
+    assert!(
+        evidence["receipt"]["executionRecords"]
+            .as_array()
+            .expect("records")
+            .iter()
+            .all(|r| r["spawned"] == true && r["passed"] == true && r["exitCode"] == 0)
+    );
+    let summary = retained_document(root, "summary");
+    assert_eq!(
+        summary["preflightState"], "green",
+        "fresh verification records current green preflight"
+    );
+    assert_eq!(
+        summary["preflightContractDigest"],
+        evidence["contractDigest"]
+    );
+    assert_eq!(
+        summary["preflightRepositorySnapshotDigest"],
+        evidence["repositorySnapshotDigest"]
+    );
+    assert_success(
+        &retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"]),
+        "actual fixture finish",
+    );
+    assert_success(
+        &retained_cli(root, &["archive", "--id", WORK_ITEM_ID, "--json"]),
+        "actual fixture archive",
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json"))
+            .expect("retained original receipt"),
+        fixture.old_evidence
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-blocked-outcome.json"))
+            .expect("retained original Outcome"),
+        fixture.old_outcome
+    );
+    assert!(
+        root.join(format!(
+            ".ai/work-items/archive/{WORK_ITEM_ID}.archive.json"
+        ))
+        .is_file()
+    );
+}
+
 fn assert_blocked_material_recovery_adapters(record_via_mcp: bool) {
     let directory = repository();
     let root = directory.path();

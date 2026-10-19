@@ -1,0 +1,17 @@
+{
+  "equivalentFixtureOnly": true,
+  "notRealSentinelReceipt": true,
+  "differences": [
+    "Fixture producer and consumer use the same c960 Runtime version; real predecessor was rc.2.",
+    "Fixture native failed finish is due to unverified planned scenario, not the reported historical finish.preflight gate.",
+    "Fixture has a valid stale prior material receipt generated before old verification; real consumer reports no recorded material receipt."
+  ],
+  "sharedProvenShape": [
+    "Old actual typed canonical passed receipt retained, all four old declared checks really executed with zero reuse",
+    "Real blocked Outcome then native sensitive amendment and fresh identity-bound fixture review",
+    "Old/current source snapshots equal, clean committed reviewable Rust syntax Unknown, no Finding",
+    "Current exact material record rejected by governance_red and verify plan rejected with zero processes"
+  ],
+  "implementationSourceUnchanged": true,
+  "candidateBinarySha256": "d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a"
+}

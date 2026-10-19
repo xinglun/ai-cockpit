@@ -1,0 +1,73 @@
+{
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.contract-amendments/00000002.committed.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
+      ],
+      "expected": "Persist real failed Outcome, amend sensitive Contract, obtain fresh preflight and identity-bound human review; old failure remains red.",
+      "required": true,
+      "scenario": "A1 blocked Outcome and amendment",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
+      ],
+      "expected": "Only current clean committed reviewable Rust syntax Unknown with no Finding and matched Contract preflight review request and policy admits independently accepted typed material decision.",
+      "required": true,
+      "scenario": "A2 exact material decision",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification-attempt.3c6aa690b0b31dacd7143e50df3a5de233a58ff3b3cfa3130ef5ea446c5a2206.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
+      ],
+      "expected": "Material receipt admits fresh Native verification; only actual passing receipt can supersede old failure for finish or archive and history remains readable.",
+      "required": true,
+      "scenario": "A3 real verification recovery",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
+      ],
+      "expected": "Dirty source unavailable projection Finding stale foreign tampered inputs or wrong retry remain rejected without business effects or extra governance writes.",
+      "required": true,
+      "scenario": "A4 rejection matrix",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
+      ],
+      "expected": "Composed HEAD retains the WI-1087 authority guard and both WI regression suites pass after serial integration.",
+      "required": true,
+      "scenario": "A5 serial WI-1087 composition",
+      "status": "verified",
+      "verificationPlan": "On a separately admitted serial composed HEAD run repository status_projection and WI-1087 authority-admission regressions plus current Native verification and CI"
+    }
+  ]
+}

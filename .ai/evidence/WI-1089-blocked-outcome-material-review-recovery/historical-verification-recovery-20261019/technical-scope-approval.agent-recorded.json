@@ -1,0 +1,17 @@
+{
+  "kind": "delegated_technical_approval_agent_recorded_not_human_review_or_material_risk_acceptance",
+  "actor": "agent:Raydot",
+  "recorder": "agent:Codex",
+  "receivedAt": "2026-10-19T09:10:01.861800+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "literalDelegatedInstruction": "Raydot 技术审阅通过上述 WI-1089 最小修正方向及完整历史回归方案。请继续准备原生 scope/acceptance/scenario amendment 精确绑定，不必再等待普通技术批准。先解决 #1041 真实消费者缺口，WI-1090 保留已记录确认、暂不并行改实现以免冲突。分支安排需纠正：仍遵守 1 WI = 1 branch = 1 PR。c960 是不可变提交，保留它及现有证据即可；不要为延续 WI-1089 再保留一个长期 repair 分支造成双主线。优先在原 WI-1089 分支/PR #1048 追加修复提交（不 force-push、不改写 c960），原快照保全于工作树外且可核验。范围同意增加 contract_amendment.rs 与 lib.rs 两实现文件，连同原范围完成三实现+两测试及必要治理文档。历史收据校验使用可信前序链和同一次安全字节读取，不能通用接受 Stale。",
+  "quotationLimit": "The literalDelegatedInstruction contains selected consecutive sentences from the current delegated message; the remaining instruction explicitly requests reported snapshot facts, baseline c960 failure before fix, actual new human binding and separate material risk acceptance. No independent chat transport export or original message timestamp was supplied.",
+  "scopeAdditions": [
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "branch": "codex/wi1089-blocked-outcome-material-review-recovery",
+  "pullRequest": 1048,
+  "humanConfirmReview": false,
+  "materialResidualRiskAccepted": false
+}

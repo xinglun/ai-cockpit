@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:8fd7f3fa730f4aa6547660a9339102532b55a4f4a18f95dba58d533903ea03f2",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-c960-request-review-relayed.agent-recorded.json",
+      "digest": "sha256:3f2b11c3213b55a062a7114b0dfef0317d0db03dcd96ae25192662f5d8722c08"
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-final-request-review-relayed.agent-recorded.json",
+      "digest": "sha256:c6b1b7b2d32b581d68a899325b107701298601bd2de866a918244c9dec6f4eb4"
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+      "digest": "sha256:57fdcf2f1cfb35a32ad33e68549e24681055908b02a0bbd6dee07308e9d1b598"
+    }
+  ],
+  "rationale": "Raydot approved the exact independent c960ed2e material request 8fd7f3fa after bounded technical review. Contract 17c4100f, source snapshot ee36ca3d, manifest 83ab2a39, scanner implementation f2f78982, profile 3cfea8a9 and policy 4022dbdd match the reviewed binding. The three reviewable Rust blob/hunk pairs are unchanged from the prior accepted request; the other six entries are clean, with no Finding or other Unknown. Codex records the relayed Raydot self-declared decision without claiming direct identity authentication or formal verification.",
+  "residualRisk": "The Rust material scanner cannot fully understand the three bounded syntax changes. Static review and development tests may miss unsafe or control-weakening semantics. This decision is self_declared and does not authenticate a real-world reviewer, verify the current source formally, accept the WI-1087 combination, or authorize merge or close."
+}

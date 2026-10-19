@@ -1,14 +1,7 @@
 {
   "changedPaths": [
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-clippy.log",
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-fmt.log",
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-repository-material-review.log",
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/mapping.agent-recorded.json",
-    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-final-request-review-relayed.agent-recorded.json",
-    ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-c960-request-review-relayed.agent-recorded.json",
+    ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/8fd7f3fa730f4aa6547660a9339102532b55a4f4a18f95dba58d533903ea03f2.json",
     ".ai/work-items/active/WI-1089-blocked-outcome-material-review-recovery.summary.json"
   ],
   "checkpointAt": "2026-10-19T04:29:52Z",
@@ -48,20 +41,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+      "previousContractHash": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+      "reason": "Raydot approved bounded WI1089 repair after actual c960 consumer failure and historical-requirement audit. Add only lib.rs and contract_amendment.rs to the original branch/PR scope; explicitly bind c960 baseline failure before implementation, strict native predecessor/same-byte historical validation, representative rejection classes and four-check fixture finish/archive. Preserve c960/current evidence outside worktree, all existing history, paused WI1090 and independent combined context. This is not a human Contract confirm_review or new material residual-risk acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T09:13:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8ca1b64dc803a0eb8fc4b0125f5a30765aefc6c713fe9a269cadda55d44bbdaf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a1b9c98abd6508293e179e1cac71202f56646ac1ea77cf068b8056da54b9abdf",
+  "checkpointRepositorySnapshotDigest": "sha256:8ca1b64dc803a0eb8fc4b0125f5a30765aefc6c713fe9a269cadda55d44bbdaf",
   "createdAt": "2026-10-19T04:22:04Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+    "contractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:09b50c73414c6cc5db4c81c858aa50309b331fdedd1119a89f4b922a9544bcb4",
-    "reason": "Ray replied literally confirm_review at 2026-10-19 05:14 UTC to Raydot request Sentinel_9074840549a08191bdbd7a70818ad851; reply Sentinel_033238439f408191837db4dff3eb632f. Agent:Codex records the relayed human decision; exact words, binding and provenance limit at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json. Confirms only amended Contract; not material review, verification, merge or close.",
-    "recordedAt": "2026-10-19T05:15:31Z",
+    "preflightDecisionDigest": "sha256:9cbe19f6d00475a2f34ce4c94d2eb5c3597368a4868eeb4e7730ca293953cbb7",
+    "reason": "Ray replied literally 确认上述 WI-1089 修约绑定，confirm_review in Sentinel_aebae60364d481919bf8c580d8f3296b to exact request Sentinel_91abba9438648191853b38da4445d572. Relayed by Raydot; recorder agent:Codex. Exact binding/provenance at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/human-contract-review-relayed.agent-recorded.json. Confirms amendment3 plan only; excludes new material residual-risk acceptance, real WI/Sentinel finish/archive, merge, closure or cleanup.",
+    "recordedAt": "2026-10-19T09:19:31Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+    "repositorySnapshotDigest": "sha256:8ca1b64dc803a0eb8fc4b0125f5a30765aefc6c713fe9a269cadda55d44bbdaf",
     "schemaVersion": 1,
     "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
   },
@@ -86,17 +99,25 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:6184a90951f00c8960d209db832f2da6cbf4d54effbbcdce2bff4d4cce02e1df",
-    "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
-    "receiptDigest": "sha256:aa129e3e471a216f8b9d2a8eb1950bc6e13c51e810527f855b4fcfb14c60d2ab",
-    "requestDigest": "sha256:c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a"
+    "digest": "sha256:81938787c43abb057ca587cc861c8725c3cab36eba4082cfefe3c7a964639a2a",
+    "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/8fd7f3fa730f4aa6547660a9339102532b55a4f4a18f95dba58d533903ea03f2.json",
+    "receiptDigest": "sha256:fa5e765fd84a88839b88d30517f7c3375e32f19877310062cb8031232f50bd26",
+    "requestDigest": "sha256:8fd7f3fa730f4aa6547660a9339102532b55a4f4a18f95dba58d533903ea03f2"
   },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:6184a90951f00c8960d209db832f2da6cbf4d54effbbcdce2bff4d4cce02e1df",
+      "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+      "receiptDigest": "sha256:aa129e3e471a216f8b9d2a8eb1950bc6e13c51e810527f855b4fcfb14c60d2ab",
+      "requestDigest": "sha256:c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a"
+    }
+  ],
   "mode": "implementation",
-  "preflightAt": "2026-10-19T05:51:45Z",
-  "preflightContractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a1b9c98abd6508293e179e1cac71202f56646ac1ea77cf068b8056da54b9abdf",
-  "preflightState": "green",
+  "preflightAt": "2026-10-19T09:14:39Z",
+  "preflightContractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+  "preflightDecisionDigest": "sha256:9cbe19f6d00475a2f34ce4c94d2eb5c3597368a4868eeb4e7730ca293953cbb7",
+  "preflightRepositorySnapshotDigest": "sha256:8ca1b64dc803a0eb8fc4b0125f5a30765aefc6c713fe9a269cadda55d44bbdaf",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -106,7 +127,8 @@
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.contract-amendments/00000002.committed.json",
-        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json"
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
       ],
       "expected": "Persist real failed Outcome, amend sensitive Contract, obtain fresh preflight and identity-bound human review; old failure remains red.",
       "required": true,
@@ -120,7 +142,8 @@
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
         ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
-        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log"
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
       ],
       "expected": "Only current clean committed reviewable Rust syntax Unknown with no Finding and matched Contract preflight review request and policy admits independently accepted typed material decision.",
       "required": true,
@@ -133,7 +156,8 @@
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification-attempt.3c6aa690b0b31dacd7143e50df3a5de233a58ff3b3cfa3130ef5ea446c5a2206.json",
-        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log"
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
       ],
       "expected": "Material receipt admits fresh Native verification; only actual passing receipt can supersede old failure for finish or archive and history remains readable.",
       "required": true,
@@ -147,7 +171,8 @@
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
         ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
-        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log"
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
       ],
       "expected": "Dirty source unavailable projection Finding stale foreign tampered inputs or wrong retry remain rejected without business effects or extra governance writes.",
       "required": true,
@@ -156,16 +181,45 @@
       "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/final-independent-c960-20261019/actual-verification-and-scenarios.agent-recorded.json"
+      ],
       "expected": "Composed HEAD retains the WI-1087 authority guard and both WI regression suites pass after serial integration.",
       "required": true,
       "scenario": "A5 serial WI-1087 composition",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "On a separately admitted serial composed HEAD run repository status_projection and WI-1087 authority-admission regressions plus current Native verification and CI"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/baseline-c960/baseline.actual.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/baseline-c960/fixture-limitations.agent-recorded.json"
+      ],
+      "expected": "Generate and retain an actual Native typed old passed canonical receipt before blocked Outcome and sensitive amendment. With current preflight/fixture human review and only permitted material Unknown, unchanged c960 implementation rejects the material recovery path because canonical evidence is present. Capture exact failure before implementing; Missing fixture is a separate baseline.",
+      "required": true,
+      "scenario": "A6 preserved canonical baseline reproduces c960 failure",
+      "status": "verified",
+      "verificationPlan": "Targeted pre-fix repository status_projection and CLI contract_amendment_processes retained-canonical regression; record exact implementation source/binary, fixture inventory and native failure, no CI."
+    },
+    {
+      "evidence": [],
+      "expected": "After the bounded fix, the same retained-history fixture reaches exact material record, Native plan-only with zero processes, all four declared commands actually executed/passed with zero reuse and one worker, fresh green preflight, fixture finish and archive. Retained original historical bytes and failure history remain verifiable. Cloud fixture result is not real Sentinel acceptance.",
+      "required": true,
+      "scenario": "A7 complete retained-history four-check fixture lifecycle",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes; cargo test --locked --package cockpit-repository --test status_projection; capture four-node execution/coverage and actual fixture finish/archive receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "Cover Missing, current valid, proven native amendment-invalidated history, malformed/unknown, contradictory/foreign/nonpredecessor, unsupported Runtime, true failure/exact retry, Finding, dirty and missing authority with representative mutations. Precondition negatives spawn zero command processes and publish no successful receipts; a real check failure remains failed. Preserve same-byte digest/semantic reads and distinguish historical/current snapshot facts without unverified equality guards.",
+      "required": true,
+      "scenario": "A8 strict historical proof negative classes and current-binding changes",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-cli --test contract_amendment_processes; existing MCP material_review regressions. No Cartesian-product explosion or generic Stale allowance."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-19T06:09:32.700488018+00:00",
+  "updatedAt": "2026-10-19T09:26:30.113013926+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -192,6 +246,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-19T09:13:48Z"
+  },
   "verificationRecoveryReconciled": "sha256:e28be135010e0c7504500cc32a2a282477bdf4c15c58ef0e9277b5c6403ed264",
   "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
 }
