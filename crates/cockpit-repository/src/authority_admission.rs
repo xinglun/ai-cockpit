@@ -157,7 +157,18 @@ fn check_locator(root: &Path, parent: &Dir, name: &str, path: &Path) -> Result<(
 // A caller-supplied subdirectory/alias must not hide its enclosing declaration.
 // This is locator completeness, not independently trusted enabled enrollment.
 fn check_requested_root(root: &Path, work_item_id: Option<&str>) -> Result<(), ObserverError> {
-    check_declarations(root, work_item_id)?;
+    match check_declarations(root, work_item_id) {
+        Ok(()) => {}
+        Err(ObserverError::Read { path, source })
+            if path == root && source.kind() == std::io::ErrorKind::NotFound =>
+        {
+            // A missing legacy root must not preempt pure argument errors.
+            // Still locate any enclosing declaration, including through an
+            // existing alias, before allowing the legacy dispatcher to run.
+            return require_goal_authority_path_access(root);
+        }
+        Err(error) => return Err(error),
+    }
     let canonical = root.canonicalize().map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -477,16 +488,16 @@ mod tests {
     struct FixtureSource {
         directory: PathBuf,
         roots: Vec<PathBuf>,
-        identity: fs::Metadata,
-        fence_identity: fs::Metadata,
+        identity: File,
+        fence_identity: File,
     }
     impl FixtureSource {
         fn new(directory: &Path, roots: Vec<PathBuf>) -> Self {
             Self {
                 directory: directory.into(),
                 roots,
-                identity: fs::metadata(directory.join("source")).unwrap(),
-                fence_identity: fs::metadata(directory.join("fence")).unwrap(),
+                identity: File::open(directory.join("source")).unwrap(),
+                fence_identity: File::open(directory.join("fence")).unwrap(),
             }
         }
         fn fence(&self) -> File {
@@ -499,24 +510,27 @@ mod tests {
             f
         }
         fn valid_identity(&self) -> bool {
-            fn matches(path: &Path, expected: &fs::Metadata) -> bool {
+            fn matches(path: &Path, expected: &File) -> bool {
                 let Ok(actual) = fs::symlink_metadata(path) else {
                     return false;
                 };
                 if actual.file_type().is_symlink() || !actual.is_file() {
                     return false;
                 }
-                #[cfg(unix)]
-                {
-                    use std::os::unix::fs::MetadataExt;
-                    actual.dev() == expected.dev() && actual.ino() == expected.ino()
+                fn identity(file: &File) -> std::io::Result<[u64; 2]> {
+                    // Match the existing lifecycle handle-identity recipe.
+                    // cap metadata retains Windows volume/file identifiers;
+                    // creation timestamps can be identical after replacement.
+                    use cap_fs_ext::MetadataExt;
+                    let metadata = cap_std::fs::File::from_std(file.try_clone()?).metadata()?;
+                    Ok([metadata.dev(), metadata.ino()])
                 }
-                #[cfg(not(unix))]
-                {
-                    match (actual.created(), expected.created()) {
-                        (Ok(actual), Ok(expected)) => actual == expected,
-                        _ => false,
-                    }
+                let Ok(opened) = File::open(path) else {
+                    return false;
+                };
+                match (identity(&opened), identity(expected)) {
+                    (Ok(actual), Ok(expected)) => actual == expected,
+                    _ => false,
                 }
             }
             matches(&self.directory.join("source"), &self.identity)

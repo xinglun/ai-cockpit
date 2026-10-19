@@ -75,6 +75,45 @@ fn b13_unconfigured_legacy_controls_keep_existing_behavior() {
     assert_eq!(result["state"], "checkpointed");
 }
 
+#[test]
+fn b13_absent_legacy_root_preserves_argument_validation() {
+    let dir = tempdir().unwrap();
+    let absent = dir.path().join("missing/nested");
+    cockpit_repository::require_goal_authority_access(&absent, None).unwrap();
+    assert!(!absent.exists());
+}
+
+#[test]
+fn b01_absent_descendant_cannot_hide_required_enclosing_root() {
+    let dir = fixture(true);
+    let before = summary(dir.path());
+    let absent = dir.path().join("missing/nested");
+    let error = cockpit_repository::require_goal_authority_access(&absent, None).unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("goal_authority_source_unsupported"),
+        "{error}"
+    );
+    assert_eq!(summary(dir.path()), before);
+    assert!(!absent.exists());
+    #[cfg(unix)]
+    {
+        let alias_dir = tempdir().unwrap();
+        let alias = alias_dir.path().join("alias");
+        std::os::unix::fs::symlink(dir.path(), &alias).unwrap();
+        let error = cockpit_repository::require_goal_authority_access(&alias.join("missing"), None)
+            .unwrap_err();
+        assert!(
+            error
+                .to_string()
+                .contains("goal_authority_source_unsupported"),
+            "{error}"
+        );
+        assert!(!alias.join("missing").exists());
+    }
+}
+
 fn runtime() -> cockpit_protocol::RuntimeContext {
     cockpit_protocol::RuntimeContext {
         runtime_version: "1.0.1".into(),
