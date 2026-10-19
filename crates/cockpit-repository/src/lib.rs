@@ -8169,6 +8169,43 @@ fn amendment_invalidated_verification_is_complete_history(
     ) {
         return Ok(false);
     }
+    let Some(raw_receipt) = envelope.receipt.as_ref() else {
+        return Ok(false);
+    };
+    let typed: cockpit_verification::VerificationReceipt =
+        match serde_json::from_value(raw_receipt.clone()) {
+            Ok(receipt) => receipt,
+            Err(_) => return Ok(false),
+        };
+    let result_ids = typed
+        .results
+        .iter()
+        .map(|result| result.node_id.as_str())
+        .collect::<BTreeSet<_>>();
+    if !typed.passed
+        || typed.results.is_empty()
+        || typed.process_spawn_failures != 0
+        || typed
+            .results
+            .iter()
+            .any(|result| !result.passed || result.timed_out)
+        || result_ids.len() != typed.results.len()
+        || typed.nodes_planned != typed.results.len()
+        || typed.nodes_executed.checked_add(typed.nodes_reused) != Some(typed.nodes_planned)
+    {
+        return Ok(false);
+    }
+    if let Some(plan) = typed.plan_receipt.as_ref() {
+        let planned_ids = plan
+            .executed_nodes
+            .iter()
+            .chain(&plan.reused_nodes)
+            .map(String::as_str)
+            .collect::<BTreeSet<_>>();
+        if planned_ids != result_ids {
+            return Ok(false);
+        }
+    }
     let Some(old_digest) = envelope.contract_digest.as_ref() else {
         return Ok(false);
     };

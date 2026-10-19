@@ -640,9 +640,53 @@ fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh(
     );
 }
 
-fn assert_retained_history_rejection(case: &str) {
-    let fixture = retained_canonical_amendment_fixture();
+fn copy_retained_fixture(source: &RetainedCanonicalFixture) -> RetainedCanonicalFixture {
+    fn copy_directory(source: &Path, target: &Path, relative: &Path) {
+        for entry in fs::read_dir(source).expect("fixture directory") {
+            let entry = entry.expect("fixture entry");
+            let relative = relative.join(entry.file_name());
+            if relative == Path::new(".ai/fixture-target") {
+                continue;
+            }
+            let destination = target.join(entry.file_name());
+            let kind = entry.file_type().expect("fixture entry type");
+            if kind.is_dir() {
+                fs::create_dir(&destination).expect("fixture copy directory");
+                copy_directory(&entry.path(), &destination, &relative);
+            } else {
+                assert!(kind.is_file(), "fixture copies must not follow symlinks");
+                fs::copy(entry.path(), destination).expect("exact fixture file copy");
+            }
+        }
+    }
+    let directory = tempfile::tempdir().expect("isolated negative copy");
+    copy_directory(source.directory.path(), directory.path(), Path::new(""));
+    RetainedCanonicalFixture {
+        directory,
+        old_evidence: source.old_evidence.clone(),
+        old_outcome: source.old_outcome.clone(),
+    }
+}
+
+fn assert_retained_history_rejection(baseline: &RetainedCanonicalFixture, case: &str) {
+    let fixture = copy_retained_fixture(baseline);
     let root = fixture.directory.path();
+    let initial = retained_cli(
+        root,
+        &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
+    );
+    assert_success(
+        &initial,
+        "read copied fixture admission before negative mutation",
+    );
+    let initial: Value = serde_json::from_slice(&initial.stdout).expect("initial copied status");
+    assert!(
+        initial["safeActions"]
+            .as_array()
+            .expect("actions")
+            .contains(&json!("record_material_review_decision")),
+        "copy must be eligible before its single negative mutation: {initial}"
+    );
     let mut input = retained_material_input(root);
     let path = root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json"));
     let mut envelope: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
@@ -666,6 +710,15 @@ fn assert_retained_history_rejection(case: &str) {
             envelope["runtimeDigest"] = json!(Digest::sha256_bytes(b"wrong producer"))
         }
         "unsupported_schema" => envelope["evidenceSchemaVersion"] = json!(99),
+        "unsupported_protocol" => envelope["protocolVersion"] = json!(99),
+        "legacy_untyped" => envelope["captureMode"] = json!("legacy_untyped"),
+        "digest_only" => {
+            envelope["captureMode"] = json!("digest_only");
+            envelope
+                .as_object_mut()
+                .expect("envelope")
+                .remove("receipt");
+        }
         "bad_marker" | "bad_transition" | "missing_current_review" => {
             let summary_path =
                 root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
@@ -803,6 +856,7 @@ fn assert_retained_history_rejection(case: &str) {
 
 #[test]
 fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorized_inputs() {
+    let fixture = retained_canonical_amendment_fixture();
     for case in [
         "foreign_repository",
         "foreign_work_item",
@@ -811,6 +865,9 @@ fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorize
         "nested_failure",
         "producer_runtime_identity",
         "unsupported_schema",
+        "unsupported_protocol",
+        "legacy_untyped",
+        "digest_only",
         "bad_marker",
         "bad_transition",
         "bad_journal",
@@ -822,14 +879,15 @@ fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorize
         "malformed_json",
         "duplicate_keys",
     ] {
-        assert_retained_history_rejection(case);
+        assert_retained_history_rejection(&fixture, case);
     }
 }
 
 #[cfg(unix)]
 #[test]
 fn retained_history_recovery_rejects_symlinked_canonical_verification() {
-    assert_retained_history_rejection("symlink");
+    let fixture = retained_canonical_amendment_fixture();
+    assert_retained_history_rejection(&fixture, "symlink");
 }
 
 fn assert_blocked_material_recovery_adapters(record_via_mcp: bool) {
