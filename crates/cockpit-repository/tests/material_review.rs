@@ -191,7 +191,7 @@ fn confirm_segmented_fixture(root: &Path, runtime: &cockpit_protocol::RuntimeCon
             "contractDigest": cockpit_protocol::digest_json(&contract).unwrap(),
             "preflightDecisionDigest": summary["preflightDecisionDigest"],
             "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
-            "recordedAt": "2026-10-19T00:00:00Z",
+            "recordedAt": chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos, true),
             "recordedBy": "human:material-fixture",
             "reason": "Synthetic fixture confirms this exact native Contract; no real human is impersonated."
         }}),
@@ -574,7 +574,32 @@ fn segmented_rejects_committed_source_changed_after_adjacent_anchor() {
     input.request_digest = plan_work_item_material_review(root, "WI-MATERIAL")
         .unwrap()
         .request_digest;
+    confirm_segmented_fixture(root, &runtime);
     assert_segmented_rejection_is_read_only(root, &runtime, &input);
+}
+
+#[test]
+fn segmented_whole_profile_replace_has_source_only_projection() {
+    let (directory, runtime, old_sidecar, old_bytes, _pointer, _input) =
+        segmented_authority_fixture_with_changes(&[], true, &[]);
+    let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+        directory.path(),
+        "WI-MATERIAL",
+        &runtime,
+    )
+    .unwrap();
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
+    assert!(status.review_receipt_digest.is_none());
+    assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
 }
 
 #[test]

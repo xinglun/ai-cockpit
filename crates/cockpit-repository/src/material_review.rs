@@ -2007,6 +2007,139 @@ fn replacement_review_records(
         .collect()
 }
 
+fn replacement_receipt_matches_profile(
+    receipt: &MaterialInspectionReviewDecisionReceipt,
+    contract: &Contract,
+) -> Result<bool, ObserverError> {
+    let Some(profile) = contract
+        .material_inspection_review_profile()
+        .map_err(|message| replacement_error(Path::new("historical-profile"), message))?
+    else {
+        return Ok(false);
+    };
+    let mut paths = BTreeSet::new();
+    Ok(json_digest(&profile)
+        .map_err(|error| replacement_error(Path::new("historical-profile"), error.to_string()))?
+        == receipt.profile_digest
+        && profile.reviewer_actor == receipt.reviewer_actor
+        && profile.authority_source == receipt.authority_source
+        && receipt.assurance == MaterialInspectionReviewAssurance::SelfDeclared
+        && receipt.decision == MaterialInspectionReviewDecision::AcceptPermittedUnknowns
+        && valid_utc_runtime_timestamp(&receipt.recorded_at)
+        && !receipt.recorded_by.trim().is_empty()
+        && !receipt.rationale.trim().is_empty()
+        && !receipt.residual_risk.trim().is_empty()
+        && !receipt.evidence_refs.is_empty()
+        && receipt.evidence_refs.iter().all(|reference| {
+            !reference.path.trim().is_empty()
+                && reference.path.trim() == reference.path
+                && valid_digest(&reference.digest)
+                && paths.insert(reference.path.clone())
+        }))
+}
+
+fn replacement_pointer_history(
+    root: &Path,
+    contract: &Contract,
+    bound: &BoundMaterialReviewReceipt,
+    contracts: &BTreeMap<String, Contract>,
+    current_head: &str,
+) -> Result<Vec<Digest>, ObserverError> {
+    let Some(values) = bound.summary.get("materialReviewReceiptHistory") else {
+        return Ok(Vec::new());
+    };
+    let values = values
+        .as_array()
+        .ok_or_else(|| replacement_error(root, "pointer history must be an array"))?;
+    if values.len() > MAX_MATERIAL_CHANGED_FILES {
+        return Err(replacement_error(
+            root,
+            "pointer history exceeds bounded count",
+        ));
+    }
+    let directory = material_review_work_item_directory(root, &contract.work_item_id, false)?;
+    let path = root
+        .join(".ai/evidence")
+        .join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY)
+        .join(&contract.work_item_id);
+    let git = GitRepository::discover(root)
+        .map_err(|error| replacement_error(root, error.to_string()))?;
+    let mut requests = BTreeSet::new();
+    let mut digests = Vec::new();
+    for pointer in values {
+        if pointer.as_object().is_none_or(|object| {
+            object.len() != 4
+                || object.keys().any(|key| {
+                    !["path", "digest", "requestDigest", "receiptDigest"].contains(&key.as_str())
+                })
+        }) || pointer == &bound.pointer
+        {
+            return Err(replacement_error(
+                &path,
+                "malformed or duplicated historical pointer",
+            ));
+        }
+        let request = pointer["requestDigest"]
+            .as_str()
+            .and_then(|value| value.parse::<Digest>().ok())
+            .filter(valid_digest)
+            .ok_or_else(|| replacement_error(&path, "invalid historical pointer request"))?;
+        if !requests.insert(request.to_string()) {
+            return Err(replacement_error(
+                &path,
+                "duplicate historical request pointer",
+            ));
+        }
+        let name = format!(
+            "{}.json",
+            request
+                .as_str()
+                .strip_prefix("sha256:")
+                .expect("validated digest")
+        );
+        let relative = format!(
+            ".ai/evidence/{MATERIAL_REVIEW_EVIDENCE_DIRECTORY}/{}/{name}",
+            contract.work_item_id
+        );
+        let (value, raw) = replacement_json(&directory, &name, &path.join(&name))?;
+        let receipt: MaterialInspectionReviewDecisionReceipt = serde_json::from_value(value)
+            .map_err(|error| replacement_error(&path, error.to_string()))?;
+        receipt
+            .validate_integrity()
+            .map_err(|message| replacement_error(&path, message))?;
+        let historical = contracts
+            .get(receipt.contract_digest.as_str())
+            .ok_or_else(|| {
+                replacement_error(
+                    &path,
+                    "historical receipt has no native Contract provenance",
+                )
+            })?;
+        let head = receipt
+            .reviewed_source_head
+            .as_deref()
+            .ok_or_else(|| replacement_error(&path, "historical source-head provenance missing"))?;
+        if pointer["path"] != relative
+            || pointer["digest"].as_str() != Some(raw.as_str())
+            || pointer["receiptDigest"].as_str() != Some(receipt.receipt_digest.as_str())
+            || request != receipt.request_digest
+            || receipt.repository_id != contract.repository_id
+            || receipt.work_item_id != contract.work_item_id
+            || !replacement_receipt_matches_profile(&receipt, historical)?
+            || !git
+                .is_ancestor_bounded(head, current_head, 1024)
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+        {
+            return Err(replacement_error(
+                &path,
+                "historical pointer/sidecar identity or profile mismatch",
+            ));
+        }
+        digests.push(raw);
+    }
+    Ok(digests)
+}
+
 /// H/P/C0 is a separate eligibility for NEW evidence, never a replacement for
 /// strict current receipt validation or current Runtime action admission.
 fn finite_authority_source_replacement_proof(
@@ -2099,7 +2232,8 @@ fn finite_authority_source_replacement_proof(
     let directory = open_cap_directory_nofollow_strict(&evidence, &name, &path)?;
     let reviews = replacement_review_records(root, &contract.work_item_id)?;
     let mut raw_bindings = Vec::new();
-    let mut old_profile = None;
+    let mut historical_contracts = BTreeMap::new();
+    let mut used_review_records = BTreeSet::new();
     let mut expected = bound.receipt.contract_digest.clone();
     for (index, item) in history.iter().enumerate() {
         let prepared_name = format!("{:08}.prepared.json", item.sequence);
@@ -2155,6 +2289,8 @@ fn finite_authority_source_replacement_proof(
             }
         }
         raw_bindings.extend([prepared_raw, committed_raw]);
+        historical_contracts.insert(item.previous_contract_digest.to_string(), before.clone());
+        historical_contracts.insert(item.new_contract_digest.to_string(), after.clone());
         if item.policy_review_required {
             let Some((_, digest)) = reviews.iter().find(|(value, _)| {
                 replacement_review_matches(
@@ -2162,13 +2298,32 @@ fn finite_authority_source_replacement_proof(
                     contract,
                     &item.new_contract_digest,
                     &item.repository_snapshot_digest,
-                )
+                ) && value["recordedAt"]
+                    .as_str()
+                    .zip(Some(item.recorded_at.as_str()))
+                    .and_then(|(review, amendment)| {
+                        chrono::DateTime::parse_from_rfc3339(review)
+                            .ok()
+                            .zip(chrono::DateTime::parse_from_rfc3339(amendment).ok())
+                    })
+                    .is_some_and(|(review, amendment)| review >= amendment)
+                    && !used_review_records.contains(&value.to_string())
             }) else {
                 return Err(replacement_error(
                     &path,
                     "a required historical Contract review is missing or foreign",
                 ));
             };
+            // A repeated Contract digest after a later transition still needs
+            // its own actual decision, not a replay of an earlier file.
+            used_review_records.insert(
+                reviews
+                    .iter()
+                    .find(|(_, raw)| raw == digest)
+                    .expect("selected review")
+                    .0
+                    .to_string(),
+            );
             raw_bindings.push(digest.clone());
         }
         if index < *start {
@@ -2181,11 +2336,6 @@ fn finite_authority_source_replacement_proof(
             ));
         }
         expected = item.new_contract_digest.clone();
-        if index == *start {
-            old_profile = before
-                .material_inspection_review_profile()
-                .map_err(|message| replacement_error(&path, message))?;
-        }
         let mut changes = Vec::new();
         replacement_changed_paths(
             &data["previousContract"],
@@ -2236,15 +2386,10 @@ fn finite_authority_source_replacement_proof(
             }
         }
     }
-    let old_profile =
-        old_profile.ok_or_else(|| replacement_error(root, "old review profile unavailable"))?;
-    if json_digest(&old_profile).map_err(|error| replacement_error(root, error.to_string()))?
-        != bound.receipt.profile_digest
-        || old_profile.reviewer_actor != bound.receipt.reviewer_actor
-        || old_profile.authority_source != bound.receipt.authority_source
-        || bound.receipt.assurance != MaterialInspectionReviewAssurance::SelfDeclared
-        || !valid_utc_runtime_timestamp(&bound.receipt.recorded_at)
-    {
+    let old_contract = historical_contracts
+        .get(bound.receipt.contract_digest.as_str())
+        .ok_or_else(|| replacement_error(root, "old review Contract unavailable"))?;
+    if !replacement_receipt_matches_profile(&bound.receipt, old_contract)? {
         return Err(replacement_error(
             root,
             "old immutable receipt does not match its historical profile",
@@ -2287,6 +2432,13 @@ fn finite_authority_source_replacement_proof(
             "historical ancestry/inputs changed during observation",
         ));
     }
+    raw_bindings.extend(replacement_pointer_history(
+        root,
+        contract,
+        &bound,
+        &historical_contracts,
+        &request.reviewed_source_head,
+    )?);
     Ok(Some(AuthoritySourceReplacementProof {
         prior_pointer: bound.pointer,
         prior_receipt_digest: bound.receipt.receipt_digest,
