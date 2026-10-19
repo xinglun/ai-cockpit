@@ -1,0 +1,24 @@
+{
+  "state": "blocked",
+  "scenarioCoverage": "blocked",
+  "acceptanceEvidence": "not_applicable",
+  "evidenceClasses": "verified",
+  "intentAlignment": "unknown",
+  "finalDimensions": "not_applicable",
+  "unknowns": [
+    "required_scenario_unverified:M2 forbidden amendments",
+    "required_scenario_unverified:M5 integrity and source rejection"
+  ],
+  "findings": [
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario M2 forbidden amendments is unverified",
+      "severity": "error"
+    },
+    {
+      "code": "required_scenario_unverified",
+      "message": "required scenario M5 integrity and source rejection is unverified",
+      "severity": "error"
+    }
+  ]
+}

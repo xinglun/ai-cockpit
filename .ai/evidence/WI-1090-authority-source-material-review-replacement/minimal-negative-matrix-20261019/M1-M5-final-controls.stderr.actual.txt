@@ -1,0 +1,1 @@
+record Work Item governance controls: repository protocol state error at /workspace/ai-cockpit-wi1090-material-replacement/.ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json: governance controls are invalid: scenario_contract_summary_mismatch

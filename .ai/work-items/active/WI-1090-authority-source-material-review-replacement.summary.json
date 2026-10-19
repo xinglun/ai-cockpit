@@ -1,11 +1,9 @@
 {
-  "changedPaths": [
-    ".ai/work-items/active/WI-1090-authority-source-material-review-replacement.summary.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-19T19:18:36Z",
   "checkpointContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:95233a9935be86e42a309aa72480b183615bafe132d6ecd9a09329cdd9c871a4",
+  "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
   "createdAt": "2026-10-19T08:35:04Z",
   "decisionEvidence": {
     "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
@@ -39,20 +37,19 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-19T21:45:18Z",
+  "preflightAt": "2026-10-19T21:52:53Z",
   "preflightContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
-  "preflightDecisionDigest": "sha256:530d11843008f5fe306fdc19fae652d30724caa9ab39d7293eabd7c0d92cadca",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
       "evidence": [
         ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M1-M5-clause-to-evidence-map.actual.agent-recorded.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-3.stdout.decoded-from-canonical.actual.txt"
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
       ],
       "expected": "Complete valid R-to-A history permits only reviewed scope/acceptanceCriteria/scenarioCoverage/sources transitions with unchanged profile; real adjacent A-to-B changes only authoritySource, including correct whole-object governanceProfile replace. H/P only permit a NEW current decision; old receipt remains invalid/no discharge.",
       "reason": "All original positive H/P/new-decision/no-discharge clauses map to passing native fixture integration tests and both actual M6 encodings.",
@@ -64,26 +61,21 @@
     {
       "evidence": [
         ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M1-M5-clause-to-evidence-map.actual.agent-recorded.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-2.stdout.decoded-from-canonical.actual.txt",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-3.stdout.decoded-from-canonical.actual.txt",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-5.stdout.decoded-from-canonical.actual.txt"
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
       ],
       "expected": "Missing required historical review, broken/foreign/pending native chain, intermediate forbidden profile/risk/base changes including revert, Summary-forged or nonadjacent anchors, mixed root-replace changes and unjournaled edits reject without new material writes.",
-      "reason": "Keep partial: dedicated finite-native foreign/fork/base/direct/nonadjacent cases not all exercised; generic preflight/ordinary-chain guards are not relabelled as that proof.",
+      "reason": "Original clauses now have actual native finite-fixture negative coverage including independent foreign/fork/base/nonterminal/direct boundaries; all reject without governance writes. Protected base native refusal is not a successful amendment.",
       "required": true,
       "scenario": "M2 forbidden amendments",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
     },
     {
       "evidence": [
         ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M1-M5-clause-to-evidence-map.actual.agent-recorded.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-3.stdout.decoded-from-canonical.actual.txt",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-4.stdout.decoded-from-canonical.actual.txt"
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
       ],
       "expected": "Projection and under-lock record use the same H/P/C0 typed helper, preserving strict invalid diagnostics and blockers; record separately validates actual C1 current-request/reviewer/source/assurance input. Current exact material and actual approval/review provenance are required; self_declared human-authentication limits remain explicit.",
       "reason": "Shared private proof and native admission under lifecycle lock plus actual independent C1 fixtures/wrong-input rejection; assurance remains self_declared, not a real WI1090 risk grant.",
@@ -95,10 +87,8 @@
     {
       "evidence": [
         ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M1-M5-clause-to-evidence-map.actual.agent-recorded.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-2.stdout.decoded-from-canonical.actual.txt",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-3.stdout.decoded-from-canonical.actual.txt"
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
       ],
       "expected": "Injected failures before/after prepare publish, receipt publish and one atomic Summary commit preserve old canonical bytes/history. Only exact pending continuation commits once; committed replay, wrong/conflicting input and CAS races reject without duplicate history or discharge from residue.",
       "reason": "Actual six publication boundaries, exact original receipt retry, wrong/conflicting pending, replay, CAS/current-source/review/namespace races all passed; cooperative-lock logical atomicity only.",
@@ -110,17 +100,14 @@
     {
       "evidence": [
         ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M1-M5-clause-to-evidence-map.actual.agent-recorded.json",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-2.stdout.decoded-from-canonical.actual.txt",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-3.stdout.decoded-from-canonical.actual.txt",
-        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/project-command-5.stdout.decoded-from-canonical.actual.txt"
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
       ],
       "expected": "Finding, other Unknown, dirty/unavailable source, missing/stale/foreign current authorization, changed request/blob/hunk/profile/scanner/policy, corrupt/duplicate/symlinked receipt/pointer/history/chain and material/source changes after the adjacent anchor reject. Workflow review rejects falsely extending old approval to new bindings.",
-      "reason": "Keep partial: named finite-current authorization/member/symlink-history variants and actual real-material risk workflow remain incomplete; no full-matrix green is inferred.",
+      "reason": "Existing validator/planner/transaction cases plus independent stale/foreign current review, actual Rust blob/hunk change, genuine foreign history receipt and Unix journal symlink passed. M5.7 proves refusal of old bindings; actual WI1090 risk consent remains a separate pending workflow.",
       "required": true,
       "scenario": "M5 integrity and source rejection",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
     },
     {
@@ -141,7 +128,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-19T21:30:55.130860015+00:00",
+  "updatedAt": "2026-10-19T21:53:54.138151430+00:00",
   "verification": [
     {
       "check": "project-command-0",
