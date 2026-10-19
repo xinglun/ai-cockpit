@@ -1,0 +1,10 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:18:00.366761+00:00",
+  "priorConsentContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+  "priorConsentRequestDigest": "sha256:c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7",
+  "actualConsentRawSha256": "2068443c4ccd9d2b01af29d9d032679a9c87effca3364f3434b15fe3376add5e",
+  "matchesOriginalOldReceiptEvidenceRef": true,
+  "newBindingRiskDecisionNotRecorded": true,
+  "orchestrationCorrection": "An initial redundant post-read consent assertion evaluated true without checking; the protected-history raw-digest assertion had already passed. Explicit old binding and old immutable receipt evidenceRef checks now passed independently. Original executed script preserved; corrected orchestration not rerun; no native amendment/preflight/record repeated."
+}

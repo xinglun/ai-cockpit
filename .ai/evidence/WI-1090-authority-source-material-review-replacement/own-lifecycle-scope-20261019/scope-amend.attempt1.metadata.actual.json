@@ -1,0 +1,22 @@
+{
+  "recordedBy": "agent:Codex",
+  "startedAt": "2026-10-19T23:15:04.870165+00:00",
+  "terminal": "returned",
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "work-item",
+    "amend",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-material-replacement",
+    "--id",
+    "WI-1090-authority-source-material-review-replacement",
+    "--request",
+    "/workspace/scratch/wi1090-own-lifecycle-scope-20261019/exact-own-lifecycle-scope.amend.request.json"
+  ],
+  "rawRequestSha256": "f1d2d06db05515e49e1074e28a0e8d4ab464fcf058f6e4285400d754ba98e5b4",
+  "kind": "actual approved own-WI1090 two-leaf lifecycle scope amendment",
+  "sourceHead": "474a8dc4f924a8f67561ee29dfc654213893df45",
+  "newContractIdentityReviewOccurred": false,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T23:15:06.898330+00:00"
+}

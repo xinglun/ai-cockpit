@@ -37,6 +37,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "previousContractHash": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+      "reason": "Propose only the explicit WI1090-own finish/archive exception in outOfScope item2 and acceptance criterion7. Preserve all other restrictions, profile, policy, source material and verification declarations. No scope amendment, terminal action or new-binding human review is implied before the actual required authorization.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T23:15:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
@@ -82,11 +102,11 @@
     "requestDigest": "sha256:c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-19T22:52:13Z",
-  "preflightContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightAt": "2026-10-19T23:16:29Z",
+  "preflightContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "preflightDecisionDigest": "sha256:32eb38ce7b28da40351e65b57900ddb1a2c02ec0924aac84303719660473ec45",
   "preflightRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
-  "preflightState": "green",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -204,6 +224,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-19T23:15:05Z"
+  },
   "verificationRecoveryReconciled": "sha256:96ad9afabd7af5ab734d3de9ef7d7d5e986726e7d1cb9a075b7a17a3313665d1",
   "workItemId": "WI-1090-authority-source-material-review-replacement"
 }
