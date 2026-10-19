@@ -354,12 +354,15 @@ fn segmented_authority_source_change_exposes_only_new_decision() {
     );
     assert!(status.review_receipt_digest.is_none());
     assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
-    assert!(
-        status
-            .safe_actions
-            .contains(&"record_material_review_decision".into()),
-        "reviewed mixed history plus an adjacent source-only transition must permit only a NEW exact decision: {status:#?}"
-    );
+    if !status
+        .safe_actions
+        .contains(&"record_material_review_decision".into())
+    {
+        let retained = directory.keep();
+        panic!(
+            "reviewed mixed history plus an adjacent source-only transition must permit only a NEW exact decision; retained fixture {retained:?}: {status:#?}"
+        );
+    }
 }
 
 #[test]
