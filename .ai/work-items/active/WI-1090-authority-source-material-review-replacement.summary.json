@@ -1,9 +1,11 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/work-items/active/WI-1090-authority-source-material-review-replacement.summary.json"
+  ],
   "checkpointAt": "2026-10-19T19:18:36Z",
   "checkpointContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "checkpointRepositorySnapshotDigest": "sha256:95233a9935be86e42a309aa72480b183615bafe132d6ecd9a09329cdd9c871a4",
   "createdAt": "2026-10-19T08:35:04Z",
   "decisionEvidence": {
     "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
@@ -19,8 +21,10 @@
     "workItemId": "WI-1090-authority-source-material-review-replacement"
   },
   "intentAlignment": {
-    "evidence": [],
-    "reason": "The exact v4 plan and intent are reviewed, but implementation and acceptance evidence are still pending; no verified user benefit is asserted.",
+    "evidence": [
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+    ],
+    "reason": "Current scoped implementation and all seven declared checks passed; independent Raydot technical review and separately admitted combined lifecycle acceptance remain pending. No verified user-visible benefit is asserted.",
     "state": "unknown"
   },
   "lifecycleFacts": {
@@ -34,57 +38,81 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-19T20:18:33Z",
+  "preflightAt": "2026-10-19T20:43:19Z",
   "preflightContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
-  "preflightDecisionDigest": "sha256:12cafe9b3f563eecc79da3ffd48e21c796f9fae2d9e06e600d2bccb93e41eeec",
-  "preflightRepositorySnapshotDigest": "sha256:c40a5c7e5bb1d3714adac33f1144c3a2e0a5d2d7bc8e3623d7f3d68537e2cac3",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:95233a9935be86e42a309aa72480b183615bafe132d6ecd9a09329cdd9c871a4",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
       "expected": "Complete valid R-to-A history permits only reviewed scope/acceptanceCriteria/scenarioCoverage/sources transitions with unchanged profile; real adjacent A-to-B changes only authoritySource, including correct whole-object governanceProfile replace. H/P only permit a NEW current decision; old receipt remains invalid/no discharge.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
       "required": true,
       "scenario": "M1 authoritySource-only proof",
       "status": "unverified",
       "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
       "expected": "Missing required historical review, broken/foreign/pending native chain, intermediate forbidden profile/risk/base changes including revert, Summary-forged or nonadjacent anchors, mixed root-replace changes and unjournaled edits reject without new material writes.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
       "required": true,
       "scenario": "M2 forbidden amendments",
       "status": "unverified",
       "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
       "expected": "Projection and under-lock record use the same H/P/C0 typed helper, preserving strict invalid diagnostics and blockers; record separately validates actual C1 current-request/reviewer/source/assurance input. Current exact material and actual approval/review provenance are required; self_declared human-authentication limits remain explicit.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
       "required": true,
       "scenario": "M3 shared admission and service proof",
       "status": "unverified",
       "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
       "expected": "Injected failures before/after prepare publish, receipt publish and one atomic Summary commit preserve old canonical bytes/history. Only exact pending continuation commits once; committed replay, wrong/conflicting input and CAS races reject without duplicate history or discharge from residue.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
       "required": true,
       "scenario": "M4 logical atomicity and bounded resume",
       "status": "unverified",
       "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
       "expected": "Finding, other Unknown, dirty/unavailable source, missing/stale/foreign current authorization, changed request/blob/hunk/profile/scanner/policy, corrupt/duplicate/symlinked receipt/pointer/history/chain and material/source changes after the adjacent anchor reject. Workflow review rejects falsely extending old approval to new bindings.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
       "required": true,
       "scenario": "M5 integrity and source rejection",
       "status": "unverified",
       "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
       "expected": "Frozen real 17c4100f-to-a5 history and a native-produced mixed-then-source-only fixture are covered. With a separately approved combined ba1+WI1090 candidate, actual blocked predecessor Outcome proceeds through NEW material decision, four fresh executed checks/reuse0/max1, fresh green preflight and actual fixture finish/archive. Same-profile and existing CLI/MCP regressions remain compatible; no actual consumer lifecycle completion is inferred.",
+      "reason": "Equivalent native mixed-history fixture and CLI/MCP compatibility passed. Separately approved exact combined ba1+WI1090 candidate, actual blocked predecessor Outcome, four fresh executions, green preflight and fixture finish/archive remain unperformed.",
       "required": true,
       "scenario": "M6 preserved compatibility and fixed candidate",
       "status": "unverified",
@@ -92,6 +120,37 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-19T19:22:16.494592049+00:00",
+  "updatedAt": "2026-10-19T20:44:02.961667361+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:d95bafb274ff552d06369a75d89adfd73addacefff53bc3819e9600e21638a96",
   "workItemId": "WI-1090-authority-source-material-review-replacement"
 }

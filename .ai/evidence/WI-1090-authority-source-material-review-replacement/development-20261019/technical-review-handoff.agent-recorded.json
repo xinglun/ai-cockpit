@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_technical_review_handoff_not_native_acceptance",
+  "recordedAt": "2026-10-19T20:44:44.415859+00:00",
+  "workItemId": "WI-1090-authority-source-material-review-replacement",
+  "sourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+  "baseCommit": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "runtimeSha256": "b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "sourceBlobs": {
+    "crates/cockpit-repository/src/material_review.rs": "fddc1e8f64d5f5ea1945e819e14f42f893b93f03",
+    "crates/cockpit-repository/tests/material_review.rs": "d35640b283df04b00ddcddab98a4b0c7d7726019",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.md": "3fe7126c4e5fccd25c591fa225b6f9989fdd33b9",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md": "56dfa60df011d4c7c9dc50da9431626f3e5c5215",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md": "4f003b9e200744b3cd49e00f6a34aa3969ed9594",
+    "docs/reference/reference-parity.md": "e95f909a31dd3f8d7fbefd27cd6aa7e0dc6497fc",
+    "docs/reference/reference-parity.zh-CN.md": "762279d1fbcde372129c60abeeccce44eb481dfc",
+    "docs/reference/reference-parity.ja.md": "ef707995d6df2d5e9069f47296c184a5b096eaf8"
+  },
+  "contractReview": {
+    "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.c880589e207ac11cc4d07253edff74bbfa5bc9ffd397378acf230d8df5313532.json",
+    "rawSha256": "7140bec515d8d3f30d3b4b16304c88f90baeca4b8e166b290c43e9c558ec0b7b",
+    "recorded": true,
+    "replayed": false
+  },
+  "formalVerification": {
+    "attemptLabel": "native-seven.attempt2",
+    "sourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+    "canonicalPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+    "canonicalRawSha256": "de695b545e6ebd6ca3e7437b1e91b52490a0449c4d09269da8c38655e73736d0",
+    "receiptDigest": "sha256:bc70645ee00ce72c46d144ed2c878e03e50b1ed3e7c66586665a3f988787cc7f",
+    "nodesExecuted": 7,
+    "nodesReused": 0,
+    "maxConcurrentProcesses": 1,
+    "checks": [
+      {
+        "nodeId": "project-command-0",
+        "passed": true,
+        "exitCode": 0,
+        "elapsedMs": 3031,
+        "testResultLines": []
+      },
+      {
+        "nodeId": "project-command-1",
+        "passed": true,
+        "exitCode": 0,
+        "elapsedMs": 58051,
+        "testResultLines": []
+      },
+      {
+        "nodeId": "project-command-2",
+        "passed": true,
+        "exitCode": 0,
+        "elapsedMs": 82830,
+        "testResultLines": [
+          "test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 147 filtered out; finished in 46.99s"
+        ]
+      },
+      {
+        "nodeId": "project-command-3",
+        "passed": true,
+        "exitCode": 0,
+        "elapsedMs": 83755,
+        "testResultLines": [
+          "test result: ok. 52 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 83.45s"
+        ]
+      },
+      {
+        "nodeId": "project-command-4",
+        "passed": true,
+        "exitCode": 0,
+        "elapsedMs": 30015,
+        "testResultLines": [
+          "test result: ok. 42 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 27.43s"
+        ]
+      },
+      {
+        "nodeId": "project-command-5",
+        "passed": true,
+        "exitCode": 0,
+        "elapsedMs": 266025,
+        "testResultLines": [
+          "test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 252.64s"
+        ]
+      },
+      {
+        "nodeId": "project-command-6",
+        "passed": true,
+        "exitCode": 0,
+        "elapsedMs": 1736,
+        "testResultLines": [
+          "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s"
+        ]
+      }
+    ],
+    "freshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    }
+  },
+  "preservedFailedAttempt": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.04eb5aafdae1c2910d375f0dec2171437831a27027907f2ab1b40eca48c39804.json",
+  "resolvedIssue": "Restore native record_material_review_decision admission before recomputing finite proof under lifecycle lock; missing old sidecar remains rejected with original action context. Exact three-case regression and full current-source seven-node run passed.",
+  "nativeGovernanceState": "yellow",
+  "currentUnknowns": [
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "required_scenario_unverified",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "remaining": [
+    "Raydot ordinary technical review of exact source head and eight scoped source/doc files.",
+    "All scenario acceptance statuses deliberately remain unverified; current actual passing evidence is attached without premature acceptance.",
+    "M6 exact separately approved combined ba1+WI1090 candidate, real blocked predecessor Outcome, four fresh checks/reuse0/max1, fresh green preflight and actual fixture finish/archive remain unperformed.",
+    "No real consumer/Sentinel acceptance or automatic Runtime adoption; self_declared assurance and logical rather than physical multi-file atomicity limits remain."
+  ],
+  "preservedConsumerHead": "ba1c6c90f4ac039521567c1365b4351fe7ce92ae",
+  "impact": "Finite eligibility and recoverable replacement are implemented and tested; user-visible recovery benefit remains an inference until combined lifecycle acceptance.",
+  "authorizationBoundary": "No consumer amendment, real WI finish/archive/closure, merge, release, tag, Sentinel operation or Runtime adoption executed."
+}
