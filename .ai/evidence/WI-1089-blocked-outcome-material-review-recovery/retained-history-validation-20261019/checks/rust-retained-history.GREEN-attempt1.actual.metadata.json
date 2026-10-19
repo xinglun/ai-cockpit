@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--package",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+    "retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives",
+    "--",
+    "--nocapture"
+  ],
+  "startedAt": "2026-10-19T09:54:52.645729+00:00",
+  "exitCode": 101,
+  "elapsedSeconds": 72.34388144900731,
+  "sourceHead": "44a368225e14262a50bc43559558c9c98eb8ca09"
+}

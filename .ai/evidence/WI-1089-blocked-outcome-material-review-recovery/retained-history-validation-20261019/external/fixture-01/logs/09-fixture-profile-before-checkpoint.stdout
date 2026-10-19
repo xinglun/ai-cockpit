@@ -1,0 +1,70 @@
+{
+  "changeId": "fixture-profile-before-checkpoint",
+  "changedValues": [
+    {
+      "newValue": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "test-fixture:bounded-review",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:isolated-fixture-reviewer",
+          "schemaVersion": 1
+        }
+      },
+      "oldValue": null,
+      "operation": "set",
+      "path": "/governanceProfile"
+    },
+    {
+      "newValue": [
+        {
+          "evidence": [],
+          "expected": "The old cycle executes all four declared checks.",
+          "required": true,
+          "scenario": "old fixture four-check cycle",
+          "status": "unverified",
+          "verificationPlan": "Native verify all four declared fixture commands."
+        }
+      ],
+      "oldValue": null,
+      "operation": "add",
+      "path": "/scenarioCoverage"
+    },
+    {
+      "newValue": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "operation": "set",
+      "path": "/requiredRuntimeCapabilities"
+    }
+  ],
+  "checkpointed": false,
+  "environmentObservationDigest": "sha256:1990dd3f301f41011e7938b49d3081d2d375e371fb735870b493e1110e519ccb",
+  "invalidatedEvidence": [],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:b9394696e4f2cad381e7f76eb2df6c04785f54d81dd082091b30290bd51a0128",
+  "newContractDigest": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+  "nextAction": "run_preflight",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/governanceProfile",
+    "/scenarioCoverage"
+  ],
+  "previousContractDigest": "sha256:fb1dc6065c98f987864ae912ada47edef1b0df297d5da83b3b1c30e58d2e1bea",
+  "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+  "reason": "Isolated equivalent fixture, no real human or production authority.",
+  "recordedAt": "2026-10-19T09:24:14Z",
+  "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+  "repositorySnapshotDigest": "sha256:1661f78f622ae7425f8722dfee2cbf2542242dff76af9aaa8a126bb39d849860",
+  "requestDigest": "sha256:4e17ef99d9a21354399ca011860164c3bd90db8f97c9ebefb27b26fd5d78857e",
+  "runtimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "verificationStarted": false,
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

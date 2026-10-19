@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/workspace/ai-cockpit-wi1089-recovery/target/release/ai-cockpit",
+    "attach",
+    "--repo",
+    "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-05-native-workspace-manifest/repository"
+  ],
+  "exitCode": 0,
+  "startedAt": "2026-10-19T10:51:21.289082+00:00",
+  "endedAt": "2026-10-19T10:51:21.330238+00:00",
+  "stdoutSha256": "49b7b411a9432648806c34f04a24009f1cafb8bcf1bc6191b0dca36842eeab9c",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

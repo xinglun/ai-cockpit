@@ -1,0 +1,42 @@
+{
+  "changeId": "sensitive-after-old-success-and-failed-finish",
+  "changedValues": [
+    {
+      "newValue": [
+        "All four commands execute and history remains intact",
+        "Reverify the exact amended plan before fixture finish and archive"
+      ],
+      "oldValue": [
+        "All four commands execute and history remains intact"
+      ],
+      "operation": "add",
+      "path": "/acceptanceCriteria"
+    }
+  ],
+  "checkpointed": true,
+  "environmentObservationDigest": "sha256:1990dd3f301f41011e7938b49d3081d2d375e371fb735870b493e1110e519ccb",
+  "invalidatedEvidence": [
+    ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+  ],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:9887a852d34a0e01c7e5585c6943c0d510920fc34f80d59817af5fae635148dd",
+  "newContractDigest": "sha256:1e9bcd1de32af9c435bf0d66e02c7ca33dd8a76b7ed390bf95fa7f8d6cb47d6c",
+  "nextAction": "run_preflight",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/acceptanceCriteria"
+  ],
+  "previousContractDigest": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+  "previousJournalDigest": "sha256:b9394696e4f2cad381e7f76eb2df6c04785f54d81dd082091b30290bd51a0128",
+  "reason": "Isolated equivalent fixture, no real human or production authority.",
+  "recordedAt": "2026-10-19T09:24:20Z",
+  "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+  "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+  "requestDigest": "sha256:5b798e6808eef51738b6e4e881983e0fa5eaf775bd0b7894686efd920ec776a1",
+  "runtimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 2,
+  "verificationStarted": true,
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

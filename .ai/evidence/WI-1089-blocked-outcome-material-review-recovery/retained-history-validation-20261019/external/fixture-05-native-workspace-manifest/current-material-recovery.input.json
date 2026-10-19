@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:ec8492efb7e93a0c77f1ea68dc33e029d1f7893a228c450f336d6bdf8a5d79f7",
+  "reviewerActor": "agent:isolated-fixture-reviewer",
+  "authoritySource": "test-fixture:bounded-review",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "tests/material.rs",
+      "digest": "sha256:7fc9452f1e16088fb429622f0a80ca776f25640463034c73f34bda5107f41fc6"
+    }
+  ],
+  "rationale": "Read the exact fixture source; only the bounded committed syntax Unknown.",
+  "residualRisk": "The scanner is incomplete; synthetic fixture scope only."
+}

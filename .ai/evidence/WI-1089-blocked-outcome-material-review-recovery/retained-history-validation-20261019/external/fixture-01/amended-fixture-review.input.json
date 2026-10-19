@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+    "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+    "contractDigest": "sha256:1e9bcd1de32af9c435bf0d66e02c7ca33dd8a76b7ed390bf95fa7f8d6cb47d6c",
+    "preflightDecisionDigest": "sha256:ad81f285cee0a893c1ea1ee070ff152bdc30488af37117f4da68c38c4c640ff1",
+    "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+    "recordedAt": "2026-10-19T09:24:21Z",
+    "recordedBy": "human:isolated-synthetic-fixture",
+    "reason": "Synthetic fixture decision only; not Ray or a consumer approval."
+  }
+}

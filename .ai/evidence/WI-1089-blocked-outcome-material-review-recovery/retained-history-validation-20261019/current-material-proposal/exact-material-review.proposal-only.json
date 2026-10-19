@@ -1,0 +1,98 @@
+{
+  "kind": "proposal_only_current_exact_material_review_not_approval",
+  "addressee": "agent:Raydot under the user delegation",
+  "sourceHead": "7e8d629b11c36235d96c80c28adbf2b91d013e47",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "contractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+  "repositorySnapshotDigest": "sha256:fb16aa77a7183008ba80450b108caaeb60a048b75ed68d7147e7e72e507e4508",
+  "sourceSnapshotDigest": "sha256:fc13fcb02cc9eb4ba8fb2e7987bc7aceae4b1ee284aa061143b56cfde2d176a3",
+  "materialManifestDigest": "sha256:ce60733d8af27a12913af07c335a2beae0441f7c73fea80c5c54ecd0318a531c",
+  "requestDigest": "sha256:5b754492f94bcca129b64a23d6b83a8bec18eeea14e1c14c97db9ed27681574a",
+  "profileDigest": "sha256:3cfea8a93c672a1439fc6c4295cf2732a44779f95da41103201964f6ce1e523c",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:f2f7898225550abbf1cbde21c4780795bbd1bb953150a7a94fe993ab7b263d27",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "currentAuthoritySource": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+  "exactReviewableUnknownEntries": [
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:8efbcedd7970d7aed5e5dc504a0a3d4bbf5a4d1d30a6d2907bd8c3bca4f59b04",
+      "afterBlobDigest": "sha256:1e90ecada9bc92eafc61d3719c3c8e3c8569da85cdd75e206928a9f8dbad2d17"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:c81dca7ab8bddf6e6fdadffe80db2dc7ebb590baf353f917f1cd1d82b508965a",
+      "afterBlobDigest": "sha256:6cb86c09ced6bd6dab648ca17976bf4581ea736604b2587c873c72bed7aff122"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:54a5d39c8752b7e5ac3c017344f79db64950379fbb7ce437e1fae71c0a0a5c0a",
+      "afterBlobDigest": "sha256:7ad8af92961788e6ac65f47ef9130417a645984cb1c356b6363cac4e9625d6d6"
+    }
+  ],
+  "allChangedRustFiles": [
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "afterBlobDigest": "sha256:f35da6858c0a00f4ceef0d67d358c673160fb69c3e40021a4149a68cb13882f1",
+      "beforeRawSha256": "7263c3121b244c6aa0df832d898aa6a960a8edc4ab6ca3a7108c660ecb0db481",
+      "afterGitBlob": "65860deffa458de63ddd2a4709a83ab8ea2debb7"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "afterBlobDigest": "sha256:ef8b6e57386b4e71ed8a247b1a176eb99959eaea43b89418218a88c15d18586e",
+      "beforeRawSha256": "e4c489b6d2f1a48159c80132e58c3a959162c036edeaf71b8627b05e64386c25",
+      "afterGitBlob": "f8e1c9f8f80afefe1e71f77377760f6371801cb6"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "afterBlobDigest": "sha256:6cb86c09ced6bd6dab648ca17976bf4581ea736604b2587c873c72bed7aff122",
+      "beforeRawSha256": "b8dbad7ba45a0090a4af52fd2212aab5203543ee05f9cc5511626bf060dcde67",
+      "afterGitBlob": "fc8b0a1428bd8b885defe416f7912c1394fab5b5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "afterBlobDigest": "sha256:7ad8af92961788e6ac65f47ef9130417a645984cb1c356b6363cac4e9625d6d6",
+      "beforeRawSha256": "e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124",
+      "afterGitBlob": "bd68a7b0385ed9009d9713e7fab4e96e504467a1"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "afterBlobDigest": "sha256:1e90ecada9bc92eafc61d3719c3c8e3c8569da85cdd75e206928a9f8dbad2d17",
+      "beforeRawSha256": "0ace7891e0c4a1847cadc0ad19bc0052d28d87bdf2dd2d6176409d14a5251ace",
+      "afterGitBlob": "c92c6ff894c23debb91df7baed8356217124ff67"
+    }
+  ],
+  "findingCodes": [],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "contractHumanReviewRawSha256": "d4050c09726d434b76ca2e22356df4e1c9c945e32ab4275358da13dcacebabc7",
+  "riskDescription": "The bounded scanner cannot fully interpret the 3 exact committed Rust syntax Unknown blobs. Independent agent review and tests may miss unsafe semantics or weakened governance. All five changed Rust files remain in technical review; scanned-clean implementation is not proof of correctness.",
+  "authorizationState": "No new exact material decision or residual-risk acceptance received or recorded. Existing finite consent covers older blobs only. Native Contract confirm_review is already recorded and is not being requested again.",
+  "requiredNextAction": "Raydot independently reviews the exact five-file diff, resolves the required fresh finite material authority, and records only an actually authorized native decision. If policy renewal is necessary, use its actual native binding and report any real blocker; do not overwrite prior consent or infer a new approval.",
+  "exclusions": [
+    "No actual WI or Sentinel finish/archive/merge/close/cleanup",
+    "No release or live authority",
+    "No WI1090 implementation or combined721129 changes",
+    "No automatic conversion of this proposal into an approval"
+  ]
+}

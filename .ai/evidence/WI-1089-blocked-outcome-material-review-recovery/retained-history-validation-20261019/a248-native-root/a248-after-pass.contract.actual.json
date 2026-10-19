@@ -1,0 +1,219 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "A real failed Outcome followed by sensitive amendment and fresh identity-bound Contract review remains red but can reach the exact current reviewable material request.",
+    "Only current clean committed Rust syntax Unknown with no Finding and matched Contract preflight human review policy source and request can record an independent typed material decision.",
+    "Only an actual fresh verification receipt can clear the old failure for later finish or archive; historical failed evidence remains readable.",
+    "Dirty source unavailable projection Finding stale foreign tampered input and wrong retry all remain rejected before material record or verification.",
+    "Repository CLI and MCP boundaries agree and combined WI-1087 integration preserves its authority guard under serial revalidation.",
+    "Before any implementation fix, reproduce the c960 rejection using a retained-history fixture that obtains a typed passed old canonical verification through real Native operations before a real blocked Outcome, then a sensitive native amendment, fresh current preflight/review and exact reviewable material request. Preserve the Missing baseline; do not substitute missing verification for historical evidence.",
+    "Admit the bounded new-evidence production action only after complete same-read-byte historical receipt integrity/identity/typed plan and execution validation plus a trusted native predecessor Contract/amendment/checkpoint chain. Generic Stale, Unknown, Contradictory, Summary markers, arbitrary historical digests and invalid replay are insufficient; old evidence remains noncurrent.",
+    "Validate historical snapshot/producer bindings separately from current clean committed source and current Runtime authority. Public reports name the same b46b35d0 snapshot, but latest raw historical fields are unavailable in cloud; do not add unverified HEAD/root/snapshot equality assumptions. Unprovable source relations or unsupported history require an explicit bounded diagnostic or supported recovery, never fabricated acceptance.",
+    "In an isolated equivalent acceptance fixture, complete current native human review and independently authorized exact material recording, plan-only with zero processes, then all four declared required checks actually executed and passed with zero reuse, one worker and durable execution records, fresh green preflight and actual fixture finish then archive. A safe action, one true node, partial checks or all reuse is not end-to-end acceptance.",
+    "Malformed/tampered/foreign/nonpredecessor receipts, wrong invalidation marker or transition, incompatible producer format/runtime identity, invalid retry, Finding, dirty/unavailable source and missing/stale/foreign authorization or request reject before command spawn and write no successful completion/material receipt. A real executed required-check failure is retained and prevents finish/archive; existing exact retry remains independent.",
+    "Preserve original source/governance snapshots, old canonical verification, blocked Outcome, append-only failures, immutable material receipts and all c960 history. Native may advance only current fixture projections after successful fresh evidence. The real WI1089 and Sentinel must not be finished/archived/merged/closed/cleaned up under fixture acceptance.",
+    "Keep one WI1089 branch and PR1048; append normal later commits without rewriting c960 or force push. Preserve combined721129/Contract420 and paused WI1090. Clearly label cloud equivalent fixtures and missing real fields; only a later exact local Sentinel revalidation can establish real consumer recovery. Do not rerun unchanged-source builds or CI.",
+    "This scope/acceptance/scenario approval is technical plan authority only. Keep the materialInspectionReview profile and authoritySource unchanged in this amendment; existing finite risk evidence does not automatically cover future changed Rust material. Obtain any actually required fresh material residual-risk decision for its exact request separately, and report a native profile-renewal blocker rather than bypassing it."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-19T04:22:04Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Admit only a current bound human Contract review and independently decided reviewable committed material request, then permit fresh Native verification; keep red Outcome and finish/archive blocked until that verification actually passes.",
+  "governancePolicy": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:Raydot",
+      "schemaVersion": 1
+    }
+  },
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Repair the bounded #1041 Runtime recovery interlock after a real failed Outcome and sensitive Contract amendment; preserve failed history and all non-review red blockers.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "No Sentinel checkout or downstream work",
+    "No deletion or rewriting of historical failed Outcome and receipts",
+    "No general governance red bypass or acceptance of findings and dirty source",
+    "No fake retry or replacement of identity-bound human and material decisions",
+    "No WI-1087 P3 or P4 and no live grant"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "requiredRuntimeCapabilities": [
+    "material-inspection-review",
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "high",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Persist real failed Outcome, amend sensitive Contract, obtain fresh preflight and identity-bound human review; old failure remains red.",
+      "required": true,
+      "scenario": "A1 blocked Outcome and amendment",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [],
+      "expected": "Only current clean committed reviewable Rust syntax Unknown with no Finding and matched Contract preflight review request and policy admits independently accepted typed material decision.",
+      "required": true,
+      "scenario": "A2 exact material decision",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Material receipt admits fresh Native verification; only actual passing receipt can supersede old failure for finish or archive and history remains readable.",
+      "required": true,
+      "scenario": "A3 real verification recovery",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [],
+      "expected": "Dirty source unavailable projection Finding stale foreign tampered inputs or wrong retry remain rejected without business effects or extra governance writes.",
+      "required": true,
+      "scenario": "A4 rejection matrix",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Composed HEAD retains the WI-1087 authority guard and both WI regression suites pass after serial integration.",
+      "required": true,
+      "scenario": "A5 serial WI-1087 composition",
+      "status": "unverified",
+      "verificationPlan": "On a separately admitted serial composed HEAD run repository status_projection and WI-1087 authority-admission regressions plus current Native verification and CI"
+    },
+    {
+      "evidence": [],
+      "expected": "Generate and retain an actual Native typed old passed canonical receipt before blocked Outcome and sensitive amendment. With current preflight/fixture human review and only permitted material Unknown, unchanged c960 implementation rejects the material recovery path because canonical evidence is present. Capture exact failure before implementing; Missing fixture is a separate baseline.",
+      "required": true,
+      "scenario": "A6 preserved canonical baseline reproduces c960 failure",
+      "status": "unverified",
+      "verificationPlan": "Targeted pre-fix repository status_projection and CLI contract_amendment_processes retained-canonical regression; record exact implementation source/binary, fixture inventory and native failure, no CI."
+    },
+    {
+      "evidence": [],
+      "expected": "After the bounded fix, the same retained-history fixture reaches exact material record, Native plan-only with zero processes, all four declared commands actually executed/passed with zero reuse and one worker, fresh green preflight, fixture finish and archive. Retained original historical bytes and failure history remain verifiable. Cloud fixture result is not real Sentinel acceptance.",
+      "required": true,
+      "scenario": "A7 complete retained-history four-check fixture lifecycle",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes; cargo test --locked --package cockpit-repository --test status_projection; capture four-node execution/coverage and actual fixture finish/archive receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "Cover Missing, current valid, proven native amendment-invalidated history, malformed/unknown, contradictory/foreign/nonpredecessor, unsupported Runtime, true failure/exact retry, Finding, dirty and missing authority with representative mutations. Precondition negatives spawn zero command processes and publish no successful receipts; a real check failure remains failed. Preserve same-byte digest/semantic reads and distinguish historical/current snapshot facts without unverified equality guards.",
+      "required": true,
+      "scenario": "A8 strict historical proof negative classes and current-binding changes",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-cli --test contract_amendment_processes; existing MCP material_review regressions. No Cartesian-product explosion or generic Stale allowance."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "crates/cockpit-mcp/tests/material_review.rs",
+    "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+    "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+    "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "sources": [
+    {
+      "path": "https://github.com/xinglun/ai-cockpit/issues/1041#issuecomment-6257220086",
+      "reason": "Public exact blocked-Outcome and material-record interlock reproduction; no Sentinel private checkout read."
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/start-20261019/raydot-delegated-approval.agent-recorded.json",
+      "reason": "User delegated approvals to Raydot; Raydot approved START-ARGV sha256:2798ff7356698d2bacfeb624a07e33c4539601f7d6040b728b7d70ca1906ef44 on main b8ec269; agent-recorded provenance, not human:Ray confirm_review."
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+      "reason": "Actual new human:Ray decision on the exact bounded WI-1089 Rust material scanner residual risk, relayed by Raydot; record must exist before this amendment runs."
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/technical-scope-approval.agent-recorded.json",
+      "reason": "Current Raydot-delegated technical scope and one-branch/one-PR instruction; agent-recorded, not human Contract review or new material residual-risk acceptance."
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/snapshot-comparison.reported-facts.agent-recorded.json",
+      "reason": "Published old/current snapshot equality facts and explicit missing raw fields; not a fabricated real snapshot or historical receipt."
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/bounded-repair-design-and-acceptance.proposal-only.json",
+      "reason": "Strict predecessor/same-byte bounded design, baseline-first tests, four-check fixture finish/archive and negative matrix; no implementation or test has yet run."
+    },
+    {
+      "path": "https://github.com/xinglun/ai-cockpit/issues/1041",
+      "reason": "Original passed old canonical, exact historical snapshot and four required checks; source-only public report."
+    },
+    {
+      "path": "https://github.com/xinglun/ai-cockpit/issues/1041#issuecomment-6204404531",
+      "reason": "Existing October15 requirement to preserve old verification/decision through sensitive native amendment; requirement was not new."
+    },
+    {
+      "path": "https://github.com/xinglun/ai-cockpit/issues/1041#issuecomment-6263215739",
+      "reason": "Actual c960 local copy acceptance remains blocked with preserved old canonical and zero processes; no Sentinel filesystem operation by cloud."
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/implementation-plan.proposal-only.md",
+      "reason": "Serial baseline-first implementation and full four-check fixture lifecycle plan within the approved 12 paths; tasks unexecuted, not a human review or risk decision."
+    }
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+    "cargo test --locked --package cockpit-repository --test status_projection",
+    "cargo test --locked --package cockpit-cli --test contract_amendment_processes",
+    "cargo test --locked --package cockpit-mcp --test material_review",
+    "cargo test --locked --package cockpit-repository --test material_review"
+  ],
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+}

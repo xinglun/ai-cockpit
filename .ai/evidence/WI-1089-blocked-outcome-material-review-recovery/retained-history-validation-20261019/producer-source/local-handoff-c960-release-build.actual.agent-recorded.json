@@ -1,0 +1,38 @@
+{
+  "kind": "actual_independent_release_build_agent_recorded_not_runtime_adoption",
+  "recorder": "agent:Codex",
+  "recordedAt": "2026-10-19T07:56:04.935516+00:00",
+  "sourceHead": "c960ed2eaa9e42cddedad25612f5d0d2d9a44774",
+  "githubBranch": "codex/wi1089-blocked-outcome-material-review-recovery",
+  "command": [
+    "cargo",
+    "build",
+    "--release",
+    "--locked",
+    "--offline",
+    "--package",
+    "cockpit-cli",
+    "--bin",
+    "ai-cockpit"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1089-recovery",
+  "environment": {
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit-wi1089-recovery/target",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_NET_OFFLINE": "true",
+    "RUST_TEST_THREADS": "1"
+  },
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+  "host": "x86_64-unknown-linux-gnu",
+  "exitCode": 0,
+  "reportedElapsed": "13m 22s",
+  "binaryPath": "/workspace/ai-cockpit-wi1089-recovery/target/release/ai-cockpit",
+  "binaryVersion": "ai-cockpit 1.0.1",
+  "binarySha256": "d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+  "referenceRuntimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+  "governanceRuntimeUsedThisThread": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "limits": "This release was built and queried for --version only. It did not replace the installed or repository-bound governance Runtime. macOS/other-host builds must compute and bind their own binary identity; no local Sentinel run occurred."
+}

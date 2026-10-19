@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "changeId": "fixture-profile-before-checkpoint",
+  "expectedContractDigest": "sha256:fb1dc6065c98f987864ae912ada47edef1b0df297d5da83b3b1c30e58d2e1bea",
+  "reason": "Isolated equivalent fixture, no real human or production authority.",
+  "changes": [
+    {
+      "path": "/governanceProfile",
+      "operation": "set",
+      "value": {
+        "materialInspectionReview": {
+          "schemaVersion": 1,
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "assurance": "self_declared",
+          "reviewerActor": "agent:isolated-fixture-reviewer",
+          "authoritySource": "test-fixture:bounded-review",
+          "acceptResidualRisk": true
+        }
+      }
+    },
+    {
+      "path": "/scenarioCoverage",
+      "operation": "add",
+      "value": {
+        "scenario": "old fixture four-check cycle",
+        "required": true,
+        "status": "unverified",
+        "evidence": [],
+        "expected": "The old cycle executes all four declared checks.",
+        "verificationPlan": "Native verify all four declared fixture commands."
+      }
+    }
+  ]
+}

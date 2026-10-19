@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "work-item",
+    "amend",
+    "--repo",
+    "/workspace/ai-cockpit-wi1089-recovery",
+    "--id",
+    "WI-1089-blocked-outcome-material-review-recovery",
+    "--request",
+    "/workspace/scratch/wi1089-historical-verification-amendment-20261019/exact-scope-acceptance-scenarios.amend.request.json"
+  ],
+  "requestRawSha256": "7b74697f4ba8b943487d48b0066af01bbf595242f1889c24be426723d8ca394d",
+  "exitCode": 0,
+  "startedAt": "2026-10-19T09:13:48.504440+00:00",
+  "endedAt": "2026-10-19T09:13:49.815289+00:00"
+}

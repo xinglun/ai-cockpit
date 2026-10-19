@@ -1,0 +1,8 @@
+Verification progress: started node "project-command-0" (0/4 complete, 0%)
+Verification progress: completed node "project-command-0": passed (1/4 complete, 25%)
+Verification progress: started node "project-command-1" (1/4 complete, 25%)
+Verification progress: completed node "project-command-1": passed (2/4 complete, 50%)
+Verification progress: started node "project-command-2-package-retained_fixture" (2/4 complete, 50%)
+Verification progress: completed node "project-command-2-package-retained_fixture": passed (3/4 complete, 75%)
+Verification progress: started node "project-command-3" (3/4 complete, 75%)
+Verification progress: completed node "project-command-3": passed (4/4 complete, 100%)

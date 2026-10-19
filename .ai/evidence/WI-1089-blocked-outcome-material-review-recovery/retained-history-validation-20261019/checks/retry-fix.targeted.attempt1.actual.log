@@ -1,0 +1,9 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.26s
+     Running tests/contract_amendment_processes.rs (/workspace/scratch/wi1089-preserved-history-verify-target-20261019/debug/deps/contract_amendment_processes-9c822762ecd8f2ad)
+
+running 1 test
+test retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 43 filtered out; finished in 14.32s
+

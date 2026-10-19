@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "preflight",
+    "--repo",
+    "/workspace/ai-cockpit-wi1089-recovery",
+    "--contract",
+    "/workspace/ai-cockpit-wi1089-recovery/.ai/work-items/active/WI-1089-blocked-outcome-material-review-recovery.contract.json"
+  ],
+  "exitCode": 0,
+  "startedAt": "2026-10-19T09:14:35.358276+00:00",
+  "endedAt": "2026-10-19T09:14:40.022664+00:00"
+}

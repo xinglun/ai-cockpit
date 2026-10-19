@@ -1,0 +1,128 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-RETAINED-CANONICAL-FIXTURE.preflight-review.c084bf95e1dee4710b2c6b69b51c0e1aa39905b7da6762c57de34d2a8d9ba517.json",
+    ".ai/evidence/material-inspection-review/WI-RETAINED-CANONICAL-FIXTURE/5095d944bd74dc35afc27a111c22d5c087f07231ac3d0c329684a9cc44ac04f9.json",
+    ".ai/fixture-target/.rustc_info.json",
+    ".ai/fixture-target/CACHEDIR.TAG",
+    ".ai/fixture-target/debug/.cargo-artifact-lock",
+    ".ai/fixture-target/debug/.cargo-build-lock",
+    ".ai/fixture-target/debug/.cargo-lock",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/dep-test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/test-integration-test-material.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/dep-test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/test-lib-retained_fixture.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/dep-test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/test-integration-test-material.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/dep-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/lib-retained_fixture.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/dep-test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/test-lib-retained_fixture.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/dep-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/lib-retained_fixture.json",
+    ".ai/fixture-target/debug/deps/libmaterial-37e21bdeb8afd388.rmeta",
+    ".ai/fixture-target/debug/deps/libretained_fixture-acc3a1905f935e7d.rmeta",
+    ".ai/fixture-target/debug/deps/libretained_fixture-d936cce08e844de4.rmeta",
+    ".ai/fixture-target/debug/deps/libretained_fixture-db6af29b1c6894b5.rlib",
+    ".ai/fixture-target/debug/deps/libretained_fixture-db6af29b1c6894b5.rmeta",
+    ".ai/fixture-target/debug/deps/material-081c4ca137d6555b",
+    ".ai/fixture-target/debug/deps/material-081c4ca137d6555b.d",
+    ".ai/fixture-target/debug/deps/material-37e21bdeb8afd388.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-0f305aa669e558e7",
+    ".ai/fixture-target/debug/deps/retained_fixture-0f305aa669e558e7.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-acc3a1905f935e7d.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-d936cce08e844de4.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-db6af29b1c6894b5.d",
+    ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+  ],
+  "checkpointAt": "2026-10-19T10:01:13Z",
+  "checkpointContractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9cc5a6a0b863215094f05f6758ce7941d84e167d1fbfd1ed06effc0dae28ca6c",
+  "createdAt": "2026-10-19T10:01:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:84846910dbdc9058882232f392f8097f2418b4a0ce3daac4d07ade12de96910d",
+    "reason": "Synthetic fixture decision only; not Ray or a consumer approval.",
+    "recordedAt": "2026-10-19T10:01:13Z",
+    "recordedBy": "human:isolated-synthetic-fixture",
+    "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+    "repositorySnapshotDigest": "sha256:9cc5a6a0b863215094f05f6758ce7941d84e167d1fbfd1ed06effc0dae28ca6c",
+    "schemaVersion": 1,
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+  },
+  "failedGate": "finish.lifecycle",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T10:01:12.785831365Z",
+      "recordedAt": "2026-10-19T10:01:12.785831365Z",
+      "runtimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:7b10452ce46e8449543cc6acabca5174012ea3f68177c7e77a799201963ca6e9",
+    "path": ".ai/evidence/material-inspection-review/WI-RETAINED-CANONICAL-FIXTURE/5095d944bd74dc35afc27a111c22d5c087f07231ac3d0c329684a9cc44ac04f9.json",
+    "receiptDigest": "sha256:0f88679182e01a4fff933bb11398539b3ee14e902250170a79489e2468e3b2ce",
+    "requestDigest": "sha256:5095d944bd74dc35afc27a111c22d5c087f07231ac3d0c329684a9cc44ac04f9"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-10-19T10:01:19Z",
+  "preflightContractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9cc5a6a0b863215094f05f6758ce7941d84e167d1fbfd1ed06effc0dae28ca6c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/fixture-preserved-old-cycle.json"
+      ],
+      "expected": "The old cycle executes all four declared checks.",
+      "required": true,
+      "scenario": "old fixture four-check cycle",
+      "status": "verified",
+      "verificationPlan": "Native verify all four declared fixture commands."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T10:01:20.086663974+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:b61e4f0fa34c4a83dcf9dcfc9d3603b65beda822e7905b9880d1c2c1cd6ba38b",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

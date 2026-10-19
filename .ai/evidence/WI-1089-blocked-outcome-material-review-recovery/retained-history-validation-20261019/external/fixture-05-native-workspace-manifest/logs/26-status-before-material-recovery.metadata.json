@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/workspace/ai-cockpit-wi1089-recovery/target/release/ai-cockpit",
+    "work-item",
+    "status",
+    "--id",
+    "WI-RETAINED-CANONICAL-FIXTURE",
+    "--json",
+    "--repo",
+    "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-05-native-workspace-manifest/repository"
+  ],
+  "exitCode": 0,
+  "startedAt": "2026-10-19T10:51:26.602678+00:00",
+  "endedAt": "2026-10-19T10:51:26.763847+00:00",
+  "stdoutSha256": "3a2135a88930ab86109aeb17518294435065c5bcaf6dff0f56463b1c7b9ec521",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1089-preserved-history-verify-target-20261019/debug/ai-cockpit",
+    "work-item",
+    "material-review",
+    "plan",
+    "--id",
+    "WI-RETAINED-CANONICAL-FIXTURE",
+    "--repo",
+    "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-06-real-producer-change-after-attempt-binding/repository"
+  ],
+  "exitCode": 0,
+  "startedAt": "2026-10-19T11:12:45.956936+00:00",
+  "endedAt": "2026-10-19T11:12:46.286498+00:00",
+  "stdoutSha256": "17c706babe8950f4534ef309b8bca0f9a8494e635c393fabb964dbec41b98fad",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

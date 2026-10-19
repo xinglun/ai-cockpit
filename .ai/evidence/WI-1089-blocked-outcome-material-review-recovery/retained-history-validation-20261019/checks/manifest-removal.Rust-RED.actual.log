@@ -1,0 +1,74 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.60s
+     Running tests/contract_amendment_processes.rs (/workspace/scratch/wi1089-preserved-history-verify-target-20261019/debug/deps/contract_amendment_processes-9c822762ecd8f2ad)
+
+running 2 tests
+test retained_history_rejects_removing_a_native_manifest_and_rehashing_the_receipt ... 
+thread 'retained_history_rejects_removing_a_native_manifest_and_rehashing_the_receipt' (39636) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:930:5:
+missing_coverage_manifest unexpectedly admitted material: {
+  "schemaVersion": 1,
+  "repositoryId": "sha256:e22cf0f71b6190dec844f3350bb037cb0b81ae364a4855d6ea9acadf7c4d3970",
+  "workItemId": "WI-CLI-AMEND-PARITY",
+  "contractDigest": "sha256:1f5061bf2a7a6ff78a744846bacc941ff17f351654b9cc25813659234b944cc2",
+  "materialManifestDigest": "sha256:15ffdf4891b7747f8d289b965451b4a7c9b4e6b8e75bc6c9d595225e01505894",
+  "profileDigest": "sha256:bea0415ff777d3f9aca368260f29193fe966e301b79bab7a7755108a9d5d237d",
+  "requestDigest": "sha256:e8793b281f10e678d87640b8b3a2bd8b17b4d4afb17eee9b3b811087b3ea1c70",
+  "reviewedSourceHead": "4e5ba2474dc7fab16dc8a3969de5dec167615691",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:fixture-reviewer",
+  "recordedBy": "runtime:1.0.1:sha256:3f7a3b4b446cea8b7b98544bd026b94e3ce272f53bd5dfecc611d6724f3d91d5",
+  "authoritySource": "test-fixture:bounded-review",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "tests/material.rs",
+      "digest": "sha256:9f6dd741c7b93e24b28f2be76989ef81d722ffc26f6e12b76fc091d0cf9ee251"
+    }
+  ],
+  "rationale": "Read the exact isolated fixture source and bounded syntax Unknown.",
+  "residualRisk": "The bounded scanner is incomplete; synthetic fixture scope only.",
+  "recordedAt": "2026-10-19T10:58:30Z",
+  "receiptDigest": "sha256:65f3d5528033cf81a27084fd5a8c7b0f8f05c62f6797c368f658d6834f43b116"
+}
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+test retained_history_rejects_unbound_command_digest_in_native_nonpartitioned_receipt ... 
+thread 'retained_history_rejects_unbound_command_digest_in_native_nonpartitioned_receipt' (41145) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:930:5:
+wrong_command_without_manifest unexpectedly admitted material: {
+  "schemaVersion": 1,
+  "repositoryId": "sha256:85bf0eab7c6ca1bdb74a35847a85401c612bca9f745d6ccf313812db31fb99d6",
+  "workItemId": "WI-CLI-AMEND-PARITY",
+  "contractDigest": "sha256:8e333cdb5a942f23787512c7ef1d764de17018a501cd70282fb489437af939f2",
+  "materialManifestDigest": "sha256:15ffdf4891b7747f8d289b965451b4a7c9b4e6b8e75bc6c9d595225e01505894",
+  "profileDigest": "sha256:bea0415ff777d3f9aca368260f29193fe966e301b79bab7a7755108a9d5d237d",
+  "requestDigest": "sha256:690591b9107c0cd7a636ecb20ef8e85750c5fbed06af4ca7f016cc969ce961f5",
+  "reviewedSourceHead": "19ff65f87d46a9afacec6d14e1bbb1fc0f6a71eb",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:fixture-reviewer",
+  "recordedBy": "runtime:1.0.1:sha256:3f7a3b4b446cea8b7b98544bd026b94e3ce272f53bd5dfecc611d6724f3d91d5",
+  "authoritySource": "test-fixture:bounded-review",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "tests/material.rs",
+      "digest": "sha256:9f6dd741c7b93e24b28f2be76989ef81d722ffc26f6e12b76fc091d0cf9ee251"
+    }
+  ],
+  "rationale": "Read the exact isolated fixture source and bounded syntax Unknown.",
+  "residualRisk": "The bounded scanner is incomplete; synthetic fixture scope only.",
+  "recordedAt": "2026-10-19T10:58:37Z",
+  "receiptDigest": "sha256:4a74216aa2e520832a0591435f724225c9f4865b64069a78f839b5d9fd8b60ee"
+}
+
+FAILED
+
+failures:
+
+failures:
+    retained_history_rejects_removing_a_native_manifest_and_rehashing_the_receipt
+    retained_history_rejects_unbound_command_digest_in_native_nonpartitioned_receipt
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 44 filtered out; finished in 15.55s
+
+error: test failed, to rerun pass `-p cockpit-cli --test contract_amendment_processes`

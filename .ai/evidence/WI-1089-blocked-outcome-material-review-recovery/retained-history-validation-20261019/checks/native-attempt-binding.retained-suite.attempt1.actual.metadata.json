@@ -1,0 +1,23 @@
+{
+  "kind": "actual_development_check_not_native_receipt",
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--package",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+    "retained_",
+    "--",
+    "--nocapture"
+  ],
+  "startedAt": "2026-10-19T11:06:48.259751+00:00",
+  "sourceHead": "7e8d629b11c36235d96c80c28adbf2b91d013e47",
+  "terminalState": "completed",
+  "endedAt": "2026-10-19T11:10:24.210254+00:00",
+  "exitCode": 0,
+  "elapsedSeconds": 215.9507481210021,
+  "sourceHeadAfter": "7e8d629b11c36235d96c80c28adbf2b91d013e47"
+}

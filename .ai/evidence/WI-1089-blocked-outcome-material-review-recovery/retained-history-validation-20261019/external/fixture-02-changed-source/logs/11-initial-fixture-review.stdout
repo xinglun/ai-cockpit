@@ -1,0 +1,44 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-19T10:01:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "Synthetic fixture decision only; not Ray or a consumer approval.",
+    "recordedAt": "2026-10-19T10:01:13Z",
+    "recordedBy": "human:isolated-synthetic-fixture",
+    "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+    "repositorySnapshotDigest": "sha256:f57521426054575b7b5e50cc6694261a1a5cfea6a1144f3787c371fbf8933c67",
+    "schemaVersion": 1,
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T10:01:12.785831365Z",
+      "recordedAt": "2026-10-19T10:01:12.785831365Z",
+      "runtimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-19T10:01:13Z",
+  "preflightContractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "preflightRepositorySnapshotDigest": "sha256:f57521426054575b7b5e50cc6694261a1a5cfea6a1144f3787c371fbf8933c67",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-19T10:01:13.421757857+00:00",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

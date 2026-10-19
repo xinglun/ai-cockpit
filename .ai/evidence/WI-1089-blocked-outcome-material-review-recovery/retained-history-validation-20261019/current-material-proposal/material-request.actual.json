@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "contractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+  "immutableContractBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "sourceSnapshotDigest": "sha256:fc13fcb02cc9eb4ba8fb2e7987bc7aceae4b1ee284aa061143b56cfde2d176a3",
+  "materialManifestDigest": "sha256:ce60733d8af27a12913af07c335a2beae0441f7c73fea80c5c54ecd0318a531c",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:f2f7898225550abbf1cbde21c4780795bbd1bb953150a7a94fe993ab7b263d27",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:3cfea8a93c672a1439fc6c4295cf2732a44779f95da41103201964f6ce1e523c",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:8efbcedd7970d7aed5e5dc504a0a3d4bbf5a4d1d30a6d2907bd8c3bca4f59b04",
+      "afterBlobDigest": "sha256:1e90ecada9bc92eafc61d3719c3c8e3c8569da85cdd75e206928a9f8dbad2d17"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:7b257c7039f6533f0f5ada8e240e3169307b0c2eafe4fb5fea11dbc988e785cb",
+      "afterBlobDigest": "sha256:f35da6858c0a00f4ceef0d67d358c673160fb69c3e40021a4149a68cb13882f1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:fd884ebd7cf15d3ff1eb5feef03b3f61982f2110fb30a768ec95ccd3040eb69b",
+      "afterBlobDigest": "sha256:ef8b6e57386b4e71ed8a247b1a176eb99959eaea43b89418218a88c15d18586e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:c81dca7ab8bddf6e6fdadffe80db2dc7ebb590baf353f917f1cd1d82b508965a",
+      "afterBlobDigest": "sha256:6cb86c09ced6bd6dab648ca17976bf4581ea736604b2587c873c72bed7aff122"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:54a5d39c8752b7e5ac3c017344f79db64950379fbb7ce437e1fae71c0a0a5c0a",
+      "afterBlobDigest": "sha256:7ad8af92961788e6ac65f47ef9130417a645984cb1c356b6363cac4e9625d6d6"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:64cf79be891aa96661310482929145816c3266acd8d29e2169439c05ca25c7a5",
+      "afterBlobDigest": "sha256:22f82a938170b5ba2662580296bd0dce48ac3064b49eeed697eaab9a051772fc"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1825ce54141238ec29c6c0d82ee159b033fbfb38e80fa1ce53fb8703b400142f",
+      "afterBlobDigest": "sha256:4a03732982481c9e367f85a13c78d0e098da17bfe38aa220a5e99e06c78695a4"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1b0bd4eb383f9de6776b08e8070db83051d730cabab1e6b0b517deb6dcb44413",
+      "afterBlobDigest": "sha256:b22bd7ce93146c395f3daf49a956961e277567b5cefeb8176a2c820789c8d84b"
+    },
+    {
+      "path": "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:9590cb053aefa0d377b1cb903b20e595315e40a1ec3bbe0f93799406c4d802ba",
+      "afterBlobDigest": "sha256:98ced89247aa9551901bde4fcbe366f1419446212276e7f911c2508673c7e9e1"
+    },
+    {
+      "path": "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:eee905244295a40a0b33f825dad55774a8a7fca5783a069d14399de5fa70464c",
+      "afterBlobDigest": "sha256:89548e340fcc08fe052584651562444f47286877326e82bf5ed515bcf9d8d0cc"
+    },
+    {
+      "path": "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:acee25c3f59f69b1d8807b2a746eb5687314ab24132669078e7f1a44d87095ca",
+      "afterBlobDigest": "sha256:8f723677dc30ff3c0484878372fbd9e7b56c91529af0fec9afce8e390aad988e"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:5b754492f94bcca129b64a23d6b83a8bec18eeea14e1c14c97db9ed27681574a",
+  "reviewedSourceHead": "7e8d629b11c36235d96c80c28adbf2b91d013e47"
+}

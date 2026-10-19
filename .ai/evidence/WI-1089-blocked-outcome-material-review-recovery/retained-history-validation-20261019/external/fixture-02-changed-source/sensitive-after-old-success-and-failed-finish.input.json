@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "changeId": "sensitive-after-old-success-and-failed-finish",
+  "expectedContractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+  "reason": "Isolated equivalent fixture, no real human or production authority.",
+  "changes": [
+    {
+      "path": "/acceptanceCriteria",
+      "operation": "add",
+      "value": "Reverify the exact amended plan before fixture finish and archive"
+    }
+  ]
+}

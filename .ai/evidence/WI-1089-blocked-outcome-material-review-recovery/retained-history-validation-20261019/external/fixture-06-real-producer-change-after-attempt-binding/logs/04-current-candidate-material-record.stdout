@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+  "contractDigest": "sha256:1e9bcd1de32af9c435bf0d66e02c7ca33dd8a76b7ed390bf95fa7f8d6cb47d6c",
+  "materialManifestDigest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+  "profileDigest": "sha256:1ae80d2d83e5ee570bbefcfbd67602e1fe5a0ed84db3b6a1c9ed0b8298bedfc3",
+  "requestDigest": "sha256:cdf2a26bcf89a3c8c87180394f9c2a237b1ee9bba2f599cb03f9b43402f83518",
+  "reviewedSourceHead": "7ee4c0a0d7cebafc28fba0523ec0992effde8d7e",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:isolated-fixture-reviewer",
+  "recordedBy": "runtime:1.0.1:sha256:89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c",
+  "authoritySource": "test-fixture:bounded-review",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "tests/material.rs",
+      "digest": "sha256:7fc9452f1e16088fb429622f0a80ca776f25640463034c73f34bda5107f41fc6"
+    }
+  ],
+  "rationale": "Read the exact fixture source; only the bounded committed syntax Unknown.",
+  "residualRisk": "The scanner is incomplete; synthetic fixture scope only.",
+  "recordedAt": "2026-10-19T11:12:46Z",
+  "receiptDigest": "sha256:03efe1711f9b9a8b47ba0250c6f378347adccebdac2ecee92e98af03625f9842"
+}

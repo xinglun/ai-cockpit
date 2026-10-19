@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "git",
+    "add",
+    "README.md"
+  ],
+  "exitCode": 0,
+  "startedAt": "2026-10-19T10:01:20.092068+00:00",
+  "endedAt": "2026-10-19T10:01:20.097562+00:00",
+  "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
