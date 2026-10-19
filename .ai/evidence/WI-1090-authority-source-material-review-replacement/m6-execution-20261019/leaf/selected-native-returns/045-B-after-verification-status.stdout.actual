@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE",
+  "baseCommit": "02a6ab79c363d7337daf31790c94a63fec7970e8",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "green",
+  "activityHealth": "active",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 9,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 21,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "available",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome",
+    "review_evidence"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:58b940f394aef77bf45b6538de395ec20ef75cc9e791c9f058d74fd6e10734c5",
+    "materialManifest": "sha256:bf7f20d547b9ebaf36b5d8c7547a860a3471e3bf82d6ed7c8da222de4439365d",
+    "materialReviewReceipt": "sha256:b1b6d87a21efb40f4582def922b1eadc156d04e20a28e5ccd82d34d2bf31121a",
+    "repositorySnapshot": "sha256:71b9717ac0a9cd6489cfd59d7aaad5e3cacb33e17687ac7af6f6220ccfc5d64c",
+    "summary": "sha256:cb2e8ebf0d6c2611180c717dd57f840addd4184811427650bc618eceb6e2e8ee",
+    "verificationEvidence": "sha256:641b1d7fe3f1a50646528c9e2ad76c58f026c7756763ebaf81640c6278796466"
+  },
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:bf7f20d547b9ebaf36b5d8c7547a860a3471e3bf82d6ed7c8da222de4439365d",
+  "reviewReceiptDigest": "sha256:b1b6d87a21efb40f4582def922b1eadc156d04e20a28e5ccd82d34d2bf31121a",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:71b9717ac0a9cd6489cfd59d7aaad5e3cacb33e17687ac7af6f6220ccfc5d64c",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-19T21:09:22Z",
+  "updatedAt": "2026-10-19T21:09:19.269297021+00:00",
+  "safeActions": [
+    "finish",
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "finish",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:4bcb1feb41716265032efe2152b7f624af70fcc926ff5ca7f7f95d9e9d6cda65"
+  },
+  "statusDigest": "sha256:798561a24f227dca20f9c78c7e271ce966f2e595d36f34c6752336ffd6ed5a6e",
+  "historical": false
+}

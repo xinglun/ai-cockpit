@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:84846910dbdc9058882232f392f8097f2418b4a0ce3daac4d07ade12de96910d",
+  "reason": "Synthetic self-declared fixture review for this exact binding; no real human identity or consumer authority.",
+  "recordedAt": "2026-10-19T21:09:09.763838Z",
+  "recordedBy": "human:isolated-m6-fixture",
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "repositorySnapshotDigest": "sha256:ef007654d163b9634905c0e5aa559807799039a9114ab51e53c03fc739d47e77",
+  "schemaVersion": 1,
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+}

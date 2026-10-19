@@ -1,0 +1,303 @@
+{
+  "outcome": {
+    "acceptanceResults": [
+      "Preserve native historical evidence and independently decide current synthetic material",
+      "Synthetic reviewed historical requirement 0",
+      "Synthetic reviewed historical requirement 1",
+      "Synthetic reviewed historical requirement 2",
+      "Synthetic reviewed historical requirement 3",
+      "Synthetic reviewed historical requirement 4",
+      "Synthetic reviewed historical requirement 5",
+      "Synthetic reviewed historical requirement 6",
+      "Synthetic reviewed historical requirement 7"
+    ],
+    "createdAt": "2026-10-19T21:10:31.973959153Z",
+    "decisionState": "green",
+    "evidenceDigest": "sha256:51c8d64e937d0fd40984a285840eb2a64cc8ba062104dfc72b15eb0362ca26f5",
+    "evidenceRefs": [
+      ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+    ],
+    "humanBenefitReport": {
+      "affectedUsers": [],
+      "evidenceRefs": [
+        ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+      ],
+      "state": "unknown",
+      "unknowns": [
+        "user_visible_benefit_not_declared"
+      ],
+      "userVisibleChanges": []
+    },
+    "protocolVersion": 1,
+    "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+    "schemaVersion": 2,
+    "state": "finish_ready",
+    "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+    "taskOutcomeReport": {
+      "bindings": {
+        "evidenceRefs": [
+          ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+        ],
+        "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+        "repositorySnapshotDigest": "sha256:cabbba200683416143f6255620904ee1a377c8c07c5270c7df3776d3bcb9a3c6",
+        "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+      },
+      "format": "ai-cockpit.task-outcome",
+      "humanStatusColor": "green",
+      "schemaVersion": 1,
+      "sections": {
+        "avoidedImpact": [],
+        "deliveredChanges": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.911ed9450beb3d5d242b4207925589021a8bbc2e07e0d6d5a3e5919e38ca3bc2.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.a6de98cbe4bb88c3932882d55f6827302c01c789cb5d68baacfc827b57d44aa8.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000002.committed.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000002.prepared.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000003.committed.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000003.prepared.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/m6-current-observations.agent-recorded.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/m6-preserved-blocked-outcome.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/m6-preserved-old-canonical.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/m6-synthetic-consent/current.agent-recorded.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/m6-synthetic-consent/old.agent-recorded.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9.prepare.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.events.jsonl"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.outcome.json"
+          },
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+            ],
+            "inference": false,
+            "text": "Changed path: .ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+          }
+        ],
+        "evidence": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+            ],
+            "inference": false,
+            "text": ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+          }
+        ],
+        "findings": [],
+        "forbiddenClaims": [
+          "merge_authorized_without_human_decision",
+          "release_published_without_release_evidence",
+          "provider_or_enterprise_approval_inferred_from_local_records",
+          "user_visible_benefit_invented_from_implementation_facts"
+        ],
+        "forcedStops": [],
+        "humanDecisions": [],
+        "interventions": [],
+        "limitations": [],
+        "nonRiskExplanations": [],
+        "outcomeSummary": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+            ],
+            "inference": false,
+            "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          }
+        ],
+        "recurrencePrevention": [],
+        "residualRisks": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+            ],
+            "inference": false,
+            "text": "Remaining unknown: user_visible_benefit_not_declared"
+          }
+        ],
+        "resolutions": [
+          {
+            "evidenceRefs": [
+              ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+            ],
+            "inference": false,
+            "text": "The current verification evidence is valid for this repository and Work Item."
+          }
+        ],
+        "risks": [],
+        "taskOverview": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract.json"
+            ],
+            "inference": false,
+            "text": "Run old and new four-node cycles through actual synthetic fixture archive"
+          }
+        ],
+        "warnings": [
+          {
+            "evidenceRefs": [
+              ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract.json"
+            ],
+            "inference": false,
+            "text": "User-visible benefit is not declared by the Work Item owner."
+          }
+        ]
+      },
+      "status": "verified",
+      "usage": {
+        "coverage": "unknown",
+        "cutoff": "2026-10-19T21:10:31.973959153Z",
+        "receiptRefs": [],
+        "schemaVersion": 1,
+        "subtotals": [],
+        "totals": {
+          "cachedInputTokens": null,
+          "inputTokens": null,
+          "outputTokens": null,
+          "reasoningTokens": null
+        },
+        "unknownReasons": [
+          "no_usage_receipts"
+        ],
+        "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+      },
+      "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+    },
+    "taskReportDigest": "sha256:06fbdac7beb9fb739153e639b78167e762ba387e4f3a10d7f55f53bee8a05f7b",
+    "taskReportMarkdownDigest": "sha256:d6c1991178aa0888dedb60f07b2970939f79f9899948b9c3408da8339cde7e9b",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "verification": {
+      "evidencePath": ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json",
+      "required": true,
+      "status": "verified"
+    },
+    "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+  },
+  "state": "finish_ready",
+  "timestamp": "2026-10-19T21:10:31.973959153Z",
+  "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+}

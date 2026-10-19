@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+  "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+  "baseCommit": "9b334c0be6da635f00026c0c2ff86e502ce68373",
+  "lifecyclePhase": "archived",
+  "governanceState": "yellow",
+  "activityHealth": "inactive",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 9,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 21,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "archived_work_item_pending_close"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "archived",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+    "materialManifest": "sha256:bf7f20d547b9ebaf36b5d8c7547a860a3471e3bf82d6ed7c8da222de4439365d",
+    "materialReviewReceipt": "sha256:bf85fb55bf11853f17612f6e5402639598e8b75a22f8fad803c2942dc92572c0",
+    "repositorySnapshot": "sha256:cabbba200683416143f6255620904ee1a377c8c07c5270c7df3776d3bcb9a3c6",
+    "summary": "sha256:d19ac7456f32df8572d9897593c4c94f31a22aa86a98aaf0da293021bcfcf7db",
+    "verificationEvidence": "sha256:51c8d64e937d0fd40984a285840eb2a64cc8ba062104dfc72b15eb0362ca26f5"
+  },
+  "unknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:bf7f20d547b9ebaf36b5d8c7547a860a3471e3bf82d6ed7c8da222de4439365d",
+  "reviewReceiptDigest": "sha256:bf85fb55bf11853f17612f6e5402639598e8b75a22f8fad803c2942dc92572c0",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [
+    "lifecycle_cleanup_required"
+  ],
+  "snapshotDigest": "sha256:cabbba200683416143f6255620904ee1a377c8c07c5270c7df3776d3bcb9a3c6",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-19T21:10:31Z",
+  "updatedAt": "2026-10-19T21:10:31.973959153Z",
+  "safeActions": [
+    "close_after_review",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "close_after_review",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: archived_work_item_pending_close",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "close_decision_pending",
+        "message": "current projection reports close_decision_pending"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:224a98d446874e34a0f8a232ab4199c1d828ae8bd59c35c5cb439e8731982491"
+  },
+  "statusDigest": "sha256:f155caf617627c9c689171b6b0e3fbfcc59ec0a81c202d841ec80e3c7b90627b",
+  "historical": false
+}

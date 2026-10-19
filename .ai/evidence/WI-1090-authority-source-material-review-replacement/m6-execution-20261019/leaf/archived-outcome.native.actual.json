@@ -1,0 +1,298 @@
+{
+  "acceptanceResults": [
+    "Preserve native historical evidence and independently decide current synthetic material",
+    "Synthetic reviewed historical requirement 0",
+    "Synthetic reviewed historical requirement 1",
+    "Synthetic reviewed historical requirement 2",
+    "Synthetic reviewed historical requirement 3",
+    "Synthetic reviewed historical requirement 4",
+    "Synthetic reviewed historical requirement 5",
+    "Synthetic reviewed historical requirement 6",
+    "Synthetic reviewed historical requirement 7"
+  ],
+  "createdAt": "2026-10-19T21:09:23.605903037Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:641b1d7fe3f1a50646528c9e2ad76c58f026c7756763ebaf81640c6278796466",
+  "evidenceRefs": [
+    ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+      ],
+      "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+      "repositorySnapshotDigest": "sha256:71b9717ac0a9cd6489cfd59d7aaad5e3cacb33e17687ac7af6f6220ccfc5d64c",
+      "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.482f26d5ce06247ea7ff0c7fd77aedd142e16d3af069ba72ac559de0bd116284.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.7d2959653fe7b7f4d4be5d700d79d82fcbd16effd344a36619953a946ba3fec2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.7eb80f1323629e0e9e7bf707b0597c8c24b87e4d21117e254fb86a3b464f4510.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/m6-current-observations.agent-recorded.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/m6-preserved-blocked-outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/m6-preserved-old-canonical.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/m6-synthetic-consent/current.agent-recorded.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/m6-synthetic-consent/old.agent-recorded.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/9e041bcb7ecb4d6113283dd217e747ad675e88a38f1399d91efd3028203306aa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/9e041bcb7ecb4d6113283dd217e747ad675e88a38f1399d91efd3028203306aa.prepare.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract.json"
+          ],
+          "inference": false,
+          "text": "Run old and new four-node cycles through actual synthetic fixture archive"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-19T21:09:23.605903037Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+    },
+    "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+  },
+  "taskReportDigest": "sha256:37777156184e0a76d61f86183e6ecb9973db43a50b699abfcb689a22e7fc2846",
+  "taskReportMarkdownDigest": "sha256:5d0be2a793b6a8f048832b42bf2f8459ab90457a3a6bba14a13652c167ee3d23",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+}

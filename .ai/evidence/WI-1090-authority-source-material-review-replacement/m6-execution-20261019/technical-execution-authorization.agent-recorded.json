@@ -1,0 +1,15 @@
+{
+  "kind": "raydot_delegated_technical_execution_authorization_relay_not_material_risk_approval",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "authorizerAsRelayed": "agent:Raydot",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T21:14:04.355151+00:00",
+  "scope": "Approved exact single-WI1090 M6 isolated candidate build and leaf/whole-profile-replace synthetic fixtures under c9; single worker and isolated targets.",
+  "sourceManifestRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+  "rustPatchRawSha256": "7129aa3fefeb5cfda56b93c948b695a4815e3e1878b3d0a13d591ea405738541",
+  "limits": [
+    "No material residual-risk approval or real-person identity attestation is inferred.",
+    "No real consumer amendment, Sentinel, publication/release, Runtime installation/adoption or actual WI terminal.",
+    "Logical atomicity, cooperative-lock CAS and existing self_declared history guarantee boundaries retained."
+  ]
+}

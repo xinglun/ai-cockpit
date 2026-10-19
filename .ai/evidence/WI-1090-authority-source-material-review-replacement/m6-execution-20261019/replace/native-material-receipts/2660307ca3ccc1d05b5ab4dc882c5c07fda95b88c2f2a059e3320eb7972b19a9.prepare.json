@@ -1,0 +1,224 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+    "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+    "contractDigest": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+    "requestDigest": "sha256:2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9",
+    "profileDigest": "sha256:7bf7ec434a55a4dd5972e2496beabd94a28b95945108264fe9d5c15e733593ab",
+    "proofDigest": "sha256:8b9f8ef3308f9411f5d1640a17168ff0df07f78a8ce083cf18fd9492b27d9334",
+    "inputDigest": "sha256:18aec25c53be173f636c980a56fc5c40267435a3fbe976292a8b257657bc81ec",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f"
+    },
+    "previousSummaryDigest": "sha256:8b4606f5bbdff25ccb7bf65f2d917b76a0af2dda655368db4aa34cf68d597f0c",
+    "targetSummary": {
+      "changedPaths": [
+        ".ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+        ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+        ".ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+        ".ai/work-items/active/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json"
+      ],
+      "checkpointAt": "2026-10-19T21:10:15Z",
+      "checkpointContractDigest": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+      "checkpointCount": 1,
+      "checkpointEvidence": [
+        {
+          "acceptanceCount": 9,
+          "contractHash": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+          "recorded": true,
+          "recordedAt": "2026-10-19T21:10:15Z",
+          "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+          "repositorySnapshotDigest": "sha256:23c619c4e74f08b36d71b56b408d465b96cd8dffd0594e2d22834efbb45f2193",
+          "requiredChecks": 0,
+          "requiredChecksPassed": 0,
+          "schemaVersion": 1,
+          "stage": "before_edit",
+          "unknownCount": 0,
+          "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+        },
+        {
+          "acceptanceCount": 9,
+          "contractHash": "sha256:1cb027315ddec50e88f72fbf89d9e857ad92449cc398111907e88922f5ee240d",
+          "invalidatedRequiredChecks": [],
+          "originalBeforeEditContractHash": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+          "previousContractHash": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+          "reason": "Synthetic M6 native fixture only; no real consumer decision or authority.",
+          "recorded": true,
+          "recordedAt": "2026-10-19T21:10:20Z",
+          "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+          "repositorySnapshotDigest": "sha256:23c619c4e74f08b36d71b56b408d465b96cd8dffd0594e2d22834efbb45f2193",
+          "requiredChecks": 0,
+          "requiredChecksPassed": 0,
+          "requiredChecksPassedAtAmendment": 0,
+          "schemaVersion": 1,
+          "stage": "contract_amendment_revalidation",
+          "unknownCount": 0,
+          "verificationStarted": true,
+          "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+        },
+        {
+          "acceptanceCount": 9,
+          "contractHash": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+          "invalidatedRequiredChecks": [],
+          "originalBeforeEditContractHash": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+          "previousContractHash": "sha256:1cb027315ddec50e88f72fbf89d9e857ad92449cc398111907e88922f5ee240d",
+          "reason": "Synthetic M6 native fixture only; no real consumer decision or authority.",
+          "recorded": true,
+          "recordedAt": "2026-10-19T21:10:22Z",
+          "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+          "repositorySnapshotDigest": "sha256:cabbba200683416143f6255620904ee1a377c8c07c5270c7df3776d3bcb9a3c6",
+          "requiredChecks": 0,
+          "requiredChecksPassed": 0,
+          "requiredChecksPassedAtAmendment": 0,
+          "schemaVersion": 1,
+          "stage": "contract_amendment_revalidation",
+          "unknownCount": 0,
+          "verificationStarted": true,
+          "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+        }
+      ],
+      "checkpointRepositorySnapshotDigest": "sha256:23c619c4e74f08b36d71b56b408d465b96cd8dffd0594e2d22834efbb45f2193",
+      "createdAt": "2026-10-19T21:10:13Z",
+      "decisionEvidence": {
+        "contractDigest": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+        "decision": "confirm_review",
+        "decisionId": "contract-preflight-review",
+        "preflightDecisionDigest": "sha256:43581ed8d482da466e0f2eecf6b6a58df26ac147f8d401c025e8271100aeefbb",
+        "reason": "Synthetic self-declared fixture review for this exact binding; no real human identity or consumer authority.",
+        "recordedAt": "2026-10-19T21:10:23.697954Z",
+        "recordedBy": "human:isolated-m6-fixture",
+        "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+        "repositorySnapshotDigest": "sha256:cabbba200683416143f6255620904ee1a377c8c07c5270c7df3776d3bcb9a3c6",
+        "schemaVersion": 1,
+        "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+      },
+      "failedGate": "finish.lifecycle",
+      "lifecycleFacts": {
+        "start": {
+          "actorProvenance": "unknown",
+          "eventType": "work_item_started",
+          "occurredAt": "2026-10-19T21:10:13.230842088Z",
+          "recordedAt": "2026-10-19T21:10:13.230842088Z",
+          "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+          "runtimeVersion": "1.0.1"
+        }
+      },
+      "materialReviewReceipt": {
+        "digest": "sha256:c9c689c8dde2e4f764816c04e197b567a7a1add3b4db4117202db06e026fa459",
+        "path": ".ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9.json",
+        "receiptDigest": "sha256:bf85fb55bf11853f17612f6e5402639598e8b75a22f8fad803c2942dc92572c0",
+        "requestDigest": "sha256:2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9"
+      },
+      "materialReviewReceiptHistory": [
+        {
+          "digest": "sha256:686d6df61378d521f1101393a4671324eb8f3bc9b73ad9eace037866ce714457",
+          "path": ".ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+          "receiptDigest": "sha256:1d32ea331160e07b053f29e7cf61096fec80d23ce7cb4e16c7f37f5f934df4c7",
+          "requestDigest": "sha256:e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7"
+        }
+      ],
+      "mode": "implementation",
+      "outcomeState": "blocked",
+      "preflightAt": "2026-10-19T21:10:23Z",
+      "preflightContractDigest": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+      "preflightDecisionDigest": "sha256:43581ed8d482da466e0f2eecf6b6a58df26ac147f8d401c025e8271100aeefbb",
+      "preflightRepositorySnapshotDigest": "sha256:cabbba200683416143f6255620904ee1a377c8c07c5270c7df3776d3bcb9a3c6",
+      "preflightState": "yellow",
+      "protocolVersion": 1,
+      "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+      "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+      "scenarioCoverage": [
+        {
+          "evidence": [
+            ".ai/evidence/m6-preserved-old-canonical.json"
+          ],
+          "expected": "All four old checks execute and immutable original evidence is retained.",
+          "required": true,
+          "scenario": "old fixture four-check cycle",
+          "status": "verified",
+          "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+          "required": true,
+          "scenario": "synthetic mixed historical proof 0",
+          "status": "unverified",
+          "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+          "required": true,
+          "scenario": "synthetic mixed historical proof 1",
+          "status": "unverified",
+          "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+          "required": true,
+          "scenario": "synthetic mixed historical proof 2",
+          "status": "unverified",
+          "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+        }
+      ],
+      "state": "checkpointed",
+      "updatedAt": "2026-10-19T21:10:24.256139290+00:00",
+      "verification": [
+        {
+          "check": "project-command-0",
+          "result": "passed"
+        },
+        {
+          "check": "project-command-1",
+          "result": "passed"
+        },
+        {
+          "check": "project-command-2",
+          "result": "passed"
+        },
+        {
+          "check": "project-command-3",
+          "result": "passed"
+        }
+      ],
+      "verificationInvalidatedByContractAmendment": {
+        "contractHash": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+        "invalidatedRequiredChecks": [],
+        "recordedAt": "2026-10-19T21:10:22Z"
+      },
+      "verificationRecoveryReconciled": "sha256:5f5e403e942daea3c3a963640b5ac38055ea0e803eefd3bfa8ffd6b117c9806e",
+      "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+    },
+    "receipt": {
+      "schemaVersion": 1,
+      "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+      "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+      "contractDigest": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+      "materialManifestDigest": "sha256:bf7f20d547b9ebaf36b5d8c7547a860a3471e3bf82d6ed7c8da222de4439365d",
+      "profileDigest": "sha256:7bf7ec434a55a4dd5972e2496beabd94a28b95945108264fe9d5c15e733593ab",
+      "requestDigest": "sha256:2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9",
+      "reviewedSourceHead": "5c0650a00311be54a41aceb86e6454ea96e6a4e5",
+      "decision": "accept_permitted_unknowns",
+      "reviewerActor": "agent:isolated-m6-fixture",
+      "recordedBy": "runtime:1.0.1:sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+      "authoritySource": ".ai/evidence/m6-synthetic-consent/current.agent-recorded.json",
+      "assurance": "self_declared",
+      "evidenceRefs": [
+        {
+          "path": ".ai/evidence/m6-synthetic-consent/current.agent-recorded.json",
+          "digest": "sha256:921c1807e6b6c00c5fa19991326a220d56d3a667404713c3f9f1e6f18fcbfcef"
+        }
+      ],
+      "rationale": "Reviewed the exact synthetic fixture members and bounded readable syntax Unknown.",
+      "residualRisk": "Scanner incompleteness accepted for this synthetic fixture only; self_declared does not authenticate humans.",
+      "recordedAt": "2026-10-19T21:10:26Z",
+      "receiptDigest": "sha256:bf85fb55bf11853f17612f6e5402639598e8b75a22f8fad803c2942dc92572c0"
+    }
+  },
+  "preparedDigest": "sha256:c6f9a85d9c0410e678e8eeb3cb9e27b3f4988b80b94bc8a5ea6221c7addd72bd"
+}

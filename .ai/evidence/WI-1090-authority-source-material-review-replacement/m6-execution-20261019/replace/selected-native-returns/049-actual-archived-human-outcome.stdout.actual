@@ -1,0 +1,101 @@
+Outcome: 🟡 已声明的验证通过 — WI-M6-REPLACE-SYNTHETIC-FIXTURE
+结果
+- 验证状态: 已声明的验证通过
+- 生命周期状态: 已归档
+- 人工决定状态: 未记录
+- 治理信号: 黄色；需要关注，不是人工批准
+
+已完成
+- 验证证据有效；用户可见收益尚未声明。
+- Changed path: .ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json
+- Changed path: .ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.911ed9450beb3d5d242b4207925589021a8bbc2e07e0d6d5a3e5919e38ca3bc2.json
+- Changed path: .ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.a6de98cbe4bb88c3932882d55f6827302c01c789cb5d68baacfc827b57d44aa8.json
+- Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000002.committed.json
+- Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000002.prepared.json
+- Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000003.committed.json
+- Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000003.prepared.json
+- Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json
+- Changed path: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json
+- Changed path: .ai/evidence/m6-current-observations.agent-recorded.json
+- Changed path: .ai/evidence/m6-preserved-blocked-outcome.json
+- Changed path: .ai/evidence/m6-preserved-old-canonical.json
+- Changed path: .ai/evidence/m6-synthetic-consent/current.agent-recorded.json
+- Changed path: .ai/evidence/m6-synthetic-consent/old.agent-recorded.json
+- Changed path: .ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9.json
+- Changed path: .ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9.prepare.json
+- Changed path: .ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json
+- Changed path: .ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract.json
+- Changed path: .ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.events.jsonl
+- Changed path: .ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.outcome.json
+- Changed path: .ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json
+- 验收标准（Contract 原文） / Acceptance criteria (Contract language)
+
+发现的问题
+- 治理原因：governance_gate_failed。
+- 验证可以通过，但意图对齐证据不足；这不是验证证据无效。
+- 失败 gate: verification_or_human_input
+- 当前 Contract 未声明 provider finalization；继续遵守生命周期和人工决定门槛。
+
+触发的停止
+- 治理原因：governance_gate_failed。
+- 验证可以通过，但意图对齐证据不足；这不是验证证据无效。
+- 恢复条件: 修复失败的治理条件，完成新的检查后重试 finish。
+- 恢复条件: 审阅当前生命周期状态并记录必需的人工作业；验证状态不扩大为授权。
+
+已解决的问题
+- The current verification evidence is valid for this repository and Work Item.
+
+避免的风险
+- 未记录
+
+剩余风险
+- Remaining unknown: close_decision_pending
+- Remaining unknown: user_visible_benefit_not_declared
+- User-visible benefit is not declared by the Work Item owner.
+
+未知项
+- close_decision_pending
+- user_visible_benefit_not_declared
+
+人工决定
+- 未记录
+
+验证
+- 已声明的验证通过: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json
+- 已声明的验证通过: .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json
+
+用量
+- 用量覆盖: 未知 (unknown); 截止时间: 2026-10-19T21:10:31.973959153Z; 未知原因: no_usage_receipts; 记录数: 0
+- 用量小计: 输入 未知, 输出 未知, 缓存输入 未知, 推理 未知
+
+影响
+- 用户可见收益尚未声明。
+
+下一步
+- 审阅归档证据后记录明确的人工 close 决定；完成 close 前不得开始下一个 Work Item。
+
+证据
+- .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json
+- .ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json
+跨 WI 协调: WI-M6-REPLACE-SYNTHETIC-FIXTURE
+- 状态: allowed
+- 实现状态: separate_lifecycle_outcome
+- 组合验证: not_observed
+- 执行结果: unknown
+- 执行证据完整: false
+- 组合适用性: not_observed
+- 目标合并: not_observed
+- 清理: not_observed
+- 清理处置: unknown
+- 提供方: 
+- 消费者: 
+- 等待边: 
+- 影响事件: 
+- 阻塞: 
+- 未知: 
+- 人工决定: false
+- 复验: not_required
+- 可复用检查: 
+- 下一步: refresh dependency state before the next dependent action
+- integration owner/order: not observed/
+

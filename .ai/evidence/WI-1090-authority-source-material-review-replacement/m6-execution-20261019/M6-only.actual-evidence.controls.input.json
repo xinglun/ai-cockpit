@@ -1,0 +1,79 @@
+{
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
+      "expected": "Complete valid R-to-A history permits only reviewed scope/acceptanceCriteria/scenarioCoverage/sources transitions with unchanged profile; real adjacent A-to-B changes only authoritySource, including correct whole-object governanceProfile replace. H/P only permit a NEW current decision; old receipt remains invalid/no discharge.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
+      "required": true,
+      "scenario": "M1 authoritySource-only proof",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
+      "expected": "Missing required historical review, broken/foreign/pending native chain, intermediate forbidden profile/risk/base changes including revert, Summary-forged or nonadjacent anchors, mixed root-replace changes and unjournaled edits reject without new material writes.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
+      "required": true,
+      "scenario": "M2 forbidden amendments",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
+      "expected": "Projection and under-lock record use the same H/P/C0 typed helper, preserving strict invalid diagnostics and blockers; record separately validates actual C1 current-request/reviewer/source/assurance input. Current exact material and actual approval/review provenance are required; self_declared human-authentication limits remain explicit.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
+      "required": true,
+      "scenario": "M3 shared admission and service proof",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
+      "expected": "Injected failures before/after prepare publish, receipt publish and one atomic Summary commit preserve old canonical bytes/history. Only exact pending continuation commits once; committed replay, wrong/conflicting input and CAS races reject without duplicate history or discharge from residue.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
+      "required": true,
+      "scenario": "M4 logical atomicity and bounded resume",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/development-20261019/native-seven.attempt2.metadata.actual.json"
+      ],
+      "expected": "Finding, other Unknown, dirty/unavailable source, missing/stale/foreign current authorization, changed request/blob/hunk/profile/scanner/policy, corrupt/duplicate/symlinked receipt/pointer/history/chain and material/source changes after the adjacent anchor reject. Workflow review rejects falsely extending old approval to new bindings.",
+      "reason": "Actual seven-node current-source verification is attached; Raydot technical review and full scenario acceptance remain pending.",
+      "required": true,
+      "scenario": "M5 integrity and source rejection",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-two-case-execution-summary.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/current-verification.native.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/current-verification.native.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/F1-real-history-readonly-audit.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+      ],
+      "expected": "Frozen real 17c4100f-to-a5 history and a native-produced mixed-then-source-only fixture are covered. With a separately approved combined ba1+WI1090 candidate, actual blocked predecessor Outcome proceeds through NEW material decision, four fresh executed checks/reuse0/max1, fresh green preflight and actual fixture finish/archive. Same-profile and existing CLI/MCP regressions remain compatible; no actual consumer lifecycle completion is inferred.",
+      "reason": "Approved exact ba1+33d79 source recipe actually built; leaf set and whole-profile replace synthetic fixtures each preserved old four-node canonical/blocked Outcome/material receipt, actual20-op R-to-A, source-only adjacent B and independent new decision; plan0/new executed4/reuse0/max1/fresh green/actual finish/archive passed. Actual frozen cloud history queried read-only; no Sentinel/real-consumer or old-producer-upgrade claim. Existing seven-check compatibility evidence remains tied to unchanged WI1090 source33/5b, not a new formal seven-node combined-source run.",
+      "required": true,
+      "scenario": "M6 preserved compatibility and fixed candidate",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-cli --test contract_amendment_processes; cargo test --locked --package cockpit-mcp --test material_review"
+    }
+  ]
+}

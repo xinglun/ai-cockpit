@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-19T21:10:32Z",
+  "files": {
+    "contractDigest": "sha256:358dfef3caa37576cf3f28bc0d9823cace7c8eff7f8bdc666bf3a882da981692",
+    "contractPath": ".ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract.json",
+    "eventsDigest": "sha256:28639d009f632adc8e87f8998f1430230bdc78495b890ed03d885122df8b98d9",
+    "eventsPath": ".ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.events.jsonl",
+    "outcomeDigest": "sha256:7984cb6d1738b7a9a14d22cd7713d7136900281a4b05af26188ab5f02a9196ca",
+    "outcomePath": ".ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.outcome.json",
+    "summaryDigest": "sha256:b3373802d027cdffa216dddd103edf7915616d2ec47943279ae0a29f2d2afc37",
+    "summaryPath": ".ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.summary.json",
+    "taskReportDigest": "sha256:06fbdac7beb9fb739153e639b78167e762ba387e4f3a10d7f55f53bee8a05f7b",
+    "taskReportMarkdownDigest": "sha256:d6c1991178aa0888dedb60f07b2970939f79f9899948b9c3408da8339cde7e9b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-M6-REPLACE-SYNTHETIC-FIXTURE.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-19T21:10:32.562818684Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-19T21:10:32.562818684Z",
+  "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+  "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+}

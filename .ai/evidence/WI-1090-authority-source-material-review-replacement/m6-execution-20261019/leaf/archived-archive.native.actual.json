@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-19T21:09:24Z",
+  "files": {
+    "contractDigest": "sha256:81bd0e0d3c3622517188541114f62baadf125e12e6f18c1a5e3e1d22a4d202cd",
+    "contractPath": ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract.json",
+    "eventsDigest": "sha256:c5ec1bb7c96e9265a5276a054f895d50f024a5785a14bfdf4dc18d1eb403ae93",
+    "eventsPath": ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.events.jsonl",
+    "outcomeDigest": "sha256:fa8f3188f75604fcba3f3d73bf1eb5ff53879eb1b0c62a0a0f6dfaac94acd9d6",
+    "outcomePath": ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.outcome.json",
+    "summaryDigest": "sha256:9996ef585f96d858b343d36112961910206629d0d7a07d9a181bc8fa18c54238",
+    "summaryPath": ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json",
+    "taskReportDigest": "sha256:37777156184e0a76d61f86183e6ecb9973db43a50b699abfcb689a22e7fc2846",
+    "taskReportMarkdownDigest": "sha256:5d0be2a793b6a8f048832b42bf2f8459ab90457a3a6bba14a13652c167ee3d23",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-19T21:09:24.155482076Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-19T21:09:24.155482076Z",
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+}

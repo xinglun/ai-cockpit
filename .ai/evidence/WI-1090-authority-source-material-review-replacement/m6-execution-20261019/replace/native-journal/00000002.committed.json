@@ -1,0 +1,615 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:0580c7f8fbb6264c99953cca41a0d222b5c15619a03be6a6e824b9552621a43f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+    "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+    "sequence": 2,
+    "changeId": "reviewed-mixed-history-A",
+    "requestDigest": "sha256:c509c672c39d984f5ec28d95e4ba85878018e7803bb1c56422f37069defc8c78",
+    "reason": "Synthetic M6 native fixture only; no real consumer decision or authority.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "README.md",
+          "Cargo.toml",
+          "Cargo.lock",
+          "src/lib.rs",
+          "tests/material.rs"
+        ],
+        "newValue": [
+          "README.md",
+          "Cargo.toml",
+          "Cargo.lock",
+          "src/lib.rs",
+          "tests/material.rs",
+          "docs/synthetic-history-0.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "README.md",
+          "Cargo.toml",
+          "Cargo.lock",
+          "src/lib.rs",
+          "tests/material.rs",
+          "docs/synthetic-history-0.md"
+        ],
+        "newValue": [
+          "README.md",
+          "Cargo.toml",
+          "Cargo.lock",
+          "src/lib.rs",
+          "tests/material.rs",
+          "docs/synthetic-history-0.md",
+          "docs/synthetic-history-1.md"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3",
+          "Synthetic reviewed historical requirement 4"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3",
+          "Synthetic reviewed historical requirement 4"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3",
+          "Synthetic reviewed historical requirement 4",
+          "Synthetic reviewed historical requirement 5"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3",
+          "Synthetic reviewed historical requirement 4",
+          "Synthetic reviewed historical requirement 5"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3",
+          "Synthetic reviewed historical requirement 4",
+          "Synthetic reviewed historical requirement 5",
+          "Synthetic reviewed historical requirement 6"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3",
+          "Synthetic reviewed historical requirement 4",
+          "Synthetic reviewed historical requirement 5",
+          "Synthetic reviewed historical requirement 6"
+        ],
+        "newValue": [
+          "Preserve native historical evidence and independently decide current synthetic material",
+          "Synthetic reviewed historical requirement 0",
+          "Synthetic reviewed historical requirement 1",
+          "Synthetic reviewed historical requirement 2",
+          "Synthetic reviewed historical requirement 3",
+          "Synthetic reviewed historical requirement 4",
+          "Synthetic reviewed historical requirement 5",
+          "Synthetic reviewed historical requirement 6",
+          "Synthetic reviewed historical requirement 7"
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "All four old checks execute and immutable original evidence is retained.",
+            "required": true,
+            "scenario": "old fixture four-check cycle",
+            "status": "unverified",
+            "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "All four old checks execute and immutable original evidence is retained.",
+            "required": true,
+            "scenario": "old fixture four-check cycle",
+            "status": "unverified",
+            "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 0",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "All four old checks execute and immutable original evidence is retained.",
+            "required": true,
+            "scenario": "old fixture four-check cycle",
+            "status": "unverified",
+            "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 0",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "All four old checks execute and immutable original evidence is retained.",
+            "required": true,
+            "scenario": "old fixture four-check cycle",
+            "status": "unverified",
+            "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 0",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 1",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "All four old checks execute and immutable original evidence is retained.",
+            "required": true,
+            "scenario": "old fixture four-check cycle",
+            "status": "unverified",
+            "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 0",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 1",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "All four old checks execute and immutable original evidence is retained.",
+            "required": true,
+            "scenario": "old fixture four-check cycle",
+            "status": "unverified",
+            "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 0",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 1",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          },
+          {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 2",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-4",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-4",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-4",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-5",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-4",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-5",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-4",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-5",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          },
+          {
+            "path": ".ai/evidence/synthetic-history-source-6",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+    "newContractDigest": "sha256:1cb027315ddec50e88f72fbf89d9e857ad92449cc398111907e88922f5ee240d",
+    "repositorySnapshotDigest": "sha256:23c619c4e74f08b36d71b56b408d465b96cd8dffd0594e2d22834efbb45f2193",
+    "environmentObservationDigest": "sha256:5402a6f1649b2b273bb3de3870a1fd652c2f3d262e0147ef2210147a78e732b2",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scenarioCoverage",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:44e185dd18d018b29fc72490ec84150f46963b00269dc1f5f0e774680dd7b096",
+    "journalDigest": "sha256:713050744412e1b192c7db2e019764a108d9dbe3de4d7786509e2888296dcfd0",
+    "recordedAt": "2026-10-19T21:10:20Z"
+  }
+}
