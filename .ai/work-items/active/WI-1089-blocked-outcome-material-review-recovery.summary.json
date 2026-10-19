@@ -1,7 +1,18 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-clippy.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-fmt.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-repository-material-review.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/mapping.agent-recorded.json",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-final-request-review-relayed.agent-recorded.json",
+    ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+    ".ai/work-items/active/WI-1089-blocked-outcome-material-review-recovery.summary.json"
+  ],
   "checkpointAt": "2026-10-19T04:29:52Z",
-  "checkpointContractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+  "checkpointContractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -39,7 +50,7 @@
       "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "checkpointRepositorySnapshotDigest": "sha256:a1b9c98abd6508293e179e1cac71202f56646ac1ea77cf068b8056da54b9abdf",
   "createdAt": "2026-10-19T04:22:04Z",
   "decisionEvidence": {
     "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
@@ -54,6 +65,16 @@
     "schemaVersion": 1,
     "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
   },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/mapping.agent-recorded.json",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+      ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-final-request-review-relayed.agent-recorded.json"
+    ],
+    "reason": "The bounded #1041 code path, declared work-item intent, exact material receipt, static review, and current-head development suites align. This is an intent-alignment mapping, not A5 composition or formal verification acceptance; both remain outstanding.",
+    "state": "resolved"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -64,12 +85,18 @@
       "runtimeVersion": "1.0.1"
     }
   },
+  "materialReviewReceipt": {
+    "digest": "sha256:6184a90951f00c8960d209db832f2da6cbf4d54effbbcdce2bff4d4cce02e1df",
+    "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+    "receiptDigest": "sha256:aa129e3e471a216f8b9d2a8eb1950bc6e13c51e810527f855b4fcfb14c60d2ab",
+    "requestDigest": "sha256:c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-10-19T05:16:57Z",
+  "preflightAt": "2026-10-19T05:51:45Z",
   "preflightContractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
-  "preflightDecisionDigest": "sha256:38d69c3dba423d57c7aa5c31afa86aabc8a867d450bcae58ed833b81ce92d3b4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:a1b9c98abd6508293e179e1cac71202f56646ac1ea77cf068b8056da54b9abdf",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -115,11 +142,33 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-19T05:15:36.810722476+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-19T05:11:27Z"
-  },
+  "updatedAt": "2026-10-19T05:40:43.094553828+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:e28be135010e0c7504500cc32a2a282477bdf4c15c58ef0e9277b5c6403ed264",
   "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
 }

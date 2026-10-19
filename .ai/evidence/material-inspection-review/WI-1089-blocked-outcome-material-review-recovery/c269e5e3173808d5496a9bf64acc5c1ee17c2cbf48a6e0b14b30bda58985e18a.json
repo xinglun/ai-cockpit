@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "materialManifestDigest": "sha256:47ded401224254ece3cfef03cc554ac5f27a81d40dbe142446806b574b24ebdb",
+  "profileDigest": "sha256:3cfea8a93c672a1439fc6c4295cf2732a44779f95da41103201964f6ce1e523c",
+  "requestDigest": "sha256:c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a",
+  "reviewedSourceHead": "0e4340efc1e8535da58e7d8e823c2531d6b60f12",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "authoritySource": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-final-request-review-relayed.agent-recorded.json",
+      "digest": "sha256:c6b1b7b2d32b581d68a899325b107701298601bd2de866a918244c9dec6f4eb4"
+    },
+    {
+      "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+      "digest": "sha256:57fdcf2f1cfb35a32ad33e68549e24681055908b02a0bbd6dee07308e9d1b598"
+    }
+  ],
+  "rationale": "Raydot approved this exact bounded final request after independent static source review: HEAD 0e4340ef, Contract 17c4100f, source snapshot 716ddb62, manifest 47ded401, unchanged scanner and three byte-identical approved Rust blobs/hunks. Only reviewable readable committed Rust syntax Unknown remains, with no Finding or other Unknown. Codex executes this native record from Raydot relay; neither identity nor formal verification is authenticated by this decision.",
+  "residualRisk": "The Rust material scanner cannot fully understand these syntax changes. Static review and development tests may miss unsafe or control-weakening semantics; self_declared does not authenticate a real-world reviewer. Formal verification and WI-1087 composition remain outstanding.",
+  "recordedAt": "2026-10-19T05:23:07Z",
+  "receiptDigest": "sha256:aa129e3e471a216f8b9d2a8eb1950bc6e13c51e810527f855b4fcfb14c60d2ab"
+}

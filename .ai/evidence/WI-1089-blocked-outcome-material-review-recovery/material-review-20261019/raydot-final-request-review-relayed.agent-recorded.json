@@ -1,0 +1,22 @@
+{
+  "kind": "raydot_final_material_review_conclusion_relay_agent_recorded_not_native_receipt",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "reviewerActorAsRelayed": "agent:Raydot",
+  "recorder": "agent:Codex",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "source": "Parent-thread delegation relaying Raydot's final bounded material review conclusion; no direct Raydot tool or host identity attestation was available to this recorder.",
+  "finalReviewRelayVerbatim": "Raydot 对最终材料请求 c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a 给出有限审阅通过，绑定 HEAD0e4340efc1e8535da58e7d8e823c2531d6b60f12、Contract17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07、sourceSnapshot716ddb6277d42212c26b779559c191071ca030e7053ad88c05a4c594dce1f283、manifest47ded401224254ece3cfef03cc554ac5f27a81d40dbe142446806b574b24ebdb。三份Rust blob/hunk与已批准且经独立静态复核aab9205e一致，scanner实现不变，仅限定syntax Unknown、无Finding及其他Unknown。允许按原生接口记录agent:Raydot/self_declared材料决定；执行记录者仍实际Codex，引用本条审阅来源及Ray的独立风险批准，绝不冒充真人认证。",
+  "earlierStaticReviewAsRelayed": "Raydot 的有限技术审阅结论：aab9205e 三份待审 Rust 未发现阻断性回归，支持进入精确材料决定，但不等于正式验收。独立复核是 GitHub 源码静态审阅，未独立执行测试；真实验证 fixture 执行 true 只证明收据生命周期，不证明业务正确；46/37/2 全套开发结果早于最终收紧，最终只聚焦 3/3+2/2 及 clippy/fmt，不得标为最终全套通过。正式验证须按最终候选实际执行。self_declared 不代表外部真人认证。",
+  "requestDigest": "sha256:c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a",
+  "reviewedSourceHead": "0e4340efc1e8535da58e7d8e823c2531d6b60f12",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "sourceSnapshotDigest": "sha256:716ddb6277d42212c26b779559c191071ca030e7053ad88c05a4c594dce1f283",
+  "materialManifestDigest": "sha256:47ded401224254ece3cfef03cc554ac5f27a81d40dbe142446806b574b24ebdb",
+  "analysisImplementationDigest": "sha256:f2f7898225550abbf1cbde21c4780795bbd1bb953150a7a94fe993ab7b263d27",
+  "approvedRustAfterBlobDigests": {
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "sha256:8126ddaa97f72f465925a164922faebdec69a350bffb902ab223290f47fcc9bd",
+    "crates/cockpit-repository/src/status_projection.rs": "sha256:8e66583fabefa1eaf536ff03075f22f1b041b6283fb090432f02ba2c3c32c0c6",
+    "crates/cockpit-repository/tests/status_projection.rs": "sha256:02c4f3c6aac7273f6f2377f2bd4752757625f43e62c541f8cba27474505e49b1"
+  },
+  "limits": "This relay supports only the exact current reviewable committed Rust syntax Unknown with no Finding or other Unknown. It is not direct identity authentication, human Contract review, formal verification, WI-1087 composition proof, merge, finish, archive, or close."
+}
