@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--lib",
+    "material_review::tests::replacement_rechecks_source_review_and_summary_before_commit",
+    "--",
+    "--exact",
+    "--nocapture"
+  ],
+  "sourceHead": "ca4864fe8a1815e470abeec6f58be5c3326bd6bf",
+  "startedAt": "2026-10-19T19:59:36.570993+00:00",
+  "targetDirectory": "/workspace/scratch/wi1090-v4-verify-target-20261019",
+  "workerCount": 1,
+  "terminal": "returned",
+  "outerTimeoutSeconds": 850,
+  "exitCode": 101,
+  "endedAt": "2026-10-19T20:00:43.581845+00:00",
+  "elapsedSeconds": 67.01153675600654
+}

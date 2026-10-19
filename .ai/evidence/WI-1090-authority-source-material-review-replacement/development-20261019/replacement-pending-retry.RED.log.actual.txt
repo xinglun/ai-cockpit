@@ -1,0 +1,19 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1090-material-replacement/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 1m 01s
+     Running unittests src/lib.rs (/workspace/scratch/wi1090-v4-verify-target-20261019/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+running 1 test
+test material_review::tests::replacement_pending_retry_reuses_immutable_receipt ... 
+thread 'material_review::tests::replacement_pending_retry_reuses_immutable_receipt' (318668) panicked at crates/cockpit-repository/src/material_review.rs:2983:17:
+exact pending retry must reuse staged original receipt; retained "/tmp/.tmpE0LX5s": repository protocol state error at /tmp/.tmpE0LX5s/.ai/evidence/material-inspection-review/WI-REPLACEMENT-TRANSACTION/6e0c1ca0de06e06edde1dc0ea046f334327a456c52a49012cefe2ad5ef0ac6cb.json: immutable evidence sidecar already exists with different content
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+
+failures:
+
+failures:
+    material_review::tests::replacement_pending_retry_reuses_immutable_receipt
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 154 filtered out; finished in 3.08s
+
+error: test failed, to rerun pass `-p cockpit-repository --lib`

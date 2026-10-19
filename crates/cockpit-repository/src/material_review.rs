@@ -1945,12 +1945,13 @@ fn replacement_changed_paths(
         let keys = before.keys().chain(after.keys()).collect::<BTreeSet<_>>();
         for key in keys {
             let escaped = key.replace('~', "~0").replace('/', "~1");
-            replacement_changed_paths(
-                before.get(key).unwrap_or(&serde_json::Value::Null),
-                after.get(key).unwrap_or(&serde_json::Value::Null),
-                &format!("{prefix}/{escaped}"),
-                paths,
-            );
+            let path = format!("{prefix}/{escaped}");
+            match (before.get(key), after.get(key)) {
+                (Some(before), Some(after)) => {
+                    replacement_changed_paths(before, after, &path, paths)
+                }
+                _ => paths.push(path),
+            }
         }
     } else {
         paths.push(prefix.to_owned());
