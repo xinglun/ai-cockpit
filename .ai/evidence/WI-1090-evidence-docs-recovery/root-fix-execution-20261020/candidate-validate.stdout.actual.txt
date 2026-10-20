@@ -1,0 +1,13 @@
+{
+  "state": "unknown",
+  "scenarioCoverage": "unknown",
+  "acceptanceEvidence": "not_applicable",
+  "evidenceClasses": "verified",
+  "intentAlignment": "resolved",
+  "finalDimensions": "not_applicable",
+  "unknowns": [
+    "required_scenario_unverified:truthful_three_language_projection",
+    "required_scenario_unverified:source_change_observation_root_cause"
+  ],
+  "findings": []
+}

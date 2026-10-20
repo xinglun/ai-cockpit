@@ -1,0 +1,3 @@
+source_change_observation_mcp_plan_readonly_and_failed_check_sees_committed_paths: test
+
+1 test, 0 benchmarks

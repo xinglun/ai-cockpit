@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_flow_experience_before_real_finish",
+  "recordedAt": "2026-10-20T02:35:50.166444+00:00",
+  "necessaryNewHumanPlanDecisions": 1,
+  "humanDecisionBinding": {
+    "contractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+    "preflightDecisionDigest": "sha256:3798c12ae4ef8b0546e2fb066e7488ac89fd62c3af888ea5e7782365795011eb",
+    "requestMessage": "Sentinel_c1fcfe0b80f8819195897dc802587d5b",
+    "replyMessage": "Sentinel_78ff9b8c892c8191982a8a6cd9d444c7",
+    "reason": "Sensitive root amendment expands original27 scope to exact37 and6checks"
+  },
+  "delegatedTechnicalApprovalActor": "agent:Raydot",
+  "routineRepeatedHumanConfirmations": 0,
+  "extraManualChangedPathRefreshOperations": 0,
+  "necessarySourceBindingPreflightRefreshes": 1,
+  "avoidableAgentPreflightRejectionAfterControls": 1,
+  "avoidanceDisposition": "Controls had already advanced admission; retained rejected redundant preflight, queried actual status and proceeded without another user request.",
+  "technicalInputCorrectionBeforeNewReview": "One native amendment append-pointer rejection; six JSON pointers corrected only, semantic values unchanged.",
+  "actualRealFormalCheckGraphs": 1,
+  "actualRealFormalGraphResults": {
+    "planned": 6,
+    "executed": 6,
+    "reused": 0,
+    "maxConcurrentProcesses": 1,
+    "passed": true,
+    "regressionTestCount": 9
+  },
+  "automatedPositiveFixture": "Passed native failed-check to success/evidence-commit/finish/archive",
+  "actualRealOwnFinishArchive": "pending",
+  "hostOutcomeDisplay": "unknown",
+  "materialRiskAccepted": false
+}

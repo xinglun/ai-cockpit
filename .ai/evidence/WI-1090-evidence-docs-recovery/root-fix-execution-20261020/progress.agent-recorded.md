@@ -16,3 +16,6 @@ Base: 0536a3541a00f4eae62b487ccb3382a4d0362174
 
 - 小阶段验证：core-complete-regressions7/7；CLI（包含 rejected plan-only）1/1；MCP（包含 rejected plan-only）1/1；实际 gate 直接读取 native fixture 0/2/3 路径变化检查1/1；fmt --check通过。exact8-and-root-scope审计通过（8/2/2/27/2/19，额外 Rust 仅已批准7）。
 - 实现仍在已批准范围；没有新命令、controls 类型、协议 schema、CI/gate 政策或全局配置修改。完成事务失败后已证明回滚保留启动事实，首轮失败原字节未改。
+
+- Task3: candidate source4237f5ec，binary9e7f97f9，独立执行副本未覆盖旧b5。native preflight human_decision_recorded，verification准入允许。正式6/6，execute6/reuse0/max1；原生 Summary279路径，包含all3且不含继承Rust2。controls场景已记录。
+- 独立时段源码自审完成，见source-review；非独立外部审阅。准备正常evidence-only commit再检查freshness和真实finish。
