@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1090-native-activation-command-representation-20261020-v1",
+  "expectedContractDigest": "sha256:7e16cf68c071dc671c0f3f906a326456ca23b94c3f9cf0592e675323a1e442ae",
+  "reason": "Native MCP activation rejected typed-to-string verification normalization before any write and explicitly requires amending the plan first. Register only the same two exact command strings for this supported transport, with no execution or implementation; preserve the approved typed declarations and restore them by native amendment immediately after activation, before presenting a final review. No scope, authority, risk, exclusions, acceptance, scenario or historical record changes.",
+  "changes": [
+    {
+      "path": "/verification",
+      "operation": "replace",
+      "value": [
+        "bash tests/docs/documentation_acceptance.sh",
+        "bash tests/docs/parity_status_check.sh"
+      ]
+    }
+  ]
+}

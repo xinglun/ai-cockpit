@@ -1,0 +1,90 @@
+{
+  "description": "Start a Work Item, append supplied sources, persist preflight, and create one before-edit checkpoint only when no blocker or human-confirmation boundary is present.",
+  "inputSchema": {
+    "additionalProperties": false,
+    "properties": {
+      "acceptanceCriteria": {
+        "items": {
+          "description": "Human-supplied acceptance criterion.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "authority": {
+        "description": "Human-supplied authority; defaults to missing and never grants authority by inference.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "goal": {
+        "description": "Human-supplied bounded outcome.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "intent": {
+        "description": "Human-supplied reason for the Work Item; do not infer missing intent.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "outOfScope": {
+        "items": {
+          "description": "Explicit excluded path or behavior.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "requiredEvidenceClasses": {
+        "items": {
+          "description": "Evidence class required by the Contract.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "risk": {
+        "description": "Risk classification; defaults to normal.",
+        "minLength": 1,
+        "type": "string"
+      },
+      "scope": {
+        "items": {
+          "description": "Repository-relative path or glob.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "minItems": 1,
+        "type": "array"
+      },
+      "sources": {
+        "items": {
+          "description": "Human- or task-provided source reference appended before preflight.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "verification": {
+        "items": {
+          "description": "Explicit verification command. When omitted, Runtime uses the repository-observed default.",
+          "minLength": 1,
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "workItemId": {
+        "description": "Canonical Work Item identifier.",
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "required": [
+      "workItemId",
+      "intent",
+      "goal",
+      "scope"
+    ],
+    "type": "object"
+  },
+  "name": "work_item_start"
+}

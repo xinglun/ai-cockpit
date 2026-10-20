@@ -1,0 +1,53 @@
+{
+  "changeId": "wi1090-restore-approved-typed-checks-after-activation-20261020-v1",
+  "changedValues": [
+    {
+      "newValue": [
+        {
+          "check": "bash tests/docs/documentation_acceptance.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        },
+        {
+          "check": "bash tests/docs/parity_status_check.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        }
+      ],
+      "oldValue": [
+        "bash tests/docs/documentation_acceptance.sh",
+        "bash tests/docs/parity_status_check.sh"
+      ],
+      "operation": "replace",
+      "path": "/verification"
+    }
+  ],
+  "checkpointed": false,
+  "environmentObservationDigest": "sha256:7d1291fc2bb6a8b88f1e3fe2aced02f3577213a19e2fb52dd6cbe55ea554428e",
+  "invalidatedEvidence": [],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:24c25f79f29badbd35a3f59702a31fd5f5ed5f9855a2365ab60e39f6d612310d",
+  "newContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "nextAction": "run_preflight",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/verification"
+  ],
+  "previousContractDigest": "sha256:a1c7c5460c50a97dcd3b64b83826fa306f277bf68a9713853f57064b51478a7c",
+  "previousJournalDigest": "sha256:1572bd3d4a1a070c7646ad9a65b0b7cf3fd520cf1f0a6a9b8d463c4b7b9c857c",
+  "reason": "Restore exactly the two already-approved typed required checks and their coversScenarios after supported native MCP activation normalized command inputs. This changes only verification representation; keep the native activation base/main facts, identical scope/authority/risk/exclusions/acceptance/scenarios and immutable predecessor history. No human confirmation, check execution, checkpoint or implementation is supplied.",
+  "recordedAt": "2026-10-20T00:52:12Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "requestDigest": "sha256:228556c0342ca2d600c61b3251c80d27943daf481cb059fc730eacfef00fabea",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 3,
+  "verificationStarted": false,
+  "workItemId": "WI-1090-evidence-docs-recovery"
+}

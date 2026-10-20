@@ -1,0 +1,7 @@
+{
+  "exitCode": 0,
+  "admissionDigestBefore": "sha256:b43bf54f249427b61c23571b212eca3b90416aff643c2a4da49d79567acd9ae1",
+  "requestedAction": "run_preflight",
+  "actualPreflightAllowed": true,
+  "verificationStarted": false
+}

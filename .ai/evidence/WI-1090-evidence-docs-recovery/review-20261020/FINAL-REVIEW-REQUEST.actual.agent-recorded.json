@@ -1,0 +1,79 @@
+{
+  "kind": "agent_recorded_delivery_of_actual_native_preflight_review_request_not_human_decision",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "decisionId": "contract-preflight-review",
+  "requestedDecision": "confirm_review",
+  "contractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "preflightDecisionDigest": "sha256:af4dc69ed22faa7e02174ae06b68449716e14dbbaa679ed55939f219c27cc3f6",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "preflightAt": "2026-10-20T00:52:50Z",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "environmentObservationDigest": "sha256:7d1291fc2bb6a8b88f1e3fe2aced02f3577213a19e2fb52dd6cbe55ea554428e",
+  "materialManifestDigest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+  "scaffoldBaseRevision": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+  "activationBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "activationContinuityPreparedDigest": "sha256:c7548ebca2858defb83b2aa472f07562cb41fd57f87cda2a0a13a5e4e76a98ab",
+  "preflightState": "yellow",
+  "reviewState": "needs_human_confirmation",
+  "blockers": [],
+  "unknowns": [
+    "contract_amendment_policy_review_required",
+    "repository_material_inspection_unavailable",
+    "required_evidence_missing"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "userConfirmationTextDraft": "我确认 WI-1090-evidence-docs-recovery 当前计划审阅：decisionId=contract-preflight-review；Contract=sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9；preflightDecisionDigest=sha256:af4dc69ed22faa7e02174ae06b68449716e14dbbaa679ed55939f219c27cc3f6；repositoryId=sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b；repositorySnapshotDigest=sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25；Runtime=sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257；activation base=b8ec2690976ab4c554aa9f5b2aa7fcca715156ca。confirm_review。本确认仅满足这次精确绑定的计划审阅，不包含材料扫描盲区残余风险接受，也不授权 merge、close、删除、发版或 Sentinel 操作。",
+  "humanDecisionRecorded": false,
+  "decisionEvidence": null,
+  "checkpointCount": 0,
+  "migrationExecuted": false,
+  "documentationChanged": false,
+  "verificationStarted": false,
+  "scopeOrPlanChangedBeyondApproved": false,
+  "approvedPlanFieldEquality": {
+    "intent": true,
+    "goal": true,
+    "scope": true,
+    "authority": true,
+    "risk": true,
+    "outOfScope": true,
+    "acceptanceCriteria": true,
+    "verification": true,
+    "scenarioCoverage": true,
+    "sources": true,
+    "requiredEvidenceClasses": true
+  },
+  "sourceMethod": "Native structured MCP start -> explicit native temporary command representation -> committed activation continuity -> native restoration of exact typed checks -> admitted final CLI preflight; provisional preflight retained and not a confirmation target.",
+  "recordingBoundary": "Only after actual Ray reply, record identity-bound decisionEvidence through native controls with actual recordedAt/recordedBy/reason. This request packet is not that receipt and conveys no human or material-risk acceptance."
+}

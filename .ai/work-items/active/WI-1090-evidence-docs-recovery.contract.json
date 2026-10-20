@@ -14,7 +14,7 @@
   "authority": "authorized",
   "authorityEvidence": null,
   "baseCommit": null,
-  "baseRevision": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+  "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
   "baselineDirtyPaths": [],
   "checkpointPolicy": null,
   "concurrencyBoundary": null,
@@ -131,7 +131,7 @@
       "reason": "Immutable predecessor Contract1cc7; no revalidation edit or rewrite is authorized."
     }
   ],
-  "state": "not_ready",
+  "state": "implementation_active",
   "synchronizationCheckpoint": null,
   "synchronizationHistory": [],
   "title": null,
