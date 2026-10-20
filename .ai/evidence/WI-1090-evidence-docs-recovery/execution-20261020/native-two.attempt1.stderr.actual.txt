@@ -1,0 +1,5 @@
+Verification progress: started node "bash tests/docs/documentation_acceptance.sh" (0/2 complete, 0%)
+Verification progress: completed node "bash tests/docs/documentation_acceptance.sh": passed (1/2 complete, 50%)
+Verification progress: started node "bash tests/docs/parity_status_check.sh" (1/2 complete, 50%)
+Verification progress: completed node "bash tests/docs/parity_status_check.sh": failed (2/2 complete, 100%)
+verification command failed for bash tests/docs/parity_status_check.sh (reuse_not_configured); structured failure receipt emitted

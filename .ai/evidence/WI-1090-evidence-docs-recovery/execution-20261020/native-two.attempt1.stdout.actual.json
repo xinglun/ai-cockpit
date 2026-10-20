@@ -1,0 +1,186 @@
+{
+  "costObservation": {
+    "advisoryOnly": true,
+    "confidence": "complete",
+    "elapsedMs": 206925,
+    "executionElapsedMs": 205985,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 2,
+    "nodesPlanned": 2,
+    "nodesReused": 0,
+    "passed": false,
+    "planningElapsedMs": 0,
+    "processesSpawned": 2,
+    "protectedNodesExecuted": 0,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "unknowns": []
+  },
+  "diagnosticSummary": [],
+  "elapsedMs": 206925,
+  "executionElapsedMs": 205985,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:42b76e3e519b67a007473e53c799089a2b9a02a8572ab33917ebdb0a901c49fb",
+      "deadlineMs": 1792458993882,
+      "elapsedMs": 201751,
+      "exitCode": 0,
+      "nodeId": "bash tests/docs/documentation_acceptance.sh",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "7b22626173656c696e654279746573223a2032323038312c202263757272656e744279746573223a2031333234372c202266696c6573223a207b222e61692f524541444d452e6d64223a20313939382c20222e61692f6167656e742d696e746572666163652e6a736f6e223a203830392c20224147454e54532e6d64223a20353633392c20226167656e74732f736b696c6c732f524541444d452e6d64223a20313736322c20226167656e74732f736b696c6c732f6f7264696e6172792d776f726b2d6974656d2e6d64223a20333033397d2c2022726564756374696f6e4279746573223a20383833342c2022726564756374696f6e50657263656e74223a2034302e307d0a776f726b206974656d2073746174757320636f6e73697374656e6379207061737365640a7265666572656e636520636f6d70617269736f6e206d6574616461746120636865636b207061737365640a67657474696e672d737461727465642073656d616e74696320636865636b73207061737365643a203133207472692d6c616e677561676520726f7574657320616e64203335207265666572656e6365207265636f7264730a76616c6964617465642032362063757272656e7420636f6d6d616e64206578616d706c65730a646f63756d656e746174696f6e20616363657074616e6365207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    },
+    {
+      "commandDigest": "sha256:a46dd764783756c0e57697bbecf7aaca202f1e6558a96e8ae353e15d7499bdf3",
+      "deadlineMs": 1792459196047,
+      "elapsedMs": 4232,
+      "exitCode": 1,
+      "nodeId": "bash tests/docs/parity_status_check.sh",
+      "passed": false,
+      "spawned": true,
+      "stderr": "57492d313039302d617574686f726974792d736f757263652d6d6174657269616c2d7265766965772d7265706c6163656d656e743a207374616c655f707265617263686976655f7061726974795f726567697374726174696f6e3a20646f63732f7265666572656e63652f7265666572656e63652d7061726974792e6a612e6d640a57492d313039302d617574686f726974792d736f757263652d6d6174657269616c2d7265766965772d7265706c6163656d656e743a207374616c655f707265617263686976655f7061726974795f726567697374726174696f6e3a20646f63732f7265666572656e63652f7265666572656e63652d7061726974792e7a682d434e2e6d640a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "filesHashed": 16,
+  "filesRead": 16,
+  "gitCalls": 15,
+  "maxConcurrentProcesses": 1,
+  "nodesExecuted": 2,
+  "nodesPlanned": 2,
+  "nodesReused": 0,
+  "passed": false,
+  "planReceipt": {
+    "affectedPaths": [],
+    "assurance": "repository_verified",
+    "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+    "dependencyConfidence": "unknown",
+    "escalations": [],
+    "executedNodes": [
+      "bash tests/docs/documentation_acceptance.sh",
+      "bash tests/docs/parity_status_check.sh"
+    ],
+    "executionElapsedMs": 205985,
+    "finalTier": "T0",
+    "initialTier": "T0",
+    "planningElapsedMs": 0,
+    "policyRefs": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+    "requiredAssurance": null,
+    "requiredTier": null,
+    "reusedNodes": [],
+    "savedExecutions": 0,
+    "schemaVersion": 1,
+    "selectionReasons": [
+      "cli_route_stage_explicit"
+    ],
+    "sharedNodes": [],
+    "stage": "task",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1090-evidence-docs-recovery"
+  },
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:42b76e3e519b67a007473e53c799089a2b9a02a8572ab33917ebdb0a901c49fb",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "bash tests/docs/documentation_acceptance.sh",
+      "planningElapsedMs": 0,
+      "program": "bash",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    },
+    {
+      "action": "execute",
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:a46dd764783756c0e57697bbecf7aaca202f1e6558a96e8ae353e15d7499bdf3",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "bash tests/docs/parity_status_check.sh",
+      "planningElapsedMs": 0,
+      "program": "bash",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    }
+  ],
+  "planningElapsedMs": 0,
+  "processSpawnFailures": 0,
+  "processesSpawned": 2,
+  "protectedNodesExecuted": 0,
+  "protectedNodesSkipped": 0,
+  "receiptCandidates": [],
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "rerunStale": 0,
+  "rerunUnknown": 0,
+  "results": [
+    {
+      "action": "execute",
+      "nodeId": "bash tests/docs/documentation_acceptance.sh",
+      "outputDigest": "sha256:d6e1d6dd1a372964e9fe5d42dfb29b8999e326b3bea5267c61d575633a2ec2d4",
+      "outputTruncated": false,
+      "passed": true,
+      "protected": false,
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reused": false,
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timedOut": false
+    },
+    {
+      "action": "execute",
+      "nodeId": "bash tests/docs/parity_status_check.sh",
+      "outputDigest": "sha256:2a60df5f1f7f0e68a1bb5f8cdc5c2ebc2a6774d94b39f8484321fc6562a863f5",
+      "outputTruncated": false,
+      "passed": false,
+      "protected": false,
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reused": false,
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timedOut": false
+    }
+  ],
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "timeoutSeconds": 300
+}
