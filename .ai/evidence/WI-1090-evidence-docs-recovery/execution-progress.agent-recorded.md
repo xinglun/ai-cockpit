@@ -1,0 +1,17 @@
+# SDD ledger — plan: /workspace/scratch/wi1090-successor-minimal-proposal-20261020/IMPLEMENTATION-PLAN.proposal-only.md
+
+Ruling: User approved an additional dedicated successor worktree; this overrides skill default reuse of the predecessor worktree. Predecessor remains frozen.
+Ruling: External scratch evidence/ledger and inline execution preserve user-approved context; no workspace cleanup, subagents or full Rust baseline build. Existing actual failed doc/Windows CI and native7 provide baseline, user authorizes two required doc checks plus byte audit.
+Pre-flight: Native successor scaffold -> native amendment -> own three-language registration/source commit -> first new verification. Mapping preserves old manifest bytes/logical keys; new locator is explicitly required for moved copies. Own finish/archive allowed, no close/merge/delete.
+
+Task1 Ruling: Native attempt1 rejects predecessorArchiveManifestDigest for ordinary successor; source validation restricts that field to supersede/amendment-revalidation. Remove only that prohibited extra field from the next wire input, retain its actual raw binding sha256:a621835809ccbb6cc8fe19f7c96d5a3db79905d205d7de53c80b26a5ad366eb3 in evidence and preserve attempt1. This corrects input shape; no scope/authority/admission waiver.
+
+Task1 Ruling: Typed amend attempt1 rejected set on structured /scope before commit. Use replace for existing arrays and native add for each initial unverified/no-evidence scenario. All intended field values and approved scope remain identical; retain attempt1; no generated record edits.
+
+Task1: native successor creation succeeded on attempt2 after preserving an input-shape rejection; full plan amendment succeeded on corrected typed operations. Native status now needs_human_decision; STOP before implementation.
+Important plan defect: same numeric WI-1090 IDs fail ambiguous_short_id while successor is active, because recovery_alias_group only reads archived successor Contracts. Required governance gate therefore cannot pass prearchive with this unchanged ID/rule. Report to Raydot; do not mutate IDs, weaken gate, create competing successor or execute later steps.
+
+CORRECTION: The preceding Important plan defect interpretation is withdrawn. The actual caller at governance_integrity_gate.py:2304 uses all_have_exact_rows first; approved complete full-ID parity rows avoid short-id ambiguity without archived successor, identity change or weakening. The initial report was corrected before first commit, and its superseded interpretation is retained externally. Actual gate output and HumanRequired remain unchanged.
+Task1 stopping point: selected successor verified, complete plan7e16 recorded, native needs_human_decision. No relocation, document edits, required verification, finish/archive, PR or CI executed. Only necessary AI governance/evidence will be committed and pushed for review.
+
+Preservation note: git diff --check flagged trailing spaces emitted by the unchanged native Outcome text (empty coordination labels). Preserve those raw native output bytes; check authored/governance JSON changes separately excluding only that exact captured output file. No formatter or policy change.

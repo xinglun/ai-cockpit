@@ -1,0 +1,107 @@
+{
+  "kind": "agent_recorded_targeted_projection_of_actual_read_only_gate_not_native_receipt",
+  "argv": [
+    "bash",
+    "tests/docs/parity_status_check.sh",
+    "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+    "/workspace/scratch/wi1090-successor-execution-20261020/gate-selection-before-implementation.actual.json"
+  ],
+  "exitCode": 1,
+  "fullReportRawSha256": "5bf547163cd4737a682f40aa20059d596b7f80055af4d4dcd9e554af7bff5987",
+  "inventory": [
+    {
+      "classification": "current_release_cycle",
+      "decisionPath": ".ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json",
+      "lifecycleState": "awaiting_successor_close",
+      "location": "archive",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "classification": "current_active",
+      "lifecycleState": "prearchive_parity_incomplete",
+      "location": "active",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    }
+  ],
+  "findings": [
+    {
+      "code": "ambiguous_short_id",
+      "path": "docs/reference",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "code": "invalid_prearchive_parity_registration",
+      "path": "docs/reference/reference-parity.md",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "code": "missing_parity_decision",
+      "path": "docs/reference/reference-parity.ja.md",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "code": "missing_parity_decision",
+      "path": "docs/reference/reference-parity.md",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "code": "missing_parity_decision",
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "code": "stale_parity_status",
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "code": "ambiguous_short_id",
+      "path": "docs/reference",
+      "severity": "error",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "code": "missing_prearchive_parity_entry",
+      "path": "docs/reference/reference-parity.ja.md",
+      "severity": "error",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "code": "missing_prearchive_parity_entry",
+      "path": "docs/reference/reference-parity.md",
+      "severity": "error",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "code": "missing_prearchive_parity_entry",
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "severity": "error",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "code": "missing_work_item_document",
+      "path": "docs/work-items/WI-1090-evidence-docs-recovery.ja.md",
+      "severity": "error",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "code": "missing_work_item_document",
+      "path": "docs/work-items/WI-1090-evidence-docs-recovery.md",
+      "severity": "error",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "code": "missing_work_item_document",
+      "path": "docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md",
+      "severity": "error",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    }
+  ],
+  "fullReportPreservedAt": "/workspace/scratch/wi1090-successor-execution-20261020/gate-selection-before-implementation.actual.json"
+}

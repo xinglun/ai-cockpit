@@ -1,0 +1,6 @@
+{
+  "exitCode": 0,
+  "inputRawSha256": "8be284fbf221cb28d517dc5351464cce3fcecc19e2b9b319b4a70d91ea85eed8",
+  "omittedWireField": "predecessorArchiveManifestDigest",
+  "manifestRawBindingRetained": "sha256:a621835809ccbb6cc8fe19f7c96d5a3db79905d205d7de53c80b26a5ad366eb3"
+}

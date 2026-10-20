@@ -1,0 +1,59 @@
+{
+  "kind": "actual_native_human_stop_and_gate_blocker_agent_recorded",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "branch": "codex/wi1090-evidence-docs-recovery",
+  "baseRevision": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "contractDigest": "sha256:7e16cf68c071dc671c0f3f906a326456ca23b94c3f9cf0592e675323a1e442ae",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "environmentObservationDigest": "sha256:2b75bf7dcd8fd64b9b6d6948c36970acbf4d8618270e7207d395bee7ecae1a71",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "amendmentRequestDigest": "sha256:7eca6c3a97fa100e5127a1fb7d8faaa6d32fb393be2eefd4cad7e2f8a633d41e",
+  "amendmentJournalDigest": "sha256:8c43bcf513dd0f38de1ace0413ae1e482d61553fae9eb88269b3dff27d71da3b",
+  "policyReviewRequirements": [
+    "/acceptanceCriteria",
+    "/authority",
+    "/outOfScope",
+    "/requiredEvidenceClasses",
+    "/risk",
+    "/scenarioCoverage",
+    "/scope",
+    "/verification"
+  ],
+  "humanDecisionRequired": true,
+  "admissionState": "needs_human_decision",
+  "admissionDigest": "sha256:f4dcf73b9cb6a19fef41e711e88836e33a4602562a6a2e25e363e75a00fed020",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status"
+  ],
+  "preflightState": "not_run",
+  "preflightDecisionId": null,
+  "preflightDecisionDigest": null,
+  "materialRequestDigest": null,
+  "implementationStarted": false,
+  "movesExecuted": 0,
+  "documentEdits": 0,
+  "requiredChecksExecuted": 0,
+  "verificationReceipt": null,
+  "ownFinish": false,
+  "ownArchive": false,
+  "draftPrCreated": false,
+  "gateBlocker": {
+    "code": "ambiguous_short_id",
+    "currentCause": "Successor full-ID parity rows have not yet been registered. At governance_integrity_gate.py:2304 all_have_exact_rows suppresses the alias fallback; the already-approved complete three-language rows are the normal fix. No identity change, early archive or gate modification is needed.",
+    "selectedLineageVerified": true,
+    "predecessorLifecycleState": "awaiting_successor_close",
+    "successorLifecycleState": "prearchive_parity_incomplete",
+    "currentFindingsAreNotPassingChecks": true
+  },
+  "decisionsNotInvented": [
+    "human confirm_review",
+    "material risk consent"
+  ],
+  "technicalApprovalActor": "agent:Raydot",
+  "recorder": "agent:Codex",
+  "analysisCorrection": "Initial function-only reading of recovery_alias_group omitted the outer all_have_exact_rows condition; superseded local interpretation retained in external scratch. The actual raw gate report and native human requirement never changed."
+}

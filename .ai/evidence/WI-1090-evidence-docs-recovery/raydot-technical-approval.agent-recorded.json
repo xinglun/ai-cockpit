@@ -1,0 +1,14 @@
+{
+  "kind": "agent_recorded_relayed_delegated_technical_approval_not_human_review",
+  "actor": "agent:Raydot",
+  "recorder": "agent:Codex",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "recordedAt": "2026-10-20T00:32:02.105310+00:00",
+  "decisionTimeProvenance": "Time Codex recorded this newly received relayed approval; original transport server timestamp is not available. Not an authenticated human decision.",
+  "approvedProposalRawSha256": "6142a6cdb61da19fe1faef5f2a797b3183bb4bc65b13f71c0303373ad1045694",
+  "decisionText": "批准 WI-1090-evidence-docs-recovery 有界方案，继续原生 successor 恢复、完整计划登记、8项R100和2项索引、6份现有投影及3份successor文档、自身验证和finish/archive。技术决定actor/source为Raydot；任何原生真人决定或scope/admission拒绝即停报。19条预防候选不动。不改Rust、两个manifest、受保护原生历史。merge/close/delete/release未授权。",
+  "authorityBasis": "User delegated ordinary technical approvals to Raydot; Raydot explicitly approved the exact successor proposal in this parent-thread delegation.",
+  "humanConfirmReview": false,
+  "materialResidualRiskAcceptance": false,
+  "publicationBoundary": "Preparation/publishing direction approved; return actual final head/target if external publishing tool requires new exact authorization."
+}

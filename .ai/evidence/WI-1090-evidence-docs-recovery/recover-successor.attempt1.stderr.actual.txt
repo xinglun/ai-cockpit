@@ -1,0 +1,1 @@
+record Work Item recovery decision: repository protocol state error at /workspace/ai-cockpit-wi1090-evidence-docs-recovery/.ai/decisions: recovery_decision_invalid:archive_manifest_binding_invalid: predecessorArchiveManifestDigest is only valid for supersede or contract amendment revalidation decisions

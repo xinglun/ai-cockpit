@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "successor",
+  "workItemId": "WI-1090-authority-source-material-review-replacement",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
+  "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "predecessorSummaryDigest": "sha256:5c4b3c8eee900183cb5f6a12f7780e58d345e78237c3a1f4edaf550662e525bd",
+  "predecessorOutcomeDigest": "sha256:1b0f43474968bb86dca2b0bee5010807718358c68c3cc4176d9e32298d2832b2",
+  "predecessorEventsDigest": "sha256:9d1fa486587305413524d0794d3bc1a7b47468fc612fe96db79d9ec04558524b",
+  "successorWorkItemId": "WI-1090-evidence-docs-recovery",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "actor": "agent:Raydot",
+  "authoritySource": "user-delegation:Raydot:01a11856-d6ba-72e0-9aab-25a34cd2f018:WI-1090-evidence-docs-recovery",
+  "reason": "Raydot approved the exact bounded technical recovery proposal: preserve the archived predecessor and actual failed CI, relocate exactly eight Agent-owned evidence copies byte-for-byte, and restore truthful three-language documentation through a native successor. No Rust, old manifest, merge, close or deletion authority. decidedAt records current relay recording time, not an unavailable server timestamp.",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1090-evidence-docs-recovery/raydot-technical-approval.agent-recorded.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/39344530319"
+  ],
+  "policyRefs": [],
+  "decidedAt": "2026-10-20T00:32:02.105310+00:00",
+  "resumeCondition": "Only current native admission and complete successor scope/review permit checks and own finish/archive. Stop for actual human decision or rejected scope/admission; no implicit old review/risk reuse or predecessor mutation."
+}

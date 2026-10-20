@@ -1,0 +1,13 @@
+WI-1090-authority-source-material-review-replacement: ambiguous_short_id: docs/reference
+WI-1090-authority-source-material-review-replacement: invalid_prearchive_parity_registration: docs/reference/reference-parity.md
+WI-1090-authority-source-material-review-replacement: missing_parity_decision: docs/reference/reference-parity.ja.md
+WI-1090-authority-source-material-review-replacement: missing_parity_decision: docs/reference/reference-parity.md
+WI-1090-authority-source-material-review-replacement: missing_parity_decision: docs/reference/reference-parity.zh-CN.md
+WI-1090-authority-source-material-review-replacement: stale_parity_status: docs/reference/reference-parity.zh-CN.md
+WI-1090-evidence-docs-recovery: ambiguous_short_id: docs/reference
+WI-1090-evidence-docs-recovery: missing_prearchive_parity_entry: docs/reference/reference-parity.ja.md
+WI-1090-evidence-docs-recovery: missing_prearchive_parity_entry: docs/reference/reference-parity.md
+WI-1090-evidence-docs-recovery: missing_prearchive_parity_entry: docs/reference/reference-parity.zh-CN.md
+WI-1090-evidence-docs-recovery: missing_work_item_document: docs/work-items/WI-1090-evidence-docs-recovery.ja.md
+WI-1090-evidence-docs-recovery: missing_work_item_document: docs/work-items/WI-1090-evidence-docs-recovery.md
+WI-1090-evidence-docs-recovery: missing_work_item_document: docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md
