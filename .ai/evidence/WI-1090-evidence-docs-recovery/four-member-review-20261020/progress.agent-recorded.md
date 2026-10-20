@@ -10,3 +10,7 @@
 - 实际审阅四个获准blob/hunk及相关当前变更上下文，已完成中文有限审阅报告，raw SHA56894db9。typed material decision实际exit0，receipt1c6b5fe9、requestf98c、profile711819；reviewer agent:Codex、assurance self_declared、实际新Ray风险来源。raw scanner Unknown保留，effective材料Unknown解除。
 - validate实际无Findings，当前新增scenario4未验证如实保留，须由正式六检查补齐；原生status明确准入run_verification。源码只读枚举12 repository+1 CLI+1 MCP，非测试结果。当前39路径审计再次证明8/2/2/27/2/19完整且无范围外源码变化。
 - Ray2026-10-20T03:37:49Z实际追加明确Draft PR/GitHub CI授权，父线程原文relay保留；仍不含merge/close/delete/release。仅在正式检查与自身收尾成功后执行对应一个Draft并观察真实CI。
+
+- 新Contract正式验证实际一次执行成功，6/6 execute、reuse0、maxConcurrent1；仓库12/CLI1/MCP1当前同轮通过。native canonical digest3d54c814，receipt76cd5133，source snapshot880e，runtimee967，execution HEAD24502180。没有新源码改动或重复检查。
+- 当前原生观察自动保留真实责任路径（含三份parity，排除继承Rust2）；具体失败event/outcome/prefix绑定进入verificationRecoveryBasis。旧blocked Outcome原字节及事件前缀另存，C70ce canonical原字节和原3attempts保持。
+- 原生controls已记录当前4 scenarios真实测试/审计证据；validate verified无Findings/Unknown，status green、verification verified、humanDecisionRequired=false，实际准入finish。真实当前finish/archive尚未执行；先普通证据commit验证fresh继续，不能预报成功。
