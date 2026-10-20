@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_native_input_shape_correction",
+  "actor": "agent:Codex",
+  "recordedAt": "2026-10-20T02:05:12.974808+00:00",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "approvedProposalCommit": "6804c9d43fa6161f785240e02943fccaa25c61c5",
+  "originalRequestRawSha256": "f0aa24e6709166354b36bb0b3fbacd244812823f5d0f5c6c11594cbb2b9a1494",
+  "correctedRequestRawSha256": "a22f1caeef05dd222d4bdf4e2b1e44b844dfbc12ba2d4960bf0dbca9b4c44323",
+  "onlyChanges": [
+    {
+      "changeIndex": 5,
+      "from": "/acceptanceCriteria/-",
+      "to": "/acceptanceCriteria"
+    },
+    {
+      "changeIndex": 6,
+      "from": "/acceptanceCriteria/-",
+      "to": "/acceptanceCriteria"
+    },
+    {
+      "changeIndex": 7,
+      "from": "/acceptanceCriteria/-",
+      "to": "/acceptanceCriteria"
+    },
+    {
+      "changeIndex": 9,
+      "from": "/scenarioCoverage/-",
+      "to": "/scenarioCoverage"
+    },
+    {
+      "changeIndex": 10,
+      "from": "/sources/-",
+      "to": "/sources"
+    },
+    {
+      "changeIndex": 11,
+      "from": "/sources/-",
+      "to": "/sources"
+    }
+  ],
+  "approvedSemanticValuesUnchanged": true,
+  "nativeSource": "crates/cockpit-protocol/src/contract_amendment.rs:597",
+  "nativeRule": "add targets the collection itself and appends exactly one value",
+  "firstAttemptExitCode": 1,
+  "firstAttemptContractMatchesHead": true,
+  "firstAttemptJournalStillSequence": 3,
+  "humanDecisionClaimed": false
+}

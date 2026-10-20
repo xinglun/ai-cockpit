@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "preflight",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+    "--contract",
+    "/workspace/ai-cockpit-wi1090-evidence-docs-recovery/.ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json"
+  ],
+  "startedAt": "2026-10-20T02:05:39.663423+00:00",
+  "finishedAt": "2026-10-20T02:05:51.048613+00:00",
+  "exitCode": 0
+}

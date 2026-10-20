@@ -11,6 +11,42 @@
   "checkpointAt": "2026-10-20T01:07:01Z",
   "checkpointContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+      "recorded": true,
+      "recordedAt": "2026-10-20T01:07:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+      "previousContractHash": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+      "reason": "Ray explicitly requires root-cause workflow repair and repository process acceptance of low-friction collaboration. Preserve original AC3, conditional registrations, both documentation gates and all history. Narrowly permit four implementation files, three focused regression files and three existing workflow documents. This is a proposal for Raydot technical review; no current or future native human/material decision is fabricated.",
+      "recorded": true,
+      "recordedAt": "2026-10-20T02:05:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+      "requiredChecks": 6,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
   "createdAt": "2026-10-20T00:32:33Z",
   "decisionEvidence": {
@@ -48,8 +84,8 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
   "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
-  "preflightAt": "2026-10-20T01:10:12Z",
-  "preflightContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "preflightAt": "2026-10-20T02:05:50Z",
+  "preflightContractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
   "preflightDecisionDigest": "sha256:3798c12ae4ef8b0546e2fb066e7488ac89fd62c3af888ea5e7782365795011eb",
   "preflightRepositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
   "preflightState": "yellow",
@@ -80,9 +116,22 @@
       "scenario": "truthful_three_language_projection",
       "status": "unverified",
       "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority."
+    },
+    {
+      "evidence": [],
+      "expected": "Native verification-start material observation covers committed successor changes before checks without claiming success; validated cba3 responsibility history excludes inherited b8ec-to-cba3 Rust. Missing/unchanged files and invalid or stale bindings cannot satisfy ownership. Failure/retry history remains intact; lock-wait and execution drift reject current-state promotion; successful recording preserves committed paths. Native fixtures demonstrate a continuous failed-to-successful finish/archive path with zero extra manual refresh or routine confirmation. Existing workflow documents carry this process standard. Current real recovery must additionally satisfy unchanged AC3, both original document checks and own AC5 lifecycle boundary; actual user interventions and review evidence are reported separately.",
+      "required": true,
+      "scenario": "source_change_observation_root_cause",
+      "status": "unverified",
+      "verificationPlan": "Run the four added focused checks with matching source_change_observation_ tests listed before execution; preserve actual native CLI/MCP and binding outputs. Run both original document checks in this real Work Item, update truthful controls and complete own finish/archive only on actual native admission. Record actual intervention count/reason/binding and experience review; synthetic test expectations do not prove real human delivery."
     }
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-20T01:17:14.586673869+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-20T02:05:13Z"
+  },
   "workItemId": "WI-1090-evidence-docs-recovery"
 }

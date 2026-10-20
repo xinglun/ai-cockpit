@@ -1,0 +1,565 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-evidence-docs-recovery",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1090-native-pre-verification-change-observation-root-fix-20261020-v1-proposed",
+      "expectedContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+      "reason": "Ray explicitly requires root-cause workflow repair and repository process acceptance of low-friction collaboration. Preserve original AC3, conditional registrations, both documentation gates and all history. Narrowly permit four implementation files, three focused regression files and three existing workflow documents. This is a proposal for Raydot technical review; no current or future native human/material decision is fabricated.",
+      "changes": [
+        {
+          "path": "/goal",
+          "operation": "replace",
+          "value": "Repair the native changedPaths-before-verification bootstrap cycle through the existing verification entry, with validated successor responsibility origin, committed-change observation, race-safe bindings and non-clearing success recording; preserve exact8 evidence migration, truthful nine-document recovery, original gate ownership acceptance and own admitted finish/archive. Make legal low-friction recovery an explicit standard in the three existing agent-workflow documents and focused regressions. Prepare one authorized Draft PR/actual CI without merge, close, cleanup or consumer adoption."
+        },
+        {
+          "path": "/scope",
+          "operation": "replace",
+          "value": [
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-005-fece998c8c8f.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-012-d1dad9a96597.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-013-67d730856bec.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-014-c8d82f02317a.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-017-4b62b0e0ad0f.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-018-686d6df61378.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-025-4b62b0e0ad0f.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-026-cf433aacddd2.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json",
+            ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/README.md",
+            "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+            "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+            "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+            "docs/reference/reference-parity.md",
+            "docs/reference/reference-parity.zh-CN.md",
+            "docs/reference/reference-parity.ja.md",
+            "docs/work-items/WI-1090-evidence-docs-recovery.md",
+            "docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md",
+            "docs/work-items/WI-1090-evidence-docs-recovery.ja.md",
+            "crates/cockpit-repository/src/lifecycle.rs",
+            "crates/cockpit-repository/src/contract_amendment.rs",
+            "crates/cockpit-cli/src/main.rs",
+            "crates/cockpit-mcp/src/lib.rs",
+            "crates/cockpit-repository/tests/lifecycle_order.rs",
+            "crates/cockpit-cli/tests/verify.rs",
+            "crates/cockpit-mcp/tests/rpc.rs",
+            "docs/reference/agent-workflow.md",
+            "docs/reference/agent-workflow.zh-CN.md",
+            "docs/reference/agent-workflow.ja.md"
+          ]
+        },
+        {
+          "path": "/outOfScope/0",
+          "operation": "replace",
+          "value": "Only the seven exact added Rust implementation/regression paths may change for the changedPaths root-cause workflow repair. The three added existing agent-workflow language documents may add its process-experience acceptance checklist, and the existing9 projections may describe this repair. No other product/test/CI-workflow/gate-policy/global Agent/MCP changes, new Work Item, new CLI/MCP action, new controls type or generalized management framework. The nineteen preventive long-path candidates remain at their existing paths and bytes."
+        },
+        {
+          "path": "/outOfScope/3",
+          "operation": "replace",
+          "value": "No merge, either Work Item close, predecessor supersede, branch/worktree/provider deletion, tag/release, shared Runtime installation/adoption or cleanup. One isolated source-bound candidate Runtime may be built and invoked only for this Work Item own verification/controls/finish/archive after actual binary hash readback, environment/current-binding admission and any truly required new review; do not overwrite the pinned b5cbd Runtime or adopt into Sentinel/real consumers. This preserves own normal finish/archive only after actual required checks and current native admission."
+        },
+        {
+          "path": "/acceptanceCriteria/3",
+          "operation": "replace",
+          "value": "Execute both original required documentation checks and the four focused root-cause checks declared here successfully; record actual migration integrity and root-cause scenario evidence through native controls. Runtime/source edits are limited to the seven newly named Rust implementation/regression files and the three existing agent-workflow language documents. Preserve both predecessor Rust files and do not inherit the old seven-node Rust verification or substitute local evidence for hosted CI."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Repair the native workflow itself: the existing Work Item verification entry automatically records truthful committed and working-tree successor change facts before checks, independently of success. Bind the successor responsibility origin to validated immutable native history, distinguish repository-base inherited diff from successor delta, and retain original all3 gate ownership assertions. Successful recording must not overwrite committed paths with an empty working-tree list."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Focused native regressions must cover committed three-document changes; inherited predecessor Rust exclusion; missing or unchanged files not satisfying ownership; preserved first failure and correctly observed re-verification; HEAD/Contract/journal drift while waiting for the lifecycle lock; source drift during execution; invalid native origins; and successful recording preserving committed paths. CLI and MCP must share the behavior while plan-only stays read-only. Retain failed attempts, gate assertions and all historical evidence byte-for-byte."
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Make collaboration flow quality a repository process acceptance standard in the existing EN/zh-CN/ja agent-workflow documents: legal authorized tasks must proceed continuously; no meaningless repeated confirmation; failed evidence is preserved and usable for recovery; a necessary human intervention supplies its complete reason and binding once; actual intervention counts/reasons and friction defects/regressions are recorded using existing Work Item/issue practices. Prove the positive retained-failure-to-successful-checks/evidence-commit/own-finish/archive flow by actual end-to-end execution. Add zero routine manual-refresh operations or extra confirmations; preserve real protocol human gates. Separate automated proof from human/Agent experience review and do not claim full automation for the latter. Treat discovered friction as an in-scope defect or an explicit bounded amendment, not merely a user operating warning."
+        },
+        {
+          "path": "/verification",
+          "operation": "replace",
+          "value": [
+            {
+              "check": "bash tests/docs/documentation_acceptance.sh",
+              "coversScenarios": [
+                "truthful_three_language_projection"
+              ],
+              "required": true
+            },
+            {
+              "check": "bash tests/docs/parity_status_check.sh",
+              "coversScenarios": [
+                "truthful_three_language_projection"
+              ],
+              "required": true
+            },
+            {
+              "check": "cargo fmt --all --check",
+              "coversScenarios": [
+                "source_change_observation_root_cause"
+              ],
+              "required": true
+            },
+            {
+              "check": "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1",
+              "coversScenarios": [
+                "source_change_observation_root_cause"
+              ],
+              "required": true
+            },
+            {
+              "check": "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
+              "coversScenarios": [
+                "source_change_observation_root_cause"
+              ],
+              "required": true
+            },
+            {
+              "check": "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
+              "coversScenarios": [
+                "source_change_observation_root_cause"
+              ],
+              "required": true
+            }
+          ]
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "add",
+          "value": {
+            "evidence": [],
+            "expected": "Native verification-start material observation covers committed successor changes before checks without claiming success; validated cba3 responsibility history excludes inherited b8ec-to-cba3 Rust. Missing/unchanged files and invalid or stale bindings cannot satisfy ownership. Failure/retry history remains intact; lock-wait and execution drift reject current-state promotion; successful recording preserves committed paths. Native fixtures demonstrate a continuous failed-to-successful finish/archive path with zero extra manual refresh or routine confirmation. Existing workflow documents carry this process standard. Current real recovery must additionally satisfy unchanged AC3, both original document checks and own AC5 lifecycle boundary; actual user interventions and review evidence are reported separately.",
+            "required": true,
+            "scenario": "source_change_observation_root_cause",
+            "status": "unverified",
+            "verificationPlan": "Run the four added focused checks with matching source_change_observation_ tests listed before execution; preserve actual native CLI/MCP and binding outputs. Run both original document checks in this real Work Item, update truthful controls and complete own finish/archive only on actual native admission. Record actual intervention count/reason/binding and experience review; synthetic test expectations do not prove real human delivery."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/WI-1090-evidence-docs-recovery/root-cause-proposal-20261020/ray-root-cause-direction.actual.agent-recorded.json",
+            "reason": "Actual relayed human Ray root-cause and collaboration-flow product directions; not an exact new Contract confirm_review or material-risk acceptance."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/WI-1090-evidence-docs-recovery/root-cause-proposal-20261020/CONSOLIDATED-ROOT-CAUSE-PLAN.proposal-only.zh-CN.md",
+            "reason": "Concentrated bounded technical design, process clauses and regression/positive-flow acceptance for delegated Raydot review; original AC3 and existing gate assertions stay unchanged."
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:b441aa0dcc0ea12189115beacac1fb458fccb5dae65a56546e720ebcce7341c6",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Migrate exactly the eight approved Agent-owned copies byte-for-byte to the approved short paths, without deduplication; append exactly the locator index and README. Retain old logical manifest keys and require explicit index resolution with raw SHA/length/Git blob checks; do not claim old physical paths still exist.",
+        "Actual integrity audit proves locator count8, exact original cba3 Git blobs, both immutable M6 manifests, all27 protected predecessor native records, both production Rust files and the19 unmodified preventive candidates; preserve original fixtures and failed CI evidence.",
+        "Correct the three existing Work Item pages and three parity ledgers against archived Contract1cc7 and actual failed CI, add the necessary own EN/zh-CN/ja pages and lifecycle-bound own ledger rows in a commit strictly before first own verification evidence. The selected successor and ownership of all3 ledgers must be recognized by the real existing governance gate.",
+        "Execute both required existing documentation checks successfully and record actual migration integrity scenario evidence via native controls. No Rust change or inherited seven-node Rust verification, and no local evidence substituted for hosted CI.",
+        "This successor may perform its own normal native checkpoint, verification, controls, finish and archive, each only on actual current admission, and deliver its truthful Outcome. Its close, predecessor terminal operations, merge and cleanup remain outside authorization.",
+        "Prepare and, only with actual publication authorization, publish one independent Draft PR at the actual final head to main; preserve PR1050, monitor full actual CI terminal, and keep Sentinel handoff non-executable until a separately admitted complete WI1089+WI1090 candidate exists."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-20T00:32:33Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Exactly eight byte-preserving Agent-copy renames plus two locator files; repair six existing projections and create three necessary successor pages; prove actual document gates and copy integrity, complete this successor own finish/archive under native admission, and prepare one independent Draft PR/CI without Rust or predecessor history changes.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Recover reviewable WI1090 evidence locations and truthful multilingual documentation after actual PR1050 CI failure through an append-only native successor.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No Rust, product, test, workflow, global Agent/MCP configuration or verification-policy edits. The nineteen preventive long-path candidates remain at their existing paths and bytes.",
+        "Preserve predecessor WI-1090-authority-source-material-review-replacement generated Contract, Summary, Outcome, Events, canonical/attempt/material/review receipts, archive and both M6 manifests byte-for-byte. Only its append-only selected-successor decision is added; only eight exact Agent copies move, and six derived documentation projections change under this successor. External fixture originals remain unchanged.",
+        "No WI1089, c960/420/721129, WI1087, Sentinel or real-consumer mutation/composition. This documentation successor is not a complete combined Runtime candidate.",
+        "No merge, either Work Item close, predecessor supersede, branch/worktree/provider deletion, tag/release, Runtime installation/adoption or cleanup. This clause does not prohibit WI-1090-evidence-docs-recovery own normal finish and archive after its actual required checks and current native admission.",
+        "No changes to PR1050 or its cba3 head, no no-change CI rerun. The proposed independent Draft PR uses its actual reviewed final head; if an external publishing tool requires new exact authorization, return that binding before publication.",
+        "No inheritance of prior human confirm_review, Rust material decision or residual-risk acceptance; agent:Raydot is the delegated technical decision-maker, not human:Ray. Stop at any actual required human decision or scope/admission refusal."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+      "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "medium",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Exactly8 approved copy moves and2 locator files, full old Git blob/raw SHA/length match; explicit old-logical-to-new-path resolution works; 2 manifests,27 protected native records,2 Rust files and19 preventive candidates remain unchanged.",
+          "required": true,
+          "scenario": "exact8_byte_preserving_locator",
+          "status": "unverified",
+          "verificationPlan": "Run a read-only audit against the frozen cba3 tree and approved index; preserve actual structured audit and record it through native scenario controls before finish."
+        },
+        {
+          "evidence": [],
+          "expected": "Existing documentation acceptance and governance-integrity gates pass; old WI is selected into the native successor lineage, all3 ledgers owned, current source registration precedes first own verification and own pages remain valid across archive.",
+          "required": true,
+          "scenario": "truthful_three_language_projection",
+          "status": "unverified",
+          "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority."
+        }
+      ],
+      "scope": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-005-fece998c8c8f.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-012-d1dad9a96597.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-013-67d730856bec.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-014-c8d82f02317a.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-017-4b62b0e0ad0f.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-018-686d6df61378.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-025-4b62b0e0ad0f.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-026-cf433aacddd2.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/README.md",
+        "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+        "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+        "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1090-evidence-docs-recovery.md",
+        "docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md",
+        "docs/work-items/WI-1090-evidence-docs-recovery.ja.md"
+      ],
+      "sources": [
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/raydot-technical-approval.agent-recorded.json",
+          "reason": "Actual relayed delegated technical approval; agent:Raydot/recorder agent:Codex, not authenticated human review or material-risk consent."
+        },
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/approved-successor-plan.agent-recorded.json",
+          "reason": "Approved bounded identity, exact8 relocation and10-file migration plan, six predecessor projections, three own pages and own finish/archive boundary."
+        },
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/approved-implementation-plan.agent-recorded.md",
+          "reason": "Approved inline execution order and stop rules. Native ordinary-successor wire excludes predecessorArchiveManifestDigest; first rejected attempt is retained separately."
+        },
+        {
+          "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.contract.json",
+          "reason": "Immutable predecessor Contract1cc7; no revalidation edit or rewrite is authorized."
+        }
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        {
+          "check": "bash tests/docs/documentation_acceptance.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        },
+        {
+          "check": "bash tests/docs/parity_status_check.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        }
+      ],
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    "previousContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Migrate exactly the eight approved Agent-owned copies byte-for-byte to the approved short paths, without deduplication; append exactly the locator index and README. Retain old logical manifest keys and require explicit index resolution with raw SHA/length/Git blob checks; do not claim old physical paths still exist.",
+        "Actual integrity audit proves locator count8, exact original cba3 Git blobs, both immutable M6 manifests, all27 protected predecessor native records, both production Rust files and the19 unmodified preventive candidates; preserve original fixtures and failed CI evidence.",
+        "Correct the three existing Work Item pages and three parity ledgers against archived Contract1cc7 and actual failed CI, add the necessary own EN/zh-CN/ja pages and lifecycle-bound own ledger rows in a commit strictly before first own verification evidence. The selected successor and ownership of all3 ledgers must be recognized by the real existing governance gate.",
+        "Execute both original required documentation checks and the four focused root-cause checks declared here successfully; record actual migration integrity and root-cause scenario evidence through native controls. Runtime/source edits are limited to the seven newly named Rust implementation/regression files and the three existing agent-workflow language documents. Preserve both predecessor Rust files and do not inherit the old seven-node Rust verification or substitute local evidence for hosted CI.",
+        "This successor may perform its own normal native checkpoint, verification, controls, finish and archive, each only on actual current admission, and deliver its truthful Outcome. Its close, predecessor terminal operations, merge and cleanup remain outside authorization.",
+        "Prepare and, only with actual publication authorization, publish one independent Draft PR at the actual final head to main; preserve PR1050, monitor full actual CI terminal, and keep Sentinel handoff non-executable until a separately admitted complete WI1089+WI1090 candidate exists.",
+        "Repair the native workflow itself: the existing Work Item verification entry automatically records truthful committed and working-tree successor change facts before checks, independently of success. Bind the successor responsibility origin to validated immutable native history, distinguish repository-base inherited diff from successor delta, and retain original all3 gate ownership assertions. Successful recording must not overwrite committed paths with an empty working-tree list.",
+        "Focused native regressions must cover committed three-document changes; inherited predecessor Rust exclusion; missing or unchanged files not satisfying ownership; preserved first failure and correctly observed re-verification; HEAD/Contract/journal drift while waiting for the lifecycle lock; source drift during execution; invalid native origins; and successful recording preserving committed paths. CLI and MCP must share the behavior while plan-only stays read-only. Retain failed attempts, gate assertions and all historical evidence byte-for-byte.",
+        "Make collaboration flow quality a repository process acceptance standard in the existing EN/zh-CN/ja agent-workflow documents: legal authorized tasks must proceed continuously; no meaningless repeated confirmation; failed evidence is preserved and usable for recovery; a necessary human intervention supplies its complete reason and binding once; actual intervention counts/reasons and friction defects/regressions are recorded using existing Work Item/issue practices. Prove the positive retained-failure-to-successful-checks/evidence-commit/own-finish/archive flow by actual end-to-end execution. Add zero routine manual-refresh operations or extra confirmations; preserve real protocol human gates. Separate automated proof from human/Agent experience review and do not claim full automation for the latter. Treat discovered friction as an in-scope defect or an explicit bounded amendment, not merely a user operating warning."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-20T00:32:33Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Repair the native changedPaths-before-verification bootstrap cycle through the existing verification entry, with validated successor responsibility origin, committed-change observation, race-safe bindings and non-clearing success recording; preserve exact8 evidence migration, truthful nine-document recovery, original gate ownership acceptance and own admitted finish/archive. Make legal low-friction recovery an explicit standard in the three existing agent-workflow documents and focused regressions. Prepare one authorized Draft PR/actual CI without merge, close, cleanup or consumer adoption.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Recover reviewable WI1090 evidence locations and truthful multilingual documentation after actual PR1050 CI failure through an append-only native successor.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Only the seven exact added Rust implementation/regression paths may change for the changedPaths root-cause workflow repair. The three added existing agent-workflow language documents may add its process-experience acceptance checklist, and the existing9 projections may describe this repair. No other product/test/CI-workflow/gate-policy/global Agent/MCP changes, new Work Item, new CLI/MCP action, new controls type or generalized management framework. The nineteen preventive long-path candidates remain at their existing paths and bytes.",
+        "Preserve predecessor WI-1090-authority-source-material-review-replacement generated Contract, Summary, Outcome, Events, canonical/attempt/material/review receipts, archive and both M6 manifests byte-for-byte. Only its append-only selected-successor decision is added; only eight exact Agent copies move, and six derived documentation projections change under this successor. External fixture originals remain unchanged.",
+        "No WI1089, c960/420/721129, WI1087, Sentinel or real-consumer mutation/composition. This documentation successor is not a complete combined Runtime candidate.",
+        "No merge, either Work Item close, predecessor supersede, branch/worktree/provider deletion, tag/release, shared Runtime installation/adoption or cleanup. One isolated source-bound candidate Runtime may be built and invoked only for this Work Item own verification/controls/finish/archive after actual binary hash readback, environment/current-binding admission and any truly required new review; do not overwrite the pinned b5cbd Runtime or adopt into Sentinel/real consumers. This preserves own normal finish/archive only after actual required checks and current native admission.",
+        "No changes to PR1050 or its cba3 head, no no-change CI rerun. The proposed independent Draft PR uses its actual reviewed final head; if an external publishing tool requires new exact authorization, return that binding before publication.",
+        "No inheritance of prior human confirm_review, Rust material decision or residual-risk acceptance; agent:Raydot is the delegated technical decision-maker, not human:Ray. Stop at any actual required human decision or scope/admission refusal."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+      "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "medium",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Exactly8 approved copy moves and2 locator files, full old Git blob/raw SHA/length match; explicit old-logical-to-new-path resolution works; 2 manifests,27 protected native records,2 Rust files and19 preventive candidates remain unchanged.",
+          "required": true,
+          "scenario": "exact8_byte_preserving_locator",
+          "status": "unverified",
+          "verificationPlan": "Run a read-only audit against the frozen cba3 tree and approved index; preserve actual structured audit and record it through native scenario controls before finish."
+        },
+        {
+          "evidence": [],
+          "expected": "Existing documentation acceptance and governance-integrity gates pass; old WI is selected into the native successor lineage, all3 ledgers owned, current source registration precedes first own verification and own pages remain valid across archive.",
+          "required": true,
+          "scenario": "truthful_three_language_projection",
+          "status": "unverified",
+          "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority."
+        },
+        {
+          "evidence": [],
+          "expected": "Native verification-start material observation covers committed successor changes before checks without claiming success; validated cba3 responsibility history excludes inherited b8ec-to-cba3 Rust. Missing/unchanged files and invalid or stale bindings cannot satisfy ownership. Failure/retry history remains intact; lock-wait and execution drift reject current-state promotion; successful recording preserves committed paths. Native fixtures demonstrate a continuous failed-to-successful finish/archive path with zero extra manual refresh or routine confirmation. Existing workflow documents carry this process standard. Current real recovery must additionally satisfy unchanged AC3, both original document checks and own AC5 lifecycle boundary; actual user interventions and review evidence are reported separately.",
+          "required": true,
+          "scenario": "source_change_observation_root_cause",
+          "status": "unverified",
+          "verificationPlan": "Run the four added focused checks with matching source_change_observation_ tests listed before execution; preserve actual native CLI/MCP and binding outputs. Run both original document checks in this real Work Item, update truthful controls and complete own finish/archive only on actual native admission. Record actual intervention count/reason/binding and experience review; synthetic test expectations do not prove real human delivery."
+        }
+      ],
+      "scope": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-005-fece998c8c8f.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-012-d1dad9a96597.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-013-67d730856bec.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-014-c8d82f02317a.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-017-4b62b0e0ad0f.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-018-686d6df61378.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-025-4b62b0e0ad0f.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-026-cf433aacddd2.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/README.md",
+        "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+        "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+        "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1090-evidence-docs-recovery.md",
+        "docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md",
+        "docs/work-items/WI-1090-evidence-docs-recovery.ja.md",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md"
+      ],
+      "sources": [
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/raydot-technical-approval.agent-recorded.json",
+          "reason": "Actual relayed delegated technical approval; agent:Raydot/recorder agent:Codex, not authenticated human review or material-risk consent."
+        },
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/approved-successor-plan.agent-recorded.json",
+          "reason": "Approved bounded identity, exact8 relocation and10-file migration plan, six predecessor projections, three own pages and own finish/archive boundary."
+        },
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/approved-implementation-plan.agent-recorded.md",
+          "reason": "Approved inline execution order and stop rules. Native ordinary-successor wire excludes predecessorArchiveManifestDigest; first rejected attempt is retained separately."
+        },
+        {
+          "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.contract.json",
+          "reason": "Immutable predecessor Contract1cc7; no revalidation edit or rewrite is authorized."
+        },
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/root-cause-proposal-20261020/ray-root-cause-direction.actual.agent-recorded.json",
+          "reason": "Actual relayed human Ray root-cause and collaboration-flow product directions; not an exact new Contract confirm_review or material-risk acceptance."
+        },
+        {
+          "path": ".ai/evidence/WI-1090-evidence-docs-recovery/root-cause-proposal-20261020/CONSOLIDATED-ROOT-CAUSE-PLAN.proposal-only.zh-CN.md",
+          "reason": "Concentrated bounded technical design, process clauses and regression/positive-flow acceptance for delegated Raydot review; original AC3 and existing gate assertions stay unchanged."
+        }
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        {
+          "check": "bash tests/docs/documentation_acceptance.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        },
+        {
+          "check": "bash tests/docs/parity_status_check.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        },
+        {
+          "check": "cargo fmt --all --check",
+          "coversScenarios": [
+            "source_change_observation_root_cause"
+          ],
+          "required": true
+        },
+        {
+          "check": "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1",
+          "coversScenarios": [
+            "source_change_observation_root_cause"
+          ],
+          "required": true
+        },
+        {
+          "check": "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
+          "coversScenarios": [
+            "source_change_observation_root_cause"
+          ],
+          "required": true
+        },
+        {
+          "check": "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
+          "coversScenarios": [
+            "source_change_observation_root_cause"
+          ],
+          "required": true
+        }
+      ],
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    "newContractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+    "previousSummaryDigest": "sha256:f3ce5eb67d1b5578b77b1b5000ec6440b5b842a804b747790ed6e8e982bbc381",
+    "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+    "environmentObservationDigest": "sha256:0236d9d123e1ff055ff6c8b5d9bb0d1aa003a5a0b82147756de9637efdef9cf7",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:24c25f79f29badbd35a3f59702a31fd5f5ed5f9855a2365ab60e39f6d612310d",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/acceptanceCriteria/3",
+      "/outOfScope/0",
+      "/outOfScope/3",
+      "/scenarioCoverage",
+      "/scope",
+      "/verification"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-20T02:05:13Z"
+  },
+  "preparedDigest": "sha256:ff03bf1c524484c6dbeb54a3722ba688d8987c3144f28ff8026f70adc6d10764"
+}
