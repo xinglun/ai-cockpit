@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "kind": "agent_recorded_actual_readonly_migration_audit_not_native_receipt",
-  "recordedAt": "2026-10-20T03:20:39.433102+00:00",
+  "recordedAt": "2026-10-20T03:26:02.807505+00:00",
   "actor": "agent:Codex",
   "workItemId": "WI-1090-evidence-docs-recovery",
   "sourceCommit": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
-  "observedHead": "eef8c5cd272432db4d6bcd73abc08c94bc82f99b",
+  "observedHead": "94e554ad836b19b4e027c3afda2159c4ace0fd18",
   "state": "passed",
   "locatorIndex": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json",
   "locatorRawSha256": "6a1b5e06c2a3792634448d43b46d85fa71c6dc9a8ab03ffa217968642b767b1c",

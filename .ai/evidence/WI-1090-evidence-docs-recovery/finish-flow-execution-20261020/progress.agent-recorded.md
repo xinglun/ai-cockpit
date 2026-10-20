@@ -22,3 +22,8 @@ Plan: ../finish-material-gap-20261020/CONSOLIDATED-MINIMUM-REPAIR-PROPOSAL.agent
 - CLI扩展回归实际通过。MCP没有finish工具，测试通过native库执行真实失败并使用现有MCP status/Outcome读取；不增加或猜测接口。MCP回归正在执行。
 - 新39路径只读审计通过：8 moves/2 locators/2 immutable manifests/27 native records/2 frozen Rust/19 remaining candidates，forbiddenSourceChanges空。三语自身页面同步39路径及额外隔离候选的已批准边界。
 - MCP回归实际1/1成功；source完成前的旧70ce canonical原字节另存本目录preserved-pre39-canonical-verification.native-bytes.json，原3attempts清单保留raw SHA/长度。源修复待通过当前新候选进行新Contract正式验证，开发回归不能替代该收据。
+
+- source94e554ad实际commit/push成功；额外隔离候选build exit0，binary e967d02a...。原候选、共享Runtime、protected继承Rust2保留。新候选实际shell/help/status/material plan可用；没有把任务running状态当作连接证明。
+- 当前真实材料请求6d4191/manifest76009d在固定继承成员之外新增三个测试文件Unknown；单成员assert实际失败。其后同shell下一条preflight意外仍运行并exit0（非验证/非材料接受），如实保留5ea29c/snapshot880e56。现明确停止材料接受、正式验证与任何终态操作。
+- Native status humanDecisionRequired=false且允许typed材料记录/run_verification，但Contract AC10及Ray真实有限授权更窄；不能用类型级profile扩大精确成员许可。新完整绑定与四成员有限审阅提案交Raydot，未将技术批准或以前confirm_review当作新残余风险接受。
+- 新候选协调库存无本项注册，不猜generation、不借用WI1087记录、不写共享漂移事件；历史amend5 environment03f6不冒充新候选环境收据。实际磁盘约4.0GiB可用，无删除或权限放宽。
