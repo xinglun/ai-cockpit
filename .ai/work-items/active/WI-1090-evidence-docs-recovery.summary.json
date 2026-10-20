@@ -348,6 +348,33 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
+      "invalidatedRequiredChecks": [
+        "bash tests/docs/documentation_acceptance.sh",
+        "bash tests/docs/parity_status_check.sh",
+        "cargo fmt --all --check",
+        "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
+        "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
+        "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1"
+      ],
+      "originalBeforeEditContractHash": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+      "previousContractHash": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+      "reason": "Actual Ray approval at2026-10-20T03:28:22Z Sentinel_4894c6afcf14819186152a312ace0394 to Raydot exact a9f8bdda proposal request2026-10-20T03:27:46Z Sentinel_108cd413eee88191a3c9ce9d4218c474. Record actual authority provenance and only the exact four approved member identities; scope39, checks6, all remaining acceptance/scenarios and prohibited operations retained. Approval is neither Agent review nor future Contract confirmation. Relay: .ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/ray-four-member-approval.actual.agent-recorded.json",
+      "recorded": true,
+      "recordedAt": "2026-10-20T03:29:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
+      "requiredChecks": 6,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 6,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1090-evidence-docs-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
@@ -389,8 +416,8 @@
   "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
   "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
-  "preflightAt": "2026-10-20T03:23:20Z",
-  "preflightContractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+  "preflightAt": "2026-10-20T03:30:40Z",
+  "preflightContractDigest": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
   "preflightDecisionDigest": "sha256:5ea29c1b4286388c29b7d2c30ab98931a18b00d5b3c4739c14a2b6cc77c27e8d",
   "preflightRepositorySnapshotDigest": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
   "preflightState": "yellow",
@@ -898,7 +925,7 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+    "contractHash": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
     "invalidatedRequiredChecks": [
       "bash tests/docs/documentation_acceptance.sh",
       "bash tests/docs/parity_status_check.sh",
@@ -907,7 +934,7 @@
       "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
       "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1"
     ],
-    "recordedAt": "2026-10-20T02:49:49Z"
+    "recordedAt": "2026-10-20T03:29:49Z"
   },
   "verificationRecoveryReconciled": "sha256:55898805ef2850d8dc5d13a2c867bdf42773d1c00ec51b07a8270d970ba18b1b",
   "workItemId": "WI-1090-evidence-docs-recovery"

@@ -1,0 +1,14 @@
+{
+  "kind": "actual_agent_readback_audit_of_native_minimum_amendment",
+  "recordedAt": "2026-10-20T03:31:26.917091+00:00",
+  "exactlyRequestedSemanticChange": true,
+  "unchangedScopeCount": 39,
+  "unchangedFirstAcceptanceCriteriaCount": 9,
+  "acceptanceCount": 10,
+  "scenarioCoverageUnchanged": true,
+  "verificationUnchanged": true,
+  "protectedRuntimeCapabilitiesUnchanged": true,
+  "allOtherFieldsUnchanged": true,
+  "newAuthoritySource": "user-decision:human:Ray/Sentinel_4894c6afcf14819186152a312ace0394/2026-10-20T03:28:22Z",
+  "earlierAgentComparatorError": "First comparator wrongly looked up absent verificationPlan key; actual Contract uses verification. No Runtime record was edited; corrected exact whole-object comparator succeeds."
+}
