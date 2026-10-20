@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_stopping_boundary_and_unapproved_minimum_gap_not_human_review_request",
+  "recordedAt": "2026-10-20T02:42:32.734871+00:00",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "branch": "codex/wi1090-evidence-docs-recovery",
+  "currentObservedHead": "ce57c15c6d4a01bebd0def235a8ca64ae093ec8c",
+  "verifiedSourceHead": "4237f5ec394c40a62b39b9b4ed8d2ee0fd9140fe",
+  "nativeContractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+  "nativeRepositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+  "nativeVerificationEvidenceDigest": "sha256:55898805ef2850d8dc5d13a2c867bdf42773d1c00ec51b07a8270d970ba18b1b",
+  "materialRequestBindings": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-evidence-docs-recovery",
+    "contractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+    "immutableContractBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+    "sourceSnapshotDigest": "sha256:0e52a4393b3071890e95854df2b4eff905b2dc6b6ec1cfe97179fa9fd2e4603e",
+    "materialManifestDigest": "sha256:3ab3dd361e83b528dcaee32b57d540983dbb3090560178e5f67b9fa43ca12413",
+    "scannerSemanticVersion": "rust-material-v1",
+    "analysisImplementationDigest": "sha256:69649481fae9f67626a7cd1334618ce1e0ea6fa0fcc1ce06276bcb38d20e14f7",
+    "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+    "materialInspectionReviewProfileDigest": null,
+    "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+    "rawUnknownCodes": [
+      "repository_material_inspection_unavailable"
+    ],
+    "findingCodes": [],
+    "blockedByFinding": false,
+    "reviewEnabled": false,
+    "reviewDiagnostic": "material_review_not_enabled",
+    "requestDigest": "sha256:dc338db50296f4d7cf782582f15785e6253c12387552f188065b251ec234e769",
+    "reviewedSourceHead": "ce57c15c6d4a01bebd0def235a8ca64ae093ec8c"
+  },
+  "soleUnknownMember": {
+    "path": "crates/cockpit-repository/src/material_review.rs",
+    "kind": "modified",
+    "contentState": "text",
+    "scannerAssessment": "unknown",
+    "unknownCause": "readable_committed_rust_syntax_unknown",
+    "reviewable": true,
+    "changedHunkDigest": "sha256:09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60",
+    "afterBlobDigest": "sha256:0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48"
+  },
+  "unchangedInheritedSourceProof": {
+    "sourceCommit": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+    "rawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+    "currentBytesEqualFrozenSource": true
+  },
+  "candidateRuntimeDigest": "sha256:9e7f97f9cf7626033d69c64f7bc31d880a960f9c7c1423570b035d2cdc767301",
+  "nativeAfterEvidenceCommitFresh": true,
+  "formalChecksPassed": 6,
+  "actualMatchedRegressions": 9,
+  "realOwnFinish": {
+    "exitCode": 1,
+    "reason": "finish is blocked by canonical material Unknowns: repository_material_inspection_unavailable",
+    "persistedOutcomeState": "blocked",
+    "failedGate": "finish.lifecycle"
+  },
+  "actualContradictoryProjection": {
+    "statusGovernanceState": "green",
+    "statusHumanDecisionRequired": false,
+    "statusSafeActions": [
+      "finish",
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "returnedHumanOutcomeHeader": "Outcome: 🟢 已声明的验证通过 — WI-1090-evidence-docs-recovery",
+    "rootCauseLocations": [
+      "crates/cockpit-repository/src/status_projection.rs:1801",
+      "crates/cockpit-repository/src/lib.rs:12612"
+    ]
+  },
+  "scopeGap": {
+    "additionalPaths": [
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/src/lib.rs"
+    ],
+    "countBefore": 37,
+    "proposedCountAfter": 39,
+    "existingRegressionFilesSufficient": true,
+    "noOtherSourceFilesProposed": true
+  },
+  "unapprovedPolicy": {
+    "materialInspectionReview": {
+      "schemaVersion": 1,
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "assurance": "self_declared",
+      "reviewerActor": "agent:Codex",
+      "authoritySource": "user-delegation:Ray/WI-1090-evidence-docs-recovery/finite-inherited-0ebba06d-20261020",
+      "acceptResidualRisk": true
+    }
+  },
+  "authoritySourceIsProposedNotGranted": true,
+  "futureNativeContractDigest": null,
+  "futureNativePreflightDigest": null,
+  "futureMaterialRequestDigest": null,
+  "futureRiskAcceptanceRecorded": false,
+  "nativeAmendmentExecuted": false,
+  "newSourceEditsExecuted": false,
+  "requiredRuntimeCapabilityHandling": "Protocol apply_contract_amendment natively derives material-inspection-review from the opt-in; do not patch the protected array manually. Existing two protected capabilities remain.",
+  "requestedRaydotAction": "Review the exact ten-operation proposal, two extra paths, unchanged six commands and finite authority limits. Any actual new human/risk decision must use the future native binding and actual provenance; do not reuse70ce confirmation or earlier Work Item material consent.",
+  "proposalRequestRawSha256": "26e4fe46ddabdbb399fac8a413999fbb80cb913971ccfde8654def015bb8dc75",
+  "remaining": [
+    "real finish/archive",
+    "Draft PR publication",
+    "actual hosted CI terminal"
+  ],
+  "diskFreeBytes": 4435243008,
+  "postEvidenceOnlyMaterialBindingUnchanged": true,
+  "outcomeGeneratedAndReturned": true,
+  "hostDisplayed": "unknown"
+}

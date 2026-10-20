@@ -338,6 +338,7 @@
     "schemaVersion": 1,
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
+  "failedGate": "finish.lifecycle",
   "intentAlignment": {
     "evidence": [
       ".ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json",
@@ -358,6 +359,7 @@
     }
   },
   "mode": "implementation",
+  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
   "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
   "preflightAt": "2026-10-20T02:32:40Z",
@@ -366,6 +368,7 @@
   "preflightRepositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "recoveryDecisionPath": ".ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -832,7 +835,7 @@
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
   "state": "checkpointed",
-  "updatedAt": "2026-10-20T02:33:59.506283155+00:00",
+  "updatedAt": "2026-10-20T02:36:30Z",
   "verification": [
     {
       "check": "bash tests/docs/documentation_acceptance.sh",

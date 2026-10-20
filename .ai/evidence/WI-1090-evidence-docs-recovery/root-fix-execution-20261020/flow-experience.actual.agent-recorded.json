@@ -27,7 +27,14 @@
     "regressionTestCount": 9
   },
   "automatedPositiveFixture": "Passed native failed-check to success/evidence-commit/finish/archive",
-  "actualRealOwnFinishArchive": "pending",
+  "actualRealOwnFinishArchive": {
+    "finishAttempts": 1,
+    "finishExitCode": 1,
+    "archiveAttempts": 0,
+    "stopReason": "canonical inherited material Unknown; current review profile disabled"
+  },
   "hostOutcomeDisplay": "unknown",
-  "materialRiskAccepted": false
+  "materialRiskAccepted": false,
+  "newActualFlowDefect": "Admission recommends finish and returned Outcome hides a later blocked lifecycle result; exact two-file repair proposed, not applied.",
+  "currentVerificationAfterEvidenceOnlyCommit": "fresh; no new human confirmation; no new check graph"
 }

@@ -1,0 +1,7 @@
+{
+  "recordedAt": "2026-10-20T02:44:04.866598+00:00",
+  "returnedHeader": "Outcome: 🟢 已声明的验证通过 — WI-1090-evidence-docs-recovery",
+  "persistedOutcomeState": "blocked",
+  "actualFinishExitCode": 1,
+  "humanHandoffMustRemain": "yellow, real finish/archive blocked; software checks passed only"
+}

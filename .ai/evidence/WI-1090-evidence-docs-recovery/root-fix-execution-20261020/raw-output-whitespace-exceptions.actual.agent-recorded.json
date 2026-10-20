@@ -1,6 +1,6 @@
 {
   "kind": "exact_raw_capture_whitespace_exceptions_not_policy_change",
-  "reason": "Producer blank EOF bytes retained; authored/code whitespace checked separately.",
+  "reason": "Original producer blank EOF/trailing-space bytes preserved; code/authored data checked separately.",
   "files": {
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/mcp-readonly-negative-green.stdout.actual.txt": "20851c7ebcbba314e3ad3ec0cafadfc032f342d0605388d59b45db450ddb66b9",
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/mcp-observation-regression.stdout.actual.txt": "8f7a879f8e1c5158ab896561f5479b7ad6c82f825a6584d6b89e1f4a7f977c88",
@@ -16,6 +16,7 @@
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation.stdout.actual.txt": "da2302367166980d82e5bd185b6223e2051d028c122f7e69f256a91e132b0166",
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation-admitted.stdout.actual.txt": "63735e373143253f2fb2fdaf621205baa7218287820c7cce442f7b2c95445be7",
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-complete-regressions.stdout.actual.txt": "7bee6b975aa8ceb831865b368c0d0479ff5ad337d182d4c1d81ceefdc41cf717",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/stopping-outcome-full.stdout.actual.txt": "a418a40a29a49ab0b2491c11b2dfd6bceb9e909f723e02f981424dac770412ad",
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation-corrected.stdout.actual.txt": "5d234a5763c37a7bc08cb66f4b7b5c0c0881ae7d605eaa8016cfe9714b4811ea",
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-positive-valid-material.stdout.actual.txt": "7a437c4c99bb0379f52c5e19fcbdcaff065bec9613eb4b6974b38a77b99b58f9",
     ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-regressions-native-successor-fixture.stdout.actual.txt": "8d49160ab4b131ad2287b4a1533262deb0c84891424b184d307bde2d39a76de1"

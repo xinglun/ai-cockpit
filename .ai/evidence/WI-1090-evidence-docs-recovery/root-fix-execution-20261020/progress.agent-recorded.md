@@ -19,3 +19,6 @@ Base: 0536a3541a00f4eae62b487ccb3382a4d0362174
 
 - Task3: candidate source4237f5ec，binary9e7f97f9，独立执行副本未覆盖旧b5。native preflight human_decision_recorded，verification准入允许。正式6/6，execute6/reuse0/max1；原生 Summary279路径，包含all3且不含继承Rust2。controls场景已记录。
 - 独立时段源码自审完成，见source-review；非独立外部审阅。准备正常evidence-only commit再检查freshness和真实finish。
+
+- 真实evidence-only commit ce57后receipt仍fresh；finish实际一次exit1，canonical继承材料Unknown阻断，已原生保存blockedOutcome和event。archive/新PR/CI未运行。
+- 发现额外范围缺口：status_projection.rs准入忽略canonical material Unknown；lib.rs旧verification reconciliation错误掩盖较晚blockedOutcome。已在本WI集中准备39范围/有限材料profile提案，未改两文件、未原生修约、未接受风险。
