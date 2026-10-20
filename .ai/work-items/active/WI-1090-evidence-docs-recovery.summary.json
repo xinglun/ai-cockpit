@@ -321,6 +321,33 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1090-evidence-docs-recovery"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+      "invalidatedRequiredChecks": [
+        "bash tests/docs/documentation_acceptance.sh",
+        "bash tests/docs/parity_status_check.sh",
+        "cargo fmt --all --check",
+        "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
+        "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
+        "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1"
+      ],
+      "originalBeforeEditContractHash": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+      "previousContractHash": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+      "reason": "Raydot independently approved fixed7e9390ce exact39-path repair and ten-operation plan. Actual human:Ray finite policy/residual-risk approval at2026-10-20T02:47:37Z message Sentinel_a1137bc67fbc8191b467fa7fb5f359e8 covers only inherited material_review.rs blob0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48/hunk09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60. Source relay .ai/evidence/WI-1090-evidence-docs-recovery/finish-flow-execution-20261020/ray-finite-authorization.actual.agent-recorded.json. The existing review profile must not authorize additional Unknowns, Findings or changed material; actual agent:Codex review remains unperformed. This approval does not confirm the future amended Contract; honor its actual native human gate. Preserve all source, receipt and failed-finish history.",
+      "recorded": true,
+      "recordedAt": "2026-10-20T02:49:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+      "requiredChecks": 6,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 6,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1090-evidence-docs-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
@@ -362,11 +389,11 @@
   "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
   "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
-  "preflightAt": "2026-10-20T02:32:40Z",
-  "preflightContractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightAt": "2026-10-20T02:50:49Z",
+  "preflightContractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+  "preflightDecisionDigest": "sha256:dcdd9edef1452071ae6fbb493ace7ca1a6ccf721bb9dd3e18e65fb14ef805ddf",
   "preflightRepositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
-  "preflightState": "green",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "recoveryDecisionPath": ".ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json",
@@ -405,6 +432,14 @@
       "scenario": "source_change_observation_root_cause",
       "status": "verified",
       "verificationPlan": "Run the four added focused checks with matching source_change_observation_ tests listed before execution; preserve actual native CLI/MCP and binding outputs. Run both original document checks in this real Work Item, update truthful controls and complete own finish/archive only on actual native admission. Record actual intervention count/reason/binding and experience review; synthetic test expectations do not prove real human delivery."
+    },
+    {
+      "evidence": [],
+      "expected": "A canonical unresolved material Unknown remains visible before terminal completion, and native status must not recommend a finish that its actual material guard will reject. A later actual failed lifecycle Outcome must remain blocking/visible even when an earlier successful verification reconciliation marker still matches. Fix permission/projection freshness rather than weakening the material guard or treating inherited source as a new implementation. Legitimate resolved-current-material finish/archive and evidence-only commit remain continuous, without unnecessary verification or human repetition.",
+      "required": true,
+      "scenario": "material_finish_admission_and_outcome_consistency",
+      "status": "unverified",
+      "verificationPlan": "Extend the existing source_change_observation_ repository/CLI/MCP regressions within their already scoped files; exercise real native material plan, failed finish, latest failure visibility and resolved-current-dependency continuation, including prior marker and same-second/ambiguous ordering rejection. Preserve exact real failed-finish artifact and old verification receipts. Execute the same six required checks only after native Contract/admission permit the repaired source."
     }
   ],
   "sourceChangeObservation": {
@@ -862,6 +897,18 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+    "invalidatedRequiredChecks": [
+      "bash tests/docs/documentation_acceptance.sh",
+      "bash tests/docs/parity_status_check.sh",
+      "cargo fmt --all --check",
+      "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
+      "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
+      "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1"
+    ],
+    "recordedAt": "2026-10-20T02:49:49Z"
+  },
   "verificationRecoveryReconciled": "sha256:55898805ef2850d8dc5d13a2c867bdf42773d1c00ec51b07a8270d970ba18b1b",
   "workItemId": "WI-1090-evidence-docs-recovery"
 }

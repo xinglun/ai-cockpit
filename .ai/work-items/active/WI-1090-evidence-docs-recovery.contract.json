@@ -4,12 +4,13 @@
     "Migrate exactly the eight approved Agent-owned copies byte-for-byte to the approved short paths, without deduplication; append exactly the locator index and README. Retain old logical manifest keys and require explicit index resolution with raw SHA/length/Git blob checks; do not claim old physical paths still exist.",
     "Actual integrity audit proves locator count8, exact original cba3 Git blobs, both immutable M6 manifests, all27 protected predecessor native records, both production Rust files and the19 unmodified preventive candidates; preserve original fixtures and failed CI evidence.",
     "Correct the three existing Work Item pages and three parity ledgers against archived Contract1cc7 and actual failed CI, add the necessary own EN/zh-CN/ja pages and lifecycle-bound own ledger rows in a commit strictly before first own verification evidence. The selected successor and ownership of all3 ledgers must be recognized by the real existing governance gate.",
-    "Execute both original required documentation checks and the four focused root-cause checks declared here successfully; record actual migration integrity and root-cause scenario evidence through native controls. Runtime/source edits are limited to the seven newly named Rust implementation/regression files and the three existing agent-workflow language documents. Preserve both predecessor Rust files and do not inherit the old seven-node Rust verification or substitute local evidence for hosted CI.",
+    "Execute both original required documentation checks and the four focused root-cause checks declared here successfully; record actual migration integrity and root-cause scenario evidence through native controls. Runtime/source edits are limited to the nine exact named Rust implementation/regression files and the three existing agent-workflow language documents. Preserve both predecessor Rust files and do not inherit the old seven-node Rust verification or substitute local evidence for hosted CI.",
     "This successor may perform its own normal native checkpoint, verification, controls, finish and archive, each only on actual current admission, and deliver its truthful Outcome. Its close, predecessor terminal operations, merge and cleanup remain outside authorization.",
     "Prepare and, only with actual publication authorization, publish one independent Draft PR at the actual final head to main; preserve PR1050, monitor full actual CI terminal, and keep Sentinel handoff non-executable until a separately admitted complete WI1089+WI1090 candidate exists.",
     "Repair the native workflow itself: the existing Work Item verification entry automatically records truthful committed and working-tree successor change facts before checks, independently of success. Bind the successor responsibility origin to validated immutable native history, distinguish repository-base inherited diff from successor delta, and retain original all3 gate ownership assertions. Successful recording must not overwrite committed paths with an empty working-tree list.",
     "Focused native regressions must cover committed three-document changes; inherited predecessor Rust exclusion; missing or unchanged files not satisfying ownership; preserved first failure and correctly observed re-verification; HEAD/Contract/journal drift while waiting for the lifecycle lock; source drift during execution; invalid native origins; and successful recording preserving committed paths. CLI and MCP must share the behavior while plan-only stays read-only. Retain failed attempts, gate assertions and all historical evidence byte-for-byte.",
-    "Make collaboration flow quality a repository process acceptance standard in the existing EN/zh-CN/ja agent-workflow documents: legal authorized tasks must proceed continuously; no meaningless repeated confirmation; failed evidence is preserved and usable for recovery; a necessary human intervention supplies its complete reason and binding once; actual intervention counts/reasons and friction defects/regressions are recorded using existing Work Item/issue practices. Prove the positive retained-failure-to-successful-checks/evidence-commit/own-finish/archive flow by actual end-to-end execution. Add zero routine manual-refresh operations or extra confirmations; preserve real protocol human gates. Separate automated proof from human/Agent experience review and do not claim full automation for the latter. Treat discovered friction as an in-scope defect or an explicit bounded amendment, not merely a user operating warning."
+    "Make collaboration flow quality a repository process acceptance standard in the existing EN/zh-CN/ja agent-workflow documents: legal authorized tasks must proceed continuously; no meaningless repeated confirmation; failed evidence is preserved and usable for recovery; a necessary human intervention supplies its complete reason and binding once; actual intervention counts/reasons and friction defects/regressions are recorded using existing Work Item/issue practices. Prove the positive retained-failure-to-successful-checks/evidence-commit/own-finish/archive flow by actual end-to-end execution. Add zero routine manual-refresh operations or extra confirmations; preserve real protocol human gates. Separate automated proof from human/Agent experience review and do not claim full automation for the latter. Treat discovered friction as an in-scope defect or an explicit bounded amendment, not merely a user operating warning.",
+    "Repair the actual material-finish workflow gap: status/action admission and human Outcome retain the canonical unresolved material boundary and latest failed lifecycle evidence, without stale verification reconciliation hiding a newer failure. Add focused existing-prefix regressions, preserve all prior checks/failures, and do not demand a new check merely for a normal evidence-only commit or a resolved non-source dependency. This plan does not itself record material risk acceptance. Only after real Ray approval may agent:Codex review the current identity-bound request whose sole reviewable Unknown is the unchanged inherited material_review.rs blob0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48 and hunk09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60; any new/foreign/unreviewable member, Finding or changed source binding requires a new decision. Self-declared review never claims scanner completeness."
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -26,9 +27,19 @@
   "destructiveChangePolicy": null,
   "documentationImpact": null,
   "executionDecision": null,
-  "goal": "Repair the native changedPaths-before-verification bootstrap cycle through the existing verification entry, with validated successor responsibility origin, committed-change observation, race-safe bindings and non-clearing success recording; preserve exact8 evidence migration, truthful nine-document recovery, original gate ownership acceptance and own admitted finish/archive. Make legal low-friction recovery an explicit standard in the three existing agent-workflow documents and focused regressions. Prepare one authorized Draft PR/actual CI without merge, close, cleanup or consumer adoption.",
+  "goal": "Repair the native changedPaths-before-verification bootstrap cycle through the existing verification entry, with validated successor responsibility origin, committed-change observation, race-safe bindings and non-clearing success recording; preserve exact8 evidence migration, truthful nine-document recovery, original gate ownership acceptance and own admitted finish/archive. Make legal low-friction recovery an explicit standard in the three existing agent-workflow documents and focused regressions. Prepare one authorized Draft PR/actual CI without merge, close, cleanup or consumer adoption. Resolve the observed material-finish admission and latest-failure Outcome consistency defects through two exact additional repository files. Preserve the canonical material guard; enable only the separately approved finite Agent review of the byte-frozen inherited syntax Unknown, with a new exact native Contract review before continuing.",
   "governancePolicy": null,
-  "governanceProfile": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "user-decision:human:Ray/Sentinel_a1137bc67fbc8191b467fa7fb5f359e8/2026-10-20T02:47:37Z",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:Codex",
+      "schemaVersion": 1
+    }
+  },
   "guidelines": [],
   "humanDecisionPoints": null,
   "implementationSurface": null,
@@ -37,10 +48,10 @@
   "notCodable": null,
   "operation": null,
   "outOfScope": [
-    "Only the seven exact added Rust implementation/regression paths may change for the changedPaths root-cause workflow repair. The three added existing agent-workflow language documents may add its process-experience acceptance checklist, and the existing9 projections may describe this repair. No other product/test/CI-workflow/gate-policy/global Agent/MCP changes, new Work Item, new CLI/MCP action, new controls type or generalized management framework. The nineteen preventive long-path candidates remain at their existing paths and bytes.",
+    "Only the nine exact Rust implementation/regression paths now named in scope may change for source-change observation plus the observed material-finish admission/latest-failure Outcome defects. Preserve the original27 and already added10 paths, gate assertions, all history and frozen predecessor Rust2. No other product/test/CI-workflow/gate-policy/global Agent/MCP changes, new Work Item, new command/control type or generalized framework. The nineteen preventive long-path candidates remain unchanged.",
     "Preserve predecessor WI-1090-authority-source-material-review-replacement generated Contract, Summary, Outcome, Events, canonical/attempt/material/review receipts, archive and both M6 manifests byte-for-byte. Only its append-only selected-successor decision is added; only eight exact Agent copies move, and six derived documentation projections change under this successor. External fixture originals remain unchanged.",
     "No WI1089, c960/420/721129, WI1087, Sentinel or real-consumer mutation/composition. This documentation successor is not a complete combined Runtime candidate.",
-    "No merge, either Work Item close, predecessor supersede, branch/worktree/provider deletion, tag/release, shared Runtime installation/adoption or cleanup. One isolated source-bound candidate Runtime may be built and invoked only for this Work Item own verification/controls/finish/archive after actual binary hash readback, environment/current-binding admission and any truly required new review; do not overwrite the pinned b5cbd Runtime or adopt into Sentinel/real consumers. This preserves own normal finish/archive only after actual required checks and current native admission.",
+    "No merge, either Work Item close, predecessor supersede, branch/worktree/provider deletion, tag/release, shared Runtime installation/adoption or cleanup. After exact approval and native admission, one additional isolated source-bound candidate may be built for the two-file flow repair, retaining both the original b5cbd Runtime and source4237/9e7f candidate and all their evidence. Invoke the new pinned copy only for this Work Item verification/controls/finish/archive under actual binary/hash/environment/Contract admission and required review. No Sentinel or real-consumer adoption.",
     "No changes to PR1050 or its cba3 head, no no-change CI rerun. The proposed independent Draft PR uses its actual reviewed final head; if an external publishing tool requires new exact authorization, return that binding before publication.",
     "No inheritance of prior human confirm_review, Rust material decision or residual-risk acceptance; agent:Raydot is the delegated technical decision-maker, not human:Ray. Stop at any actual required human decision or scope/admission refusal."
   ],
@@ -59,6 +70,7 @@
     "verification_receipt"
   ],
   "requiredRuntimeCapabilities": [
+    "material-inspection-review",
     "work-item-contract-amendment",
     "work-item-environment-drift"
   ],
@@ -93,6 +105,14 @@
       "scenario": "source_change_observation_root_cause",
       "status": "unverified",
       "verificationPlan": "Run the four added focused checks with matching source_change_observation_ tests listed before execution; preserve actual native CLI/MCP and binding outputs. Run both original document checks in this real Work Item, update truthful controls and complete own finish/archive only on actual native admission. Record actual intervention count/reason/binding and experience review; synthetic test expectations do not prove real human delivery."
+    },
+    {
+      "evidence": [],
+      "expected": "A canonical unresolved material Unknown remains visible before terminal completion, and native status must not recommend a finish that its actual material guard will reject. A later actual failed lifecycle Outcome must remain blocking/visible even when an earlier successful verification reconciliation marker still matches. Fix permission/projection freshness rather than weakening the material guard or treating inherited source as a new implementation. Legitimate resolved-current-material finish/archive and evidence-only commit remain continuous, without unnecessary verification or human repetition.",
+      "required": true,
+      "scenario": "material_finish_admission_and_outcome_consistency",
+      "status": "unverified",
+      "verificationPlan": "Extend the existing source_change_observation_ repository/CLI/MCP regressions within their already scoped files; exercise real native material plan, failed finish, latest failure visibility and resolved-current-dependency continuation, including prior marker and same-second/ambiguous ordering rejection. Preserve exact real failed-finish artifact and old verification receipts. Execute the same six required checks only after native Contract/admission permit the repaired source."
     }
   ],
   "scope": [
@@ -132,7 +152,9 @@
     "crates/cockpit-mcp/tests/rpc.rs",
     "docs/reference/agent-workflow.md",
     "docs/reference/agent-workflow.zh-CN.md",
-    "docs/reference/agent-workflow.ja.md"
+    "docs/reference/agent-workflow.ja.md",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/lib.rs"
   ],
   "sources": [
     {
@@ -158,6 +180,10 @@
     {
       "path": ".ai/evidence/WI-1090-evidence-docs-recovery/root-cause-proposal-20261020/CONSOLIDATED-ROOT-CAUSE-PLAN.proposal-only.zh-CN.md",
       "reason": "Concentrated bounded technical design, process clauses and regression/positive-flow acceptance for delegated Raydot review; original AC3 and existing gate assertions stay unchanged."
+    },
+    {
+      "path": ".ai/evidence/WI-1090-evidence-docs-recovery/finish-material-gap-20261020/CONSOLIDATED-MINIMUM-REPAIR-PROPOSAL.agent-recorded.zh-CN.md",
+      "reason": "Proposal-only exact scope/policy gap derived from actual failed finish; no actual Ray residual-risk approval is recorded here."
     }
   ],
   "state": "implementation_active",
@@ -183,28 +209,32 @@
     {
       "check": "cargo fmt --all --check",
       "coversScenarios": [
-        "source_change_observation_root_cause"
+        "source_change_observation_root_cause",
+        "material_finish_admission_and_outcome_consistency"
       ],
       "required": true
     },
     {
       "check": "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1",
       "coversScenarios": [
-        "source_change_observation_root_cause"
+        "source_change_observation_root_cause",
+        "material_finish_admission_and_outcome_consistency"
       ],
       "required": true
     },
     {
       "check": "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
       "coversScenarios": [
-        "source_change_observation_root_cause"
+        "source_change_observation_root_cause",
+        "material_finish_admission_and_outcome_consistency"
       ],
       "required": true
     },
     {
       "check": "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
       "coversScenarios": [
-        "source_change_observation_root_cause"
+        "source_change_observation_root_cause",
+        "material_finish_admission_and_outcome_consistency"
       ],
       "required": true
     }

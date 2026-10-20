@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_native_new39_contract_review_request_not_confirmation_or_completed_material_review",
+  "recordedAt": "2026-10-20T02:51:38.856168+00:00",
+  "recorder": "agent:Codex",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "branch": "codex/wi1090-evidence-docs-recovery",
+  "observedHeadBeforeEvidenceCommit": "7e9390ce5ab1e1ad100f87e52d3d4a7eeb83f592",
+  "decisionId": "contract-preflight-review",
+  "requestedDecision": "confirm_review",
+  "contractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+  "preflightDecisionDigest": "sha256:dcdd9edef1452071ae6fbb493ace7ca1a6ccf721bb9dd3e18e65fb14ef805ddf",
+  "preflightAt": "2026-10-20T02:50:49Z",
+  "repositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:9e7f97f9cf7626033d69c64f7bc31d880a960f9c7c1423570b035d2cdc767301",
+  "runtimePath": "/workspace/scratch/wi1090-root-candidate-20261020/4237f5ec394c40a62b39b9b4ed8d2ee0fd9140fe/ai-cockpit",
+  "environmentObservationDigest": "sha256:03f6dc52b4e67a46094e5ccf9d5e78f202325feed134dffaabaf939a24700a3a",
+  "environmentObservationSource": "actual native amendment5, same candidate environment",
+  "journalSequence": 5,
+  "journalDigest": "sha256:48dbd0e1e9b29eddbdbdc7fbca73ce6b05c389037e0d618d78a80a06adc8836f",
+  "previousJournalDigest": "sha256:64804b670cb78616ac133bb8361a8f09f4ea9c5baa184a83e4990c404f41b295",
+  "repositoryBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "responsibilityRevision": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+  "activationPreparedDigest": "sha256:c7548ebca2858defb83b2aa472f07562cb41fd57f87cda2a0a13a5e4e76a98ab",
+  "materialRequestBindings": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-evidence-docs-recovery",
+    "contractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+    "immutableContractBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+    "sourceSnapshotDigest": "sha256:0e52a4393b3071890e95854df2b4eff905b2dc6b6ec1cfe97179fa9fd2e4603e",
+    "materialManifestDigest": "sha256:3ab3dd361e83b528dcaee32b57d540983dbb3090560178e5f67b9fa43ca12413",
+    "scannerSemanticVersion": "rust-material-v1",
+    "analysisImplementationDigest": "sha256:69649481fae9f67626a7cd1334618ce1e0ea6fa0fcc1ce06276bcb38d20e14f7",
+    "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+    "materialInspectionReviewProfileDigest": "sha256:c258f33afece7427423522fb8bcd512988679899c3014a901698568ec4bebf4c",
+    "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+    "rawUnknownCodes": [
+      "repository_material_inspection_unavailable"
+    ],
+    "findingCodes": [],
+    "blockedByFinding": false,
+    "reviewEnabled": true,
+    "reviewDiagnostic": null,
+    "requestDigest": "sha256:4b6c2624ae10f79ba70b6d93710f9d22359fc0609409725e09b64cfa89cfeb17",
+    "reviewedSourceHead": "7e9390ce5ab1e1ad100f87e52d3d4a7eeb83f592"
+  },
+  "soleAuthorizedUnknownMember": {
+    "path": "crates/cockpit-repository/src/material_review.rs",
+    "kind": "modified",
+    "contentState": "text",
+    "scannerAssessment": "unknown",
+    "unknownCause": "readable_committed_rust_syntax_unknown",
+    "reviewable": true,
+    "changedHunkDigest": "sha256:09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60",
+    "afterBlobDigest": "sha256:0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48"
+  },
+  "finitePolicy": {
+    "acceptResidualRisk": true,
+    "assurance": "self_declared",
+    "authoritySource": "user-decision:human:Ray/Sentinel_a1137bc67fbc8191b467fa7fb5f359e8/2026-10-20T02:47:37Z",
+    "permittedCause": "readable_committed_rust_syntax_unknown",
+    "permittedUnknown": "repository_material_inspection_unavailable",
+    "reviewerActor": "agent:Codex",
+    "schemaVersion": 1
+  },
+  "priorFiniteRiskAuthorization": {
+    "actor": "human:Ray",
+    "at": "2026-10-20T02:47:37Z",
+    "messageId": "Sentinel_a1137bc67fbc8191b467fa7fb5f359e8",
+    "reply": "批准",
+    "scopeOnlyFixedBlobAndHunk": true,
+    "doesNotReplaceNewConfirmReview": true
+  },
+  "technicalApproval": {
+    "actor": "agent:Raydot",
+    "fixedCommit": "7e9390ce5ab1e1ad100f87e52d3d4a7eeb83f592",
+    "approvedScope": 39
+  },
+  "scopeCount": 39,
+  "original37Preserved": true,
+  "added2Paths": [
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "originalAC3Unchanged": true,
+  "requiredCommands": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "cargo fmt --all --check",
+    "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1",
+    "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
+    "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1"
+  ],
+  "requiredCapabilities": [
+    "material-inspection-review",
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "The recorded preflight decision evidence is missing, stale, or invalid.",
+    "whyItMatters": "A previous human review cannot authorize a changed or foreign Contract.",
+    "options": [
+      {
+        "id": "complete_contract",
+        "label": "Complete or amend the Contract",
+        "effect": "Provide current human-owned facts and rerun preflight."
+      },
+      {
+        "id": "confirm_review",
+        "label": "Confirm a bounded human decision",
+        "effect": "Record a new identity-bound receipt for this exact Contract and snapshot."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without entering implementation."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "The previous receipt cannot be reused after its binding facts changed.",
+    "question": "Which bounded decision should authorize the next step?",
+    "resumeCondition": "A fresh repository-bound preflight decision receipt matches the current Contract and snapshot."
+  },
+  "preflightState": "yellow",
+  "reviewState": "needs_human_confirmation",
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "oldSuccessfulEvidencePreserved": "sha256:55898805ef2850d8dc5d13a2c867bdf42773d1c00ec51b07a8270d970ba18b1b",
+  "oldEvidenceCurrentForNewContract": false,
+  "newSourceImplementationStarted": false,
+  "newVerificationStarted": false,
+  "newCandidateBuilt": false,
+  "additionalCandidateDigest": null,
+  "actualAgentMaterialReviewCompleted": false,
+  "materialReviewDecisionRecorded": false,
+  "newConfirmReviewRecorded": false,
+  "resumeCondition": "Actual human:Ray confirms this exact98ae/dcdd/b439 native binding; record native decision with actual provenance and refresh admission, then implement the two scoped consistency repairs. Later agent:Codex must independently review the real current material and recheck sole fixed member before typed material-review recording. Any additional Unknown/Finding/change stops.",
+  "notAuthorized": [
+    "merge",
+    "either Work Item close",
+    "delete branch/worktree/provider",
+    "release/tag",
+    "shared Runtime adoption",
+    "Sentinel or real-consumer operation"
+  ],
+  "diskFreeGiB": 4.13
+}

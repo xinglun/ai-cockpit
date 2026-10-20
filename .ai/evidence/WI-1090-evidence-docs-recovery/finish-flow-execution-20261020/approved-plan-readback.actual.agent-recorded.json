@@ -1,0 +1,19 @@
+{
+  "kind": "actual_native39_amendment_approved_plan_readback",
+  "operationCount": 10,
+  "allApprovedValuesMatchActualInput": true,
+  "original37Retained": true,
+  "scopeCount": 39,
+  "addedPaths": [
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "AC3Unchanged": true,
+  "oldCriteriaPreservedExceptExplicitAC4ScopeCount": true,
+  "requiredCommandsUnchanged": true,
+  "protectedCapabilityNativelyDerived": "material-inspection-review",
+  "noProtectedArrayHandEdit": true,
+  "legacyAcceptanceAliasBefore": null,
+  "legacyAcceptanceAliasAfter": null,
+  "note": "First agent-side comparison wrongly expected a null legacy alias to mirror criteria. Corrected comparator; native records unchanged and all actual proposed values match."
+}

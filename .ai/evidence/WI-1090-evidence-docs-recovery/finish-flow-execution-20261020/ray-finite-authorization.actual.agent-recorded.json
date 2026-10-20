@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_relay_of_finite_material_policy_and_risk_authorization_not_new_contract_confirmation",
+  "recordedAt": "2026-10-20T02:49:26.696587+00:00",
+  "recordedBy": "agent:Codex",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "technicalApproval": {
+    "actor": "agent:Raydot",
+    "approvedCommit": "7e9390ce5ab1e1ad100f87e52d3d4a7eeb83f592",
+    "approvedScope": 39,
+    "approvedProposalRawSha256": "26e4fe46ddabdbb399fac8a413999fbb80cb913971ccfde8654def015bb8dc75",
+    "conditions": [
+      "canonical terminal guard aligned without blocking legal collection/review/verification",
+      "latest failure identity/event causality, not second-only timestamp",
+      "no hiding newer or ambiguous failure under older marker",
+      "no unchanged-source verification demanded merely to resolve material dependency",
+      "CLI/MCP consistency and positive finish/archive regression"
+    ]
+  },
+  "humanAuthorization": {
+    "actor": "human:Ray",
+    "requestAt": "2026-10-20T02:47:25Z",
+    "requestMessageId": "Sentinel_7e7e7345d7c48191bf5b1576169ea822",
+    "requestText": "还需要你决定一项有限材料风险：当前继承的 material_review.rs 能读取，但扫描器无法判定部分 Rust 语法。它的内容未改变；拟由 agent:Codex 对固定材料做 self_declared 审阅，这不等于扫描完整性证明，也不替代测试。授权仅用于 WI-1090-evidence-docs-recovery 的这份材料：blob：0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48；hunk：09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60。若出现其他 Unknown、Finding 或材料变化，须停止。现有政策配置只能限定 Unknown 类型，精确文件及哈希还须在审阅记录前核对。是否批准这项有限材料审阅政策并接受上述残余风险？两个状态一致性缺陷的技术修复由我审阅推进。",
+    "replyAt": "2026-10-20T02:47:37Z",
+    "replyMessageId": "Sentinel_a1137bc67fbc8191b467fa7fb5f359e8",
+    "replyText": "批准",
+    "authoritySource": "user-decision:human:Ray/Sentinel_a1137bc67fbc8191b467fa7fb5f359e8/2026-10-20T02:47:37Z",
+    "materialPath": "crates/cockpit-repository/src/material_review.rs",
+    "afterBlobDigest": "sha256:0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+    "changedHunkDigest": "sha256:09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60",
+    "reviewerActor": "agent:Codex",
+    "assurance": "self_declared",
+    "residualRiskAccepted": true,
+    "additionalUnknownOrFindingAuthorized": false,
+    "notNewConfirmReview": true
+  },
+  "actualAgentMaterialReviewCompleted": false,
+  "newContractConfirmationRecorded": false
+}
