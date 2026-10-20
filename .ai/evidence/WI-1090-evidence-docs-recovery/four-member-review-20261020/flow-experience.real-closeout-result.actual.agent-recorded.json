@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_real_material_review_to_evidence_commit_finish_archive_result",
+  "recordedAt": "2026-10-20T03:51:50.266653+00:00",
+  "countingWindow": "Observed material-finish gap at02:36:31Z through current pre-closeout; earlier root37 decision counted separately in preserved root-fix flow report, not silently omitted from whole history.",
+  "actualHumanInterventionsInWindow": 5,
+  "interventions": [
+    {
+      "at": "2026-10-20T02:47:37Z",
+      "replyMessage": "Sentinel_a1137bc67fbc8191b467fa7fb5f359e8",
+      "reason": "Initial fixed inherited-member finite risk approval",
+      "binding": "fixed0ebba/0943 member; actual relay in finish-flow phase"
+    },
+    {
+      "at": "2026-10-20T02:56:59Z",
+      "replyMessage": "Sentinel_2ebfd7995c9c819198972617a5536a6b",
+      "reason": "Actual new39 Contract confirmation",
+      "binding": "Contract98ae/preflightdcdd/snapshotb439 at eef8"
+    },
+    {
+      "at": "2026-10-20T03:28:22Z",
+      "replyMessage": "Sentinel_4894c6afcf14819186152a312ace0394",
+      "reason": "New canonical Unknown members require exact four-member finite risk approval",
+      "binding": "a9f8bdda exact four-member proposal, request6d419"
+    },
+    {
+      "at": "2026-10-20T03:34:25Z",
+      "replyMessage": "Sentinel_f5269f1600248191b01a5d3d8fb3cd8a",
+      "reason": "Native sensitive amendment6 requires actual new Contract confirmation",
+      "binding": "Contractbe0f/preflight5ea2/snapshot880e full packet6048"
+    },
+    {
+      "at": "2026-10-20T03:37:49Z",
+      "replyMessage": "Sentinel_259f62483a5c8191be0d5d5ffc47f5b8",
+      "reason": "Explicit provider publication and GitHub Actions quota authorization requested by Raydot",
+      "binding": "corresponding one Draft PR and CI after current formal verification; no merge/release"
+    }
+  ],
+  "routineRepeatedHumanConfirmations": 0,
+  "manualGeneratedChangedPathRefreshWrites": 0,
+  "currentFormalGraphs": 1,
+  "currentFormalResults": {
+    "executed": 6,
+    "reused": 0,
+    "regressions": 14,
+    "maxConcurrentProcesses": 1,
+    "passed": true
+  },
+  "currentActualMaterialReview": "completed finite four-member Agent review and native typed receipt1c6b; raw scanner unknown retained",
+  "currentNativeState": {
+    "governance": "yellow",
+    "verification": "verified",
+    "evidenceFreshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "lifecycle": "archived",
+    "blockers": [
+      "archived_work_item_pending_close"
+    ],
+    "unknowns": [
+      "close_decision_pending",
+      "user_visible_benefit_not_declared"
+    ]
+  },
+  "currentRealFinishArchive": {
+    "finishAttempts": 1,
+    "finishExitCode": 0,
+    "finishAt": "2026-10-20T03:46:49.333688784Z",
+    "archiveAttempts": 1,
+    "archiveExitCode": 0,
+    "archiveAt": "2026-10-20T03:47:54Z",
+    "archiveIdentity": "sha256:855c2504427ed81f1259b745fe67f856fb04a0f7b1e4216fc13982a1e5a8d351",
+    "archiveManifest": ".ai/work-items/archive/WI-1090-evidence-docs-recovery.archive.json",
+    "activeOwnArtifactsRemaining": 0,
+    "normalEvidenceOnlyCommit": "0dfffcb8fbedac51ae7f5f18b28772b4514df881",
+    "newChecksAfterEvidenceOnlyCommit": 0,
+    "newHumanConfirmationsAfterEvidenceOnlyCommit": 0,
+    "canonicalVerificationBytesUnchanged": true,
+    "oldFailureNativeEventValuesRetained": true,
+    "oldBlockedOutcomeNativeBytesRetainedAt": ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/preserved-before-current-closeout.outcome.json"
+  },
+  "priorFailedFinish": "original blocked Outcome bytes/events copied before successful replacement; old C70ce canonical and all attempts preserved",
+  "technicalCorrections": "TDD red/green and exact scope readback recorded; comparator field-name errors and wrong helper path preserved, no false success receipts. One preflight following a failed exact-member assertion ran and was preserved; no material acceptance or formal execution occurred before actual new authorization.",
+  "automatedExperienceProof": "Current native positive fixture and same-time/latest-failure/CAS negatives passed; this does not prove subjective human experience.",
+  "subjectiveExperienceReview": "Actual native current flow now completed after an ordinary evidence-only commit without a new check graph, generated-fact patch or extra human confirmation. Agent assessment supports the local workflow benefit; broader operator/consumer experience is still an inference.",
+  "unprovenBenefits": "Real consumer/Sentinel operation, scanner completeness and host display remain unproven; any broader reduction in operator friction is an inference.",
+  "hostOutcomeDisplay": "unknown",
+  "publication": "Actual explicit authorization received; Draft PR and hosted CI pending creation; do not claim delivery or CI pass.",
+  "nativeClosure": "closeRequired=true; intentionally not performed because close is outside authorization. Yellow pending-close projection is not a failed software check or permission to close.",
+  "archiveDelivery": {
+    "generated": true,
+    "returnedParts": 6,
+    "deliveryId": "sha256:0e48c1d2f5fb5fa5884a800bbb8e6324127d50c48f5373e9fac89b1bece84c9e",
+    "complete": true,
+    "hostAccepted": "unknown",
+    "hostDisplayed": "unknown"
+  }
+}

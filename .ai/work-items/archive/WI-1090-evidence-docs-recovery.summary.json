@@ -464,10 +464,10 @@
     ".ai/evidence/WI-1090-evidence-docs-recovery/status-after-plan.actual.json",
     ".ai/evidence/WI-1090-evidence-docs-recovery/status-after-recover.actual.json",
     ".ai/evidence/material-inspection-review/WI-1090-evidence-docs-recovery/f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a.json",
-    ".ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json",
-    ".ai/work-items/active/WI-1090-evidence-docs-recovery.events.jsonl",
-    ".ai/work-items/active/WI-1090-evidence-docs-recovery.outcome.json",
-    ".ai/work-items/active/WI-1090-evidence-docs-recovery.summary.json",
+    ".ai/work-items/archive/WI-1090-evidence-docs-recovery.contract.json",
+    ".ai/work-items/archive/WI-1090-evidence-docs-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-1090-evidence-docs-recovery.outcome.json",
+    ".ai/work-items/archive/WI-1090-evidence-docs-recovery.summary.json",
     "crates/cockpit-cli/src/main.rs",
     "crates/cockpit-cli/tests/verify.rs",
     "crates/cockpit-mcp/src/lib.rs",
@@ -598,7 +598,6 @@
     "schemaVersion": 1,
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
-  "failedGate": "finish.lifecycle",
   "intentAlignment": {
     "evidence": [
       ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-formal-six-result.actual.agent-recorded.json",
@@ -609,6 +608,14 @@
     "state": "resolved"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-20T03:46:49.333688784Z",
+      "recordedAt": "2026-10-20T03:46:49.333688784Z",
+      "runtimeDigest": "sha256:e967d02a49806d0481272625bdc9813dc913a7aca1773aa734d4a095367b0a98",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -625,7 +632,6 @@
     "requestDigest": "sha256:f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
   "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
   "preflightAt": "2026-10-20T03:42:28Z",
@@ -634,7 +640,6 @@
   "preflightRepositorySnapshotDigest": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "recoveryDecisionPath": ".ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -1322,8 +1327,8 @@
     "sourceSnapshotDigest": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
-  "state": "checkpointed",
-  "updatedAt": "2026-10-20T03:44:28.078429830+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-20T03:46:49.333688784Z",
   "verification": [
     {
       "check": "bash tests/docs/documentation_acceptance.sh",
@@ -1360,6 +1365,5 @@
     "schemaVersion": 1,
     "verificationEvidenceDigest": "sha256:3d54c814a412356553e131343d88bcf6eb14511c157bc1ebc9e33237d43d5c4d"
   },
-  "verificationRecoveryReconciled": "sha256:3d54c814a412356553e131343d88bcf6eb14511c157bc1ebc9e33237d43d5c4d",
   "workItemId": "WI-1090-evidence-docs-recovery"
 }

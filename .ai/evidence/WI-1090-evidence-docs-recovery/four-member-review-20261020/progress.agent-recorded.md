@@ -14,3 +14,8 @@
 - 新Contract正式验证实际一次执行成功，6/6 execute、reuse0、maxConcurrent1；仓库12/CLI1/MCP1当前同轮通过。native canonical digest3d54c814，receipt76cd5133，source snapshot880e，runtimee967，execution HEAD24502180。没有新源码改动或重复检查。
 - 当前原生观察自动保留真实责任路径（含三份parity，排除继承Rust2）；具体失败event/outcome/prefix绑定进入verificationRecoveryBasis。旧blocked Outcome原字节及事件前缀另存，C70ce canonical原字节和原3attempts保持。
 - 原生controls已记录当前4 scenarios真实测试/审计证据；validate verified无Findings/Unknown，status green、verification verified、humanDecisionRequired=false，实际准入finish。真实当前finish/archive尚未执行；先普通证据commit验证fresh继续，不能预报成功。
+
+- 实际普通证据commit0dfff后原生仍fresh/green、同一canonical原字节、人审false且准入finish；没有重新preflight、验证图或人工确认。
+- 真实本项finish一次exit0，2026-10-20T03:46:49Z finish_ready；随后当前准入archive，实际archive一次exit0，03:47:54Z，archiveIdentity855c2504。active本项文件归档，旧失败事件完整值保留，旧blocked Outcome原字节另存；canonical3d54原字节仍不变。
+- 当前原生status archived/verification verified/fresh；yellow仅archived_work_item_pending_close，close未授权而保留。archive full Outcome已生成返回6段，host接受/显示未知；当前人类Outcome如实yellow，不冒称已close。
+- 真实本项端到端证据补齐：材料审阅→正式6/6→普通证据commit→finish/archive，之后没有新增软件检查或真人确认。Draft PR/托管CI还未创建；后续只按已明确发布授权操作，不改变native archive或源码。
