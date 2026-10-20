@@ -2169,6 +2169,78 @@ fn records_len_hint(directory: &Path) -> Result<u64, ObserverError> {
     Ok(count as u64)
 }
 
+/// Read responsibility from the same validated native history used by
+/// admission. A successor must never infer its origin from its scope or from
+/// the repository comparison base, which can include its predecessor's work.
+pub(crate) fn verification_responsibility_origin(
+    root: &Path,
+    id: &str,
+) -> Result<Value, ObserverError> {
+    let path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let contract = super::read_json(&path)?;
+    let history = read_work_item_contract_amendments(root, id)?;
+    let current = record_digest(&contract, &path)?;
+    validate_transition_chain(root, id, &history, Some(&current))?;
+    let transition = read_activation_transition(root, id)?;
+    let successor = contract["predecessorWorkItemId"].is_string();
+    if successor && transition.is_none() {
+        return Err(state_error(
+            &path,
+            "source change observation requires a committed native successor origin",
+        ));
+    }
+    let (origin, proof, activation_head) = if let Some(prepared) = transition {
+        let record = prepared.record;
+        if record.new_contract["baseRevision"] != contract["baseRevision"]
+            || record.previous_contract["baselineDirtyPaths"]
+                .as_array()
+                .is_some_and(|paths| !paths.is_empty())
+            || contract["baselineDirtyPaths"]
+                .as_array()
+                .is_some_and(|paths| !paths.is_empty())
+        {
+            return Err(state_error(
+                &path,
+                "source change observation has an unexplained origin or dirty baseline",
+            ));
+        }
+        (
+            record.previous_contract["baseRevision"].clone(),
+            json!(prepared.record_digest),
+            Some(record.observed_head),
+        )
+    } else {
+        (contract["baseRevision"].clone(), Value::Null, None)
+    };
+    let origin_text = origin
+        .as_str()
+        .filter(|value| super::valid_git_object_id(value))
+        .ok_or_else(|| state_error(&path, "source change observation origin is not a commit"))?;
+    let head = super::git_text(root, &["rev-parse", "HEAD"])
+        .ok_or_else(|| state_error(root, "source change observation requires HEAD"))?;
+    for (before, after) in [
+        (origin_text, activation_head.as_deref().unwrap_or(&head)),
+        (
+            activation_head.as_deref().unwrap_or(origin_text),
+            head.as_str(),
+        ),
+    ] {
+        if super::git_text(root, &["merge-base", "--is-ancestor", before, after]).is_none() {
+            return Err(state_error(
+                &path,
+                "source change observation origin ancestry is invalid",
+            ));
+        }
+    }
+    Ok(json!({
+        "repositoryBaseRevision":contract["baseRevision"],
+        "responsibilityRevision":origin,
+        "activationPreparedDigest":proof,
+        "owner":observed_activation_owner(root)?,
+        "journalDigest":history.last().map(|receipt| &receipt.journal_digest),
+    }))
+}
+
 pub fn read_work_item_contract_amendments(
     root: &Path,
     work_item_id: &str,

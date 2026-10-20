@@ -1,0 +1,71 @@
+
+running 6 tests
+test source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts ... [master (root-commit) 23c4d1a] fixture baseline
+[observation-fixture c895eb5] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+FAILED
+test source_change_observation_execution_drift_and_completion_rollback_keep_start_facts ... [master (root-commit) 23c4d1a] fixture baseline
+[observation-fixture c895eb5] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+FAILED
+test source_change_observation_lock_wait_rejects_head_contract_and_journal_drift ... [master (root-commit) 23c4d1a] fixture baseline
+[observation-fixture c895eb5] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+FAILED
+test source_change_observation_rejects_pending_foreign_tampered_and_missing_origin ... [master (root-commit) 23c4d1a] fixture baseline
+[observation-fixture 3cb2336] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+FAILED
+test source_change_observation_same_path_inherited_and_successor_hunks ... [master (root-commit) 7c0aa0a] fixture baseline
+[observation-fixture bac9a05] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+FAILED
+test source_change_observation_validated_origin_and_real_gate_ownership ... [master (root-commit) 7c0aa0a] fixture baseline
+[observation-fixture bac9a05] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+FAILED
+
+failures:
+
+---- source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts stdout ----
+
+thread 'source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts' (1093627) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:809:56:
+called `Result::unwrap()` on an `Err` value: State { path: "/tmp/.tmpcueNUb", message: "lifecycle entry rejected before start: branch HEAD does not equal the discovered base origin/main; create a fresh branch from that base before start" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- source_change_observation_execution_drift_and_completion_rollback_keep_start_facts stdout ----
+
+thread 'source_change_observation_execution_drift_and_completion_rollback_keep_start_facts' (1093665) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:809:56:
+called `Result::unwrap()` on an `Err` value: State { path: "/tmp/.tmpJFbKVe", message: "lifecycle entry rejected before start: branch HEAD does not equal the discovered base origin/main; create a fresh branch from that base before start" }
+
+---- source_change_observation_lock_wait_rejects_head_contract_and_journal_drift stdout ----
+
+thread 'source_change_observation_lock_wait_rejects_head_contract_and_journal_drift' (1093703) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:809:56:
+called `Result::unwrap()` on an `Err` value: State { path: "/tmp/.tmpvHqcbY", message: "lifecycle entry rejected before start: branch HEAD does not equal the discovered base origin/main; create a fresh branch from that base before start" }
+
+---- source_change_observation_rejects_pending_foreign_tampered_and_missing_origin stdout ----
+
+thread 'source_change_observation_rejects_pending_foreign_tampered_and_missing_origin' (1093741) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:809:56:
+called `Result::unwrap()` on an `Err` value: State { path: "/tmp/.tmpRfxWft", message: "lifecycle entry rejected before start: branch HEAD does not equal the discovered base origin/main; create a fresh branch from that base before start" }
+
+---- source_change_observation_same_path_inherited_and_successor_hunks stdout ----
+
+thread 'source_change_observation_same_path_inherited_and_successor_hunks' (1093780) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:809:56:
+called `Result::unwrap()` on an `Err` value: State { path: "/tmp/.tmpyJdAOv", message: "lifecycle entry rejected before start: branch HEAD does not equal the discovered base origin/main; create a fresh branch from that base before start" }
+
+---- source_change_observation_validated_origin_and_real_gate_ownership stdout ----
+
+thread 'source_change_observation_validated_origin_and_real_gate_ownership' (1093820) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:809:56:
+called `Result::unwrap()` on an `Err` value: State { path: "/tmp/.tmpDVfFmn", message: "lifecycle entry rejected before start: branch HEAD does not equal the discovered base origin/main; create a fresh branch from that base before start" }
+
+
+failures:
+    source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts
+    source_change_observation_execution_drift_and_completion_rollback_keep_start_facts
+    source_change_observation_lock_wait_rejects_head_contract_and_journal_drift
+    source_change_observation_rejects_pending_foreign_tampered_and_missing_origin
+    source_change_observation_same_path_inherited_and_successor_hunks
+    source_change_observation_validated_origin_and_real_gate_ownership
+
+test result: FAILED. 0 passed; 6 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.59s
+

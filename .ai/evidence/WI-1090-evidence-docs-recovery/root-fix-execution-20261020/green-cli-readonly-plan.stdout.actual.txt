@@ -1,0 +1,20 @@
+
+running 1 test
+test source_change_observation_precedes_failed_check_and_plan_is_read_only ... FAILED
+
+failures:
+
+---- source_change_observation_precedes_failed_check_and_plan_is_read_only stdout ----
+
+thread 'source_change_observation_precedes_failed_check_and_plan_is_read_only' (1112888) panicked at crates/cockpit-cli/tests/verify.rs:64:5:
+assertion `left == right` failed: rejected plan-only cannot append an execution attempt
+  left: 2
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    source_change_observation_precedes_failed_check_and_plan_is_read_only
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 3.22s
+

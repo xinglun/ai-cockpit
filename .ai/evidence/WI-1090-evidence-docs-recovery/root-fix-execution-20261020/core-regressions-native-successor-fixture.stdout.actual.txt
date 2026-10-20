@@ -1,0 +1,52 @@
+
+running 6 tests
+test source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts ... [master (root-commit) 430a2f5] fixture baseline
+[observation-fixture b19120d] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_execution_drift_and_completion_rollback_keep_start_facts ... [master (root-commit) 4cfe49f] fixture baseline
+[observation-fixture 9a9caad] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_lock_wait_rejects_head_contract_and_journal_drift ... [master (root-commit) de0b86a] fixture baseline
+[observation-fixture 14cd85a] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 917a4d0] fixture baseline
+[observation-fixture 3852aa5] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) a24aabe] fixture baseline
+[observation-fixture b9fd725] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_rejects_pending_foreign_tampered_and_missing_origin ... [master (root-commit) 3ba0517] fixture baseline
+[observation-fixture c20aa89] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) bf1ca78] fixture baseline
+[observation-fixture a2999cb] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 68697b4] fixture baseline
+[observation-fixture 93e87fa] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 81166b6] fixture baseline
+[observation-fixture 8f609e8] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_same_path_inherited_and_successor_hunks ... [master (root-commit) 147114b] fixture baseline
+[observation-fixture 6647b80] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture b880118] same path successor hunk
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_validated_origin_and_real_gate_ownership ... [master (root-commit) 248553a] fixture baseline
+[observation-fixture 28353f3] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 7b14026] fixture baseline
+[observation-fixture 56d1299] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 6743801] fixture baseline
+[observation-fixture c70511d] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 32.02s
+

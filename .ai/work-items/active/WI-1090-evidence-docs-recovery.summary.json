@@ -50,15 +50,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
   "createdAt": "2026-10-20T00:32:33Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+    "contractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:af4dc69ed22faa7e02174ae06b68449716e14dbbaa679ed55939f219c27cc3f6",
-    "reason": "Actual human:Ray reply at 2026-10-20T01:01:23Z, message Sentinel_d4f96bd3331481919648dde0b091f9e3, to exact request Sentinel_77b63f2d7d488191973a340ff33750c3: 确认上述 WI-1090-evidence-docs-recovery 完整绑定，confirm_review。 Recorder agent:Codex; source .ai/evidence/WI-1090-evidence-docs-recovery/review-20261020/ray-confirmation.actual.agent-recorded.json. Plan review only; no material-risk acceptance, merge/close/delete/release or Sentinel authority.",
-    "recordedAt": "2026-10-20T01:03:14.399357+00:00",
+    "preflightDecisionDigest": "sha256:3798c12ae4ef8b0546e2fb066e7488ac89fd62c3af888ea5e7782365795011eb",
+    "reason": "Actual human:Ray reply 2026-10-20T02:09:31Z Sentinel_78ff9b8c892c8191982a8a6cd9d444c7 to exact Raydot request 2026-10-20T02:08:49Z Sentinel_c1fcfe0b80f8819195897dc802587d5b: 确认上述 WI-1090-evidence-docs-recovery 根因修复完整绑定，confirm_review。 Full approved binding at commit0536a3541a00f4eae62b487ccb3382a4d0362174; actual relay evidence .ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/ray-confirmation.actual.agent-recorded.json. Plan review only; no material residual-risk acceptance or merge/close/delete/release/Sentinel authority.",
+    "recordedAt": "2026-10-20T02:10:31.583896+00:00",
     "recordedBy": "agent:Codex",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
     "schemaVersion": 1,
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
@@ -127,7 +127,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-20T01:17:14.586673869+00:00",
+  "updatedAt": "2026-10-20T02:10:32.439042443+00:00",
   "verificationInvalidatedByContractAmendment": {
     "contractHash": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
     "invalidatedRequiredChecks": [],

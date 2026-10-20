@@ -8704,6 +8704,230 @@ pub(crate) fn current_verification_attempt_projection(
 
 const MAX_VERIFICATION_ATTEMPT_RECORD_BYTES: u64 = 4 * 1024 * 1024;
 
+/// Read-only planning facts. Private fields prevent callers from supplying
+/// changed paths or manufacturing a prepared execution capability.
+pub struct WorkItemVerificationBinding {
+    observation: super::ObservationContext,
+    work_item_id: String,
+    runtime: RuntimeContext,
+    facts: serde_json::Value,
+    paths: Vec<String>,
+    previous_observation: serde_json::Value,
+    previous_completion: Option<Digest>,
+}
+
+pub struct PreparedWorkItemVerification {
+    binding: WorkItemVerificationBinding,
+    recorded_observation: serde_json::Value,
+}
+
+impl WorkItemVerificationBinding {
+    pub fn snapshot(&self) -> &RepositorySnapshot {
+        self.observation.snapshot()
+    }
+
+    fn validate_current(&self) -> Result<(), ObserverError> {
+        self.observation.validate_current()?;
+        let current = verification_source_facts(self.observation.root(), &self.work_item_id)?;
+        if current.0 != self.facts {
+            return Err(source_observation_error(
+                self.observation.root(),
+                "planning or execution binding changed",
+            ));
+        }
+        Ok(())
+    }
+}
+
+fn source_observation_error(root: &Path, message: &str) -> ObserverError {
+    ObserverError::State {
+        path: root.into(),
+        message: format!("source change observation: {message}"),
+    }
+}
+
+fn completion_generation(root: &Path, id: &str) -> Result<Option<Digest>, ObserverError> {
+    let path = root.join(format!(".ai/evidence/{id}.verification.json"));
+    if !optional_regular_artifact(&path, "verification completion generation")? {
+        return Ok(None);
+    }
+    let bytes = super::read_governance_bytes(&path)
+        .map_err(|source| ObserverError::Read { path, source })?;
+    Ok(Some(Digest::sha256_bytes(&bytes)))
+}
+
+fn verification_source_facts(
+    root: &Path,
+    id: &str,
+) -> Result<(serde_json::Value, Vec<String>), ObserverError> {
+    let origin = super::contract_amendment::verification_responsibility_origin(root, id)?;
+    let git = cockpit_git::GitRepository::discover(root)
+        .map_err(|error| source_observation_error(root, &error.to_string()))?;
+    let delta = git
+        .snapshot_against(
+            origin["responsibilityRevision"]
+                .as_str()
+                .expect("validated origin"),
+        )
+        .map_err(|error| source_observation_error(root, &error.to_string()))?;
+    // Runtime records are append-only execution facts, not source inputs.
+    // Keep their observed paths for delivery, but do not make our own writes
+    // invalidate the source binding. Configuration/policy/Contract are checked
+    // separately by ObservationContext.
+    let mut source_changes = Vec::new();
+    for change in delta
+        .change_evidence
+        .iter()
+        .filter(|change| change.path != ".ai" && !change.path.starts_with(".ai/"))
+    {
+        let path = root.join(&change.path);
+        let after_digest = match fs::read(&path) {
+            Ok(bytes) => Some(Digest::sha256_bytes(&bytes)),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(source) => return Err(ObserverError::Read { path, source }),
+        };
+        source_changes.push(serde_json::json!({"path":change.path,"kind":format!("{:?}",change.kind),"addedLines":change.added_lines,"removedLines":change.removed_lines,"afterDigest":after_digest}));
+    }
+    let source_delta = cockpit_protocol::digest_json(&serde_json::json!(source_changes))
+        .map_err(|error| source_observation_error(root, &error.to_string()))?;
+    Ok((
+        serde_json::json!({"origin":origin,"head":delta.head,"sourceDeltaDigest":source_delta}),
+        delta.changed_paths,
+    ))
+}
+
+/// Capture before routing or planning. This never writes a Summary or cache;
+/// plan-only callers may discard the value without creating execution facts.
+pub fn capture_work_item_verification(
+    root: &Path,
+    id: &str,
+    runtime: &RuntimeContext,
+) -> Result<WorkItemVerificationBinding, ObserverError> {
+    validate_work_item_id(id)?;
+    let execution = RepositoryExecutionContext::capture(root)?;
+    let root = execution.root();
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let observation = execution.observe_phase_with_contract_uncached(
+        ObservationPhase::BeforeGovernance,
+        Some(runtime),
+        &contract_path,
+    )?;
+    let (facts, paths) = verification_source_facts(root, id)?;
+    let summary = read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    let binding = WorkItemVerificationBinding {
+        observation,
+        work_item_id: id.into(),
+        runtime: runtime.clone(),
+        facts,
+        paths,
+        previous_observation: summary["sourceChangeObservation"].clone(),
+        previous_completion: completion_generation(root, id)?,
+    };
+    binding.validate_current()?;
+    Ok(binding)
+}
+
+/// The short native write boundary immediately before executing a planned
+/// check. Waiting for the lock cannot silently rebind a stale plan.
+pub fn prepare_work_item_verification(
+    binding: WorkItemVerificationBinding,
+    requests: &[RepositoryVerificationRequest],
+) -> Result<PreparedWorkItemVerification, ObserverError> {
+    let root = binding.observation.root();
+    let id = &binding.work_item_id;
+    let lock = acquire_lifecycle_lock(root, id)?;
+    lock.require_subject(root, id)?;
+    binding.validate_current()?;
+    let path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let mut summary = read_json(&path)?;
+    if summary["sourceChangeObservation"] != binding.previous_observation
+        || completion_generation(root, id)? != binding.previous_completion
+    {
+        return Err(source_observation_error(
+            root,
+            "concurrent verification changed the planned generation",
+        ));
+    }
+    super::require_policy_for_verification(root, id)?;
+    super::require_verification_preconditions(root, id, &binding.runtime, binding.snapshot())?;
+    if requests.is_empty() {
+        return Err(source_observation_error(root, "no planned requests"));
+    }
+    let mut commands = Vec::new();
+    for request in requests {
+        if request.work_item_id.as_deref() != Some(id)
+            || request.runtime_digest != binding.runtime.runtime_digest.to_string()
+        {
+            return Err(source_observation_error(
+                root,
+                "request identity does not match captured Runtime and Work Item",
+            ));
+        }
+        super::plan_repository_verification_action(
+            root,
+            request,
+            binding.snapshot(),
+            chrono::Utc::now().timestamp(),
+        )?;
+        commands.push(serde_json::json!({"nodeId":request.node_id,"program":request.program,"args":request.args,"scope":request.scope,"stage":request.stage,"runner":request.runner,"baseCommit":request.base_commit,"timeoutSeconds":request.timeout_seconds,"policy":format!("{:?}",request.policy)}));
+    }
+    let recorded_observation = serde_json::json!({
+        "schemaVersion":1,"repositoryId":binding.observation.repository_id(),"workItemId":id,
+        "contractDigest":binding.observation.contract_digest(),"contractModelDigest":binding.observation.contract_model_digest(),
+        "runtime":binding.runtime,"sourceSnapshotDigest":binding.observation.snapshot_digest(),
+        "sourceFacts":binding.facts,"commands":commands,"changedPaths":binding.paths,
+    });
+    binding.validate_current()?;
+    lock.require_subject(root, id)?;
+    summary["changedPaths"] = serde_json::json!(binding.paths);
+    summary["sourceChangeObservation"] = recorded_observation.clone();
+    atomic_json(&path, &summary)?;
+    // Detect editor/Git races across the atomic file write as well. The lock
+    // serializes Runtime writers; it is not a filesystem or Git freeze.
+    binding.validate_current()?;
+    Ok(PreparedWorkItemVerification {
+        binding,
+        recorded_observation,
+    })
+}
+
+/// Promote a real process result only while its original execution binding
+/// still holds. A completion rollback starts from the pre-check facts.
+pub fn record_prepared_work_item_verification(
+    prepared: &PreparedWorkItemVerification,
+    receipt: &serde_json::Value,
+    snapshot: &RepositorySnapshot,
+) -> Result<serde_json::Value, ObserverError> {
+    let binding = &prepared.binding;
+    let root = binding.observation.root();
+    let id = &binding.work_item_id;
+    let lock = acquire_lifecycle_lock(root, id)?;
+    lock.require_subject(root, id)?;
+    binding.validate_current()?;
+    let summary = read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    if summary["sourceChangeObservation"] != prepared.recorded_observation
+        || completion_generation(root, id)? != binding.previous_completion
+    {
+        return Err(source_observation_error(
+            root,
+            "concurrent verification changed completion generation",
+        ));
+    }
+    super::require_policy_for_verification(root, id)?;
+    super::require_verification_preconditions(root, id, &binding.runtime, snapshot)?;
+    lock.require_subject(root, id)?;
+    record_verification_internal(
+        root,
+        id,
+        receipt,
+        &binding.runtime.runtime_version,
+        &binding.runtime.runtime_digest,
+        snapshot,
+        Some(&binding.runtime),
+        Some(&binding.paths),
+    )
+}
+
 pub fn record_verification_with_snapshot(
     root: &Path,
     work_item_id: &str,
@@ -8712,13 +8936,20 @@ pub fn record_verification_with_snapshot(
     runtime_digest: &Digest,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    lock.require_subject(&root, work_item_id)?;
     record_verification_internal(
-        root,
+        &root,
         work_item_id,
         receipt,
         runtime_version,
         runtime_digest,
         snapshot,
+        None,
         None,
     )
 }
@@ -8735,14 +8966,21 @@ pub fn record_verification_with_runtime(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    lock.require_subject(&root, work_item_id)?;
     record_verification_internal(
-        root,
+        &root,
         work_item_id,
         receipt,
         &runtime.runtime_version,
         &runtime.runtime_digest,
         snapshot,
         Some(runtime),
+        None,
     )
 }
 
@@ -8856,6 +9094,7 @@ fn record_verification_internal(
     runtime_digest: &Digest,
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
+    observed_paths: Option<&[String]>,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -8878,6 +9117,12 @@ fn record_verification_internal(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
+    if observed_paths.is_none() && !summary["sourceChangeObservation"].is_null() {
+        return Err(source_observation_error(
+            &root,
+            "a prepared binding is required; legacy recording cannot replace native observation",
+        ));
+    }
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
@@ -9066,7 +9311,8 @@ fn record_verification_internal(
         // delivery report.  Do not use `refreshed_snapshot` here: it includes the
         // evidence/projection writes made by this function rather than just the
         // verification input.
-        summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
+        summary["changedPaths"] =
+            serde_json::json!(observed_paths.unwrap_or(&snapshot.changed_paths));
         summary
             .as_object_mut()
             .expect("Work Item Summary is an object")

@@ -768,3 +768,586 @@ fn contract_amendment_allows_stale_predecessor_verification_to_be_replaced() {
     )
     .expect("replacement verification");
 }
+
+const OBS_ID: &str = "WI-OBSERVATION-NATIVE";
+const OBS_LEDGERS: [&str; 3] = [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+];
+
+fn source_observation_json(path: impl AsRef<std::path::Path>) -> serde_json::Value {
+    serde_json::from_slice(&fs::read(path).unwrap()).unwrap()
+}
+
+fn source_observation_git(root: &std::path::Path, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .args(args)
+        .current_dir(root)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "git {args:?}: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8(output.stdout).unwrap().trim().into()
+}
+
+fn source_observation_fixture(
+    changed: usize,
+) -> (tempfile::TempDir, RepositoryVerificationRequest) {
+    use cockpit_repository::{amend_work_item_contract, start_work_item_with_options_and_runtime};
+    let directory = repository();
+    let root = directory.path();
+    fs::write(root.join("source.rs"), "fn base() {}\n").unwrap();
+    fs::create_dir_all(root.join("docs/reference")).unwrap();
+    fs::create_dir_all(root.join("docs/work-items")).unwrap();
+    for path in OBS_LEDGERS {
+        fs::write(root.join(path), format!("| {OBS_ID} | in_progress |\n")).unwrap();
+    }
+    for suffix in ["", ".zh-CN", ".ja"] {
+        fs::write(root.join(format!("docs/work-items/{OBS_ID}{suffix}.md")), format!("---\nworkItemId: {OBS_ID}\nlastVerifiedBy: {OBS_ID}\nstatus: in_progress\n---\nSynthetic native fixture.\n")).unwrap();
+    }
+    source_observation_git(root, &["add", "source.rs", "docs"]);
+    source_observation_git(
+        root,
+        &[
+            "-c",
+            "user.name=Test",
+            "-c",
+            "user.email=test@example.invalid",
+            "commit",
+            "-qm",
+            "repository base B",
+        ],
+    );
+    let base = source_observation_git(root, &["rev-parse", "HEAD"]);
+    source_observation_git(root, &["branch", "-M", "main"]);
+    source_observation_git(
+        root,
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://example.invalid/synthetic.git",
+        ],
+    );
+    source_observation_git(root, &["update-ref", "refs/remotes/origin/main", &base]);
+    source_observation_git(
+        root,
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    source_observation_git(root, &["checkout", "-qb", "observation-fixture"]);
+    // A real synthetic predecessor lifecycle supplies the native recovery
+    // exception; no branch-entry check or successor authority is bypassed.
+    let predecessor = "WI-OBSERVATION-PREDECESSOR";
+    start_work_item_with_options(
+        root,
+        predecessor,
+        "synthetic predecessor",
+        "preserve native ancestry",
+        &["source.rs".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["bounded predecessor".into()],
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    preflight_work_item(root, &contract(root, predecessor)).unwrap();
+    checkpoint_work_item(root, predecessor).unwrap();
+    let run = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "predecessor-check".into(),
+            program: "true".into(),
+            args: vec![],
+            scope: vec!["source.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime().runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .unwrap();
+    record_verification_with_runtime(
+        root,
+        predecessor,
+        &serde_json::to_value(run.receipt).unwrap(),
+        &runtime(),
+        &run.final_snapshot,
+    )
+    .unwrap();
+    finish_work_item(root, predecessor).unwrap();
+    archive_work_item(root, predecessor).unwrap();
+    fs::write(
+        root.join("source.rs"),
+        "fn base() {}\nfn inherited_predecessor() {}\n",
+    )
+    .unwrap();
+    commit_fixture_source(root, "source.rs", "inherited predecessor S");
+    let archive = root.join(".ai/work-items/archive");
+    let predecessor_contract =
+        source_observation_json(archive.join(format!("{predecessor}.contract.json")));
+    let predecessor_summary =
+        source_observation_json(archive.join(format!("{predecessor}.summary.json")));
+    let predecessor_outcome =
+        source_observation_json(archive.join(format!("{predecessor}.outcome.json")));
+    cockpit_repository::record_recovery_decision(root, predecessor, &serde_json::json!({
+        "schemaVersion":1,"decisionId":"work-item-recovery","decision":"successor","workItemId":predecessor,"repositoryId":cockpit_repository::repository_id(root),"predecessorWorkItemId":predecessor,
+        "predecessorContractDigest":cockpit_protocol::digest_json(&predecessor_contract).unwrap(),"predecessorSummaryDigest":cockpit_protocol::digest_json(&predecessor_summary).unwrap(),"predecessorOutcomeDigest":cockpit_protocol::digest_json(&predecessor_outcome).unwrap(),"predecessorEventsDigest":Digest::sha256_bytes(&fs::read(archive.join(format!("{predecessor}.events.jsonl"))).unwrap()),
+        "successorWorkItemId":OBS_ID,"runtimeVersion":runtime().runtime_version,"runtimeDigest":runtime().runtime_digest,"actor":"human:synthetic-fixture","authoritySource":"synthetic test only","reason":"Exercise native successor source responsibility","evidenceRefs":[format!(".ai/work-items/archive/{predecessor}.outcome.json")],"policyRefs":[],"decidedAt":"2026-10-20T00:00:00Z","resumeCondition":"continue bounded synthetic successor"
+    }), &runtime()).unwrap();
+    let path = contract(root, OBS_ID);
+    let before = source_observation_json(&path);
+    let scope = OBS_LEDGERS
+        .iter()
+        .copied()
+        .chain(["source.rs", ".ai/**"])
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    amend_work_item_contract(root, OBS_ID, &serde_json::json!({
+        "schemaVersion":1,"changeId":"synthetic-native-origin","expectedContractDigest":cockpit_protocol::digest_json(&before).unwrap(),"reason":"Synthetic test fixture only; no real authority.",
+        "changes":[
+            {"path":"/intent","operation":"set","value":"Observe actual native delta"},
+            {"path":"/goal","operation":"set","value":"Checks see committed responsibility"},
+            {"path":"/scope","operation":"replace","value":scope},
+            {"path":"/risk","operation":"set","value":"normal"},
+            {"path":"/authority","operation":"set","value":"authorized"},
+            {"path":"/acceptanceCriteria","operation":"replace","value":["A1: native origin remains bounded"]}
+        ]
+    }), "").unwrap();
+    start_work_item_with_options_and_runtime(
+        root,
+        OBS_ID,
+        "Observe actual native delta",
+        "Checks see committed responsibility",
+        &scope,
+        &WorkItemStartOptions {
+            risk: "normal".into(),
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["A1: native origin remains bounded".into()],
+            ..Default::default()
+        },
+        &runtime(),
+    )
+    .unwrap();
+    for path in OBS_LEDGERS.iter().take(changed) {
+        let mut text = fs::read_to_string(root.join(path)).unwrap();
+        text.push_str("\nsuccessor hunk\n");
+        fs::write(root.join(path), text).unwrap();
+    }
+    if changed != 0 {
+        source_observation_git(root, &["add", "docs"]);
+        source_observation_git(
+            root,
+            &[
+                "-c",
+                "user.name=Test",
+                "-c",
+                "user.email=test@example.invalid",
+                "commit",
+                "-qm",
+                "successor delta H",
+            ],
+        );
+    }
+    preflight_work_item_with_runtime(root, &path, &runtime()).unwrap();
+    let summary_path = root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"));
+    let summary = source_observation_json(&summary_path);
+    let current = source_observation_json(&path);
+    cockpit_repository::record_work_item_governance_controls_with_runtime(root, OBS_ID, &serde_json::json!({
+        "decisionEvidence":{"schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review","workItemId":OBS_ID,"repositoryId":cockpit_repository::repository_id(root),"contractDigest":cockpit_protocol::digest_json(&current).unwrap(),"preflightDecisionDigest":summary["preflightDecisionDigest"],"repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],"recordedAt":"2026-10-20T00:00:00Z","recordedBy":"human:synthetic-fixture","reason":"Synthetic exact plan decision, never real user evidence."},
+        "acceptanceEvidence":[{"acceptanceId":"A1","evidence":[{"type":"test","path":"source.rs","locator":"inherited_predecessor","verification":"passed"}]}],
+        "intentAlignment":{"state":"resolved","evidence":["source.rs"]}
+    }), &runtime()).unwrap();
+    checkpoint_work_item(root, OBS_ID).unwrap();
+    (
+        directory,
+        RepositoryVerificationRequest {
+            node_id: "project-command-0".into(),
+            program: "true".into(),
+            args: vec![],
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime().runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: Some(OBS_ID.into()),
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+}
+
+fn source_observation_prepare(
+    root: &std::path::Path,
+    request: &RepositoryVerificationRequest,
+) -> cockpit_repository::PreparedWorkItemVerification {
+    let binding =
+        cockpit_repository::capture_work_item_verification(root, OBS_ID, &runtime()).unwrap();
+    cockpit_repository::prepare_work_item_verification(binding, std::slice::from_ref(request))
+        .unwrap()
+}
+
+fn source_observation_receipt(
+    root: &std::path::Path,
+    request: &RepositoryVerificationRequest,
+) -> (serde_json::Value, cockpit_git::RepositorySnapshot) {
+    let run = run_repository_verification(root, request).unwrap();
+    let mut receipt = serde_json::to_value(&run.receipt).unwrap();
+    receipt["runtimeVersion"] = runtime().runtime_version.into();
+    receipt["runtimeDigest"] = runtime().runtime_digest.to_string().into();
+    (receipt, run.final_snapshot)
+}
+
+#[test]
+fn source_change_observation_validated_origin_and_real_gate_ownership() {
+    for changed in [0, 2, 3] {
+        let (directory, request) = source_observation_fixture(changed);
+        let root = directory.path();
+        source_observation_prepare(root, &request);
+        let summary = source_observation_json(
+            root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json")),
+        );
+        assert!(
+            !summary["changedPaths"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|p| p == "source.rs"),
+            "inherited predecessor hunk is not ours"
+        );
+        assert_ne!(
+            summary["sourceChangeObservation"]["sourceFacts"]["origin"]["repositoryBaseRevision"],
+            summary["sourceChangeObservation"]["sourceFacts"]["origin"]["responsibilityRevision"]
+        );
+        // Invoke the unchanged real gate on the actual native fixture
+        // records. No Contract or Summary ownership facts are hand-filled.
+        let gate = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../tests/ci/governance_integrity_gate.py");
+        let script = "import runpy,sys,pathlib; m=runpy.run_path(sys.argv[1]); ok=m['recovery_successor_owns_parity_projection'](pathlib.Path(sys.argv[2]),'WI-OBSERVATION-PREDECESSOR',{'successorWorkItemId':'WI-OBSERVATION-NATIVE'}); assert ok==(sys.argv[3]=='3'),ok";
+        let output = Command::new("python3")
+            .args(["-c", script])
+            .arg(gate)
+            .arg(root)
+            .arg(changed.to_string())
+            .output()
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "real gate: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+}
+
+#[test]
+fn source_change_observation_same_path_inherited_and_successor_hunks() {
+    let (directory, request) = source_observation_fixture(3);
+    let root = directory.path();
+    fs::write(
+        root.join("source.rs"),
+        "fn base() {}\nfn inherited_predecessor() {}\nfn successor() {}\n",
+    )
+    .unwrap();
+    commit_fixture_source(root, "source.rs", "same path successor hunk");
+    preflight_work_item_with_runtime(root, &contract(root, OBS_ID), &runtime()).unwrap();
+    source_observation_prepare(root, &request);
+    let summary =
+        source_observation_json(root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json")));
+    assert!(
+        summary["changedPaths"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|p| p == "source.rs")
+    );
+    assert!(
+        !summary["sourceChangeObservation"]["sourceFacts"]["origin"]["activationPreparedDigest"]
+            .is_null()
+    );
+}
+
+#[test]
+fn source_change_observation_rejects_pending_foreign_tampered_and_missing_origin() {
+    for kind in ["pending", "foreign", "tampered", "missing"] {
+        let (directory, request) = source_observation_fixture(3);
+        let root = directory.path();
+        let binding =
+            cockpit_repository::capture_work_item_verification(root, OBS_ID, &runtime()).unwrap();
+        let dir = root.join(format!(".ai/evidence/{OBS_ID}.activation-transition"));
+        if kind == "pending" {
+            fs::remove_file(dir.join("committed.json")).unwrap();
+        } else if kind == "missing" {
+            fs::remove_dir_all(&dir).unwrap();
+        } else {
+            let p = dir.join("prepared.json");
+            let mut value = source_observation_json(&p);
+            if kind == "foreign" {
+                value["record"]["repositoryId"] = "sha256:foreign".into();
+            } else {
+                value["recordDigest"] = "sha256:tampered".into();
+            }
+            fs::write(p, serde_json::to_vec(&value).unwrap()).unwrap();
+        }
+        let before =
+            fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"))).unwrap();
+        assert!(
+            cockpit_repository::prepare_work_item_verification(
+                binding,
+                std::slice::from_ref(&request)
+            )
+            .is_err(),
+            "{kind}"
+        );
+        assert_eq!(
+            before,
+            fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"))).unwrap()
+        );
+    }
+}
+
+#[test]
+fn source_change_observation_lock_wait_rejects_head_contract_and_journal_drift() {
+    for kind in ["head", "contract", "journal"] {
+        let (directory, request) = source_observation_fixture(3);
+        let root = directory.path();
+        let binding =
+            cockpit_repository::capture_work_item_verification(root, OBS_ID, &runtime()).unwrap();
+        let file = fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .write(true)
+            .open(root.join(format!(".ai/locks/{OBS_ID}.lifecycle.lock")))
+            .unwrap();
+        file.lock().unwrap();
+        let before =
+            fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"))).unwrap();
+        let (tx, rx) = std::sync::mpsc::channel();
+        let waiter = std::thread::spawn(move || {
+            tx.send(()).unwrap();
+            cockpit_repository::prepare_work_item_verification(binding, &[request]).is_err()
+        });
+        rx.recv().unwrap();
+        match kind {
+            "head" => {
+                source_observation_git(
+                    root,
+                    &[
+                        "-c",
+                        "user.name=Test",
+                        "-c",
+                        "user.email=test@example.invalid",
+                        "commit",
+                        "--allow-empty",
+                        "-qm",
+                        "HEAD drift while locked",
+                    ],
+                );
+            }
+            "contract" => {
+                let p = contract(root, OBS_ID);
+                let mut c = source_observation_json(&p);
+                c["goal"] = "tamper negative fixture".into();
+                fs::write(p, serde_json::to_vec(&c).unwrap()).unwrap();
+            }
+            _ => {
+                fs::write(
+                    root.join(format!(
+                        ".ai/evidence/{OBS_ID}.contract-amendments/00000002.prepared.json"
+                    )),
+                    b"{}",
+                )
+                .unwrap();
+            }
+        }
+        file.unlock().unwrap();
+        assert!(waiter.join().unwrap(), "{kind}");
+        assert_eq!(
+            before,
+            fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"))).unwrap()
+        );
+    }
+}
+
+#[test]
+fn source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts() {
+    let (directory, request) = source_observation_fixture(3);
+    let root = directory.path();
+    let one = cockpit_repository::capture_work_item_verification(root, OBS_ID, &runtime()).unwrap();
+    let two = cockpit_repository::capture_work_item_verification(root, OBS_ID, &runtime()).unwrap();
+    let barrier = std::sync::Arc::new(std::sync::Barrier::new(2));
+    let other = barrier.clone();
+    let r = request.clone();
+    let thread = std::thread::spawn(move || {
+        other.wait();
+        cockpit_repository::prepare_work_item_verification(two, &[r])
+    });
+    barrier.wait();
+    let first =
+        cockpit_repository::prepare_work_item_verification(one, std::slice::from_ref(&request));
+    let second = thread.join().unwrap();
+    assert_ne!(first.is_ok(), second.is_ok(), "one stale plan must reject");
+    let prepared = first.ok().or(second.ok()).unwrap();
+    let path = root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"));
+    let before = fs::read(&path).unwrap();
+    assert!(
+        record_verification(
+            root,
+            OBS_ID,
+            &serde_json::json!({"passed":true}),
+            "legacy",
+            &Digest::sha256_bytes(b"legacy")
+        )
+        .is_err()
+    );
+    let (receipt, snapshot) = source_observation_receipt(root, &request);
+    assert!(
+        record_verification_with_runtime(root, OBS_ID, &receipt, &runtime(), &snapshot).is_err()
+    );
+    assert_eq!(before, fs::read(&path).unwrap());
+    cockpit_repository::record_prepared_work_item_verification(&prepared, &receipt, &snapshot)
+        .unwrap();
+    assert!(
+        source_observation_json(&path)["changedPaths"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|p| p == OBS_LEDGERS[2])
+    );
+}
+
+#[test]
+fn source_change_observation_execution_drift_and_completion_rollback_keep_start_facts() {
+    let (directory, request) = source_observation_fixture(3);
+    let root = directory.path();
+    let prepared = source_observation_prepare(root, &request);
+    let path = root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"));
+    let before = fs::read(&path).unwrap();
+    let (receipt, snapshot) = source_observation_receipt(root, &request);
+    fs::write(root.join("source.rs"), "source drift during execution\n").unwrap();
+    assert!(
+        cockpit_repository::record_prepared_work_item_verification(&prepared, &receipt, &snapshot)
+            .is_err()
+    );
+    assert_eq!(before, fs::read(&path).unwrap());
+    source_observation_git(root, &["checkout", "--", "source.rs"]);
+    // Force failure after the evidence write, inside the completion
+    // transaction. Its rollback baseline must contain the native start facts.
+    let mut malformed = source_observation_json(&path);
+    malformed["verification"] = serde_json::json!({});
+    fs::write(&path, serde_json::to_vec(&malformed).unwrap()).unwrap();
+    let before = fs::read(&path).unwrap();
+    let error =
+        cockpit_repository::record_prepared_work_item_verification(&prepared, &receipt, &snapshot)
+            .unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("Summary.verification must be an array"),
+        "{error}"
+    );
+    assert_eq!(before, fs::read(&path).unwrap());
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{OBS_ID}.verification.json"))
+            .exists()
+    );
+}
+
+#[test]
+fn source_change_observation_failure_success_evidence_commit_finish_archive() {
+    let (directory, request) = source_observation_fixture(3);
+    let root = directory.path();
+    let mut failed = request.clone();
+    failed.program = "python3".into();
+    failed.args = vec!["-c".into(), "raise SystemExit(7)".into()];
+    let _prepared = source_observation_prepare(root, &failed);
+    let (failed_receipt, snapshot) = source_observation_receipt(root, &failed);
+    assert_eq!(failed_receipt["passed"], false);
+    let attempt = cockpit_repository::persist_verification_attempt(
+        root,
+        OBS_ID,
+        &[failed],
+        &snapshot,
+        &runtime(),
+        "execution_failed",
+        Some(("verification_execution", "synthetic expected first failure")),
+        Some(&failed_receipt),
+    )
+    .unwrap();
+    let attempt_path = root.join(attempt["path"].as_str().unwrap());
+    let failure_bytes = fs::read(&attempt_path).unwrap();
+    let prepared = source_observation_prepare(root, &request);
+    let (receipt, snapshot) = source_observation_receipt(root, &request);
+    assert_eq!(receipt["passed"], true);
+    cockpit_repository::record_prepared_work_item_verification(&prepared, &receipt, &snapshot)
+        .unwrap();
+    let path = root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"));
+    let facts = source_observation_json(&path);
+    for ledger in OBS_LEDGERS {
+        assert!(
+            facts["changedPaths"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|p| p == ledger)
+        );
+    }
+    let source_before = cockpit_repository::snapshot_digest(
+        &cockpit_git::GitRepository::discover(root)
+            .unwrap()
+            .snapshot()
+            .unwrap(),
+    )
+    .unwrap();
+    source_observation_git(root, &["add", ".ai"]);
+    source_observation_git(
+        root,
+        &[
+            "-c",
+            "user.name=Test",
+            "-c",
+            "user.email=test@example.invalid",
+            "commit",
+            "-qm",
+            "normal evidence-only commit",
+        ],
+    );
+    let source_after = cockpit_repository::snapshot_digest(
+        &cockpit_git::GitRepository::discover(root)
+            .unwrap()
+            .snapshot()
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        source_before, source_after,
+        "HEAD is strict only during execution"
+    );
+    let status = work_item_status_snapshot_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert!(!status.human_decision_required, "{status:#?}");
+    cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    cockpit_repository::archive_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert_eq!(failure_bytes, fs::read(attempt_path).unwrap());
+    let archived =
+        source_observation_json(root.join(format!(".ai/work-items/archive/{OBS_ID}.summary.json")));
+    assert!(
+        archived["changedPaths"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|p| p == OBS_LEDGERS[2])
+    );
+}
