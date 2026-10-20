@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_native_inputs_for_proposed_amendment_not_future_review_binding",
+  "observedSourceHead": "2748e2d34bbd46c2b57c9fd99ff1d0d41a90dc37",
+  "repository": "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "currentContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "strictNativeInputBinding": "expectedContractDigest plus explicit repo/WI; native amend locks, compares and captures actual source/environment",
+  "currentNativeStatus": {
+    "lifecyclePhase": "checkpointed",
+    "humanDecisionRequired": false,
+    "blockers": [],
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+      "materialManifest": "sha256:64bfbce55119ab94eaa7b287ae50a470844961ed4b54b148e1e8bbb1f80824c3",
+      "repositorySnapshot": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+      "summary": "sha256:f3ce5eb67d1b5578b77b1b5000ec6440b5b842a804b747790ed6e8e982bbc381"
+    }
+  },
+  "lastNativeAmendmentSequence": 3,
+  "lastNativeJournalDigest": "sha256:24c25f79f29badbd35a3f59702a31fd5f5ed5f9855a2365ab60e39f6d612310d",
+  "lastNativeAmendmentEnvironmentObservationDigest": "sha256:7d1291fc2bb6a8b88f1e3fe2aced02f3577213a19e2fb52dd6cbe55ea554428e",
+  "environmentValueIsHistoricalNotNewBinding": true,
+  "currentPreflightDecisionDigest": "sha256:3798c12ae4ef8b0546e2fb066e7488ac89fd62c3af888ea5e7782365795011eb",
+  "originalReviewReceiptPreflightDigest": "sha256:af4dc69ed22faa7e02174ae06b68449716e14dbbaa679ed55939f219c27cc3f6",
+  "runtime": {
+    "version": "1.0.1",
+    "digest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "path": "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit"
+  },
+  "repositoryComparisonBase": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "responsibilityOrigin": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+  "originNativePreparedDigest": "sha256:c7548ebca2858defb83b2aa472f07562cb41fd57f87cda2a0a13a5e4e76a98ab",
+  "predecessorBindings": {
+    "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "predecessorEventsDigest": "sha256:9d1fa486587305413524d0794d3bc1a7b47468fc612fe96db79d9ec04558524b",
+    "predecessorOutcomeDigest": "sha256:1b0f43474968bb86dca2b0bee5010807718358c68c3cc4176d9e32298d2832b2",
+    "predecessorSummaryDigest": "sha256:5c4b3c8eee900183cb5f6a12f7780e58d345e78237c3a1f4edaf550662e525bd",
+    "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement"
+  },
+  "futureNativeContractDigest": null,
+  "futureNativeReviewDecisionDigest": null,
+  "futureCandidateRuntimeDigest": null,
+  "newHumanReviewRequestExists": false,
+  "reasonForNullFutureBindings": "No amendment or candidate build has happened; actual native outputs must supply new bindings. Old f263/af4d cannot be replayed."
+}

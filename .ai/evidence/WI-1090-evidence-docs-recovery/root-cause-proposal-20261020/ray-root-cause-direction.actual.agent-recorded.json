@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_relay_of_human_product_directions_not_review_receipt",
+  "actor": "human:Ray",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-20T01:52:30.631632+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "messages": [
+    {
+      "messageId": "Sentinel_e14358c688088191951e4868feb61c29",
+      "occurredAt": "2026-10-20T01:37:48Z",
+      "text": "发现的流程问题要从根因修正，要不然以后还会卡住"
+    },
+    {
+      "messageId": "Sentinel_329f533a74fc8191bd0575f9f62c4e5e",
+      "occurredAt": "2026-10-20T01:45:29Z",
+      "text": "这也是流程摩擦和阻碍的问题，本来ai cockpit是帮助人和AI协作的平台，如果因为治理摩擦太高就失去了核心价值。"
+    },
+    {
+      "messageId": "Sentinel_47bff3e34f6c8191b21983243687176a",
+      "occurredAt": "2026-10-20T01:48:28Z",
+      "text": "流程体验作为检查标准。以后发现问题要及时修改。"
+    },
+    {
+      "messageId": "Sentinel_6b8d9c7087c4819199963a28f4f85757",
+      "occurredAt": "2026-10-20T01:49:25Z",
+      "text": "很好，剩下的就是将口头承诺固化到流程。"
+    }
+  ],
+  "meaning": "Repair the native workflow root cause and formalize flow experience in existing process documents/tests; ordinary technical design is delegated to Raydot. Preserve real human gates and permissions.",
+  "notGranted": [
+    "No fabricated new Contract confirmation",
+    "No material residual-risk acceptance",
+    "No merge/close/deletion/release/Sentinel or consumer adoption"
+  ]
+}

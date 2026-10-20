@@ -1,0 +1,36 @@
+--- a/docs/reference/agent-workflow.md
++++ b/docs/reference/agent-workflow.md
+@@ -357,0 +358,9 @@
++### Collaboration flow acceptance
++
++1. A legally authorized task must proceed through its admitted implementation, verification and delivery path continuously. Existing entries should automatically record genuine observed facts; do not add routine manual refresh commands or confirmations to compensate for an implementation defect.
++2. Preserve every explicit human gate. Request a new decision only when its protocol binding dependencies actually require one, and present the complete reason, current binding and resume condition together. Do not repeatedly ask for an already valid decision or add arbitrary phase approvals.
++3. Preserve failed attempts, outputs and historical evidence. Follow current native admission for recovery and reuse; prove that the retained failure can lead to successful verification and the authorized finish/archive boundary without rewriting history or removing required checks.
++4. Put automatable legal-path and rejection regressions in the existing test suites. Cover committed changes, inherited-source responsibility, lock/source drift and failed-to-successful recovery; report actual commands, results and evidence. A passing synthetic fixture does not prove the current real task completed.
++5. Include flow-experience evidence in the existing Work Item Outcome: actual user-intervention count, each reason and binding, necessary human decisions, delegated technical decisions and defect-caused interruptions. Distinguish automated assertions from human/Agent experience review and unknown host visibility; do not claim fully automated experience acceptance. Extra routine refresh and meaningless repeated confirmation must be zero for the normal legal path.
++6. Treat discovered friction as a defect. Repair it with regression coverage inside the current authorized scope, or provide one precise bounded amendment when scope changes; retain the issue and disposition in existing Work Item/issue evidence. A user operating warning alone is not a root-cause fix. This standard grants no additional merge, close, deletion, release or adoption authority.
++
+--- a/docs/reference/agent-workflow.zh-CN.md
++++ b/docs/reference/agent-workflow.zh-CN.md
+@@ -173,0 +174,9 @@
++### 协作流程体验验收
++
++1. 合法授权任务必须能沿实际准入的实现、验证和交付路径连续完成。现有入口应自动登记真实观察事实，不能为补偿实现缺陷而增加日常手工刷新命令或确认。
++2. 保留所有明确真人门槛。只有协议绑定依赖实际要求新决定时才请求，并一次提供完整原因、当前绑定和恢复条件；不重复索要仍有效的决定，不任意追加阶段审批。
++3. 保留失败 attempt、输出和历史证据。恢复与复用遵循当前原生准入，证明已有失败可走向验证成功及获准的 finish/archive；不改历史、不移除 required checks。
++4. 可自动化的合法正向路径和拒绝回归必须进入现有测试套件，覆盖已提交修改、继承来源责任、锁/源码漂移及失败后成功恢复；报告实际命令、结果和证据。合成 fixture 通过不能证明当前真实任务已完成。
++5. 在现有 Work Item Outcome 中提供流程体验证据：实际用户介入次数、逐次原因与绑定，并区分必要真人决定、受委托技术决定和缺陷造成的中断。自动断言、真人/Agent 体验审阅和未知 host 展示状态分别说明，不虚称体验全自动验收。正常合法路径新增常规刷新和无意义重复确认必须为0。
++6. 将发现的摩擦按缺陷处理：授权范围内根因修复并补回归；越界时集中给出精确最小修约，使用现有 Work Item/issue 证据记录问题与处置。仅增加用户操作注意事项不是根因修复。本标准不新增 merge、close、删除、发布或采用权限。
++
+--- a/docs/reference/agent-workflow.ja.md
++++ b/docs/reference/agent-workflow.ja.md
+@@ -193,0 +194,9 @@
++### 協業フローの受け入れ基準
++
++1. 正当に許可されたタスクは、実際に許可された実装・検証・配信の経路を連続して完了できなければなりません。既存の入口で実際の観測事実を自動記録し、実装欠陥の補償として日常の手動 refresh コマンドや確認を追加しません。
++2. 明示された人間の判断ゲートは維持します。プロトコルの binding 依存関係が実際に新しい判断を必要とする場合だけ、完全な理由・現在の binding・再開条件を一度に提示します。有効な判断を繰り返し要求したり、任意の段階承認を追加したりしません。
++3. 失敗 attempt、出力、履歴証拠を保持します。復旧と再利用は現在のネイティブ許可に従い、保持された失敗から検証成功と許可済み finish/archive へ進めることを証明します。履歴や required checks は削除しません。
++4. 自動化できる合法な正向経路と拒否回帰を既存テストへ追加します。コミット済み変更、継承ソースの責任、ロック/ソース drift、失敗後の成功復旧を扱い、実行したコマンド・結果・証拠を報告します。合成 fixture の成功は現在の実タスクの完了を証明しません。
++5. 既存 Work Item Outcome にフロー体験の証拠を記載します。実際のユーザー介入回数、各理由と binding、必要な人間判断、委任された技術判断、欠陥による中断を区別します。自動 assertion、人間/Agent の体験レビュー、未知の host 表示を分け、体験の完全自動受け入れを主張しません。通常の合法経路で追加の日常 refresh と無意味な反復確認は0とします。
++6. 発見した摩擦を欠陥として扱います。許可範囲内で根因を修正して回帰を追加し、範囲が変わる場合は正確な最小 amendment をまとめて提示します。既存 Work Item/issue 証拠で問題と処置を保持し、ユーザー操作上の注意だけを根因修正としません。この基準は merge、close、削除、release、adoption の権限を追加しません。
++
