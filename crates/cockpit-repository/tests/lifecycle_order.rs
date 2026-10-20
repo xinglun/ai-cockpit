@@ -797,6 +797,13 @@ fn source_observation_git(root: &std::path::Path, args: &[&str]) -> String {
 fn source_observation_fixture(
     changed: usize,
 ) -> (tempfile::TempDir, RepositoryVerificationRequest) {
+    source_observation_fixture_with_review(changed, false)
+}
+
+fn source_observation_fixture_with_review(
+    changed: usize,
+    finite_review: bool,
+) -> (tempfile::TempDir, RepositoryVerificationRequest) {
     use cockpit_repository::{amend_work_item_contract, start_work_item_with_options_and_runtime};
     let directory = repository();
     let root = directory.path();
@@ -915,16 +922,22 @@ fn source_observation_fixture(
         .chain(["source.rs", ".ai/**"])
         .map(str::to_owned)
         .collect::<Vec<_>>();
+    let mut changes = serde_json::json!([
+        {"path":"/intent","operation":"set","value":"Observe actual native delta"},
+        {"path":"/goal","operation":"set","value":"Checks see committed responsibility"},
+        {"path":"/scope","operation":"replace","value":scope},
+        {"path":"/risk","operation":"set","value":"normal"},
+        {"path":"/authority","operation":"set","value":"authorized"},
+        {"path":"/acceptanceCriteria","operation":"replace","value":["A1: native origin remains bounded"]}
+    ]);
+    if finite_review {
+        changes.as_array_mut().unwrap().push(serde_json::json!({"path":"/governanceProfile","operation":"set","value":{"materialInspectionReview":{
+        "schemaVersion":1,"permittedUnknown":"repository_material_inspection_unavailable","permittedCause":"readable_committed_rust_syntax_unknown","assurance":"self_declared","reviewerActor":"agent:source-observation-fixture","authoritySource":"synthetic-fixture:finite-risk-only","acceptResidualRisk":true
+    }}}));
+    }
     amend_work_item_contract(root, OBS_ID, &serde_json::json!({
         "schemaVersion":1,"changeId":"synthetic-native-origin","expectedContractDigest":cockpit_protocol::digest_json(&before).unwrap(),"reason":"Synthetic test fixture only; no real authority.",
-        "changes":[
-            {"path":"/intent","operation":"set","value":"Observe actual native delta"},
-            {"path":"/goal","operation":"set","value":"Checks see committed responsibility"},
-            {"path":"/scope","operation":"replace","value":scope},
-            {"path":"/risk","operation":"set","value":"normal"},
-            {"path":"/authority","operation":"set","value":"authorized"},
-            {"path":"/acceptanceCriteria","operation":"replace","value":["A1: native origin remains bounded"]}
-        ]
+        "changes":changes
     }), "").unwrap();
     start_work_item_with_options_and_runtime(
         root,
@@ -1349,5 +1362,321 @@ fn source_change_observation_failure_success_evidence_commit_finish_archive() {
             .unwrap()
             .iter()
             .any(|p| p == OBS_LEDGERS[2])
+    );
+}
+
+fn source_observation_material_unknown_fixture()
+-> (tempfile::TempDir, RepositoryVerificationRequest) {
+    source_observation_material_unknown_fixture_with_review(false)
+}
+
+fn source_observation_material_unknown_fixture_with_review(
+    finite_review: bool,
+) -> (tempfile::TempDir, RepositoryVerificationRequest) {
+    let (directory, request) = source_observation_fixture_with_review(3, finite_review);
+    let root = directory.path();
+    fs::write(root.join("source.rs"), "fn base() {}\nfn inherited_predecessor() {}\nfn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization\"); label }\n").unwrap();
+    commit_fixture_source(
+        root,
+        "source.rs",
+        "readable committed syntax Unknown fixture",
+    );
+    preflight_work_item_with_runtime(root, &contract(root, OBS_ID), &runtime()).unwrap();
+    let prepared = source_observation_prepare(root, &request);
+    let (receipt, snapshot) = source_observation_receipt(root, &request);
+    cockpit_repository::record_prepared_work_item_verification(&prepared, &receipt, &snapshot)
+        .unwrap();
+    let material = cockpit_repository::plan_work_item_material_review(root, OBS_ID).unwrap();
+    assert_eq!(
+        material.raw_unknown_codes,
+        vec!["repository_material_inspection_unavailable"]
+    );
+    assert!(material.finding_codes.is_empty());
+    (directory, request)
+}
+
+#[test]
+fn source_change_observation_material_unknown_keeps_collection_but_blocks_finish() {
+    let (directory, _) = source_observation_material_unknown_fixture();
+    let outcome =
+        cockpit_repository::outcome_v2_with_runtime(directory.path(), OBS_ID, &runtime()).unwrap();
+    assert_eq!(
+        outcome.decision_state,
+        Some(DecisionState::Yellow),
+        "human Outcome must retain the canonical material boundary"
+    );
+    assert!(
+        outcome
+            .unknowns
+            .iter()
+            .any(|v| v == "repository_material_inspection_unavailable")
+    );
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), OBS_ID, &runtime()).unwrap();
+    assert!(
+        !status.safe_actions.iter().any(|a| a == "finish"),
+        "unresolved canonical material cannot admit finish: {status:#?}"
+    );
+    assert!(
+        status.safe_actions.iter().any(|a| a == "run_verification"),
+        "material Unknown must not blanket-block legitimate verification: {status:#?}"
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|a| a == "record_governance_controls")
+    );
+    assert!(
+        status
+            .unknowns
+            .iter()
+            .any(|v| v == "repository_material_inspection_unavailable")
+    );
+}
+
+#[test]
+fn source_change_observation_new_failure_cannot_hide_under_old_marker_or_equal_time() {
+    let (directory, _) = source_observation_material_unknown_fixture();
+    let root = directory.path();
+    let error =
+        cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap_err();
+    assert!(
+        error.to_string().contains("canonical material Unknowns"),
+        "{error}"
+    );
+    let summary_path = root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"));
+    let summary = source_observation_json(&summary_path);
+    assert!(
+        summary["verificationRecoveryReconciled"].is_string(),
+        "fixture requires an older successful marker"
+    );
+    let original_failure =
+        fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.outcome.json"))).unwrap();
+    let outcome = cockpit_repository::outcome_v2_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert_eq!(
+        outcome.decision_state,
+        Some(DecisionState::Red),
+        "later native failure must stay visible"
+    );
+    assert_eq!(outcome.failed_gate.as_deref(), Some("finish.lifecycle"));
+    // Explicit legacy/ambiguous-time negative fixture. Source and real failure
+    // stay untouched; assigning equal timestamps cannot create causal proof.
+    let evidence =
+        source_observation_json(root.join(format!(".ai/evidence/{OBS_ID}.verification.json")));
+    let path = root.join(format!(".ai/work-items/active/{OBS_ID}.events.jsonl"));
+    let mut events = fs::read_to_string(&path)
+        .unwrap()
+        .lines()
+        .map(|line| serde_json::from_str::<serde_json::Value>(line).unwrap())
+        .collect::<Vec<_>>();
+    for event in &mut events {
+        event["timestamp"] = evidence["createdAt"].clone();
+    }
+    fs::write(
+        &path,
+        events
+            .iter()
+            .map(|e| serde_json::to_string(e).unwrap() + "\n")
+            .collect::<String>(),
+    )
+    .unwrap();
+    let outcome = cockpit_repository::outcome_v2_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert_eq!(outcome.decision_state, Some(DecisionState::Red));
+    assert_eq!(
+        original_failure,
+        fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.outcome.json"))).unwrap()
+    );
+}
+
+#[test]
+fn source_change_observation_material_review_evidence_commit_finishes_without_reverification() {
+    let (directory, _) = source_observation_material_unknown_fixture_with_review(true);
+    let root = directory.path();
+    let evidence_path = root.join(format!(".ai/evidence/{OBS_ID}.verification.json"));
+    let verified_bytes = fs::read(&evidence_path).unwrap();
+    cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap_err();
+    let status = work_item_status_snapshot_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert_eq!(
+        status.verification, "verified",
+        "software evidence remains current: {status:#?}"
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|a| a == "record_material_review_decision"),
+        "{status:#?}"
+    );
+    assert!(
+        !status.human_decision_required,
+        "fixture already has exact profile and Contract review: {status:#?}"
+    );
+    let failure_events =
+        fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.events.jsonl"))).unwrap();
+    let request = cockpit_repository::plan_work_item_material_review(root, OBS_ID).unwrap();
+    assert!(request.finding_codes.is_empty());
+    let input = serde_json::from_value(serde_json::json!({
+        "schemaVersion":1,"decision":"accept_permitted_unknowns","requestDigest":request.request_digest,
+        "reviewerActor":"agent:source-observation-fixture","authoritySource":"synthetic-fixture:finite-risk-only","assurance":"self_declared",
+        "evidenceRefs":[{"path":"synthetic-exact-review","digest":Digest::sha256_bytes(b"synthetic finite review evidence")}],
+        "rationale":"Synthetic fixture reviews only its exact native request.","residualRisk":"Synthetic readable syntax risk only; no scanner completeness claim."
+    })).unwrap();
+    cockpit_repository::record_work_item_material_review(root, OBS_ID, &input, &runtime()).unwrap();
+    source_observation_git(root, &["add", ".ai"]);
+    source_observation_git(
+        root,
+        &[
+            "-c",
+            "user.name=Test",
+            "-c",
+            "user.email=test@example.invalid",
+            "commit",
+            "-qm",
+            "native review evidence only",
+        ],
+    );
+    assert_eq!(
+        verified_bytes,
+        fs::read(&evidence_path).unwrap(),
+        "no unchanged-source reverify"
+    );
+    let status = work_item_status_snapshot_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert!(
+        status.safe_actions.iter().any(|a| a == "finish"),
+        "{status:#?}"
+    );
+    cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    let completed_events =
+        fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.events.jsonl"))).unwrap();
+    assert!(
+        completed_events.starts_with(&failure_events),
+        "finish preserves actual failure bytes"
+    );
+    cockpit_repository::archive_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert_eq!(verified_bytes, fs::read(&evidence_path).unwrap());
+    // Archive natively relocates active evidence refs; compare all old event
+    // values after only that documented reference transformation.
+    let archived_events =
+        fs::read_to_string(root.join(format!(".ai/work-items/archive/{OBS_ID}.events.jsonl")))
+            .unwrap();
+    for (before, after) in String::from_utf8(failure_events)
+        .unwrap()
+        .lines()
+        .zip(archived_events.lines())
+    {
+        let before: serde_json::Value = serde_json::from_str(&before.replace(
+            &format!(".ai/work-items/active/{OBS_ID}"),
+            &format!(".ai/work-items/archive/{OBS_ID}"),
+        ))
+        .unwrap();
+        let after: serde_json::Value = serde_json::from_str(after).unwrap();
+        assert_eq!(
+            before, after,
+            "archive preserves the failure event and only relocates refs"
+        );
+    }
+}
+
+#[test]
+fn source_change_observation_new_failure_during_execution_rejects_completion() {
+    let (directory, request) = source_observation_material_unknown_fixture();
+    let root = directory.path();
+    let prepared = source_observation_prepare(root, &request);
+    let (receipt, snapshot) = source_observation_receipt(root, &request);
+    cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap_err();
+    let summary = root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"));
+    let before = fs::read(&summary).unwrap();
+    let evidence = root.join(format!(".ai/evidence/{OBS_ID}.verification.json"));
+    let verified = fs::read(&evidence).unwrap();
+    cockpit_repository::record_prepared_work_item_verification(&prepared, &receipt, &snapshot)
+        .unwrap_err();
+    assert_eq!(before, fs::read(summary).unwrap());
+    assert_eq!(verified, fs::read(evidence).unwrap());
+    let first =
+        fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.events.jsonl"))).unwrap();
+    cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap_err();
+    let second =
+        fs::read(root.join(format!(".ai/work-items/active/{OBS_ID}.events.jsonl"))).unwrap();
+    assert!(
+        second.starts_with(&first) && second.len() > first.len(),
+        "identical later failure gets a new ordered event"
+    );
+}
+
+#[test]
+fn source_change_observation_recovered_failure_then_new_event_stays_red_without_material_blocker() {
+    let (directory, request) = source_observation_fixture(3);
+    let root = directory.path();
+    cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap_err();
+    let prepared = source_observation_prepare(root, &request);
+    let (receipt, snapshot) = source_observation_receipt(root, &request);
+    cockpit_repository::record_prepared_work_item_verification(&prepared, &receipt, &snapshot)
+        .unwrap();
+    assert_eq!(
+        cockpit_repository::outcome_v2_with_runtime(root, OBS_ID, &runtime())
+            .unwrap()
+            .decision_state,
+        Some(DecisionState::Green)
+    );
+    let summary_path = root.join(format!(".ai/work-items/active/{OBS_ID}.summary.json"));
+    let old_summary = source_observation_json(&summary_path);
+    assert!(old_summary["verificationRecoveryBasis"]["failure"]["blockedEventId"].is_string());
+    let evidence_path = root.join(format!(".ai/evidence/{OBS_ID}.verification.json"));
+    let verified_bytes = fs::read(&evidence_path).unwrap();
+    cockpit_repository::record_work_item_governance_controls_with_runtime(
+        root,
+        OBS_ID,
+        &serde_json::json!({"intentAlignment":{"state":"unknown"}}),
+        &runtime(),
+    )
+    .unwrap();
+    cockpit_repository::finish_work_item_with_runtime(root, OBS_ID, &runtime()).unwrap_err();
+    cockpit_repository::record_work_item_governance_controls_with_runtime(
+        root,
+        OBS_ID,
+        &serde_json::json!({"intentAlignment":{"state":"resolved","evidence":["source.rs"]}}),
+        &runtime(),
+    )
+    .unwrap();
+    let new_summary = source_observation_json(&summary_path);
+    assert_eq!(
+        old_summary["verificationRecoveryBasis"],
+        new_summary["verificationRecoveryBasis"]
+    );
+    assert_eq!(verified_bytes, fs::read(evidence_path).unwrap());
+    // The material gate and controls are now clear. Only a new, specific
+    // failure identity invalidates the old causal recovery proof.
+    let outcome = cockpit_repository::outcome_v2_with_runtime(root, OBS_ID, &runtime()).unwrap();
+    assert_eq!(outcome.decision_state, Some(DecisionState::Red));
+    let path = root.join(format!(".ai/work-items/active/{OBS_ID}.events.jsonl"));
+    let mut events = fs::read_to_string(&path)
+        .unwrap()
+        .lines()
+        .map(|line| serde_json::from_str::<serde_json::Value>(line).unwrap())
+        .collect::<Vec<_>>();
+    let first_timestamp = events
+        .iter()
+        .find(|event| event["eventType"] == "blocked")
+        .unwrap()["timestamp"]
+        .clone();
+    events
+        .iter_mut()
+        .rfind(|event| event["eventType"] == "blocked")
+        .unwrap()["timestamp"] = first_timestamp;
+    fs::write(
+        path,
+        events
+            .iter()
+            .map(|event| serde_json::to_string(event).unwrap() + "\n")
+            .collect::<String>(),
+    )
+    .unwrap();
+    assert_eq!(
+        cockpit_repository::outcome_v2_with_runtime(root, OBS_ID, &runtime())
+            .unwrap()
+            .decision_state,
+        Some(DecisionState::Red),
+        "equal timestamps cannot reverse ordered native failure causality"
     );
 }

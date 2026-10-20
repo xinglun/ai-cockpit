@@ -353,15 +353,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
   "createdAt": "2026-10-20T00:32:33Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+    "contractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:3798c12ae4ef8b0546e2fb066e7488ac89fd62c3af888ea5e7782365795011eb",
-    "reason": "Actual human:Ray reply 2026-10-20T02:09:31Z Sentinel_78ff9b8c892c8191982a8a6cd9d444c7 to exact Raydot request 2026-10-20T02:08:49Z Sentinel_c1fcfe0b80f8819195897dc802587d5b: 确认上述 WI-1090-evidence-docs-recovery 根因修复完整绑定，confirm_review。 Full approved binding at commit0536a3541a00f4eae62b487ccb3382a4d0362174; actual relay evidence .ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/ray-confirmation.actual.agent-recorded.json. Plan review only; no material residual-risk acceptance or merge/close/delete/release/Sentinel authority.",
-    "recordedAt": "2026-10-20T02:10:31.583896+00:00",
+    "preflightDecisionDigest": "sha256:dcdd9edef1452071ae6fbb493ace7ca1a6ccf721bb9dd3e18e65fb14ef805ddf",
+    "reason": "Actual human:Ray reply2026-10-20T02:56:59Z Sentinel_2ebfd7995c9c819198972617a5536a6b to exact Raydot request2026-10-20T02:54:00Z Sentinel_7a3992c483f08191aff11e84e5186119: 确认上述 39 路径修约完整绑定，confirm_review。 Full native binding at eef8c5cd272432db4d6bcd73abc08c94bc82f99b. Relay evidence .ai/evidence/WI-1090-evidence-docs-recovery/finish-flow-execution-20261020/ray-new39-confirmation.actual.agent-recorded.json. Existing finite risk approval remains limited to fixed inherited blob/hunk; this is not a completed agent material review or extra merge/close/delete/release/Sentinel authority.",
+    "recordedAt": "2026-10-20T02:58:15.571883+00:00",
     "recordedBy": "agent:Codex",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+    "repositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
     "schemaVersion": 1,
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
@@ -870,7 +870,7 @@
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
   "state": "checkpointed",
-  "updatedAt": "2026-10-20T02:36:30Z",
+  "updatedAt": "2026-10-20T02:58:18.925219963+00:00",
   "verification": [
     {
       "check": "bash tests/docs/documentation_acceptance.sh",

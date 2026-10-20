@@ -1,0 +1,517 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_actual_readonly_migration_audit_not_native_receipt",
+  "recordedAt": "2026-10-20T03:20:39.433102+00:00",
+  "actor": "agent:Codex",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "sourceCommit": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+  "observedHead": "eef8c5cd272432db4d6bcd73abc08c94bc82f99b",
+  "state": "passed",
+  "locatorIndex": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json",
+  "locatorRawSha256": "6a1b5e06c2a3792634448d43b46d85fa71c6dc9a8ab03ffa217968642b767b1c",
+  "moves": [
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-005-fece998c8c8f.json",
+      "bytes": 1495,
+      "rawSha256": "fece998c8c8f67333a2ec64c9c2886210a951a801f12a0ec0fb902846545df63",
+      "gitBlob": "599396617c54a071491dbf50d9f806de55fc6c85",
+      "logicalM6Path": "leaf/before/.ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+      "actualBytes": 1495,
+      "actualRawSha256": "fece998c8c8f67333a2ec64c9c2886210a951a801f12a0ec0fb902846545df63",
+      "actualGitBlob": "599396617c54a071491dbf50d9f806de55fc6c85",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-012-d1dad9a96597.json",
+      "bytes": 15753,
+      "rawSha256": "d1dad9a965975bb8e0147a422017de7b8ea04de8cf1e44a3bbd9af182b2b905e",
+      "gitBlob": "3a6d5dfb396eeb601460f62aae4f8dda5b8efb4c",
+      "logicalM6Path": "leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json",
+      "actualBytes": 15753,
+      "actualRawSha256": "d1dad9a965975bb8e0147a422017de7b8ea04de8cf1e44a3bbd9af182b2b905e",
+      "actualGitBlob": "3a6d5dfb396eeb601460f62aae4f8dda5b8efb4c",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-013-67d730856bec.json",
+      "bytes": 17100,
+      "rawSha256": "67d730856becd5b0a657b27b3da3b2bc4c5dcd2d4c42de0e3af1c20b867cf0cb",
+      "gitBlob": "99a0d0c32a07dc54b28eda32c7b6e0399f11f045",
+      "logicalM6Path": "leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json",
+      "actualBytes": 17100,
+      "actualRawSha256": "67d730856becd5b0a657b27b3da3b2bc4c5dcd2d4c42de0e3af1c20b867cf0cb",
+      "actualGitBlob": "99a0d0c32a07dc54b28eda32c7b6e0399f11f045",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-014-c8d82f02317a.json",
+      "bytes": 765,
+      "rawSha256": "c8d82f02317aab50a6498c6331700ae6fa7b974828536d8d41c7abbacb2199be",
+      "gitBlob": "b5e80650ba27a9df5dbb3bb953ec0d8bb6487b84",
+      "logicalM6Path": "replace/before/.ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+      "actualBytes": 765,
+      "actualRawSha256": "c8d82f02317aab50a6498c6331700ae6fa7b974828536d8d41c7abbacb2199be",
+      "actualGitBlob": "b5e80650ba27a9df5dbb3bb953ec0d8bb6487b84",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-017-4b62b0e0ad0f.json",
+      "bytes": 17181,
+      "rawSha256": "4b62b0e0ad0f3d2c8b4688922a26e9cc666e315512b824d6edbfd1de31aaa1b0",
+      "gitBlob": "0c8d3d3aa6d577d26ebc8cf5718969980d9bba0c",
+      "logicalM6Path": "replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+      "actualBytes": 17181,
+      "actualRawSha256": "4b62b0e0ad0f3d2c8b4688922a26e9cc666e315512b824d6edbfd1de31aaa1b0",
+      "actualGitBlob": "0c8d3d3aa6d577d26ebc8cf5718969980d9bba0c",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-018-686d6df61378.json",
+      "bytes": 1498,
+      "rawSha256": "686d6df61378d521f1101393a4671324eb8f3bc9b73ad9eace037866ce714457",
+      "gitBlob": "30562f7da47e17ef4d6db8d30e50e760d2717e92",
+      "logicalM6Path": "replace/before/.ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+      "actualBytes": 1498,
+      "actualRawSha256": "686d6df61378d521f1101393a4671324eb8f3bc9b73ad9eace037866ce714457",
+      "actualGitBlob": "30562f7da47e17ef4d6db8d30e50e760d2717e92",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-025-4b62b0e0ad0f.json",
+      "bytes": 17181,
+      "rawSha256": "4b62b0e0ad0f3d2c8b4688922a26e9cc666e315512b824d6edbfd1de31aaa1b0",
+      "gitBlob": "0c8d3d3aa6d577d26ebc8cf5718969980d9bba0c",
+      "logicalM6Path": "replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+      "actualBytes": 17181,
+      "actualRawSha256": "4b62b0e0ad0f3d2c8b4688922a26e9cc666e315512b824d6edbfd1de31aaa1b0",
+      "actualGitBlob": "0c8d3d3aa6d577d26ebc8cf5718969980d9bba0c",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    },
+    {
+      "oldPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json",
+      "newPathProposal": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-026-cf433aacddd2.json",
+      "bytes": 15794,
+      "rawSha256": "cf433aacddd204d269c1e074922ee63c75f6bdbc65ee73eb6f1276181ea8199f",
+      "gitBlob": "fc00b44b3d7aefee83617db0bae7337c4c70d337",
+      "logicalM6Path": "replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json",
+      "actualBytes": 15794,
+      "actualRawSha256": "cf433aacddd204d269c1e074922ee63c75f6bdbc65ee73eb6f1276181ea8199f",
+      "actualGitBlob": "fc00b44b3d7aefee83617db0bae7337c4c70d337",
+      "oldPhysicalPathAbsent": true,
+      "regularNonSymlink": true,
+      "sourceBytesExact": true,
+      "bothLogicalManifestEntriesMatch": true
+    }
+  ],
+  "immutableManifests": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-evidence-raw-manifest.agent-recorded.json",
+      "rawSha256": "ddf612708f0bf136e3741f0af4be688ac5ba3e12126ecae4819b70769a6c2621",
+      "bytes": 22222,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-complete-evidence-raw-manifest.agent-recorded.json",
+      "rawSha256": "09da27baa3606a5cdc68a836978167d3ea52cecfd4dc388cc5639add50e3e814",
+      "bytes": 22911,
+      "unchanged": true,
+      "regularNonSymlink": true
+    }
+  ],
+  "protectedNativeRecords": [
+    {
+      "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.8f6eb9145076ff3c1b19e006c03c1abd1ec6f806d866cccc621f50e444023dc1.json",
+      "rawSha256": "1b99fa8190b0e88355a4a7c406071ab5bf58745fa6020d2ea87651436c82c4d3",
+      "bytes": 1318,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.affadc192ceb8f7dbd717501160417b0a22ba9175da1108b9d8016fa27103adf.json",
+      "rawSha256": "6603cbb3bd38f6f0db82b0da8dbcdd20e8e3824dcacc780b78d7cc999e41022d",
+      "bytes": 1255,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.c880589e207ac11cc4d07253edff74bbfa5bc9ffd397378acf230d8df5313532.json",
+      "rawSha256": "7140bec515d8d3f30d3b4b16304c88f90baeca4b8e166b290c43e9c558ec0b7b",
+      "bytes": 1265,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.json",
+      "rawSha256": "499b6ac64a13949c5ab5211c4a5aa34aad3dfeac911d126042ab850cdd99f5be",
+      "bytes": 1222,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000001.committed.json",
+      "rawSha256": "07b7d9f24d611ad10154077872dfe408abecdafea8c53a3f72cc4cdc0230b906",
+      "bytes": 24968,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000001.prepared.json",
+      "rawSha256": "fae767a5db190fce4b30d935fc37d9945a9bffd7dfbb1eb27b6d8bc4b37a381d",
+      "bytes": 22545,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000002.committed.json",
+      "rawSha256": "f0280dfbeaa501b44a639299bfc6f3e0a1556f5ad0a4aa5cf22708472e1f232f",
+      "bytes": 24684,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000002.prepared.json",
+      "rawSha256": "d24d4285d75d42a03f9c3ffee412a57dcf58134f5cfc0847780787e6c164e696",
+      "bytes": 37332,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000003.committed.json",
+      "rawSha256": "eb422080b92712b0e66ed8dd650abf0d326181d29b1f61c06b1d3c95f785df23",
+      "bytes": 3003,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000003.prepared.json",
+      "rawSha256": "a830ec62fc70d2e03ab09b2007cf6268bb454a4432ffc21447b029d724bbb7b6",
+      "bytes": 32706,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000004.committed.json",
+      "rawSha256": "210a4f37d250aab9118e249ff5119c3ee577d1f1a9c3b997d891414f47db1533",
+      "bytes": 4264,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000004.prepared.json",
+      "rawSha256": "3c5484902ba271e380c2116086cbd3bb04abc9f932c96f25e80a093f95b6c0e1",
+      "bytes": 34742,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.04eb5aafdae1c2910d375f0dec2171437831a27027907f2ab1b40eca48c39804.json",
+      "rawSha256": "e77d96b2046ed471a098ca3a81e2442f808f1f2dcc819f7900cc1bce06f3ef13",
+      "bytes": 89250,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.38c83532fbd2638ceae088baf62f408b998a63c9e6d53b8662314ea1d96d1d9b.json",
+      "rawSha256": "da943a5e25c8ebdcca3f1c989a4ad26b21cb7f874058adaa167b52cfa3be898c",
+      "bytes": 69793,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.3c565f59d2070551d165c670dc152a226c2244fce2ff6706887482a48268a858.json",
+      "rawSha256": "4ca969e167d8559a3a91ed6ffe6f0090d3214ef82cfc636e25f746c336ee58ec",
+      "bytes": 69793,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.ccce6d9d76fe5001c4569b92ab9510034e25e71a128ebc11dc078ce1a2a56b1b.json",
+      "rawSha256": "80eb669f8335f67a7d8af53b470b2055ad44702a5512ccb49594ad34c5e3f551",
+      "bytes": 73023,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.ef18b7ebe9b939771d22c7ac8e9a9f6bea315670a2650105198fdfb1b29590d8.json",
+      "rawSha256": "568189e8faddd1b3084b17cc27f9c5915380f547ead349acca496763e1eb4368",
+      "bytes": 70267,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+      "rawSha256": "92152d253fa3285f46111c9bade98393e0c1adabebbd55006acff8f6358ef7ce",
+      "bytes": 36076,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.archive.json",
+      "rawSha256": "a621835809ccbb6cc8fe19f7c96d5a3db79905d205d7de53c80b26a5ad366eb3",
+      "bytes": 1856,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.contract.json",
+      "rawSha256": "19f761ca3b0bb1e770a7ecf023ef4cd92b68ad07a0be7433955fc8f82c8e3c50",
+      "bytes": 15134,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.events.jsonl",
+      "rawSha256": "9d1fa486587305413524d0794d3bc1a7b47468fc612fe96db79d9ec04558524b",
+      "bytes": 2501,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.outcome.json",
+      "rawSha256": "d5847711c23cb99c5ee2030e75c773a98c0629ca67ea1bdb4d1c9a145e906047",
+      "bytes": 8805,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.summary.json",
+      "rawSha256": "85aa5b758f00f72fc59562a9a29140bbc9b2b4b8da87deb390be2edda7886b00",
+      "bytes": 18355,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.task-report.json",
+      "rawSha256": "8047ceea1ad2d58d31b4180e4af0a673544fcb16ef26f3180a58994272f8e5e0",
+      "bytes": 3941,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/work-items/archive/WI-1090-authority-source-material-review-replacement.task-report.md",
+      "rawSha256": "f8dbd95c84ab4041d4733e7da8afd8b157e5fa90f843cc30aff2e89a51b88de7",
+      "bytes": 1237,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7.json",
+      "rawSha256": "0f3949bae38b9a306bcb677c9441bbeb77af17368c8ea561db65fcd489f819b5",
+      "bytes": 2377,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c.json",
+      "rawSha256": "21638cec0c7089f09517d9b8253fccc81f13689198e8b141c349391b81350726",
+      "bytes": 2763,
+      "unchanged": true,
+      "regularNonSymlink": true
+    }
+  ],
+  "unchangedRustFiles": [
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "rawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+      "bytes": 166063,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": "crates/cockpit-repository/tests/material_review.rs",
+      "rawSha256": "34c75a96e883a1f607c6097a48493b2b168507b9c709c7b56655cd9c1c617267",
+      "bytes": 122101,
+      "unchanged": true,
+      "regularNonSymlink": true
+    }
+  ],
+  "unchangedNineteenCandidates": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.482f26d5ce06247ea7ff0c7fd77aedd142e16d3af069ba72ac559de0bd116284.json",
+      "rawSha256": "c6fd9662e17fb7cefe30d738ab748e192c42b1c8a40d885aa1246e802e26426e",
+      "bytes": 762,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000001.committed.json",
+      "rawSha256": "d51157597b3d285353ceb1916f8bf92342f1e3eabb2aa535702003475c15a812",
+      "bytes": 2982,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000001.prepared.json",
+      "rawSha256": "180aa9ca299d38e8c379dfd5eeadfe81978cf0abedcec79901866c6e93f4ab73",
+      "bytes": 7933,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json",
+      "rawSha256": "67d730856becd5b0a657b27b3da3b2bc4c5dcd2d4c42de0e3af1c20b867cf0cb",
+      "bytes": 17100,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-material-receipts/9e041bcb7ecb4d6113283dd217e747ad675e88a38f1399d91efd3028203306aa.json",
+      "rawSha256": "1ce4d43246f0b62dd1ef5d42cffb13a6a36759c2d9b4ed14e7d0d77ea2e6e220",
+      "bytes": 1503,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-material-receipts/9e041bcb7ecb4d6113283dd217e747ad675e88a38f1399d91efd3028203306aa.prepare.json",
+      "rawSha256": "2dc17552e1c16f0f920fafa9873b23611fc44caca574c86bfbea131413d79b0f",
+      "bytes": 12108,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-material-receipts/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+      "rawSha256": "fece998c8c8f67333a2ec64c9c2886210a951a801f12a0ec0fb902846545df63",
+      "bytes": 1495,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-reviews/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.482f26d5ce06247ea7ff0c7fd77aedd142e16d3af069ba72ac559de0bd116284.json",
+      "rawSha256": "c6fd9662e17fb7cefe30d738ab748e192c42b1c8a40d885aa1246e802e26426e",
+      "bytes": 762,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-reviews/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.7d2959653fe7b7f4d4be5d700d79d82fcbd16effd344a36619953a946ba3fec2.json",
+      "rawSha256": "c2121777913d25de1205d1dcb798e5c8b2723df8079f5bfe5f6e64a62139cd99",
+      "bytes": 762,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-reviews/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.7eb80f1323629e0e9e7bf707b0597c8c24b87e4d21117e254fb86a3b464f4510.json",
+      "rawSha256": "911cd7e8d4bbd0b456f78c5554560928aff51f502a3b582c6933ee16f7825aa5",
+      "bytes": 762,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000001.committed.json",
+      "rawSha256": "33c9c565540a84664971e0c4a81b0f14a46119f01012a90ea923f2ec1271ea72",
+      "bytes": 2985,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.contract-amendments/00000001.prepared.json",
+      "rawSha256": "d971ac0bf775725145c3fb29314ffdd2e39055929a8ce9bbdae00fbda372a81f",
+      "bytes": 7942,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-material-receipts/2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9.json",
+      "rawSha256": "c9c689c8dde2e4f764816c04e197b567a7a1add3b4db4117202db06e026fa459",
+      "bytes": 1506,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-material-receipts/2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9.prepare.json",
+      "rawSha256": "e6c5eb0d514b9ecfc3d7ca798bcc960d443893cd2a0f5dd203a99e4320f196b8",
+      "bytes": 12144,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-material-receipts/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+      "rawSha256": "686d6df61378d521f1101393a4671324eb8f3bc9b73ad9eace037866ce714457",
+      "bytes": 1498,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-reviews/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+      "rawSha256": "c8d82f02317aab50a6498c6331700ae6fa7b974828536d8d41c7abbacb2199be",
+      "bytes": 765,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-reviews/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.911ed9450beb3d5d242b4207925589021a8bbc2e07e0d6d5a3e5919e38ca3bc2.json",
+      "rawSha256": "dbe45a71a1856bcf7049294a3a0c29a98f3e7ea3e531e10fe13a2de1aa657627",
+      "bytes": 765,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-reviews/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.a6de98cbe4bb88c3932882d55f6827302c01c789cb5d68baacfc827b57d44aa8.json",
+      "rawSha256": "7b603d4847c891a007d53ca1c23dfacd5f0661a3c6cfe77175d35082aeb9016d",
+      "bytes": 765,
+      "unchanged": true,
+      "regularNonSymlink": true
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/selected-native-returns/038-B-independent-current-material-record.metadata.actual.json",
+      "rawSha256": "955d639e6a37ab9335c661feb973bda64ba5f9aec98119af41018a0b892a324f",
+      "bytes": 840,
+      "unchanged": true,
+      "regularNonSymlink": true
+    }
+  ],
+  "forbiddenSourceChanges": [],
+  "authorizedRootRustChanges": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs"
+  ],
+  "counts": {
+    "moves": 8,
+    "locatorFiles": 2,
+    "manifests": 2,
+    "protectedNativeRecords": 27,
+    "rustFiles": 2,
+    "unchangedOtherCandidates": 19
+  },
+  "limitations": [
+    "This audit is Agent evidence, not a native verification receipt or hosted Windows checkout.",
+    "Original logical manifest keys require explicit locator resolution; old physical moved paths are absent.",
+    "External fixtures and historical failed CI remain preserved; no real consumer or Sentinel operation is performed."
+  ]
+}

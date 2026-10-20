@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_relay_of_new39_human_contract_confirmation",
+  "actor": "human:Ray",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-20T02:58:15.571140+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "request": {
+    "at": "2026-10-20T02:54:00Z",
+    "messageId": "Sentinel_7a3992c483f08191aff11e84e5186119",
+    "actor": "agent:Raydot",
+    "bindingEvidenceCommit": "eef8c5cd272432db4d6bcd73abc08c94bc82f99b"
+  },
+  "reply": {
+    "at": "2026-10-20T02:56:59Z",
+    "messageId": "Sentinel_2ebfd7995c9c819198972617a5536a6b",
+    "text": "确认上述 39 路径修约完整绑定，confirm_review。"
+  },
+  "contractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+  "preflightDecisionDigest": "sha256:dcdd9edef1452071ae6fbb493ace7ca1a6ccf721bb9dd3e18e65fb14ef805ddf",
+  "repositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+  "priorFiniteMaterialAuthorizationUnchanged": true,
+  "actualAgentMaterialReviewCompleted": false
+}

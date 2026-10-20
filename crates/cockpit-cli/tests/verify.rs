@@ -155,6 +155,61 @@ fn source_change_observation_precedes_failed_check_and_plan_is_read_only() {
             .exists()
     );
     let summary = root.join(".ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json");
+    // The transport must expose the same material boundary and later failure
+    // as the canonical repository guard, while software checks remain fresh.
+    fs::write(root.join("docs/material.rs"), "fn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization\"); label }\n").unwrap();
+    for args in [
+        vec!["add", "docs/material.rs"],
+        vec!["commit", "-qm", "synthetic material Unknown"],
+    ] {
+        assert!(
+            Command::new("git")
+                .args(args)
+                .current_dir(root)
+                .status()
+                .unwrap()
+                .success()
+        );
+    }
+    assert_ok(run(&[
+        "preflight",
+        "--contract",
+        ".ai/work-items/active/WI-SOURCE-OBSERVATION.contract.json",
+    ]));
+    assert_ok(run(&[
+        "verify",
+        "--work-item",
+        id,
+        "--command",
+        "true",
+        "--workers",
+        "1",
+    ]));
+    let query_status = || {
+        let output = run(&["work-item", "status", "--id", id, "--json"]);
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        serde_json::from_slice::<serde_json::Value>(&output.stdout).unwrap()
+    };
+    let current = query_status();
+    assert!(
+        !current["safeActions"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|a| a == "finish"),
+        "{current}"
+    );
+    assert!(!run(&["finish", "--id", id]).status.success());
+    let current = query_status();
+    assert_eq!(current["governanceState"], "red", "{current}");
+    assert_eq!(current["verification"], "verified", "{current}");
+    let outcome = run(&["work-item", "outcome", "--id", id]);
+    assert!(outcome.status.success());
+    assert!(String::from_utf8_lossy(&outcome.stdout).contains("Outcome: 🔴"));
     let mut negative: serde_json::Value =
         serde_json::from_slice(&fs::read(&summary).unwrap()).unwrap();
     negative["checkpointCount"] = 0.into();

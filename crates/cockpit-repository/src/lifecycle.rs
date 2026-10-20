@@ -8714,6 +8714,7 @@ pub struct WorkItemVerificationBinding {
     paths: Vec<String>,
     previous_observation: serde_json::Value,
     previous_completion: Option<Digest>,
+    previous_failure: Option<serde_json::Value>,
 }
 
 pub struct PreparedWorkItemVerification {
@@ -8822,6 +8823,7 @@ pub fn capture_work_item_verification(
         paths,
         previous_observation: summary["sourceChangeObservation"].clone(),
         previous_completion: completion_generation(root, id)?,
+        previous_failure: super::lifecycle_failure_binding(root, id)?,
     };
     binding.validate_current()?;
     Ok(binding)
@@ -8842,6 +8844,7 @@ pub fn prepare_work_item_verification(
     let mut summary = read_json(&path)?;
     if summary["sourceChangeObservation"] != binding.previous_observation
         || completion_generation(root, id)? != binding.previous_completion
+        || super::lifecycle_failure_binding(root, id)? != binding.previous_failure
     {
         return Err(source_observation_error(
             root,
@@ -8907,6 +8910,7 @@ pub fn record_prepared_work_item_verification(
     let summary = read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
     if summary["sourceChangeObservation"] != prepared.recorded_observation
         || completion_generation(root, id)? != binding.previous_completion
+        || super::lifecycle_failure_binding(root, id)? != binding.previous_failure
     {
         return Err(source_observation_error(
             root,
@@ -8925,6 +8929,7 @@ pub fn record_prepared_work_item_verification(
         snapshot,
         Some(&binding.runtime),
         Some(&binding.paths),
+        Some(&binding.previous_failure),
     )
 }
 
@@ -8949,6 +8954,7 @@ pub fn record_verification_with_snapshot(
         runtime_version,
         runtime_digest,
         snapshot,
+        None,
         None,
         None,
     )
@@ -8980,6 +8986,7 @@ pub fn record_verification_with_runtime(
         &runtime.runtime_digest,
         snapshot,
         Some(runtime),
+        None,
         None,
     )
 }
@@ -9095,6 +9102,7 @@ fn record_verification_internal(
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
     observed_paths: Option<&[String]>,
+    observed_failure: Option<&Option<serde_json::Value>>,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -9126,6 +9134,13 @@ fn record_verification_internal(
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
+    let failure_before_record = super::lifecycle_failure_binding(&root, work_item_id)?;
+    if observed_failure.is_some_and(|observed| observed != &failure_before_record) {
+        return Err(source_observation_error(
+            &root,
+            "latest lifecycle failure changed during execution",
+        ));
+    }
     let prior_evidence_present = fs::symlink_metadata(&evidence_path).is_ok();
     if !matches!(
         summary["state"].as_str(),
@@ -9419,6 +9434,10 @@ fn record_verification_internal(
                 })?
                 .to_string()
                 .into();
+            summary["verificationRecoveryBasis"] = serde_json::json!({
+                "schemaVersion":1,"verificationEvidenceDigest":summary["verificationRecoveryReconciled"],
+                "failure":failure_before_record,
+            });
         }
         summary["checkpointContractDigest"] = contract_digest(&contract_path)?.to_string().into();
         summary["checkpointRepositorySnapshotDigest"] =

@@ -2924,6 +2924,63 @@ fn source_change_observation_mcp_plan_readonly_and_failed_check_sees_committed_p
             .join(format!(".ai/evidence/{id}.verification.json"))
             .exists()
     );
+    fs::write(root.join("source.rs"), "fn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization\"); label }\n").unwrap();
+    commit_test_source(root, &["source.rs"], "synthetic material Unknown");
+    cockpit_repository::preflight_work_item_with_runtime(
+        root,
+        &root.join(format!(".ai/work-items/active/{id}.contract.json")),
+        &runtime,
+    )
+    .unwrap();
+    let verified = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"verify","arguments":{"workItemId":id,"command":"true"}}}),
+        root,
+        &runtime,
+    );
+    assert_eq!(verified["result"]["isError"], false, "{verified}");
+    let query_status = || {
+        handle_request_for_repo(
+            &serde_json::json!({"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"work_item_status","arguments":{"workItemId":id}}}),
+            root,
+            &runtime,
+        )
+    };
+    let status = query_status();
+    assert!(
+        !status["result"]["structuredContent"]["safeActions"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|a| a == "finish"),
+        "{status}"
+    );
+    // MCP has no finish tool; exercise the actual native guard and read its
+    // canonical failure through the supported MCP status/Outcome surfaces.
+    cockpit_repository::finish_work_item_with_runtime(root, id, &runtime).unwrap_err();
+    let status = query_status();
+    assert_eq!(
+        status["result"]["structuredContent"]["governanceState"], "red",
+        "{status}"
+    );
+    assert_eq!(
+        status["result"]["structuredContent"]["verification"], "verified",
+        "{status}"
+    );
+    let outcome = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"work_item_outcome","arguments":{"workItemId":id}}}),
+        root,
+        &runtime,
+    );
+    assert_eq!(
+        outcome["result"]["structuredContent"]["outcome"]["failedGate"], "finish.lifecycle",
+        "{outcome}"
+    );
+    assert!(
+        outcome["result"]["structuredContent"]["humanHandoff"]
+            .as_str()
+            .unwrap()
+            .starts_with("Outcome: 🔴")
+    );
     let mut negative = facts;
     negative["checkpointCount"] = 0.into();
     fs::write(&summary, serde_json::to_vec(&negative).unwrap()).unwrap();

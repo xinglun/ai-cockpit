@@ -13,7 +13,7 @@ lastVerifiedBy: WI-1090-evidence-docs-recovery
 
 # WI-1090-evidence-docs-recovery — 证据位置与文档恢复
 
-本项为原生选定后继，修复 PR1050 实际出现的 Windows checkout 与文档失败。原八份 Agent 副本保真迁移、两个 locator 文件及九份文档投影范围保留。已审阅根因修约精确新增四个 Runtime 实现文件、三个回归文件和现有 agent-workflow 三语文档，总计37条精确路径。原生验证在检查前观察已提交后继责任增量，失败留痕，成功不清空事实，并将流程体验固化为验收标准。门禁政策、CI workflow、全局配置及前项生成历史保持受保护。其余十九项长路径候选保持原路径与字节。
+本项为原生选定后继，修复 PR1050 实际出现的 Windows checkout 与文档失败。原八份 Agent 副本保真迁移、两个 locator 文件及九份文档投影范围保留。已审阅根因修约精确新增四个 Runtime 实现文件、三个回归文件和现有 agent-workflow 三语文档，初轮总计37条精确路径。随后已确认的材料终态修约仅新增 repository 的 lib.rs 和 status_projection.rs，当前总计39条精确路径。恢复依据绑定具体有序失败事件；status 与人类 Outcome 明示未解除的原生材料边界，非源码依赖解除后保留有效软件收据。原生验证在检查前观察已提交后继责任增量，失败留痕，成功不清空事实，并将流程体验固化为验收标准。门禁政策、CI workflow、全局配置及前项生成历史保持受保护。其余十九项长路径候选保持原路径与字节。
 
 前项 `WI-1090-authority-source-material-review-replacement` 已归档，七项原生检查通过，托管 CI `39344530319` 失败；close 待处理。追加式选择记录为 `.ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json`。原 M6 manifest 保留逻辑键；八份迁移副本必须通过 `.ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json` 显式解析并核对字节、哈希及 Git blob。
 
@@ -21,4 +21,4 @@ lastVerifiedBy: WI-1090-evidence-docs-recovery
 
 仅在 Runtime 实际准入时，允许自身正常 checkpoint、验证、controls、finish 与 archive。活动 Contract `.ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json` 与归档 Contract `.ai/work-items/archive/WI-1090-evidence-docs-recovery.contract.json` 是生命周期替代位置，不表示同时存在。自身验证为 `.ai/evidence/WI-1090-evidence-docs-recovery.verification.json`；未来 finalize、close 记录分别为 `.ai/decisions/WI-1090-evidence-docs-recovery.finalize.json`、`.ai/decisions/WI-1090-evidence-docs-recovery.close.json`。
 
-未授权任一工作项 close、合并、删除分支/工作树/Provider、发布/tag 或共享 Runtime 采用。仅允许一个隔离且绑定源码的候选 Runtime 在当前原生绑定和准入允许后服务本项自身。PR1050 保留；独立 Draft PR 和实际 CI 是单独交付证据。材料扫描 Unknown 与 self_declared 保证限制继续明示。本项不组合 WI1089 与 WI1090，不操作 Sentinel，不证明真实消费者恢复。
+未授权任一工作项 close、合并、删除分支/工作树/Provider、发布/tag 或共享 Runtime 采用。保留原隔离且绑定源码的候选 Runtime；已确认的一致性修复另授权一个绑定源码的候选，在当前原生绑定和准入允许后服务本项自身。PR1050 保留；独立 Draft PR 和实际 CI 是单独交付证据。材料扫描 Unknown 与 self_declared 保证限制继续明示。本项不组合 WI1089 与 WI1090，不操作 Sentinel，不证明真实消费者恢复。
