@@ -380,15 +380,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
   "createdAt": "2026-10-20T00:32:33Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+    "contractDigest": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:dcdd9edef1452071ae6fbb493ace7ca1a6ccf721bb9dd3e18e65fb14ef805ddf",
-    "reason": "Actual human:Ray reply2026-10-20T02:56:59Z Sentinel_2ebfd7995c9c819198972617a5536a6b to exact Raydot request2026-10-20T02:54:00Z Sentinel_7a3992c483f08191aff11e84e5186119: 确认上述 39 路径修约完整绑定，confirm_review。 Full native binding at eef8c5cd272432db4d6bcd73abc08c94bc82f99b. Relay evidence .ai/evidence/WI-1090-evidence-docs-recovery/finish-flow-execution-20261020/ray-new39-confirmation.actual.agent-recorded.json. Existing finite risk approval remains limited to fixed inherited blob/hunk; this is not a completed agent material review or extra merge/close/delete/release/Sentinel authority.",
-    "recordedAt": "2026-10-20T02:58:15.571883+00:00",
+    "preflightDecisionDigest": "sha256:5ea29c1b4286388c29b7d2c30ab98931a18b00d5b3c4739c14a2b6cc77c27e8d",
+    "reason": "Actual decision actor human:Ray, recorder agent:Codex. Reply2026-10-20T03:34:25Z Sentinel_f5269f1600248191b01a5d3d8fb3cd8a to Raydot request2026-10-20T03:34:06Z Sentinel_a067b4185a3c8191a84b671833658f0e, exact full packet at6048fdcc2a8acb3da373ab496cc56efb5f3732ef: 确认上述四文件修约完整绑定，confirm_review。 Relay .ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/ray-new-four-member-contract-confirm.actual.agent-recorded.json. Separate four-member risk approval already recorded from2026-10-20T03:28:22Z; this confirms Contract be0f85d5 only, does not complete Agent review. Current execution ends after own finish/archive; no PR/hosted CI/merge/close/delete/release.",
+    "recordedAt": "2026-10-20T03:36:22.677687+00:00",
     "recordedBy": "agent:Codex",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+    "repositorySnapshotDigest": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
     "schemaVersion": 1,
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
@@ -411,6 +411,12 @@
       "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
       "runtimeVersion": "1.0.1"
     }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:4d65cb70233799323a332c25056fa85b41d0372534b1f8effcc151eb95ddb727",
+    "path": ".ai/evidence/material-inspection-review/WI-1090-evidence-docs-recovery/f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a.json",
+    "receiptDigest": "sha256:1c6b5fe99cb8d242be86d07b030ed92044df6b95edbc5024087e17457f16c639",
+    "requestDigest": "sha256:f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a"
   },
   "mode": "implementation",
   "outcomeState": "blocked",
@@ -897,7 +903,7 @@
     "workItemId": "WI-1090-evidence-docs-recovery"
   },
   "state": "checkpointed",
-  "updatedAt": "2026-10-20T02:58:18.925219963+00:00",
+  "updatedAt": "2026-10-20T03:36:30.677947986+00:00",
   "verification": [
     {
       "check": "bash tests/docs/documentation_acceptance.sh",

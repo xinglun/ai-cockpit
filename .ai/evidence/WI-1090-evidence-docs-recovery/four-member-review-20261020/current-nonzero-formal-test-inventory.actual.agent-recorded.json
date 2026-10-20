@@ -1,0 +1,42 @@
+{
+  "kind": "actual_readonly_source_test_inventory_before_current_formal_execution_not_test_result",
+  "recordedAt": "2026-10-20T03:39:32.129616+00:00",
+  "sourceCommit": "94e554ad836b19b4e027c3afda2159c4ace0fd18",
+  "tests": {
+    "repository": {
+      "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+      "rawSha256": "f971e470e9a4092f238dfa8fc8792ebf475c0fc9c707d27ac019f9ccf6a76d2d",
+      "names": [
+        "source_change_observation_validated_origin_and_real_gate_ownership",
+        "source_change_observation_same_path_inherited_and_successor_hunks",
+        "source_change_observation_rejects_pending_foreign_tampered_and_missing_origin",
+        "source_change_observation_lock_wait_rejects_head_contract_and_journal_drift",
+        "source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts",
+        "source_change_observation_execution_drift_and_completion_rollback_keep_start_facts",
+        "source_change_observation_failure_success_evidence_commit_finish_archive",
+        "source_change_observation_material_unknown_keeps_collection_but_blocks_finish",
+        "source_change_observation_new_failure_cannot_hide_under_old_marker_or_equal_time",
+        "source_change_observation_material_review_evidence_commit_finishes_without_reverification",
+        "source_change_observation_new_failure_during_execution_rejects_completion",
+        "source_change_observation_recovered_failure_then_new_event_stays_red_without_material_blocker"
+      ],
+      "count": 12
+    },
+    "cli": {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "rawSha256": "2bc8aeed5b4f5ede41bb2eb7ed0167261368bab9afd3c9ee93cde0da730bbb84",
+      "names": [
+        "source_change_observation_precedes_failed_check_and_plan_is_read_only"
+      ],
+      "count": 1
+    },
+    "mcp": {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "rawSha256": "1b4ddbe9d24b98e24920808f913674ee01ba722f3ee429221d6da4847700738b",
+      "names": [
+        "source_change_observation_mcp_plan_readonly_and_failed_check_sees_committed_paths"
+      ],
+      "count": 1
+    }
+  }
+}

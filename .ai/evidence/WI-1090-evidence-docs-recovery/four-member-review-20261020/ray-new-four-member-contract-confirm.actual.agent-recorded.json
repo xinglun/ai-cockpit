@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_human_contract_confirmation_relay_not_agent_material_review",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "actor": "human:Ray",
+  "recorder": "agent:Codex",
+  "request": {
+    "actor": "Raydot",
+    "at": "2026-10-20T03:34:06Z",
+    "messageId": "Sentinel_a067b4185a3c8191a84b671833658f0e",
+    "exactPacketCommit": "6048fdcc2a8acb3da373ab496cc56efb5f3732ef",
+    "question": "请回复：确认上述四文件修约完整绑定，confirm_review。"
+  },
+  "reply": {
+    "actor": "human:Ray",
+    "at": "2026-10-20T03:34:25Z",
+    "messageId": "Sentinel_f5269f1600248191b01a5d3d8fb3cd8a",
+    "verbatim": "确认上述四文件修约完整绑定，confirm_review。"
+  },
+  "latestExecutionLimit": "Only native confirmation, actual four-member Agent material review/typed decision, six formal checks, own finish/archive. No PR, hosted CI, merge, close, delete or release in this turn.",
+  "completedAgentMaterialReview": false
+}

@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "contractDigest": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
+  "immutableContractBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "sourceSnapshotDigest": "sha256:25b60b47c1e677df3b9174dbb61689be6f37841c7febb1828cb8839e69433e09",
+  "materialManifestDigest": "sha256:76009df3df2d11067ad3e78261ba55899349dce0046866e0723da893f724525b",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:ccf952067cbe6eba3dfa116f7a3d87293d69f6c7ddb5747953157ff63493cc83",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:711819ed3ca489e577a165080e3c305ee366cef0f87eed8580bed46ba4e18cf8",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4bf974cd31042322ab964fe229ae22d0a6b7ffe7cc4d72094ed7695ea2a2e26a",
+      "afterBlobDigest": "sha256:47484b26a50c449afdfde031ea288057261a023360ef9141d2cbd602f94467a6"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:27441ef578adf4d56db736e2b96f15d2ca5e52376dc9e963e668309855e7a249",
+      "afterBlobDigest": "sha256:2bc8aeed5b4f5ede41bb2eb7ed0167261368bab9afd3c9ee93cde0da730bbb84"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:43ea4eeb84cf10e73bbeb4357217dcdbac4afb36460aa49efe515a7b69767bf2",
+      "afterBlobDigest": "sha256:5472432e8035a018d27bc15385babb4048253442f58cda93f42d9df81c2625d6"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:8c3a9e5bd225388cf57c28f78d49ac31fd7c5f4afddaba078cfeb7a821921ea7",
+      "afterBlobDigest": "sha256:1b4ddbe9d24b98e24920808f913674ee01ba722f3ee429221d6da4847700738b"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:84607e2cf633023212eae73bcac7d5ab3327ce409a0fbb926dc21f56daf81160",
+      "afterBlobDigest": "sha256:3d695ca49be38ef99bba5eeec6993eb9a80ae5b7e1c3089395ae62f3e5f73cd7"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:2c4736b442ab98a8a564399eccfcf633b597e167a55c12e915e763ba489e7126",
+      "afterBlobDigest": "sha256:c38e94e41413caf6e639719cec7f40737e4d41ed9013b12cd613ea36ebde0bb0"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:9789dff58dae2d9aef7abf0ace4b4a4e0e9c4f013c1970c9a77477fd2300ee50",
+      "afterBlobDigest": "sha256:423ed79a08323027604f3a6f12e196ceed226afa41155ea50633f41d9d792bf6"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60",
+      "afterBlobDigest": "sha256:0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:24167c1fc2f561b191a6fec2af3f601295d11dd665b9994e455f042220a40fde",
+      "afterBlobDigest": "sha256:1b524d028716952a716dea34fad4deeef74ed38042ec927cf6528a627ebe973b"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:9b6e660e749b97893fedf74ecfbf8387afd7b7e1766e67c9cf07b59e590c7f96",
+      "afterBlobDigest": "sha256:f971e470e9a4092f238dfa8fc8792ebf475c0fc9c707d27ac019f9ccf6a76d2d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:5054c9c5a72d9966cfbadfd8374ba2bd5833d285d9d892fdb20d54a49bf44d90",
+      "afterBlobDigest": "sha256:34c75a96e883a1f607c6097a48493b2b168507b9c709c7b56655cd9c1c617267"
+    },
+    {
+      "path": "docs/reference/agent-workflow.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d4209470f56f6d462ed59bb4c9dd21a6729a6d6b9a92a5e082ea7e29027819d3",
+      "afterBlobDigest": "sha256:252b2ac81406543600ddb846fb63f4f3c2a8f97024fad1606b45633ab94f7c3b"
+    },
+    {
+      "path": "docs/reference/agent-workflow.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:19cd4c5af83e95df50d4a44fac994db0b651bd0c421833eb941f1e6fa97986ef",
+      "afterBlobDigest": "sha256:0c26dfc9a847cd4da4ecf8ccc2ec4d7aef8f18f81671189858fd4e9696013ac5"
+    },
+    {
+      "path": "docs/reference/agent-workflow.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3f4521a4efac7afaa975c537c741909e0fa1a251b839bd67b6f9da5ea42d532a",
+      "afterBlobDigest": "sha256:ae38b0d59236bc9dafc3220d0b48c287b54d89c3f56253338653e3d6cde2f53d"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:22c6cf4e5eb4ecbd24dea01c2d8329c92495aab581c23dd0f9b445399661a7a3",
+      "afterBlobDigest": "sha256:20e751c6f604cf358c25654973ef21aa5b4a4a50ef6251afc4605e7de8e24809"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:c79a76a42c3ed844bf79ac742f1b055edf8b606891b34198475ed28cd0e03bf2",
+      "afterBlobDigest": "sha256:cc5fa2cbf0b2616339407b6c2f3c9cad0a2bbfb8f97549f0e793f8a3463db5bf"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:e5316aa5f5bf60c26eb6858334b90d0a28fea0ac0189c37cf19d14825f5d13bb",
+      "afterBlobDigest": "sha256:87b03b1a8ef573fd215113ce0c37f995f34a3019faa611f4c91fd35b0eaedf58"
+    },
+    {
+      "path": "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:785a8ea634710610485caf93f4901ba09f825348ef6f78c706c3e2cdd637f295",
+      "afterBlobDigest": "sha256:d673d831a7f273216c06a9ecf1a4e31795de9f369213966868743a7d1ba0cfd2"
+    },
+    {
+      "path": "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:12b98a5c56f05874a85f3361edd4b8233086d505fd60ccc1197e4d06dcec7171",
+      "afterBlobDigest": "sha256:479472b31b390460e1a6624354c51770a1ab19fb53b534a0e0b5ec967a50392c"
+    },
+    {
+      "path": "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a5449d3711eda76d537831ed41d3be971d3c3afddf3b6fafb8df8093cd561e68",
+      "afterBlobDigest": "sha256:5084544f3d7fcf06eb70af4c0d47890ba160a8bae688c2427048f82ff9a11803"
+    },
+    {
+      "path": "docs/work-items/WI-1090-evidence-docs-recovery.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:673bf15925c4c02cecdd64f784e42bad00e578df9823a057a5755d4c54170421",
+      "afterBlobDigest": "sha256:2bdadd02b71f10149d1eb42f1755aa11cacbb5839153c76809681f9e79a849b7"
+    },
+    {
+      "path": "docs/work-items/WI-1090-evidence-docs-recovery.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:87de49e37189d66cced4caeea8876f755d8a4f9e3588a47c4edd94ac876ebbc2",
+      "afterBlobDigest": "sha256:9868340e86bf480256227ff8d9fa517ddfb60b921a85e1ee964a4ed2da35f14b"
+    },
+    {
+      "path": "docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1761b6b179d025b08aeef7f404f4d9c8ad2d177e627d4e7e14d2860f42541744",
+      "afterBlobDigest": "sha256:dac5176875a7b2b75f77eb51ddf3d140f5b877e48b68b3e9084b20edb0f8d712"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a",
+  "reviewedSourceHead": "6048fdcc2a8acb3da373ab496cc56efb5f3732ef"
+}

@@ -5,3 +5,8 @@
 - 父线程独立技术审阅报告94e554ad两处修复可接受，无新增阻断；原话保留。开发证据为11项套件+独立1项，CLI/MCP各1；不称最终同轮14项。
 - 新preflight实际exit0但要求新的真人Contract确认；没有复用旧C98确认。只读material plan读回4成员与原批准精确相同，Finding0；没有记录材料接受或Agent审阅完成。
 - 当前停于真实native needs_human_decision；精确完整绑定一次交Raydot，风险批准无需重问。六正式检查、实际自身finish/archive、DraftPR和CI待真实准入；不重启或重复已有任务。
+
+- 真实Ray2026-10-20T03:34:25Z对6048完整绑定确认，actor human:Ray/recorder agent:Codex原生controls实际exit0；读回humanDecisionRequired=false。
+- 实际审阅四个获准blob/hunk及相关当前变更上下文，已完成中文有限审阅报告，raw SHA56894db9。typed material decision实际exit0，receipt1c6b5fe9、requestf98c、profile711819；reviewer agent:Codex、assurance self_declared、实际新Ray风险来源。raw scanner Unknown保留，effective材料Unknown解除。
+- validate实际无Findings，当前新增scenario4未验证如实保留，须由正式六检查补齐；原生status明确准入run_verification。源码只读枚举12 repository+1 CLI+1 MCP，非测试结果。当前39路径审计再次证明8/2/2/27/2/19完整且无范围外源码变化。
+- Ray2026-10-20T03:37:49Z实际追加明确Draft PR/GitHub CI授权，父线程原文relay保留；仍不含merge/close/delete/release。仅在正式检查与自身收尾成功后执行对应一个Draft并观察真实CI。
