@@ -9,23 +9,19 @@ authority: explicit-user-authorization
 workItemId: WI-1090-authority-source-material-review-replacement
 status: in_progress
 lastVerifiedBy: WI-1090-authority-source-material-review-replacement
-contractDigest: sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c
+contractDigest: sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4
 ---
 
 # WI-1090-authority-source-material-review-replacement — 分段当前材料审阅替换
 
-human:Ray 对当前 Contract 身份的真实确认已由 agent:Codex 于2026-10-19T19:18:03Z原生记录，随后建立checkpoint1。实现与测试进行中，尚未声明产品验收通过。
+真人 Ray 已确认审阅过的原生计划，checkpoint1 后完成实现。前项的七项声明原生检查通过，并已完成自身原生 finish 与 archive。[PR #1050](https://github.com/xinglun/ai-cockpit/pull/1050) 仍为 Draft，HEAD 为 `cba3ea1661749ebbf1929bc523c5b86ff10eb7e7`；CI `39344530319` 在 Windows checkout 和文档门禁失败。原生验证不能替代托管 CI 验收。close 仍待处理。
 
-H核验不可变旧收据及R→A已审原生历史，仅允许四类历史字段且profile全段不变；P证明最后相邻A→B只改变authoritySource；C独立绑定当前精确决定。旧收据仍invalid，不消除当前Unknown。
+H 校验不可变旧收据、已审阅 R→A 原生历史、四个允许的历史路径及不变 profile。P 证明相邻 A→B 只改变 authoritySource。C 绑定独立且精确的当前决定。旧收据仍无效，不能解除当前 Unknown。
 
-投影与持锁record共用有限证明；替换采用不可变sealed prepare与sidecar、一次Summary原子提交及精确pending恢复。evidenceRefs格式不认证真人，self_declared保证不升级。
+替换使用共享 projection/锁内证明、不可变 sealed prepare 与 sidecar，并通过一次原子 Summary 提交及精确 pending recovery 完成。evidenceRefs 语法不能认证真人；self_declared 保证级别不变。原生等效合成 fixture 保留实际 20-operation 混合历史形状，并在相邻来源绑定前独立改变当前材料。未证明物理多文件原子性。
 
-范围仅两份Rust文件与六份治理文档。七项声明检查以原生验证收据为准，本页不宣称终态验收。不操作Sentinel、真实消费者修约、真实工作项终态、合并、发版或Runtime采用。
+选定文档后继 `WI-1090-evidence-docs-recovery` 不改变原两项 Rust 文件和历史原生记录；它使用显式 locator 修复八份 Agent 副本的存储路径，并修正三语派生投影。选择记录是 `.ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json`。这里不证明任一工作项 close、合并、发布、Runtime 采用、真实消费者验收或 Sentinel 恢复。
 
-Active [Contract](../../.ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json): `sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c`. Runtime evidence remains authoritative.
+归档 [Contract](../../.ai/work-items/archive/WI-1090-authority-source-material-review-replacement.contract.json)：`sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4`。原生验证：`.ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json`。以 Runtime 实际证据为准。
 
-Spec: `../../.ai/evidence/WI-1090-authority-source-material-review-replacement/segmented-v4-review/segmented-authority-source-replacement.v4.proposal-only.json`.
-
-原生等价夹具保留真实20操作混合历史，并在相邻来源换绑之前独立改变当前材料；测试 actor 明确为 synthetic。本页不证明跨文件物理原子性、真实消费者/Sentinel恢复或Runtime采用。
-
-Native verification: `../../.ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json`.
+M6 副本 locator：`.ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json`；原 manifest 逻辑键与字节不变。原始规格：`.ai/evidence/WI-1090-authority-source-material-review-replacement/segmented-v4-review/segmented-authority-source-replacement.v4.proposal-only.json`。

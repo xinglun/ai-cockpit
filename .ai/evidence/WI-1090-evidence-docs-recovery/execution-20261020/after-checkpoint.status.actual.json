@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "baseCommit": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "waiting",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 6,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 3,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [
+    "verification_evidence_missing"
+  ],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "medium"
+  ],
+  "verification": "not_ready",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "not_ready",
+    "workResult": "not_ready"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+    "materialManifest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+    "repositorySnapshot": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "summary": "sha256:a9e167265f6463e26ff18dce6859f39ddf6123909e3f0f14d53a8d2773e04b87"
+  },
+  "unknowns": [
+    "governance_controls_unknown",
+    "repository_material_inspection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "governance_controls_unknown",
+    "repository_material_inspection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked",
+    "verification_evidence_missing"
+  ],
+  "diagnostics": [
+    "repository protocol state error at /workspace/ai-cockpit-wi1090-evidence-docs-recovery/.ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json: verification preconditions are blocked: documentation_projection_missing:docs/work-items/WI-1090-evidence-docs-recovery.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1090-evidence-docs-recovery.ja.md:must be a regular non-symlink file, documentation_projection_invalid:docs/reference/reference-parity.md:expected exactly one parity row for WI-1090-evidence-docs-recovery but found 0, documentation_projection_invalid:docs/reference/reference-parity.zh-CN.md:expected exactly one parity row for WI-1090-evidence-docs-recovery but found 0, documentation_projection_invalid:docs/reference/reference-parity.ja.md:expected exactly one parity row for WI-1090-evidence-docs-recovery but found 0"
+  ],
+  "snapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "evidenceFreshness": {
+    "state": "missing",
+    "reason": "verification evidence is missing"
+  },
+  "updatedAt": "2026-10-20T01:07:01Z",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "record_governance_controls",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "governance_controls_unknown",
+        "message": "current projection reports governance_controls_unknown"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      },
+      {
+        "kind": "unknown",
+        "code": "verification_action_preconditions_blocked",
+        "message": "current projection reports verification_action_preconditions_blocked"
+      },
+      {
+        "kind": "missing",
+        "code": "verification_evidence_missing",
+        "message": "current projection reports verification_evidence_missing"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [
+      "verification_evidence_missing"
+    ],
+    "admissionDigest": "sha256:f5790cf7b3fb76bb2dde27852d5170407fc4525e02c2064638c8cd89c1d1a986"
+  },
+  "statusDigest": "sha256:dcb9b47f9e0d3acec33c6dfd8b0282dafbaf195a0125955b63e006ac7c7f6737",
+  "historical": false
+}
