@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "kind": "proposal_only_readonly_open_state_projection_review",
+  "recordedAt": "2026-10-20T01:35:19.385101+00:00",
+  "sourceHead": "00bdab587d1e1c32c1fc0b4aa3e9f48d566e6257",
+  "currentContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "scopeCount": 27,
+  "scopeChangesProposed": 0,
+  "requiredVerificationUnchanged": [
+    {
+      "check": "bash tests/docs/documentation_acceptance.sh",
+      "coversScenarios": [
+        "truthful_three_language_projection"
+      ],
+      "required": true
+    },
+    {
+      "check": "bash tests/docs/parity_status_check.sh",
+      "coversScenarios": [
+        "truthful_three_language_projection"
+      ],
+      "required": true
+    }
+  ],
+  "statusChangesProposed": [
+    {
+      "path": "docs/reference/reference-parity.md",
+      "oldStatus": "In progress → Implemented after verified close",
+      "proposedStatus": "In progress",
+      "thirdColumnBytesUnchanged": true,
+      "ownConditionalRowBytesUnchanged": true,
+      "ownRowRawSha256": "e4a8eebab2569f96a833715808283ee4db84c8bcde09eb5f85d604c6c32ae9c8",
+      "scopeAlreadyContainsPath": true,
+      "gateBranchAssessment": "Actual awaiting_successor_close accepts exact pending token; conditional-promotion branch no longer requested. This is source analysis, not an executed or passing gate."
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "oldStatus": "进行中 → 验证关闭后已实现",
+      "proposedStatus": "进行中",
+      "thirdColumnBytesUnchanged": true,
+      "ownConditionalRowBytesUnchanged": true,
+      "ownRowRawSha256": "03da7a1edb789edf8becb5036b8b486a05a119a85491e7f915a423aeb7d3b55c",
+      "scopeAlreadyContainsPath": true,
+      "gateBranchAssessment": "Actual awaiting_successor_close accepts exact pending token; conditional-promotion branch no longer requested. This is source analysis, not an executed or passing gate."
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "oldStatus": "進行中 → 検証済みクローズ後に実装済み",
+      "proposedStatus": "進行中",
+      "thirdColumnBytesUnchanged": true,
+      "ownConditionalRowBytesUnchanged": true,
+      "ownRowRawSha256": "ce721833de8291a28aa4908d7010b0ea3832db4eb8a9f48905d4cac682fd267c",
+      "scopeAlreadyContainsPath": true,
+      "gateBranchAssessment": "Actual awaiting_successor_close accepts exact pending token; conditional-promotion branch no longer requested. This is source analysis, not an executed or passing gate."
+    }
+  ],
+  "planChanges": [
+    "/acceptanceCriteria/2",
+    "/scenarioCoverage/1/expected"
+  ],
+  "currentAC3Satisfied": false,
+  "formalGateRerun": false,
+  "proposalApplied": false,
+  "nativeAmendExecuted": false,
+  "sourceOwnership": {
+    "repositoryComparisonBase": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+    "successorScaffoldBase": "cba3ea1661749ebbf1929bc523c5b86ff10eb7e7",
+    "nativeActivationPreparedDigest": "sha256:c7548ebca2858defb83b2aa472f07562cb41fd57f87cda2a0a13a5e4e76a98ab",
+    "inheritedRustMainToScaffold": [
+      "M\tcrates/cockpit-repository/src/material_review.rs",
+      "M\tcrates/cockpit-repository/tests/material_review.rs"
+    ],
+    "successorRustScaffoldToHead": [],
+    "scopedChangedPathsCount": 27,
+    "scopedChangedPaths": [
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/before/.ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/native-verification-attempts/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/decisions/WI-M6-REPLACE-SYNTHETIC-FIXTURE.preflight-review.6bf3ff21efcb63eb5af0bcd22147a66e022ad6e84ae8cf009aaf1db3c0fc326d.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/before/.ai/evidence/material-inspection-review/WI-M6-REPLACE-SYNTHETIC-FIXTURE/e134857809f0b1c49787013d81c82cec2c0293f2e2e762c2be8b145bd20bc3c7.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.6582e3371b32b2e188f95d102833bee07fe090e1b3c7dd93e66eba56ff70ae88.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/native-verification-attempts/WI-M6-REPLACE-SYNTHETIC-FIXTURE.verification-attempt.794d2d104d273e976211a17feaf63f1a857dd5cf7951e1456c11fc1246aaac51.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/README.md",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-005-fece998c8c8f.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-012-d1dad9a96597.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-013-67d730856bec.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-014-c8d82f02317a.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-017-4b62b0e0ad0f.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-018-686d6df61378.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-025-4b62b0e0ad0f.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/copy-026-cf433aacddd2.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-short-20261020/path-map.actual.json",
+      "docs/reference/reference-parity.ja.md",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md",
+      "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+      "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+      "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+      "docs/work-items/WI-1090-evidence-docs-recovery.ja.md",
+      "docs/work-items/WI-1090-evidence-docs-recovery.md",
+      "docs/work-items/WI-1090-evidence-docs-recovery.zh-CN.md"
+    ],
+    "ownLedgerChanges": [
+      "docs/reference/reference-parity.ja.md",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md"
+    ]
+  },
+  "gateProofSources": {
+    "pendingPlainStatusBranch": "tests/ci/governance_integrity_gate.py:3054-3076",
+    "conditionalPromotionSpecificBranch": "tests/ci/governance_integrity_gate.py:2953-3018",
+    "existingPositiveFixture": "tests/ci/governance_integrity_gate_test.sh:522-623",
+    "prematureRecoveredRejected": "tests/ci/governance_integrity_gate_test.sh:1362-1400",
+    "prematureImplementedRejected": "tests/ci/governance_integrity_gate_test.sh:1403-1443",
+    "terminalSuccessorRequired": "tests/ci/governance_integrity_gate.py:1533-1569",
+    "futureRecoveredStatusRequired": "tests/ci/governance_integrity_gate.py:2630-2683,3030-3042",
+    "oldRecoveredPromotionSkipped": "tests/docs/promote_closed_work_item.py:99-153,1000-1009"
+  },
+  "futureBoundary": "Own finish/archive alone leaves predecessor awaiting_successor_close. After independently confirmed successor close, gate projects predecessor recovered and plain pending (including the old conditional pending row) is stale; an authorized derived-doc update to Recovered/已恢复/復旧済み with exact real recovery and terminal successor evidence is then required. This does not create a predecessor close receipt or grant either close. No retroactive conditional registration before the original predecessor verification is needed for a factual recovered row.",
+  "safetyDifference": "No product rule or required gate is removed. The proposed current-state statement no longer asks for the conditional historical-promotion exception. Native lineage/archive/evidence integrity and terminal close authority remain required. The added all3 Summary-ownership mechanism came from the Agent recovery plan and is already binding in the current Contract; the two sensitive fields must be amended natively before evaluating the replacement AC.",
+  "publication": "Proposal remains only in external scratch; current repository and Contract unchanged. Formal checks run only after approved native amendment, actual review/admission and a real source commit."
+}

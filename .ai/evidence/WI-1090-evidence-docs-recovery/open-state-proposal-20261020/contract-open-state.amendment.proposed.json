@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1090-truthful-predecessor-open-state-projection-20261020-proposal",
+  "expectedContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "reason": "Separate the archived predecessor current pending-close facts from this successor own pre-verification registration. Replace the recovery-plan-specific Summary ownership requirement for conditional promotion with an actual scoped source/Git audit; keep both required documentation gates, native lineage validation, immutable history, unchanged Rust, and all terminal authority boundaries. Proposal for Raydot technical review; not executed.",
+  "changes": [
+    {
+      "path": "/acceptanceCriteria/2",
+      "operation": "replace",
+      "value": "Correct the three existing Work Item pages and three parity ledgers against archived Contract1cc7 and actual failed CI. Project the predecessor current awaiting_successor_close state as In progress/进行中/進行中, retaining its archive, original verification, failed CI, selected successor/recovery and pending-close facts without a verified-close promotion claim. Preserve the necessary own EN/zh-CN/ja pages and complete own lifecycle-bound conditional rows committed strictly before first own verification evidence. Both existing documentation gates must accept the actual native selected-successor lineage and truthful current projections. A read-only audit against frozen cba3 and the exact approved scope must prove the successor changed all3 ledgers without attributing inherited predecessor Rust implementation to this successor. Neither Work Item close nor a recovered predecessor projection is claimed before actual terminal evidence."
+    },
+    {
+      "path": "/scenarioCoverage/1/expected",
+      "operation": "replace",
+      "value": "Both required existing documentation gates pass on actual current source. The predecessor remains awaiting_successor_close with truthful localized open-state rows and retained native archive/verification/recovery/failed-CI facts, without conditional verified-close promotion. The successor own three conditional rows remain registered before first own verification evidence, and its own pages remain valid across archive. Read-only cba3-to-current source/Git audit proves all3 scoped ledger edits and no successor Rust change. Future recovered/closed projections require actual terminal evidence and separately admitted authority."
+    }
+  ]
+}
