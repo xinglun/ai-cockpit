@@ -223,8 +223,12 @@ fn prefix_collision_does_not_change_display_identity_or_hide_source_tampering() 
     assert_ne!(before.source_tree_digest, tampered.source_tree_digest);
     assert_ne!(expected, tampered.diff_digest);
     assert_eq!(
-        tampered.change_evidence[0].after_text.as_deref(),
-        std::str::from_utf8(SECOND_COLLISION).ok()
+        output(&fixture.root, &["show", "HEAD:subject"]).stdout,
+        SECOND_COLLISION
+    );
+    assert_eq!(
+        tampered.change_evidence[0].added_lines,
+        [std::str::from_utf8(SECOND_COLLISION).unwrap().trim_end()]
     );
 }
 
@@ -244,8 +248,8 @@ fn index_and_binary_markers_inside_hunks_remain_source_text() {
     let snapshot = fixture.snapshot();
     assert_eq!(snapshot.diff_digest, expected);
     assert_eq!(
-        snapshot.change_evidence[0].after_text.as_deref(),
-        Some(text)
+        output(&fixture.root, &["show", "HEAD:subject"]).stdout,
+        text.as_bytes()
     );
     for line in text.lines() {
         assert!(
@@ -349,10 +353,10 @@ fn sha256_objects_are_not_silently_claimed_as_legacy_sha1_v1() {
 fn invalid_abbreviation_configuration_remains_an_explicit_error() {
     let fixture = Fixture::new(b"before\n", "--object-format=sha1");
     fixture.change(b"after\n");
+    let repository = GitRepository::discover(&fixture.root).unwrap();
     git(&fixture.root, &["config", "core.abbrev", "invalid"]);
     assert!(
-        GitRepository::discover(&fixture.root)
-            .unwrap()
+        repository
             .source_snapshot_against_bounded(&fixture.base, LIMIT)
             .is_err()
     );
