@@ -120,6 +120,29 @@ pub struct VerificationEvidenceRecord {
     pub dynamic: bool,
 }
 
+/// Recompute the binding digest over every recorded verification field.
+/// Length-prefixing variable-width fields avoids ambiguous concatenations,
+/// while the domain tag keeps this digest distinct from other SHA-256 uses.
+pub fn verification_evidence_digest(record: &VerificationEvidenceRecord) -> String {
+    fn update_field(hasher: &mut Sha256, value: &[u8]) {
+        hasher.update((value.len() as u64).to_be_bytes());
+        hasher.update(value);
+    }
+
+    let mut hasher = Sha256::new();
+    hasher.update(b"cockpit-review-receipt/verification-evidence/v1\0");
+    update_field(&mut hasher, record.command.as_bytes());
+    hasher.update((record.args.len() as u64).to_be_bytes());
+    for arg in &record.args {
+        update_field(&mut hasher, arg.as_bytes());
+    }
+    hasher.update(record.exit_code.to_be_bytes());
+    update_field(&mut hasher, record.log_digest.as_bytes());
+    update_field(&mut hasher, record.recorded_at.as_bytes());
+    hasher.update([u8::from(record.dynamic)]);
+    format!("sha256:{}", hex::encode(hasher.finalize()))
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ReviewReceipt {
     pub item: TestWeakeningItem,
@@ -239,9 +262,13 @@ pub fn evaluate_item(
             return ItemCoverageState::AuthorizationUnverifiable;
         }
     }
-    if !receipt.verification_evidence.dynamic {
-        // Static analysis alone (no recorded command/exit code) can never
-        // satisfy the "real verification" requirement.
+    if !receipt.verification_evidence.dynamic
+        || receipt.verification_evidence.exit_code != 0
+        || verification_evidence_digest(&receipt.verification_evidence)
+            != receipt.bound_snapshot.verification_evidence_digest
+    {
+        // Static analysis, an unsuccessful command, or evidence that differs
+        // from the exact bound record can never satisfy real verification.
         return ItemCoverageState::ReviewedInsufficient;
     }
     match receipt.verdict {
@@ -289,8 +316,13 @@ pub fn gate_admits(
         return false;
     }
     expected_items.iter().all(|key| {
-        let receipt = receipts_by_item.get(key);
-        evaluate_item(receipt, input, verifier) == ItemCoverageState::ReviewedPass
+        let Some(receipt) = receipts_by_item.get(key) else {
+            return false;
+        };
+        if &receipt.item.identity() != key {
+            return false;
+        }
+        evaluate_item(Some(receipt), input, verifier) == ItemCoverageState::ReviewedPass
     })
 }
 
@@ -307,11 +339,12 @@ mod tests {
     }
 
     fn snapshot(tag: &str) -> BoundSnapshot {
+        let verification_evidence = dynamic_evidence();
         BoundSnapshot {
             repository_snapshot_digest: format!("sha256:tree-{tag}"),
             contract_digest: format!("sha256:contract-{tag}"),
             finding_set_digest: format!("sha256:findings-{tag}"),
-            verification_evidence_digest: format!("sha256:verification-{tag}"),
+            verification_evidence_digest: verification_evidence_digest(&verification_evidence),
         }
     }
 
@@ -345,9 +378,13 @@ mod tests {
     }
 
     fn passing_receipt(path: &str, key: &str, snap: BoundSnapshot) -> ReviewReceipt {
+        let verification_evidence = dynamic_evidence();
+        let mut bound_snapshot = snap;
+        bound_snapshot.verification_evidence_digest =
+            verification_evidence_digest(&verification_evidence);
         ReviewReceipt {
             item: item(path, key),
-            bound_snapshot: snap,
+            bound_snapshot,
             preparer: Preparer {
                 kind: PreparerKind::Agent,
                 identity: "agent-session-1".into(),
@@ -356,7 +393,7 @@ mod tests {
                 external_identity: claim("real-human-reviewer"),
             },
             verdict: Verdict::LegitimateRefactorEquivalent,
-            verification_evidence: dynamic_evidence(),
+            verification_evidence,
             repository_had_dirty_paths_at_binding: false,
         }
     }
@@ -483,6 +520,111 @@ mod tests {
             &verifier,
         );
         assert!(!admitted, "two expected items with only one covered must not admit");
+    }
+
+    #[test]
+    fn receipt_stored_under_a_different_item_identity_does_not_cover_expected_item() {
+        let snap = snapshot("identity-binding");
+        let receipt = passing_receipt("tests/a.rs", "removed-a", snap.clone());
+        let verifier = ConfirmsExactDigestOnly {
+            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+        };
+        let mut expected_items = BTreeSet::new();
+        expected_items.insert(("tests/b.rs".to_string(), "removed-b".to_string()));
+        let mut receipts = BTreeMap::new();
+        receipts.insert(("tests/b.rs".to_string(), "removed-b".to_string()), receipt);
+
+        assert!(!gate_admits(
+            &expected_items,
+            &receipts,
+            &CoverageInput { current_snapshot: &snap },
+            &verifier,
+        ));
+    }
+
+    #[test]
+    fn one_receipt_cannot_cover_multiple_distinct_item_identities() {
+        let snap = snapshot("one-receipt-one-item");
+        let receipt = passing_receipt("tests/a.rs", "removed-a", snap.clone());
+        let verifier = ConfirmsExactDigestOnly {
+            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+        };
+        let mut expected_items = BTreeSet::new();
+        expected_items.insert(("tests/a.rs".to_string(), "removed-a".to_string()));
+        expected_items.insert(("tests/b.rs".to_string(), "removed-b".to_string()));
+        let mut receipts = BTreeMap::new();
+        receipts.insert(("tests/a.rs".to_string(), "removed-a".to_string()), receipt.clone());
+        receipts.insert(("tests/b.rs".to_string(), "removed-b".to_string()), receipt);
+
+        assert!(!gate_admits(
+            &expected_items,
+            &receipts,
+            &CoverageInput { current_snapshot: &snap },
+            &verifier,
+        ));
+    }
+
+    #[test]
+    fn changes_to_recorded_verification_evidence_do_not_match_bound_digest() {
+        let snap = snapshot("verification-evidence-binding");
+        let receipt = passing_receipt("tests/a.rs", "removed-a", snap.clone());
+        let verifier = ConfirmsExactDigestOnly {
+            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+        };
+        let mut changed_records = Vec::new();
+
+        let mut changed = receipt.clone();
+        changed.verification_evidence.command = "other-command".into();
+        changed_records.push(changed);
+
+        let mut changed = receipt.clone();
+        changed.verification_evidence.args.push("--different".into());
+        changed_records.push(changed);
+
+        let mut changed = receipt.clone();
+        changed.verification_evidence.exit_code = 1;
+        changed_records.push(changed);
+
+        let mut changed = receipt.clone();
+        changed.verification_evidence.log_digest = "sha256:changed-log".into();
+        changed_records.push(changed);
+
+        let mut changed = receipt;
+        changed.verification_evidence.recorded_at = "2026-10-22T00:00:00Z".into();
+        changed_records.push(changed);
+
+        let states: Vec<_> = changed_records
+            .iter()
+            .map(|changed| {
+                evaluate_item(
+                    Some(changed),
+                    &CoverageInput { current_snapshot: &snap },
+                    &verifier,
+                )
+            })
+            .collect();
+        assert_eq!(states, vec![ItemCoverageState::ReviewedInsufficient; 5]);
+    }
+
+    #[test]
+    fn nonzero_verification_exit_is_rejected_even_when_digest_matches() {
+        let snap = snapshot("nonzero-exit");
+        let mut receipt = passing_receipt("tests/a.rs", "removed-a", snap);
+        receipt.verification_evidence.exit_code = 1;
+        receipt.bound_snapshot.verification_evidence_digest =
+            verification_evidence_digest(&receipt.verification_evidence);
+        let verifier = ConfirmsExactDigestOnly {
+            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+        };
+
+        assert_eq!(
+            evaluate_item(
+                Some(&receipt),
+                &CoverageInput { current_snapshot: &receipt.bound_snapshot },
+                &verifier,
+            ),
+            ItemCoverageState::ReviewedInsufficient,
+        );
     }
 
     #[test]
