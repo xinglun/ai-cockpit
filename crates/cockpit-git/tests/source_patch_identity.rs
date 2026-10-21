@@ -390,6 +390,36 @@ fn non_blob_gitlink_mode_is_explicitly_unsupported_by_v1() {
 }
 
 #[test]
+fn mixed_gitlink_change_is_rejected_under_every_submodule_display() {
+    let mut fixture = Fixture::new(b"before\n", "--object-format=sha1");
+    let first = fixture.base.clone();
+    fixture.change(b"middle\n");
+    let second = git(&fixture.root, &["rev-parse", "HEAD"]);
+    let entry = format!("160000,{first},zz-module");
+    git(
+        &fixture.root,
+        &["update-index", "--add", "--cacheinfo", &entry],
+    );
+    git(&fixture.root, &["commit", "-q", "-m", "gitlink base"]);
+    fixture.base = git(&fixture.root, &["rev-parse", "HEAD"]);
+    std::fs::write(fixture.root.join("subject"), b"after\n").unwrap();
+    git(&fixture.root, &["add", "subject"]);
+    let entry = format!("160000,{second},zz-module");
+    git(&fixture.root, &["update-index", "--cacheinfo", &entry]);
+    git(&fixture.root, &["commit", "-q", "-m", "mixed gitlink change"]);
+    for display in ["log", "diff", "short"] {
+        git(&fixture.root, &["config", "diff.submodule", display]);
+        let result = GitRepository::discover(&fixture.root)
+            .unwrap()
+            .source_snapshot_against_bounded(&fixture.base, LIMIT);
+        assert!(
+            matches!(result, Err(GitError::Command(ref message)) if message.contains("v1") && message.contains("non-blob")),
+            "diff.submodule={display} must reject the gitlink, got {result:?}"
+        );
+    }
+}
+
+#[test]
 fn sha256_objects_are_not_silently_claimed_as_legacy_sha1_v1() {
     let fixture = Fixture::new(b"before\n", "--object-format=sha256");
     fixture.change(b"after\n");
