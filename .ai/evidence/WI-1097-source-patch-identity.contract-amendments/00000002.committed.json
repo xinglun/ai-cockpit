@@ -1,0 +1,58 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:91452e099436ceb88bb965d11b5064dbf749bbb46bab125c50d3f72ea3b62716",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1097-source-patch-identity",
+    "sequence": 2,
+    "changeId": "explicit-v1-compatibility-fixture",
+    "requestDigest": "sha256:9d3bd3600178106878c8131de9ed7d5f762cd14d60be7d1d7fbc498fe7955cb1",
+    "reason": "The actual cockpit-git package run at f79a3fe5 failed only the existing comparison between the raw configuration-dependent snapshot API and the deliberately fixed eight-character v1 bounded API. Read-only reconstruction of the retained fixture reproduced both exact assertion digests with core.abbrev=7 versus 8. Independent review recommends declaring that one local fixture as eight-character v1 while preserving every assertion and all independent multi-configuration/collision regressions; broad production API changes would expand semantics unnecessarily.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [
+          "crates/cockpit-git/src/lib.rs",
+          "crates/cockpit-git/tests/source_patch_identity.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-git/src/lib.rs",
+          "crates/cockpit-git/tests/source_patch_identity.rs",
+          "crates/cockpit-git/tests/repository.rs"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria/0",
+        "operation": "set",
+        "oldValue": "Limit production changes to cockpit-git bounded committed-source snapshot generation and a private v1 patch metadata canonicalizer; add one independent regression target. No dependencies, other Work Items, archived Contract bytes, frozen receipts, or existing four historical test assertions are changed.",
+        "newValue": "Limit production changes to cockpit-git bounded committed-source snapshot generation and a private v1 patch metadata canonicalizer. Add one independent regression target. In the existing bounded_source_comparison_preserves_existing_hunk_facts test only, explicitly configure its local Git fixture with core.abbrev=8 and assert configuration success for the declared legacy-v1 compatibility comparison. Keep every existing assertion unchanged. No dependencies, other Work Items, archived Contract bytes, frozen receipts, or existing four historical test assertions are changed."
+      },
+      {
+        "path": "/goal",
+        "operation": "set",
+        "oldValue": "Stabilize the bounded committed-source v1 textual diff metadata against Git abbreviation and unrelated object database changes. Keep complete source/blob identity, binary semantics, unsupported-format rejection, and output budgets. Use the two declared source paths and real red-to-green regressions; then verify the four existing historical failures without editing their assertions or evidence.",
+        "newValue": "Stabilize the bounded committed-source v1 textual diff metadata against Git abbreviation and unrelated object database changes. Keep complete source/blob identity, binary semantics, unsupported-format rejection, and output budgets. Use the declared bounded production path and regression paths and real red-to-green regressions; then verify the four existing historical failures without editing their assertions or evidence."
+      }
+    ],
+    "previousContractDigest": "sha256:493027d9b966dc78011fd36a0baf5204d3b93c4f72ad00f5b53ce6486b88c9e9",
+    "newContractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+    "repositorySnapshotDigest": "sha256:f88e86d71cea86a2c5dfb2e091b316a0ce5ae7dfdddc9d25dd74c0bdf0b2a903",
+    "environmentObservationDigest": "sha256:972a028360a2fb808b5f66bf9ff75e0611729a1c23044ac70a76eed3aca89750",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/0",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:77bda748611b1641f6ee131d07f252b53a918ed44ee4a4e0544e28b6f0711a8b",
+    "journalDigest": "sha256:867cec7f4ea86c525675694cf0231c0057349bd1011467a569eab25d4a80fbbe",
+    "recordedAt": "2026-10-21T14:31:26Z"
+  }
+}

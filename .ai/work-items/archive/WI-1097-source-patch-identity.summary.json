@@ -1,0 +1,151 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1097-source-patch-identity.preflight-review.json",
+    ".ai/decisions/WI-1097-source-patch-identity.recovery.json",
+    ".ai/evidence/WI-1097-source-patch-identity.verification-attempt.e46d76d43591fb9dc3d44868121e32234b05c03246723cb23ece2abeeccc2fc4.json",
+    ".ai/evidence/WI-1097-source-patch-identity.verification.json",
+    ".ai/work-items/archive/WI-1097-source-patch-identity.events.jsonl",
+    ".ai/work-items/archive/WI-1097-source-patch-identity.outcome.json",
+    ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+  ],
+  "checkpointAt": "2026-10-21T13:41:13Z",
+  "checkpointContractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+      "recorded": true,
+      "recordedAt": "2026-10-21T13:41:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1097-source-patch-identity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+      "previousContractHash": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+      "reason": "The actual cockpit-git package run at f79a3fe5 failed only the existing comparison between the raw configuration-dependent snapshot API and the deliberately fixed eight-character v1 bounded API. Read-only reconstruction of the retained fixture reproduced both exact assertion digests with core.abbrev=7 versus 8. Independent review recommends declaring that one local fixture as eight-character v1 while preserving every assertion and all independent multi-configuration/collision regressions; broad production API changes would expand semantics unnecessarily.",
+      "recorded": true,
+      "recordedAt": "2026-10-21T14:31:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f88e86d71cea86a2c5dfb2e091b316a0ce5ae7dfdddc9d25dd74c0bdf0b2a903",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1097-source-patch-identity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:dd8606a67dd1e0ae77c7d8735339ec27007f871dbcacfd0e02cd2c03789750a1",
+  "createdAt": "2026-10-21T13:41:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c8bb29bf5a2c8a03d564ae80394077559abc4f76b851f93a63aedc369f80975",
+    "reason": "The user directly confirmed this exact Contract/preflight/snapshot tuple and explicitly approved adding repository.rs only for the local core.abbrev=8 compatibility fixture, retaining every existing assertion, independent multi-configuration regression and all nine verification commands, plus local commits and refreshed admission. Decision maker: human:user; recorder: agent:codex at the actual current recording time. This records the real current conversation confirmation, not an independent external-authority attestation or a claim that tests or CI passed. Retained local source-copy SHA-256: 167b5d3018f66d837a38b09dc75c7ef067b4a2eed884e944e92257c0ab7248a5.",
+    "recordedAt": "2026-10-21T21:36:03.447320Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f88e86d71cea86a2c5dfb2e091b316a0ce5ae7dfdddc9d25dd74c0bdf0b2a903",
+    "schemaVersion": 1,
+    "workItemId": "WI-1097-source-patch-identity"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1097-source-patch-identity.verification.json",
+      ".ai/evidence/WI-1097-source-patch-identity.verification-attempt.bf4aa328f4d6bcfc8119646d25e9f81523ef41e017cf4a948055c104ac9a1b14.json"
+    ],
+    "reason": "Agent technical assessment for source HEAD ad66af2b952963e7f1f10b7ec02a4ef738907ce3 using official Runtime v1.0.1 sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd: the private helper preserves the exact usize expression, overflow behavior and index search, and the explicit Path borrow still uses the original Path::join implementation. Fixture bytes, all original assertions, scanner rules, accepted scope and the original nine command arguments are unchanged. The same three source paths are scanned; both former syntax Unknowns now classify Clean without material-review or residual-risk opt-in. All nine commands freshly executed for this source and exited zero (0 reused, no timeout/truncation), including the cockpit-git package and four unchanged historical regressions. Independent static review of the complete 46bc35b9..ad66af2b refactor found no P0/P1/P2/P3. The verified technical benefit is removal of these material-analysis blockers while preserving the bounded historical-v1 identity repair and frozen receipts. Inferred benefit for maintainers is less rework when Git object growth/abbreviation changes; actual deployed user experience has not been measured. Fresh provider CI, push and integration have not occurred. This is not a new human acceptance, authenticated external Authority evidence, or residual-risk decision. Pinned v1.0.1 has no public setter for the ordinary HumanBenefitReport, so recording this truthful alignment does not claim to clear user_visible_benefit_not_declared.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-21T22:57:19.137846327Z",
+      "recordedAt": "2026-10-21T22:57:19.137846327Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-21T13:41:07.308886927Z",
+      "recordedAt": "2026-10-21T13:41:07.308886927Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-21T22:56:20Z",
+  "preflightContractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:dd8606a67dd1e0ae77c7d8735339ec27007f871dbcacfd0e02cd2c03789750a1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-21T22:56:20Z",
+    "contractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+    "decisionDigest": "sha256:80af023d1b783910952b279b9b24cc1fd2cbe3dc5ff2777246b4b65c21cb1a9c",
+    "decisionPath": ".ai/decisions/WI-1097-source-patch-identity.recovery.json",
+    "repositorySnapshotDigest": "sha256:dd8606a67dd1e0ae77c7d8735339ec27007f871dbcacfd0e02cd2c03789750a1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:94df7b692250a87b012a2faeffc409dbe3a176bf0f32c9f0dd6ed445ea995df6"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-21T22:57:19.137846327Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1097-source-patch-identity"
+}
