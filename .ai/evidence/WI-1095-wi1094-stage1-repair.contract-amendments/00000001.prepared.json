@@ -1,0 +1,204 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1095-wi1094-stage1-repair",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-938e0ddd1789e06d292f22f505845be1a7acefb488d46ea07c8536f26aef78fb",
+      "expectedContractDigest": "sha256:052cc3a742ec9cf09a11f6c549ba2b7ab3976dd37227b783ce5d0c25da6c8880",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "handoff archive wi1094-handoff-20261021.tar.gz sha256:6ce1283972b67feca28d9a764e2c9cf6a58ac81d45318f60b3b3716630f717bf"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "base b8ec2690976ab4c554aa9f5b2aa7fcca715156ca"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "candidate commit d77a0183b6924ca8e18b43c629349b8fd72e4d38"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "candidate commit dc54015dcad039526d1b9eefc8b2e4bf29673926"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "current user request: bounded Stage 1 repair authorization; no independent claim about earlier human:user receipt"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "official Runtime v1.0.1 source tag commit a1dbec70c8fc050b95165163da0da03cd90b79d1; task-local binary sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+        }
+      ]
+    },
+    "requestDigest": "sha256:9aece29a7f0d39adc442fa3ae2c6faf0cfa1be948e8a8b464f5ecb8a7ee8f45c",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "The successor is based on the synchronized default revision b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and preserves the exact original candidate commits d77a0183b6924ca8e18b43c629349b8fd72e4d38 and dc54015dcad039526d1b9eefc8b2e4bf29673926 as source provenance.",
+        "Add a negative regression showing a receipt whose item identity differs from the map key is rejected, including that one receipt cannot cover multiple distinct expected item identities; demonstrate red against the imported buggy implementation and green after the identity check is added.",
+        "Bind verification acceptance to the actual VerificationEvidenceRecord fields using the domain digest calculation: require successful exit status and a matching recomputed evidence digest to the bound snapshot; regressions must reject changed command, exit code, or logs and demonstrate red/green behavior. Do not describe a boolean flag or test verifier as real execution proof.",
+        "Keep NoAuthorityVerifierConfigured permanently Unverifiable and retain test-double verifier only in tests; no existing production admission path calls the new domain crate.",
+        "Run cargo test -p cockpit-review-receipt; cargo test -p cockpit-git --test repository -- --test-threads=1; cargo clippy -p cockpit-review-receipt -p cockpit-git --no-deps --lib --tests --all-features -- -D warnings; and cargo check -p cockpit-review-receipt -p cockpit-git --all-targets --all-features. Report actual exit codes. Historical serial and parallel failures remain in the handoff unchanged.",
+        "No files in cockpit-repository, old WI records, or global Runtime are changed; do not claim publication or production readiness."
+      ],
+      "authority": "authorized",
+      "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+      "createdAt": "2026-10-21T10:46:00Z",
+      "goal": "In the standalone cockpit-review-receipt crate, ensure gate_admits rejects a receipt stored under a different item identity and cannot reuse one receipt to cover multiple items; ensure evaluate_item accepts verification only when the recorded evidence is successful and its recomputed digest matches BoundSnapshot.verification_evidence_digest. Prove both defects with failing-before/fixed-after regressions using the real domain decision logic.",
+      "intent": "Continue the WI-1094 Stage 1 domain-crate work from the verified handoff as a new successor Work Item on the synchronized default base. Preserve the two imported candidate commits and repair only the two confirmed receipt-binding defects with regression tests.",
+      "mode": "implementation",
+      "outOfScope": [
+        "Production gate integration; external AuthorityVerifier implementation; credentials; runtime-wide replacement; any changes to WI-1092",
+        " WI-1093",
+        " or other old Work Items; deleting or amending old evidence; pushing",
+        " pull request",
+        " merge",
+        " release; changes outside the five imported paths and the bounded receipt crate source/tests; treating dynamic=true or a test mock as proof of an actual successful command; treating the serial repository test run as proof of parallel-race resolution"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        "Import and preserve all five handoff paths: Cargo.toml; Cargo.lock; crates/cockpit-git/tests/repository.rs; crates/cockpit-review-receipt/Cargo.toml; crates/cockpit-review-receipt/src/lib.rs. Add regression tests and minimal fixes only in crates/cockpit-review-receipt/src/lib.rs for item/receipt identity binding and verification-evidence exit status/digest binding. Run package-scoped tests and validation",
+        " including Clippy for both cockpit-review-receipt and cockpit-git; document actual commands",
+        " exit codes",
+        " and any failures."
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test -p cockpit-review-receipt",
+        "cargo test -p cockpit-git --test repository -- --test-threads=1",
+        "cargo clippy -p cockpit-review-receipt -p cockpit-git --no-deps --lib --tests --all-features -- -D warnings",
+        "cargo check -p cockpit-review-receipt -p cockpit-git --all-targets --all-features"
+      ],
+      "workItemId": "WI-1095-wi1094-stage1-repair"
+    },
+    "previousContractDigest": "sha256:052cc3a742ec9cf09a11f6c549ba2b7ab3976dd37227b783ce5d0c25da6c8880",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The successor is based on the synchronized default revision b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and preserves the exact original candidate commits d77a0183b6924ca8e18b43c629349b8fd72e4d38 and dc54015dcad039526d1b9eefc8b2e4bf29673926 as source provenance.",
+        "Add a negative regression showing a receipt whose item identity differs from the map key is rejected, including that one receipt cannot cover multiple distinct expected item identities; demonstrate red against the imported buggy implementation and green after the identity check is added.",
+        "Bind verification acceptance to the actual VerificationEvidenceRecord fields using the domain digest calculation: require successful exit status and a matching recomputed evidence digest to the bound snapshot; regressions must reject changed command, exit code, or logs and demonstrate red/green behavior. Do not describe a boolean flag or test verifier as real execution proof.",
+        "Keep NoAuthorityVerifierConfigured permanently Unverifiable and retain test-double verifier only in tests; no existing production admission path calls the new domain crate.",
+        "Run cargo test -p cockpit-review-receipt; cargo test -p cockpit-git --test repository -- --test-threads=1; cargo clippy -p cockpit-review-receipt -p cockpit-git --no-deps --lib --tests --all-features -- -D warnings; and cargo check -p cockpit-review-receipt -p cockpit-git --all-targets --all-features. Report actual exit codes. Historical serial and parallel failures remain in the handoff unchanged.",
+        "No files in cockpit-repository, old WI records, or global Runtime are changed; do not claim publication or production readiness."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-21T10:46:00Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "In the standalone cockpit-review-receipt crate, ensure gate_admits rejects a receipt stored under a different item identity and cannot reuse one receipt to cover multiple items; ensure evaluate_item accepts verification only when the recorded evidence is successful and its recomputed digest matches BoundSnapshot.verification_evidence_digest. Prove both defects with failing-before/fixed-after regressions using the real domain decision logic.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Continue the WI-1094 Stage 1 domain-crate work from the verified handoff as a new successor Work Item on the synchronized default base. Preserve the two imported candidate commits and repair only the two confirmed receipt-binding defects with regression tests.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Production gate integration; external AuthorityVerifier implementation; credentials; runtime-wide replacement; any changes to WI-1092",
+        " WI-1093",
+        " or other old Work Items; deleting or amending old evidence; pushing",
+        " pull request",
+        " merge",
+        " release; changes outside the five imported paths and the bounded receipt crate source/tests; treating dynamic=true or a test mock as proof of an actual successful command; treating the serial repository test run as proof of parallel-race resolution"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "Import and preserve all five handoff paths: Cargo.toml; Cargo.lock; crates/cockpit-git/tests/repository.rs; crates/cockpit-review-receipt/Cargo.toml; crates/cockpit-review-receipt/src/lib.rs. Add regression tests and minimal fixes only in crates/cockpit-review-receipt/src/lib.rs for item/receipt identity binding and verification-evidence exit status/digest binding. Run package-scoped tests and validation",
+        " including Clippy for both cockpit-review-receipt and cockpit-git; document actual commands",
+        " exit codes",
+        " and any failures."
+      ],
+      "sources": [
+        "handoff archive wi1094-handoff-20261021.tar.gz sha256:6ce1283972b67feca28d9a764e2c9cf6a58ac81d45318f60b3b3716630f717bf",
+        "base b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+        "candidate commit d77a0183b6924ca8e18b43c629349b8fd72e4d38",
+        "candidate commit dc54015dcad039526d1b9eefc8b2e4bf29673926",
+        "current user request: bounded Stage 1 repair authorization; no independent claim about earlier human:user receipt",
+        "official Runtime v1.0.1 source tag commit a1dbec70c8fc050b95165163da0da03cd90b79d1; task-local binary sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test -p cockpit-review-receipt",
+        "cargo test -p cockpit-git --test repository -- --test-threads=1",
+        "cargo clippy -p cockpit-review-receipt -p cockpit-git --no-deps --lib --tests --all-features -- -D warnings",
+        "cargo check -p cockpit-review-receipt -p cockpit-git --all-targets --all-features"
+      ],
+      "workItemId": "WI-1095-wi1094-stage1-repair"
+    },
+    "newContractDigest": "sha256:2cb3ade04d8324a96f71774e04e4c36e4d1007d3d704fb4bbb1bcf575cc206b6",
+    "previousSummaryDigest": "sha256:76b384109ee4ed661655129e80b41f3f7df89a713d00b4cd672288e3d209acf4",
+    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "environmentObservationDigest": "sha256:cfdaa0bcd66f027f931ca4c19ecc0f253f67fca1d4aa09701ad49836222a0484",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:938e0ddd1789e06d292f22f505845be1a7acefb488d46ea07c8536f26aef78fb",
+    "preparedAt": "2026-10-21T10:46:00Z"
+  },
+  "preparedDigest": "sha256:06c33a7bc9f8f6c0d65265228bf85256e6687983c46f48d107a054e1644d28df"
+}

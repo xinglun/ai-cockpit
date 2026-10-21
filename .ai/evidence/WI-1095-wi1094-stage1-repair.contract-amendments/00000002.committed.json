@@ -1,0 +1,49 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:b629b416fb6f49a5d5255082f4a8c16b61c5eb50c7c90cdd4e3e3565e080f7a1",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1095-wi1094-stage1-repair",
+    "sequence": 2,
+    "changeId": "wi1095-correct-scope-paths-20261021",
+    "requestDigest": "sha256:ef197aba12c6734ff3d1e0d4a43dc5ec1be55beb35957a79594c280cd24ac5ed",
+    "reason": "Correct the executor-created CLI declaration error: the previous scope contained prose split on commas instead of path patterns. Express exactly the five paths already authorized in the WI-1094 handoff and current bounded Stage 1 repair request. This changes no acceptance criterion, verification command, authority, or out-of-scope boundary and does not assert human confirmation or successful verification.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [
+          "Import and preserve all five handoff paths: Cargo.toml; Cargo.lock; crates/cockpit-git/tests/repository.rs; crates/cockpit-review-receipt/Cargo.toml; crates/cockpit-review-receipt/src/lib.rs. Add regression tests and minimal fixes only in crates/cockpit-review-receipt/src/lib.rs for item/receipt identity binding and verification-evidence exit status/digest binding. Run package-scoped tests and validation",
+          " including Clippy for both cockpit-review-receipt and cockpit-git; document actual commands",
+          " exit codes",
+          " and any failures."
+        ],
+        "newValue": [
+          "Cargo.toml",
+          "Cargo.lock",
+          "crates/cockpit-git/tests/repository.rs",
+          "crates/cockpit-review-receipt/Cargo.toml",
+          "crates/cockpit-review-receipt/src/lib.rs"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:2cb3ade04d8324a96f71774e04e4c36e4d1007d3d704fb4bbb1bcf575cc206b6",
+    "newContractDigest": "sha256:87dcd17c4ac749c3be65b974e39976a11ccd2e51c24a9151ad4cc3fd496285ae",
+    "repositorySnapshotDigest": "sha256:6de3f76364e05a9674faa8d3839e778226e46501d91e95349406a0df2311919c",
+    "environmentObservationDigest": "sha256:cfdaa0bcd66f027f931ca4c19ecc0f253f67fca1d4aa09701ad49836222a0484",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:cad2f422940a50849464a4a8e8d6f0d4d52d83ea39795e7275d4ffb218238990",
+    "journalDigest": "sha256:dc2d611e12a81b85fbe5dff80e69f7374d8e3b273037f264268fb7691d4f53e1",
+    "recordedAt": "2026-10-21T10:57:20Z"
+  }
+}

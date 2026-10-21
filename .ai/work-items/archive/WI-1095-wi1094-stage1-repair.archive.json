@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-21T11:30:36Z",
+  "files": {
+    "contractDigest": "sha256:4de306c22261d2bb6dfdc96dd8be785c09dbd0e213c8c8e2200c2eb6c2772738",
+    "contractPath": ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.contract.json",
+    "eventsDigest": "sha256:12057e15a93906dd9f528490d85612d092fc066d78099099b52c966f2b09a9c5",
+    "eventsPath": ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.events.jsonl",
+    "outcomeDigest": "sha256:4b0ab573a8c69743112c876552a081623a9648857e4cd0cd988319428a67188b",
+    "outcomePath": ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.outcome.json",
+    "summaryDigest": "sha256:a67330c4153190457b127e33b025f931b606aad52c4eeb30176c1971d258ab0a",
+    "summaryPath": ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json",
+    "taskReportDigest": "sha256:dbefb9d86aebb50f68a61742d2d2b9cd8950d54319cf6b1624dc3fd01e4545e1",
+    "taskReportMarkdownDigest": "sha256:ae56a6175b6ce7ab14e36e3bfc944ae57b5409f68efbf464faa5d91efb110088",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-21T11:30:36.682634399Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-21T11:30:36.682634399Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1095-wi1094-stage1-repair"
+}

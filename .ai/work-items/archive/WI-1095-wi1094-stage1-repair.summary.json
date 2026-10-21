@@ -1,0 +1,112 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1095-wi1094-stage1-repair.preflight-review.json",
+    ".ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000002.prepared.json",
+    ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.contract.json",
+    ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+  ],
+  "checkpointAt": "2026-10-21T10:46:04Z",
+  "checkpointContractDigest": "sha256:87dcd17c4ac749c3be65b974e39976a11ccd2e51c24a9151ad4cc3fd496285ae",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2cb3ade04d8324a96f71774e04e4c36e4d1007d3d704fb4bbb1bcf575cc206b6",
+      "recorded": true,
+      "recordedAt": "2026-10-21T10:46:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1095-wi1094-stage1-repair"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:87dcd17c4ac749c3be65b974e39976a11ccd2e51c24a9151ad4cc3fd496285ae",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2cb3ade04d8324a96f71774e04e4c36e4d1007d3d704fb4bbb1bcf575cc206b6",
+      "previousContractHash": "sha256:2cb3ade04d8324a96f71774e04e4c36e4d1007d3d704fb4bbb1bcf575cc206b6",
+      "reason": "Correct the executor-created CLI declaration error: the previous scope contained prose split on commas instead of path patterns. Express exactly the five paths already authorized in the WI-1094 handoff and current bounded Stage 1 repair request. This changes no acceptance criterion, verification command, authority, or out-of-scope boundary and does not assert human confirmation or successful verification.",
+      "recorded": true,
+      "recordedAt": "2026-10-21T10:57:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6de3f76364e05a9674faa8d3839e778226e46501d91e95349406a0df2311919c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1095-wi1094-stage1-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:6de3f76364e05a9674faa8d3839e778226e46501d91e95349406a0df2311919c",
+  "createdAt": "2026-10-21T10:46:00Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:87dcd17c4ac749c3be65b974e39976a11ccd2e51c24a9151ad4cc3fd496285ae",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+    "reason": "The user explicitly replied \"confirm_review\" in message Sentinel_b629a93224c48191be61dd754c5448a4 to the exact WI-1095 binding and bounded plan presented in Sentinel_f1da097107b4819189ce491e6b8a0f82, relayed by parent thread 01a1576c-b0ab-7723-ad8e-95924e80102a. This records that real user decision at the current recording time; it approves the scoped plan and local candidate commit/normal validation path, and does not assert tests passed, authorize push/merge/release, or approve production gate integration.",
+    "recordedAt": "2026-10-21T11:16:10Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6de3f76364e05a9674faa8d3839e778226e46501d91e95349406a0df2311919c",
+    "schemaVersion": 1,
+    "workItemId": "WI-1095-wi1094-stage1-repair"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-21T11:21:45.663646552Z",
+      "recordedAt": "2026-10-21T11:21:45.663646552Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-21T10:46:00.410517850Z",
+      "recordedAt": "2026-10-21T10:46:00.410517850Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-21T11:19:57Z",
+  "preflightContractDigest": "sha256:87dcd17c4ac749c3be65b974e39976a11ccd2e51c24a9151ad4cc3fd496285ae",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6de3f76364e05a9674faa8d3839e778226e46501d91e95349406a0df2311919c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-21T11:21:45.663646552Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1095-wi1094-stage1-repair"
+}
