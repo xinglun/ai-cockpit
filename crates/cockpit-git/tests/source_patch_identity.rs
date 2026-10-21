@@ -339,8 +339,9 @@ fn expanded_full_index_output_must_fit_the_original_read_budget() {
 #[test]
 fn binary_addition_and_deletion_keep_full_zero_object_ids() {
     let fixture = Fixture::new(b"deleted\0binary\n", "--object-format=sha1");
-    std::fs::remove_file(fixture.root.join("subject")).unwrap();
-    std::fs::write(fixture.root.join("added"), b"added\0binary\n").unwrap();
+    let root: &::std::path::Path = &fixture.root;
+    std::fs::remove_file(root.join("subject")).unwrap();
+    std::fs::write(root.join("added"), b"added\0binary\n").unwrap();
     fixture.commit();
     let patch = fixture.legacy_patch();
     let text = String::from_utf8(patch.clone()).unwrap();

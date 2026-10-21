@@ -2683,12 +2683,7 @@ fn canonical_source_patch_v1(patch: &[u8]) -> Result<Vec<u8>, GitError> {
                 "expected a regular diff header",
             ));
         }
-        // Hunk lines carry their own +, -, or space prefix. Binary encoding
-        // has no spaces. Only a real new diff header can delimit this block.
-        let next = patch[start..]
-            .windows(b"\ndiff --git ".len())
-            .position(|window| window == b"\ndiff --git ")
-            .map_or(patch.len(), |offset| start + offset + 1);
+        let next = source_patch_v1_block_end(patch, start);
         let block = &patch[start..next];
         let binary = block
             .split_inclusive(|byte| *byte == b'\n')
@@ -2749,6 +2744,15 @@ fn canonical_source_patch_v1(patch: &[u8]) -> Result<Vec<u8>, GitError> {
         start = next;
     }
     Ok(canonical)
+}
+
+fn source_patch_v1_block_end(patch: &[u8], start: usize) -> usize {
+    // Hunk lines carry their own +, -, or space prefix. Binary encoding
+    // has no spaces. Only a real new diff header can delimit this block.
+    patch[start..]
+        .windows(b"\ndiff --git ".len())
+        .position(|window| window == b"\ndiff --git ")
+        .map_or(patch.len(), |offset| start + offset + 1)
 }
 
 fn validate_source_patch_v1_mode(mode: &[u8]) -> Result<(), GitError> {
