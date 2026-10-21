@@ -1,0 +1,198 @@
+{
+  "acceptanceResults": [
+    "Limit production changes to cockpit-git bounded committed-source snapshot generation and a private v1 patch metadata canonicalizer. Add one independent regression target. In the existing bounded_source_comparison_preserves_existing_hunk_facts test only, explicitly configure its local Git fixture with core.abbrev=8 and assert configuration success for the declared legacy-v1 compatibility comparison. Keep every existing assertion unchanged. No dependencies, other Work Items, archived Contract bytes, frozen receipts, or existing four historical test assertions are changed.",
+    "For the explicitly supported legacy v1 SHA-1 source patch recipe evidenced by the frozen WI-1078 request, changing core.abbrev, adding unrelated Git objects, or creating an eight-character blob prefix collision does not change the committed source patch identity. Eight-character display metadata never becomes content authority: complete blob IDs and source content bindings remain intact, and changing tracked bytes remains distinguishable.",
+    "Normalize only real textual diff metadata headers. Preserve index-like or binary-marker-like text inside hunks, binary patch full object IDs and payload, added/deleted zero IDs, and mode/rename semantics under the existing no-renames route. Unsupported hash algorithms, malformed or unsupported metadata must fail explicitly rather than inventing a compatible historical identity.",
+    "Retain bounded Git output reading before canonicalization. A full-index patch that exceeds the input budget must return the existing bounded-output failure and cannot be truncated into a complete passing digest.",
+    "First run cargo test --locked -p cockpit-git --test source_patch_identity as an authorized red regression against unchanged production code, preserving its true failure output; implement only after a behavioral red. Green validation covers the real Git cases above, all cockpit-git package tests, and the four unchanged historical post-merge tests with their original frozen golden records.",
+    "Run the declared local checks with actual commands and exit codes. The four repository targets use --release to reuse an isolated copy of existing build artifacts; this does not claim workspace, Windows, or fresh provider CI passed. All original CI failure logs and reconstruction provenance remain available.",
+    "After implementation and independent review, use normal Runtime-supported provider binding and real strict CI before any integration. PR 1052 remains unmerged while its requirements are unmet. No new authority platform, B implementation, external credentials or permissions, release, forced push, historical debt clearing, or cleanup of unrelated resources is authorized by this Work Item."
+  ],
+  "createdAt": "2026-10-21T22:57:19.137846327Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:94df7b692250a87b012a2faeffc409dbe3a176bf0f32c9f0dd6ed445ea995df6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dd8606a67dd1e0ae77c7d8735339ec27007f871dbcacfd0e02cd2c03789750a1",
+      "workItemId": "WI-1097-source-patch-identity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1097-source-patch-identity.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1097-source-patch-identity.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1097-source-patch-identity.verification-attempt.e46d76d43591fb9dc3d44868121e32234b05c03246723cb23ece2abeeccc2fc4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1097-source-patch-identity.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1097-source-patch-identity.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1097-source-patch-identity.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1097-source-patch-identity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1097-source-patch-identity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.contract.json"
+          ],
+          "inference": false,
+          "text": "Stabilize the bounded committed-source v1 textual diff metadata against Git abbreviation and unrelated object database changes. Keep complete source/blob identity, binary semantics, unsupported-format rejection, and output budgets. Use the declared bounded production path and regression paths and real red-to-green regressions; then verify the four existing historical failures without editing their assertions or evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1097-source-patch-identity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-21T22:57:19.137846327Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1097-source-patch-identity"
+    },
+    "workItemId": "WI-1097-source-patch-identity"
+  },
+  "taskReportDigest": "sha256:df87402657d96d328f7b7c6ec8067b229349244e58880bada2bab238b1b2efc5",
+  "taskReportMarkdownDigest": "sha256:f41c6daa1b14448ec9a8dd45ed4c2ba141f431e7ff9f7a331e91f026233304a6",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1097-source-patch-identity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1097-source-patch-identity"
+}

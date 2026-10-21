@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c8bb29bf5a2c8a03d564ae80394077559abc4f76b851f93a63aedc369f80975",
+  "reason": "The user directly confirmed this exact Contract/preflight/snapshot tuple and explicitly approved adding repository.rs only for the local core.abbrev=8 compatibility fixture, retaining every existing assertion, independent multi-configuration regression and all nine verification commands, plus local commits and refreshed admission. Decision maker: human:user; recorder: agent:codex at the actual current recording time. This records the real current conversation confirmation, not an independent external-authority attestation or a claim that tests or CI passed. Retained local source-copy SHA-256: 167b5d3018f66d837a38b09dc75c7ef067b4a2eed884e944e92257c0ab7248a5.",
+  "recordedAt": "2026-10-21T21:36:03.447320Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f88e86d71cea86a2c5dfb2e091b316a0ce5ae7dfdddc9d25dd74c0bdf0b2a903",
+  "schemaVersion": 1,
+  "workItemId": "WI-1097-source-patch-identity"
+}
