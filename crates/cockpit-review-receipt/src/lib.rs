@@ -164,7 +164,11 @@ pub struct ReviewReceipt {
 /// under an approval: the item identity, the full bound snapshot, and the
 /// verdict. An approver's confirmation is only meaningful if it was issued
 /// for this exact value — not merely "approved the PR" in general.
-pub fn payload_digest(item: &TestWeakeningItem, snapshot: &BoundSnapshot, verdict: Verdict) -> String {
+pub fn payload_digest(
+    item: &TestWeakeningItem,
+    snapshot: &BoundSnapshot,
+    verdict: Verdict,
+) -> String {
     let verdict_tag = match verdict {
         Verdict::GenuineWeakening => "genuine_weakening",
         Verdict::LegitimateRefactorEquivalent => "legitimate_refactor_equivalent",
@@ -212,7 +216,11 @@ pub trait AuthorityVerifier {
 pub struct NoAuthorityVerifierConfigured;
 
 impl AuthorityVerifier for NoAuthorityVerifierConfigured {
-    fn verify(&self, _claim: &ExternalIdentityClaim, _payload_digest: &str) -> AuthorityVerification {
+    fn verify(
+        &self,
+        _claim: &ExternalIdentityClaim,
+        _payload_digest: &str,
+    ) -> AuthorityVerification {
         AuthorityVerification::Unverifiable
     }
 }
@@ -290,7 +298,10 @@ pub fn evaluate_item(
 /// parse failure or an incomplete/unmapped enumeration upstream:
 /// `raw_test_weakening == true` with zero items is exactly that case, and is
 /// treated as a hard failure of completeness, not as "nothing to review".
-pub fn enumeration_is_complete(raw_test_weakening: bool, items: &BTreeSet<(String, String)>) -> bool {
+pub fn enumeration_is_complete(
+    raw_test_weakening: bool,
+    items: &BTreeSet<(String, String)>,
+) -> bool {
     if raw_test_weakening {
         !items.is_empty()
     } else {
@@ -407,7 +418,11 @@ mod tests {
     }
 
     impl AuthorityVerifier for ConfirmsExactDigestOnly {
-        fn verify(&self, _claim: &ExternalIdentityClaim, payload_digest: &str) -> AuthorityVerification {
+        fn verify(
+            &self,
+            _claim: &ExternalIdentityClaim,
+            payload_digest: &str,
+        ) -> AuthorityVerification {
             if payload_digest == self.confirmed_digest {
                 AuthorityVerification::Confirmed
             } else {
@@ -428,7 +443,13 @@ mod tests {
         let verifier = ConfirmsExactDigestOnly {
             confirmed_digest: "sha256:something-else-entirely".into(),
         };
-        let state = evaluate_item(Some(&receipt), &CoverageInput { current_snapshot: &snap }, &verifier);
+        let state = evaluate_item(
+            Some(&receipt),
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
+            &verifier,
+        );
         assert_eq!(state, ItemCoverageState::AuthorizationUnverifiable);
     }
 
@@ -439,9 +460,19 @@ mod tests {
         let snap = snapshot("v1");
         let receipt = passing_receipt("tests/a.rs", "foo", snap.clone());
         let wrong_digest_verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&item("tests/a.rs", "foo"), &snapshot("v2"), Verdict::LegitimateRefactorEquivalent),
+            confirmed_digest: payload_digest(
+                &item("tests/a.rs", "foo"),
+                &snapshot("v2"),
+                Verdict::LegitimateRefactorEquivalent,
+            ),
         };
-        let state = evaluate_item(Some(&receipt), &CoverageInput { current_snapshot: &snap }, &wrong_digest_verifier);
+        let state = evaluate_item(
+            Some(&receipt),
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
+            &wrong_digest_verifier,
+        );
         assert_eq!(state, ItemCoverageState::AuthorizationUnverifiable);
     }
 
@@ -454,7 +485,9 @@ mod tests {
         let receipt = passing_receipt("tests/a.rs", "foo", snap.clone());
         let state = evaluate_item(
             Some(&receipt),
-            &CoverageInput { current_snapshot: &snap },
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
             &NoAuthorityVerifierConfigured,
         );
         assert_eq!(state, ItemCoverageState::AuthorizationUnverifiable);
@@ -475,7 +508,10 @@ mod tests {
         let approver = Approver {
             external_identity: claim("real-human-reviewer"),
         };
-        assert_ne!(agent_preparer.identity, approver.external_identity.reviewer_login);
+        assert_ne!(
+            agent_preparer.identity,
+            approver.external_identity.reviewer_login
+        );
     }
 
     // ---- Point 2: empty/incomplete/parse-failure/unmapped enumeration ----
@@ -488,7 +524,9 @@ mod tests {
         let admitted = gate_admits(
             &expected_items,
             &receipts,
-            &CoverageInput { current_snapshot: &snap },
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
             &NoAuthorityVerifierConfigured,
         );
         assert!(
@@ -508,7 +546,11 @@ mod tests {
         let mut receipts = BTreeMap::new();
         let receipt = passing_receipt("tests/a.rs", "foo", snap.clone());
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
         receipts.insert(("tests/a.rs".to_string(), "foo".to_string()), receipt);
         // tests/b.rs#bar has no receipt at all.
@@ -516,10 +558,15 @@ mod tests {
         let admitted = gate_admits(
             &expected_items,
             &receipts,
-            &CoverageInput { current_snapshot: &snap },
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
             &verifier,
         );
-        assert!(!admitted, "two expected items with only one covered must not admit");
+        assert!(
+            !admitted,
+            "two expected items with only one covered must not admit"
+        );
     }
 
     #[test]
@@ -527,7 +574,11 @@ mod tests {
         let snap = snapshot("identity-binding");
         let receipt = passing_receipt("tests/a.rs", "removed-a", snap.clone());
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
         let mut expected_items = BTreeSet::new();
         expected_items.insert(("tests/b.rs".to_string(), "removed-b".to_string()));
@@ -537,7 +588,9 @@ mod tests {
         assert!(!gate_admits(
             &expected_items,
             &receipts,
-            &CoverageInput { current_snapshot: &snap },
+            &CoverageInput {
+                current_snapshot: &snap
+            },
             &verifier,
         ));
     }
@@ -547,19 +600,28 @@ mod tests {
         let snap = snapshot("one-receipt-one-item");
         let receipt = passing_receipt("tests/a.rs", "removed-a", snap.clone());
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
         let mut expected_items = BTreeSet::new();
         expected_items.insert(("tests/a.rs".to_string(), "removed-a".to_string()));
         expected_items.insert(("tests/b.rs".to_string(), "removed-b".to_string()));
         let mut receipts = BTreeMap::new();
-        receipts.insert(("tests/a.rs".to_string(), "removed-a".to_string()), receipt.clone());
+        receipts.insert(
+            ("tests/a.rs".to_string(), "removed-a".to_string()),
+            receipt.clone(),
+        );
         receipts.insert(("tests/b.rs".to_string(), "removed-b".to_string()), receipt);
 
         assert!(!gate_admits(
             &expected_items,
             &receipts,
-            &CoverageInput { current_snapshot: &snap },
+            &CoverageInput {
+                current_snapshot: &snap
+            },
             &verifier,
         ));
     }
@@ -569,7 +631,11 @@ mod tests {
         let snap = snapshot("verification-evidence-binding");
         let receipt = passing_receipt("tests/a.rs", "removed-a", snap.clone());
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
         let mut changed_records = Vec::new();
 
@@ -578,7 +644,10 @@ mod tests {
         changed_records.push(changed);
 
         let mut changed = receipt.clone();
-        changed.verification_evidence.args.push("--different".into());
+        changed
+            .verification_evidence
+            .args
+            .push("--different".into());
         changed_records.push(changed);
 
         let mut changed = receipt.clone();
@@ -598,7 +667,9 @@ mod tests {
             .map(|changed| {
                 evaluate_item(
                     Some(changed),
-                    &CoverageInput { current_snapshot: &snap },
+                    &CoverageInput {
+                        current_snapshot: &snap,
+                    },
                     &verifier,
                 )
             })
@@ -614,13 +685,19 @@ mod tests {
         receipt.bound_snapshot.verification_evidence_digest =
             verification_evidence_digest(&receipt.verification_evidence);
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
 
         assert_eq!(
             evaluate_item(
                 Some(&receipt),
-                &CoverageInput { current_snapshot: &receipt.bound_snapshot },
+                &CoverageInput {
+                    current_snapshot: &receipt.bound_snapshot
+                },
                 &verifier,
             ),
             ItemCoverageState::ReviewedInsufficient,
@@ -648,7 +725,13 @@ mod tests {
         // the item as having no receipt at all (Uncovered), never default-
         // constructing a passing one.
         let snap = snapshot("v1");
-        let state = evaluate_item(None, &CoverageInput { current_snapshot: &snap }, &NoAuthorityVerifierConfigured);
+        let state = evaluate_item(
+            None,
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
+            &NoAuthorityVerifierConfigured,
+        );
         assert_eq!(state, ItemCoverageState::Uncovered);
     }
 
@@ -660,9 +743,19 @@ mod tests {
         let mut receipt = passing_receipt("tests/a.rs", "foo", snap.clone());
         receipt.repository_had_dirty_paths_at_binding = true;
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
-        let state = evaluate_item(Some(&receipt), &CoverageInput { current_snapshot: &snap }, &verifier);
+        let state = evaluate_item(
+            Some(&receipt),
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
+            &verifier,
+        );
         assert_eq!(
             state,
             ItemCoverageState::Stale,
@@ -676,9 +769,19 @@ mod tests {
         let snap_v2 = snapshot("v2");
         let receipt = passing_receipt("tests/a.rs", "foo", snap_v1);
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
-        let state = evaluate_item(Some(&receipt), &CoverageInput { current_snapshot: &snap_v2 }, &verifier);
+        let state = evaluate_item(
+            Some(&receipt),
+            &CoverageInput {
+                current_snapshot: &snap_v2,
+            },
+            &verifier,
+        );
         assert_eq!(state, ItemCoverageState::Stale);
     }
 
@@ -695,7 +798,13 @@ mod tests {
         let verifier = ConfirmsExactDigestOnly {
             confirmed_digest: payload_digest(&receipt.item, &snap_bound, receipt.verdict),
         };
-        let state = evaluate_item(Some(&receipt), &CoverageInput { current_snapshot: &snap_v1 }, &verifier);
+        let state = evaluate_item(
+            Some(&receipt),
+            &CoverageInput {
+                current_snapshot: &snap_v1,
+            },
+            &verifier,
+        );
         assert_eq!(
             state,
             ItemCoverageState::Stale,
@@ -711,9 +820,19 @@ mod tests {
         let mut receipt = passing_receipt("tests/a.rs", "foo", snap.clone());
         receipt.verification_evidence = static_only_evidence();
         let verifier = ConfirmsExactDigestOnly {
-            confirmed_digest: payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict),
+            confirmed_digest: payload_digest(
+                &receipt.item,
+                &receipt.bound_snapshot,
+                receipt.verdict,
+            ),
         };
-        let state = evaluate_item(Some(&receipt), &CoverageInput { current_snapshot: &snap }, &verifier);
+        let state = evaluate_item(
+            Some(&receipt),
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
+            &verifier,
+        );
         assert_eq!(state, ItemCoverageState::ReviewedInsufficient);
     }
 
@@ -745,7 +864,9 @@ mod tests {
         let admitted = gate_admits(
             &expected_items,
             &receipts,
-            &CoverageInput { current_snapshot: &snap },
+            &CoverageInput {
+                current_snapshot: &snap,
+            },
             &verifier,
         );
         assert!(admitted);
@@ -764,8 +885,17 @@ mod tests {
             let digest = payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict);
             let mut receipts = BTreeMap::new();
             receipts.insert(("tests/a.rs".to_string(), "foo".to_string()), receipt);
-            let verifier = ConfirmsExactDigestOnly { confirmed_digest: digest };
-            assert!(!gate_admits(&expected_items, &receipts, &CoverageInput { current_snapshot: &snap }, &verifier));
+            let verifier = ConfirmsExactDigestOnly {
+                confirmed_digest: digest,
+            };
+            assert!(!gate_admits(
+                &expected_items,
+                &receipts,
+                &CoverageInput {
+                    current_snapshot: &snap
+                },
+                &verifier
+            ));
         }
         // Variant: static-only evidence.
         {
@@ -774,8 +904,17 @@ mod tests {
             let digest = payload_digest(&receipt.item, &receipt.bound_snapshot, receipt.verdict);
             let mut receipts = BTreeMap::new();
             receipts.insert(("tests/a.rs".to_string(), "foo".to_string()), receipt);
-            let verifier = ConfirmsExactDigestOnly { confirmed_digest: digest };
-            assert!(!gate_admits(&expected_items, &receipts, &CoverageInput { current_snapshot: &snap }, &verifier));
+            let verifier = ConfirmsExactDigestOnly {
+                confirmed_digest: digest,
+            };
+            assert!(!gate_admits(
+                &expected_items,
+                &receipts,
+                &CoverageInput {
+                    current_snapshot: &snap
+                },
+                &verifier
+            ));
         }
         // Variant: production default verifier (no live authority wired up).
         {
@@ -785,7 +924,9 @@ mod tests {
             assert!(!gate_admits(
                 &expected_items,
                 &receipts,
-                &CoverageInput { current_snapshot: &snap },
+                &CoverageInput {
+                    current_snapshot: &snap
+                },
                 &NoAuthorityVerifierConfigured
             ));
         }

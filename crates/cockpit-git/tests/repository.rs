@@ -932,12 +932,17 @@ fn tree_digest_has_no_path_exclusion_and_would_self_invalidate_a_bound_receipt()
     // real evidence file committed alongside a Work Item's other `.ai/`
     // records would be.
     Command::new("git")
-        .args(["add", ".ai/evidence/WI-EXAMPLE.test-weakening-review.deadbeef.json"])
+        .args([
+            "add",
+            ".ai/evidence/WI-EXAMPLE.test-weakening-review.deadbeef.json",
+        ])
         .current_dir(&path)
         .status()
         .expect("stage the hypothetical receipt file");
 
-    let after = repository.snapshot().expect("snapshot after staging a receipt");
+    let after = repository
+        .snapshot()
+        .expect("snapshot after staging a receipt");
     assert_ne!(
         before.tree_digest, after.tree_digest,
         "tree_digest changed the instant a new .ai/evidence file was written: \

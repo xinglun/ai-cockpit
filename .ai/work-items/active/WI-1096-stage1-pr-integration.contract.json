@@ -59,6 +59,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1096-stage1-pr-integration",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1052",
+    "worktree": "/workspace/ai-cockpit-wi1096-stage1-pr-integration"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "normal",
