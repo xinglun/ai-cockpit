@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-21T12:42:10Z",
+  "files": {
+    "contractDigest": "sha256:f180e5cc13255a088dbe49180b8a51e50384091985f736b9a7e0d155dbcbce7c",
+    "contractPath": ".ai/work-items/archive/WI-1096-stage1-pr-integration.contract.json",
+    "eventsDigest": "sha256:e86b5898eced6c9b1151b7dd9a51c2b46934c82e673753f549a3951dec24f322",
+    "eventsPath": ".ai/work-items/archive/WI-1096-stage1-pr-integration.events.jsonl",
+    "outcomeDigest": "sha256:b92f04e4afa3e33f6d711b79ab4213f0b0f8f927ced20c36c3ceaac959150e52",
+    "outcomePath": ".ai/work-items/archive/WI-1096-stage1-pr-integration.outcome.json",
+    "summaryDigest": "sha256:a3ac327020c010eea7548a501c5355ed25c0b3dd65ab4a948f515fc5865379e6",
+    "summaryPath": ".ai/work-items/archive/WI-1096-stage1-pr-integration.summary.json",
+    "taskReportDigest": "sha256:ca910be21ae5df3ec0bc5aae44a17abb034d21d771109d81f92c8363ad96b044",
+    "taskReportMarkdownDigest": "sha256:55fbd33d92df42b2211dffb7bdfb4d5e8443e991c119784e6389d9309ad652dd",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1096-stage1-pr-integration.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1096-stage1-pr-integration.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-21T12:42:10.935104300Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-21T12:42:10.935104300Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1096-stage1-pr-integration"
+}

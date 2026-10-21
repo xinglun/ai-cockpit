@@ -1,0 +1,156 @@
+{
+  "acceptanceResults": [
+    "Import exactly the five predecessor commits ending at 1a972f03cbe631af2e132288065b4e84ec7e89f9 from base b8ec2690976ab4c554aa9f5b2aa7fcca715156ca; do not rewrite the original source commits or any archived Contract, confirmation, verification, archive, or close bytes.",
+    "The public source diff is limited to Cargo.toml, Cargo.lock, crates/cockpit-git/tests/repository.rs, crates/cockpit-review-receipt/Cargo.toml and crates/cockpit-review-receipt/src/lib.rs. Formatting-only corrections required by the existing formatter are allowed within these paths; assertions and behavior must not be weakened.",
+    "Public disclosure review finds no credentials, private keys, sensitive conversation, or unrelated personal data in the imported changes. Existing repository-style technical paths and short work authorization audit references are retained truthfully; opaque message identifiers do not become authority beyond their documented original scope.",
+    "Create one real pull request to xinglun/ai-cockpit main, bind its actual provider URL, branch, base and worktree using official Runtime finalization planning, and obtain independent technical review for the exact PR head.",
+    "Actual PR CI must complete successfully for its exact head/base and required strict route, including repository governance, workspace format, workspace Clippy/package coverage and relevant platform/conformance jobs. Keep failures and diagnose their actual cause; do not waive checks, delete assertions, force push, or retry unchanged failures until green. The old four passing package checks are historical evidence, not a substitute for fresh PR CI.",
+    "After review and CI permit merge, use a merge commit to preserve commit ancestry, verify actual merged state and merge SHA on main, and check required post-merge CI. Only then clean exact task branches/worktrees whose merged heads and recoverable bundle backups are proven; preserve other WIs and the 69-file candidate. Follow archive/synchronization/cleanup/finalize/finalize-verify ordering and stop for any new human-exclusive decision.",
+    "No release, new credentials or permissions, external AuthorityVerifier, production gate integration, historical-failure clearing, or WI-1092 root-cause implementation is delivered by this Work Item."
+  ],
+  "createdAt": "2026-10-21T12:38:47.813381840Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:76830fa5cf05f5d52aa05c91d0f1dbee77ad6fc75165e7f22b18e00d6cdfedb2",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b0375e2f26432311456d00010941d29cc7411bc998acd3fafdf4738f6364a18a",
+      "workItemId": "WI-1096-stage1-pr-integration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "Integrate the existing standalone review-receipt domain model and two bounded binding fixes into main through a reviewed GitHub PR. Preserve all five predecessor commits and imported closed evidence. Make only formatting-only corrections inside the five source paths if required by the existing repository formatter. Bind the real PR and worktree before verification/finalization. Keep external authority, production gate integration, WI-1091/1092/1093 and other unfinished candidates outside this integration Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-21T12:38:47.813381840Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1096-stage1-pr-integration"
+    },
+    "workItemId": "WI-1096-stage1-pr-integration"
+  },
+  "taskReportDigest": "sha256:ca910be21ae5df3ec0bc5aae44a17abb034d21d771109d81f92c8363ad96b044",
+  "taskReportMarkdownDigest": "sha256:55fbd33d92df42b2211dffb7bdfb4d5e8443e991c119784e6389d9309ad652dd",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1096-stage1-pr-integration.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1096-stage1-pr-integration"
+}
