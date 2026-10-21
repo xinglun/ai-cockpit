@@ -337,6 +337,59 @@ fn expanded_full_index_output_must_fit_the_original_read_budget() {
 }
 
 #[test]
+fn binary_addition_and_deletion_keep_full_zero_object_ids() {
+    let fixture = Fixture::new(b"deleted\0binary\n", "--object-format=sha1");
+    std::fs::remove_file(fixture.root.join("subject")).unwrap();
+    std::fs::write(fixture.root.join("added"), b"added\0binary\n").unwrap();
+    fixture.commit();
+    let patch = fixture.legacy_patch();
+    let text = String::from_utf8(patch.clone()).unwrap();
+    let zero = "0".repeat(40);
+    assert!(text.contains(&format!("index {zero}..")));
+    assert!(text.contains(&format!("..{zero}\n")));
+    assert_eq!(text.matches("GIT binary patch\n").count(), 2);
+    git(&fixture.root, &["config", "core.abbrev", "7"]);
+    assert_eq!(fixture.snapshot().diff_digest, digest(&patch));
+}
+
+#[test]
+fn mode_only_change_stays_bound_without_an_index_header() {
+    let fixture = Fixture::new(b"unchanged content\n", "--object-format=sha1");
+    let before = fixture.snapshot();
+    git(&fixture.root, &["update-index", "--chmod=+x", "subject"]);
+    git(&fixture.root, &["commit", "-q", "-m", "mode only"]);
+    let patch = fixture.legacy_patch();
+    let text = std::str::from_utf8(&patch).unwrap();
+    assert!(text.contains("old mode 100644\nnew mode 100755\n"));
+    assert!(!text.lines().any(|line| line.starts_with("index ")));
+    git(&fixture.root, &["config", "core.abbrev", "40"]);
+    let after = fixture.snapshot();
+    assert_eq!(after.diff_digest, digest(&patch));
+    assert_ne!(before.source_tree_digest, after.source_tree_digest);
+    assert_eq!(
+        output(&fixture.root, &["show", "HEAD:subject"]).stdout,
+        b"unchanged content\n"
+    );
+}
+
+#[test]
+fn non_blob_gitlink_mode_is_explicitly_unsupported_by_v1() {
+    let fixture = Fixture::new(b"base\n", "--object-format=sha1");
+    let entry = format!("160000,{},module", fixture.base);
+    git(
+        &fixture.root,
+        &["update-index", "--add", "--cacheinfo", &entry],
+    );
+    git(&fixture.root, &["commit", "-q", "-m", "gitlink"]);
+    let result = GitRepository::discover(&fixture.root)
+        .unwrap()
+        .source_snapshot_against_bounded(&fixture.base, LIMIT);
+    assert!(
+        matches!(result, Err(GitError::Command(message)) if message.contains("v1") && message.contains("non-blob"))
+    );
+}
+
+#[test]
 fn sha256_objects_are_not_silently_claimed_as_legacy_sha1_v1() {
     let fixture = Fixture::new(b"before\n", "--object-format=sha256");
     fixture.change(b"after\n");
