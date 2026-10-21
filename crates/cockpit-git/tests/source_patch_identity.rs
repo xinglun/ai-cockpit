@@ -409,13 +409,16 @@ fn mixed_gitlink_change_is_rejected_under_every_submodule_display() {
     git(&fixture.root, &["commit", "-q", "-m", "mixed gitlink change"]);
     for display in ["log", "diff", "short"] {
         git(&fixture.root, &["config", "diff.submodule", display]);
-        let result = GitRepository::discover(&fixture.root)
-            .unwrap()
-            .source_snapshot_against_bounded(&fixture.base, LIMIT);
-        assert!(
-            matches!(result, Err(GitError::Command(ref message)) if message.contains("v1") && message.contains("non-blob")),
-            "diff.submodule={display} must reject the gitlink, got {result:?}"
-        );
+        for ignore in ["none", "all"] {
+            git(&fixture.root, &["config", "diff.ignoreSubmodules", ignore]);
+            let result = GitRepository::discover(&fixture.root)
+                .unwrap()
+                .source_snapshot_against_bounded(&fixture.base, LIMIT);
+            assert!(
+                matches!(result, Err(GitError::Command(ref message)) if message.contains("v1") && message.contains("non-blob")),
+                "diff.submodule={display}, ignore={ignore} must reject the gitlink, got {result:?}"
+            );
+        }
     }
 }
 

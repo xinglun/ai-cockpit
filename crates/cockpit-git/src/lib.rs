@@ -2240,6 +2240,8 @@ impl GitRepository {
                 "--diff-algorithm=myers",
                 "--binary",
                 "--full-index",
+                "--submodule=short",
+                "--ignore-submodules=none",
                 "--src-prefix=a/",
                 "--dst-prefix=b/",
                 "--unified=0",
