@@ -3,8 +3,57 @@
   "checkpointAt": "2026-10-21T13:41:13Z",
   "checkpointContractDigest": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+      "recorded": true,
+      "recordedAt": "2026-10-21T13:41:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1097-source-patch-identity"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+      "previousContractHash": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+      "reason": "The actual cockpit-git package run at f79a3fe5 failed only the existing comparison between the raw configuration-dependent snapshot API and the deliberately fixed eight-character v1 bounded API. Read-only reconstruction of the retained fixture reproduced both exact assertion digests with core.abbrev=7 versus 8. Independent review recommends declaring that one local fixture as eight-character v1 while preserving every assertion and all independent multi-configuration/collision regressions; broad production API changes would expand semantics unnecessarily.",
+      "recorded": true,
+      "recordedAt": "2026-10-21T14:31:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f88e86d71cea86a2c5dfb2e091b316a0ce5ae7dfdddc9d25dd74c0bdf0b2a903",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1097-source-patch-identity"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
   "createdAt": "2026-10-21T13:41:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c8bb29bf5a2c8a03d564ae80394077559abc4f76b851f93a63aedc369f80975",
+    "reason": "The user directly confirmed this exact Contract/preflight/snapshot tuple and explicitly approved adding repository.rs only for the local core.abbrev=8 compatibility fixture, retaining every existing assertion, independent multi-configuration regression and all nine verification commands, plus local commits and refreshed admission. Decision maker: human:user; recorder: agent:codex at the actual current recording time. This records the real current conversation confirmation, not an independent external-authority attestation or a claim that tests or CI passed. Retained local source-copy SHA-256: 167b5d3018f66d837a38b09dc75c7ef067b4a2eed884e944e92257c0ab7248a5.",
+    "recordedAt": "2026-10-21T21:36:03.447320Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f88e86d71cea86a2c5dfb2e091b316a0ce5ae7dfdddc9d25dd74c0bdf0b2a903",
+    "schemaVersion": 1,
+    "workItemId": "WI-1097-source-patch-identity"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -16,14 +65,19 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-21T14:11:14Z",
-  "preflightContractDigest": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
-  "preflightDecisionDigest": "sha256:e589316c0670dc5024c455d2893eae719e401dd3ae61515cce9a00892690b4a3",
-  "preflightRepositorySnapshotDigest": "sha256:b556395e7a0720d368cdf6f162afea2a2e42388a0c3855ac2ee727d132b61813",
+  "preflightAt": "2026-10-21T14:32:00Z",
+  "preflightContractDigest": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+  "preflightDecisionDigest": "sha256:1c8bb29bf5a2c8a03d564ae80394077559abc4f76b851f93a63aedc369f80975",
+  "preflightRepositorySnapshotDigest": "sha256:f88e86d71cea86a2c5dfb2e091b316a0ce5ae7dfdddc9d25dd74c0bdf0b2a903",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-10-21T13:41:13Z",
+  "updatedAt": "2026-10-21T21:36:16.411291475+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:1f7fce2c77f928c46737557e0e9bd4338e179343cdbf585deefd5d1ed848a38e",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-21T14:31:26Z"
+  },
   "workItemId": "WI-1097-source-patch-identity"
 }

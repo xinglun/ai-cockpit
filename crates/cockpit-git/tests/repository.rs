@@ -712,6 +712,13 @@ fn bounded_binary_patch_mapping_ignores_configured_diff_order() {
 #[test]
 fn bounded_source_comparison_preserves_existing_hunk_facts() {
     let path = temporary_repository();
+    // Compare both APIs in the explicitly supported eight-character v1 format.
+    let configured = Command::new("git")
+        .args(["config", "core.abbrev", "8"])
+        .current_dir(&path)
+        .status()
+        .expect("configure legacy v1 comparison format");
+    assert!(configured.success(), "configure shared v1 fixture");
     let before = "fn main() {\n    let first = \"old\";\n    keep_one();\n    keep_two();\n    keep_three();\n    let second = \"old\";\n}\n";
     fs::write(path.join("src.rs"), before).expect("write source");
     Command::new("git")

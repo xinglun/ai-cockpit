@@ -406,7 +406,10 @@ fn mixed_gitlink_change_is_rejected_under_every_submodule_display() {
     git(&fixture.root, &["add", "subject"]);
     let entry = format!("160000,{second},zz-module");
     git(&fixture.root, &["update-index", "--cacheinfo", &entry]);
-    git(&fixture.root, &["commit", "-q", "-m", "mixed gitlink change"]);
+    git(
+        &fixture.root,
+        &["commit", "-q", "-m", "mixed gitlink change"],
+    );
     for display in ["log", "diff", "short"] {
         git(&fixture.root, &["config", "diff.submodule", display]);
         for ignore in ["none", "all"] {

@@ -1,7 +1,7 @@
 {
   "acceptance": null,
   "acceptanceCriteria": [
-    "Limit production changes to cockpit-git bounded committed-source snapshot generation and a private v1 patch metadata canonicalizer; add one independent regression target. No dependencies, other Work Items, archived Contract bytes, frozen receipts, or existing four historical test assertions are changed.",
+    "Limit production changes to cockpit-git bounded committed-source snapshot generation and a private v1 patch metadata canonicalizer. Add one independent regression target. In the existing bounded_source_comparison_preserves_existing_hunk_facts test only, explicitly configure its local Git fixture with core.abbrev=8 and assert configuration success for the declared legacy-v1 compatibility comparison. Keep every existing assertion unchanged. No dependencies, other Work Items, archived Contract bytes, frozen receipts, or existing four historical test assertions are changed.",
     "For the explicitly supported legacy v1 SHA-1 source patch recipe evidenced by the frozen WI-1078 request, changing core.abbrev, adding unrelated Git objects, or creating an eight-character blob prefix collision does not change the committed source patch identity. Eight-character display metadata never becomes content authority: complete blob IDs and source content bindings remain intact, and changing tracked bytes remains distinguishable.",
     "Normalize only real textual diff metadata headers. Preserve index-like or binary-marker-like text inside hunks, binary patch full object IDs and payload, added/deleted zero IDs, and mode/rename semantics under the existing no-renames route. Unsupported hash algorithms, malformed or unsupported metadata must fail explicitly rather than inventing a compatible historical identity.",
     "Retain bounded Git output reading before canonicalization. A full-index patch that exceeds the input budget must return the existing bounded-output failure and cannot be truncated into a complete passing digest.",
@@ -24,7 +24,7 @@
   "destructiveChangePolicy": null,
   "documentationImpact": null,
   "executionDecision": null,
-  "goal": "Stabilize the bounded committed-source v1 textual diff metadata against Git abbreviation and unrelated object database changes. Keep complete source/blob identity, binary semantics, unsupported-format rejection, and output budgets. Use the two declared source paths and real red-to-green regressions; then verify the four existing historical failures without editing their assertions or evidence.",
+  "goal": "Stabilize the bounded committed-source v1 textual diff metadata against Git abbreviation and unrelated object database changes. Keep complete source/blob identity, binary semantics, unsupported-format rejection, and output budgets. Use the declared bounded production path and regression paths and real red-to-green regressions; then verify the four existing historical failures without editing their assertions or evidence.",
   "governancePolicy": null,
   "governanceProfile": null,
   "guidelines": [],
@@ -60,6 +60,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1097-source-patch-identity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1053",
+    "worktree": "/workspace/ai-cockpit-wi1097-source-patch-identity"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "normal",
@@ -69,7 +77,8 @@
   "scenarioCoverage": null,
   "scope": [
     "crates/cockpit-git/src/lib.rs",
-    "crates/cockpit-git/tests/source_patch_identity.rs"
+    "crates/cockpit-git/tests/source_patch_identity.rs",
+    "crates/cockpit-git/tests/repository.rs"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/pull/1052",
