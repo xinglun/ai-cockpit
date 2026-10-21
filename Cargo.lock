@@ -409,6 +409,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cockpit-review-receipt"
+version = "1.0.1"
+dependencies = [
+ "hex",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "cockpit-verification"
 version = "1.0.1"
 dependencies = [
