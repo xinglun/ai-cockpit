@@ -2167,10 +2167,20 @@ impl GitRepository {
         if !valid_commit_oid(base) {
             return Err(GitError::InvalidRevision(base.to_owned()));
         }
+        if base.len() != 40 {
+            return Err(GitError::Command(
+                "legacy source patch v1 supports only SHA-1 object IDs".into(),
+            ));
+        }
         let working = self.source_snapshot_bounded(max_output_bytes)?;
         let head = working.head.clone().ok_or_else(|| {
             GitError::Command("comparison snapshot requires a committed HEAD".into())
         })?;
+        if head.len() != 40 {
+            return Err(GitError::Command(
+                "legacy source patch v1 supports only SHA-1 object IDs".into(),
+            ));
+        }
         let name_status = self.output_bounded(
             [
                 "-c",
@@ -2229,6 +2239,9 @@ impl GitRepository {
                 "--no-renames",
                 "--diff-algorithm=myers",
                 "--binary",
+                "--full-index",
+                "--src-prefix=a/",
+                "--dst-prefix=b/",
                 "--unified=0",
                 "-O/dev/null",
                 base,
@@ -2243,7 +2256,10 @@ impl GitRepository {
         if !patch.success {
             return Err(command_error(&patch.stderr));
         }
-        let patch_text = String::from_utf8_lossy(&patch.stdout);
+        // Bound the larger full-index output before any display normalization.
+        // A truncated command never becomes a complete v1 identity.
+        let canonical_patch = canonical_source_patch_v1(&patch.stdout)?;
+        let patch_text = String::from_utf8_lossy(&canonical_patch);
         apply_patch_facts(&patch_text, &mut change_evidence, Some(&changed_paths));
         for change in change_evidence.values_mut() {
             if change.kind == ChangeKind::Deleted {
@@ -2259,7 +2275,7 @@ impl GitRepository {
             change_evidence: change_evidence.into_values().collect(),
             git_calls: 4,
             tree_digest: working.tree_digest,
-            diff_digest: digest(&patch.stdout),
+            diff_digest: digest(&canonical_patch),
             dependency_fingerprint: empty_digest,
             files_read: 0,
             files_hashed: 0,
@@ -2648,6 +2664,103 @@ fn status_v2_head_nul(status: &[u8]) -> Result<Option<String>, GitError> {
         return Ok(valid_commit_oid(head).then(|| head.to_owned()));
     }
     Ok(None)
+}
+
+/// The existing SHA-1 v1 material receipts bind eight-character *textual*
+/// index displays. Ask Git for full IDs, then render that one explicit
+/// legacy format independently of object-store size or prefix collisions.
+/// Full index-tree IDs and committed content digests remain separate bindings;
+/// these display prefixes are never used to find or authorize an object.
+/// Binary patches keep their original full-index representation and payload.
+fn canonical_source_patch_v1(patch: &[u8]) -> Result<Vec<u8>, GitError> {
+    let mut canonical = Vec::with_capacity(patch.len());
+    let mut start = 0;
+    while start < patch.len() {
+        if !patch[start..].starts_with(b"diff --git ") {
+            return Err(unsupported_source_patch_v1(
+                "expected a regular diff header",
+            ));
+        }
+        // Hunk lines carry their own +, -, or space prefix. Binary encoding
+        // has no spaces. Only a real new diff header can delimit this block.
+        let next = patch[start..]
+            .windows(b"\ndiff --git ".len())
+            .position(|window| window == b"\ndiff --git ")
+            .map_or(patch.len(), |offset| start + offset + 1);
+        let block = &patch[start..next];
+        let binary = block
+            .split_inclusive(|byte| *byte == b'\n')
+            .take_while(|line| !line.starts_with(b"@@ "))
+            .any(|line| line.strip_suffix(b"\n").unwrap_or(line) == b"GIT binary patch");
+        let mut metadata = true;
+        for line in block.split_inclusive(|byte| *byte == b'\n') {
+            let bare = line.strip_suffix(b"\n").unwrap_or(line);
+            if metadata {
+                for prefix in [
+                    b"new file mode ".as_slice(),
+                    b"deleted file mode ",
+                    b"old mode ",
+                    b"new mode ",
+                ] {
+                    if let Some(mode) = bare.strip_prefix(prefix) {
+                        validate_source_patch_v1_mode(mode)?;
+                    }
+                }
+            }
+            if metadata && bare.starts_with(b"index ") {
+                let mut fields = bare[b"index ".len()..].split(|byte| *byte == b' ');
+                let ids = fields.next().unwrap_or_default();
+                let mode = fields.next();
+                if fields.next().is_some()
+                    || ids.len() != 82
+                    || &ids[40..42] != b".."
+                    || !ids[..40].iter().all(u8::is_ascii_hexdigit)
+                    || !ids[42..].iter().all(u8::is_ascii_hexdigit)
+                {
+                    return Err(unsupported_source_patch_v1("expected full SHA-1 index IDs"));
+                }
+                if let Some(mode) = mode {
+                    validate_source_patch_v1_mode(mode)?;
+                }
+                if binary {
+                    canonical.extend_from_slice(line);
+                } else {
+                    canonical.extend_from_slice(b"index ");
+                    canonical.extend_from_slice(&ids[..8]);
+                    canonical.extend_from_slice(b"..");
+                    canonical.extend_from_slice(&ids[42..50]);
+                    if let Some(mode) = mode {
+                        canonical.push(b' ');
+                        canonical.extend_from_slice(mode);
+                    }
+                    if line.ends_with(b"\n") {
+                        canonical.push(b'\n');
+                    }
+                }
+            } else {
+                canonical.extend_from_slice(line);
+            }
+            if bare.starts_with(b"@@ ") || bare == b"GIT binary patch" {
+                metadata = false;
+            }
+        }
+        start = next;
+    }
+    Ok(canonical)
+}
+
+fn validate_source_patch_v1_mode(mode: &[u8]) -> Result<(), GitError> {
+    if matches!(mode, b"100644" | b"100755" | b"120000") {
+        Ok(())
+    } else {
+        Err(unsupported_source_patch_v1(
+            "unsupported non-blob file mode",
+        ))
+    }
+}
+
+fn unsupported_source_patch_v1(reason: &str) -> GitError {
+    GitError::Command(format!("unsupported legacy source patch v1: {reason}"))
 }
 
 fn valid_commit_oid(head: &str) -> bool {
