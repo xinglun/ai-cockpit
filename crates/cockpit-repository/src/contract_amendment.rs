@@ -857,6 +857,21 @@ pub fn record_activation_recovery(
     decision: &ActivationRecoveryDecision,
     runtime: &RuntimeContext,
 ) -> Result<ActivationRecoveryRecord, ObserverError> {
+    super::review_authority::execute_human_operation(
+        root,
+        id,
+        cockpit_protocol::review_authority::HumanReviewOperation::ActivationRecovery,
+        &serde_json::json!({"decision":decision,"runtime":runtime}),
+        || record_activation_recovery_business(root, id, decision, runtime),
+    )
+}
+
+fn record_activation_recovery_business(
+    root: &Path,
+    id: &str,
+    decision: &ActivationRecoveryDecision,
+    runtime: &RuntimeContext,
+) -> Result<ActivationRecoveryRecord, ObserverError> {
     super::validate_work_item_id(id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -980,7 +995,7 @@ pub(crate) fn activation_recovery_request_if_needed(
     }
 }
 
-pub(crate) fn activation_recovery_needs_fresh_review(
+pub(crate) fn activation_recovery_needs_fresh_review_historical(
     root: &Path,
     id: &str,
     digest: &Digest,
@@ -1001,8 +1016,9 @@ pub(crate) fn activation_recovery_needs_fresh_review(
         && binding["preflightDecisionDigest"].is_string()
         && binding["preflightDecisionDigest"] != record.previous_summary["preflightDecisionDigest"];
     let fresh = preflight_generated
-        && super::governance_controls::preflight_decision_evidence_state(root, id, digest)
-            == super::governance_controls::PreflightDecisionEvidenceState::Valid
+        && super::governance_controls::historical_preflight_decision_evidence_state(
+            root, id, digest,
+        ) == super::governance_controls::PreflightDecisionEvidenceState::Valid
         && evidence != &record.previous_summary["decisionEvidence"]
         && evidence["preflightDecisionDigest"] == binding["preflightDecisionDigest"]
         && evidence["repositorySnapshotDigest"] == binding["repositorySnapshotDigest"]
@@ -2169,6 +2185,78 @@ fn records_len_hint(directory: &Path) -> Result<u64, ObserverError> {
     Ok(count as u64)
 }
 
+/// Read responsibility from the same validated native history used by
+/// admission. A successor must never infer its origin from its scope or from
+/// the repository comparison base, which can include its predecessor's work.
+pub(crate) fn verification_responsibility_origin(
+    root: &Path,
+    id: &str,
+) -> Result<Value, ObserverError> {
+    let path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let contract = super::read_json(&path)?;
+    let history = read_work_item_contract_amendments(root, id)?;
+    let current = record_digest(&contract, &path)?;
+    validate_transition_chain(root, id, &history, Some(&current))?;
+    let transition = read_activation_transition(root, id)?;
+    let successor = contract["predecessorWorkItemId"].is_string();
+    if successor && transition.is_none() {
+        return Err(state_error(
+            &path,
+            "source change observation requires a committed native successor origin",
+        ));
+    }
+    let (origin, proof, activation_head) = if let Some(prepared) = transition {
+        let record = prepared.record;
+        if record.new_contract["baseRevision"] != contract["baseRevision"]
+            || record.previous_contract["baselineDirtyPaths"]
+                .as_array()
+                .is_some_and(|paths| !paths.is_empty())
+            || contract["baselineDirtyPaths"]
+                .as_array()
+                .is_some_and(|paths| !paths.is_empty())
+        {
+            return Err(state_error(
+                &path,
+                "source change observation has an unexplained origin or dirty baseline",
+            ));
+        }
+        (
+            record.previous_contract["baseRevision"].clone(),
+            json!(prepared.record_digest),
+            Some(record.observed_head),
+        )
+    } else {
+        (contract["baseRevision"].clone(), Value::Null, None)
+    };
+    let origin_text = origin
+        .as_str()
+        .filter(|value| super::valid_git_object_id(value))
+        .ok_or_else(|| state_error(&path, "source change observation origin is not a commit"))?;
+    let head = super::git_text(root, &["rev-parse", "HEAD"])
+        .ok_or_else(|| state_error(root, "source change observation requires HEAD"))?;
+    for (before, after) in [
+        (origin_text, activation_head.as_deref().unwrap_or(&head)),
+        (
+            activation_head.as_deref().unwrap_or(origin_text),
+            head.as_str(),
+        ),
+    ] {
+        if super::git_text(root, &["merge-base", "--is-ancestor", before, after]).is_none() {
+            return Err(state_error(
+                &path,
+                "source change observation origin ancestry is invalid",
+            ));
+        }
+    }
+    Ok(json!({
+        "repositoryBaseRevision":contract["baseRevision"],
+        "responsibilityRevision":origin,
+        "activationPreparedDigest":proof,
+        "owner":observed_activation_owner(root)?,
+        "journalDigest":history.last().map(|receipt| &receipt.journal_digest),
+    }))
+}
+
 pub fn read_work_item_contract_amendments(
     root: &Path,
     work_item_id: &str,
@@ -2298,21 +2386,68 @@ pub(crate) fn current_amendment_review_request_available(
     let Some(tail) = history.last() else {
         return Ok(false);
     };
-    validate_transition_chain(root, work_item_id, &history, None)?;
-    if tail.new_contract_digest != *current_contract_digest
-        || !history.iter().any(|receipt| receipt.policy_review_required)
-        || !tail.checkpointed
+    validate_transition_chain(root, work_item_id, &history, Some(current_contract_digest))?;
+    if !history.iter().any(|receipt| receipt.policy_review_required)
         || summary["checkpointCount"] != json!(1)
         || !matches!(
             summary["preflightState"].as_str(),
             Some("not_run" | "green" | "yellow" | "red")
         )
-        || super::governance_controls::preflight_decision_evidence_state(
+        || super::governance_controls::current_preflight_decision_evidence_state(
             root,
             work_item_id,
             current_contract_digest,
         ) == super::governance_controls::PreflightDecisionEvidenceState::Valid
     {
+        return Ok(false);
+    }
+    if !tail.checkpointed {
+        // A plan amended before its original checkpoint can later need a new
+        // source-bound review. Admit only generation of that fresh preflight;
+        // this does not reuse its old approval or admit verification.
+        if history
+            .iter()
+            .any(|receipt| receipt.checkpointed || receipt.verification_started)
+            || summary["checkpointContractDigest"] != json!(current_contract_digest)
+            || summary["preflightContractDigest"] != json!(current_contract_digest)
+        {
+            return Ok(false);
+        }
+        let Some(checkpoint_value) = summary.get("checkpointEvidence") else {
+            // The existing native checkpoint writes scalar bindings when C
+            // declares no typed checkpoint policy. These admit only request
+            // regeneration; they never authenticate the later approval.
+            return Ok(contract["checkpointPolicy"].is_null()
+                && summary["checkpointRepositorySnapshotDigest"]
+                    .as_str()
+                    .is_some_and(|value| value.parse::<Digest>().is_ok())
+                && summary["checkpointAt"]
+                    .as_str()
+                    .is_some_and(|value| chrono::DateTime::parse_from_rfc3339(value).is_ok()));
+        };
+        let Some(checkpoints) = checkpoint_value.as_array() else {
+            return Ok(false);
+        };
+        let mut before_edit = checkpoints
+            .iter()
+            .filter(|record| record["stage"] == "before_edit");
+        let Some(record) = before_edit.next() else {
+            return Ok(false);
+        };
+        let Ok(record) =
+            serde_json::from_value::<cockpit_protocol::CheckpointEvidence>(record.clone())
+        else {
+            return Ok(false);
+        };
+        return Ok(before_edit.next().is_none()
+            && record.validate_shape().is_ok()
+            && !record.verification_started
+            && chrono::DateTime::parse_from_rfc3339(&record.recorded_at).is_ok()
+            && record.repository_id == identity
+            && record.work_item_id == work_item_id
+            && record.contract_hash == current_contract_digest.to_string());
+    }
+    if tail.new_contract_digest != *current_contract_digest {
         return Ok(false);
     }
     // The first native transition after checkpoint is the immutable source
@@ -2710,7 +2845,8 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
         ));
     }
     if previous_summary["recoveryRetryPending"] == Value::Bool(true) {
-        let recovery = super::load_recovery_decision(&root, work_item_id, None)?;
+        let recovery =
+            super::review_authority::current_recovery_decision(&root, work_item_id, None)?;
         if recovery
             .as_ref()
             .is_none_or(|decision| decision.decision != "retry")
@@ -2786,6 +2922,28 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
     let receipt = finish_prepared(&root, &prepared)?;
     history.push(receipt.clone());
     Ok(receipt)
+}
+
+/// Current recovery review is authenticated against the exact live binding.
+/// Historical Summary times/actor claims remain reconstruction data only.
+pub(crate) fn activation_recovery_needs_fresh_review(
+    root: &Path,
+    id: &str,
+    digest: &Digest,
+    summary: &Value,
+) -> Result<Option<(ActivationRecoveryRequest, bool)>, ObserverError> {
+    let history = read_work_item_contract_amendments(root, id)?;
+    let Some(record) = read_activation_recovery(root, id, &history)? else {
+        return Ok(None);
+    };
+    let binding = &summary["activationRecovery"]["reviewRequest"];
+    let generated = binding["contractDigest"] == json!(digest)
+        && binding["preflightDecisionDigest"].is_string()
+        && binding["preflightDecisionDigest"] != record.previous_summary["preflightDecisionDigest"];
+    let fresh = generated
+        && super::review_authority::current_review_authority_state(root, id)?
+            == cockpit_protocol::review_authority::CurrentReviewAuthorityState::Active;
+    Ok((!fresh).then_some((record.request, generated)))
 }
 
 #[cfg(test)]

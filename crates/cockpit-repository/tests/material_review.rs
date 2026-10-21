@@ -4,16 +4,26 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     MaterialReviewDecisionValidationError, MaterialReviewRequestError, MaterialUnknownCause,
-    amend_work_item_contract_with_runtime, material_review_request, plan_work_item_material_review,
-    read_work_item_contract_amendments, record_work_item_governance_controls_with_runtime,
-    validate_material_review_decision,
+    material_review_request, plan_work_item_material_review, validate_material_review_decision,
 };
 use serde_json::json;
-use std::{
-    fs,
-    path::{Path, PathBuf},
-    process::Command,
-};
+use std::{fs, path::Path, process::Command};
+
+fn bind_review_input_to_request(
+    input: &mut MaterialInspectionReviewDecisionInput,
+    request: &cockpit_repository::MaterialReviewRequest,
+) {
+    input.schema_version = request.schema_version;
+    input.request_digest = request.request_digest.clone();
+    input.request_artifact_digest = request
+        .request_artifact
+        .as_ref()
+        .map(|artifact| artifact.digest.clone());
+    input.request_artifact_byte_length = request
+        .request_artifact
+        .as_ref()
+        .map(|artifact| artifact.byte_length);
+}
 
 fn review_runtime() -> cockpit_protocol::RuntimeContext {
     cockpit_protocol::RuntimeContext {
@@ -101,70 +111,177 @@ fn commit(root: &Path) {
     );
 }
 
-fn active_recorded_material_review_fixture() -> (
+fn commit_large_text_changes(
+    root: &Path,
+    contract: &mut Contract,
+    count: usize,
+    padding_bytes: usize,
+) {
+    let padding = "p".repeat(padding_bytes);
+    fs::create_dir_all(root.join("assets")).unwrap();
+    for index in 0..count {
+        fs::write(
+            root.join(format!("assets/large-{index}.txt")),
+            format!("revision=0-{index}\n{padding}\n"),
+        )
+        .unwrap();
+    }
+    commit(root);
+    contract.base_revision = git(root, &["rev-parse", "HEAD"]);
+
+    for index in 0..count {
+        fs::write(
+            root.join(format!("assets/large-{index}.txt")),
+            format!("revision=1-{index}\n{padding}\n"),
+        )
+        .unwrap();
+    }
+    commit(root);
+}
+
+fn assert_budget_error(
+    result: Result<impl Sized, MaterialReviewRequestError>,
+    expected_budget: &str,
+) {
+    let error = match result {
+        Err(error) => error.to_string(),
+        Ok(_) => panic!("material request should reject the {expected_budget} budget"),
+    };
+    assert!(
+        error.contains(expected_budget),
+        "unexpected material budget error: {error}"
+    );
+}
+
+fn material_review_decision_fixture() -> (
     tempfile::TempDir,
-    cockpit_protocol::RuntimeContext,
-    PathBuf,
-    PathBuf,
-    PathBuf,
+    Contract,
+    cockpit_repository::MaterialReviewRequest,
     MaterialInspectionReviewDecisionInput,
 ) {
-    let (directory, mut contract, _initial_request, mut input) = material_review_decision_fixture();
+    let (directory, mut contract) = fixture();
+    contract.governance_profile = Some(json!({
+        "materialInspectionReview": {
+            "schemaVersion": 1,
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "assurance": "self_declared",
+            "reviewerActor": "agent:Raydot",
+            "authoritySource": "user-delegation:ray-approved-WI1068",
+            "acceptResidualRisk": true
+        }
+    }));
+    contract.required_runtime_capabilities =
+        vec![cockpit_protocol::MATERIAL_INSPECTION_REVIEW_CAPABILITY.to_owned()];
+
     let root = directory.path();
-    cockpit_repository::attach(root).expect("attach fixture");
-    contract.repository_id = cockpit_repository::repository_id(root).to_string();
-    let project: serde_json::Value =
-        serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
-    contract.project_profile_digest = project["profileDigest"].as_str().unwrap().parse().unwrap();
-    let active = root.join(".ai/work-items/active");
-    fs::create_dir_all(&active).expect("active directory");
-    let contract_path = active.join("WI-MATERIAL.contract.json");
-    let mut persisted_contract = serde_json::to_value(&contract).expect("Contract value");
-    persisted_contract["predecessorWorkItemId"] = serde_json::Value::Null;
-    persisted_contract["predecessorContractDigest"] = serde_json::Value::Null;
-    persisted_contract["recoveryDecisionPath"] = serde_json::Value::Null;
-    fs::write(
-        &contract_path,
-        serde_json::to_vec_pretty(&persisted_contract).expect("Contract JSON"),
-    )
-    .expect("write active Contract");
-    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("initial request");
-    input.request_digest = request.request_digest.clone();
-    let summary_path = active.join("WI-MATERIAL.summary.json");
-    fs::write(
-        &summary_path,
-        serde_json::to_vec_pretty(&json!({
-            "workItemId": "WI-MATERIAL",
-            "state": "implementation_active",
-            "checkpointCount": 0,
-            "createdAt": "2026-10-07T00:00:00Z"
-        }))
-        .expect("Summary JSON"),
-    )
-    .expect("write active Summary");
-    let runtime = review_runtime();
-    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-        .expect("fresh preflight");
-    let receipt =
-        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
-            .expect("initial typed material-review receipt");
-    assert_eq!(receipt.request_digest, request.request_digest);
-    let summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))
-            .expect("Summary JSON");
-    let sidecar_path = root.join(
-        summary["materialReviewReceipt"]["path"]
-            .as_str()
-            .expect("receipt sidecar path"),
+    fs::create_dir_all(root.join("src")).unwrap();
+    fs::write(root.join("src/material.rs"), benign_syntax_unknown_source()).unwrap();
+    commit(root);
+
+    let request = material_review_request(root, &contract).unwrap();
+    let input: MaterialInspectionReviewDecisionInput = serde_json::from_value(json!({
+        "schemaVersion": 2,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest.to_string(),
+        "requestArtifactDigest":request.request_artifact.as_ref().unwrap().digest,
+        "requestArtifactByteLength":request.request_artifact.as_ref().unwrap().byte_length,
+        "reviewerActor": "agent:Raydot",
+        "authoritySource": "user-delegation:ray-approved-WI1068",
+        "assurance": "self_declared",
+        "evidenceRefs": [{
+            "path": "docs/review-evidence.md",
+            "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }],
+        "rationale": "Review the exact bounded syntax unknown.",
+        "residualRisk": "The bounded source scanner remains incomplete for this syntax."
+    }))
+    .unwrap();
+    (directory, contract, request, input)
+}
+
+fn rebind_material_request_digest(value: &mut serde_json::Value) -> cockpit_core::Digest {
+    let mut payload = value.clone();
+    let fields = payload.as_object_mut().expect("request object");
+    fields.remove("requestDigest");
+    fields.remove("reviewedSourceHead");
+    fields.remove("reviewDiagnostic");
+    let digest = cockpit_protocol::digest_json(&("ai-cockpit:material-review-request:v1", payload))
+        .expect("canonical request digest");
+    value["requestDigest"] = json!(digest.to_string());
+    digest
+}
+
+#[cfg(unix)]
+fn run_hunkless_git_worker(
+    root: &Path,
+    contract: &Contract,
+    expected_path: &str,
+    expectation: &str,
+) {
+    use std::os::unix::fs::PermissionsExt;
+
+    let real_git = std::env::split_paths(&std::env::var_os("PATH").unwrap())
+        .map(|directory| directory.join("git"))
+        .find(|candidate| candidate.is_file())
+        .expect("locate real git executable");
+    let wrapper_directory = tempfile::Builder::new()
+        .prefix("ai-cockpit-hunkless-git-")
+        .permissions(fs::Permissions::from_mode(0o700))
+        .tempdir()
+        .unwrap();
+    assert_eq!(
+        wrapper_directory
+            .path()
+            .metadata()
+            .unwrap()
+            .permissions()
+            .mode()
+            & 0o077,
+        0,
+        "hunkless Git wrapper directory must not allow group or other access"
     );
-    (
-        directory,
-        runtime,
-        contract_path,
-        summary_path,
-        sidecar_path,
-        input,
+    let wrapper = wrapper_directory.path().join("git");
+    fs::write(
+        &wrapper,
+        "#!/bin/sh\nfor arg in \"$@\"; do\n  if [ \"$arg\" = \"--binary\" ]; then\n    tmp=\"${TMPDIR:-/tmp}/ai-cockpit-git-hunkless-$$\"\n    case \"$tmp\" in \"$AI_COCKPIT_TEST_PRIVATE_TMP\"/*) ;; *) printf 'temporary output escaped private directory: %s\\n' \"$tmp\" >&2; exit 97 ;; esac\n    \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\" >\"$tmp\"\n    result=$?\n    if [ \"$result\" -eq 0 ]; then\n      sed -n -e '/^diff --git /p' -e '/^index /p' -e '/^old mode /p' -e '/^new mode /p' -e '/^new file mode /p' -e '/^deleted file mode /p' -e '/^--- /p' -e '/^+++ /p' \"$tmp\"\n    else\n      cat \"$tmp\"\n    fi\n    rm -f \"$tmp\"\n    exit \"$result\"\n  fi\ndone\nexec \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\"\n",
     )
+    .unwrap();
+    let mut permissions = fs::metadata(&wrapper).unwrap().permissions();
+    permissions.set_mode(0o700);
+    fs::set_permissions(&wrapper, permissions).unwrap();
+
+    let contract_directory = tempfile::tempdir().unwrap();
+    let contract_path = contract_directory.path().join("contract.json");
+    fs::write(&contract_path, serde_json::to_vec(contract).unwrap()).unwrap();
+    let child_path = std::env::join_paths(
+        std::iter::once(wrapper_directory.path().to_path_buf())
+            .chain(std::env::split_paths(&std::env::var_os("PATH").unwrap())),
+    )
+    .unwrap();
+    let output = Command::new(std::env::current_exe().unwrap())
+        .args([
+            "--exact",
+            "material_review_hunkless_git_worker",
+            "--nocapture",
+        ])
+        .env("AI_COCKPIT_TEST_HUNKLESS_WORKER", "1")
+        .env("AI_COCKPIT_TEST_REPO", root)
+        .env("AI_COCKPIT_TEST_CONTRACT", contract_path)
+        .env("AI_COCKPIT_TEST_PATH", expected_path)
+        .env("AI_COCKPIT_TEST_EXPECTATION", expectation)
+        .env("AI_COCKPIT_TEST_REAL_GIT", real_git)
+        .env("AI_COCKPIT_TEST_PRIVATE_TMP", wrapper_directory.path())
+        .env("TMPDIR", wrapper_directory.path())
+        .env("PATH", child_path)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "hunkless Git worker failed\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
 }
 
 #[test]
@@ -253,105 +370,6 @@ fn active_material_plan_digest_matches_persisted_contract_across_json_shapes() {
         omitted_status.source_digests.get("contract"),
         Some(&omitted_plan.contract_digest)
     );
-}
-
-fn commit_large_text_changes(
-    root: &Path,
-    contract: &mut Contract,
-    count: usize,
-    padding_bytes: usize,
-) {
-    let padding = "p".repeat(padding_bytes);
-    fs::create_dir_all(root.join("assets")).unwrap();
-    for index in 0..count {
-        fs::write(
-            root.join(format!("assets/large-{index}.txt")),
-            format!("revision=0-{index}\n{padding}\n"),
-        )
-        .unwrap();
-    }
-    commit(root);
-    contract.base_revision = git(root, &["rev-parse", "HEAD"]);
-
-    for index in 0..count {
-        fs::write(
-            root.join(format!("assets/large-{index}.txt")),
-            format!("revision=1-{index}\n{padding}\n"),
-        )
-        .unwrap();
-    }
-    commit(root);
-}
-
-fn assert_budget_error(
-    result: Result<impl Sized, MaterialReviewRequestError>,
-    expected_budget: &str,
-) {
-    let error = match result {
-        Err(error) => error.to_string(),
-        Ok(_) => panic!("material request should reject the {expected_budget} budget"),
-    };
-    assert!(
-        error.contains(expected_budget),
-        "unexpected material budget error: {error}"
-    );
-}
-
-fn material_review_decision_fixture() -> (
-    tempfile::TempDir,
-    Contract,
-    cockpit_repository::MaterialReviewRequest,
-    MaterialInspectionReviewDecisionInput,
-) {
-    let (directory, mut contract) = fixture();
-    contract.governance_profile = Some(json!({
-        "materialInspectionReview": {
-            "schemaVersion": 1,
-            "permittedUnknown": "repository_material_inspection_unavailable",
-            "permittedCause": "readable_committed_rust_syntax_unknown",
-            "assurance": "self_declared",
-            "reviewerActor": "agent:Raydot",
-            "authoritySource": "user-delegation:ray-approved-WI1068",
-            "acceptResidualRisk": true
-        }
-    }));
-    contract.required_runtime_capabilities =
-        vec![cockpit_protocol::MATERIAL_INSPECTION_REVIEW_CAPABILITY.to_owned()];
-
-    let root = directory.path();
-    fs::create_dir_all(root.join("src")).unwrap();
-    fs::write(root.join("src/material.rs"), benign_syntax_unknown_source()).unwrap();
-    commit(root);
-
-    let request = material_review_request(root, &contract).unwrap();
-    let input: MaterialInspectionReviewDecisionInput = serde_json::from_value(json!({
-        "schemaVersion": 1,
-        "decision": "accept_permitted_unknowns",
-        "requestDigest": request.request_digest.to_string(),
-        "reviewerActor": "agent:Raydot",
-        "authoritySource": "user-delegation:ray-approved-WI1068",
-        "assurance": "self_declared",
-        "evidenceRefs": [{
-            "path": "docs/review-evidence.md",
-            "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-        }],
-        "rationale": "Review the exact bounded syntax unknown.",
-        "residualRisk": "The bounded source scanner remains incomplete for this syntax."
-    }))
-    .unwrap();
-    (directory, contract, request, input)
-}
-
-fn rebind_material_request_digest(value: &mut serde_json::Value) -> cockpit_core::Digest {
-    let mut payload = value.clone();
-    let fields = payload.as_object_mut().expect("request object");
-    fields.remove("requestDigest");
-    fields.remove("reviewedSourceHead");
-    fields.remove("reviewDiagnostic");
-    let digest = cockpit_protocol::digest_json(&("ai-cockpit:material-review-request:v1", payload))
-        .expect("canonical request digest");
-    value["requestDigest"] = json!(digest.to_string());
-    digest
 }
 
 #[test]
@@ -449,7 +467,12 @@ fn material_review_decision_validator_rejects_stale_input_and_tampered_request()
 
 #[test]
 fn old_material_decision_is_stale_after_analysis_or_policy_identity_changes() {
-    let (_directory, contract, request, input) = material_review_decision_fixture();
+    let (_directory, contract, mut request, mut input) = material_review_decision_fixture();
+    request.schema_version = 1;
+    request.request_artifact = None;
+    let mut original_value = serde_json::to_value(&request).unwrap();
+    request.request_digest = rebind_material_request_digest(&mut original_value);
+    bind_review_input_to_request(&mut input, &request);
 
     for field in [
         "analysisImplementationDigest",
@@ -654,786 +677,6 @@ fn material_review_decision_validator_rejects_wrong_authority_source() {
         error,
         MaterialReviewDecisionValidationError::AuthorityMismatch
     );
-}
-
-#[test]
-fn admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer() {
-    let (directory, mut contract, _initial_request, mut input) = material_review_decision_fixture();
-    let root = directory.path();
-    cockpit_repository::attach(root).expect("attach fixture");
-    contract.repository_id = cockpit_repository::repository_id(root).to_string();
-    let project: serde_json::Value =
-        serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
-    contract.project_profile_digest = project["profileDigest"].as_str().unwrap().parse().unwrap();
-    let active = root.join(".ai/work-items/active");
-    fs::create_dir_all(&active).expect("active directory");
-    let contract_path = active.join("WI-MATERIAL.contract.json");
-    let mut persisted_contract = serde_json::to_value(&contract).expect("Contract value");
-    persisted_contract["predecessorWorkItemId"] = serde_json::Value::Null;
-    persisted_contract["predecessorContractDigest"] = serde_json::Value::Null;
-    persisted_contract["recoveryDecisionPath"] = serde_json::Value::Null;
-    fs::write(
-        &contract_path,
-        serde_json::to_vec_pretty(&persisted_contract).expect("Contract JSON"),
-    )
-    .expect("write active Contract");
-    let request =
-        plan_work_item_material_review(root, "WI-MATERIAL").expect("recompute attached request");
-    assert_eq!(
-        request.contract_digest,
-        cockpit_protocol::digest_json(&persisted_contract).unwrap()
-    );
-    input.request_digest = request.request_digest.clone();
-    let summary_path = active.join("WI-MATERIAL.summary.json");
-    fs::write(
-        &summary_path,
-        serde_json::to_vec_pretty(&json!({
-            "workItemId": "WI-MATERIAL",
-            "state": "implementation_active",
-            "checkpointCount": 0,
-            "createdAt": "2026-10-07T00:00:00Z"
-        }))
-        .expect("Summary JSON"),
-    )
-    .expect("write active Summary");
-
-    let runtime = review_runtime();
-    let preflight =
-        cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-            .expect("fresh preflight");
-    assert!(
-        preflight
-            .unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-    let status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status after preflight");
-    assert!(
-        status
-            .safe_actions
-            .contains(&"record_material_review_decision".into())
-    );
-
-    let receipt =
-        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
-            .expect("admitted typed material-review decision");
-    assert_eq!(receipt.request_digest, request.request_digest);
-    assert_eq!(
-        receipt.reviewed_source_head.as_deref(),
-        Some(request.reviewed_source_head.as_str())
-    );
-    let pointer: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("updated Summary"))
-            .expect("Summary JSON");
-    let sidecar_path = root.join(pointer["materialReviewReceipt"]["path"].as_str().unwrap());
-    let sidecar_bytes = fs::read(&sidecar_path).expect("immutable receipt sidecar");
-    assert_eq!(
-        pointer["materialReviewReceipt"]["digest"],
-        cockpit_core::Digest::sha256_bytes(&sidecar_bytes).to_string()
-    );
-    assert_eq!(
-        pointer["materialReviewReceipt"]["receiptDigest"],
-        receipt.receipt_digest.to_string()
-    );
-
-    let after =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status after receipt");
-    assert_eq!(
-        after.review_assurance,
-        Some(cockpit_protocol::MaterialInspectionReviewAssurance::SelfDeclared)
-    );
-    assert_eq!(
-        after.review_receipt_digest,
-        Some(receipt.receipt_digest.clone())
-    );
-    assert!(
-        !after
-            .effective_unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-
-    let summary_before_replay = fs::read(&summary_path).expect("Summary bytes");
-    assert!(cockpit_repository::record_work_item_material_review(
-        root,
-        "WI-MATERIAL",
-        &input,
-        &runtime,
-    )
-    .is_err());
-    assert_eq!(
-        fs::read(&summary_path).expect("Summary after replay attempt"),
-        summary_before_replay,
-        "replay must not rewrite the Summary pointer"
-    );
-
-    git(root, &["add", "-f", ".ai"]);
-    git(
-        root,
-        &[
-            "-c",
-            "user.name=fixture",
-            "-c",
-            "user.email=fixture@example.invalid",
-            "commit",
-            "-qm",
-            "descendant .ai-only review record",
-        ],
-    );
-    let descendant =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status on .ai-only descendant");
-    assert_eq!(
-        descendant.review_receipt_digest,
-        Some(receipt.receipt_digest.clone())
-    );
-    assert_eq!(descendant.review_assurance, after.review_assurance);
-    assert!(
-        descendant
-            .raw_scanner_unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-    assert!(
-        !descendant
-            .effective_unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-
-    let old_pointer = pointer["materialReviewReceipt"].clone();
-    let old_sidecar_path = root.join(old_pointer["path"].as_str().unwrap());
-    let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old immutable sidecar");
-    fs::write(
-        root.join("README.md"),
-        "candidate with refreshed material identity\n",
-    )
-    .expect("change source snapshot");
-    commit(root);
-    let refreshed_request =
-        plan_work_item_material_review(root, "WI-MATERIAL").expect("refreshed request");
-    assert_ne!(refreshed_request.request_digest, request.request_digest);
-    let refreshed_preflight =
-        cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-            .expect("preflight the new committed source candidate");
-    assert!(
-        refreshed_preflight
-            .unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-    let stale_status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status with stale prior-request receipt");
-    assert!(
-        stale_status
-            .safe_actions
-            .contains(&"record_material_review_decision".into()),
-        "a valid prior receipt must allow a new exact-request decision without discharging the new Unknown: {stale_status:#?}"
-    );
-    assert!(
-        stale_status
-            .effective_unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-    assert!(
-        stale_status
-            .effective_unknowns
-            .contains(&"material_review_receipt_stale".into())
-    );
-
-    let mut refreshed_input = input.clone();
-    refreshed_input.request_digest = refreshed_request.request_digest.clone();
-    let refreshed_receipt = cockpit_repository::record_work_item_material_review(
-        root,
-        "WI-MATERIAL",
-        &refreshed_input,
-        &runtime,
-    )
-    .expect("record the new exact-request receipt");
-    assert_eq!(
-        refreshed_receipt.request_digest,
-        refreshed_request.request_digest
-    );
-    assert_eq!(
-        fs::read(&old_sidecar_path).expect("preserved old sidecar"),
-        old_sidecar_bytes,
-        "the previous immutable receipt must remain unchanged"
-    );
-    let refreshed_summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("refreshed Summary"))
-            .expect("Summary JSON");
-    assert_eq!(
-        refreshed_summary["materialReviewReceiptHistory"],
-        json!([old_pointer]),
-        "Summary keeps the prior receipt pointer in append-only history"
-    );
-    assert_ne!(
-        refreshed_summary["materialReviewReceipt"]["requestDigest"],
-        old_pointer["requestDigest"]
-    );
-    let refreshed_status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status after refreshed receipt");
-    assert_eq!(
-        refreshed_status.review_receipt_digest,
-        Some(refreshed_receipt.receipt_digest.clone())
-    );
-    assert!(
-        !refreshed_status
-            .effective_unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-    assert!(
-        !refreshed_status
-            .effective_unknowns
-            .contains(&"material_review_receipt_stale".into())
-    );
-
-    git(
-        root,
-        &["checkout", "--orphan", "non-ancestor-material-review"],
-    );
-    git(root, &["add", "-A"]);
-    git(root, &["add", "-f", ".ai"]);
-    git(
-        root,
-        &[
-            "-c",
-            "user.name=fixture",
-            "-c",
-            "user.email=fixture@example.invalid",
-            "commit",
-            "-qm",
-            "non-ancestor material snapshot",
-        ],
-    );
-    let non_ancestor =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status remains available after non-ancestor rewrite");
-    assert!(
-        non_ancestor
-            .blockers
-            .contains(&"material_review_projection_unavailable".into())
-    );
-    assert_eq!(non_ancestor.review_receipt_digest, None);
-    assert!(
-        non_ancestor
-            .effective_unknowns
-            .contains(&"material_review_projection_unavailable".into())
-    );
-}
-
-#[test]
-fn material_review_rejects_a_summary_pointer_to_a_noncanonical_sidecar_path() {
-    let (directory, runtime, _contract_path, summary_path, sidecar_path, _input) =
-        active_recorded_material_review_fixture();
-    let root = directory.path();
-    let mut summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))
-            .expect("Summary JSON");
-    let pointer = &mut summary["materialReviewReceipt"];
-    let wrong_relative_path =
-        ".ai/evidence/material-inspection-review/WI-MATERIAL/copied-receipt.json";
-    fs::write(
-        root.join(wrong_relative_path),
-        fs::read(&sidecar_path).expect("valid immutable sidecar"),
-    )
-    .expect("copy valid receipt under a wrong path");
-    pointer["path"] = json!(wrong_relative_path);
-    fs::write(
-        &summary_path,
-        serde_json::to_vec_pretty(&summary).expect("tampered Summary bytes"),
-    )
-    .expect("write Summary with wrong receipt path");
-
-    let status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status with a noncanonical receipt path");
-    assert_eq!(status.review_receipt_digest, None);
-    assert!(
-        status
-            .effective_unknowns
-            .contains(&"material_review_receipt_invalid".into())
-    );
-    assert!(
-        status
-            .effective_unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
-    );
-    assert!(
-        !status
-            .safe_actions
-            .contains(&"record_material_review_decision".into()),
-        "a copied sidecar at a noncanonical path must not authorize renewal"
-    );
-}
-
-#[test]
-fn stale_material_review_receipt_requires_valid_prior_sidecar() {
-    for tamper in ["corrupt", "wrong_identity", "missing_file"] {
-        let (directory, runtime, contract_path, summary_path, sidecar_path, mut input) =
-            active_recorded_material_review_fixture();
-        let root = directory.path();
-        fs::write(root.join("README.md"), "new source request\n").expect("source change");
-        commit(root);
-        let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("new request");
-        input.request_digest = request.request_digest.clone();
-
-        match tamper {
-            "corrupt" => fs::write(&sidecar_path, b"{corrupt receipt").expect("corrupt sidecar"),
-            "wrong_identity" => {
-                let mut receipt: MaterialInspectionReviewDecisionReceipt =
-                    serde_json::from_slice(&fs::read(&sidecar_path).expect("old sidecar"))
-                        .expect("old receipt");
-                receipt.repository_id =
-                    cockpit_core::Digest::sha256_bytes(b"foreign repository").to_string();
-                receipt.receipt_digest = receipt.canonical_digest().expect("receipt digest");
-                let bytes = serde_json::to_vec_pretty(&receipt).expect("forged receipt bytes");
-                fs::write(&sidecar_path, &bytes).expect("write resealed foreign receipt");
-                let mut summary: serde_json::Value =
-                    serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
-                        .expect("Summary JSON");
-                summary["materialReviewReceipt"]["digest"] =
-                    cockpit_core::Digest::sha256_bytes(&bytes)
-                        .to_string()
-                        .into();
-                summary["materialReviewReceipt"]["receiptDigest"] =
-                    receipt.receipt_digest.to_string().into();
-                fs::write(
-                    &summary_path,
-                    serde_json::to_vec_pretty(&summary).expect("Summary bytes"),
-                )
-                .expect("reseal prior pointer");
-            }
-            "missing_file" => fs::remove_file(&sidecar_path).expect("remove prior sidecar"),
-            _ => unreachable!(),
-        }
-
-        let preflight =
-            cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-                .expect("preflight preserves invalid prior receipt as an Unknown");
-        assert!(
-            preflight
-                .unknowns
-                .contains(&"material_review_receipt_invalid".into()),
-            "tamper case {tamper} must remain invalid"
-        );
-        let status = cockpit_repository::work_item_status_snapshot_with_runtime(
-            root,
-            "WI-MATERIAL",
-            &runtime,
-        )
-        .expect("status after invalid prior receipt");
-        assert!(
-            !status
-                .safe_actions
-                .contains(&"record_material_review_decision".into()),
-            "tamper case {tamper} must not admit a replacement receipt: {status:#?}"
-        );
-        assert!(
-            status
-                .effective_unknowns
-                .contains(&"material_review_receipt_invalid".into())
-        );
-
-        let summary_before = fs::read(&summary_path).expect("Summary before rejected record");
-        let error = cockpit_repository::record_work_item_material_review(
-            root,
-            "WI-MATERIAL",
-            &input,
-            &runtime,
-        )
-        .expect_err("invalid prior receipt must fail closed");
-        assert!(
-            error
-                .to_string()
-                .contains("record_material_review_decision")
-                || error.to_string().contains("material-review"),
-            "unexpected refusal for {tamper}: {error}"
-        );
-        assert_eq!(
-            fs::read(&summary_path).expect("Summary after rejected record"),
-            summary_before,
-            "rejected renewal must preserve Summary bytes for {tamper}"
-        );
-        let current_sidecar = root.join(format!(
-            ".ai/evidence/material-inspection-review/WI-MATERIAL/{}.json",
-            request
-                .request_digest
-                .as_str()
-                .strip_prefix("sha256:")
-                .expect("request digest prefix")
-        ));
-        assert!(
-            !current_sidecar.exists(),
-            "rejected renewal must not write a current receipt for {tamper}"
-        );
-    }
-}
-
-#[test]
-fn stale_receipt_history_shape_is_validated_before_sidecar_write() {
-    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut input) =
-        active_recorded_material_review_fixture();
-    let root = directory.path();
-    fs::write(
-        root.join("README.md"),
-        "new source request with malformed history\n",
-    )
-    .expect("change source");
-    commit(root);
-    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("new request");
-    input.request_digest = request.request_digest.clone();
-
-    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-        .expect("preflight exact new request");
-    let status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("admitted stale receipt renewal");
-    assert!(
-        status
-            .safe_actions
-            .contains(&"record_material_review_decision".into())
-    );
-
-    let mut summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
-    summary["materialReviewReceiptHistory"] = json!({"malformed": true});
-    fs::write(
-        &summary_path,
-        serde_json::to_vec_pretty(&summary).expect("malformed-history Summary"),
-    )
-    .expect("write malformed-history Summary");
-    let summary_before = fs::read(&summary_path).expect("Summary bytes before record");
-    let current_sidecar = root.join(format!(
-        ".ai/evidence/material-inspection-review/WI-MATERIAL/{}.json",
-        request
-            .request_digest
-            .as_str()
-            .strip_prefix("sha256:")
-            .expect("request digest prefix")
-    ));
-    assert!(!current_sidecar.exists());
-
-    let error =
-        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
-            .expect_err("malformed receipt history must be rejected");
-    assert!(error.to_string().contains("history must be an array"));
-    assert_eq!(
-        fs::read(&summary_path).expect("Summary remains unchanged"),
-        summary_before
-    );
-    assert!(
-        !current_sidecar.exists(),
-        "validation failure must not leave an orphan immutable sidecar"
-    );
-    assert!(old_sidecar_path.exists(), "prior sidecar remains preserved");
-}
-
-#[test]
-fn stale_receipt_with_changed_contract_profile_is_not_renewable() {
-    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut input) =
-        active_recorded_material_review_fixture();
-    let root = directory.path();
-    fs::write(
-        root.join("README.md"),
-        "new source request under changed profile\n",
-    )
-    .expect("change source");
-    commit(root);
-
-    let mut contract: serde_json::Value =
-        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
-            .expect("Contract JSON");
-    contract["governanceProfile"]["materialInspectionReview"]["reviewerActor"] =
-        json!("agent:Raydot-Updated");
-    fs::write(
-        &contract_path,
-        serde_json::to_vec_pretty(&contract).expect("changed Contract bytes"),
-    )
-    .expect("change the review profile");
-    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("new request");
-    input.request_digest = request.request_digest.clone();
-    input.reviewer_actor = "agent:Raydot-Updated".into();
-
-    let preflight =
-        cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-            .expect("preflight changed Contract request");
-    assert!(
-        preflight
-            .unknowns
-            .contains(&"material_review_receipt_invalid".into())
-    );
-    let status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status after changed review profile");
-    assert!(
-        !status
-            .safe_actions
-            .contains(&"record_material_review_decision".into()),
-        "a prior receipt bound to a different Contract/profile must not authorize renewal"
-    );
-    assert!(
-        status
-            .effective_unknowns
-            .contains(&"material_review_receipt_invalid".into())
-    );
-
-    let summary_before = fs::read(&summary_path).expect("Summary before refused renewal");
-    let current_sidecar = root.join(format!(
-        ".ai/evidence/material-inspection-review/WI-MATERIAL/{}.json",
-        request
-            .request_digest
-            .as_str()
-            .strip_prefix("sha256:")
-            .expect("request digest prefix")
-    ));
-    let error =
-        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
-            .expect_err("changed Contract/profile must reject prior receipt renewal");
-    assert!(
-        error
-            .to_string()
-            .contains("record_material_review_decision")
-            || error.to_string().contains("material-review")
-    );
-    assert_eq!(
-        fs::read(&summary_path).expect("Summary unchanged"),
-        summary_before
-    );
-    assert!(!current_sidecar.exists());
-    assert!(old_sidecar_path.exists());
-}
-
-#[test]
-fn stale_receipt_after_valid_contract_amendment_is_classified_stale() {
-    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut input) =
-        active_recorded_material_review_fixture();
-    let root = directory.path();
-    let original_summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
-    let old_pointer = original_summary["materialReviewReceipt"].clone();
-    let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old immutable sidecar");
-    let old_contract: serde_json::Value =
-        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
-            .expect("Contract JSON");
-    let old_contract_digest = cockpit_protocol::digest_json(&old_contract).expect("old digest");
-    let reason = "preserve the prior review as history after an authorized Contract amendment";
-    amend_work_item_contract_with_runtime(
-        root,
-        "WI-MATERIAL",
-        &json!({
-            "schemaVersion": 1,
-            "changeId": "material-review-safe-goal-update",
-            "expectedContractDigest": old_contract_digest,
-            "reason": reason,
-            "changes": [{
-                "path": "/goal",
-                "operation": "replace",
-                "value": "retain exact material evidence after the approved plan update"
-            }]
-        }),
-        reason,
-        &runtime,
-    )
-    .expect("record a typed amendment through the official journal route");
-
-    let current_contract: serde_json::Value =
-        serde_json::from_slice(&fs::read(&contract_path).expect("amended Contract"))
-            .expect("amended Contract JSON");
-    let current_contract_digest =
-        cockpit_protocol::digest_json(&current_contract).expect("current Contract digest");
-    let amendments = read_work_item_contract_amendments(root, "WI-MATERIAL")
-        .expect("validated append-only amendment journal");
-    assert_eq!(amendments.len(), 1);
-    assert_eq!(amendments[0].previous_contract_digest, old_contract_digest);
-    assert_eq!(amendments[0].new_contract_digest, current_contract_digest);
-
-    let request = plan_work_item_material_review(root, "WI-MATERIAL")
-        .expect("new exact request after Contract amendment");
-    assert_ne!(request.contract_digest, old_contract_digest);
-    assert_ne!(
-        request.request_digest.to_string(),
-        old_pointer["requestDigest"]
-            .as_str()
-            .expect("old request digest")
-    );
-    input.request_digest = request.request_digest.clone();
-
-    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-        .expect("refresh preflight for the amended Contract");
-    let current_summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("preflight Summary"))
-            .expect("preflight Summary JSON");
-    let preflight_decision = json!({
-        "schemaVersion": 1,
-        "decisionId": "contract-preflight-review",
-        "decision": "confirm_review",
-        "workItemId": "WI-MATERIAL",
-        "repositoryId": cockpit_repository::repository_id(root).to_string(),
-        "contractDigest": current_contract_digest,
-        "preflightDecisionDigest": current_summary["preflightDecisionDigest"],
-        "repositorySnapshotDigest": current_summary["preflightRepositorySnapshotDigest"],
-        "recordedAt": "2026-10-08T00:00:00Z",
-        "recordedBy": "human:test-fixture",
-        "reason": "test fixture confirms its exact amended Contract"
-    });
-    record_work_item_governance_controls_with_runtime(
-        root,
-        "WI-MATERIAL",
-        &json!({"decisionEvidence": preflight_decision}),
-        &runtime,
-    )
-    .expect("record only the test fixture's exact preflight decision");
-
-    let status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status after valid amendment");
-    assert!(
-        status
-            .effective_unknowns
-            .contains(&"material_review_receipt_stale".into()),
-        "a valid superseded receipt is stale history, not malformed: {status:#?}"
-    );
-    assert!(
-        !status
-            .effective_unknowns
-            .contains(&"material_review_receipt_invalid".into())
-    );
-    assert!(
-        status
-            .safe_actions
-            .contains(&"record_material_review_decision".into()),
-        "the old receipt must remain stale until a fresh current-request decision is recorded"
-    );
-
-    let renewed =
-        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
-            .expect("record the fresh exact-request test decision");
-    assert_eq!(renewed.request_digest, request.request_digest);
-    assert_eq!(
-        fs::read(&old_sidecar_path).expect("prior sidecar remains immutable"),
-        old_sidecar_bytes
-    );
-    let renewed_summary: serde_json::Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("updated Summary"))
-            .expect("updated Summary JSON");
-    assert_eq!(
-        renewed_summary["materialReviewReceiptHistory"],
-        json!([old_pointer])
-    );
-    assert_eq!(
-        renewed_summary["materialReviewReceipt"]["requestDigest"],
-        request.request_digest.to_string()
-    );
-}
-
-#[test]
-fn stale_receipt_without_contract_amendment_chain_remains_invalid() {
-    let (directory, runtime, contract_path, _summary_path, _old_sidecar_path, _input) =
-        active_recorded_material_review_fixture();
-    let root = directory.path();
-    let mut contract: serde_json::Value =
-        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
-            .expect("Contract JSON");
-    contract["goal"] = json!("unrecorded direct Contract mutation");
-    fs::write(
-        &contract_path,
-        serde_json::to_vec_pretty(&contract).expect("mutated Contract bytes"),
-    )
-    .expect("write Contract without journal entry");
-
-    let status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status preserves the invalid old pointer as a diagnostic");
-    assert!(
-        status
-            .effective_unknowns
-            .contains(&"material_review_receipt_invalid".into()),
-        "a digest mismatch without a validated amendment chain remains invalid: {status:#?}"
-    );
-    assert!(
-        !status
-            .safe_actions
-            .contains(&"record_material_review_decision".into()),
-        "an unjournaled Contract edit must not admit receipt renewal"
-    );
-}
-
-#[test]
-fn stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid() {
-    let (directory, runtime, contract_path, _summary_path, _old_sidecar_path, _input) =
-        active_recorded_material_review_fixture();
-    let root = directory.path();
-    let contract: serde_json::Value =
-        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
-            .expect("Contract JSON");
-    let contract_digest = cockpit_protocol::digest_json(&contract).expect("Contract digest");
-    let reason = "create an amendment chain that the reader must validate";
-    amend_work_item_contract_with_runtime(
-        root,
-        "WI-MATERIAL",
-        &json!({
-            "schemaVersion": 1,
-            "changeId": "corrupted-material-review-journal",
-            "expectedContractDigest": contract_digest,
-            "reason": reason,
-            "changes": [{
-                "path": "/goal",
-                "operation": "replace",
-                "value": "amended before the journal is corrupted"
-            }]
-        }),
-        reason,
-        &runtime,
-    )
-    .expect("record an amendment before tampering with the test journal");
-
-    let committed_path =
-        root.join(".ai/evidence/WI-MATERIAL.contract-amendments/00000001.committed.json");
-    let mut committed: serde_json::Value =
-        serde_json::from_slice(&fs::read(&committed_path).expect("committed amendment"))
-            .expect("committed amendment JSON");
-    committed["receipt"]["journalDigest"] =
-        "sha256:0000000000000000000000000000000000000000000000000000000000000000".into();
-    fs::write(
-        &committed_path,
-        serde_json::to_vec_pretty(&committed).expect("corrupted journal bytes"),
-    )
-    .expect("corrupt committed journal digest");
-
-    let error =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect_err("a damaged amendment journal must fail closed");
-    assert!(
-        error.to_string().contains("invalid digest chain"),
-        "unexpected journal rejection: {error}"
-    );
-}
-
-#[test]
-fn stale_receipt_does_not_block_when_current_request_has_no_reviewable_unknown() {
-    let (directory, runtime, contract_path, _summary_path, old_sidecar_path, _input) =
-        active_recorded_material_review_fixture();
-    let root = directory.path();
-    fs::remove_file(root.join("src/material.rs")).expect("remove reviewed Rust material");
-    commit(root);
-
-    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("clean request");
-    assert!(request.entries.is_empty());
-    assert!(request.raw_unknown_codes.is_empty());
-    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
-        .expect("preflight the request with no reviewable Unknown");
-    let status =
-        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
-            .expect("status after the prior Unknown is removed");
-    assert!(status.raw_scanner_unknowns.is_empty());
-    assert!(
-        !status
-            .effective_unknowns
-            .contains(&"material_review_receipt_stale".into()),
-        "stale historical evidence must not synthesize an Unknown for a clean current request"
-    );
-    assert!(old_sidecar_path.exists(), "old evidence remains preserved");
 }
 
 #[test]
@@ -1705,78 +948,6 @@ fn material_review_hunkless_git_worker() {
 }
 
 #[cfg(unix)]
-fn run_hunkless_git_worker(
-    root: &Path,
-    contract: &Contract,
-    expected_path: &str,
-    expectation: &str,
-) {
-    use std::os::unix::fs::PermissionsExt;
-
-    let real_git = std::env::split_paths(&std::env::var_os("PATH").unwrap())
-        .map(|directory| directory.join("git"))
-        .find(|candidate| candidate.is_file())
-        .expect("locate real git executable");
-    let wrapper_directory = tempfile::Builder::new()
-        .prefix("ai-cockpit-hunkless-git-")
-        .permissions(fs::Permissions::from_mode(0o700))
-        .tempdir()
-        .unwrap();
-    assert_eq!(
-        wrapper_directory
-            .path()
-            .metadata()
-            .unwrap()
-            .permissions()
-            .mode()
-            & 0o077,
-        0,
-        "hunkless Git wrapper directory must not allow group or other access"
-    );
-    let wrapper = wrapper_directory.path().join("git");
-    fs::write(
-        &wrapper,
-        "#!/bin/sh\nfor arg in \"$@\"; do\n  if [ \"$arg\" = \"--binary\" ]; then\n    tmp=\"${TMPDIR:-/tmp}/ai-cockpit-git-hunkless-$$\"\n    case \"$tmp\" in \"$AI_COCKPIT_TEST_PRIVATE_TMP\"/*) ;; *) printf 'temporary output escaped private directory: %s\\n' \"$tmp\" >&2; exit 97 ;; esac\n    \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\" >\"$tmp\"\n    result=$?\n    if [ \"$result\" -eq 0 ]; then\n      sed -n -e '/^diff --git /p' -e '/^index /p' -e '/^old mode /p' -e '/^new mode /p' -e '/^new file mode /p' -e '/^deleted file mode /p' -e '/^--- /p' -e '/^+++ /p' \"$tmp\"\n    else\n      cat \"$tmp\"\n    fi\n    rm -f \"$tmp\"\n    exit \"$result\"\n  fi\ndone\nexec \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\"\n",
-    )
-    .unwrap();
-    let mut permissions = fs::metadata(&wrapper).unwrap().permissions();
-    permissions.set_mode(0o700);
-    fs::set_permissions(&wrapper, permissions).unwrap();
-
-    let contract_directory = tempfile::tempdir().unwrap();
-    let contract_path = contract_directory.path().join("contract.json");
-    fs::write(&contract_path, serde_json::to_vec(contract).unwrap()).unwrap();
-    let child_path = std::env::join_paths(
-        std::iter::once(wrapper_directory.path().to_path_buf())
-            .chain(std::env::split_paths(&std::env::var_os("PATH").unwrap())),
-    )
-    .unwrap();
-    let output = Command::new(std::env::current_exe().unwrap())
-        .args([
-            "--exact",
-            "material_review_hunkless_git_worker",
-            "--nocapture",
-        ])
-        .env("AI_COCKPIT_TEST_HUNKLESS_WORKER", "1")
-        .env("AI_COCKPIT_TEST_REPO", root)
-        .env("AI_COCKPIT_TEST_CONTRACT", contract_path)
-        .env("AI_COCKPIT_TEST_PATH", expected_path)
-        .env("AI_COCKPIT_TEST_EXPECTATION", expectation)
-        .env("AI_COCKPIT_TEST_REAL_GIT", real_git)
-        .env("AI_COCKPIT_TEST_PRIVATE_TMP", wrapper_directory.path())
-        .env("TMPDIR", wrapper_directory.path())
-        .env("PATH", child_path)
-        .output()
-        .unwrap();
-    assert!(
-        output.status.success(),
-        "hunkless Git worker failed\nstdout:\n{}\nstderr:\n{}",
-        String::from_utf8_lossy(&output.stdout),
-        String::from_utf8_lossy(&output.stderr)
-    );
-}
-
-#[cfg(unix)]
 #[test]
 fn changed_rust_blob_without_hunks_is_unknown_and_not_reviewable() {
     let (directory, mut contract) = fixture();
@@ -1944,9 +1115,11 @@ fn bounded_patch_in_large_committed_rust_unknown_remains_reviewable_from_blob() 
         ["repository_material_inspection_unavailable"]
     );
     let input: MaterialInspectionReviewDecisionInput = serde_json::from_value(json!({
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "decision": "accept_permitted_unknowns",
         "requestDigest": request.request_digest,
+        "requestArtifactDigest":request.request_artifact.as_ref().unwrap().digest,
+        "requestArtifactByteLength":request.request_artifact.as_ref().unwrap().byte_length,
         "reviewerActor": "agent:Raydot",
         "authoritySource": "user-delegation:ray-approved-WI1068",
         "assurance": "self_declared",
@@ -2080,4 +1253,382 @@ fn unreadable_committed_source_refuses_request() {
     let outcome = material_review_request(root, &contract);
     fs::set_permissions(&file, original).unwrap();
     assert!(outcome.is_err());
+}
+
+#[test]
+fn version_two_plan_exposes_complete_canonical_artifact_and_exact_raw_binding() {
+    let (_directory, contract, request, mut input) = material_review_decision_fixture();
+    assert_eq!(request.schema_version, 2);
+    let artifact = request
+        .request_artifact
+        .as_ref()
+        .expect("full artifact returned to reviewer");
+    let value: serde_json::Value = serde_json::from_str(&artifact.canonical_json).unwrap();
+    assert_eq!(value["schemaVersion"], 2);
+    assert_eq!(value["requestDigest"], request.request_digest.as_str());
+    assert_eq!(value["reviewedSourceHead"], request.reviewed_source_head);
+    assert!(
+        value.get("requestArtifact").is_none(),
+        "artifact has no self-reference"
+    );
+    assert_eq!(
+        serde_json::to_vec(&value).unwrap(),
+        artifact.canonical_json.as_bytes()
+    );
+    assert_eq!(artifact.byte_length, artifact.canonical_json.len() as u64);
+    assert_eq!(
+        artifact.digest,
+        cockpit_core::Digest::sha256_bytes(artifact.canonical_json.as_bytes())
+    );
+    input.schema_version = 2;
+    input.request_artifact_digest = Some(artifact.digest.clone());
+    input.request_artifact_byte_length = Some(artifact.byte_length);
+    let receipt = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "runtime:fixture",
+        "2026-10-20T00:00:00Z",
+    )
+    .unwrap();
+    let reference = receipt.request_artifact.as_ref().unwrap();
+    assert_eq!(reference.raw_digest, artifact.digest);
+    assert_eq!(reference.byte_length, artifact.byte_length);
+    assert!(reference.path.ends_with(&format!(
+            "{}.{}.request.json",
+            request
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap(),
+            artifact.digest.as_str().strip_prefix("sha256:").unwrap()
+        )));
+    input.schema_version = 1;
+    assert!(
+        validate_material_review_decision(
+            &contract,
+            &request,
+            &input,
+            "runtime:fixture",
+            "2026-10-20T00:00:00Z"
+        )
+        .is_err(),
+        "V1 input cannot authorize V2 artifact"
+    );
+}
+
+#[test]
+fn version_two_same_semantics_different_artifact_requires_new_review_binding() {
+    let (_directory, contract, mut request, mut input) = material_review_decision_fixture();
+    let artifact = request.request_artifact.as_ref().unwrap();
+    input.schema_version = 2;
+    input.request_artifact_digest = Some(artifact.digest.clone());
+    input.request_artifact_byte_length = Some(artifact.byte_length);
+    let first = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "runtime:fixture",
+        "2026-10-20T00:00:00Z",
+    )
+    .unwrap();
+    let original_semantic = request.request_digest.clone();
+    request.analysis_implementation_digest =
+        cockpit_core::Digest::sha256_bytes(b"different audited producer provenance");
+    let artifact = request.request_artifact.as_mut().unwrap();
+    let mut value: serde_json::Value = serde_json::from_str(&artifact.canonical_json).unwrap();
+    value["analysisImplementationDigest"] = json!(request.analysis_implementation_digest);
+    artifact.canonical_json = serde_json::to_string(&value).unwrap();
+    artifact.digest = cockpit_core::Digest::sha256_bytes(artifact.canonical_json.as_bytes());
+    artifact.byte_length = artifact.canonical_json.len() as u64;
+    assert_eq!(request.request_digest, original_semantic);
+    assert!(
+        validate_material_review_decision(
+            &contract,
+            &request,
+            &input,
+            "runtime:fixture",
+            "2026-10-20T00:00:00Z"
+        )
+        .is_err(),
+        "old raw binding cannot be substituted"
+    );
+    let artifact = request.request_artifact.as_ref().unwrap();
+    input.request_artifact_digest = Some(artifact.digest.clone());
+    input.request_artifact_byte_length = Some(artifact.byte_length);
+    let second = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "runtime:fixture",
+        "2026-10-20T00:00:00Z",
+    )
+    .unwrap();
+    assert_ne!(first.request_artifact, second.request_artifact);
+    assert_eq!(first.request_digest, second.request_digest);
+}
+
+#[test]
+fn fixed_material_recipe_checks_actual_resolved_parser_and_json_dependency_profile() {
+    let compiler = Command::new("rustc").arg("-vV").output().unwrap();
+    assert!(compiler.status.success());
+    let compiler = String::from_utf8(compiler.stdout).unwrap();
+    let host = compiler
+        .lines()
+        .find_map(|line| line.strip_prefix("host: "))
+        .unwrap();
+    let output = Command::new("cargo")
+        .args([
+            "metadata",
+            "--locked",
+            "--offline",
+            "--all-features",
+            "--filter-platform",
+            host,
+            "--format-version",
+            "1",
+            "--manifest-path",
+        ])
+        .arg(Path::new(env!("CARGO_MANIFEST_DIR")).join("../../Cargo.toml"))
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let metadata: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    let packages = metadata["packages"].as_array().unwrap();
+    let nodes = metadata["resolve"]["nodes"].as_array().unwrap();
+    let package = |name: &str, version: &str| {
+        packages
+            .iter()
+            .find(|p| p["name"] == name && p["version"] == version)
+            .unwrap()
+    };
+    let node = |name: &str, version: &str| {
+        nodes
+            .iter()
+            .find(|n| n["id"] == package(name, version)["id"])
+            .unwrap()
+    };
+    for (name, version, expected) in [
+        ("serde_json", "1.0.151", vec!["default", "std"]),
+        (
+            "syn",
+            "2.0.119",
+            vec![
+                "clone-impls",
+                "default",
+                "derive",
+                "extra-traits",
+                "full",
+                "parsing",
+                "printing",
+                "proc-macro",
+                "visit",
+                "visit-mut",
+            ],
+        ),
+        (
+            "syn",
+            "3.0.3",
+            vec![
+                "clone-impls",
+                "default",
+                "derive",
+                "full",
+                "parsing",
+                "printing",
+                "proc-macro",
+            ],
+        ),
+        (
+            "proc-macro2",
+            "1.0.107",
+            vec!["default", "proc-macro", "span-locations"],
+        ),
+        (
+            "serde",
+            "1.0.229",
+            vec!["default", "derive", "serde_derive", "std"],
+        ),
+    ] {
+        let actual: Vec<_> = node(name, version)["features"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_str().unwrap())
+            .collect();
+        assert_eq!(
+            actual, expected,
+            "unsupported resolved features for {name}@{version}"
+        );
+    }
+    // Presence elsewhere in the workspace is insufficient: bind actual dependency edges.
+    for (from, version, dependency, to, target_version) in [
+        (
+            "cockpit-repository",
+            env!("CARGO_PKG_VERSION"),
+            "syn",
+            "syn",
+            "2.0.119",
+        ),
+        (
+            "cockpit-repository",
+            env!("CARGO_PKG_VERSION"),
+            "serde_json",
+            "serde_json",
+            "1.0.151",
+        ),
+        (
+            "cockpit-repository",
+            env!("CARGO_PKG_VERSION"),
+            "serde",
+            "serde",
+            "1.0.229",
+        ),
+        (
+            "cockpit-repository",
+            env!("CARGO_PKG_VERSION"),
+            "proc_macro2",
+            "proc-macro2",
+            "1.0.107",
+        ),
+        (
+            "cockpit-repository",
+            env!("CARGO_PKG_VERSION"),
+            "sha2",
+            "sha2",
+            "0.10.9",
+        ),
+        (
+            "serde",
+            "1.0.229",
+            "serde_derive",
+            "serde_derive",
+            "1.0.229",
+        ),
+        ("serde_derive", "1.0.229", "syn", "syn", "3.0.3"),
+    ] {
+        let edge = node(from, version)["deps"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|edge| edge["name"] == dependency)
+            .unwrap();
+        assert_eq!(
+            edge["pkg"],
+            package(to, target_version)["id"],
+            "unsupported material dependency edge {from}->{dependency}"
+        );
+    }
+    let lock: toml::Value = toml::from_str(include_str!("../../../Cargo.lock")).unwrap();
+    for (name, version, checksum) in [
+        (
+            "serde_json",
+            "1.0.151",
+            "c841b55ecdae098c80dcae9cf767f6f8a0c2cdb3416bbef72181df4d0fe73f14",
+        ),
+        (
+            "syn",
+            "2.0.119",
+            "872831b642d1a07999a962a351ed35b955ea2cfc8f3862091e2a240a84f17297",
+        ),
+        (
+            "syn",
+            "3.0.3",
+            "53e9bae58849f64dfa4f5d5ae372c8341f7305f82a3868709269343628b659a3",
+        ),
+    ] {
+        let locked = lock["package"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|p| p["name"].as_str() == Some(name) && p["version"].as_str() == Some(version))
+            .unwrap();
+        assert_eq!(
+            locked["checksum"].as_str(),
+            Some(checksum),
+            "unsupported material parser/JSON checksum"
+        );
+    }
+}
+
+#[test]
+fn enabled_material_profile_still_requires_protected_authority() {
+    let (directory, mut contract, _initial_request, mut input) = material_review_decision_fixture();
+    let root = directory.path();
+    cockpit_repository::attach(root).expect("attach fixture");
+    contract.repository_id = cockpit_repository::repository_id(root).to_string();
+    let project: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
+    contract.project_profile_digest = project["profileDigest"].as_str().unwrap().parse().unwrap();
+    let active = root.join(".ai/work-items/active");
+    fs::create_dir_all(&active).expect("active directory");
+    let contract_path = active.join("WI-MATERIAL.contract.json");
+    let mut persisted_contract = serde_json::to_value(&contract).expect("Contract value");
+    persisted_contract["predecessorWorkItemId"] = serde_json::Value::Null;
+    persisted_contract["predecessorContractDigest"] = serde_json::Value::Null;
+    persisted_contract["recoveryDecisionPath"] = serde_json::Value::Null;
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&persisted_contract).expect("Contract JSON"),
+    )
+    .expect("write active Contract");
+    let request =
+        plan_work_item_material_review(root, "WI-MATERIAL").expect("recompute attached request");
+    assert_eq!(
+        request.contract_digest,
+        cockpit_protocol::digest_json(&persisted_contract).unwrap()
+    );
+    bind_review_input_to_request(&mut input, &request);
+    let summary_path = active.join("WI-MATERIAL.summary.json");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&json!({
+            "workItemId": "WI-MATERIAL",
+            "state": "implementation_active",
+            "checkpointCount": 0,
+            "createdAt": "2026-10-07T00:00:00Z"
+        }))
+        .expect("Summary JSON"),
+    )
+    .expect("write active Summary");
+
+    let runtime = review_runtime();
+    let preflight =
+        cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("fresh preflight");
+    assert!(
+        preflight
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after preflight");
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+
+    let before = fs::read(&summary_path).unwrap();
+    let contract_before = fs::read(&contract_path).unwrap();
+    let error =
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect_err("enabled opt-in is not protected approval");
+    assert!(
+        error.to_string().contains("authority_unavailable"),
+        "{error}"
+    );
+    assert_eq!(input.request_digest, request.request_digest);
+    assert_eq!(fs::read(&summary_path).unwrap(), before);
+    assert_eq!(fs::read(&contract_path).unwrap(), contract_before);
+    assert!(
+        !root
+            .join(".ai/evidence/material-inspection-review/WI-MATERIAL")
+            .exists()
+    );
 }

@@ -1,4 +1,4 @@
-use super::{ObserverError, RuntimeContext, WorkItemActionExplanation};
+use super::{ObserverError, RuntimeContext, WorkItemActionExplanation, WorkItemStatusSnapshot};
 use std::path::Path;
 
 /// Recompute action admission from a fresh status projection at the
@@ -11,6 +11,42 @@ pub fn require_current_action_admission(
     runtime: &RuntimeContext,
 ) -> Result<WorkItemActionExplanation, ObserverError> {
     let status = super::work_item_status_snapshot_with_runtime(root, work_item_id, runtime)?;
+    require_observed_action(root, work_item_id, requested_action, status)
+}
+
+/// Assessment refresh is distinct from check execution. Only repository-owned
+/// preflight code can request the narrow material change case; this is not a
+/// public capability or a caller-supplied status projection.
+pub(super) fn require_current_preflight_assessment_admission(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    exact_material_assessment_changed: bool,
+) -> Result<WorkItemActionExplanation, ObserverError> {
+    let status = super::work_item_status_snapshot_with_runtime(root, work_item_id, runtime)?;
+    let action = if exact_material_assessment_changed
+        && !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_preflight")
+        && status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification")
+    {
+        "run_verification"
+    } else {
+        "run_preflight"
+    };
+    require_observed_action(root, work_item_id, action, status)
+}
+
+fn require_observed_action(
+    root: &Path,
+    work_item_id: &str,
+    requested_action: &str,
+    status: WorkItemStatusSnapshot,
+) -> Result<WorkItemActionExplanation, ObserverError> {
     let explanation = status
         .action_explanation
         .ok_or_else(|| ObserverError::State {

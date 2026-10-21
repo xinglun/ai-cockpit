@@ -11,6 +11,220 @@ mod common;
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+#[test]
+fn source_change_observation_precedes_failed_check_and_plan_is_read_only() {
+    let directory = tempfile::tempdir().expect("fixture");
+    let root = directory.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(root)
+            .status()
+            .unwrap()
+            .success()
+    );
+    commit_baseline(root, "synthetic observation fixture\n");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-SOURCE-OBSERVATION";
+    let run = |args: &[&str]| {
+        Command::new(binary)
+            .args(args)
+            .arg("--repo")
+            .arg(root)
+            .current_dir(root)
+            .output()
+            .unwrap()
+    };
+    let assert_ok = |output: std::process::Output| {
+        assert!(
+            output.status.success(),
+            "stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+    };
+    assert_ok(run(&[
+        "start",
+        "--id",
+        id,
+        "--intent",
+        "observe committed successor facts",
+        "--goal",
+        "checks see actual paths before execution",
+        "--scope",
+        "docs/**",
+        "--authority",
+        "authorized",
+        "--acceptance",
+        "A1: committed facts visible before checks",
+        "--required-evidence",
+        "verification",
+    ]));
+    fs::create_dir_all(root.join("docs/reference")).unwrap();
+    for name in [
+        "reference-parity.md",
+        "reference-parity.zh-CN.md",
+        "reference-parity.ja.md",
+    ] {
+        fs::write(
+            root.join("docs/reference").join(name),
+            format!("| {id} | in_progress |\n"),
+        )
+        .unwrap();
+    }
+    fs::create_dir_all(root.join("docs/work-items")).unwrap();
+    for suffix in ["", ".zh-CN", ".ja"] {
+        fs::write(root.join(format!("docs/work-items/{id}{suffix}.md")), format!("---\nworkItemId: {id}\nlastVerifiedBy: {id}\nstatus: in_progress\n---\nSynthetic fixture.\n")).unwrap();
+    }
+    assert!(
+        Command::new("git")
+            .args(["add", "docs"])
+            .current_dir(root)
+            .status()
+            .unwrap()
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "actual three-document delta"])
+            .current_dir(root)
+            .status()
+            .unwrap()
+            .success()
+    );
+    assert_ok(run(&[
+        "preflight",
+        "--contract",
+        ".ai/work-items/active/WI-SOURCE-OBSERVATION.contract.json",
+    ]));
+    assert_ok(run(&["checkpoint", "--id", id]));
+    let controls = tempfile::NamedTempFile::new().unwrap();
+    fs::write(controls.path(), serde_json::to_vec(&serde_json::json!({
+        "acceptanceEvidence":[{"acceptanceId":"A1","evidence":[{"type":"test","path":"README.md","locator":"synthetic observation fixture","verification":"passed"}]}],
+        "intentAlignment":{"state":"resolved","evidence":["README.md"]}
+    })).unwrap()).unwrap();
+    assert_ok(run(&[
+        "work-item",
+        "controls",
+        "--id",
+        id,
+        "--input",
+        controls.path().to_str().unwrap(),
+    ]));
+    let summary = root.join(".ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json");
+    let before = fs::read(&summary).unwrap();
+    let script = "import json; import pathlib; s=json.loads(pathlib.Path('.ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json').read_text()); assert all('docs/reference/'+n in s['changedPaths'] for n in 'reference-parity.md reference-parity.zh-CN.md reference-parity.ja.md'.split()); assert not pathlib.Path('.ai/evidence/WI-SOURCE-OBSERVATION.verification.json').exists(); print('observed-before-checks'); raise SystemExit(7)";
+    let args = [
+        "verify",
+        "--work-item",
+        id,
+        "--command",
+        "python3",
+        "--args=-c",
+        "--args",
+        script,
+        "--workers",
+        "1",
+    ];
+    let mut planned = args.to_vec();
+    planned.push("--plan-only");
+    assert_ok(run(&planned));
+    assert_eq!(
+        fs::read(&summary).unwrap(),
+        before,
+        "planning cannot write facts"
+    );
+    let failed = run(&args);
+    assert!(!failed.status.success());
+    let failed_receipt: serde_json::Value = serde_json::from_slice(&failed.stdout).unwrap();
+    assert_eq!(
+        failed_receipt["executionRecords"][0]["exitCode"], 7,
+        "check failed before observing facts: {failed_receipt}"
+    );
+    let facts: serde_json::Value = serde_json::from_slice(&fs::read(summary).unwrap()).unwrap();
+    assert!(
+        facts["changedPaths"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|p| p == "docs/reference/reference-parity.ja.md")
+    );
+    assert!(
+        !root
+            .join(".ai/evidence/WI-SOURCE-OBSERVATION.verification.json")
+            .exists()
+    );
+    let summary = root.join(".ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json");
+    // The transport must expose the same material boundary and later failure
+    // as the canonical repository guard, while software checks remain fresh.
+    fs::write(root.join("docs/material.rs"), "fn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization\"); label }\n").unwrap();
+    for args in [
+        vec!["add", "docs/material.rs"],
+        vec!["commit", "-qm", "synthetic material Unknown"],
+    ] {
+        assert!(
+            Command::new("git")
+                .args(args)
+                .current_dir(root)
+                .status()
+                .unwrap()
+                .success()
+        );
+    }
+    assert_ok(run(&[
+        "preflight",
+        "--contract",
+        ".ai/work-items/active/WI-SOURCE-OBSERVATION.contract.json",
+    ]));
+    assert_ok(run(&[
+        "verify",
+        "--work-item",
+        id,
+        "--command",
+        "true",
+        "--workers",
+        "1",
+    ]));
+    let query_status = || {
+        let output = run(&["work-item", "status", "--id", id, "--json"]);
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        serde_json::from_slice::<serde_json::Value>(&output.stdout).unwrap()
+    };
+    let current = query_status();
+    assert!(
+        !current["safeActions"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|a| a == "finish"),
+        "{current}"
+    );
+    assert!(!run(&["finish", "--id", id]).status.success());
+    let current = query_status();
+    assert_eq!(current["governanceState"], "red", "{current}");
+    assert_eq!(current["verification"], "verified", "{current}");
+    let outcome = run(&["work-item", "outcome", "--id", id]);
+    assert!(outcome.status.success());
+    assert!(String::from_utf8_lossy(&outcome.stdout).contains("Outcome: 🔴"));
+    let mut negative: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary).unwrap()).unwrap();
+    negative["checkpointCount"] = 0.into();
+    fs::write(&summary, serde_json::to_vec(&negative).unwrap()).unwrap();
+    let before = fs::read(&summary).unwrap();
+    let evidence_count = fs::read_dir(root.join(".ai/evidence")).unwrap().count();
+    assert!(!run(&planned).status.success());
+    assert_eq!(fs::read(&summary).unwrap(), before);
+    assert_eq!(
+        fs::read_dir(root.join(".ai/evidence")).unwrap().count(),
+        evidence_count,
+        "rejected plan-only cannot append an execution attempt"
+    );
+}
+
 fn commit_baseline(directory: &std::path::Path, readme: &str) {
     for (key, value) in [
         ("user.email", "test@example.invalid"),
@@ -1193,6 +1407,7 @@ fn verify_cli_rejects_missing_intent_before_starting_the_command() {
         .current_dir(&directory)
         .status()
         .expect("git init");
+    commit_baseline(&directory, "routing fixture baseline\n");
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     for args in [
         vec![

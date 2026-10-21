@@ -1364,6 +1364,21 @@ pub fn record_legacy_closeout_source(
     plan: &Plan,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    super::review_authority::execute_human_operation(
+        root,
+        id,
+        cockpit_protocol::review_authority::HumanReviewOperation::LegacySourceRegistration,
+        &serde_json::json!({"plan":plan,"runtime":runtime}),
+        || record_legacy_closeout_source_business(root, id, plan, runtime),
+    )
+}
+
+fn record_legacy_closeout_source_business(
+    root: &Path,
+    id: &str,
+    plan: &Plan,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(id)?;
     let root = canonical(root)?;
     require_plan_directory(&root, plan)?;
@@ -1941,6 +1956,23 @@ fn record_extension_locked(
 }
 
 pub(crate) fn record_finalization_locked(
+    root: &Path,
+    id: &str,
+    input: &serde_json::Value,
+    input_bytes: &[u8],
+    runtime: &RuntimeContext,
+    guard: &super::LifecycleLockGuard,
+) -> Result<serde_json::Value, ObserverError> {
+    super::review_authority::execute_human_operation(
+        root,
+        id,
+        cockpit_protocol::review_authority::HumanReviewOperation::LegacyFinalization,
+        &serde_json::json!({"input":input,"inputRawDigest":cockpit_core::Digest::sha256_bytes(input_bytes),"runtime":runtime}),
+        || record_finalization_locked_business(root, id, input, input_bytes, runtime, guard),
+    )
+}
+
+fn record_finalization_locked_business(
     root: &Path,
     id: &str,
     input: &serde_json::Value,

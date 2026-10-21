@@ -1585,6 +1585,8 @@ pub struct BoundedGitOutput {
     exit_code: Option<i32>,
 }
 
+mod material_snapshot_v1;
+
 pub struct GitRepository {
     root: PathBuf,
 }

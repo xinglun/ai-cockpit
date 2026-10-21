@@ -85,7 +85,7 @@ fn material_review_plan_tool_uses_shared_read_only_repository_service() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("MCP tools");
-    assert_eq!(tools.len(), 35);
+    assert_eq!(tools.len(), 36);
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (
@@ -143,19 +143,31 @@ fn material_review_record_tool_fails_closed_without_stage_one_opt_in() {
         tool["inputSchema"]["required"],
         json!(["workItemId", "decision"])
     );
-    assert_eq!(
-        tool["inputSchema"]["properties"]["decision"]["additionalProperties"],
-        false
+    let versions = tool["inputSchema"]["properties"]["decision"]["oneOf"]
+        .as_array()
+        .unwrap();
+    assert_eq!(versions.len(), 2);
+    for version in versions {
+        assert_eq!(version["additionalProperties"], false);
+    }
+    let plan = cockpit_mcp::handle_request_for_repo(
+        &json!({"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"work_item_material_review_plan","arguments":{"workItemId":"WI-MATERIAL-MCP"}}}),
+        directory.path(),
+        &runtime(),
     );
+    assert_eq!(plan["result"]["isError"], false, "{plan}");
+    let plan = &plan["result"]["structuredContent"];
     let response = cockpit_mcp::handle_request_for_repo(
         &json!({"jsonrpc":"2.0","id":3,"method":"tools/call","params":{
             "name":"work_item_material_review_record",
             "arguments":{
                 "workItemId":"WI-MATERIAL-MCP",
                 "decision":{
-                    "schemaVersion":1,
+                    "schemaVersion":2,
                     "decision":"accept_permitted_unknowns",
-                    "requestDigest":"sha256:0000000000000000000000000000000000000000000000000000000000000000",
+                    "requestDigest":plan["requestDigest"],
+                    "requestArtifactDigest":plan["requestArtifact"]["digest"],
+                    "requestArtifactByteLength":plan["requestArtifact"]["byteLength"],
                     "reviewerActor":"agent:Raydot",
                     "authoritySource":"user-delegation:ray-approved-WI1068",
                     "assurance":"self_declared",

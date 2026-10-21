@@ -1541,6 +1541,13 @@ fn load_historical_finalization_recovery(
         &path,
         current_runtime,
     )?;
+    super::review_authority::require_current_human_effect(
+        root,
+        work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::HistoricalFinalizationRecovery,
+        &serde_json::to_value(&recovery)
+            .map_err(|_| super::review_authority::error(root, "human_effect_invalid"))?,
+    )?;
     Ok(Some(recovery))
 }
 
@@ -1554,6 +1561,41 @@ pub fn record_historical_finalization_recovery(
     input_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    super::review_authority::require_authority_available(root)?;
+    let bytes = super::legacy_closeout_source::read_input_bytes(input_path)?;
+    let digest = Digest::sha256_bytes(&bytes);
+    super::review_authority::execute_bound_human_operation(
+        root,
+        work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::HistoricalFinalizationRecovery,
+        &serde_json::json!({"inputRawDigest":digest,"runtime":runtime}),
+        |_| {
+            if super::legacy_closeout_source::read_input_bytes(input_path)? != bytes {
+                return Err(ObserverError::State {
+                    path: input_path.into(),
+                    message: "historical_recovery_input_changed".into(),
+                });
+            }
+            #[cfg(test)]
+            super::review_authority::pipeline_tests::hit("historical_recovery_input_checked")
+                .map_err(|code| super::review_authority::error(root, code))?;
+            record_historical_finalization_recovery_business(
+                root,
+                work_item_id,
+                input_path,
+                runtime,
+            )
+            .map(|(response, effect)| (response, Some(effect)))
+        },
+    )
+}
+
+fn record_historical_finalization_recovery_business(
+    root: &Path,
+    work_item_id: &str,
+    input_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<(serde_json::Value, serde_json::Value), ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1575,13 +1617,16 @@ pub fn record_historical_finalization_recovery(
                 Some(HistoricalFinalizationKind::DirectMergeNoPr)
             )
         {
-            return record_resource_finalization_locked(
+            let effect = serde_json::to_value(&candidate)
+                .map_err(|_| super::review_authority::error(&root, "human_effect_invalid"))?;
+            let response = record_resource_finalization_locked(
                 &root,
                 work_item_id,
                 input_path,
                 runtime,
                 &lifecycle_guard,
-            );
+            )?;
+            return Ok((response, effect));
         }
         return Err(ObserverError::State {
             path: predecessor_path,
@@ -1625,11 +1670,14 @@ pub fn record_historical_finalization_recovery(
         }
         let existing = read_json(&recovery_path)?;
         if existing == value {
-            return Ok(serde_json::json!({
-                "workItemId": work_item_id,
-                "state": "idempotent",
-                "path": repository_relative_path(&root, &recovery_path)
-            }));
+            return Ok((
+                serde_json::json!({
+                    "workItemId": work_item_id,
+                    "state": "idempotent",
+                    "path": repository_relative_path(&root, &recovery_path)
+                }),
+                value,
+            ));
         }
         return Err(ObserverError::State {
             path: recovery_path,
@@ -1638,13 +1686,16 @@ pub fn record_historical_finalization_recovery(
         });
     }
     atomic_json(&recovery_path, &value)?;
-    Ok(serde_json::json!({
-        "workItemId": work_item_id,
-        "state": "recorded",
-        "historicalKind": recovery.historical_kind,
-        "assurance": recovery.assurance,
-        "path": repository_relative_path(&root, &recovery_path)
-    }))
+    Ok((
+        serde_json::json!({
+            "workItemId": work_item_id,
+            "state": "recorded",
+            "historicalKind": recovery.historical_kind,
+            "assurance": recovery.assurance,
+            "path": repository_relative_path(&root, &recovery_path)
+        }),
+        value,
+    ))
 }
 
 /// Produce a read-only, fact-bound recovery plan for a legacy finalization.
@@ -2608,6 +2659,203 @@ fn git_json(root: &Path, revision: &str, path: &str) -> Result<serde_json::Value
 struct HistoricalGitCheckout {
     directory: PathBuf,
     repository: PathBuf,
+}
+
+/// Facts from a privately materialized parent commit. This value can only be
+/// created here, and is accepted only by structural historical projections.
+/// It is never current approval, a protected capability, or execution admission.
+pub(super) struct CapturedHistoricalFacts<'a> {
+    checkout: &'a HistoricalGitCheckout,
+    revision: &'a str,
+    observation: super::ObservationContext,
+}
+
+impl<'a> CapturedHistoricalFacts<'a> {
+    fn capture(
+        checkout: &'a HistoricalGitCheckout,
+        revision: &'a str,
+        contract_path: &Path,
+    ) -> Result<Self, ObserverError> {
+        let observer = super::RepositoryExecutionContext::capture(&checkout.repository)?;
+        // Capturing historical inputs must not introduce a cache file into
+        // the exact parent working-tree projection reconstructed below.
+        let observation = observer.observe_phase_with_contract_uncached(
+            super::ObservationPhase::BeforeGovernance,
+            None,
+            contract_path,
+        )?;
+        let facts = Self {
+            checkout,
+            revision,
+            observation,
+        };
+        facts.validate_root(&checkout.repository)?;
+        Ok(facts)
+    }
+
+    pub(super) fn validate_root(&self, root: &Path) -> Result<(), ObserverError> {
+        if fs::canonicalize(root).ok().as_ref() != Some(&self.checkout.repository)
+            || git_text(root, &["rev-parse", "HEAD"]).as_deref() != Some(self.revision)
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "historical facts checkout binding changed",
+            ));
+        }
+        self.observation.validate_current()
+    }
+
+    pub(super) fn snapshot_digest(&self) -> &Digest {
+        self.observation.snapshot_digest()
+    }
+
+    pub(super) fn recovery_decision(
+        &self,
+        root: &Path,
+        id: &str,
+        runtime: Option<&RuntimeContext>,
+    ) -> Result<Option<cockpit_protocol::RecoveryDecisionReceipt>, ObserverError> {
+        self.validate_root(root)?;
+        // Keep the existing bounded candidate, identity, digest, chronology,
+        // predecessor and successor validators. Only current permission is
+        // outside a historical structural comparison.
+        super::load_recovery_decision(root, id, runtime)
+    }
+}
+
+/// A structural comparison of captured Git history, never startup permission
+/// or proof of a new human decision. Only this module can construct it and
+/// its borrow cannot outlive the privately materialized historical checkout.
+pub(super) struct CapturedHistoricalVerificationProjection<'a> {
+    facts: &'a CapturedHistoricalFacts<'a>,
+    checkout: &'a HistoricalGitCheckout,
+    source: &'a Path,
+    parent: &'a str,
+    finish: &'a str,
+    id: &'a str,
+    runtime: &'a RuntimeContext,
+    snapshot: &'a cockpit_git::RepositorySnapshot,
+    receipt: serde_json::Value,
+    source_summary: Digest,
+    evidence: Digest,
+    completed_at: String,
+}
+
+impl<'a> CapturedHistoricalVerificationProjection<'a> {
+    fn capture(
+        facts: &'a CapturedHistoricalFacts<'a>,
+        source: &'a Path,
+        parent: &'a str,
+        finish: &'a str,
+        id: &'a str,
+        runtime: &'a RuntimeContext,
+        snapshot: &'a cockpit_git::RepositorySnapshot,
+    ) -> Result<Self, ObserverError> {
+        let checkout = facts.checkout;
+        let bytes = git_blob_bytes(
+            source,
+            finish,
+            &format!(".ai/evidence/{id}.verification.json"),
+        )?;
+        reject_duplicate_json_keys(&bytes)
+            .map_err(|e| post_merge_sync_error(source, e.to_string()))?;
+        let evidence: serde_json::Value = serde_json::from_slice(&bytes)
+            .map_err(|e| post_merge_sync_error(source, e.to_string()))?;
+        let contract = read_contract(
+            &checkout
+                .repository
+                .join(format!(".ai/work-items/active/{id}.contract.json")),
+        )?;
+        if super::verification_evidence_state_from_bytes_with_facts(
+            &checkout.repository,
+            &contract,
+            snapshot,
+            false,
+            Some(runtime),
+            &bytes,
+            Some(facts),
+        )? != super::EvidenceState::Complete
+        {
+            return Err(post_merge_sync_error(
+                source,
+                "captured historical verification envelope is not complete",
+            ));
+        }
+        let proof = Self {
+            facts,
+            checkout,
+            source,
+            parent,
+            finish,
+            id,
+            runtime,
+            snapshot,
+            receipt: evidence["receipt"].clone(),
+            source_summary: Digest::sha256_bytes(&git_blob_bytes(
+                source,
+                parent,
+                &format!(".ai/work-items/active/{id}.summary.json"),
+            )?),
+            evidence: Digest::sha256_bytes(&bytes),
+            completed_at: evidence["createdAt"]
+                .as_str()
+                .filter(|value| chrono::DateTime::parse_from_rfc3339(value).is_ok())
+                .ok_or_else(|| {
+                    post_merge_sync_error(source, "captured verification time is invalid")
+                })?
+                .to_owned(),
+        };
+        proof.validate()?;
+        Ok(proof)
+    }
+    pub(super) fn validate(&self) -> Result<(), ObserverError> {
+        self.facts.validate_root(&self.checkout.repository)?;
+        let summary = format!(".ai/work-items/active/{}.summary.json", self.id);
+        let evidence = format!(".ai/evidence/{}.verification.json", self.id);
+        let actual = fs::read(self.checkout.repository.join(&summary)).map_err(|source| {
+            ObserverError::Read {
+                path: self.checkout.repository.join(&summary),
+                source,
+            }
+        })?;
+        if Digest::sha256_bytes(&actual) != self.source_summary
+            || Digest::sha256_bytes(&git_blob_bytes(self.source, self.parent, &summary)?)
+                != self.source_summary
+            || Digest::sha256_bytes(&git_blob_bytes(self.source, self.finish, &evidence)?)
+                != self.evidence
+            || git_text(&self.checkout.repository, &["rev-parse", "HEAD"]).as_deref()
+                != Some(self.parent)
+            || fs::canonicalize(&self.snapshot.root).ok().as_ref()
+                != Some(&self.checkout.repository)
+        {
+            return Err(post_merge_sync_error(
+                self.source,
+                "captured historical projection binding changed",
+            ));
+        }
+        Ok(())
+    }
+    pub(super) fn root(&self) -> &Path {
+        &self.checkout.repository
+    }
+    pub(super) fn id(&self) -> &str {
+        self.id
+    }
+    pub(super) fn runtime(&self) -> &RuntimeContext {
+        self.runtime
+    }
+    pub(super) fn snapshot(&self) -> &cockpit_git::RepositorySnapshot {
+        self.snapshot
+    }
+    pub(super) fn receipt(&self) -> &serde_json::Value {
+        &self.receipt
+    }
+    pub(super) fn facts(&self) -> &CapturedHistoricalFacts<'_> {
+        self.facts
+    }
+    pub(super) fn completed_at(&self) -> &str {
+        &self.completed_at
+    }
 }
 
 impl Drop for HistoricalGitCheckout {
@@ -5238,8 +5486,9 @@ fn layout_new_attempt_paths(
         .collect())
 }
 
-// A historical lifecycle consumes its frozen review, not the new consumer's
-// analysis implementation identity. This does not admit current source work.
+// Retained only for the original regression assertions. This retired consumer
+// comparison cannot select a recipe or admit any historical material.
+#[cfg(test)]
 fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
     // Rust treats platform CRLF source line endings as LF. This comparison
     // only checks whether the digest recipe code is supported; all evidence,
@@ -5254,187 +5503,24 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
     normalized(historical) == normalized(compiled)
 }
 
+// A historical lifecycle consumes its original V1 wire recipe and generator
+// continuity proof. The current consumer's module bytes are never an identity.
 fn apply_historical_material_projection(
     root: &Path,
     contract: &Contract,
     summary_path: &Path,
     decision: &mut cockpit_core::GovernanceDecision,
 ) -> Result<(), ObserverError> {
-    use cockpit_protocol::{
-        MaterialInspectionReviewDecisionInput, MaterialInspectionReviewDecisionReceipt,
+    let projection = match super::material_review::historical_material_review_v1_projection(
+        root,
+        contract,
+        summary_path,
+    )? {
+        Some(projection) => projection,
+        None => {
+            super::material_review::material_review_gate_projection(root, contract, summary_path)?
+        }
     };
-    let mut projection =
-        super::material_review::material_review_gate_projection(root, contract, summary_path)?;
-    if projection
-        .effective_unknowns
-        .iter()
-        .any(|s| s == "material_review_receipt_stale")
-    {
-        let summary: serde_json::Value = read_json(summary_path)?;
-        let pointer = &summary["materialReviewReceipt"];
-        let path = pointer["path"].as_str().ok_or_else(|| {
-            post_merge_sync_error(root, "historical material receipt path missing")
-        })?;
-        if !path.starts_with(&format!(
-            ".ai/evidence/material-inspection-review/{}/",
-            contract.work_item_id
-        )) || path.contains("..")
-        {
-            return Err(post_merge_sync_error(
-                root,
-                "historical material receipt path is foreign",
-            ));
-        }
-        let bytes = super::read_governance_bytes(root.join(path)).map_err(|source| {
-            ObserverError::Read {
-                path: root.join(path),
-                source,
-            }
-        })?;
-        if pointer["digest"] != Digest::sha256_bytes(&bytes).to_string() {
-            return Err(post_merge_sync_error(
-                root,
-                "historical material receipt byte binding is invalid",
-            ));
-        }
-        super::reject_duplicate_json_keys(&bytes).map_err(|e| post_merge_sync_error(root, e))?;
-        let receipt: MaterialInspectionReviewDecisionReceipt = serde_json::from_slice(&bytes)
-            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        receipt
-            .validate_integrity()
-            .map_err(|e| post_merge_sync_error(root, e))?;
-        let mut request = super::material_review::material_review_request(root, contract)
-            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        let reviewed = receipt.reviewed_source_head.as_deref().ok_or_else(|| {
-            post_merge_sync_error(root, "historical reviewed source head missing")
-        })?;
-        if !is_ancestor(root, reviewed, &request.reviewed_source_head)? {
-            return Err(post_merge_sync_error(
-                root,
-                "historical review source is not an ancestor",
-            ));
-        }
-        // Fail closed if the digest recipe changed. The original scanner code
-        // and all implementation inputs must be preserved in committed history.
-        let recipe_source = git_blob_bytes(
-            root,
-            reviewed,
-            "crates/cockpit-repository/src/material_review.rs",
-        )?;
-        if !analysis_recipe_source_matches(&recipe_source, include_bytes!("material_review.rs")) {
-            return Err(post_merge_sync_error(
-                root,
-                "historical material digest recipe is unsupported",
-            ));
-        }
-        use sha2::{Digest as _, Sha256};
-        let mut hasher = Sha256::new();
-        hasher.update(b"ai-cockpit:material-analysis-implementation:v1\0");
-        for path in [
-            "Cargo.lock",
-            "crates/cockpit-core/src/lib.rs",
-            "crates/cockpit-git/src/lib.rs",
-            "crates/cockpit-protocol/src/lib.rs",
-            "crates/cockpit-protocol/src/contract_amendment.rs",
-            "crates/cockpit-repository/Cargo.toml",
-            "crates/cockpit-repository/src/governance_controls.rs",
-            "crates/cockpit-repository/src/lib.rs",
-            "crates/cockpit-repository/src/material_review.rs",
-            "crates/cockpit-repository/src/rust_material.rs",
-            "crates/cockpit-repository/src/status_projection.rs",
-        ] {
-            require_same_git_blob(root, reviewed, &request.reviewed_source_head, path)?;
-            let bytes = git_blob_bytes(root, reviewed, path)?;
-            hasher.update((path.len() as u64).to_le_bytes());
-            hasher.update(path.as_bytes());
-            hasher.update((bytes.len() as u64).to_le_bytes());
-            hasher.update(&bytes);
-        }
-        let typed_contract_digest = request.contract_digest.clone();
-        request.contract_digest = super::contract_digest(&root.join(format!(
-            ".ai/work-items/active/{}.contract.json",
-            contract.work_item_id
-        )))?;
-        request.analysis_implementation_digest = Digest::sha256_bytes(&hasher.finalize());
-        request.reviewed_source_head = reviewed.into();
-        let mut value = serde_json::to_value(&request)
-            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        for key in ["requestDigest", "reviewedSourceHead", "reviewDiagnostic"] {
-            value.as_object_mut().unwrap().remove(key);
-        }
-        request.request_digest = cockpit_protocol::digest_json(&serde_json::json!([
-            "ai-cockpit:material-review-request:v1",
-            value
-        ]))
-        .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        let input = MaterialInspectionReviewDecisionInput {
-            schema_version: receipt.schema_version,
-            decision: receipt.decision,
-            request_digest: receipt.request_digest.clone(),
-            reviewer_actor: receipt.reviewer_actor.clone(),
-            authority_source: receipt.authority_source.clone(),
-            assurance: receipt.assurance,
-            evidence_refs: receipt.evidence_refs.clone(),
-            rationale: receipt.rationale.clone(),
-            residual_risk: receipt.residual_risk.clone(),
-        };
-        if request.request_digest != receipt.request_digest
-            || request.contract_digest != receipt.contract_digest
-        {
-            return Err(post_merge_sync_error(
-                root,
-                "historical review does not bind the original canonical Contract/request",
-            ));
-        }
-        // The public pure validator consumes a typed Contract; old canonical
-        // documents can also carry preserved legacy fields. Validate policy
-        // with its typed digest, then reconstruct the original canonical wire
-        // identity independently. Neither source bytes nor Runtime identity change.
-        let original_contract_digest = request.contract_digest.clone();
-        let original_request_digest = request.request_digest.clone();
-        request.contract_digest = typed_contract_digest;
-        let mut typed_value = serde_json::to_value(&request)
-            .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        for key in ["requestDigest", "reviewedSourceHead", "reviewDiagnostic"] {
-            typed_value.as_object_mut().unwrap().remove(key);
-        }
-        request.request_digest = cockpit_protocol::digest_json(&serde_json::json!([
-            "ai-cockpit:material-review-request:v1",
-            typed_value
-        ]))
-        .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        let mut typed_input = input;
-        typed_input.request_digest = request.request_digest.clone();
-        let mut validated = super::material_review::validate_material_review_decision(
-            contract,
-            &request,
-            &typed_input,
-            &receipt.recorded_by,
-            &receipt.recorded_at,
-        )
-        .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
-        validated.contract_digest = original_contract_digest;
-        validated.request_digest = original_request_digest;
-        validated.receipt_digest = validated
-            .canonical_digest()
-            .map_err(|e| post_merge_sync_error(root, e))?;
-        if validated != receipt
-            || pointer["receiptDigest"] != receipt.receipt_digest.to_string()
-            || pointer["requestDigest"] != receipt.request_digest.to_string()
-        {
-            return Err(post_merge_sync_error(
-                root,
-                "historical material receipt does not bind its original request",
-            ));
-        }
-        projection.effective_unknowns.retain(|s| {
-            s != "material_review_receipt_stale"
-                && s != "repository_material_inspection_unavailable"
-        });
-        projection.discharged_unknowns = vec!["repository_material_inspection_unavailable".into()];
-        projection.review_receipt_digest = Some(receipt.receipt_digest);
-        projection.review_assurance = Some(receipt.assurance);
-    }
     let projection =
         super::material_review::apply_material_review_projection_to_decision(projection, decision);
     if projection.blocked_by_finding
@@ -5445,8 +5531,9 @@ fn apply_historical_material_projection(
         return Err(post_merge_sync_error(
             root,
             format!(
-                "historical material projection remains blocked or unknown: unknowns={:?}, findings={:?}, unavailable={}, blocked={}",
+                "historical material projection remains blocked or unknown: unknowns={:?}, blockers={:?}, findings={:?}, unavailable={}, blocked={}",
                 decision.unknowns,
+                decision.blockers,
                 projection.finding_codes,
                 projection.projection_unavailable,
                 projection.blocked_by_finding
@@ -5499,12 +5586,14 @@ fn validate_layout_archive_manifest(
         .map_err(|_| post_merge_sync_error(root, "ordinary archive creation time is invalid"))?;
     let occurred = chrono::DateTime::parse_from_rfc3339(occurred_text)
         .map_err(|_| post_merge_sync_error(root, "ordinary archive occurrence time is invalid"))?;
-    // Runtime takes second-resolution now() immediately before lifecycle_now().
-    // Scheduler delay is permitted; both times still precede the manifest write.
+    // Historical producers used canonical whole seconds; current native
+    // timestamps preserve nanoseconds. Keep both exact producer formats and
+    // their real order, without accepting offsets or other textual aliases.
     if !created_text.ends_with('Z')
         || !occurred_text.ends_with('Z')
         || created > occurred
-        || created_text != created.to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
+        || (created_text != created.to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
+            && created_text != created.to_rfc3339_opts(chrono::SecondsFormat::Nanos, true))
     {
         return Err(post_merge_sync_error(
             root,
@@ -5538,6 +5627,83 @@ fn validate_layout_archive_manifest(
     Ok(())
 }
 
+#[cfg(test)]
+pub(crate) fn project_captured_verification_for_test(
+    root: &Path,
+    id: &str,
+    parent: &str,
+    finish: &str,
+) -> Result<(), ObserverError> {
+    let checkout = materialize_git_revision(root, parent)?;
+    let isolated = &checkout.repository;
+    let path = isolated.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let facts = CapturedHistoricalFacts::capture(&checkout, parent, &path)?;
+    let snapshot = cockpit_git::GitRepository::discover(isolated)
+        .and_then(|git| git.snapshot())
+        .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
+    let evidence = git_json(
+        root,
+        finish,
+        &format!(".ai/evidence/{id}.verification.json"),
+    )?;
+    let runtime = RuntimeContext {
+        runtime_version: evidence["runtimeVersion"].as_str().unwrap().into(),
+        runtime_digest: serde_json::from_value(evidence["runtimeDigest"].clone()).unwrap(),
+        protocol_version: 1,
+    };
+    let captured = CapturedHistoricalVerificationProjection::capture(
+        &facts, root, parent, finish, id, &runtime, &snapshot,
+    )?;
+    super::lifecycle::project_captured_historical_verification(&captured).map(|_| ())
+}
+
+#[cfg(test)]
+pub(crate) fn validate_layout_archive_manifest_for_test(
+    root: &Path,
+    id: &str,
+    revision: &str,
+    manifest: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    validate_layout_archive_manifest(root, id, revision, manifest)
+}
+
+#[cfg(test)]
+pub(crate) fn captured_preflight_review_for_test(
+    root: &Path,
+    id: &str,
+    revision: &str,
+    completed_at: &str,
+) -> Result<bool, ObserverError> {
+    let checkout = materialize_git_revision(root, revision)?;
+    let isolated = &checkout.repository;
+    let path = isolated.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let contract = read_contract(&path)?;
+    let facts = CapturedHistoricalFacts::capture(&checkout, revision, &path)?;
+    let proof = super::review_authority::captured_preflight_review(
+        isolated,
+        &contract,
+        &facts,
+        completed_at,
+    )?;
+    assert_ne!(
+        super::current_review_authority_state(isolated, id)?,
+        cockpit_protocol::review_authority::CurrentReviewAuthorityState::Active,
+        "the historical clone receives no CURRENT authority"
+    );
+    Ok(proof.is_some())
+}
+
+#[cfg(test)]
+pub(crate) fn validate_layout_finish_semantics_for_test(
+    root: &Path,
+    id: &str,
+    parent: &str,
+    finish: &str,
+    archive: &str,
+) -> Result<(), ObserverError> {
+    validate_layout_finish_semantics(root, id, parent, finish, archive, false)
+}
+
 fn validate_layout_finish_semantics(
     root: &Path,
     id: &str,
@@ -5567,6 +5733,7 @@ fn validate_layout_finish_semantics(
     let isolated = &checkout.repository;
     let contract_path = isolated.join(format!("{active}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    let facts = CapturedHistoricalFacts::capture(&checkout, parent, &contract_path)?;
     let snapshot = cockpit_git::GitRepository::discover(isolated)
         .and_then(|g| g.snapshot())
         .map_err(|e| post_merge_sync_error(root, e.to_string()))?;
@@ -5581,13 +5748,10 @@ fn validate_layout_finish_semantics(
                 .map_err(|e| post_merge_sync_error(root, e.to_string()))?,
             protocol_version: 1,
         };
-        super::record_verification_with_runtime(
-            isolated,
-            id,
-            &evidence["receipt"],
-            &runtime,
-            &snapshot,
+        let captured = CapturedHistoricalVerificationProjection::capture(
+            &facts, root, parent, finish, id, &runtime, &snapshot,
         )?;
+        super::lifecycle::project_captured_historical_verification(&captured)?;
         summary = read_json(&isolated.join(format!("{active}.summary.json")))?;
         // The recorder's clock is nondeterministic, but the captured refresh
         // time must be between this verification and the recorded finish.
@@ -5627,12 +5791,13 @@ fn validate_layout_finish_semantics(
             .map_err(|e| post_merge_sync_error(root, e.to_string()))?,
         protocol_version: 1,
     };
-    let mut raw = super::governance_decision_for_pre_execution_boundary(
+    let mut raw = super::governance_decision_for_pre_execution_boundary_with_facts(
         isolated,
         &contract,
         &snapshot,
         Some(&runtime),
         None,
+        Some(&facts),
     )?;
     apply_historical_material_projection(
         isolated,
@@ -5640,11 +5805,22 @@ fn validate_layout_finish_semantics(
         &isolated.join(format!("{active}.summary.json")),
         &mut raw,
     )?;
-    let decision = super::apply_preflight_review_evidence(isolated, &contract, raw.clone(), false)?;
+    let decision = super::apply_captured_preflight_review_evidence(
+        isolated,
+        &contract,
+        raw.clone(),
+        &facts,
+        observed["lifecycleFacts"]["finish"]["occurredAt"]
+            .as_str()
+            .ok_or_else(|| post_merge_sync_error(root, "finish time is missing"))?,
+    )?;
     if decision.state != DecisionState::Green {
         return Err(post_merge_sync_error(
             root,
-            "captured preflight refresh does not admit finish",
+            format!(
+                "captured preflight refresh does not admit finish: state={:?}, review={:?}, unknowns={:?}, blockers={:?}",
+                decision.state, decision.review_state, decision.unknowns, decision.blockers
+            ),
         ));
     }
     let controls =
@@ -5659,7 +5835,41 @@ fn validate_layout_finish_semantics(
             ),
         ));
     }
-    if summary["preflightDecisionDigest"] != observed["preflightDecisionDigest"]
+    // Validate the actual finish's mandatory binding independently of whether
+    // its metadata was refreshed or only its cached color changed. Equal null
+    // values and an old Summary/receipt pair cannot stand in for actual C/R.
+    if observed["preflightDecisionDigest"]
+        .as_str()
+        .is_none_or(|value| value.parse::<Digest>().is_err())
+        || observed["preflightContractDigest"]
+            != super::contract_digest(&contract_path)?.to_string()
+        || observed["preflightRepositorySnapshotDigest"]
+            != super::snapshot_digest(&snapshot)?.to_string()
+        || observed["preflightAt"]
+            .as_str()
+            .is_none_or(|value| chrono::DateTime::parse_from_rfc3339(value).is_err())
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "historical finish preflight binding is not valid for the captured Contract/snapshot",
+        ));
+    }
+    let color_only = summary["preflightState"] == "yellow"
+        && observed["preflightState"] == "green"
+        && [
+            "preflightDecisionDigest",
+            "preflightContractDigest",
+            "preflightRepositorySnapshotDigest",
+            "preflightAt",
+        ]
+        .iter()
+        .all(|key| summary[*key] == observed[*key]);
+    if color_only {
+        // A separately proved material discharge can change the cached color
+        // without replacing the original reviewed P or its metadata. The full
+        // historical material/review projection above still had to pass.
+        summary["preflightState"] = "green".into();
+    } else if summary["preflightDecisionDigest"] != observed["preflightDecisionDigest"]
         || summary["preflightState"] != observed["preflightState"]
     {
         summary["preflightState"] = "green".into();
@@ -5899,6 +6109,7 @@ fn validate_layout_finish_semantics(
             "event stream differs from the canonical finish/archive projection",
         ));
     }
+    facts.validate_root(isolated)?;
     Ok(())
 }
 
@@ -6216,6 +6427,13 @@ pub(crate) struct OrdinaryCleanupBinding {
     runtime_version: String,
     runtime_digest: Digest,
     captured_at: String,
+}
+impl OrdinaryCleanupBinding {
+    pub(crate) fn matches_reviewed_git_context(&self, context: &serde_json::Value) -> bool {
+        context["head"].as_str() == Some(self.head_revision.as_str())
+            && context["symbolicRef"].as_str() == Some(self.branch_ref.as_str())
+            && context["gitDir"].as_str() == Some(self.worktree_git_dir.as_str())
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -7042,6 +7260,236 @@ mod post_merge_sync_tests {
             .expect("git output is UTF-8")
             .trim()
             .to_owned()
+    }
+
+    const RECOVERY_HISTORY_ID: &str = "WI-1090-evidence-docs-recovery";
+    const RECOVERY_HISTORY_PARENT: &str = "0dfffcb8fbedac51ae7f5f18b28772b4514df881";
+    const RECOVERY_HISTORY_ARCHIVE: &str = "262cd5a269e4069d588207ab6acac0f9a99c44e8";
+
+    fn frozen_recovery_checkout() -> super::HistoricalGitCheckout {
+        let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let checkout = super::materialize_git_revision(&source, RECOVERY_HISTORY_ARCHIVE).unwrap();
+        git(
+            &checkout.repository,
+            &["config", "user.name", "Synthetic Fixture"],
+        );
+        git(
+            &checkout.repository,
+            &["config", "user.email", "fixture@example.invalid"],
+        );
+        checkout
+    }
+
+    #[test]
+    fn historical_facts_reject_foreign_root_and_parent_input_drift() {
+        let source = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let checkout = super::materialize_git_revision(&source, RECOVERY_HISTORY_PARENT).unwrap();
+        let root = &checkout.repository;
+        let contract = root.join(format!(
+            ".ai/work-items/active/{RECOVERY_HISTORY_ID}.contract.json"
+        ));
+        let facts =
+            super::CapturedHistoricalFacts::capture(&checkout, RECOVERY_HISTORY_PARENT, &contract)
+                .unwrap();
+        facts.validate_root(root).unwrap();
+        assert!(facts.validate_root(&source).is_err());
+        // The structural history view never installs a CURRENT authority.
+        assert!(super::super::review_authority::require_authority_available(root).is_err());
+        for path in [
+            &contract,
+            &root.join(".ai/cockpit.toml"),
+            &root.join("Cargo.toml"),
+        ] {
+            let original = std::fs::read(path).unwrap();
+            let mut changed = original.clone();
+            if path == &contract {
+                let mut value: serde_json::Value = serde_json::from_slice(&original).unwrap();
+                value["goal"] = "changed historical Contract input".into();
+                changed = serde_json::to_vec(&value).unwrap();
+            } else {
+                // Configuration and source identities bind raw bytes.
+                changed.push(b'\n');
+            }
+            std::fs::write(path, changed).unwrap();
+            assert!(facts.validate_root(root).is_err(), "{}", path.display());
+            std::fs::write(path, original).unwrap();
+            facts.validate_root(root).unwrap();
+        }
+        git(
+            root,
+            &["checkout", "--detach", "-q", RECOVERY_HISTORY_ARCHIVE],
+        );
+        assert!(facts.validate_root(root).is_err());
+    }
+
+    #[test]
+    fn historical_finish_replays_frozen_recovery_basis_with_exact_causality() {
+        let checkout = frozen_recovery_checkout();
+        let root = &checkout.repository;
+        let id = RECOVERY_HISTORY_ID;
+        let before = super::git_json(
+            root,
+            RECOVERY_HISTORY_PARENT,
+            &format!(".ai/work-items/active/{id}.summary.json"),
+        )
+        .unwrap();
+        let archived = super::git_json(
+            root,
+            RECOVERY_HISTORY_ARCHIVE,
+            &format!(".ai/work-items/archive/{id}.summary.json"),
+        )
+        .unwrap();
+        let failure = super::git_json(
+            root,
+            "7e9390ce5ab1e1ad100f87e52d3d4a7eeb83f592",
+            &format!(".ai/work-items/active/{id}.outcome.json"),
+        )
+        .unwrap();
+        assert_eq!(failure["state"], "blocked");
+        let events: Vec<cockpit_protocol::TaskOutcomeEvent> = String::from_utf8(
+            super::git_blob_bytes(
+                root,
+                RECOVERY_HISTORY_PARENT,
+                &format!(".ai/work-items/active/{id}.events.jsonl"),
+            )
+            .unwrap(),
+        )
+        .unwrap()
+        .lines()
+        .map(|line| serde_json::from_str(line).unwrap())
+        .collect();
+        let last = events
+            .iter()
+            .rposition(|event| event.event_type == "blocked")
+            .unwrap();
+        let evidence = super::git_json(
+            root,
+            RECOVERY_HISTORY_ARCHIVE,
+            &format!(".ai/evidence/{id}.verification.json"),
+        )
+        .unwrap();
+        assert_eq!(
+            before["verificationRecoveryBasis"],
+            serde_json::json!({
+                "schemaVersion":1,"verificationEvidenceDigest":cockpit_protocol::digest_json(&evidence).unwrap(),
+                "failure":{
+                    "outcomeDigest":cockpit_protocol::digest_json(&failure).unwrap(),
+                    "blockedEventId":events[last].event_id,
+                    "blockedEventPrefixDigest":cockpit_protocol::digest_json(&serde_json::json!(&events[..=last])).unwrap(),
+                    "failedGate":failure["failedGate"]
+                }
+            })
+        );
+        assert_eq!(
+            before["verificationRecoveryBasis"],
+            archived["verificationRecoveryBasis"]
+        );
+        assert!(archived.get("verificationRecoveryReconciled").is_none());
+        super::validate_layout_finish_semantics(
+            root,
+            id,
+            RECOVERY_HISTORY_PARENT,
+            RECOVERY_HISTORY_ARCHIVE,
+            RECOVERY_HISTORY_ARCHIVE,
+            true,
+        )
+        .expect("the frozen real causal basis remains exact archival provenance");
+    }
+
+    fn commit_synthetic_recovery_summary(root: &Path, summary: &serde_json::Value) -> String {
+        let prefix = format!(".ai/work-items/archive/{RECOVERY_HISTORY_ID}");
+        let summary_path = root.join(format!("{prefix}.summary.json"));
+        let bytes = serde_json::to_vec_pretty(summary).unwrap();
+        std::fs::write(&summary_path, &bytes).unwrap();
+        let manifest_path = root.join(format!("{prefix}.archive.json"));
+        let mut manifest: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&manifest_path).unwrap()).unwrap();
+        // Reseal the isolated fixture: raw manifest consistency must not
+        // substitute for the actual Runtime finish projection.
+        manifest["files"]["summaryDigest"] = Digest::sha256_bytes(&bytes).to_string().into();
+        std::fs::write(
+            &manifest_path,
+            serde_json::to_vec_pretty(&manifest).unwrap(),
+        )
+        .unwrap();
+        commit(root, "synthetic changed recovery Summary fixture")
+    }
+
+    #[test]
+    fn historical_finish_rejects_tampered_recovery_basis() {
+        let checkout = frozen_recovery_checkout();
+        let root = &checkout.repository;
+        let id = RECOVERY_HISTORY_ID;
+        let original = super::git_json(
+            root,
+            RECOVERY_HISTORY_ARCHIVE,
+            &format!(".ai/work-items/archive/{id}.summary.json"),
+        )
+        .unwrap();
+        for pointer in [
+            "/verificationRecoveryBasis/schemaVersion",
+            "/verificationRecoveryBasis/verificationEvidenceDigest",
+            "/verificationRecoveryBasis/failure/blockedEventId",
+            "/verificationRecoveryBasis/failure/blockedEventPrefixDigest",
+            "/verificationRecoveryBasis/failure/outcomeDigest",
+            "/verificationRecoveryBasis",
+        ] {
+            let mut changed = original.clone();
+            if pointer == "/verificationRecoveryBasis" {
+                changed
+                    .as_object_mut()
+                    .unwrap()
+                    .remove("verificationRecoveryBasis");
+            } else {
+                *changed.pointer_mut(pointer).unwrap() = if pointer.ends_with("schemaVersion") {
+                    serde_json::json!(2)
+                } else {
+                    serde_json::json!(Digest::sha256_bytes(b"synthetic altered causal binding"))
+                };
+            }
+            let revision = commit_synthetic_recovery_summary(root, &changed);
+            let error = super::validate_layout_finish_semantics(
+                root,
+                id,
+                RECOVERY_HISTORY_PARENT,
+                &revision,
+                &revision,
+                true,
+            )
+            .unwrap_err()
+            .to_string();
+            assert!(
+                error.contains("Runtime finish projection")
+                    && error.contains("verificationRecoveryBasis"),
+                "{pointer}: {error}"
+            );
+        }
+    }
+
+    #[test]
+    fn historical_finish_rejects_unrelated_summary_field() {
+        let checkout = frozen_recovery_checkout();
+        let root = &checkout.repository;
+        let id = RECOVERY_HISTORY_ID;
+        let mut changed = super::git_json(
+            root,
+            RECOVERY_HISTORY_ARCHIVE,
+            &format!(".ai/work-items/archive/{id}.summary.json"),
+        )
+        .unwrap();
+        changed["syntheticUnrelatedSummaryField"] = "not a Runtime finish projection".into();
+        let revision = commit_synthetic_recovery_summary(root, &changed);
+        let error = super::validate_layout_finish_semantics(
+            root,
+            id,
+            RECOVERY_HISTORY_PARENT,
+            &revision,
+            &revision,
+            true,
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(error.contains("Runtime finish projection"), "{error}");
     }
 
     fn real_combined_checkout() -> super::HistoricalGitCheckout {
@@ -8524,6 +8972,11 @@ mod post_merge_sync_tests {
         for key in ["preflightState", "preflightDecisionDigest", "preflightAt"] {
             summary[key] = observed[key].clone();
         }
+        let missing_preflight = case.strip_prefix("null_preflight_");
+        if let Some(key) = missing_preflight {
+            summary["preflightState"] = "yellow".into();
+            summary[key] = serde_json::Value::Null;
+        }
         std::fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
         git(
             root,
@@ -8557,6 +9010,22 @@ mod post_merge_sync_tests {
             ],
         );
         git(root, &["read-tree", "--reset", "-u", "d18be4f8"]);
+        if let Some(key) = missing_preflight {
+            let path = format!("{archive}.summary.json");
+            let mut changed = observed;
+            changed[key] = serde_json::Value::Null;
+            let bytes = serde_json::to_vec_pretty(&changed).unwrap();
+            std::fs::write(root.join(&path), &bytes).unwrap();
+            let manifest_path = format!("{archive}.archive.json");
+            let mut manifest = super::read_json(&root.join(&manifest_path)).unwrap();
+            manifest["files"]["summaryDigest"] = Digest::sha256_bytes(&bytes).to_string().into();
+            std::fs::write(
+                root.join(&manifest_path),
+                serde_json::to_vec_pretty(&manifest).unwrap(),
+            )
+            .unwrap();
+            git(root, &["add", "-f", "--", &path, &manifest_path]);
+        }
         let tree = git(root, &["write-tree"]);
         let lifecycle = git(
             root,
@@ -8571,6 +9040,32 @@ mod post_merge_sync_tests {
         );
         git(root, &["reset", "--hard", &lifecycle]);
         (fixture, parent, lifecycle)
+    }
+
+    #[test]
+    fn post_merge_layout_color_change_rejects_missing_preflight_bindings() {
+        let id = "WI-1078-v1-0-1-post-merge-sync-finalization";
+        for key in [
+            "preflightDecisionDigest",
+            "preflightContractDigest",
+            "preflightRepositorySnapshotDigest",
+            "preflightAt",
+        ] {
+            let (fixture, parent, lifecycle) =
+                same_green_lifecycle_fixture(&format!("null_preflight_{key}"));
+            let result = super::validate_layout_finish_semantics(
+                &fixture.repository,
+                id,
+                &parent,
+                &lifecycle,
+                &lifecycle,
+                true,
+            );
+            assert!(
+                result.is_err(),
+                "color projection must reject missing {key}"
+            );
+        }
     }
 
     #[test]

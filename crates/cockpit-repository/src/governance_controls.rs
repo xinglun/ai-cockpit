@@ -1610,14 +1610,41 @@ pub(crate) enum PreflightDecisionEvidenceState {
     Missing,
     Valid,
     Invalid,
+    AuthorityUnavailable,
+    UnknownProvenance,
+    Revoked,
+    LocalHold,
+    Consumed,
+    PublicationIncomplete,
+    Denied,
 }
 
-/// Inspect the active Summary and its repository-local receipt without
-/// mutating either file. A review receipt is durable authorization for the
-/// exact Contract boundary; source-snapshot freshness is evaluated separately
-/// by preflight and verification. A malformed, foreign, or partially written
-/// receipt remains distinguishable from an absent receipt.
-pub(crate) fn preflight_decision_evidence_state(
+/// Current callers must never use the historical structural validator below
+/// as an authenticated authority result. No production adapter exists in A.
+pub(crate) fn current_preflight_decision_evidence_state(
+    root: &Path,
+    work_item_id: &str,
+    _contract_digest: &Digest,
+) -> PreflightDecisionEvidenceState {
+    use PreflightDecisionEvidenceState as E;
+    use cockpit_protocol::review_authority::CurrentReviewAuthorityState as S;
+    match crate::current_review_authority_state(root, work_item_id) {
+        Ok(S::Active) => E::Valid,
+        Ok(S::Missing) => E::Missing,
+        Ok(S::Invalid) => E::Invalid,
+        Ok(S::AuthorityUnavailable) => E::AuthorityUnavailable,
+        Ok(S::UnknownProvenance) | Err(_) => E::UnknownProvenance,
+        Ok(S::Revoked) => E::Revoked,
+        Ok(S::LocalHold) => E::LocalHold,
+        Ok(S::Consumed) => E::Consumed,
+        Ok(S::PublicationIncomplete) => E::PublicationIncomplete,
+        Ok(S::Denied) => E::Denied,
+    }
+}
+
+/// Historical structure only. This does not authenticate a person and must
+/// not be called to admit current work.
+pub(crate) fn historical_preflight_decision_evidence_state(
     root: &Path,
     work_item_id: &str,
     contract_digest: &Digest,
@@ -1836,7 +1863,10 @@ fn validate_preflight_decision_evidence(
                     .into(),
         });
     }
-    Ok(evidence)
+    Err(ObserverError::State {
+        path: summary_path,
+        message: "human_review_source_unverified: self-declared decisionEvidence cannot satisfy current human review; authority_unavailable".into(),
+    })
 }
 
 /// Helper for callers that already hold a typed Contract and Summary.

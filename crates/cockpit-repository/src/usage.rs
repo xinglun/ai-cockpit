@@ -862,6 +862,7 @@ mod lifecycle_clock_tests {
             ("2026-10-07T08:00:00.000000001Z", None),
         ] {
             let directory = tempfile::tempdir().expect("repository");
+            let authority = crate::review_authority::pipeline_tests::TestAuthority::install();
             assert!(
                 Command::new("git")
                     .args(["init", "-q"])
@@ -930,8 +931,27 @@ mod lifecycle_clock_tests {
                     .expect("verification");
                     crate::finish_work_item(directory.path(), id).expect("finish");
                     crate::archive_work_item(directory.path(), id).expect("archive");
-                    crate::close_work_item_with_decision(directory.path(), id, "approved")
-                        .expect("close");
+                    let decision = cockpit_protocol::HumanDecision {
+                        decision: "approved".into(),
+                        actor: "synthetic-clock-fixture-audit-metadata".into(),
+                        authority_source: "separate simulated private source".into(),
+                        reason: "close the exact synthetic clock fixture".into(),
+                        evidence_refs: vec![],
+                        policy_refs: vec![],
+                        decided_at: "2026-10-07T08:00:00Z".into(),
+                        resume_condition: None,
+                    };
+                    authority.approve(
+                        directory.path(), id,
+                        cockpit_protocol::review_authority::HumanReviewOperation::Close,
+                        &serde_json::json!({"decision":decision,"runtime":Option::<RuntimeContext>::None}),
+                    );
+                    crate::close_work_item_with_structured_decision(
+                        directory.path(),
+                        id,
+                        &decision,
+                    )
+                    .expect("close through the exact private test source");
                 },
             );
             let runtime = RuntimeContext {

@@ -156,9 +156,11 @@ fn material_review_record_fails_closed_when_stage_one_has_no_opt_in() {
     assert!(plan.status.success());
     let plan: serde_json::Value = serde_json::from_slice(&plan.stdout).unwrap();
     let input = json!({
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "decision": "accept_permitted_unknowns",
         "requestDigest": plan["requestDigest"],
+        "requestArtifactDigest":plan["requestArtifact"]["digest"],
+        "requestArtifactByteLength":plan["requestArtifact"]["byteLength"],
         "reviewerActor": "agent:Raydot",
         "authoritySource": "user-delegation:ray-approved-WI1068",
         "assurance": "self_declared",

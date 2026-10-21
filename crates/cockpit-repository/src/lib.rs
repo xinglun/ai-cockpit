@@ -5,7 +5,7 @@ use cockpit_core::{
     ActionKind, AuthorityState, DecisionState, Digest, EvidenceState, GovernanceDecision,
     GovernanceInput, evaluate,
 };
-use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
+use cockpit_git::RepositorySnapshot;
 use cockpit_protocol::{
     ActiveWorkItemRetirementArtifact, ActiveWorkItemRetirementReceipt,
     ActiveWorkItemRetirementRequest, AdopterCapabilityState, AdopterCapabilityTruth,
@@ -60,25 +60,37 @@ mod historical_compatibility;
 mod knowledge_projection;
 mod legacy_closeout_source;
 mod lifecycle;
+mod material_analysis_v1;
+mod material_recipe;
 mod material_review;
 mod observation_ledger;
 mod outcome_render;
 mod project_governance;
 mod resource_lifecycle;
+mod review_authority;
+mod review_ledger;
+pub use review_authority::{
+    current_review_authority_state, human_operation_binding, human_review_binding,
+    issue_human_review_request, record_review_revocation, submit_human_review,
+    validate_review_authority_wire,
+};
+pub use review_ledger::{record_review_correction, review_correction_events};
+#[cfg(test)]
+mod business_regressions;
 mod rust_material;
+#[cfg(test)]
+mod source_observation_regressions;
 mod status_projection;
 mod usage;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
-    MaterialReviewRequestError, material_review_request, plan_work_item_material_review,
-    record_work_item_material_review, validate_material_review_decision,
+    MaterialReviewRequestArtifactPlan, MaterialReviewRequestError, material_review_request,
+    plan_work_item_material_review, record_work_item_material_review,
+    validate_material_review_decision,
 };
 pub use rust_material::MaterialUnknownCause;
-use rust_material::{
-    RustMaterialAssessment, RustMaterialDiagnosis, contains_strong_instruction_injection,
-    diagnose_rust_material,
-};
+use rust_material::RustMaterialDiagnosis;
 
 pub use action_admission::require_current_action_admission;
 pub use audit_query::{export_audit_events_filtered, query_audit_events};
@@ -223,7 +235,7 @@ pub(crate) use resource_lifecycle::{
 };
 use status_projection::{
     discover_worktree_layout, historical_finalization_inventory,
-    recovery_successor_resolves_pending_close, repository_readiness, unclosed_archived_work_items,
+    recovery_successor_resolves_pending_close, repository_readiness,
 };
 pub use status_projection::{
     status, status_with_runtime, work_item_status_index_with_runtime,
@@ -2301,13 +2313,24 @@ fn unclosed_archived_scope_conflicts(
     candidate_scope: &[String],
     recovery_predecessors: &BTreeSet<String>,
 ) -> Result<Vec<String>, ObserverError> {
+    unclosed_archived_scope_conflicts_with_facts(root, candidate_scope, recovery_predecessors, None)
+}
+
+fn unclosed_archived_scope_conflicts_with_facts(
+    root: &Path,
+    candidate_scope: &[String],
+    recovery_predecessors: &BTreeSet<String>,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<Vec<String>, ObserverError> {
     if candidate_scope.is_empty() {
         return Ok(Vec::new());
     }
     let expected_repository_id = repository_id(root).to_string();
     let archive = root.join(".ai/work-items/archive");
     let mut blockers = Vec::new();
-    for work_item_id in unclosed_archived_work_items(root)? {
+    for work_item_id in
+        status_projection::unclosed_archived_work_items_with_facts(root, historical)?
+    {
         // A self-consistent rewritten manifest cannot restore trust in a
         // Contract whose registered raw binding is invalid. Neither a new
         // disjoint scope nor an old successor waiver may erase this obligation.
@@ -2459,6 +2482,14 @@ fn recovery_predecessor_lineage_for_candidate(
     root: &Path,
     candidate_work_item_id: &str,
 ) -> Result<BTreeSet<String>, ObserverError> {
+    recovery_predecessor_lineage_for_candidate_with_facts(root, candidate_work_item_id, None)
+}
+
+fn recovery_predecessor_lineage_for_candidate_with_facts(
+    root: &Path,
+    candidate_work_item_id: &str,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<BTreeSet<String>, ObserverError> {
     const MAX_RECOVERY_PREDECESSORS: usize = 64;
     let mut lineage = BTreeSet::new();
     let mut successor = candidate_work_item_id.to_owned();
@@ -2514,6 +2545,7 @@ fn recovery_predecessor_lineage_for_candidate(
             &predecessor,
             &successor,
             selected_recovery_path,
+            historical,
         )? {
             break;
         }
@@ -2550,6 +2582,7 @@ fn recovery_decision_authorizes_existing_predecessor(
     predecessor_work_item_id: &str,
     successor_work_item_id: &str,
     selected_recovery_path: Option<&str>,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
 ) -> Result<bool, ObserverError> {
     let predecessor_archive = root
         .join(".ai/work-items/archive")
@@ -2565,6 +2598,7 @@ fn recovery_decision_authorizes_existing_predecessor(
         predecessor_work_item_id,
         successor_work_item_id,
         selected_recovery_path,
+        historical,
     )
 }
 
@@ -2573,7 +2607,11 @@ fn recovery_decision_authorizes_successor(
     predecessor_work_item_id: &str,
     successor_work_item_id: &str,
     selected_recovery_path: Option<&str>,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
 ) -> Result<bool, ObserverError> {
+    if let Some(facts) = historical {
+        facts.validate_root(root)?;
+    }
     if let Some(relative) = selected_recovery_path {
         let relative_path = Path::new(relative);
         let file_name = relative_path
@@ -2603,6 +2641,15 @@ fn recovery_decision_authorizes_successor(
             &contract_path,
             &summary_path,
         )?;
+        if historical.is_none() {
+            review_authority::require_current_human_effect(
+                root,
+                predecessor_work_item_id,
+                cockpit_protocol::review_authority::HumanReviewOperation::Recovery,
+                &serde_json::to_value(&decision)
+                    .map_err(|_| review_authority::error(root, "human_effect_invalid"))?,
+            )?;
+        }
         return Ok(decision.decision == "successor"
             && decision.successor_work_item_id.as_deref() == Some(successor_work_item_id));
     }
@@ -2610,7 +2657,11 @@ fn recovery_decision_authorizes_successor(
     if candidates.is_empty() {
         return Ok(false);
     }
-    let Some(decision) = load_recovery_decision(root, predecessor_work_item_id, None)? else {
+    let decision = match historical {
+        Some(facts) => facts.recovery_decision(root, predecessor_work_item_id, None)?,
+        None => review_authority::current_recovery_decision(root, predecessor_work_item_id, None)?,
+    };
+    let Some(decision) = decision else {
         return Ok(false);
     };
     Ok(decision.decision == "successor"
@@ -2620,16 +2671,20 @@ fn recovery_decision_authorizes_successor(
 fn pending_close_dependency_blockers(
     root: &Path,
     contract: &Contract,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
 ) -> Result<Vec<String>, ObserverError> {
     let Some(intelligence) = read_work_item_intelligence(root, &contract.work_item_id)? else {
         return Ok(Vec::new());
     };
     let dependencies = intelligence.depends_on.into_iter().collect::<BTreeSet<_>>();
-    let mut blockers = unclosed_archived_work_items(root)?
-        .into_iter()
-        .filter(|work_item_id| dependencies.contains(work_item_id))
-        .map(|work_item_id| format!("archived_work_item_dependency_pending_close:{work_item_id}"))
-        .collect::<Vec<_>>();
+    let mut blockers =
+        status_projection::unclosed_archived_work_items_with_facts(root, historical)?
+            .into_iter()
+            .filter(|work_item_id| dependencies.contains(work_item_id))
+            .map(|work_item_id| {
+                format!("archived_work_item_dependency_pending_close:{work_item_id}")
+            })
+            .collect::<Vec<_>>();
     blockers.sort();
     blockers.dedup();
     Ok(blockers)
@@ -5348,6 +5403,24 @@ pub(crate) fn pre_execution_quality_state(
     current_runtime: Option<&RuntimeContext>,
     archived: bool,
 ) -> Result<EvidenceState, ObserverError> {
+    pre_execution_quality_state_with_facts(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        archived,
+        None,
+    )
+}
+
+fn pre_execution_quality_state_with_facts(
+    root: &Path,
+    contract: &Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    archived: bool,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<EvidenceState, ObserverError> {
     // `verification` is the only completion class that can be meaningfully
     // required by the entry gate: an existing receipt can prove that the
     // current source was already verified, and a missing or stale one must
@@ -5363,7 +5436,14 @@ pub(crate) fn pre_execution_quality_state(
         .join(".ai/evidence")
         .join(format!("{}.verification.json", contract.work_item_id));
     if requires_verification || fs::symlink_metadata(&evidence_path).is_ok() {
-        verification_evidence_state(root, contract, snapshot, archived, current_runtime)
+        verification_evidence_state_with_facts(
+            root,
+            contract,
+            snapshot,
+            archived,
+            current_runtime,
+            historical,
+        )
     } else {
         Ok(EvidenceState::Complete)
     }
@@ -5379,15 +5459,46 @@ pub(crate) fn governance_decision_for_pre_execution_boundary(
     current_runtime: Option<&RuntimeContext>,
     observation: Option<&ObservationContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
-    let evidence = pre_execution_quality_state(root, contract, snapshot, current_runtime, false)?;
-    governance_decision_for_contract_base_internal_with_archive(
+    governance_decision_for_pre_execution_boundary_with_facts(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        observation,
+        None,
+    )
+}
+
+fn governance_decision_for_pre_execution_boundary_with_facts(
+    root: &Path,
+    contract: &Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    observation: Option<&ObservationContext>,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<GovernanceDecision, ObserverError> {
+    if let Some(facts) = historical {
+        facts.validate_root(root)?;
+    }
+    let evidence = pre_execution_quality_state_with_facts(
         root,
         contract,
         snapshot,
         current_runtime,
         false,
-        Some(evidence),
-        observation,
+        historical,
+    )?;
+    governance_decision_for_contract_base_with_context(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        GovernanceProjectionContext {
+            archived: false,
+            evidence_override: Some(evidence),
+            observation,
+            historical,
+        },
     )
 }
 
@@ -5469,7 +5580,9 @@ pub fn require_policy_for_verification(
     };
     match rule.approval_mode {
         ApprovalMode::NoHumanApprovalForLowRisk => Ok(()),
-        ApprovalMode::SingleAuthorizedHuman if contract.authority == "authorized" => Ok(()),
+        ApprovalMode::SingleAuthorizedHuman if contract.authority == "authorized" => {
+            review_authority::require_preflight_authority(&root, &contract.work_item_id)
+        }
         ApprovalMode::SingleAuthorizedHuman => Err(ObserverError::State {
             path: contract_path,
             message: "policy requires an authorized human before verification".into(),
@@ -5749,7 +5862,7 @@ fn require_contract_amendment_policy_review(
         return Ok(());
     }
     let current_contract_digest = contract_digest(contract_path)?;
-    if governance_controls::preflight_decision_evidence_state(
+    if governance_controls::current_preflight_decision_evidence_state(
         root,
         work_item_id,
         &current_contract_digest,
@@ -5763,1256 +5876,27 @@ fn require_contract_amendment_policy_review(
     Ok(())
 }
 
-fn is_test_path(path: &str) -> bool {
-    let normalized = path.to_ascii_lowercase();
-    let file_name = normalized.rsplit('/').next().unwrap_or(&normalized);
-    let spec_source_name = [
-        ".rs", ".py", ".js", ".mjs", ".cjs", ".jsx", ".ts", ".mts", ".cts", ".tsx", ".go", ".java",
-        ".kt", ".swift", ".sh", ".rb", ".php", ".cs", ".c", ".cc", ".cpp", ".h", ".hpp",
-    ]
-    .iter()
-    .any(|extension| {
-        file_name.strip_suffix(extension).is_some_and(|stem| {
-            stem == "spec" || stem.ends_with("_spec") || stem.ends_with(".spec")
-        })
-    });
-    normalized.starts_with("tests/")
-        || normalized.starts_with("test/")
-        || normalized.contains("/tests/")
-        || normalized.contains("/test/")
-        || normalized.contains("/spec/")
-        || file_name.contains("test")
-        || spec_source_name
-}
-
-fn is_coverage_path(path: &str) -> bool {
-    let normalized = path.to_ascii_lowercase();
-    let name = normalized.rsplit('/').next().unwrap_or(&normalized);
-    matches!(
-        name,
-        ".coveragerc"
-            | "coverage.json"
-            | "coverage.yaml"
-            | "coverage.yml"
-            | "pyproject.toml"
-            | "tox.ini"
-            | "package.json"
-    ) || name.starts_with("jest.config.")
-}
-
-fn is_textual_material_path(path: &str) -> bool {
-    let normalized = path.to_ascii_lowercase();
-    [
-        ".md", ".txt", ".json", ".toml", ".yaml", ".yml", ".rs", ".py", ".js", ".mjs", ".cjs",
-        ".ts", ".mts", ".cts", ".tsx", ".jsx", ".java", ".kt", ".swift", ".go", ".sh",
-    ]
-    .iter()
-    .any(|extension| normalized.ends_with(extension))
-}
-
-/// The reference inventory is a large machine-generated conformance ledger.
-/// Its own strict checker is the authority for its schema and path coverage;
-/// treating an oversized JSON diff as source prose would otherwise make every
-/// legitimate rebaseline permanently yellow.  This exemption is deliberately
-/// exact and does not weaken inspection for other test or repository files.
-fn is_strictly_checked_conformance_manifest(path: &str) -> bool {
-    path == "tests/conformance/reference_file_inventory.json"
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum MultilineSourceString {
-    PythonSingle,
-    PythonDouble,
-    TripleDouble,
-    Backtick,
-    GoRaw,
-    RustRaw(usize),
-    Quoted(u8),
-}
-
-#[derive(Default)]
-struct SkipSourceContext {
-    block_comment_depth: usize,
-    multiline_string: Option<MultilineSourceString>,
-}
-
-impl SkipSourceContext {
-    fn is_code(&self) -> bool {
-        self.block_comment_depth == 0 && self.multiline_string.is_none()
+fn signals_v1_projection(value: material_analysis_v1::SignalsV1) -> GovernanceSignalAssessment {
+    GovernanceSignalAssessment {
+        untrusted_material: value.untrusted_material,
+        test_weakening: value.test_weakening,
+        coverage_weakening: value.coverage_weakening,
+        unknowns: value.unknowns,
+        findings: value.findings,
     }
 }
-
-fn is_identifier_byte(byte: u8) -> bool {
-    byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'$') || !byte.is_ascii()
-}
-
-fn has_marker_boundary(line: &str, index: usize) -> bool {
-    line.as_bytes()
-        .get(index.wrapping_sub(1))
-        .is_none_or(|byte| !is_identifier_byte(*byte) && *byte != b'.')
-}
-
-fn has_call(line: &str, marker: &str) -> bool {
-    line.match_indices(marker).any(|(index, _)| {
-        has_marker_boundary(line, index)
-            && line[index + marker.len()..].trim_start().starts_with('(')
-    })
-}
-
-fn has_call_or_jest_each(line: &str, marker: &str) -> bool {
-    line.match_indices(marker).any(|(index, _)| {
-        if !has_marker_boundary(line, index) {
-            return false;
-        }
-        let suffix = line[index + marker.len()..].trim_start();
-        suffix.starts_with('(')
-            || suffix
-                .strip_prefix(".each")
-                .is_some_and(|after_each| after_each.trim_start().starts_with('('))
-    })
-}
-
-fn has_bare_python_skip_decorator(line: &str) -> bool {
-    line.match_indices("@pytest.mark.skip").any(|(index, _)| {
-        has_marker_boundary(line, index)
-            && line[index + "@pytest.mark.skip".len()..].trim().is_empty()
-    })
-}
-
-fn has_python_skip_marker(line: &str) -> bool {
-    has_bare_python_skip_decorator(line)
-        || [
-            "@pytest.mark.skip",
-            "@pytest.mark.skipif",
-            "@unittest.skip",
-            "@unittest.skipIf",
-            "pytest.skip",
-            "pytest.skipif",
-        ]
-        .iter()
-        .any(|marker| has_call(line, marker))
-}
-
-fn has_python_parameter_marker_candidate(line: &str) -> bool {
-    ["pytest.mark.skipif", "pytest.mark.skip"]
-        .iter()
-        .any(|marker| {
-            line.match_indices(marker).any(|(index, _)| {
-                if !has_marker_boundary(line, index) {
-                    return false;
-                }
-                let suffix = line[index + marker.len()..].trim_start();
-                if marker.ends_with("skipif") {
-                    suffix.starts_with('(')
-                } else {
-                    suffix.is_empty() || suffix.starts_with(['(', ',', ')', ']'])
-                }
-            })
-        })
-}
-
-fn has_javascript_skip_marker(line: &str) -> bool {
-    ["it.skip", "test.skip", "describe.skip"]
-        .iter()
-        .any(|marker| has_call_or_jest_each(line, marker))
-        || ["xit", "xtest", "xdescribe", "this.skip"]
-            .iter()
-            .any(|marker| has_call(line, marker))
-}
-
-fn has_java_skip_annotation(line: &str) -> bool {
-    let bytes = line.as_bytes();
-    let mut index = 0;
-    while index < bytes.len() {
-        if bytes[index] != b'@' {
-            index += 1;
-            continue;
-        }
-        let start = index + 1;
-        let mut end = start;
-        while bytes
-            .get(end)
-            .is_some_and(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'$'))
-        {
-            end += 1;
-        }
-        if end == start {
-            index += 1;
-            continue;
-        }
-        let annotation = &line[start..end];
-        let suffix = &line[end..];
-        if matches!(annotation.rsplit('.').next(), Some("Disabled" | "Ignore"))
-            && (suffix.is_empty()
-                || suffix.starts_with(char::is_whitespace)
-                || suffix.trim_start().starts_with('('))
-        {
-            return true;
-        }
-        index = end;
-    }
-    false
-}
-
-fn is_javascript_extension(extension: &str) -> bool {
-    matches!(
-        extension,
-        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx"
-    )
-}
-
-// These extensions have a narrowly recognized test-disable syntax below.
-// Other test-like paths still retain deletion, assertion-loss, and CI-bypass
-// detection without interpreting a generic word or method named `skip`.
-fn skip_marker_for_language(extension: &str, line: &str) -> bool {
-    match extension {
-        "rs" => line.match_indices("#[ignore").any(|(index, _)| {
-            has_marker_boundary(line, index)
-                && line[index + "#[ignore".len()..]
-                    .trim_start()
-                    .starts_with(['=', ']'])
-        }),
-        "py" => has_python_skip_marker(line),
-        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx" => {
-            has_javascript_skip_marker(line)
-        }
-        "java" | "kt" => has_java_skip_annotation(line),
-        "go" => ["t.Skip", "t.Skipf", "t.SkipNow"]
-            .iter()
-            .any(|marker| has_call(line, marker)),
-        "swift" => ["XCTSkip", "XCTSkipIf"]
-            .iter()
-            .any(|marker| has_call(line, marker)),
-        _ => false,
-    }
-}
-
-fn matching_parenthesis(source: &str, opening: usize) -> Option<usize> {
-    let mut depth = 0usize;
-    for (index, byte) in source.as_bytes().iter().enumerate().skip(opening) {
-        match byte {
-            b'(' => depth += 1,
-            b')' => {
-                depth = depth.checked_sub(1)?;
-                if depth == 0 {
-                    return Some(index);
-                }
-            }
-            _ => {}
-        }
-    }
-    None
-}
-
-fn top_level_argument_ranges(source: &str, start: usize, end: usize) -> Vec<(usize, usize)> {
-    let mut ranges = Vec::new();
-    let mut stack = Vec::new();
-    let mut argument_start = start;
-    for index in start..end {
-        match source.as_bytes()[index] {
-            b'(' => stack.push(b')'),
-            b'[' => stack.push(b']'),
-            b'{' => stack.push(b'}'),
-            byte @ (b')' | b']' | b'}') if stack.last() == Some(&byte) => {
-                stack.pop();
-            }
-            b',' if stack.is_empty() => {
-                ranges.push((argument_start, index));
-                argument_start = index + 1;
-            }
-            _ => {}
-        }
-    }
-    if argument_start < end {
-        ranges.push((argument_start, end));
-    }
-    ranges
-}
-
-fn has_python_parameterized_skip_marker(
-    source_lines: &[String],
-    changed_lines: &BTreeSet<usize>,
-) -> bool {
-    let source = source_lines.join("\n");
-    for (parameter_index, _) in source.match_indices("pytest.param") {
-        if !has_marker_boundary(&source, parameter_index) {
-            continue;
-        }
-        let suffix = &source[parameter_index + "pytest.param".len()..];
-        let opening = suffix.len() - suffix.trim_start().len();
-        if !suffix[opening..].starts_with('(') {
-            continue;
-        }
-        let opening = parameter_index + "pytest.param".len() + opening;
-        let Some(closing) = matching_parenthesis(&source, opening) else {
-            continue;
-        };
-        for (argument_start, argument_end) in
-            top_level_argument_ranges(&source, opening + 1, closing)
-        {
-            let argument = &source[argument_start..argument_end];
-            let Some(equal) = argument.find('=') else {
-                continue;
-            };
-            if argument[..equal].trim() != "marks" {
-                continue;
-            }
-            let value_start = argument_start + equal + 1;
-            let value = &source[value_start..argument_end];
-            for marker in ["pytest.mark.skipif", "pytest.mark.skip"] {
-                for (marker_offset, _) in value.match_indices(marker) {
-                    let marker_index = value_start + marker_offset;
-                    if !has_marker_boundary(&source, marker_index) {
-                        continue;
-                    }
-                    let suffix = value[marker_offset + marker.len()..].trim_start();
-                    let marker_is_used = if marker.ends_with("skipif") {
-                        suffix.starts_with('(')
-                    } else {
-                        suffix.is_empty() || suffix.starts_with(['(', ',', ')', ']'])
-                    };
-                    if marker_is_used {
-                        let line_index = source.as_bytes()[..marker_index]
-                            .iter()
-                            .filter(|byte| **byte == b'\n')
-                            .count();
-                        if changed_lines.contains(&line_index) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    false
-}
-
-fn balanced_expression_end(
-    extension: &str,
-    source: &str,
-    start: usize,
-    open: u8,
-    close: u8,
-) -> Option<usize> {
-    let expression = &source[start..];
-    let mut context = SkipSourceContext::default();
-    let mut code = String::with_capacity(expression.len());
-    for (index, line) in expression.split('\n').enumerate() {
-        if index > 0 {
-            code.push('\n');
-        }
-        code.push_str(&code_only_skip_source_line(extension, line, &mut context));
-    }
-    let bytes = code.as_bytes();
-    let mut depth = 1usize;
-    let mut index = 0;
-    while index < bytes.len() {
-        if bytes[index] == open {
-            depth += 1;
-        } else if bytes[index] == close {
-            depth = depth.checked_sub(1)?;
-            if depth == 0 {
-                return Some(start + index);
-            }
-        }
-        index += 1;
-    }
-    None
-}
-
-fn expression_may_disable_test(extension: &str, expression: &str) -> bool {
-    skip_marker_for_language(extension, expression)
-        || matches!(extension, "kt" | "swift")
-            && ["skip", "assume", "testaborted", "xctskip"]
-                .iter()
-                .any(|marker| expression.to_ascii_lowercase().contains(marker))
-}
-
-fn has_javascript_template_skip_candidate(source: &str, changed_lines: &BTreeSet<usize>) -> bool {
-    let bytes = source.as_bytes();
-    let mut quote_index = 0;
-    while quote_index < bytes.len() {
-        if bytes[quote_index] != b'`' {
-            quote_index += 1;
-            continue;
-        }
-        let Some(literal_end) = quoted_literal_end(bytes, quote_index, 1, b'`') else {
-            return false;
-        };
-        let mut content_index = quote_index + 1;
-        while content_index < literal_end {
-            if bytes.get(content_index..content_index + 2) == Some(b"${") {
-                let escaped = bytes[..content_index]
-                    .iter()
-                    .rev()
-                    .take_while(|byte| **byte == b'\\')
-                    .count()
-                    % 2
-                    == 1;
-                if escaped {
-                    content_index += 2;
-                    continue;
-                }
-                let expression_start = content_index + 2;
-                if let Some(expression_end) =
-                    balanced_expression_end("js", source, expression_start, b'{', b'}')
-                {
-                    if expression_end < literal_end
-                        && has_javascript_regex_brace_ambiguity(
-                            source,
-                            expression_start,
-                            expression_end,
-                        )
-                        && expression_may_disable_test("js", &source[expression_start..literal_end])
-                        && changed_line_intersects_range(
-                            source,
-                            content_index,
-                            literal_end,
-                            changed_lines,
-                        )
-                    {
-                        return true;
-                    }
-                    if expression_end < literal_end
-                        && expression_may_disable_test(
-                            "js",
-                            &source[expression_start..expression_end],
-                        )
-                        && changed_line_intersects_range(
-                            source,
-                            content_index,
-                            expression_end + 1,
-                            changed_lines,
-                        )
-                    {
-                        return true;
-                    }
-                    content_index = expression_end + 1;
-                    continue;
-                }
-                return expression_may_disable_test("js", &source[expression_start..literal_end])
-                    && changed_line_intersects_range(
-                        source,
-                        content_index,
-                        literal_end,
-                        changed_lines,
-                    );
-            }
-            content_index += 1;
-        }
-        quote_index = literal_end + 1;
-    }
-    false
-}
-
-fn has_javascript_regex_brace_ambiguity(
-    source: &str,
-    expression_start: usize,
-    expression_end: usize,
-) -> bool {
-    // This bounded scanner does not lex JavaScript regular-expression bodies.
-    // If a slash occurs before a brace it mistook for the interpolation end,
-    // the caller checks the entire interpolation for skip syntax and defers
-    // the decision instead of treating that brace as code.
-    source[expression_start..=expression_end].contains('/')
-}
-
-fn quoted_literal_end(
-    bytes: &[u8],
-    opening: usize,
-    delimiter_len: usize,
-    quote: u8,
-) -> Option<usize> {
-    let mut index = opening + delimiter_len;
-    while index + delimiter_len <= bytes.len() {
-        if bytes[index] == b'\\' {
-            index = (index + 2).min(bytes.len());
-        } else if bytes[index..index + delimiter_len]
-            .iter()
-            .all(|byte| *byte == quote)
-        {
-            return Some(index);
-        } else {
-            index += 1;
-        }
-    }
-    None
-}
-
-fn interpolated_string_end(
-    extension: &str,
-    source: &str,
-    opening: usize,
-    delimiter_len: usize,
-    raw_hashes: usize,
-) -> Option<usize> {
-    let bytes = source.as_bytes();
-    let mut index = opening + delimiter_len;
-    while index + delimiter_len <= bytes.len() {
-        if bytes[index..index + delimiter_len]
-            .iter()
-            .all(|byte| *byte == b'"')
-            && (extension != "swift"
-                || bytes
-                    .get(index + delimiter_len..index + delimiter_len + raw_hashes)
-                    .is_some_and(|hashes| hashes.iter().all(|byte| *byte == b'#')))
-        {
-            return Some(index);
-        }
-        if extension == "swift"
-            && swift_interpolation_opening_len(bytes, index, raw_hashes).is_some()
-        {
-            let expression_start =
-                index + swift_interpolation_opening_len(bytes, index, raw_hashes)?;
-            let expression_end =
-                balanced_expression_end(extension, source, expression_start, b'(', b')')?;
-            index = expression_end + 1;
-            continue;
-        }
-        if extension == "kt" && bytes.get(index..index + 2) == Some(b"${") {
-            let expression_start = index + 2;
-            let expression_end =
-                balanced_expression_end(extension, source, expression_start, b'{', b'}')?;
-            index = expression_end + 1;
-            continue;
-        }
-        if bytes[index] == b'\\'
-            && ((extension == "swift" && raw_hashes == 0) || delimiter_len == 1)
-        {
-            index = (index + 2).min(bytes.len());
-        } else {
-            index += 1;
-        }
-    }
-    None
-}
-
-fn swift_interpolation_opening_len(bytes: &[u8], index: usize, raw_hashes: usize) -> Option<usize> {
-    if bytes.get(index) != Some(&b'\\')
-        || !bytes
-            .get(index + 1..index + 1 + raw_hashes)
-            .is_some_and(|hashes| hashes.iter().all(|byte| *byte == b'#'))
-        || bytes.get(index + 1 + raw_hashes) != Some(&b'(')
-    {
-        return None;
-    }
-    Some(raw_hashes + 2)
-}
-
-fn preceding_swift_raw_hashes(bytes: &[u8], quote_index: usize) -> usize {
-    let mut cursor = quote_index;
-    while cursor > 0 && bytes[cursor - 1] == b'#' {
-        cursor -= 1;
-    }
-    quote_index - cursor
-}
-
-fn changed_line_intersects_range(
-    source: &str,
-    start: usize,
-    end: usize,
-    changed_lines: &BTreeSet<usize>,
-) -> bool {
-    let first_line = source.as_bytes()[..start]
-        .iter()
-        .filter(|byte| **byte == b'\n')
-        .count();
-    let last_line = source.as_bytes()[..end.min(source.len())]
-        .iter()
-        .filter(|byte| **byte == b'\n')
-        .count();
-    (first_line..=last_line).any(|line| changed_lines.contains(&line))
-}
-
-fn changed_text_after(source: &str, start: usize, changed_lines: &BTreeSet<usize>) -> String {
-    let mut changed_text = String::new();
-    let mut line_start = 0;
-    for (line_index, line) in source.split_inclusive('\n').enumerate() {
-        let line_end = line_start + line.trim_end_matches('\n').len();
-        if changed_lines.contains(&line_index) && line_end > start {
-            let segment_start = start.max(line_start);
-            changed_text.push_str(&source[segment_start..line_end]);
-            changed_text.push('\n');
-        }
-        line_start += line.len();
-    }
-    changed_text
-}
-
-fn has_python_fstring_skip_candidate(source: &str, changed_lines: &BTreeSet<usize>) -> bool {
-    let bytes = source.as_bytes();
-    let mut quote_index = 0;
-    while quote_index < bytes.len() {
-        let quote = bytes[quote_index];
-        if !matches!(quote, b'\'' | b'"') {
-            quote_index += 1;
-            continue;
-        }
-        let formatted_prefix_start = if quote_index > 0
-            && matches!(bytes[quote_index - 1], b'f' | b'F')
-            && (quote_index == 1 || !is_identifier_byte(bytes[quote_index - 2]))
-        {
-            Some(quote_index - 1)
-        } else if quote_index > 1
-            && matches!(
-                &bytes[quote_index - 2..quote_index],
-                b"fr" | b"fR" | b"Fr" | b"FR" | b"rf" | b"rF" | b"Rf" | b"RF"
-            )
-            && (quote_index == 2 || !is_identifier_byte(bytes[quote_index - 3]))
-        {
-            Some(quote_index - 2)
-        } else {
-            None
-        };
-        let Some(_prefix_start) = formatted_prefix_start else {
-            quote_index += 1;
-            continue;
-        };
-        let delimiter_len =
-            if bytes.get(quote_index..quote_index + 3) == Some(&[quote, quote, quote]) {
-                3
-            } else {
-                1
-            };
-        let Some(literal_end) = quoted_literal_end(bytes, quote_index, delimiter_len, quote) else {
-            quote_index += 1;
-            continue;
-        };
-        let content_start = quote_index + delimiter_len;
-        let mut content_index = content_start;
-        while content_index < literal_end {
-            if bytes[content_index] == b'{' {
-                if bytes.get(content_index + 1) == Some(&b'{') {
-                    content_index += 2;
-                    continue;
-                }
-                let expression_start = content_index + 1;
-                // PEP 701 permits the expression to reuse the f-string's
-                // quote. If the outer delimiter scan ended inside that
-                // expression, keep scanning its balanced body and fail closed.
-                if let Some(expression_end) =
-                    balanced_expression_end("py", source, expression_start, b'{', b'}')
-                    && expression_may_disable_test("py", &source[expression_start..expression_end])
-                    && changed_line_intersects_range(
-                        source,
-                        content_index,
-                        expression_end + 1,
-                        changed_lines,
-                    )
-                {
-                    return true;
-                }
-            }
-            content_index += 1;
-        }
-        quote_index = literal_end + delimiter_len;
-    }
-    false
-}
-
-fn has_kotlin_or_swift_interpolation_candidate(
-    extension: &str,
-    source: &str,
-    changed_lines: &BTreeSet<usize>,
-) -> bool {
-    let bytes = source.as_bytes();
-    let mut quote_index = 0;
-    while quote_index < bytes.len() {
-        if bytes[quote_index] != b'"' {
-            quote_index += 1;
-            continue;
-        }
-        let delimiter_len = if bytes.get(quote_index..quote_index + 3) == Some(b"\"\"\"") {
-            3
-        } else {
-            1
-        };
-        let raw_hashes = if extension == "swift" {
-            preceding_swift_raw_hashes(bytes, quote_index)
-        } else {
-            0
-        };
-        let Some(literal_end) =
-            interpolated_string_end(extension, source, quote_index, delimiter_len, raw_hashes)
-        else {
-            quote_index += 1;
-            continue;
-        };
-        let content_start = quote_index + delimiter_len;
-        let content = &source[content_start..literal_end];
-        match extension {
-            "kt" => {
-                for (index, _) in content.match_indices("${") {
-                    let expression_start = content_start + index + 2;
-                    if let Some(expression_end) =
-                        balanced_expression_end(extension, source, expression_start, b'{', b'}')
-                        && expression_end < literal_end
-                        && expression_may_disable_test(
-                            extension,
-                            &source[expression_start..expression_end],
-                        )
-                        && changed_line_intersects_range(
-                            source,
-                            content_start + index,
-                            expression_end + 1,
-                            changed_lines,
-                        )
-                    {
-                        return true;
-                    }
-                }
-            }
-            "swift" => {
-                for (index, _) in content.match_indices('\\') {
-                    let Some(opening_len) =
-                        swift_interpolation_opening_len(content.as_bytes(), index, raw_hashes)
-                    else {
-                        continue;
-                    };
-                    let expression_start = content_start + index + opening_len;
-                    if let Some(expression_end) =
-                        balanced_expression_end(extension, source, expression_start, b'(', b')')
-                    {
-                        let changed_suffix = changed_text_after(
-                            source,
-                            expression_end.saturating_add(1),
-                            changed_lines,
-                        );
-                        if expression_end < literal_end
-                            && source[expression_start..=expression_end].contains('/')
-                            && expression_may_disable_test(extension, &changed_suffix)
-                        {
-                            return true;
-                        }
-                        if expression_end < literal_end
-                            && expression_may_disable_test(
-                                extension,
-                                &source[expression_start..expression_end],
-                            )
-                            && changed_line_intersects_range(
-                                source,
-                                content_start + index,
-                                expression_end + 1,
-                                changed_lines,
-                            )
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            _ => {}
-        }
-        quote_index = literal_end + delimiter_len;
-    }
-    false
-}
-
-fn has_skip_interpolation_candidate_in_source(
-    extension: &str,
-    source: &str,
-    changed_lines: &BTreeSet<usize>,
-) -> bool {
-    match extension {
-        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx" => {
-            has_javascript_template_skip_candidate(source, changed_lines)
-        }
-        "py" => has_python_fstring_skip_candidate(source, changed_lines),
-        "kt" | "swift" => {
-            has_kotlin_or_swift_interpolation_candidate(extension, source, changed_lines)
-        }
-        _ => false,
-    }
-}
-
-fn rust_raw_string_open(bytes: &[u8], index: usize) -> Option<(usize, usize)> {
-    if index > 0 && (bytes[index - 1].is_ascii_alphanumeric() || bytes[index - 1] == b'_') {
-        return None;
-    }
-    let marker_start = if bytes.get(index..index + 2) == Some(b"br") {
-        index + 2
-    } else if bytes.get(index) == Some(&b'r') {
-        index + 1
-    } else {
-        return None;
-    };
-    let mut cursor = marker_start;
-    while bytes.get(cursor) == Some(&b'#') {
-        cursor += 1;
-    }
-    (bytes.get(cursor) == Some(&b'"')).then_some((cursor - marker_start, cursor + 1))
-}
-
-fn close_multiline_string(
-    bytes: &[u8],
-    index: usize,
-    string: MultilineSourceString,
-) -> Option<usize> {
-    match string {
-        MultilineSourceString::PythonSingle if bytes.get(index..index + 3) == Some(b"'''") => {
-            Some(index + 3)
-        }
-        MultilineSourceString::PythonDouble | MultilineSourceString::TripleDouble
-            if bytes.get(index..index + 3) == Some(b"\"\"\"") =>
-        {
-            Some(index + 3)
-        }
-        MultilineSourceString::Backtick | MultilineSourceString::GoRaw
-            if bytes.get(index) == Some(&b'`') =>
-        {
-            Some(index + 1)
-        }
-        MultilineSourceString::Quoted(quote) if bytes.get(index) == Some(&quote) => Some(index + 1),
-        MultilineSourceString::RustRaw(hashes)
-            if bytes.get(index) == Some(&b'"')
-                && bytes
-                    .get(index + 1..index + 1 + hashes)
-                    .is_some_and(|closing| closing.iter().all(|byte| *byte == b'#')) =>
-        {
-            Some(index + 1 + hashes)
-        }
-        _ => None,
-    }
-}
-
-fn code_only_skip_source_line(
-    extension: &str,
-    line: &str,
-    context: &mut SkipSourceContext,
-) -> String {
-    let bytes = line.as_bytes();
-    let mut code = vec![b' '; bytes.len()];
-    let nested_comments = matches!(extension, "rs" | "kt" | "swift");
-    let block_comments = matches!(
-        extension,
-        "rs" | "js"
-            | "mjs"
-            | "cjs"
-            | "jsx"
-            | "ts"
-            | "mts"
-            | "cts"
-            | "tsx"
-            | "java"
-            | "kt"
-            | "swift"
-            | "go"
-    );
-    let mut index = 0;
-    while index < bytes.len() {
-        if let Some(string) = context.multiline_string {
-            if let Some(next) = close_multiline_string(bytes, index, string) {
-                context.multiline_string = None;
-                index = next;
-            } else if matches!(
-                string,
-                MultilineSourceString::PythonSingle
-                    | MultilineSourceString::PythonDouble
-                    | MultilineSourceString::Backtick
-                    | MultilineSourceString::Quoted(_)
-            ) && bytes[index] == b'\\'
-            {
-                index = (index + 2).min(bytes.len());
-            } else {
-                index += 1;
-            }
-            continue;
-        }
-        if context.block_comment_depth > 0 {
-            if nested_comments && bytes.get(index..index + 2) == Some(b"/*") {
-                context.block_comment_depth += 1;
-                index += 2;
-            } else if bytes.get(index..index + 2) == Some(b"*/") {
-                context.block_comment_depth -= 1;
-                index += 2;
-            } else {
-                index += 1;
-            }
-            continue;
-        }
-
-        if matches!(extension, "py") && bytes.get(index..index + 3) == Some(b"'''") {
-            context.multiline_string = Some(MultilineSourceString::PythonSingle);
-            index += 3;
-            continue;
-        }
-        if matches!(extension, "py" | "java" | "kt" | "swift")
-            && bytes.get(index..index + 3) == Some(b"\"\"\"")
-        {
-            context.multiline_string = Some(if extension == "py" {
-                MultilineSourceString::PythonDouble
-            } else {
-                MultilineSourceString::TripleDouble
-            });
-            index += 3;
-            continue;
-        }
-        if extension == "rs"
-            && let Some((hashes, next)) = rust_raw_string_open(bytes, index)
-        {
-            context.multiline_string = Some(MultilineSourceString::RustRaw(hashes));
-            index = next;
-            continue;
-        }
-        if is_javascript_extension(extension) && bytes[index] == b'`' {
-            context.multiline_string = Some(MultilineSourceString::Backtick);
-            index += 1;
-            continue;
-        }
-        if extension == "go" && bytes[index] == b'`' {
-            context.multiline_string = Some(MultilineSourceString::GoRaw);
-            index += 1;
-            continue;
-        }
-        if block_comments && bytes.get(index..index + 2) == Some(b"/*") {
-            context.block_comment_depth = 1;
-            index += 2;
-            continue;
-        }
-        if (extension != "py" && bytes.get(index..index + 2) == Some(b"//"))
-            || (extension == "py" && bytes[index] == b'#')
-        {
-            break;
-        }
-        if matches!(bytes[index], b'\'' | b'"') {
-            let quote = bytes[index];
-            if extension == "rs" && quote == b'\'' {
-                let mut cursor = index + 1;
-                let mut closes_on_line = false;
-                while cursor < bytes.len() {
-                    if bytes[cursor] == b'\\' {
-                        cursor = (cursor + 2).min(bytes.len());
-                    } else if bytes[cursor] == b'\'' {
-                        closes_on_line = true;
-                        break;
-                    } else {
-                        cursor += 1;
-                    }
-                }
-                if !closes_on_line {
-                    index += 1;
-                    continue;
-                }
-            }
-            index += 1;
-            let mut closed = false;
-            while index < bytes.len() {
-                if bytes[index] == b'\\' {
-                    index = (index + 2).min(bytes.len());
-                } else if bytes[index] == quote {
-                    index += 1;
-                    closed = true;
-                    break;
-                } else {
-                    index += 1;
-                }
-            }
-            if !closed {
-                context.multiline_string = Some(MultilineSourceString::Quoted(quote));
-            }
-            continue;
-        }
-        code[index] = bytes[index];
-        index += 1;
-    }
-    String::from_utf8(code).expect("masking source bytes preserves UTF-8")
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum SkipMarkerScan {
-    Finding,
-    Clean,
-    Ambiguous,
-}
-
-fn contains_skip_marker(path: &str, change: &cockpit_git::ChangeEvidence) -> SkipMarkerScan {
-    let extension = path
-        .rsplit('.')
-        .next()
-        .unwrap_or_default()
-        .to_ascii_lowercase();
-    if !matches!(
-        extension.as_str(),
-        "rs" | "py"
-            | "js"
-            | "mjs"
-            | "cjs"
-            | "jsx"
-            | "ts"
-            | "mts"
-            | "cts"
-            | "tsx"
-            | "java"
-            | "kt"
-            | "go"
-            | "swift"
-    ) {
-        return SkipMarkerScan::Clean;
-    }
-    let Some(source) = change.after_text.as_deref() else {
-        let all_added_lines = (0..change.added_lines.len()).collect::<BTreeSet<_>>();
-        let added_source = change.added_lines.join("\n");
-        let parameterized_skip = extension == "py"
-            && has_python_parameterized_skip_marker(&change.added_lines, &all_added_lines);
-        return if parameterized_skip
-            || has_skip_interpolation_candidate_in_source(
-                &extension,
-                &added_source,
-                &all_added_lines,
-            )
-            || change.added_lines.iter().any(|line| {
-                skip_marker_for_language(&extension, line)
-                    || (extension == "py" && has_python_parameter_marker_candidate(line))
-            }) {
-            SkipMarkerScan::Ambiguous
-        } else {
-            SkipMarkerScan::Clean
-        };
-    };
-    let source_lines = source.lines().collect::<Vec<_>>();
-    let mut changed_lines = BTreeSet::new();
-    if !change.added_line_origins.is_empty() {
-        if change.added_line_origins.len() != change.added_lines.len() {
-            return SkipMarkerScan::Ambiguous;
-        }
-        for (origin, added_line) in change.added_line_origins.iter().zip(&change.added_lines) {
-            let Some(line_index) = origin.after_line.checked_sub(1) else {
-                return SkipMarkerScan::Ambiguous;
-            };
-            if source_lines
-                .get(line_index)
-                .is_none_or(|line| line.trim_end_matches('\r') != added_line)
-            {
-                return SkipMarkerScan::Ambiguous;
-            }
-            changed_lines.insert(line_index);
-        }
-    } else if change.kind == ChangeKind::Added
-        || source_lines.join("\n") == change.added_lines.join("\n")
-    {
-        changed_lines.extend(0..source_lines.len());
-    } else if change.added_lines.is_empty() {
-        return SkipMarkerScan::Clean;
-    } else if change.added_lines.iter().any(|line| {
-        skip_marker_for_language(&extension, line)
-            || (extension == "py" && has_python_parameter_marker_candidate(line))
-    }) || has_skip_interpolation_candidate_in_source(
-        &extension,
-        &change.added_lines.join("\n"),
-        &(0..change.added_lines.len()).collect(),
-    ) || (extension == "py"
-        && has_python_parameterized_skip_marker(
-            &change.added_lines,
-            &(0..change.added_lines.len()).collect(),
-        ))
-    {
-        return SkipMarkerScan::Ambiguous;
-    } else {
-        return SkipMarkerScan::Clean;
-    }
-
-    if has_skip_interpolation_candidate_in_source(&extension, source, &changed_lines) {
-        return SkipMarkerScan::Ambiguous;
-    }
-
-    let mut context = SkipSourceContext::default();
-    let mut code_lines = Vec::with_capacity(source_lines.len());
-    for (index, line) in source_lines.iter().enumerate() {
-        let code_line = code_only_skip_source_line(&extension, line, &mut context);
-        if changed_lines.contains(&index) && skip_marker_for_language(&extension, &code_line) {
-            return SkipMarkerScan::Finding;
-        }
-        code_lines.push(code_line);
-    }
-    if extension == "py" && has_python_parameterized_skip_marker(&code_lines, &changed_lines) {
-        return SkipMarkerScan::Finding;
-    }
-    if context.is_code() {
-        SkipMarkerScan::Clean
-    } else {
-        SkipMarkerScan::Ambiguous
-    }
-}
-
-fn assertion_count(lines: &[String]) -> usize {
-    lines
-        .iter()
-        .filter(|line| {
-            let line = line.to_ascii_lowercase();
-            ["assert", "expect(", "xctassert", "tothrow("]
-                .iter()
-                .any(|marker| line.contains(marker))
-        })
-        .count()
-}
-
-fn contains_test_bypass(text: &str) -> bool {
-    let text = text.to_ascii_lowercase();
-    text.lines().any(|line| {
-        line.contains("continue-on-error: true")
-            || line.contains("allow_failure: true")
-            || line.contains("|| true")
-    })
-}
-
-fn assignment(line: &str) -> Option<(String, String)> {
-    let (name, value) = line.split_once('=').or_else(|| line.split_once(':'))?;
-    Some((
-        name.trim().to_ascii_lowercase(),
-        value.trim().trim_matches(['\'', '"']).to_ascii_lowercase(),
-    ))
-}
-
-fn first_number(value: &str) -> Option<f64> {
-    let start = value.find(|character: char| character.is_ascii_digit())?;
-    let number = value[start..]
-        .chars()
-        .take_while(|character| character.is_ascii_digit() || *character == '.')
-        .collect::<String>();
-    number.parse().ok()
-}
-
-fn coverage_weakened(removed: &[String], added: &[String]) -> bool {
-    let removed = removed
-        .iter()
-        .filter_map(|line| assignment(line))
-        .collect::<Vec<_>>();
-    let added = added
-        .iter()
-        .filter_map(|line| assignment(line))
-        .collect::<Vec<_>>();
-    for (name, before) in &removed {
-        if matches!(name.as_str(), "fail_under" | "threshold" | "minimum")
-            && let Some((_, after)) = added.iter().find(|(candidate, _)| candidate == name)
-            && let (Some(before), Some(after)) = (first_number(before), first_number(after))
-            && after < before
-        {
-            return true;
-        }
-        if matches!(name.as_str(), "source" | "source_pkgs")
-            && let Some((_, after)) = added.iter().find(|(candidate, _)| candidate == name)
-        {
-            let before = before
-                .split([',', ' '])
-                .filter(|item| !item.is_empty())
-                .count();
-            let after = after
-                .split([',', ' '])
-                .filter(|item| !item.is_empty())
-                .count();
-            if after < before {
-                return true;
-            }
-        }
-    }
-    added.iter().any(|(name, value)| {
-        matches!(
-            name.as_str(),
-            "omit" | "exclude" | "exclude_lines" | "coveragepathignorepatterns"
-        ) && !removed
-            .iter()
-            .any(|(old_name, old_value)| old_name == name && old_value == value)
-    })
-}
-
 pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSignalAssessment {
-    derive_governance_signals_with_diagnostics(snapshot).0
+    signals_v1_projection(material_analysis_v1::derive_governance_signals(snapshot))
 }
-
 fn derive_governance_signals_with_diagnostics(
     snapshot: &RepositorySnapshot,
 ) -> (
     GovernanceSignalAssessment,
     BTreeMap<String, RustMaterialDiagnosis>,
 ) {
-    let mut result = GovernanceSignalAssessment::default();
-    let mut rust_diagnostics = BTreeMap::new();
-    for change in &snapshot.change_evidence {
-        if change.path.starts_with(".ai/") {
-            continue;
-        }
-        let test_path = is_test_path(&change.path);
-        let coverage_path = is_coverage_path(&change.path);
-        let inspectable = matches!(
-            change.content_state,
-            ChangeContentState::Text | ChangeContentState::Deleted
-        );
-        if !inspectable {
-            let strictly_checked_manifest = is_strictly_checked_conformance_manifest(&change.path);
-            if test_path && !strictly_checked_manifest {
-                result
-                    .unknowns
-                    .push("test_weakening_inspection_unavailable".into());
-            }
-            if coverage_path {
-                result
-                    .unknowns
-                    .push("coverage_weakening_inspection_unavailable".into());
-            }
-            if is_textual_material_path(&change.path) && !strictly_checked_manifest {
-                result
-                    .unknowns
-                    .push("repository_material_inspection_unavailable".into());
-            }
-            continue;
-        }
-
-        let added_text = change.added_lines.join("\n");
-        // Untracked material has no Git patch lines yet, so inspect its bounded
-        // current text. For tracked files, inspect only added lines; scanning
-        // the whole source file would match detector examples embedded in the
-        // Runtime itself and produce a false governance finding.
-        let material_text = if change.added_lines.is_empty() && change.kind == ChangeKind::Added {
-            change.after_text.as_deref().unwrap_or("")
-        } else {
-            &added_text
-        };
-        if change.path.to_ascii_lowercase().ends_with(".rs") {
-            let diagnosis = diagnose_rust_material(change);
-            rust_diagnostics.insert(change.path.clone(), diagnosis);
-            match diagnosis.assessment {
-                RustMaterialAssessment::Finding => {
-                    result.untrusted_material = true;
-                    result.findings.push("repository_prompt_injection".into());
-                }
-                RustMaterialAssessment::Unknown => result
-                    .unknowns
-                    .push("repository_material_inspection_unavailable".into()),
-                RustMaterialAssessment::Clean => {}
-            }
-        } else if contains_strong_instruction_injection(material_text) {
-            result.untrusted_material = true;
-            result.findings.push("repository_prompt_injection".into());
-        }
-        let skip_marker = if test_path {
-            contains_skip_marker(&change.path, change)
-        } else {
-            SkipMarkerScan::Clean
-        };
-        if skip_marker == SkipMarkerScan::Ambiguous {
-            result
-                .unknowns
-                .push("test_weakening_inspection_unavailable".into());
-        }
-        if test_path
-            && (change.kind == ChangeKind::Deleted
-                || skip_marker == SkipMarkerScan::Finding
-                || assertion_count(&change.removed_lines) > assertion_count(&change.added_lines)
-                || contains_test_bypass(&added_text))
-        {
-            result.test_weakening = true;
-            result.findings.push("test_weakening".into());
-        }
-        if coverage_path && coverage_weakened(&change.removed_lines, &change.added_lines) {
-            result.coverage_weakening = true;
-            result.findings.push("coverage_weakening".into());
-        }
-    }
-    result.unknowns.sort();
-    result.unknowns.dedup();
-    result.findings.sort();
-    result.findings.dedup();
-    (result, rust_diagnostics)
+    let (signals, diagnostics) =
+        material_analysis_v1::derive_governance_signals_with_diagnostics(snapshot);
+    (signals_v1_projection(signals), diagnostics)
 }
 
 pub fn contract_freshness_findings(
@@ -7198,7 +6082,7 @@ fn governance_decision_for_contract_internal_with_archive(
     current_runtime: Option<&RuntimeContext>,
     archived: bool,
 ) -> Result<GovernanceDecision, ObserverError> {
-    let decision = governance_decision_for_contract_base_internal_with_archive(
+    let mut decision = governance_decision_for_contract_base_internal_with_archive(
         root,
         contract,
         snapshot,
@@ -7207,6 +6091,17 @@ fn governance_decision_for_contract_internal_with_archive(
         None,
         None,
     )?;
+    if !archived {
+        material_review::apply_material_review_gate_to_decision(
+            root,
+            contract,
+            &root.join(format!(
+                ".ai/work-items/active/{}.summary.json",
+                contract.work_item_id
+            )),
+            &mut decision,
+        );
+    }
     apply_current_preflight_review_evidence(root, contract, decision, archived)
 }
 
@@ -7219,6 +6114,43 @@ fn governance_decision_for_contract_base_internal_with_archive(
     evidence_override: Option<EvidenceState>,
     observation: Option<&ObservationContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
+    governance_decision_for_contract_base_with_context(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        GovernanceProjectionContext {
+            archived,
+            evidence_override,
+            observation,
+            historical: None,
+        },
+    )
+}
+
+struct GovernanceProjectionContext<'a> {
+    archived: bool,
+    evidence_override: Option<EvidenceState>,
+    observation: Option<&'a ObservationContext>,
+    historical: Option<&'a resource_lifecycle::CapturedHistoricalFacts<'a>>,
+}
+
+fn governance_decision_for_contract_base_with_context(
+    root: &Path,
+    contract: &Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    context: GovernanceProjectionContext<'_>,
+) -> Result<GovernanceDecision, ObserverError> {
+    let GovernanceProjectionContext {
+        archived,
+        evidence_override,
+        observation,
+        historical,
+    } = context;
+    if let Some(facts) = historical {
+        facts.validate_root(root)?;
+    }
     let expected_repository_id = observation
         .map(|context| context.repository_id())
         .cloned()
@@ -7227,14 +6159,20 @@ fn governance_decision_for_contract_base_internal_with_archive(
         contract_freshness_findings_with_identity(root, contract, &expected_repository_id)?;
     if !archived {
         explicit_blockers.extend(documentation_projection_findings(root, contract)?);
-        let recovery_predecessors =
-            recovery_predecessor_lineage_for_candidate(root, &contract.work_item_id)?;
-        explicit_blockers.extend(unclosed_archived_scope_conflicts(
+        let recovery_predecessors = recovery_predecessor_lineage_for_candidate_with_facts(
+            root,
+            &contract.work_item_id,
+            historical,
+        )?;
+        explicit_blockers.extend(unclosed_archived_scope_conflicts_with_facts(
             root,
             &contract.scope,
             &recovery_predecessors,
+            historical,
         )?);
-        explicit_blockers.extend(pending_close_dependency_blockers(root, contract)?);
+        explicit_blockers.extend(pending_close_dependency_blockers(
+            root, contract, historical,
+        )?);
     }
     let signals = derive_governance_signals(snapshot);
     let changed_paths = snapshot
@@ -7253,13 +6191,16 @@ fn governance_decision_for_contract_base_internal_with_archive(
     } else {
         AuthorityState::Missing
     };
-    let evidence = evidence_override.unwrap_or(evidence_state_for_contract_internal_with_archive(
-        root,
-        contract,
-        snapshot,
-        current_runtime,
-        archived,
-    )?);
+    let evidence = match evidence_override {
+        Some(evidence) => evidence,
+        None => evidence_state_for_contract_internal_with_archive(
+            root,
+            contract,
+            snapshot,
+            current_runtime,
+            archived,
+        )?,
+    };
     let mut explicit_unknowns = signals.unknowns;
     explicit_unknowns.extend(contract_review_unknowns(contract));
     let project_unknowns = observation.map_or_else(
@@ -7464,7 +6405,7 @@ fn apply_current_preflight_review_evidence(
             Some(&digest),
         )?;
     }
-    apply_preflight_review_evidence(root, contract, decision, archived)
+    review_authority::project_current_review(root, contract, decision, archived)
 }
 
 /// Project recorded review evidence. This helper also reconstructs immutable
@@ -7472,8 +6413,34 @@ fn apply_current_preflight_review_evidence(
 fn apply_preflight_review_evidence(
     root: &Path,
     contract: &cockpit_protocol::Contract,
+    decision: GovernanceDecision,
+    archived: bool,
+) -> Result<GovernanceDecision, ObserverError> {
+    apply_preflight_review_evidence_with_proof(root, contract, decision, archived, None)
+}
+
+fn apply_captured_preflight_review_evidence(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    decision: GovernanceDecision,
+    facts: &resource_lifecycle::CapturedHistoricalFacts<'_>,
+    completed_at: &str,
+) -> Result<GovernanceDecision, ObserverError> {
+    let proof = review_authority::captured_preflight_review(root, contract, facts, completed_at)?;
+    match proof.as_ref() {
+        Some(proof) => {
+            apply_preflight_review_evidence_with_proof(root, contract, decision, false, Some(proof))
+        }
+        None => apply_preflight_review_evidence(root, contract, decision, false),
+    }
+}
+
+fn apply_preflight_review_evidence_with_proof(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
     mut decision: GovernanceDecision,
     archived: bool,
+    captured: Option<&review_authority::CapturedPreflightReview<'_>>,
 ) -> Result<GovernanceDecision, ObserverError> {
     if archived {
         return Ok(decision);
@@ -7496,15 +6463,19 @@ fn apply_preflight_review_evidence(
         ".ai/work-items/active/{}.summary.json",
         contract.work_item_id
     )))?;
-    let recovery_fresh_review = contract_amendment::activation_recovery_needs_fresh_review(
-        root,
-        &contract.work_item_id,
-        &contract_digest,
-        &summary,
-    )?;
-    let mut evidence_state =
-        preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest);
-    if recovery_fresh_review.is_some() {
+    let recovery_fresh_review =
+        contract_amendment::activation_recovery_needs_fresh_review_historical(
+            root,
+            &contract.work_item_id,
+            &contract_digest,
+            &summary,
+        )?;
+    let mut evidence_state = if captured.is_some() {
+        governance_controls::PreflightDecisionEvidenceState::Valid
+    } else {
+        historical_preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest)
+    };
+    if recovery_fresh_review.is_some() && captured.is_none() {
         evidence_state = governance_controls::PreflightDecisionEvidenceState::Missing;
     }
     let sensitive_amendment =
@@ -7591,7 +6562,14 @@ fn apply_preflight_review_evidence(
                 decision.human_decision_request = None;
             }
         }
-        governance_controls::PreflightDecisionEvidenceState::Invalid => {
+        governance_controls::PreflightDecisionEvidenceState::Invalid
+        | governance_controls::PreflightDecisionEvidenceState::AuthorityUnavailable
+        | governance_controls::PreflightDecisionEvidenceState::UnknownProvenance
+        | governance_controls::PreflightDecisionEvidenceState::Revoked
+        | governance_controls::PreflightDecisionEvidenceState::LocalHold
+        | governance_controls::PreflightDecisionEvidenceState::Consumed
+        | governance_controls::PreflightDecisionEvidenceState::PublicationIncomplete
+        | governance_controls::PreflightDecisionEvidenceState::Denied => {
             decision
                 .unknowns
                 .push("preflight_decision_evidence_invalid".into());
@@ -8050,6 +7028,24 @@ fn verification_evidence_state(
     archived: bool,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<EvidenceState, ObserverError> {
+    verification_evidence_state_with_facts(
+        root,
+        contract,
+        snapshot,
+        archived,
+        current_runtime,
+        None,
+    )
+}
+
+fn verification_evidence_state_with_facts(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+    current_runtime: Option<&RuntimeContext>,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<EvidenceState, ObserverError> {
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{}.verification.json", contract.work_item_id));
@@ -8074,6 +7070,7 @@ fn verification_evidence_state(
         archived,
         current_runtime,
         evidence,
+        historical,
     )
 }
 
@@ -8089,6 +7086,26 @@ pub(crate) fn verification_evidence_state_from_bytes(
     current_runtime: Option<&RuntimeContext>,
     bytes: &[u8],
 ) -> Result<EvidenceState, ObserverError> {
+    verification_evidence_state_from_bytes_with_facts(
+        root,
+        contract,
+        snapshot,
+        archived,
+        current_runtime,
+        bytes,
+        None,
+    )
+}
+
+fn verification_evidence_state_from_bytes_with_facts(
+    root: &Path,
+    contract: &Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+    current_runtime: Option<&RuntimeContext>,
+    bytes: &[u8],
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<EvidenceState, ObserverError> {
     let evidence = match serde_json::from_slice(bytes) {
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Unknown),
@@ -8100,6 +7117,7 @@ pub(crate) fn verification_evidence_state_from_bytes(
         archived,
         current_runtime,
         evidence,
+        historical,
     )
 }
 
@@ -8110,6 +7128,7 @@ fn verification_evidence_state_from_value(
     archived: bool,
     current_runtime: Option<&RuntimeContext>,
     evidence: serde_json::Value,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
 ) -> Result<EvidenceState, ObserverError> {
     let envelope = match serde_json::from_value::<VerificationEvidenceEnvelope>(evidence.clone()) {
         Ok(value) => value,
@@ -8163,7 +7182,12 @@ fn verification_evidence_state_from_value(
     if envelope.contract_digest.as_ref() != Some(&expected_contract_digest) {
         return Ok(
             if amendment_invalidates_previous
-                || retry_recovery_pending_is_valid(root, contract, current_runtime)
+                || retry_recovery_pending_is_valid_with_facts(
+                    root,
+                    contract,
+                    current_runtime,
+                    historical,
+                )
             {
                 EvidenceState::Stale
             } else {
@@ -8353,6 +7377,15 @@ pub(crate) fn retry_recovery_pending_is_valid(
     contract: &cockpit_protocol::Contract,
     current_runtime: Option<&RuntimeContext>,
 ) -> bool {
+    retry_recovery_pending_is_valid_with_facts(root, contract, current_runtime, None)
+}
+
+fn retry_recovery_pending_is_valid_with_facts(
+    root: &Path,
+    contract: &Contract,
+    current_runtime: Option<&RuntimeContext>,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> bool {
     let Some(runtime) = current_runtime else {
         return false;
     };
@@ -8366,10 +7399,15 @@ pub(crate) fn retry_recovery_pending_is_valid(
     {
         return false;
     }
-    load_recovery_decision(root, &contract.work_item_id, Some(runtime))
-        .ok()
-        .flatten()
-        .is_some_and(|decision| decision.decision == "retry")
+    match historical {
+        Some(facts) => facts.recovery_decision(root, &contract.work_item_id, Some(runtime)),
+        None => {
+            review_authority::current_recovery_decision(root, &contract.work_item_id, Some(runtime))
+        }
+    }
+    .ok()
+    .flatten()
+    .is_some_and(|decision| decision.decision == "retry")
 }
 
 /// Return true when an archived receipt is integrity-valid as historical
@@ -8995,6 +8033,31 @@ pub fn retire_active_work_item_with_runtime(
     request: &ActiveWorkItemRetirementRequest,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    review_authority::execute_bound_human_operation(
+        root,
+        work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::Retire,
+        &serde_json::json!({"request":request,"runtime":runtime}),
+        |binding| {
+            retire_active_work_item_with_runtime_business(
+                root,
+                work_item_id,
+                request,
+                runtime,
+                binding,
+            )
+            .map(|value| (value, None))
+        },
+    )
+}
+
+fn retire_active_work_item_with_runtime_business(
+    root: &Path,
+    work_item_id: &str,
+    request: &ActiveWorkItemRetirementRequest,
+    runtime: &RuntimeContext,
+    approved: &cockpit_protocol::review_authority::HumanReviewBinding,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     if request.schema_version != 1 || request.decision_id != "work-item-retirement" {
         return Err(ObserverError::State {
@@ -9037,6 +8100,20 @@ pub fn retire_active_work_item_with_runtime(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    // Mandatory approval binding under the native writer lock; caller-supplied
+    // optional retirement fields are not a substitute for this check.
+    if review_authority::human_operation_binding(
+        &root,
+        work_item_id,
+        approved.operation.clone(),
+        &approved.operation_payload,
+    )? != *approved
+    {
+        return Err(review_authority::error(
+            &root,
+            "review_retirement_binding_changed_after_begin",
+        ));
+    }
     let active = root.join(".ai/work-items/active");
     let archive = root.join(".ai/work-items/archive");
     let decisions = root.join(".ai/decisions");
@@ -9074,6 +8151,17 @@ pub fn retire_active_work_item_with_runtime(
     })?;
     let current_snapshot_digest = snapshot_digest(&snapshot)?;
     let current_contract_digest = contract_digest(&active_contract_path)?;
+    // Retain the exact captured inputs used below. In particular, a newer Git
+    // snapshot must not slip in between the binding observation and capture.
+    if current_contract_digest != approved.contract_digest
+        || current_snapshot_digest != approved.repository_snapshot_digest
+        || snapshot.head.as_deref() != approved.operation_context["head"].as_str()
+    {
+        return Err(review_authority::error(
+            &root,
+            "review_retirement_captured_input_changed",
+        ));
+    }
     let current_summary_digest =
         cockpit_protocol::digest_json(&summary).map_err(|error| ObserverError::State {
             path: active_summary_path.clone(),
@@ -9618,8 +8706,9 @@ fn archive_work_item_internal(
             message: "archive requires releasing the Work Item's active parallel slot".into(),
         });
     }
-    if let Some(decision) = load_recovery_decision(&root, work_item_id, current_runtime)?
-        .filter(|decision| decision.decision == "supersede")
+    if let Some(decision) =
+        review_authority::current_recovery_decision(&root, work_item_id, current_runtime)?
+            .filter(|decision| decision.decision == "supersede")
     {
         if let Some(runtime) = current_runtime
             && (decision.runtime_version != runtime.runtime_version
@@ -10291,6 +9380,31 @@ fn close_work_item_with_structured_decision_internal(
     human_decision: &HumanDecision,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    review_authority::execute_bound_human_operation(
+        root,
+        work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::Close,
+        &serde_json::json!({"decision":human_decision,"runtime":current_runtime}),
+        |binding| {
+            close_work_item_with_structured_decision_internal_business(
+                root,
+                work_item_id,
+                human_decision,
+                current_runtime,
+                binding,
+            )
+            .map(|value| (value, None))
+        },
+    )
+}
+
+fn close_work_item_with_structured_decision_internal_business(
+    root: &Path,
+    work_item_id: &str,
+    human_decision: &HumanDecision,
+    current_runtime: Option<&RuntimeContext>,
+    approved: &cockpit_protocol::review_authority::HumanReviewBinding,
+) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     if !is_canonical_close_decision(&human_decision.decision) {
         return Err(ObserverError::State {
@@ -10320,6 +9434,31 @@ fn close_work_item_with_structured_decision_internal(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    if review_authority::human_operation_binding(
+        &root,
+        work_item_id,
+        approved.operation.clone(),
+        &approved.operation_payload,
+    )? != *approved
+    {
+        return Err(review_authority::error(
+            &root,
+            "review_close_binding_changed_after_begin",
+        ));
+    }
+    let approved_git = cockpit_git::GitRepository::discover(&root)
+        .map_err(|_| review_authority::error(&root, "review_close_snapshot_unavailable"))?;
+    let approved_snapshot = approved_git
+        .snapshot()
+        .map_err(|_| review_authority::error(&root, "review_close_snapshot_unavailable"))?;
+    if snapshot_digest(&approved_snapshot)? != approved.repository_snapshot_digest
+        || approved_snapshot.head.as_deref() != approved.operation_context["head"].as_str()
+    {
+        return Err(review_authority::error(
+            &root,
+            "review_close_captured_snapshot_changed",
+        ));
+    }
     let archive = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
@@ -10329,7 +9468,8 @@ fn close_work_item_with_structured_decision_internal(
     // decision is the explicit authority for this transition; the immutable
     // archive manifest remains `archived` and is never rewritten merely to
     // make close succeed.
-    let recovery_decision = load_recovery_decision(&root, work_item_id, current_runtime)?;
+    let recovery_decision =
+        review_authority::current_recovery_decision(&root, work_item_id, current_runtime)?;
     let amendment_revalidation = recovery_decision.as_ref().is_some_and(|decision| {
         decision.decision == "successor"
             && decision.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation")
@@ -10437,15 +9577,7 @@ fn close_work_item_with_structured_decision_internal(
         });
     }
     if !superseded && !amendment_revalidation_resolved {
-        let git =
-            cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
-                path: root.clone(),
-                message: error.to_string(),
-            })?;
-        let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?;
+        let snapshot = approved_snapshot.clone();
         if contract.checkpoint_policy.is_some() {
             let current_contract_hash = contract_digest(&contract_path)?.to_string();
             let archived_snapshot = summary
@@ -10552,6 +9684,14 @@ fn close_work_item_with_structured_decision_internal(
     } else {
         None
     };
+    if let Some(binding) = &ordinary_cleanup_binding
+        && !binding.matches_reviewed_git_context(&approved.operation_context)
+    {
+        return Err(review_authority::error(
+            &root,
+            "review_close_cleanup_head_changed",
+        ));
+    }
     let timestamp = now();
     let receipt = LifecycleReceipt {
         work_item_id: work_item_id.into(),
@@ -11864,12 +11004,9 @@ fn append_task_outcome_recovery_event(
     };
     let original_len = events.len();
     let detail = format!("Lifecycle gate blocked: {failed_gate}. {recovery_condition}");
-    if events
-        .iter()
-        .any(|event| event.event_type == "blocked" && event.detail == detail)
-    {
-        return Ok(());
-    }
+    // Every failed invocation gets an ordered identity, even an identical
+    // failure in the same clock second. Never deduplicate a newer failure
+    // against one that an earlier verification may already have reconciled.
     let timestamp = now();
     let event_id = format!(
         "{}-{}",
@@ -11893,6 +11030,46 @@ fn append_task_outcome_recovery_event(
         finding_fingerprint: None,
     });
     append_task_outcome_event_lines(&path, &events[original_len..])
+}
+
+/// Bind a blocked Outcome to its latest native failure event. Event identity
+/// and ordered prefix, rather than clock resolution, establish causality.
+pub(crate) fn lifecycle_failure_binding(
+    root: &Path,
+    id: &str,
+) -> Result<Option<serde_json::Value>, ObserverError> {
+    let path = root.join(format!(".ai/work-items/active/{id}.outcome.json"));
+    if !optional_regular_artifact(&path, "lifecycle failure Outcome")? {
+        return Ok(None);
+    }
+    let value = read_json(&path)?;
+    if value["state"] != "blocked"
+        || value["workItemId"] != id
+        || value["repositoryId"] != repository_id(root).to_string()
+    {
+        return Ok(None);
+    }
+    let events_path = task_outcome_event_path(root, id, false);
+    let events = if optional_regular_artifact(&events_path, "lifecycle failure events")? {
+        validate_task_outcome_events(root, &events_path, &repository_id(root).to_string(), id)?
+    } else {
+        Vec::new()
+    };
+    let last = events
+        .iter()
+        .rposition(|event| event.event_type == "blocked");
+    let prefix = last
+        .map(|index| cockpit_protocol::digest_json(&serde_json::json!(&events[..=index])))
+        .transpose()
+        .map_err(|error| ObserverError::State {
+            path: events_path,
+            message: error.to_string(),
+        })?;
+    Ok(Some(serde_json::json!({
+        "outcomeDigest":cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State { path, message:error.to_string() })?,
+        "blockedEventId":last.map(|index| &events[index].event_id),
+        "blockedEventPrefixDigest":prefix,"failedGate":value["failedGate"],
+    })))
 }
 
 fn validate_task_outcome_events(
@@ -12317,6 +11494,42 @@ fn outcome_v2_internal_with_snapshot(
     current_runtime: Option<&RuntimeContext>,
     snapshot_override: Option<(&RepositorySnapshot, &Digest)>,
 ) -> Result<OutcomeV2, ObserverError> {
+    outcome_v2_internal_with_snapshot_and_facts(
+        root,
+        work_item_id,
+        current_runtime,
+        snapshot_override,
+        None,
+    )
+}
+
+fn material_review_projection_for_facts(
+    root: &Path,
+    contract: &Contract,
+    summary_path: &Path,
+    historical: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<material_review::MaterialReviewGateProjection, ObserverError> {
+    if let Some(facts) = historical {
+        facts.validate_root(root)?;
+        if let Some(projection) =
+            material_review::historical_material_review_v1_projection(root, contract, summary_path)?
+        {
+            return Ok(projection);
+        }
+    }
+    material_review::material_review_gate_projection(root, contract, summary_path)
+}
+
+fn outcome_v2_internal_with_snapshot_and_facts(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+    snapshot_override: Option<(&RepositorySnapshot, &Digest)>,
+    historical_facts: Option<&resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<OutcomeV2, ObserverError> {
+    if let Some(facts) = historical_facts {
+        facts.validate_root(root)?;
+    }
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -12375,10 +11588,22 @@ fn outcome_v2_internal_with_snapshot(
     // Active Work Items retain the strict foreign-runtime red path below.
     let historical_runtime = archived
         && current_runtime.is_some()
-        && verification_evidence_state(&root, &contract, snapshot, true, None)?
-            == EvidenceState::Complete
-        && verification_evidence_state(&root, &contract, snapshot, true, current_runtime)?
-            != EvidenceState::Complete;
+        && verification_evidence_state_with_facts(
+            &root,
+            &contract,
+            snapshot,
+            true,
+            None,
+            historical_facts,
+        )? == EvidenceState::Complete
+        && verification_evidence_state_with_facts(
+            &root,
+            &contract,
+            snapshot,
+            true,
+            current_runtime,
+            historical_facts,
+        )? != EvidenceState::Complete;
     // A reviewed archive repair intentionally changes the archived Contract
     // digest while preserving the original verification bytes.  A valid
     // append-only revalidation receipt makes this a historical, actionable
@@ -12422,12 +11647,13 @@ fn outcome_v2_internal_with_snapshot(
     let evidence_state = if historical {
         None
     } else {
-        Some(verification_evidence_state(
+        Some(verification_evidence_state_with_facts(
             &root,
             &contract,
             snapshot,
             archived,
             current_runtime,
+            historical_facts,
         )?)
     };
     let (mut state, mut decision_state, mut summary, mut evidence_unknown) = if historical {
@@ -12623,13 +11849,46 @@ fn outcome_v2_internal_with_snapshot(
                 let Ok(digest) = cockpit_protocol::digest_json(&evidence) else {
                     return false;
                 };
+                let Some(failure) = lifecycle_failure_binding(&root, work_item_id)
+                    .ok()
+                    .flatten()
+                else {
+                    return false;
+                };
+                let Some(summary) = current_summary.as_ref() else {
+                    return false;
+                };
+                let basis = &summary["verificationRecoveryBasis"];
                 marker == digest.to_string()
-                    && verification_evidence_state(
+                    && basis["schemaVersion"] == 1
+                    && basis["verificationEvidenceDigest"] == marker
+                    && basis["failure"] == failure
+                    && failure["blockedEventId"].is_string()
+                    && (!failure["failedGate"]
+                        .as_str()
+                        .is_some_and(|gate| gate.starts_with("finish."))
+                        || (material_review_projection_for_facts(
+                            &root,
+                            &contract,
+                            &current_summary_path,
+                            historical_facts,
+                        )
+                        .is_ok_and(|projection| {
+                            !projection.blocked_by_finding
+                                && projection.effective_unknowns.is_empty()
+                        }) && require_explicit_resource_finalization_plan(
+                            &contract,
+                            &contract_path,
+                            "finish",
+                        )
+                        .is_ok()))
+                    && verification_evidence_state_with_facts(
                         &root,
                         &contract,
                         snapshot,
                         false,
                         current_runtime,
+                        historical_facts,
                     )
                     .is_ok_and(|state| state == EvidenceState::Complete)
             })
@@ -12721,6 +11980,38 @@ fn outcome_v2_internal_with_snapshot(
             "verification_attempt_formal_receipt_rejected:{}:{}:{}:snapshot={}:evidence={}",
             attempt.attempt_id, code, message, attempt.snapshot_digest, attempt.path
         ));
+    }
+    // The human Outcome must use the same canonical terminal dependency as
+    // finish and status. A software receipt alone cannot discharge material.
+    // Historical archived evidence is not reinterpreted as a current review.
+    if !archived {
+        match material_review_projection_for_facts(
+            &root,
+            &contract,
+            &current_summary_path,
+            historical_facts,
+        ) {
+            Ok(projection) => {
+                unknowns.retain(|code| !projection.discharged_unknowns.contains(code));
+                unknowns.extend(projection.effective_unknowns.iter().cloned());
+                if projection.blocked_by_finding {
+                    unknowns.extend(projection.finding_codes);
+                    decision_state = DecisionState::Red;
+                    state = OutcomeState::Unknown;
+                } else if !projection.effective_unknowns.is_empty()
+                    && decision_state == DecisionState::Green
+                {
+                    decision_state = DecisionState::Yellow;
+                    summary = "Software verification evidence is current; canonical material dependencies still prevent terminal completion.";
+                }
+            }
+            Err(_) => {
+                unknowns.push("material_review_projection_unavailable".into());
+                if decision_state == DecisionState::Green {
+                    decision_state = DecisionState::Yellow;
+                }
+            }
+        }
     }
     if contract.acceptance_criteria.is_empty() {
         unknowns.push("acceptanceCriteria".into());
@@ -14969,7 +14260,37 @@ fn acquire_lifecycle_lock(
 }
 
 fn now() -> String {
-    chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
+    lifecycle_utc_timestamp(chrono::Utc::now())
+}
+
+fn lifecycle_utc_timestamp(value: chrono::DateTime<chrono::Utc>) -> String {
+    // Preserve real ordering against authenticated source decisions. Rounding
+    // completion down to a second can make a later event appear earlier.
+    value.to_rfc3339_opts(chrono::SecondsFormat::Nanos, true)
+}
+
+#[cfg(test)]
+mod native_lifecycle_timestamp_tests {
+    #[test]
+    fn completion_timestamp_cannot_precede_an_earlier_subsecond_approval() {
+        let approval =
+            chrono::DateTime::parse_from_rfc3339("2026-10-20T12:00:00.123456789Z").unwrap();
+        let completion = chrono::DateTime::parse_from_rfc3339("2026-10-20T12:00:00.987654321Z")
+            .unwrap()
+            .with_timezone(&chrono::Utc);
+        let recorded =
+            chrono::DateTime::parse_from_rfc3339(&super::lifecycle_utc_timestamp(completion))
+                .unwrap();
+        assert!(
+            recorded >= approval,
+            "a later completion cannot be truncated before its authenticated approval"
+        );
+        assert_eq!(
+            recorded.with_timezone(&chrono::Utc),
+            completion,
+            "native lifecycle timestamps retain actual UTC precision"
+        );
+    }
 }
 
 fn atomic_write(path: &Path, bytes: &[u8]) -> Result<(), ObserverError> {
@@ -15212,17 +14533,46 @@ pub fn confirm_profile_update(
     program: &str,
     args: &[String],
 ) -> Result<AttachedProfile, ObserverError> {
+    review_authority::require_authority_available(root)?;
+    let subject = review_authority::sole_active_review_subject(root)?;
+    review_authority::execute_bound_human_operation(
+        root,
+        &subject,
+        cockpit_protocol::review_authority::HumanReviewOperation::ProfileConfirmation,
+        &serde_json::json!({"program":program,"args":args}),
+        |binding| {
+            confirm_profile_update_business(root, program, args, &binding.operation_context)
+                .map(|value| (value, None))
+        },
+    )
+}
+
+fn confirm_profile_update_business(
+    root: &Path,
+    program: &str,
+    args: &[String],
+    approved_profile: &serde_json::Value,
+) -> Result<AttachedProfile, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let project_path = root.join(".ai/project.json");
-    let current: AttachedProfile = read_json(&project_path).and_then(|value| {
-        serde_json::from_value(value).map_err(|error| ObserverError::State {
+    // Serialize this repository's confirmation writers across processes.
+    // Noncooperating same-UID writes are outside this application lock (B).
+    let _profile_lock = acquire_lifecycle_lock(&root, "WI-PROFILE-CONFIRMATION")?;
+    if read_json(&project_path)? != *approved_profile {
+        return Err(review_authority::error(
+            &root,
+            "review_profile_changed_after_begin",
+        ));
+    }
+    // Business input is the approved immutable snapshot, never a fresh profile.
+    let current: AttachedProfile =
+        serde_json::from_value(approved_profile.clone()).map_err(|error| ObserverError::State {
             path: project_path.clone(),
             message: error.to_string(),
-        })
-    })?;
+        })?;
     let mut tests = current.tests.clone();
     let candidate = QualityCommand {
         program: program.into(),
@@ -15312,7 +14662,7 @@ fn collect_files(
 mod post_prepare_identity_tests {
     use super::{
         RepositoryVerificationPolicy, RepositoryVerificationRequest, attach,
-        confirm_profile_update, run_repository_verification,
+        confirm_profile_update_business, run_repository_verification,
         run_repository_verification_with_post_prepare,
     };
     use std::{
@@ -15369,7 +14719,13 @@ mod post_prepare_identity_tests {
         fs::set_permissions(&tool, fs::Permissions::from_mode(0o755)).expect("executable");
         attach(&root).expect("attach");
         let program = tool.to_string_lossy().into_owned();
-        confirm_profile_update(&root, &program, &[]).expect("confirm");
+        // This fixture tests reuse and the post-prepare identity barrier, not
+        // approval of a project without a Work Item. Its calibration setup
+        // uses the private business primitive and an owned immutable profile.
+        // Public approval is covered by the explicit port lifecycle tests.
+        let immutable_profile = super::read_json(&root.join(".ai/project.json")).unwrap();
+        confirm_profile_update_business(&root, &program, &[], &immutable_profile)
+            .expect("calibrate synthetic reuse fixture");
         let request = RepositoryVerificationRequest {
             node_id: "project-command-0".into(),
             program,

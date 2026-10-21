@@ -8,6 +8,7 @@ pub use cockpit_interface as interface_description;
 pub mod audit_query;
 mod contract_amendment;
 pub mod release_plan;
+pub mod review_authority;
 pub mod usage;
 
 pub use audit_query::{
@@ -3782,7 +3783,11 @@ impl MaterialInspectionReviewProfile {
     }
 }
 
+/// Legacy material-review wire version. Its canonical bytes remain readable.
 pub const MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION: u32 = 1;
+pub const MATERIAL_INSPECTION_REVIEW_CURRENT_SCHEMA_VERSION: u32 = 2;
+pub const MATERIAL_REVIEW_REQUEST_V2_RECIPE_ID: &str = "ai-cockpit:material-review-request:v2";
+pub const MAX_MATERIAL_REVIEW_REQUEST_ARTIFACT_BYTES: u64 = 4 * 1024 * 1024;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -3803,12 +3808,66 @@ pub struct MaterialInspectionReviewEvidenceRef {
     pub digest: Digest,
 }
 
+/// Immutable canonical request bytes reviewed before a V2 decision. The raw
+/// digest binds provenance as well as the semantic request payload.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewRequestArtifact {
+    pub path: String,
+    pub raw_digest: Digest,
+    pub byte_length: u64,
+    pub request_digest: Digest,
+    pub recipe_id: String,
+}
+
+impl MaterialInspectionReviewRequestArtifact {
+    pub fn validate_for(&self, work_item_id: &str, request_digest: &Digest) -> Result<(), String> {
+        for digest in [&self.raw_digest, &self.request_digest, request_digest] {
+            digest
+                .as_str()
+                .parse::<Digest>()
+                .map_err(|_| "material request artifact contains an invalid digest".to_owned())?;
+        }
+        if self.request_digest != *request_digest
+            || self.recipe_id != MATERIAL_REVIEW_REQUEST_V2_RECIPE_ID
+            || !(1..=MAX_MATERIAL_REVIEW_REQUEST_ARTIFACT_BYTES).contains(&self.byte_length)
+            || work_item_id.is_empty()
+            || matches!(work_item_id, "." | "..")
+            || work_item_id.contains(['/', '\\', '\0'])
+        {
+            return Err("material request artifact identity, recipe, or size is invalid".into());
+        }
+        let request_hex = request_digest
+            .as_str()
+            .strip_prefix("sha256:")
+            .ok_or_else(|| "material request digest is malformed".to_owned())?;
+        let artifact_hex = self
+            .raw_digest
+            .as_str()
+            .strip_prefix("sha256:")
+            .ok_or_else(|| "material request artifact digest is malformed".to_owned())?;
+        let expected = format!(
+            ".ai/evidence/material-inspection-review/{work_item_id}/{request_hex}.{artifact_hex}.request.json"
+        );
+        if self.path != expected {
+            return Err(
+                "material request artifact path does not bind its Work Item and digests".into(),
+            );
+        }
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct MaterialInspectionReviewDecisionInput {
     pub schema_version: u32,
     pub decision: MaterialInspectionReviewDecision,
     pub request_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub request_artifact_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub request_artifact_byte_length: Option<u64>,
     pub reviewer_actor: String,
     pub authority_source: String,
     pub assurance: MaterialInspectionReviewAssurance,
@@ -3817,8 +3876,44 @@ pub struct MaterialInspectionReviewDecisionInput {
     pub residual_risk: String,
 }
 
+impl MaterialInspectionReviewDecisionInput {
+    /// Compare the decision with freshly encoded request bytes. Semantic
+    /// equality alone cannot substitute another generator's request artifact.
+    pub fn validate_request_binding(
+        &self,
+        request_schema_version: u32,
+        request_digest: &Digest,
+        artifact: Option<(&Digest, u64)>,
+    ) -> Result<(), String> {
+        if self.request_digest != *request_digest
+            || self.request_digest.as_str().parse::<Digest>().is_err()
+        {
+            return Err("material decision does not bind the semantic request digest".into());
+        }
+        match (self.schema_version, request_schema_version, artifact) {
+            (1, 1, None)
+                if self.request_artifact_digest.is_none()
+                    && self.request_artifact_byte_length.is_none() =>
+            {
+                Ok(())
+            }
+            (2, 2, Some((raw_digest, byte_length)))
+                if raw_digest.as_str().parse::<Digest>().is_ok()
+                    && (1..=MAX_MATERIAL_REVIEW_REQUEST_ARTIFACT_BYTES).contains(&byte_length)
+                    && self.request_artifact_digest.as_ref() == Some(raw_digest)
+                    && self.request_artifact_byte_length == Some(byte_length) =>
+            {
+                Ok(())
+            }
+            _ => Err(
+                "material decision schema or exact request artifact binding does not match".into(),
+            ),
+        }
+    }
+}
+
 pub fn material_inspection_review_decision_input_schema() -> serde_json::Value {
-    serde_json::json!({
+    let legacy = serde_json::json!({
         "type": "object",
         "additionalProperties": false,
         "description": "Self-declared decision bound to one canonical material-review request. It records no authenticated identity or release approval.",
@@ -3849,6 +3944,29 @@ pub fn material_inspection_review_decision_input_schema() -> serde_json::Value {
             "rationale": {"type": "string", "minLength": 1},
             "residualRisk": {"type": "string", "minLength": 1}
         }
+    });
+    let mut current = legacy.clone();
+    current["description"] = serde_json::json!(
+        "Self-declared V2 decision bound to the semantic request and complete canonical request artifact bytes. It grants no authenticated identity or release approval."
+    );
+    current["properties"]["schemaVersion"]["const"] =
+        serde_json::json!(MATERIAL_INSPECTION_REVIEW_CURRENT_SCHEMA_VERSION);
+    current["properties"]["requestArtifactDigest"] = serde_json::json!({
+        "type":"string", "pattern":"^sha256:[0-9a-f]{64}$"
+    });
+    current["properties"]["requestArtifactByteLength"] = serde_json::json!({
+        "type":"integer", "minimum":1, "maximum":MAX_MATERIAL_REVIEW_REQUEST_ARTIFACT_BYTES
+    });
+    current["required"]
+        .as_array_mut()
+        .expect("material input schema declares required fields")
+        .extend([
+            serde_json::json!("requestArtifactDigest"),
+            serde_json::json!("requestArtifactByteLength"),
+        ]);
+    serde_json::json!({
+        "description":"Versioned material decision: V1 binds only a V1 request; V2 requires the exact canonical request artifact digest and byte length. Versions cannot be downgraded.",
+        "oneOf":[legacy,current]
     })
 }
 
@@ -3865,6 +3983,8 @@ pub struct MaterialInspectionReviewDecisionReceipt {
     pub material_manifest_digest: Digest,
     pub profile_digest: Digest,
     pub request_digest: Digest,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub request_artifact: Option<MaterialInspectionReviewRequestArtifact>,
     /// Provenance outside request equality; it must be an ancestor of a
     /// later consumer head before a hosted projection can reuse this receipt.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -3882,7 +4002,25 @@ pub struct MaterialInspectionReviewDecisionReceipt {
 }
 
 impl MaterialInspectionReviewDecisionReceipt {
+    fn canonical_domain(&self) -> Result<&'static str, String> {
+        match (self.schema_version, self.request_artifact.as_ref()) {
+            (1, None) => Ok("ai-cockpit:material-inspection-review-decision:v1"),
+            (2, Some(artifact)) => {
+                artifact.validate_for(&self.work_item_id, &self.request_digest)?;
+                Ok("ai-cockpit:material-inspection-review-decision:v2")
+            }
+            (1, Some(_)) => {
+                Err("legacy material review receipt cannot carry a request artifact".into())
+            }
+            (2, None) => Err(
+                "V2 material review receipt requires a complete request artifact reference".into(),
+            ),
+            _ => Err("unsupported material review receipt schema version".into()),
+        }
+    }
+
     pub fn canonical_digest(&self) -> Result<Digest, String> {
+        let domain = self.canonical_domain()?;
         let mut value = serde_json::to_value(self)
             .map_err(|error| format!("cannot encode material review receipt: {error}"))?;
         let fields = value
@@ -3891,7 +4029,7 @@ impl MaterialInspectionReviewDecisionReceipt {
         if fields.remove("receiptDigest").is_none() {
             return Err("material review receipt digest field is missing".into());
         }
-        digest_json(&("ai-cockpit:material-inspection-review-decision:v1", value))
+        digest_json(&(domain, value))
             .map_err(|error| format!("cannot digest material review receipt: {error}"))
     }
 
@@ -3911,9 +4049,7 @@ impl MaterialInspectionReviewDecisionReceipt {
                 .parse::<Digest>()
                 .map_err(|_| "material review receipt contains an invalid digest".to_owned())?;
         }
-        if self.schema_version != MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION {
-            return Err("unsupported material review receipt schema version".into());
-        }
+        self.canonical_domain()?;
         if self.canonical_digest()? != self.receipt_digest {
             return Err("material review receipt digest does not match canonical content".into());
         }

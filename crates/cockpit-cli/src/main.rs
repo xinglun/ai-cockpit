@@ -863,6 +863,10 @@ enum WorkItemCommand {
         #[arg(long)]
         json: bool,
     },
+    Review {
+        #[command(subcommand)]
+        command: WorkItemReviewCommand,
+    },
     Controls {
         #[arg(long)]
         repo: PathBuf,
@@ -927,6 +931,135 @@ enum WorkItemCommand {
         #[arg(long)]
         input: PathBuf,
     },
+}
+
+#[derive(Debug, Args)]
+struct ReviewSubject {
+    #[arg(long)]
+    repo: PathBuf,
+    #[arg(long)]
+    id: String,
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemReviewCommand {
+    /// Read context only; does not mint an approval request or nonce.
+    Binding(ReviewSubject),
+    /// The production adapter is unavailable until protected host integration.
+    Status(ReviewSubject),
+    /// Ask the protected issuer for its request/nonce for exact operation arguments.
+    Request {
+        #[command(flatten)]
+        subject: ReviewSubject,
+        #[arg(long)]
+        operation_input: Option<PathBuf>,
+    },
+    Submit {
+        #[command(flatten)]
+        subject: ReviewSubject,
+        #[arg(long)]
+        request: PathBuf,
+        #[arg(long)]
+        proof: PathBuf,
+    },
+    /// Append a self-declared denial-only correction, never an approval.
+    Correct {
+        #[command(flatten)]
+        subject: ReviewSubject,
+        #[arg(long)]
+        input: PathBuf,
+    },
+    /// Requires the protected authority; unavailable in Part A.
+    Revoke {
+        #[command(flatten)]
+        subject: ReviewSubject,
+        #[arg(long)]
+        input: PathBuf,
+    },
+}
+
+fn read_review_input<T: serde::de::DeserializeOwned>(path: &std::path::Path) -> Result<T> {
+    use std::io::Read as _;
+    let mut reader = std::fs::File::open(path)
+        .context("open untrusted review input")?
+        .take(128 * 1024 + 1);
+    let mut bytes = Vec::new();
+    reader
+        .read_to_end(&mut bytes)
+        .context("read bounded review input")?;
+    cockpit_repository::validate_review_authority_wire(&bytes).map_err(anyhow::Error::msg)?;
+    serde_json::from_slice(&bytes).context("parse strict review input")
+}
+
+fn run_review_command(command: WorkItemReviewCommand, runtime: &RuntimeContext) -> Result<()> {
+    let value = match command {
+        WorkItemReviewCommand::Binding(subject) => {
+            require_compatible(&subject.repo, runtime)?;
+            serde_json::to_value(cockpit_repository::human_review_binding(
+                &subject.repo,
+                &subject.id,
+            )?)?
+        }
+        WorkItemReviewCommand::Request {
+            subject,
+            operation_input,
+        } => {
+            require_compatible(&subject.repo, runtime)?;
+            let selection = match operation_input {
+                Some(path) => read_review_input::<
+                    cockpit_protocol::review_authority::HumanOperationSelection,
+                >(&path)?,
+                None => cockpit_protocol::review_authority::HumanOperationSelection {
+                    operation:
+                        cockpit_protocol::review_authority::HumanReviewOperation::PreflightReview,
+                    payload: serde_json::json!({"decision":"confirm_review"}),
+                },
+            };
+            serde_json::to_value(cockpit_repository::issue_human_review_request(
+                &subject.repo,
+                &subject.id,
+                selection.operation,
+                &selection.payload,
+            )?)?
+        }
+        WorkItemReviewCommand::Status(subject) => {
+            require_compatible(&subject.repo, runtime)?;
+            let state =
+                cockpit_repository::current_review_authority_state(&subject.repo, &subject.id)?;
+            serde_json::json!({"state":state,"humanAuthorityGranted":state==cockpit_protocol::review_authority::CurrentReviewAuthorityState::Active,"protectedGateDeployed":false,"corrections":cockpit_repository::review_correction_events(&subject.repo,&subject.id)?})
+        }
+        WorkItemReviewCommand::Submit {
+            subject,
+            request,
+            proof,
+        } => {
+            require_compatible(&subject.repo, runtime)?;
+            cockpit_repository::submit_human_review(
+                &subject.repo,
+                &subject.id,
+                &read_review_input(&request)?,
+                &read_review_input(&proof)?,
+            )?
+        }
+        WorkItemReviewCommand::Correct { subject, input } => {
+            require_compatible(&subject.repo, runtime)?;
+            cockpit_repository::record_review_correction(
+                &subject.repo,
+                &subject.id,
+                &read_review_input(&input)?,
+            )?
+        }
+        WorkItemReviewCommand::Revoke { subject, input } => {
+            require_compatible(&subject.repo, runtime)?;
+            cockpit_repository::record_review_revocation(
+                &subject.repo,
+                &subject.id,
+                &read_review_input(&input)?,
+            )?
+        }
+    };
+    println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
 }
 
 #[derive(Debug, Subcommand)]
@@ -2053,10 +2186,24 @@ fn run() -> Result<()> {
                 other => VerificationStage::parse(other).map_err(|error| anyhow::anyhow!(error))?,
             };
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
-            let initial_snapshot = GitRepository::discover(&root)
-                .context("discover repository for verification route")?
-                .snapshot()
-                .context("capture verification route snapshot")?;
+            let verification_binding = if let Some(id) =
+                work_item.as_deref().filter(|_| !archived_recovery)
+            {
+                Some(
+                    cockpit_repository::capture_work_item_verification(&root, id, &runtime_context)
+                        .context("capture verification source binding")?,
+                )
+            } else {
+                None
+            };
+            let initial_snapshot = if let Some(binding) = verification_binding.as_ref() {
+                binding.snapshot().clone()
+            } else {
+                GitRepository::discover(&root)
+                    .context("discover repository for verification route")?
+                    .snapshot()
+                    .context("capture verification route snapshot")?
+            };
             let route = if let Some(work_item_id) = work_item.as_deref() {
                 Some(if archived_recovery {
                     resolve_archived_verification_route(
@@ -2177,16 +2324,20 @@ fn run() -> Result<()> {
                             )
                         });
                 if let Err(error) = precondition {
-                    let attempt = cockpit_repository::persist_verification_attempt(
-                        &root,
-                        work_item_id,
-                        &requests,
-                        &initial_snapshot,
-                        &runtime_context,
-                        "precondition_rejected",
-                        Some(("verification_preconditions", &error.to_string())),
-                        None,
-                    );
+                    let attempt = if plan_only {
+                        Ok(json!({"state":"plan_rejected","persisted":false}))
+                    } else {
+                        cockpit_repository::persist_verification_attempt(
+                            &root,
+                            work_item_id,
+                            &requests,
+                            &initial_snapshot,
+                            &runtime_context,
+                            "precondition_rejected",
+                            Some(("verification_preconditions", &error.to_string())),
+                            None,
+                        )
+                    };
                     println!(
                         "{}",
                         serde_json::to_string_pretty(&json!({
@@ -2222,16 +2373,20 @@ fn run() -> Result<()> {
                     workers,
                 )
             {
-                let attempt = cockpit_repository::persist_verification_attempt(
-                    &root,
-                    work_item_id,
-                    &requests,
-                    &initial_snapshot,
-                    &runtime_context,
-                    "precondition_rejected",
-                    Some(("verification_parallelism", &error.to_string())),
-                    None,
-                );
+                let attempt = if plan_only {
+                    Ok(json!({"state":"plan_rejected","persisted":false}))
+                } else {
+                    cockpit_repository::persist_verification_attempt(
+                        &root,
+                        work_item_id,
+                        &requests,
+                        &initial_snapshot,
+                        &runtime_context,
+                        "precondition_rejected",
+                        Some(("verification_parallelism", &error.to_string())),
+                        None,
+                    )
+                };
                 println!(
                     "{}",
                     serde_json::to_string_pretty(&json!({
@@ -2268,7 +2423,7 @@ fn run() -> Result<()> {
                 let plan = match cockpit_repository::plan_repository_verification(&root, &request) {
                     Ok(plan) => plan,
                     Err(error) => {
-                        if let Some(work_item_id) = work_item.as_deref() {
+                        if let Some(work_item_id) = work_item.as_deref().filter(|_| !plan_only) {
                             let _ = cockpit_repository::persist_verification_attempt(
                                 &root,
                                 work_item_id,
@@ -2339,7 +2494,9 @@ fn run() -> Result<()> {
                 ) {
                     Ok(node) => planned_nodes.push(node),
                     Err(error) => {
-                        let attempt = if let Some(work_item_id) = work_item.as_deref() {
+                        let attempt = if let Some(work_item_id) =
+                            work_item.as_deref().filter(|_| !plan_only)
+                        {
                             cockpit_repository::persist_verification_attempt(
                                 &root,
                                 work_item_id,
@@ -2441,6 +2598,12 @@ fn run() -> Result<()> {
                 println!("{}", serde_json::to_string_pretty(&plan)?);
                 return Ok(());
             }
+            let prepared_verification = verification_binding
+                .map(|binding| {
+                    cockpit_repository::prepare_work_item_verification(binding, &requests)
+                })
+                .transpose()
+                .context("prepare verification source observation")?;
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
             let process_concurrency = Arc::new(ProcessConcurrencyObservation::default());
@@ -2753,11 +2916,11 @@ fn run() -> Result<()> {
                         anyhow::bail!("record archived verification recovery: {error}");
                     }
                 } else {
-                    if let Err(error) = cockpit_repository::record_verification_with_runtime(
-                        &root,
-                        &work_item,
+                    if let Err(error) = cockpit_repository::record_prepared_work_item_verification(
+                        prepared_verification
+                            .as_ref()
+                            .expect("active Work Item prepared before execution"),
                         &verification_receipt,
-                        &runtime_context,
                         &run.final_snapshot,
                     ) {
                         let recovery_attempt =
@@ -3593,6 +3756,7 @@ fn run() -> Result<()> {
                     }
                 }
             }
+            WorkItemCommand::Review { command } => run_review_command(command, &runtime_context)?,
             WorkItemCommand::Controls { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
                 let controls: serde_json::Value = serde_json::from_slice(

@@ -8,19 +8,18 @@ use super::{
     VerificationCaptureMode, VerificationEvidenceEnvelope, WorkItemScaffoldFacts,
     WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation, WorkItemStartOptions,
     WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
-    acquire_lifecycle_lock, append_task_outcome_events, apply_preflight_review_evidence,
-    atomic_json, atomic_write, attach, attached_profile_digest,
-    build_repository_verification_command, close_decision_is_valid_for_status,
-    closed_finalization_projection_kind, effective_resource_context,
-    effective_verification_timeout_seconds, ensure_resource_finalization_base_binding, git_text,
-    git_worktree_records, governance_controls_gaps_for_finish,
-    governance_decision_for_pre_execution_boundary, is_regular_non_symlink, load_recovery_decision,
-    now, optional_regular_artifact, outcome_v2_internal_with_snapshot,
-    persist_blocked_lifecycle_outcome, prepare_repository_verification_command, read_contract,
-    read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
-    recovery_decision_candidate_paths, recovery_scaffold_exists, reject_duplicate_json_keys,
-    repository_id, repository_readiness, repository_relative_path,
-    require_current_action_admission, require_explicit_resource_finalization_plan,
+    acquire_lifecycle_lock, append_task_outcome_events, atomic_json, atomic_write, attach,
+    attached_profile_digest, build_repository_verification_command,
+    close_decision_is_valid_for_status, closed_finalization_projection_kind,
+    effective_resource_context, effective_verification_timeout_seconds,
+    ensure_resource_finalization_base_binding, git_text, git_worktree_records,
+    governance_controls_gaps_for_finish, governance_decision_for_pre_execution_boundary,
+    is_regular_non_symlink, load_recovery_decision, now, optional_regular_artifact,
+    outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome,
+    prepare_repository_verification_command, read_contract, read_evidence_retention_policy,
+    read_json, read_resource_finalization_receipt, recovery_decision_candidate_paths,
+    recovery_scaffold_exists, reject_duplicate_json_keys, repository_id, repository_readiness,
+    repository_relative_path, require_explicit_resource_finalization_plan,
     require_green_governance, require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
     task_outcome_markdown, task_outcome_report, valid_git_object_id, valid_sha256_digest,
@@ -162,6 +161,7 @@ fn start_work_item_with_options_internal(
             options,
             state: "implementation_active",
         },
+        None,
     )?;
     let timestamp = now();
     record_start_lifecycle_fact(root, work_item_id, &super::usage::lifecycle_now(), runtime)?;
@@ -850,7 +850,7 @@ pub fn scaffold_work_item(
     // cannot silently miss cleanup work between Work Items.
     let start_advisory = work_item_start_advisory(root, work_item_id)?;
     validate_start_entry(root, work_item_id, &[], false, &start_advisory.conflicts)?;
-    let mut receipt = scaffold_work_item_internal(root, work_item_id, mode)?;
+    let mut receipt = scaffold_work_item_internal(root, work_item_id, mode, None)?;
     receipt.start_advisory = Some(start_advisory);
     Ok(receipt)
 }
@@ -863,14 +863,16 @@ fn scaffold_work_item_for_recovery(
     root: &Path,
     work_item_id: &str,
     mode: &str,
+    approved_snapshot: &cockpit_protocol::review_authority::HumanReviewBinding,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
-    scaffold_work_item_internal(root, work_item_id, mode)
+    scaffold_work_item_internal(root, work_item_id, mode, Some(approved_snapshot))
 }
 
 fn scaffold_work_item_internal(
     root: &Path,
     work_item_id: &str,
     mode: &str,
+    approved_snapshot: Option<&cockpit_protocol::review_authority::HumanReviewBinding>,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
     let mode = mode.trim();
     if mode.is_empty() {
@@ -898,6 +900,7 @@ fn scaffold_work_item_internal(
             options: &options,
             state: "not_ready",
         },
+        approved_snapshot,
     )?;
     Ok(WorkItemScaffoldReceipt {
         work_item_id: work_item_id.into(),
@@ -970,6 +973,7 @@ impl Drop for WorkItemScaffoldReservation {
 fn create_work_item_scaffold(
     root: &Path,
     input: &ContractScaffoldInput<'_>,
+    approved_snapshot: Option<&cockpit_protocol::review_authority::HumanReviewBinding>,
 ) -> Result<CreatedWorkItemScaffold, ObserverError> {
     validate_work_item_id(input.work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -989,6 +993,15 @@ fn create_work_item_scaffold(
         path: root.clone(),
         message: error.to_string(),
     })?;
+    if let Some(expected) = approved_snapshot
+        && (snapshot_digest(&snapshot)? != expected.repository_snapshot_digest
+            || snapshot.head.as_deref() != expected.operation_context["head"].as_str())
+    {
+        return Err(super::review_authority::error(
+            &root,
+            "review_successor_captured_snapshot_changed",
+        ));
+    }
     let profile_path = ai.join("project.json");
     let profile: AttachedProfile = read_json(&profile_path).and_then(|value| {
         serde_json::from_value(value).map_err(|error| ObserverError::State {
@@ -1953,7 +1966,7 @@ fn preflight_work_item_internal_unlocked(
     let material_summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{}.summary.json", contract.work_item_id));
-    super::material_review::apply_material_review_gate_to_decision(
+    let material_projection = super::material_review::apply_material_review_gate_to_decision(
         root,
         &contract,
         &material_summary_path,
@@ -1990,11 +2003,25 @@ fn preflight_work_item_internal_unlocked(
         }
         let mut summary: serde_json::Value = read_json(&summary_path)?;
         if let Some(runtime) = current_runtime {
-            require_current_action_admission(
+            // A current exact material receipt can change P while C/R and
+            // cached admission still offer verification. This permits only
+            // assessment refresh; the new P invalidates the old approval.
+            let fresh_p = preflight_decision_digest(&active_contract, &summary, &raw_decision)?;
+            let material_assessment_refresh = material_projection.review_receipt_digest.is_some()
+                && !material_projection.projection_unavailable
+                && !material_projection.blocked_by_finding
+                && summary["recoveryRetryPending"] != serde_json::json!(true)
+                && summary["verificationInvalidatedByContractAmendment"].is_null()
+                && summary["preflightContractDigest"]
+                    == contract_digest(&active_contract)?.to_string()
+                && summary["preflightRepositorySnapshotDigest"]
+                    == snapshot_digest(&snapshot)?.to_string()
+                && summary["preflightDecisionDigest"] != fresh_p.to_string();
+            super::action_admission::require_current_preflight_assessment_admission(
                 root,
                 &contract.work_item_id,
-                "run_preflight",
                 runtime,
+                material_assessment_refresh,
             )?;
         }
         require_current_retry_recovery_binding(
@@ -2067,6 +2094,11 @@ fn preflight_work_item_internal_unlocked(
             ));
         }
     }
+    // Publishing a changed P can invalidate the approval used by the earlier
+    // projection. Return authority for the newly published binding, matching
+    // the status and execution gates, rather than an old recorded decision.
+    let decision =
+        super::apply_current_preflight_review_evidence(root, &contract, raw_decision, false)?;
     Ok(PreflightResult {
         decision,
         changed_paths,
@@ -2086,14 +2118,11 @@ fn preflight_work_item_internal_unlocked(
     })
 }
 
-fn update_preflight_summary(
-    summary_path: &Path,
+fn preflight_decision_digest(
     active_contract: &Path,
-    summary: &mut serde_json::Value,
-    decision: &GovernanceDecision,
+    summary: &serde_json::Value,
     raw_decision: &GovernanceDecision,
-    snapshot: &RepositorySnapshot,
-) -> Result<bool, ObserverError> {
+) -> Result<Digest, ObserverError> {
     let mut decision_value =
         serde_json::to_value(raw_decision).map_err(|error| ObserverError::State {
             path: active_contract.to_path_buf(),
@@ -2107,6 +2136,21 @@ fn update_preflight_summary(
             "activationRecoveryRequestDigest":request_digest,
         });
     }
+    cockpit_protocol::digest_json(&decision_value).map_err(|error| ObserverError::State {
+        path: active_contract.to_path_buf(),
+        message: error.to_string(),
+    })
+}
+
+fn update_preflight_summary(
+    summary_path: &Path,
+    active_contract: &Path,
+    summary: &mut serde_json::Value,
+    decision: &GovernanceDecision,
+    raw_decision: &GovernanceDecision,
+    snapshot: &RepositorySnapshot,
+) -> Result<bool, ObserverError> {
+    let decision_digest = preflight_decision_digest(active_contract, summary, raw_decision)?;
     let next_fields = [
         (
             "preflightState",
@@ -2114,14 +2158,7 @@ fn update_preflight_summary(
         ),
         (
             "preflightDecisionDigest",
-            serde_json::Value::String(
-                cockpit_protocol::digest_json(&decision_value)
-                    .map_err(|error| ObserverError::State {
-                        path: active_contract.to_path_buf(),
-                        message: error.to_string(),
-                    })?
-                    .to_string(),
-            ),
+            serde_json::Value::String(decision_digest.to_string()),
         ),
         (
             "preflightRepositorySnapshotDigest",
@@ -2140,8 +2177,7 @@ fn update_preflight_summary(
     {
         let binding = serde_json::json!({
             "contractDigest":contract_digest(active_contract)?,
-            "preflightDecisionDigest":cockpit_protocol::digest_json(&decision_value)
-                .map_err(|error| ObserverError::State { path: summary_path.into(), message: error.to_string() })?,
+            "preflightDecisionDigest":decision_digest,
             "repositorySnapshotDigest":snapshot_digest(snapshot)?,
         });
         changed |= summary["activationRecovery"]["reviewRequest"] != binding;
@@ -2443,10 +2479,23 @@ fn finish_work_item_internal_unlocked(
         });
     }
     if summary["preflightState"] != serde_json::json!("green") {
-        return Err(ObserverError::State {
-            path: summary_path.clone(),
-            message: "finish requires a green preflight result after verification".into(),
-        });
+        // An exact material decision can resolve a previously yellow
+        // preflight without changing the verified source. Cached color is
+        // insufficient: the full current governance/material/review decision
+        // must now be green. Preserve the original reviewed P and receipt.
+        let current = super::governance_decision_for_contract_internal(
+            &root,
+            &contract,
+            &snapshot,
+            current_runtime,
+        )?;
+        if summary["preflightState"] != "yellow" || current.state != DecisionState::Green {
+            return Err(ObserverError::State {
+                path: summary_path.clone(),
+                message: "finish requires a green preflight result after verification".into(),
+            });
+        }
+        summary["preflightState"] = "green".into();
     }
     if contract.checkpoint_policy.is_some() {
         let current_contract_hash = contract_digest(&contract_path)?.to_string();
@@ -3357,7 +3406,8 @@ pub(crate) fn require_current_retry_recovery_binding(
     if summary["recoveryRetryPending"] != serde_json::json!(true) {
         return Ok(());
     }
-    let decision = load_recovery_decision(root, work_item_id, current_runtime)?;
+    let decision =
+        super::review_authority::current_recovery_decision(root, work_item_id, current_runtime)?;
     if decision
         .as_ref()
         .is_some_and(|value| value.decision == "retry")
@@ -4619,6 +4669,10 @@ pub(crate) fn archived_verification_recovery_state(
             Ok(value) => value,
             Err(_) => return Ok(EvidenceState::Contradictory),
         };
+        if current_runtime.is_some() && super::review_authority::require_current_human_effect(&root,&contract.work_item_id,
+            cockpit_protocol::review_authority::HumanReviewOperation::ArchivedVerificationRecovery,&value).is_err(){
+            return Ok(EvidenceState::Unknown);
+        }
         match validate_archived_verification_recovery_candidate(
             &root,
             contract,
@@ -4693,6 +4747,30 @@ pub fn require_archived_verification_recovery_preconditions(
 /// The predecessor archive, outcome, Summary, and historical verification
 /// evidence are never overwritten.
 pub fn record_archived_verification_recovery_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    request: &ArchivedVerificationRecoveryRequest,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+) -> Result<serde_json::Value, ObserverError> {
+    super::review_authority::execute_human_operation(
+        root,
+        work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::ArchivedVerificationRecovery,
+        &serde_json::json!({"request":{"reason":request.reason,"actor":request.actor,"authoritySource":request.authority_source,"evidenceRefs":request.evidence_refs,"policyRefs":request.policy_refs,"verificationReceipt":request.verification_receipt},"runtime":runtime,"snapshot":snapshot}),
+        || {
+            record_archived_verification_recovery_with_runtime_business(
+                root,
+                work_item_id,
+                request,
+                runtime,
+                snapshot,
+            )
+        },
+    )
+}
+
+fn record_archived_verification_recovery_with_runtime_business(
     root: &Path,
     work_item_id: &str,
     request: &ArchivedVerificationRecoveryRequest,
@@ -4876,12 +4954,43 @@ pub fn record_recovery_decision(
     receipt: &serde_json::Value,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    super::review_authority::execute_bound_human_operation(
+        root,
+        work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::Recovery,
+        &serde_json::json!({"receipt":receipt,"runtime":runtime}),
+        |binding| {
+            record_recovery_decision_business(root, work_item_id, receipt, runtime, binding)
+                .map(|value| (value, None))
+        },
+    )
+}
+
+fn record_recovery_decision_business(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime: &RuntimeContext,
+    approved: &cockpit_protocol::review_authority::HumanReviewBinding,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    if super::review_authority::human_operation_binding(
+        &root,
+        work_item_id,
+        approved.operation.clone(),
+        &approved.operation_payload,
+    )? != *approved
+    {
+        return Err(super::review_authority::error(
+            &root,
+            "review_recovery_binding_changed_after_begin",
+        ));
+    }
     let contract_path = work_item_artifact_path(&root, work_item_id, "contract.json")?;
     let summary_path = work_item_artifact_path(&root, work_item_id, "summary.json")?;
     let contract = read_contract(&contract_path)?;
@@ -4935,7 +5044,7 @@ pub fn record_recovery_decision(
         // closes an already-selected successor lineage without creating a
         // competing Work Item.
         if typed.decision == "successor"
-            && let Ok(Some(existing)) = load_recovery_decision(&root, work_item_id, Some(runtime))
+            && let Some(existing) = load_recovery_decision(&root, work_item_id, Some(runtime))?
             && existing.decision == "successor"
             && existing.successor_work_item_id.as_deref() != Some(successor_id)
         {
@@ -5064,7 +5173,7 @@ pub fn record_recovery_decision(
             )
         } else {
             let mode = contract.mode.as_deref().unwrap_or("implementation");
-            scaffold_work_item_for_recovery(&root, successor_id, mode)?;
+            scaffold_work_item_for_recovery(&root, successor_id, mode, approved)?;
             let successor_contract_path = root
                 .join(".ai/work-items/active")
                 .join(format!("{successor_id}.contract.json"));
@@ -5119,6 +5228,28 @@ pub fn record_recovery_decision(
 /// lineage. All bytes and identities are validated before the receipt is
 /// written; this route never creates a successor and never rewrites a node.
 pub fn record_selected_successor_lineage_recovery(
+    root: &Path,
+    root_work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    super::review_authority::execute_human_operation(
+        root,
+        root_work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::SelectedLineageRecovery,
+        &serde_json::json!({"receipt":receipt,"runtime":runtime}),
+        || {
+            record_selected_successor_lineage_recovery_business(
+                root,
+                root_work_item_id,
+                receipt,
+                runtime,
+            )
+        },
+    )
+}
+
+fn record_selected_successor_lineage_recovery_business(
     root: &Path,
     root_work_item_id: &str,
     receipt: &serde_json::Value,
@@ -6316,6 +6447,9 @@ pub fn plan_cross_checkout_closeout_recovery(
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
     let plan = build_closeout_recovery_plan(destination_root, source_root, work_item_id, runtime)?;
+    Ok(closeout_recovery_plan_projection(&plan))
+}
+fn closeout_recovery_plan_projection(plan: &CloseoutRecoveryPlanFacts) -> serde_json::Value {
     let files = plan
         .files
         .iter()
@@ -6328,7 +6462,7 @@ pub fn plan_cross_checkout_closeout_recovery(
             })
         })
         .collect::<Vec<_>>();
-    Ok(serde_json::json!({
+    serde_json::json!({
         "schemaVersion": 1,
         "state": "ready",
         "allowed": true,
@@ -6342,7 +6476,7 @@ pub fn plan_cross_checkout_closeout_recovery(
         "providerFacts": plan.provider_facts,
         "files": files,
         "nextAction": "explicit_closeout_recovery_write",
-    }))
+    })
 }
 
 fn closeout_recovery_git_snapshot(root: &Path) -> Result<RepositorySnapshot, ObserverError> {
@@ -6957,20 +7091,73 @@ pub fn recover_cross_checkout_closeout(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    recover_cross_checkout_closeout_with_hook(
+    super::review_authority::require_authority_available(destination_root)?;
+    let source_root = std::path::absolute(source_root).map_err(|source| ObserverError::Read {
+        path: source_root.into(),
+        source,
+    })?;
+    let source_root = source_root.as_path();
+    super::review_authority::execute_bound_human_operation(
+        destination_root,
+        work_item_id,
+        cockpit_protocol::review_authority::HumanReviewOperation::CrossCheckoutRecovery,
+        &serde_json::json!({"sourceRoot":source_root,"runtime":runtime}),
+        |binding| {
+            recover_cross_checkout_closeout_business(
+                destination_root,
+                source_root,
+                work_item_id,
+                runtime,
+                &binding.operation_context,
+            )
+            .map(|value| (value, None))
+        },
+    )
+}
+
+fn recover_cross_checkout_closeout_business(
+    destination_root: &Path,
+    source_root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    approved_context: &serde_json::Value,
+) -> Result<serde_json::Value, ObserverError> {
+    recover_cross_checkout_closeout_with_bound_hook(
         destination_root,
         source_root,
         work_item_id,
         runtime,
+        Some(approved_context),
         |_, _| Ok(()),
     )
 }
 
+#[cfg(test)]
 fn recover_cross_checkout_closeout_with_hook<F>(
     destination_root: &Path,
     source_root: &Path,
     work_item_id: &str,
     runtime: &RuntimeContext,
+    after_step: F,
+) -> Result<serde_json::Value, ObserverError>
+where
+    F: FnMut(CloseoutRecoveryStep, &CloseoutRecoveryPlanFacts) -> Result<(), ObserverError>,
+{
+    recover_cross_checkout_closeout_with_bound_hook(
+        destination_root,
+        source_root,
+        work_item_id,
+        runtime,
+        None,
+        after_step,
+    )
+}
+fn recover_cross_checkout_closeout_with_bound_hook<F>(
+    destination_root: &Path,
+    source_root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    approved_context: Option<&serde_json::Value>,
     mut after_step: F,
 ) -> Result<serde_json::Value, ObserverError>
 where
@@ -6983,6 +7170,17 @@ where
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&destination, work_item_id)?;
     let plan = build_closeout_recovery_plan(destination_root, source_root, work_item_id, runtime)?;
+    if approved_context
+        .is_some_and(|approved| *approved != closeout_recovery_plan_projection(&plan))
+    {
+        return Err(super::review_authority::error(
+            &destination,
+            "review_cross_plan_changed_after_begin",
+        ));
+    }
+    // From here through installation we use THIS captured plan's owned bytes,
+    // which match the approved commitments. Later reads only reject drift;
+    // they never replace those inputs with an unapproved rebuilt plan.
     let initial_destination_snapshot = closeout_recovery_git_snapshot(&destination)?;
     if snapshot_digest(&initial_destination_snapshot)? != plan.destination_snapshot_digest {
         return Err(closeout_recovery_error(
@@ -7740,6 +7938,23 @@ pub fn selected_successor_lineage_recovery_resolves_pending_close(
     work_item_id: &str,
     expected_repository_id: &str,
 ) -> bool {
+    selected_successor_lineage_recovery_resolves_pending_close_with_facts(
+        root,
+        work_item_id,
+        expected_repository_id,
+        None,
+    )
+}
+
+pub(super) fn selected_successor_lineage_recovery_resolves_pending_close_with_facts(
+    root: &Path,
+    work_item_id: &str,
+    expected_repository_id: &str,
+    historical: Option<&super::resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> bool {
+    if historical.is_some_and(|facts| facts.validate_root(root).is_err()) {
+        return false;
+    }
     let decisions = root.join(".ai/decisions");
     let Ok(entries) = fs::read_dir(&decisions) else {
         return false;
@@ -7789,6 +8004,17 @@ pub fn selected_successor_lineage_recovery_resolves_pending_close(
                 .any(|node| node.work_item_id == work_item_id)
         {
             continue;
+        }
+        if historical.is_none()
+            && super::review_authority::require_current_human_effect(
+                root,
+                &receipt.root_work_item_id,
+                cockpit_protocol::review_authority::HumanReviewOperation::SelectedLineageRecovery,
+                &serde_json::to_value(&receipt).unwrap_or(serde_json::Value::Null),
+            )
+            .is_err()
+        {
+            return false;
         }
         matches.push(receipt);
     }
@@ -8704,6 +8930,372 @@ pub(crate) fn current_verification_attempt_projection(
 
 const MAX_VERIFICATION_ATTEMPT_RECORD_BYTES: u64 = 4 * 1024 * 1024;
 
+/// Read-only planning facts. Private fields prevent callers from supplying
+/// changed paths or manufacturing a prepared execution capability.
+pub struct WorkItemVerificationBinding {
+    observation: super::ObservationContext,
+    work_item_id: String,
+    runtime: RuntimeContext,
+    facts: serde_json::Value,
+    paths: Vec<String>,
+    previous_observation: serde_json::Value,
+    previous_completion: Option<Digest>,
+    previous_failure: Option<serde_json::Value>,
+}
+
+pub struct PreparedWorkItemVerification {
+    binding: WorkItemVerificationBinding,
+    recorded_observation: serde_json::Value,
+    started_permission: serde_json::Value,
+    started_verification: Option<serde_json::Value>,
+    planned_commands: BTreeMap<String, PreparedVerificationCommand>,
+}
+struct PreparedVerificationCommand {
+    command_digest: String,
+    allowed_reuse_receipt: Option<String>,
+}
+
+// Verification entries are completion output, never startup authority. Keep
+// their existing structural/transaction checks in the recorder, including
+// rollback tests for malformed entries. Every other Summary field is frozen.
+fn verification_start_permission(summary: &serde_json::Value) -> serde_json::Value {
+    let mut permission = summary.clone();
+    if let Some(object) = permission.as_object_mut() {
+        object.remove("verification");
+    }
+    permission
+}
+
+impl WorkItemVerificationBinding {
+    pub fn snapshot(&self) -> &RepositorySnapshot {
+        self.observation.snapshot()
+    }
+
+    fn validate_current(&self) -> Result<(), ObserverError> {
+        self.observation.validate_current()?;
+        let current = verification_source_facts(self.observation.root(), &self.work_item_id)?;
+        if current.0 != self.facts {
+            return Err(source_observation_error(
+                self.observation.root(),
+                "planning or execution binding changed",
+            ));
+        }
+        Ok(())
+    }
+
+    fn completion_paths(
+        &self,
+        snapshot: &RepositorySnapshot,
+    ) -> Result<Vec<String>, ObserverError> {
+        self.observation.validate_execution_snapshot(snapshot)?;
+        let root = self.observation.root();
+        let (facts, paths) = verification_source_facts(root, &self.work_item_id)?;
+        if facts["origin"] != self.facts["origin"]
+            || facts["head"] != serde_json::json!(snapshot.head)
+        {
+            return Err(source_observation_error(
+                root,
+                "completion origin or HEAD changed",
+            ));
+        }
+        let contract = read_contract(&root.join(format!(
+            ".ai/work-items/active/{}.contract.json",
+            self.work_item_id
+        )))?;
+        let scope = cockpit_core::evaluate(cockpit_core::GovernanceInput {
+            scope: contract.scope,
+            out_of_scope: contract.out_of_scope,
+            changed_paths: paths
+                .iter()
+                .filter(|p| p.as_str() != ".ai" && !p.starts_with(".ai/"))
+                .cloned()
+                .collect(),
+            action: cockpit_core::ActionKind::ReadOnly,
+            authority: cockpit_core::AuthorityState::Authorized,
+            evidence: EvidenceState::Complete,
+            untrusted_material: false,
+            test_weakening: false,
+            coverage_weakening: false,
+            explicit_blockers: vec![],
+            explicit_unknowns: vec![],
+            outcome_state_override: None,
+            authority_override: None,
+        });
+        if scope
+            .blockers
+            .iter()
+            .any(|b| b == "scope_exceeded" || b == "out_of_scope_changed")
+        {
+            return Err(source_observation_error(
+                root,
+                "completion scope exceeds the original Contract",
+            ));
+        }
+        self.observation.validate_execution_snapshot(snapshot)?;
+        if verification_source_facts(root, &self.work_item_id)?.0 != facts {
+            return Err(source_observation_error(
+                root,
+                "completion source facts changed",
+            ));
+        }
+        Ok(paths)
+    }
+}
+
+fn source_observation_error(root: &Path, message: &str) -> ObserverError {
+    ObserverError::State {
+        path: root.into(),
+        message: format!("source change observation: {message}"),
+    }
+}
+
+fn completion_generation(root: &Path, id: &str) -> Result<Option<Digest>, ObserverError> {
+    let path = root.join(format!(".ai/evidence/{id}.verification.json"));
+    if !optional_regular_artifact(&path, "verification completion generation")? {
+        return Ok(None);
+    }
+    let bytes = super::read_governance_bytes(&path)
+        .map_err(|source| ObserverError::Read { path, source })?;
+    Ok(Some(Digest::sha256_bytes(&bytes)))
+}
+
+fn verification_source_facts(
+    root: &Path,
+    id: &str,
+) -> Result<(serde_json::Value, Vec<String>), ObserverError> {
+    let origin = super::contract_amendment::verification_responsibility_origin(root, id)?;
+    let git = cockpit_git::GitRepository::discover(root)
+        .map_err(|error| source_observation_error(root, &error.to_string()))?;
+    let delta = git
+        .snapshot_against(
+            origin["responsibilityRevision"]
+                .as_str()
+                .expect("validated origin"),
+        )
+        .map_err(|error| source_observation_error(root, &error.to_string()))?;
+    // Runtime records are append-only execution facts, not source inputs.
+    // Keep their observed paths for delivery, but do not make our own writes
+    // invalidate the source binding. Configuration/policy/Contract are checked
+    // separately by ObservationContext.
+    let mut source_changes = Vec::new();
+    for change in delta
+        .change_evidence
+        .iter()
+        .filter(|change| change.path != ".ai" && !change.path.starts_with(".ai/"))
+    {
+        let path = root.join(&change.path);
+        let after_digest = match fs::read(&path) {
+            Ok(bytes) => Some(Digest::sha256_bytes(&bytes)),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(source) => return Err(ObserverError::Read { path, source }),
+        };
+        source_changes.push(serde_json::json!({"path":change.path,"kind":format!("{:?}",change.kind),"addedLines":change.added_lines,"removedLines":change.removed_lines,"afterDigest":after_digest}));
+    }
+    let source_delta = cockpit_protocol::digest_json(&serde_json::json!(source_changes))
+        .map_err(|error| source_observation_error(root, &error.to_string()))?;
+    Ok((
+        serde_json::json!({"origin":origin,"head":delta.head,"sourceDeltaDigest":source_delta}),
+        delta.changed_paths,
+    ))
+}
+
+/// Capture before routing or planning. This never writes a Summary or cache;
+/// plan-only callers may discard the value without creating execution facts.
+pub fn capture_work_item_verification(
+    root: &Path,
+    id: &str,
+    runtime: &RuntimeContext,
+) -> Result<WorkItemVerificationBinding, ObserverError> {
+    validate_work_item_id(id)?;
+    let execution = RepositoryExecutionContext::capture(root)?;
+    let root = execution.root();
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let observation = execution.observe_phase_with_contract_uncached(
+        ObservationPhase::BeforeGovernance,
+        Some(runtime),
+        &contract_path,
+    )?;
+    let (facts, paths) = verification_source_facts(root, id)?;
+    let summary = read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    let binding = WorkItemVerificationBinding {
+        observation,
+        work_item_id: id.into(),
+        runtime: runtime.clone(),
+        facts,
+        paths,
+        previous_observation: summary["sourceChangeObservation"].clone(),
+        previous_completion: completion_generation(root, id)?,
+        previous_failure: super::lifecycle_failure_binding(root, id)?,
+    };
+    binding.validate_current()?;
+    Ok(binding)
+}
+
+/// The short native write boundary immediately before executing a planned
+/// check. Waiting for the lock cannot silently rebind a stale plan.
+pub fn prepare_work_item_verification(
+    binding: WorkItemVerificationBinding,
+    requests: &[RepositoryVerificationRequest],
+) -> Result<PreparedWorkItemVerification, ObserverError> {
+    let root = binding.observation.root();
+    let id = &binding.work_item_id;
+    let lock = acquire_lifecycle_lock(root, id)?;
+    lock.require_subject(root, id)?;
+    binding.validate_current()?;
+    let path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let mut summary = read_json(&path)?;
+    if summary["sourceChangeObservation"] != binding.previous_observation
+        || completion_generation(root, id)? != binding.previous_completion
+        || super::lifecycle_failure_binding(root, id)? != binding.previous_failure
+    {
+        return Err(source_observation_error(
+            root,
+            "concurrent verification changed the planned generation",
+        ));
+    }
+    super::require_policy_for_verification(root, id)?;
+    super::require_verification_preconditions(root, id, &binding.runtime, binding.snapshot())?;
+    if requests.is_empty() {
+        return Err(source_observation_error(root, "no planned requests"));
+    }
+    let mut commands = Vec::new();
+    let mut planned_commands = BTreeMap::new();
+    for request in requests {
+        if request.work_item_id.as_deref() != Some(id)
+            || request.runtime_digest != binding.runtime.runtime_digest.to_string()
+        {
+            return Err(source_observation_error(
+                root,
+                "request identity does not match captured Runtime and Work Item",
+            ));
+        }
+        let plan = super::plan_repository_verification_action(
+            root,
+            request,
+            binding.snapshot(),
+            chrono::Utc::now().timestamp(),
+        )?;
+        let command_digest = plan["identityBinding"]["commandDigest"]
+            .as_str()
+            .ok_or_else(|| source_observation_error(root, "planned command digest missing"))?;
+        let allowed_reuse_receipt = if matches!(
+            request.policy,
+            super::RepositoryVerificationPolicy::ProfileAuthorized
+        ) && plan["action"] == serde_json::json!("reuse")
+        {
+            Some(
+                plan["receiptId"]
+                    .as_str()
+                    .filter(|id| id.parse::<Digest>().is_ok())
+                    .ok_or_else(|| source_observation_error(root, "planned reuse receipt missing"))?
+                    .into(),
+            )
+        } else {
+            None
+        };
+        if planned_commands
+            .insert(
+                request.node_id.clone(),
+                PreparedVerificationCommand {
+                    command_digest: command_digest.into(),
+                    allowed_reuse_receipt,
+                },
+            )
+            .is_some()
+        {
+            return Err(source_observation_error(root, "duplicate planned node"));
+        }
+        commands.push(serde_json::json!({"nodeId":request.node_id,"program":request.program,"args":request.args,"scope":request.scope,"stage":request.stage,"runner":request.runner,"baseCommit":request.base_commit,"timeoutSeconds":request.timeout_seconds,"policy":format!("{:?}",request.policy)}));
+    }
+    let recorded_observation = serde_json::json!({
+        "schemaVersion":1,"repositoryId":binding.observation.repository_id(),"workItemId":id,
+        "contractDigest":binding.observation.contract_digest(),"contractModelDigest":binding.observation.contract_model_digest(),
+        "runtime":binding.runtime,"sourceSnapshotDigest":binding.observation.snapshot_digest(),
+        "sourceFacts":binding.facts,"commands":commands,"changedPaths":binding.paths,
+    });
+    binding.validate_current()?;
+    lock.require_subject(root, id)?;
+    summary["changedPaths"] = serde_json::json!(binding.paths);
+    summary["sourceChangeObservation"] = recorded_observation.clone();
+    atomic_json(&path, &summary)?;
+    // Detect editor/Git races across the atomic file write as well. The lock
+    // serializes Runtime writers; it is not a filesystem or Git freeze.
+    binding.validate_current()?;
+    Ok(PreparedWorkItemVerification {
+        binding,
+        recorded_observation,
+        started_permission: verification_start_permission(&summary),
+        started_verification: summary.get("verification").cloned(),
+        planned_commands,
+    })
+}
+
+/// Record a prepared process's returned R1 without granting another execution.
+/// Its original R0 start facts remain immutable through completion rollback.
+pub fn record_prepared_work_item_verification(
+    prepared: &PreparedWorkItemVerification,
+    receipt: &serde_json::Value,
+    snapshot: &RepositorySnapshot,
+) -> Result<serde_json::Value, ObserverError> {
+    let binding = &prepared.binding;
+    let root = binding.observation.root();
+    let id = &binding.work_item_id;
+    let lock = acquire_lifecycle_lock(root, id)?;
+    lock.require_subject(root, id)?;
+    let final_paths = binding.completion_paths(snapshot)?;
+    if prepared.planned_commands.len() > 1
+        && snapshot_digest(snapshot)? != *binding.observation.snapshot_digest()
+    {
+        // The aggregate receipt carries no per-node final source binding.
+        // Earlier results cannot be promoted to a later node's changed input.
+        return Err(source_observation_error(
+            root,
+            "multi-node completion changed source; per-node final bindings are required",
+        ));
+    }
+    let summary = read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    if (summary.get("verification").is_none() && prepared.started_verification.is_some())
+        || (summary["verification"].is_array()
+            && summary.get("verification") != prepared.started_verification.as_ref())
+    {
+        return Err(source_observation_error(
+            root,
+            "verification projection changed after preparation",
+        ));
+    }
+    // A malformed non-array still reaches the existing transaction's strict
+    // shape check and rollback; it can never become completion evidence.
+    if verification_start_permission(&summary) != prepared.started_permission
+        || summary["sourceChangeObservation"] != prepared.recorded_observation
+        || completion_generation(root, id)? != binding.previous_completion
+        || super::lifecycle_failure_binding(root, id)? != binding.previous_failure
+    {
+        return Err(source_observation_error(
+            root,
+            "concurrent verification changed completion generation",
+        ));
+    }
+    // The private prepared value is created only after startup admission,
+    // policy, amendment and retry checks. Completion records that execution;
+    // it does not re-apply CURRENT as permission to start against R1.
+    lock.require_subject(root, id)?;
+    record_verification_internal(
+        root,
+        id,
+        receipt,
+        &binding.runtime.runtime_version,
+        &binding.runtime.runtime_digest,
+        snapshot,
+        VerificationRecordContext {
+            current_runtime: Some(&binding.runtime),
+            observed_paths: Some(&final_paths),
+            observed_failure: Some(&binding.previous_failure),
+            prepared: Some(prepared),
+            historical: None,
+        },
+    )
+}
+
 pub fn record_verification_with_snapshot(
     root: &Path,
     work_item_id: &str,
@@ -8712,14 +9304,26 @@ pub fn record_verification_with_snapshot(
     runtime_digest: &Digest,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    lock.require_subject(&root, work_item_id)?;
     record_verification_internal(
-        root,
+        &root,
         work_item_id,
         receipt,
         runtime_version,
         runtime_digest,
         snapshot,
-        None,
+        VerificationRecordContext {
+            current_runtime: None,
+            observed_paths: None,
+            observed_failure: None,
+            prepared: None,
+            historical: None,
+        },
     )
 }
 
@@ -8735,14 +9339,26 @@ pub fn record_verification_with_runtime(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    lock.require_subject(&root, work_item_id)?;
     record_verification_internal(
-        root,
+        &root,
         work_item_id,
         receipt,
         &runtime.runtime_version,
         &runtime.runtime_digest,
         snapshot,
-        Some(runtime),
+        VerificationRecordContext {
+            current_runtime: Some(runtime),
+            observed_paths: None,
+            observed_failure: None,
+            prepared: None,
+            historical: None,
+        },
     )
 }
 
@@ -8848,6 +9464,73 @@ impl Drop for VerificationRecordTransaction {
     }
 }
 
+struct VerificationRecordContext<'a> {
+    current_runtime: Option<&'a RuntimeContext>,
+    observed_paths: Option<&'a [String]>,
+    observed_failure: Option<&'a Option<serde_json::Value>>,
+    prepared: Option<&'a PreparedWorkItemVerification>,
+    historical: Option<&'a super::resource_lifecycle::CapturedHistoricalVerificationProjection<'a>>,
+}
+
+/// Reconstruct expected artifacts only inside the privately materialized Git
+/// checkout carried by the proof. This neither executes nor admits a check.
+pub(super) fn project_captured_historical_verification(
+    captured: &super::resource_lifecycle::CapturedHistoricalVerificationProjection<'_>,
+) -> Result<serde_json::Value, ObserverError> {
+    captured.validate()?;
+    let root = captured.root();
+    let id = captured.id();
+    let runtime = captured.runtime();
+    let lock = acquire_lifecycle_lock(root, id)?;
+    lock.require_subject(root, id)?;
+    captured.validate()?;
+    let summary = read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json")))?;
+    let paths = if summary["sourceChangeObservation"].is_null() {
+        None
+    } else {
+        Some(verification_source_facts(root, id)?.1)
+    };
+    // Git cannot retain an empty evidence directory in a pre-verification
+    // parent. This root is the proof-owned historical clone, not its source.
+    let evidence_directory = root.join(".ai/evidence");
+    match fs::symlink_metadata(&evidence_directory) {
+        Ok(metadata) if metadata.is_dir() && !metadata.file_type().is_symlink() => {}
+        Ok(_) => {
+            return Err(source_observation_error(
+                root,
+                "historical evidence directory is not regular",
+            ));
+        }
+        Err(cause) if cause.kind() == std::io::ErrorKind::NotFound => {
+            fs::create_dir(&evidence_directory).map_err(|source| ObserverError::Read {
+                path: evidence_directory.clone(),
+                source,
+            })?;
+        }
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: evidence_directory,
+                source,
+            });
+        }
+    }
+    record_verification_internal(
+        root,
+        id,
+        captured.receipt(),
+        &runtime.runtime_version,
+        &runtime.runtime_digest,
+        captured.snapshot(),
+        VerificationRecordContext {
+            current_runtime: Some(runtime),
+            observed_paths: paths.as_deref(),
+            observed_failure: None,
+            prepared: None,
+            historical: Some(captured),
+        },
+    )
+}
+
 fn record_verification_internal(
     root: &Path,
     work_item_id: &str,
@@ -8855,8 +9538,15 @@ fn record_verification_internal(
     runtime_version: &str,
     runtime_digest: &Digest,
     snapshot: &RepositorySnapshot,
-    current_runtime: Option<&RuntimeContext>,
+    context: VerificationRecordContext<'_>,
 ) -> Result<serde_json::Value, ObserverError> {
+    let VerificationRecordContext {
+        current_runtime,
+        observed_paths,
+        observed_failure,
+        prepared,
+        historical,
+    } = context;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -8878,9 +9568,25 @@ fn record_verification_internal(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
+    if observed_paths.is_none()
+        && historical.is_none()
+        && !summary["sourceChangeObservation"].is_null()
+    {
+        return Err(source_observation_error(
+            &root,
+            "a prepared binding is required; legacy recording cannot replace native observation",
+        ));
+    }
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
+    let failure_before_record = super::lifecycle_failure_binding(&root, work_item_id)?;
+    if observed_failure.is_some_and(|observed| observed != &failure_before_record) {
+        return Err(source_observation_error(
+            &root,
+            "latest lifecycle failure changed during execution",
+        ));
+    }
     let prior_evidence_present = fs::symlink_metadata(&evidence_path).is_ok();
     if !matches!(
         summary["state"].as_str(),
@@ -8896,7 +9602,9 @@ fn record_verification_internal(
     let contract_amendment_pending = summary
         .get("verificationInvalidatedByContractAmendment")
         .is_some();
-    require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
+    if prepared.is_none() && historical.is_none() {
+        require_current_retry_recovery_binding(&root, work_item_id, &summary, current_runtime)?;
+    }
     if !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
         && !recovery_retry_pending
         && !contract_amendment_pending
@@ -8945,6 +9653,82 @@ fn record_verification_internal(
             path: root.join(".ai/evidence"),
             message: "current Runtime requires a strict typed verification receipt".into(),
         });
+    }
+    if let Some(prepared) = prepared {
+        let typed: cockpit_verification::VerificationReceipt =
+            serde_json::from_value(typed_receipt.clone().ok_or_else(|| {
+                source_observation_error(&root, "completion execution facts missing")
+            })?)
+            .map_err(|_| source_observation_error(&root, "completion execution facts invalid"))?;
+        if typed.nodes_reused > 0
+            && snapshot_digest(snapshot)? != *prepared.binding.observation.snapshot_digest()
+        {
+            return Err(source_observation_error(
+                &root,
+                "completion execution facts reuse is bound to R0, not final R1",
+            ));
+        }
+        let results = typed
+            .results
+            .iter()
+            .map(|r| (r.node_id.as_str(), r))
+            .collect::<BTreeMap<_, _>>();
+        let records = typed
+            .execution_records
+            .iter()
+            .map(|r| (r.node_id.as_str(), r))
+            .collect::<BTreeMap<_, _>>();
+        let executed = typed.results.iter().filter(|r| !r.reused).count();
+        if results.len() != typed.results.len()
+            || results.len() != prepared.planned_commands.len()
+            || typed.nodes_planned != results.len()
+            || typed.nodes_executed != executed
+            || typed.nodes_reused != results.len() - executed
+            || typed.processes_spawned != executed
+            || records.len() != typed.execution_records.len()
+            || records.len() != executed
+            || !super::validate_execution_boundary_receipt(&typed)
+            || prepared.planned_commands.iter().any(|(id, planned)| {
+                results.get(id.as_str()).is_none_or(|result| {
+                    !result.passed
+                        || result.timed_out
+                        || if result.reused {
+                            planned.allowed_reuse_receipt.is_none()
+                                || result.receipt_id != planned.allowed_reuse_receipt
+                                || result.action != cockpit_verification::PlannedAction::Reuse
+                                || result.protected
+                        } else {
+                            records.get(id.as_str()).is_none_or(|record| {
+                                record.command_digest != planned.command_digest
+                                    || result.action != cockpit_verification::PlannedAction::Execute
+                                    || !record.spawned
+                                    || !record.passed
+                                    || record.timed_out
+                                    || record.exit_code != Some(0)
+                                    || record.termination_signal.is_some()
+                            })
+                        }
+                })
+            })
+        {
+            return Err(source_observation_error(
+                &root,
+                "completion execution facts do not cover the prepared commands",
+            ));
+        }
+    }
+    if prepared.is_some()
+        && let Some(declared) = typed_receipt
+            .as_ref()
+            .and_then(|r| r.get("planReceipt"))
+            .and_then(|p| p.get("repositorySnapshotDigest"))
+            .and_then(serde_json::Value::as_str)
+        && declared != snapshot_digest(snapshot)?.to_string()
+    {
+        return Err(source_observation_error(
+            &root,
+            "receipt final snapshot does not match R1",
+        ));
     }
     let current_contract_digest = contract_digest(&active_contract)?;
     let retention_policy = read_evidence_retention_policy(&root, work_item_id)?;
@@ -9010,6 +9794,85 @@ fn record_verification_internal(
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     let report_path = active.join(format!("{work_item_id}.task-report.json"));
     let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    // Completion may discharge evidence without changing the approved inputs.
+    // Keep that exact P only when CURRENT is independently active (or an owned
+    // historical proof confirms the original decision before actual completion)
+    // and a fresh, pre-write evaluation still reproduces it. Equal C/R alone cannot
+    // preserve a changed material/configuration basis, a stale approval, or R0
+    // as authority for a different R1. This records facts; it issues no grant.
+    let preserve_approved_preflight = if !recovery_retry_pending
+        && !contract_amendment_pending
+        && summary["preflightContractDigest"] == current_contract_digest.to_string()
+        && summary["preflightRepositorySnapshotDigest"] == snapshot_digest(snapshot)?.to_string()
+        && match historical {
+            Some(captured) => super::review_authority::captured_preflight_review(
+                &root,
+                &read_contract(&active_contract)?,
+                captured.facts(),
+                captured.completed_at(),
+            )?
+            .is_some(),
+            None => super::review_authority::current_preflight_review(&root, work_item_id).is_ok(),
+        } {
+        let contract = read_contract(&active_contract)?;
+        let mut starting_decision =
+            super::governance_decision_for_pre_execution_boundary_with_facts(
+                &root,
+                &contract,
+                snapshot,
+                current_runtime,
+                None,
+                historical.map(|captured| captured.facts()),
+            )?;
+        if historical.is_some() {
+            // Reproduce only the approved START basis, which may still have
+            // missing completion evidence. The frozen recipe establishes
+            // provenance; this comparison grants no current execution.
+            let projection = match super::material_review::historical_material_review_v1_projection(
+                &root,
+                &contract,
+                &summary_path,
+            )? {
+                Some(projection) => projection,
+                None => super::material_review::material_review_gate_projection(
+                    &root,
+                    &contract,
+                    &summary_path,
+                )?,
+            };
+            super::material_review::apply_material_review_projection_to_decision(
+                projection,
+                &mut starting_decision,
+            );
+        } else {
+            super::material_review::apply_material_review_gate_to_decision(
+                &root,
+                &contract,
+                &summary_path,
+                &mut starting_decision,
+            );
+        }
+        let mut starting_value =
+            serde_json::to_value(&starting_decision).map_err(|error| ObserverError::State {
+                path: active_contract.clone(),
+                message: error.to_string(),
+            })?;
+        if let Some(request_digest) = summary["activationRecovery"]["requestDigest"].as_str() {
+            starting_value = serde_json::json!({
+                "governanceDecision":starting_value,
+                "activationRecoveryRequestDigest":request_digest,
+            });
+        }
+        summary["preflightDecisionDigest"]
+            == cockpit_protocol::digest_json(&starting_value)
+                .map_err(|error| ObserverError::State {
+                    path: active_contract.clone(),
+                    message: error.to_string(),
+                })?
+                .to_string()
+    } else {
+        false
+    };
     let mut transaction = VerificationRecordTransaction::capture(&[
         evidence_path.clone(),
         summary_path.clone(),
@@ -9038,18 +9901,57 @@ fn record_verification_internal(
             path: root.clone(),
             message: error.to_string(),
         })?;
-        let raw_decision = governance_decision_for_pre_execution_boundary(
+        if let Some(prepared) = prepared {
+            prepared.binding.completion_paths(snapshot)?;
+            if snapshot_digest(&refreshed_snapshot)? != snapshot_digest(snapshot)?
+                || refreshed_snapshot.head != snapshot.head
+            {
+                return Err(source_observation_error(
+                    &root,
+                    "completion projection drifted from R1",
+                ));
+            }
+        }
+        let mut raw_decision = super::governance_decision_for_pre_execution_boundary_with_facts(
             &root,
             &contract,
             &refreshed_snapshot,
             current_runtime,
             None,
+            historical.map(|captured| captured.facts()),
         )?;
+        if historical.is_none() {
+            // P covers the same canonical material projection as preflight.
+            // Replacing it with a core-only object invents a different P even
+            // when the approved C/R/material inputs have not changed.
+            super::material_review::apply_material_review_gate_to_decision(
+                &root,
+                &contract,
+                &summary_path,
+                &mut raw_decision,
+            );
+        }
         // This projection is also replayed while validating captured historical
         // finish artifacts. Live admission has already checked continuity;
         // recording software evidence does not admit additional work.
-        let decision =
-            apply_preflight_review_evidence(&root, &contract, raw_decision.clone(), false)?;
+        let decision = if let Some(captured) = historical {
+            super::apply_captured_preflight_review_evidence(
+                &root,
+                &contract,
+                raw_decision.clone(),
+                captured.facts(),
+                captured.completed_at(),
+            )?
+        } else {
+            // CURRENT reads the actual completion snapshot. An R1 change
+            // therefore cannot turn the prior R0 review into new authority.
+            super::apply_current_preflight_review_evidence(
+                &root,
+                &contract,
+                raw_decision.clone(),
+                false,
+            )?
+        };
         let reconcile_blocked_outcome = recovery_retry_pending
             || contract_amendment_pending
             || (!prior_evidence_present && decision.state != DecisionState::Red);
@@ -9066,7 +9968,8 @@ fn record_verification_internal(
         // delivery report.  Do not use `refreshed_snapshot` here: it includes the
         // evidence/projection writes made by this function rather than just the
         // verification input.
-        summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
+        summary["changedPaths"] =
+            serde_json::json!(observed_paths.unwrap_or(&snapshot.changed_paths));
         summary
             .as_object_mut()
             .expect("Work Item Summary is an object")
@@ -9103,13 +10006,22 @@ fn record_verification_internal(
             }
         }
         summary["preflightState"] = decision_state_name(decision.state.clone()).into();
-        summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
-            .map_err(|error| ObserverError::State {
-                path: contract_path.clone(),
-                message: error.to_string(),
-            })?
-            .to_string()
-            .into();
+        if !preserve_approved_preflight
+            || summary["preflightContractDigest"] != contract_digest(&contract_path)?.to_string()
+            || summary["preflightRepositorySnapshotDigest"]
+                != snapshot_digest(&refreshed_snapshot)?.to_string()
+        {
+            summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
+                .map_err(|error| ObserverError::State {
+                    path: contract_path.clone(),
+                    message: error.to_string(),
+                })?
+                .to_string()
+                .into();
+        }
+        // preflightAt below is the assessment refresh time. The protected
+        // receipt retains the original source decision time and exact P.
+
         summary["preflightRepositorySnapshotDigest"] =
             snapshot_digest(&refreshed_snapshot)?.to_string().into();
         summary["preflightContractDigest"] = contract_digest(&contract_path)?.to_string().into();
@@ -9173,6 +10085,19 @@ fn record_verification_internal(
                 })?
                 .to_string()
                 .into();
+            // The reconciliation marker also supports normal first verification.
+            // Causal recovery provenance requires an actual retained failure.
+            if let Some(failure) = failure_before_record {
+                summary["verificationRecoveryBasis"] = serde_json::json!({
+                    "schemaVersion":1,"verificationEvidenceDigest":summary["verificationRecoveryReconciled"],
+                    "failure":failure,
+                });
+            } else {
+                summary
+                    .as_object_mut()
+                    .unwrap()
+                    .remove("verificationRecoveryBasis");
+            }
         }
         summary["checkpointContractDigest"] = contract_digest(&contract_path)?.to_string().into();
         summary["checkpointRepositorySnapshotDigest"] =
@@ -9187,13 +10112,27 @@ fn record_verification_internal(
                 &snapshot_digest(&refreshed_snapshot)?,
             )?;
         } else if reconcile_blocked_outcome {
-            refresh_active_outcome_after_recovery_verification(
-                &root,
-                work_item_id,
-                current_runtime,
-                &refreshed_snapshot,
-                &snapshot_digest(&refreshed_snapshot)?,
-            )?;
+            if let Some(captured) = historical {
+                refresh_active_outcome_after_recovery_verification_with_facts(
+                    &root,
+                    work_item_id,
+                    current_runtime,
+                    &refreshed_snapshot,
+                    &snapshot_digest(&refreshed_snapshot)?,
+                    Some(captured.facts()),
+                )?;
+            } else {
+                refresh_active_outcome_after_recovery_verification(
+                    &root,
+                    work_item_id,
+                    current_runtime,
+                    &refreshed_snapshot,
+                    &snapshot_digest(&refreshed_snapshot)?,
+                )?;
+            }
+        }
+        if let Some(prepared) = prepared {
+            prepared.binding.completion_paths(snapshot)?;
         }
         transaction.commit();
         Ok(evidence)
@@ -9375,6 +10314,24 @@ fn refresh_active_outcome_after_recovery_verification(
     snapshot: &RepositorySnapshot,
     snapshot_digest: &Digest,
 ) -> Result<(), ObserverError> {
+    refresh_active_outcome_after_recovery_verification_with_facts(
+        root,
+        work_item_id,
+        current_runtime,
+        snapshot,
+        snapshot_digest,
+        None,
+    )
+}
+
+fn refresh_active_outcome_after_recovery_verification_with_facts(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+    snapshot: &RepositorySnapshot,
+    snapshot_digest: &Digest,
+    historical: Option<&super::resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<(), ObserverError> {
     let active = root.join(".ai/work-items/active");
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     if fs::symlink_metadata(&outcome_path).is_err() {
@@ -9390,12 +10347,22 @@ fn refresh_active_outcome_after_recovery_verification(
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
     let evidence = read_json(&evidence_path)?;
-    let outcome = outcome_v2_internal_with_snapshot(
-        root,
-        work_item_id,
-        current_runtime,
-        Some((snapshot, snapshot_digest)),
-    )?;
+    let outcome = if let Some(facts) = historical {
+        super::outcome_v2_internal_with_snapshot_and_facts(
+            root,
+            work_item_id,
+            current_runtime,
+            Some((snapshot, snapshot_digest)),
+            Some(facts),
+        )?
+    } else {
+        outcome_v2_internal_with_snapshot(
+            root,
+            work_item_id,
+            current_runtime,
+            Some((snapshot, snapshot_digest)),
+        )?
+    };
     if let Some(error) =
         recovery_projection_rejection(evidence_path.clone(), &outcome, &evidence, snapshot_digest)
     {
@@ -9689,6 +10656,83 @@ mod recovery_retry_consumption_tests {
     }
 
     #[test]
+    fn verification_recovery_basis_is_absent_without_failure() {
+        let directory = repository();
+        let root = directory.path();
+        let id = "WI-NORMAL-VERIFICATION-BASIS";
+        let runtime = RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"normal-verification-runtime"),
+        };
+        start_work_item_with_options(
+            root,
+            id,
+            "normal verification has no recovery basis",
+            "only a real failure can produce causal recovery provenance",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["normal verification carries no recovery basis".into()],
+                required_evidence_classes: vec!["verification".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .unwrap();
+        preflight_work_item_with_runtime(
+            root,
+            &root.join(format!(".ai/work-items/active/{id}.contract.json")),
+            &runtime,
+        )
+        .unwrap();
+        checkpoint_work_item(root, id).unwrap();
+        assert!(
+            super::super::lifecycle_failure_binding(root, id)
+                .unwrap()
+                .is_none()
+        );
+        #[cfg(windows)]
+        let (program, args) = ("cmd", vec!["/C".into(), "exit 0".into()]);
+        #[cfg(not(windows))]
+        let (program, args) = ("sh", vec!["-c".into(), "exit 0".into()]);
+        let run = run_repository_verification(
+            root,
+            &RepositoryVerificationRequest {
+                node_id: "normal-first-verification".into(),
+                program: program.into(),
+                args,
+                scope: vec!["src/**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime.runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: Some(id.into()),
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .unwrap();
+        let mut receipt = serde_json::to_value(&run.receipt).unwrap();
+        receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+        receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+        record_verification_with_runtime(root, id, &receipt, &runtime, &run.final_snapshot)
+            .unwrap();
+        let summary =
+            read_json(&root.join(format!(".ai/work-items/active/{id}.summary.json"))).unwrap();
+        assert!(
+            summary.get("verificationRecoveryBasis").is_none(),
+            "no failure:null recovery provenance: {summary}"
+        );
+        assert_eq!(
+            outcome_v2_with_runtime(root, id, &runtime)
+                .unwrap()
+                .decision_state,
+            Some(DecisionState::Green)
+        );
+    }
+
+    #[test]
     fn consumed_retry_receipt_remains_valid_after_verification() {
         let directory = repository();
         let root = directory.path();
@@ -9771,6 +10815,13 @@ mod recovery_retry_consumption_tests {
                 Digest::sha256_bytes(&fs::read(&events_path).expect("Events bytes")).to_string()
             );
         }
+        let authority = crate::review_authority::pipeline_tests::TestAuthority::install();
+        authority.approve(
+            root,
+            work_item_id,
+            cockpit_protocol::review_authority::HumanReviewOperation::Recovery,
+            &serde_json::json!({"receipt":retry,"runtime":prior_runtime}),
+        );
         record_recovery_decision(root, work_item_id, &retry, &prior_runtime)
             .expect("record the exact one-time retry");
         amend_work_item_contract(
@@ -10019,6 +11070,7 @@ mod recovery_retry_consumption_tests {
 #[cfg(test)]
 mod cross_checkout_closeout_tests {
     use super::*;
+    use crate::review_authority::pipeline_tests::TestAuthority;
     use crate::{
         RepositoryVerificationPolicy, RepositoryVerificationRequest,
         archive_work_item_with_runtime, checkpoint_work_item,
@@ -10038,6 +11090,7 @@ mod cross_checkout_closeout_tests {
         source: TempDir,
         destination: TempDir,
         runtime: RuntimeContext,
+        _authority: TestAuthority,
     }
 
     fn runtime() -> RuntimeContext {
@@ -10067,6 +11120,7 @@ mod cross_checkout_closeout_tests {
 
     fn fixture() -> Fixture {
         let source = tempfile::tempdir().expect("source repository");
+        let authority = TestAuthority::install();
         git(source.path(), &["init", "--quiet"]);
         attach(source.path()).expect("attach fixture repository");
         git(
@@ -10157,28 +11211,49 @@ mod cross_checkout_closeout_tests {
                 destination_path.to_str().expect("destination path"),
             ],
         );
+        let decision = HumanDecision {
+            decision: "approved".into(),
+            actor: "test-human".into(),
+            authority_source: "closeout recovery transaction test".into(),
+            reason: "source closeout is verified".into(),
+            evidence_refs: vec![format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")],
+            policy_refs: Vec::new(),
+            decided_at: "2026-10-02T00:00:00Z".into(),
+            resume_condition: None,
+        };
+        authority.approve(
+            source.path(),
+            WORK_ITEM_ID,
+            cockpit_protocol::review_authority::HumanReviewOperation::Close,
+            &serde_json::json!({"decision":decision,"runtime":Some(&runtime)}),
+        );
         close_work_item_with_structured_decision_and_runtime(
             source.path(),
             WORK_ITEM_ID,
-            &HumanDecision {
-                decision: "approved".into(),
-                actor: "test-human".into(),
-                authority_source: "closeout recovery transaction test".into(),
-                reason: "source closeout is verified".into(),
-                evidence_refs: vec![format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")],
-                policy_refs: Vec::new(),
-                decided_at: "2026-10-02T00:00:00Z".into(),
-                resume_condition: None,
-            },
+            &decision,
             &runtime,
         )
-        .expect("close source Work Item");
+        .expect("close source Work Item through the explicit private port");
 
         Fixture {
             source,
             destination,
             runtime,
+            _authority: authority,
         }
+    }
+
+    // This module verifies the native import transaction and its recoverable
+    // publication cuts. Both first attempt and retry use the same primitive.
+    // Protected public execution/replay is covered independently by the port
+    // lifecycle tests; this helper is unavailable in production.
+    fn recover_cross_checkout_closeout(
+        destination: &Path,
+        source: &Path,
+        id: &str,
+        runtime: &RuntimeContext,
+    ) -> Result<serde_json::Value, ObserverError> {
+        recover_cross_checkout_closeout_with_hook(destination, source, id, runtime, |_, _| Ok(()))
     }
 
     fn destination(fixture: &Fixture) -> PathBuf {

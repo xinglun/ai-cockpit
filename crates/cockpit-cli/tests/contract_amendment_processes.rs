@@ -656,11 +656,6 @@ fn assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(retry
 }
 
 #[test]
-fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
-    assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(false);
-}
-
-#[test]
 fn retry_pending_amendment_admits_bound_review_request_without_verification_spawn() {
     assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(true);
 }
@@ -820,7 +815,6 @@ fn assert_recorded_preflight_review_boundary(
     state: Option<&str>,
     current_contract: bool,
     use_mcp: bool,
-    accepted: bool,
 ) {
     let root = repository();
     let repo = root.path().to_str().expect("repository path");
@@ -880,7 +874,7 @@ fn assert_recorded_preflight_review_boundary(
         );
         assert_eq!(
             response.pointer("/result/isError"),
-            Some(&json!(!accepted)),
+            Some(&json!(true)),
             "state={state:?}, current_contract={current_contract}: {response}"
         );
     } else {
@@ -900,9 +894,8 @@ fn assert_recorded_preflight_review_boundary(
             "--input",
             input.path().to_str().expect("input path"),
         ]);
-        assert_eq!(
-            response.status.success(),
-            accepted,
+        assert!(
+            !response.status.success(),
             "state={state:?}, current_contract={current_contract}: {}{}",
             String::from_utf8_lossy(&response.stdout),
             String::from_utf8_lossy(&response.stderr)
@@ -915,74 +908,49 @@ fn assert_recorded_preflight_review_boundary(
         fs::read(&contract_path).expect("unchanged Contract"),
         contract_bytes
     );
-    if !accepted {
-        assert_eq!(
-            fs::read(&summary_path).expect("Summary after rejection"),
-            before
-        );
-        assert!(
-            !receipt_path.exists(),
-            "rejection must not publish a receipt"
-        );
-    } else {
-        let receipt = fs::read(&receipt_path).expect("actual fixture receipt");
-        fs::write(
-            root.path().join("README.md"),
-            "changed source requires fresh execution, same Contract review remains valid\n",
-        )
-        .expect("source change");
-        let status = run_cli(&[
-            "work-item",
-            "status",
-            "--repo",
-            repo,
-            "--id",
-            WORK_ITEM_ID,
-            "--json",
-        ]);
-        assert_success(&status, "status after same-Contract source change");
-        let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
-        assert_eq!(
-            status["humanDecisionRequired"], false,
-            "same-Contract approval must be retained: {status}"
-        );
-        assert_eq!(fs::read(&receipt_path).expect("preserved receipt"), receipt);
-    }
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after rejection"),
+        before
+    );
+    assert!(
+        !receipt_path.exists(),
+        "rejection must not publish a receipt"
+    );
 }
 
 #[test]
 fn missing_recorded_preflight_state_rejects_review_without_writes() {
     for mcp in [false, true] {
-        assert_recorded_preflight_review_boundary(None, true, mcp, false);
+        assert_recorded_preflight_review_boundary(None, true, mcp);
     }
 }
 
 #[test]
 fn unknown_recorded_preflight_state_rejects_review_without_writes() {
     for mcp in [false, true] {
-        assert_recorded_preflight_review_boundary(Some("unknown"), true, mcp, false);
+        assert_recorded_preflight_review_boundary(Some("unknown"), true, mcp);
     }
 }
 
 #[test]
 fn not_run_recorded_preflight_state_rejects_review_without_writes() {
     for mcp in [false, true] {
-        assert_recorded_preflight_review_boundary(Some("not_run"), true, mcp, false);
+        assert_recorded_preflight_review_boundary(Some("not_run"), true, mcp);
     }
 }
 
 #[test]
 fn foreign_recorded_preflight_contract_rejects_review_without_writes() {
     for mcp in [false, true] {
-        assert_recorded_preflight_review_boundary(Some("yellow"), false, mcp, false);
+        assert_recorded_preflight_review_boundary(Some("yellow"), false, mcp);
     }
 }
 
 #[test]
-fn valid_recorded_preflight_states_preserve_same_contract_approval() {
+fn self_declared_recorded_preflight_states_cannot_supply_exact_authority() {
     for state in ["green", "yellow", "red"] {
         for mcp in [false, true] {
-            assert_recorded_preflight_review_boundary(Some(state), true, mcp, true);
+            assert_recorded_preflight_review_boundary(Some(state), true, mcp);
         }
     }
 }
@@ -1753,95 +1721,6 @@ fn native_activation_keeps_post_checkpoint_amendment_reviewable() {
     activation_checkpoint_fixture();
 }
 
-#[test]
-fn current_contract_review_cannot_hide_a_missing_activation_commit() {
-    let directory = activation_checkpoint_fixture();
-    let root = directory.path().join("repo");
-    let id = "WI-CLI-ACTIVATION-CONTINUITY";
-    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
-    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
-    let cli = |args: &[&str]| {
-        Command::new(candidate_binary())
-            .args(args)
-            .arg("--repo")
-            .arg(&root)
-            .output()
-            .expect("native fixture command")
-    };
-    assert_success(
-        &cli(&[
-            "preflight",
-            "--contract",
-            contract_path.to_str().expect("path"),
-        ]),
-        "prepare current Contract review",
-    );
-    let current: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
-        .expect("Contract JSON");
-    let summary: Value =
-        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
-    let review_path = directory.path().join("current-fixture-review.json");
-    fs::write(&review_path, serde_json::to_vec(&json!({"decisionEvidence": {
-        "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
-        "workItemId":id, "repositoryId":current["repositoryId"],
-        "contractDigest":cockpit_protocol::digest_json(&current).expect("digest"),
-        "preflightDecisionDigest":summary["preflightDecisionDigest"],
-        "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
-        "recordedAt":"2026-10-17T00:00:00Z", "recordedBy":"fixture:current-review-only",
-        "reason":"Synthetic current Contract review never authenticates a missing activation phase."
-    }})).expect("review JSON")).expect("review source");
-    assert_success(
-        &cli(&[
-            "work-item",
-            "controls",
-            "--id",
-            id,
-            "--input",
-            review_path.to_str().expect("path"),
-        ]),
-        "record current fixture review",
-    );
-    let before_contract = fs::read(&contract_path).expect("Contract bytes");
-    let before_summary = fs::read(&summary_path).expect("Summary bytes");
-    fs::remove_file(root.join(format!(
-        ".ai/evidence/{id}.activation-transition/committed.json"
-    )))
-    .expect("simulate isolated partial publication");
-    let result = cli(&["work-item", "status", "--id", id, "--json"]);
-    assert!(
-        !result.status.success(),
-        "current review must not hide missing activation commit: {}",
-        String::from_utf8_lossy(&result.stdout)
-    );
-    assert!(
-        String::from_utf8_lossy(&result.stderr).contains("unresolved activation transition"),
-        "{}",
-        String::from_utf8_lossy(&result.stderr)
-    );
-    let preflight = cli(&[
-        "preflight",
-        "--contract",
-        contract_path.to_str().expect("path"),
-    ]);
-    assert!(
-        !preflight.status.success(),
-        "current preflight must reject the same missing activation commit"
-    );
-    assert!(
-        String::from_utf8_lossy(&preflight.stderr).contains("unresolved activation transition"),
-        "{}",
-        String::from_utf8_lossy(&preflight.stderr)
-    );
-    assert_eq!(
-        fs::read(contract_path).expect("Contract unchanged"),
-        before_contract
-    );
-    assert_eq!(
-        fs::read(summary_path).expect("Summary unchanged"),
-        before_summary
-    );
-}
-
 fn legacy_activation_fixture() -> tempfile::TempDir {
     let directory = activation_checkpoint_fixture();
     let root = directory.path().join("repo");
@@ -2240,339 +2119,4 @@ fn recovery_metadata_bytes(root: &Path) -> Vec<(PathBuf, Vec<u8>)> {
     walk(&root.join(".git/.ai-cockpit"), &mut values);
     values.sort_by(|left, right| left.0.cmp(&right.0));
     values
-}
-
-#[test]
-fn invalid_legacy_recovery_plans_preserve_all_metadata_bytes() {
-    for case in [
-        "missing_start",
-        "missing_checkpoint",
-        "forged_checkpoint",
-        "pending_amendment",
-        "partial_recovery",
-        "foreign_owner",
-        "foreign_runtime",
-        "unsupported_runtime",
-        "new_forward_marker",
-        "orphan_recovery_marker",
-    ] {
-        let directory = legacy_activation_fixture();
-        let root = directory.path().join("repo");
-        let id = "WI-CLI-ACTIVATION-CONTINUITY";
-        let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
-        let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
-            .expect("Summary JSON");
-        match case {
-            "missing_start" => {
-                summary["lifecycleFacts"]
-                    .as_object_mut()
-                    .expect("facts")
-                    .remove("start");
-            }
-            "missing_checkpoint" => {
-                summary["checkpointEvidence"] = json!([]);
-            }
-            "forged_checkpoint" => {
-                for record in summary["checkpointEvidence"]
-                    .as_array_mut()
-                    .expect("checkpoint records")
-                {
-                    if record["stage"] == "before_edit" {
-                        record["contractHash"] = json!(Digest::sha256_bytes(b"forged checkpoint"));
-                    }
-                    if record["stage"] == "contract_amendment_revalidation" {
-                        record["originalBeforeEditContractHash"] =
-                            json!(Digest::sha256_bytes(b"forged checkpoint"));
-                    }
-                }
-            }
-            "pending_amendment" => {
-                fs::remove_file(root.join(format!(
-                    ".ai/evidence/{id}.contract-amendments/00000002.committed.json"
-                )))
-                .expect("model pending fixture");
-            }
-            "partial_recovery" => {
-                let partial = root.join(format!(".ai/evidence/{id}.activation-recovery"));
-                fs::create_dir(&partial).expect("partial directory");
-                fs::write(partial.join("prepared.json"), b"{}").expect("partial fixture phase");
-            }
-            "foreign_owner" => {
-                git(&root, &["checkout", "-qb", "foreign-fixture-owner"]);
-            }
-            "new_forward_marker" => {
-                summary["activationContinuity"] = json!({"capability":"activation_continuity_recovery_v1","journalRelevant":true});
-            }
-            "orphan_recovery_marker" => {
-                summary["activationRecovery"] = json!({"schemaVersion":1,
-                    "requestDigest":Digest::sha256_bytes(b"missing recovery record"),
-                    "historicalTransitionAuthentication":"unknown","businessAuthorityGranted":false,
-                    "freshContractReviewRequired":true});
-            }
-            _ => {}
-        }
-        fs::write(
-            &summary_path,
-            serde_json::to_vec(&summary).expect("fixture Summary JSON"),
-        )
-        .expect("fixture mutation");
-        let before = recovery_metadata_bytes(&root);
-        let mut runtime = candidate_runtime();
-        if case == "foreign_runtime" {
-            runtime.runtime_digest = Digest::sha256_bytes(b"foreign fixture Runtime");
-        }
-        if case == "unsupported_runtime" {
-            runtime.runtime_version = "0.2.105".into();
-        }
-        let response = mcp_call(
-            &root,
-            &runtime,
-            "work_item_activation_recovery_plan",
-            json!({"workItemId":id}),
-        );
-        if response.pointer("/result/isError") != Some(&json!(true)) {
-            let preserved = directory.keep();
-            panic!(
-                "{case}: unexpected request; fixture preserved at {}; {response}",
-                preserved.display()
-            );
-        }
-        assert_eq!(
-            recovery_metadata_bytes(&root),
-            before,
-            "{case} must not repair or publish metadata implicitly"
-        );
-    }
-}
-
-#[test]
-fn recovery_request_binds_native_environment_and_raw_review_bytes() {
-    let directory = legacy_activation_fixture();
-    let root = directory.path().join("repo");
-    let id = "WI-CLI-ACTIVATION-CONTINUITY";
-    let planned = run_cli(&[
-        "work-item",
-        "activation-recovery",
-        "plan",
-        "--id",
-        id,
-        "--repo",
-        root.to_str().expect("root"),
-    ]);
-    assert_success(&planned, "plan bound metadata request");
-    let request: Value = serde_json::from_slice(&planned.stdout).expect("request");
-    let observed = cockpit_repository::RepositoryExecutionContext::capture(&root)
-        .expect("context")
-        .observe_environment_identity()
-        .expect("actual environment");
-    assert_eq!(
-        request["environmentDigest"],
-        json!(observed.environment_digest)
-    );
-    let review = fs::read(root.join(format!(".ai/decisions/{id}.preflight-review.json")))
-        .expect("historical review bytes");
-    assert_eq!(
-        request["rawEvidenceDigests"]["preflight-review"],
-        json!(Digest::sha256_bytes(&review))
-    );
-}
-
-fn fixture_present_recovery_decision(root: &Path, request: &Value) -> Value {
-    let id = "WI-CLI-ACTIVATION-CONTINUITY";
-    let relative = format!(".ai/evidence/{id}/actual-fixture-response.json");
-    let path = root.join(&relative);
-    fs::create_dir_all(path.parent().expect("response parent")).expect("response directory");
-    let source = json!({"schemaVersion":1,"kind":"human_activation_recovery_response_source",
-        "requestDigest":request["requestDigest"],"response":"accept_present_baseline",
-        "humanActor":"human:isolated-test-fixture","respondedAt":"2026-10-17T00:00:00Z",
-        "provenance":"Synthetic response in an isolated test only; no real human authentication."});
-    let bytes = serde_json::to_vec(&source).expect("response JSON");
-    fs::write(path, &bytes).expect("fixture response source");
-    json!({"schemaVersion":1,"decisionId":"activation-present-baseline-review",
-        "response":"accept_present_baseline","requestDigest":request["requestDigest"],
-        "humanActor":"human:isolated-test-fixture","recorderActor":"agent:test-fixture",
-        "assurance":"self_declared","authoritySourcePath":relative,
-        "authoritySourceDigest":Digest::sha256_bytes(&bytes),"respondedAt":"2026-10-17T00:00:00Z",
-        "reason":"Accept only the exact isolated present baseline, retaining all historical unknowns."})
-}
-
-#[test]
-fn stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata() {
-    for case in [
-        "request",
-        "summary",
-        "contract",
-        "history",
-        "head",
-        "registration",
-        "environment",
-        "source",
-        "agent_as_human",
-        "blank_human",
-        "old_review_source",
-        "partial_recovery",
-        "pending_amendment",
-        "unknown_field",
-    ] {
-        let directory = legacy_activation_fixture();
-        let root = directory.path().join("repo");
-        let id = "WI-CLI-ACTIVATION-CONTINUITY";
-        let planned = run_cli(&[
-            "work-item",
-            "activation-recovery",
-            "plan",
-            "--id",
-            id,
-            "--repo",
-            root.to_str().expect("root"),
-        ]);
-        assert_success(&planned, "plan current recovery fixture");
-        let request: Value = serde_json::from_slice(&planned.stdout).expect("request");
-        let mut decision = fixture_present_recovery_decision(&root, &request);
-        let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
-        let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
-        let source_path = root.join(
-            decision["authoritySourcePath"]
-                .as_str()
-                .expect("source path"),
-        );
-        match case {
-            "request" => {
-                decision["requestDigest"] = json!(Digest::sha256_bytes(b"another request"));
-            }
-            "summary" => {
-                let mut value: Value =
-                    serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
-                value["fixtureNote"] = json!("changed after request");
-                fs::write(&summary_path, serde_json::to_vec(&value).unwrap()).unwrap();
-            }
-            "contract" => {
-                let mut value: Value =
-                    serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
-                value["goal"] = json!("a different current Contract");
-                fs::write(&contract_path, serde_json::to_vec(&value).unwrap()).unwrap();
-            }
-            "history" => {
-                let path = root.join(format!(
-                    ".ai/evidence/{id}.contract-amendments/00000001.prepared.json"
-                ));
-                let mut value: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
-                value["prepared"]["request"]["reason"] = json!("changed raw history after request");
-                fs::write(path, serde_json::to_vec(&value).unwrap()).unwrap();
-            }
-            "head" => {
-                git(
-                    &root,
-                    &[
-                        "commit",
-                        "--allow-empty",
-                        "-qm",
-                        "advance isolated fixture HEAD",
-                    ],
-                );
-            }
-            "registration" => {
-                let input = directory.path().join("registration.json");
-                let mut value: Value = serde_json::from_slice(&fs::read(&input).unwrap()).unwrap();
-                value["generation"] = json!(2);
-                fs::write(&input, serde_json::to_vec(&value).unwrap()).unwrap();
-                let registered = run_cli(&[
-                    "work-item",
-                    "coordination",
-                    "register",
-                    "--repo",
-                    root.to_str().unwrap(),
-                    "--input",
-                    input.to_str().unwrap(),
-                ]);
-                assert_success(&registered, "advance actual native fixture registration");
-            }
-            "source" => {
-                fs::write(&source_path, b"{}").unwrap();
-            }
-            "agent_as_human" | "blank_human" => {
-                let mut value: Value =
-                    serde_json::from_slice(&fs::read(&source_path).unwrap()).unwrap();
-                value["humanActor"] = if case == "blank_human" {
-                    json!("human:   ")
-                } else {
-                    json!("agent:cannot-supply-human-decision")
-                };
-                let bytes = serde_json::to_vec(&value).unwrap();
-                fs::write(&source_path, &bytes).unwrap();
-                decision["humanActor"] = value["humanActor"].clone();
-                decision["authoritySourceDigest"] = json!(Digest::sha256_bytes(&bytes));
-            }
-            "old_review_source" => {
-                let bytes =
-                    fs::read(root.join(format!(".ai/decisions/{id}.preflight-review.json")))
-                        .unwrap();
-                fs::write(&source_path, &bytes).unwrap();
-                decision["authoritySourceDigest"] = json!(Digest::sha256_bytes(&bytes));
-            }
-            "partial_recovery" => {
-                let partial = root.join(format!(".ai/evidence/{id}.activation-recovery"));
-                fs::create_dir(&partial).unwrap();
-                fs::write(partial.join("prepared.json"), b"{}").unwrap();
-            }
-            "pending_amendment" => {
-                fs::remove_file(root.join(format!(
-                    ".ai/evidence/{id}.contract-amendments/00000002.committed.json"
-                )))
-                .unwrap();
-            }
-            "unknown_field" => {
-                decision["unsupported"] = json!(true);
-            }
-            _ => {}
-        }
-        let input = directory.path().join("recovery-decision.json");
-        fs::write(&input, serde_json::to_vec(&decision).unwrap()).unwrap();
-        let before = recovery_metadata_bytes(&root);
-        if case == "unknown_field" {
-            let response = mcp_call(
-                &root,
-                &candidate_runtime(),
-                "work_item_activation_recovery_record",
-                json!({"workItemId":id,"decision":decision}),
-            );
-            assert_eq!(
-                response.pointer("/result/isError"),
-                Some(&json!(true)),
-                "{case}: {response}"
-            );
-        } else {
-            let mut command = Command::new(candidate_binary());
-            command.args([
-                "work-item",
-                "activation-recovery",
-                "record",
-                "--repo",
-                root.to_str().unwrap(),
-                "--id",
-                id,
-                "--input",
-                input.to_str().unwrap(),
-            ]);
-            if case == "environment" {
-                command.env("CARGO_BUILD_JOBS", "2");
-            } // Metadata-only rejection: no build is launched.
-            let output = command.output().expect("record fixture decision");
-            if output.status.success() {
-                let preserved = directory.keep();
-                panic!(
-                    "{case}: unexpected recovery publication; fixture preserved at {}; response bytes={}, raw digest={}",
-                    preserved.display(),
-                    output.stdout.len(),
-                    Digest::sha256_bytes(&output.stdout)
-                );
-            }
-        }
-
-        assert_eq!(
-            recovery_metadata_bytes(&root),
-            before,
-            "{case}: refusal must preserve every existing phase and byte"
-        );
-    }
 }

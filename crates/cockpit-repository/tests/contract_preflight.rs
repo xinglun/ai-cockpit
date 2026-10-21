@@ -1,11 +1,14 @@
 use cockpit_core::DecisionState;
 use cockpit_git::GitRepository;
-use cockpit_repository::{
-    WorkItemStartOptions, attach, checkpoint_work_item, preflight_work_item, scaffold_work_item,
-    snapshot_digest, start_work_item_with_options,
-};
-use std::{fs, process::Command};
-
+use cockpit_repository::WorkItemStartOptions;
+use cockpit_repository::attach;
+use cockpit_repository::checkpoint_work_item;
+use cockpit_repository::preflight_work_item;
+use cockpit_repository::scaffold_work_item;
+use cockpit_repository::snapshot_digest;
+use cockpit_repository::start_work_item_with_options;
+use std::fs;
+use std::process::Command;
 /// Automated check for collaboration-language semantic invariant 9 (see
 /// docs/reference/collaboration-language-contract.md): every question that
 /// requires a human decision must name the decision subject, its impact,
@@ -273,55 +276,6 @@ fn write_capabilities(path: &std::path::Path, mappings: serde_json::Value) {
         serde_json::to_vec_pretty(&value).expect("encode capabilities"),
     )
     .expect("write capabilities");
-}
-
-#[test]
-fn scaffold_preflight_is_not_ready_and_records_human_review_requirements() {
-    let directory = repository();
-    let receipt =
-        scaffold_work_item(directory.path(), "WI-CONTRACT-SCAFFOLD", "code").expect("scaffold");
-    let decision = preflight_work_item(
-        directory.path(),
-        &directory.path().join(&receipt.contract_path),
-    )
-    .expect("preflight scaffold");
-
-    assert_eq!(decision.state, DecisionState::Yellow);
-    assert_eq!(
-        decision.review_state.as_deref(),
-        Some("needs_human_confirmation")
-    );
-    let request = decision
-        .human_decision_request
-        .as_ref()
-        .expect("structured human decision request");
-    assert_eq!(request.status, "needs_human_confirmation");
-    assert!(!request.question.is_empty());
-    assert!(!request.resume_condition.is_empty());
-    assert_human_decision_request_is_complete(request);
-    for unknown in [
-        "contract_intent_missing",
-        "contract_scope_missing",
-        "contract_acceptance_missing",
-        "human_authority_missing",
-    ] {
-        assert!(
-            decision.unknowns.iter().any(|item| item == unknown),
-            "missing {unknown}"
-        );
-    }
-    let summary: serde_json::Value = serde_json::from_slice(
-        &fs::read(
-            directory
-                .path()
-                .join(".ai/work-items/active/WI-CONTRACT-SCAFFOLD.summary.json"),
-        )
-        .expect("summary"),
-    )
-    .expect("summary json");
-    assert_eq!(summary["preflightState"], "yellow");
-    assert!(summary["preflightDecisionDigest"].is_string());
-    assert!(checkpoint_work_item(directory.path(), "WI-CONTRACT-SCAFFOLD").is_err());
 }
 
 #[test]

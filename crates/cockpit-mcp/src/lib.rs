@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 35] = [
+const TOOL_NAMES: [&str; 36] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -21,6 +21,7 @@ const TOOL_NAMES: [&str; 35] = [
     "capability_show",
     "preflight",
     "work_item_controls",
+    "work_item_review_authority",
     "work_item_usage_record",
     "work_item_material_review_plan",
     "work_item_material_review_record",
@@ -672,6 +673,19 @@ fn mcp_tool_schema(name: &str) -> Value {
             }),
             &["contract"],
         ),
+        "work_item_review_authority" => object_schema(
+            json!({
+                "workItemId":string_property("Exact Work Item ID."),
+                "action":{"type":"string","enum":["binding","status","request","submit","correct","revoke"]},
+                "request":{"type":"object","description":"Strict request for the selected action; never authenticated by its JSON fields."},
+                "proof":{"type":"object","description":"Opaque submission reference, not a caller-supplied identity."},
+                "operation":{"type":"object","additionalProperties":false,"required":["operation","payload"],"properties":{
+                    "operation":{"type":"string","enum":["preflight_review","close","recovery","restricted_write","retire","profile_confirmation","cross_checkout_recovery","activation_recovery","selected_lineage_recovery","archived_verification_recovery","legacy_source_registration","legacy_finalization","historical_finalization_recovery","material_review"]},
+                    "payload":{"description":"Exact native operation arguments and plan."}
+                }}
+            }),
+            &["workItemId", "action"],
+        ),
         "work_item_controls" => {
             let mut properties = id_properties;
             properties["controls"] = json!({
@@ -902,6 +916,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Record explicitly supplied Work Item governance controls only when a fresh Runtime status admits record_governance_controls.",
         ),
         (
+            "work_item_review_authority",
+            "Inspect review binding/status or append denial-only correction; authenticated approval/revocation remains unavailable until a protected host authority and gate are deployed.",
+        ),
+        (
             "work_item_usage_record",
             cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
         ),
@@ -1022,6 +1040,9 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
+        "work_item_review_authority" => {
+            Some(&["workItemId", "action", "request", "proof", "operation"][..])
+        }
         "work_item_usage_record" => Some(&["request"][..]),
         "work_item_material_review_plan" => Some(&["workItemId"][..]),
         "work_item_material_review_record" => Some(&["workItemId", "decision"][..]),
@@ -1235,6 +1256,29 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         }
         "delegated_evidence_list" => require_string(object, "workItemId", name)?,
         "preflight" => require_string(object, "contract", name)?,
+        "work_item_review_authority" => {
+            require_string(object, "workItemId", name)?;
+            require_string(object, "action", name)?;
+            let action = object["action"].as_str().unwrap_or("");
+            if let Some(selection) = object.get("operation") {
+                if action != "request" {
+                    return Err("operation only applies to request".into());
+                }
+                serde_json::from_value::<cockpit_protocol::review_authority::HumanOperationSelection>(selection.clone()).map_err(|e|e.to_string())?;
+            }
+            match action {
+                "request" if !object.contains_key("request") && !object.contains_key("proof") => {}
+                "binding" | "status"
+                    if !object.contains_key("request") && !object.contains_key("proof") => {}
+                "submit"
+                    if object.get("request").is_some_and(Value::is_object)
+                        && object.get("proof").is_some_and(Value::is_object) => {}
+                "correct" | "revoke"
+                    if object.get("request").is_some_and(Value::is_object)
+                        && !object.contains_key("proof") => {}
+                _ => return Err("invalid review action or fields".into()),
+            }
+        }
         "work_item_controls" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             require_exactly_one_object_alias(object, &["controls", "input"], name)?;
@@ -2105,6 +2149,41 @@ pub fn handle_request_for_repo(
             .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
         "work_item_controls" => require_compatible(repo, runtime)
             .and_then(|_| work_item_controls(repo, &arguments, runtime)),
+        "work_item_review_authority" => require_compatible(repo,runtime).and_then(|_| {
+            let id=arguments["workItemId"].as_str().ok_or("workItemId required")?;
+            validate_id(id)?;
+            let bytes=serde_json::to_vec(&arguments).map_err(|e|e.to_string())?;
+            cockpit_repository::validate_review_authority_wire(&bytes)?;
+            match arguments["action"].as_str().unwrap_or("") {
+                "binding" => cockpit_repository::human_review_binding(repo,id).map_err(|e|e.to_string()).and_then(|v|serde_json::to_value(v).map_err(|e|e.to_string())),
+                "request"=>{
+                    let selection=match arguments.get("operation") {
+                        Some(value)=>serde_json::from_value::<cockpit_protocol::review_authority::HumanOperationSelection>(value.clone()).map_err(|e|e.to_string())?,
+                        None=>cockpit_protocol::review_authority::HumanOperationSelection{operation:cockpit_protocol::review_authority::HumanReviewOperation::PreflightReview,payload:json!({"decision":"confirm_review"})},
+                    };
+                    cockpit_repository::issue_human_review_request(repo,id,selection.operation,&selection.payload).map_err(|e|e.to_string()).and_then(|v|serde_json::to_value(v).map_err(|e|e.to_string()))
+                },
+                "status" => {
+                    let state=cockpit_repository::current_review_authority_state(repo,id).map_err(|e|e.to_string())?;
+                    let corrections=cockpit_repository::review_correction_events(repo,id).map_err(|e|e.to_string())?;
+                    Ok(json!({"state":state,"humanAuthorityGranted":state==cockpit_protocol::review_authority::CurrentReviewAuthorityState::Active,"protectedGateDeployed":false,"corrections":corrections}))
+                },
+                "submit" => {
+                    let request=serde_json::from_value(arguments["request"].clone()).map_err(|e|e.to_string())?;
+                    let proof=serde_json::from_value(arguments["proof"].clone()).map_err(|e|e.to_string())?;
+                    cockpit_repository::submit_human_review(repo,id,&request,&proof).map_err(|e|e.to_string())
+                },
+                "correct" => {
+                    let request=serde_json::from_value(arguments["request"].clone()).map_err(|e|e.to_string())?;
+                    cockpit_repository::record_review_correction(repo,id,&request).map_err(|e|e.to_string())
+                },
+                "revoke" => {
+                    let request=serde_json::from_value(arguments["request"].clone()).map_err(|e|e.to_string())?;
+                    cockpit_repository::record_review_revocation(repo,id,&request).map_err(|e|e.to_string())
+                },
+                _=>Err("invalid review action".into()),
+            }
+        }),
         "work_item_usage_record" => require_compatible(repo, runtime).and_then(|_| {
             let request: cockpit_protocol::UsageRecordRequest =
                 serde_json::from_value(arguments["request"].clone())
@@ -2501,6 +2580,10 @@ fn verify_for_repo(
     if let Some(work_item_id) = work_item_id {
         validate_id(work_item_id)?;
     }
+    let verification_binding = work_item_id
+        .map(|id| cockpit_repository::capture_work_item_verification(&root, id, runtime))
+        .transpose()
+        .map_err(|error| error.to_string())?;
     let plan_only = arguments
         .get("planOnly")
         .and_then(Value::as_bool)
@@ -2513,7 +2596,9 @@ fn verify_for_repo(
                 .ok_or("timeoutSeconds argument must be a positive integer".to_owned())
         })
         .transpose()?;
-    let initial_snapshot = if work_item_id.is_some() || plan_only {
+    let initial_snapshot = if let Some(binding) = verification_binding.as_ref() {
+        Some(binding.snapshot().clone())
+    } else if plan_only {
         Some(
             cockpit_git::GitRepository::discover(&root)
                 .map_err(|error| error.to_string())?
@@ -2586,16 +2671,20 @@ fn verify_for_repo(
             });
         if let Err(error) = precondition {
             let diagnostic = error.to_string();
-            let persistence = cockpit_repository::persist_verification_attempt(
-                &root,
-                work_item_id,
-                std::slice::from_ref(&request),
-                snapshot,
-                runtime,
-                "precondition_rejected",
-                Some(("verification_preconditions", &diagnostic)),
-                None,
-            );
+            let persistence = if plan_only {
+                Ok(json!({"state":"plan_rejected","persisted":false}))
+            } else {
+                cockpit_repository::persist_verification_attempt(
+                    &root,
+                    work_item_id,
+                    std::slice::from_ref(&request),
+                    snapshot,
+                    runtime,
+                    "precondition_rejected",
+                    Some(("verification_preconditions", &diagnostic)),
+                    None,
+                )
+            };
             let persistence_note = match persistence {
                 Ok(attempt) => format!(
                     "; verification attempt persisted at {}",
@@ -2627,7 +2716,7 @@ fn verify_for_repo(
             Ok(planned) => planned,
             Err(error) => {
                 let diagnostic = error.to_string();
-                let attempt = if let Some(work_item_id) = work_item_id {
+                let attempt = if let Some(work_item_id) = work_item_id.filter(|_| !plan_only) {
                     cockpit_repository::persist_verification_attempt(
                         &root,
                         work_item_id,
@@ -2678,6 +2767,15 @@ fn verify_for_repo(
             "plannedNodes": [planned],
         }));
     }
+    let prepared_verification = verification_binding
+        .map(|binding| {
+            cockpit_repository::prepare_work_item_verification(
+                binding,
+                std::slice::from_ref(&request),
+            )
+        })
+        .transpose()
+        .map_err(|error| error.to_string())?;
     let run = cockpit_repository::run_repository_verification(&root, &request)
         .map_err(|error| error.to_string())?;
     let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
@@ -2699,11 +2797,11 @@ fn verify_for_repo(
         receipt
     };
     if let Some(work_item_id) = work_item_id
-        && let Err(error) = cockpit_repository::record_verification_with_runtime(
-            &root,
-            work_item_id,
+        && let Err(error) = cockpit_repository::record_prepared_work_item_verification(
+            prepared_verification
+                .as_ref()
+                .expect("Work Item prepared before execution"),
             &verification_receipt,
-            runtime,
             &run.final_snapshot,
         )
     {

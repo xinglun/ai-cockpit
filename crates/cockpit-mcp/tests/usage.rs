@@ -22,7 +22,7 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("tools");
-    assert_eq!(tools.len(), 35);
+    assert_eq!(tools.len(), 36);
     for (name, required) in [
         ("work_item_activation_recovery_plan", json!(["workItemId"])),
         (

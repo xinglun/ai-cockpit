@@ -768,3 +768,38 @@ fn contract_amendment_allows_stale_predecessor_verification_to_be_replaced() {
     )
     .expect("replacement verification");
 }
+
+// Native source-observation business regressions live in the crate's private
+// cfg(test) module, where each simulated approval has an explicit private port.
+// This external test exercises the production library's unavailable factory.
+#[test]
+fn source_change_observation_production_factory_rejects_self_declared_recovery() {
+    let directory = repository();
+    let id = "WI-OBSERVATION-PRODUCTION-UNAVAILABLE";
+    start(directory.path(), id, &[]);
+    let summary = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before = fs::read(&summary).unwrap();
+    let error = cockpit_repository::record_recovery_decision(
+        directory.path(),
+        id,
+        &serde_json::json!({
+            "decision":"retry", "actor":"human:caller-claim",
+            "authoritySource":"self-declared external fixture"
+        }),
+        &runtime(),
+    )
+    .expect_err("the production factory must not authenticate caller JSON");
+    assert!(
+        error.to_string().contains("authority_unavailable"),
+        "{error}"
+    );
+    assert_eq!(before, fs::read(summary).unwrap());
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{id}.recovery.json"))
+            .exists()
+    );
+}

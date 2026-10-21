@@ -1198,6 +1198,23 @@ impl ObservationContext {
     /// This deliberately takes a fresh observation boundary; a struct holding
     /// an old snapshot is not treated as an atomic multi-file transaction.
     pub fn validate_current(&self) -> Result<(), ObserverError> {
+        self.validate_snapshot_digest(&self.snapshot_digest)
+    }
+
+    /// A prepared process may produce source changes. Completion validates
+    /// that returned snapshot, retaining all original governance identities.
+    /// This does not authorize starting another process against that snapshot.
+    pub(crate) fn validate_execution_snapshot(
+        &self,
+        snapshot: &RepositorySnapshot,
+    ) -> Result<(), ObserverError> {
+        if std::fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&self.root) {
+            return Err(ObserverError::SnapshotRootMismatch);
+        }
+        self.validate_snapshot_digest(&snapshot_digest(snapshot)?)
+    }
+
+    fn validate_snapshot_digest(&self, expected: &Digest) -> Result<(), ObserverError> {
         let git = cockpit_git::GitRepository::discover(&self.root).map_err(|error| {
             ObserverError::State {
                 path: self.root.clone(),
@@ -1247,7 +1264,7 @@ impl ObservationContext {
                 });
             }
         }
-        if current_snapshot_digest != self.snapshot_digest {
+        if &current_snapshot_digest != expected {
             return Err(ObserverError::State {
                 path: self.root.clone(),
                 message: "observation phase repository snapshot changed".into(),

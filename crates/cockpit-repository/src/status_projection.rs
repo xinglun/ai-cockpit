@@ -8,13 +8,12 @@ use super::{
     WorkItemStatusSnapshot, active_artifact_variants, archived_contract_digest,
     close_decision_is_valid_for_status, closed_finalization_projection_kind, count_suffix,
     effective_resource_context, git_text, infer_legacy_shared_worktree_retained,
-    is_regular_non_symlink, legacy_verification_evidence, load_recovery_decision,
-    orphaned_active_artifact_names, outcome_state_name, outcome_v2_internal_with_snapshot,
-    read_contract, read_contract_document, read_json, read_resource_finalization_transition,
-    repository_id, repository_relative_path, resolve_resource_finalization_head_with_index,
-    resource_cleanup_completion_state, resource_finalization_decision_path,
-    retry_recovery_pending_is_valid, selected_successor_lineage_recovery_resolves_pending_close,
-    snapshot_digest, validate_protocol_version, validate_work_item_id, verify_archive_manifest,
+    is_regular_non_symlink, legacy_verification_evidence, orphaned_active_artifact_names,
+    outcome_state_name, outcome_v2_internal_with_snapshot, read_contract, read_contract_document,
+    read_json, read_resource_finalization_transition, repository_id, repository_relative_path,
+    resolve_resource_finalization_head_with_index, resource_cleanup_completion_state,
+    resource_finalization_decision_path, retry_recovery_pending_is_valid, snapshot_digest,
+    validate_protocol_version, validate_work_item_id, verify_archive_manifest,
     verify_resource_finalization_internal,
 };
 use std::collections::BTreeMap;
@@ -607,6 +606,29 @@ fn unclosed_archived_work_items_with_id(
     root: &Path,
     expected_repository_id: &str,
 ) -> Result<Vec<String>, ObserverError> {
+    unclosed_archived_work_items_with_id_and_facts(root, expected_repository_id, None)
+}
+
+pub(super) fn unclosed_archived_work_items_with_facts(
+    root: &Path,
+    historical: Option<&super::resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<Vec<String>, ObserverError> {
+    let Some(facts) = historical else {
+        return unclosed_archived_work_items(root);
+    };
+    facts.validate_root(root)?;
+    unclosed_archived_work_items_with_id_and_facts(
+        root,
+        &repository_id(root).to_string(),
+        historical,
+    )
+}
+
+fn unclosed_archived_work_items_with_id_and_facts(
+    root: &Path,
+    expected_repository_id: &str,
+    historical: Option<&super::resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> Result<Vec<String>, ObserverError> {
     let required_ids = super::legacy_closeout_source::obligation_ids(root)?;
     let archive = root.join(".ai/work-items/archive");
     let entries = match fs::read_dir(&archive) {
@@ -648,15 +670,17 @@ fn unclosed_archived_work_items_with_id(
             }
             archive_requires_close(root, work_item_id)
                 && !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id)
-                && !recovery_successor_resolves_pending_close(
+                && !recovery_successor_resolves_pending_close_with_facts(
                     root,
                     work_item_id,
                     expected_repository_id,
+                    historical,
                 )
-                && !selected_successor_lineage_recovery_resolves_pending_close(
+                && !super::lifecycle::selected_successor_lineage_recovery_resolves_pending_close_with_facts(
                     root,
                     work_item_id,
                     expected_repository_id,
+                    historical,
                 )
         })
         .collect::<Vec<_>>();
@@ -677,7 +701,25 @@ pub(super) fn recovery_successor_resolves_pending_close(
     predecessor_id: &str,
     expected_repository_id: &str,
 ) -> bool {
-    let Ok(Some(recovery)) = load_recovery_decision(root, predecessor_id, None) else {
+    recovery_successor_resolves_pending_close_with_facts(
+        root,
+        predecessor_id,
+        expected_repository_id,
+        None,
+    )
+}
+
+fn recovery_successor_resolves_pending_close_with_facts(
+    root: &Path,
+    predecessor_id: &str,
+    expected_repository_id: &str,
+    historical: Option<&super::resource_lifecycle::CapturedHistoricalFacts<'_>>,
+) -> bool {
+    let decision = match historical {
+        Some(facts) => facts.recovery_decision(root, predecessor_id, None),
+        None => super::review_authority::current_recovery_decision(root, predecessor_id, None),
+    };
+    let Ok(Some(recovery)) = decision else {
         return false;
     };
     if !matches!(recovery.decision.as_str(), "successor" | "supersede")
@@ -1348,11 +1390,30 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "green" && !governance_control_gaps.is_empty() {
         governance_state = "yellow".into();
     }
-    let verification = match outcome.state {
-        OutcomeState::Verified => "verified",
-        OutcomeState::Partial => "partial",
-        OutcomeState::NotReady => "not_ready",
-        OutcomeState::Unknown => "unknown",
+    // A terminal dependency failure must stay visible without relabelling
+    // an otherwise current software receipt as failed or forcing its rerun.
+    let software_verified = !archived
+        && snapshot_ref.is_some_and(|snapshot| {
+            matches!(
+                super::verification_evidence_state(
+                    &root,
+                    &contract,
+                    snapshot,
+                    false,
+                    Some(runtime)
+                ),
+                Ok(super::EvidenceState::Complete)
+            )
+        });
+    let verification = if software_verified {
+        "verified"
+    } else {
+        match outcome.state {
+            OutcomeState::Verified => "verified",
+            OutcomeState::Partial => "partial",
+            OutcomeState::NotReady => "not_ready",
+            OutcomeState::Unknown => "unknown",
+        }
     }
     .to_string();
     let historical = legacy_verification_evidence(&root, work_item_id);
@@ -1453,6 +1514,12 @@ fn work_item_status_snapshot_with_snapshot(
             false,
         ),
     };
+    let material_terminal_blocked = material_projection_unavailable
+        || material_blocked_by_finding
+        || !material_unknowns.is_empty();
+    if material_terminal_blocked && governance_state == "green" {
+        governance_state = "yellow".into();
+    }
     unknowns.retain(|unknown| !material_discharged_unknowns.contains(unknown));
     unknowns.extend(material_unknowns);
     if material_projection_unavailable && governance_state == "green" {
@@ -1486,8 +1553,12 @@ fn work_item_status_snapshot_with_snapshot(
         blockers.push("archived_work_item_pending_close".into());
     }
     let mut blocking = !blockers.is_empty();
-    let preflight_human_decision_required =
-        summary["preflightState"] == "yellow" && summary["decisionEvidence"].is_null();
+    let preflight_human_decision_required = summary["preflightState"] == "yellow"
+        && super::governance_controls::current_preflight_decision_evidence_state(
+            &root,
+            work_item_id,
+            &contract_digest_value,
+        ) != super::governance_controls::PreflightDecisionEvidenceState::Valid;
     let missing_evidence = unknowns
         .iter()
         .filter(|value| value.contains("evidence") || value.contains("verification"))
@@ -1614,7 +1685,7 @@ fn work_item_status_snapshot_with_snapshot(
             && amendment_history
                 .iter()
                 .any(|receipt| receipt.policy_review_required)
-            && super::governance_controls::preflight_decision_evidence_state(
+            && super::governance_controls::current_preflight_decision_evidence_state(
                 &root,
                 work_item_id,
                 &contract_digest_value,
@@ -1714,9 +1785,26 @@ fn work_item_status_snapshot_with_snapshot(
         !archived && retry_recovery_pending_is_valid(&root, &contract, Some(runtime));
     let supersede_archive_ready = !archived
         && matches!(
-            load_recovery_decision(&root, work_item_id, Some(runtime)),
+            super::review_authority::current_recovery_decision(&root, work_item_id, Some(runtime)),
             Ok(Some(decision)) if decision.decision == "supersede"
         );
+    // Keep only the bounded dependency-repair routes available for a retained
+    // finish failure. Aggregate red and its native failure remain visible.
+    let finish_failure_repair = !archived
+        && lifecycle_phase == "checkpointed"
+        && summary["checkpointCount"] == 1
+        && software_verified
+        && outcome
+            .failed_gate
+            .as_deref()
+            .is_some_and(|gate| gate.starts_with("finish."))
+        && summary["failedGate"]
+            .as_str()
+            .is_some_and(|gate| gate.starts_with("finish."))
+        && blockers.iter().all(|blocker| blocker == "governance_red")
+        && !amendment_review_required
+        && !material_projection_unavailable
+        && !material_blocked_by_finding;
     let mut safe_actions = if historical_recovery_resolved {
         vec!["read_outcome".into()]
     } else if archived && !close_decision_valid {
@@ -1794,6 +1882,17 @@ fn work_item_status_snapshot_with_snapshot(
         // aggregate governance state red and the lifecycle failure visible;
         // this only admits the bounded recovery action.
         vec!["run_verification".into()]
+    } else if finish_failure_repair {
+        if !preflight_binding_current {
+            vec!["run_preflight".into()]
+        } else if governance_control_gaps.is_empty()
+            && !material_terminal_blocked
+            && (preflight_green_current || review_receipt_digest.is_some())
+        {
+            vec!["finish".into()]
+        } else {
+            vec!["resolve_blockers".into()]
+        }
     } else if blocking {
         vec!["resolve_blockers".into(), "stop".into()]
     } else {
@@ -1805,6 +1904,13 @@ fn work_item_status_snapshot_with_snapshot(
                     "record_governance_controls".into(),
                     "run_verification".into(),
                 ]
+            }
+            // Canonical material Unknowns block terminal completion, while
+            // further source-bound collection can remain legitimate. The
+            // complete execution preconditions below still remove this action
+            // for a stale, revoked or missing CURRENT review.
+            "checkpointed" if material_terminal_blocked && preflight_binding_current => {
+                vec!["run_verification".into(), "run_preflight".into()]
             }
             "checkpointed" if !preflight_green_current => vec!["run_preflight".into()],
             // Contract と repository snapshot に結び付く green preflight がある場合だけ finish を先に提示する。
@@ -1867,8 +1973,20 @@ fn work_item_status_snapshot_with_snapshot(
         // close marker freezes the Work Item even when malformed.
         safe_actions.push("record_usage".into());
     }
-    if !archived && !blocking && preflight_binding_current && material_review_decision_available {
-        safe_actions.push("record_material_review_decision".into());
+    if !archived
+        && (!blocking || finish_failure_repair)
+        && preflight_binding_current
+        && !amendment_review_required
+        && material_review_decision_available
+    {
+        safe_actions.insert(0, "record_material_review_decision".into());
+    }
+    if !archived && material_terminal_blocked {
+        safe_actions
+            .retain(|action| !matches!(action.as_str(), "finish" | "archive_when_reviewed"));
+        if !material_review_decision_available {
+            safe_actions.insert(0, "resolve_blockers".into());
+        }
     }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());

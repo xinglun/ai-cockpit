@@ -613,7 +613,7 @@ fn assess_rust_comments(source: &str, changed_lines: &BTreeSet<usize>) -> RustMa
 /// Classify only source units with added-line provenance. The raw added-line
 /// stream is useful for non-Rust material, but joining every Rust line loses
 /// literal/item boundaries and caused PR #1009's false finding.
-pub(super) fn diagnose_rust_material(
+pub(super) fn diagnose_rust_material_v1(
     change: &cockpit_git::ChangeEvidence,
 ) -> RustMaterialDiagnosis {
     use syn::spanned::Spanned;
@@ -1096,24 +1096,24 @@ fn material() -> String {
         .to_owned();
         let complete = changed(source);
         assert_eq!(
-            diagnose_rust_material(&complete).unknown_cause,
+            diagnose_rust_material_v1(&complete).unknown_cause,
             Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
         );
         let mut missing = complete.clone();
         missing.after_text = None;
         assert_eq!(
-            diagnose_rust_material(&missing).unknown_cause,
+            diagnose_rust_material_v1(&missing).unknown_cause,
             Some(MaterialUnknownCause::MissingCompleteSource)
         );
         let mut invalid_origin = complete;
         invalid_origin.added_line_origins[0].after_line = 999;
         assert_eq!(
-            diagnose_rust_material(&invalid_origin).unknown_cause,
+            diagnose_rust_material_v1(&invalid_origin).unknown_cause,
             Some(MaterialUnknownCause::InvalidProvenance)
         );
         let malformed = changed("fn material( {".into());
         assert_eq!(
-            diagnose_rust_material(&malformed).unknown_cause,
+            diagnose_rust_material_v1(&malformed).unknown_cause,
             Some(MaterialUnknownCause::ParseUnavailable)
         );
         let oversized = changed(format!(
@@ -1121,7 +1121,7 @@ fn material() -> String {
             "x".repeat(MAX_RUST_SOURCE_BYTES)
         ));
         assert_eq!(
-            diagnose_rust_material(&oversized).unknown_cause,
+            diagnose_rust_material_v1(&oversized).unknown_cause,
             Some(MaterialUnknownCause::SourceOverBudget)
         );
     }
@@ -1132,7 +1132,7 @@ fn material() -> String {
         let change = changed(format!(
             "fn material() {{ let instruction = {payload:?}; }}"
         ));
-        let diagnosis = diagnose_rust_material(&change);
+        let diagnosis = diagnose_rust_material_v1(&change);
         assert_eq!(diagnosis.assessment, RustMaterialAssessment::Finding);
         assert_eq!(diagnosis.unknown_cause, None);
     }
