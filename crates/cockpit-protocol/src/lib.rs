@@ -8,6 +8,7 @@ pub use cockpit_interface as interface_description;
 pub mod audit_query;
 mod contract_amendment;
 pub mod release_plan;
+pub mod review_authority;
 pub mod usage;
 
 pub use audit_query::{

@@ -1,0 +1,130 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1100-review-authority-protocol.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1100-review-authority-protocol.contract-amendments/00000001.prepared.json",
+    ".ai/work-items/archive/WI-1100-review-authority-protocol.contract.json",
+    ".ai/work-items/archive/WI-1100-review-authority-protocol.summary.json"
+  ],
+  "checkpointAt": "2026-10-22T10:55:39Z",
+  "checkpointContractDigest": "sha256:aa9ae071ff810e3742489461ff7d8178c5390e1797ff5e577ce28adbfd6a79d4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+  "createdAt": "2026-10-22T10:55:37Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1100-review-authority-protocol.verification.json",
+      "crates/cockpit-protocol/src/review_authority.rs",
+      "crates/cockpit-protocol/tests/review_authority_wire.rs",
+      "/workspace/wi1100-review-authority-protocol-run/feature-api-absence-red.execution.json",
+      "/workspace/wi1100-review-authority-protocol-run/focused-wire-green.execution.json",
+      "/workspace/wi1100-review-authority-protocol-run/verified-five-command-summary.json",
+      "/workspace/wi1100-review-authority-protocol-run/independent-source-review.json",
+      "/workspace/wi1100-review-authority-protocol-run/committed-material-plan.stdout"
+    ],
+    "reason": "Current implementation source b902c4ce56e70a6001195696a36c06537bc6f2e8 restores only the unchanged 8782-byte frozen protocol module SHA a91ffbf8483a9758293dced07641e64b6ac94c75f4b703b5dd6b540d4fac9667, one module declaration and the new 12-test wire suite. Native material plan covers all three business paths with clean scanner assessments and no finding/Unknown. Development RED at 2eb82fba is API-absence E0432 with no tests executed, not an A/B business race proof. Focused GREEN passed all12 unchanged tests. Official b2 Runtime formal verification under canonical Contract aa9ae071ff810e3742489461ff7d8178c5390e1797ff5e577ce28adbfd6a79d4 executed all5 declared commands via18 nodes, including14 workspace packages,151 actual tests passed,0 failed/ignored/filtered and0 reused; Clippy/fmt/diff passed. Independent static agent review found P0/P1/P2/P3 all0. Known typed fields reject duplicates directly from wire bytes; arbitrary payload/context Value recursive raw-key/budget validation is outside this slice. Successful model validation, mirrors and proof-handle references do not authenticate a human, grant authority or activate a production gate. Current main WI1097/1098/1099 and all prior historical bytes are preserved. Publication, fresh exact-head CI, separately authorized merge/main validation and later actual finalization-bound close remain future delivery steps, not completed facts. No new persistent authority, shared Runtime replacement or residual-risk acceptance. User-visible benefit remains undeclared/unmeasured.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-22T11:02:16.098719354Z",
+      "recordedAt": "2026-10-22T11:02:16.098719354Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-22T10:55:37.591749933Z",
+      "recordedAt": "2026-10-22T10:55:37.591749933Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-22T11:00:51Z",
+  "preflightContractDigest": "sha256:aa9ae071ff810e3742489461ff7d8178c5390e1797ff5e577ce28adbfd6a79d4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-22T11:02:16.098719354Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1100-review-authority-protocol"
+}

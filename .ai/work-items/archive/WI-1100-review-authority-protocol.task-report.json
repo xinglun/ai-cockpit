@@ -1,0 +1,133 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+    "workItemId": "WI-1100-review-authority-protocol"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1100-review-authority-protocol.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1100-review-authority-protocol.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1100-review-authority-protocol.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1100-review-authority-protocol.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1100-review-authority-protocol.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1100-review-authority-protocol.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1100-review-authority-protocol.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1100-review-authority-protocol.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1100-review-authority-protocol.contract.json"
+        ],
+        "inference": false,
+        "text": "Restore the existing 8782-byte review_authority protocol module with its existing main dependencies, expose it with minimal module wiring, add focused compatibility/negative tests, and deliver the exact reviewed source/governance through draft PR, required CI, separately authorized normal integration, recoverable finalization and genuine finalization-bound close."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1100-review-authority-protocol.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-22T11:02:16.098719354Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1100-review-authority-protocol"
+  },
+  "workItemId": "WI-1100-review-authority-protocol"
+}

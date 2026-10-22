@@ -1,0 +1,86 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:ec0cd0806b60d761fa6acfe9492f0ee3e5e4283d4dd2a8635944ca769b50cb19",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1100-review-authority-protocol",
+    "sequence": 1,
+    "changeId": "legacy-6f25e58cbce52c147870343b5915fa522004c645019354e47dc1972d5c0d0654",
+    "requestDigest": "sha256:8151c51278ee3abf4028435a8c3b44601dc9d7286fdfeb59b4993e9c816be0ad",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:6f25e58cbce52c147870343b5915fa522004c645019354e47dc1972d5c0d0654",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; Raydot explicit technical approval of this3-file protocol-only slice after1058 cleanup"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; Raydot explicit technical approval of this3-file protocol-only slice after1058 cleanup"
+        ],
+        "newValue": [
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; Raydot explicit technical approval of this3-file protocol-only slice after1058 cleanup",
+          "actual-user-steering:Sentinel_fc3787d605408191b3e3e210ecae1552; broader delegated mainline continuation, not a future exact-PR merge or close decision"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; Raydot explicit technical approval of this3-file protocol-only slice after1058 cleanup",
+          "actual-user-steering:Sentinel_fc3787d605408191b3e3e210ecae1552; broader delegated mainline continuation, not a future exact-PR merge or close decision"
+        ],
+        "newValue": [
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; Raydot explicit technical approval of this3-file protocol-only slice after1058 cleanup",
+          "actual-user-steering:Sentinel_fc3787d605408191b3e3e210ecae1552; broader delegated mainline continuation, not a future exact-PR merge or close decision",
+          "frozen-candidate:61ad4c26ed2f4422ec7280fabc41754e6fd2dc1e; crates/cockpit-protocol/src/review_authority.rs; sha256:a91ffbf8483a9758293dced07641e64b6ac94c75f4b703b5dd6b540d4fac9667"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; Raydot explicit technical approval of this3-file protocol-only slice after1058 cleanup",
+          "actual-user-steering:Sentinel_fc3787d605408191b3e3e210ecae1552; broader delegated mainline continuation, not a future exact-PR merge or close decision",
+          "frozen-candidate:61ad4c26ed2f4422ec7280fabc41754e6fd2dc1e; crates/cockpit-protocol/src/review_authority.rs; sha256:a91ffbf8483a9758293dced07641e64b6ac94c75f4b703b5dd6b540d4fac9667"
+        ],
+        "newValue": [
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; Raydot explicit technical approval of this3-file protocol-only slice after1058 cleanup",
+          "actual-user-steering:Sentinel_fc3787d605408191b3e3e210ecae1552; broader delegated mainline continuation, not a future exact-PR merge or close decision",
+          "frozen-candidate:61ad4c26ed2f4422ec7280fabc41754e6fd2dc1e; crates/cockpit-protocol/src/review_authority.rs; sha256:a91ffbf8483a9758293dced07641e64b6ac94c75f4b703b5dd6b540d4fac9667",
+          "readonly-plan-review:next-protocol-slice-readonly-plan-review-addendum.json; originalP2 retained and typed-only duplicate boundary corrected before start"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:f241e43dc3a7d8e4defe3d357a5935fc7001d1e2effe5b6230b2975fc9c4603e",
+    "newContractDigest": "sha256:aa9ae071ff810e3742489461ff7d8178c5390e1797ff5e577ce28adbfd6a79d4",
+    "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+    "environmentObservationDigest": "sha256:048cc24d1b4362d8b3c3b601d51bb4f99d0612bd0898d2720ea0e65f7294e8bf",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:86a7e124cf340e19dc0c3d9ee847f9d3148ade0d352c67df8fc13dca289a506a",
+    "recordedAt": "2026-10-22T10:55:37Z"
+  }
+}
