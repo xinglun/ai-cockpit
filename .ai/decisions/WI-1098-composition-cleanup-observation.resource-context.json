@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:ced9d8f2e422e3c485c4b6fa215659efe887b252bf6e624cf5b6ffaf0cda6530",
+  "contractDigest": "sha256:1c2ab6991f5fb2bb47d6d8f998c5baa529321b9278c1bbe6b970ace696848258",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-22T03:56:20Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1098-composition-cleanup-observation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1055",
+    "worktree": "/workspace/ai-cockpit-wi1098-composition-cleanup-observation"
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1098-composition-cleanup-observation"
+}
