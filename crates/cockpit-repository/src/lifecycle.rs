@@ -10678,7 +10678,15 @@ mod cross_checkout_closeout_tests {
             "destinationSnapshotDigest",
         ] {
             let mut invalid = receipt.clone();
-            invalid[field] = serde_json::Value::Null;
+            invalid[field] = if receipt[field].is_null() {
+                serde_json::json!("different binding")
+            } else {
+                serde_json::Value::Null
+            };
+            assert_ne!(
+                invalid[field], receipt[field],
+                "{field} must actually change"
+            );
             let bytes = serde_json::to_vec(&invalid).unwrap();
             fs::write(&receipt_path, &bytes).unwrap();
             for result in [
