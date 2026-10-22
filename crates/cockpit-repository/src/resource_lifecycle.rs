@@ -1575,6 +1575,8 @@ pub fn record_historical_finalization_recovery(
                 Some(HistoricalFinalizationKind::DirectMergeNoPr)
             )
         {
+            #[cfg(test)]
+            input_capture_tests::after_classification();
             return record_resource_finalization_locked(
                 &root,
                 work_item_id,
@@ -11281,3 +11283,6 @@ mod legacy_source_lock_tests {
         );
     }
 }
+
+#[cfg(test)]
+mod input_capture_tests;
