@@ -1,0 +1,122 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:babf63a5666ba326d953a8e624a7cf19f9a515f1069e5c1b8110f7ccee6e81bc",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1096-stage1-pr-integration",
+    "sequence": 1,
+    "changeId": "legacy-2b6a224ffae703e10ae980a384f71a6d78ee7639991b5050f56d4ffb9285e555",
+    "requestDigest": "sha256:8a202eb0012182a6ff0cb8f40bce9fcc3e927dccc91f1a941badd9150327dfed",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:2b6a224ffae703e10ae980a384f71a6d78ee7639991b5050f56d4ffb9285e555",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9",
+          "predecessor immutable archive sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9",
+          "predecessor immutable archive sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9",
+          "predecessor immutable archive sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802",
+          "predecessor formal verification evidence sha256:dca12437557acd28a791f9797e7f80c2617547f366de16c6f6770b22387b0041"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9",
+          "predecessor immutable archive sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802",
+          "predecessor formal verification evidence sha256:dca12437557acd28a791f9797e7f80c2617547f366de16c6f6770b22387b0041"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9",
+          "predecessor immutable archive sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802",
+          "predecessor formal verification evidence sha256:dca12437557acd28a791f9797e7f80c2617547f366de16c6f6770b22387b0041",
+          "current repository-owner-approved PR integration plan; no release or new credential authorization"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9",
+          "predecessor immutable archive sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802",
+          "predecessor formal verification evidence sha256:dca12437557acd28a791f9797e7f80c2617547f366de16c6f6770b22387b0041",
+          "current repository-owner-approved PR integration plan; no release or new credential authorization"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit",
+          "predecessor WI-1095-wi1094-stage1-repair closed at code ff5a6725dbd09c913593df2e02e69e8844672f97; complete local candidate 1a972f03cbe631af2e132288065b4e84ec7e89f9",
+          "predecessor immutable archive sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802",
+          "predecessor formal verification evidence sha256:dca12437557acd28a791f9797e7f80c2617547f366de16c6f6770b22387b0041",
+          "current repository-owner-approved PR integration plan; no release or new credential authorization",
+          "formal Runtime v1.0.1 source a1dbec70c8fc050b95165163da0da03cd90b79d1; task binary sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:361f148a6ce9b2ff3a23a7b222db0fc6ba35b2af4ab922e5035c49ac2864f079",
+    "newContractDigest": "sha256:50704d3df8f5079ac1ad7b470734e77f05ede644b16c9e8b2eef232e4a09313c",
+    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "environmentObservationDigest": "sha256:b93e4cbcec18818489ebd5dbab092e2ce81990d60e4155cab67ebd369bbfcee6",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:2704cc79d76469dfda123c1d3a4ec9fcd5a51832420090dc7273b53b3e36a776",
+    "recordedAt": "2026-10-21T12:24:26Z"
+  }
+}

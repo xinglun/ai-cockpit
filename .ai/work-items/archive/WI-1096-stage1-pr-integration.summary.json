@@ -1,0 +1,47 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-21T12:24:32Z",
+  "checkpointContractDigest": "sha256:7de6e6f958588b8f726afeaa9c6e690df2166a0736a4d7ccf65cf77706620efb",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b0375e2f26432311456d00010941d29cc7411bc998acd3fafdf4738f6364a18a",
+  "createdAt": "2026-10-21T12:24:26Z",
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-21T12:38:47.813381840Z",
+      "recordedAt": "2026-10-21T12:38:47.813381840Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-21T12:24:26.193943597Z",
+      "recordedAt": "2026-10-21T12:24:26.193943597Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-21T12:38:05Z",
+  "preflightContractDigest": "sha256:7de6e6f958588b8f726afeaa9c6e690df2166a0736a4d7ccf65cf77706620efb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b0375e2f26432311456d00010941d29cc7411bc998acd3fafdf4738f6364a18a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-21T12:38:47.813381840Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1096-stage1-pr-integration"
+}

@@ -1,0 +1,210 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6de3f76364e05a9674faa8d3839e778226e46501d91e95349406a0df2311919c",
+      "workItemId": "WI-1095-wi1094-stage1-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1095-wi1094-stage1-repair.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1095-wi1094-stage1-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1095-wi1094-stage1-repair.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.archive.json",
+            ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json",
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.outcome.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via user-message:Sentinel_6602650a1e5c81918d4d6781cbf13186; request:Sentinel_0bda38761fb88191a3cb261dd2e751b2; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a at 2026-10-21T11:50:20Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "In the standalone cockpit-review-receipt crate, ensure gate_admits rejects a receipt stored under a different item identity and cannot reuse one receipt to cover multiple items; ensure evaluate_item accepts verification only when the recorded evidence is successful and its recomputed digest matches BoundSnapshot.verification_evidence_digest. Prove both defects with failing-before/fixed-after regressions using the real domain decision logic."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-21T11:50:22.318313259Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1095-wi1094-stage1-repair"
+    },
+    "workItemId": "WI-1095-wi1094-stage1-repair"
+  },
+  "finalReportDigest": "sha256:73fb5fa624dc2763940be40a96a86d3cdfe8a8545f73f82bddc80ecbadb7f7f4",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-21T11:50:22.318214767Z",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802",
+    "branch": "codex/wi1094-stage1-repair-successor",
+    "branchRef": "refs/heads/codex/wi1094-stage1-repair-successor",
+    "capturedAt": "2026-10-21T11:50:22Z",
+    "contractDigest": "sha256:87dcd17c4ac749c3be65b974e39976a11ccd2e51c24a9151ad4cc3fd496285ae",
+    "headRevision": "2df4c57d69e12f571dfaf0db1bd9ea0936cabd48",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1095-wi1094-stage1-repair",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1094-stage1-successor",
+    "worktreeId": "sha256:e7bb5b2e66822e36e96033ae54ab8f883a86f85d28671b8f6d1269bf19297f83",
+    "worktreePath": "/workspace/ai-cockpit-wi1094-stage1-successor"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:08e01b27378d776a7b65d312124896ac5508c8d96a61c1748697342f33d6a5b3",
+  "recordedAt": "2026-10-21T11:50:22.318214767Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "user-message:Sentinel_6602650a1e5c81918d4d6781cbf13186; request:Sentinel_0bda38761fb88191a3cb261dd2e751b2; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a",
+    "decidedAt": "2026-10-21T11:50:20Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.archive.json",
+      ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json",
+      ".ai/work-items/archive/WI-1095-wi1094-stage1-repair.outcome.json"
+    ],
+    "policyRefs": [],
+    "reason": "The user explicitly replied \"确认关闭 WI-1095，confirmed。\" in Sentinel_6602650a1e5c81918d4d6781cbf13186 to request Sentinel_0bda38761fb88191a3cb261dd2e751b2. This accepts only the two bounded Stage 1 repairs at source ff5a6725dbd09c913593df2e02e69e8844672f97 and archive manifest sha256:59fdcd85dbc7712c433ba5d9f2c3acf2e15bf9a97654d03dbd71b87c80991802, and authorized the preceding own-WI evidence-only local commit. Code, branch, worktree and old evidence are retained; no push, merge, release, external authority or production integration is claimed. The parent reported receiving the user decision around 2026-10-21 11:46:41 UTC; that is approximate. decidedAt is the actual current recording instant of this relayed decision, not an invented exact user authoring timestamp.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-21T11:50:22Z",
+  "usageCutoff": "2026-10-21T11:50:22.318313259Z",
+  "workItemId": "WI-1095-wi1094-stage1-repair"
+}

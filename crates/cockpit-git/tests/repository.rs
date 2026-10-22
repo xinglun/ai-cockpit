@@ -914,6 +914,61 @@ fn bounded_source_tree_digest_excludes_unicode_ai_paths() {
     fs::remove_dir_all(path).expect("cleanup");
 }
 
+/// A controlled-review receipt that bound itself to `tree_digest` would
+/// self-invalidate the instant it was written: `tree_digest` is sensitive to
+/// *every* path, with no exclusion at all (unlike `source_tree_digest`,
+/// which excludes all of `.ai`). Neither existing digest has the narrower
+/// property a review receipt needs (cover Contract/decisions/evidence, but
+/// not its own output path). This is an empirical proof that a new,
+/// dedicated digest computation is required before any such receipt can be
+/// bound soundly -- not yet implemented anywhere in this repository.
+#[test]
+fn tree_digest_has_no_path_exclusion_and_would_self_invalidate_a_bound_receipt() {
+    let path = temporary_repository();
+    let repository = GitRepository::discover(&path).expect("discover");
+    let before = repository.snapshot().expect("initial snapshot");
+
+    fs::create_dir_all(path.join(".ai/evidence")).expect("ai evidence directory");
+    fs::write(
+        path.join(".ai/evidence/WI-EXAMPLE.test-weakening-review.deadbeef.json"),
+        "{}\n",
+    )
+    .expect("write a hypothetical review-receipt file");
+    // tree_digest and source_tree_digest are both computed from `git
+    // ls-files -s` (the index), so the receipt must be staged, exactly as a
+    // real evidence file committed alongside a Work Item's other `.ai/`
+    // records would be.
+    Command::new("git")
+        .args([
+            "add",
+            ".ai/evidence/WI-EXAMPLE.test-weakening-review.deadbeef.json",
+        ])
+        .current_dir(&path)
+        .status()
+        .expect("stage the hypothetical receipt file");
+
+    let after = repository
+        .snapshot()
+        .expect("snapshot after staging a receipt");
+    assert_ne!(
+        before.tree_digest, after.tree_digest,
+        "tree_digest changed the instant a new .ai/evidence file was written: \
+         binding a receipt to tree_digest would self-invalidate on creation"
+    );
+
+    // source_tree_digest does not move -- but only because it excludes *all*
+    // of `.ai`, not just the receipt's own path, which is exactly the
+    // over-exclusion point 4 forbids for a receipt's bound snapshot (a
+    // Contract or decision change under `.ai` must still invalidate a bound
+    // receipt, and source_tree_digest would silently hide that).
+    assert_eq!(
+        before.source_tree_digest, after.source_tree_digest,
+        "source_tree_digest is blind to the whole .ai tree, not just the receipt path"
+    );
+
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
 #[test]
 fn bounded_source_patch_digest_excludes_root_ai_file() {
     let path = temporary_repository();

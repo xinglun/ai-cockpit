@@ -14,6 +14,7 @@ members = [
     "crates/cockpit-cli",
     "crates/cockpit-release",
     "crates/cockpit-isolation",
+    "crates/cockpit-review-receipt",
 ]
 
 # Keep release startup and hot paths optimized as a single binary while

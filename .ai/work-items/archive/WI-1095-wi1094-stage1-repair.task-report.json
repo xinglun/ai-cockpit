@@ -1,0 +1,154 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6de3f76364e05a9674faa8d3839e778226e46501d91e95349406a0df2311919c",
+    "workItemId": "WI-1095-wi1094-stage1-repair"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1095-wi1094-stage1-repair.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000002.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1095-wi1094-stage1-repair.contract-amendments/00000002.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1095-wi1094-stage1-repair.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1095-wi1094-stage1-repair.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1095-wi1094-stage1-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.contract.json"
+        ],
+        "inference": false,
+        "text": "In the standalone cockpit-review-receipt crate, ensure gate_admits rejects a receipt stored under a different item identity and cannot reuse one receipt to cover multiple items; ensure evaluate_item accepts verification only when the recorded evidence is successful and its recomputed digest matches BoundSnapshot.verification_evidence_digest. Prove both defects with failing-before/fixed-after regressions using the real domain decision logic."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1095-wi1094-stage1-repair.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-21T11:21:45.663646552Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1095-wi1094-stage1-repair"
+  },
+  "workItemId": "WI-1095-wi1094-stage1-repair"
+}
