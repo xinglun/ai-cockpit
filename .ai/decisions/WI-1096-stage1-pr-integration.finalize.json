@@ -1,0 +1,59 @@
+{
+  "actor": "Codex agent",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Owner-approved overall PR integration and safe recoverable task-resource finalization plan, reaffirmed by current parent coordination; old core performed exact old local cleanup and current core centralized its related local and remote cleanup. This is an agent resource receipt, not a human close approval or GitHub Review.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "8e9536927ae0d42aa594d44e85833cd83922284c",
+    "name": "codex/wi1096-stage1-pr-integration",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "contractDigest": "sha256:f180e5cc13255a088dbe49180b8a51e50384091985f736b9a7e0d155dbcbce7c",
+  "operationId": "wi1096-exact-finalization-a0eb13ba018946489d3e75f53fabd049",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "50654865afe9bd86cd61b0d8404b9acb5ac76221",
+    "headRevision": "8e9536927ae0d42aa594d44e85833cd83922284c",
+    "mergeCommit": "2ea8a811c550587d4f7f48e9c7c7fd04a1e7bf84",
+    "number": 1052,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1052"
+  },
+  "reason": "Record actual WI-1096 real-PR post-merge cleanup using current b2 Runtime. Parent directly read and forwarded old-core clean8e before and ordinary exact local deletion after, with independently restored original226 bundle and preserved lock/identity/evidence bytes. Current core independently restored exact published8e bundle, ordinarily removed its related relay/local branch and deleted only the exact remote source ref with empty readback. Original Contract/archive/e745 verification remain immutable historical evidence and are not represented as fresh b2 source verification. WI-1097 pending finalization receipt and all unrelated resources remain unchanged; limited system proc visibility remains unknown, without escalation or bypass. Existing P3 and unmeasured benefit remain disclosed.",
+  "receiptId": "wi1096-exact-finalization-a0eb13ba018946489d3e75f53fabd049-receipt",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1096-stage1-pr-integration",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1052",
+    "worktree": "/workspace/ai-cockpit-wi1096-stage1-pr-integration"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-22T02:03:30.835773+00:00",
+  "workItemId": "WI-1096-stage1-pr-integration",
+  "worktree": {
+    "branch": "codex/wi1096-stage1-pr-integration",
+    "headRevision": "8e9536927ae0d42aa594d44e85833cd83922284c",
+    "path": "/workspace/ai-cockpit-wi1096-stage1-pr-integration",
+    "worktreeId": "ai-cockpit-wi1096-stage1-pr-integration"
+  }
+}

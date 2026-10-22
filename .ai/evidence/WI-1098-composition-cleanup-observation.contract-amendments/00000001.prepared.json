@@ -1,0 +1,194 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1098-composition-cleanup-observation",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-e8a781ea6d028fa63b0648917773092857163e76348329347e6b15b378df4875",
+      "expectedContractDigest": "sha256:c4a73f0bf6004943617a13f890314632b2231f13850d040a74d25ed39330e24d",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/pull/1054"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Original failure diagnostics privately preserved under /workspace/wi1097-delivery-run/confirmed-close-publication-20261022/failed-pr-ci-artifacts; strict39 passed1 failed2 not_applicable, zero reused gates"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Approved immutable closeout context0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9; WI1097 source validation remainsad66af2b952963e7f1f10b7ec02a4ef738907ce3; original WI1096e745 evidence stays historical"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Official governance Runtime1.0.1 binarySHA256 b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd sourcea1dbec70c8fc050b95165163da0da03cd90b79d1"
+        }
+      ]
+    },
+    "requestDigest": "sha256:63a225af6a19a759a3fcac31919743fec4f381699630babf0306ddffd7e70fea",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Preserve the actual PR1054 failure at source0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9 and tested merge1e9c285f2b419688465f4b7b5150e749a7346a58. Diagnose CLI/MCP composition cleanup, not bounded output. Before any fix, record a bounded fixed-input reproduction or controlled negative case and distinguish proven owned verifier identity, same-UID process candidate, and private-worktree relationship. Do not label the real failure flaky or unrelated without evidence.",
+        "Keep every existing CLI/MCP parity and cleanup assertion and all prior regression/closed evidence bytes unchanged. Add tests that distinguish a truly relevant inaccessible process, an independently controlled peer, and missing or expired identity/time evidence. A real related or unproven process-permission condition must remain explicitly deferred/unknown; never convert PermissionDenied into absence or passing cleanup.",
+        "Implement only the smallest defect demonstrated by those cases within the four declared paths. If evidence instead shows a host/test-isolation limitation, state it and restrict any fix to verified test-isolation classification and its regressions; do not silently weaken production observation or create a permissions/authority platform. Do not assume a same-UID PID is a verifier or safe peer based on the error label alone.",
+        "Use only the official b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd Runtime for governance. Candidate builds are test artifacts, not self-authorization. No privileges, procfs bypass, residual-risk acceptance, shared Runtime replacement, scanner-rule change, changed historical assertion or unverified approval is allowed.",
+        "Keep original CI gate definitions, strict route and acceptance commands. Do not raise local experiment or verification execution beyond900 seconds per command. Before a new CI attempt, retain actual pre-fix evidence and the reviewed minimal change. Preserve old failed runs; use actual new HEAD results rather than a prior success.",
+        "Do not edit WI1096/WI1097 Contract, verification, approvals, archive or generated close/finalization bytes. Their already user-confirmed four-record commit0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9 may be inherited unchanged as explicit publication context before this work item implementation; it is not repaired or re-approved here. PR1054 remains a four-file governance-only PR. Any source repair is a separate explicitly described Work Item/PR and normal Runtime lifecycle."
+      ],
+      "authority": "authorized",
+      "baseRevision": "2ea8a811c550587d4f7f48e9c7c7fd04a1e7bf84",
+      "createdAt": "2026-10-22T03:07:37Z",
+      "goal": "Establish fixed-input evidence for the PR1054 MCP cleanup_deferred failure, then apply and review the smallest proven composition-observation or test-isolation correction in an independent work item",
+      "intent": "Resolve the actual CI composition cleanup/identity boundary without weakening permission Unknowns or original CLI-MCP assertions",
+      "mode": "implementation",
+      "outOfScope": [],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:07406f7f10c45a1f866d9767ac4b6e3d6418da0766b97adc9fec80cc9a25fb1e",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+        "tests/ci/run_process_observer_test_runner.sh",
+        "tests/ci/process_observer_test_runner_test.sh"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "bash tests/ci/process_observer_test_runner_test.sh",
+        "cargo test --locked --target x86_64-unknown-linux-gnu -p cockpit-verification --lib composition::tests:: -- --test-threads=1",
+        "cargo test --locked --target x86_64-unknown-linux-gnu -p cockpit-cli --test collaboration_scenario_matrix -- --test-threads=4",
+        "cargo clippy --locked -p cockpit-verification -p cockpit-cli --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check 2ea8a811c550587d4f7f48e9c7c7fd04a1e7bf84 HEAD"
+      ],
+      "workItemId": "WI-1098-composition-cleanup-observation"
+    },
+    "previousContractDigest": "sha256:c4a73f0bf6004943617a13f890314632b2231f13850d040a74d25ed39330e24d",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve the actual PR1054 failure at source0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9 and tested merge1e9c285f2b419688465f4b7b5150e749a7346a58. Diagnose CLI/MCP composition cleanup, not bounded output. Before any fix, record a bounded fixed-input reproduction or controlled negative case and distinguish proven owned verifier identity, same-UID process candidate, and private-worktree relationship. Do not label the real failure flaky or unrelated without evidence.",
+        "Keep every existing CLI/MCP parity and cleanup assertion and all prior regression/closed evidence bytes unchanged. Add tests that distinguish a truly relevant inaccessible process, an independently controlled peer, and missing or expired identity/time evidence. A real related or unproven process-permission condition must remain explicitly deferred/unknown; never convert PermissionDenied into absence or passing cleanup.",
+        "Implement only the smallest defect demonstrated by those cases within the four declared paths. If evidence instead shows a host/test-isolation limitation, state it and restrict any fix to verified test-isolation classification and its regressions; do not silently weaken production observation or create a permissions/authority platform. Do not assume a same-UID PID is a verifier or safe peer based on the error label alone.",
+        "Use only the official b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd Runtime for governance. Candidate builds are test artifacts, not self-authorization. No privileges, procfs bypass, residual-risk acceptance, shared Runtime replacement, scanner-rule change, changed historical assertion or unverified approval is allowed.",
+        "Keep original CI gate definitions, strict route and acceptance commands. Do not raise local experiment or verification execution beyond900 seconds per command. Before a new CI attempt, retain actual pre-fix evidence and the reviewed minimal change. Preserve old failed runs; use actual new HEAD results rather than a prior success.",
+        "Do not edit WI1096/WI1097 Contract, verification, approvals, archive or generated close/finalization bytes. Their already user-confirmed four-record commit0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9 may be inherited unchanged as explicit publication context before this work item implementation; it is not repaired or re-approved here. PR1054 remains a four-file governance-only PR. Any source repair is a separate explicitly described Work Item/PR and normal Runtime lifecycle."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "2ea8a811c550587d4f7f48e9c7c7fd04a1e7bf84",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-22T03:07:37Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Establish fixed-input evidence for the PR1054 MCP cleanup_deferred failure, then apply and review the smallest proven composition-observation or test-isolation correction in an independent work item",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Resolve the actual CI composition cleanup/identity boundary without weakening permission Unknowns or original CLI-MCP assertions",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:07406f7f10c45a1f866d9767ac4b6e3d6418da0766b97adc9fec80cc9a25fb1e",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+        "tests/ci/run_process_observer_test_runner.sh",
+        "tests/ci/process_observer_test_runner_test.sh"
+      ],
+      "sources": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+        "https://github.com/xinglun/ai-cockpit/pull/1054",
+        "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval",
+        "Original failure diagnostics privately preserved under /workspace/wi1097-delivery-run/confirmed-close-publication-20261022/failed-pr-ci-artifacts; strict39 passed1 failed2 not_applicable, zero reused gates",
+        "Approved immutable closeout context0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9; WI1097 source validation remainsad66af2b952963e7f1f10b7ec02a4ef738907ce3; original WI1096e745 evidence stays historical",
+        "Official governance Runtime1.0.1 binarySHA256 b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd sourcea1dbec70c8fc050b95165163da0da03cd90b79d1"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "bash tests/ci/process_observer_test_runner_test.sh",
+        "cargo test --locked --target x86_64-unknown-linux-gnu -p cockpit-verification --lib composition::tests:: -- --test-threads=1",
+        "cargo test --locked --target x86_64-unknown-linux-gnu -p cockpit-cli --test collaboration_scenario_matrix -- --test-threads=4",
+        "cargo clippy --locked -p cockpit-verification -p cockpit-cli --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check 2ea8a811c550587d4f7f48e9c7c7fd04a1e7bf84 HEAD"
+      ],
+      "workItemId": "WI-1098-composition-cleanup-observation"
+    },
+    "newContractDigest": "sha256:dbd4d79f568955be3c630a666edd5a4ad69b558af4c4f3b5a46abfc6059208b2",
+    "previousSummaryDigest": "sha256:e933c3cffde391dbacdf750b63ef94ed876b57bfe6044fee3726b5b3afc563a1",
+    "repositorySnapshotDigest": "sha256:07406f7f10c45a1f866d9767ac4b6e3d6418da0766b97adc9fec80cc9a25fb1e",
+    "environmentObservationDigest": "sha256:1659b65223b1503a1e5db2a21e9d841149c6d188572cf4f25835b212e12f03b8",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:e8a781ea6d028fa63b0648917773092857163e76348329347e6b15b378df4875",
+    "preparedAt": "2026-10-22T03:07:37Z"
+  },
+  "preparedDigest": "sha256:a4166f2cc9fbd2a49e9a81cb021c9fbaaad7d275a1a84979c5a7521a4de609be"
+}

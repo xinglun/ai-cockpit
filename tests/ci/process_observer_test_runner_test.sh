@@ -41,6 +41,9 @@ assert_sensitive_runner "collaboration_admission-0123456789abcdef" 1 \
 assert_sensitive_runner "cockpit_verification-0123456789abcdef" 1 \
   $'--test-threads=1\n--nocapture\nobserver_scenario' \
   --nocapture --test-threads=4 observer_scenario
+assert_sensitive_runner "collaboration_scenario_matrix-0123456789abcdef" 1 \
+  $'--test-threads=1\n--exact\ncomposition_scenario' \
+  --test-threads 4 --exact composition_scenario
 
 ordinary="$tmp/bin/ordinary_test-0123456789abcdef"
 write_fake_test_binary "$ordinary"
@@ -309,5 +312,63 @@ else
   printf 'process-observer runner requires flock or Python 3 for safe cross-process isolation\n' >&2
   exit 1
 fi
+
+# The CLI/MCP composition matrix uses the production process observer too.
+# Its in-binary mutex cannot exclude a sibling package test in another process.
+matrix_probe="$tmp/bin/collaboration_scenario_matrix-probe-0123456789abcdef"
+matrix_fixture="$tmp/matrix-isolation"
+mkdir -p "$matrix_fixture"
+cp "$sensitive_probe" "$matrix_probe"
+
+PATH="$mock_bin:$PATH" \
+  REAL_LOCK_TOOL="$real_lock" \
+  LOCK_ATTEMPT="$matrix_fixture/ordinary-lock-attempt" \
+  AI_COCKPIT_PROCESS_OBSERVER_LOCK="$lock_file" \
+  ORDINARY_STARTED="$matrix_fixture/ordinary-started" \
+  ORDINARY_RELEASE="$matrix_fixture/ordinary-release" \
+  "$runner" "$ordinary_hold" &
+matrix_peer_pid=$!
+for _ in {1..200}; do
+  [[ -e "$matrix_fixture/ordinary-started" ]] && break
+  sleep 0.01
+done
+if [[ ! -e "$matrix_fixture/ordinary-started" ]]; then
+  : >"$matrix_fixture/ordinary-release"
+  wait "$matrix_peer_pid"
+  printf 'matrix isolation fixture did not acquire the ordinary shared lock\n' >&2
+  exit 1
+fi
+
+PATH="$mock_bin:$PATH" \
+  REAL_LOCK_TOOL="$real_lock" \
+  LOCK_ATTEMPT="$matrix_fixture/matrix-lock-attempt" \
+  AI_COCKPIT_PROCESS_OBSERVER_LOCK="$lock_file" \
+  SENSITIVE_STARTED="$matrix_fixture/matrix-started" \
+  "$runner" "$matrix_probe" &
+matrix_observer_pid=$!
+for _ in {1..200}; do
+  [[ -e "$matrix_fixture/matrix-lock-attempt" ]] && break
+  sleep 0.01
+done
+if [[ ! -e "$matrix_fixture/matrix-lock-attempt" || -e "$matrix_fixture/matrix-started" ]]; then
+  : >"$matrix_fixture/ordinary-release"
+  wait "$matrix_peer_pid"
+  wait "$matrix_observer_pid"
+  printf 'CLI/MCP composition target did not wait for a package test holding the shared lock\n' >&2
+  exit 1
+fi
+sleep 0.1
+if [[ -e "$matrix_fixture/matrix-started" ]]; then
+  : >"$matrix_fixture/ordinary-release"
+  wait "$matrix_peer_pid"
+  wait "$matrix_observer_pid"
+  printf 'CLI/MCP composition target overlapped a package test holding the shared lock\n' >&2
+  exit 1
+fi
+
+: >"$matrix_fixture/ordinary-release"
+wait "$matrix_peer_pid"
+wait "$matrix_observer_pid"
+test -e "$matrix_fixture/matrix-started"
 
 printf 'process-observer test runner boundaries passed\n'

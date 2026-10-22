@@ -1,0 +1,204 @@
+{
+  "acceptanceResults": [
+    "Preserve the actual PR1054 failure at source0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9 and tested merge1e9c285f2b419688465f4b7b5150e749a7346a58. Diagnose CLI/MCP composition cleanup, not bounded output. Before any fix, record a bounded fixed-input reproduction or controlled negative case and distinguish proven owned verifier identity, same-UID process candidate, and private-worktree relationship. Do not label the real failure flaky or unrelated without evidence.",
+    "Keep every existing CLI/MCP parity and cleanup assertion and all prior regression/closed evidence bytes unchanged. Add tests that distinguish a truly relevant inaccessible process, an independently controlled peer, and missing or expired identity/time evidence. A real related or unproven process-permission condition must remain explicitly deferred/unknown; never convert PermissionDenied into absence or passing cleanup.",
+    "Implement only the smallest defect demonstrated by those cases within the four declared paths. If evidence instead shows a host/test-isolation limitation, state it and restrict any fix to verified test-isolation classification and its regressions; do not silently weaken production observation or create a permissions/authority platform. Do not assume a same-UID PID is a verifier or safe peer based on the error label alone.",
+    "Use only the official b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd Runtime for governance. Candidate builds are test artifacts, not self-authorization. No privileges, procfs bypass, residual-risk acceptance, shared Runtime replacement, scanner-rule change, changed historical assertion or unverified approval is allowed.",
+    "Keep original CI gate definitions, strict route and acceptance commands. Do not raise local experiment or verification execution beyond900 seconds per command. Before a new CI attempt, retain actual pre-fix evidence and the reviewed minimal change. Preserve old failed runs; use actual new HEAD results rather than a prior success.",
+    "Do not edit WI1096/WI1097 Contract, verification, approvals, archive or generated close/finalization bytes. Their already user-confirmed four-record commit0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9 may be inherited unchanged as explicit publication context before this work item implementation; it is not repaired or re-approved here. PR1054 remains a four-file governance-only PR. Any source repair is a separate explicitly described Work Item/PR and normal Runtime lifecycle."
+  ],
+  "createdAt": "2026-10-22T03:51:15.704823019Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0f9d19e118c2c1768f10f474b140e9ea748176605991019c0509cb2428da1949",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2427c3d30f0323e1058965cd76eb2325f9814d25bb95e8e15d46a150eb2f2509",
+      "workItemId": "WI-1098-composition-cleanup-observation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1098-composition-cleanup-observation.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification-attempt.8badecd83d12cd9adbd90364c11dd36670abb65cebb0358aaa60eb8f432c043b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification-attempt.f446a85fc56a7c18335fb5c3cea7734f63494cea83bf2cfe65c0465206e5035c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1098-composition-cleanup-observation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish fixed-input evidence for the PR1054 MCP cleanup_deferred failure, then apply and review the smallest proven composition-observation or test-isolation correction in an independent work item"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T03:51:15.704823019Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1098-composition-cleanup-observation"
+    },
+    "workItemId": "WI-1098-composition-cleanup-observation"
+  },
+  "taskReportDigest": "sha256:02d152c4276c82e7a6da80cddf1c4fdeb94bfad95f6697996652b3fc5fb8aa66",
+  "taskReportMarkdownDigest": "sha256:630d0156d0de73851244cd780d6b1364e70baee3125d2a425d4ee4e3cbedc5c7",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1098-composition-cleanup-observation"
+}

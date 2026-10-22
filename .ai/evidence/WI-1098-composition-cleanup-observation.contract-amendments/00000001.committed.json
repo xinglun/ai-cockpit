@@ -1,0 +1,122 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:a4166f2cc9fbd2a49e9a81cb021c9fbaaad7d275a1a84979c5a7521a4de609be",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1098-composition-cleanup-observation",
+    "sequence": 1,
+    "changeId": "legacy-e8a781ea6d028fa63b0648917773092857163e76348329347e6b15b378df4875",
+    "requestDigest": "sha256:63a225af6a19a759a3fcac31919743fec4f381699630babf0306ddffd7e70fea",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:e8a781ea6d028fa63b0648917773092857163e76348329347e6b15b378df4875",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054",
+          "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054",
+          "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054",
+          "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval",
+          "Original failure diagnostics privately preserved under /workspace/wi1097-delivery-run/confirmed-close-publication-20261022/failed-pr-ci-artifacts; strict39 passed1 failed2 not_applicable, zero reused gates"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054",
+          "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval",
+          "Original failure diagnostics privately preserved under /workspace/wi1097-delivery-run/confirmed-close-publication-20261022/failed-pr-ci-artifacts; strict39 passed1 failed2 not_applicable, zero reused gates"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054",
+          "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval",
+          "Original failure diagnostics privately preserved under /workspace/wi1097-delivery-run/confirmed-close-publication-20261022/failed-pr-ci-artifacts; strict39 passed1 failed2 not_applicable, zero reused gates",
+          "Approved immutable closeout context0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9; WI1097 source validation remainsad66af2b952963e7f1f10b7ec02a4ef738907ce3; original WI1096e745 evidence stays historical"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054",
+          "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval",
+          "Original failure diagnostics privately preserved under /workspace/wi1097-delivery-run/confirmed-close-publication-20261022/failed-pr-ci-artifacts; strict39 passed1 failed2 not_applicable, zero reused gates",
+          "Approved immutable closeout context0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9; WI1097 source validation remainsad66af2b952963e7f1f10b7ec02a4ef738907ce3; original WI1096e745 evidence stays historical"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39710738549",
+          "https://github.com/xinglun/ai-cockpit/pull/1054",
+          "Raydot technical decision in parent thread01a1576c-b0ab-7723-ad8e-95924e80102a: independent minimal repair under approved historical-failure/process-cleanup/timing plan; ordinary technical design delegated, no new blanket human approval",
+          "Original failure diagnostics privately preserved under /workspace/wi1097-delivery-run/confirmed-close-publication-20261022/failed-pr-ci-artifacts; strict39 passed1 failed2 not_applicable, zero reused gates",
+          "Approved immutable closeout context0473bd17b4033a1158c629ed9ccaf60ed3ea0dd9; WI1097 source validation remainsad66af2b952963e7f1f10b7ec02a4ef738907ce3; original WI1096e745 evidence stays historical",
+          "Official governance Runtime1.0.1 binarySHA256 b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd sourcea1dbec70c8fc050b95165163da0da03cd90b79d1"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c4a73f0bf6004943617a13f890314632b2231f13850d040a74d25ed39330e24d",
+    "newContractDigest": "sha256:dbd4d79f568955be3c630a666edd5a4ad69b558af4c4f3b5a46abfc6059208b2",
+    "repositorySnapshotDigest": "sha256:07406f7f10c45a1f866d9767ac4b6e3d6418da0766b97adc9fec80cc9a25fb1e",
+    "environmentObservationDigest": "sha256:1659b65223b1503a1e5db2a21e9d841149c6d188572cf4f25835b212e12f03b8",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:cf00bf958c129aff41119dd41e7aecbf6d6124a783d7cca6f38e83b9d015ed74",
+    "recordedAt": "2026-10-22T03:07:37Z"
+  }
+}
