@@ -1,0 +1,86 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:186028df07e76d1f3b2f3a889d2f3078903b8b1a007e61b55ba5e719e36d1e4e",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1101-closeout-recovery-preflight",
+    "sequence": 1,
+    "changeId": "legacy-2768bb6e0fb8da24fc9d966da2cd9d105dd36eabe60b0f55e20cc93c43887036",
+    "requestDigest": "sha256:d0c48b32dcbf9a0e0224507935d9546958570907d43855ae20753da3d7e6b522",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:2768bb6e0fb8da24fc9d966da2cd9d105dd36eabe60b0f55e20cc93c43887036",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicit dual-track bounded Issue1004/1041 repair scheduling with mainline continuation"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicit dual-track bounded Issue1004/1041 repair scheduling with mainline continuation"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicit dual-track bounded Issue1004/1041 repair scheduling with mainline continuation",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot approved prioritize1004 preexisting receipt prewrite check without relaxing identity"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicit dual-track bounded Issue1004/1041 repair scheduling with mainline continuation",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot approved prioritize1004 preexisting receipt prewrite check without relaxing identity"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicit dual-track bounded Issue1004/1041 repair scheduling with mainline continuation",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot approved prioritize1004 preexisting receipt prewrite check without relaxing identity",
+          "current-main-source:4dad270aa68339e1158b32e205c77d193181d57a;lifecycle.rs build_closeout_recovery_plan and recover_cross_checkout_closeout_with_hook;confirmed planner omits separately generated immutable receipt"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicit dual-track bounded Issue1004/1041 repair scheduling with mainline continuation",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot approved prioritize1004 preexisting receipt prewrite check without relaxing identity",
+          "current-main-source:4dad270aa68339e1158b32e205c77d193181d57a;lifecycle.rs build_closeout_recovery_plan and recover_cross_checkout_closeout_with_hook;confirmed planner omits separately generated immutable receipt"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicit dual-track bounded Issue1004/1041 repair scheduling with mainline continuation",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot approved prioritize1004 preexisting receipt prewrite check without relaxing identity",
+          "current-main-source:4dad270aa68339e1158b32e205c77d193181d57a;lifecycle.rs build_closeout_recovery_plan and recover_cross_checkout_closeout_with_hook;confirmed planner omits separately generated immutable receipt",
+          "local-Sentinel-relayed-readonly-facts:old recovery receipt preexisted in both source and destination;different sourceSnapshot binding;correct strict rejection after10nonclose installs;raw history retained"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:1032543d408c2df375735fc331b1c8b519670c27f893408235698bbef045f193",
+    "newContractDigest": "sha256:1ffd120d59f7caa10180c2e5793637f0b5edd9dd5f8b8ec5bc7ce716be43f57c",
+    "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+    "environmentObservationDigest": "sha256:3ba5f4527bb805c6d69a2086d3b8e4fc687a54cb5d46fe7c02994fe886d7e7a7",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:cb422c5c6065c17d42f6c69244063f621c22e91d72f8052eb16bc654ed5ce01a",
+    "recordedAt": "2026-10-22T12:09:25Z"
+  }
+}
