@@ -78,7 +78,7 @@
   "unknowns": [],
   "verification": [
     "bash tests/ci/process_observer_test_runner_test.sh",
-    "cargo test --locked --target x86_64-unknown-linux-gnu -p cockpit-verification --lib composition::tests:: -- --test-threads=1",
+    "cargo test --locked --target x86_64-unknown-linux-gnu -p cockpit-verification --lib composition:: -- --test-threads=1",
     "cargo test --locked --target x86_64-unknown-linux-gnu -p cockpit-cli --test collaboration_scenario_matrix -- --test-threads=4",
     "cargo clippy --locked -p cockpit-verification -p cockpit-cli --all-targets --all-features -- -D warnings",
     "cargo fmt --all -- --check",

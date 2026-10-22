@@ -1,0 +1,161 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2427c3d30f0323e1058965cd76eb2325f9814d25bb95e8e15d46a150eb2f2509",
+    "workItemId": "WI-1098-composition-cleanup-observation"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1098-composition-cleanup-observation.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.contract-amendments/00000002.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.contract-amendments/00000002.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification-attempt.8badecd83d12cd9adbd90364c11dd36670abb65cebb0358aaa60eb8f432c043b.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification-attempt.f446a85fc56a7c18335fb5c3cea7734f63494cea83bf2cfe65c0465206e5035c.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1098-composition-cleanup-observation.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1098-composition-cleanup-observation.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.contract.json"
+        ],
+        "inference": false,
+        "text": "Establish fixed-input evidence for the PR1054 MCP cleanup_deferred failure, then apply and review the smallest proven composition-observation or test-isolation correction in an independent work item"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1098-composition-cleanup-observation.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-22T03:51:15.704823019Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1098-composition-cleanup-observation"
+  },
+  "workItemId": "WI-1098-composition-cleanup-observation"
+}

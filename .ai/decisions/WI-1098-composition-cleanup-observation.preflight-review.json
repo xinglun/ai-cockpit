@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6157b14267c4b51e76d3275cedd1e9a0776c7f61f011458c9ee134b804860ef8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:8dced2ed1d92446a55bc6c4a0e83f8866837c199be1d7cd634d6d21d04f105d4",
+  "reason": "Actual user selected: 确认 WI-1098 上述验证命令修订及绑定，confirm_review。 Source user message Sentinel_2744796503e4819187fb31059c618960, responding to Sentinel_cd97447642b08191940eee9e7f9a512a, relayed with transcript by parent thread01a1576c-b0ab-7723-ad8e-95924e80102a. Parent receiving context2026-10-22 03:44:39UTC is not asserted as exact service author timestamp. recordedAt is this agent actual current recording time. Decision covers only the exact Contract filter correction composition::tests:: to composition:: and bound preflight/snapshot. It is not test evidence, a GitHub human Review, risk acceptance, or approval of another Work Item.",
+  "recordedAt": "2026-10-22T03:46:07.042497+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_2744796503e4819187fb31059c618960; no independent external identity verification asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2427c3d30f0323e1058965cd76eb2325f9814d25bb95e8e15d46a150eb2f2509",
+  "schemaVersion": 1,
+  "workItemId": "WI-1098-composition-cleanup-observation"
+}
