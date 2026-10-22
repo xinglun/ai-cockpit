@@ -301,6 +301,16 @@ fn retained_canonical_fixture_with_producer(
     git(root, &["add", "."]);
     git(root, &["commit", "-qm", "fixture source baseline"]);
     assert_success(&retained_cli(root, &["attach"]), "attach retained fixture");
+    if legacy_descriptor_model {
+        for command in RETAINED_FIXTURE_CHECKS {
+            let mut words = command.split_whitespace();
+            let program = words.next().expect("profile program");
+            let args = words.map(str::to_owned).collect::<Vec<_>>();
+            let profile = cockpit_repository::confirm_profile_update(root, program, &args)
+                .expect("confirm only the isolated fixture command profile");
+            assert_eq!(profile.state, "calibrated");
+        }
+    }
     let mut start = vec![
         "start",
         "--id",
@@ -583,6 +593,71 @@ fn legacy_descriptor_fixture_child() {
             assert!(run.receipt.passed);
             assert_eq!(run.receipt.processes_spawned, 1);
             assert_eq!(run.receipt.nodes_reused, 0);
+            assert_eq!(run.receipt.receipt_candidates.len(), 1);
+            assert!(root.join(".ai/evidence/reuse/index.json").is_file());
+            let cached = run_repository_verification(&root, request)
+                .expect("same old-context profile cache must actually be reusable");
+            assert!(cached.receipt.passed);
+            assert_eq!(cached.receipt.processes_spawned, 0);
+            assert_eq!(cached.receipt.nodes_reused, 1);
+            let now = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .expect("fixture clock")
+                .as_secs() as i64;
+            let old_plan = cockpit_repository::plan_repository_verification_action(
+                &root, request, &snapshot, now,
+            )
+            .expect("actual old-runtime cache lookup");
+            assert_eq!(old_plan["action"], "reuse");
+            let mut current_request = request.clone();
+            current_request.runtime_digest = candidate_runtime().runtime_digest.to_string();
+            let current_plan = cockpit_repository::plan_repository_verification_action(
+                &root,
+                &current_request,
+                &snapshot,
+                now,
+            )
+            .expect("actual current-runtime cache lookup");
+            assert_eq!(current_plan["action"], "execute");
+            assert_eq!(
+                current_plan["bindingMismatches"],
+                json!(["environmentDigest"])
+            );
+            let input = cockpit_repository::VerificationContextInput {
+                program: request.program.clone(),
+                args: request.args.clone(),
+                command_digest: run.receipt.execution_records[0].command_digest.clone(),
+                scope: request.scope.clone(),
+                stage: request.stage.clone(),
+                runner: request.runner.clone(),
+                runtime_digest: request.runtime_digest.clone(),
+                base_commit: request.base_commit.clone(),
+            };
+            let context = |input: &cockpit_repository::VerificationContextInput| {
+                match cockpit_repository::assess_verification_reuse(&root, &snapshot, input)
+                    .expect("actual profile-context assessment")
+                {
+                    cockpit_repository::VerificationReuseAssessment::Authorized(authorization) => {
+                        authorization.context
+                    }
+                    cockpit_repository::VerificationReuseAssessment::Denied { reason } => {
+                        panic!("fixture profile must be authorized: {reason}")
+                    }
+                }
+            };
+            let old_context = context(&input);
+            let mut current_input = input;
+            current_input.runtime_digest = candidate_runtime().runtime_digest.to_string();
+            let mut current_context = context(&current_input);
+            assert_ne!(
+                old_context.environment_digest,
+                current_context.environment_digest
+            );
+            current_context.environment_digest = old_context.environment_digest.clone();
+            assert_eq!(
+                old_context, current_context,
+                "only producer Runtime changed"
+            );
             serde_json::to_value(run.receipt).expect("actual receipt JSON")
         })
         .collect::<Vec<_>>();
@@ -4328,7 +4403,14 @@ fn stale_or_substituted_recovery_decisions_never_publish_or_finish_metadata() {
                 input.to_str().unwrap(),
             ]);
             if case == "environment" {
-                command.env("CARGO_BUILD_JOBS", "2");
+                let original = std::env::var_os("CARGO_BUILD_JOBS");
+                let changed = if original.as_deref() == Some(std::ffi::OsStr::new("2")) {
+                    "1"
+                } else {
+                    "2"
+                };
+                assert_ne!(original.as_deref(), Some(std::ffi::OsStr::new(changed)));
+                command.env("CARGO_BUILD_JOBS", changed);
             } // Metadata-only rejection: no build is launched.
             let output = command.output().expect("record fixture decision");
             if output.status.success() {
