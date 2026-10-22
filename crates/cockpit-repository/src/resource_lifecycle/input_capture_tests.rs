@@ -442,7 +442,9 @@ fn captured_input_still_requires_current_identity_and_git_bindings() {
         .reverse();
     cases.push(invalid_parents);
     let mut invalid_base = original;
-    invalid_base["historical"]["contractBaseRevision"] = "foreign-base".into();
+    // With PR base already equal to Contract base, the optional historical
+    // Contract-base hint is redundant. Exercise the actual Git base binding.
+    invalid_base["pullRequest"]["baseRevision"] = "foreign-base".into();
     cases.push(invalid_base);
     for invalid in cases {
         fs::write(&input, serde_json::to_vec(&invalid).unwrap()).unwrap();
