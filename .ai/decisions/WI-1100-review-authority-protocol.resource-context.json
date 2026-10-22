@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:74dc2bdfcd7ed4ec4cb27f65f1bb6260d63fba159b9657b9c46d3ff1013e2e2d",
+  "contractDigest": "sha256:da60e05b2f5ee32e7af3f3c3ca80b7b7cdc1b87840ec07696ec99acbb0927b68",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-22T11:06:34Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1100-review-authority-protocol",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1059",
+    "worktree": "/workspace/ai-cockpit-wi1100-review-authority-protocol"
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1100-review-authority-protocol"
+}
