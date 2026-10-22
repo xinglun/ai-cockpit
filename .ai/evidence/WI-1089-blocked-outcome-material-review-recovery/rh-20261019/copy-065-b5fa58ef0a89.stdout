@@ -1,0 +1,54 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-19T10:51:21Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:5f762fd8f815ead95ec30426520d67eb8f7f561c11b58ef63d24f2b732b19ffb",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "Synthetic fixture decision only; not Ray or a consumer approval.",
+    "recordedAt": "2026-10-19T10:51:21Z",
+    "recordedBy": "human:isolated-synthetic-fixture",
+    "repositoryId": "sha256:82ba80e1fe89aef70493231c64c21ace096aa7d459d6358feb7f6c4b94688a94",
+    "repositorySnapshotDigest": "sha256:d6d91bbb1fe1e552f1f6206989cc33da33810c98b368b64c9b45bbe0adb8aa71",
+    "schemaVersion": 1,
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T10:51:21.433111358Z",
+      "recordedAt": "2026-10-19T10:51:21.433111358Z",
+      "runtimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-19T10:51:21Z",
+  "preflightContractDigest": "sha256:5f762fd8f815ead95ec30426520d67eb8f7f561c11b58ef63d24f2b732b19ffb",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "preflightRepositorySnapshotDigest": "sha256:d6d91bbb1fe1e552f1f6206989cc33da33810c98b368b64c9b45bbe0adb8aa71",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:82ba80e1fe89aef70493231c64c21ace096aa7d459d6358feb7f6c4b94688a94",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The old cycle executes all four declared checks.",
+      "required": true,
+      "scenario": "old fixture four-check cycle",
+      "status": "unverified",
+      "verificationPlan": "Native verify all four declared fixture commands."
+    }
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-10-19T10:51:22.077796234+00:00",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

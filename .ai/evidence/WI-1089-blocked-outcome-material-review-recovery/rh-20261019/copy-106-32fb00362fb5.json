@@ -1,0 +1,21 @@
+{
+  "kind": "actual_isolated_four_check_retained_history_runtime_upgrade_acceptance",
+  "candidateSourceHead": "7e8d629b11c36235d96c80c28adbf2b91d013e47",
+  "candidateBinarySha256": "89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c",
+  "oldProducerRuntimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+  "currentProducerRuntimeDigest": "sha256:89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c",
+  "oldSnapshot": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+  "currentSnapshot": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+  "materialRequestDigest": "sha256:cdf2a26bcf89a3c8c87180394f9c2a237b1ee9bba2f599cb03f9b43402f83518",
+  "oldCanonicalRawSha256": "c140524bc845e36f3713715b1da14871acba5d69eac6e30a3d09b324bcce9484",
+  "oldBlockedOutcomeRawSha256": "647abc6e37dda80a7f06fc8e64a2bd05b016a6eba7146cff9b8518bad680d4d6",
+  "currentCanonicalRawSha256": "7d98f310edc9ad3f6b51ef0aac63e9644250af34edb61e456ad450880e508cb8",
+  "currentNodesExecuted": 4,
+  "currentNodesReused": 0,
+  "currentProcessesSpawned": 4,
+  "maxConcurrentProcesses": 1,
+  "freshGreenPreflight": true,
+  "actualFixtureFinish": true,
+  "actualFixtureArchive": true,
+  "limitations": "Independent fixture copied from actual c960 baseline. Old producer is preserved Linux c960 1.0.1; current producer is Linux development candidate. Same source snapshot; no fabricated runtime identity. Not the real rc2/macOS capsule, not Sentinel recovery, not real WI terminal authorization."
+}

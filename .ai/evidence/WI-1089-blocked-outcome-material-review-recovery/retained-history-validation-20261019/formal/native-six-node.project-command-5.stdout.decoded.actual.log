@@ -1,0 +1,46 @@
+
+running 41 tests
+test active_material_plan_digest_matches_persisted_contract_across_json_shapes ... ok
+test adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality ... ok
+test admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer ... ok
+test ai_only_descendant_retains_request_identity_but_source_change_stales_it ... ok
+test assume_unchanged_source_cannot_masquerade_as_committed_material ... ok
+test binary_rust_material_is_unknown_but_not_reviewable ... ok
+test bounded_patch_in_large_committed_rust_unknown_remains_reviewable_from_blob ... ok
+test bounded_patch_with_over_budget_source_is_typed_unreviewable ... ok
+test changed_file_count_budget_rejects_before_material_scan ... ok
+test changed_rust_blob_without_hunks_is_unknown_and_not_reviewable ... ok
+test committed_manifest_is_scanned_with_empty_worktree_diff_and_profile_absent ... ok
+test committed_symlink_refuses_request ... ok
+test cumulative_blob_budget_rejects_small_binary_patches_across_large_files ... ok
+test cumulative_text_budget_allows_multiple_large_files_with_small_patches ... ok
+test cumulative_text_budget_rejects_small_patches_across_large_files ... ok
+test dirty_and_untracked_source_refuse_request ... ok
+test finding_is_never_reviewable ... ok
+test material_review_decision_types_reject_unknown_fields_and_receipt_tampering ... ok
+test material_review_decision_validator_rejects_findings_and_extra_unknowns ... ok
+test material_review_decision_validator_rejects_stale_input_and_tampered_request ... ok
+test material_review_decision_validator_rejects_unapproved_profile_actor ... ok
+test material_review_decision_validator_rejects_wrong_authority_source ... ok
+test material_review_hunkless_git_worker ... ok
+test material_review_rejects_a_summary_pointer_to_a_noncanonical_sidecar_path ... ok
+test no_hunk_same_blob_rename_remains_safe_by_blob_identity ... ok
+test no_hunk_text_changes_still_bind_complete_committed_source ... ok
+test non_ancestor_rebase_cannot_become_a_canonical_request ... ok
+test normalized_crlf_checkout_is_not_compared_to_committed_blob_bytes ... ok
+test old_material_decision_is_stale_after_analysis_or_policy_identity_changes ... ok
+test request_binds_each_distinct_blocking_finding_category ... ok
+test staged_source_refuses_request ... ok
+test staged_source_rename_into_ai_does_not_hide_original_source_change ... ok
+test stale_material_review_receipt_requires_valid_prior_sidecar ... ok
+test stale_receipt_after_valid_contract_amendment_is_classified_stale ... ok
+test stale_receipt_does_not_block_when_current_request_has_no_reviewable_unknown ... ok
+test stale_receipt_history_shape_is_validated_before_sidecar_write ... ok
+test stale_receipt_with_changed_contract_profile_is_not_renewable ... ok
+test stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid ... ok
+test stale_receipt_without_contract_amendment_chain_remains_invalid ... ok
+test unreadable_committed_source_refuses_request ... ok
+test untracked_unicode_ai_fact_is_not_misclassified_as_dirty_source ... ok
+
+test result: ok. 41 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 18.96s
+

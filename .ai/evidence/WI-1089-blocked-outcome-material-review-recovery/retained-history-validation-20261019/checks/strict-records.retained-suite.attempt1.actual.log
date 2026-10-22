@@ -1,0 +1,26 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 06s
+     Running tests/contract_amendment_processes.rs (/workspace/scratch/wi1089-preserved-history-verify-target-20261019/debug/deps/contract_amendment_processes-9c822762ecd8f2ad)
+
+running 6 tests
+test retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives ... ok
+test retained_history_integrity_is_separate_from_current_source_freshness ... ok
+test retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh ... 
+thread 'retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh' (4011932) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:665:19:
+exact native retry after actual failure: State { path: "/tmp/.tmpvMOm9B/.ai/work-items", message: "recovery_decision_invalid:predecessor_outcome_presence_mismatch: predecessor Outcome presence does not match the recovery decision" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+test retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorized_inputs ... ok
+test retained_history_recovery_rejects_symlinked_canonical_verification ... ok
+test retained_history_with_unchanged_execution_bindings_preserves_valid_reuse ... ok
+
+failures:
+
+failures:
+    retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh
+
+test result: FAILED. 5 passed; 1 failed; 0 ignored; 0 measured; 38 filtered out; finished in 146.59s
+
+error: test failed, to rerun pass `-p cockpit-cli --test contract_amendment_processes`

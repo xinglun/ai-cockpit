@@ -1,0 +1,43 @@
+{
+  "kind": "agent_recorded_evidence_origin_scope_and_current_review_limits",
+  "codeHead": "7e8d629b11c36235d96c80c28adbf2b91d013e47",
+  "frozenA248MaterialRequest": "sha256:86f59b9be292864b3876adb20306bedd16efc7e6e75a3ab4b7040588704b88d0",
+  "currentMaterialRequest": "sha256:5b754492f94bcca129b64a23d6b83a8bec18eeea14e1c14c97db9ed27681574a",
+  "currentMaterialPackageSha256": "9e1ebf14f419abf8a3209e643d6c6d200a3f6d9ffcf090686fc805fad4840a2f",
+  "oldConsentCoversCurrentExactBlobs": false,
+  "oldConsentActualConstraintQuote": "\u4e09\u4efd Rust \u5185\u5bb9\u5fc5\u987b\u4fdd\u6301\u4e0d\u53d8",
+  "oldConsentComparison": [
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "oldFiniteConsentBlob": "sha256:8126ddaa97f72f465925a164922faebdec69a350bffb902ab223290f47fcc9bd",
+      "currentBlob": "sha256:1e90ecada9bc92eafc61d3719c3c8e3c8569da85cdd75e206928a9f8dbad2d17",
+      "same": false
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "oldFiniteConsentBlob": "sha256:8e66583fabefa1eaf536ff03075f22f1b041b6283fb090432f02ba2c3c32c0c6",
+      "currentBlob": "sha256:6cb86c09ced6bd6dab648ca17976bf4581ea736604b2587c873c72bed7aff122",
+      "same": false
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "oldFiniteConsentBlob": "sha256:02c4f3c6aac7273f6f2377f2bd4752757625f43e62c541f8cba27474505e49b1",
+      "currentBlob": "sha256:7ad8af92961788e6ac65f47ef9130417a645984cb1c356b6363cac4e9625d6d6",
+      "same": false
+    }
+  ],
+  "originSeparation": {
+    "committedRustPositive": "source change forces actual four fresh checks; unchanged bindings reuse four normally",
+    "externalFixture04": "actual c960 release d9d1 to actual earlier product3f7a; same native snapshot; source report442dd98c product bytes equal a248, not part of a248 Rust test",
+    "externalFixture06": "newly built7e8 product89a0 with original c960 release; same native snapshot; actual current full fixture after command-witness repair",
+    "negativeOnlyDigestMutations": "isolated negative copies only; no positive runtimeDigest is manually assigned"
+  },
+  "verificationLimits": [
+    "a248 native attempt2 passes6/6; a248 known manifest gap independently reproduced afterwards. Its result does not prove closure.",
+    "7e8 focused retained suite8/8 and actual external dual producer fixture pass; current full six-node and CI still need terminal evidence.",
+    "Old exact consent and current Contract confirm_review are distinct; no new material approval or receipt has been recorded.",
+    "Real rc2/macOS capsule unavailable; matching original native attempt is required and absence is diagnosed, not waived.",
+    "Original candidate binaries are preserved outside Git; no bin/cache/Git-common state is uploaded.",
+    "No actual WI/Sentinel finish/archive, merge, closure or cleanup."
+  ]
+}

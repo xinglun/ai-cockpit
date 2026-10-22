@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "commit",
+    "-qm",
+    "fixture baseline"
+  ],
+  "exitCode": 0,
+  "startedAt": "2026-10-19T10:01:12.591429+00:00",
+  "endedAt": "2026-10-19T10:01:12.605219+00:00",
+  "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

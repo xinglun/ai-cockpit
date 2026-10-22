@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+  "contractDigest": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+  "immutableContractBaseRevision": "4f0bd215472bac83ec341e87cc82168cb81d55ad",
+  "sourceSnapshotDigest": "sha256:07cfac973c777543f6abfdd2b2b26da91ec43de5b9c4a6784045472d453937b5",
+  "materialManifestDigest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:1a69dbd3324f9e9556e6ff12a6db4f19d2002efff5a40172dfdeb4665238639a",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:1ae80d2d83e5ee570bbefcfbd67602e1fe5a0ed84db3b6a1c9ed0b8298bedfc3",
+  "effectivePolicyDigest": "sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+  "entries": [
+    {
+      "path": "tests/material.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:4df91963de8e76be7efefd167601d46b313e9ff7365e119d2afb2ae32687a9a4",
+      "afterBlobDigest": "sha256:7fc9452f1e16088fb429622f0a80ca776f25640463034c73f34bda5107f41fc6"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:d552e8e4ef924d8bf634a4f13c48fbd549c07140fd05b31ff9df65c20e24a037",
+  "reviewedSourceHead": "7ee4c0a0d7cebafc28fba0523ec0992effde8d7e"
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent-recorded-development-checks",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T04:57:28.734624+00:00",
+  "baseHead": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "formalNativeVerification": "not_run",
+  "note": "These are local development checks in the isolated WI-1089 worktree. Full suites preceded the final added rejection cases and tighter provenance predicate; focused cases and Clippy were rerun after those changes. No WI-1087 composed-head verification is claimed.",
+  "checks": [
+    {
+      "command": "cargo test --offline --locked --package cockpit-repository --test status_projection",
+      "result": "passed",
+      "count": "46/46",
+      "binding": "before final additional rejection cases and provenance check"
+    },
+    {
+      "command": "cargo test --offline --locked --package cockpit-repository --test status_projection blocked_material",
+      "result": "passed",
+      "count": "3/3",
+      "binding": "after final provenance check"
+    },
+    {
+      "command": "cargo test --offline --locked --package cockpit-repository --test status_projection blocked_outcome_after_sensitive_amendment_admits_only_exact_material_review",
+      "result": "passed",
+      "count": "1/1",
+      "binding": "before final provenance check"
+    },
+    {
+      "command": "cargo test --offline --locked --package cockpit-cli --test contract_amendment_processes",
+      "result": "passed",
+      "count": "37/37",
+      "binding": "before final adapter additions and provenance check"
+    },
+    {
+      "command": "cargo test --offline --locked --package cockpit-cli --test contract_amendment_processes blocked_material_recovery",
+      "result": "passed",
+      "count": "2/2",
+      "binding": "after final adapter additions and provenance check"
+    },
+    {
+      "command": "cargo test --offline --locked --package cockpit-mcp --test material_review",
+      "result": "passed",
+      "count": "2/2",
+      "binding": "before final provenance check"
+    },
+    {
+      "command": "cargo fmt --all -- --check",
+      "result": "passed",
+      "binding": "after final provenance check"
+    },
+    {
+      "command": "cargo clippy --offline --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+      "result": "passed",
+      "binding": "after final provenance check"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed",
+      "binding": "after final provenance check"
+    }
+  ]
+}

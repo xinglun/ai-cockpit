@@ -1,0 +1,1835 @@
+diff --git a/crates/cockpit-cli/tests/contract_amendment_processes.rs b/crates/cockpit-cli/tests/contract_amendment_processes.rs
+index 1e0d2238..c92c6ff8 100644
+--- a/crates/cockpit-cli/tests/contract_amendment_processes.rs
++++ b/crates/cockpit-cli/tests/contract_amendment_processes.rs
+@@ -11,6 +11,7 @@ use serde_json::{Value, json};
+ use std::fs;
+ use std::path::{Path, PathBuf};
+ use std::process::{Command, Output};
++use std::sync::OnceLock;
+ 
+ const WORK_ITEM_ID: &str = "WI-CLI-AMEND-PARITY";
+ 
+@@ -75,13 +76,20 @@ fn assert_success(output: &Output, label: &str) {
+ }
+ 
+ fn candidate_runtime() -> RuntimeContext {
+-    RuntimeContext {
+-        runtime_version: env!("CARGO_PKG_VERSION").into(),
+-        protocol_version: PROTOCOL_VERSION,
+-        runtime_digest: Digest::sha256_bytes(
+-            &fs::read(candidate_binary()).expect("read candidate executable"),
+-        ),
+-    }
++    // Cargo supplies one immutable candidate executable for this test process.
++    // Hash its actual bytes once; every fixture still gets its own context clone.
++    // Rehashing the large debug binary for each control/MCP call can exhaust the
++    // native 600-second test deadline without adding an identity observation.
++    static RUNTIME: OnceLock<RuntimeContext> = OnceLock::new();
++    RUNTIME
++        .get_or_init(|| RuntimeContext {
++            runtime_version: env!("CARGO_PKG_VERSION").into(),
++            protocol_version: PROTOCOL_VERSION,
++            runtime_digest: Digest::sha256_bytes(
++                &fs::read(candidate_binary()).expect("read candidate executable"),
++            ),
++        })
++        .clone()
+ }
+ 
+ fn typed_request(root: &Path) -> ContractAmendmentRequest {
+@@ -137,6 +145,971 @@ fn confirm_current_fixture_preflight(root: &Path) {
+     .expect("record exact synthetic Contract review");
+ }
+ 
++const RETAINED_FIXTURE_CHECKS: [&str; 4] = [
++    "cargo test --locked --offline --test material",
++    "cargo fmt --all -- --check",
++    "cargo test --locked --offline",
++    "cargo clippy --locked --offline --all-targets -- -D warnings",
++];
++
++fn retained_cli(root: &Path, args: &[&str]) -> Output {
++    retained_command(root, args)
++        .output()
++        .expect("retained-history fixture CLI")
++}
++
++fn retained_command(root: &Path, args: &[&str]) -> Command {
++    let mut command = Command::new(candidate_binary());
++    command
++        .args(args)
++        .arg("--repo")
++        .arg(root)
++        .current_dir(root)
++        .env("CARGO_TARGET_DIR", root.join(".ai/fixture-target"))
++        .env("CARGO_BUILD_JOBS", "1")
++        .env("CARGO_INCREMENTAL", "0")
++        .env("CARGO_NET_OFFLINE", "true");
++    command
++}
++
++fn retained_document(root: &Path, suffix: &str) -> Value {
++    serde_json::from_slice(
++        &fs::read(root.join(format!(
++            ".ai/work-items/active/{WORK_ITEM_ID}.{suffix}.json"
++        )))
++        .expect("native fixture document"),
++    )
++    .expect("native fixture JSON")
++}
++
++fn retained_amend(root: &Path, change_id: &str, changes: Value) {
++    let contract = retained_document(root, "contract");
++    let result = mcp_call(
++        root,
++        &candidate_runtime(),
++        "work_item_amend",
++        json!({"workItemId": WORK_ITEM_ID, "request": {
++            "schemaVersion": 1, "changeId": change_id,
++            "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("digest"),
++            "reason": "Isolated equivalent historical fixture; no real consumer authority.",
++            "changes": changes
++        }}),
++    );
++    assert_eq!(
++        result.pointer("/result/isError"),
++        Some(&json!(false)),
++        "{result}"
++    );
++}
++
++fn retained_material_input(root: &Path) -> Value {
++    let output = retained_cli(
++        root,
++        &["work-item", "material-review", "plan", "--id", WORK_ITEM_ID],
++    );
++    assert_success(&output, "retained-history material plan");
++    let request: Value = serde_json::from_slice(&output.stdout).expect("material request");
++    assert_eq!(request["findingCodes"], json!([]), "{request}");
++    assert_eq!(request["reviewEnabled"], true);
++    json!({
++        "schemaVersion": 1, "decision": "accept_permitted_unknowns",
++        "requestDigest": request["requestDigest"],
++        "reviewerActor": "agent:fixture-reviewer",
++        "authoritySource": "test-fixture:bounded-review", "assurance": "self_declared",
++        "evidenceRefs": [{"path": "tests/material.rs", "digest":
++            Digest::sha256_bytes(&fs::read(root.join("tests/material.rs")).expect("fixture source"))}],
++        "rationale": "Read the exact isolated fixture source and bounded syntax Unknown.",
++        "residualRisk": "The bounded scanner is incomplete; synthetic fixture scope only."
++    })
++}
++
++fn retained_record_material(root: &Path, input: &Value) -> Output {
++    let file = tempfile::NamedTempFile::new().expect("material decision input");
++    fs::write(file.path(), serde_json::to_vec(input).expect("input JSON")).expect("material input");
++    retained_cli(
++        root,
++        &[
++            "work-item",
++            "material-review",
++            "record",
++            "--id",
++            WORK_ITEM_ID,
++            "--input",
++            file.path().to_str().expect("input path"),
++        ],
++    )
++}
++
++struct RetainedCanonicalFixture {
++    directory: tempfile::TempDir,
++    old_evidence: Vec<u8>,
++    old_outcome: Vec<u8>,
++}
++
++fn retained_canonical_amendment_fixture() -> RetainedCanonicalFixture {
++    retained_canonical_amendment_fixture_with_source_change(false)
++}
++
++fn retained_canonical_amendment_fixture_with_source_change(
++    change_source: bool,
++) -> RetainedCanonicalFixture {
++    retained_canonical_fixture_with_checks(change_source, RETAINED_FIXTURE_CHECKS)
++}
++
++fn retained_canonical_fixture_with_checks(
++    change_source: bool,
++    checks: [&str; 4],
++) -> RetainedCanonicalFixture {
++    let directory = tempfile::tempdir().expect("retained fixture");
++    let root = directory.path();
++    git(root, &["init", "-q", "--initial-branch=main"]);
++    git(root, &["config", "user.name", "Retained Fixture"]);
++    git(root, &["config", "user.email", "fixture@example.invalid"]);
++    fs::write(
++        root.join("README.md"),
++        "Equivalent lifecycle fixture, not Sentinel.\n",
++    )
++    .expect("README");
++    fs::write(
++        root.join("Cargo.toml"),
++        "[package]\nname = \"retained_fixture\"\nversion = \"0.1.0\"\nedition = \"2024\"\n",
++    )
++    .expect("fixture manifest");
++    fs::create_dir(root.join("src")).expect("source directory");
++    fs::write(
++        root.join("src/lib.rs"),
++        "pub fn expected_date() -> &'static str {\n    \"2026-10-14\"\n}\n",
++    )
++    .expect("fixture library");
++    let lock = Command::new("cargo")
++        .args(["generate-lockfile", "--offline"])
++        .current_dir(root)
++        .output()
++        .expect("fixture lockfile");
++    assert_success(
++        &lock,
++        "generate actual fixture Cargo.lock before source inventory",
++    );
++    git(root, &["add", "."]);
++    git(root, &["commit", "-qm", "fixture source baseline"]);
++    assert_success(&retained_cli(root, &["attach"]), "attach retained fixture");
++    let mut start = vec![
++        "start",
++        "--id",
++        WORK_ITEM_ID,
++        "--intent",
++        "Exercise preserved canonical verification recovery",
++        "--goal",
++        "Run all four checks through isolated fixture finish and archive",
++        "--risk",
++        "normal",
++        "--authority",
++        "authorized",
++        "--out-of-scope",
++        "No real consumer or human authorization",
++        "--acceptance",
++        "All four checks execute and history remains intact",
++        "--required-evidence",
++        "verification_receipt",
++    ];
++    for path in [
++        "README.md",
++        "Cargo.toml",
++        "Cargo.lock",
++        "src/lib.rs",
++        "tests/material.rs",
++    ] {
++        start.extend(["--scope", path]);
++    }
++    for command in checks {
++        start.extend(["--verification", command]);
++    }
++    assert_success(&retained_cli(root, &start), "start retained fixture");
++    let mut scenario = json!({
++        "scenario": "old fixture four-check cycle", "required": true,
++        "status": "unverified", "evidence": [],
++        "expected": "The old cycle executes every declared fixture check.",
++        "verificationPlan": "Native verification of all four declared fixture commands."
++    });
++    retained_amend(
++        root,
++        "retained-profile-before-checkpoint",
++        json!([
++            {"path": "/governanceProfile", "operation": "set", "value": {"materialInspectionReview": {
++                "schemaVersion": 1, "permittedUnknown": "repository_material_inspection_unavailable",
++                "permittedCause": "readable_committed_rust_syntax_unknown", "assurance": "self_declared",
++                "reviewerActor": "agent:fixture-reviewer", "authoritySource": "test-fixture:bounded-review",
++                "acceptResidualRisk": true
++            }}},
++            {"path": "/scenarioCoverage", "operation": "add", "value": scenario}
++        ]),
++    );
++    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
++    assert_success(
++        &retained_cli(root, &["preflight", "--contract", &relative]),
++        "initial preflight",
++    );
++    confirm_current_fixture_preflight(root);
++    record_work_item_governance_controls_with_runtime(
++        root,
++        WORK_ITEM_ID,
++        &json!({"scenarioCoverage": [scenario]}),
++        &candidate_runtime(),
++    )
++    .expect("planned fixture scenario");
++    assert_success(
++        &retained_cli(root, &["checkpoint", "--id", WORK_ITEM_ID]),
++        "fixture checkpoint",
++    );
++    fs::create_dir(root.join("tests")).expect("tests directory");
++    fs::write(root.join("tests/material.rs"), "fn material() -> String {\n    let mut label = String::from(\"token\");\n    label.push_str(\"ization\");\n    label\n}\n\n#[test]\nfn composed_label_matches() {\n    assert!(\n        std::env::var_os(\"RETAINED_FIXTURE_FAIL\").is_none(),\n        \"requested isolated fixture failure\"\n    );\n    assert_eq!(material(), \"tokenization\");\n    assert_eq!(retained_fixture::expected_date(), \"2026-10-14\");\n}\n")
++        .expect("reviewable committed test source");
++    git(root, &["add", "-A"]);
++    git(
++        root,
++        &["commit", "-qm", "commit reviewable fixture material"],
++    );
++    assert_success(
++        &retained_cli(root, &["preflight", "--contract", &relative]),
++        "old-cycle preflight",
++    );
++    confirm_current_fixture_preflight(root);
++    assert_success(
++        &retained_record_material(root, &retained_material_input(root)),
++        "old-cycle material receipt",
++    );
++    assert_success(
++        &retained_cli(
++            root,
++            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
++        ),
++        "old four real fixture checks",
++    );
++    let old_evidence =
++        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
++            .expect("old canonical exists before blocked Outcome");
++    let envelope: Value = serde_json::from_slice(&old_evidence).expect("typed old envelope");
++    assert_eq!(envelope["passed"], true);
++    assert_eq!(envelope["receipt"]["nodesExecuted"], 4);
++    assert_eq!(envelope["receipt"]["nodesReused"], 0);
++    assert_eq!(envelope["receipt"]["processesSpawned"], 4);
++    let finish = retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"]);
++    assert!(
++        !finish.status.success(),
++        "unverified scenario must create a real failed finish"
++    );
++    let old_outcome =
++        fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.outcome.json")))
++            .expect("native blocked Outcome");
++    assert_eq!(
++        serde_json::from_slice::<Value>(&old_outcome).expect("Outcome")["state"],
++        "blocked"
++    );
++    fs::write(
++        root.join(".ai/evidence/fixture-preserved-old-cycle.json"),
++        &old_evidence,
++    )
++    .expect("retain actual old receipt bytes outside current pointer");
++    fs::write(
++        root.join(".ai/evidence/fixture-preserved-blocked-outcome.json"),
++        &old_outcome,
++    )
++    .expect("retain actual blocked Outcome bytes");
++    scenario["status"] = json!("verified");
++    scenario["evidence"] = json!([".ai/evidence/fixture-preserved-old-cycle.json"]);
++    record_work_item_governance_controls_with_runtime(
++        root,
++        WORK_ITEM_ID,
++        &json!({"scenarioCoverage": [scenario]}),
++        &candidate_runtime(),
++    )
++    .expect("record actual old-cycle scenario evidence");
++    if change_source {
++        fs::write(
++            root.join("README.md"),
++            "A committed source change requires fresh verification.\n",
++        )
++        .expect("source change before the current amendment/review");
++        git(root, &["add", "README.md"]);
++        git(
++            root,
++            &["commit", "-qm", "current source after the old verification"],
++        );
++    }
++    retained_amend(
++        root,
++        "sensitive-after-retained-success-and-failed-finish",
++        json!([
++            {"path": "/acceptanceCriteria", "operation": "add", "value": "Reverify the amended plan before fixture finish and archive"}
++        ]),
++    );
++    assert_success(
++        &retained_cli(root, &["preflight", "--contract", &relative]),
++        "amended preflight",
++    );
++    confirm_current_fixture_preflight(root);
++    RetainedCanonicalFixture {
++        directory,
++        old_evidence,
++        old_outcome,
++    }
++}
++
++#[test]
++fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives() {
++    // A committed source change invalidates otherwise legitimate attempt reuse.
++    // The real consumer also changes producer Runtime; this portable equivalent
++    // fixture uses source freshness without fabricating a historical producer.
++    let fixture = retained_canonical_amendment_fixture_with_source_change(true);
++    let root = fixture.directory.path();
++    let material = retained_record_material(root, &retained_material_input(root));
++    assert_success(
++        &material,
++        "retained canonical must admit exact current material recovery",
++    );
++    let plan = retained_cli(
++        root,
++        &[
++            "verify",
++            "--work-item",
++            WORK_ITEM_ID,
++            "--workers",
++            "1",
++            "--plan-only",
++        ],
++    );
++    assert_success(&plan, "plan four fresh checks");
++    let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
++    assert_eq!(plan["processesSpawned"], 0);
++    assert_eq!(plan["nodesPlanned"], 4);
++    assert_eq!(plan["nodesToExecute"], 4);
++    assert_eq!(plan["nodesReused"], 0);
++    assert_eq!(
++        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
++            .expect("old canonical"),
++        fixture.old_evidence
++    );
++    assert_success(
++        &retained_cli(
++            root,
++            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
++        ),
++        "all four fresh checks",
++    );
++    let evidence: Value = serde_json::from_slice(
++        &fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
++            .expect("fresh canonical"),
++    )
++    .expect("fresh envelope");
++    assert_eq!(evidence["passed"], true);
++    assert_eq!(evidence["receipt"]["nodesExecuted"], 4);
++    assert_eq!(evidence["receipt"]["nodesReused"], 0);
++    assert_eq!(evidence["receipt"]["processesSpawned"], 4);
++    assert_eq!(evidence["receipt"]["maxConcurrentProcesses"], 1);
++    assert_eq!(
++        evidence["receipt"]["executionRecords"]
++            .as_array()
++            .expect("execution records")
++            .len(),
++        4
++    );
++    assert!(
++        evidence["receipt"]["executionRecords"]
++            .as_array()
++            .expect("records")
++            .iter()
++            .all(|r| r["spawned"] == true && r["passed"] == true && r["exitCode"] == 0)
++    );
++    let summary = retained_document(root, "summary");
++    assert_eq!(
++        summary["preflightState"], "green",
++        "fresh verification records current green preflight"
++    );
++    assert_eq!(
++        summary["preflightContractDigest"],
++        evidence["contractDigest"]
++    );
++    assert_eq!(
++        summary["preflightRepositorySnapshotDigest"],
++        evidence["repositorySnapshotDigest"]
++    );
++    assert_success(
++        &retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"]),
++        "actual fixture finish",
++    );
++    assert_success(
++        &retained_cli(root, &["archive", "--id", WORK_ITEM_ID, "--json"]),
++        "actual fixture archive",
++    );
++    assert_eq!(
++        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json"))
++            .expect("retained original receipt"),
++        fixture.old_evidence
++    );
++    assert_eq!(
++        fs::read(root.join(".ai/evidence/fixture-preserved-blocked-outcome.json"))
++            .expect("retained original Outcome"),
++        fixture.old_outcome
++    );
++    assert!(
++        root.join(format!(
++            ".ai/work-items/archive/{WORK_ITEM_ID}.archive.json"
++        ))
++        .is_file()
++    );
++}
++
++#[test]
++fn retained_history_with_unchanged_execution_bindings_preserves_valid_reuse() {
++    let fixture = retained_canonical_amendment_fixture();
++    let root = fixture.directory.path();
++    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
++    let recorded = mcp_call(
++        root,
++        &candidate_runtime(),
++        "work_item_material_review_record",
++        json!({"workItemId": WORK_ITEM_ID, "decision": retained_material_input(root)}),
++    );
++    assert_eq!(
++        recorded.pointer("/result/isError"),
++        Some(&json!(false)),
++        "{recorded}"
++    );
++    let plan = retained_cli(
++        root,
++        &[
++            "verify",
++            "--work-item",
++            WORK_ITEM_ID,
++            "--workers",
++            "1",
++            "--plan-only",
++        ],
++    );
++    assert_success(&plan, "valid existing attempt reuse");
++    let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
++    assert_eq!(plan["processesSpawned"], 0);
++    assert_eq!(plan["nodesPlanned"], 4);
++    assert_eq!(plan["nodesToExecute"], 0);
++    assert_eq!(plan["nodesReused"], 4);
++    assert_eq!(
++        old["repositorySnapshotDigest"],
++        retained_document(root, "summary")["preflightRepositorySnapshotDigest"]
++    );
++    assert_eq!(
++        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
++            .expect("old canonical is still historical"),
++        fixture.old_evidence
++    );
++}
++
++#[test]
++fn retained_history_integrity_is_separate_from_current_source_freshness() {
++    let fixture = retained_canonical_amendment_fixture_with_source_change(true);
++    let root = fixture.directory.path();
++    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
++    let current = retained_cli(
++        root,
++        &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
++    );
++    assert_success(&current, "current source status");
++    let current: Value = serde_json::from_slice(&current.stdout).expect("status");
++    assert_ne!(
++        old["repositorySnapshotDigest"],
++        current["sourceDigests"]["repositorySnapshot"]
++    );
++    assert_success(
++        &retained_record_material(root, &retained_material_input(root)),
++        "a separately reviewed current source does not corrupt an intact historical receipt",
++    );
++    assert_eq!(
++        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json")).expect("original"),
++        fixture.old_evidence
++    );
++}
++
++#[test]
++fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh() {
++    let fixture = retained_canonical_amendment_fixture_with_source_change(true);
++    let root = fixture.directory.path();
++    assert_success(
++        &retained_record_material(root, &retained_material_input(root)),
++        "current material decision before any retry",
++    );
++    let failed = retained_command(
++        root,
++        &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
++    )
++    .env("RETAINED_FIXTURE_FAIL", "1")
++    .output()
++    .expect("actual failing fixture verification");
++    assert!(
++        !failed.status.success(),
++        "a real required-check failure must remain failed"
++    );
++    let failed_result: Value =
++        serde_json::from_slice(&failed.stdout).expect("failed execution result");
++    assert!(
++        failed_result["processesSpawned"].as_u64().unwrap_or(0) > 0,
++        "{failed_result}"
++    );
++    assert_eq!(failed_result["passed"], false);
++    assert_eq!(
++        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
++            .expect("old canonical survives failed execution"),
++        fixture.old_evidence
++    );
++    assert!(
++        !retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"])
++            .status
++            .success()
++    );
++    let contract = retained_document(root, "contract");
++    let summary = retained_document(root, "summary");
++    let outcome = retained_document(root, "outcome");
++    let events = fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.events.jsonl")))
++        .expect("actual native failure events");
++    let runtime = candidate_runtime();
++    record_recovery_decision(root, WORK_ITEM_ID, &json!({
++        "schemaVersion": 1, "decisionId": "work-item-recovery", "decision": "retry",
++        "workItemId": WORK_ITEM_ID, "repositoryId": repository_id(root),
++        "predecessorWorkItemId": WORK_ITEM_ID,
++        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
++        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
++        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
++        "predecessorEventsDigest": Digest::sha256_bytes(&events),
++        "runtimeVersion": runtime.runtime_version, "runtimeDigest": runtime.runtime_digest,
++        "actor": "human:isolated-fixture", "authoritySource": "test-fixture:actual-failed-check",
++        "reason": "Retry the actual failed fixture execution after current material review; not a material bypass.",
++        "decidedAt": "2026-10-19T00:00:00Z", "resumeCondition": "Run one fresh replacement fixture cycle"
++    }), &runtime).expect("exact native retry after actual failure");
++    assert_success(
++        &retained_cli(
++            root,
++            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
++        ),
++        "fresh exact retry without the fixture failure",
++    );
++    let current: Value = serde_json::from_slice(
++        &fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
++            .expect("new canonical"),
++    )
++    .expect("new envelope");
++    assert_eq!(current["receipt"]["nodesExecuted"], 4);
++    assert_eq!(current["receipt"]["nodesReused"], 0);
++    assert_eq!(current["passed"], true);
++    assert_ne!(
++        retained_document(root, "summary")["recoveryRetryPending"],
++        true
++    );
++}
++
++fn copy_retained_fixture(source: &RetainedCanonicalFixture) -> RetainedCanonicalFixture {
++    fn copy_directory(source: &Path, target: &Path, relative: &Path) {
++        for entry in fs::read_dir(source).expect("fixture directory") {
++            let entry = entry.expect("fixture entry");
++            let relative = relative.join(entry.file_name());
++            if relative == Path::new(".ai/fixture-target") {
++                continue;
++            }
++            let destination = target.join(entry.file_name());
++            let kind = entry.file_type().expect("fixture entry type");
++            if kind.is_dir() {
++                fs::create_dir(&destination).expect("fixture copy directory");
++                copy_directory(&entry.path(), &destination, &relative);
++            } else {
++                assert!(kind.is_file(), "fixture copies must not follow symlinks");
++                fs::copy(entry.path(), destination).expect("exact fixture file copy");
++            }
++        }
++    }
++    let directory = tempfile::tempdir().expect("isolated negative copy");
++    copy_directory(source.directory.path(), directory.path(), Path::new(""));
++    RetainedCanonicalFixture {
++        directory,
++        old_evidence: source.old_evidence.clone(),
++        old_outcome: source.old_outcome.clone(),
++    }
++}
++
++fn assert_retained_history_rejection(baseline: &RetainedCanonicalFixture, case: &str) {
++    let fixture = copy_retained_fixture(baseline);
++    let root = fixture.directory.path();
++    let initial = retained_cli(
++        root,
++        &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
++    );
++    assert_success(
++        &initial,
++        "read copied fixture admission before negative mutation",
++    );
++    let initial: Value = serde_json::from_slice(&initial.stdout).expect("initial copied status");
++    assert!(
++        initial["safeActions"]
++            .as_array()
++            .expect("actions")
++            .contains(&json!("record_material_review_decision")),
++        "copy must be eligible before its single negative mutation: {initial}"
++    );
++    let mut input = retained_material_input(root);
++    let path = root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json"));
++    let mut envelope: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
++    match case {
++        "foreign_repository" => {
++            envelope["repositoryId"] = json!(Digest::sha256_bytes(b"foreign repo"))
++        }
++        "foreign_work_item" => envelope["workItemId"] = json!("WI-FOREIGN"),
++        "non_predecessor" => {
++            envelope["contractDigest"] = json!(Digest::sha256_bytes(b"not an ancestor Contract"))
++        }
++        "receipt_digest" => {
++            envelope["receiptDigest"] = json!(Digest::sha256_bytes(b"wrong receipt digest"))
++        }
++        "nested_failure" => {
++            envelope["receipt"]["results"][0]["passed"] = json!(false);
++            envelope["receiptDigest"] =
++                json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
++        }
++        "missing_coverage_manifest"
++        | "wrong_command_without_manifest"
++        | "wrong_command_then_remove_manifest" => {
++            let manifest = envelope["receipt"]["planReceipt"].get("coverageManifest");
++            if case != "wrong_command_without_manifest" {
++                assert!(
++                    manifest.is_some(),
++                    "deletion must mutate a real native manifest"
++                );
++            }
++            let node = manifest
++                .and_then(|m| m["nodeIds"][0].as_str())
++                .map(str::to_owned);
++            if case != "missing_coverage_manifest" {
++                let records = envelope["receipt"]["executionRecords"]
++                    .as_array_mut()
++                    .expect("records");
++                let record = if let Some(node) = node {
++                    records
++                        .iter_mut()
++                        .find(|r| r["nodeId"] == node)
++                        .expect("manifest node record")
++                } else {
++                    &mut records[0]
++                };
++                record["commandDigest"] = json!(Digest::sha256_bytes(
++                    b"different command with valid digest format"
++                ));
++            }
++            if case != "wrong_command_without_manifest" {
++                envelope["receipt"]["planReceipt"]
++                    .as_object_mut()
++                    .expect("plan")
++                    .remove("coverageManifest");
++            }
++            envelope["receiptDigest"] =
++                json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
++        }
++        "missing_execution_records"
++        | "failed_execution_exit"
++        | "plan_result_mismatch"
++        | "missing_bound_plan" => {
++            match case {
++                "missing_execution_records" => envelope["receipt"]["executionRecords"] = json!([]),
++                "failed_execution_exit" => {
++                    envelope["receipt"]["executionRecords"][0]["exitCode"] = json!(23)
++                }
++                "plan_result_mismatch" => {
++                    envelope["receipt"]["planReceipt"]["executedNodes"][0] = json!("foreign-node")
++                }
++                "missing_bound_plan" => {
++                    envelope["receipt"]
++                        .as_object_mut()
++                        .expect("receipt")
++                        .remove("planReceipt");
++                }
++                _ => unreachable!(),
++            }
++            envelope["receiptDigest"] =
++                json!(cockpit_protocol::digest_json(&envelope["receipt"]).expect("digest"));
++        }
++        "missing_original_attempt"
++        | "tampered_original_attempt"
++        | "foreign_command_argv_rehashed_attempt"
++        | "duplicate_attempt_keys"
++        | "symlink_original_attempt" => {
++            let prefix = format!("{WORK_ITEM_ID}.verification-attempt.");
++            let attempt_path = fs::read_dir(root.join(".ai/evidence"))
++                .expect("evidence")
++                .map(|entry| entry.expect("entry").path())
++                .find(|path| {
++                    path.file_name()
++                        .and_then(|name| name.to_str())
++                        .is_some_and(|name| name.starts_with(&prefix) && name.ends_with(".json"))
++                        && serde_json::from_slice::<Value>(&fs::read(path).expect("attempt"))
++                            .is_ok_and(|value| {
++                                value["passed"] == true && value["receipt"] == envelope["receipt"]
++                            })
++                })
++                .expect("original native matching execution attempt");
++            let bytes = fs::read(&attempt_path).expect("attempt bytes");
++            let preserved = attempt_path.with_extension("json.preserved");
++            fs::rename(&attempt_path, &preserved).expect("preserve original in negative copy");
++            if matches!(
++                case,
++                "tampered_original_attempt" | "foreign_command_argv_rehashed_attempt"
++            ) {
++                let mut attempt: Value = serde_json::from_slice(&bytes).expect("attempt JSON");
++                if case == "tampered_original_attempt" {
++                    attempt["commands"][0]["commandDigest"] =
++                        json!(Digest::sha256_bytes(b"different native command"));
++                } else {
++                    attempt["commands"][0]["args"][0] = json!("metadata");
++                }
++                attempt.as_object_mut().expect("object").remove("attemptId");
++                let digest = cockpit_protocol::digest_json(&attempt).expect("attempt digest");
++                attempt["attemptId"] = json!(digest);
++                let name = format!(
++                    "{prefix}{}.json",
++                    digest.as_str().strip_prefix("sha256:").expect("hex")
++                );
++                fs::write(
++                    root.join(".ai/evidence").join(name),
++                    serde_json::to_vec_pretty(&attempt).expect("JSON"),
++                )
++                .expect("rehash negative sidecar");
++            } else if case == "duplicate_attempt_keys" {
++                let text = String::from_utf8(bytes).expect("UTF8");
++                fs::write(
++                    attempt_path,
++                    format!(
++                        "{{\"passed\":true,{}",
++                        text.trim_start().strip_prefix('{').expect("object")
++                    ),
++                )
++                .expect("duplicate sidecar keys");
++            } else if case == "symlink_original_attempt" {
++                #[cfg(unix)]
++                std::os::unix::fs::symlink(preserved, attempt_path)
++                    .expect("negative sidecar symlink");
++                #[cfg(not(unix))]
++                panic!("symlink mutation is Unix-only");
++            }
++        }
++        "producer_runtime_identity" => {
++            envelope["runtimeDigest"] = json!(Digest::sha256_bytes(b"wrong producer"))
++        }
++        "unsupported_schema" => envelope["evidenceSchemaVersion"] = json!(99),
++        "unsupported_protocol" => envelope["protocolVersion"] = json!(99),
++        "legacy_untyped" => envelope["captureMode"] = json!("legacy_untyped"),
++        "digest_only" => {
++            envelope["captureMode"] = json!("digest_only");
++            envelope
++                .as_object_mut()
++                .expect("envelope")
++                .remove("receipt");
++        }
++        "bad_marker" | "bad_transition" | "missing_current_review" => {
++            let summary_path =
++                root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
++            let mut summary = retained_document(root, "summary");
++            if case == "bad_marker" {
++                summary["verificationInvalidatedByContractAmendment"]["contractHash"] =
++                    json!(Digest::sha256_bytes(b"wrong marker"));
++            } else if case == "bad_transition" {
++                summary["checkpointEvidence"]
++                    .as_array_mut()
++                    .expect("checkpoints")
++                    .last_mut()
++                    .expect("revalidation")["previousContractHash"] =
++                    json!(Digest::sha256_bytes(b"wrong transition"));
++            } else {
++                summary
++                    .as_object_mut()
++                    .expect("Summary")
++                    .remove("decisionEvidence");
++            }
++            fs::write(
++                summary_path,
++                serde_json::to_vec_pretty(&summary).expect("Summary JSON"),
++            )
++            .expect("negative fixture mutation");
++        }
++        "bad_journal" => {
++            let directory = root.join(format!(".ai/evidence/{WORK_ITEM_ID}.contract-amendments"));
++            let committed = directory.join("00000002.committed.json");
++            let mut value: Value =
++                serde_json::from_slice(&fs::read(&committed).expect("committed record"))
++                    .expect("record JSON");
++            value["receipt"]["journalDigest"] = json!(Digest::sha256_bytes(b"wrong journal"));
++            fs::write(
++                committed,
++                serde_json::to_vec_pretty(&value).expect("record JSON"),
++            )
++            .expect("negative journal mutation");
++        }
++        "dirty_source" => {
++            fs::write(root.join("tests/material.rs"), "fn changed() {}\n").expect("dirty source")
++        }
++        "finding" => {
++            fs::write(root.join("tests/material.rs"), include_str!("../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"))
++                .expect("isolated Finding fixture");
++            git(root, &["add", "tests/material.rs"]);
++            git(root, &["commit", "-qm", "isolated committed Finding"]);
++        }
++        "stale_request" => input["requestDigest"] = json!(Digest::sha256_bytes(b"stale request")),
++        "invalid_retry" => fs::write(
++            root.join(format!(".ai/decisions/{WORK_ITEM_ID}.recovery.json")),
++            br#"{"decision":"retry","fixture":"invalid"}"#,
++        )
++        .expect("invalid retry fixture"),
++        "malformed_json" | "duplicate_keys" => {}
++        #[cfg(unix)]
++        "symlink" => {
++            fs::remove_file(&path).expect("isolated negative only");
++            std::os::unix::fs::symlink(
++                root.join(".ai/evidence/fixture-preserved-old-cycle.json"),
++                &path,
++            )
++            .expect("negative symlink fixture");
++        }
++        _ => panic!("unknown rejection case {case}"),
++    }
++    if matches!(case, "malformed_json") {
++        fs::write(&path, b"{").expect("malformed envelope");
++    } else if case == "duplicate_keys" {
++        let text = serde_json::to_string(&envelope).expect("envelope");
++        fs::write(&path, format!("{{\"passed\":true,{}", &text[1..]))
++            .expect("duplicate-key envelope");
++    } else if case != "symlink" {
++        fs::write(
++            &path,
++            serde_json::to_vec_pretty(&envelope).expect("envelope JSON"),
++        )
++        .expect("negative envelope fixture");
++    }
++    let summary_before =
++        fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")))
++            .expect("Summary before rejection");
++    let record = retained_record_material(root, &input);
++    assert!(
++        !record.status.success(),
++        "{case} unexpectedly admitted material: {}",
++        String::from_utf8_lossy(&record.stdout)
++    );
++    assert_eq!(
++        fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")))
++            .expect("Summary after rejection"),
++        summary_before,
++        "{case}"
++    );
++    let request_hex = input["requestDigest"]
++        .as_str()
++        .expect("request digest")
++        .strip_prefix("sha256:")
++        .expect("digest prefix");
++    assert!(
++        !root
++            .join(format!(
++                ".ai/evidence/material-inspection-review/{WORK_ITEM_ID}/{request_hex}.json"
++            ))
++            .exists(),
++        "{case} published a successful current material receipt"
++    );
++    let plan = retained_cli(
++        root,
++        &[
++            "verify",
++            "--work-item",
++            WORK_ITEM_ID,
++            "--workers",
++            "1",
++            "--plan-only",
++        ],
++    );
++    assert!(
++        !plan.status.success(),
++        "{case} unexpectedly admitted verification"
++    );
++    let output: Value = serde_json::from_slice(&plan.stdout).expect("precondition rejection JSON");
++    let processes = output
++        .pointer("/attempt/processesSpawned")
++        .or_else(|| output.get("processesSpawned"));
++    assert_eq!(processes, Some(&json!(0)), "{case}: {output}");
++    assert_eq!(
++        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json"))
++            .expect("retained original"),
++        fixture.old_evidence,
++        "{case}"
++    );
++}
++
++#[test]
++fn retained_history_recovery_rejects_corruption_foreign_bindings_and_unauthorized_inputs() {
++    let fixture = retained_canonical_amendment_fixture();
++    for case in [
++        "foreign_repository",
++        "foreign_work_item",
++        "non_predecessor",
++        "receipt_digest",
++        "nested_failure",
++        "missing_execution_records",
++        "failed_execution_exit",
++        "plan_result_mismatch",
++        "missing_bound_plan",
++        "missing_original_attempt",
++        "tampered_original_attempt",
++        "foreign_command_argv_rehashed_attempt",
++        "duplicate_attempt_keys",
++        "producer_runtime_identity",
++        "unsupported_schema",
++        "unsupported_protocol",
++        "legacy_untyped",
++        "digest_only",
++        "bad_marker",
++        "bad_transition",
++        "bad_journal",
++        "dirty_source",
++        "finding",
++        "missing_current_review",
++        "stale_request",
++        "invalid_retry",
++        "malformed_json",
++        "duplicate_keys",
++    ] {
++        assert_retained_history_rejection(&fixture, case);
++    }
++}
++
++#[cfg(unix)]
++#[test]
++fn retained_history_recovery_rejects_symlinked_canonical_verification() {
++    let fixture = retained_canonical_amendment_fixture();
++    assert_retained_history_rejection(&fixture, "symlink");
++    assert_retained_history_rejection(&fixture, "symlink_original_attempt");
++}
++
++#[test]
++fn retained_history_rejects_removing_a_native_manifest_and_rehashing_the_receipt() {
++    let mut checks = RETAINED_FIXTURE_CHECKS;
++    checks[2] = "cargo test --workspace --locked --offline";
++    let fixture = retained_canonical_fixture_with_checks(false, checks);
++    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
++    assert!(old["receipt"]["planReceipt"]["coverageManifest"].is_object());
++    assert_retained_history_rejection(&fixture, "missing_coverage_manifest");
++    assert_retained_history_rejection(&fixture, "wrong_command_then_remove_manifest");
++}
++
++#[test]
++fn retained_history_rejects_unbound_command_digest_in_native_nonpartitioned_receipt() {
++    let fixture = retained_canonical_amendment_fixture();
++    let old: Value = serde_json::from_slice(&fixture.old_evidence).expect("old envelope");
++    assert!(
++        old["receipt"]["planReceipt"]
++            .get("coverageManifest")
++            .is_none()
++    );
++    assert_retained_history_rejection(&fixture, "wrong_command_without_manifest");
++}
++
+ fn assert_blocked_material_recovery_adapters(record_via_mcp: bool) {
+     let directory = repository();
+     let root = directory.path();
+diff --git a/crates/cockpit-repository/src/contract_amendment.rs b/crates/cockpit-repository/src/contract_amendment.rs
+index 6fa25b22..65860def 100644
+--- a/crates/cockpit-repository/src/contract_amendment.rs
++++ b/crates/cockpit-repository/src/contract_amendment.rs
+@@ -121,6 +121,24 @@ struct PreparedRecord {
+     prepared_digest: Digest,
+ }
+ 
++/// A historical Contract obtained from a completely validated committed
++/// amendment chain. No caller can construct this from an arbitrary digest or
++/// a mutable Summary invalidation marker.
++pub(crate) struct ValidatedAmendmentPredecessor {
++    contract: Contract,
++    digest: Digest,
++}
++
++impl ValidatedAmendmentPredecessor {
++    pub(crate) fn contract(&self) -> &Contract {
++        &self.contract
++    }
++
++    pub(crate) fn digest(&self) -> &Digest {
++        &self.digest
++    }
++}
++
+ #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ #[serde(rename_all = "camelCase", deny_unknown_fields)]
+ struct CommittedRecord {
+@@ -1961,10 +1979,69 @@ fn load_history(
+     work_item_id: &str,
+     allow_pending: bool,
+ ) -> Result<(Vec<ContractAmendmentReceipt>, Option<PreparedRecord>), ObserverError> {
++    let (history, pending, _) =
++        load_history_with_predecessor(root, work_item_id, allow_pending, None)?;
++    Ok((history, pending))
++}
++
++type HistoryWithPredecessor = (
++    Vec<ContractAmendmentReceipt>,
++    Option<PreparedRecord>,
++    Option<PredecessorCandidate>,
++);
++
++struct PredecessorCandidate {
++    contract: Value,
++    checkpointed_verification: bool,
++}
++
++fn load_history_with_predecessor(
++    root: &Path,
++    work_item_id: &str,
++    allow_pending: bool,
++    predecessor: Option<&Digest>,
++) -> Result<HistoryWithPredecessor, ObserverError> {
+     let directory = amendment_directory(root, work_item_id);
+     if !directory.exists() {
+-        return Ok((Vec::new(), None));
++        return Ok((Vec::new(), None, None));
+     }
++    // The historical-recovery reader pins every parent and reads each record
++    // without following symlinks. Its parsed values and digest checks consume
++    // the same bytes, even if the path is replaced during observation.
++    let pinned_directory = if predecessor.is_some() {
++        let root_dir = cap_std::fs::Dir::open_ambient_dir(root, cap_std::ambient_authority())
++            .map_err(|source| ObserverError::Read {
++                path: root.into(),
++                source,
++            })?;
++        let ai = super::open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
++        let evidence =
++            super::open_cap_directory_nofollow_strict(&ai, "evidence", &root.join(".ai/evidence"))?;
++        Some(super::open_cap_directory_nofollow_strict(
++            &evidence,
++            &format!("{work_item_id}.contract-amendments"),
++            &directory,
++        )?)
++    } else {
++        None
++    };
++    let read_record = |path: &Path| -> Result<Value, ObserverError> {
++        let Some(pinned) = pinned_directory.as_ref() else {
++            return super::read_json(path);
++        };
++        let name = path
++            .file_name()
++            .and_then(|name| name.to_str())
++            .ok_or_else(|| state_error(path, "invalid amendment record filename"))?;
++        let bytes = super::read_cap_file_nofollow_bounded(
++            pinned,
++            name,
++            path,
++            cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
++        )?;
++        super::reject_duplicate_json_keys(&bytes).map_err(|message| state_error(path, message))?;
++        serde_json::from_slice(&bytes).map_err(|error| state_error(path, error.to_string()))
++    };
+     let mut records = BTreeMap::<u64, (Option<PreparedRecord>, Option<CommittedRecord>)>::new();
+     for item in fs::read_dir(&directory).map_err(|source| ObserverError::Read {
+         path: directory.clone(),
+@@ -1999,8 +2076,18 @@ fn load_history(
+         let suffix = suffix.strip_suffix(".json").unwrap_or_default();
+         let pair = records.entry(sequence).or_default();
+         match suffix {
+-            "prepared" if pair.0.is_none() => pair.0 = Some(read_typed_record(&path)?),
+-            "committed" if pair.1.is_none() => pair.1 = Some(read_typed_record(&path)?),
++            "prepared" if pair.0.is_none() => {
++                pair.0 = Some(
++                    serde_json::from_value(read_record(&path)?)
++                        .map_err(|error| state_error(&path, error.to_string()))?,
++                );
++            }
++            "committed" if pair.1.is_none() => {
++                pair.1 = Some(
++                    serde_json::from_value(read_record(&path)?)
++                        .map_err(|error| state_error(&path, error.to_string()))?,
++                );
++            }
+             _ => {
+                 return Err(state_error(
+                     &path,
+@@ -2014,6 +2101,7 @@ fn load_history(
+     let mut previous_digest = Digest::sha256_bytes(ZERO_JOURNAL_DIGEST_SEED);
+     let repository_identity = super::repository_id(root).to_string();
+     let mut pending = None;
++    let mut predecessor_contract = None;
+     for (expected_sequence, (sequence, (prepared, committed))) in records
+         .into_iter()
+         .enumerate()
+@@ -2147,9 +2235,59 @@ fn load_history(
+             ));
+         }
+         previous_digest = receipt.journal_digest.clone();
++        if predecessor == Some(&prepared.prepared.previous_contract_digest) {
++            if predecessor_contract.is_some() {
++                return Err(state_error(
++                    &directory,
++                    "historical Contract has an ambiguous predecessor position",
++                ));
++            }
++            predecessor_contract = Some(PredecessorCandidate {
++                contract: prepared.prepared.previous_contract,
++                checkpointed_verification: receipt.checkpointed && receipt.verification_started,
++            });
++        }
+         receipts.push(receipt);
+     }
+-    Ok((receipts, pending))
++    Ok((receipts, pending, predecessor_contract))
++}
++
++pub(crate) fn validated_amendment_predecessor(
++    root: &Path,
++    work_item_id: &str,
++    predecessor: &Digest,
++    current: &Digest,
++) -> Result<Option<ValidatedAmendmentPredecessor>, ObserverError> {
++    if predecessor == current {
++        return Ok(None);
++    }
++    let (history, pending, contract) =
++        load_history_with_predecessor(root, work_item_id, false, Some(predecessor))?;
++    if pending.is_some()
++        || history
++            .last()
++            .is_none_or(|tail| tail.new_contract_digest != *current)
++    {
++        return Ok(None);
++    }
++    validate_transition_chain(root, work_item_id, &history, Some(current))?;
++    let Some(candidate) = contract else {
++        return Ok(None);
++    };
++    if !candidate.checkpointed_verification {
++        return Ok(None);
++    }
++    let contract: Contract = serde_json::from_value(candidate.contract)
++        .map_err(|error| state_error(root, error.to_string()))?;
++    if contract.repository_id != super::repository_id(root).to_string()
++        || contract.work_item_id != work_item_id
++    {
++        return Ok(None);
++    }
++    Ok(Some(ValidatedAmendmentPredecessor {
++        contract,
++        digest: predecessor.clone(),
++    }))
+ }
+ 
+ fn records_len_hint(directory: &Path) -> Result<u64, ObserverError> {
+diff --git a/crates/cockpit-repository/src/lib.rs b/crates/cockpit-repository/src/lib.rs
+index db8b5e48..f8e1c9f8 100644
+--- a/crates/cockpit-repository/src/lib.rs
++++ b/crates/cockpit-repository/src/lib.rs
+@@ -8110,6 +8110,443 @@ fn verification_evidence_state_from_value(
+     archived: bool,
+     current_runtime: Option<&RuntimeContext>,
+     evidence: serde_json::Value,
++) -> Result<EvidenceState, ObserverError> {
++    verification_evidence_state_from_value_with_predecessor(
++        root,
++        contract,
++        snapshot,
++        archived,
++        current_runtime,
++        evidence,
++        None,
++    )
++}
++
++/// A stale classification is not a historical integrity proof: current
++/// evidence validation may stop at a changed Contract or snapshot before
++/// reaching the nested receipt. This lane validates the retained bytes in
++/// their proven predecessor context, solely to admit new evidence production.
++fn amendment_invalidated_verification_is_complete_history(
++    root: &Path,
++    current: &cockpit_protocol::Contract,
++    current_digest: &Digest,
++    snapshot: &RepositorySnapshot,
++) -> Result<bool, ObserverError> {
++    let root_dir = cap_std::fs::Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(
++        |source| ObserverError::Read {
++            path: root.into(),
++            source,
++        },
++    )?;
++    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
++    let evidence_dir =
++        open_cap_directory_nofollow_strict(&ai, "evidence", &root.join(".ai/evidence"))?;
++    let name = format!("{}.verification.json", current.work_item_id);
++    let path = root.join(".ai/evidence").join(&name);
++    let bytes = read_cap_file_nofollow_bounded(
++        &evidence_dir,
++        &name,
++        &path,
++        cockpit_git::MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
++    )?;
++    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
++        path: path.clone(),
++        message,
++    })?;
++    let evidence: serde_json::Value =
++        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
++            path: path.clone(),
++            message: error.to_string(),
++        })?;
++    let envelope: VerificationEvidenceEnvelope =
++        serde_json::from_value(evidence.clone()).map_err(|error| ObserverError::State {
++            path: path.clone(),
++            message: error.to_string(),
++        })?;
++    if !matches!(
++        envelope.capture_mode,
++        VerificationCaptureMode::FullCapture | VerificationCaptureMode::RedactedCapture
++    ) {
++        return Ok(false);
++    }
++    let Some(raw_receipt) = envelope.receipt.as_ref() else {
++        return Ok(false);
++    };
++    let typed: cockpit_verification::VerificationReceipt =
++        match serde_json::from_value(raw_receipt.clone()) {
++            Ok(receipt) => receipt,
++            Err(_) => return Ok(false),
++        };
++    if !complete_historical_execution(&typed) {
++        return Err(ObserverError::State {
++            path,
++            message: "retained verification lacks a complete bound plan and successful durable execution records".into(),
++        });
++    }
++    let Some(old_digest) = envelope.contract_digest.as_ref() else {
++        return Ok(false);
++    };
++    let Some(predecessor) = contract_amendment::validated_amendment_predecessor(
++        root,
++        &current.work_item_id,
++        old_digest,
++        current_digest,
++    )?
++    else {
++        return Ok(false);
++    };
++    if predecessor.contract().base_revision != current.base_revision
++        || typed.plan_receipt.as_ref().is_none_or(|plan| {
++            plan.base_revision.as_deref() != Some(predecessor.contract().base_revision.as_str())
++                || plan.work_item_id.as_deref() != Some(current.work_item_id.as_str())
++                || plan.repository_id.as_deref() != Some(current.repository_id.as_str())
++                || plan.repository_snapshot_digest.as_deref()
++                    != Some(envelope.repository_snapshot_digest.as_str())
++        })
++    {
++        return Ok(false);
++    }
++    // No current Runtime identity is inferred from an old producer. The
++    // supported v2 typed envelope must instead be completely self-consistent;
++    // current Runtime/policy/source authority remains independently required
++    // by the recovery action and service entrypoints.
++    let state = verification_evidence_state_from_value_with_predecessor(
++        root,
++        predecessor.contract(),
++        snapshot,
++        false,
++        None,
++        evidence,
++        Some(&predecessor),
++    )?;
++    if state != EvidenceState::Complete {
++        return Err(ObserverError::State {
++            path,
++            message: format!(
++                "retained verification failed complete historical validation: {state:?}"
++            ),
++        });
++    }
++    if !historical_attempt_binds_complete_receipt(
++        root,
++        &evidence_dir,
++        &predecessor,
++        &envelope,
++        raw_receipt,
++        &typed,
++    )? {
++        return Err(ObserverError::State {
++            path,
++            message: "historical command bindings require an intact matching native verification-attempt record".into(),
++        });
++    }
++    Ok(true)
++}
++
++/// Historical recovery cannot rely on the general validator's compatibility
++/// lane for receipts without durable execution records. A workspace manifest
++/// may cover only some nodes, or be absent in a native nonpartitioned receipt;
++/// the original native attempt below must also bind every command to the exact
++/// unchanged receipt. Manifest absence is never a command-integrity waiver.
++fn complete_historical_execution(typed: &cockpit_verification::VerificationReceipt) -> bool {
++    use cockpit_verification::{PlannedAction, PlannedSatisfaction};
++
++    let Some(plan) = typed.plan_receipt.as_ref() else {
++        return false;
++    };
++    let result_ids = typed
++        .results
++        .iter()
++        .map(|result| result.node_id.as_str())
++        .collect::<BTreeSet<_>>();
++    if !typed.passed
++        || typed.results.is_empty()
++        || typed.process_spawn_failures != 0
++        || typed
++            .results
++            .iter()
++            .any(|result| !result.passed || result.timed_out)
++        || result_ids.len() != typed.results.len()
++        || typed.nodes_planned != typed.results.len()
++        || typed.nodes_executed.checked_add(typed.nodes_reused) != Some(typed.nodes_planned)
++    {
++        return false;
++    }
++    let executed = plan
++        .executed_nodes
++        .iter()
++        .map(String::as_str)
++        .collect::<BTreeSet<_>>();
++    let reused = plan
++        .reused_nodes
++        .iter()
++        .map(String::as_str)
++        .collect::<BTreeSet<_>>();
++    if executed.len() != plan.executed_nodes.len()
++        || reused.len() != plan.reused_nodes.len()
++        || !executed.is_disjoint(&reused)
++        || executed.union(&reused).copied().collect::<BTreeSet<_>>() != result_ids
++        || executed.len() != typed.nodes_executed
++        || reused.len() != typed.nodes_reused
++        || typed.execution_records.len() != executed.len()
++        || typed.processes_spawned != typed.execution_records.len()
++        || typed.results.iter().any(|result| {
++            if result.reused {
++                !reused.contains(result.node_id.as_str())
++                    || result.action != PlannedAction::Reuse
++                    || result.satisfied_by != PlannedSatisfaction::ReusedReceipt
++                    || result.protected
++                    || result
++                        .receipt_id
++                        .as_deref()
++                        .is_none_or(|id| id.parse::<Digest>().is_err())
++            } else {
++                !executed.contains(result.node_id.as_str())
++                    || result.action != PlannedAction::Execute
++                    || result.satisfied_by != PlannedSatisfaction::Execution
++                    || result
++                        .output_digest
++                        .as_deref()
++                        .is_none_or(|digest| digest.parse::<Digest>().is_err())
++            }
++        })
++    {
++        return false;
++    }
++    let mut record_ids = BTreeSet::new();
++    typed.execution_records.iter().all(|record| {
++        record_ids.insert(record.node_id.as_str())
++            && executed.contains(record.node_id.as_str())
++            && record.command_digest.parse::<Digest>().is_ok()
++            && record.spawned
++            && record.passed
++            && record.exit_code == Some(0)
++            && record.termination_signal.is_none()
++            && !record.timed_out
++    })
++}
++
++fn historical_attempt_binds_complete_receipt(
++    root: &Path,
++    evidence_dir: &cap_std::fs::Dir,
++    predecessor: &contract_amendment::ValidatedAmendmentPredecessor,
++    envelope: &VerificationEvidenceEnvelope,
++    raw_receipt: &serde_json::Value,
++    typed: &cockpit_verification::VerificationReceipt,
++) -> Result<bool, ObserverError> {
++    let directory = root.join(".ai/evidence");
++    let prefix = format!(
++        "{}.verification-attempt.",
++        predecessor.contract().work_item_id
++    );
++    let scope_digest = cockpit_protocol::digest_json(&serde_json::json!({
++        "scope": &predecessor.contract().scope,
++    }))
++    .map_err(|error| ObserverError::State {
++        path: directory.clone(),
++        message: error.to_string(),
++    })?;
++    for entry in fs::read_dir(&directory).map_err(|source| ObserverError::Read {
++        path: directory.clone(),
++        source,
++    })? {
++        let entry = entry.map_err(|source| ObserverError::Read {
++            path: directory.clone(),
++            source,
++        })?;
++        let name = entry.file_name();
++        let Some(name) = name.to_str() else {
++            continue;
++        };
++        let Some(hex) = name
++            .strip_prefix(&prefix)
++            .and_then(|name| name.strip_suffix(".json"))
++        else {
++            continue;
++        };
++        let Ok(id) = format!("sha256:{hex}").parse::<Digest>() else {
++            continue;
++        };
++        let path = directory.join(name);
++        let bytes = read_cap_file_nofollow_bounded(evidence_dir, name, &path, 4 * 1024 * 1024)?;
++        reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
++            path: path.clone(),
++            message,
++        })?;
++        let attempt: serde_json::Value =
++            serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
++                path: path.clone(),
++                message: error.to_string(),
++            })?;
++        let mut unsigned = attempt.clone();
++        let Some(object) = unsigned.as_object_mut() else {
++            continue;
++        };
++        object.remove("attemptId");
++        if attempt["attemptId"] != serde_json::json!(id)
++            || cockpit_protocol::digest_json(&unsigned).ok().as_ref() != Some(&id)
++            || attempt["protocolVersion"] != 1
++            || attempt["schemaVersion"] != 1
++            || attempt["kind"] != "verification_attempt"
++            || attempt["state"] != "execution_completed"
++            || attempt["passed"] != true
++            || attempt["repositoryId"] != envelope.repository_id
++            || attempt["workItemId"] != envelope.work_item_id
++            || attempt["runtimeVersion"] != envelope.runtime_version
++            || attempt["runtimeDigest"] != serde_json::json!(envelope.runtime_digest)
++            || attempt["contractDigest"] != serde_json::json!(predecessor.digest())
++            || attempt["contractExecutionScopeDigest"] != serde_json::json!(scope_digest)
++            || attempt["repositorySnapshotDigest"]
++                != serde_json::json!(envelope.repository_snapshot_digest)
++            || attempt["receipt"] != *raw_receipt
++            || attempt["executionRecords"]
++                != raw_receipt
++                    .get("executionRecords")
++                    .cloned()
++                    .unwrap_or_else(|| serde_json::json!([]))
++            || attempt["processesSpawned"] != serde_json::json!(typed.processes_spawned)
++            || attempt["createdAt"]
++                .as_str()
++                .is_none_or(|value| DateTime::parse_from_rfc3339(value).is_err())
++        {
++            continue;
++        }
++        let Some(commands) = attempt["commands"].as_array() else {
++            continue;
++        };
++        let mut by_id = BTreeMap::new();
++        let valid = commands.iter().all(|command| {
++            let Some(node) = command["nodeId"].as_str() else {
++                return false;
++            };
++            by_id.insert(node, command).is_none()
++                && command["program"]
++                    .as_str()
++                    .is_some_and(|value| !value.trim().is_empty())
++                && command["args"]
++                    .as_array()
++                    .is_some_and(|args| args.iter().all(|arg| arg.is_string()))
++                && command["runtimeDigest"] == serde_json::json!(envelope.runtime_digest)
++                && command["baseCommit"] == predecessor.contract().base_revision
++                && command["stage"].as_str()
++                    == typed.plan_receipt.as_ref().map(|plan| plan.stage.as_str())
++                && command["runner"] == "local"
++                && command["commandDigest"]
++                    .as_str()
++                    .is_some_and(|value| value.parse::<Digest>().is_ok())
++                && command["timeoutSeconds"].as_u64().is_some_and(|value| {
++                    value > 0 && value <= cockpit_verification::MAX_ALLOWED_EXECUTION_SECONDS
++                })
++        });
++        if valid
++            && typed.plan_receipt.as_ref().is_some_and(|plan| {
++                historical_commands_cover_contract(predecessor.contract(), plan, &by_id)
++            })
++            && by_id.len() == typed.results.len()
++            && typed
++                .results
++                .iter()
++                .all(|result| by_id.contains_key(result.node_id.as_str()))
++            && typed.execution_records.iter().all(|record| {
++                by_id.get(record.node_id.as_str()).is_some_and(|command| {
++                    command["commandDigest"] == record.command_digest
++                        && command["timeoutSeconds"] == record.timeout_seconds
++                })
++            })
++        {
++            return Ok(true);
++        }
++    }
++    Ok(false)
++}
++
++fn historical_commands_cover_contract(
++    contract: &cockpit_protocol::Contract,
++    plan: &cockpit_verification::VerificationPlanReceipt,
++    commands: &BTreeMap<&str, &serde_json::Value>,
++) -> bool {
++    let mut covered = BTreeSet::new();
++    for (index, declaration) in contract.verification.iter().enumerate() {
++        let (node, text) = match declaration {
++            cockpit_protocol::VerificationDeclaration::Legacy(text) => {
++                (format!("project-command-{index}"), text)
++            }
++            cockpit_protocol::VerificationDeclaration::Check(check) => {
++                (check.check.clone(), &check.check)
++            }
++        };
++        // This proof only recognizes explicit argv declarations. It never
++        // guesses a historical checkout path or shell/environment expansion.
++        let words = text.split_ascii_whitespace().collect::<Vec<_>>();
++        let Some((program, args)) = words.split_first() else {
++            return false;
++        };
++        if text.chars().any(|c| {
++            matches!(
++                c,
++                '\'' | '"' | '\\' | '|' | '&' | ';' | '`' | '$' | '(' | ')' | '<' | '>'
++            )
++        }) {
++            return false;
++        }
++        if *program == "cargo" && args.contains(&"--workspace") {
++            let Some(manifest) = plan.coverage_manifest.as_ref() else {
++                return false;
++            };
++            if manifest.source_program != *program
++                || manifest
++                    .source_args
++                    .iter()
++                    .map(String::as_str)
++                    .ne(args.iter().copied())
++            {
++                return false;
++            }
++            for member in &manifest.workspace_members {
++                let id = format!("{node}-package-{member}");
++                let Some(command) = commands.get(id.as_str()) else {
++                    return false;
++                };
++                let expanded = args
++                    .iter()
++                    .flat_map(|arg| {
++                        if *arg == "--workspace" {
++                            vec!["--package", member.as_str()]
++                        } else {
++                            vec![*arg]
++                        }
++                    })
++                    .collect::<Vec<_>>();
++                if command["program"] != *program
++                    || command["args"] != serde_json::json!(expanded)
++                    || !covered.insert(id)
++                {
++                    return false;
++                }
++            }
++        } else {
++            let Some(command) = commands.get(node.as_str()) else {
++                return false;
++            };
++            if command["program"] != *program
++                || command["args"] != serde_json::json!(args)
++                || !covered.insert(node)
++            {
++                return false;
++            }
++        }
++    }
++    !covered.is_empty() && covered.len() == commands.len()
++}
++
++fn verification_evidence_state_from_value_with_predecessor(
++    root: &Path,
++    contract: &cockpit_protocol::Contract,
++    snapshot: &RepositorySnapshot,
++    archived: bool,
++    current_runtime: Option<&RuntimeContext>,
++    evidence: serde_json::Value,
++    predecessor: Option<&contract_amendment::ValidatedAmendmentPredecessor>,
+ ) -> Result<EvidenceState, ObserverError> {
+     let envelope = match serde_json::from_value::<VerificationEvidenceEnvelope>(evidence.clone()) {
+         Ok(value) => value,
+@@ -8153,7 +8590,10 @@ fn verification_evidence_state_from_value(
+     {
+         return Ok(EvidenceState::Contradictory);
+     }
+-    let expected_contract_digest = contract_digest_for_evidence(root, contract)?;
++    let expected_contract_digest = match predecessor {
++        Some(proof) => proof.digest().clone(),
++        None => contract_digest_for_evidence(root, contract)?,
++    };
+     // An explicit Contract amendment deliberately invalidates the previous
+     // verification cycle.  Treat only that bound predecessor digest as
+     // stale so a fresh verify can replace it; malformed, foreign, or
+@@ -8222,7 +8662,14 @@ fn verification_evidence_state_from_value(
+             EvidenceState::Contradictory
+         });
+     }
+-    let current_snapshot_digest = snapshot_digest(snapshot)?;
++    let current_snapshot_digest = if predecessor.is_some() {
++        // Historical plan/snapshot bindings are checked against their own
++        // recorded context. New verification must check the current source;
++        // a source change does not make an intact predecessor malformed.
++        envelope.repository_snapshot_digest.clone()
++    } else {
++        snapshot_digest(snapshot)?
++    };
+     if !archived && envelope.repository_snapshot_digest != current_snapshot_digest {
+         return Ok(EvidenceState::Stale);
+     }
+@@ -8245,14 +8692,26 @@ fn verification_evidence_state_from_value(
+                     Ok(value) => value,
+                     Err(_) => return Ok(EvidenceState::Contradictory),
+                 };
+-            if !validate_plan_receipt_binding(
+-                root,
+-                contract,
+-                snapshot,
+-                &envelope,
+-                typed.plan_receipt.as_ref(),
+-                archived,
+-            )? {
++            let plan_valid = if predecessor.is_some() {
++                validate_plan_receipt_binding_for_snapshot_digest(
++                    root,
++                    contract,
++                    &current_snapshot_digest,
++                    &envelope,
++                    typed.plan_receipt.as_ref(),
++                    archived,
++                )?
++            } else {
++                validate_plan_receipt_binding(
++                    root,
++                    contract,
++                    snapshot,
++                    &envelope,
++                    typed.plan_receipt.as_ref(),
++                    archived,
++                )?
++            };
++            if !plan_valid {
+                 return Ok(EvidenceState::Contradictory);
+             }
+             if !typed.passed
+@@ -8500,6 +8959,24 @@ fn validate_plan_receipt_binding(
+     envelope: &VerificationEvidenceEnvelope,
+     plan: Option<&cockpit_verification::VerificationPlanReceipt>,
+     archived: bool,
++) -> Result<bool, ObserverError> {
++    validate_plan_receipt_binding_for_snapshot_digest(
++        root,
++        contract,
++        &snapshot_digest(snapshot)?,
++        envelope,
++        plan,
++        archived,
++    )
++}
++
++fn validate_plan_receipt_binding_for_snapshot_digest(
++    root: &Path,
++    contract: &cockpit_protocol::Contract,
++    expected_snapshot: &Digest,
++    envelope: &VerificationEvidenceEnvelope,
++    plan: Option<&cockpit_verification::VerificationPlanReceipt>,
++    archived: bool,
+ ) -> Result<bool, ObserverError> {
+     let Some(plan) = plan else {
+         let has_policy_requirement = effective_policy_for_contract(root, contract)?
+@@ -8535,7 +9012,6 @@ fn validate_plan_receipt_binding(
+         {
+             return Ok(true);
+         }
+-        let expected_snapshot = snapshot_digest(snapshot)?;
+         let snapshot_matches_current = archived
+             || plan.repository_snapshot_digest.as_deref()
+                 == Some(expected_snapshot.to_string().as_str());
+@@ -8554,7 +9030,6 @@ fn validate_plan_receipt_binding(
+     {
+         return Ok(false);
+     }
+-    let expected_snapshot = snapshot_digest(snapshot)?;
+     if !archived
+         && plan
+             .repository_snapshot_digest
+diff --git a/crates/cockpit-repository/src/status_projection.rs b/crates/cockpit-repository/src/status_projection.rs
+index b17df89b..fc8b0a14 100644
+--- a/crates/cockpit-repository/src/status_projection.rs
++++ b/crates/cockpit-repository/src/status_projection.rs
+@@ -1809,7 +1809,25 @@ fn work_item_status_snapshot_with_snapshot(
+         && !malformed_evidence
+         && snapshot_ref.is_some_and(|snapshot| {
+             super::verification_evidence_state(&root, &contract, snapshot, false, Some(runtime))
+-                .is_ok_and(|state| state == EvidenceState::Missing)
++                .is_ok_and(|state| {
++                    if state == EvidenceState::Missing {
++                        return true;
++                    }
++                    match super::amendment_invalidated_verification_is_complete_history(
++                        &root,
++                        &contract,
++                        &contract_digest_value,
++                        snapshot,
++                    ) {
++                        Ok(ready) => ready,
++                        Err(error) => {
++                            diagnostics.push(format!(
++                                "historical verification recovery rejected: {error}"
++                            ));
++                            false
++                        }
++                    }
++                })
+         })
+         && matches!(
+             load_recovery_decision(&root, work_item_id, Some(runtime)),
+diff --git a/crates/cockpit-repository/tests/status_projection.rs b/crates/cockpit-repository/tests/status_projection.rs
+index 53c49d19..bd68a7b0 100644
+--- a/crates/cockpit-repository/tests/status_projection.rs
++++ b/crates/cockpit-repository/tests/status_projection.rs
+@@ -525,6 +525,45 @@ fn blocked_material_recovery_rejects_unbound_or_unavailable_inputs() {
+     }
+ }
+ 
++#[test]
++fn a_stale_header_cannot_invent_prior_verification_in_a_trusted_amendment_chain() {
++    let directory = blocked_material_amendment_fixture();
++    let root = directory.path();
++    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
++    record_human_preflight_review(root, id);
++    let history = cockpit_repository::read_work_item_contract_amendments(root, id)
++        .expect("native amendment history");
++    let snapshot = cockpit_git::GitRepository::discover(root)
++        .expect("Git repository")
++        .snapshot()
++        .expect("current snapshot");
++    // Deliberately forged negative input, never a claimed successful old
++    // execution. Its predecessor and digest-consistent header are insufficient.
++    let bogus_receipt = json!({"fixture": "not a typed verification receipt"});
++    let envelope = json!({
++        "protocolVersion": 1, "evidenceSchemaVersion": 2,
++        "workItemId": id, "repositoryId": repository_id(root),
++        "runtimeVersion": runtime().runtime_version, "runtimeDigest": runtime().runtime_digest,
++        "repositorySnapshotDigest": cockpit_repository::snapshot_digest(&snapshot).expect("digest"),
++        "contractDigest": history.last().expect("tail").previous_contract_digest,
++        "passed": true, "receiptDigest": cockpit_protocol::digest_json(&bogus_receipt).expect("digest"),
++        "captureMode": "full_capture", "createdAt": "2026-10-19T00:00:00Z",
++        "receipt": bogus_receipt
++    });
++    let path = root.join(format!(".ai/evidence/{id}.verification.json"));
++    let bytes = serde_json::to_vec_pretty(&envelope).expect("negative envelope JSON");
++    fs::write(&path, &bytes).expect("forged negative fixture input");
++    let status = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("status");
++    assert!(status.blocking);
++    assert!(
++        !status
++            .safe_actions
++            .contains(&"record_material_review_decision".into())
++    );
++    assert!(!status.safe_actions.contains(&"run_verification".into()));
++    assert_eq!(fs::read(path).expect("preserved rejected bytes"), bytes);
++}
++
+ #[test]
+ fn blocked_material_recovery_rejects_committed_finding() {
+     let directory = blocked_material_amendment_fixture();

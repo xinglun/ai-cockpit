@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+  "contractDigest": "sha256:8e4ec0b0d69e22bc6e0a794385df6ec7b49fc99a1c2f1c854f2fd81e7c5eb4e6",
+  "immutableContractBaseRevision": "11b8159aabc7100d93fe3d357ec10ab1eb160dc6",
+  "sourceSnapshotDigest": "sha256:38b75d2bc5cee0f482b0e07668512b50e415861da0f5d19c58ea5fbd22c6d357",
+  "materialManifestDigest": "sha256:1fd5e66c1d4ab711436810e87fa9e23823dc18503a3e15eb13592af7aa251e37",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:1a69dbd3324f9e9556e6ff12a6db4f19d2002efff5a40172dfdeb4665238639a",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:1ae80d2d83e5ee570bbefcfbd67602e1fe5a0ed84db3b6a1c9ed0b8298bedfc3",
+  "effectivePolicyDigest": "sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+  "entries": [
+    {
+      "path": "README.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:664190c2ec370e2b5d02927025662cdb50fb35197f3bf5c54e09858f4efc9bb9",
+      "afterBlobDigest": "sha256:fbc2129c2c04e452d5095285df92049e68b76406a0f81278b7ffe31b70b7c85b"
+    },
+    {
+      "path": "tests/material.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:4df91963de8e76be7efefd167601d46b313e9ff7365e119d2afb2ae32687a9a4",
+      "afterBlobDigest": "sha256:7fc9452f1e16088fb429622f0a80ca776f25640463034c73f34bda5107f41fc6"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:dda1345412cc565edea9b533d35947d370349f9a3733186564f2f898b24d9791",
+  "reviewedSourceHead": "7c660689f3cf385f121740a41a7bca566611fb54"
+}

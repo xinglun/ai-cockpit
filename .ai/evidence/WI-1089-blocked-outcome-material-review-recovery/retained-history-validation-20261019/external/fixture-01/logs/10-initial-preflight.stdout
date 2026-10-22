@@ -1,0 +1,163 @@
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "contract_amendment_policy_review_required",
+    "required_evidence_missing"
+  ],
+  "material_manifest_digest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+  "effective_unknowns": [
+    "required_evidence_missing"
+  ],
+  "safe_actions": [
+    "collect_required_evidence",
+    "record_fresh_preflight_decision"
+  ],
+  "required_checks": [
+    "human_review",
+    "verification"
+  ],
+  "authority": "authorized",
+  "outcome_state": "needs_human_decision",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "A sensitive Contract amendment was recorded and still requires explicit human review.",
+    "whyItMatters": "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.",
+    "options": [
+      {
+        "id": "confirm_review",
+        "label": "Confirm the amended plan",
+        "effect": "Record an identity-bound decision for this exact Contract and preflight snapshot."
+      },
+      {
+        "id": "amend_contract",
+        "label": "Revise the amended plan",
+        "effect": "Record a further reasoned amendment and rerun preflight."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without starting verification."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.",
+    "question": "Do you confirm the current amended Contract for continued work?",
+    "resumeCondition": "A fresh preflight decision receipt matches the current Contract and repository snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+    "baseCommit": "4f0bd215472bac83ec341e87cc82168cb81d55ad",
+    "lifecyclePhase": "implementation_active",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 1,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 0
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+      "materialManifest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+      "repositorySnapshot": "sha256:1661f78f622ae7425f8722dfee2cbf2542242dff76af9aaa8a126bb39d849860",
+      "summary": "sha256:d84714cd8764dfea981389888c9b4a4b2d0b06226607e71c8a0d428ef67ce8d3"
+    },
+    "unknowns": [
+      "governance_controls_unknown",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [],
+    "materialManifestDigest": "sha256:769b28439bc56c7873c055284c7d5ac69895242b2d0a4bc0c8ca66e2d68ec18d",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "governance_controls_unknown",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:1661f78f622ae7425f8722dfee2cbf2542242dff76af9aaa8a126bb39d849860",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-19T09:24:14Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_preflight"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "governance_controls_unknown",
+          "message": "current projection reports governance_controls_unknown"
+        },
+        {
+          "kind": "unknown",
+          "code": "scenario_coverage_insufficient",
+          "message": "current projection reports scenario_coverage_insufficient"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:1c58d31094da8f08582fdcc2cdf63ea6e781101960899f8b0fafa491dcfdd15a"
+    },
+    "statusDigest": "sha256:9b38142a7bd8e2fb47092855061b1764777cfac2612903266b7f50e3fb416d2b",
+    "historical": false
+  }
+}

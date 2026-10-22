@@ -1,0 +1,23 @@
+{
+  "kind": "human_material_residual_risk_acceptance_transcript_relay_agent_recorded_not_native_material_review",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "humanActorAsRelayed": "human:Ray",
+  "relay": "agent:Raydot via parent thread",
+  "recorder": "agent:Codex",
+  "raydotRequestSourceId": "Sentinel_3dbec86f9a70819185c417452b346ad8",
+  "rayReplySourceId": "Sentinel_abc78b6a327c81919de681bb364791b8",
+  "rayReplyTimeAsRelayed": "2026-10-19 05:09 UTC",
+  "rayReplyVerbatim": "批准",
+  "raydotQuestionVerbatim": "WI-1089 需要你批准一项有限材料风险。这次包含实际 Runtime 准入代码，不能沿用 WI-1087 的批准。\n\n仅限提交 aab9205ea103ea0287585aa7f4a4a99512c5a725 的三份 Rust 文件：\n- crates/cockpit-cli/tests/contract_amendment_processes.rs\n- crates/cockpit-repository/src/status_projection.rs\n- crates/cockpit-repository/tests/status_projection.rs\n\n风险：扫描器能读取但无法完整理解这些修改；人工式代码审阅和测试仍可能遗漏不安全或削弱控制的语义。拟由我以 agent:Raydot 做有限审阅，记录为 self_declared，不冒充真人。\n\n当前 Contract：6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6\n当前材料请求：68b4f507712d5c9b8f07b9e77b24ef00042911e1f694343dbdf432edf2160000\n合并修约提案：8d915cc61130073d0dce37492b0bcf15e9401922bdbae26a6e30383380fc6e6d\n\n批准后只启用这类扫描 Unknown 的有限审阅，并补齐已批准的文档范围和回归命令；三份 Rust 内容必须保持不变，出现 Finding 或其他 Unknown 不放行。修约后的新 Contract 仍需按实际绑定确认，不包含合并或关闭。\n\n是否批准上述 WI-1089 有限材料审阅配置，并接受这三份文件的残余风险？",
+  "approvedHead": "aab9205ea103ea0287585aa7f4a4a99512c5a725",
+  "approvedCurrentContractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+  "approvedCurrentMaterialRequestDigest": "sha256:68b4f507712d5c9b8f07b9e77b24ef00042911e1f694343dbdf432edf2160000",
+  "approvedCombinedAmendmentProposalFileSha256": "8d915cc61130073d0dce37492b0bcf15e9401922bdbae26a6e30383380fc6e6d",
+  "approvedRustAfterBlobDigests": {
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "sha256:8126ddaa97f72f465925a164922faebdec69a350bffb902ab223290f47fcc9bd",
+    "crates/cockpit-repository/src/status_projection.rs": "sha256:8e66583fabefa1eaf536ff03075f22f1b041b6283fb090432f02ba2c3c32c0c6",
+    "crates/cockpit-repository/tests/status_projection.rs": "sha256:02c4f3c6aac7273f6f2377f2bd4752757625f43e62c541f8cba27474505e49b1"
+  },
+  "scopeOfDecision": "Accept the bounded material scanner residual risk for the three exact committed Rust blobs and authorize the proposed limited materialInspectionReview policy plus previously approved parity scope and regression command. A new Contract still requires review at its actual binding. This is not Raydot's independent code-review conclusion, a native material receipt, verification, merge, or close authorization.",
+  "provenanceLimit": "The recorder saw a parent-thread relay of Raydot's request and Ray's one-word reply, not a direct host-authenticated message from Ray. Preserve this limitation. The Sentinel source IDs are quoted solely as relay identifiers; no Sentinel checkout or tool was accessed."
+}

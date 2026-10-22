@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_actual_verification_and_scenario_mapping_not_native_receipt",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "recorder": "agent:Codex",
+  "recordedAt": "2026-10-19T07:43:42.218022+00:00",
+  "context": "independent",
+  "validatedSourceHead": "c960ed2eaa9e42cddedad25612f5d0d2d9a44774",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "repositorySnapshotDigest": "sha256:8ca1b64dc803a0eb8fc4b0125f5a30765aefc6c713fe9a269cadda55d44bbdaf",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "nativeVerificationEvidencePath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+  "nativeVerificationEvidenceDigest": "sha256:d62c83ffd5dea9f3992936bfc895abc5926ca49a1bfb9e75cc004b8cc004282a",
+  "nativeVerificationFileSha256": "sha256:a4e5ab05e1e6a27dd0501349092140959e63919c2a20223870c708da4c28aff3",
+  "formalStdoutSha256": "sha256:4bcd24f673ec15a61afcb64521c6011ae2790f0a65ea468dd865271b3d0f02eb",
+  "formalChecks": [
+    {
+      "nodeId": "project-command-0",
+      "passed": true,
+      "elapsedMs": 3989,
+      "testResults": []
+    },
+    {
+      "nodeId": "project-command-1",
+      "passed": true,
+      "elapsedMs": 401,
+      "testResults": []
+    },
+    {
+      "nodeId": "project-command-2",
+      "passed": true,
+      "elapsedMs": 55644,
+      "testResults": [
+        {
+          "passed": 46,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "nodeId": "project-command-3",
+      "passed": true,
+      "elapsedMs": 384043,
+      "testResults": [
+        {
+          "passed": 38,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "nodeId": "project-command-4",
+      "passed": true,
+      "elapsedMs": 742,
+      "testResults": [
+        {
+          "passed": 2,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "nodeId": "project-command-5",
+      "passed": true,
+      "elapsedMs": 18565,
+      "testResults": [
+        {
+          "passed": 41,
+          "failed": 0
+        }
+      ]
+    }
+  ],
+  "nodesExecuted": 6,
+  "nodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "ci": {
+    "conclusion": "success",
+    "headSha": "c960ed2eaa9e42cddedad25612f5d0d2d9a44774",
+    "status": "completed",
+    "url": "https://github.com/xinglun/ai-cockpit/actions/runs/39211030001"
+  },
+  "materialReviewReceiptDigest": "sha256:fa5e765fd84a88839b88d30517f7c3375e32f19877310062cb8031232f50bd26",
+  "scenarioNodeMapping": {
+    "A1": [
+      "project-command-3"
+    ],
+    "A2": [
+      "project-command-2",
+      "project-command-4",
+      "project-command-5"
+    ],
+    "A3": [
+      "project-command-2",
+      "project-command-3"
+    ],
+    "A4": [
+      "project-command-2",
+      "project-command-3",
+      "project-command-4"
+    ]
+  },
+  "A5": {
+    "status": "source_composition_regressions_and_ci_actually_passed",
+    "sourceHead": "7211294648d6e43b5ee8da0db05baafc853542d5",
+    "combinedContractDigest": "sha256:420cb0fbaa6e00b9a6460d99f5a43469b0dc281f5f6b71ca22662ee7461e56f2",
+    "combinedNativeVerificationEvidenceDigest": "sha256:88f40560762dfbc7ecdb989c8f0ca6ab8ddb5525f56b5f27abb07afc592d5d08",
+    "directStatusProjectionPassed": 46,
+    "directAuthorityAdmissionPassed": 16,
+    "combinedFormalTestCounts": [
+      46,
+      38,
+      2,
+      41
+    ],
+    "ci": {
+      "conclusion": "success",
+      "headSha": "7211294648d6e43b5ee8da0db05baafc853542d5",
+      "status": "completed",
+      "url": "https://github.com/xinglun/ai-cockpit/actions/runs/39214312107"
+    },
+    "eightGuardDiffSha256": "sha256:3d8a574652c1818dea65c7e04b99fa19f02616b4b1afc0fc48edf6650d2c3308",
+    "boundary": "External composition proof is referenced by source HEAD, digest and CI URL; no combined native receipt is copied into the independent checkout.",
+    "sourceAncestors": [
+      "42aabe9bc0fcc60921821006ed7a7aae6be9b1ec",
+      "c960ed2eaa9e42cddedad25612f5d0d2d9a44774"
+    ]
+  },
+  "userVisibleBenefit": {
+    "state": "inference",
+    "statement": "The independent recovery predicates remain compatible with the retained authority entry guards in this exact composed source. This does not enable production authority or prove local Sentinel recovery."
+  },
+  "remainingLimits": [
+    "The combined material record was actually rejected by pinned Runtime because the old receipt profile differs after the approved authoritySource amendment; no current combined material receipt exists.",
+    "A1-A4 suite coverage includes isolated fixtures, not an assertion that a real Sentinel snapshot has been accepted.",
+    "Human and agent review provenance remains relayed and self_declared as recorded.",
+    "The independent CI artifact download attempt returned storage Forbidden; no unavailable artifact content is claimed. Both CI API terminals and full quality logs were obtained.",
+    "No finish, archive, merge, Issue closure or Sentinel execution occurred."
+  ]
+}

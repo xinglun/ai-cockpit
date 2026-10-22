@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-19T10:19:40Z",
+  "files": {
+    "contractDigest": "sha256:3498bd05dcc7e546381a92febecb02c6a8e4c95bae5c7a3e9b8e782bed6f0178",
+    "contractPath": ".ai/work-items/archive/WI-RETAINED-CANONICAL-FIXTURE.contract.json",
+    "eventsDigest": "sha256:ec8f17abdc2cf10ec675def316fa537a06e8056ff172b7e012d6f6981ec56373",
+    "eventsPath": ".ai/work-items/archive/WI-RETAINED-CANONICAL-FIXTURE.events.jsonl",
+    "outcomeDigest": "sha256:2b0a21b87e9386eae2c7b24e24b3fb4a2a3daf394199094cf8832ff2b2cbdc88",
+    "outcomePath": ".ai/work-items/archive/WI-RETAINED-CANONICAL-FIXTURE.outcome.json",
+    "summaryDigest": "sha256:4fa1dd789149a6ba2ccd21cf1ea05bd36aa65db4cfa42c2c0064b481346a76fe",
+    "summaryPath": ".ai/work-items/archive/WI-RETAINED-CANONICAL-FIXTURE.summary.json",
+    "taskReportDigest": "sha256:7ae0680dbb0f077b8399681c7d070fd7727edb48023a08847c306128b650d024",
+    "taskReportMarkdownDigest": "sha256:6236a2c76a31ebf0c2d7455b466bb945b8eb7fa992cfdad05664e2c570fdc237",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-RETAINED-CANONICAL-FIXTURE.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-RETAINED-CANONICAL-FIXTURE.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-19T10:19:40.007678308Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-19T10:19:40.007678308Z",
+  "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+  "runtimeDigest": "sha256:3f7a3b4b446cea8b7b98544bd026b94e3ce272f53bd5dfecc611d6724f3d91d5",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

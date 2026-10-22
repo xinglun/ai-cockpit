@@ -1,0 +1,23 @@
+{
+  "kind": "actual_native_six_node_verification_run",
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1089-recovery",
+    "--work-item",
+    "WI-1089-blocked-outcome-material-review-recovery",
+    "--workers",
+    "1"
+  ],
+  "sourceHead": "a7a31e612904b188eb0307f1e6524ee6b8d7cd7b",
+  "runtimeSha256": "b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "startedAt": "2026-10-19T11:21:51.080462+00:00",
+  "terminalState": "completed",
+  "workerCount": 1,
+  "targetDirectory": "/workspace/scratch/wi1089-preserved-history-verify-target-20261019",
+  "exitCode": 0,
+  "endedAt": "2026-10-19T11:33:20.144178+00:00",
+  "elapsedSeconds": 689.0644759989955,
+  "sourceHeadAfter": "a7a31e612904b188eb0307f1e6524ee6b8d7cd7b"
+}

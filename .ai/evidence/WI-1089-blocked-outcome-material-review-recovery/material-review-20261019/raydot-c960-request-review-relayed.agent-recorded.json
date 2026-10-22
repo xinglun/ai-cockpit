@@ -1,0 +1,18 @@
+{
+  "kind": "raydot_material_review_conclusion_relay_agent_recorded_not_native_receipt",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "reviewerActorAsRelayed": "agent:Raydot",
+  "recorder": "agent:Codex",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "source": "Current parent-thread codex_delegation relaying Raydot's bounded technical decision; the recorder has no direct Raydot identity attestation.",
+  "decisionRelayVerbatim": "Raydot 对独立请求8fd7f3fa730f4aa6547660a9339102532b55a4f4a18f95dba58d533903ea03f2有限材料审阅通过，绑定c960ed2eaa9e42cddedad25612f5d0d2d9a44774、Contract17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07、snapshot ee36ca3d69b46019f76a842768d981808c44ee46c6098559cd3416638b6c34b8、manifest83ab2a391a1638665c67cf1a9dee134784fdc0c2246a31f69218346fea2123ec。三Rust blob/hunk未变、scanner/profile/policy不变，风险范围与Ray批准一致；可原生记录并正式验证当前独立候选，测试前预检固定Runtime/Cargo。停止仅为证据提交改变HEAD的循环，汇总待最终批量记录。",
+  "requestDigest": "sha256:8fd7f3fa730f4aa6547660a9339102532b55a4f4a18f95dba58d533903ea03f2",
+  "reviewedSourceHead": "c960ed2eaa9e42cddedad25612f5d0d2d9a44774",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "sourceSnapshotDigest": "sha256:ee36ca3d69b46019f76a842768d981808c44ee46c6098559cd3416638b6c34b8",
+  "materialManifestDigest": "sha256:83ab2a391a1638665c67cf1a9dee134784fdc0c2246a31f69218346fea2123ec",
+  "analysisImplementationDigest": "sha256:f2f7898225550abbf1cbde21c4780795bbd1bb953150a7a94fe993ab7b263d27",
+  "materialInspectionReviewProfileDigest": "sha256:3cfea8a93c672a1439fc6c4295cf2732a44779f95da41103201964f6ce1e523c",
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "limits": "This relayed technical review applies only to the exact independent request and unchanged three Rust blob/hunk pairs, the previously accepted bounded scanner risk, no Finding and no other Unknown. It is self-declared and does not authenticate a real-world reviewer, verify formal checks, or authorize combination, merge, finish, archive, or close."
+}

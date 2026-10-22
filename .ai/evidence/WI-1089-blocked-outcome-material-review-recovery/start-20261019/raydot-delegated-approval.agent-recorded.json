@@ -1,0 +1,15 @@
+{
+  "kind": "relayed_Raydot_delegated_technical_start_approval_agent_recorded_not_native_human_review",
+  "recordedBy": "agent:Codex",
+  "source": "current delegated thread; Raydot message relayed to Codex",
+  "userDelegationVerbatim": "以后遇到问题，批准，许可，找Raydot。我已经授权给他了。",
+  "raydotDecisionVerbatim": "Raydot 批准 WI-1089 的七文件技术范围和执行授权，绑定 START-ARGV 提案摘要2798ff7356698d2bacfeb624a07e33c4539601f7d6040b728b7d70ca1906ef44及main b8ec269。在独立worktree刷新base及准入后执行原生start，读回Contract和实际门禁；authority=authorized的依据写Raydot受托技术决定，不冒充Ray本人。范围仅status_projection.rs、repository/CLI/MCP既定三个测试及三语WI文档。原生真正阻断则报告精确原因；若无阻断按已批准顺序推进checkpoint、最小实现与测试。不得普遍移除!blocking、掩盖旧失败Outcome或跳过独立材料决定；身份绑定真人confirm_review若必需则给出完整实际绑定。暂把WI-1087停在已验证P2b，P3七文件提案保留，优先收敛#1041这一小修复后再推进P3，避免共享文件并发变更。",
+  "approvedProposalSha256": "2798ff7356698d2bacfeb624a07e33c4539601f7d6040b728b7d70ca1906ef44",
+  "approvedBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "doesNotClaim": [
+    "human:Ray confirm_review",
+    "native preflight or material review decision",
+    "production grant",
+    "WI-1087 P3 authorization"
+  ]
+}

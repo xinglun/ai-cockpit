@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--package",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+    "--",
+    "--nocapture"
+  ],
+  "startedAt": "2026-10-19T10:03:04.291452+00:00",
+  "endedAt": "2026-10-19T10:11:46.182594+00:00",
+  "exitCode": 101,
+  "elapsedSeconds": 521.8918635449954,
+  "sourceHead": "4440d5eac7ec01b8c720d98514d7a27ef40ca129"
+}

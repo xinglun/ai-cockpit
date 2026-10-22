@@ -1,0 +1,175 @@
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "contract_amendment_policy_review_required",
+    "evidence_stale",
+    "material_review_receipt_stale",
+    "preflight_decision_evidence_invalid",
+    "repository_material_inspection_unavailable"
+  ],
+  "raw_scanner_unknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "material_manifest_digest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+  "effective_unknowns": [
+    "evidence_stale",
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable"
+  ],
+  "safe_actions": [
+    "record_fresh_preflight_decision",
+    "rerun_affected_checks"
+  ],
+  "required_checks": [
+    "evidence_freshness",
+    "human_review"
+  ],
+  "authority": "authorized",
+  "outcome_state": "needs_human_decision",
+  "reviewState": "needs_human_confirmation",
+  "humanDecisionRequest": {
+    "decisionId": "contract-preflight-review",
+    "status": "needs_human_confirmation",
+    "whatHappened": "The recorded preflight decision evidence is missing, stale, or invalid.",
+    "whyItMatters": "A previous human review cannot authorize a changed or foreign Contract.",
+    "options": [
+      {
+        "id": "complete_contract",
+        "label": "Complete or amend the Contract",
+        "effect": "Provide current human-owned facts and rerun preflight."
+      },
+      {
+        "id": "confirm_review",
+        "label": "Confirm a bounded human decision",
+        "effect": "Record a new identity-bound receipt for this exact Contract and snapshot."
+      },
+      {
+        "id": "stop_work",
+        "label": "Stop the Work Item",
+        "effect": "Leave the item recoverable without entering implementation."
+      }
+    ],
+    "recommendedOption": "confirm_review",
+    "recommendationReason": "The previous receipt cannot be reused after its binding facts changed.",
+    "question": "Which bounded decision should authorize the next step?",
+    "resumeCondition": "A fresh repository-bound preflight decision receipt matches the current Contract and snapshot."
+  },
+  "changedPaths": [
+    ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:82ba80e1fe89aef70493231c64c21ace096aa7d459d6358feb7f6c4b94688a94",
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+    "baseCommit": "35a673e14b0631e102765542f406cff2be978cb5",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "red",
+    "activityHealth": "degraded",
+    "blocking": true,
+    "humanDecisionRequired": true,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 2,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 45,
+      "checkpointCount": 1
+    },
+    "blockers": [
+      "governance_red"
+    ],
+    "missingEvidence": [],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "unknown",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "unknown",
+      "workResult": "unknown"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:29bc6e2c1e64c6ab7d1e554928d6bac2066022a9c8bb84c4befcf068f01710c8",
+      "materialManifest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+      "repositorySnapshot": "sha256:82944ee19cc51b314cb37acec1d3874a71d514b1affc4ae6a0e5221755cb0b4d",
+      "summary": "sha256:b68e984ae05b14c0b516b395adae169e4f9826b592e1fcaa7036494e1648c8ab",
+      "verificationEvidence": "sha256:02382c66502f35c9af6cf63e72ec0d918d46fa492baa8cb33818ea0e9cdb7f28"
+    },
+    "unknowns": [
+      "lifecycle_gate_failed",
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "materialManifestDigest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "lifecycle_gate_failed",
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:82944ee19cc51b314cb37acec1d3874a71d514b1affc4ae6a0e5221755cb0b4d",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "lastVerificationAt": "2026-10-19T10:51:25Z",
+    "updatedAt": "2026-10-19T10:51:25.612206618+00:00",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "run_preflight",
+      "stop"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "run_preflight",
+      "recommendationReason": "Runtime requires a current human decision before continuing",
+      "admissionState": "needs_human_decision",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "lifecycle_gate_failed",
+          "message": "current projection reports lifecycle_gate_failed"
+        },
+        {
+          "kind": "unknown",
+          "code": "material_review_receipt_stale",
+          "message": "current projection reports material_review_receipt_stale"
+        },
+        {
+          "kind": "unknown",
+          "code": "repository_material_inspection_unavailable",
+          "message": "current projection reports repository_material_inspection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": true,
+      "missingInputs": [],
+      "admissionDigest": "sha256:f449967bfbdd53f9faf03b199013d7742ba09727061c23b48d1aecbb249d31b4"
+    },
+    "statusDigest": "sha256:83041d967e57cf6e5bb182bbff1625a9d4e957e209c4c5af31539533f31ec7e5",
+    "historical": false
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "kind": "equivalent_fixture_c960_retained_canonical_baseline_actual",
+  "candidateSource": "c960ed2eaa9e42cddedad25612f5d0d2d9a44774",
+  "candidateBinarySha256": "d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+  "fixtureRoot": "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-02-changed-source/repository",
+  "oldCanonicalPresent": true,
+  "oldCanonicalRawSha256": "a549577dc77a9dedb742512a16c8239638d0b9deae337746c7c53c7028b3aeed",
+  "oldCanonicalContract": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+  "currentContract": "sha256:8e4ec0b0d69e22bc6e0a794385df6ec7b49fc99a1c2f1c854f2fd81e7c5eb4e6",
+  "oldSnapshot": "sha256:9cc5a6a0b863215094f05f6758ce7941d84e167d1fbfd1ed06effc0dae28ca6c",
+  "currentSnapshot": "sha256:0c45007a74f8af8274f77d328d180857313aa144b2fee0d14f2e54ffecf28ee3",
+  "oldActualNodesExecuted": 4,
+  "oldActualNodesReused": 0,
+  "oldActualProcessesSpawned": 4,
+  "currentNativeStatus": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+    "baseCommit": "11b8159aabc7100d93fe3d357ec10ab1eb160dc6",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "red",
+    "activityHealth": "degraded",
+    "blocking": true,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 2,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 45,
+      "checkpointCount": 1
+    },
+    "blockers": [
+      "governance_red"
+    ],
+    "missingEvidence": [],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "unknown",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "unknown",
+      "workResult": "unknown"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:8e4ec0b0d69e22bc6e0a794385df6ec7b49fc99a1c2f1c854f2fd81e7c5eb4e6",
+      "materialManifest": "sha256:1fd5e66c1d4ab711436810e87fa9e23823dc18503a3e15eb13592af7aa251e37",
+      "repositorySnapshot": "sha256:0c45007a74f8af8274f77d328d180857313aa144b2fee0d14f2e54ffecf28ee3",
+      "summary": "sha256:1fa5a209e69826b2c7cf028c1231e5ef4bb8ab80299400dfce0937815b6af722",
+      "verificationEvidence": "sha256:b61e4f0fa34c4a83dcf9dcfc9d3603b65beda822e7905b9880d1c2c1cd6ba38b"
+    },
+    "unknowns": [
+      "lifecycle_gate_failed",
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "materialManifestDigest": "sha256:1fd5e66c1d4ab711436810e87fa9e23823dc18503a3e15eb13592af7aa251e37",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "lifecycle_gate_failed",
+      "material_review_receipt_stale",
+      "repository_material_inspection_unavailable",
+      "user_visible_benefit_not_declared"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:0c45007a74f8af8274f77d328d180857313aa144b2fee0d14f2e54ffecf28ee3",
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    },
+    "lastVerificationAt": "2026-10-19T10:01:19Z",
+    "updatedAt": "2026-10-19T10:01:21.009642291+00:00",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "resolve_blockers",
+      "stop"
+    ],
+    "actionExplanation": {
+      "guideId": "verification-failure-recovery",
+      "recommendedAction": "resolve_blockers",
+      "recommendationReason": "Runtime blocks continuation because current blockers are: governance_red",
+      "admissionState": "blocked",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "lifecycle_gate_failed",
+          "message": "current projection reports lifecycle_gate_failed"
+        },
+        {
+          "kind": "unknown",
+          "code": "material_review_receipt_stale",
+          "message": "current projection reports material_review_receipt_stale"
+        },
+        {
+          "kind": "unknown",
+          "code": "repository_material_inspection_unavailable",
+          "message": "current projection reports repository_material_inspection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [],
+      "admissionDigest": "sha256:d0bd4a7b869312d553cbfd3236f326e6194f55c4822cd60d9de8dbe5cb382440"
+    },
+    "statusDigest": "sha256:633d877be9261cf4b1cf06946d24880185ca1353db670f354cd36f44ec6c463f",
+    "historical": false
+  },
+  "currentMaterialRequest": "sha256:dda1345412cc565edea9b533d35947d370349f9a3733186564f2f898b24d9791",
+  "currentMaterialRecordExit": 1,
+  "currentVerifyPlanExit": 1,
+  "limits": "Equivalent fixture, same producer version, committed README change prevents legitimate attempt reuse, native finish blocked by planned scenario; not the unpublished Sentinel receipt or its finish.preflight history."
+}

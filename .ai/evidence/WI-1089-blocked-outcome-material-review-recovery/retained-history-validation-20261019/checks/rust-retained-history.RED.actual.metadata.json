@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--package",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+    "retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives",
+    "--",
+    "--nocapture"
+  ],
+  "sourceHead": "82ef47fa2211b5ae885a1e10c34d900267f70b06",
+  "productionImplementation": "unchanged c960 source",
+  "startedAt": "2026-10-19T09:32:40.836570+00:00",
+  "endedAt": "2026-10-19T09:36:35.508013+00:00",
+  "exitCode": 101,
+  "elapsedSeconds": 234.67200740400585,
+  "workers": 1,
+  "target": "/workspace/scratch/wi1089-preserved-history-verify-target-20261019"
+}

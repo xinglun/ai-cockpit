@@ -1,0 +1,169 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-RETAINED-CANONICAL-FIXTURE.preflight-review.761c954e18a458620088ffaa0e99576893d6462935a420324253a9094510cf60.json",
+    ".ai/evidence/material-inspection-review/WI-RETAINED-CANONICAL-FIXTURE/d552e8e4ef924d8bf634a4f13c48fbd549c07140fd05b31ff9df65c20e24a037.json",
+    ".ai/fixture-target/.rustc_info.json",
+    ".ai/fixture-target/CACHEDIR.TAG",
+    ".ai/fixture-target/debug/.cargo-artifact-lock",
+    ".ai/fixture-target/debug/.cargo-build-lock",
+    ".ai/fixture-target/debug/.cargo-lock",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/dep-test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/test-integration-test-material.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/dep-test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/test-lib-retained_fixture.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/dep-test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/test-integration-test-material",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/test-integration-test-material.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/dep-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/lib-retained_fixture.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/dep-test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/test-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/test-lib-retained_fixture.json",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/dep-lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/invoked.timestamp",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/lib-retained_fixture",
+    ".ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/lib-retained_fixture.json",
+    ".ai/fixture-target/debug/deps/libmaterial-37e21bdeb8afd388.rmeta",
+    ".ai/fixture-target/debug/deps/libretained_fixture-acc3a1905f935e7d.rmeta",
+    ".ai/fixture-target/debug/deps/libretained_fixture-d936cce08e844de4.rmeta",
+    ".ai/fixture-target/debug/deps/libretained_fixture-db6af29b1c6894b5.rlib",
+    ".ai/fixture-target/debug/deps/libretained_fixture-db6af29b1c6894b5.rmeta",
+    ".ai/fixture-target/debug/deps/material-081c4ca137d6555b",
+    ".ai/fixture-target/debug/deps/material-081c4ca137d6555b.d",
+    ".ai/fixture-target/debug/deps/material-37e21bdeb8afd388.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-0f305aa669e558e7",
+    ".ai/fixture-target/debug/deps/retained_fixture-0f305aa669e558e7.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-acc3a1905f935e7d.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-d936cce08e844de4.d",
+    ".ai/fixture-target/debug/deps/retained_fixture-db6af29b1c6894b5.d",
+    ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+  ],
+  "checkpointAt": "2026-10-19T09:24:16Z",
+  "checkpointContractDigest": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+      "recorded": true,
+      "recordedAt": "2026-10-19T09:24:16Z",
+      "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+      "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:1e9bcd1de32af9c435bf0d66e02c7ca33dd8a76b7ed390bf95fa7f8d6cb47d6c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+      "previousContractHash": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+      "reason": "Isolated equivalent fixture, no real human or production authority.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T09:24:20Z",
+      "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+      "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+  "createdAt": "2026-10-19T09:24:14Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:1e9bcd1de32af9c435bf0d66e02c7ca33dd8a76b7ed390bf95fa7f8d6cb47d6c",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:ad81f285cee0a893c1ea1ee070ff152bdc30488af37117f4da68c38c4c640ff1",
+    "reason": "Synthetic fixture decision only; not Ray or a consumer approval.",
+    "recordedAt": "2026-10-19T09:24:21Z",
+    "recordedBy": "human:isolated-synthetic-fixture",
+    "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+    "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+    "schemaVersion": 1,
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+  },
+  "failedGate": "finish.lifecycle",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T09:24:14.830834938Z",
+      "recordedAt": "2026-10-19T09:24:14.830834938Z",
+      "runtimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:ccd0df795388c622b6371b1982ac7be001478a958a9555ca47e6e9ff553e5c97",
+    "path": ".ai/evidence/material-inspection-review/WI-RETAINED-CANONICAL-FIXTURE/d552e8e4ef924d8bf634a4f13c48fbd549c07140fd05b31ff9df65c20e24a037.json",
+    "receiptDigest": "sha256:cd989ee0a1ed6cfc7f6e9636ec3ee80b5930276d4cfce34b3787d6db21d0a3d4",
+    "requestDigest": "sha256:d552e8e4ef924d8bf634a4f13c48fbd549c07140fd05b31ff9df65c20e24a037"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-10-19T09:24:21Z",
+  "preflightContractDigest": "sha256:1e9bcd1de32af9c435bf0d66e02c7ca33dd8a76b7ed390bf95fa7f8d6cb47d6c",
+  "preflightDecisionDigest": "sha256:ad81f285cee0a893c1ea1ee070ff152bdc30488af37117f4da68c38c4c640ff1",
+  "preflightRepositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/fixture-preserved-old-cycle.json"
+      ],
+      "expected": "The old cycle executes all four declared checks.",
+      "required": true,
+      "scenario": "old fixture four-check cycle",
+      "status": "verified",
+      "verificationPlan": "Native verify all four declared fixture commands."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T09:24:21.761616794+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:1e9bcd1de32af9c435bf0d66e02c7ca33dd8a76b7ed390bf95fa7f8d6cb47d6c",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-19T09:24:20Z"
+  },
+  "verificationRecoveryReconciled": "sha256:b77572726cde316bd1ffec0dc0a5c6b6cbd7655b3a42bb1685cc7a3b64699d35",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

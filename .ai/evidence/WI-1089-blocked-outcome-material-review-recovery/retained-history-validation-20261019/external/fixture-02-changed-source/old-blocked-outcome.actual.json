@@ -1,0 +1,456 @@
+{
+  "acceptanceResults": [
+    "All four commands execute and history remains intact"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+  ],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+      ],
+      "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+      "repositorySnapshotDigest": "sha256:9cc5a6a0b863215094f05f6758ce7941d84e167d1fbfd1ed06effc0dae28ca6c",
+      "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-RETAINED-CANONICAL-FIXTURE.preflight-review.c084bf95e1dee4710b2c6b69b51c0e1aa39905b7da6762c57de34d2a8d9ba517.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-RETAINED-CANONICAL-FIXTURE/5095d944bd74dc35afc27a111c22d5c087f07231ac3d0c329684a9cc44ac04f9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/.rustc_info.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/CACHEDIR.TAG"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.cargo-artifact-lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.cargo-build-lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.cargo-lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/dep-test-integration-test-material"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/invoked.timestamp"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/test-integration-test-material"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-081c4ca137d6555b/test-integration-test-material.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/dep-test-lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/invoked.timestamp"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/test-lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-0f305aa669e558e7/test-lib-retained_fixture.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/dep-test-integration-test-material"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/invoked.timestamp"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/test-integration-test-material"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-37e21bdeb8afd388/test-integration-test-material.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/dep-lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/invoked.timestamp"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-acc3a1905f935e7d/lib-retained_fixture.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/dep-test-lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/invoked.timestamp"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/test-lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-d936cce08e844de4/test-lib-retained_fixture.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/dep-lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/invoked.timestamp"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/lib-retained_fixture"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/.fingerprint/retained_fixture-db6af29b1c6894b5/lib-retained_fixture.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/libmaterial-37e21bdeb8afd388.rmeta"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/libretained_fixture-acc3a1905f935e7d.rmeta"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/libretained_fixture-d936cce08e844de4.rmeta"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/libretained_fixture-db6af29b1c6894b5.rlib"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/libretained_fixture-db6af29b1c6894b5.rmeta"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/material-081c4ca137d6555b"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/material-081c4ca137d6555b.d"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/material-37e21bdeb8afd388.d"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/retained_fixture-0f305aa669e558e7"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/retained_fixture-0f305aa669e558e7.d"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/retained_fixture-acc3a1905f935e7d.d"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/retained_fixture-d936cce08e844de4.d"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/fixture-target/debug/deps/retained_fixture-db6af29b1c6894b5.d"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.contract.json"
+          ],
+          "inference": false,
+          "text": "Run four checks through fixture finish and archive"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-19T10:01:19.853455522Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+    },
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-RETAINED-CANONICAL-FIXTURE.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

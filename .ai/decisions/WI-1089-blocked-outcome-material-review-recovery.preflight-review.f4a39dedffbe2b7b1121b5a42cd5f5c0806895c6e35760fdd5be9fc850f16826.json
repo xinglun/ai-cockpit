@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9cbe19f6d00475a2f34ce4c94d2eb5c3597368a4868eeb4e7730ca293953cbb7",
+  "reason": "Ray replied literally 确认上述 WI-1089 修约绑定，confirm_review in Sentinel_aebae60364d481919bf8c580d8f3296b to exact request Sentinel_91abba9438648191853b38da4445d572. Relayed by Raydot; recorder agent:Codex. Exact binding/provenance at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/historical-verification-recovery-20261019/human-contract-review-relayed.agent-recorded.json. Confirms amendment3 plan only; excludes new material residual-risk acceptance, real WI/Sentinel finish/archive, merge, closure or cleanup.",
+  "recordedAt": "2026-10-19T09:19:31Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8ca1b64dc803a0eb8fc4b0125f5a30765aefc6c713fe9a269cadda55d44bbdaf",
+  "schemaVersion": 1,
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+}

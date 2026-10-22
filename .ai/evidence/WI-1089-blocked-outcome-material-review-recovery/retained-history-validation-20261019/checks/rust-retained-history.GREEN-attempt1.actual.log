@@ -1,0 +1,23 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-repository)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-mcp)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1089-recovery/crates/cockpit-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 00s
+     Running tests/contract_amendment_processes.rs (/workspace/scratch/wi1089-preserved-history-verify-target-20261019/debug/deps/contract_amendment_processes-9c822762ecd8f2ad)
+
+running 1 test
+test retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives ... 
+thread 'retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives' (3928007) panicked at crates/cockpit-cli/tests/contract_amendment_processes.rs:467:5:
+assertion `left == right` failed
+  left: Number(0)
+ right: 4
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+
+failures:
+
+failures:
+    retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 42 filtered out; finished in 11.50s
+
+error: test failed, to rerun pass `-p cockpit-cli --test contract_amendment_processes`

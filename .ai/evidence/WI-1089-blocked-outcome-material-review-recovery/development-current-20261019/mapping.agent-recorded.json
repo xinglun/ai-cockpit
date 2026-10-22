@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent-recorded-current-head-development-evidence-and-scenario-mapping",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T05:40:23Z",
+  "sourceHeadAtChecks": "0e4340efc1e8535da58e7d8e823c2531d6b60f12",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "materialRequestDigest": "sha256:c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a",
+  "materialReceiptDigest": "sha256:aa129e3e471a216f8b9d2a8eb1950bc6e13c51e810527f855b4fcfb14c60d2ab",
+  "sourceRustAfterBlobDigests": {
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs": "sha256:8126ddaa97f72f465925a164922faebdec69a350bffb902ab223290f47fcc9bd",
+    "crates/cockpit-repository/src/status_projection.rs": "sha256:8e66583fabefa1eaf536ff03075f22f1b041b6283fb090432f02ba2c3c32c0c6",
+    "crates/cockpit-repository/tests/status_projection.rs": "sha256:02c4f3c6aac7273f6f2377f2bd4752757625f43e62c541f8cba27474505e49b1"
+  },
+  "executionEnvironment": {
+    "cargoVersion": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+    "rustcVersion": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "cargoHome": "/workspace/.cloud-tools/cargo",
+    "cargoTargetDir": "/workspace/ai-cockpit-wi1089-recovery/target",
+    "cargoBuildJobs": 1,
+    "rustTestThreads": 1,
+    "cargoNetOffline": true,
+    "perCommandTimeoutSeconds": 850
+  },
+  "checks": [
+    {
+      "name": "status_projection",
+      "command": "cargo test --locked --package cockpit-repository --test status_projection",
+      "result": "passed",
+      "count": "46/46",
+      "logPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+      "logSha256": "sha256:d8e34482546396501bc50a317095bb22cc26915f2fe5f80dc55b2ff6d14bf418"
+    },
+    {
+      "name": "contract_amendment_processes",
+      "command": "cargo test --locked --package cockpit-cli --test contract_amendment_processes",
+      "result": "passed",
+      "count": "38/38",
+      "logPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+      "logSha256": "sha256:3bda169058b537bd059ba8599a6bc44a05ae2bcc4051185aad2df12702bfd347"
+    },
+    {
+      "name": "mcp_material_review",
+      "command": "cargo test --locked --package cockpit-mcp --test material_review",
+      "result": "passed",
+      "count": "2/2",
+      "logPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+      "logSha256": "sha256:3c30debf56626fbf8e20299c358d58d74a36d5690876754150d68b0b5f68c9fd"
+    },
+    {
+      "name": "repository_material_review",
+      "command": "cargo test --locked --package cockpit-repository --test material_review",
+      "result": "passed",
+      "count": "41/41",
+      "logPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-repository-material-review.log",
+      "logSha256": "sha256:3a3684045e8d7872bb616a0d8838cebc2b4f333c96b581ae4a7806052a396dac"
+    },
+    {
+      "name": "fmt",
+      "command": "cargo fmt --all -- --check",
+      "result": "passed",
+      "count": "exit 0",
+      "logPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-fmt.log",
+      "logSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "clippy",
+      "command": "cargo clippy --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+      "result": "passed",
+      "count": "exit 0",
+      "logPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-clippy.log",
+      "logSha256": "sha256:9c3cae8e6c8af775dec210c3f213da60e3b1fed25e2b42a7dec2c1fde91cf094"
+    }
+  ],
+  "scenarioMapping": [
+    {
+      "scenario": "A1 blocked Outcome and amendment",
+      "support": "current-head repository blocked_outcome_after_sensitive_amendment_admits_only_exact_material_review and CLI blocked_material_recovery tests; actual current Contract amendment, preflight and human review recorded",
+      "status": "supporting_development_evidence_not_formal_acceptance"
+    },
+    {
+      "scenario": "A2 exact material decision",
+      "support": "current-head repository and CLI material positive/negative tests plus native material receipt aa129e3e for exact request c269e5e3",
+      "status": "supporting_development_and_native_material_evidence_not_formal_verification"
+    },
+    {
+      "scenario": "A3 real verification recovery",
+      "support": "repository blocked_material_receipt_admits_real_verification_before_clearing_failure and CLI fixture tests cover real receipt lifecycle; fixture runs true, which does not prove business correctness. No current Work Item passing formal verification receipt exists.",
+      "status": "partially_supported_current_formal_recovery_unverified"
+    },
+    {
+      "scenario": "A4 rejection matrix",
+      "support": "current-head repository blocked_material_recovery_rejects_unbound_or_unavailable_inputs and blocked_material_recovery_rejects_committed_finding, plus CLI stale/replay/foreign tests",
+      "status": "supporting_development_evidence_not_formal_acceptance"
+    },
+    {
+      "scenario": "A5 serial WI-1087 composition",
+      "support": "No composed HEAD or separately admitted cross-WI registration; WI-1087 candidate 42aabe9bc0fcc60921821006ed7a7aae6be9b1ec and this branch both touch status_projection.rs. No composition test was run.",
+      "status": "unverified"
+    }
+  ],
+  "intentAlignmentAssessment": "Current source, WI-1089 work-item documents, exact material receipt, Raydot static review and passing current-head development checks align the bounded #1041 repair implementation with the declared intent. This assesses alignment only; A5 composition and formal verification remain unproven.",
+  "formalNativeVerification": "not_run",
+  "a5ComposedHead": "not_observed",
+  "limitations": [
+    "Development commands are not Native formal verification.",
+    "A3 fixture true proves lifecycle admission and receipt handling, not business correctness.",
+    "A5 remains unverified and may block formal verification.",
+    "Review assurance is self_declared and does not authenticate a real-world reviewer."
+  ]
+}

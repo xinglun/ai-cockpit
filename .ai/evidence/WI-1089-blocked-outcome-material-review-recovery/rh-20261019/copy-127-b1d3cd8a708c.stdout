@@ -1,0 +1,180 @@
+{
+  "coverageManifest": null,
+  "nodesPlanned": 4,
+  "nodesReused": 0,
+  "nodesToExecute": 4,
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--offline",
+        "--test",
+        "material"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:0b116fbf5a676ead91f3d13fd03128143fabf5e518e985b8c2291db805a2183b",
+        "profileDigest": null,
+        "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+        "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+        "runtimeDigest": "sha256:89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c"
+      },
+      "nodeId": "project-command-0",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:profile_not_calibrated",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    },
+    {
+      "action": "execute",
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:e6f2e78f525986f7cb11f6223c1ab8f059b028a30d2ff19e7bd90a3fc54639b5",
+        "profileDigest": null,
+        "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+        "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+        "runtimeDigest": "sha256:89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c"
+      },
+      "nodeId": "project-command-1",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:profile_not_calibrated",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    },
+    {
+      "action": "execute",
+      "args": [
+        "test",
+        "--locked",
+        "--offline"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:7f1b02038b5458bf2af4617f482ec3474c65c9ee1a72c91d4bea2149a1641dba",
+        "profileDigest": null,
+        "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+        "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+        "runtimeDigest": "sha256:89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c"
+      },
+      "nodeId": "project-command-2",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:profile_not_calibrated",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    },
+    {
+      "action": "execute",
+      "args": [
+        "clippy",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:adbb823cb1731f35b8a61c126ed756a915331c553926c0670f66b063c0fda9ef",
+        "profileDigest": null,
+        "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+        "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+        "runtimeDigest": "sha256:89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c"
+      },
+      "nodeId": "project-command-3",
+      "planningElapsedMs": 0,
+      "program": "cargo",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:profile_not_calibrated",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    }
+  ],
+  "processesSpawned": 0,
+  "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+  "repositorySnapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+  "requests": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--offline",
+        "--test",
+        "material"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--offline"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "timeoutSeconds": 300
+    }
+  ],
+  "runtimeDigest": "sha256:89a0265a295fc68d4788d075a9b4205e51e6b3e27af712d0e87fe8e0d143e46c",
+  "runtimeVersion": "1.0.1",
+  "state": "planned",
+  "timeoutSeconds": 300,
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

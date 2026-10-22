@@ -1,0 +1,26 @@
+[
+  {
+    "origin": "/workspace/ai-cockpit-wi1089-recovery/target/release/ai-cockpit",
+    "preservedPath": "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-04-real-producer-change/old-c960-producer.actual.bin",
+    "sha256": "d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+    "versionArgv": [
+      "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-04-real-producer-change/old-c960-producer.actual.bin",
+      "--version"
+    ],
+    "versionExit": 0,
+    "versionStdout": "ai-cockpit 1.0.1\n",
+    "versionStderr": ""
+  },
+  {
+    "origin": "/workspace/scratch/wi1089-preserved-history-verify-target-20261019/debug/ai-cockpit",
+    "preservedPath": "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-04-real-producer-change/new-a248-producer.actual.bin",
+    "sha256": "3f7a3b4b446cea8b7b98544bd026b94e3ce272f53bd5dfecc611d6724f3d91d5",
+    "versionArgv": [
+      "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-04-real-producer-change/new-a248-producer.actual.bin",
+      "--version"
+    ],
+    "versionExit": 0,
+    "versionStdout": "ai-cockpit 1.0.1\n",
+    "versionStderr": ""
+  }
+]

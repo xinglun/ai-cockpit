@@ -1,0 +1,36 @@
+{
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+  "state": "implementation_active",
+  "timestamp": "2026-10-19T10:01:12Z",
+  "startAdvisory": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+    "currentWorkItemState": "not_started",
+    "classification": "clear",
+    "currentWorktree": {
+      "path": "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-02-changed-source/repository",
+      "branch": "main",
+      "head": "11b8159aabc7100d93fe3d357ec10ab1eb160dc6",
+      "isPrimary": true,
+      "isCurrent": true
+    },
+    "worktrees": [
+      {
+        "path": "/workspace/scratch/wi1089-historical-verification-amendment-20261019/execution/fixture-02-changed-source/repository",
+        "branch": "main",
+        "head": "11b8159aabc7100d93fe3d357ec10ab1eb160dc6",
+        "isPrimary": true,
+        "isCurrent": true
+      }
+    ],
+    "activeWorkItems": [],
+    "pendingCleanup": [],
+    "warnings": [],
+    "conflicts": [],
+    "unknowns": [],
+    "nextActions": [
+      "proceed_with_start_entry_checks"
+    ]
+  }
+}

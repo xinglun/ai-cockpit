@@ -1,0 +1,57 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "checkpointAt": "2026-10-19T10:01:13Z",
+  "checkpointContractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f57521426054575b7b5e50cc6694261a1a5cfea6a1144f3787c371fbf8933c67",
+  "createdAt": "2026-10-19T10:01:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:84846910dbdc9058882232f392f8097f2418b4a0ce3daac4d07ade12de96910d",
+    "reason": "Synthetic fixture decision only; not Ray or a consumer approval.",
+    "recordedAt": "2026-10-19T10:01:13Z",
+    "recordedBy": "human:isolated-synthetic-fixture",
+    "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+    "repositorySnapshotDigest": "sha256:9cc5a6a0b863215094f05f6758ce7941d84e167d1fbfd1ed06effc0dae28ca6c",
+    "schemaVersion": 1,
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T10:01:12.785831365Z",
+      "recordedAt": "2026-10-19T10:01:12.785831365Z",
+      "runtimeDigest": "sha256:d9d1fc38e275f53e9541f7c7bd9f8b13bdae3269a904922dc3d4cb50ae8cb18a",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-19T10:01:13Z",
+  "preflightContractDigest": "sha256:52b56515e4bcfcbe05638a97057be6001ec41c274d4cf39fc02a8db447deefd1",
+  "preflightDecisionDigest": "sha256:84846910dbdc9058882232f392f8097f2418b4a0ce3daac4d07ade12de96910d",
+  "preflightRepositorySnapshotDigest": "sha256:9cc5a6a0b863215094f05f6758ce7941d84e167d1fbfd1ed06effc0dae28ca6c",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:49d0a55235327d6203b506704796b755e17497e8335f2309b55e5b15c77833b8",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The old cycle executes all four declared checks.",
+      "required": true,
+      "scenario": "old fixture four-check cycle",
+      "status": "unverified",
+      "verificationPlan": "Native verify all four declared fixture commands."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T10:01:14.081938860+00:00",
+  "workItemId": "WI-RETAINED-CANONICAL-FIXTURE"
+}

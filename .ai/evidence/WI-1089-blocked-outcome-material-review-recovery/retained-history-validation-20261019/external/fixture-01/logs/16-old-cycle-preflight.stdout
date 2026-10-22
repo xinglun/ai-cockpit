@@ -1,0 +1,149 @@
+{
+  "state": "yellow",
+  "blockers": [],
+  "unknowns": [
+    "repository_material_inspection_unavailable",
+    "required_evidence_missing"
+  ],
+  "raw_scanner_unknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "material_manifest_digest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+  "effective_unknowns": [
+    "repository_material_inspection_unavailable",
+    "required_evidence_missing"
+  ],
+  "safe_actions": [
+    "collect_required_evidence",
+    "continue_to_checkpoint"
+  ],
+  "required_checks": [
+    "verification"
+  ],
+  "authority": "authorized",
+  "outcome_state": "verification_pending",
+  "reviewState": "human_decision_recorded",
+  "changedPaths": [
+    ".ai/work-items/active/WI-RETAINED-CANONICAL-FIXTURE.summary.json"
+  ],
+  "actionAdmission": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:8ca40e402a91075c805dd3748a1de37a441ac3ac3a6cd27ff9019ad44e147408",
+    "workItemId": "WI-RETAINED-CANONICAL-FIXTURE",
+    "baseCommit": "4f0bd215472bac83ec341e87cc82168cb81d55ad",
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "yellow",
+    "activityHealth": "waiting",
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "progressFacts": {
+      "acceptanceCriteriaDeclared": 1,
+      "acceptanceEvidenceEntries": 0,
+      "changedPathCount": 4,
+      "checkpointCount": 1
+    },
+    "blockers": [],
+    "missingEvidence": [
+      "verification_evidence_missing"
+    ],
+    "dependencies": [],
+    "humanDecisions": [],
+    "risks": [
+      "normal"
+    ],
+    "verification": "not_ready",
+    "completionDomains": {
+      "closure": "open",
+      "implementation": "active",
+      "integration": "not_applicable",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "not_ready",
+      "workResult": "not_ready"
+    },
+    "governancePermissions": [
+      "read_status",
+      "read_outcome"
+    ],
+    "sourceDigests": {
+      "contract": "sha256:4d79295904d3d44a2d515a851d84e55c7223345dac765176601d7a10830e5317",
+      "materialManifest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+      "repositorySnapshot": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+      "summary": "sha256:3e980ed5f0689807319bbaa074ef01babf44f66085f6c7845d4ee87258a0362e"
+    },
+    "unknowns": [
+      "governance_controls_unknown",
+      "repository_material_inspection_unavailable",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "rawScannerUnknowns": [
+      "repository_material_inspection_unavailable"
+    ],
+    "materialManifestDigest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+    "reviewReceiptDigest": null,
+    "reviewAssurance": null,
+    "effectiveUnknowns": [
+      "governance_controls_unknown",
+      "repository_material_inspection_unavailable",
+      "scenario_coverage_insufficient",
+      "user_visible_benefit_not_declared",
+      "verification_evidence_missing"
+    ],
+    "diagnostics": [],
+    "snapshotDigest": "sha256:b2fa580d7b8038d8a3f6b2b52a8e72acab2fcd7b8a3f5500a8ad5c3d3f90adbf",
+    "evidenceFreshness": {
+      "state": "missing",
+      "reason": "verification evidence is missing"
+    },
+    "updatedAt": "2026-10-19T09:24:16Z",
+    "safeActions": [
+      "record_governance_controls",
+      "record_material_review_decision",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "run_verification",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "governance_controls_unknown",
+          "message": "current projection reports governance_controls_unknown"
+        },
+        {
+          "kind": "unknown",
+          "code": "repository_material_inspection_unavailable",
+          "message": "current projection reports repository_material_inspection_unavailable"
+        },
+        {
+          "kind": "unknown",
+          "code": "scenario_coverage_insufficient",
+          "message": "current projection reports scenario_coverage_insufficient"
+        },
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        },
+        {
+          "kind": "missing",
+          "code": "verification_evidence_missing",
+          "message": "current projection reports verification_evidence_missing"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [
+        "verification_evidence_missing"
+      ],
+      "admissionDigest": "sha256:fad5166b8abae3089f7d498a1e4bad7fceaa15655777453930e353899defe7cb"
+    },
+    "statusDigest": "sha256:8824e076265183e3916b3a7a6a1d8dcf13495617a271e1f5263a3da443c84173",
+    "historical": false
+  }
+}

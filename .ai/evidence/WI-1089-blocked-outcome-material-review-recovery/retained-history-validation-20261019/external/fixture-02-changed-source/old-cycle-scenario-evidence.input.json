@@ -1,0 +1,14 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "old fixture four-check cycle",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/fixture-preserved-old-cycle.json"
+      ],
+      "expected": "The old cycle executes all four declared checks.",
+      "verificationPlan": "Native verify all four declared fixture commands."
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "kind": "actual_human_confirm_review_relay_agent_recorded",
+  "actor": "human:Ray",
+  "recorder": "agent:Codex",
+  "requestMessageId": "Sentinel_91abba9438648191853b38da4445d572",
+  "replyMessageId": "Sentinel_aebae60364d481919bf8c580d8f3296b",
+  "literalReply": "确认上述 WI-1089 修约绑定，confirm_review",
+  "recordedAt": "2026-10-19T09:19:31.130295+00:00",
+  "binding": {
+    "kind": "actual_pending_wi1089_amended_contract_review_package_not_a_decision",
+    "recordedBy": "agent:Codex",
+    "recordedAt": "2026-10-19T09:15:58.884272+00:00",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+    "repositoryRoot": "/workspace/ai-cockpit-wi1089-recovery",
+    "branch": "codex/wi1089-blocked-outcome-material-review-recovery",
+    "pullRequest": 1048,
+    "head": "c960ed2eaa9e42cddedad25612f5d0d2d9a44774",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "contractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+    "repositorySnapshotDigest": "sha256:8ca1b64dc803a0eb8fc4b0125f5a30765aefc6c713fe9a269cadda55d44bbdaf",
+    "preflightDecisionDigest": "sha256:9cbe19f6d00475a2f34ce4c94d2eb5c3597368a4868eeb4e7730ca293953cbb7",
+    "decisionId": "contract-preflight-review",
+    "requestedDecision": "confirm_review",
+    "nativeReviewState": "needs_human_confirmation",
+    "preflightState": "yellow",
+    "checkpointCount": 1,
+    "nativeAmendmentSequence": 3,
+    "amendmentJournalDigest": "sha256:86b682f8987ab0a6623e66ea8a8048d6970773fc886b31b3fde17061ac732312",
+    "amendmentRequestDigest": "sha256:2ba1379fce48566c47ac25858789d0f60614dfea8036396ec358985dbe1a3db1",
+    "environmentObservationDigest": "sha256:c904b8e702fbe88714e49e9155953c51ce5aa4c2eb9ba55960a5d9b16aa54579",
+    "currentAdmissionDigest": "sha256:dca1f273f62edea5b6a47e592779dcac7e6208b67d8a91c064a2919424145638",
+    "scope": [
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/tests/status_projection.rs",
+      "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "crates/cockpit-mcp/tests/material_review.rs",
+      "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+      "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+      "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md",
+      "docs/reference/reference-parity.ja.md",
+      "crates/cockpit-repository/src/contract_amendment.rs",
+      "crates/cockpit-repository/src/lib.rs"
+    ],
+    "acceptanceAdded": 8,
+    "newScenarios": [
+      "A6 preserved canonical baseline reproduces c960 failure",
+      "A7 complete retained-history four-check fixture lifecycle",
+      "A8 strict historical proof negative classes and current-binding changes"
+    ],
+    "verificationCommands": [
+      "cargo fmt --all -- --check",
+      "cargo clippy --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+      "cargo test --locked --package cockpit-repository --test status_projection",
+      "cargo test --locked --package cockpit-cli --test contract_amendment_processes",
+      "cargo test --locked --package cockpit-mcp --test material_review",
+      "cargo test --locked --package cockpit-repository --test material_review"
+    ],
+    "approvalSeparation": {
+      "technicalPlan": "Raydot approved current bounded scope/acceptance/scenario and original-branch/PR continuation; ordinary technical confirmation is complete.",
+      "humanContractReview": "Only a new identity-bound confirm_review for the exact binding above is pending. Old17c and WI1090 3aa confirmations cannot be reused. No new human decision has been recorded.",
+      "materialResidualRisk": "No new material residual-risk acceptance requested or recorded. Current materialInspectionReview profile/authoritySource are unchanged; old finite material approval does not automatically authorize future new Rust material. Use actual final-source material request and any truly required new risk decision separately."
+    },
+    "preservation": {
+      "sourceArchiveRawSha256": "sha256:fb4d028e777d86e0ad49e4d35fe02dfb5b6284713385a798fcff9a8eb55a4cb9",
+      "sourceArchiveGitBlobEntries": 21573,
+      "sourceArchiveBytes": 68673875,
+      "workingOverlayRawSha256": "sha256:8626f95b06680ec1eadc71228c8bfead819b794bd7ab21b96e4b52394c2cf32b",
+      "workingOverlayEntries": 21,
+      "retainedOldVerificationEvidenceDigest": "sha256:d62c83ffd5dea9f3992936bfc895abc5926ca49a1bfb9e75cc004b8cc004282a",
+      "combinedContext": "7211294648d6e43b5ee8da0db05baafc853542d5 / Contract420 unchanged",
+      "wi1090": "Exact Contract3aa human confirm retained; checkpoint0; no source implementation"
+    },
+    "notExecuted": [
+      "No new human confirm",
+      "No second checkpoint",
+      "No baseline fixture execution yet",
+      "No implementation or test source edit",
+      "No build/test/verification/CI rerun",
+      "No commit/push/force-push/branch creation/Runtime adoption",
+      "No real WI finish/archive, merge, Issue closure, cleanup or Sentinel operation"
+    ],
+    "snapshotFacts": "Published historical verification and current real copy both report b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b; latest raw canonical envelope is unavailable in cloud. No unverified blanket HEAD/root/snapshot equality guard is authorized.",
+    "remainingMinimumRawInputs": [
+      "Latest old canonical raw bytes and envelope/full nested receipt/plan/coverage/execution/retention binding fields",
+      "Current native snapshot/Contract and Summary checkpoint/preflight/invalidation anchors",
+      "Complete native prepared/committed amendment/transition chain and current identity-bound review/blocked Outcome records"
+    ],
+    "freeBytes": 10278146048
+  },
+  "newMaterialResidualRiskAccepted": false,
+  "provenanceLimit": "Exact transcript supplied by Raydot in the current delegated message; not host-authenticated transport. Recorder timestamp is not the unsupplied original human reply time."
+}

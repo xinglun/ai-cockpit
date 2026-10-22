@@ -1,0 +1,32 @@
+{
+  "kind": "actual_negative_manifest_mutation_probe",
+  "sourceHead": "a2483ecc8c43f134f1a1d39661930110eba0033b",
+  "candidateBinarySha256": "3f7a3b4b446cea8b7b98544bd026b94e3ce272f53bd5dfecc611d6724f3d91d5",
+  "results": [
+    {
+      "case": "remove_manifest",
+      "nativeManifestPresentBeforeMutation": true,
+      "initialPositiveAdmission": true,
+      "exitCode": 0,
+      "admitted": true,
+      "expectedAdmitted": false
+    },
+    {
+      "case": "wrong_command_with_manifest",
+      "nativeManifestPresentBeforeMutation": true,
+      "initialPositiveAdmission": true,
+      "exitCode": 1,
+      "admitted": false,
+      "expectedAdmitted": false
+    },
+    {
+      "case": "wrong_command_then_remove_manifest",
+      "nativeManifestPresentBeforeMutation": true,
+      "initialPositiveAdmission": true,
+      "exitCode": 0,
+      "admitted": true,
+      "expectedAdmitted": false
+    }
+  ],
+  "isGreen": false
+}

@@ -1,0 +1,37 @@
+{
+  "kind": "reported_consumer_snapshot_comparison_not_direct_raw_receipt_validation",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T09:10:01.861800+00:00",
+  "historicalVerificationReport": {
+    "url": "https://github.com/xinglun/ai-cockpit/issues/1041",
+    "contractDigest": "sha256:831d33cc75db638b258022b923ba7202c63c3db1087f61bd539720342aa3a8be",
+    "sourceSnapshotDigest": "sha256:b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b",
+    "verificationFileRawSha256": "sha256:277600841aafb8a740cb7d60900dbfca601bdf4671ac2a810d371da123b20854",
+    "receiptDigest": "sha256:ff72fc8a84c2e3caa8a955ba05b00edbab9b8185728112eff3fb066bc6ad73cc",
+    "reportedPassed": true,
+    "reportedChecksPassed": 4,
+    "producerRuntimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+  },
+  "currentRealCopyReport": {
+    "url": "https://github.com/xinglun/ai-cockpit/issues/1041#issuecomment-6263215739",
+    "sourceHead": "f96211c8e3b2426735a0ddd2bc7becd455f5201b",
+    "contractDigest": "sha256:e27b9841375dc64ef65a3c65b71b00c632025d48660c00bcf681b2f3d3d0c1e2",
+    "sourceSnapshotDigest": "sha256:b46b35d0a1e13bbf05bdb1cec6c2ebdf917e736177ff9dca0aabc77874a8dd7b",
+    "runtimeDigest": "sha256:ab8f85082187f29750a77c552eab4d102fdf5189c87e27f5cf91c13075b1444f",
+    "oldCanonicalAndBlockedOutcomeRetained": true,
+    "copyInventoryFact": "Copy included ignored/untracked Cargo.lock, then reported Contract/snapshot/material manifest match the original read-only observation.",
+    "processesSpawned": 0
+  },
+  "confirmedFromReports": "Historical receipt snapshot and current reported source snapshot have exactly the same digest string. This is supported published data, not a cloud readback of the latest retained canonical file.",
+  "notAssumed": [
+    "Latest actual canonical file bytes/hash or nested receipt fields equal the October15 report",
+    "HEAD/absolute-root/branch equality between historical and current contexts",
+    "Unknown historical JSON fields, exact plan/coverage/execution/retention content, or completeness of native amendment chain"
+  ],
+  "minimumRawFieldsNeeded": [
+    "Latest old canonical raw bytes plus file hash; envelope contractDigest/repositorySnapshotDigest/repo/WI/producer runtime/captureMode/receiptDigest and full embedded typed receipt/plan/coverage/execution/retention",
+    "Current native snapshot digest and Contract; Summary checkpoint/preflight/invalidation and native prepared+committed transition anchors",
+    "Current effective policy/profile/material plan and old blocked Outcome/decision receipts"
+  ],
+  "implementationBoundary": "Do not impose an unverified blanket old/current HEAD, root or snapshot equality guard. Validate historical receipt snapshot binding separately from current-source freshness. Equal reported digests support the main equivalent fixture; changed-source/unknown-history cases require supported proof/recovery or an explicit bounded diagnostic, never a generic Stale bypass."
+}
