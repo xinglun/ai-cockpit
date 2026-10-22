@@ -8,7 +8,7 @@ use crate::{
     preflight_work_item_with_runtime, record_verification_with_runtime,
     run_repository_verification, start_work_item_with_options,
 };
-use serde_json::{Value, json};
+use serde_json::Value;
 use std::cell::RefCell;
 
 const ID: &str = "WI-INPUT-CAPTURE";
@@ -225,6 +225,7 @@ fn first_direct_recovery_preserves_classified_input_when_path_is_replaced() {
     replacement["receiptId"] = "replacement-B".into();
     replacement["operationId"] = "replacement-operation-B".into();
     replacement["actor"] = "human:replacement-B".into();
+    replacement["resourceContext"] = serde_json::to_value(&context).unwrap();
     replacement["provider"] = context.provider.into();
     replacement["pullRequest"]["number"] = 191.into();
     replacement["pullRequest"]["url"] = context.pull_request.into();
