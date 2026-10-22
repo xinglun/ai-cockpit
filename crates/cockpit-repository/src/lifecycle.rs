@@ -10731,7 +10731,7 @@ mod cross_checkout_closeout_tests {
     #[test]
     fn closeout_recovery_preflight_rejects_invalid_sidecars_without_payload_writes() {
         for origin_case in [true, false] {
-            for invalid in ["malformed", "directory", "oversized"] {
+            for invalid in ["malformed", "directory", "large_invalid_bytes"] {
                 let fixture = fixture();
                 let missing = missing_import_paths(&fixture);
                 let root = destination(&fixture);
@@ -10741,7 +10741,9 @@ mod cross_checkout_closeout_tests {
                 match invalid {
                     "malformed" => fs::write(&path, b"{malformed").unwrap(),
                     "directory" => fs::create_dir(&path).unwrap(),
-                    "oversized" => {
+                    "large_invalid_bytes" => {
+                        // This exercises invalid bytes, not a destination-side
+                        // size limit. Ordinary sidecar reads have no such cap.
                         let file = fs::File::create(&path).unwrap();
                         file.set_len(MAX_EXTERNAL_EVIDENCE_BYTES as u64 + 1)
                             .unwrap();
