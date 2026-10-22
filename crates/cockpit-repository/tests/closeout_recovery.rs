@@ -119,6 +119,163 @@ fn build_archived_source(source: &Path) {
     );
 }
 
+struct PreexistingReceiptFixture {
+    source: tempfile::TempDir,
+    _destination_parent: tempfile::TempDir,
+    destination: std::path::PathBuf,
+    plan: Value,
+    receipt_path: std::path::PathBuf,
+    receipt_bytes: Vec<u8>,
+}
+
+fn preexisting_conflicting_receipt(schema_version: u64) -> PreexistingReceiptFixture {
+    let source = repository();
+    let parent = tempfile::tempdir().expect("destination parent");
+    let destination = parent.path().join("clone");
+    git(
+        source.path(),
+        &[
+            "clone",
+            "--quiet",
+            "--no-hardlinks",
+            "--config",
+            "core.autocrlf=false",
+            source.path().to_str().unwrap(),
+            destination.to_str().unwrap(),
+        ],
+    );
+    build_archived_source(source.path());
+    close_work_item_with_structured_decision_and_runtime(
+        source.path(),
+        WORK_ITEM_ID,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "test-human".into(),
+            authority_source: "isolated recovery preflight test".into(),
+            reason: "the disposable source fixture is verified".into(),
+            evidence_refs: vec![format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")],
+            policy_refs: Vec::new(),
+            decided_at: "2026-10-02T00:00:00Z".into(),
+            resume_condition: None,
+        },
+        &runtime(),
+    )
+    .expect("close disposable source fixture");
+    let plan = plan_cross_checkout_closeout_recovery(
+        &destination,
+        source.path(),
+        WORK_ITEM_ID,
+        &runtime(),
+    )
+    .expect("baseline plan before the old receipt is present");
+    let mut receipt = serde_json::json!({
+        "schemaVersion": schema_version,
+        "kind": "cross_checkout_closeout_recovery",
+        "workItemId": WORK_ITEM_ID,
+        "sourceRepositoryId": plan["sourceRepositoryId"],
+        "destinationRepositoryId": plan["destinationRepositoryId"],
+        "sourceSnapshotDigest": Digest::sha256_bytes(b"different historical source snapshot"),
+        "destinationSnapshotDigest": plan["destinationSnapshotDigest"],
+        "contractDigest": plan["contractDigest"],
+        "providerFacts": plan["providerFacts"],
+        "runtimeVersion": runtime().runtime_version,
+        "runtimeDigest": runtime().runtime_digest,
+        "fileDigests": plan["files"].as_array().unwrap().iter().map(|file| {
+            serde_json::json!({"path": file["path"], "digest": file["digest"], "sizeBytes": file["sizeBytes"]})
+        }).collect::<Vec<_>>(),
+        "createdAt": "2026-10-01T00:00:00Z"
+    });
+    if schema_version == 2 {
+        receipt["originBinding"] = serde_json::json!({
+            "path": format!(".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json"),
+            "digest": Digest::sha256_bytes(b"different historical origin")
+        });
+    }
+    let receipt_path = destination.join(format!(
+        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+    ));
+    fs::create_dir_all(receipt_path.parent().unwrap()).unwrap();
+    let receipt_bytes = serde_json::to_vec_pretty(&receipt).unwrap();
+    fs::write(&receipt_path, &receipt_bytes).unwrap();
+    PreexistingReceiptFixture {
+        source,
+        _destination_parent: parent,
+        destination,
+        plan,
+        receipt_path,
+        receipt_bytes,
+    }
+}
+
+fn assert_preexisting_conflict_wrote_no_payload(fixture: &PreexistingReceiptFixture) {
+    for file in fixture.plan["files"].as_array().unwrap() {
+        let relative = file["path"].as_str().unwrap();
+        assert!(
+            !fixture.destination.join(relative).exists(),
+            "known receipt conflict must be detected before installing {relative}"
+        );
+        assert_eq!(
+            Digest::sha256_bytes(&fs::read(fixture.source.path().join(relative)).unwrap())
+                .to_string(),
+            file["digest"].as_str().unwrap(),
+            "source evidence bytes remain immutable"
+        );
+    }
+    assert_eq!(
+        fs::read(&fixture.receipt_path).unwrap(),
+        fixture.receipt_bytes
+    );
+    assert!(
+        !fixture
+            .destination
+            .join(format!(
+                ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-origin.json"
+            ))
+            .exists(),
+        "a known conflict must not create a new origin either"
+    );
+}
+
+#[test]
+fn preexisting_receipt_conflict_is_reported_by_the_read_only_public_plan() {
+    for schema in [1, 2] {
+        let fixture = preexisting_conflicting_receipt(schema);
+        let error = plan_cross_checkout_closeout_recovery(
+            &fixture.destination,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &runtime(),
+        )
+        .expect_err("a known immutable receipt conflict cannot be a ready plan");
+        assert!(
+            error
+                .to_string()
+                .contains("closeout_recovery_receipt_conflict")
+        );
+        assert_preexisting_conflict_wrote_no_payload(&fixture);
+    }
+}
+
+#[test]
+fn preexisting_receipt_conflict_is_rejected_before_public_recovery_writes() {
+    for schema in [1, 2] {
+        let fixture = preexisting_conflicting_receipt(schema);
+        let error = cockpit_repository::recover_cross_checkout_closeout(
+            &fixture.destination,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &runtime(),
+        )
+        .expect_err("an immutable receipt with a different source binding must reject");
+        assert!(
+            error
+                .to_string()
+                .contains("closeout_recovery_receipt_conflict")
+        );
+        assert_preexisting_conflict_wrote_no_payload(&fixture);
+    }
+}
+
 fn build_provider_bound_closed_source(
     source: &Path,
     context: &ResourceFinalizationContext,
