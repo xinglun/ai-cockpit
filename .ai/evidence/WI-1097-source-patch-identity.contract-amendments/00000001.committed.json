@@ -1,0 +1,122 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:d8f8a5842157162c4aa9d05bed045dd5ecc268ac68f0378a88c8daa1c282c3fd",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1097-source-patch-identity",
+    "sequence": 1,
+    "changeId": "legacy-c3b2c3136e47b6b4eec26d619a899aefcda93254ebf2a6abf761f24dad9c9dee",
+    "requestDigest": "sha256:244419732a166bbacd5090b4445d4597e75b13c1d9e774245d923d74f1665f55",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:c3b2c3136e47b6b4eec26d619a899aefcda93254ebf2a6abf761f24dad9c9dee",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+          "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+          "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+          "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3",
+          "controlled read-only reconstruction: frozen request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774 becomes sha256:99d0dc7d7f1a17b89e8df4e9f8afad914f4f4df3d593a772d1db7b616af68353 after unrelated CI refs change Git auto abbreviation from eight to nine; this is reconstructed evidence, not a digest printed by the original CI"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+          "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3",
+          "controlled read-only reconstruction: frozen request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774 becomes sha256:99d0dc7d7f1a17b89e8df4e9f8afad914f4f4df3d593a772d1db7b616af68353 after unrelated CI refs change Git auto abbreviation from eight to nine; this is reconstructed evidence, not a digest printed by the original CI"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+          "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3",
+          "controlled read-only reconstruction: frozen request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774 becomes sha256:99d0dc7d7f1a17b89e8df4e9f8afad914f4f4df3d593a772d1db7b616af68353 after unrelated CI refs change Git auto abbreviation from eight to nine; this is reconstructed evidence, not a digest printed by the original CI",
+          "repository-owner-approved mainline plan and bounded independent technical review; no new human-exclusive approval receipt is asserted"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+          "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3",
+          "controlled read-only reconstruction: frozen request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774 becomes sha256:99d0dc7d7f1a17b89e8df4e9f8afad914f4f4df3d593a772d1db7b616af68353 after unrelated CI refs change Git auto abbreviation from eight to nine; this is reconstructed evidence, not a digest printed by the original CI",
+          "repository-owner-approved mainline plan and bounded independent technical review; no new human-exclusive approval receipt is asserted"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1052",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+          "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3",
+          "controlled read-only reconstruction: frozen request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774 becomes sha256:99d0dc7d7f1a17b89e8df4e9f8afad914f4f4df3d593a772d1db7b616af68353 after unrelated CI refs change Git auto abbreviation from eight to nine; this is reconstructed evidence, not a digest printed by the original CI",
+          "repository-owner-approved mainline plan and bounded independent technical review; no new human-exclusive approval receipt is asserted",
+          "governance Runtime v1.0.1 source a1dbec70c8fc050b95165163da0da03cd90b79d1 binary sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:1774b6952794dfb03cca483fdd2df020cd17943723dd8bec0d109d980ee91358",
+    "newContractDigest": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "environmentObservationDigest": "sha256:92104416c3d6e47f231b50765275f8ef0a95f8d44f231436283db83e3c1ae281",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:77bda748611b1641f6ee131d07f252b53a918ed44ee4a4e0544e28b6f0711a8b",
+    "recordedAt": "2026-10-21T13:41:08Z"
+  }
+}

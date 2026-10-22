@@ -1,0 +1,216 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1097-source-patch-identity",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-c3b2c3136e47b6b4eec26d619a899aefcda93254ebf2a6abf761f24dad9c9dee",
+      "expectedContractDigest": "sha256:1774b6952794dfb03cca483fdd2df020cd17943723dd8bec0d109d980ee91358",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/pull/1052"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "controlled read-only reconstruction: frozen request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774 becomes sha256:99d0dc7d7f1a17b89e8df4e9f8afad914f4f4df3d593a772d1db7b616af68353 after unrelated CI refs change Git auto abbreviation from eight to nine; this is reconstructed evidence, not a digest printed by the original CI"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "repository-owner-approved mainline plan and bounded independent technical review; no new human-exclusive approval receipt is asserted"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "governance Runtime v1.0.1 source a1dbec70c8fc050b95165163da0da03cd90b79d1 binary sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+        }
+      ]
+    },
+    "requestDigest": "sha256:244419732a166bbacd5090b4445d4597e75b13c1d9e774245d923d74f1665f55",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Limit production changes to cockpit-git bounded committed-source snapshot generation and a private v1 patch metadata canonicalizer; add one independent regression target. No dependencies, other Work Items, archived Contract bytes, frozen receipts, or existing four historical test assertions are changed.",
+        "For the explicitly supported legacy v1 SHA-1 source patch recipe evidenced by the frozen WI-1078 request, changing core.abbrev, adding unrelated Git objects, or creating an eight-character blob prefix collision does not change the committed source patch identity. Eight-character display metadata never becomes content authority: complete blob IDs and source content bindings remain intact, and changing tracked bytes remains distinguishable.",
+        "Normalize only real textual diff metadata headers. Preserve index-like or binary-marker-like text inside hunks, binary patch full object IDs and payload, added/deleted zero IDs, and mode/rename semantics under the existing no-renames route. Unsupported hash algorithms, malformed or unsupported metadata must fail explicitly rather than inventing a compatible historical identity.",
+        "Retain bounded Git output reading before canonicalization. A full-index patch that exceeds the input budget must return the existing bounded-output failure and cannot be truncated into a complete passing digest.",
+        "First run cargo test --locked -p cockpit-git --test source_patch_identity as an authorized red regression against unchanged production code, preserving its true failure output; implement only after a behavioral red. Green validation covers the real Git cases above, all cockpit-git package tests, and the four unchanged historical post-merge tests with their original frozen golden records.",
+        "Run the declared local checks with actual commands and exit codes. The four repository targets use --release to reuse an isolated copy of existing build artifacts; this does not claim workspace, Windows, or fresh provider CI passed. All original CI failure logs and reconstruction provenance remain available.",
+        "After implementation and independent review, use normal Runtime-supported provider binding and real strict CI before any integration. PR 1052 remains unmerged while its requirements are unmet. No new authority platform, B implementation, external credentials or permissions, release, forced push, historical debt clearing, or cleanup of unrelated resources is authorized by this Work Item."
+      ],
+      "authority": "authorized",
+      "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+      "createdAt": "2026-10-21T13:41:07Z",
+      "goal": "Stabilize the bounded committed-source v1 textual diff metadata against Git abbreviation and unrelated object database changes. Keep complete source/blob identity, binary semantics, unsupported-format rejection, and output budgets. Use the two declared source paths and real red-to-green regressions; then verify the four existing historical failures without editing their assertions or evidence.",
+      "intent": "Repair the reproducible historical source-patch digest drift blocking PR 1052 while preserving existing content identity and frozen authorization evidence.",
+      "mode": "implementation",
+      "outOfScope": [
+        "Other Work Item records and approvals",
+        "Changes to frozen historical expected digests or assertions",
+        "Unbounded working-tree snapshot refactoring",
+        "Arbitrary historical format guessing",
+        "External authority or production gate implementation",
+        "New credentials or permissions",
+        "Release",
+        "Unrelated cleanup"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/source_patch_identity.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked -p cockpit-git",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts -- --exact",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent -- --exact",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material -- --exact",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent -- --exact",
+        "cargo clippy --locked -p cockpit-git --all-targets --all-features -- -D warnings",
+        "cargo check --locked -p cockpit-git --all-targets --all-features",
+        "cargo fmt --all -- --check",
+        "git diff --check b8ec2690976ab4c554aa9f5b2aa7fcca715156ca HEAD"
+      ],
+      "workItemId": "WI-1097-source-patch-identity"
+    },
+    "previousContractDigest": "sha256:1774b6952794dfb03cca483fdd2df020cd17943723dd8bec0d109d980ee91358",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Limit production changes to cockpit-git bounded committed-source snapshot generation and a private v1 patch metadata canonicalizer; add one independent regression target. No dependencies, other Work Items, archived Contract bytes, frozen receipts, or existing four historical test assertions are changed.",
+        "For the explicitly supported legacy v1 SHA-1 source patch recipe evidenced by the frozen WI-1078 request, changing core.abbrev, adding unrelated Git objects, or creating an eight-character blob prefix collision does not change the committed source patch identity. Eight-character display metadata never becomes content authority: complete blob IDs and source content bindings remain intact, and changing tracked bytes remains distinguishable.",
+        "Normalize only real textual diff metadata headers. Preserve index-like or binary-marker-like text inside hunks, binary patch full object IDs and payload, added/deleted zero IDs, and mode/rename semantics under the existing no-renames route. Unsupported hash algorithms, malformed or unsupported metadata must fail explicitly rather than inventing a compatible historical identity.",
+        "Retain bounded Git output reading before canonicalization. A full-index patch that exceeds the input budget must return the existing bounded-output failure and cannot be truncated into a complete passing digest.",
+        "First run cargo test --locked -p cockpit-git --test source_patch_identity as an authorized red regression against unchanged production code, preserving its true failure output; implement only after a behavioral red. Green validation covers the real Git cases above, all cockpit-git package tests, and the four unchanged historical post-merge tests with their original frozen golden records.",
+        "Run the declared local checks with actual commands and exit codes. The four repository targets use --release to reuse an isolated copy of existing build artifacts; this does not claim workspace, Windows, or fresh provider CI passed. All original CI failure logs and reconstruction provenance remain available.",
+        "After implementation and independent review, use normal Runtime-supported provider binding and real strict CI before any integration. PR 1052 remains unmerged while its requirements are unmet. No new authority platform, B implementation, external credentials or permissions, release, forced push, historical debt clearing, or cleanup of unrelated resources is authorized by this Work Item."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-21T13:41:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Stabilize the bounded committed-source v1 textual diff metadata against Git abbreviation and unrelated object database changes. Keep complete source/blob identity, binary semantics, unsupported-format rejection, and output budgets. Use the two declared source paths and real red-to-green regressions; then verify the four existing historical failures without editing their assertions or evidence.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair the reproducible historical source-patch digest drift blocking PR 1052 while preserving existing content identity and frozen authorization evidence.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Other Work Item records and approvals",
+        "Changes to frozen historical expected digests or assertions",
+        "Unbounded working-tree snapshot refactoring",
+        "Arbitrary historical format guessing",
+        "External authority or production gate implementation",
+        "New credentials or permissions",
+        "Release",
+        "Unrelated cleanup"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/source_patch_identity.rs"
+      ],
+      "sources": [
+        "https://github.com/xinglun/ai-cockpit/pull/1052",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/39601840850",
+        "fixed baseline b8ec2690976ab4c554aa9f5b2aa7fcca715156ca and integration candidate 226a74988765f308d95561ffcbaf4178707417a3",
+        "controlled read-only reconstruction: frozen request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774 becomes sha256:99d0dc7d7f1a17b89e8df4e9f8afad914f4f4df3d593a772d1db7b616af68353 after unrelated CI refs change Git auto abbreviation from eight to nine; this is reconstructed evidence, not a digest printed by the original CI",
+        "repository-owner-approved mainline plan and bounded independent technical review; no new human-exclusive approval receipt is asserted",
+        "governance Runtime v1.0.1 source a1dbec70c8fc050b95165163da0da03cd90b79d1 binary sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-git",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts -- --exact",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_m1_accepts_provider_base_ancestor_of_actual_first_parent -- --exact",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material -- --exact",
+        "cargo test --locked --release -p cockpit-repository --lib resource_lifecycle::post_merge_sync_tests::post_merge_layout_v3_checks_absent_docs_at_actual_first_parent -- --exact",
+        "cargo clippy --locked -p cockpit-git --all-targets --all-features -- -D warnings",
+        "cargo check --locked -p cockpit-git --all-targets --all-features",
+        "cargo fmt --all -- --check",
+        "git diff --check b8ec2690976ab4c554aa9f5b2aa7fcca715156ca HEAD"
+      ],
+      "workItemId": "WI-1097-source-patch-identity"
+    },
+    "newContractDigest": "sha256:61d89283adcaa13432f8a5571ea7a94b97b9d3c672b3117f9f583a8436105c0e",
+    "previousSummaryDigest": "sha256:83aafb8c2188c42fc5690d78b46be3620221c30a48ab8e3ef6b64b25d34d5236",
+    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "environmentObservationDigest": "sha256:92104416c3d6e47f231b50765275f8ef0a95f8d44f231436283db83e3c1ae281",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:c3b2c3136e47b6b4eec26d619a899aefcda93254ebf2a6abf761f24dad9c9dee",
+    "preparedAt": "2026-10-21T13:41:07Z"
+  },
+  "preparedDigest": "sha256:d8f8a5842157162c4aa9d05bed045dd5ecc268ac68f0378a88c8daa1c282c3fd"
+}
