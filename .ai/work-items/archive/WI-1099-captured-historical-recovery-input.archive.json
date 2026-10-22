@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-22T08:26:53Z",
+  "files": {
+    "contractDigest": "sha256:5ec383d5b5ff384213a71a26737f67cb42f4f0a44d19cb5b39982005a13295c5",
+    "contractPath": ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.contract.json",
+    "eventsDigest": "sha256:4f169fcaca3b1fcb2ca80716ef0918135cc383de36c0e9b29d380ae92cf0d958",
+    "eventsPath": ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.events.jsonl",
+    "outcomeDigest": "sha256:f656a455856857457a63c70204c83fcf80b9378b3adcde18ce27386076de9157",
+    "outcomePath": ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.outcome.json",
+    "summaryDigest": "sha256:f5d3df9b8e80a8783637f3abc0d9bc7b51b11ec59527d62bc67eaab12d9ddc96",
+    "summaryPath": ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json",
+    "taskReportDigest": "sha256:8e889eb6cc2dbf1ab8b80373052a69e9dad7404d942d747e1da2045cd0fa5499",
+    "taskReportMarkdownDigest": "sha256:5b056690e2190c60253f2a94d7ede12824a3f0a2f2fc9e6b16c7d906b1b0ce60",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-22T08:26:53.538196939Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-22T08:26:53.538196939Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1099-captured-historical-recovery-input"
+}

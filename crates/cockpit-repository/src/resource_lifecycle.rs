@@ -416,11 +416,18 @@ pub(crate) fn read_resource_finalization_receipt(
         path: path.into(),
         source,
     })?;
-    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+    parse_resource_finalization_receipt(path, &bytes)
+}
+
+fn parse_resource_finalization_receipt(
+    path: &Path,
+    bytes: &[u8],
+) -> Result<ResourceFinalizationReceipt, ObserverError> {
+    reject_duplicate_json_keys(bytes).map_err(|message| ObserverError::State {
         path: path.into(),
         message: format!("invalid resource finalization receipt JSON: {message}"),
     })?;
-    serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+    serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
         path: path.into(),
         message: format!("invalid resource finalization receipt: {error}"),
     })
@@ -1569,16 +1576,24 @@ pub fn record_historical_finalization_recovery(
         // complete, explicitly historical direct-merge receipt and route it
         // through the same strict archive/Contract/Git/runtime validation as
         // `finalize`; all other recovery inputs remain fail-closed.
-        if let Ok(candidate) = read_resource_finalization_receipt(input_path)
+        // The lifecycle lock protects repository records, not this external
+        // input path. Classify and publish the same bounded byte snapshot.
+        let input_bytes = super::legacy_closeout_source::read_input_bytes(input_path)?;
+        #[cfg(test)]
+        input_capture_tests::after_capture();
+        if let Ok(candidate) = parse_resource_finalization_receipt(input_path, &input_bytes)
             && matches!(
                 candidate.historical.as_ref().map(|value| &value.kind),
                 Some(HistoricalFinalizationKind::DirectMergeNoPr)
             )
         {
-            return record_resource_finalization_locked(
+            #[cfg(test)]
+            input_capture_tests::after_classification();
+            return record_resource_finalization_bytes_locked(
                 &root,
                 work_item_id,
                 input_path,
+                &input_bytes,
                 runtime,
                 &lifecycle_guard,
             );
@@ -1989,12 +2004,31 @@ pub(crate) fn record_resource_finalization_locked(
 ) -> Result<serde_json::Value, ObserverError> {
     guard.require_subject(root, work_item_id)?;
     let input_bytes = super::legacy_closeout_source::read_input_bytes(receipt_path)?;
-    reject_duplicate_json_keys(&input_bytes).map_err(|message| ObserverError::State {
+    record_resource_finalization_bytes_locked(
+        root,
+        work_item_id,
+        receipt_path,
+        &input_bytes,
+        runtime,
+        guard,
+    )
+}
+
+fn record_resource_finalization_bytes_locked(
+    root: &Path,
+    work_item_id: &str,
+    receipt_path: &Path,
+    input_bytes: &[u8],
+    runtime: &RuntimeContext,
+    guard: &super::LifecycleLockGuard,
+) -> Result<serde_json::Value, ObserverError> {
+    guard.require_subject(root, work_item_id)?;
+    reject_duplicate_json_keys(input_bytes).map_err(|message| ObserverError::State {
         path: receipt_path.into(),
         message,
     })?;
     let input_value =
-        serde_json::from_slice(&input_bytes).map_err(|error| ObserverError::State {
+        serde_json::from_slice(input_bytes).map_err(|error| ObserverError::State {
             path: receipt_path.into(),
             message: error.to_string(),
         })?;
@@ -2003,7 +2037,7 @@ pub(crate) fn record_resource_finalization_locked(
             root,
             work_item_id,
             &input_value,
-            &input_bytes,
+            input_bytes,
             runtime,
             guard,
         );
@@ -11281,3 +11315,6 @@ mod legacy_source_lock_tests {
         );
     }
 }
+
+#[cfg(test)]
+mod input_capture_tests;

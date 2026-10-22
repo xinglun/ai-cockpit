@@ -1,0 +1,224 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+    "workItemId": "WI-1099-captured-historical-recovery-input"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1099-captured-historical-recovery-input.preflight-review.57d7996329ecfb2cbfbfba02d1d978c72f4aade67b69e3044454b1f98b7e76bc.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1099-captured-historical-recovery-input.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000002.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000002.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000003.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000003.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.verification-attempt.640c9a6b3f2aced0f24fed2490d10ff2cef89ff5d18a0c18e3939f7b1b5097d8.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.verification-attempt.6a06ea4e86cb61c0a42a73d2653d5a3d301b20848c1ddc685bc05a05c9f53df3.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1099-captured-historical-recovery-input.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1099-captured-historical-recovery-input.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1099-captured-historical-recovery-input.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1099-captured-historical-recovery-input.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1099-captured-historical-recovery-input.task-report.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.contract.json"
+        ],
+        "inference": false,
+        "text": "Capture one bounded original byte snapshot after the existing lifecycle lock so first-record classification and finalization consume the same input; retain strict validation and all historical evidence"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1099-captured-historical-recovery-input.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-22T08:26:51.734844629Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1099-captured-historical-recovery-input"
+  },
+  "workItemId": "WI-1099-captured-historical-recovery-input"
+}

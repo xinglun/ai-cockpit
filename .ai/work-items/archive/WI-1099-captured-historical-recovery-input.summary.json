@@ -1,0 +1,224 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1099-captured-historical-recovery-input.preflight-review.57d7996329ecfb2cbfbfba02d1d978c72f4aade67b69e3044454b1f98b7e76bc.json",
+    ".ai/decisions/WI-1099-captured-historical-recovery-input.preflight-review.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000003.prepared.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.verification-attempt.640c9a6b3f2aced0f24fed2490d10ff2cef89ff5d18a0c18e3939f7b1b5097d8.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.verification-attempt.6a06ea4e86cb61c0a42a73d2653d5a3d301b20848c1ddc685bc05a05c9f53df3.json",
+    ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json",
+    ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.contract.json",
+    ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.events.jsonl",
+    ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.outcome.json",
+    ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json",
+    ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.task-report.json",
+    ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.task-report.md"
+  ],
+  "checkpointAt": "2026-10-22T07:39:57Z",
+  "checkpointContractDigest": "sha256:baf093f23ba69da214156c5e8023ac99f21783e4f2a74d248932b75f90d7efa0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c821a91e1ca63db69da99e391d016cc8453ba5b6ee4a61a2728c63d74f7b1451",
+      "recorded": true,
+      "recordedAt": "2026-10-22T07:39:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1099-captured-historical-recovery-input"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:baf093f23ba69da214156c5e8023ac99f21783e4f2a74d248932b75f90d7efa0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c821a91e1ca63db69da99e391d016cc8453ba5b6ee4a61a2728c63d74f7b1451",
+      "previousContractHash": "sha256:c821a91e1ca63db69da99e391d016cc8453ba5b6ee4a61a2728c63d74f7b1451",
+      "reason": "Trusted parent thread01a1576c-b0ab-7723-ad8e-95924e80102a explicitly instructed continuation after local acceptance: formal archive, native governance/source binding check, publication review, commit and ordinary push to the independent branch, create a WI1099 draft PR and follow exact-final-HEAD actual CI. Replace only the implementation-phase blanket push exclusion with that bounded delivery boundary. The two source paths, e356a46d source, seven acceptance criteria, six scenarios, high risk and eight verification commands remain unchanged. Merge authority and finalization-bound human close are separate and are not granted. This reason is not a confirm_review or claim of an independently authenticated human identity.",
+      "recorded": true,
+      "recordedAt": "2026-10-22T08:11:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1099-captured-historical-recovery-input"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+  "createdAt": "2026-10-22T07:31:20Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:baf093f23ba69da214156c5e8023ac99f21783e4f2a74d248932b75f90d7efa0",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e5f561e60854248c51ec432cf1ea3231d04a055e50950dc7106477f408f29263",
+    "reason": "Actual user response: 确认 WI-1099 上述限定发布范围修订及绑定，confirm_review。 Actual user message Sentinel_18ecad11e460819199e89fab90c748d7 responds to Sentinel_1aa051b788888191aa47c51ac55e6002, relayed by trusted parent thread01a1576c-b0ab-7723-ad8e-95924e80102a. Reported time2026-10-22 08:20 UTC has minute precision only; recordedAt is actual present recording time. Exact source e356a46d9ab6079b4ddc12629c4b7783bce74ebe, current baf093f2 Contract, e5f561e6 preflight and79722d35 snapshot rechecked unchanged. Only independent branch push, one draft PR, reviewed native governance records and exact-final-HEAD actual required CI are covered. No merge, GitHub human Review, close, residual-risk acceptance or fabricated passing evidence is granted.",
+    "recordedAt": "2026-10-22T08:22:08.276889+00:00",
+    "recordedBy": "Codex agent transcribing actual user message Sentinel_18ecad11e460819199e89fab90c748d7; no independent external identity verification asserted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+    "schemaVersion": 1,
+    "workItemId": "WI-1099-captured-historical-recovery-input"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json",
+      "/workspace/wi1099-captured-historical-recovery-run/public-entry-replacement-red-corrected-fixture.execution.json",
+      "/workspace/wi1099-captured-historical-recovery-run/final-candidate-independent-review.json",
+      "/workspace/wi1099-captured-historical-recovery-run/final-candidate-corrected-independent-review.json",
+      "/workspace/wi1099-captured-historical-recovery-run/verified-new-source-eight-command-summary.json",
+      "/workspace/wi1099-captured-historical-recovery-run/verified-delivery-contract-evidence-summary.json"
+    ],
+    "reason": "Agent technical intent alignment for current source e356a46d9ab6079b4ddc12629c4b7783bce74ebe and Contract baf093f23ba69da214156c5e8023ac99f21783e4f2a74d248932b75f90d7efa0: only resource_lifecycle.rs and its new private test module differ from main3aa3dfce. Actual public-entry RED on unchanged business logic selected1 and failed the complete persisted-A assertion after both A/B inputs independently validated; byte-capture fix passed that unchanged assertion. Formal final-source verification executed8/reused0, all commands0, testing11 new input cases+3 unchanged lock tests+35 transition+4 finalization+12 legacy cases=65 actual tests; clippy/format/diff0. Source captures once after the existing lifecycle lock through the existing 8MiB pinned reader; classification, preparation and legacy obligation routing consume the same original bytes. Ordinary guard-before-read, normal predecessor recovery/4MiB path, original assertions and historical evidence remain unchanged. First-read reader errors now propagate specifically as explicitly declared and tested. Independent static full review+incremental review found final P0/P1/P2/P3=0. The initial invalid-B setup failure and first formal negative fixture failure remain preserved; corrected negative targets an existing PR/historical base equality requirement, not a new production rule. This establishes bounded input consistency, not a human-approval bypass fix or completion of original candidate A or external B. User-visible benefit is an inference and has not been measured or owner-declared; no residual risk acceptance, Runtime replacement, remote publication or integration success asserted. Publication-boundary amendment was actually confirmed by user Sentinel_18ecad11e460819199e89fab90c748d7 and native Runtime has now produced a fresh passing eight-command receipt under that exact Contract for the unchanged source. Prior c821 pass is separately preserved; no stale receipt is relabeled.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-22T08:26:51.734844629Z",
+      "recordedAt": "2026-10-22T08:26:51.734844629Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-22T07:31:20.297909922Z",
+      "recordedAt": "2026-10-22T07:31:20.297909922Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-22T08:25:51Z",
+  "preflightContractDigest": "sha256:baf093f23ba69da214156c5e8023ac99f21783e4f2a74d248932b75f90d7efa0",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-0"
+      ],
+      "expected": "The public recovery path persists captured valid direct A even when the external path is replaced by independently prepare-valid ordinary PR B.",
+      "reason": "Executed on source e356a46d9ab6079b4ddc12629c4b7783bce74ebe by official b2a43b0a Runtime; all assigned commands exited 0 with real selected tests, no timeout or truncation. Original failed attempts remain preserved; no previous WI evidence substituted.",
+      "required": true,
+      "scenario": "first-direct-input-replacement",
+      "status": "verified",
+      "verificationPlan": "Run input_capture_tests:: deterministic replacement RED on unchanged business logic, then GREEN after byte handoff; retain actual selected counts."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-0"
+      ],
+      "expected": "Invalid captured input never publishes and deletion or replacement after capture never causes the writer to observe another input.",
+      "reason": "Executed on source e356a46d9ab6079b4ddc12629c4b7783bce74ebe by official b2a43b0a Runtime; all assigned commands exited 0 with real selected tests, no timeout or truncation. Original failed attempts remain preserved; no previous WI evidence substituted.",
+      "required": true,
+      "scenario": "invalid-input-and-path-deletion",
+      "status": "verified",
+      "verificationPlan": "Run input_capture_tests:: invalid-to-valid and deletion regressions through the real entry point using cfg(test) deterministic one-shot callback."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-0"
+      ],
+      "expected": "Malformed JSON, duplicate keys, unknown fields, oversize and nonregular or symlink inputs fail closed without a canonical receipt.",
+      "reason": "Executed on source e356a46d9ab6079b4ddc12629c4b7783bce74ebe by official b2a43b0a Runtime; all assigned commands exited 0 with real selected tests, no timeout or truncation. Original failed attempts remain preserved; no previous WI evidence substituted.",
+      "required": true,
+      "scenario": "strict-input-boundary",
+      "status": "verified",
+      "verificationPlan": "Run input_capture_tests:: boundary cases; assert bounded-reader error diagnostics separately from generic typed classification errors."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-0",
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-1"
+      ],
+      "expected": "Same-WI lifecycle lock precedes input observation and held core rejects the wrong subject guard.",
+      "reason": "Executed on source e356a46d9ab6079b4ddc12629c4b7783bce74ebe by official b2a43b0a Runtime; all assigned commands exited 0 with real selected tests, no timeout or truncation. Original failed attempts remain preserved; no previous WI evidence substituted.",
+      "required": true,
+      "scenario": "lock-order-and-guard",
+      "status": "verified",
+      "verificationPlan": "Run resource_lifecycle::legacy_source_lock_tests:: unchanged and any new input capture lock tests."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-0",
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-2",
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-3",
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-4"
+      ],
+      "expected": "Repository, Work Item, Contract, runtime, merge parents and base negatives remain rejected; normal legacy recovery preserves raw predecessor bytes and original limits.",
+      "reason": "Executed on source e356a46d9ab6079b4ddc12629c4b7783bce74ebe by official b2a43b0a Runtime; all assigned commands exited 0 with real selected tests, no timeout or truncation. Original failed attempts remain preserved; no previous WI evidence substituted.",
+      "required": true,
+      "scenario": "bindings-and-legacy-compatibility",
+      "status": "verified",
+      "verificationPlan": "Run resource_finalization_transition, resource_finalization, and legacy_closeout_source integration suites unchanged."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-5",
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-6",
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json#receipt.executionRecords/project-command-7"
+      ],
+      "expected": "Only the declared current-main production file and private unit module change; old candidate and historical evidence remain unchanged.",
+      "reason": "Executed on source e356a46d9ab6079b4ddc12629c4b7783bce74ebe by official b2a43b0a Runtime; all assigned commands exited 0 with real selected tests, no timeout or truncation. Original failed attempts remain preserved; no previous WI evidence substituted.",
+      "required": true,
+      "scenario": "quality-and-scope",
+      "status": "verified",
+      "verificationPlan": "Run repository library/tests clippy with all features, workspace fmt check, and diff check against 3aa3dfce; independently review full source diff."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-22T08:26:51.734844629Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1099-captured-historical-recovery-input"
+}

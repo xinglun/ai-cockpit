@@ -1,0 +1,340 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1099-captured-historical-recovery-input",
+    "sequence": 3,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1099-authorize-bounded-draft-delivery-phase",
+      "expectedContractDigest": "sha256:c821a91e1ca63db69da99e391d016cc8453ba5b6ee4a61a2728c63d74f7b1451",
+      "reason": "Trusted parent thread01a1576c-b0ab-7723-ad8e-95924e80102a explicitly instructed continuation after local acceptance: formal archive, native governance/source binding check, publication review, commit and ordinary push to the independent branch, create a WI1099 draft PR and follow exact-final-HEAD actual CI. Replace only the implementation-phase blanket push exclusion with that bounded delivery boundary. The two source paths, e356a46d source, seven acceptance criteria, six scenarios, high risk and eight verification commands remain unchanged. Merge authority and finalization-bound human close are separate and are not granted. This reason is not a confirm_review or claim of an independently authenticated human identity.",
+      "changes": [
+        {
+          "path": "/outOfScope",
+          "operation": "replace",
+          "value": [
+            "No candidate snapshot import; no external trusted authorization B",
+            " review_authority modules",
+            " CLI/MCP/Cargo expansion",
+            " scanner changes",
+            " assertion weakening",
+            " residual-risk acceptance",
+            " shared Runtime replacement",
+            " historical evidence rewrite",
+            "Publication beyond the explicitly authorized independent codex/wi-1099-main-direct-recovery-input branch, one WI-1099 draft pull request, reviewed native governance records and actual required CI for its exact final HEAD; force pushing, administrator bypass and protection changes remain excluded",
+            " merge or resource cleanup in this bounded implementation phase"
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:670c7d76a4576c263792b10581bf6edeb83c060368a7915d2e17d97116ca40dd",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "One original raw byte snapshot captured only after the existing same-Work-Item lifecycle lock is used for both first-direct classification and held-writer publication; ordinary finalization still validates its guard before observing input.",
+        "Deterministic TDD regression through the real public entry point demonstrates valid direct A replaced by independently prepare-valid ordinary PR B; old behavior must fail the A preservation assertion before production fix. A classification/write consistency defect is not claimed as a human-authorization bypass.",
+        "Invalid or malformed A cannot be replaced with valid B to publish; deletion or replacement after capture cannot alter captured A; duplicate keys, unknown fields, oversize and symlink/nonregular inputs reject without publication.",
+        "Preserve Contract, repository, runtime, work-item, merge-parent and base bindings; legacy obligation raw bytes, normal predecessor recovery 4 MiB boundary, idempotency and atomic publication. Existing tests and lock-before-observation assertions remain unchanged.",
+        "Limited declared diagnostic change: first no-predecessor read propagates existing bounded-reader path/type/symlink/oversize errors, while invalid typed or non-direct classification retains predecessor-required failure. Existing 8 MiB pinned-reader threshold is retained.",
+        "Use current-main helpers only, with a private cfg(test) deterministic one-shot seam; original 69-file candidate remains separate and byte-identical, and absent candidate features and B remain pending.",
+        "Fresh new-source validation and independent review retain actual test counts and all failed raw results; each declared command uses one worker and at most 900 seconds. No zero-test filter counts as evidence."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3aa3dfce4be3bb93f10741a7882e95e79d6f2a18",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-22T07:31:20Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Capture one bounded original byte snapshot after the existing lifecycle lock so first-record classification and finalization consume the same input; retain strict validation and all historical evidence",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair current-main first historical direct-merge recovery input consistency without introducing candidate authorization features",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No candidate snapshot import; no external trusted authorization B",
+        " review_authority modules",
+        " CLI/MCP/Cargo expansion",
+        " scanner changes",
+        " assertion weakening",
+        " residual-risk acceptance",
+        " shared Runtime replacement",
+        " historical evidence rewrite",
+        " push",
+        " merge or resource cleanup in this bounded implementation phase"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2427c3d30f0323e1058965cd76eb2325f9814d25bb95e8e15d46a150eb2f2509",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The public recovery path persists captured valid direct A even when the external path is replaced by independently prepare-valid ordinary PR B.",
+          "required": true,
+          "scenario": "first-direct-input-replacement",
+          "status": "unverified",
+          "verificationPlan": "Run input_capture_tests:: deterministic replacement RED on unchanged business logic, then GREEN after byte handoff; retain actual selected counts."
+        },
+        {
+          "evidence": [],
+          "expected": "Invalid captured input never publishes and deletion or replacement after capture never causes the writer to observe another input.",
+          "required": true,
+          "scenario": "invalid-input-and-path-deletion",
+          "status": "unverified",
+          "verificationPlan": "Run input_capture_tests:: invalid-to-valid and deletion regressions through the real entry point using cfg(test) deterministic one-shot callback."
+        },
+        {
+          "evidence": [],
+          "expected": "Malformed JSON, duplicate keys, unknown fields, oversize and nonregular or symlink inputs fail closed without a canonical receipt.",
+          "required": true,
+          "scenario": "strict-input-boundary",
+          "status": "unverified",
+          "verificationPlan": "Run input_capture_tests:: boundary cases; assert bounded-reader error diagnostics separately from generic typed classification errors."
+        },
+        {
+          "evidence": [],
+          "expected": "Same-WI lifecycle lock precedes input observation and held core rejects the wrong subject guard.",
+          "required": true,
+          "scenario": "lock-order-and-guard",
+          "status": "unverified",
+          "verificationPlan": "Run resource_lifecycle::legacy_source_lock_tests:: unchanged and any new input capture lock tests."
+        },
+        {
+          "evidence": [],
+          "expected": "Repository, Work Item, Contract, runtime, merge parents and base negatives remain rejected; normal legacy recovery preserves raw predecessor bytes and original limits.",
+          "required": true,
+          "scenario": "bindings-and-legacy-compatibility",
+          "status": "unverified",
+          "verificationPlan": "Run resource_finalization_transition, resource_finalization, and legacy_closeout_source integration suites unchanged."
+        },
+        {
+          "evidence": [],
+          "expected": "Only the declared current-main production file and private unit module change; old candidate and historical evidence remain unchanged.",
+          "required": true,
+          "scenario": "quality-and-scope",
+          "status": "unverified",
+          "verificationPlan": "Run repository library/tests clippy with all features, workspace fmt check, and diff check against 3aa3dfce; independently review full source diff."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/resource_lifecycle/input_capture_tests.rs"
+      ],
+      "sources": [
+        "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a:latest-current-main-bounded-repair-delegation",
+        "/workspace/wi1099-captured-historical-recovery-run/current-main-minimal-input-capture-plan.json",
+        "/workspace/wi1099-captured-historical-recovery-run/current-main-minimal-plan-independent-review.json"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository --lib resource_lifecycle::input_capture_tests:: -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib resource_lifecycle::legacy_source_lock_tests:: -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test resource_finalization_transition -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test resource_finalization -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test legacy_closeout_source -- --test-threads=1",
+        "cargo clippy --locked -p cockpit-repository --lib --tests --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check 3aa3dfce4be3bb93f10741a7882e95e79d6f2a18 HEAD"
+      ],
+      "workItemId": "WI-1099-captured-historical-recovery-input"
+    },
+    "previousContractDigest": "sha256:c821a91e1ca63db69da99e391d016cc8453ba5b6ee4a61a2728c63d74f7b1451",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "One original raw byte snapshot captured only after the existing same-Work-Item lifecycle lock is used for both first-direct classification and held-writer publication; ordinary finalization still validates its guard before observing input.",
+        "Deterministic TDD regression through the real public entry point demonstrates valid direct A replaced by independently prepare-valid ordinary PR B; old behavior must fail the A preservation assertion before production fix. A classification/write consistency defect is not claimed as a human-authorization bypass.",
+        "Invalid or malformed A cannot be replaced with valid B to publish; deletion or replacement after capture cannot alter captured A; duplicate keys, unknown fields, oversize and symlink/nonregular inputs reject without publication.",
+        "Preserve Contract, repository, runtime, work-item, merge-parent and base bindings; legacy obligation raw bytes, normal predecessor recovery 4 MiB boundary, idempotency and atomic publication. Existing tests and lock-before-observation assertions remain unchanged.",
+        "Limited declared diagnostic change: first no-predecessor read propagates existing bounded-reader path/type/symlink/oversize errors, while invalid typed or non-direct classification retains predecessor-required failure. Existing 8 MiB pinned-reader threshold is retained.",
+        "Use current-main helpers only, with a private cfg(test) deterministic one-shot seam; original 69-file candidate remains separate and byte-identical, and absent candidate features and B remain pending.",
+        "Fresh new-source validation and independent review retain actual test counts and all failed raw results; each declared command uses one worker and at most 900 seconds. No zero-test filter counts as evidence."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "3aa3dfce4be3bb93f10741a7882e95e79d6f2a18",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-22T07:31:20Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Capture one bounded original byte snapshot after the existing lifecycle lock so first-record classification and finalization consume the same input; retain strict validation and all historical evidence",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair current-main first historical direct-merge recovery input consistency without introducing candidate authorization features",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No candidate snapshot import; no external trusted authorization B",
+        " review_authority modules",
+        " CLI/MCP/Cargo expansion",
+        " scanner changes",
+        " assertion weakening",
+        " residual-risk acceptance",
+        " shared Runtime replacement",
+        " historical evidence rewrite",
+        "Publication beyond the explicitly authorized independent codex/wi-1099-main-direct-recovery-input branch, one WI-1099 draft pull request, reviewed native governance records and actual required CI for its exact final HEAD; force pushing, administrator bypass and protection changes remain excluded",
+        " merge or resource cleanup in this bounded implementation phase"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2427c3d30f0323e1058965cd76eb2325f9814d25bb95e8e15d46a150eb2f2509",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The public recovery path persists captured valid direct A even when the external path is replaced by independently prepare-valid ordinary PR B.",
+          "required": true,
+          "scenario": "first-direct-input-replacement",
+          "status": "unverified",
+          "verificationPlan": "Run input_capture_tests:: deterministic replacement RED on unchanged business logic, then GREEN after byte handoff; retain actual selected counts."
+        },
+        {
+          "evidence": [],
+          "expected": "Invalid captured input never publishes and deletion or replacement after capture never causes the writer to observe another input.",
+          "required": true,
+          "scenario": "invalid-input-and-path-deletion",
+          "status": "unverified",
+          "verificationPlan": "Run input_capture_tests:: invalid-to-valid and deletion regressions through the real entry point using cfg(test) deterministic one-shot callback."
+        },
+        {
+          "evidence": [],
+          "expected": "Malformed JSON, duplicate keys, unknown fields, oversize and nonregular or symlink inputs fail closed without a canonical receipt.",
+          "required": true,
+          "scenario": "strict-input-boundary",
+          "status": "unverified",
+          "verificationPlan": "Run input_capture_tests:: boundary cases; assert bounded-reader error diagnostics separately from generic typed classification errors."
+        },
+        {
+          "evidence": [],
+          "expected": "Same-WI lifecycle lock precedes input observation and held core rejects the wrong subject guard.",
+          "required": true,
+          "scenario": "lock-order-and-guard",
+          "status": "unverified",
+          "verificationPlan": "Run resource_lifecycle::legacy_source_lock_tests:: unchanged and any new input capture lock tests."
+        },
+        {
+          "evidence": [],
+          "expected": "Repository, Work Item, Contract, runtime, merge parents and base negatives remain rejected; normal legacy recovery preserves raw predecessor bytes and original limits.",
+          "required": true,
+          "scenario": "bindings-and-legacy-compatibility",
+          "status": "unverified",
+          "verificationPlan": "Run resource_finalization_transition, resource_finalization, and legacy_closeout_source integration suites unchanged."
+        },
+        {
+          "evidence": [],
+          "expected": "Only the declared current-main production file and private unit module change; old candidate and historical evidence remain unchanged.",
+          "required": true,
+          "scenario": "quality-and-scope",
+          "status": "unverified",
+          "verificationPlan": "Run repository library/tests clippy with all features, workspace fmt check, and diff check against 3aa3dfce; independently review full source diff."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/resource_lifecycle/input_capture_tests.rs"
+      ],
+      "sources": [
+        "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a:latest-current-main-bounded-repair-delegation",
+        "/workspace/wi1099-captured-historical-recovery-run/current-main-minimal-input-capture-plan.json",
+        "/workspace/wi1099-captured-historical-recovery-run/current-main-minimal-plan-independent-review.json"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository --lib resource_lifecycle::input_capture_tests:: -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib resource_lifecycle::legacy_source_lock_tests:: -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test resource_finalization_transition -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test resource_finalization -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test legacy_closeout_source -- --test-threads=1",
+        "cargo clippy --locked -p cockpit-repository --lib --tests --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check 3aa3dfce4be3bb93f10741a7882e95e79d6f2a18 HEAD"
+      ],
+      "workItemId": "WI-1099-captured-historical-recovery-input"
+    },
+    "newContractDigest": "sha256:baf093f23ba69da214156c5e8023ac99f21783e4f2a74d248932b75f90d7efa0",
+    "previousSummaryDigest": "sha256:4fcd5d007d029b250f551f84a758742b1e30af995bcc3182cd12eea67d43099d",
+    "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+    "environmentObservationDigest": "sha256:3ba5f4527bb805c6d69a2086d3b8e4fc687a54cb5d46fe7c02994fe886d7e7a7",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:97bc5554896410a572ae3d128e1b4ccee875f74e6ee464a120f25bed8431a92c",
+    "policyReviewRequirements": [
+      "/outOfScope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-22T08:11:03Z"
+  },
+  "preparedDigest": "sha256:823bd030ce510d5b175e04b1a9c9673b442220bd21b0e49c05da5dbf80be1219"
+}
