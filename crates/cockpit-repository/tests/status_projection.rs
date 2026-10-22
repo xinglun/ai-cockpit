@@ -661,8 +661,20 @@ fn source_refresh_does_not_bypass_material_recovery_guards() {
         .expect("isolated negative input");
         let status =
             work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("negative status");
+        if case == "missing_human_review" {
+            // The existing amendment-review route may collect a preflight
+            // request for a real human; it does not grant material or execution.
+            assert!(status.human_decision_required);
+            assert!(status.safe_actions.contains(&"run_preflight".into()));
+        } else {
+            assert!(
+                !status.safe_actions.contains(&"run_preflight".into()),
+                "{case}: {status:#?}"
+            );
+            require_current_action_admission(root, id, "run_preflight", &runtime())
+                .expect_err("bounded collection guard remains enforced");
+        }
         for action in [
-            "run_preflight",
             "record_material_review_decision",
             "run_verification",
             "finish",
