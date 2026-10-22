@@ -1025,6 +1025,76 @@ fn legacy_descriptor_gap_requires_four_fresh_checks_without_promoting_old_proof(
 }
 
 #[test]
+fn source_change_after_material_review_refreshes_preflight_and_executes_four_checks() {
+    let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
+    let root = fixture.directory.path();
+    let decision = retained_material_input(root);
+    assert_success(
+        &retained_record_material(root, &decision),
+        "current material review before source change",
+    );
+    let before = retained_document(root, "summary");
+    let contract = retained_document(root, "contract");
+    let receipt_path = root.join(
+        before["materialReviewReceipt"]["path"]
+            .as_str()
+            .expect("material receipt path"),
+    );
+    let old_material = fs::read(&receipt_path).expect("old material receipt");
+    let material_path = root.join("tests/material.rs");
+    let mut material = fs::read_to_string(&material_path).expect("current test source");
+    material.push_str("\n// Source changed after the current material review.\n");
+    fs::write(&material_path, material).expect("in-scope source change");
+    git(root, &["add", "tests/material.rs"]);
+    git(
+        root,
+        &["commit", "-qm", "source after current material review"],
+    );
+
+    let cli = retained_cli(
+        root,
+        &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
+    );
+    assert_success(&cli, "stale material status");
+    let status: Value = serde_json::from_slice(&cli.stdout).expect("status JSON");
+    assert_eq!(status["humanDecisionRequired"], false);
+    let actions = status["safeActions"].as_array().expect("safe actions");
+    for denied in [
+        "run_verification",
+        "record_material_review_decision",
+        "finish",
+    ] {
+        assert!(!actions.contains(&json!(denied)), "{status}");
+    }
+    let mcp = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_status",
+        json!({"workItemId": WORK_ITEM_ID}),
+    );
+    assert_eq!(mcp.pointer("/result/isError"), Some(&json!(false)), "{mcp}");
+    assert_eq!(
+        status["safeActions"],
+        mcp["result"]["structuredContent"]["safeActions"]
+    );
+    assert_eq!(retained_document(root, "contract"), contract);
+    assert_eq!(
+        fs::read(&receipt_path).expect("preserved material"),
+        old_material
+    );
+    assert_eq!(retained_document(root, "summary")["checkpointCount"], 1);
+    assert_eq!(
+        retained_document(root, "summary")["decisionEvidence"],
+        before["decisionEvidence"]
+    );
+    let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+    assert_success(
+        &retained_cli(root, &["preflight", "--contract", &relative]),
+        "bounded source-refresh preflight",
+    );
+}
+
+#[test]
 fn retained_canonical_after_amendment_runs_four_checks_and_finishes_then_archives() {
     // A committed source change invalidates otherwise legitimate attempt reuse.
     // The real consumer also changes producer Runtime; this portable equivalent
