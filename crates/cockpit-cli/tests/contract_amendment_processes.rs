@@ -260,6 +260,14 @@ fn retained_canonical_fixture_with_checks(
     change_source: bool,
     checks: [&str; 4],
 ) -> RetainedCanonicalFixture {
+    retained_canonical_fixture_with_producer(change_source, checks, false)
+}
+
+fn retained_canonical_fixture_with_producer(
+    change_source: bool,
+    checks: [&str; 4],
+    legacy_descriptor_model: bool,
+) -> RetainedCanonicalFixture {
     let directory = tempfile::tempdir().expect("retained fixture");
     let root = directory.path();
     git(root, &["init", "-q", "--initial-branch=main"]);
@@ -378,13 +386,39 @@ fn retained_canonical_fixture_with_checks(
         &retained_record_material(root, &retained_material_input(root)),
         "old-cycle material receipt",
     );
-    assert_success(
-        &retained_cli(
-            root,
-            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
-        ),
-        "old four real fixture checks",
-    );
+    if legacy_descriptor_model {
+        // The child uses actual repository execution/writer APIs under a
+        // declared synthetic producer. It is not the unavailable rc.2 binary
+        // and cannot authenticate the historical consumer's executable.
+        let output = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "legacy_descriptor_fixture_child",
+                "--ignored",
+                "--test-threads=1",
+            ])
+            .env("WI1102_LEGACY_FIXTURE_ROOT", root)
+            .env("CARGO_TARGET_DIR", root.join(".ai/fixture-target"))
+            .env("CARGO_BUILD_JOBS", "1")
+            .env("CARGO_INCREMENTAL", "0")
+            .env("CARGO_NET_OFFLINE", "true")
+            .output()
+            .expect("isolated synthetic producer child");
+        assert!(
+            output.status.success(),
+            "four actual synthetic legacy-producer checks failed: stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+    } else {
+        assert_success(
+            &retained_cli(
+                root,
+                &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+            ),
+            "old four real fixture checks",
+        );
+    }
     let old_evidence =
         fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
             .expect("old canonical exists before blocked Outcome");
@@ -453,6 +487,371 @@ fn retained_canonical_fixture_with_checks(
         old_evidence,
         old_outcome,
     }
+}
+
+#[test]
+#[ignore = "subprocess fixture producer, invoked with an isolated explicit root"]
+fn legacy_descriptor_fixture_child() {
+    use cockpit_repository::{
+        RepositoryVerificationPolicy, RepositoryVerificationRequest, persist_verification_attempt,
+        record_verification_with_runtime, resolve_verification_route, run_repository_verification,
+    };
+    use cockpit_verification::{
+        VerificationCommand, VerificationPlanReceipt, VerificationReusePolicy,
+    };
+    let root = PathBuf::from(
+        std::env::var_os("WI1102_LEGACY_FIXTURE_ROOT").expect("explicit fixture root"),
+    );
+    let old = RuntimeContext {
+        protocol_version: PROTOCOL_VERSION,
+        runtime_version: "1.0.1-rc.2".into(),
+        runtime_digest: "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+            .parse()
+            .expect("synthetic old identity"),
+    };
+    let snapshot = cockpit_git::GitRepository::discover(&root)
+        .expect("fixture Git")
+        .snapshot()
+        .expect("fixture snapshot");
+    let stage = cockpit_protocol::VerificationStage::Task;
+    let route = resolve_verification_route(&root, WORK_ITEM_ID, stage, "local", &snapshot)
+        .expect("actual policy route");
+    let requests = RETAINED_FIXTURE_CHECKS
+        .iter()
+        .enumerate()
+        .map(|(i, command)| {
+            let mut words = command.split_whitespace();
+            RepositoryVerificationRequest {
+                node_id: format!("project-command-{i}"),
+                program: words.next().expect("program").into(),
+                args: words.map(str::to_owned).collect(),
+                scope: vec!["**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: old.runtime_digest.to_string(),
+                base_commit: route.base_revision.clone(),
+                workers: 1,
+                work_item_id: Some(WORK_ITEM_ID.into()),
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::ProfileAuthorized,
+            }
+        })
+        .collect::<Vec<_>>();
+    let mut receipts = requests
+        .iter()
+        .map(|request| {
+            let run = run_repository_verification(&root, request)
+                .expect("real old-context fixture execution");
+            assert!(run.receipt.passed);
+            assert_eq!(run.receipt.processes_spawned, 1);
+            assert_eq!(run.receipt.nodes_reused, 0);
+            serde_json::to_value(run.receipt).expect("actual receipt JSON")
+        })
+        .collect::<Vec<_>>();
+    let mut receipt = receipts.remove(0);
+    for other in receipts {
+        for key in ["results", "executionRecords", "receiptCandidates"] {
+            receipt[key].as_array_mut().expect("receipt array").extend(
+                other[key]
+                    .as_array()
+                    .expect("actual records")
+                    .iter()
+                    .cloned(),
+            );
+        }
+        for key in [
+            "nodesPlanned",
+            "nodesExecuted",
+            "nodesReused",
+            "rerunStale",
+            "rerunUnknown",
+            "protectedNodesExecuted",
+            "protectedNodesSkipped",
+            "processesSpawned",
+            "processSpawnFailures",
+            "gitCalls",
+            "filesRead",
+            "filesHashed",
+            "elapsedMs",
+        ] {
+            receipt[key] = json!(
+                receipt[key].as_u64().expect("actual counter")
+                    + other[key].as_u64().expect("actual counter")
+            );
+        }
+    }
+    let mut plan = VerificationPlanReceipt::new(
+        stage,
+        route.actual_tier,
+        route.actual_tier,
+        route.actual_assurance,
+        vec!["synthetic old-context actual execution".into()],
+        Vec::new(),
+    )
+    .expect("plan");
+    plan.work_item_id = Some(WORK_ITEM_ID.into());
+    plan.repository_id = Some(repository_id(&root).to_string());
+    plan.repository_snapshot_digest = Some(
+        cockpit_repository::snapshot_digest(&snapshot)
+            .expect("snapshot digest")
+            .to_string(),
+    );
+    plan.base_revision = route.base_revision;
+    plan.affected_paths = route.affected_paths;
+    plan.dependency_confidence = Some(route.dependency_confidence);
+    if let Some(policy) = route.policy_plan {
+        plan.required_tier = Some(policy.requirement.required_tier);
+        plan.required_assurance = Some(policy.requirement.required_assurance);
+        plan.policy_refs = policy.requirement.policy_refs;
+    }
+    plan.executed_nodes = requests.iter().map(|r| r.node_id.clone()).collect();
+    plan.timeout_seconds = Some(cockpit_verification::DEFAULT_EXECUTION_SECONDS);
+    receipt["planReceipt"] = json!(plan);
+    assert_eq!(receipt["nodesExecuted"], 4);
+    assert_eq!(receipt["nodesReused"], 0);
+    let recorded = persist_verification_attempt(
+        &root,
+        WORK_ITEM_ID,
+        &requests,
+        &snapshot,
+        &old,
+        "execution_completed",
+        None,
+        Some(&receipt),
+    )
+    .expect("actual native attempt writer");
+    let mut attempt: Value = serde_json::from_slice(
+        &fs::read(root.join(recorded["path"].as_str().expect("native attempt path")))
+            .expect("actual native attempt bytes"),
+    )
+    .expect("actual native attempt JSON");
+    record_verification_with_runtime(&root, WORK_ITEM_ID, &receipt, &old, &snapshot)
+        .expect("actual typed fixture writer");
+    let original_id = attempt["attemptId"]
+        .as_str()
+        .expect("attempt id")
+        .strip_prefix("sha256:")
+        .expect("hex")
+        .to_owned();
+    let original_path = root.join(format!(
+        ".ai/evidence/{WORK_ITEM_ID}.verification-attempt.{original_id}.json"
+    ));
+    fs::create_dir_all(root.join(".ai/fixture-preserved")).expect("preserved synthetic inputs");
+    fs::rename(
+        original_path,
+        root.join(".ai/fixture-preserved/current-writer-before-legacy-model.json"),
+    )
+    .expect("preserve fixture writer bytes");
+    for (i, request) in requests.iter().enumerate() {
+        let descriptor = VerificationCommand::new(
+            &request.node_id,
+            &request.program,
+            request.args.clone(),
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_current_dir(fs::canonicalize(&root).expect("fixture cwd"))
+        .with_timeout_seconds(cockpit_verification::DEFAULT_EXECUTION_SECONDS)
+        .command_digest();
+        assert_ne!(attempt["commands"][i]["commandDigest"], descriptor);
+        attempt["commands"][i]["commandDigest"] = json!(descriptor);
+    }
+    attempt
+        .as_object_mut()
+        .expect("attempt object")
+        .remove("attemptId");
+    let id = cockpit_protocol::digest_json(&attempt).expect("synthetic legacy attempt digest");
+    attempt["attemptId"] = json!(id);
+    fs::write(
+        root.join(format!(
+            ".ai/evidence/{WORK_ITEM_ID}.verification-attempt.{}.json",
+            id.as_str().strip_prefix("sha256:").expect("hex")
+        )),
+        serde_json::to_vec_pretty(&attempt).expect("synthetic attempt JSON"),
+    )
+    .expect("isolated legacy-shape fixture only");
+}
+
+#[test]
+fn legacy_descriptor_gap_cli_mcp_share_material_admission_and_replay_rejection() {
+    let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
+    let root = fixture.directory.path();
+    let cli = retained_cli(
+        root,
+        &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
+    );
+    assert_success(&cli, "CLI legacy admission");
+    let cli: Value = serde_json::from_slice(&cli.stdout).expect("CLI status");
+    let mcp = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_status",
+        json!({"workItemId": WORK_ITEM_ID}),
+    );
+    assert_eq!(mcp.pointer("/result/isError"), Some(&json!(false)), "{mcp}");
+    assert_eq!(
+        cli["safeActions"],
+        mcp["result"]["structuredContent"]["safeActions"]
+    );
+    assert_eq!(
+        cli["diagnostics"],
+        mcp["result"]["structuredContent"]["diagnostics"]
+    );
+    let decision = retained_material_input(root);
+    let recorded = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_material_review_record",
+        json!({"workItemId": WORK_ITEM_ID, "decision": decision}),
+    );
+    assert_eq!(
+        recorded.pointer("/result/isError"),
+        Some(&json!(false)),
+        "{recorded}"
+    );
+    let summary = retained_document(root, "summary");
+    let replay = mcp_call(
+        root,
+        &candidate_runtime(),
+        "work_item_material_review_record",
+        json!({"workItemId": WORK_ITEM_ID, "decision": decision}),
+    );
+    assert_eq!(
+        replay.pointer("/result/isError"),
+        Some(&json!(true)),
+        "{replay}"
+    );
+    assert_eq!(retained_document(root, "summary"), summary);
+    let plan = retained_cli(
+        root,
+        &[
+            "verify",
+            "--work-item",
+            WORK_ITEM_ID,
+            "--workers",
+            "1",
+            "--plan-only",
+        ],
+    );
+    assert_success(&plan, "CLI actual service after MCP review");
+    let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
+    assert_eq!(plan["processesSpawned"], 0);
+    assert_eq!(plan["nodesToExecute"], 4);
+    assert_eq!(plan["nodesReused"], 0);
+    assert_eq!(
+        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("old canonical"),
+        fixture.old_evidence
+    );
+}
+
+#[test]
+fn legacy_descriptor_gap_preserves_original_integrity_and_current_guard_rejections() {
+    let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
+    for case in [
+        "foreign_repository",
+        "foreign_work_item",
+        "non_predecessor",
+        "receipt_digest",
+        "nested_failure",
+        "missing_execution_records",
+        "failed_execution_exit",
+        "plan_result_mismatch",
+        "missing_bound_plan",
+        "missing_original_attempt",
+        "foreign_command_argv_rehashed_attempt",
+        "duplicate_attempt_keys",
+        "producer_runtime_identity",
+        "unsupported_schema",
+        "unsupported_protocol",
+        "legacy_untyped",
+        "digest_only",
+        "bad_marker",
+        "bad_transition",
+        "missing_current_review",
+        "bad_journal",
+        "dirty_source",
+        "finding",
+        "stale_request",
+        "invalid_retry",
+        "malformed_json",
+        "duplicate_keys",
+        "wrong_command_without_manifest",
+    ] {
+        assert_retained_history_rejection(&fixture, case);
+    }
+}
+
+#[test]
+fn legacy_descriptor_gap_requires_four_fresh_checks_without_promoting_old_proof() {
+    let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
+    let root = fixture.directory.path();
+    let status = retained_cli(
+        root,
+        &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
+    );
+    assert_success(&status, "legacy identity status");
+    let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert_ne!(status["verification"], "verified");
+    assert!(
+        status["diagnostics"]
+            .as_array()
+            .expect("diagnostics")
+            .iter()
+            .any(|v| v
+                .as_str()
+                .is_some_and(|s| s.contains("historical_execution_identity_unverifiable"))),
+        "{status}"
+    );
+    assert_success(
+        &retained_record_material(root, &retained_material_input(root)),
+        "fresh-only exact material review",
+    );
+    let plan = retained_cli(
+        root,
+        &[
+            "verify",
+            "--work-item",
+            WORK_ITEM_ID,
+            "--workers",
+            "1",
+            "--plan-only",
+        ],
+    );
+    assert_success(&plan, "plan all four current checks");
+    let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
+    assert_eq!(plan["processesSpawned"], 0);
+    assert_eq!(plan["nodesPlanned"], 4);
+    assert_eq!(plan["nodesToExecute"], 4);
+    assert_eq!(plan["nodesReused"], 0);
+    assert_eq!(
+        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("old canonical"),
+        fixture.old_evidence
+    );
+    assert_success(
+        &retained_cli(
+            root,
+            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+        ),
+        "four actual current checks",
+    );
+    let current: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("new canonical"),
+    )
+    .expect("envelope");
+    assert_eq!(
+        current["runtimeDigest"],
+        json!(candidate_runtime().runtime_digest)
+    );
+    assert_eq!(current["receipt"]["nodesExecuted"], 4);
+    assert_eq!(current["receipt"]["nodesReused"], 0);
+    assert_eq!(current["receipt"]["processesSpawned"], 4);
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json"))
+            .expect("retained original"),
+        fixture.old_evidence
+    );
 }
 
 #[test]
@@ -631,6 +1030,16 @@ fn retained_history_integrity_is_separate_from_current_source_freshness() {
 #[test]
 fn retained_history_real_check_failure_cannot_finish_and_exact_retry_runs_fresh() {
     let fixture = retained_canonical_amendment_fixture_with_source_change(true);
+    assert_retained_real_failure_and_retry(fixture);
+}
+
+#[test]
+fn legacy_descriptor_gap_failure_keeps_old_bytes_and_exact_retry_executes_fresh() {
+    let fixture = retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
+    assert_retained_real_failure_and_retry(fixture);
+}
+
+fn assert_retained_real_failure_and_retry(fixture: RetainedCanonicalFixture) {
     let root = fixture.directory.path();
     assert_success(
         &retained_record_material(root, &retained_material_input(root)),

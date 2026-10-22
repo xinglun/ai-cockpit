@@ -378,6 +378,49 @@ fn blocked_outcome_after_sensitive_amendment_admits_only_exact_material_review()
 }
 
 #[test]
+fn blocked_material_recovery_reports_the_first_current_guard() {
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    for guard in [
+        "current_human_review",
+        "current_preflight",
+        "single_checkpoint",
+    ] {
+        let directory = blocked_material_amendment_fixture();
+        let root = directory.path();
+        if guard != "current_human_review" {
+            record_human_preflight_review(root, id);
+            let path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+            let mut summary: Value =
+                serde_json::from_slice(&fs::read(&path).expect("Summary")).expect("Summary JSON");
+            if guard == "current_preflight" {
+                summary["preflightState"] = json!("red");
+            } else {
+                summary["checkpointCount"] = json!(2);
+            }
+            fs::write(
+                path,
+                serde_json::to_vec_pretty(&summary).expect("negative JSON"),
+            )
+            .expect("isolated guard mutation");
+        }
+        let status = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("status");
+        assert!(status.blocking);
+        assert!(
+            !status
+                .safe_actions
+                .contains(&"record_material_review_decision".into())
+        );
+        assert!(!status.safe_actions.contains(&"run_verification".into()));
+        assert!(
+            status
+                .diagnostics
+                .contains(&format!("material_recovery_guard:{guard}")),
+            "{guard}: {status:#?}"
+        );
+    }
+}
+
+#[test]
 fn blocked_material_receipt_admits_real_verification_before_clearing_failure() {
     let directory = blocked_material_amendment_fixture();
     let root = directory.path();

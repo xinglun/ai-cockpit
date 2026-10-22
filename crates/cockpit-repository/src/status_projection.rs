@@ -1,5 +1,5 @@
 use super::{
-    AttachedProfile, DecisionState, Digest, HistoricalDebtItem,
+    AttachedProfile, DecisionState, Digest, EvidenceState, HistoricalDebtItem,
     HistoricalFinalizationInventoryItem, ObserverError, OutcomeState, RepositoryConfig,
     RepositoryReadiness, RepositorySnapshot, RepositoryStatus, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, WorkItemActionExplanation,
@@ -1454,7 +1454,7 @@ fn work_item_status_snapshot_with_snapshot(
         ),
     };
     unknowns.retain(|unknown| !material_discharged_unknowns.contains(unknown));
-    unknowns.extend(material_unknowns);
+    unknowns.extend(material_unknowns.iter().cloned());
     if material_projection_unavailable && governance_state == "green" {
         governance_state = "yellow".into();
     }
@@ -1712,6 +1712,157 @@ fn work_item_status_snapshot_with_snapshot(
     }
     let retry_recovery_pending =
         !archived && retry_recovery_pending_is_valid(&root, &contract, Some(runtime));
+    // A failed lifecycle Outcome is deliberately still red after a sensitive
+    // amendment. Admit only the two evidence-collection steps that can
+    // resolve this exact interlock. The red Outcome, its blocker, and all
+    // historical records remain in place until a real verification succeeds.
+    let blocked_outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let blocked_outcome_matches = is_regular_non_symlink(&blocked_outcome_path)
+        .is_ok_and(|regular| regular)
+        && read_json(&blocked_outcome_path)
+            .ok()
+            .is_some_and(|blocked_outcome| {
+                let failed_gate = blocked_outcome["failedGate"].as_str();
+                let recovery = blocked_outcome["recoveryCondition"].as_str();
+                blocked_outcome["state"] == "blocked"
+                    && blocked_outcome["repositoryId"] == contract.repository_id
+                    && blocked_outcome["workItemId"] == work_item_id
+                    && failed_gate.is_some_and(|gate| !gate.is_empty())
+                    && recovery.is_some_and(|condition| !condition.is_empty())
+                    && failed_gate == summary["failedGate"].as_str()
+                    && recovery == summary["recoveryCondition"].as_str()
+            });
+    let amendment_provenance_matches = amendment_history.last().is_some_and(|tail| {
+        let before_edit = summary["checkpointEvidence"]
+            .as_array()
+            .and_then(|entries| entries.iter().find(|entry| entry["stage"] == "before_edit"));
+        let revalidation = summary["checkpointEvidence"].as_array().and_then(|entries| {
+            entries
+                .iter()
+                .rfind(|entry| entry["stage"] == "contract_amendment_revalidation")
+        });
+        let original = amendment_history
+            .iter()
+            .find(|receipt| receipt.checkpointed)
+            .map(|receipt| &receipt.previous_contract_digest);
+        match (before_edit, revalidation, original) {
+            (Some(before_edit), Some(revalidation), Some(original)) => {
+                tail.checkpointed
+                    && tail.new_contract_digest == contract_digest_value
+                    && [before_edit, revalidation].iter().all(|record| {
+                        record["schemaVersion"] == 1
+                            && record["recorded"] == true
+                            && record["repositoryId"] == contract.repository_id
+                            && record["workItemId"] == work_item_id
+                    })
+                    && super::contract_amendment::validate_transition_chain(
+                        &root,
+                        work_item_id,
+                        &amendment_history,
+                        Some(&contract_digest_value),
+                    )
+                    .is_ok()
+                    && before_edit["contractHash"] == serde_json::json!(original)
+                    && revalidation["contractHash"] == serde_json::json!(contract_digest_value)
+                    && revalidation["previousContractHash"]
+                        == serde_json::json!(tail.previous_contract_digest)
+                    && revalidation["originalBeforeEditContractHash"]
+                        == serde_json::json!(original)
+                    && revalidation["repositorySnapshotDigest"]
+                        == serde_json::json!(tail.repository_snapshot_digest)
+                    && revalidation["verificationStarted"]
+                        == serde_json::json!(tail.verification_started)
+                    && revalidation["invalidatedRequiredChecks"]
+                        == serde_json::json!(tail.invalidated_required_checks)
+                    && summary["verificationInvalidatedByContractAmendment"]
+                        ["invalidatedRequiredChecks"]
+                        == serde_json::json!(tail.invalidated_required_checks)
+            }
+            _ => false,
+        }
+    });
+    let material_recovery_diagnostic_scope = !archived
+        && !historical
+        && lifecycle_phase == "checkpointed"
+        && governance_state == "red"
+        && summary["outcomeState"] == "blocked";
+    macro_rules! recovery_guard {
+        ($code:literal, $condition:expr) => {{
+            let ready = $condition;
+            if !ready && material_recovery_diagnostic_scope {
+                diagnostics.push(concat!("material_recovery_guard:", $code).into());
+            }
+            ready
+        }};
+    }
+    let amendment_material_recovery_ready = !archived
+        && !historical
+        && lifecycle_phase == "checkpointed"
+        && governance_state == "red"
+        && recovery_guard!("exclusive_governance_red", blockers == ["governance_red"])
+        && recovery_guard!("unknown_outcome", outcome.state == OutcomeState::Unknown)
+        && recovery_guard!("red_outcome", outcome.decision_state == Some(DecisionState::Red))
+        && recovery_guard!("failed_lifecycle", outcome.unknowns.contains(&"lifecycle_gate_failed".into()))
+        && recovery_guard!("blocked_outcome_binding", blocked_outcome_matches)
+        && summary["outcomeState"] == "blocked"
+        && recovery_guard!("single_checkpoint", summary["checkpointCount"] == 1)
+        && recovery_guard!("sensitive_amendment", amendment_history
+            .iter()
+            .any(|receipt| receipt.policy_review_required))
+        && recovery_guard!("amendment_provenance", amendment_provenance_matches)
+        && recovery_guard!("current_amendment_binding", summary["verificationInvalidatedByContractAmendment"]["contractHash"].as_str()
+            == Some(contract_digest_string.as_str()))
+        && recovery_guard!("current_preflight", preflight_binding_current)
+        && recovery_guard!("current_human_review", super::governance_controls::preflight_decision_evidence_state(
+            &root,
+            work_item_id,
+            &contract_digest_value,
+        ) == super::governance_controls::PreflightDecisionEvidenceState::Valid)
+        && recovery_guard!("material_projection", !material_projection_unavailable)
+        && recovery_guard!("no_finding", !material_blocked_by_finding)
+        && recovery_guard!("evidence_shape", !malformed_evidence)
+        && recovery_guard!("historical_input_integrity", snapshot_ref.is_some_and(|snapshot| {
+            super::verification_evidence_state(&root, &contract, snapshot, false, Some(runtime))
+                .is_ok_and(|state| {
+                    if state == EvidenceState::Missing {
+                        return true;
+                    }
+                    match super::amendment_invalidated_verification_is_complete_history(
+                        &root,
+                        &contract,
+                        &contract_digest_value,
+                        snapshot,
+                    ) {
+                        Ok(ready) => ready,
+                        Err(error) => match super::amendment_invalidated_verification_requires_fresh_execution(
+                            &root,
+                            &contract,
+                            &contract_digest_value,
+                            snapshot,
+                            runtime,
+                        ) {
+                            Ok(true) => {
+                                diagnostics.push("historical_execution_identity_unverifiable: FreshExecutionRequired; old command digests remain unequal and cannot prove Complete; collect current evidence without reconstructing historical cwd/environment or authenticating the unavailable old binary".into());
+                                true
+                            }
+                            _ => {
+                                diagnostics.push(format!(
+                                    "historical verification recovery rejected: {error}"
+                                ));
+                                false
+                            }
+                        },
+                    }
+                })
+        }))
+        && recovery_guard!("no_conflicting_recovery", matches!(
+            load_recovery_decision(&root, work_item_id, Some(runtime)),
+            Ok(None)
+        ))
+        && recovery_guard!("current_material_review", material_review_decision_available
+            || (review_receipt_digest.is_some()
+                && material_unknowns.is_empty()
+                && raw_scanner_unknowns == ["repository_material_inspection_unavailable"]));
     let supersede_archive_ready = !archived
         && matches!(
             load_recovery_decision(&root, work_item_id, Some(runtime)),
@@ -1794,6 +1945,12 @@ fn work_item_status_snapshot_with_snapshot(
         // aggregate governance state red and the lifecycle failure visible;
         // this only admits the bounded recovery action.
         vec!["run_verification".into()]
+    } else if amendment_material_recovery_ready {
+        if material_review_decision_available {
+            vec!["record_material_review_decision".into()]
+        } else {
+            vec!["run_verification".into()]
+        }
     } else if blocking {
         vec!["resolve_blockers".into(), "stop".into()]
     } else {
