@@ -1,0 +1,158 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b0375e2f26432311456d00010941d29cc7411bc998acd3fafdf4738f6364a18a",
+      "workItemId": "WI-1096-stage1-pr-integration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1096-stage1-pr-integration.finalize.json",
+            "receiptDigest:sha256:5d3ffcfb88d8189009078b1b2d6bc50a8cbd8944277401cf9656e81ea11cce83",
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.archive.json",
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json",
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.outcome.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via user-message:Sentinel_08c0e1d465e88191a268c79ea2b2c915; request:Sentinel_10098164ce788191bff601c457bb3f3f; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:Codex agent; no independent external identity verification asserted at 2026-10-22T02:11:24.527632+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1096-stage1-pr-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "Integrate the existing standalone review-receipt domain model and two bounded binding fixes into main through a reviewed GitHub PR. Preserve all five predecessor commits and imported closed evidence. Make only formatting-only corrections inside the five source paths if required by the existing repository formatter. Bind the real PR and worktree before verification/finalization. Keep external authority, production gate integration, WI-1091/1092/1093 and other unfinished candidates outside this integration Work Item."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1096-stage1-pr-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T02:11:25.630043832Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1096-stage1-pr-integration"
+    },
+    "workItemId": "WI-1096-stage1-pr-integration"
+  },
+  "finalReportDigest": "sha256:0523149c032f4a7990c5e198e74725185d267c48b9bf73ef4f32ffccfdff08ed",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-22T02:11:25.629995200Z",
+  "recordedAt": "2026-10-22T02:11:25.629995200Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5d3ffcfb88d8189009078b1b2d6bc50a8cbd8944277401cf9656e81ea11cce83",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1096-stage1-pr-integration.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "user-message:Sentinel_08c0e1d465e88191a268c79ea2b2c915; request:Sentinel_10098164ce788191bff601c457bb3f3f; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:Codex agent; no independent external identity verification asserted",
+    "decidedAt": "2026-10-22T02:11:24.527632+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1096-stage1-pr-integration.finalize.json",
+      "receiptDigest:sha256:5d3ffcfb88d8189009078b1b2d6bc50a8cbd8944277401cf9656e81ea11cce83",
+      ".ai/work-items/archive/WI-1096-stage1-pr-integration.archive.json",
+      ".ai/evidence/WI-1096-stage1-pr-integration.verification.json",
+      ".ai/work-items/archive/WI-1096-stage1-pr-integration.outcome.json"
+    ],
+    "policyRefs": [],
+    "reason": "The actual user explicitly replied “确认按上述绑定分别关闭 WI-1097 和 WI-1096，confirmed。” in Sentinel_08c0e1d465e88191a268c79ea2b2c915 to Sentinel_10098164ce788191bff601c457bb3f3f. This record applies only to WI-1096-stage1-pr-integration finalization sequence0, sha256:5d3ffcfb88d8189009078b1b2d6bc50a8cbd8944277401cf9656e81ea11cce83. Current b2 finalize-verify was rechecked against that exact binding immediately before recording. The agent records the relayed user decision and does not claim independent external identity verification. decidedAt is the actual current recording instant, not an invented exact user authoring timestamp or an old approval time. Historical evidence, failed CI, P3 and unmeasured-benefit limits remain preserved; this is not residual-risk acceptance, a GitHub Review, or another Work Item approval.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-22T02:11:25Z",
+  "usageCutoff": "2026-10-22T02:11:25.630043832Z",
+  "workItemId": "WI-1096-stage1-pr-integration"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "Codex agent",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Owner-approved WI-1097 overall delivery and safe recoverable cleanup plan in this conversation; parent delegated exact old local cleanup to old core and centralized current local/remote cleanup here. This is agent-recorded resource evidence, not a human close approval or GitHub Review.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2bf592463d770e89331f7d4dd27653c639a238a6",
+    "name": "codex/wi-1097-source-patch-identity",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "contractDigest": "sha256:4e2a88721f65c2561e3ee986d6cf28d50f47e7c3f6a85f443de75b75b0a17e05",
+  "operationId": "wi1097-exact-finalization-5aed736651cd43dd8586c8f17fceada6",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+    "headRevision": "2bf592463d770e89331f7d4dd27653c639a238a6",
+    "mergeCommit": "50654865afe9bd86cd61b0d8404b9acb5ac76221",
+    "number": 1053,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1053"
+  },
+  "reason": "Record actual exact WI-1097 post-merge cleanup. Parent directly read and forwarded old-core clean2bf before and ordinary local deletion after, preserving six raw files, stash7206b4da and independently restored bundle. Current core independently preserved and restored published2bf, ordinarily removed its related relay/local branch, and ordinarily deleted the single remote source branch with exact empty ls-remote readback. Old-host filesystem absence was not inferred from this host. Source verification remains ad66af2b under b2 Runtime; original Contract/archive/attempts and main2ea failed CI remain unchanged. Limited proc visibility remains explicitly unknown and is not represented as all processes excluded.",
+  "receiptId": "wi1097-exact-finalization-5aed736651cd43dd8586c8f17fceada6-receipt",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1097-source-patch-identity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1053",
+    "worktree": "/workspace/ai-cockpit-wi1097-source-patch-identity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-22T01:37:34.245669+00:00",
+  "workItemId": "WI-1097-source-patch-identity",
+  "worktree": {
+    "branch": "codex/wi-1097-source-patch-identity",
+    "headRevision": "2bf592463d770e89331f7d4dd27653c639a238a6",
+    "path": "/workspace/ai-cockpit-wi1097-source-patch-identity",
+    "worktreeId": "ai-cockpit-wi1097-source-patch-identity"
+  }
+}
