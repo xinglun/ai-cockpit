@@ -1092,6 +1092,102 @@ fn source_change_after_material_review_refreshes_preflight_and_executes_four_che
         &retained_cli(root, &["preflight", "--contract", &relative]),
         "bounded source-refresh preflight",
     );
+    assert!(
+        !retained_record_material(root, &decision).status.success(),
+        "old typed request remains stale"
+    );
+    assert_eq!(
+        fs::read(&receipt_path).expect("original material receipt"),
+        old_material
+    );
+    assert_eq!(retained_document(root, "outcome")["state"], "blocked");
+    assert!(
+        !retained_cli(
+            root,
+            &["verify", "--work-item", WORK_ITEM_ID, "--plan-only"]
+        )
+        .status
+        .success()
+    );
+    assert_success(
+        &retained_record_material(root, &retained_material_input(root)),
+        "new exact current material review",
+    );
+    let plan = retained_cli(
+        root,
+        &[
+            "verify",
+            "--work-item",
+            WORK_ITEM_ID,
+            "--workers",
+            "1",
+            "--plan-only",
+        ],
+    );
+    assert_success(&plan, "plan four current checks");
+    let plan: Value = serde_json::from_slice(&plan.stdout).expect("plan JSON");
+    assert_eq!(plan["processesSpawned"], 0);
+    assert_eq!(plan["nodesToExecute"], 4);
+    assert_eq!(plan["nodesReused"], 0);
+    assert_eq!(
+        fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("old canonical"),
+        fixture.old_evidence
+    );
+    assert_success(
+        &retained_cli(
+            root,
+            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+        ),
+        "four actual fresh checks after refresh and review",
+    );
+    let evidence: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json")))
+            .expect("new canonical"),
+    )
+    .expect("evidence JSON");
+    assert_eq!(evidence["passed"], true);
+    assert_eq!(
+        evidence["runtimeDigest"],
+        json!(candidate_runtime().runtime_digest)
+    );
+    assert_eq!(evidence["receipt"]["nodesExecuted"], 4);
+    assert_eq!(evidence["receipt"]["nodesReused"], 0);
+    assert_eq!(evidence["receipt"]["processesSpawned"], 4);
+    assert!(
+        evidence["receipt"]["executionRecords"]
+            .as_array()
+            .expect("records")
+            .iter()
+            .all(|r| r["passed"] == true && r["spawned"] == true && r["exitCode"] == 0)
+    );
+    assert_eq!(
+        retained_document(root, "summary")["decisionEvidence"],
+        before["decisionEvidence"]
+    );
+    assert_eq!(retained_document(root, "contract"), contract);
+    assert_eq!(
+        fs::read(&receipt_path).expect("old immutable receipt"),
+        old_material
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json"))
+            .expect("preserved history"),
+        fixture.old_evidence
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-blocked-outcome.json"))
+            .expect("preserved Outcome"),
+        fixture.old_outcome
+    );
+    assert_success(
+        &retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"]),
+        "finish after fresh proof",
+    );
+    assert_success(
+        &retained_cli(root, &["archive", "--id", WORK_ITEM_ID, "--json"]),
+        "archive after finish",
+    );
 }
 
 #[test]
