@@ -614,7 +614,7 @@ fn source_refresh_does_not_bypass_material_recovery_guards() {
                 let path = active.join(format!("{id}.outcome.json"));
                 let mut outcome: Value = serde_json::from_slice(&fs::read(&path).expect("Outcome"))
                     .expect("Outcome JSON");
-                outcome["workItemId"] = json!("WI-FOREIGN");
+                outcome["failedGate"] = json!("fixture-foreign-gate");
                 fs::write(
                     path,
                     serde_json::to_vec_pretty(&outcome).expect("negative Outcome"),
@@ -665,6 +665,15 @@ fn source_refresh_does_not_bypass_material_recovery_guards() {
             // The existing amendment-review route may collect a preflight
             // request for a real human; it does not grant material or execution.
             assert!(status.human_decision_required);
+            assert!(status.safe_actions.contains(&"run_preflight".into()));
+        } else if case == "dirty_source" {
+            // The pre-existing unavailable-material route collects a blocker;
+            // it must not become a review or verification authorization.
+            assert!(
+                status
+                    .unknowns
+                    .contains(&"material_review_projection_unavailable".into())
+            );
             assert!(status.safe_actions.contains(&"run_preflight".into()));
         } else {
             assert!(
