@@ -1,0 +1,171 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+      "workItemId": "WI-1100-review-authority-protocol"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1100-review-authority-protocol.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1100-review-authority-protocol.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1100-review-authority-protocol.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1100-review-authority-protocol.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1100-review-authority-protocol.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1100-review-authority-protocol.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1100-review-authority-protocol.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1100-review-authority-protocol.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1100-review-authority-protocol.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via actual-user-message:Sentinel_092449cdce38819193f0a316f6eb1a37; request-message:Sentinel_ddc318e4d8808191bd67048c7e518822; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted at 2026-10-22T12:28:35.904590+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1100-review-authority-protocol.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1100-review-authority-protocol.contract.json"
+          ],
+          "inference": false,
+          "text": "Restore the existing 8782-byte review_authority protocol module with its existing main dependencies, expose it with minimal module wiring, add focused compatibility/negative tests, and deliver the exact reviewed source/governance through draft PR, required CI, separately authorized normal integration, recoverable finalization and genuine finalization-bound close."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1100-review-authority-protocol.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T12:28:36.924168374Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1100-review-authority-protocol"
+    },
+    "workItemId": "WI-1100-review-authority-protocol"
+  },
+  "finalReportDigest": "sha256:d7ee14b63f40e4d9e9f95eef254c04f51ea6d207bca2da9f9eba6e518e662360",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-22T12:28:36.924124700Z",
+  "recordedAt": "2026-10-22T12:28:36.924124700Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:8f7e77e026274db2b2dfe17ddec58f610aea6fc746b282c54f85d266694c99e5",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1100-review-authority-protocol.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "actual-user-message:Sentinel_092449cdce38819193f0a316f6eb1a37; request-message:Sentinel_ddc318e4d8808191bd67048c7e518822; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted",
+    "decidedAt": "2026-10-22T12:28:35.904590+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1100-review-authority-protocol.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Actual user replied: 确认按上述绑定关闭 WI-1100，confirmed。 The separate request bound WI-1100-review-authority-protocol to finalization sequence0 and Runtime headDigest sha256:8f7e77e026274db2b2dfe17ddec58f610aea6fc746b282c54f85d266694c99e5. The official pinnedb2 Runtime just revalidated the same verified/deleted head and original receipt bytes are unchanged. User source time is known only at minute precision2026-10-22 12:26UTC; decidedAt is the actual current recording time, not backdated approval time. This transcribes the actual separate close decision; it is not a GitHub human Review, independent identity authentication, residual-risk acceptance or merge-approval substitution. Formal source binding remains b902c4ce56e70a6001195696a36c06537bc6f2e8; actual main4dad270aa68339e1158b32e205c77d193181d57a passed fresh run39772605473. Source worktree/local+remote branch cleanup and independent recoverable backup are recorded. Standalone protocol validation does not authenticate a human or enableB; wider frozen candidate acceptance remains pending. User-visible benefit remains undeclared/unmeasured; general scanner limits and prior WI1096 P3 remain disclosed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-22T12:28:36Z",
+  "usageCutoff": "2026-10-22T12:28:36.924168374Z",
+  "workItemId": "WI-1100-review-authority-protocol"
+}
