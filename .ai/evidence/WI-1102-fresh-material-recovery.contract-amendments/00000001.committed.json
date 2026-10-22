@@ -1,0 +1,122 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:05c6282e584831d904196fa0dcf3f5a57a3155106d3a2d7ff038a4b66567a415",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1102-fresh-material-recovery",
+    "sequence": 1,
+    "changeId": "legacy-dc48c2ebde47bf971b876ffdd9c060afd3eceb865646997103b4965de21ba845",
+    "requestDigest": "sha256:12d60bffd8088100f2fc19478beb1c96f092d857d016f36c98fe315169e38d62",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:dc48c2ebde47bf971b876ffdd9c060afd3eceb865646997103b4965de21ba845",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+          "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+          "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+          "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale",
+          "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+          "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale",
+          "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+          "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale",
+          "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6",
+          "readonly-current-main-trace:lifecycle.verification_attempt_matches requires exact currentRuntime/snapshot/newdescriptors;execution_context EvidenceContext.environment_digest includes runtime_digest,so old3342 native/cache is not current;no additionalproductionpath provednecessary"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+          "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale",
+          "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6",
+          "readonly-current-main-trace:lifecycle.verification_attempt_matches requires exact currentRuntime/snapshot/newdescriptors;execution_context EvidenceContext.environment_digest includes runtime_digest,so old3342 native/cache is not current;no additionalproductionpath provednecessary"
+        ],
+        "newValue": [
+          "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+          "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+          "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale",
+          "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6",
+          "readonly-current-main-trace:lifecycle.verification_attempt_matches requires exact currentRuntime/snapshot/newdescriptors;execution_context EvidenceContext.environment_digest includes runtime_digest,so old3342 native/cache is not current;no additionalproductionpath provednecessary",
+          "actual-main:1330ef839f24f2e6bc24754a043f7950b7b3358e;PR1060normallymerged;actualmainCI39782889342stillinprogress atpreparation,notclaimedpassed"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:ba729ff5baf76cf02051271a128ea5c042a4b1be219a4b0b437f94285a0a9356",
+    "newContractDigest": "sha256:087b738ba01b9e1301fd7b8e1e9f93877bee8b2dba274c48bcf0470800d4bab1",
+    "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+    "environmentObservationDigest": "sha256:3ba5f4527bb805c6d69a2086d3b8e4fc687a54cb5d46fe7c02994fe886d7e7a7",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:9d1dd6cdab2635aa176b9e9e4cbaa80a68c2362ac870c8092cdbca8845a1d06f",
+    "recordedAt": "2026-10-22T13:04:24Z"
+  }
+}
