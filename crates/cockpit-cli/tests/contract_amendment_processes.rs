@@ -394,7 +394,6 @@ fn retained_canonical_fixture_with_producer(
             .args([
                 "--exact",
                 "legacy_descriptor_fixture_child",
-                "--ignored",
                 "--test-threads=1",
             ])
             .env("WI1102_LEGACY_FIXTURE_ROOT", root)
@@ -490,7 +489,6 @@ fn retained_canonical_fixture_with_producer(
 }
 
 #[test]
-#[ignore = "subprocess fixture producer, invoked with an isolated explicit root"]
 fn legacy_descriptor_fixture_child() {
     use cockpit_repository::{
         RepositoryVerificationPolicy, RepositoryVerificationRequest, persist_verification_attempt,
@@ -499,9 +497,49 @@ fn legacy_descriptor_fixture_child() {
     use cockpit_verification::{
         VerificationCommand, VerificationPlanReceipt, VerificationReusePolicy,
     };
-    let root = PathBuf::from(
-        std::env::var_os("WI1102_LEGACY_FIXTURE_ROOT").expect("explicit fixture root"),
-    );
+    let Some(root) = std::env::var_os("WI1102_LEGACY_FIXTURE_ROOT") else {
+        // Also run as an ordinary acceptance test. No skipped or empty pass:
+        // its isolated child executes all four commands and this branch
+        // verifies the complete synthetic producer/descriptor model.
+        let fixture =
+            retained_canonical_fixture_with_producer(false, RETAINED_FIXTURE_CHECKS, true);
+        let envelope: Value = serde_json::from_slice(&fixture.old_evidence).expect("old model");
+        assert_eq!(envelope["runtimeVersion"], "1.0.1-rc.2");
+        assert_eq!(envelope["passed"], true);
+        assert_eq!(envelope["receipt"]["nodesExecuted"], 4);
+        assert_eq!(envelope["receipt"]["nodesReused"], 0);
+        assert_eq!(envelope["receipt"]["processesSpawned"], 4);
+        let directory = fixture.directory.path().join(".ai/evidence");
+        let prefix = format!("{WORK_ITEM_ID}.verification-attempt.");
+        let attempts = fs::read_dir(directory)
+            .expect("native attempts")
+            .filter_map(|entry| {
+                let path = entry.expect("entry").path();
+                path.file_name()
+                    .and_then(|n| n.to_str())
+                    .is_some_and(|n| n.starts_with(&prefix) && n.ends_with(".json"))
+                    .then(|| {
+                        serde_json::from_slice::<Value>(&fs::read(path).expect("attempt bytes"))
+                            .expect("native JSON")
+                    })
+            })
+            .filter(|v| v["state"] == "execution_completed")
+            .collect::<Vec<_>>();
+        assert_eq!(attempts.len(), 1);
+        assert_eq!(attempts[0]["receipt"], envelope["receipt"]);
+        for command in attempts[0]["commands"].as_array().expect("commands") {
+            let record = envelope["receipt"]["executionRecords"]
+                .as_array()
+                .expect("records")
+                .iter()
+                .find(|r| r["nodeId"] == command["nodeId"])
+                .expect("same node");
+            assert_ne!(command["commandDigest"], record["commandDigest"]);
+            assert_eq!(command["timeoutSeconds"], record["timeoutSeconds"]);
+        }
+        return;
+    };
+    let root = PathBuf::from(root);
     let old = RuntimeContext {
         protocol_version: PROTOCOL_VERSION,
         runtime_version: "1.0.1-rc.2".into(),
