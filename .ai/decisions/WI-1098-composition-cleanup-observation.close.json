@@ -1,0 +1,199 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2427c3d30f0323e1058965cd76eb2325f9814d25bb95e8e15d46a150eb2f2509",
+      "workItemId": "WI-1098-composition-cleanup-observation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1098-composition-cleanup-observation.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification-attempt.8badecd83d12cd9adbd90364c11dd36670abb65cebb0358aaa60eb8f432c043b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification-attempt.f446a85fc56a7c18335fb5c3cea7734f63494cea83bf2cfe65c0465206e5035c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1098-composition-cleanup-observation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1098-composition-cleanup-observation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1098-composition-cleanup-observation.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via actual-user-message:Sentinel_eb314744bef88191b7ecf0be20843161; request-message:Sentinel_21ccd91790708191bd59e0c3f5e4d972; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted at 2026-10-22T05:47:48.714351+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1098-composition-cleanup-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "Establish fixed-input evidence for the PR1054 MCP cleanup_deferred failure, then apply and review the smallest proven composition-observation or test-isolation correction in an independent work item"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1098-composition-cleanup-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T05:47:49.462927140Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1098-composition-cleanup-observation"
+    },
+    "workItemId": "WI-1098-composition-cleanup-observation"
+  },
+  "finalReportDigest": "sha256:b3b05bb36024935f28c6810cee6b882b2d78fc878ff82b80978fdad26a02b850",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-22T05:47:49.462898037Z",
+  "recordedAt": "2026-10-22T05:47:49.462898037Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:9eb2abc5699c59215f672ccf6c7c44dd80853cab84c3fae4e6cec6c641cb36da",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1098-composition-cleanup-observation.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "actual-user-message:Sentinel_eb314744bef88191b7ecf0be20843161; request-message:Sentinel_21ccd91790708191bd59e0c3f5e4d972; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted",
+    "decidedAt": "2026-10-22T05:47:48.714351+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1098-composition-cleanup-observation.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Actual user replied: 确认按上述绑定关闭 WI-1098，confirmed。 The user request explicitly bound WI-1098-composition-cleanup-observation to finalization sequence0 and sha256:9eb2abc5699c59215f672ccf6c7c44dd80853cab84c3fae4e6cec6c641cb36da. Immediately rechecked by official pinned Runtime finalize-verify: verified/deleted, same sequence/digest and raw receipt bytes. User source time is provided only at minute granularity2026-10-22 05:45UTC; no exact service seconds are asserted. decidedAt is this agent actual current recording time, not a backdated user timestamp. This is the actual separate close selection, transcribed by the agent; it is not a GitHub human Review, independent identity attestation, residual-risk acceptance, or reuse of merge/filter approval. Original CI process relationship remains unknown; scanner limitations, existing WI1096P3 and unmeasured user-visible benefit are preserved.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-22T05:47:49Z",
+  "usageCutoff": "2026-10-22T05:47:49.462927140Z",
+  "workItemId": "WI-1098-composition-cleanup-observation"
+}
