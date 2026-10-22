@@ -1579,6 +1579,8 @@ pub fn record_historical_finalization_recovery(
         // The lifecycle lock protects repository records, not this external
         // input path. Classify and publish the same bounded byte snapshot.
         let input_bytes = super::legacy_closeout_source::read_input_bytes(input_path)?;
+        #[cfg(test)]
+        input_capture_tests::after_capture();
         if let Ok(candidate) = parse_resource_finalization_receipt(input_path, &input_bytes)
             && matches!(
                 candidate.historical.as_ref().map(|value| &value.kind),

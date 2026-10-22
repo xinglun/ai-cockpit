@@ -9,19 +9,28 @@ use crate::{
     run_repository_verification, start_work_item_with_options,
 };
 use serde_json::Value;
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
+use std::rc::Rc;
 
 const ID: &str = "WI-INPUT-CAPTURE";
 
-thread_local! {
-    static AFTER_CLASSIFICATION: RefCell<Option<Box<dyn FnOnce()>>> = RefCell::new(None);
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum CapturePoint {
+    Captured,
+    Classified,
 }
 
-struct RestoreHook(Option<Box<dyn FnOnce()>>);
+type InputHook = (CapturePoint, Box<dyn FnOnce()>);
+
+thread_local! {
+    static INPUT_HOOK: RefCell<Option<InputHook>> = RefCell::new(None);
+}
+
+struct RestoreHook(Option<InputHook>);
 
 impl Drop for RestoreHook {
     fn drop(&mut self) {
-        AFTER_CLASSIFICATION.with(|slot| *slot.borrow_mut() = self.0.take());
+        INPUT_HOOK.with(|slot| *slot.borrow_mut() = self.0.take());
     }
 }
 
@@ -29,14 +38,40 @@ fn with_classification_hook<T>(
     callback: impl FnOnce() + 'static,
     operation: impl FnOnce() -> T,
 ) -> T {
-    let previous = AFTER_CLASSIFICATION.with(|slot| slot.borrow_mut().replace(Box::new(callback)));
+    with_hook(CapturePoint::Classified, callback, operation)
+}
+
+fn with_hook<T>(
+    point: CapturePoint,
+    callback: impl FnOnce() + 'static,
+    operation: impl FnOnce() -> T,
+) -> T {
+    let previous = INPUT_HOOK.with(|slot| slot.borrow_mut().replace((point, Box::new(callback))));
     let _restore = RestoreHook(previous);
     operation()
 }
 
 pub(super) fn after_classification() {
-    let callback = AFTER_CLASSIFICATION.with(|slot| slot.borrow_mut().take());
-    if let Some(callback) = callback {
+    hit(CapturePoint::Classified);
+}
+
+pub(super) fn after_capture() {
+    hit(CapturePoint::Captured);
+}
+
+fn hit(point: CapturePoint) {
+    let callback = INPUT_HOOK.with(|slot| {
+        let mut slot = slot.borrow_mut();
+        if slot
+            .as_ref()
+            .is_some_and(|(expected, _)| *expected == point)
+        {
+            slot.take()
+        } else {
+            None
+        }
+    });
+    if let Some((_, callback)) = callback {
         callback();
     }
 }
@@ -249,4 +284,245 @@ fn first_direct_recovery_preserves_classified_input_when_path_is_replaced() {
         persisted, original,
         "the public recovery must publish the exact classified A, not reopen the external path for B"
     );
+}
+
+#[test]
+fn invalid_captured_input_cannot_be_replaced_with_a_valid_receipt() {
+    let (directory, _context, _contract, _base, _head, merge_commit) = direct_merge_repository();
+    let valid = direct_receipt(&directory, &merge_commit);
+    let input = write_input(&directory, "invalid-to-valid.json", &Value::Null);
+    prepare_resource_finalization(directory.path(), ID, &valid, &input, &runtime()).unwrap();
+    let path = input.clone();
+    let replacement = serde_json::to_vec_pretty(&valid).unwrap();
+    let called = Rc::new(Cell::new(false));
+    let observed = called.clone();
+    let error = with_hook(
+        CapturePoint::Captured,
+        move || {
+            observed.set(true);
+            fs::write(path, replacement).unwrap();
+        },
+        || record_historical_finalization_recovery(directory.path(), ID, &input, &runtime()),
+    )
+    .unwrap_err();
+    assert!(called.get(), "the real read must occur before replacement");
+    assert!(
+        error
+            .to_string()
+            .contains("requires an existing predecessor")
+    );
+    assert!(!resource_finalization_decision_path(directory.path(), ID).exists());
+}
+
+#[test]
+fn captured_direct_receipt_survives_input_path_deletion() {
+    let (directory, _context, _contract, _base, _head, merge_commit) = direct_merge_repository();
+    let original = direct_receipt(&directory, &merge_commit);
+    let input = write_input(&directory, "delete-after-classification.json", &original);
+    let path = input.clone();
+    let result = with_classification_hook(
+        move || fs::remove_file(path).unwrap(),
+        || record_historical_finalization_recovery(directory.path(), ID, &input, &runtime()),
+    )
+    .unwrap();
+    assert_eq!(result["state"], "recorded");
+    assert!(!input.exists());
+    let persisted: Value = serde_json::from_slice(
+        &fs::read(resource_finalization_decision_path(directory.path(), ID)).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(persisted, original);
+}
+
+fn assert_classification_rejected(directory: &tempfile::TempDir, input: &Path, bytes: &[u8]) {
+    fs::write(input, bytes).unwrap();
+    let error = record_historical_finalization_recovery(directory.path(), ID, input, &runtime())
+        .unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("requires an existing predecessor")
+    );
+    assert!(!resource_finalization_decision_path(directory.path(), ID).exists());
+}
+
+#[test]
+fn strict_classification_rejects_duplicate_keys_unknown_fields_and_malformed_json() {
+    let (directory, _context, _contract, _base, _head, merge_commit) = direct_merge_repository();
+    let original = direct_receipt(&directory, &merge_commit);
+    let input = write_input(&directory, "strict-input.json", &original);
+    let bytes = serde_json::to_vec(&original).unwrap();
+    let mut duplicate = b"{\"actor\":\"duplicate\",".to_vec();
+    duplicate.extend_from_slice(&bytes[1..]);
+    assert_classification_rejected(&directory, &input, &duplicate);
+    let mut unknown = original;
+    unknown["unexpectedInputField"] = true.into();
+    assert_classification_rejected(&directory, &input, &serde_json::to_vec(&unknown).unwrap());
+    assert_classification_rejected(&directory, &input, b"{\"historical\":");
+}
+
+#[test]
+fn first_input_read_preserves_the_eight_mib_budget_and_specific_error() {
+    let (directory, _context, _contract, _base, _head, merge_commit) = direct_merge_repository();
+    let original = direct_receipt(&directory, &merge_commit);
+    let input = write_input(&directory, "bounded-input.json", &original);
+    let mut bytes = serde_json::to_vec(&original).unwrap();
+    bytes.resize(8 * 1024 * 1024 + 1, b' ');
+    fs::write(&input, &bytes).unwrap();
+    let error = record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+        .unwrap_err();
+    assert!(error.to_string().contains("record_budget_exceeded"));
+    assert!(!resource_finalization_decision_path(directory.path(), ID).exists());
+    bytes.pop();
+    fs::write(&input, bytes).unwrap();
+    let result = record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+        .expect("exactly the existing 8 MiB reader budget remains admissible");
+    assert_eq!(result["state"], "recorded");
+}
+
+#[test]
+fn missing_and_directory_inputs_preserve_reader_errors() {
+    let (directory, _context, _contract, _base, _head, _merge_commit) = direct_merge_repository();
+    let input = directory.path().join("missing.json");
+    let missing = record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+        .unwrap_err();
+    assert!(matches!(missing, ObserverError::Read { .. }));
+    fs::create_dir(&input).unwrap();
+    let nonregular =
+        record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+            .unwrap_err();
+    assert!(
+        !nonregular
+            .to_string()
+            .contains("requires an existing predecessor")
+    );
+    assert!(!resource_finalization_decision_path(directory.path(), ID).exists());
+}
+
+#[cfg(unix)]
+#[test]
+fn first_recovery_rejects_leaf_symlinks_without_following_them() {
+    let (directory, _context, _contract, _base, _head, merge_commit) = direct_merge_repository();
+    let original = direct_receipt(&directory, &merge_commit);
+    let target = write_input(&directory, "symlink-target.json", &original);
+    let original_bytes = fs::read(&target).unwrap();
+    let input = target.with_file_name("symlink-input.json");
+    std::os::unix::fs::symlink(&target, &input).unwrap();
+    let error = record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+        .unwrap_err();
+    assert!(matches!(error, ObserverError::Read { .. }));
+    assert_eq!(fs::read(&target).unwrap(), original_bytes);
+    assert!(!resource_finalization_decision_path(directory.path(), ID).exists());
+}
+
+#[test]
+fn captured_input_still_requires_current_identity_and_git_bindings() {
+    let (directory, _context, _contract, _base, _head, merge_commit) = direct_merge_repository();
+    let original = direct_receipt(&directory, &merge_commit);
+    let input = write_input(&directory, "identity-input.json", &original);
+    let mut cases = Vec::new();
+    for field in [
+        "repositoryId",
+        "workItemId",
+        "contractDigest",
+        "runtimeDigest",
+    ] {
+        let mut invalid = original.clone();
+        invalid[field] = if field.ends_with("Digest") || field == "repositoryId" {
+            Digest::sha256_bytes(b"foreign identity").to_string().into()
+        } else {
+            "WI-FOREIGN".into()
+        };
+        cases.push(invalid);
+    }
+    let mut invalid_parents = original.clone();
+    invalid_parents["historical"]["mergeParents"]
+        .as_array_mut()
+        .unwrap()
+        .reverse();
+    cases.push(invalid_parents);
+    let mut invalid_base = original;
+    invalid_base["historical"]["contractBaseRevision"] = "foreign-base".into();
+    cases.push(invalid_base);
+    for invalid in cases {
+        fs::write(&input, serde_json::to_vec(&invalid).unwrap()).unwrap();
+        let error =
+            record_historical_finalization_recovery(directory.path(), ID, &input, &runtime())
+                .unwrap_err();
+        assert!(
+            !error
+                .to_string()
+                .contains("requires an existing predecessor"),
+            "well-shaped direct input must reach the existing binding validation: {error}"
+        );
+        assert!(!resource_finalization_decision_path(directory.path(), ID).exists());
+    }
+}
+
+#[test]
+fn bytes_writer_rejects_the_wrong_guard_before_parsing_input() {
+    let directory = tempfile::tempdir().unwrap();
+    git(&directory, &["init", "-q"]);
+    attach(directory.path()).unwrap();
+    let root = directory.path().canonicalize().unwrap();
+    let guard = acquire_lifecycle_lock(&root, "WI-LOCK-OWNER").unwrap();
+    let error = record_resource_finalization_bytes_locked(
+        &root,
+        ID,
+        &root.join("missing-input.json"),
+        b"not JSON",
+        &runtime(),
+        &guard,
+    )
+    .unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("lifecycle_lock_subject_mismatch")
+    );
+}
+
+#[test]
+fn ordinary_finalize_replay_preserves_the_first_canonical_bytes() {
+    let (directory, _context, _contract, _base, _head, merge_commit) = direct_merge_repository();
+    let original = direct_receipt(&directory, &merge_commit);
+    let input = write_input(&directory, "ordinary-replay.json", &original);
+    let result =
+        record_historical_finalization_recovery(directory.path(), ID, &input, &runtime()).unwrap();
+    assert_eq!(result["state"], "recorded");
+    let destination = resource_finalization_decision_path(directory.path(), ID);
+    let frozen = fs::read(&destination).unwrap();
+    fs::write(&input, serde_json::to_vec(&original).unwrap()).unwrap();
+    let replay = record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
+    assert_eq!(replay["state"], "idempotent");
+    assert_eq!(fs::read(destination).unwrap(), frozen);
+}
+
+#[test]
+fn private_hook_is_one_shot_and_restores_its_predecessor_on_unwind() {
+    let count = Rc::new(Cell::new(0));
+    let outer = count.clone();
+    with_classification_hook(
+        move || outer.set(outer.get() + 1),
+        || {
+            let inner = count.clone();
+            let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                with_classification_hook(
+                    move || inner.set(inner.get() + 10),
+                    || {
+                        after_classification();
+                        after_classification();
+                        panic!("exercise callback state restoration");
+                    },
+                );
+            }));
+            assert!(result.is_err());
+            assert_eq!(count.get(), 10);
+            after_classification();
+            after_classification();
+            assert_eq!(count.get(), 11);
+        },
+    );
+    after_classification();
+    assert_eq!(count.get(), 11);
 }
