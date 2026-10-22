@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c821a91e1ca63db69da99e391d016cc8453ba5b6ee4a61a2728c63d74f7b1451",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "reason": "Actual user response: 确认 WI-1099 上述当前 main 修复计划、场景声明及绑定，confirm_review。 Source user message Sentinel_a606a9a0b2cc8191a126797cb15168bb, responding to Sentinel_4a89a0d130648191af45f4d4ab474ef3, relayed by trusted parent thread 01a1576c-b0ab-7723-ad8e-95924e80102a. Reported user time 2026-10-22 07:38 UTC has minute precision only, not asserted as exact service timestamp; recordedAt is actual present recording time. Exact HEAD 3aa3dfce4be3bb93f10741a7882e95e79d6f2a18, Contract, preflight and snapshot rechecked unchanged. This decision covers this current-main bounded two-file repair plan and six unverified scenario declarations, not any other WI, test pass, external B activation, GitHub Review, merge, risk acceptance or source verification.",
+  "recordedAt": "2026-10-22T07:39:42.423680+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_a606a9a0b2cc8191a126797cb15168bb; no independent external identity verification asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2427c3d30f0323e1058965cd76eb2325f9814d25bb95e8e15d46a150eb2f2509",
+  "schemaVersion": 1,
+  "workItemId": "WI-1099-captured-historical-recovery-input"
+}

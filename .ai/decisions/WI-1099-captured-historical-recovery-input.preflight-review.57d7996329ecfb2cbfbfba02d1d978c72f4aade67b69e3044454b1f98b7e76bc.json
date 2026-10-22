@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:baf093f23ba69da214156c5e8023ac99f21783e4f2a74d248932b75f90d7efa0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e5f561e60854248c51ec432cf1ea3231d04a055e50950dc7106477f408f29263",
+  "reason": "Actual user response: 确认 WI-1099 上述限定发布范围修订及绑定，confirm_review。 Actual user message Sentinel_18ecad11e460819199e89fab90c748d7 responds to Sentinel_1aa051b788888191aa47c51ac55e6002, relayed by trusted parent thread01a1576c-b0ab-7723-ad8e-95924e80102a. Reported time2026-10-22 08:20 UTC has minute precision only; recordedAt is actual present recording time. Exact source e356a46d9ab6079b4ddc12629c4b7783bce74ebe, current baf093f2 Contract, e5f561e6 preflight and79722d35 snapshot rechecked unchanged. Only independent branch push, one draft PR, reviewed native governance records and exact-final-HEAD actual required CI are covered. No merge, GitHub human Review, close, residual-risk acceptance or fabricated passing evidence is granted.",
+  "recordedAt": "2026-10-22T08:22:08.276889+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_18ecad11e460819199e89fab90c748d7; no independent external identity verification asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+  "schemaVersion": 1,
+  "workItemId": "WI-1099-captured-historical-recovery-input"
+}
