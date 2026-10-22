@@ -1716,7 +1716,8 @@ fn work_item_status_snapshot_with_snapshot(
     // amendment. Admit only the two evidence-collection steps that can
     // resolve this exact interlock. The red Outcome, its blocker, and all
     // historical records remain in place until a real verification succeeds.
-    let blocked_outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let blocked_outcome_path =
+        ::std::path::Path::join(active.as_path(), format!("{work_item_id}.outcome.json"));
     let blocked_outcome_matches = is_regular_non_symlink(&blocked_outcome_path)
         .is_ok_and(|regular| regular)
         && read_json(&blocked_outcome_path)

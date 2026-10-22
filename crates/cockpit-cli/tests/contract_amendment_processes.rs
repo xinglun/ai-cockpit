@@ -268,8 +268,22 @@ fn retained_canonical_fixture_with_producer(
     checks: [&str; 4],
     legacy_descriptor_model: bool,
 ) -> RetainedCanonicalFixture {
+    retained_canonical_fixture_with_fault_budget(
+        change_source,
+        checks,
+        legacy_descriptor_model,
+        false,
+    )
+}
+
+fn retained_canonical_fixture_with_fault_budget(
+    change_source: bool,
+    checks: [&str; 4],
+    legacy_descriptor_model: bool,
+    fault_budget: bool,
+) -> RetainedCanonicalFixture {
     let directory = tempfile::tempdir().expect("retained fixture");
-    let root = directory.path();
+    let root: &::std::path::Path = directory.path();
     git(root, &["init", "-q", "--initial-branch=main"]);
     git(root, &["config", "user.name", "Retained Fixture"]);
     git(root, &["config", "user.email", "fixture@example.invalid"]);
@@ -301,6 +315,33 @@ fn retained_canonical_fixture_with_producer(
     git(root, &["add", "."]);
     git(root, &["commit", "-qm", "fixture source baseline"]);
     assert_success(&retained_cli(root, &["attach"]), "attach retained fixture");
+    if fault_budget {
+        // Isolated fixture policy only, established before any bound input.
+        // The real Work Item and the shared Runtime retain their own policy.
+        fs::write(
+            root.join(".ai/policy.json"),
+            serde_json::to_vec_pretty(&::serde_json::json!({
+                "schemaVersion": 1,
+                "project": {
+                    "policyId": "isolated-fault-budget", "layer": "project",
+                    "rules": [{
+                        "operation": "modify_source",
+                        "approvalMode": "no_human_approval_for_low_risk",
+                        "requiredEvidence": [],
+                        "verificationRequirement": {
+                            "schemaVersion": 1, "requiredTier": "T0",
+                            "requiredAssurance": "self_declared",
+                            "policyRefs": ["isolated-fault-budget"],
+                            "stageRefs": ["task"], "gateRefs": [],
+                            "reason": "Bound one isolated negative command", "maxTimeoutSeconds": 1
+                        }
+                    }]
+                }
+            }))
+            .expect("isolated policy JSON"),
+        )
+        .expect("isolated finite budget before all fixture bindings");
+    }
     if legacy_descriptor_model {
         for command in RETAINED_FIXTURE_CHECKS {
             let mut words = command.split_whitespace();
@@ -311,7 +352,7 @@ fn retained_canonical_fixture_with_producer(
             assert_eq!(profile.state, "calibrated");
         }
     }
-    let mut start = vec![
+    let mut start = Vec::from([
         "start",
         "--id",
         WORK_ITEM_ID,
@@ -329,7 +370,7 @@ fn retained_canonical_fixture_with_producer(
         "All four checks execute and history remains intact",
         "--required-evidence",
         "verification_receipt",
-    ];
+    ]);
     for path in [
         "README.md",
         "Cargo.toml",
@@ -343,7 +384,7 @@ fn retained_canonical_fixture_with_producer(
         start.extend(["--verification", command]);
     }
     assert_success(&retained_cli(root, &start), "start retained fixture");
-    let mut scenario = json!({
+    let mut scenario = ::serde_json::json!({
         "scenario": "old fixture four-check cycle", "required": true,
         "status": "unverified", "evidence": [],
         "expected": "The old cycle executes every declared fixture check.",
@@ -507,6 +548,22 @@ fn legacy_descriptor_fixture_child() {
     use cockpit_verification::{
         VerificationCommand, VerificationPlanReceipt, VerificationReusePolicy,
     };
+    if let Ok(mode) = std::env::var("WI1102_FAULT_MODE") {
+        let marker = std::env::var_os("WI1102_FAULT_MARKER").expect("owned fixture marker");
+        fs::write(marker, b"controlled fault command actually started\n").expect("started marker");
+        match mode.as_str() {
+            "timeout" => std::thread::sleep(std::time::Duration::from_secs(5)),
+            #[cfg(unix)]
+            "signal" => {
+                Command::new("kill")
+                    .args(["-TERM", &std::process::id().to_string()])
+                    .status()
+                    .expect("terminate only this controlled verification child");
+            }
+            _ => panic!("unsupported controlled fault mode"),
+        }
+        panic!("controlled negative command must never report success");
+    }
     let Some(root) = std::env::var_os("WI1102_LEGACY_FIXTURE_ROOT") else {
         // Also run as an ordinary acceptance test. No skipped or empty pass:
         // its isolated child executes all four commands and this branch
@@ -519,7 +576,7 @@ fn legacy_descriptor_fixture_child() {
         assert_eq!(envelope["receipt"]["nodesExecuted"], 4);
         assert_eq!(envelope["receipt"]["nodesReused"], 0);
         assert_eq!(envelope["receipt"]["processesSpawned"], 4);
-        let directory = fixture.directory.path().join(".ai/evidence");
+        let directory = ::std::path::Path::join(fixture.directory.path(), ".ai/evidence");
         let prefix = format!("{WORK_ITEM_ID}.verification-attempt.");
         let attempts = fs::read_dir(directory)
             .expect("native attempts")
@@ -549,7 +606,7 @@ fn legacy_descriptor_fixture_child() {
         }
         return;
     };
-    let root = PathBuf::from(root);
+    let root: ::std::path::PathBuf = PathBuf::from(root);
     let old = RuntimeContext {
         protocol_version: PROTOCOL_VERSION,
         runtime_version: "1.0.1-rc.2".into(),
@@ -1152,8 +1209,171 @@ fn legacy_descriptor_gap_failure_keeps_old_bytes_and_exact_retry_executes_fresh(
     assert_retained_real_failure_and_retry(fixture);
 }
 
+#[test]
+fn legacy_descriptor_gap_actual_timeout_preserves_failed_attempt_and_exact_retry() {
+    assert_retained_fault_attempt_and_retry("timeout");
+}
+
+#[cfg(unix)]
+#[test]
+fn legacy_descriptor_gap_actual_signal_preserves_failed_attempt_and_exact_retry() {
+    assert_retained_fault_attempt_and_retry("signal");
+}
+
+fn assert_retained_fault_attempt_and_retry(mode: &str) {
+    let fixture =
+        retained_canonical_fixture_with_fault_budget(false, RETAINED_FIXTURE_CHECKS, true, true);
+    let root: &::std::path::Path = fixture.directory.path();
+    assert_success(
+        &retained_record_material(root, &retained_material_input(root)),
+        "current material review before the controlled fault",
+    );
+    let executable = std::env::current_exe().expect("owned test command");
+    let marker = root.join(".ai/fixture-fault-started");
+    // This extra negative command is not called the four declared checks.
+    // Only their later actual execution can satisfy the acceptance plan.
+    let failed = retained_command(
+        root,
+        &[
+            "verify",
+            "--work-item",
+            WORK_ITEM_ID,
+            "--workers",
+            "1",
+            "--command",
+            executable.to_str().expect("owned command path"),
+            "--args=--exact,legacy_descriptor_fixture_child,--test-threads=1",
+            "--timeout-seconds",
+            "1",
+        ],
+    )
+    .env("WI1102_FAULT_MODE", mode)
+    .env("WI1102_FAULT_MARKER", &marker)
+    .output()
+    .expect("actual bounded fault verification");
+    assert!(!failed.status.success());
+    let receipt: Value = serde_json::from_slice(&failed.stdout).expect("actual failed output");
+    assert_eq!(receipt["passed"], false, "{receipt}");
+    assert_eq!(receipt["processesSpawned"], 1, "{receipt}");
+    assert_eq!(receipt["nodesReused"], 0);
+    assert_eq!(receipt["receiptCandidates"], ::serde_json::json!([]));
+    assert!(
+        marker.is_file(),
+        "the fault command, not merely its plan, ran"
+    );
+    let record = &receipt["executionRecords"][0];
+    assert_eq!(record["timeoutSeconds"], 1);
+    assert_eq!(record["timedOut"], mode == "timeout");
+    if mode == "signal" {
+        assert_eq!(record["terminationSignal"], 15);
+    }
+    assert_eq!(record["exitCode"], Value::Null);
+    let evidence = root.join(".ai/evidence");
+    let prefix = format!("{WORK_ITEM_ID}.verification-attempt.");
+    let failed_attempts = fs::read_dir(&evidence)
+        .expect("native attempts")
+        .filter_map(|entry| {
+            let path = entry.expect("entry").path();
+            if !path
+                .file_name()
+                .and_then(|n| n.to_str())
+                .is_some_and(|n| n.starts_with(&prefix) && n.ends_with(".json"))
+            {
+                return None;
+            }
+            let bytes = fs::read(&path).expect("attempt bytes");
+            let value: Value = serde_json::from_slice(&bytes).expect("native attempt");
+            (value["state"] == "execution_failed" && value["receipt"]["passed"] == false)
+                .then_some((path, bytes, value))
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(failed_attempts.len(), 1);
+    let mut strict_receipt = receipt.clone();
+    for projection_field in ["plannedNodes", "diagnosticSummary"] {
+        strict_receipt
+            .as_object_mut()
+            .expect("receipt object")
+            .remove(projection_field)
+            .expect("documented CLI projection field");
+    }
+    strict_receipt["workItemId"] = ::serde_json::json!(WORK_ITEM_ID);
+    assert_eq!(failed_attempts[0].2["receipt"], strict_receipt);
+    assert_eq!(
+        failed_attempts[0].2["runtimeDigest"],
+        ::serde_json::json!(candidate_runtime().runtime_digest)
+    );
+    let canonical = root.join(format!(".ai/evidence/{WORK_ITEM_ID}.verification.json"));
+    assert_eq!(
+        fs::read(&canonical).expect("old canonical"),
+        fixture.old_evidence
+    );
+    assert!(
+        !retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"])
+            .status
+            .success()
+    );
+    let contract = retained_document(root, "contract");
+    let summary = retained_document(root, "summary");
+    let outcome = retained_document(root, "outcome");
+    let events = fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.events.jsonl")))
+        .expect("actual failure history");
+    let runtime = candidate_runtime();
+    record_recovery_decision(root, WORK_ITEM_ID, &::serde_json::json!({
+        "schemaVersion": 1, "decisionId": "work-item-recovery", "decision": "retry",
+        "workItemId": WORK_ITEM_ID, "repositoryId": repository_id(root),
+        "predecessorWorkItemId": WORK_ITEM_ID,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(&events),
+        "runtimeVersion": runtime.runtime_version, "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:isolated-fixture", "authoritySource": "test-fixture:actual-fault",
+        "reason": "Retry after the actual controlled timeout or signal; no old proof promotion.",
+        "decidedAt": "2026-10-19T00:00:00Z", "resumeCondition": "Run all four declared checks"
+    }), &runtime).expect("supported exact retry against actual failure");
+    assert_success(
+        &retained_cli(
+            root,
+            &["verify", "--work-item", WORK_ITEM_ID, "--workers", "1"],
+        ),
+        "actual four declared checks after the fault",
+    );
+    let current: Value = serde_json::from_slice(&fs::read(&canonical).expect("new canonical"))
+        .expect("new current envelope");
+    assert_eq!(current["passed"], true);
+    assert_eq!(
+        current["runtimeDigest"],
+        ::serde_json::json!(runtime.runtime_digest)
+    );
+    assert_eq!(current["receipt"]["nodesExecuted"], 4);
+    assert_eq!(current["receipt"]["processesSpawned"], 4);
+    assert_eq!(current["receipt"]["nodesReused"], 0);
+    assert_eq!(
+        fs::read(&failed_attempts[0].0).expect("preserved actual failure"),
+        failed_attempts[0].1
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-old-cycle.json"))
+            .expect("original history"),
+        fixture.old_evidence
+    );
+    assert_eq!(
+        fs::read(root.join(".ai/evidence/fixture-preserved-blocked-outcome.json"))
+            .expect("original Outcome"),
+        fixture.old_outcome
+    );
+    assert_success(
+        &retained_cli(root, &["finish", "--id", WORK_ITEM_ID, "--json"]),
+        "finish only after four actual passes",
+    );
+    assert_success(
+        &retained_cli(root, &["archive", "--id", WORK_ITEM_ID, "--json"]),
+        "archive only after actual finish",
+    );
+}
+
 fn assert_retained_real_failure_and_retry(fixture: RetainedCanonicalFixture) {
-    let root = fixture.directory.path();
+    let root: &::std::path::Path = fixture.directory.path();
     assert_success(
         &retained_record_material(root, &retained_material_input(root)),
         "current material decision before any retry",
@@ -1192,7 +1412,7 @@ fn assert_retained_real_failure_and_retry(fixture: RetainedCanonicalFixture) {
     let events = fs::read(root.join(format!(".ai/work-items/active/{WORK_ITEM_ID}.events.jsonl")))
         .expect("actual native failure events");
     let runtime = candidate_runtime();
-    record_recovery_decision(root, WORK_ITEM_ID, &json!({
+    record_recovery_decision(root, WORK_ITEM_ID, &::serde_json::json!({
         "schemaVersion": 1, "decisionId": "work-item-recovery", "decision": "retry",
         "workItemId": WORK_ITEM_ID, "repositoryId": repository_id(root),
         "predecessorWorkItemId": WORK_ITEM_ID,
@@ -1256,7 +1476,7 @@ fn copy_retained_fixture(source: &RetainedCanonicalFixture) -> RetainedCanonical
 
 fn assert_retained_history_rejection(baseline: &RetainedCanonicalFixture, case: &str) {
     let fixture = copy_retained_fixture(baseline);
-    let root = fixture.directory.path();
+    let root: &::std::path::Path = fixture.directory.path();
     let initial = retained_cli(
         root,
         &["work-item", "status", "--id", WORK_ITEM_ID, "--json"],
@@ -1634,7 +1854,7 @@ fn retained_history_rejects_unbound_command_digest_in_native_nonpartitioned_rece
 
 fn assert_blocked_material_recovery_adapters(record_via_mcp: bool) {
     let directory = repository();
-    let root = directory.path();
+    let root: &::std::path::Path = directory.path();
     let repo = root.to_str().expect("repository path");
     let relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
     let contract_path = root.join(&relative);

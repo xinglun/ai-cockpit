@@ -423,7 +423,7 @@ fn blocked_material_recovery_reports_the_first_current_guard() {
 #[test]
 fn blocked_material_receipt_admits_real_verification_before_clearing_failure() {
     let directory = blocked_material_amendment_fixture();
-    let root = directory.path();
+    let root: &::std::path::Path = directory.path();
     let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
     record_human_preflight_review(root, id);
     let request = cockpit_repository::plan_work_item_material_review(root, id)
