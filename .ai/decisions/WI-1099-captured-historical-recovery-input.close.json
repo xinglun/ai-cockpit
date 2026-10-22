@@ -1,0 +1,262 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:79722d35ef96ae0da9c346f829d929f9a466795a05d0f8eae6f07ed69429735a",
+      "workItemId": "WI-1099-captured-historical-recovery-input"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1099-captured-historical-recovery-input.preflight-review.57d7996329ecfb2cbfbfba02d1d978c72f4aade67b69e3044454b1f98b7e76bc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1099-captured-historical-recovery-input.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.verification-attempt.640c9a6b3f2aced0f24fed2490d10ff2cef89ff5d18a0c18e3939f7b1b5097d8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.verification-attempt.6a06ea4e86cb61c0a42a73d2653d5a3d301b20848c1ddc685bc05a05c9f53df3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1099-captured-historical-recovery-input.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1099-captured-historical-recovery-input.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1099-captured-historical-recovery-input.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1099-captured-historical-recovery-input.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1099-captured-historical-recovery-input.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1099-captured-historical-recovery-input.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via actual-user-message:Sentinel_db8723a4fb688191bdc2ce7a4017b262; request-message:Sentinel_a46e8f194460819187bd9f64087c0b0b; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted at 2026-10-22T09:53:12.431543+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1099-captured-historical-recovery-input.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.contract.json"
+          ],
+          "inference": false,
+          "text": "Capture one bounded original byte snapshot after the existing lifecycle lock so first-record classification and finalization consume the same input; retain strict validation and all historical evidence"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1099-captured-historical-recovery-input.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T09:53:13.596464217Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1099-captured-historical-recovery-input"
+    },
+    "workItemId": "WI-1099-captured-historical-recovery-input"
+  },
+  "finalReportDigest": "sha256:8541d091b6b903fb8be850735977dcd9d982bfaf93c261cd28154141f34ef484",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-22T09:53:13.596429906Z",
+  "recordedAt": "2026-10-22T09:53:13.596429906Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:8d6363306ba3f5537affcecde0bb5b7f5ddf3e45db50ebdd08a64f9e22fd69bb",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1099-captured-historical-recovery-input.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "actual-user-message:Sentinel_db8723a4fb688191bdc2ce7a4017b262; request-message:Sentinel_a46e8f194460819187bd9f64087c0b0b; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted",
+    "decidedAt": "2026-10-22T09:53:12.431543+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1099-captured-historical-recovery-input.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Actual user replied: 确认按上述绑定关闭 WI-1099，confirmed。 The separate request explicitly bound WI-1099-captured-historical-recovery-input to finalization sequence0 and Runtime headDigest sha256:8d6363306ba3f5537affcecde0bb5b7f5ddf3e45db50ebdd08a64f9e22fd69bb. Official pinned Runtime just revalidated the same verified/deleted head and the stored original receipt bytes are unchanged. The user source time is available only at minute granularity2026-10-22 09:51UTC; decidedAt is the actual current recording time, not a backdated user timestamp. This transcribes the actual separate user close decision; it is not a GitHub human Review, independent identity attestation, residual-risk acceptance, or reuse of merge/plan confirmation. Source validation remains e356a46d9ab6079b4ddc12629c4b7783bce74ebe; actual mainb57f32579a2aead08be76db0a9e09884fe27f046 passed fresh main run39753998866. User-visible benefit remains undeclared/unmeasured; historical scanner limitations and prior WI1096 P3 fixed-label coverage gap remain disclosed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-22T09:53:13Z",
+  "usageCutoff": "2026-10-22T09:53:13.596464217Z",
+  "workItemId": "WI-1099-captured-historical-recovery-input"
+}

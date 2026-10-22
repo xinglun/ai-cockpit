@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Actual user authorized conditional ordinary merge and safe recoverable resource finalization in message Sentinel_e2f17f9681908191bf092dcd09e93be3, responding to Sentinel_8acd2a8da62c81919f2cdb22ece236e4, relayed by parent thread01a1576c-b0ab-7723-ad8e-95924e80102a. Actual current official Runtime admitted finalize_resources. This is not human close consent, independent identity attestation or GitHub human Review.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "16df6161d2a5bb5693e2e35ba3774b5046393799",
+    "name": "codex/wi-1099-main-direct-recovery-input",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "3aa3dfce4be3bb93f10741a7882e95e79d6f2a18",
+  "contractDigest": "sha256:5ec383d5b5ff384213a71a26737f67cb42f4f0a44d19cb5b39982005a13295c5",
+  "operationId": "wi1099-approved-exact-source-resource-cleanup-b57f3257",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "3aa3dfce4be3bb93f10741a7882e95e79d6f2a18",
+    "headRevision": "16df6161d2a5bb5693e2e35ba3774b5046393799",
+    "mergeCommit": "b57f32579a2aead08be76db0a9e09884fe27f046",
+    "number": 1057,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1057"
+  },
+  "reason": "Actual PR1057 is merged at approved publication HEAD16df6161d2a5bb5693e2e35ba3774b5046393799 into mainb57f32579a2aead08be76db0a9e09884fe27f046. Source validation remains e356a46d9ab6079b4ddc12629c4b7783bce74ebe; source and all22 changed publication files were byte-identical in main. Fresh exact-main run39753998866 completed successfully with42 gates actually passed,0 reused,14 packages executed and fresh Windows; quality and Windows source/tested revision bindings and artifact digests were checked. Default main was synchronized clean. The exact bound source worktree was clean at PR head before ordinary git worktree remove, git branch -d and git push --delete; all three exited0, and path/Git-management-directory/registration/local-ref/remote-ref absence was read back. Unrelated refs/worktrees and the frozen unaccepted candidate remain unchanged. Recovery bundle51710bytes sha256:4d127f6b95ec4de26c020b2a6dec726cc65eac7c677b7df99d96bbffc8167f0b was independently imported and all22 changed files matched; the0-byte lock and15144-byte ignored cache were externally preserved byte-for-byte. The worktreeId is the ordinary Git identity computed from actual repository ID/path/Git-dir, not a Cloud platform identity claim. Only the exact bound source branch/worktree is finalized; the isolated closeout workspace, recovery repository and evidence directories are intentionally retained. No force/reset/clean/manual Git-dir deletion, global process-absence claim, Runtime replacement, residual-risk acceptance or human close is asserted. Detailed original before/after evidence remains under /workspace/wi1099-captured-historical-recovery-run/approved-normal-cleanup. User-visible benefit remains undeclared and unmeasured; general scanner limitations and the previously disclosed WI1096 P3 fixed-label test gap are not claimed resolved.",
+  "receiptId": "wi1099-normal-finalization-20261022T094436Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1099-main-direct-recovery-input",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1057",
+    "worktree": "/workspace/ai-cockpit-wi1099-main-direct-recovery-input"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-22T09:44:36.947878+00:00",
+  "workItemId": "WI-1099-captured-historical-recovery-input",
+  "worktree": {
+    "branch": "codex/wi-1099-main-direct-recovery-input",
+    "headRevision": "16df6161d2a5bb5693e2e35ba3774b5046393799",
+    "path": "/workspace/ai-cockpit-wi1099-main-direct-recovery-input",
+    "worktreeId": "sha256:49d831151fd150b9eabb0e40f2a02553c0913eb45fbf72e9ee43faa887fc1121"
+  }
+}
