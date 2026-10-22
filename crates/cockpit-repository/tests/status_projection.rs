@@ -421,6 +421,99 @@ fn blocked_material_recovery_reports_the_first_current_guard() {
 }
 
 #[test]
+fn source_change_after_material_review_admits_only_preflight_refresh() {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    record_human_preflight_review(root, id);
+    let request = cockpit_repository::plan_work_item_material_review(root, id)
+        .expect("initial exact material request");
+    let input = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest,
+        "reviewerActor": "agent:fixture-reviewer",
+        "authoritySource": "test-fixture:bounded-review",
+        "assurance": "self_declared",
+        "evidenceRefs": [{"path": "src/material.rs", "digest": request.material_manifest_digest}],
+        "rationale": "Review the exact committed fixture source.",
+        "residualRisk": "The bounded scanner cannot inspect this syntax completely."
+    }))
+    .expect("typed fixture review");
+    cockpit_repository::record_work_item_material_review(root, id, &input, &runtime())
+        .expect("initial current material receipt");
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{id}.contract.json"));
+    let contract_bytes = fs::read(&contract_path).expect("unchanged Contract");
+    let summary_path = active.join(format!("{id}.summary.json"));
+    let summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let old_review = summary["decisionEvidence"].clone();
+    let old_material_path = root.join(
+        summary["materialReviewReceipt"]["path"]
+            .as_str()
+            .expect("sidecar"),
+    );
+    let old_material_bytes = fs::read(&old_material_path).expect("old immutable material receipt");
+    let outcome_path = active.join(format!("{id}.outcome.json"));
+    let old_outcome_bytes = fs::read(&outcome_path).expect("failed Outcome");
+    let before = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("before edit");
+    assert!(
+        before.safe_actions.contains(&"run_verification".into()),
+        "{before:#?}"
+    );
+
+    let source_path = root.join("src/material.rs");
+    let mut source = fs::read_to_string(&source_path).expect("current source");
+    source.push_str("\n// Authorized same-Contract source change after material review.\n");
+    fs::write(&source_path, source).expect("source change");
+    commit_all(
+        root,
+        "commit same-Contract source change after material review",
+    );
+
+    let stale = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("after edit");
+    assert!(
+        stale
+            .unknowns
+            .contains(&"material_review_receipt_stale".into()),
+        "{stale:#?}"
+    );
+    assert!(
+        !stale.human_decision_required,
+        "same-Contract plan review remains valid"
+    );
+    assert_ne!(before.snapshot_digest, stale.snapshot_digest);
+    assert_eq!(fs::read(&contract_path).expect("Contract"), contract_bytes);
+    assert_eq!(
+        fs::read(&old_material_path).expect("old receipt"),
+        old_material_bytes
+    );
+    assert_eq!(
+        fs::read(&outcome_path).expect("old Outcome"),
+        old_outcome_bytes
+    );
+    let current_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    assert_eq!(current_summary["decisionEvidence"], old_review);
+    assert_eq!(current_summary["checkpointCount"], 1);
+    for action in [
+        "record_material_review_decision",
+        "run_verification",
+        "finish",
+    ] {
+        assert!(
+            !stale.safe_actions.contains(&action.into()),
+            "{action}: {stale:#?}"
+        );
+        require_current_action_admission(root, id, action, &runtime())
+            .expect_err("stale bindings cannot authorize material or execution");
+    }
+    require_current_action_admission(root, id, "run_preflight", &runtime())
+        .expect("bounded source-refresh preflight must remain available");
+}
+
+#[test]
 fn blocked_material_receipt_admits_real_verification_before_clearing_failure() {
     let directory = blocked_material_amendment_fixture();
     let root: &::std::path::Path = directory.path();
