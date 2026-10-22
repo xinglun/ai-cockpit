@@ -1,0 +1,367 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:cae95f17d33d9741c979c031170511db9b13f94eb61022230591a9dd8314daac",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1104-material-preflight-refresh",
+    "sequence": 2,
+    "changeId": "declare-initial-six-preflight-refresh-scenarios",
+    "requestDigest": "sha256:7a93af9d76d6df569a0fb734ce1adba31c59f22ab2f727d3f45880c48736f2cc",
+    "reason": "All six scenarios were already declared as initially unverified acceptance criteria in start. The supported CLI/MCP start surface cannot initialize structured scenarioCoverage. Complete only that required high-risk field through the formal amendment API before any checkpoint, dependency import, product edit or test. Scope, acceptance, eight commands, risk and authority remain unchanged.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+            "required": true,
+            "scenario": "renewal-and-four-fresh-checks",
+            "status": "unverified",
+            "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+            "required": true,
+            "scenario": "renewal-and-four-fresh-checks",
+            "status": "unverified",
+            "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+            "required": true,
+            "scenario": "renewal-and-four-fresh-checks",
+            "status": "unverified",
+            "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+          },
+          {
+            "evidence": [],
+            "expected": "Finding or unsupported Unknown or invalid/missing human/identity/amendment/checkpoint/Outcome/native input or conflict or dirty/archived source or red/foreign-Contract preflight denies collection or later action.",
+            "required": true,
+            "scenario": "negative-and-stale-boundaries",
+            "status": "unverified",
+            "verificationPlan": "Add focused per-guard negatives and stale observation/request/source mutations at actual public entry; retain all existing negative assertions."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+            "required": true,
+            "scenario": "renewal-and-four-fresh-checks",
+            "status": "unverified",
+            "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+          },
+          {
+            "evidence": [],
+            "expected": "Finding or unsupported Unknown or invalid/missing human/identity/amendment/checkpoint/Outcome/native input or conflict or dirty/archived source or red/foreign-Contract preflight denies collection or later action.",
+            "required": true,
+            "scenario": "negative-and-stale-boundaries",
+            "status": "unverified",
+            "verificationPlan": "Add focused per-guard negatives and stale observation/request/source mutations at actual public entry; retain all existing negative assertions."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+            "required": true,
+            "scenario": "renewal-and-four-fresh-checks",
+            "status": "unverified",
+            "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+          },
+          {
+            "evidence": [],
+            "expected": "Finding or unsupported Unknown or invalid/missing human/identity/amendment/checkpoint/Outcome/native input or conflict or dirty/archived source or red/foreign-Contract preflight denies collection or later action.",
+            "required": true,
+            "scenario": "negative-and-stale-boundaries",
+            "status": "unverified",
+            "verificationPlan": "Add focused per-guard negatives and stale observation/request/source mutations at actual public entry; retain all existing negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share bounded preflight/material admission. A plan receipt never proves actual execution; prior failed events and old material remain preserved and checkpoint count remains one.",
+            "required": true,
+            "scenario": "adapter-and-history-preservation",
+            "status": "unverified",
+            "verificationPlan": "Exercise supported public CLI/MCP service paths and failed retry/history checks without deleting receipt or repeating checkpoint; preserve actual failure/timeout outputs."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+            "required": true,
+            "scenario": "renewal-and-four-fresh-checks",
+            "status": "unverified",
+            "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+          },
+          {
+            "evidence": [],
+            "expected": "Finding or unsupported Unknown or invalid/missing human/identity/amendment/checkpoint/Outcome/native input or conflict or dirty/archived source or red/foreign-Contract preflight denies collection or later action.",
+            "required": true,
+            "scenario": "negative-and-stale-boundaries",
+            "status": "unverified",
+            "verificationPlan": "Add focused per-guard negatives and stale observation/request/source mutations at actual public entry; retain all existing negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share bounded preflight/material admission. A plan receipt never proves actual execution; prior failed events and old material remain preserved and checkpoint count remains one.",
+            "required": true,
+            "scenario": "adapter-and-history-preservation",
+            "status": "unverified",
+            "verificationPlan": "Exercise supported public CLI/MCP service paths and failed retry/history checks without deleting receipt or repeating checkpoint; preserve actual failure/timeout outputs."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+            "required": true,
+            "scenario": "same-contract-post-review-source-red",
+            "status": "unverified",
+            "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+            "required": true,
+            "scenario": "strict-collection-only-refresh",
+            "status": "unverified",
+            "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+            "required": true,
+            "scenario": "renewal-and-four-fresh-checks",
+            "status": "unverified",
+            "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+          },
+          {
+            "evidence": [],
+            "expected": "Finding or unsupported Unknown or invalid/missing human/identity/amendment/checkpoint/Outcome/native input or conflict or dirty/archived source or red/foreign-Contract preflight denies collection or later action.",
+            "required": true,
+            "scenario": "negative-and-stale-boundaries",
+            "status": "unverified",
+            "verificationPlan": "Add focused per-guard negatives and stale observation/request/source mutations at actual public entry; retain all existing negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share bounded preflight/material admission. A plan receipt never proves actual execution; prior failed events and old material remain preserved and checkpoint count remains one.",
+            "required": true,
+            "scenario": "adapter-and-history-preservation",
+            "status": "unverified",
+            "verificationPlan": "Exercise supported public CLI/MCP service paths and failed retry/history checks without deleting receipt or repeating checkpoint; preserve actual failure/timeout outputs."
+          },
+          {
+            "evidence": [],
+            "expected": "Only five declared business paths plus supported own native records change; the explicit unmerged dependency does not erase current-main fixes. All eight checks and independent review precede applicable conditional delivery.",
+            "required": true,
+            "scenario": "complete-quality-and-conditional-delivery",
+            "status": "unverified",
+            "verificationPlan": "Run the original declared test/check/Clippy/fmt/diff commands with actual counts, exact-HEAD CI if separately published, and fresh owner approval for a changed/new delivery HEAD; no externalB/sharedRuntime change."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:1fdf3ab4f10afcf18dc453d80235b2f090c0f8f7289409943c3766b41f900624",
+    "newContractDigest": "sha256:05e73fc923f86e0f110d868fd1127722062eba640700c663dfbd207320bef99b",
+    "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+    "environmentObservationDigest": "sha256:048cc24d1b4362d8b3c3b601d51bb4f99d0612bd0898d2720ea0e65f7294e8bf",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:4194928e1b4a3390c77f4c350c064ad40a598f4c9ac01ebe89d92700c68938de",
+    "journalDigest": "sha256:fc2eba5e93f43bb4379ac64f392fece5083a8482175a1ab4d1aea5de6cb8cf4d",
+    "recordedAt": "2026-10-22T23:01:46Z"
+  }
+}

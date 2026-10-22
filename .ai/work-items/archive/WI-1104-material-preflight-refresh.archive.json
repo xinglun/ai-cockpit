@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-22T23:42:50Z",
+  "files": {
+    "contractDigest": "sha256:73bb628066a3d65e58aa30b4832eea308fdaf3aca7290d09243ce12b709d9a4e",
+    "contractPath": ".ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json",
+    "eventsDigest": "sha256:82ebebcc0a58f3b63c3c3828d212c78cfaff404aa850e270ed940bf4f8781118",
+    "eventsPath": ".ai/work-items/archive/WI-1104-material-preflight-refresh.events.jsonl",
+    "outcomeDigest": "sha256:8f4a2bb891bea5dfa68123214d4ebdd02911d9375baf094f82be7b1e36d3dcea",
+    "outcomePath": ".ai/work-items/archive/WI-1104-material-preflight-refresh.outcome.json",
+    "summaryDigest": "sha256:479e549334c3877334b548819ff81ce82eb40c5e40d7fcfa45cf76fdb287b02e",
+    "summaryPath": ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json",
+    "taskReportDigest": "sha256:4c94177ccdceb035fb4f8eb737e38fc5ffe3bef0805567b6cd40ac65ab97c76f",
+    "taskReportMarkdownDigest": "sha256:2aeebb7684bce9be35a44b42e02e4437146a9b980faad76b69ada6a069ca0d49",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1104-material-preflight-refresh.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1104-material-preflight-refresh.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-22T23:42:50.961172181Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-22T23:42:50.961172181Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1104-material-preflight-refresh"
+}
