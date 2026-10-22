@@ -1,0 +1,144 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1101-closeout-recovery-preflight.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1101-closeout-recovery-preflight.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1101-closeout-recovery-preflight.verification-attempt.59ad919b99c5012e640e0f5013ca30d18b82357cf5c0753e8db8e3d43fc5b5c1.json",
+    ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json",
+    ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+  ],
+  "checkpointAt": "2026-10-22T12:09:26Z",
+  "checkpointContractDigest": "sha256:1ffd120d59f7caa10180c2e5793637f0b5edd9dd5f8b8ec5bc7ce716be43f57c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+  "createdAt": "2026-10-22T12:09:24Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json",
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "/workspace/wi1101-closeout-recovery-preflight-run/production-path-preexisting-receipt-red.execution.json",
+      "/workspace/wi1101-closeout-recovery-preflight-run/first-formal-failure-summary.json",
+      "/workspace/wi1101-closeout-recovery-preflight-run/verified-eight-command-summary.json",
+      "/workspace/wi1101-closeout-recovery-preflight-run/complete-existing-private-recovery-module.execution.json",
+      "/workspace/wi1101-closeout-recovery-preflight-run/independent-source-review.json",
+      "/workspace/wi1101-closeout-recovery-preflight-run/original-binding-writer-and-close-last-preservation-proof.json"
+    ],
+    "reason": "Exact source bf8250ca2fab4651db9ac9970281268688be3cf1 implements only read-only preflight of existing generated closeout origin/receipt conflicts in the two declared business paths. The shared origin/receipt derivation and original binding predicate are reused by plan and locked execution; immutable installer, strict source inventory/identity/legacy reader checks, locks, execution-time checks, close-last and partial evidence preservation stay intact. Current official pinnedb2 Runtime formal verification under Contract1ffd120d59f7caa10180c2e5793637f0b5edd9dd5f8b8ec5bc7ce716be43f57c ran all8 commands through21 actual nodes,0reuse, all14 workspace package checks and20 actual tests passed (repository8,newprivate4,CLI6,MCP2), Clippy/fmt/diff0. Supplemental complete original private recovery module selected22 tests and passed22 (includes the4newtests also present in formal counts; not42distincttests). Public production-path RED on9a653c98 selected2 and failed2 with cargo101 before implementation, proving ready-plan and payload-before-conflict defects; raw output is retained. First formal f850 run20/21 nodes passed, but a new providerFacts-null mutation was unchanged, so its negative expectation failed; this original failed attempt is preserved. Distinct mutation plus assert_ne corrected the test without relaxing any rejection or original assertion. Independent source agent review bound to this final source reports P0/P1/P2/P3 all0; original tests and production checks are byte-preserved. Both business paths are included in the clean canonical material plan; no hiding by scope exclusion. Existing ordinary destination sidecar reads have no universal size cap; the large-invalid-bytes test proves malformed/unequal-byte rejection, not a new budget or universal TOCTOU guarantee. Known preexisting conflicts are rejected before payload writes; races still fail closed with recoverable partial state. No history retarget/overwrite/deletion, new authorityB or1048 gate change, scanner/assertion/CI change, sharedRuntime replacement or residual-risk acceptance. Source verification is current local evidence only; publication, exactheadCI, newPRmerge authorization, actualmainCI, finalization and trueclose remain future steps. User-visible benefit is undeclared/unmeasured.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-22T12:27:36.740219800Z",
+      "recordedAt": "2026-10-22T12:27:36.740219800Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-22T12:09:24.954005250Z",
+      "recordedAt": "2026-10-22T12:09:24.954005250Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-22T12:25:16Z",
+  "preflightContractDigest": "sha256:1ffd120d59f7caa10180c2e5793637f0b5edd9dd5f8b8ec5bc7ce716be43f57c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-22T12:27:36.740219800Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1101-closeout-recovery-preflight"
+}

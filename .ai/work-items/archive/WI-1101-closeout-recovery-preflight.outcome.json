@@ -1,0 +1,187 @@
+{
+  "acceptanceResults": [
+    "Only the two declared business paths change. Runtime-generated native governance/evidence/resource/finalization/close records for this exact WI are additionally planned outputs through supported commands; never hand-edit generated records or mutate other WorkItems.",
+    "Scenario initially unverified: Existing mismatched v1 and v2 recovery receipts are rejected by public read-only planning and public recovery before any canonical payload or close write; preexisting receipt/source bytes stay unchanged.",
+    "Scenario initially unverified: Malformed, unsafe-parent, symlink, nonregular origin/receipt cases retain existing strict readers, identity and byte bounds, and reject without canonical writes.",
+    "Scenario initially unverified: Exact same-binding v1 and v2 receipts retain legacy compatibility and idempotent replay; createdAt/destination-snapshot compatibility rules remain unchanged and no historical evidence becomes newly verified.",
+    "Scenario initially unverified: Conflicts introduced after preflight remain fail-closed at execution-time rechecks, preserve recoverable partial evidence, and never publish a false close marker; original lifecycle lock and close-last checks remain.",
+    "Scenario initially unverified: Existing repository/WI/sourceSnapshot/Contract/provider/runtime/file/origin binding negatives and chained recovery coverage remain effective; no field is ignored solely because other fields match.",
+    "Scenario initially unverified: Repository public and private recovery tests, CLI and MCP recovery tests, complete workspace consumer compilation, Clippy, format and exact diff pass with actual selected/executed test counts.",
+    "Preserve first RED and any failed raw results; RED must exercise current production recovery path, not only a test-only facade. Reuse official evidence only when Runtime accepts the exact binding; zero selected tests never count as a passed scenario.",
+    "Plan full delivery now: supported start/preflight/checkpoint, TDD/minimal source and native records, independent review, finish/archive, exact isolated branch push and one implementation draftPR, required real finalHEAD CI/review; separately authorized ordinary merge then real mainCI, recoverable exact resource cleanup, official finalize/finalize-verify, separately confirmed true user close and native two-record closeoutPR with its exactCI/review/normal merge only when authorized.",
+    "Conflict diagnostics identify which immutable sidecar binding conflicts and advise preserving both histories and using a matching source or a clean isolated destination; never advise deleting/rewriting a receipt or bypassing a gate. User benefit remains undeclared/unmeasured unless truthfully supplied through a supported process."
+  ],
+  "createdAt": "2026-10-22T12:27:36.740219800Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8aed32b19fcdfa3b998b9e8fc5e37ccbddaec54673545873fba0a4f852aabf6e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+      "workItemId": "WI-1101-closeout-recovery-preflight"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1101-closeout-recovery-preflight.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1101-closeout-recovery-preflight.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1101-closeout-recovery-preflight.verification-attempt.59ad919b99c5012e640e0f5013ca30d18b82357cf5c0753e8db8e3d43fc5b5c1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json"
+          ],
+          "inference": false,
+          "text": "Make plan and recovery reject known generated origin/receipt conflicts before any canonical payload installation, with an actionable preservation path; keep execution-time race checks, lock order, close-last semantics and legacy compatible bindings, then deliver through independent review, exact-head CI and separately authorized normal merge/finalization."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T12:27:36.740219800Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1101-closeout-recovery-preflight"
+    },
+    "workItemId": "WI-1101-closeout-recovery-preflight"
+  },
+  "taskReportDigest": "sha256:3f1f5af35403b7a10f04d4484761e67f4e199efedb11c0412a8ce2bed58c55f3",
+  "taskReportMarkdownDigest": "sha256:dff84f9c14e82e73e25251ff6510bb8aa7a18b7264c58ee6258b86bbbb00f5d6",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1101-closeout-recovery-preflight"
+}
