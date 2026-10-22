@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "User approved overall delivery and safe recoverable normal resource finalization; actual owner merge authority message Sentinel_9dc20566fd4481918a562d8bb14fa3ea relayed by parent thread01a1576c-b0ab-7723-ad8e-95924e80102a; current official Runtime admitted finalize_resources. This is not human close consent or GitHub human Review.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "dfe795422849498ac616ca16096ee065c676a639",
+    "name": "codex/wi-1098-composition-cleanup-observation",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "2ea8a811c550587d4f7f48e9c7c7fd04a1e7bf84",
+  "contractDigest": "sha256:1c2ab6991f5fb2bb47d6d8f998c5baa529321b9278c1bbe6b970ace696848258",
+  "operationId": "wi1098-approved-exact-source-resource-cleanup-731ae502",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "2ea8a811c550587d4f7f48e9c7c7fd04a1e7bf84",
+    "headRevision": "dfe795422849498ac616ca16096ee065c676a639",
+    "mergeCommit": "731ae5024dff4234f50c954d1cdd5b66db0ca179",
+    "number": 1055,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1055"
+  },
+  "reason": "Actual provider readback shows PR1055 merged at source dfe795422849498ac616ca16096ee065c676a639 into actual main731ae5024dff4234f50c954d1cdd5b66db0ca179. Fresh main run39725794813 actually succeeded with42 gates passed,0 reused,14 packages executed and fresh Windows on exact main. Default main was synchronized clean and tree-identical to reviewed publication. The exact bound source worktree was clean at PR head before normal git worktree remove, local git branch -d and remote git push --delete; all three mutations exited0 and exact local/remote absence was read back. Unrelated refs/worktrees unchanged. Recovery bundle46114bytes sha256:752592d5b208808a69a7d74463bc023b9a20822dee0ca735936727113cc6432c was independently imported with target absent beforehand;23 changed files matched, all3 ignored files preserved byte-for-byte. The worktreeId is the documented ordinary Git identity computed from actual repository ID/path/Git-dir, not an asserted Cloud platform identity. Closeout control and recovery/evidence directories are retained intentionally; this receipt covers only the exact bound source branch/worktree. No force/reset/clean/manual Git-dir deletion, global process exclusion claim, Runtime replacement, residual-risk acceptance or human close is asserted. Actual before/after command evidence is retained under /workspace/wi1098-composition-cleanup-run/approved-normal-cleanup.",
+  "receiptId": "wi1098-normal-finalization-20261022T053436Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1098-composition-cleanup-observation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1055",
+    "worktree": "/workspace/ai-cockpit-wi1098-composition-cleanup-observation"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-22T05:34:36.427977+00:00",
+  "workItemId": "WI-1098-composition-cleanup-observation",
+  "worktree": {
+    "branch": "codex/wi-1098-composition-cleanup-observation",
+    "headRevision": "dfe795422849498ac616ca16096ee065c676a639",
+    "path": "/workspace/ai-cockpit-wi1098-composition-cleanup-observation",
+    "worktreeId": "sha256:b6a23ad56c01d022e15cd83c1f6d22f9e9cd5c87f36559754c2d20a9ec493bd2"
+  }
+}
