@@ -1,0 +1,215 @@
+{
+  "acceptanceResults": [
+    "Five business paths only. Native Runtime-generated Contract/Summary/events/preflight/checkpoint/controls/verification/failure/Outcome/archive/resource-context/finalization/close records for this exact WI are planned lifecycle outputs generated only by supported commands. Existing records and unrelated WIs are not hand-edited.",
+    "Scenario initially unverified: Production current-main/PR1048 cumulative path deterministically demonstrates the retained canonical/material gate problem using controlled native fixtures; old rc2 descriptor/execution digests remain unequal and strict historical Complete rejects. New FreshExecutionRequired status must not turn the old pass into valid current evidence.",
+    "Scenario initially unverified: Only intact original attemptID/full receiptDigest/receipt/ledger/node/program/argv/timeout/scope/base/runtime/validated sealed predecessor and amendment chain can qualify for collecting new evidence. Malformed/foreign/tampered/duplicate-key/symlink/oversized/partial/failed/precondition-rejected inputs remain denied by original guards. Missing unrecorded historical cwd/env or binary-source proof is exposed as unknown, not fabricated or imposed as a new universal requirement.",
+    "Scenario initially unverified: Current exact Contract/snapshot green-or-yellow preflight, genuine current human-review and material binding, no finding/projection failure, one checkpoint/sensitive-amendment provenance, exact blocked Outcome/recovery condition and no conflicting recovery decision remain required. One false current guard denies action and spawns no project command; action projection and actual CLI/MCP service admission agree.",
+    "Scenario initially unverified: Plan-only spawns zero project processes and preserves old canonical bytes. With only old3342 native attempt/cache, exact current declared four controlled checks execute under the current candidateRuntime with zero old reuse and complete coverage. Current native-attempt and profile-cache Runtime-context checks are preserved; no unsupported fresh flag or universal NeverReuse claim.",
+    "Scenario initially unverified: Current execution failure/timeout/interruption keeps old evidence and new failed native attempt, blocks finish and permits supported exact retry. Only actual current all-pass evidence recorded by the supported writer can clear the failed gate and finish/archive; old original canonical/history bytes remain recoverable and all immutable historical records unchanged. Source/input mutation between observation/admission/execution must reject stale state.",
+    "Scenario initially unverified: All repository projection/amendment/private tests and real CLI/MCP contract-amendment recovery tests, workspace consumer compilation, two-package Clippy, format and exactbase-toHEAD diff pass with actual selected/executed counts. Preserve all original tests/assertions and firstrawRED/failure results; zero tests never prove a scenario.",
+    "Apply original PR1048 changes at function level on synchronized main, reusing its validated predecessor/full-ledger/coverage/material-recovery seams. Preserve modern prepared-command producer, immutable source identity, composition observation and captured historical recovery input fixes; do not implement them again or silently drop them. No new Cargo/protocol/B dependency is assumed.",
+    "Full delivery planned now: supported formalstart/preflight/checkpoint; controlled production-pathRED/minimal implementation/nativeverification/independentreview/finish/archive; separately authorized public isolated branch plus one implementationdraftPR and actualfinalHEAD requiredCI; separately authorized normalmerge and actualmainCI; recoverable exactcleanup/officialfinalize/finalizeverify; separateactualuserclose then nativefinalize/close two-record closeoutPR with actualnewHEADCI/review/ordinarymerge only as authorized. No internal/private local evidence or secrets/unrelatedpersonalvalues may be published; publiccontent approval is separate from technical plan and GitHubhumanReview.",
+    "Report source/product/governanceRuntime identities separately; governance stays pinned official1.0.1/b2a43b0a. Candidate builds are isolated and cannot authorize this WI or replace sharedRuntime. Historical assurance, benefit/usage unknowns, scanner limits, original69filecandidate and externalB acceptance remain honestly separate."
+  ],
+  "createdAt": "2026-10-22T19:31:38.814657957Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b78b5be15a52f43d1de889808cd23a6241aa564883df30996d3bd6fc1753f325",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fe42eb73ccb96b1f05d53be025b2c3cc8af0445d45662112c2bb73273276544",
+      "workItemId": "WI-1102-fresh-material-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1102-fresh-material-recovery.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.28950e3bf9369aeefad744cd5bec03d311c186de28b137c38f1004b7159ed3e2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.34875a762c610114121cb8be8cb1e4dbfd21867afa1962f606256edaf1a6a309.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1102-fresh-material-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "On current main, port only the necessary five-file cumulative PR1048 repair and add an explicit FreshExecutionRequired qualification for intact old inputs; support current-bound material review and actual declared re-execution with useful first-false diagnostics, independent regression/review and complete conditional delivery."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T19:31:38.814657957Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1102-fresh-material-recovery"
+    },
+    "workItemId": "WI-1102-fresh-material-recovery"
+  },
+  "taskReportDigest": "sha256:61c390827e5c71d43c320ba9c626ee5ca3f5ff678546150c2b98e3a2271b4ae3",
+  "taskReportMarkdownDigest": "sha256:b9859ea9c6465db5b8469210c8fa102f44df6d16e668c1c61ab7c1277453a835",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1102-fresh-material-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1102-fresh-material-recovery"
+}

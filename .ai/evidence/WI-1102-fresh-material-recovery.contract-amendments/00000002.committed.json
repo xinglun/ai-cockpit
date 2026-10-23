@@ -1,0 +1,87 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:9382c283aba90f5fff83a315df69daa73bea6304ea87821acbae46023b941cd8",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1102-fresh-material-recovery",
+    "sequence": 2,
+    "changeId": "wi1102-complete-initial-structured-scenario-declarations",
+    "requestDigest": "sha256:958771c67e6566e28615f35da3098181e57fa18e19b6d7bddbc6ab3a8459c0d8",
+    "reason": "Before the first checkpoint and any source/test execution, represent the six already-declared initial acceptance scenarios in the structured high-risk field required by Runtime. Start CLI has no structured scenario option. All remain unverified with empty evidence; risk,scope,acceptance and eight verification commands stay unchanged. Obtain one actual human decision on the final complete binding.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The original mismatched legacy execution identity remains rejected as historical Complete; only the separate bounded collection purpose becomes eligible.",
+            "required": true,
+            "scenario": "legacy-proof-rejection-and-fresh-only-entry",
+            "status": "unverified",
+            "verificationPlan": "Use controlled production-path repository projection and realCLI retained-canonical fixtures for deterministicRED/GREEN; keep original digest-equality rejection tests unchanged."
+          },
+          {
+            "evidence": [],
+            "expected": "Intact native attempt/full receipt/ledger/sealed predecessor may qualify for collecting current evidence; every original identity,coverage,timeout,scope,base,source/runtime and strict reader negative remains denied.",
+            "required": true,
+            "scenario": "original-native-input-integrity",
+            "status": "unverified",
+            "verificationPlan": "Run status_projection, contract_amendment_processes, repository contract_amendment and library tests; mutate each required input and retain malformed/foreign/failed/precondition-rejected/unsafe reader negatives."
+          },
+          {
+            "evidence": [],
+            "expected": "Current exact C/R nonredpreflight and real human/material review, full chain/blockedOutcome/no finding/no conflict remain mandatory; one false guard yields no project spawn and CLI/MCP agree.",
+            "required": true,
+            "scenario": "current-guard-and-service-parity",
+            "status": "unverified",
+            "verificationPlan": "Run realCLI/MCP parity and per-guard projection/service negatives, including stale observation versus actual entry; keep all current gate checks."
+          },
+          {
+            "evidence": [],
+            "expected": "Plan-only spawns0 project commands and preserves oldcanonical bytes; the old3342-only native/cache case executes all4 current declarations with0 old reuse under the current candidateRuntime.",
+            "required": true,
+            "scenario": "plan-only-and-actual-current-execution",
+            "status": "unverified",
+            "verificationPlan": "Run realCLI plan-only and actual four controlled checks; inspect actual planned/executed/old-reused counts. Verify Runtime-bound native and profile caches through existing paths, without deleting cache or pretending unsupported NeverReuse."
+          },
+          {
+            "evidence": [],
+            "expected": "New check failure/timeout/interruption retains old evidence and new failed attempt and cannotfinish; supported exact retry runs current checks and only normal actual all-pass writer clears the gate.",
+            "required": true,
+            "scenario": "failure-retry-and-history-preservation",
+            "status": "unverified",
+            "verificationPlan": "Use failure/timeout/interruption/source-or-input mutation and exactretry process tests; compare preserved originalrawbytes and record actual new Runtime/snapshot/Contract bindings."
+          },
+          {
+            "evidence": [],
+            "expected": "Only5 declared business paths and supported own-native lifecycle outputs change; newer fixes/old69candidate/B/oldhistory remain separate; all declared qualitychecks and independent review pass before conditionaldelivery.",
+            "required": true,
+            "scenario": "complete-quality-scope-and-delivery",
+            "status": "unverified",
+            "verificationPlan": "Execute all8 original declared commands including all repo library tests, status/projection/amendment realprocess tests,14package workspacecheck,two-packageClippy,fmt,exactdiff; actual finalHEADCI/independentreview and separately applicable public/merge/close authority remain required."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:087b738ba01b9e1301fd7b8e1e9f93877bee8b2dba274c48bcf0470800d4bab1",
+    "newContractDigest": "sha256:4bb44f38d36cca93a5577b61f59902513f60896187122799654f9aa96f35e19e",
+    "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+    "environmentObservationDigest": "sha256:048cc24d1b4362d8b3c3b601d51bb4f99d0612bd0898d2720ea0e65f7294e8bf",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:9d1dd6cdab2635aa176b9e9e4cbaa80a68c2362ac870c8092cdbca8845a1d06f",
+    "journalDigest": "sha256:7dac6d4576db628374509286580e7fab639d95d5582410bdfc34a158eb8e0f1e",
+    "recordedAt": "2026-10-22T13:06:33Z"
+  }
+}

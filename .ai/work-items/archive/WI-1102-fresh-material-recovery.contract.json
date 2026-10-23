@@ -1,0 +1,162 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "Five business paths only. Native Runtime-generated Contract/Summary/events/preflight/checkpoint/controls/verification/failure/Outcome/archive/resource-context/finalization/close records for this exact WI are planned lifecycle outputs generated only by supported commands. Existing records and unrelated WIs are not hand-edited.",
+    "Scenario initially unverified: Production current-main/PR1048 cumulative path deterministically demonstrates the retained canonical/material gate problem using controlled native fixtures; old rc2 descriptor/execution digests remain unequal and strict historical Complete rejects. New FreshExecutionRequired status must not turn the old pass into valid current evidence.",
+    "Scenario initially unverified: Only intact original attemptID/full receiptDigest/receipt/ledger/node/program/argv/timeout/scope/base/runtime/validated sealed predecessor and amendment chain can qualify for collecting new evidence. Malformed/foreign/tampered/duplicate-key/symlink/oversized/partial/failed/precondition-rejected inputs remain denied by original guards. Missing unrecorded historical cwd/env or binary-source proof is exposed as unknown, not fabricated or imposed as a new universal requirement.",
+    "Scenario initially unverified: Current exact Contract/snapshot green-or-yellow preflight, genuine current human-review and material binding, no finding/projection failure, one checkpoint/sensitive-amendment provenance, exact blocked Outcome/recovery condition and no conflicting recovery decision remain required. One false current guard denies action and spawns no project command; action projection and actual CLI/MCP service admission agree.",
+    "Scenario initially unverified: Plan-only spawns zero project processes and preserves old canonical bytes. With only old3342 native attempt/cache, exact current declared four controlled checks execute under the current candidateRuntime with zero old reuse and complete coverage. Current native-attempt and profile-cache Runtime-context checks are preserved; no unsupported fresh flag or universal NeverReuse claim.",
+    "Scenario initially unverified: Current execution failure/timeout/interruption keeps old evidence and new failed native attempt, blocks finish and permits supported exact retry. Only actual current all-pass evidence recorded by the supported writer can clear the failed gate and finish/archive; old original canonical/history bytes remain recoverable and all immutable historical records unchanged. Source/input mutation between observation/admission/execution must reject stale state.",
+    "Scenario initially unverified: All repository projection/amendment/private tests and real CLI/MCP contract-amendment recovery tests, workspace consumer compilation, two-package Clippy, format and exactbase-toHEAD diff pass with actual selected/executed counts. Preserve all original tests/assertions and firstrawRED/failure results; zero tests never prove a scenario.",
+    "Apply original PR1048 changes at function level on synchronized main, reusing its validated predecessor/full-ledger/coverage/material-recovery seams. Preserve modern prepared-command producer, immutable source identity, composition observation and captured historical recovery input fixes; do not implement them again or silently drop them. No new Cargo/protocol/B dependency is assumed.",
+    "Full delivery planned now: supported formalstart/preflight/checkpoint; controlled production-pathRED/minimal implementation/nativeverification/independentreview/finish/archive; separately authorized public isolated branch plus one implementationdraftPR and actualfinalHEAD requiredCI; separately authorized normalmerge and actualmainCI; recoverable exactcleanup/officialfinalize/finalizeverify; separateactualuserclose then nativefinalize/close two-record closeoutPR with actualnewHEADCI/review/ordinarymerge only as authorized. No internal/private local evidence or secrets/unrelatedpersonalvalues may be published; publiccontent approval is separate from technical plan and GitHubhumanReview.",
+    "Report source/product/governanceRuntime identities separately; governance stays pinned official1.0.1/b2a43b0a. Candidate builds are isolated and cannot authorize this WI or replace sharedRuntime. Historical assurance, benefit/usage unknowns, scanner limits, original69filecandidate and externalB acceptance remain honestly separate."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "1330ef839f24f2e6bc24754a043f7950b7b3358e",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-22T13:04:24Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "On current main, port only the necessary five-file cumulative PR1048 repair and add an explicit FreshExecutionRequired qualification for intact old inputs; support current-bound material review and actual declared re-execution with useful first-false diagnostics, independent regression/review and complete conditional delivery.",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Repair Issue1041 retained canonical/material-review interlock through a narrowly admitted actual fresh-evidence recovery path. Preserve old rc2 evidence and its unverifiable execution identity, all current review/material/provenance checks and strict historical-proof rejection. Availability is served by collecting current evidence, never by treating old mismatched digests as passed.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "No weakening of historical_attempt_binds_complete_receipt digest equality or original rejection assertions; no old evidence promoted to currentverified/Complete",
+    "No historical cwd/environment invention",
+    " original evidence edits/deletions/retargeting or fake binary-source authentication",
+    "No wholesale PR1048 five-file blob/593-file evidence import or69-file candidate overwrite; preserve all newer main fixes and assertions",
+    "No new general authority/credential/permission platform",
+    " externalB activation",
+    " scanner orCI/workflow weakening",
+    " sharedRuntime replacement",
+    " residual-risk acceptance or global settings change",
+    "No undeclared CLI/MCP/lifecycle production changes: if fresh routing truly needs an additional path",
+    " stop and report the exact dependency for formal scope review before editing it",
+    "No public publication without separately applicable explicit approval of this WI public contents; no mainmerge without separately applicable exactHEAD authorization; no userclose without its actual finalization binding",
+    "No force push",
+    " admin bypass",
+    " protection changes",
+    " force worktree/branch removal",
+    " reset-hard or gitclean"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "high",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The original mismatched legacy execution identity remains rejected as historical Complete; only the separate bounded collection purpose becomes eligible.",
+      "required": true,
+      "scenario": "legacy-proof-rejection-and-fresh-only-entry",
+      "status": "unverified",
+      "verificationPlan": "Use controlled production-path repository projection and realCLI retained-canonical fixtures for deterministicRED/GREEN; keep original digest-equality rejection tests unchanged."
+    },
+    {
+      "evidence": [],
+      "expected": "Intact native attempt/full receipt/ledger/sealed predecessor may qualify for collecting current evidence; every original identity,coverage,timeout,scope,base,source/runtime and strict reader negative remains denied.",
+      "required": true,
+      "scenario": "original-native-input-integrity",
+      "status": "unverified",
+      "verificationPlan": "Run status_projection, contract_amendment_processes, repository contract_amendment and library tests; mutate each required input and retain malformed/foreign/failed/precondition-rejected/unsafe reader negatives."
+    },
+    {
+      "evidence": [],
+      "expected": "Current exact C/R nonredpreflight and real human/material review, full chain/blockedOutcome/no finding/no conflict remain mandatory; one false guard yields no project spawn and CLI/MCP agree.",
+      "required": true,
+      "scenario": "current-guard-and-service-parity",
+      "status": "unverified",
+      "verificationPlan": "Run realCLI/MCP parity and per-guard projection/service negatives, including stale observation versus actual entry; keep all current gate checks."
+    },
+    {
+      "evidence": [],
+      "expected": "Plan-only spawns0 project commands and preserves oldcanonical bytes; the old3342-only native/cache case executes all4 current declarations with0 old reuse under the current candidateRuntime.",
+      "required": true,
+      "scenario": "plan-only-and-actual-current-execution",
+      "status": "unverified",
+      "verificationPlan": "Run realCLI plan-only and actual four controlled checks; inspect actual planned/executed/old-reused counts. Verify Runtime-bound native and profile caches through existing paths, without deleting cache or pretending unsupported NeverReuse."
+    },
+    {
+      "evidence": [],
+      "expected": "New check failure/timeout/interruption retains old evidence and new failed attempt and cannotfinish; supported exact retry runs current checks and only normal actual all-pass writer clears the gate.",
+      "required": true,
+      "scenario": "failure-retry-and-history-preservation",
+      "status": "unverified",
+      "verificationPlan": "Use failure/timeout/interruption/source-or-input mutation and exactretry process tests; compare preserved originalrawbytes and record actual new Runtime/snapshot/Contract bindings."
+    },
+    {
+      "evidence": [],
+      "expected": "Only5 declared business paths and supported own-native lifecycle outputs change; newer fixes/old69candidate/B/oldhistory remain separate; all declared qualitychecks and independent review pass before conditionaldelivery.",
+      "required": true,
+      "scenario": "complete-quality-scope-and-delivery",
+      "status": "unverified",
+      "verificationPlan": "Execute all8 original declared commands including all repo library tests, status/projection/amendment realprocess tests,14package workspacecheck,two-packageClippy,fmt,exactdiff; actual finalHEADCI/independentreview and separately applicable public/merge/close authority remain required."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-cli/tests/contract_amendment_processes.rs"
+  ],
+  "sources": [
+    "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+    "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+    "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale",
+    "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6",
+    "readonly-current-main-trace:lifecycle.verification_attempt_matches requires exact currentRuntime/snapshot/newdescriptors;execution_context EvidenceContext.environment_digest includes runtime_digest,so old3342 native/cache is not current;no additionalproductionpath provednecessary",
+    "actual-main:1330ef839f24f2e6bc24754a043f7950b7b3358e;PR1060normallymerged;actualmainCI39782889342stillinprogress atpreparation,notclaimedpassed"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo test --locked -p cockpit-repository --test status_projection -- --test-threads=1",
+    "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1",
+    "cargo test --locked -p cockpit-repository --test contract_amendment -- --test-threads=1",
+    "cargo test --locked -p cockpit-repository --lib -- --test-threads=1",
+    "cargo check --locked --workspace --all-targets",
+    "cargo clippy --locked -p cockpit-repository -p cockpit-cli --all-targets --all-features -- -D warnings",
+    "cargo fmt --all -- --check",
+    "git diff --check 1330ef839f24f2e6bc24754a043f7950b7b3358e HEAD"
+  ],
+  "workItemId": "WI-1102-fresh-material-recovery"
+}

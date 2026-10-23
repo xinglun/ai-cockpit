@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4bb44f38d36cca93a5577b61f59902513f60896187122799654f9aa96f35e19e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Actual user response: 确认 WI-1102 上述受限新鲜验证恢复计划、六项未验证场景及绑定，confirm_review。 Source user message Sentinel_a75cc3c764f48191906b7048092314f8, responding to Sentinel_32212e450f7481919c4d0b19f118582d, relayed by trusted parent thread 01a1576c-b0ab-7723-ad8e-95924e80102a. Reported user time 2026-10-22 18:06 UTC has minute precision only, not asserted as exact service timestamp; recordedAt is the actual current recording time. Exact HEAD 1330ef839f24f2e6bc24754a043f7950b7b3358e, Contract, preflight and snapshot and pinned b2 Runtime bytes rechecked unchanged. Covers this five-file fresh-material recovery plan and six unverified declarations only; does not authorize WI1101 merge/public expansion, source verification, historical cwd/environment invention, external B activation, GitHub Review or residual-risk acceptance.",
+  "recordedAt": "2026-10-22T18:08:36.476574+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_a75cc3c764f48191906b7048092314f8; no independent external identity verification asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+  "schemaVersion": 1,
+  "workItemId": "WI-1102-fresh-material-recovery"
+}
