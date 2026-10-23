@@ -75,8 +75,8 @@ pub use material_review::{
     MaterialReviewRequestError, material_review_request, plan_work_item_material_review,
     record_work_item_material_review, validate_material_review_decision,
 };
-pub use rust_material::MaterialUnknownCause;
 pub use review_ledger::{record_review_correction, review_correction_events};
+pub use rust_material::MaterialUnknownCause;
 use rust_material::{
     RustMaterialAssessment, RustMaterialDiagnosis, contains_strong_instruction_injection,
     diagnose_rust_material,

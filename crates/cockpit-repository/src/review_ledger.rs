@@ -209,7 +209,7 @@ pub fn record_review_correction(
             let receipt: cockpit_protocol::review_authority::HumanApprovalReceipt =
                 serde_json::from_slice(&bytes)
                     .map_err(|_| error(&root, "review_correction_target_invalid"))?;
-            if receipt.schema_version != 1 {
+            if receipt.schema_version != 2 || receipt.request.schema_version != 2 {
                 return Err(error(&root, "review_correction_target_invalid"));
             }
             (
@@ -289,14 +289,22 @@ mod tests {
             br#"{"outer":{"a":1,"a":2}}"#.as_slice(),
             br#"[{"a":1,"a":2}]"#.as_slice(),
         ] {
-            assert!(validate_wire(bytes).expect_err("duplicate key").contains("duplicate"));
+            assert!(
+                validate_wire(bytes)
+                    .expect_err("duplicate key")
+                    .contains("duplicate")
+            );
         }
         validate_wire(br#"{"a":1,"outer":{"a":2}}"#).expect("keys in distinct objects");
     }
 
     #[test]
     fn original_wire_rejects_trailing_and_malformed_input() {
-        for bytes in [b"{} {}".as_slice(), b"{} trailing".as_slice(), b"{".as_slice()] {
+        for bytes in [
+            b"{} {}".as_slice(),
+            b"{} trailing".as_slice(),
+            b"{".as_slice(),
+        ] {
             assert!(validate_wire(bytes).is_err());
         }
         validate_wire(b"{} \n\t").expect("JSON whitespace only");
@@ -308,7 +316,10 @@ mod tests {
         bytes.resize(MAX_BYTES as usize, b' ');
         validate_wire(&bytes).expect("exact original byte limit");
         bytes.push(b' ');
-        assert_eq!(validate_wire(&bytes), Err("review_wire_budget_exceeded".into()));
+        assert_eq!(
+            validate_wire(&bytes),
+            Err("review_wire_budget_exceeded".into())
+        );
     }
 
     fn directory() -> tempfile::TempDir {
@@ -340,9 +351,17 @@ mod tests {
         let retained = root.path().join(".ai/retained-decisions");
         fs::rename(&path, &retained).expect("replace parent after capture");
         fs::create_dir(&path).expect("new parent");
-        let error = require_same_parent(root.path(), &original).expect_err("parent identity changed");
-        assert!(error.to_string().contains("review_correction_parent_changed"));
-        assert_eq!(fs::read(retained.join("original.json")).expect("old evidence"), b"original evidence");
+        let error =
+            require_same_parent(root.path(), &original).expect_err("parent identity changed");
+        assert!(
+            error
+                .to_string()
+                .contains("review_correction_parent_changed")
+        );
+        assert_eq!(
+            fs::read(retained.join("original.json")).expect("old evidence"),
+            b"original evidence"
+        );
         assert!(!path.join("original.json").exists());
     }
 }
