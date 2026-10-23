@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-22T12:27:38Z",
+  "files": {
+    "contractDigest": "sha256:08c96b516ea3f33a98a7d3bbcc27b1d7c25a332901224654745a97c0b08a824c",
+    "contractPath": ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json",
+    "eventsDigest": "sha256:8b929e43f67f445a04bd9cb62ff165298f111a36168ea173d54ac3748826ff22",
+    "eventsPath": ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.events.jsonl",
+    "outcomeDigest": "sha256:887cce2ded7abdcf401c7770f05082995f2799bc643478fb356d41bebbb29483",
+    "outcomePath": ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.outcome.json",
+    "summaryDigest": "sha256:85201899cf89a3dacc5445f57b9d994c62a12974753fb5933d64371abff159d7",
+    "summaryPath": ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json",
+    "taskReportDigest": "sha256:3f1f5af35403b7a10f04d4484761e67f4e199efedb11c0412a8ce2bed58c55f3",
+    "taskReportMarkdownDigest": "sha256:dff84f9c14e82e73e25251ff6510bb8aa7a18b7264c58ee6258b86bbbb00f5d6",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-22T12:27:38.637391703Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-22T12:27:38.637391703Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1101-closeout-recovery-preflight"
+}

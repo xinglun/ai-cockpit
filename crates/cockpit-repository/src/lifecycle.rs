@@ -6291,7 +6291,7 @@ fn build_closeout_recovery_plan(
             }
         }
     }
-    Ok(CloseoutRecoveryPlanFacts {
+    let plan = CloseoutRecoveryPlanFacts {
         work_item_id: work_item_id.into(),
         source_repository_id,
         destination_repository_id,
@@ -6302,7 +6302,9 @@ fn build_closeout_recovery_plan(
         files,
         existing_files,
         provider_facts,
-    })
+    };
+    closeout_recovery_preflight_sidecars(&destination, &plan, runtime)?;
+    Ok(plan)
 }
 
 /// Build a read-only plan to restore a verified archived closeout from another
@@ -6790,7 +6792,7 @@ struct CloseoutRecoveryOrigin {
     installed: Option<CloseoutRecoveryInstalledFile>,
 }
 
-fn closeout_recovery_origin(
+fn closeout_recovery_prepare_origin(
     root: &Path,
     plan: &CloseoutRecoveryPlanFacts,
     runtime: &RuntimeContext,
@@ -6848,25 +6850,35 @@ fn closeout_recovery_origin(
         )
     })?;
     bytes.push(b'\n');
-    let installed =
-        closeout_recovery_install_immutable(root, &relative, &plan.work_item_id, &bytes)?;
     Ok(Some(CloseoutRecoveryOrigin {
         path: relative,
         bytes,
-        installed,
+        installed: None,
     }))
 }
 
-fn closeout_recovery_receipt(
+fn closeout_recovery_origin(
     root: &Path,
     plan: &CloseoutRecoveryPlanFacts,
     runtime: &RuntimeContext,
+) -> Result<Option<CloseoutRecoveryOrigin>, ObserverError> {
+    let mut origin = closeout_recovery_prepare_origin(root, plan, runtime)?;
+    if let Some(origin) = &mut origin {
+        origin.installed = closeout_recovery_install_immutable(
+            root,
+            &origin.path,
+            &plan.work_item_id,
+            &origin.bytes,
+        )?;
+    }
+    Ok(origin)
+}
+
+fn closeout_recovery_expected_receipt(
+    plan: &CloseoutRecoveryPlanFacts,
+    runtime: &RuntimeContext,
     origin_binding: Option<serde_json::Value>,
-) -> Result<(String, Option<CloseoutRecoveryInstalledFile>), ObserverError> {
-    let relative = format!(
-        ".ai/decisions/{}.cross-checkout-closeout-recovery.json",
-        plan.work_item_id
-    );
+) -> serde_json::Value {
     let mut expected = serde_json::json!({
         "schemaVersion": if origin_binding.is_some() { 2 } else { 1 },
         "kind": "cross_checkout_closeout_recovery",
@@ -6884,31 +6896,114 @@ fn closeout_recovery_receipt(
     if let Some(binding) = origin_binding {
         expected["originBinding"] = binding;
     }
+    expected
+}
 
-    let path = root.join(&relative);
+fn closeout_recovery_existing_receipt_matches(
+    root: &Path,
+    relative: &str,
+    expected: &serde_json::Value,
+) -> Result<bool, ObserverError> {
+    let path = root.join(relative);
     match fs::symlink_metadata(&path) {
         Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
             return Err(closeout_recovery_error(
                 root,
                 "closeout_recovery_receipt_conflict",
-                "existing recovery receipt is not a regular file",
+                format!(
+                    "existing recovery receipt is not a regular file: {relative}; preserve existing evidence and use a matching source history or a clean isolated destination"
+                ),
             ));
         }
         Ok(_) => {
             let existing: serde_json::Value = read_json(&path)?;
-            if !closeout_recovery_binding_matches(&existing, &expected) {
+            if !closeout_recovery_binding_matches(&existing, expected) {
                 return Err(closeout_recovery_error(
                     root,
                     "closeout_recovery_receipt_conflict",
-                    "existing recovery receipt has a different or invalid source binding",
+                    format!(
+                        "existing recovery receipt has a different or invalid source binding: {relative}; preserve existing evidence and use a matching source history or a clean isolated destination"
+                    ),
                 ));
             }
-            return Ok((relative, None));
+            return Ok(true);
         }
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
         Err(source) => {
             return Err(ObserverError::Read { path, source });
         }
+    }
+    Ok(false)
+}
+
+// The plan and the locked execution share the same immutable sidecar
+// derivation and receipt validator. This read-only check prevents avoidable
+// payload writes for a conflict already present when the plan is built;
+// execution still repeats the checks to reject later races.
+fn closeout_recovery_preflight_sidecars(
+    root: &Path,
+    plan: &CloseoutRecoveryPlanFacts,
+    runtime: &RuntimeContext,
+) -> Result<(), ObserverError> {
+    let origin = closeout_recovery_prepare_origin(root, plan, runtime)?;
+    if let Some(origin) = &origin {
+        let path = root.join(&origin.path);
+        match fs::symlink_metadata(&path) {
+            Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
+                return Err(closeout_recovery_error(
+                    root,
+                    "closeout_recovery_destination_conflict",
+                    format!(
+                        "destination is not a regular file: {}; preserve existing evidence and use a matching source history or a clean isolated destination",
+                        origin.path
+                    ),
+                ));
+            }
+            Ok(_) => {
+                let bytes = super::read_governance_bytes(&path)
+                    .map_err(|source| ObserverError::Read { path, source })?;
+                if bytes != origin.bytes {
+                    return Err(closeout_recovery_error(
+                        root,
+                        "closeout_recovery_destination_conflict",
+                        format!(
+                            "destination already contains different bytes: {}; preserve existing evidence and use a matching source history or a clean isolated destination",
+                            origin.path
+                        ),
+                    ));
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(source) => return Err(ObserverError::Read { path, source }),
+        }
+    }
+    let origin_binding = origin.as_ref().map(|origin| {
+        serde_json::json!({
+            "path": origin.path, "digest": Digest::sha256_bytes(&origin.bytes),
+        })
+    });
+    let expected = closeout_recovery_expected_receipt(plan, runtime, origin_binding);
+    let relative = format!(
+        ".ai/decisions/{}.cross-checkout-closeout-recovery.json",
+        plan.work_item_id
+    );
+    closeout_recovery_existing_receipt_matches(root, &relative, &expected)?;
+    Ok(())
+}
+
+fn closeout_recovery_receipt(
+    root: &Path,
+    plan: &CloseoutRecoveryPlanFacts,
+    runtime: &RuntimeContext,
+    origin_binding: Option<serde_json::Value>,
+) -> Result<(String, Option<CloseoutRecoveryInstalledFile>), ObserverError> {
+    let relative = format!(
+        ".ai/decisions/{}.cross-checkout-closeout-recovery.json",
+        plan.work_item_id
+    );
+    let expected = closeout_recovery_expected_receipt(plan, runtime, origin_binding);
+    if closeout_recovery_existing_receipt_matches(root, &relative, &expected)? {
+        return Ok((relative, None));
     }
     let mut receipt = expected;
     receipt["createdAt"] = serde_json::Value::String(now());
@@ -10542,6 +10637,231 @@ mod cross_checkout_closeout_tests {
                 ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
             )),
         )
+    }
+
+    #[test]
+    fn closeout_recovery_preflight_preserves_all_receipt_binding_checks() {
+        let fixture = fixture();
+        let missing = missing_import_paths(&fixture);
+        let root = destination(&fixture);
+        let plan = build_closeout_recovery_plan(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .unwrap();
+        let origin = closeout_recovery_origin(&root, &plan, &fixture.runtime)
+            .unwrap()
+            .unwrap();
+        let binding = serde_json::json!({
+            "path": origin.path, "digest": Digest::sha256_bytes(&origin.bytes),
+        });
+        closeout_recovery_receipt(&root, &plan, &fixture.runtime, Some(binding)).unwrap();
+        let (_, receipt_path) = proof_paths(&root);
+        let receipt_bytes = fs::read(&receipt_path).unwrap();
+        let receipt: serde_json::Value = serde_json::from_slice(&receipt_bytes).unwrap();
+        for field in [
+            "schemaVersion",
+            "kind",
+            "workItemId",
+            "sourceRepositoryId",
+            "destinationRepositoryId",
+            "sourceSnapshotDigest",
+            "contractDigest",
+            "providerFacts",
+            "runtimeVersion",
+            "runtimeDigest",
+            "fileDigests",
+            "originBinding",
+            "createdAt",
+            "destinationSnapshotDigest",
+        ] {
+            let mut invalid = receipt.clone();
+            invalid[field] = if receipt[field].is_null() {
+                serde_json::json!("different binding")
+            } else {
+                serde_json::Value::Null
+            };
+            assert_ne!(
+                invalid[field], receipt[field],
+                "{field} must actually change"
+            );
+            let bytes = serde_json::to_vec(&invalid).unwrap();
+            fs::write(&receipt_path, &bytes).unwrap();
+            for result in [
+                plan_cross_checkout_closeout_recovery(
+                    &root,
+                    fixture.source.path(),
+                    WORK_ITEM_ID,
+                    &fixture.runtime,
+                ),
+                recover_cross_checkout_closeout(
+                    &root,
+                    fixture.source.path(),
+                    WORK_ITEM_ID,
+                    &fixture.runtime,
+                ),
+            ] {
+                let error = result.expect_err("a missing receipt binding is rejected");
+                assert!(
+                    error
+                        .to_string()
+                        .contains("closeout_recovery_receipt_conflict"),
+                    "field {field}: {error}"
+                );
+            }
+            assert_eq!(fs::read(&receipt_path).unwrap(), bytes);
+            for relative in &missing {
+                assert!(!root.join(relative).exists(), "{field}: {relative}");
+            }
+            assert_no_closeout_commit(&fixture);
+        }
+        fs::write(&receipt_path, receipt_bytes).unwrap();
+        let result = recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .expect("the exact existing v2 binding remains valid");
+        assert_eq!(result["state"], "recovered");
+    }
+
+    #[test]
+    fn closeout_recovery_preflight_rejects_invalid_sidecars_without_payload_writes() {
+        for origin_case in [true, false] {
+            for invalid in ["malformed", "directory", "large_invalid_bytes"] {
+                let fixture = fixture();
+                let missing = missing_import_paths(&fixture);
+                let root = destination(&fixture);
+                let (origin, receipt) = proof_paths(&root);
+                let path = if origin_case { origin } else { receipt };
+                fs::create_dir_all(path.parent().unwrap()).unwrap();
+                match invalid {
+                    "malformed" => fs::write(&path, b"{malformed").unwrap(),
+                    "directory" => fs::create_dir(&path).unwrap(),
+                    "large_invalid_bytes" => {
+                        // This exercises invalid bytes, not a destination-side
+                        // size limit. Ordinary sidecar reads have no such cap.
+                        let file = fs::File::create(&path).unwrap();
+                        file.set_len(MAX_EXTERNAL_EVIDENCE_BYTES as u64 + 1)
+                            .unwrap();
+                    }
+                    _ => unreachable!(),
+                }
+                for result in [
+                    plan_cross_checkout_closeout_recovery(
+                        &root,
+                        fixture.source.path(),
+                        WORK_ITEM_ID,
+                        &fixture.runtime,
+                    ),
+                    recover_cross_checkout_closeout(
+                        &root,
+                        fixture.source.path(),
+                        WORK_ITEM_ID,
+                        &fixture.runtime,
+                    ),
+                ] {
+                    assert!(result.is_err(), "{origin_case}: {invalid}");
+                }
+                for relative in &missing {
+                    assert!(
+                        !root.join(relative).exists(),
+                        "{origin_case}/{invalid}: {relative}"
+                    );
+                }
+                assert_no_closeout_commit(&fixture);
+                assert!(path.exists(), "the conflicting sidecar is preserved");
+            }
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn closeout_recovery_preflight_rejects_sidecar_symlinks_without_following_them() {
+        for origin_case in [true, false] {
+            let fixture = fixture();
+            let missing = missing_import_paths(&fixture);
+            let root = destination(&fixture);
+            let (origin, receipt) = proof_paths(&root);
+            let path = if origin_case { origin } else { receipt };
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            let external = tempfile::NamedTempFile::new().unwrap();
+            fs::write(external.path(), b"external bytes stay unchanged").unwrap();
+            std::os::unix::fs::symlink(external.path(), &path).unwrap();
+            assert!(
+                plan_cross_checkout_closeout_recovery(
+                    &root,
+                    fixture.source.path(),
+                    WORK_ITEM_ID,
+                    &fixture.runtime
+                )
+                .is_err()
+            );
+            assert!(
+                recover_cross_checkout_closeout(
+                    &root,
+                    fixture.source.path(),
+                    WORK_ITEM_ID,
+                    &fixture.runtime
+                )
+                .is_err()
+            );
+            for relative in &missing {
+                assert!(!root.join(relative).exists());
+            }
+            assert!(
+                fs::symlink_metadata(&path)
+                    .unwrap()
+                    .file_type()
+                    .is_symlink()
+            );
+            assert_eq!(
+                fs::read(external.path()).unwrap(),
+                b"external bytes stay unchanged"
+            );
+            assert_no_closeout_commit(&fixture);
+        }
+    }
+
+    #[test]
+    fn closeout_recovery_receipt_race_after_preflight_still_preserves_pending_evidence() {
+        let fixture = fixture();
+        let missing = missing_import_paths(&fixture);
+        let root = destination(&fixture);
+        let (_, receipt) = proof_paths(&root);
+        let mut injected = false;
+        let bytes = b"{\"schemaVersion\":1,\"sourceSnapshotDigest\":\"different\"}";
+        let error = recover_cross_checkout_closeout_with_hook(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+            |step, _| {
+                if !injected && matches!(step, CloseoutRecoveryStep::FileInstalled(_)) {
+                    fs::write(&receipt, bytes).unwrap();
+                    injected = true;
+                }
+                Ok(())
+            },
+        )
+        .expect_err("a conflict created after preflight still fails closed");
+        assert!(injected, "the race must occur after a real payload install");
+        assert!(
+            error
+                .to_string()
+                .contains("closeout_recovery_receipt_conflict")
+        );
+        assert_eq!(fs::read(receipt).unwrap(), bytes);
+        for relative in missing {
+            assert!(
+                root.join(relative).exists(),
+                "partial evidence stays recoverable"
+            );
+        }
+        assert_no_closeout_commit(&fixture);
     }
 
     fn assert_integrity_blocked(root: &Path, runtime: &RuntimeContext) {

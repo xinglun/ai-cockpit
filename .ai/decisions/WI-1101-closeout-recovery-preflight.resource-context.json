@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:d601e04871c0a1202d1a116d26f1988794dcb9945ac0fcdf1f1015f16cdaa181",
+  "contractDigest": "sha256:08c96b516ea3f33a98a7d3bbcc27b1d7c25a332901224654745a97c0b08a824c",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-22T12:47:54Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1101-closeout-recovery-preflight",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1061",
+    "worktree": "/workspace/ai-cockpit-wi1101-closeout-recovery-preflight"
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1101-closeout-recovery-preflight"
+}
