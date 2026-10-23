@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "ActualownerSentinel_905b18cddec881918bfbd117feadc59300:47UTC conditionalnormal1063integration andmain/formalcloseout, overallapprovedrecoverablecleanup; actualSentinel_39d2dcc6ca388191ba08e897e40ff31102:55UTC permittedWI1102two-nativecombination andconditionalnormal1063merge; noWI1104trueclose inferred",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6cf2534beb5d2101733297a39d4dc11e4bb163f6",
+    "name": "codex/wi-1104-material-preflight-refresh",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "c622693376d45d0136a1b8e2f0884545e6bfadfe",
+  "contractDigest": "sha256:73bb628066a3d65e58aa30b4832eea308fdaf3aca7290d09243ce12b709d9a4e",
+  "operationId": "wi1104-exact-normal-cleanup-main587",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c622693376d45d0136a1b8e2f0884545e6bfadfe",
+    "headRevision": "6cf2534beb5d2101733297a39d4dc11e4bb163f6",
+    "mergeCommit": "587f1ce3fe68906e28621ebdda2f4d2337fce45b",
+    "number": 1063,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1063"
+  },
+  "reason": "ActualPR1063source6cf2534b merged normally atmain587f1ce3 at2026-10-23T03:34:15Z; defaultmain synchronized and exactwhole tree equals6cf, preserving5source/15WI1104native/all17WI1102native+its2confirmedterminalrecords and priorWI1101closedhistory. ImmutableContractbasec622 remains; actualtested/event/mergefirstparent3cf is separatelyretained. Originalsource22d formal8commands21nodes290tests/14packagechecks, currentcanonicalC05e73/R482979 and oldnativebytes remainunchanged. ExactfinalHEADCI39892875598 completed/success all4jobs,40actualgates14packages0reuse, matchingQuality/Windows binding source6cf/tested061eb68/base3cf;2main-onlydocs gates deferred andnotclaimedpassed. ActualmainCI39895721899 is stillpending at this recordingtime, notacceptedpassed; this is resourcefinalization only. Complete6e225902B bundle SHA1d8696dc87767251bba1fb954d0aa02d22a3ec3b9341e3fcca6c3002b6590547 requires1330; current6cf5256B incrementalbundle SHA3b49c12d327998f46550ad4ff50a170eeff92cec095803689251977bb9e486ba requires6e. Bothverified andactuallyimported in independentbare noalternates; finaltwo nativeblob bytesreadbackequal and exactGitdiff preservespriorwhole tree. Ordinary exactworktree remove, branch-d and normalremote-delete exited0; exactsourcepath/gitdir/registration/local+remotebranch absence and unrelatedrefs/worktrees unchanged observed. Original0byte lifecyclelock movedoutside andmatchesearlierbackup. NoForce/reset/clean/manualGitdir deletion, broadprocessabsence claim, permissions/CI/scanner/assertion change, sharedRuntime replacement, residualrisk acceptance, Issueclosure or Sentinel originalsite operation. HistoricalP3 descriptorproducer authenticity, benefitunmeasured, priorfailedmain39858553380 and independentWI1103EROFS retained. This is agent-observed resources, not independentidentity authentication/GitHubReview or actualWI1104humanclose. Truehumanclose mustlater bind this actualsequence/digest; WI1102confirmed notreused. External exactbeforeafter facts in wi1104-normal-resource-finalization-20261023. Auxiliarynativecloseout tree/audit/recoveryobjects retained.",
+  "receiptId": "wi1104-normal-resource-finalization-20261023",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1104-material-preflight-refresh",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1063",
+    "worktree": "/workspace/ai-cockpit-wi1104-material-preflight-refresh"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-23T03:38:53.346173+00:00",
+  "workItemId": "WI-1104-material-preflight-refresh",
+  "worktree": {
+    "branch": "codex/wi-1104-material-preflight-refresh",
+    "headRevision": "6cf2534beb5d2101733297a39d4dc11e4bb163f6",
+    "path": "/workspace/ai-cockpit-wi1104-material-preflight-refresh",
+    "worktreeId": "sha256:0084cb073727e716cc9db640cb9a4dba959caee5cb426fdf4ae9036e5324ee54"
+  }
+}
