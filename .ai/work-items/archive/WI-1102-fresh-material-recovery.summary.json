@@ -1,0 +1,229 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1102-fresh-material-recovery.preflight-review.json",
+    ".ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.28950e3bf9369aeefad744cd5bec03d311c186de28b137c38f1004b7159ed3e2.json",
+    ".ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.34875a762c610114121cb8be8cb1e4dbfd21867afa1962f606256edaf1a6a309.json",
+    ".ai/work-items/archive/WI-1102-fresh-material-recovery.contract.json",
+    ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-10-22T18:09:28Z",
+  "checkpointContractDigest": "sha256:4bb44f38d36cca93a5577b61f59902513f60896187122799654f9aa96f35e19e",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3fe42eb73ccb96b1f05d53be025b2c3cc8af0445d45662112c2bb73273276544",
+  "createdAt": "2026-10-22T13:04:24Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:4bb44f38d36cca93a5577b61f59902513f60896187122799654f9aa96f35e19e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "Actual user response: 确认 WI-1102 上述受限新鲜验证恢复计划、六项未验证场景及绑定，confirm_review。 Source user message Sentinel_a75cc3c764f48191906b7048092314f8, responding to Sentinel_32212e450f7481919c4d0b19f118582d, relayed by trusted parent thread 01a1576c-b0ab-7723-ad8e-95924e80102a. Reported user time 2026-10-22 18:06 UTC has minute precision only, not asserted as exact service timestamp; recordedAt is the actual current recording time. Exact HEAD 1330ef839f24f2e6bc24754a043f7950b7b3358e, Contract, preflight and snapshot and pinned b2 Runtime bytes rechecked unchanged. Covers this five-file fresh-material recovery plan and six unverified declarations only; does not authorize WI1101 merge/public expansion, source verification, historical cwd/environment invention, external B activation, GitHub Review or residual-risk acceptance.",
+    "recordedAt": "2026-10-22T18:08:36.476574+00:00",
+    "recordedBy": "Codex agent transcribing actual user message Sentinel_a75cc3c764f48191906b7048092314f8; no independent external identity verification asserted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+    "schemaVersion": 1,
+    "workItemId": "WI-1102-fresh-material-recovery"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1102-fresh-material-recovery.verification.json",
+      "crates/cockpit-repository/src/contract_amendment.rs",
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/tests/status_projection.rs",
+      "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      ".ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.27982340a0dbe7aad1d54a48a91961305611bd11b0e1bbd6fd983da431f4fb2e.json",
+      ".ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.28950e3bf9369aeefad744cd5bec03d311c186de28b137c38f1004b7159ed3e2.json",
+      ".ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.34875a762c610114121cb8be8cb1e4dbfd21867afa1962f606256edaf1a6a309.json"
+    ],
+    "reason": "Current source546544adbb25d689f398e9a00dc244457a856398 follows human-confirmed Contract4bb44f38: necessary five-file cumulative1048 support plus separate FreshExecutionRequired collection. Strict Complete retains original commandDigest equality. The known rc2 model label is synthetic, not authentication of original binary/source/cwd/environment. Original/current producer Complete negatives and fresh28 checks are distinguished: P3 remains because self-consistent rehashed historical descriptor fields do not authenticate absent preimages; this never grants old Complete, finish or reusable success. Current exact preflight/human/material/provenance/checkpoint/Outcome/no-finding/no-conflict checks remain. Current fresh plan0spawn and four declarations4actual0oldreuse proven; real old profile cache seeded/hit, changing only Runtime yields execute and only environmentDigest mismatch. Actual check failure plus new real1s timeout/Unix project-child SIGTERM preserve failed native attempt and old raw canonical; finish refuses, exact bound fixture retry executes4actual0reuse then finish/archive. This is not ownerSIGKILL or general TOCTOU proof, nor postarchive independent recovery import. Official pinned b2 native original8 verification exited0 at this source/C/R:21 actual nodes0reuse,283 tests0failed0ignored,14package checks,Clippy/fmt/diff0. Same official full canonical material plan includes all5 declared business files, allclean/no Unknown/finding; material review profile remains disabled. Minimal clarifications use original Path::join, explicit standard path types, same serde_json macro and same array values/order; emitted Rust strings, original assertions/risk words/scanner/CI/safety semantics unchanged. Review chain resolves prior2P2 plus scene5 coverageP2; final P0/P1/P2=0, oldP3=1 explicitly retained. First test_weakening refusal, original environment-fixture failure, original native300s timeout and intermediate fixture result-shape errors remain. Symbol-only isolated candidate debug0 speeds hashing; no assertion, original8 command,300s budget, global authority or sharedRuntime change. Shared governance remains official1.0.1/b2a43b0a, candidate binaries isolated and not self-authorizing. Source proof is current local evidence only; public publication, exactHEAD CI, merge/mainCI, resourcefinalization and true userclose are future separately authorized steps. Consumer Mac acceptance, original69candidate/B, historical assurance and user-visible benefit remain unknown/unmeasured; no residual-risk acceptance or GitHub human Review asserted.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-22T19:31:38.814657957Z",
+      "recordedAt": "2026-10-22T19:31:38.814657957Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-22T13:04:24.119891943Z",
+      "recordedAt": "2026-10-22T13:04:24.119891943Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-22T19:29:57Z",
+  "preflightContractDigest": "sha256:4bb44f38d36cca93a5577b61f59902513f60896187122799654f9aa96f35e19e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3fe42eb73ccb96b1f05d53be025b2c3cc8af0445d45662112c2bb73273276544",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "expected": "The original mismatched legacy execution identity remains rejected as historical Complete; only the separate bounded collection purpose becomes eligible.",
+      "reason": "True production RED on baseline, cumulative support GREEN, separate legacy-gap RED/GREEN; current status never treats old mismatched descriptor digests as historical Complete. The known old Runtime label in isolated fixtures is synthetic and not authentication of original binary/source.",
+      "required": true,
+      "scenario": "legacy-proof-rejection-and-fresh-only-entry",
+      "status": "verified",
+      "verificationPlan": "Use controlled production-path repository projection and realCLI retained-canonical fixtures for deterministicRED/GREEN; keep original digest-equality rejection tests unchanged."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "expected": "Intact native attempt/full receipt/ledger/sealed predecessor may qualify for collecting current evidence; every original identity,coverage,timeout,scope,base,source/runtime and strict reader negative remains denied.",
+      "reason": "Common bounded readers, sealed predecessor/chain, original attemptID/full receipt/ledger/node/program/argv/timeout/scope/base/runtime checks are retained. Keep Complete/current-producer original tampered-descriptor rejection distinct from fresh28 cases. P3: fresh self-consistency cannot authenticate historical descriptor preimages if cwd/environment were never preserved; a rehashed descriptor mutation is not claimed rejected by fresh qualification. No old proof is promoted or reused; current actual review/material/four checks remain mandatory.",
+      "required": true,
+      "scenario": "original-native-input-integrity",
+      "status": "verified",
+      "verificationPlan": "Run status_projection, contract_amendment_processes, repository contract_amendment and library tests; mutate each required input and retain malformed/foreign/failed/precondition-rejected/unsafe reader negatives."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "expected": "Current exact C/R nonredpreflight and real human/material review, full chain/blockedOutcome/no finding/no conflict remain mandatory; one false guard yields no project spawn and CLI/MCP agree.",
+      "reason": "Exact current human/material/nonredpreflight/checkpoint/Outcome/provenance/no-finding/no-conflict checks and first-false diagnostics tested; original stale observation-to-record cases and actual CLI/MCP admission parity/replay negatives remain. Post-prepare cache drift forces fresh execution and is not a general TOCTOU guarantee.",
+      "required": true,
+      "scenario": "current-guard-and-service-parity",
+      "status": "verified",
+      "verificationPlan": "Run realCLI/MCP parity and per-guard projection/service negatives, including stale observation versus actual entry; keep all current gate checks."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "expected": "Plan-only spawns0 project commands and preserves oldcanonical bytes; the old3342-only native/cache case executes all4 current declarations with0 old reuse under the current candidateRuntime.",
+      "reason": "Plan-only0spawn/4planned/4toexecute/0oldreuse and unchanged old canonical. Normal isolated profile confirmation precedes all bound inputs; same-old-Runtime profile cache actually hits, changing only Runtime makes actual cache plan execute with only environmentDigest mismatch. Current declared four commands actually execute/0oldreuse; old native attempt/cache is not deleted to obtain that outcome.",
+      "required": true,
+      "scenario": "plan-only-and-actual-current-execution",
+      "status": "verified",
+      "verificationPlan": "Run realCLI plan-only and actual four controlled checks; inspect actual planned/executed/old-reused counts. Verify Runtime-bound native and profile caches through existing paths, without deleting cache or pretending unsupported NeverReuse."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "expected": "New check failure/timeout/interruption retains old evidence and new failed attempt and cannotfinish; supported exact retry runs current checks and only normal actual all-pass writer clears the gate.",
+      "reason": "Actual check failure plus real1s timeout and controlled project-child Unix selfSIGTERM produce native execution_failed receipts; inspect full bound receipt and retain its raw bytes. Old canonical unchanged, finish rejects; supported exact retry executes original4/currentRuntime/0oldreuse, then finish/archive. SelfSIGTERM does not prove ownerSIGKILL recovery; failed-attempt byte comparison occurs after retry and before archive, not independent postarchive recovery import.",
+      "required": true,
+      "scenario": "failure-retry-and-history-preservation",
+      "status": "verified",
+      "verificationPlan": "Use failure/timeout/interruption/source-or-input mutation and exactretry process tests; compare preserved originalrawbytes and record actual new Runtime/snapshot/Contract bindings."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "expected": "Only5 declared business paths and supported own-native lifecycle outputs change; newer fixes/old69candidate/B/oldhistory remain separate; all declared qualitychecks and independent review pass before conditionaldelivery.",
+      "reason": "Exactly original5 business paths plus own formal lifecycle records; final official full material plan includes all5clean with same semantic/implementation scanner digests and no risk profile enabled. Source code/old emitted Rust string/assertions/guard semantics retained. Actual source546544ad current native8-command21-node pass/0reuse confirmed:48 repository projection+53 realCLI/MCP+17 amendment+165 library=283passed/0failed/0ignored,14workspace checks,Clippy/fmt/diff0. Final independent review P0/P1/P2=0; known P3 historical authenticity limit retained. Publication/PR/CI/normalmerge/actualmainCI/cleanup/trueclose remain later conditionally authorized delivery steps, not local proof.",
+      "required": true,
+      "scenario": "complete-quality-scope-and-delivery",
+      "status": "verified",
+      "verificationPlan": "Execute all8 original declared commands including all repo library tests, status/projection/amendment realprocess tests,14package workspacecheck,two-packageClippy,fmt,exactdiff; actual finalHEADCI/independentreview and separately applicable public/merge/close authority remain required."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-22T19:31:38.814657957Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1102-fresh-material-recovery"
+}

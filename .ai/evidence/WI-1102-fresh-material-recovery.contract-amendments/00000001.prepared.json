@@ -1,0 +1,244 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1102-fresh-material-recovery",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-dc48c2ebde47bf971b876ffdd9c060afd3eceb865646997103b4965de21ba845",
+      "expectedContractDigest": "sha256:ba729ff5baf76cf02051271a128ea5c042a4b1be219a4b0b437f94285a0a9356",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "readonly-current-main-trace:lifecycle.verification_attempt_matches requires exact currentRuntime/snapshot/newdescriptors;execution_context EvidenceContext.environment_digest includes runtime_digest,so old3342 native/cache is not current;no additionalproductionpath provednecessary"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "actual-main:1330ef839f24f2e6bc24754a043f7950b7b3358e;PR1060normallymerged;actualmainCI39782889342stillinprogress atpreparation,notclaimedpassed"
+        }
+      ]
+    },
+    "requestDigest": "sha256:12d60bffd8088100f2fc19478beb1c96f092d857d016f36c98fe315169e38d62",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Five business paths only. Native Runtime-generated Contract/Summary/events/preflight/checkpoint/controls/verification/failure/Outcome/archive/resource-context/finalization/close records for this exact WI are planned lifecycle outputs generated only by supported commands. Existing records and unrelated WIs are not hand-edited.",
+        "Scenario initially unverified: Production current-main/PR1048 cumulative path deterministically demonstrates the retained canonical/material gate problem using controlled native fixtures; old rc2 descriptor/execution digests remain unequal and strict historical Complete rejects. New FreshExecutionRequired status must not turn the old pass into valid current evidence.",
+        "Scenario initially unverified: Only intact original attemptID/full receiptDigest/receipt/ledger/node/program/argv/timeout/scope/base/runtime/validated sealed predecessor and amendment chain can qualify for collecting new evidence. Malformed/foreign/tampered/duplicate-key/symlink/oversized/partial/failed/precondition-rejected inputs remain denied by original guards. Missing unrecorded historical cwd/env or binary-source proof is exposed as unknown, not fabricated or imposed as a new universal requirement.",
+        "Scenario initially unverified: Current exact Contract/snapshot green-or-yellow preflight, genuine current human-review and material binding, no finding/projection failure, one checkpoint/sensitive-amendment provenance, exact blocked Outcome/recovery condition and no conflicting recovery decision remain required. One false current guard denies action and spawns no project command; action projection and actual CLI/MCP service admission agree.",
+        "Scenario initially unverified: Plan-only spawns zero project processes and preserves old canonical bytes. With only old3342 native attempt/cache, exact current declared four controlled checks execute under the current candidateRuntime with zero old reuse and complete coverage. Current native-attempt and profile-cache Runtime-context checks are preserved; no unsupported fresh flag or universal NeverReuse claim.",
+        "Scenario initially unverified: Current execution failure/timeout/interruption keeps old evidence and new failed native attempt, blocks finish and permits supported exact retry. Only actual current all-pass evidence recorded by the supported writer can clear the failed gate and finish/archive; old original canonical/history bytes remain recoverable and all immutable historical records unchanged. Source/input mutation between observation/admission/execution must reject stale state.",
+        "Scenario initially unverified: All repository projection/amendment/private tests and real CLI/MCP contract-amendment recovery tests, workspace consumer compilation, two-package Clippy, format and exactbase-toHEAD diff pass with actual selected/executed counts. Preserve all original tests/assertions and firstrawRED/failure results; zero tests never prove a scenario.",
+        "Apply original PR1048 changes at function level on synchronized main, reusing its validated predecessor/full-ledger/coverage/material-recovery seams. Preserve modern prepared-command producer, immutable source identity, composition observation and captured historical recovery input fixes; do not implement them again or silently drop them. No new Cargo/protocol/B dependency is assumed.",
+        "Full delivery planned now: supported formalstart/preflight/checkpoint; controlled production-pathRED/minimal implementation/nativeverification/independentreview/finish/archive; separately authorized public isolated branch plus one implementationdraftPR and actualfinalHEAD requiredCI; separately authorized normalmerge and actualmainCI; recoverable exactcleanup/officialfinalize/finalizeverify; separateactualuserclose then nativefinalize/close two-record closeoutPR with actualnewHEADCI/review/ordinarymerge only as authorized. No internal/private local evidence or secrets/unrelatedpersonalvalues may be published; publiccontent approval is separate from technical plan and GitHubhumanReview.",
+        "Report source/product/governanceRuntime identities separately; governance stays pinned official1.0.1/b2a43b0a. Candidate builds are isolated and cannot authorize this WI or replace sharedRuntime. Historical assurance, benefit/usage unknowns, scanner limits, original69filecandidate and externalB acceptance remain honestly separate."
+      ],
+      "authority": "authorized",
+      "baseRevision": "1330ef839f24f2e6bc24754a043f7950b7b3358e",
+      "createdAt": "2026-10-22T13:04:24Z",
+      "goal": "On current main, port only the necessary five-file cumulative PR1048 repair and add an explicit FreshExecutionRequired qualification for intact old inputs; support current-bound material review and actual declared re-execution with useful first-false diagnostics, independent regression/review and complete conditional delivery.",
+      "intent": "Repair Issue1041 retained canonical/material-review interlock through a narrowly admitted actual fresh-evidence recovery path. Preserve old rc2 evidence and its unverifiable execution identity, all current review/material/provenance checks and strict historical-proof rejection. Availability is served by collecting current evidence, never by treating old mismatched digests as passed.",
+      "mode": "implementation",
+      "outOfScope": [
+        "No weakening of historical_attempt_binds_complete_receipt digest equality or original rejection assertions; no old evidence promoted to currentverified/Complete",
+        "No historical cwd/environment invention",
+        " original evidence edits/deletions/retargeting or fake binary-source authentication",
+        "No wholesale PR1048 five-file blob/593-file evidence import or69-file candidate overwrite; preserve all newer main fixes and assertions",
+        "No new general authority/credential/permission platform",
+        " externalB activation",
+        " scanner orCI/workflow weakening",
+        " sharedRuntime replacement",
+        " residual-risk acceptance or global settings change",
+        "No undeclared CLI/MCP/lifecycle production changes: if fresh routing truly needs an additional path",
+        " stop and report the exact dependency for formal scope review before editing it",
+        "No public publication without separately applicable explicit approval of this WI public contents; no mainmerge without separately applicable exactHEAD authorization; no userclose without its actual finalization binding",
+        "No force push",
+        " admin bypass",
+        " protection changes",
+        " force worktree/branch removal",
+        " reset-hard or gitclean"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "high",
+      "scope": [
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test status_projection -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test contract_amendment -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib -- --test-threads=1",
+        "cargo check --locked --workspace --all-targets",
+        "cargo clippy --locked -p cockpit-repository -p cockpit-cli --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check 1330ef839f24f2e6bc24754a043f7950b7b3358e HEAD"
+      ],
+      "workItemId": "WI-1102-fresh-material-recovery"
+    },
+    "previousContractDigest": "sha256:ba729ff5baf76cf02051271a128ea5c042a4b1be219a4b0b437f94285a0a9356",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Five business paths only. Native Runtime-generated Contract/Summary/events/preflight/checkpoint/controls/verification/failure/Outcome/archive/resource-context/finalization/close records for this exact WI are planned lifecycle outputs generated only by supported commands. Existing records and unrelated WIs are not hand-edited.",
+        "Scenario initially unverified: Production current-main/PR1048 cumulative path deterministically demonstrates the retained canonical/material gate problem using controlled native fixtures; old rc2 descriptor/execution digests remain unequal and strict historical Complete rejects. New FreshExecutionRequired status must not turn the old pass into valid current evidence.",
+        "Scenario initially unverified: Only intact original attemptID/full receiptDigest/receipt/ledger/node/program/argv/timeout/scope/base/runtime/validated sealed predecessor and amendment chain can qualify for collecting new evidence. Malformed/foreign/tampered/duplicate-key/symlink/oversized/partial/failed/precondition-rejected inputs remain denied by original guards. Missing unrecorded historical cwd/env or binary-source proof is exposed as unknown, not fabricated or imposed as a new universal requirement.",
+        "Scenario initially unverified: Current exact Contract/snapshot green-or-yellow preflight, genuine current human-review and material binding, no finding/projection failure, one checkpoint/sensitive-amendment provenance, exact blocked Outcome/recovery condition and no conflicting recovery decision remain required. One false current guard denies action and spawns no project command; action projection and actual CLI/MCP service admission agree.",
+        "Scenario initially unverified: Plan-only spawns zero project processes and preserves old canonical bytes. With only old3342 native attempt/cache, exact current declared four controlled checks execute under the current candidateRuntime with zero old reuse and complete coverage. Current native-attempt and profile-cache Runtime-context checks are preserved; no unsupported fresh flag or universal NeverReuse claim.",
+        "Scenario initially unverified: Current execution failure/timeout/interruption keeps old evidence and new failed native attempt, blocks finish and permits supported exact retry. Only actual current all-pass evidence recorded by the supported writer can clear the failed gate and finish/archive; old original canonical/history bytes remain recoverable and all immutable historical records unchanged. Source/input mutation between observation/admission/execution must reject stale state.",
+        "Scenario initially unverified: All repository projection/amendment/private tests and real CLI/MCP contract-amendment recovery tests, workspace consumer compilation, two-package Clippy, format and exactbase-toHEAD diff pass with actual selected/executed counts. Preserve all original tests/assertions and firstrawRED/failure results; zero tests never prove a scenario.",
+        "Apply original PR1048 changes at function level on synchronized main, reusing its validated predecessor/full-ledger/coverage/material-recovery seams. Preserve modern prepared-command producer, immutable source identity, composition observation and captured historical recovery input fixes; do not implement them again or silently drop them. No new Cargo/protocol/B dependency is assumed.",
+        "Full delivery planned now: supported formalstart/preflight/checkpoint; controlled production-pathRED/minimal implementation/nativeverification/independentreview/finish/archive; separately authorized public isolated branch plus one implementationdraftPR and actualfinalHEAD requiredCI; separately authorized normalmerge and actualmainCI; recoverable exactcleanup/officialfinalize/finalizeverify; separateactualuserclose then nativefinalize/close two-record closeoutPR with actualnewHEADCI/review/ordinarymerge only as authorized. No internal/private local evidence or secrets/unrelatedpersonalvalues may be published; publiccontent approval is separate from technical plan and GitHubhumanReview.",
+        "Report source/product/governanceRuntime identities separately; governance stays pinned official1.0.1/b2a43b0a. Candidate builds are isolated and cannot authorize this WI or replace sharedRuntime. Historical assurance, benefit/usage unknowns, scanner limits, original69filecandidate and externalB acceptance remain honestly separate."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "1330ef839f24f2e6bc24754a043f7950b7b3358e",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-22T13:04:24Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "On current main, port only the necessary five-file cumulative PR1048 repair and add an explicit FreshExecutionRequired qualification for intact old inputs; support current-bound material review and actual declared re-execution with useful first-false diagnostics, independent regression/review and complete conditional delivery.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair Issue1041 retained canonical/material-review interlock through a narrowly admitted actual fresh-evidence recovery path. Preserve old rc2 evidence and its unverifiable execution identity, all current review/material/provenance checks and strict historical-proof rejection. Availability is served by collecting current evidence, never by treating old mismatched digests as passed.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No weakening of historical_attempt_binds_complete_receipt digest equality or original rejection assertions; no old evidence promoted to currentverified/Complete",
+        "No historical cwd/environment invention",
+        " original evidence edits/deletions/retargeting or fake binary-source authentication",
+        "No wholesale PR1048 five-file blob/593-file evidence import or69-file candidate overwrite; preserve all newer main fixes and assertions",
+        "No new general authority/credential/permission platform",
+        " externalB activation",
+        " scanner orCI/workflow weakening",
+        " sharedRuntime replacement",
+        " residual-risk acceptance or global settings change",
+        "No undeclared CLI/MCP/lifecycle production changes: if fresh routing truly needs an additional path",
+        " stop and report the exact dependency for formal scope review before editing it",
+        "No public publication without separately applicable explicit approval of this WI public contents; no mainmerge without separately applicable exactHEAD authorization; no userclose without its actual finalization binding",
+        "No force push",
+        " admin bypass",
+        " protection changes",
+        " force worktree/branch removal",
+        " reset-hard or gitclean"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs"
+      ],
+      "sources": [
+        "trusted-user:Sentinel_78b027574d6c819193dab919bc67cc6e;2026-10-22T11:56UTC minute-precision;explicitlyauthorized minimal independentIssue1004/1041 repairs with mainlinecontinuing",
+        "trusted-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a;Raydot technicaldecision use restricted actualfresh-evidence recovery,keep unavailablehistoryunknown and olddigest equality;do not waitfor nonexistentoldcwd/env",
+        "existing-unmerged-candidate:PR1048/ba1c6c90f4ac039521567c1365b4351fe7ce92ae;product7e8d629b11c36235d96c80c28adbf2b91d013e47;onlynecessaryfive-filefunctiondelta,notacceptedwholesale",
+        "readonly-independent-plan:issue1041-restricted-fresh-evidence-next-plan.json;sha256:568eaac8ea4a20e7ea8d1dafcc9b42991aaec4626b56b0f80672411c0980c2c6",
+        "readonly-current-main-trace:lifecycle.verification_attempt_matches requires exact currentRuntime/snapshot/newdescriptors;execution_context EvidenceContext.environment_digest includes runtime_digest,so old3342 native/cache is not current;no additionalproductionpath provednecessary",
+        "actual-main:1330ef839f24f2e6bc24754a043f7950b7b3358e;PR1060normallymerged;actualmainCI39782889342stillinprogress atpreparation,notclaimedpassed"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test status_projection -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test contract_amendment -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib -- --test-threads=1",
+        "cargo check --locked --workspace --all-targets",
+        "cargo clippy --locked -p cockpit-repository -p cockpit-cli --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check 1330ef839f24f2e6bc24754a043f7950b7b3358e HEAD"
+      ],
+      "workItemId": "WI-1102-fresh-material-recovery"
+    },
+    "newContractDigest": "sha256:087b738ba01b9e1301fd7b8e1e9f93877bee8b2dba274c48bcf0470800d4bab1",
+    "previousSummaryDigest": "sha256:b19bcb91ea7f6c76e72bd4453e1917fd88cddcaeaddab40f2906698fa9afda5f",
+    "repositorySnapshotDigest": "sha256:0275cfebe13bd0a8666c70dc4204049b76bb70a6ee88ddd8c811bae8b50d2d87",
+    "environmentObservationDigest": "sha256:3ba5f4527bb805c6d69a2086d3b8e4fc687a54cb5d46fe7c02994fe886d7e7a7",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:dc48c2ebde47bf971b876ffdd9c060afd3eceb865646997103b4965de21ba845",
+    "preparedAt": "2026-10-22T13:04:24Z"
+  },
+  "preparedDigest": "sha256:05c6282e584831d904196fa0dcf3f5a57a3155106d3a2d7ff038a4b66567a415"
+}
