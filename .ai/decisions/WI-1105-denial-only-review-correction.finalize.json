@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Actual owner message Sentinel_4b00f61b250881918d745f9fccd9cd1b, 2026-10-23 06:22 UTC minute precision, approves exactPR1066/a495 ready/normalmerge/main verification and safe resource cleanup; no trueclose decision or independent identity/GitHub Review asserted.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a4955ca9514430eb2e879ef6765e820c48c3b500",
+    "name": "codex/wi-1105-denial-only-review-correction",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "e82928f3fec3692f6e7123dd2752557a702a00ab",
+  "contractDigest": "sha256:da655f3284228c5d6275c7eaf9f71d35aee8337ae4a2c4cd800fe055002955f2",
+  "operationId": "wi1105-exact-normal-cleanup-mainf76a61c7",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e82928f3fec3692f6e7123dd2752557a702a00ab",
+    "headRevision": "a4955ca9514430eb2e879ef6765e820c48c3b500",
+    "mergeCommit": "f76a61c755ed384f428358114d1bf72e58280037",
+    "number": 1066,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1066"
+  },
+  "reason": "ActualPR1066 merged normally at2026-10-23T06:25:10Z to f76a61c755ed384f428358114d1bf72e58280037 with parents e82928f3fec3692f6e7123dd2752557a702a00ab/a4955ca9514430eb2e879ef6765e820c48c3b500. Defaultmain fast-forward0/clean and whole tree exactly equals a495:all4source+14original native+1actualPRbinding are integrated unchanged. Original source d774 six formal commands19actual0reuse26tests14packagechecks andClippy/fmt/diff0;finish0/archive0;finalprivate review newP0-P3=0. Exact PRCI39907643049 all4jobs success with40actualgates14packages0reuse, quality/Windows sourcea495/tested0480c1b6/basee829 matched;2main-onlygates deferred, not claimedpassed. ActualmainCI39911360470 remains RUNNING at this recording time; resource finalization does not claim its completion. 54753B source/native bundle SHA42e61c91ebe7c7a2ace75237ea352c84025c681c61b26851c2462fb1719420b1 requires e829; bundle verify and actual independentbare fetch/import0 restored a495 and all19 files byte-identical with no alternates file. Source/native backups, private raw failures/Unknown/RED logs and independent restore objects retained. Sole0byte lifecyclelock copied and original moved to audit; no byte lost. Immediate b2 admission contained finalize_resources/record_finalization with no human requirement; ordinary exact worktree remove, branch-d and remote delete all0. Exact path/gitdir/registration/local+remote refs absent; other refs/worktrees unchanged. Known own local task commands completed; no all-system/procfs absence claim or external-instance cleanup claim. No force/reset/git-clean/prune/manual Gitdir deletion, permission/CI/assertion/scanner change, sharedRuntime replacement or risk acceptance. Historical P3, unmeasured benefit, old69/A/B and separate WI1103EROFS remain. This is agent-observed resource finalization, not actual user trueclose; later confirmed must bind the actual native sequence/head digest.",
+  "receiptId": "wi1105-normal-resource-finalization-20261023",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1105-denial-only-review-correction",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1066",
+    "worktree": "/workspace/ai-cockpit-wi1105-denial-only-review-correction"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-23T06:33:46.867277+00:00",
+  "workItemId": "WI-1105-denial-only-review-correction",
+  "worktree": {
+    "branch": "codex/wi-1105-denial-only-review-correction",
+    "headRevision": "a4955ca9514430eb2e879ef6765e820c48c3b500",
+    "path": "/workspace/ai-cockpit-wi1105-denial-only-review-correction",
+    "worktreeId": "sha256:df03b2009bcb12b60b6fdc567d57bacca822eacd23392b3bd8c3001c4e2b351d"
+  }
+}

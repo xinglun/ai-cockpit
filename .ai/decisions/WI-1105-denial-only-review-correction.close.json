@@ -1,0 +1,150 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb2090f59ebcb7a6e4ef3861f28bb6ff34142275e2f292f3f059063aa56f8309",
+      "workItemId": "WI-1105-denial-only-review-correction"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1105-denial-only-review-correction.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via actual-user-message:Sentinel_a1e0b0a2e35081919da41ae7af8a6852; request-message:Sentinel_feeee4e1e0988191b549fb6b4c5bae98; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity authentication asserted at 2026-10-23T07:06:24.016871+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1105-denial-only-review-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1105-denial-only-review-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "Implement and independently verify exactly two repository library APIs for reading/appending denial-only correction records with existing strict input/capability/lock/immutable publication constraints, and deliver through normal complete source/native PR/main/resource lifecycle with genuine later close."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1105-denial-only-review-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-23T07:06:25.351606490Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1105-denial-only-review-correction"
+    },
+    "workItemId": "WI-1105-denial-only-review-correction"
+  },
+  "finalReportDigest": "sha256:80579e5a3e60528e4f51c49bdbe26ba0ca33be3b6c76f6d3e1d37732f8b55409",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-23T07:06:25.351579149Z",
+  "recordedAt": "2026-10-23T07:06:25.351579149Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:a763e55225cf2a1e337c8fb89bb4bda1fca88cea9e775774fbcf275bd6453a6b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1105-denial-only-review-correction.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "actual-user-message:Sentinel_a1e0b0a2e35081919da41ae7af8a6852; request-message:Sentinel_feeee4e1e0988191b549fb6b4c5bae98; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity authentication asserted",
+    "decidedAt": "2026-10-23T07:06:24.016871+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1105-denial-only-review-correction.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Actual user replied: 确认按上述绑定关闭 WI-1105，confirmed，并批准上述收尾流程. This separately confirms WI-1105-denial-only-review-correction finalization sequence 0 / digest sha256:a763e55225cf2a1e337c8fb89bb4bda1fca88cea9e775774fbcf275bd6453a6b. User message time is known only as 2026-10-23 07:02 UTC, minute precision; decidedAt is the actual current recording time, without backdating or invented service-time precision. Official fixed v1.0.1 Runtime b2a43b0a finalize and finalize-verify both exited 0, and the complete native receipt still matches the verified binding byte-for-byte. PR1066 source a4955ca9514430eb2e879ef6765e820c48c3b500 merged normally at 2026-10-23T06:25:10Z into f76a61c755ed384f428358114d1bf72e58280037. Actual main CI39911360470 completed success: all four jobs including Windows, matching source/tested/base bindings, 42 gates executed and passed, 14 packages, zero reuse. Earlier finalize receipt truthfully recorded CI pending at its own time and remains unchanged. Source d7741978eb962ead29efb3bead0394e41c38799c six formal commands, original verification/native records and all prior failures are preserved. Exact source worktree and local/remote source branch were removed normally with independently verified recoverable bundle and all nineteen source/native files retained; no other-instance cleanup is claimed. Historical descriptor authenticity P3, benefit and usage unknown, old69/A/B recovery and separate WI1103 EROFS remain open. This actual confirmed decision is not a GitHub Review, independently authenticated external identity, residual-risk acceptance, another WI close or shared Runtime upgrade. The user separately authorizes only this WI finalize/close two native records through normal PR publication, CI/review, ready, conditional normal merge and actual main verification; no business source changes or extra public logs.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-23T07:06:25Z",
+  "usageCutoff": "2026-10-23T07:06:25.351606490Z",
+  "workItemId": "WI-1105-denial-only-review-correction"
+}
