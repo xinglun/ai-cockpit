@@ -1,0 +1,862 @@
+{
+  "kind": "inspected_acceptance_clause_mapping_not_new_test_execution",
+  "observedAt": "2026-10-19T21:27:29.795248+00:00",
+  "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "originalAcceptanceCriteria": [
+    "Establish separate H historical-integrity, P adjacent-source-change and C current-decision proofs. H validates the immutable old receipt R and complete native chain to A; only policy-reviewed scope, acceptanceCriteria, scenarioCoverage and sources changes are permitted on R-to-A, with the entire review profile constant per operation. Historical evidence grants no current material discharge.",
+    "P must derive A from the actual last adjacent committed native prepared/committed transition to current B, never a Summary marker or arbitrary earlier digest. Replay each operation: only one real authoritySource semantic leaf change is permitted. Support governanceProfile whole-object replace when semantically source-only; reject mixed, reverted, no-op-outside-anchor, pending, forked, direct or nonadjacent changes.",
+    "The old profile-mismatched receipt remains invalid and discharges no Unknown. One private typed finite eligibility is consumed by existing material action projection and recomputed under lifecycle lock by record, without status_projection.rs edits, generic Stale/Invalid waivers or a broad action allow-list bypass.",
+    "Require the full exact current request and member blob/hunk identities, current native authorization and required new Contract review, clean committed source, no Finding and only permitted reviewable Unknown. Validate the actual new reviewer decision independently. Preserve truthful current risk-approval/review provenance and self_declared limits: evidenceRefs syntax does not authenticate humans or extend an old grant to a new binding.",
+    "Preserve immutable receipt/pointer/history and all raw/canonical/native amendment identities. Use a sealed prepare, immutable new sidecar and one atomic current-Summary pointer/history commit with exact pending resume and at-most-once history. Validation failures publish no new material artifacts; precommit residue grants no evidence, committed replay and conflicting retries reject. No physical multi-file atomicity claim.",
+    "Reproduce the real R=17c4100f to A=a5deac9a mixed reviewed history and an actual native adjacent source-only B. Prove shared projection/record behavior, all negative and fault cases, same-profile/CLI/MCP compatibility, and an isolated full four-node lifecycle with actual blocked predecessor Outcome, fresh execution4/reuse0/max1 and actual fixture finish/archive. Do not substitute Missing, all-reuse or mutated positive digests.",
+    "Preserve c960/Contract420 history and delivered ba1c6c90/Contracta5/CI39249701684 unchanged during this implementation. Later real-consumer composition requires a separately reviewed exact candidate containing both ba1 and completed WI1090 with fresh native runtime/admission/material bindings. No Sentinel, real WI finish/archive/closure, merge, live grant, broad profile migration or automatic Runtime adoption."
+  ],
+  "originalScenarios": [
+    {
+      "evidence": [],
+      "expected": "Complete valid R-to-A history permits only reviewed scope/acceptanceCriteria/scenarioCoverage/sources transitions with unchanged profile; real adjacent A-to-B changes only authoritySource, including correct whole-object governanceProfile replace. H/P only permit a NEW current decision; old receipt remains invalid/no discharge.",
+      "required": true,
+      "scenario": "M1 authoritySource-only proof",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Missing required historical review, broken/foreign/pending native chain, intermediate forbidden profile/risk/base changes including revert, Summary-forged or nonadjacent anchors, mixed root-replace changes and unjournaled edits reject without new material writes.",
+      "required": true,
+      "scenario": "M2 forbidden amendments",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Projection and under-lock record use the same H/P/C0 typed helper, preserving strict invalid diagnostics and blockers; record separately validates actual C1 current-request/reviewer/source/assurance input. Current exact material and actual approval/review provenance are required; self_declared human-authentication limits remain explicit.",
+      "required": true,
+      "scenario": "M3 shared admission and service proof",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+    },
+    {
+      "evidence": [],
+      "expected": "Injected failures before/after prepare publish, receipt publish and one atomic Summary commit preserve old canonical bytes/history. Only exact pending continuation commits once; committed replay, wrong/conflicting input and CAS races reject without duplicate history or discharge from residue.",
+      "required": true,
+      "scenario": "M4 logical atomicity and bounded resume",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Finding, other Unknown, dirty/unavailable source, missing/stale/foreign current authorization, changed request/blob/hunk/profile/scanner/policy, corrupt/duplicate/symlinked receipt/pointer/history/chain and material/source changes after the adjacent anchor reject. Workflow review rejects falsely extending old approval to new bindings.",
+      "required": true,
+      "scenario": "M5 integrity and source rejection",
+      "status": "unverified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    }
+  ],
+  "canonicalVerificationPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+  "canonicalRawSha256": "de695b545e6ebd6ca3e7437b1e91b52490a0449c4d09269da8c38655e73736d0",
+  "canonicalReceiptDigest": "sha256:bc70645ee00ce72c46d144ed2c878e03e50b1ed3e7c66586665a3f988787cc7f",
+  "actualFormalSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+  "currentEvidenceOnlyHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+  "formalStartedAt": "2026-10-19T20:34:27.907432+00:00",
+  "formalEndedAt": "2026-10-19T20:43:19.700569+00:00",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "noChecksRerun": true,
+  "rows": [
+    {
+      "id": "M1.1",
+      "condition": "完整已审R-to-A允许scope/acceptanceCriteria/scenarioCoverage/sources四类变化且profile不变",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_authority_source_change_exposes_only_new_decision",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 412,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 33,
+          "assertionActuallyInspected": "Native fixture adds2scope/8acceptance/3scenario/7sources; invalid old receipt/no receipt digest/no discharge and finite new-decision action asserted."
+        },
+        {
+          "test": "segmented_new_decision_preserves_history_and_rejects_committed_replay",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 443,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 35,
+          "assertionActuallyInspected": "Runs both leaf and whole-profile replacement; current independent record succeeds and preserves old bytes/history once."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M1.2",
+      "condition": "相邻A-to-B仅authoritySource；正确整对象governanceProfile replace正例",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_whole_profile_replace_has_source_only_projection",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 621,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 42,
+          "assertionActuallyInspected": "Real native whole-profile replace has one changedValues entry; new-decision safeAction asserted."
+        },
+        {
+          "test": "segmented_new_decision_preserves_history_and_rejects_committed_replay",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 443,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 35,
+          "assertionActuallyInspected": "Both encodings record a new exact receipt and reject committed replay."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M1.3",
+      "condition": "H/P只允许NEW决定；旧收据仍invalid且不消除Unknown",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_authority_source_change_exposes_only_new_decision",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 412,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 33,
+          "assertionActuallyInspected": "Both material_review_receipt_invalid and repository_material_inspection_unavailable remain; review_receipt_digest is None and old sidecar unchanged."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M2.1",
+      "condition": "缺必要历史review，即使current B确认完备仍拒绝",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_requires_each_historical_review_even_with_valid_current_confirmation",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 557,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 41,
+          "assertionActuallyInspected": "Deletes exactly1 R review, asserts current human_decision_required false, then read-only rejection helper. Helper checks no new-decision action when status is readable, record Err, exact Summary bytes unchanged, material artifact-name set unchanged; it also permits a status read to fail closed."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M2.2",
+      "condition": "断/损坏journal、pending原生链拒绝",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_native_history_integrity_and_false_anchor_matrix",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 666,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 34,
+          "assertionActuallyInspected": "Before every mutation, copied Native baseline must expose record action. broken-journal and pending-native-tail then reject without publishing. Helper checks no new-decision action when status is readable, record Err, exact Summary bytes unchanged, material artifact-name set unchanged; it also permits a status read to fail closed."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M2.3",
+      "condition": "禁止profile/risk中间变化，含修改再还原",
+      "coverage": "proven_representatives",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_rejects_forbidden_intermediate_history_and_mixed_adjacency",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 521,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 39,
+          "assertionActuallyInspected": "Actual cases: historical goal, historical risk, reviewerActor change then revert; adjacent extra scope and a goal no-op. Helper checks no new-decision action when status is readable, record Err, exact Summary bytes unchanged, material artifact-name set unchanged; it also permits a status read to fail closed."
+        },
+        {
+          "test": "segmented_rejects_source_replace_that_adds_another_null_profile_field",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 645,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 40,
+          "assertionActuallyInspected": "Whole-profile replace with another explicit-null field is rejected; missing and null are distinct."
+        }
+      ],
+      "gapOrLimit": "Representative profile field is reviewerActor; no Cartesian claim over every profile field."
+    },
+    {
+      "id": "M2.4",
+      "condition": "Summary自报锚点及mixed root-replace拒绝",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_native_history_integrity_and_false_anchor_matrix",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 666,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 34,
+          "assertionActuallyInspected": "fake-summary-adjacency removes P native records and inserts an invented Summary anchor; baseline was proven eligible before mutation."
+        },
+        {
+          "test": "segmented_rejects_source_replace_that_adds_another_null_profile_field",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 645,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 40,
+          "assertionActuallyInspected": "Helper checks no new-decision action when status is readable, record Err, exact Summary bytes unchanged, material artifact-name set unchanged; it also permits a status read to fail closed."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M2.5",
+      "condition": "foreign/forked native chain、历史base变更、独立非相邻锚点、直接未记账编辑在有限替换lane拒绝",
+      "coverage": "not_fully_exercised",
+      "proofLevel": "adjacent_supporting_tests_plus_static_guards_only",
+      "evidence": [
+        {
+          "test": "interlocked_request_rejects_invalid_provenance_without_writes",
+          "sourcePath": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "sourceLine": 1194,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ace7891e0c4a1847cadc0ad19bc0052d28d87bdf2dd2d6176409d14a5251ace",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-5",
+          "decodedStdoutPath": "project-command-5.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 23,
+          "assertionActuallyInspected": "Generic preflight request boundary tests unjournaled_contract, summary_repo/wi and tampered/pending journal with unchanged Contract/Summary/history."
+        },
+        {
+          "test": "material_review_amendment_anchor_requires_adjacent_unique_receipt_edges",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3941,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 6,
+          "assertionActuallyInspected": "Uses fabricated digest graph to reject detached nonadjacent edge; this is the older ordinary receipt-chain helper, not a native finite H/P end-to-end fixture."
+        }
+      ],
+      "gapOrLimit": "No direct native finite-H/P negative run for well-formed foreign/fork chain, protected base transition or independent nonadjacent anchor/direct edit was located in the executed tests. The native loader/transition replay and four-root whitelist are source guards, not substitutes for those missing runs."
+    },
+    {
+      "id": "M3.1",
+      "condition": "projection与持锁record共用私有typed H/P/C0，保持invalid诊断及blockers",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_authority_source_change_exposes_only_new_decision",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 412,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 33,
+          "assertionActuallyInspected": "Finite action availability does not give a receipt or discharge."
+        },
+        {
+          "test": "segmented_new_decision_preserves_history_and_rejects_committed_replay",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 443,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 35,
+          "assertionActuallyInspected": "Existing service performs actual current record for both encodings."
+        },
+        {
+          "test": "finish_and_archive_reject_canonical_material_unknowns",
+          "sourcePath": "crates/cockpit-repository/tests/status_projection.rs",
+          "sourceLine": 1554,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-4",
+          "decodedStdoutPath": "project-command-4.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 9,
+          "assertionActuallyInspected": "Existing lifecycle still rejects canonical Unknown at finish/archive."
+        }
+      ],
+      "gapOrLimit": "Source linkage: material_review.rs projection calls finite_authority_source_replacement_proof; record acquires lifecycle lock then native admission and the same proof; precommit revalidation recomputes it. No status_projection.rs edit in WI1090."
+    },
+    {
+      "id": "M3.2",
+      "condition": "C1独立验证实际current request/reviewer/source/assurance input",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_wrong_current_inputs_publish_no_prepare_or_receipt",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 763,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 43,
+          "assertionActuallyInspected": "Actual wrong cases request/reviewer/source/schema/empty evidence/rationale; each Err preserves Summary bytes and evidence-name set."
+        },
+        {
+          "test": "segmented_new_decision_preserves_history_and_rejects_committed_replay",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 443,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 35,
+          "assertionActuallyInspected": "New receipt.request_digest equals actual input; current status digest and discharge only follow that new receipt."
+        }
+      ],
+      "gapOrLimit": "Assurance positive path is the sole typed SelfDeclared enum and both actual M6 receipts; no claim that a wrong-assurance raw transport variant was separately run."
+    },
+    {
+      "id": "M3.3",
+      "condition": "当前精确材料和真实记录的批准/review来源，self_declared不升级真人认证",
+      "coverage": "proven_with_explicit_assurance_limit",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "material_review_decision_validator_rejects_unapproved_profile_actor",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1004,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 23,
+          "assertionActuallyInspected": "Wrong actor is rejected by the shared typed validator."
+        },
+        {
+          "test": "material_review_decision_validator_rejects_wrong_authority_source",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1287,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 24,
+          "assertionActuallyInspected": "Wrong authoritySource is AuthorityMismatch."
+        }
+      ],
+      "gapOrLimit": "Actual M6 records include exact synthetic current plan/consent and explicitly synthetic actors; real WI1090 remains profile=null with no material grant. evidenceRefs is structural and not human authentication. This scenario verification is implementation/fixture evidence, not actual WI1090 residual-risk acceptance."
+    },
+    {
+      "id": "M4.1",
+      "condition": "prepare/sidecar/Summary六个边界实际故障注入；未提交残余无discharge",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "replacement_transaction_failure_matrix",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3513,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 16,
+          "assertionActuallyInspected": "Iterates before/after prepare, before/after sidecar, before/after Summary. Precommit errors preserve Summary/old sidecar and no receipt discharge; after_summary is resolved from actual canonical committed state."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M4.2",
+      "condition": "精确pending续接复用原immutable receipt/time，history最多一次",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "replacement_pending_retry_reuses_immutable_receipt",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3458,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 12,
+          "assertionActuallyInspected": "Injected after_sidecar interruption then exact retry; serialized returned receipt equals staged bytes, old sidecar unchanged and committed replay rejected."
+        },
+        {
+          "test": "replacement_transaction_failure_matrix",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3513,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 16,
+          "assertionActuallyInspected": "Each path ends with history exactly one old pointer; replay preserves artifacts and Summary."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M4.3",
+      "condition": "错/冲突pending、错误input/runtime/rehashed target及committed replay拒绝",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "replacement_pending_rejects_wrong_input_runtime_and_rehashed_target",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3581,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 11,
+          "assertionActuallyInspected": "Actual pending wrong rationale, different Runtime and resealed injected target Summary all reject without advancing Summary/artifacts."
+        },
+        {
+          "test": "replacement_orphan_sidecar_without_prepare_is_not_adopted",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3647,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 10,
+          "assertionActuallyInspected": "Actual staged sidecar with removed prepare rejects without adoption or Summary advance."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M4.4",
+      "condition": "CAS及source/review/目录身份变化重校验",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "replacement_pending_summary_conflict_preserves_concurrent_state",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3626,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 13,
+          "assertionActuallyInspected": "Actual pending plus concurrently changed Summary rejects and preserves concurrent bytes and artifacts."
+        },
+        {
+          "test": "replacement_rechecks_source_review_and_summary_before_commit",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3726,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 15,
+          "assertionActuallyInspected": "Precommit callback mutates Summary/source/current review/active directory/evidence directory. Every mutation rejects; old pointer/history and concurrent state preserved."
+        }
+      ],
+      "gapOrLimit": "Cooperative lifecycle-lock CAS only; no power-loss durability, parent-directory fsync or arbitrary final-gap uncooperative-writer guarantee."
+    },
+    {
+      "id": "M5.1",
+      "condition": "Finding、其他Unknown拒绝",
+      "coverage": "proven_shared_validator_and_planner",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "material_review_decision_validator_rejects_findings_and_extra_unknowns",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1156,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 21,
+          "assertionActuallyInspected": "Finding booleans/categories -> FindingPresent; additional Unknown -> UnexpectedUnknown."
+        },
+        {
+          "test": "finding_is_never_reviewable",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 2145,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 19,
+          "assertionActuallyInspected": "Committed Finding never becomes reviewable."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M5.2",
+      "condition": "dirty/unavailable source拒绝",
+      "coverage": "proven_shared_source_boundary",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "dirty_and_untracked_source_refuse_request",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 2123,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 18,
+          "assertionActuallyInspected": "Dirty and untracked source refuse canonical request."
+        },
+        {
+          "test": "unreadable_committed_source_refuses_request",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 2717,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 53,
+          "assertionActuallyInspected": "Unreadable current source is rejected."
+        },
+        {
+          "test": "unavailable_material_projection_blocks_verification_even_with_pending_retry",
+          "sourcePath": "crates/cockpit-repository/tests/status_projection.rs",
+          "sourceLine": 1377,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-4",
+          "decodedStdoutPath": "project-command-4.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 42,
+          "assertionActuallyInspected": "Existing status retains source-unavailable verification gate despite pending retry."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M5.3",
+      "condition": "缺current review、当前review竞态/foreign通用审阅绑定拒绝",
+      "coverage": "partly_proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_native_history_integrity_and_false_anchor_matrix",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 666,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 34,
+          "assertionActuallyInspected": "missing-current-review deletes exact matching current decision; initial finite baseline positive then rejection."
+        },
+        {
+          "test": "replacement_rechecks_source_review_and_summary_before_commit",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3726,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 15,
+          "assertionActuallyInspected": "Current review bytes change before commit and record rejects."
+        },
+        {
+          "test": "foreign_recorded_preflight_contract_rejects_review_without_writes",
+          "sourcePath": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "sourceLine": 975,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ace7891e0c4a1847cadc0ad19bc0052d28d87bdf2dd2d6176409d14a5251ace",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-5",
+          "decodedStdoutPath": "project-command-5.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 18,
+          "assertionActuallyInspected": "Generic Contract review boundary rejects foreign recorded preflight Contract."
+        }
+      ],
+      "gapOrLimit": "Dedicated stale/foreign current-review variants on an otherwise eligible native finite-H/P fixture were not run; generic review-boundary evidence is labelled separately."
+    },
+    {
+      "id": "M5.4",
+      "condition": "request/blob/hunk/profile/scanner/policy变化拒绝旧决定",
+      "coverage": "partly_proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "material_review_decision_validator_rejects_stale_input_and_tampered_request",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1060,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 22,
+          "assertionActuallyInspected": "Old requestDigest rejected; changed entry path without resealing rejected as RequestDigestMismatch."
+        },
+        {
+          "test": "old_material_decision_is_stale_after_analysis_or_policy_identity_changes",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1097,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 31,
+          "assertionActuallyInspected": "Rebinds actual typed request after analysis implementation/target semantic profile/policy changes: new input accepted and old input rejected."
+        },
+        {
+          "test": "adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1209,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 4,
+          "assertionActuallyInspected": "New committed Rust member joins exact request and changes digest."
+        },
+        {
+          "test": "stale_receipt_with_changed_contract_profile_is_not_renewable",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1779,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 50,
+          "assertionActuallyInspected": "Generic changed-profile receipt is not an ordinary renewal."
+        }
+      ],
+      "gapOrLimit": "No dedicated after-P Rust blob/hunk member mutation or per-field forged canonical member-digest finite record case was found. Public record accepts only decision input and recomputes request, so direct request injection is not its API; no exploit is asserted."
+    },
+    {
+      "id": "M5.5",
+      "condition": "腐败/重复JSON/symlink receipt/pointer/history/chain拒绝",
+      "coverage": "partly_proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_native_history_integrity_and_false_anchor_matrix",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 666,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 34,
+          "assertionActuallyInspected": "Duplicate prepared JSON, duplicate sidecar JSON with resealed pointer digest and broken journal all reject from a proven positive baseline."
+        },
+        {
+          "test": "segmented_old_sidecar_symlink_does_not_gain_replacement_eligibility",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 805,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 36,
+          "assertionActuallyInspected": "Actual old sidecar symlink is rejected without new publication."
+        },
+        {
+          "test": "stale_material_review_receipt_requires_valid_prior_sidecar",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1617,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 46,
+          "assertionActuallyInspected": "Corrupt, resealed foreign-repository identity and missing old sidecar are invalid and do not publish a new sidecar."
+        },
+        {
+          "test": "material_review_rejects_a_summary_pointer_to_a_noncanonical_sidecar_path",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 1572,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 26,
+          "assertionActuallyInspected": "Copied valid receipt under a noncanonical pointer path cannot admit renewal."
+        },
+        {
+          "test": "replacement_pending_symlinks_reject_without_following_or_overwriting",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3680,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 14,
+          "assertionActuallyInspected": "Pending prepare and pending new-sidecar symlinks reject; old bytes/current Summary/artifacts remain."
+        }
+      ],
+      "gapOrLimit": "No direct symlinked native journal or well-formed foreign pointer-history sidecar end-to-end variant was found; the existing foreign-pointer-history test uses a malformed string member. Bounded nofollow/history identity source guards are present; no Cartesian-product execution claim."
+    },
+    {
+      "id": "M5.6",
+      "condition": "相邻换绑后来源变化拒绝",
+      "coverage": "proven",
+      "proofLevel": "actual_tests_and_source_link",
+      "evidence": [
+        {
+          "test": "segmented_rejects_committed_source_changed_after_adjacent_anchor",
+          "sourcePath": "crates/cockpit-repository/tests/material_review.rs",
+          "sourceLine": 604,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-3",
+          "decodedStdoutPath": "project-command-3.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 37,
+          "assertionActuallyInspected": "Commits README change after B, refreshes review and still rejects finite proof; not merely a stale-review failure."
+        },
+        {
+          "test": "replacement_rechecks_source_review_and_summary_before_commit",
+          "sourcePath": "crates/cockpit-repository/src/material_review.rs",
+          "sourceLine": 3726,
+          "testedSourceHead": "5b6954671c991d57261b98f4f0c4bdd3bf1e377a",
+          "sourceRawSha256": "0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48",
+          "sameBytesAtCurrentEvidenceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6",
+          "formalNodeId": "project-command-2",
+          "decodedStdoutPath": "project-command-2.stdout.decoded-from-canonical.actual.txt",
+          "passedStdoutLine": 15,
+          "assertionActuallyInspected": "Actual source write after sidecar publication rejects before Summary commit."
+        }
+      ],
+      "gapOrLimit": null
+    },
+    {
+      "id": "M5.7",
+      "condition": "工作流拒绝把旧批准扩展到新binding",
+      "coverage": "current_workflow_stopped_no_grant",
+      "proofLevel": "workflow_scope_and_current_native_facts",
+      "evidence": [],
+      "gapOrLimit": "Actual current plan is reviewEnabled=false/profile=null and only one structurally reviewable Unknown. New WI1090 risk decision has not occurred. Technical review, synthetic fixture decisions and old WI1089 consent are not recorded as real material approval. A minimal policy proposal is prepared only. This is an explicit uncompleted real-material workflow, not a Rust human-authentication test."
+    }
+  ],
+  "scenarioRecordingDecisions": {
+    "M1 authoritySource-only proof": {
+      "nativeRecord": "verified",
+      "reason": "All original positive H/P/new-decision/no-discharge clauses map to passing native fixture integration tests and both actual M6 encodings."
+    },
+    "M2 forbidden amendments": {
+      "nativeRecord": "unverified",
+      "reason": "Keep partial: dedicated finite-native foreign/fork/base/direct/nonadjacent cases not all exercised; generic preflight/ordinary-chain guards are not relabelled as that proof."
+    },
+    "M3 shared admission and service proof": {
+      "nativeRecord": "verified",
+      "reason": "Shared private proof and native admission under lifecycle lock plus actual independent C1 fixtures/wrong-input rejection; assurance remains self_declared, not a real WI1090 risk grant."
+    },
+    "M4 logical atomicity and bounded resume": {
+      "nativeRecord": "verified",
+      "reason": "Actual six publication boundaries, exact original receipt retry, wrong/conflicting pending, replay, CAS/current-source/review/namespace races all passed; cooperative-lock logical atomicity only."
+    },
+    "M5 integrity and source rejection": {
+      "nativeRecord": "unverified",
+      "reason": "Keep partial: named finite-current authorization/member/symlink-history variants and actual real-material risk workflow remain incomplete; no full-matrix green is inferred."
+    }
+  },
+  "sourceGuardsLabelledStatic": [
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "function": "finite_authority_source_replacement_proof",
+      "line": 2167
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "function": "read_material_review_receipt_binding",
+      "line": 1609
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "function": "validate_material_review_decision_with_contract_digest",
+      "line": 270
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "function": "revalidate_material_replacement",
+      "line": 2922
+    }
+  ],
+  "nonblockingDeferred": "Parent explicitly deferred pending-after-old-sidecar/historical-review/journal deletion/tamper source additions. Shared proof revalidation is statically reviewed; no such additional test is claimed run.",
+  "assurance": "Verified scenario labels mean the stated implementation/test behavior under retained evidence, never actual real-person authentication, WI1090 material residual-risk consent, Sentinel recovery or terminal lifecycle authority."
+}

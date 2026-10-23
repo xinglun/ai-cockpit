@@ -1,5 +1,5 @@
-//! Read-only, committed-source material identity. No decision or discharge is
-//! performed here; the opt-in is only reported to a future review service.
+//! Committed material identity and exact opt-in review decisions. Historical
+//! replacement eligibility never makes an invalid old receipt current.
 
 use super::{
     ObserverError, acquire_lifecycle_lock, contains_strong_instruction_injection,
@@ -25,7 +25,7 @@ use cockpit_protocol::{
     MaterialInspectionReviewDecision, MaterialInspectionReviewDecisionInput,
     MaterialInspectionReviewDecisionReceipt, RuntimeContext, digest_json,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sha2::{Digest as _, Sha256};
 #[cfg(not(any(unix, windows)))]
 use std::fs::OpenOptions;
@@ -33,7 +33,7 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     fs::{self, File},
     io,
-    path::Path,
+    path::{Path, PathBuf},
 };
 use thiserror::Error;
 
@@ -46,6 +46,27 @@ const MAX_MATERIAL_TOTAL_TEXT_BYTES: u64 = 16 * 1024 * 1024;
 const MAX_PATCH_BYTES: usize = MAX_BOUNDED_GIT_OUTPUT_BYTES;
 const MAX_ACTIVE_CONTRACT_BYTES: u64 = MAX_BOUNDED_GIT_OUTPUT_BYTES as u64;
 const MATERIAL_REVIEW_EVIDENCE_DIRECTORY: &str = "material-inspection-review";
+
+#[cfg(test)]
+thread_local! {
+    static REPLACEMENT_FAILURE: std::cell::Cell<Option<&'static str>> = const { std::cell::Cell::new(None) };
+    static REPLACEMENT_BEFORE_COMMIT: std::cell::RefCell<Option<Box<dyn FnOnce()>>> = const { std::cell::RefCell::new(None) };
+}
+
+#[cfg(test)]
+fn replacement_test_boundary(root: &Path, stage: &'static str) -> Result<(), ObserverError> {
+    REPLACEMENT_FAILURE.with(|failure| {
+        if failure.get() == Some(stage) {
+            failure.set(None);
+            Err(replacement_error(
+                root,
+                format!("injected interruption: {stage}"),
+            ))
+        } else {
+            Ok(())
+        }
+    })
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -1288,6 +1309,14 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
             Ok(MaterialReviewReceiptState::Current(receipt)) => (Some(*receipt), false),
             Ok(MaterialReviewReceiptState::Stale) => (None, true),
             Err(_error) => {
+                let review_decision_available = finite_authority_source_replacement_proof(
+                    root,
+                    contract,
+                    contract_digest,
+                    &request,
+                    summary_path,
+                )
+                .is_ok_and(|proof| proof.is_some());
                 let mut effective_unknowns = request.raw_unknown_codes.clone();
                 effective_unknowns.push("material_review_receipt_invalid".into());
                 effective_unknowns.sort();
@@ -1304,7 +1333,7 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
                     finding_codes: request.finding_codes,
                     blocked_by_finding,
                     projection_unavailable: false,
-                    review_decision_available: false,
+                    review_decision_available,
                 });
             }
         };
@@ -1566,13 +1595,23 @@ pub(crate) fn require_material_review_gate(
     Ok(projection)
 }
 
-fn read_material_review_receipt(
+struct BoundMaterialReviewReceipt {
+    root: PathBuf,
+    summary: serde_json::Value,
+    pointer: serde_json::Value,
+    receipt: MaterialInspectionReviewDecisionReceipt,
+    sidecar_path: PathBuf,
+    stale_request: bool,
+}
+
+/// Only immutable file/pointer integrity. Current-profile validity is kept in
+/// the strict reader below; historical integrity alone grants no discharge.
+fn read_material_review_receipt_binding(
     root: &Path,
     contract: &Contract,
-    contract_digest: &Digest,
     request: &MaterialReviewRequest,
     summary_path: &Path,
-) -> Result<MaterialReviewReceiptState, ObserverError> {
+) -> Result<Option<BoundMaterialReviewReceipt>, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,
@@ -1629,7 +1668,7 @@ fn read_material_review_receipt(
     ) {
         Ok(bytes) => bytes,
         Err(_error) if !summary_path.exists() => {
-            return Ok(MaterialReviewReceiptState::Missing);
+            return Ok(None);
         }
         Err(error) => return Err(error),
     };
@@ -1643,7 +1682,7 @@ fn read_material_review_receipt(
             message: format!("invalid Summary JSON: {error}"),
         })?;
     let Some(pointer) = summary.get("materialReviewReceipt") else {
-        return Ok(MaterialReviewReceiptState::Missing);
+        return Ok(None);
     };
     let path = pointer.get("path").and_then(serde_json::Value::as_str);
     let file_digest = pointer.get("digest").and_then(serde_json::Value::as_str);
@@ -1730,6 +1769,33 @@ fn read_material_review_receipt(
                 .into(),
         });
     }
+    Ok(Some(BoundMaterialReviewReceipt {
+        root,
+        pointer: pointer.clone(),
+        summary,
+        receipt,
+        sidecar_path,
+        stale_request,
+    }))
+}
+
+fn read_material_review_receipt(
+    root: &Path,
+    contract: &Contract,
+    contract_digest: &Digest,
+    request: &MaterialReviewRequest,
+    summary_path: &Path,
+) -> Result<MaterialReviewReceiptState, ObserverError> {
+    let Some(BoundMaterialReviewReceipt {
+        root,
+        receipt,
+        sidecar_path,
+        stale_request,
+        ..
+    }) = read_material_review_receipt_binding(root, contract, request, summary_path)?
+    else {
+        return Ok(MaterialReviewReceiptState::Missing);
+    };
     let current_profile = contract
         .material_inspection_review_profile()
         .map_err(|message| ObserverError::State {
@@ -1830,6 +1896,581 @@ fn read_material_review_receipt(
         });
     }
     Ok(MaterialReviewReceiptState::Current(Box::new(receipt)))
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct AuthoritySourceReplacementProof {
+    prior_pointer: serde_json::Value,
+    prior_receipt_digest: Digest,
+    historical_bindings_digest: Digest,
+    journal_digest: Digest,
+    current_review_digest: Digest,
+    repository_snapshot_digest: Digest,
+}
+
+fn replacement_error(path: &Path, message: impl Into<String>) -> ObserverError {
+    ObserverError::State {
+        path: path.into(),
+        message: format!("finite material-review replacement: {}", message.into()),
+    }
+}
+
+fn replacement_json(
+    directory: &Dir,
+    name: &str,
+    path: &Path,
+) -> Result<(serde_json::Value, Digest), ObserverError> {
+    let bytes =
+        read_cap_file_nofollow_bounded(directory, name, path, MAX_BOUNDED_GIT_OUTPUT_BYTES as u64)?;
+    super::reject_duplicate_json_keys(&bytes)
+        .map_err(|message| replacement_error(path, message))?;
+    let value = serde_json::from_slice(&bytes)
+        .map_err(|error| replacement_error(path, error.to_string()))?;
+    Ok((value, Digest::sha256_bytes(&bytes)))
+}
+
+/// Objects are compared recursively; a changed collection is one semantic
+/// field. This supports a native whole-profile replace without hiding leaves.
+fn replacement_changed_paths(
+    before: &serde_json::Value,
+    after: &serde_json::Value,
+    prefix: &str,
+    paths: &mut Vec<String>,
+) {
+    if before == after {
+        return;
+    }
+    if let (Some(before), Some(after)) = (before.as_object(), after.as_object()) {
+        let keys = before.keys().chain(after.keys()).collect::<BTreeSet<_>>();
+        for key in keys {
+            let escaped = key.replace('~', "~0").replace('/', "~1");
+            let path = format!("{prefix}/{escaped}");
+            match (before.get(key), after.get(key)) {
+                (Some(before), Some(after)) => {
+                    replacement_changed_paths(before, after, &path, paths)
+                }
+                _ => paths.push(path),
+            }
+        }
+    } else {
+        paths.push(prefix.to_owned());
+    }
+}
+
+fn replacement_review_matches(
+    value: &serde_json::Value,
+    contract: &Contract,
+    digest: &Digest,
+    snapshot: &Digest,
+) -> bool {
+    let valid_digest_field = |key: &str| {
+        value[key]
+            .as_str()
+            .and_then(|text| text.parse::<Digest>().ok())
+            .is_some_and(|digest| valid_digest(&digest))
+    };
+    value["schemaVersion"] == 1
+        && value["decisionId"] == "contract-preflight-review"
+        && value["decision"] == "confirm_review"
+        && value["repositoryId"] == contract.repository_id
+        && value["workItemId"] == contract.work_item_id
+        && value["contractDigest"].as_str() == Some(digest.as_str())
+        && value["repositorySnapshotDigest"].as_str() == Some(snapshot.as_str())
+        && valid_digest_field("preflightDecisionDigest")
+        && value["recordedAt"]
+            .as_str()
+            .is_some_and(valid_utc_runtime_timestamp)
+        && ["recordedBy", "reason"].iter().all(|key| {
+            value[*key]
+                .as_str()
+                .is_some_and(|text| !text.trim().is_empty() && text.trim() == text)
+        })
+}
+
+fn replacement_review_records(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Vec<(serde_json::Value, Digest)>, ObserverError> {
+    let root_dir =
+        Dir::open_ambient_dir(root, ambient_authority()).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let path = root.join(".ai/decisions");
+    let directory = open_cap_directory_nofollow_strict(&ai, "decisions", &path)?;
+    let mut names = Vec::new();
+    for entry in directory.entries().map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if names.len() >= MAX_MATERIAL_CHANGED_FILES {
+            return Err(replacement_error(
+                &path,
+                "too many historical review records",
+            ));
+        }
+        let name = entry.file_name();
+        let Some(name) = name.to_str() else { continue };
+        if name.starts_with(&format!("{work_item_id}.preflight-review")) && name.ends_with(".json")
+        {
+            names.push(name.to_owned());
+        }
+    }
+    names.sort();
+    names
+        .into_iter()
+        .map(|name| replacement_json(&directory, &name, &path.join(&name)))
+        .collect()
+}
+
+fn replacement_receipt_matches_profile(
+    receipt: &MaterialInspectionReviewDecisionReceipt,
+    contract: &Contract,
+) -> Result<bool, ObserverError> {
+    let Some(profile) = contract
+        .material_inspection_review_profile()
+        .map_err(|message| replacement_error(Path::new("historical-profile"), message))?
+    else {
+        return Ok(false);
+    };
+    let mut paths = BTreeSet::new();
+    Ok(json_digest(&profile)
+        .map_err(|error| replacement_error(Path::new("historical-profile"), error.to_string()))?
+        == receipt.profile_digest
+        && profile.reviewer_actor == receipt.reviewer_actor
+        && profile.authority_source == receipt.authority_source
+        && receipt.assurance == MaterialInspectionReviewAssurance::SelfDeclared
+        && receipt.decision == MaterialInspectionReviewDecision::AcceptPermittedUnknowns
+        && valid_utc_runtime_timestamp(&receipt.recorded_at)
+        && !receipt.recorded_by.trim().is_empty()
+        && !receipt.rationale.trim().is_empty()
+        && !receipt.residual_risk.trim().is_empty()
+        && !receipt.evidence_refs.is_empty()
+        && receipt.evidence_refs.iter().all(|reference| {
+            !reference.path.trim().is_empty()
+                && reference.path.trim() == reference.path
+                && valid_digest(&reference.digest)
+                && paths.insert(reference.path.clone())
+        }))
+}
+
+fn replacement_pointer_history(
+    root: &Path,
+    contract: &Contract,
+    bound: &BoundMaterialReviewReceipt,
+    contracts: &BTreeMap<String, Contract>,
+    current_head: &str,
+) -> Result<Vec<Digest>, ObserverError> {
+    let Some(values) = bound.summary.get("materialReviewReceiptHistory") else {
+        return Ok(Vec::new());
+    };
+    let values = values
+        .as_array()
+        .ok_or_else(|| replacement_error(root, "pointer history must be an array"))?;
+    if values.len() > MAX_MATERIAL_CHANGED_FILES {
+        return Err(replacement_error(
+            root,
+            "pointer history exceeds bounded count",
+        ));
+    }
+    let directory = material_review_work_item_directory(root, &contract.work_item_id, false)?;
+    let path = root
+        .join(".ai/evidence")
+        .join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY)
+        .join(&contract.work_item_id);
+    let git = GitRepository::discover(root)
+        .map_err(|error| replacement_error(root, error.to_string()))?;
+    let mut requests = BTreeSet::new();
+    let mut digests = Vec::new();
+    for pointer in values {
+        if pointer.as_object().is_none_or(|object| {
+            object.len() != 4
+                || object.keys().any(|key| {
+                    !["path", "digest", "requestDigest", "receiptDigest"].contains(&key.as_str())
+                })
+        }) || pointer == &bound.pointer
+        {
+            return Err(replacement_error(
+                &path,
+                "malformed or duplicated historical pointer",
+            ));
+        }
+        let request = pointer["requestDigest"]
+            .as_str()
+            .and_then(|value| value.parse::<Digest>().ok())
+            .filter(valid_digest)
+            .ok_or_else(|| replacement_error(&path, "invalid historical pointer request"))?;
+        if !requests.insert(request.to_string()) {
+            return Err(replacement_error(
+                &path,
+                "duplicate historical request pointer",
+            ));
+        }
+        let name = format!(
+            "{}.json",
+            request
+                .as_str()
+                .strip_prefix("sha256:")
+                .expect("validated digest")
+        );
+        let relative = format!(
+            ".ai/evidence/{MATERIAL_REVIEW_EVIDENCE_DIRECTORY}/{}/{name}",
+            contract.work_item_id
+        );
+        let (value, raw) = replacement_json(&directory, &name, &path.join(&name))?;
+        let receipt: MaterialInspectionReviewDecisionReceipt = serde_json::from_value(value)
+            .map_err(|error| replacement_error(&path, error.to_string()))?;
+        receipt
+            .validate_integrity()
+            .map_err(|message| replacement_error(&path, message))?;
+        let historical = contracts
+            .get(receipt.contract_digest.as_str())
+            .ok_or_else(|| {
+                replacement_error(
+                    &path,
+                    "historical receipt has no native Contract provenance",
+                )
+            })?;
+        let head = receipt
+            .reviewed_source_head
+            .as_deref()
+            .ok_or_else(|| replacement_error(&path, "historical source-head provenance missing"))?;
+        if pointer["path"] != relative
+            || pointer["digest"].as_str() != Some(raw.as_str())
+            || pointer["receiptDigest"].as_str() != Some(receipt.receipt_digest.as_str())
+            || request != receipt.request_digest
+            || receipt.repository_id != contract.repository_id
+            || receipt.work_item_id != contract.work_item_id
+            || !replacement_receipt_matches_profile(&receipt, historical)?
+            || !git
+                .is_ancestor_bounded(head, current_head, 1024)
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+        {
+            return Err(replacement_error(
+                &path,
+                "historical pointer/sidecar identity or profile mismatch",
+            ));
+        }
+        digests.push(raw);
+    }
+    Ok(digests)
+}
+
+/// H/P/C0 is a separate eligibility for NEW evidence, never a replacement for
+/// strict current receipt validation or current Runtime action admission.
+fn finite_authority_source_replacement_proof(
+    root: &Path,
+    contract: &Contract,
+    contract_digest: &Digest,
+    request: &MaterialReviewRequest,
+    summary_path: &Path,
+) -> Result<Option<AuthoritySourceReplacementProof>, ObserverError> {
+    const SOURCE: &str = "/governanceProfile/materialInspectionReview/authoritySource";
+    const HISTORY: &[&str] = &["scope", "acceptanceCriteria", "scenarioCoverage", "sources"];
+    let unknowns = request
+        .entries
+        .iter()
+        .filter(|entry| entry.scanner_assessment == MaterialScannerAssessment::Unknown)
+        .collect::<Vec<_>>();
+    if !request.review_enabled
+        || contract.authority != "authorized"
+        || request.blocked_by_finding
+        || !request.finding_codes.is_empty()
+        || request.raw_unknown_codes != ["repository_material_inspection_unavailable"]
+        || unknowns.is_empty()
+        || unknowns
+            .iter()
+            .any(|entry| !entry.reviewable || entry.after_blob_digest.is_none())
+    {
+        return Ok(None);
+    }
+    let Some(bound) = read_material_review_receipt_binding(root, contract, request, summary_path)?
+    else {
+        return Ok(None);
+    };
+    let profile = contract
+        .material_inspection_review_profile()
+        .map_err(|message| replacement_error(root, message))?
+        .ok_or_else(|| replacement_error(root, "current profile missing"))?;
+    if !bound.stale_request
+        || json_digest(&profile).map_err(|error| replacement_error(root, error.to_string()))?
+            == bound.receipt.profile_digest
+    {
+        return Ok(None);
+    }
+    if bound.summary["workItemId"] != contract.work_item_id
+        || bound.summary["repositoryId"] != contract.repository_id
+        || bound
+            .summary
+            .get("materialReviewReceiptHistory")
+            .is_some_and(|value| !value.is_array())
+    {
+        return Err(replacement_error(
+            summary_path,
+            "invalid historical Summary identity/history",
+        ));
+    }
+    let history = super::read_work_item_contract_amendments(root, &contract.work_item_id)?;
+    super::contract_amendment::validate_transition_chain(
+        root,
+        &contract.work_item_id,
+        &history,
+        Some(contract_digest),
+    )?;
+    let Some(tail) = history.last() else {
+        return Ok(None);
+    };
+    if tail.new_contract_digest != *contract_digest {
+        return Err(replacement_error(
+            root,
+            "current Contract is not the committed native tail",
+        ));
+    }
+    let starts = history
+        .iter()
+        .enumerate()
+        .filter_map(|(index, item)| {
+            (item.previous_contract_digest == bound.receipt.contract_digest).then_some(index)
+        })
+        .collect::<Vec<_>>();
+    let [start] = starts.as_slice() else {
+        return Ok(None);
+    };
+    let root_dir =
+        Dir::open_ambient_dir(root, ambient_authority()).map_err(|source| ObserverError::Read {
+            path: root.into(),
+            source,
+        })?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let evidence = open_cap_directory_nofollow_strict(&ai, "evidence", &root.join(".ai/evidence"))?;
+    let name = format!("{}.contract-amendments", contract.work_item_id);
+    let path = root.join(".ai/evidence").join(&name);
+    let directory = open_cap_directory_nofollow_strict(&evidence, &name, &path)?;
+    let reviews = replacement_review_records(root, &contract.work_item_id)?;
+    let mut raw_bindings = Vec::new();
+    let mut historical_contracts = BTreeMap::new();
+    let mut used_review_records = BTreeSet::new();
+    let mut expected = bound.receipt.contract_digest.clone();
+    for (index, item) in history.iter().enumerate() {
+        let prepared_name = format!("{:08}.prepared.json", item.sequence);
+        let committed_name = format!("{:08}.committed.json", item.sequence);
+        let (prepared, prepared_raw) =
+            replacement_json(&directory, &prepared_name, &path.join(&prepared_name))?;
+        let (committed, committed_raw) =
+            replacement_json(&directory, &committed_name, &path.join(&committed_name))?;
+        let native: super::ContractAmendmentReceipt =
+            serde_json::from_value(committed["receipt"].clone())
+                .map_err(|error| replacement_error(&path, error.to_string()))?;
+        let data = &prepared["prepared"];
+        let before: Contract = serde_json::from_value(data["previousContract"].clone())
+            .map_err(|error| replacement_error(&path, error.to_string()))?;
+        let after: Contract = serde_json::from_value(data["newContract"].clone())
+            .map_err(|error| replacement_error(&path, error.to_string()))?;
+        let amendment: cockpit_protocol::ContractAmendmentRequest =
+            serde_json::from_value(data["request"].clone())
+                .map_err(|error| replacement_error(&path, error.to_string()))?;
+        if native != *item
+            || prepared["preparedDigest"] != committed["preparedDigest"]
+            || json_digest(&data["previousContract"])
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+                != item.previous_contract_digest
+            || json_digest(&data["newContract"])
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+                != item.new_contract_digest
+            || json_digest(&amendment)
+                .map_err(|error| replacement_error(&path, error.to_string()))?
+                != item.request_digest
+            || data["repositorySnapshotDigest"].as_str()
+                != Some(item.repository_snapshot_digest.as_str())
+        {
+            return Err(replacement_error(
+                &path,
+                "raw historical inputs changed after native validation",
+            ));
+        }
+        // The native loader already replays the complete prefix, including
+        // Runtime-derived capability metadata on initial profile activation.
+        // H/P starts at the receipt; its capabilities must remain unchanged.
+        if index >= *start {
+            let (derived, _) =
+                cockpit_protocol::apply_contract_amendment_with_trace(&before, &amendment)
+                    .map_err(|_| {
+                        replacement_error(&path, "historical operation replay rejected")
+                    })?;
+            if derived != after {
+                return Err(replacement_error(
+                    &path,
+                    "historical replay does not reach recorded Contract",
+                ));
+            }
+        }
+        raw_bindings.extend([prepared_raw, committed_raw]);
+        historical_contracts.insert(item.previous_contract_digest.to_string(), before.clone());
+        historical_contracts.insert(item.new_contract_digest.to_string(), after.clone());
+        if item.policy_review_required {
+            let Some((_, digest)) = reviews.iter().find(|(value, _)| {
+                replacement_review_matches(
+                    value,
+                    contract,
+                    &item.new_contract_digest,
+                    &item.repository_snapshot_digest,
+                ) && value["recordedAt"]
+                    .as_str()
+                    .zip(Some(item.recorded_at.as_str()))
+                    .and_then(|(review, amendment)| {
+                        chrono::DateTime::parse_from_rfc3339(review)
+                            .ok()
+                            .zip(chrono::DateTime::parse_from_rfc3339(amendment).ok())
+                    })
+                    .is_some_and(|(review, amendment)| review >= amendment)
+                    && !used_review_records.contains(&value.to_string())
+            }) else {
+                return Err(replacement_error(
+                    &path,
+                    "a required historical Contract review is missing or foreign",
+                ));
+            };
+            // A repeated Contract digest after a later transition still needs
+            // its own actual decision, not a replay of an earlier file.
+            used_review_records.insert(
+                reviews
+                    .iter()
+                    .find(|(_, raw)| raw == digest)
+                    .expect("selected review")
+                    .0
+                    .to_string(),
+            );
+            raw_bindings.push(digest.clone());
+        }
+        if index < *start {
+            continue;
+        }
+        if item.previous_contract_digest != expected {
+            return Err(replacement_error(
+                &path,
+                "receipt-to-anchor segment is discontinuous",
+            ));
+        }
+        expected = item.new_contract_digest.clone();
+        let mut changes = Vec::new();
+        replacement_changed_paths(
+            &data["previousContract"],
+            &data["newContract"],
+            "",
+            &mut changes,
+        );
+        if index + 1 == history.len() {
+            if changes != [SOURCE] || item.changed_values.len() != 1 {
+                return Err(replacement_error(
+                    &path,
+                    "last adjacent transition is not one source-only change",
+                ));
+            }
+            let change = &item.changed_values[0];
+            let mut leaves = Vec::new();
+            replacement_changed_paths(
+                change
+                    .old_value
+                    .as_ref()
+                    .unwrap_or(&serde_json::Value::Null),
+                change
+                    .new_value
+                    .as_ref()
+                    .unwrap_or(&serde_json::Value::Null),
+                &change.path,
+                &mut leaves,
+            );
+            if leaves != [SOURCE] {
+                return Err(replacement_error(
+                    &path,
+                    "adjacent request mixes or reverts another semantic field",
+                ));
+            }
+        } else {
+            if before.governance_profile != after.governance_profile
+                || changes
+                    .iter()
+                    .any(|path| !HISTORY.contains(&path.split('/').nth(1).unwrap_or_default()))
+                || item.changed_values.iter().any(|change| {
+                    !HISTORY.contains(&change.path.split('/').nth(1).unwrap_or_default())
+                })
+            {
+                return Err(replacement_error(
+                    &path,
+                    "historical segment changes a forbidden field/profile",
+                ));
+            }
+        }
+    }
+    let old_contract = historical_contracts
+        .get(bound.receipt.contract_digest.as_str())
+        .ok_or_else(|| replacement_error(root, "old review Contract unavailable"))?;
+    if !replacement_receipt_matches_profile(&bound.receipt, old_contract)? {
+        return Err(replacement_error(
+            root,
+            "old immutable receipt does not match its historical profile",
+        ));
+    }
+    let context = super::RepositoryExecutionContext::capture(root)?;
+    let observed = super::snapshot_digest(context.snapshot())?;
+    let current_review = &bound.summary["decisionEvidence"];
+    if observed != tail.repository_snapshot_digest
+        || bound.summary["preflightContractDigest"].as_str() != Some(contract_digest.as_str())
+        || bound.summary["preflightRepositorySnapshotDigest"].as_str() != Some(observed.as_str())
+        || !replacement_review_matches(current_review, contract, contract_digest, &observed)
+        || bound.summary["preflightDecisionDigest"] != current_review["preflightDecisionDigest"]
+        || !reviews.iter().any(|(value, _)| value == current_review)
+        || super::governance_controls::preflight_decision_evidence_state(
+            root,
+            &contract.work_item_id,
+            contract_digest,
+        ) != super::governance_controls::PreflightDecisionEvidenceState::Valid
+    {
+        return Err(replacement_error(
+            root,
+            "current source or independent native review is not bound to adjacent transition",
+        ));
+    }
+    let reviewed = bound
+        .receipt
+        .reviewed_source_head
+        .as_deref()
+        .ok_or_else(|| replacement_error(root, "old source-head provenance missing"))?;
+    let git = GitRepository::discover(root)
+        .map_err(|error| replacement_error(root, error.to_string()))?;
+    if !git
+        .is_ancestor_bounded(reviewed, &request.reviewed_source_head, 1024)
+        .map_err(|error| replacement_error(root, error.to_string()))?
+        || history != super::read_work_item_contract_amendments(root, &contract.work_item_id)?
+    {
+        return Err(replacement_error(
+            root,
+            "historical ancestry/inputs changed during observation",
+        ));
+    }
+    raw_bindings.extend(replacement_pointer_history(
+        root,
+        contract,
+        &bound,
+        &historical_contracts,
+        &request.reviewed_source_head,
+    )?);
+    Ok(Some(AuthoritySourceReplacementProof {
+        prior_pointer: bound.pointer,
+        prior_receipt_digest: bound.receipt.receipt_digest,
+        historical_bindings_digest: json_digest(&raw_bindings)
+            .map_err(|error| replacement_error(root, error.to_string()))?,
+        journal_digest: tail.journal_digest.clone(),
+        current_review_digest: json_digest(current_review)
+            .map_err(|error| replacement_error(root, error.to_string()))?,
+        repository_snapshot_digest: observed,
+    }))
 }
 
 fn material_review_contract_amendment_chain_reaches(
@@ -1961,7 +2602,7 @@ pub fn record_work_item_material_review(
         source,
     })?;
     validate_work_item_id(work_item_id)?;
-    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    let lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let document = read_active_contract_document(&root, work_item_id).map_err(|error| {
         ObserverError::State {
             path: root.join(".ai/work-items/active"),
@@ -1995,6 +2636,13 @@ pub fn record_work_item_material_review(
         work_item_id,
         "record_material_review_decision",
         runtime,
+    )?;
+    let replacement_proof = finite_authority_source_replacement_proof(
+        &root,
+        contract,
+        &document.digest,
+        &request,
+        &root.join(format!(".ai/work-items/active/{work_item_id}.summary.json")),
     )?;
     let recorded_by = format!(
         "runtime:{}:{}",
@@ -2059,15 +2707,15 @@ pub fn record_work_item_material_review(
         &document.digest,
         &request,
         &summary_path,
-    )? {
-        MaterialReviewReceiptState::Missing => None,
-        MaterialReviewReceiptState::Current(_) => {
+    ) {
+        Ok(MaterialReviewReceiptState::Missing) => None,
+        Ok(MaterialReviewReceiptState::Current(_)) => {
             return Err(ObserverError::State {
                 path: summary_path,
                 message: "material-review receipt is already recorded; replay is rejected".into(),
             });
         }
-        MaterialReviewReceiptState::Stale => Some(
+        Ok(MaterialReviewReceiptState::Stale) => Some(
             summary
                 .get("materialReviewReceipt")
                 .cloned()
@@ -2076,7 +2724,37 @@ pub fn record_work_item_material_review(
                     message: "stale material-review receipt pointer disappeared".into(),
                 })?,
         ),
+        Err(error) => match replacement_proof.as_ref() {
+            Some(proof) if summary.get("materialReviewReceipt") == Some(&proof.prior_pointer) => {
+                Some(proof.prior_pointer.clone())
+            }
+            _ => return Err(error),
+        },
     };
+
+    if let Some(proof) = replacement_proof.as_ref() {
+        if prior_pointer.as_ref() != Some(&proof.prior_pointer) {
+            return Err(replacement_error(
+                &summary_path,
+                "historical pointer changed before replacement",
+            ));
+        }
+        return record_prepared_material_replacement(
+            MaterialReplacementContext {
+                root: &root,
+                active: &active,
+                contract,
+                contract_digest: &document.digest,
+                request: &request,
+                input,
+                runtime,
+                summary_bytes: &summary_bytes,
+                proof,
+                lifecycle_lock: &lifecycle_lock,
+            },
+            receipt,
+        );
+    }
 
     let summary_object = summary
         .as_object_mut()
@@ -2139,9 +2817,1016 @@ pub fn record_work_item_material_review(
     Ok(receipt)
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct MaterialReplacementPreparation {
+    schema_version: u32,
+    repository_id: String,
+    work_item_id: String,
+    contract_digest: Digest,
+    request_digest: Digest,
+    profile_digest: Digest,
+    proof_digest: Digest,
+    input_digest: Digest,
+    runtime: RuntimeContext,
+    previous_summary_digest: Digest,
+    target_summary: serde_json::Value,
+    receipt: MaterialInspectionReviewDecisionReceipt,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PreparedMaterialReplacement {
+    prepared: MaterialReplacementPreparation,
+    prepared_digest: Digest,
+}
+
+struct MaterialReplacementContext<'a> {
+    root: &'a Path,
+    active: &'a Dir,
+    contract: &'a Contract,
+    contract_digest: &'a Digest,
+    request: &'a MaterialReviewRequest,
+    input: &'a MaterialInspectionReviewDecisionInput,
+    runtime: &'a RuntimeContext,
+    summary_bytes: &'a [u8],
+    proof: &'a AuthoritySourceReplacementProof,
+    lifecycle_lock: &'a super::lifecycle_lock_guard::LifecycleLockGuard,
+}
+
+fn replacement_optional_bytes(
+    directory: &Dir,
+    name: &str,
+    path: &Path,
+) -> Result<Option<Vec<u8>>, ObserverError> {
+    match read_cap_file_nofollow_bounded(directory, name, path, MAX_BOUNDED_GIT_OUTPUT_BYTES as u64)
+    {
+        Ok(bytes) => Ok(Some(bytes)),
+        Err(ObserverError::Read { source, .. }) if source.kind() == io::ErrorKind::NotFound => {
+            Ok(None)
+        }
+        Err(error) => Err(error),
+    }
+}
+
+fn replacement_target_summary(
+    context: &MaterialReplacementContext<'_>,
+    receipt: &MaterialInspectionReviewDecisionReceipt,
+) -> Result<serde_json::Value, ObserverError> {
+    let mut summary: serde_json::Value = serde_json::from_slice(context.summary_bytes)
+        .map_err(|error| replacement_error(context.root, error.to_string()))?;
+    if summary["materialReviewReceipt"] != context.proof.prior_pointer {
+        return Err(replacement_error(
+            context.root,
+            "old Summary no longer binds the historical pointer",
+        ));
+    }
+    let history = summary
+        .as_object_mut()
+        .ok_or_else(|| replacement_error(context.root, "Summary must be an object"))?
+        .entry("materialReviewReceiptHistory")
+        .or_insert_with(|| serde_json::json!([]))
+        .as_array_mut()
+        .ok_or_else(|| replacement_error(context.root, "pointer history must be an array"))?;
+    if history.contains(&context.proof.prior_pointer) {
+        return Err(replacement_error(
+            context.root,
+            "historical pointer already occurs in history",
+        ));
+    }
+    history.push(context.proof.prior_pointer.clone());
+    let bytes = serde_json::to_vec_pretty(receipt)
+        .map_err(|error| replacement_error(context.root, error.to_string()))?;
+    let hex = receipt
+        .request_digest
+        .as_str()
+        .strip_prefix("sha256:")
+        .ok_or_else(|| replacement_error(context.root, "invalid prepared request digest"))?;
+    summary["materialReviewReceipt"] = serde_json::json!({
+        "path":format!(".ai/evidence/{MATERIAL_REVIEW_EVIDENCE_DIRECTORY}/{}/{hex}.json",context.contract.work_item_id),
+        "digest":Digest::sha256_bytes(&bytes),
+        "requestDigest":receipt.request_digest,
+        "receiptDigest":receipt.receipt_digest,
+    });
+    Ok(summary)
+}
+
+fn replacement_prepared_digest(
+    prepared: &MaterialReplacementPreparation,
+) -> Result<Digest, ObserverError> {
+    json_digest(&("ai-cockpit:material-replacement-prepare:v1", prepared)).map_err(|error| {
+        replacement_error(Path::new("material-replacement-prepare"), error.to_string())
+    })
+}
+
+fn revalidate_material_replacement(
+    context: &MaterialReplacementContext<'_>,
+    prepared: &MaterialReplacementPreparation,
+    evidence: &Dir,
+) -> Result<(), ObserverError> {
+    context
+        .lifecycle_lock
+        .require_subject(context.root, &context.contract.work_item_id)?;
+    revalidate_replacement_directories(context, evidence)?;
+    let document = read_active_contract_document(context.root, &context.contract.work_item_id)
+        .map_err(|error| replacement_error(context.root, error.to_string()))?;
+    if document.digest != *context.contract_digest || document.contract != *context.contract {
+        return Err(replacement_error(
+            context.root,
+            "current Contract changed during replacement",
+        ));
+    }
+    let request = material_review_request_with_contract_digest(
+        context.root,
+        &document.contract,
+        &document.digest,
+    )
+    .map_err(|error| replacement_error(context.root, error.to_string()))?;
+    if request.request_digest != context.request.request_digest {
+        return Err(replacement_error(
+            context.root,
+            "current material changed during replacement",
+        ));
+    }
+    let summary_name = format!("{}.summary.json", context.contract.work_item_id);
+    let summary_path = context
+        .root
+        .join(".ai/work-items/active")
+        .join(&summary_name);
+    let proof = finite_authority_source_replacement_proof(
+        context.root,
+        context.contract,
+        context.contract_digest,
+        &request,
+        &summary_path,
+    )?
+    .ok_or_else(|| {
+        replacement_error(context.root, "finite current replacement proof unavailable")
+    })?;
+    if &proof != context.proof
+        || json_digest(&proof)
+            .map_err(|error| replacement_error(context.root, error.to_string()))?
+            != prepared.proof_digest
+    {
+        return Err(replacement_error(
+            context.root,
+            "current authorization or native history changed",
+        ));
+    }
+    require_current_action_admission(
+        context.root,
+        &context.contract.work_item_id,
+        "record_material_review_decision",
+        context.runtime,
+    )?;
+    let current = read_cap_file_nofollow_bounded(
+        context.active,
+        &summary_name,
+        &summary_path,
+        MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )?;
+    if Digest::sha256_bytes(&current) != prepared.previous_summary_digest {
+        return Err(replacement_error(
+            &summary_path,
+            "Summary compare-and-swap conflict; pending evidence remains noncurrent",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_material_replacement_preparation(
+    context: &MaterialReplacementContext<'_>,
+    envelope: &PreparedMaterialReplacement,
+    evidence: &Dir,
+) -> Result<(), ObserverError> {
+    let prepared = &envelope.prepared;
+    if prepared.schema_version != 1
+        || prepared.repository_id != context.contract.repository_id
+        || prepared.work_item_id != context.contract.work_item_id
+        || prepared.contract_digest != *context.contract_digest
+        || prepared.request_digest != context.request.request_digest
+        || Some(&prepared.profile_digest)
+            != context
+                .request
+                .material_inspection_review_profile_digest
+                .as_ref()
+        || prepared.proof_digest
+            != json_digest(context.proof)
+                .map_err(|error| replacement_error(context.root, error.to_string()))?
+        || prepared.input_digest
+            != json_digest(context.input)
+                .map_err(|error| replacement_error(context.root, error.to_string()))?
+        || prepared.runtime != *context.runtime
+        || prepared.previous_summary_digest != Digest::sha256_bytes(context.summary_bytes)
+        || envelope.prepared_digest != replacement_prepared_digest(prepared)?
+    {
+        return Err(replacement_error(
+            context.root,
+            "prepared replacement is not this exact pending transaction",
+        ));
+    }
+    let recorded_by = format!(
+        "runtime:{}:{}",
+        context.runtime.runtime_version, context.runtime.runtime_digest
+    );
+    let expected = validate_material_review_decision_with_contract_digest(
+        context.contract,
+        context.contract_digest,
+        context.request,
+        context.input,
+        &recorded_by,
+        &prepared.receipt.recorded_at,
+    )
+    .map_err(|error| replacement_error(context.root, error.to_string()))?;
+    if expected != prepared.receipt
+        || replacement_target_summary(context, &prepared.receipt)? != prepared.target_summary
+    {
+        return Err(replacement_error(
+            context.root,
+            "sealed receipt or target Summary does not match the current decision",
+        ));
+    }
+    revalidate_material_replacement(context, prepared, evidence)
+}
+
+fn replacement_directory_identity(directory: &Dir, path: &Path) -> Result<[u64; 2], ObserverError> {
+    // Handle-derived identifiers also work on Windows, matching the native
+    // lifecycle lock's identity model rather than comparing mutable mtimes.
+    use cap_fs_ext::MetadataExt as _;
+    let metadata = directory
+        .dir_metadata()
+        .map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })?;
+    Ok([metadata.dev(), metadata.ino()])
+}
+
+fn revalidate_replacement_directories(
+    context: &MaterialReplacementContext<'_>,
+    evidence: &Dir,
+) -> Result<(), ObserverError> {
+    let root_dir = Dir::open_ambient_dir(context.root, ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: context.root.into(),
+            source,
+        }
+    })?;
+    let ai_path = context.root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+    let items_path = ai_path.join("work-items");
+    let items = open_cap_directory_nofollow_strict(&ai, "work-items", &items_path)?;
+    let active_path = items_path.join("active");
+    let active = open_cap_directory_nofollow_strict(&items, "active", &active_path)?;
+    if replacement_directory_identity(&active, &active_path)?
+        != replacement_directory_identity(context.active, &active_path)?
+    {
+        return Err(replacement_error(
+            &active_path,
+            "active directory identity changed before canonical commit",
+        ));
+    }
+    let current_evidence =
+        material_review_work_item_directory(context.root, &context.contract.work_item_id, false)?;
+    let evidence_path = context
+        .root
+        .join(".ai/evidence")
+        .join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY)
+        .join(&context.contract.work_item_id);
+    if replacement_directory_identity(&current_evidence, &evidence_path)?
+        != replacement_directory_identity(evidence, &evidence_path)?
+    {
+        return Err(replacement_error(
+            &evidence_path,
+            "evidence directory identity changed before canonical commit",
+        ));
+    }
+    Ok(())
+}
+
+fn write_replacement_summary(
+    active: &Dir,
+    name: &str,
+    path: &Path,
+    bytes: &[u8],
+) -> Result<(), ObserverError> {
+    use cap_fs_ext::OpenOptionsFollowExt as _;
+    use std::io::Write as _;
+    static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let sequence = NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let temporary = format!(".{name}.replacement-{}-{sequence}.tmp", std::process::id());
+    let mut options = cap_std::fs::OpenOptions::new();
+    options
+        .write(true)
+        .create_new(true)
+        .follow(cap_fs_ext::FollowSymlinks::No);
+    let mut file = active
+        .open_with(&temporary, &options)
+        .map_err(|source| ObserverError::Read {
+            path: path.with_file_name(&temporary),
+            source,
+        })?
+        .into_std();
+    file.write_all(bytes)
+        .and_then(|()| file.sync_all())
+        .map_err(|source| ObserverError::Read {
+            path: path.with_file_name(&temporary),
+            source,
+        })?;
+    drop(file);
+    active
+        .rename(&temporary, active, name)
+        .map_err(|source| ObserverError::Read {
+            path: path.into(),
+            source,
+        })
+}
+
+fn record_prepared_material_replacement(
+    context: MaterialReplacementContext<'_>,
+    proposed_receipt: MaterialInspectionReviewDecisionReceipt,
+) -> Result<MaterialInspectionReviewDecisionReceipt, ObserverError> {
+    let directory =
+        material_review_work_item_directory(context.root, &context.contract.work_item_id, false)?;
+    let path = context
+        .root
+        .join(".ai/evidence")
+        .join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY)
+        .join(&context.contract.work_item_id);
+    let hex = context
+        .request
+        .request_digest
+        .as_str()
+        .strip_prefix("sha256:")
+        .ok_or_else(|| replacement_error(context.root, "invalid replacement request digest"))?;
+    let prepared_name = format!("{hex}.prepare.json");
+    let sidecar_name = format!("{hex}.json");
+    let prepared_path = path.join(&prepared_name);
+    let sidecar_path = path.join(&sidecar_name);
+    let pending = replacement_optional_bytes(&directory, &prepared_name, &prepared_path)?;
+    let envelope = if let Some(bytes) = pending.as_ref() {
+        super::reject_duplicate_json_keys(bytes)
+            .map_err(|message| replacement_error(&prepared_path, message))?;
+        serde_json::from_slice::<PreparedMaterialReplacement>(bytes)
+            .map_err(|error| replacement_error(&prepared_path, error.to_string()))?
+    } else {
+        if replacement_optional_bytes(&directory, &sidecar_name, &sidecar_path)?.is_some() {
+            return Err(replacement_error(
+                &sidecar_path,
+                "unbound sidecar without sealed prepare cannot be adopted",
+            ));
+        }
+        let prepared = MaterialReplacementPreparation {
+            schema_version: 1,
+            repository_id: context.contract.repository_id.clone(),
+            work_item_id: context.contract.work_item_id.clone(),
+            contract_digest: context.contract_digest.clone(),
+            request_digest: context.request.request_digest.clone(),
+            profile_digest: proposed_receipt.profile_digest.clone(),
+            proof_digest: json_digest(context.proof)
+                .map_err(|error| replacement_error(context.root, error.to_string()))?,
+            input_digest: json_digest(context.input)
+                .map_err(|error| replacement_error(context.root, error.to_string()))?,
+            runtime: context.runtime.clone(),
+            previous_summary_digest: Digest::sha256_bytes(context.summary_bytes),
+            target_summary: replacement_target_summary(&context, &proposed_receipt)?,
+            receipt: proposed_receipt,
+        };
+        PreparedMaterialReplacement {
+            prepared_digest: replacement_prepared_digest(&prepared)?,
+            prepared,
+        }
+    };
+    validate_material_replacement_preparation(&context, &envelope, &directory)?;
+    let prepared_bytes = serde_json::to_vec_pretty(&envelope)
+        .map_err(|error| replacement_error(&prepared_path, error.to_string()))?;
+    let receipt_bytes = serde_json::to_vec_pretty(&envelope.prepared.receipt)
+        .map_err(|error| replacement_error(&sidecar_path, error.to_string()))?;
+    let target_bytes = serde_json::to_vec_pretty(&envelope.prepared.target_summary)
+        .map_err(|error| replacement_error(context.root, error.to_string()))?;
+    if [
+        prepared_bytes.len(),
+        receipt_bytes.len(),
+        target_bytes.len(),
+    ]
+    .into_iter()
+    .any(|size| size > MAX_BOUNDED_GIT_OUTPUT_BYTES)
+        || pending
+            .as_ref()
+            .is_some_and(|bytes| bytes != &prepared_bytes)
+    {
+        return Err(replacement_error(
+            &prepared_path,
+            "oversized or changed immutable preparation",
+        ));
+    }
+    #[cfg(test)]
+    replacement_test_boundary(context.root, "before_prepare")?;
+    super::usage::write_immutable_sidecar(
+        &directory,
+        &prepared_name,
+        &prepared_path,
+        &prepared_bytes,
+    )?;
+    #[cfg(test)]
+    replacement_test_boundary(context.root, "after_prepare")?;
+    #[cfg(test)]
+    replacement_test_boundary(context.root, "before_sidecar")?;
+    super::usage::write_immutable_sidecar(
+        &directory,
+        &sidecar_name,
+        &sidecar_path,
+        &receipt_bytes,
+    )?;
+    #[cfg(test)]
+    replacement_test_boundary(context.root, "after_sidecar")?;
+    #[cfg(test)]
+    REPLACEMENT_BEFORE_COMMIT.with(|callback| {
+        if let Some(callback) = callback.borrow_mut().take() {
+            callback();
+        }
+    });
+    // Recompute both source/authority proof and raw Summary CAS immediately
+    // before the only commit point. Staged files never discharge Unknowns.
+    revalidate_material_replacement(&context, &envelope.prepared, &directory)?;
+    #[cfg(test)]
+    replacement_test_boundary(context.root, "before_summary")?;
+    let summary_name = format!("{}.summary.json", context.contract.work_item_id);
+    let summary_path = context
+        .root
+        .join(".ai/work-items/active")
+        .join(&summary_name);
+    let result =
+        write_replacement_summary(context.active, &summary_name, &summary_path, &target_bytes);
+    #[cfg(test)]
+    let result = result.and_then(|()| replacement_test_boundary(context.root, "after_summary"));
+    // A returned error can occur after rename. Read the canonical state to
+    // distinguish committed, exact pending, and conflict; never blind retry.
+    revalidate_replacement_directories(&context, &directory)?;
+    let canonical = read_cap_file_nofollow_bounded(
+        context.active,
+        &summary_name,
+        &summary_path,
+        MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )?;
+    if canonical == target_bytes {
+        let actual = read_cap_file_nofollow_bounded(
+            &directory,
+            &sidecar_name,
+            &sidecar_path,
+            MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+        )?;
+        if actual != receipt_bytes {
+            return Err(replacement_error(
+                &sidecar_path,
+                "committed pointer/sidecar conflict",
+            ));
+        }
+        return Ok(envelope.prepared.receipt);
+    }
+    if Digest::sha256_bytes(&canonical) != envelope.prepared.previous_summary_digest {
+        return Err(replacement_error(
+            &summary_path,
+            "replacement commit conflict; inspect canonical state",
+        ));
+    }
+    result?;
+    Err(replacement_error(
+        &summary_path,
+        "Summary remained pending after commit; inspect canonical state",
+    ))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn transaction_git(root: &Path, args: &[&str]) {
+        let output = std::process::Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .output()
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    fn transaction_fixture_amend(
+        root: &Path,
+        runtime: &RuntimeContext,
+        changes: serde_json::Value,
+    ) {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let path = root.join(format!(".ai/work-items/active/{ITEM}.contract.json"));
+        let contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        let sequence = crate::read_work_item_contract_amendments(root, ITEM)
+            .unwrap()
+            .len()
+            + 1;
+        crate::amend_work_item_contract_with_runtime(root, ITEM, &serde_json::json!({
+            "schemaVersion":1, "changeId":format!("synthetic-transaction-{sequence}"),
+            "expectedContractDigest":digest_json(&contract).unwrap(),
+            "reason":"Synthetic native transaction fixture, not actual person authority.", "changes":changes
+        }), "", runtime).unwrap();
+        crate::preflight_work_item_with_runtime(root, &path, runtime).unwrap();
+        let contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        let summary: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.join(format!(".ai/work-items/active/{ITEM}.summary.json"))).unwrap(),
+        )
+        .unwrap();
+        crate::record_work_item_governance_controls_with_runtime(root, ITEM, &serde_json::json!({"decisionEvidence":{
+            "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
+            "repositoryId":crate::repository_id(root).to_string(), "workItemId":ITEM,
+            "contractDigest":digest_json(&contract).unwrap(), "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Nanos,true),
+            "recordedBy":"human:transaction-fixture", "reason":"Synthetic exact native fixture review; no real person impersonated."
+        }}), runtime).unwrap();
+    }
+
+    fn transaction_fixture() -> (
+        tempfile::TempDir,
+        RuntimeContext,
+        MaterialInspectionReviewDecisionInput,
+        PathBuf,
+        Vec<u8>,
+    ) {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let directory = tempfile::tempdir().unwrap();
+        let root = directory.path();
+        transaction_git(root, &["init", "-q"]);
+        fs::write(root.join("README.md"), "base\n").unwrap();
+        transaction_git(root, &["add", "."]);
+        transaction_git(
+            root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "base",
+            ],
+        );
+        crate::attach(root).unwrap();
+        let runtime = RuntimeContext {
+            runtime_version: "transaction-fixture".into(),
+            runtime_digest: Digest::sha256_bytes(b"transaction-fixture"),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        };
+        crate::start_work_item_with_options_and_runtime(
+            root,
+            ITEM,
+            "recover an exact material decision",
+            "preserve history during replacement",
+            &["README.md".into(), "src/**".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                risk: "high".into(),
+                acceptance_criteria: vec!["bounded synthetic current decision".into()],
+                ..Default::default()
+            },
+            &runtime,
+        )
+        .unwrap();
+        fs::create_dir_all(root.join("src")).unwrap();
+        fs::write(root.join("src/material.rs"),"fn material() -> String { let mut text=String::from(\"token\"); text.push_str(\"ization\"); text }\n").unwrap();
+        transaction_git(root, &["add", "."]);
+        transaction_git(
+            root,
+            &[
+                "-c",
+                "user.name=fixture",
+                "-c",
+                "user.email=fixture@example.invalid",
+                "commit",
+                "-qm",
+                "material",
+            ],
+        );
+        transaction_fixture_amend(
+            root,
+            &runtime,
+            serde_json::json!([{"path":"/governanceProfile","operation":"set","value":{"materialInspectionReview":{
+                "schemaVersion":1,"permittedUnknown":"repository_material_inspection_unavailable","permittedCause":"readable_committed_rust_syntax_unknown",
+                "assurance":"self_declared","reviewerActor":"agent:transaction-fixture","authoritySource":"fixture:old-risk","acceptResidualRisk":true
+            }}}]),
+        );
+        let request = crate::plan_work_item_material_review(root, ITEM).unwrap();
+        let mut input: MaterialInspectionReviewDecisionInput = serde_json::from_value(serde_json::json!({
+            "schemaVersion":1,"decision":"accept_permitted_unknowns","requestDigest":request.request_digest,
+            "reviewerActor":"agent:transaction-fixture","authoritySource":"fixture:old-risk","assurance":"self_declared",
+            "evidenceRefs":[{"path":"synthetic-review","digest":Digest::sha256_bytes(b"synthetic review")}],
+            "rationale":"Synthetic fixture reviews its exact material.","residualRisk":"Synthetic readable syntax scanner unknown."
+        })).unwrap();
+        record_work_item_material_review(root, ITEM, &input, &runtime).unwrap();
+        let summary: serde_json::Value = serde_json::from_slice(
+            &fs::read(root.join(format!(".ai/work-items/active/{ITEM}.summary.json"))).unwrap(),
+        )
+        .unwrap();
+        let old_sidecar = root.join(summary["materialReviewReceipt"]["path"].as_str().unwrap());
+        let old_bytes = fs::read(&old_sidecar).unwrap();
+        transaction_fixture_amend(
+            root,
+            &runtime,
+            serde_json::json!([
+                {"path":"/scope","operation":"add","value":"docs/fixture.md"},
+                {"path":"/acceptanceCriteria","operation":"add","value":"retain native mixed history"},
+                {"path":"/scenarioCoverage","operation":"add","value":{"scenario":"replacement transaction","required":true,"status":"unverified","evidence":[],"expected":"recover exact pending decision","verificationPlan":"cargo test --lib material_review"}},
+                {"path":"/sources","operation":"add","value":{"path":".ai/evidence/synthetic-history","reason":"synthetic native history"}}
+            ]),
+        );
+        transaction_fixture_amend(
+            root,
+            &runtime,
+            serde_json::json!([{"path":"/governanceProfile/materialInspectionReview/authoritySource","operation":"set","value":"fixture:new-risk"}]),
+        );
+        input.request_digest = crate::plan_work_item_material_review(root, ITEM)
+            .unwrap()
+            .request_digest;
+        input.authority_source = "fixture:new-risk".into();
+        (directory, runtime, input, old_sidecar, old_bytes)
+    }
+
+    #[test]
+    fn replacement_pending_retry_reuses_immutable_receipt() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+        let root = directory.path();
+        let summary = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let before = fs::read(&summary).unwrap();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_sidecar")));
+        let error = record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("actual injected interruption");
+        assert!(error.to_string().contains("injected interruption"));
+        assert_eq!(fs::read(&summary).unwrap(), before);
+        assert_eq!(fs::read(&old_sidecar).unwrap(), old_bytes);
+        let sidecar = root.join(format!(
+            ".ai/evidence/material-inspection-review/{ITEM}/{}.json",
+            input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        ));
+        let staged =
+            fs::read(&sidecar).expect("immutable current sidecar published before interruption");
+        let retried = record_work_item_material_review(root, ITEM, &input, &runtime);
+        let receipt = match retried {
+            Ok(receipt) => receipt,
+            Err(error) => {
+                let retained = directory.keep();
+                panic!(
+                    "exact pending retry must reuse staged original receipt; retained {retained:?}: {error}"
+                )
+            }
+        };
+        assert_eq!(serde_json::to_vec_pretty(&receipt).unwrap(), staged);
+        assert_eq!(fs::read(sidecar).unwrap(), staged);
+        assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("committed replay rejects");
+    }
+
+    fn transaction_artifacts(root: &Path) -> BTreeMap<String, Vec<u8>> {
+        fs::read_dir(
+            root.join(".ai/evidence/material-inspection-review/WI-REPLACEMENT-TRANSACTION"),
+        )
+        .unwrap()
+        .map(|entry| {
+            let entry = entry.unwrap();
+            (
+                entry.file_name().into_string().unwrap(),
+                fs::read(entry.path()).unwrap(),
+            )
+        })
+        .collect()
+    }
+
+    #[test]
+    fn replacement_transaction_failure_matrix() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        for stage in [
+            "before_prepare",
+            "after_prepare",
+            "before_sidecar",
+            "after_sidecar",
+            "before_summary",
+            "after_summary",
+        ] {
+            let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+            let root = directory.path();
+            let summary_path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+            let before = fs::read(&summary_path).unwrap();
+            let old_pointer=serde_json::from_slice::<serde_json::Value>(&before).unwrap()["materialReviewReceipt"].clone();
+            REPLACEMENT_FAILURE.with(|failure| failure.set(Some(stage)));
+            let result = record_work_item_material_review(root, ITEM, &input, &runtime);
+            let receipt = if stage == "after_summary" {
+                result.expect("post-rename error is resolved from actual committed canonical state")
+            } else {
+                let error = result.expect_err("exact injected publication boundary must interrupt");
+                assert!(
+                    error.to_string().contains("injected interruption"),
+                    "{stage}: {error}"
+                );
+                assert_eq!(fs::read(&summary_path).unwrap(), before, "{stage}");
+                let status =
+                    crate::work_item_status_snapshot_with_runtime(root, ITEM, &runtime).unwrap();
+                assert!(
+                    status.review_receipt_digest.is_none(),
+                    "staged evidence cannot discharge at {stage}"
+                );
+                assert!(
+                    status
+                        .effective_unknowns
+                        .contains(&"repository_material_inspection_unavailable".into())
+                );
+                let names = transaction_artifacts(root);
+                if stage == "before_prepare" {
+                    assert_eq!(names.len(), 1);
+                }
+                if ["after_prepare", "before_sidecar"].contains(&stage) {
+                    assert_eq!(names.len(), 2);
+                }
+                record_work_item_material_review(root, ITEM, &input, &runtime)
+                    .expect("exact pending continuation commits")
+            };
+            assert_eq!(fs::read(&old_sidecar).unwrap(), old_bytes);
+            let committed = fs::read(&summary_path).unwrap();
+            let summary: serde_json::Value = serde_json::from_slice(&committed).unwrap();
+            assert_eq!(
+                summary["materialReviewReceiptHistory"],
+                serde_json::json!([old_pointer])
+            );
+            let sidecar = root.join(summary["materialReviewReceipt"]["path"].as_str().unwrap());
+            assert_eq!(
+                fs::read(sidecar).unwrap(),
+                serde_json::to_vec_pretty(&receipt).unwrap()
+            );
+            let artifacts = transaction_artifacts(root);
+            record_work_item_material_review(root, ITEM, &input, &runtime)
+                .expect_err("committed replay must not write");
+            assert_eq!(transaction_artifacts(root), artifacts);
+            assert_eq!(fs::read(summary_path).unwrap(), committed);
+        }
+    }
+
+    #[test]
+    fn replacement_pending_rejects_wrong_input_runtime_and_rehashed_target() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, _old_sidecar, _old_bytes) = transaction_fixture();
+        let root = directory.path();
+        let summary_path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let before = fs::read(&summary_path).unwrap();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_prepare")));
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("retain actual sealed pending");
+        let original = transaction_artifacts(root);
+        let mut wrong = input.clone();
+        wrong.rationale.push_str(" different decision");
+        record_work_item_material_review(root, ITEM, &wrong, &runtime)
+            .expect_err("wrong input cannot consume pending");
+        let mut wrong_runtime = runtime.clone();
+        wrong_runtime.runtime_digest = Digest::sha256_bytes(b"different fixture runtime");
+        record_work_item_material_review(root, ITEM, &input, &wrong_runtime)
+            .expect_err("wrong runtime cannot consume pending");
+        assert_eq!(transaction_artifacts(root), original);
+        assert_eq!(fs::read(&summary_path).unwrap(), before);
+        let name = format!(
+            "{}.prepare.json",
+            input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        );
+        let path = root
+            .join(".ai/evidence/material-inspection-review")
+            .join(ITEM)
+            .join(&name);
+        let mut envelope: PreparedMaterialReplacement =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        envelope.prepared.target_summary["injectedForeignSummaryField"] = serde_json::json!(true);
+        envelope.prepared_digest = replacement_prepared_digest(&envelope.prepared).unwrap();
+        fs::write(&path, serde_json::to_vec_pretty(&envelope).unwrap()).unwrap();
+        let corrupted = transaction_artifacts(root);
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("rehashed target is not a valid sealed current decision");
+        assert_eq!(transaction_artifacts(root), corrupted);
+        assert_eq!(fs::read(summary_path).unwrap(), before);
+    }
+
+    #[test]
+    fn replacement_pending_summary_conflict_preserves_concurrent_state() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, _sidecar, _bytes) = transaction_fixture();
+        let root = directory.path();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_prepare")));
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("actual pending preparation");
+        let path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        summary["concurrentPendingNote"] = serde_json::json!(true);
+        let concurrent = serde_json::to_vec_pretty(&summary).unwrap();
+        fs::write(&path, &concurrent).unwrap();
+        let artifacts = transaction_artifacts(root);
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("changed Summary cannot consume original pending");
+        assert_eq!(fs::read(path).unwrap(), concurrent);
+        assert_eq!(transaction_artifacts(root), artifacts);
+    }
+
+    #[test]
+    fn replacement_orphan_sidecar_without_prepare_is_not_adopted() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        let (directory, runtime, input, _sidecar, _bytes) = transaction_fixture();
+        let root = directory.path();
+        REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_sidecar")));
+        record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("actual staged sidecar");
+        let name = format!(
+            "{}.prepare.json",
+            input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        );
+        fs::remove_file(
+            root.join(".ai/evidence/material-inspection-review")
+                .join(ITEM)
+                .join(name),
+        )
+        .unwrap();
+        let summary = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+        let before = fs::read(&summary).unwrap();
+        let artifacts = transaction_artifacts(root);
+        let error = record_work_item_material_review(root, ITEM, &input, &runtime)
+            .expect_err("unproven orphan cannot be normalized into a fresh transaction");
+        assert!(error.to_string().contains("without sealed prepare"));
+        assert_eq!(fs::read(summary).unwrap(), before);
+        assert_eq!(transaction_artifacts(root), artifacts);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn replacement_pending_symlinks_reject_without_following_or_overwriting() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        for link_prepare in [true, false] {
+            let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+            let root = directory.path();
+            REPLACEMENT_FAILURE.with(|failure| failure.set(Some("after_prepare")));
+            record_work_item_material_review(root, ITEM, &input, &runtime)
+                .expect_err("actual sealed preparation");
+            let hex = input
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap();
+            let parent = root
+                .join(".ai/evidence/material-inspection-review")
+                .join(ITEM);
+            let target = if link_prepare {
+                let path = parent.join(format!("{hex}.prepare.json"));
+                let retained = root.join(".ai/evidence/retained-prepare.json");
+                fs::copy(&path, &retained).unwrap();
+                fs::remove_file(&path).unwrap();
+                std::os::unix::fs::symlink(retained, &path).unwrap();
+                path
+            } else {
+                let path = parent.join(format!("{hex}.json"));
+                std::os::unix::fs::symlink(&old_sidecar, &path).unwrap();
+                path
+            };
+            let summary = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+            let before = fs::read(&summary).unwrap();
+            let artifacts = transaction_artifacts(root);
+            record_work_item_material_review(root, ITEM, &input, &runtime)
+                .expect_err("symlinked pending files cannot be consumed");
+            assert!(
+                fs::symlink_metadata(target)
+                    .unwrap()
+                    .file_type()
+                    .is_symlink()
+            );
+            assert_eq!(fs::read(summary).unwrap(), before);
+            assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+            assert_eq!(transaction_artifacts(root), artifacts);
+        }
+    }
+
+    #[test]
+    fn replacement_rechecks_source_review_and_summary_before_commit() {
+        const ITEM: &str = "WI-REPLACEMENT-TRANSACTION";
+        for mutation in [
+            "summary",
+            "source",
+            "review",
+            "active-directory",
+            "evidence-directory",
+        ] {
+            let (directory, runtime, input, old_sidecar, old_bytes) = transaction_fixture();
+            let root = directory.path();
+            let summary_path = root.join(format!(".ai/work-items/active/{ITEM}.summary.json"));
+            let before = fs::read(&summary_path).unwrap();
+            let mut changed: serde_json::Value = serde_json::from_slice(&before).unwrap();
+            let old_pointer = changed["materialReviewReceipt"].clone();
+            let mutation_root = root.to_path_buf();
+            let mutation_summary = summary_path.clone();
+            let old_name = old_sidecar.file_name().unwrap().to_owned();
+            match mutation {
+                "summary" => changed["concurrentFixtureNote"] = serde_json::json!(true),
+                "review" => {
+                    changed["decisionEvidence"]["recordedBy"] =
+                        serde_json::json!("human:unbound-fixture")
+                }
+                _ => {}
+            }
+            let expected =
+                if ["source", "active-directory", "evidence-directory"].contains(&mutation) {
+                    before.clone()
+                } else {
+                    serde_json::to_vec_pretty(&changed).unwrap()
+                };
+            let callback_bytes = expected.clone();
+            REPLACEMENT_BEFORE_COMMIT.with(|callback| {
+                *callback.borrow_mut() = Some(Box::new(move || {
+                    if mutation == "source" {
+                        fs::write(
+                            mutation_root.join("README.md"),
+                            "source changed before commit\n",
+                        )
+                        .unwrap();
+                    } else if mutation == "active-directory" {
+                        let active = mutation_root.join(".ai/work-items/active");
+                        let previous =
+                            mutation_root.join(".ai/work-items/retained-active-before-swap");
+                        fs::rename(&active, &previous).unwrap();
+                        fs::create_dir(&active).unwrap();
+                        for entry in fs::read_dir(&previous).unwrap() {
+                            let entry = entry.unwrap();
+                            fs::copy(entry.path(), active.join(entry.file_name())).unwrap();
+                        }
+                    } else if mutation == "evidence-directory" {
+                        let material = mutation_root
+                            .join(".ai/evidence/material-inspection-review")
+                            .join(ITEM);
+                        let previous =
+                            mutation_root.join(".ai/evidence/retained-material-before-swap");
+                        fs::rename(&material, &previous).unwrap();
+                        fs::create_dir(&material).unwrap();
+                        fs::copy(previous.join(&old_name), material.join(&old_name)).unwrap();
+                    } else {
+                        fs::write(mutation_summary, callback_bytes).unwrap();
+                    }
+                }))
+            });
+            let result = record_work_item_material_review(root, ITEM, &input, &runtime);
+            let error = match result {
+                Err(error) => error,
+                Ok(_) => {
+                    let retained = directory.keep();
+                    panic!(
+                        "actual precommit mutation {mutation} must reject, retained {retained:?}"
+                    )
+                }
+            };
+            if mutation == "summary" {
+                assert!(error.to_string().contains("compare-and-swap"), "{error}");
+            }
+            assert_eq!(
+                fs::read(&summary_path).unwrap(),
+                expected,
+                "producer must preserve concurrent state"
+            );
+            let current: serde_json::Value =
+                serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+            assert_eq!(current["materialReviewReceipt"], old_pointer);
+            assert_eq!(fs::read(old_sidecar).unwrap(), old_bytes);
+            if mutation == "evidence-directory" {
+                assert_eq!(transaction_artifacts(root).len(), 1);
+                assert_eq!(
+                    fs::read_dir(root.join(".ai/evidence/retained-material-before-swap"))
+                        .unwrap()
+                        .count(),
+                    3
+                );
+            } else {
+                assert_eq!(
+                    transaction_artifacts(root).len(),
+                    3,
+                    "staged evidence remains pending, not silently deleted"
+                );
+            }
+        }
+    }
 
     #[test]
     fn material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract() {

@@ -1,0 +1,7 @@
+{
+  "fileCount": 3176,
+  "manifestRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+  "approvedManifestExactMatch": true,
+  "approvedRustPatchRawSha256": "7129aa3fefeb5cfda56b93c948b695a4815e3e1878b3d0a13d591ea405738541",
+  "sourceArtifactOnlyNotNativeComposition": true
+}

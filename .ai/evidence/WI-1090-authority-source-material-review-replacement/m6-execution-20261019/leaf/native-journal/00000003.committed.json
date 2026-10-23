@@ -1,0 +1,40 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:1610c424dc3d9a6b8fa8491d3d6c89bd6f4544b4521b71fc4131725388ece8ac",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+    "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE",
+    "sequence": 3,
+    "changeId": "adjacent-source-only-B",
+    "requestDigest": "sha256:604bd4debcd773c856770a3d7f2cbada96055586451ddfa12bfe7c90573032a6",
+    "reason": "Synthetic M6 native fixture only; no real consumer decision or authority.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile/materialInspectionReview/authoritySource",
+        "operation": "set",
+        "oldValue": ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+        "newValue": ".ai/evidence/m6-synthetic-consent/current.agent-recorded.json"
+      }
+    ],
+    "previousContractDigest": "sha256:e2ba0270259721bd8481f78494d0f22d16386d87dfbff250e5a8dde568813e0f",
+    "newContractDigest": "sha256:58b940f394aef77bf45b6538de395ec20ef75cc9e791c9f058d74fd6e10734c5",
+    "repositorySnapshotDigest": "sha256:71b9717ac0a9cd6489cfd59d7aaad5e3cacb33e17687ac7af6f6220ccfc5d64c",
+    "environmentObservationDigest": "sha256:fbdfa9bfdd435d6ad976851ec4d12ee749714aa44c40356e5cd121e6d5156cfa",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile/materialInspectionReview/authoritySource"
+    ],
+    "previousJournalDigest": "sha256:62f9a5ad3000f65b9b97abe0e46fd9b52a5253cd06479500721c06a660532693",
+    "journalDigest": "sha256:815725a51e1146b48f18ae1aea8edfbfff7b4793c15675e8f46491642094200e",
+    "recordedAt": "2026-10-19T21:09:14Z"
+  }
+}

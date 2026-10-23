@@ -1,0 +1,85 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.482f26d5ce06247ea7ff0c7fd77aedd142e16d3af069ba72ac559de0bd116284.json",
+    ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+    ".ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+    ".ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+  ],
+  "checkpointAt": "2026-10-19T21:09:09Z",
+  "checkpointContractDigest": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ef007654d163b9634905c0e5aa559807799039a9114ab51e53c03fc739d47e77",
+  "createdAt": "2026-10-19T21:09:08Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:84846910dbdc9058882232f392f8097f2418b4a0ce3daac4d07ade12de96910d",
+    "reason": "Synthetic self-declared fixture review for this exact binding; no real human identity or consumer authority.",
+    "recordedAt": "2026-10-19T21:09:09.763838Z",
+    "recordedBy": "human:isolated-m6-fixture",
+    "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+    "repositorySnapshotDigest": "sha256:ef007654d163b9634905c0e5aa559807799039a9114ab51e53c03fc739d47e77",
+    "schemaVersion": 1,
+    "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+  },
+  "failedGate": "finish.lifecycle",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T21:09:08.051645028Z",
+      "recordedAt": "2026-10-19T21:09:08.051645028Z",
+      "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:fece998c8c8f67333a2ec64c9c2886210a951a801f12a0ec0fb902846545df63",
+    "path": ".ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json",
+    "receiptDigest": "sha256:ef13b6593782363231559f55ef8c0466af36e07db708f252e38d77831e177b99",
+    "requestDigest": "sha256:a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-10-19T21:09:12Z",
+  "preflightContractDigest": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ef007654d163b9634905c0e5aa559807799039a9114ab51e53c03fc739d47e77",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All four old checks execute and immutable original evidence is retained.",
+      "required": true,
+      "scenario": "old fixture four-check cycle",
+      "status": "unverified",
+      "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T21:09:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:21a4a9c85c90f2054e72b5b02f55303b2a982ed57e9897c4615231448cb2e145",
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+}

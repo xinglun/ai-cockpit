@@ -1,0 +1,278 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T21:55:07.436296+00:00",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/FINAL-HANDOFF.actual.zh-CN.md",
+      "sha256": "188a64362318c54f5827885765b88164fbe4f32453b49b3aa32d050180ec6712",
+      "byteCount": 4018
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json",
+      "sha256": "b7560568fc72f77514423b55942d92847e24d8df3d09bc00b4893657a1c81235",
+      "byteCount": 60736
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-evidence-map.final.actual.zh-CN.md",
+      "sha256": "3c8e476eab4957c7fc7cbe8effc070a5d36758de560432f656786cf217281adc",
+      "byteCount": 9074
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-final-controls.attempt2.input.json",
+      "sha256": "55b0bfc8e8a0d402f2017f658cfbae50285b95ad7cb97ba6a1059d0c3750ad6e",
+      "byteCount": 8924
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-final-controls.attempt2.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-final-controls.attempt2.stdout.actual.json",
+      "sha256": "108475948c7f11d06f7b4c20a1ba5c6fcfa8c89ace489d2d527563b1b358f655",
+      "byteCount": 13054
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-final-controls.stderr.actual.txt",
+      "sha256": "422e17cbe735911693aaa2ec27f11c9049cc9e77b9ff7334b70d781717a4b90a",
+      "byteCount": 281
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-final-controls.stdout.actual.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-final.controls.input.json",
+      "sha256": "388c5b3a311ac0a8b578b5c53960dd3c6b728fd0d5991d521e62764e9f8df668",
+      "byteCount": 6399
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/controls-attempt2-before-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/controls-attempt2-before-status.stdout.actual.json",
+      "sha256": "e9776f6591910eca06f51a68a3cba3014b7101f914559988adab9e444eba61d3",
+      "byteCount": 4146
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/controls-recording-result.actual.agent-recorded.json",
+      "sha256": "e877b21d9abdcb4c3ff2df4fc124cc4070198929029d6a827d0249ff92a87307",
+      "byteCount": 367
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/execution-plan.agent-recorded.json",
+      "sha256": "302adcab25d82496f120d96a576c62079b22e6c6062e2ecd172ba43fc88bbfa4",
+      "byteCount": 1334
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-after-controls-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-after-controls-status.stdout.actual.json",
+      "sha256": "2513d284dc4695381c66865b01a054bf12e6e07c9ea7b6d3ab608ac61eb155af",
+      "byteCount": 3656
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-before-controls-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-before-controls-status.stdout.actual.json",
+      "sha256": "e9776f6591910eca06f51a68a3cba3014b7101f914559988adab9e444eba61d3",
+      "byteCount": 4146
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-material-and-minimum-profile.STILL-PROPOSAL-ONLY.zh-CN.md",
+      "sha256": "63208a12bccb20fc4f54e9bb6dc6962d4b38b14466059331c1d7a1c52d7d7084",
+      "byteCount": 3824
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-material-binding-and-policy-draft.actual.agent-recorded.json",
+      "sha256": "5171606d0526fd6a447de787cc65fc788803905d057d8534b859e53343137dfa",
+      "byteCount": 6172
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-material-plan.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-material-plan.stdout.actual.json",
+      "sha256": "61f7262167d7eb5d7ca24b9f38611c10a60281a1d151250ab235e783f5d8cff4",
+      "byteCount": 4823
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-outcome-full.zh-CN.actual.txt",
+      "sha256": "642f0f8d0011ae294e3e4185b51757539ca45d0f33a22983d81fe2772dea9bc2",
+      "byteCount": 5514
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/final-outcome.machine.actual.json",
+      "sha256": "753f0d548dbb557adb0c4911888b311206e57474b8fd6b81de74e5eee4947361",
+      "byteCount": 9464
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/first-profile-opt-in.amend.request.STILL-PROPOSAL-ONLY.json",
+      "sha256": "ff93edd6797c0c6e973e1e3355024d84e96d4ca8d616604b37eec859785f323f",
+      "byteCount": 1137
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt1.log.actual.txt",
+      "sha256": "dac126cbd7169c19a1cfd24256736a21bd02da0f41c887b93d0e57e69316c3ed",
+      "byteCount": 1194
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt1.metadata.actual.json",
+      "sha256": "ca31323e439d77c36f6d82361ea62a205d632f7c0bead08e39edbbf41e289397",
+      "byteCount": 594
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt1.native-status.actual.json",
+      "sha256": "da684a4c6b874ebf37388ffce2c21d4de7716da45efdb4ac552da199000c4b52",
+      "byteCount": 4396
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt1.preflight.actual.json",
+      "sha256": "720739686a7b7d0b542b220d0de56e3cd21db8a856bfc0bad30b65c2b1dff207",
+      "byteCount": 5466
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt2.log.actual.txt",
+      "sha256": "b07945b06433aca0748e1be0b1dbba51b06a5fd5d3e49d9346344be2ae2913bb",
+      "byteCount": 491
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt2.metadata.actual.json",
+      "sha256": "80cfde67d732535c4bb4671fe93c903db6711b5c494868d09ece01f05fabc489",
+      "byteCount": 592
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt2.native-status.actual.json",
+      "sha256": "8afa1e6ad23c17034d98971675fd82b98b5654111a1fc322b6045cd694d496d2",
+      "byteCount": 4396
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/minimal-negative-matrix.attempt2.preflight.actual.json",
+      "sha256": "3389cf944661e67328f94d5b3b7126a004bbb17e7fb44837005e4541c1cd2a4f",
+      "byteCount": 5466
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.before.canonical.actual.json",
+      "sha256": "de695b545e6ebd6ca3e7437b1e91b52490a0449c4d09269da8c38655e73736d0",
+      "byteCount": 37691
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.before.contract.actual.json",
+      "sha256": "4acc8be33ab604e3c5f3f873f97ba520e1a84954ac7cf91297c50417132bbc58",
+      "byteCount": 14040
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.before.summary.actual.json",
+      "sha256": "01a77c5a3db21f15dfa6486c01e746ade0317bcabead1773c9ed857a36128f47",
+      "byteCount": 14628
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+      "sha256": "ed909d4987280f992710ff751a8807a82e4fa4253681b1840e938ef99925d232",
+      "byteCount": 1042
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.plan.actual.json",
+      "sha256": "b2bc6b2e33f1c30f3f3d1dd865064a0df934426a646cc1502e2386128e73e884",
+      "byteCount": 10051
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.plan.actual.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.status.actual.json",
+      "sha256": "8afa1e6ad23c17034d98971675fd82b98b5654111a1fc322b6045cd694d496d2",
+      "byteCount": 4396
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.status.actual.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.stderr.actual.txt",
+      "sha256": "c1449c0588a2d88a2b8077d7e0c2eac0a11bc5b1d15e838c132f05b2626fff7f",
+      "byteCount": 1134
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.stdout.actual.json",
+      "sha256": "9bed1e51000063353ac51e164dba623ef8f9ad86beb0401a968ead1b2fc1ea54",
+      "byteCount": 42374
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.validate.actual.json",
+      "sha256": "0f725acf5f9675c74ae4ccd33d76df6f3fe21d03da30d2ee90500251a07cc131",
+      "byteCount": 706
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.validate.actual.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/project-command-0.stdout.decoded-from-canonical.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/project-command-1.stdout.decoded-from-canonical.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteCount": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/project-command-2.stdout.decoded-from-canonical.actual.txt",
+      "sha256": "75b1f85a2b32aaba4ff95211e68ec4c2913bcc04d6550e5297b55f259b2f2468",
+      "byteCount": 1487
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/project-command-3.stdout.decoded-from-canonical.actual.txt",
+      "sha256": "9a3d0db5c25480b471578f99f68e77ef0ec975f95b4e13359bfcc9c25eb59e9e",
+      "byteCount": 4054
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/project-command-4.stdout.decoded-from-canonical.actual.txt",
+      "sha256": "0ac9b9be14a17b138edbf478737895223f7e3d115c19ca69c002c2dc466f5ec0",
+      "byteCount": 3411
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/project-command-5.stdout.decoded-from-canonical.actual.txt",
+      "sha256": "02a2b0fe124b3870d7a44b2e850b58d8591596b2e2bc871ab585992bc719a7ce",
+      "byteCount": 2801
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/project-command-6.stdout.decoded-from-canonical.actual.txt",
+      "sha256": "0c2ad4fd1d77d537c7a4958850ede053609b4ba1a5fc83ed586e2cb23ec392ec",
+      "byteCount": 270
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/refresh_final_mapping.py",
+      "sha256": "b7158612686233591e76f2af6e01f851b76f09463c1cb54a0dc65366d99b4085",
+      "byteCount": 9758
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/refresh_final_material.py",
+      "sha256": "e2ec6e0c818d617dc4a2f0b17d5a8b3f325b48a9e60c520a9d2f20a3016de438",
+      "byteCount": 7140
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/targeted-result.actual.agent-recorded.json",
+      "sha256": "f685cb055a562cbd1b405e6cd2a0a63626741f77f30dee894f0e3bd7af99b98d",
+      "byteCount": 1060
+    }
+  ],
+  "sourceHead": "2785cfb2f90a3d4763f1b8d0ee7bf20585635138",
+  "recordType": "artifact index, not a native receipt or human consent"
+}

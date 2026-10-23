@@ -1,0 +1,24 @@
+{
+  "kind": "actual_readonly_real_cloud_history_query_not_replacement_or_consumer_authority",
+  "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "nativeAmendmentsEqualPreviouslyReadOriginals": true,
+  "sequenceCount": 3,
+  "allIndexedOriginalBytesUnchanged": true,
+  "recoveredPreviousSummary": {
+    "archive": "/workspace/scratch/wi1089-historical-verification-amendment-20261019/pre-amend-c960-snapshot/c960.working-governance-overlay.actual.tar.gz",
+    "archiveRawSha256": "8626f95b06680ec1eadc71228c8bfead819b794bd7ab21b96e4b52394c2cf32b",
+    "member": ".ai/work-items/active/WI-1089-blocked-outcome-material-review-recovery.summary.json",
+    "memberRawSha256": "eb37ed645522d99cb78d41d1594a198a98af0fc4f590a200638254e4399a9e20",
+    "memberCanonicalSha256": "7dadedff7f640378ed76a68e0ad192a4b1006da43c6bd743e14221df92e25351",
+    "matchesActualAmendment3PreviousSummaryDigest": true,
+    "limits": "Recovered original cloud R Summary body, not reconstructed from digest and not a Sentinel snapshot."
+  },
+  "realConsumerHead": "ba1c6c90f4ac039521567c1365b4351fe7ce92ae",
+  "realConsumerContractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+  "realAdjacentBGenerated": false,
+  "limits": [
+    "Full R material plan/blob-hunk inventory not found in the checked old cloud review/plan locations; receipt digests alone are not that body.",
+    "Real Sentinel latest raw canonical four-node envelope/nested plan/coverage/execution/retention, blocked Outcome/events, complete native current context and material source capsule remain unavailable here.",
+    "No adjacent source-only real-consumer B exists; the real consumer amendment has never been executed."
+  ]
+}

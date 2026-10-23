@@ -1,0 +1,130 @@
+{
+  "kind": "strict_authority_source_replacement_proposal_only_v3",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T08:34:42.156673+00:00",
+  "implementationWorkItem": "WI-1090-authority-source-material-review-replacement",
+  "worktree": "/workspace/ai-cockpit-wi1090-material-replacement",
+  "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "governanceRuntimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "codeFiles": [
+    "crates/cockpit-repository/src/material_review.rs",
+    "crates/cockpit-repository/tests/material_review.rs"
+  ],
+  "necessaryGovernanceDocs": [
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "scopeExplanation": "Two Rust files plus six necessary governance/parity documents, eight scoped paths total. No product source edit has been made. Existing consumer WI1089 ten-file scope does not include the two Rust files; expanding it would itself violate the required authoritySource-only renewal segment. Use independent implementation WI1090 instead.",
+  "constraints": [
+    "Every changedValues entry on the unique validated old-receipt-to-current-Contract amendment segment must be exactly /governanceProfile/materialInspectionReview/authoritySource with a real old/new value. Reject scope, acceptance, assurance, reviewer, residual-risk or any other field change anywhere on that segment, including change-and-revert. At least one authoritySource change is required.",
+    "Preserve current read_material_review_receipt invalid classification and all scanner Unknowns. A finite typed replacement proof authorizes only a NEW exact current-request decision; it grants no discharge from the old receipt.",
+    "Validate immutable historical receipt, raw and canonical digests, exact Summary pointer/history identity, repository/WI/base/source ancestry and historical profile reconstructed from the validated native amendment chain. Reject prepared-but-uncommitted, missing, broken, forked or foreign chains.",
+    "Require current Contract opt-in, current valid identity-bound native human review/authority, clean committed current source, no Finding, only permitted reviewable syntax Unknown with exact blob/hunk identity. Preserve self_declared assurance; no live grant or authenticated-human inference.",
+    "Projection and record call the SAME typed finite eligibility helper. Projection never accepts a generic read error; record recomputes the proof under the existing lifecycle lock and separately validates actual current decision input, reviewer, authoritySource, evidence references and all request/profile/scanner/policy digests.",
+    "No change to status_projection.rs is proposed: its existing material_review_decision_available consumption is the action-admission layer. All its existing !archived, !blocking and preflight_binding_current predicates remain. No finish/archive bypass is introduced.",
+    "Validation failure publishes neither a prepared transaction nor a new receipt. Once validated, use an immutable sealed prepared transaction and one atomic Summary pointer/history commit point, with recoverable precommit residue and no mutation of historical sidecars, pointers or amendment records.",
+    "Only exact uncommitted pending transaction continuation may resume, with all current identities revalidated and its original sealed receipt bytes/time/runtime reused. Committed replay, duplicate history, mismatched pending input/runtime/request, changed Summary, conflicting or corrupt prepared records remain rejected.",
+    "No source edit before actual native Contract review and checkpoint. Preserve pinned governance Runtime and delivered c960 source/CI; new executable adoption requires actual separate native environment/admission readback."
+  ],
+  "callGraph": {
+    "projection": "status_projection::project status -> material_review_gate_projection_with_contract_digest -> read_material_review_receipt (old remains invalid) + finite_authority_source_replacement_proof -> projection.review_decision_available -> existing status_projection.rs:1870 guards -> record_material_review_decision safe action",
+    "record": "record_work_item_material_review -> lifecycle lock -> fresh current Contract/request -> native require_current_action_admission -> SAME finite_authority_source_replacement_proof -> existing exact current decision validator -> sealed transaction -> immutable receipt -> atomic Summary pointer/history commit",
+    "internalInterfaceProposal": "fn finite_authority_source_replacement_proof(root: &Path, contract: &Contract, contract_digest: &Digest, request: &MaterialReviewRequest, summary_path: &Path) -> Result<Option<AuthoritySourceReplacementProof>, ObserverError>. Noneligible state cannot suppress receipt invalidity. No typed proof may come from matching error text."
+  },
+  "failureAtomicity": {
+    "model": "Logical failure atomicity with durable prepared transaction; not a claim of physically atomic multi-file publication or zero crash residue.",
+    "preparation": "After all eligibility/input/old-history checks, seal repository/WI/current Contract+request+profile, validated amendment tail and current human-review provenance, old Summary raw digest+old pointer, input digest, exact new receipt bytes including actual timestamp/runtime, and exact proposed Summary bytes/digest. Bounded strict nofollow/no-replace reads and writes; deterministic request-bound private transaction sidecar; reject incompatible existing pending state.",
+    "publicationOrder": [
+      "Publish immutable prepared record using existing bounded capability directory and immutable writer.",
+      "Publish canonical new receipt with the sealed exact bytes, no replacement. Recheck immutable inputs and unchanged old Summary before commit.",
+      "Atomic Summary publication is the sole commit point: old pointer appended exactly once to validated history and current pointer set to new immutable receipt."
+    ],
+    "failureSemantics": [
+      "Before Summary commit, current pointer/history remain old. Prepared/new receipt residue is pending evidence and grants no current material discharge. Preserve all canonical bytes.",
+      "Exact pending retry revalidates current admission, request, authority, chain, runtime and old/new Summary identity; resumes original sealed bytes rather than regenerating timestamps or receipts.",
+      "After an ambiguous commit result, compare canonical Summary and sealed receipt: exact new state means committed; exact old state means pending; anything else rejects as conflict. Do not report clean failure after an actual commit.",
+      "Fully committed record replay rejects and does not append duplicate history. No general reset/delete/revoke/import path."
+    ],
+    "faultInjection": "Private cfg(test) dependency/failpoint seam in material_review.rs only; no production environment flag, public input, protocol or CLI/MCP schema bypass."
+  },
+  "scenarios": [
+    {
+      "scenario": "M1 authoritySource-only proof",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "scenario": "M2 forbidden amendments",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "scenario": "M3 shared admission and service proof",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+    },
+    {
+      "scenario": "M4 logical atomicity and bounded resume",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Injected failures before/after prepared publish, receipt publish and atomic Summary commit preserve old canonical history; exact pending continuation commits once; committed replay rejects.",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "scenario": "M5 integrity and source rejection",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Finding, dirty/unavailable source, missing/stale/foreign authorization, request/profile/scanner/policy mismatch, corrupt/symlinked pointer/sidecar/history/chain, concurrent changes and wrong retry reject.",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "scenario": "M6 preserved compatibility and fixed candidate",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "Same-profile stale renewal and existing CLI/MCP regression behavior remain; c960 and consumer Contract 420 stay unchanged. Later isolated composition uses exact new runtime/source bindings before consumer revalidation.",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-cli --test contract_amendment_processes; cargo test --locked --package cockpit-mcp --test material_review"
+    }
+  ],
+  "declaredVerification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+    "cargo test --locked --package cockpit-repository --lib material_review",
+    "cargo test --locked --package cockpit-repository --test material_review",
+    "cargo test --locked --package cockpit-repository --test status_projection",
+    "cargo test --locked --package cockpit-cli --test contract_amendment_processes",
+    "cargo test --locked --package cockpit-mcp --test material_review"
+  ],
+  "verificationLimits": {
+    "workers": 1,
+    "maxCommandSeconds": 900,
+    "offline": true,
+    "incremental": false,
+    "targetDirectory": "/workspace/scratch/wi1090-material-replacement-verify-target-20261019",
+    "noAutomaticVerificationNow": true
+  },
+  "preservation": {
+    "deliveredIndependentCandidate": "c960ed2eaa9e42cddedad25612f5d0d2d9a44774",
+    "consumerComposedHead": "7211294648d6e43b5ee8da0db05baafc853542d5",
+    "consumerContract": "sha256:420cb0fbaa6e00b9a6460d99f5a43469b0dc281f5f6b71ca22662ee7461e56f2",
+    "oldRequest": "sha256:2ed9306a9260068f285af7ad23ecb935c3ffd7be61c2ee79ec9f2fb0c30afc60",
+    "notTransferred": "No old human/material decision, verification receipt, environment binding or Runtime digest is approval for a future changed binding. Existing c960 CI is not rerun."
+  },
+  "authorizationProvenance": "Retained parent/Raydot delegation context authorizes this bounded proposal, regression design and native Contract preparation. It is an agent-recorded relay, not authenticated human:Ray confirm_review. The current bare user confirm_review preceded this new Contract and is not assigned to it.",
+  "supersedes": "V2 scope-amendment-in-segment allowance is withdrawn. Existing proposal artifacts and all historical evidence are preserved."
+}

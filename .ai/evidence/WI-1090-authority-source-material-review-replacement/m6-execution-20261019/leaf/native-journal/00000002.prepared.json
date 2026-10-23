@@ -1,0 +1,437 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+    "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "reviewed-mixed-history-A",
+      "expectedContractDigest": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+      "reason": "Synthetic M6 native fixture only; no real consumer decision or authority.",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "docs/synthetic-history-0.md"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "docs/synthetic-history-1.md"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 0"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 1"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 2"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 3"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 4"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 5"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 6"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "Synthetic reviewed historical requirement 7"
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "add",
+          "value": {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 0",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "add",
+          "value": {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 1",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "add",
+          "value": {
+            "evidence": [],
+            "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+            "required": true,
+            "scenario": "synthetic mixed historical proof 2",
+            "status": "unverified",
+            "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/synthetic-history-source-0",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/synthetic-history-source-1",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/synthetic-history-source-2",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/synthetic-history-source-3",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/synthetic-history-source-4",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/synthetic-history-source-5",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": {
+            "path": ".ai/evidence/synthetic-history-source-6",
+            "reason": "Synthetic native historical context, no real consumer authority."
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:a31b6f68ca6aec4c0b69b01e188a4c98423df0fcf72d3abe5909d4777f01531a",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve native historical evidence and independently decide current synthetic material"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "02a6ab79c363d7337daf31790c94a63fec7970e8",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-19T21:09:08Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Run old and new four-node cycles through actual synthetic fixture archive",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:isolated-m6-fixture",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Synthetic combined M6 retained-history replacement",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No real consumer or human authorization"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:f6902c82009a6327ad6c97fc41d13ec0cccab5a08ce35f4bfd509ca236e31fae",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+      "repositorySnapshotDigest": "sha256:a70cf7a20ed96b212b59df96ba564eae34a19337dc7aff64c643bfccd02ce2ff",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "All four old checks execute and immutable original evidence is retained.",
+          "required": true,
+          "scenario": "old fixture four-check cycle",
+          "status": "unverified",
+          "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+        }
+      ],
+      "scope": [
+        "README.md",
+        "Cargo.toml",
+        "Cargo.lock",
+        "src/lib.rs",
+        "tests/material.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --offline --test material",
+        "cargo fmt --all -- --check",
+        "cargo test --locked --offline",
+        "cargo clippy --locked --offline --all-targets -- -D warnings"
+      ],
+      "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+    },
+    "previousContractDigest": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Preserve native historical evidence and independently decide current synthetic material",
+        "Synthetic reviewed historical requirement 0",
+        "Synthetic reviewed historical requirement 1",
+        "Synthetic reviewed historical requirement 2",
+        "Synthetic reviewed historical requirement 3",
+        "Synthetic reviewed historical requirement 4",
+        "Synthetic reviewed historical requirement 5",
+        "Synthetic reviewed historical requirement 6",
+        "Synthetic reviewed historical requirement 7"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "02a6ab79c363d7337daf31790c94a63fec7970e8",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-19T21:09:08Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Run old and new four-node cycles through actual synthetic fixture archive",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:isolated-m6-fixture",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Synthetic combined M6 retained-history replacement",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No real consumer or human authorization"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:f6902c82009a6327ad6c97fc41d13ec0cccab5a08ce35f4bfd509ca236e31fae",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+      "repositorySnapshotDigest": "sha256:a70cf7a20ed96b212b59df96ba564eae34a19337dc7aff64c643bfccd02ce2ff",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "All four old checks execute and immutable original evidence is retained.",
+          "required": true,
+          "scenario": "old fixture four-check cycle",
+          "status": "unverified",
+          "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+          "required": true,
+          "scenario": "synthetic mixed historical proof 0",
+          "status": "unverified",
+          "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+          "required": true,
+          "scenario": "synthetic mixed historical proof 1",
+          "status": "unverified",
+          "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+        },
+        {
+          "evidence": [],
+          "expected": "The old receipt stays historical and a new exact decision preserves the old pointer once.",
+          "required": true,
+          "scenario": "synthetic mixed historical proof 2",
+          "status": "unverified",
+          "verificationPlan": "Inspect actual native H/P/old invalid projection and successful independent current material receipt."
+        }
+      ],
+      "scope": [
+        "README.md",
+        "Cargo.toml",
+        "Cargo.lock",
+        "src/lib.rs",
+        "tests/material.rs",
+        "docs/synthetic-history-0.md",
+        "docs/synthetic-history-1.md"
+      ],
+      "sources": [
+        {
+          "path": ".ai/evidence/synthetic-history-source-0",
+          "reason": "Synthetic native historical context, no real consumer authority."
+        },
+        {
+          "path": ".ai/evidence/synthetic-history-source-1",
+          "reason": "Synthetic native historical context, no real consumer authority."
+        },
+        {
+          "path": ".ai/evidence/synthetic-history-source-2",
+          "reason": "Synthetic native historical context, no real consumer authority."
+        },
+        {
+          "path": ".ai/evidence/synthetic-history-source-3",
+          "reason": "Synthetic native historical context, no real consumer authority."
+        },
+        {
+          "path": ".ai/evidence/synthetic-history-source-4",
+          "reason": "Synthetic native historical context, no real consumer authority."
+        },
+        {
+          "path": ".ai/evidence/synthetic-history-source-5",
+          "reason": "Synthetic native historical context, no real consumer authority."
+        },
+        {
+          "path": ".ai/evidence/synthetic-history-source-6",
+          "reason": "Synthetic native historical context, no real consumer authority."
+        }
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --offline --test material",
+        "cargo fmt --all -- --check",
+        "cargo test --locked --offline",
+        "cargo clippy --locked --offline --all-targets -- -D warnings"
+      ],
+      "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+    },
+    "newContractDigest": "sha256:e2ba0270259721bd8481f78494d0f22d16386d87dfbff250e5a8dde568813e0f",
+    "previousSummaryDigest": "sha256:8fc0bc7ac08888389a54d64fe3eaca0672feff53ca8eefcbb8be6c66e2851b5c",
+    "repositorySnapshotDigest": "sha256:ef007654d163b9634905c0e5aa559807799039a9114ab51e53c03fc739d47e77",
+    "environmentObservationDigest": "sha256:fbdfa9bfdd435d6ad976851ec4d12ee749714aa44c40356e5cd121e6d5156cfa",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:1e22858075657d3b18d20546ab1b28efe6dc52025e89f017665fe298dac9e6ae",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scenarioCoverage",
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-19T21:09:13Z"
+  },
+  "preparedDigest": "sha256:93b07a4379ab24ef4b96d83b66b63a7e40d0438d1748c14e6c0a604b2858725a"
+}

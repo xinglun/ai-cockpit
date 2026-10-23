@@ -1,0 +1,27 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T22:27:51.055541+00:00",
+  "recordType": "retained delegated transcript of conditional policy and material risk authorization; not native new Contract review",
+  "authorizer": "human:Ray",
+  "delegatingAgent": "agent:Raydot",
+  "requestMessageId": "Sentinel_6551594dd2d08191bf22c8b9ef127bac",
+  "requestMessageTime": "2026-10-19 21:57:59 UTC",
+  "replyMessageId": "Sentinel_89eec2e40c0c819181319fd54b8fa553",
+  "replyMessageTimeAsProvided": "2026-10-19 22:25 UTC",
+  "verbatimReply": "批准上述 WI-1090 最小材料审阅政策，并按上述条件接受固定材料的残余风险。",
+  "approvedHead": "b1fecfc35e14f700f146a51d4cc494590b13919c",
+  "approvedOldContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "approvedOldRequestDigest": "sha256:23e04c983732d47799e1ec444849fd89e0c92f3a5b13742ac636be30c8b6e3d8",
+  "policyRequestRawSha256": "ff93edd6797c0c6e973e1e3355024d84e96d4ca8d616604b37eec859785f323f",
+  "conditions": [
+    "all8 material raw blobs and changed hunks unchanged after amendment",
+    "scanner semantic/implementation/target identities unchanged",
+    "no additional Finding or Unknown",
+    "policy strictly equals approved proposal",
+    "actual new Contract and request read natively before binding",
+    "native required actual human Contract review handled separately"
+  ],
+  "newContractHumanReviewOccurred": false,
+  "designatedConsentFileCreated": false,
+  "assurance": "self_declared agent-retained conversation evidence, not authenticated human identity"
+}

@@ -1,0 +1,10 @@
+{
+  "kind": "actual_development_RED_not_formal_verification_or_passing_claim",
+  "sourceHead": "a3b576d8f959004d5c7260b7127a4d35081e2c47",
+  "test": "segmented_authority_source_change_exposes_only_new_decision",
+  "exitCode": 101,
+  "compiledSuccessfully": true,
+  "failure": "Expected record_material_review_decision safe action is absent after genuine native mixed history and adjacent source-only change, with invalid old receipt and material Unknown preserved.",
+  "implementationDiffAtRED": "empty",
+  "scope": "Synthetic equivalent native fixture; not actual consumer/Sentinel acceptance."
+}

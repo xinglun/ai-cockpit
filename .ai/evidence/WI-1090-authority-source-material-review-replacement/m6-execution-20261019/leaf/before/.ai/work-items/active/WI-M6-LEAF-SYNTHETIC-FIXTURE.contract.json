@@ -1,0 +1,97 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "Preserve native historical evidence and independently decide current synthetic material"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "02a6ab79c363d7337daf31790c94a63fec7970e8",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-19T21:09:08Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Run old and new four-node cycles through actual synthetic fixture archive",
+  "governancePolicy": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:isolated-m6-fixture",
+      "schemaVersion": 1
+    }
+  },
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Synthetic combined M6 retained-history replacement",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "No real consumer or human authorization"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:f6902c82009a6327ad6c97fc41d13ec0cccab5a08ce35f4bfd509ca236e31fae",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "repositorySnapshotDigest": "sha256:a70cf7a20ed96b212b59df96ba564eae34a19337dc7aff64c643bfccd02ce2ff",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "requiredRuntimeCapabilities": [
+    "material-inspection-review",
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All four old checks execute and immutable original evidence is retained.",
+      "required": true,
+      "scenario": "old fixture four-check cycle",
+      "status": "unverified",
+      "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+    }
+  ],
+  "scope": [
+    "README.md",
+    "Cargo.toml",
+    "Cargo.lock",
+    "src/lib.rs",
+    "tests/material.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo test --locked --offline --test material",
+    "cargo fmt --all -- --check",
+    "cargo test --locked --offline",
+    "cargo clippy --locked --offline --all-targets -- -D warnings"
+  ],
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+}

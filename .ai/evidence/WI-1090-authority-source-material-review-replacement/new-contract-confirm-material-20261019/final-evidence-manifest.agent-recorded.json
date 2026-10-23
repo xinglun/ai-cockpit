@@ -1,0 +1,313 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T22:53:09.495587+00:00",
+  "artifactIndexOnlyNotNativeReceiptOrOrdinaryAcceptance": true,
+  "frozenEightSourceFilesUnchanged": true,
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/FINAL-NEW-CONTRACT-HANDOFF.actual.zh-CN.md",
+      "sha256": "ec00c70d29ffec6fa75900ef691c0aa1ff8d7dbdbbab8dc0f641b078ffeecbec",
+      "bytes": 2243
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/actual-new-contract-confirm.controls.input.json",
+      "sha256": "6518c6f85252cb623b588c724138056c6e4b59eea2b3cbddee57525ba56c2708",
+      "bytes": 1306
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/after-confirm-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/after-confirm-status.stdout.actual.json",
+      "sha256": "1c4c19ca5c394513783849b753365fc6e9772b42c19d4631fa546001687f72b5",
+      "bytes": 3945
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/after-material-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/after-material-status.stdout.actual.json",
+      "sha256": "a11c14112744b78d4dc723556c39337dcfca59e27f55c66cc854419970aa6470",
+      "bytes": 3793
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/after-material.summary.actual.json",
+      "sha256": "6cd1c7b92b8be993458e9c4083d1f381d252ec93b892b3ce9d64c86ac7ded118",
+      "bytes": 15716
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-confirm-inspect.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-confirm-inspect.stdout.actual.json",
+      "sha256": "f4ea441ea5b2086dd22511688050623d158b1ae42e4f7a07460b2e60f643d2a3",
+      "bytes": 704
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-confirm-material-plan.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-confirm-material-plan.stdout.actual.json",
+      "sha256": "670d691032ecee24658edc62fe095a2e31687929e58effbd0cb14a5fde904537",
+      "bytes": 4866
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-confirm-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-confirm-status.stdout.actual.json",
+      "sha256": "0d5ed76e461aa0c9bb9c3e6b8aab5c2cd6c7d983dd577873d3aaeee6d96e10a1",
+      "bytes": 4544
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-confirm.summary.actual.json",
+      "sha256": "d6f05dfb7e3d233dbffb3ef89b381797a805d77b6c3d54e1dbca2e7ee31969a6",
+      "bytes": 15234
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-material-current-plan.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-material-current-plan.stdout.actual.json",
+      "sha256": "670d691032ecee24658edc62fe095a2e31687929e58effbd0cb14a5fde904537",
+      "bytes": 4866
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-material-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/before-material-status.stdout.actual.json",
+      "sha256": "1c4c19ca5c394513783849b753365fc6e9772b42c19d4631fa546001687f72b5",
+      "bytes": 3945
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/check_and_confirm_once.py",
+      "sha256": "218d4b65becd487872f1e3354f4f4a5a08b9585da62a82321519a917756d9056",
+      "bytes": 8364
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/complete_verification_evidence.py",
+      "sha256": "809da2b77b9c5390cabc8e774a312fcda0a91bf80d954267a48627983f222106",
+      "bytes": 11149
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/exact-current-material-decision.input.json",
+      "sha256": "a045b66661a122fa03408d98c911dcf8fee33bf7bca9268d1380a8c5b4a851d1",
+      "bytes": 1614
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/final-native-outcome-full.zh-CN.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/final-native-outcome-full.zh-CN.stdout.actual.txt",
+      "sha256": "2eebbe1b38985fc38528b6feb528c53806d728d99d931f2adc4aa60bc165052c",
+      "bytes": 5514
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/final-new-contract-material-plan.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/final-new-contract-material-plan.stdout.actual.json",
+      "sha256": "7cb9ab6aadd99180d81f07b3624f61420b93f59e6942b3da0fbf9dfa0e6211e1",
+      "bytes": 4866
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/final-new-contract-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/final-new-contract-status.stdout.actual.json",
+      "sha256": "bc88ee974ad81d2e1824440fddca478f67d6d421309673241fd3ec720c906497",
+      "bytes": 3543
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/intent-alignment.controls.PROPOSAL-ONLY.json",
+      "sha256": "5c30d3b5083c6e3d5e8a40658dd5e1082307ad2e097d124628bfd621ff087b8d",
+      "bytes": 1504
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/material-record-readback.actual.agent-recorded.json",
+      "sha256": "910a54288d63847ccb1d43b74aaf8e4a01f074730b5dc3062d38fc0096f51515",
+      "bytes": 1670
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-confirm.attempt1.metadata.actual.json",
+      "sha256": "e6f678dee201da3128d816098a08cedcbdbfef0586169408d4f0414c6e5d8aa9",
+      "bytes": 408
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-confirm.attempt1.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-confirm.attempt1.stdout.actual.json",
+      "sha256": "fb1295feb348e8be10d74d3a3c26f4bd7a5a92bbb29072d4b6680a5c06237a62",
+      "bytes": 15225
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-human-review-readback.actual.agent-recorded.json",
+      "sha256": "f2b23c23a0f84081735f812dc414c18323fedba3a2afac2095907e4888898942",
+      "bytes": 1676
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-material-sidecar.actual.json",
+      "sha256": "0f3949bae38b9a306bcb677c9441bbeb77af17368c8ea561db65fcd489f819b5",
+      "bytes": 2377
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-material.attempt1.metadata.actual.json",
+      "sha256": "9d14847670e8f669cf2703b2d499c3d48ef0fe9a661d4e4036a908d185171e83",
+      "bytes": 599
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-material.attempt1.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-material.attempt1.stdout.actual.json",
+      "sha256": "b94f2952e3a1dbbd743385c876cdc2c2b67f1fc4f7cfede5a5814ecbcd0a25ea",
+      "bytes": 2378
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.before.canonical.actual.json",
+      "sha256": "6d93218b5bcb8b32bb0dfd86bfa98e37fe700652f73f90cdcaeb17cd6759286a",
+      "bytes": 36313
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.before.contract.actual.json",
+      "sha256": "a45df6eeefcf4920dd44129fe63086373a219d7d84ecb6b1c804fe80dfbcddf7",
+      "bytes": 14544
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.before.summary.actual.json",
+      "sha256": "6cd1c7b92b8be993458e9c4083d1f381d252ec93b892b3ce9d64c86ac7ded118",
+      "bytes": 15716
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.metadata.actual.json",
+      "sha256": "50401b22cc10b58cca6308ff823954544640aba2451bda83e5e8555087d47da4",
+      "bytes": 1043
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.plan.actual.json",
+      "sha256": "acfa55cc126fbaefd733b1bf7bcf2dd51f7f29c2c97c17834b9ba23f0f69bc2e",
+      "bytes": 10051
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.plan.actual.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.status.actual.json",
+      "sha256": "a11c14112744b78d4dc723556c39337dcfca59e27f55c66cc854419970aa6470",
+      "bytes": 3793
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.status.actual.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.stderr.actual.txt",
+      "sha256": "c1449c0588a2d88a2b8077d7e0c2eac0a11bc5b1d15e838c132f05b2626fff7f",
+      "bytes": 1134
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.stdout.actual.json",
+      "sha256": "c53fcca620e67304b3e91f693c19a9c3d63d3d881f89905ea949bacbcd784e9a",
+      "bytes": 42137
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.validate.actual.json",
+      "sha256": "02923b52453bbf13569d4c927600f9c0e86a0801b22c3de12152fa22795ddb46",
+      "bytes": 242
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/native-seven.attempt4.validate.actual.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/new-contract-verification-and-records.actual.agent-recorded.json",
+      "sha256": "0ceb3b7876e293bf0bcacd7769534e65f900e9b3270b171d77cdcd8a99ee0688",
+      "bytes": 4226
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/project-command-0.stdout.decoded-from-new-contract-canonical.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/project-command-1.stdout.decoded-from-new-contract-canonical.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/project-command-2.stdout.decoded-from-new-contract-canonical.actual.txt",
+      "sha256": "ef287f9e8c849417914733ce54270938c6a33d902e7a2d05d9146966de4c515b",
+      "bytes": 1487
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/project-command-3.stdout.decoded-from-new-contract-canonical.actual.txt",
+      "sha256": "9f235457a5358a425d5c5bd6030e183b7a0dfbf0eb16657a905bb22f8f85188c",
+      "bytes": 4053
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/project-command-4.stdout.decoded-from-new-contract-canonical.actual.txt",
+      "sha256": "b0ecfbd2e25e88bf03fb87b91913808fd5dc7d774c0cc6cf83c94fd1beb2ec58",
+      "bytes": 3411
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/project-command-5.stdout.decoded-from-new-contract-canonical.actual.txt",
+      "sha256": "b35235fe2df444f15fc37a97f62c1002898893ec7729079771862eb2e4d131bd",
+      "bytes": 2801
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/project-command-6.stdout.decoded-from-new-contract-canonical.actual.txt",
+      "sha256": "615e0591bb9e243afbd2359249dd64981ec07dc556df96aa2fabf728f4d8e6ac",
+      "bytes": 270
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/ray-new-contract-confirmation.relayed.agent-recorded.json",
+      "sha256": "01a97d938ce911afbe68287804046c5cee534ae6be50e7d2845d7a511ffef06b",
+      "bytes": 3689
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/raydot-material-review.delegated.agent-recorded.json",
+      "sha256": "ec821a85703e84b0a52ca7fe89cc2dd2d1713e252e35403af6115333cbf2df32",
+      "bytes": 864
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/record_exact_material_once.py",
+      "sha256": "b9917dfb6fa8ddba4b70387fc5948758e4485f0e9c2ac4f2c7185f9504728a3d",
+      "bytes": 8835
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/remaining-yellow-and-benefit-controls.readonly.actual.agent-recorded.json",
+      "sha256": "41ca9e177452de428001d0a5ed73eef9f726d31cb487005fb9dc31e7b20b5e83",
+      "bytes": 2469
+    }
+  ]
+}

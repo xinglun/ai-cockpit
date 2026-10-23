@@ -1,0 +1,169 @@
+{
+  "acceptanceResults": [
+    "Preserve native historical evidence and independently decide current synthetic material"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+  ],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+      ],
+      "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+      "repositorySnapshotDigest": "sha256:ef007654d163b9634905c0e5aa559807799039a9114ab51e53c03fc739d47e77",
+      "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.482f26d5ce06247ea7ff0c7fd77aedd142e16d3af069ba72ac559de0bd116284.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/m6-synthetic-consent/old.agent-recorded.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract.json"
+          ],
+          "inference": false,
+          "text": "Run old and new four-node cycles through actual synthetic fixture archive"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-19T21:09:13.120159679Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+    },
+    "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE"
+}

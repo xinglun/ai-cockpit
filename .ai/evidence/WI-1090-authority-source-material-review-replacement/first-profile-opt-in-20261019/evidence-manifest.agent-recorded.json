@@ -1,0 +1,207 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T22:29:43.884646+00:00",
+  "artifactIndexOnlyNotNativeReceiptOrNewHumanDecision": true,
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/NEW-CONTRACT-REVIEW-HANDOFF.actual.zh-CN.md",
+      "rawSha256": "121dce26a1ef22d5286dfd50045c45f3a76508e1c39812f2b639f9147a8be7bb",
+      "bytes": 3213
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-amend-before-preflight-status.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-amend-before-preflight-status.stdout.actual.json",
+      "rawSha256": "724bb51c40dc0b1727092561be04f81fb5df156297d64b6ffbb7e29fcda8f36e",
+      "bytes": 4445
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-amend-material-plan.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-amend-material-plan.stdout.actual.json",
+      "rawSha256": "ec5c90f4bbf1b70e3682839f66b23e40617ba101cf6f5b54511f2ce1b42b5825",
+      "bytes": 4866
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-amend.before-preflight.summary.actual.json",
+      "rawSha256": "83a2c7067e1940e57972d887e1d219612fb6024634d81d76f240c4a3bd2a19b2",
+      "bytes": 15235
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-amend.contract.actual.json",
+      "rawSha256": "a45df6eeefcf4920dd44129fe63086373a219d7d84ecb6b1c804fe80dfbcddf7",
+      "bytes": 14544
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-preflight-status.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-preflight-status.stdout.actual.json",
+      "rawSha256": "0d5ed76e461aa0c9bb9c3e6b8aab5c2cd6c7d983dd577873d3aaeee6d96e10a1",
+      "bytes": 4544
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/after-preflight.summary.actual.json",
+      "rawSha256": "d6f05dfb7e3d233dbffb3ef89b381797a805d77b6c3d54e1dbca2e7ee31969a6",
+      "bytes": 15234
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-agent-doctor.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-agent-doctor.stdout.actual.json",
+      "rawSha256": "5ea7c40439c055f01da089a30dab2b62f6207847e70f36489ee2c7e20c91d0f2",
+      "bytes": 455
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-amendments.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-amendments.stdout.actual.json",
+      "rawSha256": "f76492fde492bed00df3a358219e70178be985e507f41f90c4ef880180a996b1",
+      "bytes": 49405
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-conditions.actual.agent-recorded.json",
+      "rawSha256": "3e017432b08a02c8d48f443a3edb0fdb1e0bb3871cc19af0a0b79597bf4c4f7f",
+      "bytes": 5590
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-doctor.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-doctor.stdout.actual.json",
+      "rawSha256": "3b6bb666deabeafb3c302afa5d4d4392bbfb523acdc47a091d914f96b4841621",
+      "bytes": 632
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-inspect.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-inspect.stdout.actual.json",
+      "rawSha256": "f11a0dc40201340da7bad084d0fce306c6c6e0305f25358c72d9501f304cd6b5",
+      "bytes": 704
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-material-plan.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-material-plan.stdout.actual.json",
+      "rawSha256": "5aa598bc8cfa0ace78dc09325c2ac39c8966687f68e124dbd9dc394c3403b4d5",
+      "bytes": 4823
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-status.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before-status.stdout.actual.json",
+      "rawSha256": "2513d284dc4695381c66865b01a054bf12e6e07c9ea7b6d3ab608ac61eb155af",
+      "bytes": 3656
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before.contract.actual.json",
+      "rawSha256": "4acc8be33ab604e3c5f3f873f97ba520e1a84954ac7cf91297c50417132bbc58",
+      "bytes": 14040
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before.summary.actual.json",
+      "rawSha256": "693be7b48cf013c3b9e927531a8d225837568a889901af76478fe1e276456a87",
+      "bytes": 13053
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/before.verification.canonical.actual.json",
+      "rawSha256": "6d93218b5bcb8b32bb0dfd86bfa98e37fe700652f73f90cdcaeb17cd6759286a",
+      "bytes": 36313
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/execute_once.py",
+      "rawSha256": "619899616085b78894bbd4f01f94091e07279362023671f97ee13ee61b910fe9",
+      "bytes": 4291
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/native-first-opt-in.attempt1.metadata.actual.json",
+      "rawSha256": "041e06164ea8ca05b164df3e4f4dd90a4cd0d8ef04e180c412732b968c7cf8fb",
+      "bytes": 1005
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/native-first-opt-in.attempt1.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/native-first-opt-in.attempt1.stdout.actual.json",
+      "rawSha256": "a9e3b358a1028d6d859fbea790a6cdb2015592f9f10295da94a2a3ffa0bc8091",
+      "bytes": 2792
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/native-pending-outcome-full.zh-CN.actual.txt",
+      "rawSha256": "08c7758ee99a6aec4a2df98c62ddfd6cad5c3de5194e8c3f6524d6e7c4ac8420",
+      "bytes": 5545
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/new-contract-preflight.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/new-contract-preflight.stdout.actual.json",
+      "rawSha256": "191e7769bd2f2346524617a15b27a3e7cadc8a2c5f7449f099057d6a1cf008ff",
+      "bytes": 6939
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/pending-new-contract-human-review.binding.actual.agent-recorded.json",
+      "rawSha256": "4ad4acb57704b41fdb06d847c7bfbe4100802aba4dacf85e0c59c0f041d4afd9",
+      "bytes": 2606
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/post-amend-conditions-and-review-boundary.actual.agent-recorded.json",
+      "rawSha256": "bfa78c22cdaefe2e0dcbc9ef1beea1bcb5827ced22389c7ade50c755367ab155",
+      "bytes": 3387
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/prepare_handoff.py",
+      "rawSha256": "0e27f2aba9c8f5e41faf520237aad3dbb9e4de63593f50c1b5e29fc6a8af554a",
+      "bytes": 7555
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/preservation-check.actual.agent-recorded.json",
+      "rawSha256": "0d361dc054115161ec3a9bb30d2e9af5cdbbaf82c7050259d59f0e942be67b75",
+      "bytes": 763
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/ray-conditional-policy-authorization.transcript.agent-recorded.json",
+      "rawSha256": "feb05553586f5de2d3cd6134e2676b0c457e786e96594becca2dd433c97f37f8",
+      "bytes": 1598
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/read_after_and_preflight.py",
+      "rawSha256": "98671be290c5ac08131f43c00ebd85bc7d30d7f4380b9d8b2b910df8d9af9855",
+      "bytes": 4420
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/first-profile-opt-in-20261019/read_and_check_before.py",
+      "rawSha256": "c50b9cc8fe071fb6d942fed1f1c6ce9cf13fc5f3dd284ebf5cce8083f622277a",
+      "bytes": 5691
+    }
+  ]
+}

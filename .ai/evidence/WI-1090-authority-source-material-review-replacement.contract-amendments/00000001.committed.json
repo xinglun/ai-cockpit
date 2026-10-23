@@ -1,0 +1,434 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:28e0f5839e92689964e8a75aad1c6bc71a3c04303b32f57e1d3cce4a2cf52434",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-authority-source-material-review-replacement",
+    "sequence": 1,
+    "changeId": "wi1090-initial-strict-source-only-design-and-required-scenarios-additive",
+    "requestDigest": "sha256:488a36e3929f8d9b03d183b44cd51060b28e37f87e4c5cf88b92b5922485e992",
+    "reason": "Complete separately authorized WI1090 initial Contract before first preflight: bind the exact strict authoritySource-only proposal and required high-risk scenarios. Keep consumer WI1089 Contract 420 and delivered c960 unchanged. Technical delegation is not human confirm_review or material residual-risk consent.",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/strict-authority-source-replacement.proposal-only.v3.json",
+            "reason": "Exact strict source-only replacement spec, two implementation files and six necessary governance docs; proposal only, no new material risk acceptance."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/strict-authority-source-replacement.proposal-only.v3.json",
+            "reason": "Exact strict source-only replacement spec, two implementation files and six necessary governance docs; proposal only, no new material risk acceptance."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/strict-authority-source-replacement.proposal-only.v3.json",
+            "reason": "Exact strict source-only replacement spec, two implementation files and six necessary governance docs; proposal only, no new material risk acceptance."
+          },
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/implementation-plan.proposal-only.zh-CN.md",
+            "reason": "Two-layer shared eligibility, logical failure atomicity and regression plan; all tests not run."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/strict-authority-source-replacement.proposal-only.v3.json",
+            "reason": "Exact strict source-only replacement spec, two implementation files and six necessary governance docs; proposal only, no new material risk acceptance."
+          },
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/implementation-plan.proposal-only.zh-CN.md",
+            "reason": "Two-layer shared eligibility, logical failure atomicity and regression plan; all tests not run."
+          }
+        ],
+        "newValue": [
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/strict-authority-source-replacement.proposal-only.v3.json",
+            "reason": "Exact strict source-only replacement spec, two implementation files and six necessary governance docs; proposal only, no new material risk acceptance."
+          },
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/implementation-plan.proposal-only.zh-CN.md",
+            "reason": "Two-layer shared eligibility, logical failure atomicity and regression plan; all tests not run."
+          },
+          {
+            "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/proposal-20261019/raydot-delegated-technical-scope.agent-recorded.json",
+            "reason": "Retained user-delegated Raydot technical scope and Contract preparation decision; agent-recorded, not authenticated human review or residual-risk acceptance."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+            "required": true,
+            "scenario": "M3 shared admission and service proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+            "required": true,
+            "scenario": "M3 shared admission and service proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+            "required": true,
+            "scenario": "M3 shared admission and service proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+          },
+          {
+            "evidence": [],
+            "expected": "Injected failures before/after prepared publish, receipt publish and atomic Summary commit preserve old canonical history; exact pending continuation commits once; committed replay rejects.",
+            "required": true,
+            "scenario": "M4 logical atomicity and bounded resume",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+            "required": true,
+            "scenario": "M3 shared admission and service proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+          },
+          {
+            "evidence": [],
+            "expected": "Injected failures before/after prepared publish, receipt publish and atomic Summary commit preserve old canonical history; exact pending continuation commits once; committed replay rejects.",
+            "required": true,
+            "scenario": "M4 logical atomicity and bounded resume",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+            "required": true,
+            "scenario": "M3 shared admission and service proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+          },
+          {
+            "evidence": [],
+            "expected": "Injected failures before/after prepared publish, receipt publish and atomic Summary commit preserve old canonical history; exact pending continuation commits once; committed replay rejects.",
+            "required": true,
+            "scenario": "M4 logical atomicity and bounded resume",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Finding, dirty/unavailable source, missing/stale/foreign authorization, request/profile/scanner/policy mismatch, corrupt/symlinked pointer/sidecar/history/chain, concurrent changes and wrong retry reject.",
+            "required": true,
+            "scenario": "M5 integrity and source rejection",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+            "required": true,
+            "scenario": "M3 shared admission and service proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+          },
+          {
+            "evidence": [],
+            "expected": "Injected failures before/after prepared publish, receipt publish and atomic Summary commit preserve old canonical history; exact pending continuation commits once; committed replay rejects.",
+            "required": true,
+            "scenario": "M4 logical atomicity and bounded resume",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Finding, dirty/unavailable source, missing/stale/foreign authorization, request/profile/scanner/policy mismatch, corrupt/symlinked pointer/sidecar/history/chain, concurrent changes and wrong retry reject.",
+            "required": true,
+            "scenario": "M5 integrity and source rejection",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A complete native single-field chain plus current native human review admits a NEW exact decision; old receipt stays invalid and discharges no Unknown until pointer commit.",
+            "required": true,
+            "scenario": "M1 authoritySource-only proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Scope/acceptance/reviewer/assurance/residual-risk/other field, mixed or reverted changes and direct unjournaled edits reject without writes.",
+            "required": true,
+            "scenario": "M2 forbidden amendments",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "The projected safe action exists only for the same finite proof accepted under lock by record; invalid-receipt diagnostics and other native blockers remain.",
+            "required": true,
+            "scenario": "M3 shared admission and service proof",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+          },
+          {
+            "evidence": [],
+            "expected": "Injected failures before/after prepared publish, receipt publish and atomic Summary commit preserve old canonical history; exact pending continuation commits once; committed replay rejects.",
+            "required": true,
+            "scenario": "M4 logical atomicity and bounded resume",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Finding, dirty/unavailable source, missing/stale/foreign authorization, request/profile/scanner/policy mismatch, corrupt/symlinked pointer/sidecar/history/chain, concurrent changes and wrong retry reject.",
+            "required": true,
+            "scenario": "M5 integrity and source rejection",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+          },
+          {
+            "evidence": [],
+            "expected": "Same-profile stale renewal and existing CLI/MCP regression behavior remain; c960 and consumer Contract 420 stay unchanged. Later isolated composition uses exact new runtime/source bindings before consumer revalidation.",
+            "required": true,
+            "scenario": "M6 preserved compatibility and fixed candidate",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-cli --test contract_amendment_processes; cargo test --locked --package cockpit-mcp --test material_review"
+          }
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:08852273c69bd26983af1cb1ec5019025d0e840703018c391b711fbe5e29bd08",
+    "newContractDigest": "sha256:3aa1437cc91a173b0ed24b3c8c2b7a2f79c8fe91a228f76405850ae16610b3e4",
+    "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+    "environmentObservationDigest": "sha256:c904b8e702fbe88714e49e9155953c51ce5aa4c2eb9ba55960a5d9b16aa54579",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:d0d662083a52f3c9b627b3da132f52e77e3aa26d1e80d2a213fc6dbbe641dce0",
+    "recordedAt": "2026-10-19T08:39:49Z"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json"
+  ],
+  "dependencyFingerprint": "sha256:fc6abdcb13e12da7333bba9568230fa436bc9868b120dcb3cfd948c3dff0ad70",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 3,
+  "gitRoot": "/workspace/scratch/wi1090-m6-execution-20261019/fixtures/leaf/repository",
+  "head": "31e87466f354abf458c51718f913ffc95caee68f",
+  "protocolVersion": 1,
+  "repositoryRoot": "/workspace/scratch/wi1090-m6-execution-20261019/fixtures/leaf/repository",
+  "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "runtimeVersion": "1.0.1",
+  "treeDigest": "sha256:c612405d0c26f1a1865a2ab05ec0ce9dbb965c6f6c3811349388aca4a0e28b9d"
+}

@@ -1,0 +1,63 @@
+{
+  "kind": "readonly_m6_source_manifest_and_reuse_scope_supplement_not_new_execution",
+  "approvedProspectiveManifest": "/workspace/scratch/wi1090-m6-readonly-plan-20261019/prospective-non-ai-source-manifest.proposal-only.json",
+  "actualMaterializedManifest": "/workspace/scratch/wi1090-m6-execution-20261019/evidence/actual-materialized-source-manifest.json",
+  "bothRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+  "byteIdentical": true,
+  "entryCount": 3176,
+  "filesystemCurrentMissingCount": 0,
+  "filesystemCurrentExtraCount": 0,
+  "filesystemCurrentBlobOrModeMismatchCount": 0,
+  "modeCounts": {
+    "100644": 3113,
+    "100755": 63
+  },
+  "method": "Read both original manifest bytes and compare exactly. Enumerate current source files/symlinks; recompute Git blob SHA1 = sha1(blob + space + byteLength + NUL + rawBytes), and Git executable/symlink mode; compare each pair with approved manifest. No source path list is published by this summary.",
+  "reuseReasonsFromActualReceipts": {
+    "leaf": [
+      {
+        "path": "/results/0",
+        "nodeId": "project-command-0",
+        "reason": "reuse_not_configured"
+      },
+      {
+        "path": "/results/1",
+        "nodeId": "project-command-1",
+        "reason": "reuse_not_configured"
+      },
+      {
+        "path": "/results/2",
+        "nodeId": "project-command-2",
+        "reason": "reuse_not_configured"
+      },
+      {
+        "path": "/results/3",
+        "nodeId": "project-command-3",
+        "reason": "reuse_not_configured"
+      }
+    ],
+    "replace": [
+      {
+        "path": "/results/0",
+        "nodeId": "project-command-0",
+        "reason": "reuse_not_configured"
+      },
+      {
+        "path": "/results/1",
+        "nodeId": "project-command-1",
+        "reason": "reuse_not_configured"
+      },
+      {
+        "path": "/results/2",
+        "nodeId": "project-command-2",
+        "reason": "reuse_not_configured"
+      },
+      {
+        "path": "/results/3",
+        "nodeId": "project-command-3",
+        "reason": "reuse_not_configured"
+      }
+    ]
+  },
+  "reuseGuaranteeLimit": "Both cases have zero reuse because nodes report reuse_not_configured. This proves actual required command execution only; it does not prove configured cache invalidation, source-change reuse prevention, or runtime-change reuse prevention. No new test or execution was performed."
+}

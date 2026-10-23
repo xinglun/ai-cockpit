@@ -1,0 +1,19 @@
+
+running 14 tests
+test material_review::tests::checkout_source_open_refuses_symlinks_and_does_not_block_on_fifo ... ok
+test material_review::tests::implementation_digest_is_build_independent_and_source_sensitive ... ok
+test material_review::tests::material_request_digest_binds_finding_categories ... ok
+test material_review::tests::material_review_amendment_anchor_requires_adjacent_unique_receipt_edges ... ok
+test material_review::tests::material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract ... ok
+test material_review::tests::material_review_amendment_chain_rejects_duplicate_receipt_anchor ... ok
+test material_review::tests::material_review_initial_base_anchor_requires_a_unique_origin ... ok
+test material_review::tests::replacement_orphan_sidecar_without_prepare_is_not_adopted ... ok
+test material_review::tests::replacement_pending_rejects_wrong_input_runtime_and_rehashed_target ... ok
+test material_review::tests::replacement_pending_retry_reuses_immutable_receipt ... ok
+test material_review::tests::replacement_pending_summary_conflict_preserves_concurrent_state ... ok
+test material_review::tests::replacement_pending_symlinks_reject_without_following_or_overwriting ... ok
+test material_review::tests::replacement_rechecks_source_review_and_summary_before_commit ... ok
+test material_review::tests::replacement_transaction_failure_matrix ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 147 filtered out; finished in 53.68s
+

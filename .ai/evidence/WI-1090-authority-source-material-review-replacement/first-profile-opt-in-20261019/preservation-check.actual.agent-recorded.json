@@ -1,0 +1,17 @@
+{
+  "recordedBy": "agent:Codex",
+  "actualBeforeFilesChanged": [
+    ".ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json",
+    ".ai/work-items/active/WI-1090-authority-source-material-review-replacement.summary.json"
+  ],
+  "actualNewNativePaths": [
+    ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1090-authority-source-material-review-replacement.contract-amendments/00000003.prepared.json"
+  ],
+  "priorOwnFilesPreserved": 281,
+  "priorOtherWorkItemsChanged": false,
+  "canonicalPriorVerificationRawPreserved": true,
+  "oldDecisionEvidencePreserved": true,
+  "allEightSourceFilesByteIdentical": true,
+  "noVerificationRerun": true
+}

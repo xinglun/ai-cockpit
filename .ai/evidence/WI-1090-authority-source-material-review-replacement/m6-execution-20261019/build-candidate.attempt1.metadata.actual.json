@@ -1,0 +1,24 @@
+{
+  "kind": "actual_isolated_m6_build",
+  "argv": [
+    "cargo",
+    "build",
+    "--locked",
+    "--offline",
+    "--package",
+    "cockpit-cli",
+    "--bin",
+    "ai-cockpit"
+  ],
+  "sourceManifestRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+  "startedAt": "2026-10-19T21:04:27.013778+00:00",
+  "terminal": "returned",
+  "outerTimeoutSeconds": 850,
+  "target": "/workspace/scratch/wi1090-m6-execution-20261019/build-target",
+  "workerCount": 1,
+  "pid": 637603,
+  "processGroup": 637603,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T21:07:03.002877+00:00",
+  "elapsedSeconds": 155.9897660970164
+}

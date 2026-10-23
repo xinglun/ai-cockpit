@@ -1,0 +1,44 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:16:31.505984+00:00",
+  "all8BlobHunkMembersUnchanged": true,
+  "scannerIdentitiesUnchanged": true,
+  "findingCodes": [],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "sourceSnapshotAndManifestUnchanged": true,
+  "governanceProfileAndEffectiveMaterialPolicyUnchanged": true,
+  "priorRiskReplyMessageId": "Sentinel_89eec2e40c0c819181319fd54b8fa553",
+  "priorConsentRawSha256": "2068443c4ccd9d2b01af29d9d032679a9c87effca3364f3434b15fe3376add5e",
+  "priorConsentActualNativeBinding": {
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-authority-source-material-review-replacement",
+    "contractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+    "requestDigest": "sha256:c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7",
+    "sourceSnapshotDigest": "sha256:ffdcd5af8387e969dec46902088117057f82d986ef948d5e3d69c09776c52329",
+    "materialManifestDigest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+    "scannerSemanticVersion": "rust-material-v1",
+    "analysisImplementationDigest": "sha256:f2f7898225550abbf1cbde21c4780795bbd1bb953150a7a94fe993ab7b263d27",
+    "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+    "materialInspectionReviewProfileDigest": "sha256:e2a40be4695c566d35fac65e5854678b8877cb9d23828d10cea3a82cdaf172e9",
+    "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a"
+  },
+  "newNativeContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "newNativeMaterialRequestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+  "currentMaterialDecisionRecorded": false,
+  "priorConsentRecordNotRewritten": true,
+  "scopeAuthorizationIsNotNewGeneratedBindingConfirmReview": true,
+  "materialReplacementAttempted": false,
+  "materialProjectionDiagnostics": [
+    "repository protocol state error at /workspace/ai-cockpit-wi1090-material-replacement/.ai/work-items/active/WI-1090-authority-source-material-review-replacement.contract.json: contract_amendment_policy_review_required: verification waits for identity-bound human review of the current amended Contract"
+  ],
+  "materialProjectionCurrentEffectiveUnknowns": [
+    "evidence_stale",
+    "material_review_receipt_stale",
+    "repository_material_inspection_unavailable",
+    "user_visible_benefit_not_declared",
+    "verification_action_preconditions_blocked"
+  ],
+  "newBindingRiskApplicability": "Fixed source/scanner/profile conditions verified unchanged. Preserve the actual prior conditional risk decision; do not automatically label old b6d2/c5dd consent or receipt current for this new request. New exact reviewer decision must follow actual human Contract review and material admission; report any native refusal without Runtime switching."
+}

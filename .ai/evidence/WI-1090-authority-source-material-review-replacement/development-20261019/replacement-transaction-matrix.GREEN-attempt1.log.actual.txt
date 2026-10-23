@@ -1,0 +1,12 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1090-material-replacement/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 39.74s
+     Running unittests src/lib.rs (/workspace/scratch/wi1090-v4-verify-target-20261019/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+running 4 tests
+test material_review::tests::replacement_pending_rejects_wrong_input_runtime_and_rehashed_target ... ok
+test material_review::tests::replacement_pending_retry_reuses_immutable_receipt ... ok
+test material_review::tests::replacement_rechecks_source_review_and_summary_before_commit ... ok
+test material_review::tests::replacement_transaction_failure_matrix ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 154 filtered out; finished in 39.58s
+

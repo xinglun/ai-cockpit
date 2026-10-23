@@ -1,0 +1,22 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:15:04.868028+00:00",
+  "recordType": "actual relayed narrowly bounded scope authorization, not new Contract confirm_review",
+  "actor": "human:Ray",
+  "relayedBy": "agent:Raydot",
+  "requestMessageId": "Sentinel_210dab1f7f8c8191b9f6c9493d9664d1",
+  "replyMessageId": "Sentinel_1e121636b65c8191a074452f13845c16",
+  "replyTimeAsProvided": "2026-10-19 23:12 UTC",
+  "verbatimReply": "允许",
+  "actualRequestedScope": "Only WI1090 own necessary native scope amendment, finish, then archive upon native admission; no close/closure, WI1089, Sentinel, merge or release.",
+  "technicalReviewApprovedExactAppendScheme": true,
+  "approvedOldContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+  "exactRequestRawSha256": "f1d2d06db05515e49e1074e28a0e8d4ab464fcf058f6e4285400d754ba98e5b4",
+  "requestedPaths": [
+    "/outOfScope/1",
+    "/acceptanceCriteria/6"
+  ],
+  "newContractHumanIdentityReviewOccurred": false,
+  "newMaterialRiskAcceptanceInvented": false,
+  "assuranceLimit": "Agent-retained relayed conversation, not new host-authenticated human identity evidence."
+}

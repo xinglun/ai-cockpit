@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+      "digest": "sha256:2068443c4ccd9d2b01af29d9d032679a9c87effca3364f3434b15fe3376add5e"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/raydot-material-review.delegated.agent-recorded.json",
+      "digest": "sha256:ec821a85703e84b0a52ca7fe89cc2dd2d1713e252e35403af6115333cbf2df32"
+    }
+  ],
+  "rationale": "Record the actual delegated agent:Raydot review for the exact unchanged fixed material under human:Ray's previously supplied conditional risk acceptance. All8 blob/hunk/scanner identities and strict policy conditions matched; actual new b6d2 native Contract review was separately confirmed by Ray and recorded before this decision. Recorder agent:Codex; no invented new human risk decision or WI1089 approval inheritance.",
+  "residualRisk": "扫描器无法完整判断唯一syntax Unknown文件 material_review.rs，代码审阅和测试仍可能遗漏问题；仅接受已固定8项材料中这一readable committed Rust syntax Unknown的所述残余风险。"
+}

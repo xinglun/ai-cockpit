@@ -1,0 +1,15 @@
+{
+  "changedPaths": [],
+  "dependencyFingerprint": "sha256:4f135761241806b9c3e25b436d2268a028eabbbd752f1121b1c43ef0b0305f77",
+  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "filesHashed": 2,
+  "filesRead": 2,
+  "gitCalls": 2,
+  "gitRoot": "/workspace/ai-cockpit-wi1090-material-replacement",
+  "head": "5f8e6fbfa3065b47a2ddc4cd8e15809adc2f47ac",
+  "protocolVersion": 1,
+  "repositoryRoot": "/workspace/ai-cockpit-wi1090-material-replacement",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "treeDigest": "sha256:fb81e01af57f3b7d5b5adb7b1c63a0de03d2541b90dc44c36ebd3257766c98ab"
+}

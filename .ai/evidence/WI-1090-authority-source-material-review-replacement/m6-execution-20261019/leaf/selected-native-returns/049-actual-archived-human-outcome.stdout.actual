@@ -1,0 +1,101 @@
+Outcome: 🟡 已声明的验证通过 — WI-M6-LEAF-SYNTHETIC-FIXTURE
+结果
+- 验证状态: 已声明的验证通过
+- 生命周期状态: 已归档
+- 人工决定状态: 未记录
+- 治理信号: 黄色；需要关注，不是人工批准
+
+已完成
+- 验证证据有效；用户可见收益尚未声明。
+- Changed path: .ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.482f26d5ce06247ea7ff0c7fd77aedd142e16d3af069ba72ac559de0bd116284.json
+- Changed path: .ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.7d2959653fe7b7f4d4be5d700d79d82fcbd16effd344a36619953a946ba3fec2.json
+- Changed path: .ai/decisions/WI-M6-LEAF-SYNTHETIC-FIXTURE.preflight-review.7eb80f1323629e0e9e7bf707b0597c8c24b87e4d21117e254fb86a3b464f4510.json
+- Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000002.committed.json
+- Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000002.prepared.json
+- Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000003.committed.json
+- Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract-amendments/00000003.prepared.json
+- Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.cf897cabc5a6fecda83652899076c910d79f635e1b5f017da20119706ce000aa.json
+- Changed path: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json
+- Changed path: .ai/evidence/m6-current-observations.agent-recorded.json
+- Changed path: .ai/evidence/m6-preserved-blocked-outcome.json
+- Changed path: .ai/evidence/m6-preserved-old-canonical.json
+- Changed path: .ai/evidence/m6-synthetic-consent/current.agent-recorded.json
+- Changed path: .ai/evidence/m6-synthetic-consent/old.agent-recorded.json
+- Changed path: .ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/9e041bcb7ecb4d6113283dd217e747ad675e88a38f1399d91efd3028203306aa.json
+- Changed path: .ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/9e041bcb7ecb4d6113283dd217e747ad675e88a38f1399d91efd3028203306aa.prepare.json
+- Changed path: .ai/evidence/material-inspection-review/WI-M6-LEAF-SYNTHETIC-FIXTURE/a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4.json
+- Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.contract.json
+- Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.events.jsonl
+- Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.outcome.json
+- Changed path: .ai/work-items/archive/WI-M6-LEAF-SYNTHETIC-FIXTURE.summary.json
+- 验收标准（Contract 原文） / Acceptance criteria (Contract language)
+
+发现的问题
+- 治理原因：governance_gate_failed。
+- 验证可以通过，但意图对齐证据不足；这不是验证证据无效。
+- 失败 gate: verification_or_human_input
+- 当前 Contract 未声明 provider finalization；继续遵守生命周期和人工决定门槛。
+
+触发的停止
+- 治理原因：governance_gate_failed。
+- 验证可以通过，但意图对齐证据不足；这不是验证证据无效。
+- 恢复条件: 修复失败的治理条件，完成新的检查后重试 finish。
+- 恢复条件: 审阅当前生命周期状态并记录必需的人工作业；验证状态不扩大为授权。
+
+已解决的问题
+- The current verification evidence is valid for this repository and Work Item.
+
+避免的风险
+- 未记录
+
+剩余风险
+- Remaining unknown: close_decision_pending
+- Remaining unknown: user_visible_benefit_not_declared
+- User-visible benefit is not declared by the Work Item owner.
+
+未知项
+- close_decision_pending
+- user_visible_benefit_not_declared
+
+人工决定
+- 未记录
+
+验证
+- 已声明的验证通过: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json
+- 已声明的验证通过: .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json
+
+用量
+- 用量覆盖: 未知 (unknown); 截止时间: 2026-10-19T21:09:23.605903037Z; 未知原因: no_usage_receipts; 记录数: 0
+- 用量小计: 输入 未知, 输出 未知, 缓存输入 未知, 推理 未知
+
+影响
+- 用户可见收益尚未声明。
+
+下一步
+- 审阅归档证据后记录明确的人工 close 决定；完成 close 前不得开始下一个 Work Item。
+
+证据
+- .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification.json
+- .ai/evidence/WI-M6-LEAF-SYNTHETIC-FIXTURE.verification-attempt.5663fb5901aba6517936aacb7cbb27a4a050ede42a633e029ca9b7a3e4326bcb.json
+跨 WI 协调: WI-M6-LEAF-SYNTHETIC-FIXTURE
+- 状态: allowed
+- 实现状态: separate_lifecycle_outcome
+- 组合验证: not_observed
+- 执行结果: unknown
+- 执行证据完整: false
+- 组合适用性: not_observed
+- 目标合并: not_observed
+- 清理: not_observed
+- 清理处置: unknown
+- 提供方: 
+- 消费者: 
+- 等待边: 
+- 影响事件: 
+- 阻塞: 
+- 未知: 
+- 人工决定: false
+- 复验: not_required
+- 可复用检查: 
+- 下一步: refresh dependency state before the next dependent action
+- integration owner/order: not observed/
+

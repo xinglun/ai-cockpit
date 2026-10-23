@@ -1,0 +1,67 @@
+{
+  "kind": "segmented_authority_source_material_replacement_v4_proposal_only",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T13:25:12.600914+00:00",
+  "status": "awaiting_Raydot_technical_review_not_applied",
+  "workItemId": "WI-1090-authority-source-material-review-replacement",
+  "expectedCurrentContractDigest": "sha256:3aa1437cc91a173b0ed24b3c8c2b7a2f79c8fe91a228f76405850ae16610b3e4",
+  "baseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/material_review.rs",
+    "crates/cockpit-repository/tests/material_review.rs",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+    "cargo test --locked --package cockpit-repository --lib material_review",
+    "cargo test --locked --package cockpit-repository --test material_review",
+    "cargo test --locked --package cockpit-repository --test status_projection",
+    "cargo test --locked --package cockpit-cli --test contract_amendment_processes",
+    "cargo test --locked --package cockpit-mcp --test material_review"
+  ],
+  "design": {
+    "file": "DESIGN.proposal-only.zh-CN.md",
+    "rawSha256": "deb98d2baa62ae41168b39d5c83c97cd3beb35dc967a750045997c0aa9353ddf"
+  },
+  "fixtures": {
+    "file": "FIXTURES.proposal-only.zh-CN.md",
+    "rawSha256": "513ed2e182dd6b3d5458c7638e5c814a7bc878b8aac8082df32c838b6a0a0cdf"
+  },
+  "proofs": {
+    "H": "Validated old immutable receipt R and complete native history to A; only policy-reviewed scope/acceptanceCriteria/scenarioCoverage/sources changes allowed in R-to-A, full profile constant per operation. Historical proof grants no current material discharge.",
+    "P": "The actual last adjacent committed native A-to-current-B transition has exactly one real semantic leaf change: authoritySource. Root governanceProfile replace is acceptable only when semantic replay proves this.",
+    "C0": "Current exact request/material/profile/policy/scanner, native authorization, clean committed source and bounded reviewable Unknown; shared typed helper in projection and under-lock record.",
+    "C1": "Actual new current reviewer input, source, assurance and evidence refs; truthful fresh current risk/review workflow provenance. No old decision inheritance or authenticated-human claim."
+  },
+  "historicalAllowedSemanticPaths": [
+    "/scope",
+    "/acceptanceCriteria",
+    "/scenarioCoverage",
+    "/sources"
+  ],
+  "adjacentAllowedSemanticLeaf": "/governanceProfile/materialInspectionReview/authoritySource",
+  "atomicity": "sealed immutable prepare -> immutable receipt -> one atomic Summary pointer/history commit; exact pending resume, no physical multifile atomicity claim",
+  "assuranceLimit": "Existing evidenceRefs syntax and self_declared native records do not authenticate human approval. No implicit grant schema or machine human-authentication feature is added.",
+  "realConsumer": {
+    "head": "ba1c6c90f4ac039521567c1365b4351fe7ce92ae",
+    "R": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+    "A": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+    "B": null,
+    "BState": "not_generated_not_amended",
+    "sourceOnlyProposalRawSha256": "44881b1a1b3feafb3c36f0743b9debdce18d34bb3bdb7765cb8db4100b9af637",
+    "sourceOnlyProposalProtocolStatus": "Original whole-object set is not protocol-valid when the existing profile is an object (set_requires_leaf); preserve original and require separately reviewed scalar authoritySource set or equivalent root replace before later execution."
+  },
+  "preservation": [
+    "Original v3 spec and plan unchanged; conflicting whole-chain-source-only rules are superseded only after actual approved native amendment.",
+    "No actual new material decision, no new grant, no source/Contract/Summary edits, no commit/push/build/verification/CI.",
+    "No Sentinel operation, real WI finish/archive/close/merge/provider cleanup, release/tag or automatic Runtime adoption.",
+    "No publication or variant of rejected fixture07 payload."
+  ]
+}

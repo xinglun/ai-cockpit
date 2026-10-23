@@ -1,0 +1,12 @@
+{
+  "recordedBy": "agent:Codex",
+  "startedAt": "2026-10-19T23:24:46.656928Z",
+  "terminal": "returned",
+  "kind": "new current decision using native same-profile stale renewal",
+  "contractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "requestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+  "oldReceiptRawDigest": "sha256:0f3949bae38b9a306bcb677c9441bbeb77af17368c8ea561db65fcd489f819b5",
+  "runtimeUnchanged": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "exitCode": 0,
+  "endedAt": "2026-10-19T23:24:48.113746+00:00"
+}

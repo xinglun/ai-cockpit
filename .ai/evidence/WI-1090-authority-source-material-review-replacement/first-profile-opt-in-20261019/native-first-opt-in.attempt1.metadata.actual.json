@@ -1,0 +1,23 @@
+{
+  "kind": "actual native first profile opt-in attempt",
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "work-item",
+    "amend",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-material-replacement",
+    "--id",
+    "WI-1090-authority-source-material-review-replacement",
+    "--request",
+    "/workspace/ai-cockpit-wi1090-material-replacement/.ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/first-profile-opt-in.amend.request.proposal-only.json"
+  ],
+  "startedAt": "2026-10-19T22:27:51.055720+00:00",
+  "terminal": "returned",
+  "policyRawSha256": "ff93edd6797c0c6e973e1e3355024d84e96d4ca8d616604b37eec859785f323f",
+  "sourceHead": "b1fecfc35e14f700f146a51d4cc494590b13919c",
+  "runtimeSha256": "b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "timeoutSeconds": 120,
+  "newContractHumanReviewOccurred": false,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T22:27:52.374959+00:00"
+}

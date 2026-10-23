@@ -1,0 +1,47 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:0eea1a6ba5bb5ec031cf427328ac12a6034d6b287d650fc98205bb825e110b9f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-authority-source-material-review-replacement",
+    "sequence": 4,
+    "changeId": "wi1090-own-finish-archive-scope-exception-proposal-20261019-v1",
+    "requestDigest": "sha256:18fc59010222a3f2c4dcf4b91cfbee6029059ed8a0a107722904b59ecd2b9037",
+    "reason": "Propose only the explicit WI1090-own finish/archive exception in outOfScope item2 and acceptance criterion7. Preserve all other restrictions, profile, policy, source material and verification declarations. No scope amendment, terminal action or new-binding human review is implied before the actual required authorization.",
+    "changedValues": [
+      {
+        "path": "/outOfScope/1",
+        "operation": "set",
+        "oldValue": "No Sentinel operations, live authorization/grants, WI1087 P3/P4, release/version/tag/provider cleanup, merge or real WI finish/archive/closure. Isolated explicitly identified fixture lifecycle tests are permitted only after current native implementation/verification admission.",
+        "newValue": "No Sentinel operations, live authorization/grants, WI1087 P3/P4, release/version/tag/provider cleanup, merge or real WI finish/archive/closure. Isolated explicitly identified fixture lifecycle tests are permitted only after current native implementation/verification admission. The sole exception, superseding earlier referenced lifecycle prohibitions only to this extent, is WI-1090-authority-source-material-review-replacement's own finish and subsequent archive, each only under current native admission; close/closure and every other excluded action remain prohibited."
+      },
+      {
+        "path": "/acceptanceCriteria/6",
+        "operation": "set",
+        "oldValue": "Preserve c960/Contract420 history and delivered ba1c6c90/Contracta5/CI39249701684 unchanged during this implementation. Later real-consumer composition requires a separately reviewed exact candidate containing both ba1 and completed WI1090 with fresh native runtime/admission/material bindings. No Sentinel, real WI finish/archive/closure, merge, live grant, broad profile migration or automatic Runtime adoption.",
+        "newValue": "Preserve c960/Contract420 history and delivered ba1c6c90/Contracta5/CI39249701684 unchanged during this implementation. Later real-consumer composition requires a separately reviewed exact candidate containing both ba1 and completed WI1090 with fresh native runtime/admission/material bindings. No Sentinel, real WI finish/archive/closure, merge, live grant, broad profile migration or automatic Runtime adoption. The sole exception, superseding earlier referenced lifecycle prohibitions only to this extent, is WI-1090-authority-source-material-review-replacement's own finish and subsequent archive, each only under current native admission; close/closure and every other excluded action remain prohibited."
+      }
+    ],
+    "previousContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+    "newContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "environmentObservationDigest": "sha256:8c6d22e61ed275b8eb9f5f61d45c13108d003436fddee33f30561955898d1a9e",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/6",
+      "/outOfScope/1"
+    ],
+    "previousJournalDigest": "sha256:aba91250f9f3d5afc32cf729e73ac5da931ed9d7e5209b34cc80e6d44ffca9c0",
+    "journalDigest": "sha256:2bfa42fb5f332decf84bf0e832352efa5c86da05949d977cb40184d4d6830474",
+    "recordedAt": "2026-10-19T23:15:05Z"
+  }
+}
