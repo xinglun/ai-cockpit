@@ -1,9 +1,10 @@
 //! Local denial-only audit. This chain is not a protected authority ledger.
 //! Complete local rollback cannot be detected without B's independent head.
-use crate::evidence_store::{
-    open_cap_directory_nofollow_strict, read_cap_file_nofollow_bounded, write_cap_immutable,
+use crate::evidence_store::{open_cap_directory_nofollow_strict, write_cap_immutable};
+use crate::{
+    ObserverError,
+    legacy_closeout_source::{PinnedRoot, read_regular_cap_bounded},
 };
-use crate::{ObserverError, legacy_closeout_source::PinnedRoot};
 use cap_std::fs::Dir;
 use cockpit_core::Digest;
 use cockpit_protocol::review_authority::{ReviewCorrectionEvent, ReviewCorrectionRequest};
@@ -102,7 +103,7 @@ fn read_events(
     let mut result = Vec::new();
     let mut previous = None;
     for name in names(directory, path, &prefix)? {
-        let bytes = read_cap_file_nofollow_bounded(directory, &name, &path.join(&name), MAX_BYTES)?;
+        let bytes = read_regular_cap_bounded(directory, &name, &path.join(&name), MAX_BYTES)?;
         validate_wire(&bytes).map_err(|code| error(path, &code))?;
         let event: ReviewCorrectionEvent = serde_json::from_slice(&bytes)
             .map_err(|_| error(path, "review_correction_event_invalid"))?;
@@ -199,8 +200,7 @@ pub fn record_review_correction(
         if !name.ends_with(".json") {
             return Err(error(&root, "review_correction_target_invalid"));
         }
-        let bytes =
-            read_cap_file_nofollow_bounded(&directory, &name, &path.join(&name), MAX_BYTES)?;
+        let bytes = read_regular_cap_bounded(&directory, &name, &path.join(&name), MAX_BYTES)?;
         if Digest::sha256_bytes(&bytes) != request.target_receipt_raw_digest {
             continue;
         }

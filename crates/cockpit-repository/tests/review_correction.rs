@@ -340,7 +340,7 @@ fn reason_limit_counts_utf8_bytes_and_accepts_the_exact_boundary() {
     }
 }
 
-fn event_path(root: &Path) -> PathBuf {
+fn event_path(root: &::std::path::Path) -> PathBuf {
     fs::read_dir(root.join(".ai/decisions"))
         .expect("decisions")
         .map(|entry| entry.expect("entry").path())
