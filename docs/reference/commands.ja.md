@@ -547,3 +547,35 @@ Plan は読み取り専用です。決定的な request は有限の差分（該
 Record はネイティブ lock 内で currentness を再確認し、独立した現時点の phase evidence を追記します。過去の receipt を書き換えず、過去の A→B を認証せず、業務権限や現在の Contract C の承認を与えません。`historicalTransitionAuthentication` は `unknown`、`businessAuthorityGranted` は `false`、`freshContractReviewRequired` は `true` のままです。新しい preflight と別途の現在 Contract レビューだけが通常 admission を回復します。actor label と自己申告 assurance は本人認証ではありません。source の元 bytes と部分・失敗 phase を保存します。
 
 MCP は同じサービスで `work_item_activation_recovery_plan`（`workItemId`）と `work_item_activation_recovery_record`（`workItemId` と厳密な `decision`）を提供します。2 件追加後の正確な tool 数は 35 です。未対応の旧 surface と raw governance-controls 呼出しは復旧権限を供給しません。
+
+
+## 完全な開始計画と明示的な委任開発レビュー
+
+CLI `start --scenario-coverage <json-file>` は既存の型
+`ScenarioCoverageEntry` の配列を受け取る。MCP `work_item_start.scenarioCoverage` も同じ型と
+リポジトリ検証を使う。初期状態は unverified、evidence は空で、最初の preflight 前に保存する。
+不正入力ではライフサイクル記録を作らない。省略時は従来の形を維持する。
+
+CLI `start --development-review <json-file>` と MCP `developmentReview` は
+`governanceProfile.developmentReview` の明示的な Work Item ポリシーを選ぶ。既定は strict のまま。
+選択を含む正確な基準 Contract に対する正式なネイティブ所有者レビューが必要。
+actor や出典文字列、任意の承認ファイルだけでは権限にならない。
+
+```json
+{"schemaVersion":1,"reviewerActor":"agent:reviewer","authoritySource":"user:explicit-bounded-delegation","allowedChanges":["append_scenarios","fill_verification_plan","append_verification"],"preapprovedCommands":["cargo test --locked"]}
+```
+
+typed amendment の任意 `developmentReview` は AuthorityEvidence を再利用する。
+明示 agent／出典、`assurance=self_declared`、唯一の操作 `review_development_amendment` が必要。
+許可は三種類のみ：必須・未検証・証拠なしで正確な宣言済み／事前承認コマンドを使うシナリオの追加、
+既存の空の verificationPlan への同種コマンドの補完、有限集合の正確な事前承認コマンドの追加。
+既存の順序と検査を保つ。scope、権限、リスク、ポリシー、受入基準、任意コマンド変更は従来の人間確認／拒否に従う。
+
+Runtime は既存ロック内で別の `delegatedReview` を prepared／committed 履歴に保存し、
+所有者基準と回执、ポリシー、repo／WI、要求、前後 Contract、ソース snapshot、Runtime を結び付ける。
+欠落・改名・改変・別項目・不完全な記録は拒否する。元の所有者記録は不変で、agent レビューは
+`decisionEvidence` にならず、close、Finding、失敗検証、強い人間／provider ポリシー、宿主／GitHub 承認を満たさない。
+
+これはローカル出典であり外部本人認証ではない。全ローカル記録の書換えに対する保証もない。
+共有 Runtime と本番設定は変更しない。本番利用には別途明示選択と新しい所有者レビューが必要で、agent の技術判断は誤り得る。
+WI 間の期限／取消と外部 B は対象外。隔離テストでの確認回数削減は実際の利益測定ではない。

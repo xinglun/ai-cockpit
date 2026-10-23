@@ -627,6 +627,14 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         "array"
     );
     assert!(start["inputSchema"]["required"].as_array().is_some());
+    assert_eq!(
+        start["inputSchema"]["properties"]["scenarioCoverage"]["type"],
+        "array"
+    );
+    assert_eq!(
+        start["inputSchema"]["properties"]["developmentReview"]["type"],
+        "object"
+    );
 
     let closeout_plan = listed
         .iter()
