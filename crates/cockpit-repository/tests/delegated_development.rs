@@ -551,32 +551,46 @@ fn a_symlinked_owner_parent_cannot_supply_a_delegated_review() {
     assert_eq!(state_bytes(root.path()), before);
 }
 
-
 fn explicit_repository_policy(root: &Path, operation: &str, approval_mode: &str) {
     let policy = json!({"schemaVersion":1,"organization":{
         "policyId":"explicit-current-boundary","layer":"organization","rules":[{
             "operation":operation,"approvalMode":approval_mode,"requiredEvidence":[]
         }]
     }});
-    fs::write(root.join(".ai/policy.json"), serde_json::to_vec(&policy).expect("policy JSON"))
-        .expect("synthetic current policy");
+    fs::write(
+        root.join(".ai/policy.json"),
+        serde_json::to_vec(&policy).expect("policy JSON"),
+    )
+    .expect("synthetic current policy");
 }
 
 #[test]
 fn actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy() {
     let root = fixture(true);
-    let path = root.path().join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WI}.contract.json"));
     let mut contract = document(root.path(), "contract");
     contract["operation"] = json!("review");
-    fs::write(path, serde_json::to_vec(&contract).expect("initial fixture Contract"))
-        .expect("synthetic initial operation");
+    fs::write(
+        path,
+        serde_json::to_vec(&contract).expect("initial fixture Contract"),
+    )
+    .expect("synthetic initial operation");
     explicit_repository_policy(root.path(), "review", "single_authorized_human");
     owner_review(root.path());
     let before = state_bytes(root.path());
-    let r = request(root.path(), "actual-operation-human", json!([
-        {"path":"/verification","operation":"add","value":"git status --porcelain"}
-    ]));
-    assert!(amend(root.path(), &r).is_err(), "actual review operation requires human review");
+    let r = request(
+        root.path(),
+        "actual-operation-human",
+        json!([
+            {"path":"/verification","operation":"add","value":"git status --porcelain"}
+        ]),
+    );
+    assert!(
+        amend(root.path(), &r).is_err(),
+        "actual review operation requires human review"
+    );
     assert_eq!(state_bytes(root.path()), before);
 }
 
@@ -584,32 +598,83 @@ fn actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy(
 fn stronger_current_policy_preserves_history_and_normal_fresh_human_recovery() {
     let root = fixture(true);
     owner_review(root.path());
-    let r = request(root.path(), "before-policy-strengthening", json!([
-        {"path":"/verification","operation":"add","value":"git status --porcelain"}
-    ]));
+    let r = request(
+        root.path(),
+        "before-policy-strengthening",
+        json!([
+            {"path":"/verification","operation":"add","value":"git status --porcelain"}
+        ]),
+    );
     amend(root.path(), &r).expect("originally permitted delegated change");
     let journal = read_work_item_contract_amendments(root.path(), WI).expect("original history");
-    let original_owner = fs::read(root.path().join(format!(".ai/decisions/{WI}.preflight-review.json")))
-        .expect("original owner bytes");
+    let original_owner = fs::read(
+        root.path()
+            .join(format!(".ai/decisions/{WI}.preflight-review.json")),
+    )
+    .expect("original owner bytes");
     explicit_repository_policy(root.path(), "modify_source", "single_authorized_human");
-    assert_eq!(read_work_item_contract_amendments(root.path(), WI)
-        .expect("policy strengthening cannot invalidate legitimate historical bytes"), journal);
+    assert_eq!(
+        read_work_item_contract_amendments(root.path(), WI)
+            .expect("policy strengthening cannot invalidate legitimate historical bytes"),
+        journal
+    );
     let result = preflight(root.path());
-    assert!(result.decision.human_decision_request.is_some(), "current stricter policy needs fresh human review");
+    assert!(
+        result.decision.human_decision_request.is_some(),
+        "current stricter policy needs fresh human review"
+    );
     let before = state_bytes(root.path());
-    let r = request(root.path(), "after-policy-strengthening", json!([
-        {"path":"/verification","operation":"add","value":"git diff --check"}
-    ]));
-    assert!(amend(root.path(), &r).is_err(), "current stronger policy denies a new agent amendment");
+    let r = request(
+        root.path(),
+        "after-policy-strengthening",
+        json!([
+            {"path":"/verification","operation":"add","value":"git diff --check"}
+        ]),
+    );
+    assert!(
+        amend(root.path(), &r).is_err(),
+        "current stronger policy denies a new agent amendment"
+    );
     assert_eq!(state_bytes(root.path()), before);
     owner_review(root.path());
-    assert!(preflight(root.path()).decision.human_decision_request.is_none(), "normal fresh human review can recover");
+    assert!(
+        preflight(root.path())
+            .decision
+            .human_decision_request
+            .is_none(),
+        "normal fresh human review can recover"
+    );
     let mut ordinary = r;
     ordinary.development_review = None;
-    assert_eq!(amend(root.path(), &ordinary).expect("ordinary human review path remains available")["policyReviewRequired"], true);
-    assert!(preflight(root.path()).decision.human_decision_request.is_some());
+    assert_eq!(
+        amend(root.path(), &ordinary).expect("ordinary human review path remains available")["policyReviewRequired"],
+        true
+    );
+    assert!(
+        preflight(root.path())
+            .decision
+            .human_decision_request
+            .is_some()
+    );
     owner_review(root.path());
-    assert!(preflight(root.path()).decision.human_decision_request.is_none());
-    assert_eq!(fs::read(root.path().join(format!(".ai/decisions/{WI}.preflight-review.json"))).expect("retained owner bytes"), original_owner);
-    assert_eq!(read_work_item_contract_amendments(root.path(), WI).expect("recovered complete native history").len(), 2);
+    assert!(
+        preflight(root.path())
+            .decision
+            .human_decision_request
+            .is_none()
+    );
+    assert_eq!(
+        fs::read(
+            root.path()
+                .join(format!(".ai/decisions/{WI}.preflight-review.json"))
+        )
+        .expect("retained owner bytes"),
+        original_owner
+    );
+    assert_eq!(
+        read_work_item_contract_amendments(root.path(), WI)
+            .expect("recovered complete native history")
+            .len(),
+        2
+    );
 }

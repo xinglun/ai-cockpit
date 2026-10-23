@@ -53,6 +53,9 @@ pub struct DelegatedDevelopmentReview {
     owner_receipt_path: String,
     owner_receipt_digest: Digest,
     policy_digest: Digest,
+    // Capture the policy used at admission, including its absence. Historical
+    // integrity must not depend on later mutable repository policy.
+    repository_policy: Option<cockpit_protocol::GovernancePolicyDocument>,
     authority: cockpit_protocol::AuthorityEvidence,
 }
 
@@ -3001,33 +3004,47 @@ fn development_policy(
         .map_err(|e| state_error("development-review", e))
 }
 
-fn require_delegated_policy_boundary(root: &Path, contract: &Value) -> Result<(), ObserverError> {
+fn delegated_policy_boundary_allows(
+    root: &Path,
+    contract: &Value,
+    document: Option<&cockpit_protocol::GovernancePolicyDocument>,
+) -> Result<bool, ObserverError> {
     let c: Contract =
         serde_json::from_value(contract.clone()).map_err(|e| state_error(root, e.to_string()))?;
-    let mut policies = vec![c.governance_policy.clone()];
-    if let Some(document) = super::policy_document(root)? {
-        policies.extend([document.organization, document.project]);
+    let mut policies = vec![c.governance_policy.as_ref()];
+    if let Some(document) = document {
+        if document.schema_version != 1
+            || document.organization.is_none() && document.project.is_none()
+            || document
+                .organization
+                .as_ref()
+                .is_some_and(|p| p.layer != cockpit_protocol::PolicyLayer::Organization)
+            || document
+                .project
+                .as_ref()
+                .is_some_and(|p| p.layer != cockpit_protocol::PolicyLayer::Project)
+        {
+            return Err(state_error(root, "invalid captured repository policy"));
+        }
+        policies.extend([document.organization.as_ref(), document.project.as_ref()]);
     }
-    if policies
+    let operation = super::verification_operation_for_contract(&c);
+    Ok(!policies
         .into_iter()
         .flatten()
-        .flat_map(|p| p.rules)
+        .flat_map(|p| &p.rules)
         .any(|rule| {
-            matches!(
-                rule.operation.as_str(),
-                "*" | "modify_source" | "review_development_amendment"
-            ) && rule.approval_mode != cockpit_protocol::ApprovalMode::NoHumanApprovalForLowRisk
+            (rule.operation == operation
+                || matches!(
+                    rule.operation.as_str(),
+                    "*" | "modify_source" | "review_development_amendment"
+                ))
+                && rule.approval_mode != cockpit_protocol::ApprovalMode::NoHumanApprovalForLowRisk
         })
-        || c.human_decision_points
+        && !c
+            .human_decision_points
             .as_ref()
-            .is_some_and(|p| !p.is_null() && p != &json!([]) && p != &json!({}))
-    {
-        return Err(state_error(
-            root,
-            "explicit human/provider/multi-party policy cannot be discharged by delegated review",
-        ));
-    }
-    Ok(())
+            .is_some_and(|p| !p.is_null() && p != &json!([]) && p != &json!({})))
 }
 
 fn native_owner_receipt_json(root: &Path, relative: &str) -> Result<Value, ObserverError> {
@@ -3173,7 +3190,11 @@ fn validate_delegated_review_values(
             "delegated reviewer, source, operation or assurance is outside the exact policy",
         ));
     }
-    require_delegated_policy_boundary(root, before)?;
+    if !delegated_policy_boundary_allows(root, before, review.repository_policy.as_ref())? {
+        return Err(fail(
+            "captured human/provider/multi-party policy cannot be discharged by delegated review",
+        ));
+    }
     cockpit_protocol::validate_development_review_changes(before, request, &policy)
         .map_err(|e| fail(&e))?;
     Ok(())
@@ -3196,6 +3217,12 @@ fn prepare_delegated_review(
     let fail = |message: &str| state_error(amendment_directory(root, wi), message);
     let policy = development_policy(before)?
         .ok_or_else(|| fail("strict mode has no delegated development policy"))?;
+    let repository_policy = super::policy_document(root)?;
+    if !delegated_policy_boundary_allows(root, before, repository_policy.as_ref())? {
+        return Err(fail(
+            "current human/provider/multi-party policy cannot be discharged by delegated review",
+        ));
+    }
     let before_digest = record_digest(before, root)?;
     if summary["preflightContractDigest"] != before_digest.to_string()
         || summary["preflightRepositorySnapshotDigest"] != snapshot.to_string()
@@ -3233,6 +3260,7 @@ fn prepare_delegated_review(
             owner_receipt_path: path,
             owner_receipt_digest: digest,
             policy_digest: record_digest(&policy, root)?,
+            repository_policy: repository_policy.clone(),
             authority: authority.clone(),
         }
     } else {
@@ -3241,6 +3269,7 @@ fn prepare_delegated_review(
             .and_then(|r| r.delegated_review.clone()).ok_or_else(|| fail("delegated review requires a formal owner baseline or exact native delegated predecessor"))?
     };
     review.authority = authority.clone();
+    review.repository_policy = repository_policy;
     validate_delegated_review_values(
         root,
         &super::repository_id(root).to_string(),
@@ -3263,6 +3292,11 @@ pub(crate) fn delegated_review_is_current(
         return Ok(false);
     };
     let contract = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
+    let current_contract = super::read_json(&contract)?;
+    let current_policy = super::policy_document(root)?;
+    if !delegated_policy_boundary_allows(root, &current_contract, current_policy.as_ref())? {
+        return Ok(false);
+    }
     Ok(
         super::contract_digest(&contract)? == tail.new_contract_digest
             && runtime.is_none_or(|r| {
