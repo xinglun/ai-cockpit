@@ -1,0 +1,43 @@
+{
+  "kind": "agent_schema_correction_after_actual_native_rejection_not_native_receipt",
+  "recordedAt": "2026-10-17T07:32:12.428879+00:00",
+  "previousExecutionRequestRawSha256": "8dad1c506b242a5cb308b68af3a055150c3c1c7db3d90e17d920605b88013ac5",
+  "newExecutionRequestRawSha256": "073a06c9109406b0c4905cdb1d1f266a1ea9833d51f3ffd169dc642b8a8f6241",
+  "reviewedDraftRawSha256": "3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b",
+  "actualFailure": "set_requires_leaf at /scope: set assigns a scalar leaf; use replace for an existing structured value",
+  "schemaSource": "crates/cockpit-protocol/src/contract_amendment.rs:553-581",
+  "operationChanges": [
+    {
+      "path": "/scope",
+      "old": "set",
+      "new": "replace"
+    },
+    {
+      "path": "/outOfScope",
+      "old": "set",
+      "new": "replace"
+    },
+    {
+      "path": "/acceptanceCriteria",
+      "old": "set",
+      "new": "replace"
+    },
+    {
+      "path": "/sources",
+      "old": "set",
+      "new": "replace"
+    }
+  ],
+  "oldChangeId": "p2a-pure-assessment-fixtures-v1-apply-20261017",
+  "newChangeId": "p2a-pure-assessment-fixtures-v2-apply-20261017",
+  "allChangeValuesUnchanged": true,
+  "nativeFailureObservation": "p2a-u08-native-amend.json",
+  "observedAfterFailure": {
+    "preparedCount": 4,
+    "committedCount": 4,
+    "pendingPrepared": [],
+    "ContractSummaryCanonicalReceiptUnchanged": true
+  },
+  "notATransactionReplay": true,
+  "humanDecisionRecorded": false
+}

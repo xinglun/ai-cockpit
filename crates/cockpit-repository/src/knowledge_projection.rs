@@ -8,6 +8,7 @@ use std::path::Path;
 use std::process::Command;
 
 pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeIndex, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -114,6 +115,7 @@ pub fn implementation_approach(
     root: &Path,
     work_item_id: &str,
 ) -> Result<ImplementationApproach, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     implementation_approach_internal(root, work_item_id, true)
 }
 
@@ -124,6 +126,7 @@ pub fn implementation_approach_read_only(
     root: &Path,
     work_item_id: &str,
 ) -> Result<ImplementationApproach, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     implementation_approach_internal(root, work_item_id, false)
 }
 
@@ -256,6 +259,7 @@ fn implementation_approach_internal(
 pub fn generate_knowledge_v2(
     root: &Path,
 ) -> Result<Vec<cockpit_protocol::KnowledgeV2Record>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,

@@ -1,0 +1,18 @@
+{
+  "kind": "human_contract_review_transcript_relay_agent_recorded_not_native_receipt",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "humanActor": "human:Ray",
+  "relay": "Raydot",
+  "recorder": "agent:Codex",
+  "raydotRequestSourceId": "Sentinel_52e516f8e8648191b99301bc260832e1",
+  "rayReplySourceId": "Sentinel_2395e00d946881918bdeafac19cd95f6",
+  "rayReplyTimeAsRelayed": "2026-10-19 04:27 UTC",
+  "rayReplyVerbatim": "确认上述 WI-1089 绑定，confirm_review",
+  "decisionId": "contract-preflight-review",
+  "contractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "baseAndHead": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "scopeOfDecision": "Confirm the current amended WI-1089 Contract for continued work only; no material residual risk acceptance.",
+  "provenanceLimit": "The recorder saw Raydot's transcript relay, not a direct host-authenticated message from Ray. Preserve this limit while recording the named human actor and exact bound words."
+}

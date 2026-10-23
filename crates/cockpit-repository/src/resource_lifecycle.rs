@@ -46,6 +46,7 @@ pub fn plan_resource_finalization(
     work_item_id: &str,
     context: &ResourceFinalizationContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     plan_resource_finalization_internal(root, work_item_id, context, None)
 }
 
@@ -59,6 +60,7 @@ pub fn plan_resource_finalization_with_runtime(
     context: &ResourceFinalizationContext,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     plan_resource_finalization_internal(root, work_item_id, context, Some(runtime))
 }
 
@@ -302,6 +304,7 @@ pub(crate) fn effective_resource_context(
     work_item_id: &str,
     contract: &Contract,
 ) -> Result<Option<ResourceFinalizationContext>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let binding_path = archived_resource_context_binding_path(root, work_item_id);
     let binding = read_archived_resource_context_binding(root, work_item_id, contract)?;
     if let Some(context) = contract.resource_context.as_ref() {
@@ -870,6 +873,7 @@ pub(crate) fn resolve_resource_finalization_head(
     root: &Path,
     work_item_id: &str,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let (receipt, path, digest) = read_resource_finalization_head(root, work_item_id)?;
     let prefix = format!("{work_item_id}.finalize.");
     let canonical_name = format!("{work_item_id}.finalize.json");
@@ -927,6 +931,7 @@ pub(crate) fn resolve_resource_finalization_head_with_index(
     work_item_id: &str,
     index: &status_projection::FinalizationTransitionIndex,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let (receipt, path, digest) = read_resource_finalization_head(root, work_item_id)?;
     let candidates = index
         .candidates(work_item_id)
@@ -1046,6 +1051,7 @@ pub(crate) fn archived_contract_digest(
     root: &Path,
     work_item_id: &str,
 ) -> Result<(Contract, Digest), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
@@ -1242,6 +1248,7 @@ pub(crate) fn validate_historical_finalization(
     receipt: &ResourceFinalizationReceipt,
     path: &Path,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let Some(historical) = receipt.historical.as_ref() else {
         return Ok(());
     };
@@ -1561,6 +1568,7 @@ pub fn record_historical_finalization_recovery(
     input_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1672,6 +1680,7 @@ pub fn historical_finalization_recovery_plan(
     runtime: &RuntimeContext,
     merge_commit: Option<&str>,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1984,6 +1993,7 @@ pub fn record_resource_finalization(
     receipt_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -2002,6 +2012,7 @@ pub(crate) fn record_resource_finalization_locked(
     runtime: &RuntimeContext,
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     guard.require_subject(root, work_item_id)?;
     let input_bytes = super::legacy_closeout_source::read_input_bytes(receipt_path)?;
     record_resource_finalization_bytes_locked(
@@ -2071,6 +2082,7 @@ pub(crate) fn prepare_resource_finalization(
     receipt_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<PreparedResourceFinalization, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -5969,6 +5981,7 @@ pub fn verify_resource_finalization(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     verify_resource_finalization_internal(root, work_item_id, Some(runtime))
 }
 
@@ -5977,6 +5990,7 @@ pub(crate) fn verify_resource_finalization_internal(
     work_item_id: &str,
     runtime: Option<&RuntimeContext>,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -6312,6 +6326,7 @@ fn git_bytes(root: &Path, args: &[&str]) -> Option<Vec<u8>> {
 }
 
 pub(crate) fn git_worktree_records(root: &Path) -> Result<Vec<GitWorktreeRecord>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let output = git_text(root, &["worktree", "list", "--porcelain"]).ok_or_else(|| {
         ObserverError::State {
             path: root.into(),
@@ -6384,6 +6399,7 @@ pub(crate) fn capture_ordinary_cleanup_binding(
     archive_manifest_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<OrdinaryCleanupBinding, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     archive_bytes_are_at_head(root, work_item_id, "contract")?;
     archive_bytes_are_at_head(root, work_item_id, "archive")?;
 
@@ -6518,6 +6534,7 @@ pub(crate) fn ordinary_cleanup_binding_from_decision(
     repository_id: &str,
     decision: &serde_json::Value,
 ) -> Result<Option<OrdinaryCleanupBinding>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let binding_value = decision.get("ordinaryCleanupBinding");
     let digest_value = decision
         .get("ordinaryCleanupBindingDigest")
@@ -6629,6 +6646,7 @@ pub(crate) fn ordinary_cleanup_receipt_head(
     binding: &OrdinaryCleanupBinding,
     binding_digest: &Digest,
 ) -> Result<Option<ValidatedOrdinaryCleanupReceipt>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let decisions = root.join(".ai/decisions");
     let prefix = format!("{work_item_id}.cleanup.");
     let mut receipts = Vec::new();
@@ -6861,6 +6879,7 @@ pub fn record_ordinary_cleanup_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<OrdinaryCleanupReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),

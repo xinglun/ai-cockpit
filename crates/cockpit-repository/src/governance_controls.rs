@@ -1159,6 +1159,7 @@ pub fn validate_work_item_governance_controls(
     root: &Path,
     work_item_id: &str,
 ) -> Result<GovernanceControlsReport, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_governance_controls_internal(root, work_item_id, None)
 }
 
@@ -1167,6 +1168,7 @@ pub fn validate_work_item_governance_controls_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<GovernanceControlsReport, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_governance_controls_internal(root, work_item_id, Some(runtime))
 }
 
@@ -1317,6 +1319,7 @@ pub fn record_work_item_governance_controls(
     work_item_id: &str,
     controls: &Value,
 ) -> Result<Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     crate::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1335,6 +1338,7 @@ pub fn record_work_item_governance_controls_with_runtime(
     controls: &Value,
     runtime: &RuntimeContext,
 ) -> Result<Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     crate::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1355,6 +1359,7 @@ fn record_work_item_governance_controls_unlocked(
     work_item_id: &str,
     controls: &Value,
 ) -> Result<Value, ObserverError> {
+    let goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
@@ -1594,10 +1599,12 @@ fn record_work_item_governance_controls_unlocked(
         message: error.to_string(),
     })?;
     let temporary = summary_path.with_extension(format!("json.tmp-{}", std::process::id()));
+    let _goal_commit = goal_authority.before_commit()?;
     fs::write(&temporary, bytes).map_err(|source| ObserverError::Read {
         path: temporary.clone(),
         source,
     })?;
+    let _goal_commit = goal_authority.before_commit()?;
     fs::rename(&temporary, &summary_path).map_err(|source| ObserverError::Read {
         path: summary_path.clone(),
         source,

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_current_environment_command_observation",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "work-item",
+    "outcome",
+    "--id",
+    "WI-1087-contract-authority-scope-and-expiry",
+    "--language",
+    "zh-CN",
+    "--view",
+    "full",
+    "--repo",
+    "/workspace/ai-cockpit"
+  ],
+  "cwd": "/workspace/ai-cockpit",
+  "startedAt": "2026-10-17T06:10:36.733978+00:00",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit/target/wi1087-rebuild-p1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "runtimePath": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+  "runtimeSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+  "productSourceHashes": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea"
+  },
+  "exitCode": 0,
+  "endedAt": "2026-10-17T06:10:37.179591+00:00",
+  "elapsedSeconds": 0.414,
+  "stdout": {
+    "encoding": "base64",
+    "bytes": 3426,
+    "rawSha256": "sha256:2c37420b280a15d14f5240f57ae782694efe33d1b6076c416c1932b1855ed1fe",
+    "data": "T3V0Y29tZTog8J+foSDpqozor4HlsJrmnKrlsLHnu6og4oCUIFdJLTEwODctY29udHJhY3QtYXV0aG9yaXR5LXNjb3BlLWFuZC1leHBpcnkK57uT5p6cCi0g6aqM6K+B54q25oCBOiDpqozor4HlsJrmnKrlsLHnu6oKLSDnlJ/lkb3lkajmnJ/nirbmgIE6IOW3suW7uueri+ajgOafpeeCuQotIOS6uuW3peWGs+WumueKtuaAgTog5pyq6K6w5b2VCi0g5rK755CG5L+h5Y+3OiDpu4ToibLvvJvpnIDopoHlhbPms6jvvIzkuI3mmK/kurrlt6Xmibnlh4YKCuW3suWujOaIkAotIOe7k+aenOWwmuacquWHhuWkh+Wlve+8m+WFt+S9k+ayu+eQhue8uuWPo+ingeS4i+aWueWOn+WboOOAggotIENoYW5nZWQgcGF0aDogLmFpL2V2aWRlbmNlL1dJLTEwODctY29udHJhY3QtYXV0aG9yaXR5LXNjb3BlLWFuZC1leHBpcnkuY29udHJhY3QtYW1lbmRtZW50cy8wMDAwMDAwNC5jb21taXR0ZWQuanNvbgotIENoYW5nZWQgcGF0aDogLmFpL2V2aWRlbmNlL1dJLTEwODctY29udHJhY3QtYXV0aG9yaXR5LXNjb3BlLWFuZC1leHBpcnkuY29udHJhY3QtYW1lbmRtZW50cy8wMDAwMDAwNC5wcmVwYXJlZC5qc29uCi0gQ2hhbmdlZCBwYXRoOiAuYWkvZXZpZGVuY2UvV0ktMTA4Ny1jb250cmFjdC1hdXRob3JpdHktc2NvcGUtYW5kLWV4cGlyeS9wMS1hY3RpdmF0aW9uLTIwMjYxMDE3L2F1dGhvcml0eS5qc29uCi0gQ2hhbmdlZCBwYXRoOiAuYWkvZXZpZGVuY2UvV0ktMTA4Ny1jb250cmFjdC1hdXRob3JpdHktc2NvcGUtYW5kLWV4cGlyeS9wMS1hY3RpdmF0aW9uLTIwMjYxMDE3L3AxLXBsYW4uanNvbgotIENoYW5nZWQgcGF0aDogLmFpL2V2aWRlbmNlL1dJLTEwODctY29udHJhY3QtYXV0aG9yaXR5LXNjb3BlLWFuZC1leHBpcnkvcDEtYWN0aXZhdGlvbi0yMDI2MTAxNy9wMS5yZXF1ZXN0Lmpzb24KLSBDaGFuZ2VkIHBhdGg6IC5haS9ldmlkZW5jZS9XSS0xMDg3LWNvbnRyYWN0LWF1dGhvcml0eS1zY29wZS1hbmQtZXhwaXJ5L3AxLWFjdGl2YXRpb24tMjAyNjEwMTcvcHJvZ3Jlc3MubWQKLSBDaGFuZ2VkIHBhdGg6IC5haS93b3JrLWl0ZW1zL2FjdGl2ZS9XSS0xMDg3LWNvbnRyYWN0LWF1dGhvcml0eS1zY29wZS1hbmQtZXhwaXJ5LmNvbnRyYWN0Lmpzb24KLSDpqozmlLbmoIflh4bvvIhDb250cmFjdCDljp/mlofvvIkgLyBBY2NlcHRhbmNlIGNyaXRlcmlhIChDb250cmFjdCBsYW5ndWFnZSkKCuWPkeeOsOeahOmXrumimAotIOayu+eQhuWOn+WboO+8mmdvdmVybmFuY2VfZ2F0ZV9mYWlsZWTjgIIKLSDpqozor4Hlj6/ku6XpgJrov4fvvIzkvYbmhI/lm77lr7npvZDor4Hmja7kuI3otrPvvJvov5nkuI3mmK/pqozor4Hor4Hmja7ml6DmlYjjgIIKLSDpqozor4Hor4Hmja7nvLrlpLHvvJvlvZPliY3nu5PmnpzlsJrmnKrlh4blpIflpb3jgIIKLSDlpLHotKUgZ2F0ZTogdmVyaWZpY2F0aW9uX29yX2h1bWFuX2lucHV0Ci0g5b2T5YmNIENvbnRyYWN0IOacquWjsOaYjiBwcm92aWRlciBmaW5hbGl6YXRpb27vvJvnu6fnu63pgbXlrojnlJ/lkb3lkajmnJ/lkozkurrlt6XlhrPlrprpl6jmp5vjgIIKCuinpuWPkeeahOWBnOatogotIOayu+eQhuWOn+WboO+8mmdvdmVybmFuY2VfZ2F0ZV9mYWlsZWTjgIIKLSDpqozor4Hlj6/ku6XpgJrov4fvvIzkvYbmhI/lm77lr7npvZDor4Hmja7kuI3otrPvvJvov5nkuI3mmK/pqozor4Hor4Hmja7ml6DmlYjjgIIKLSDpqozor4Hor4Hmja7nvLrlpLHvvJvlvZPliY3nu5PmnpzlsJrmnKrlh4blpIflpb3jgIIKLSDmgaLlpI3mnaHku7Y6IOS/ruWkjeWksei0peeahOayu+eQhuadoeS7tu+8jOWujOaIkOaWsOeahOajgOafpeWQjumHjeivlSBmaW5pc2jjgIIKLSDmgaLlpI3mnaHku7Y6IOWuoemYheW9k+WJjeeUn+WRveWRqOacn+eKtuaAgeW5tuiusOW9leW/hemcgOeahOS6uuW3peS9nOS4mu+8m+mqjOivgeeKtuaAgeS4jeaJqeWkp+S4uuaOiOadg+OAggoK5bey6Kej5Yaz55qE6Zeu6aKYCi0g5pyq6K6w5b2VCgrpgb/lhY3nmoTpo47pmakKLSDmnKrorrDlvZUKCuWJqeS9memjjumZqQotIEluZmVyZW5jZTogUmVtYWluaW5nIHVua25vd246IHVzZXJfdmlzaWJsZV9iZW5lZml0X25vdF9kZWNsYXJlZAotIEluZmVyZW5jZTogUmVtYWluaW5nIHVua25vd246IHZlcmlmaWNhdGlvbl9ldmlkZW5jZV9taXNzaW5nCi0gVXNlci12aXNpYmxlIGJlbmVmaXQgaXMgbm90IGRlY2xhcmVkIGJ5IHRoZSBXb3JrIEl0ZW0gb3duZXIuCgrmnKrnn6XpobkKLSB1c2VyX3Zpc2libGVfYmVuZWZpdF9ub3RfZGVjbGFyZWQKLSB2ZXJpZmljYXRpb25fZXZpZGVuY2VfbWlzc2luZwoK5Lq65bel5Yaz5a6aCi0g5pyq6K6w5b2VCgrpqozor4EKLSDpqozor4HlsJrmnKrlsLHnu6o6IC5haS9ldmlkZW5jZS9XSS0xMDg3LWNvbnRyYWN0LWF1dGhvcml0eS1zY29wZS1hbmQtZXhwaXJ5LnZlcmlmaWNhdGlvbi5qc29uCgrnlKjph48KLSDnlKjph4/opobnm5Y6IOacquefpSAodW5rbm93bik7IOaIquatouaXtumXtDogMjAyNi0xMC0xN1QwMzoyMTo0OVo7IOacquefpeWOn+WboDogbm9fdXNhZ2VfcmVjZWlwdHM7IOiusOW9leaVsDogMAotIOeUqOmHj+Wwj+iuoTog6L6T5YWlIOacquefpSwg6L6T5Ye6IOacquefpSwg57yT5a2Y6L6T5YWlIOacquefpSwg5o6o55CGIOacquefpQoK5b2x5ZONCi0g55So5oi35Y+v6KeB5pS255uK5bCa5pyq5aOw5piO44CCCgrkuIvkuIDmraUKLSDooaXpvZDmhI/lm77lr7npvZDor4Hmja7lubbph43mlrDor4TkvLDvvJvkuI3opoHmiorpqozor4HpgJrov4fop6Pph4rmiJDmhI/lm77lt7Llr7npvZDjgIIKCuivgeaNrgotIC5haS9ldmlkZW5jZS9XSS0xMDg3LWNvbnRyYWN0LWF1dGhvcml0eS1zY29wZS1hbmQtZXhwaXJ5LnZlcmlmaWNhdGlvbi5qc29uCui3qCBXSSDljY/osIM6IFdJLTEwODctY29udHJhY3QtYXV0aG9yaXR5LXNjb3BlLWFuZC1leHBpcnkKLSDnirbmgIE6IGFsbG93ZWQKLSDlrp7njrDnirbmgIE6IHNlcGFyYXRlX2xpZmVjeWNsZV9vdXRjb21lCi0g57uE5ZCI6aqM6K+BOiBub3Rfb2JzZXJ2ZWQKLSDmiafooYznu5Pmnpw6IHVua25vd24KLSDmiafooYzor4Hmja7lrozmlbQ6IGZhbHNlCi0g57uE5ZCI6YCC55So5oCnOiBub3Rfb2JzZXJ2ZWQKLSDnm67moIflkIjlubY6IG5vdF9vYnNlcnZlZAotIOa4heeQhjogbm90X29ic2VydmVkCi0g5riF55CG5aSE572uOiB1bmtub3duCi0g5o+Q5L6b5pa5OiAKLSDmtojotLnogIU6IAotIOetieW+hei+uTogCi0g5b2x5ZON5LqL5Lu2OiAKLSDpmLvloZ46IAotIOacquefpTogCi0g5Lq65bel5Yaz5a6aOiBmYWxzZQotIOWkjemqjDogbm90X3JlcXVpcmVkCi0g5Y+v5aSN55So5qOA5p+lOiAKLSDkuIvkuIDmraU6IHJlZnJlc2ggZGVwZW5kZW5jeSBzdGF0ZSBiZWZvcmUgdGhlIG5leHQgZGVwZW5kZW50IGFjdGlvbgotIGludGVncmF0aW9uIG93bmVyL29yZGVyOiBXSS0xMDg3LWNvbnRyYWN0LWF1dGhvcml0eS1zY29wZS1hbmQtZXhwaXJ5LwoK"
+  },
+  "stderr": {
+    "encoding": "base64",
+    "bytes": 0,
+    "rawSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "data": ""
+  }
+}

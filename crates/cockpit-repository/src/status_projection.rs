@@ -1,5 +1,5 @@
 use super::{
-    AttachedProfile, DecisionState, Digest, HistoricalDebtItem,
+    AttachedProfile, DecisionState, Digest, EvidenceState, HistoricalDebtItem,
     HistoricalFinalizationInventoryItem, ObserverError, OutcomeState, RepositoryConfig,
     RepositoryReadiness, RepositorySnapshot, RepositoryStatus, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, WorkItemActionExplanation,
@@ -22,6 +22,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     status_with_runtime(root, None)
 }
 
@@ -31,6 +32,7 @@ pub fn status_with_runtime(
     root: &Path,
     runtime: Option<&RuntimeContext>,
 ) -> Result<RepositoryStatus, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -234,6 +236,7 @@ mod human_decision_tests {
 /// snapshot.  Missing remote metadata is represented as `unknown`, never as
 /// a green `ready_on_base` claim.
 pub(super) fn repository_readiness(root: &Path) -> Result<RepositoryReadiness, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -558,6 +561,7 @@ pub(super) struct WorktreeLayout {
 /// first entry is Git's primary worktree; linked worktrees are explicit
 /// execution resources and must not be confused with that repository root.
 pub(super) fn discover_worktree_layout(root: &Path) -> Result<WorktreeLayout, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let raw = git_text(root, &["worktree", "list", "--porcelain"]).ok_or_else(|| {
         ObserverError::State {
             path: root.to_path_buf(),
@@ -599,6 +603,7 @@ fn non_governance_changed_paths(snapshot: &RepositorySnapshot) -> Vec<String> {
 }
 
 pub(super) fn unclosed_archived_work_items(root: &Path) -> Result<Vec<String>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let expected_repository_id = repository_id(root).to_string();
     unclosed_archived_work_items_with_id(root, &expected_repository_id)
 }
@@ -794,6 +799,7 @@ pub(super) fn historical_finalization_inventory(
     root: &Path,
     runtime: Option<&RuntimeContext>,
 ) -> Result<Vec<HistoricalFinalizationInventoryItem>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let Some(runtime) = runtime else {
         return Ok(Vec::new());
     };
@@ -1121,6 +1127,7 @@ pub fn work_item_status_snapshot_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemStatusSnapshot, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     work_item_status_snapshot_with_snapshot(root, work_item_id, runtime, None)
 }
 
@@ -1454,7 +1461,7 @@ fn work_item_status_snapshot_with_snapshot(
         ),
     };
     unknowns.retain(|unknown| !material_discharged_unknowns.contains(unknown));
-    unknowns.extend(material_unknowns);
+    unknowns.extend(material_unknowns.iter().cloned());
     if material_projection_unavailable && governance_state == "green" {
         governance_state = "yellow".into();
     }
@@ -1712,6 +1719,113 @@ fn work_item_status_snapshot_with_snapshot(
     }
     let retry_recovery_pending =
         !archived && retry_recovery_pending_is_valid(&root, &contract, Some(runtime));
+    // A failed lifecycle Outcome is deliberately still red after a sensitive
+    // amendment. Admit only the two evidence-collection steps that can
+    // resolve this exact interlock. The red Outcome, its blocker, and all
+    // historical records remain in place until a real verification succeeds.
+    let blocked_outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let blocked_outcome_matches = is_regular_non_symlink(&blocked_outcome_path)
+        .is_ok_and(|regular| regular)
+        && read_json(&blocked_outcome_path)
+            .ok()
+            .is_some_and(|blocked_outcome| {
+                let failed_gate = blocked_outcome["failedGate"].as_str();
+                let recovery = blocked_outcome["recoveryCondition"].as_str();
+                blocked_outcome["state"] == "blocked"
+                    && blocked_outcome["repositoryId"] == contract.repository_id
+                    && blocked_outcome["workItemId"] == work_item_id
+                    && failed_gate.is_some_and(|gate| !gate.is_empty())
+                    && recovery.is_some_and(|condition| !condition.is_empty())
+                    && failed_gate == summary["failedGate"].as_str()
+                    && recovery == summary["recoveryCondition"].as_str()
+            });
+    let amendment_provenance_matches = amendment_history.last().is_some_and(|tail| {
+        let before_edit = summary["checkpointEvidence"]
+            .as_array()
+            .and_then(|entries| entries.iter().find(|entry| entry["stage"] == "before_edit"));
+        let revalidation = summary["checkpointEvidence"].as_array().and_then(|entries| {
+            entries
+                .iter()
+                .rfind(|entry| entry["stage"] == "contract_amendment_revalidation")
+        });
+        let original = amendment_history
+            .iter()
+            .find(|receipt| receipt.checkpointed)
+            .map(|receipt| &receipt.previous_contract_digest);
+        match (before_edit, revalidation, original) {
+            (Some(before_edit), Some(revalidation), Some(original)) => {
+                tail.checkpointed
+                    && tail.new_contract_digest == contract_digest_value
+                    && [before_edit, revalidation].iter().all(|record| {
+                        record["schemaVersion"] == 1
+                            && record["recorded"] == true
+                            && record["repositoryId"] == contract.repository_id
+                            && record["workItemId"] == work_item_id
+                    })
+                    && super::contract_amendment::validate_transition_chain(
+                        &root,
+                        work_item_id,
+                        &amendment_history,
+                        Some(&contract_digest_value),
+                    )
+                    .is_ok()
+                    && before_edit["contractHash"] == serde_json::json!(original)
+                    && revalidation["contractHash"] == serde_json::json!(contract_digest_value)
+                    && revalidation["previousContractHash"]
+                        == serde_json::json!(tail.previous_contract_digest)
+                    && revalidation["originalBeforeEditContractHash"]
+                        == serde_json::json!(original)
+                    && revalidation["repositorySnapshotDigest"]
+                        == serde_json::json!(tail.repository_snapshot_digest)
+                    && revalidation["verificationStarted"]
+                        == serde_json::json!(tail.verification_started)
+                    && revalidation["invalidatedRequiredChecks"]
+                        == serde_json::json!(tail.invalidated_required_checks)
+                    && summary["verificationInvalidatedByContractAmendment"]
+                        ["invalidatedRequiredChecks"]
+                        == serde_json::json!(tail.invalidated_required_checks)
+            }
+            _ => false,
+        }
+    });
+    let amendment_material_recovery_ready = !archived
+        && !historical
+        && lifecycle_phase == "checkpointed"
+        && governance_state == "red"
+        && blockers == ["governance_red"]
+        && outcome.state == OutcomeState::Unknown
+        && outcome.decision_state == Some(DecisionState::Red)
+        && outcome.unknowns.contains(&"lifecycle_gate_failed".into())
+        && blocked_outcome_matches
+        && summary["outcomeState"] == "blocked"
+        && summary["checkpointCount"] == 1
+        && amendment_history
+            .iter()
+            .any(|receipt| receipt.policy_review_required)
+        && amendment_provenance_matches
+        && summary["verificationInvalidatedByContractAmendment"]["contractHash"].as_str()
+            == Some(contract_digest_string.as_str())
+        && preflight_binding_current
+        && super::governance_controls::preflight_decision_evidence_state(
+            &root,
+            work_item_id,
+            &contract_digest_value,
+        ) == super::governance_controls::PreflightDecisionEvidenceState::Valid
+        && !material_projection_unavailable
+        && !material_blocked_by_finding
+        && !malformed_evidence
+        && snapshot_ref.is_some_and(|snapshot| {
+            super::verification_evidence_state(&root, &contract, snapshot, false, Some(runtime))
+                .is_ok_and(|state| state == EvidenceState::Missing)
+        })
+        && matches!(
+            load_recovery_decision(&root, work_item_id, Some(runtime)),
+            Ok(None)
+        )
+        && (material_review_decision_available
+            || (review_receipt_digest.is_some()
+                && material_unknowns.is_empty()
+                && raw_scanner_unknowns == ["repository_material_inspection_unavailable"]));
     let supersede_archive_ready = !archived
         && matches!(
             load_recovery_decision(&root, work_item_id, Some(runtime)),
@@ -1794,6 +1908,12 @@ fn work_item_status_snapshot_with_snapshot(
         // aggregate governance state red and the lifecycle failure visible;
         // this only admits the bounded recovery action.
         vec!["run_verification".into()]
+    } else if amendment_material_recovery_ready {
+        if material_review_decision_available {
+            vec!["record_material_review_decision".into()]
+        } else {
+            vec!["run_verification".into()]
+        }
     } else if blocking {
         vec!["resolve_blockers".into(), "stop".into()]
     } else {
@@ -2028,6 +2148,7 @@ pub fn work_item_status_index_with_runtime(
     root: &Path,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemStatusIndex, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,

@@ -68,6 +68,7 @@ pub fn outcome_render_input(
     root: &Path,
     work_item_id: &str,
 ) -> Result<OutcomeRenderInput, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     assemble_outcome_render_input(root, work_item_id, None)
 }
 
@@ -76,13 +77,50 @@ pub fn outcome_render_input_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<OutcomeRenderInput, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     assemble_outcome_render_input(root, work_item_id, Some(runtime))
 }
 
 /// Assemble render-only repository facts around an already obtained Outcome.
 /// This is useful for callers that have a validated projection from another
 /// observation boundary while keeping the renderer itself filesystem-free.
-pub fn outcome_render_input_from_outcome(root: &Path, outcome: OutcomeV2) -> OutcomeRenderInput {
+pub fn outcome_render_input_from_outcome(
+    root: &Path,
+    mut outcome: OutcomeV2,
+) -> OutcomeRenderInput {
+    if let Err(error) =
+        crate::authority_admission::require_goal_authority_access(root, Some(&outcome.work_item_id))
+    {
+        // The compatibility signature cannot return an ObserverError. Build
+        // only a minimal unavailable projection from owned data; do not read
+        // current Summary, close decisions, finalization or legacy records.
+        outcome.state = OutcomeState::NotReady;
+        outcome.decision_state = None;
+        outcome.unknowns.push(error.to_string());
+        outcome.human_benefit_report.state = OutcomeState::Unknown;
+        return OutcomeRenderInput {
+            outcome,
+            legacy_outcome: None,
+            human_decision: HumanDecisionProjection::Invalid(
+                "goal authority unavailable; no current decision read",
+            ),
+            archived_unclosed: false,
+            lifecycle_status: "authority_unavailable".into(),
+            finalization: FinalizationProjection {
+                state: "unsupported".into(),
+                error_code: Some("goal_authority_unavailable".into()),
+                disposition: None,
+                action: "resolve_goal_authority_before_business_observation".into(),
+                reliable: false,
+                observation_state: None,
+                error: None,
+                next_action: None,
+                cleanup: None,
+            },
+            reason_keys: vec!["goal_authority_unavailable".into()],
+            assembly: None,
+        };
+    }
     build_outcome_render_input(root, outcome)
 }
 
@@ -1230,6 +1268,7 @@ pub fn render_human_outcome_with_timezone(
     view: OutcomeRenderView,
     display_timezone: &str,
 ) -> Result<String, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     render_human_outcome_with_timezone_with_hook(
         root,
         input,
@@ -1496,6 +1535,7 @@ pub fn prepare_archive_outcome_delivery(
     _runtime: &RuntimeContext,
     language: &str,
 ) -> Result<OutcomeDelivery, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let manifest_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
@@ -3712,6 +3752,48 @@ mod render_tests {
             governance_reasons: Vec::new(),
             finalization: None,
         }
+    }
+
+    #[test]
+    fn review_cached_outcome_cannot_read_new_summary_or_close_decision() {
+        let d = tempfile::tempdir().unwrap();
+        let root = d.path();
+        let active = root.join(".ai/work-items/active");
+        let decisions = root.join(".ai/decisions");
+        fs::create_dir_all(&active).unwrap();
+        fs::create_dir_all(&decisions).unwrap();
+        let old = base_outcome();
+        fs::write(
+            active.join("WI-RENDER-TEST.contract.json"),
+            br#"{"governanceProfile":{"goalAuthority":{"required":true}}}"#,
+        )
+        .unwrap();
+        fs::write(
+            active.join("WI-RENDER-TEST.summary.json"),
+            br#"{"state":"unique-live-state"}"#,
+        )
+        .unwrap();
+        fs::write(
+            decisions.join("WI-RENDER-TEST.close.json"),
+            b"unique unreadable current decision marker",
+        )
+        .unwrap();
+        let input = super::outcome_render_input_from_outcome(root, old);
+        assert_eq!(input.lifecycle_status, "authority_unavailable");
+        assert_eq!(input.outcome.state, OutcomeState::NotReady);
+        assert!(matches!(
+            input.human_decision,
+            HumanDecisionProjection::Invalid(
+                "goal authority unavailable; no current decision read"
+            )
+        ));
+        assert!(
+            input
+                .outcome
+                .unknowns
+                .iter()
+                .any(|v| v.contains("goal_authority_source_unsupported"))
+        );
     }
 
     fn input(

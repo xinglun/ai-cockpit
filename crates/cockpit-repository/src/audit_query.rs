@@ -495,6 +495,7 @@ pub fn query_audit_events(
     runtime: &RuntimeContext,
     filters: &AuditQueryFilters,
 ) -> Result<AuditQueryPage, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -839,6 +840,7 @@ pub fn export_audit_events_filtered(
     runtime: &RuntimeContext,
     filters: &AuditQueryFilters,
 ) -> Result<AuditQueryPage, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     query_audit_events(root, runtime, filters)
 }
 

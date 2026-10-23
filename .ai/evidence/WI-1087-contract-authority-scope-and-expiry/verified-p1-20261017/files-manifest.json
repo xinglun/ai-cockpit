@@ -1,0 +1,182 @@
+{
+  "kind": "agent_manifest_of_exact_preserved_bytes_not_native_receipt",
+  "recordedAt": "2026-10-17T06:37:34.792122+00:00",
+  "verificationSourceHead": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+  "productHashesUnchanged": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea"
+  },
+  "canonicalReceiptDigest": "sha256:960acaeebf14690f28f4a0e26d7a9949e79938374cb0647cee7d27de02532199",
+  "historicalFailureAndHumanReviewUntouched": true,
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification.json",
+      "bytes": 436198,
+      "rawSha256": "39b46fbb120ed1996df9d4176cc4fcf3514ed6a7ec17f42cb02f6361ea90b6ca"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification-attempt.6eda4e34a963c40e60f19e7d7135fb8de6bfe49d2f39dd1f3e1a0ea756cb2c9e.json",
+      "bytes": 866770,
+      "rawSha256": "9c5c700ee8e2b76fb582552977103e26d05c75fa0de429fb77a1131490f943fd"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json",
+      "bytes": 4109,
+      "rawSha256": "bfc1d5e29bcc2117a636a90428b267bc0afebaf265afcb4353ecd39a5dfee8b1"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/ci-v05-terminal.json",
+      "bytes": 5899,
+      "rawSha256": "0df7d9335b2bf04de3cbd9f3394a60e7c4279122f669dd5b0560879a0f4ba4d8"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d02-ci-artifact-metadata.json",
+      "bytes": 3233,
+      "rawSha256": "ef5501c4e97731f2ffdf83c348a0b63bb7fd84b20edf771f80fd849e6437ed1e"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d03-register-native-failure.json",
+      "bytes": 13751,
+      "rawSha256": "f2ae184d4cd2156193296815cb7a1ed16655a31bdb87229c57dd0b5cb8114af4"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d04-drift-native-failure.json",
+      "bytes": 2815,
+      "rawSha256": "7aeb3f554825ba564d6aea85c575be07480bfffc55689dbd91ea0ce8b1d7b85b"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d05-status-before-cache-probe.json",
+      "bytes": 6981,
+      "rawSha256": "5ba8e5556d31d94e6470d46e10b7a31eb1c0f418a5c6c80e691441a90d19d506"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d06-validate-before-cache-probe.json",
+      "bytes": 3326,
+      "rawSha256": "eee0f6080d3fa9e6bd53f9f0ca4e19e0dd7567dea07f1dddd21407780b8ec3e2"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d07-minimal-cache-probe.json",
+      "bytes": 5239,
+      "rawSha256": "dc4019942bba3981631dac17bde249142ffad58387a503f0cc6d77144cb0d03a"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d08-default-cache-after-leaf-create.json",
+      "bytes": 2149,
+      "rawSha256": "d5ad6d7e018362094a46b9c490dfdb638b315d9b827aafcf04bec224a188c721"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d09-linked-worktree-focused.json",
+      "bytes": 3311,
+      "rawSha256": "485b22298c99f840753a27f95319f7f0c3298a63231cc0906e22dbd71a880b8a"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d10-cache-mount-boundary.json",
+      "bytes": 683,
+      "rawSha256": "ebf8e1a2164053f6a7f998b4e22f3e68a8132d3205b61ab90e566a6627f94e5b"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d11-current-ci.json",
+      "bytes": 3780,
+      "rawSha256": "5977988a739c45a92a429e929cc3d7fdd4ecce25d66c60020b7cc45bacf5c4ca"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d12-outcome-local-recovery.json",
+      "bytes": 7361,
+      "rawSha256": "812680a0aff68c9f9d72f5fdf835708583dbf03fc3621732544d0cebbc707cb1"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/d13-ci-final-read.json",
+      "bytes": 3752,
+      "rawSha256": "d9d880a5d824767ddb93d69d2e7a3d39244e7f5adc8d25371437e3e4e9548bda"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/drift-9.json",
+      "bytes": 115,
+      "rawSha256": "19bc32fe15befb5e33a151c0dd2045098cadd205538d5cda688267c8953f1c9a"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/f05-drift-before-formal.json",
+      "bytes": 2817,
+      "rawSha256": "48a4703716fc626e0af76de35f61b844cea94b65c9dfe1a9bc14cc7d95f20714"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/f06-status-before-formal.json",
+      "bytes": 6981,
+      "rawSha256": "30d7019aecd54a5e8e408426337cfc121ae287ce44eb5413d8cd8b13aeac731c"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/f07-validate-before-formal.json",
+      "bytes": 3326,
+      "rawSha256": "0040b871a2bc71c0e655f0b8040146aeb007ec2885282b449c4575ad312ac4e9"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/f08-plan-before-formal.json",
+      "bytes": 29259,
+      "rawSha256": "7fa1101d1cf955988a5c2109efd6f8d62a41e5e4ecbdb6d77f127b0ea60124cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/f09-ci-before-formal.json",
+      "bytes": 3752,
+      "rawSha256": "7be5ce8c0575c234a2e77da4ef0dbb2c6135d09c28e52c5b380c50fbb6aaa312"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/f10-status-after-formal.json",
+      "bytes": 6829,
+      "rawSha256": "b7e6041fa2b1e56d4d2788204d62c8b8bbeb762dadc2597b2a5759d425834cfa"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/f11-outcome-after-formal.json",
+      "bytes": 10065,
+      "rawSha256": "3bc1c69260fd7de0504d85a076e2b4539c61ab82d631d420fc093e94599d3e8a"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/focused-producer-source.json",
+      "bytes": 3855,
+      "rawSha256": "9255b0899febea0d208e2bda1d6f1d67cce562b893b083697d88ff00aee3bc56"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/formal-producer-source.json",
+      "bytes": 5015,
+      "rawSha256": "81a8dcce2a908718ca9ff43559314bbafd2fd640db9d8f4cc0cd581c9fb276fe"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/formal-success-handoff.json",
+      "bytes": 6176,
+      "rawSha256": "ad977d38bee436962d1c88f3dc8f24f52181c73f4fab3c6f9496c814aca9a6fc"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/minimal-diagnosis-handoff.json",
+      "bytes": 2947,
+      "rawSha256": "28c35562011f1680f86b117b4abef3cf66a9b809028c111fe5ec34845a5472ee"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/native-failure-push-readback.json",
+      "bytes": 328,
+      "rawSha256": "81c27674b70cef449dac29fec8dd5a70159700c9dc8e915620d6e2d71e9102ae"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/preservation.zh-CN.md",
+      "bytes": 2405,
+      "rawSha256": "bea89d3eb42e689c9d7c0c5d386a730b18dac390e17256439c68ff7463ec21ca"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/probe-source.json",
+      "bytes": 4561,
+      "rawSha256": "827a78f763d8f8e641572dbafcb471c994b422068d6cb2b0a237a84dd56c33c6"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/registration-9.json",
+      "bytes": 1415,
+      "rawSha256": "8eafda96a3347497b219bbe4edf64fffa962407598b334d64d2a0cac3b98c4cd"
+    },
+    {
+      "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/verified-p1-20261017/v05-native-after-cache-repair.json",
+      "bytes": 603830,
+      "rawSha256": "90792d35bd280ecb7abb3c32728ab17c5903a7cff68eb3fbe375e8b64e1f3acd"
+    }
+  ],
+  "manifestSelf": "This manifest does not assert its own future file hash."
+}

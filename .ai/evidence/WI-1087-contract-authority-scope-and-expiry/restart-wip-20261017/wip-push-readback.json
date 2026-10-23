@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_remote_readback_and_native_status_observation",
+  "observedAt": "2026-10-17T04:54:37.723710+00:00",
+  "remoteHead": "3256b1d7c91785f6dd5f20b5e88bc37d6c6fb27d",
+  "remoteLine": "3256b1d7c91785f6dd5f20b5e88bc37d6c6fb27d\trefs/heads/codex/wi1087-contract-authority-scope-and-expiry",
+  "nativeAdmissionDigest": "sha256:30194eb5146180ec9a9380a91e59cbc3b0bf302c05f9538e6af7fe0dc60c90db",
+  "nativeBlockers": [],
+  "nativeRecommendedAction": "run_verification",
+  "verification": {
+    "focused": "not_run",
+    "clippy": "not_run",
+    "formalWorkspace": "not_run"
+  },
+  "preflightRejectedReason": "run_preflight was not admitted after committed-source projection became available; Runtime explicitly admitted run_verification instead.",
+  "notHumanApproval": true
+}

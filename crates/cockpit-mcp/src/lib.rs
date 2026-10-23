@@ -1958,6 +1958,18 @@ pub fn handle_request(request: &Value, runtime: &cockpit_protocol::RuntimeContex
     }
 }
 
+fn repository_data_request(request: &Value) -> bool {
+    if request.get("method").and_then(Value::as_str) != Some("tools/call") {
+        return false;
+    }
+    let name = request
+        .pointer("/params/name")
+        .and_then(Value::as_str)
+        .unwrap_or("");
+    TOOL_NAMES.contains(&name)
+        && !(name == "capability_show" && request.pointer("/params/arguments/surface").is_some())
+}
+
 pub fn handle_request_for_repo(
     request: &Value,
     repo: &Path,
@@ -1977,6 +1989,11 @@ pub fn handle_request_for_repo(
         .unwrap_or_else(|| json!({}));
     if !TOOL_NAMES.contains(&name) {
         return error_response(id, -32602, "unknown tool");
+    }
+    if repository_data_request(request)
+        && let Err(error) = cockpit_repository::require_goal_authority_access(repo, None)
+    {
+        return tool_error_response(id, &error.to_string());
     }
     if let Err(error) = validate_tool_arguments(name, &arguments) {
         return tool_error_response(id, &error);
@@ -3192,10 +3209,31 @@ pub fn serve<R: BufRead, W: Write>(
 }
 
 pub fn serve_with_repo<R: BufRead, W: Write>(
+    reader: R,
+    writer: W,
+    repo: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> io::Result<()> {
+    serve_with_repo_inner(reader, writer, repo, runtime, false)
+}
+
+/// CLI transport: preserve repository compatibility for business calls while
+/// keeping discovery/static descriptions independent of business admission.
+pub fn serve_with_repo_checked<R: BufRead, W: Write>(
+    reader: R,
+    writer: W,
+    repo: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> io::Result<()> {
+    serve_with_repo_inner(reader, writer, repo, runtime, true)
+}
+
+fn serve_with_repo_inner<R: BufRead, W: Write>(
     mut reader: R,
     mut writer: W,
     repo: &Path,
     runtime: &cockpit_protocol::RuntimeContext,
+    check_compatibility: bool,
 ) -> io::Result<()> {
     while let Some(line) = read_rpc_line(&mut reader)? {
         if line.trim().is_empty() {
@@ -3203,8 +3241,18 @@ pub fn serve_with_repo<R: BufRead, W: Write>(
         }
         let request: Value = serde_json::from_str(&line)
             .map_err(|error| io::Error::new(io::ErrorKind::InvalidData, error))?;
-        let response = legacy_wire_error(&request, &line)
-            .unwrap_or_else(|| handle_request_for_repo(&request, repo, runtime));
+        let response = legacy_wire_error(&request, &line).unwrap_or_else(|| {
+            if check_compatibility && repository_data_request(&request) {
+                let id = request.get("id").cloned().unwrap_or(Value::Null);
+                if let Err(error) = cockpit_repository::require_goal_authority_access(repo, None) {
+                    return tool_error_response(id, &error.to_string());
+                }
+                if let Err(error) = require_compatible(repo, runtime) {
+                    return tool_error_response(id, &error);
+                }
+            }
+            handle_request_for_repo(&request, repo, runtime)
+        });
         if !response.is_null() {
             writeln!(writer, "{}", response)?;
             writer.flush()?;

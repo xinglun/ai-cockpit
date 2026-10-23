@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_current_environment_command_observation",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "590s",
+    "/workspace/.cloud-tools/cargo/bin/cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-repository",
+    "--test",
+    "verification_service",
+    "linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory",
+    "--",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "cwd": "/workspace/ai-cockpit",
+  "startedAt": "2026-10-17T06:07:28.761859+00:00",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit/target/wi1087-rebuild-p1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "runtimePath": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+  "runtimeSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+  "productSourceHashes": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea"
+  },
+  "exitCode": 0,
+  "endedAt": "2026-10-17T06:07:29.541467+00:00",
+  "elapsedSeconds": 0.739,
+  "stdout": {
+    "encoding": "base64",
+    "bytes": 193,
+    "rawSha256": "sha256:be8ebb3e97153a48cb3b7ad5964bb2ee5a1953466fabef9b1de80c97539f5730",
+    "data": "CnJ1bm5pbmcgMSB0ZXN0CnRlc3QgbGlua2VkX3dvcmt0cmVlX2NhcmdvX3Rlc3RfYmluYXJ5X2VtYmVkc19pdHNfb3duX21hbmlmZXN0X2RpcmVjdG9yeSAuLi4gb2sKCnRlc3QgcmVzdWx0OiBvay4gMSBwYXNzZWQ7IDAgZmFpbGVkOyAwIGlnbm9yZWQ7IDAgbWVhc3VyZWQ7IDE2IGZpbHRlcmVkIG91dDsgZmluaXNoZWQgaW4gMC41OXMKCg=="
+  },
+  "stderr": {
+    "encoding": "base64",
+    "bytes": 180,
+    "rawSha256": "sha256:ebfc598ce4ef7c270200f4d08b11ed7aafee79951d2d681cabe781d73cecf482",
+    "data": "ICAgIEZpbmlzaGVkIGB0ZXN0YCBwcm9maWxlIFt1bm9wdGltaXplZF0gdGFyZ2V0KHMpIGluIDAuMDhzCiAgICAgUnVubmluZyB0ZXN0cy92ZXJpZmljYXRpb25fc2VydmljZS5ycyAodGFyZ2V0L3dpMTA4Ny1yZWJ1aWxkLXAxL2RlYnVnL2RlcHMvdmVyaWZpY2F0aW9uX3NlcnZpY2UtY2QxMmUzMWQ1M2Q3MzhhNikK"
+  }
+}

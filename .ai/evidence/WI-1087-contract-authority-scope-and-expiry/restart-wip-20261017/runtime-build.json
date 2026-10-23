@@ -1,0 +1,36 @@
+{
+  "kind": "new_runtime_build_observation",
+  "sourceRevision": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "/workspace/.cloud-tools/cargo/bin/cargo",
+    "build",
+    "--locked",
+    "--release",
+    "--package",
+    "cockpit-cli",
+    "--bin",
+    "ai-cockpit",
+    "--jobs",
+    "1"
+  ],
+  "cwd": "/workspace/scratch/wi1087-rebuild-20261017/runtime-source",
+  "startedAt": "2026-10-17T04:43:01.781611+00:00",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0"
+  },
+  "exitCode": 0,
+  "endedAt": "2026-10-17T04:50:27.470038+00:00",
+  "elapsedSeconds": 445.689,
+  "binaryPath": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+  "binarySha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "version": "ai-cockpit 1.0.1"
+}

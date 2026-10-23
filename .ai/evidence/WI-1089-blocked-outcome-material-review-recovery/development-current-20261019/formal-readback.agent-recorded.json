@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent-recorded-formal-verification-readback-and-scenario-limits",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T05:53:07Z",
+  "sourceHeadAtVerification": "0e4340efc1e8535da58e7d8e823c2531d6b60f12",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "repositorySnapshotDigest": "sha256:a1b9c98abd6508293e179e1cac71202f56646ac1ea77cf068b8056da54b9abdf",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "nativeVerificationReceiptPath": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+  "nativeVerificationReceiptFileSha256": "sha256:da82d85960aeca34040ec1fffa03469aedc35ffe45ba780fb94210009c3132d4",
+  "nativeVerificationReceiptDigest": "sha256:ab00d8efb677de9bbd4889d2960028470a3a9bd33d9f132e6cb533cf6d0f10aa",
+  "nativeVerificationPassed": true,
+  "nodesExecuted": 6,
+  "processesSpawned": 6,
+  "maxConcurrentProcesses": 1,
+  "elapsedMs": 593462,
+  "nodeResults": [
+    {
+      "nodeId": "project-command-0",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 3244,
+      "timeoutSeconds": 300
+    },
+    {
+      "nodeId": "project-command-1",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 67927,
+      "timeoutSeconds": 300
+    },
+    {
+      "nodeId": "project-command-2",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 119259,
+      "timeoutSeconds": 600
+    },
+    {
+      "nodeId": "project-command-3",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 376932,
+      "timeoutSeconds": 600
+    },
+    {
+      "nodeId": "project-command-4",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 3089,
+      "timeoutSeconds": 600
+    },
+    {
+      "nodeId": "project-command-5",
+      "passed": true,
+      "exitCode": 0,
+      "elapsedMs": 20471,
+      "timeoutSeconds": 600
+    }
+  ],
+  "scenarioMappingAfterFormal": [
+    {
+      "scenario": "A1 blocked Outcome and amendment",
+      "evidence": "current-head CLI and repository formal suite plus actual native amendment, preflight and Contract review",
+      "status": "supported_by_formal_and_lifecycle_evidence"
+    },
+    {
+      "scenario": "A2 exact material decision",
+      "evidence": "exact native material receipt aa129e3e and current-head formal repository/CLI/MCP suites",
+      "status": "supported_by_formal_and_material_evidence"
+    },
+    {
+      "scenario": "A3 real verification recovery",
+      "evidence": "this actual current Work Item passing native receipt and current-head fixture tests; fixture true alone does not prove business correctness",
+      "status": "supported_by_fresh_native_receipt"
+    },
+    {
+      "scenario": "A4 rejection matrix",
+      "evidence": "current-head formal repository and CLI negative suites",
+      "status": "supported_by_formal_suite"
+    },
+    {
+      "scenario": "A5 serial WI-1087 composition",
+      "evidence": "no separately admitted composed HEAD, no WI-1087 authority-admission test run on a combined source tree",
+      "status": "unverified"
+    }
+  ],
+  "governanceStatus": "ScenarioCoverage remains unverified in Summary; this agent record is not a native controls update and does not claim finish/archive/close.",
+  "reviewAssurance": "self_declared"
+}

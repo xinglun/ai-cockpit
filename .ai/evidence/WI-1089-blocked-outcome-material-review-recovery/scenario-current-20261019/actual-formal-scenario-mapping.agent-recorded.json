@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent-recorded-actual-formal-scenario-mapping",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T06:09:17.631622+00:00",
+  "currentHead": "8d33ceccd8c673663d580803264cbc77a85e0463",
+  "formalSourceHead": "0e4340efc1e8535da58e7d8e823c2531d6b60f12",
+  "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "repositorySnapshotDigest": "sha256:a1b9c98abd6508293e179e1cac71202f56646ac1ea77cf068b8056da54b9abdf",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "nativeVerificationReceiptDigest": "sha256:ab00d8efb677de9bbd4889d2960028470a3a9bd33d9f132e6cb533cf6d0f10aa",
+  "materialReviewReceiptDigest": "sha256:aa129e3e471a216f8b9d2a8eb1950bc6e13c51e810527f855b4fcfb14c60d2ab",
+  "scenarioMappings": [
+    {
+      "scenario": "A1 blocked Outcome and amendment",
+      "status": "supported_on_independent_WI1089_snapshot",
+      "formalNodeIds": [
+        "project-command-3"
+      ],
+      "evidence": [
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+          "rawSha256": "sha256:da82d85960aeca34040ec1fffa03469aedc35ffe45ba780fb94210009c3132d4"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+          "rawSha256": "sha256:3bda169058b537bd059ba8599a6bc44a05ae2bcc4051185aad2df12702bfd347"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.contract-amendments/00000002.committed.json",
+          "rawSha256": "sha256:40c69a1aec1ed7d5bbf92570bc385154328f67c68f69b04420fb9181f42a5ec3"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json",
+          "rawSha256": "sha256:46f61ef5e6aa6f150a871c7765df6ec6a1b4e3b946b61c9cc6ba82cbb1cd73ee"
+        }
+      ],
+      "limitation": "CLI isolated fixture actually writes a blocked Outcome, performs sensitive amendment and exact Contract review; current WI has native amendment/review records. This is fixture plus current governance evidence, not a claim that this WI has a stored failed Outcome file."
+    },
+    {
+      "scenario": "A2 exact material decision",
+      "status": "supported_on_independent_WI1089_snapshot",
+      "formalNodeIds": [
+        "project-command-2",
+        "project-command-4",
+        "project-command-5"
+      ],
+      "evidence": [
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+          "rawSha256": "sha256:da82d85960aeca34040ec1fffa03469aedc35ffe45ba780fb94210009c3132d4"
+        },
+        {
+          "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+          "rawSha256": "sha256:6184a90951f00c8960d209db832f2da6cbf4d54effbbcdce2bff4d4cce02e1df"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+          "rawSha256": "sha256:d8e34482546396501bc50a317095bb22cc26915f2fe5f80dc55b2ff6d14bf418"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+          "rawSha256": "sha256:3c30debf56626fbf8e20299c358d58d74a36d5690876754150d68b0b5f68c9fd"
+        }
+      ],
+      "limitation": "Native material receipt binds exact request c269e5e3, Contract 17c4100f, manifest 47ded401, reviewer agent:Raydot and self_declared assurance; formal repository/MCP tests cover admit and reject paths."
+    },
+    {
+      "scenario": "A3 real verification recovery",
+      "status": "supported_on_independent_WI1089_snapshot",
+      "formalNodeIds": [
+        "project-command-2",
+        "project-command-3"
+      ],
+      "evidence": [
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+          "rawSha256": "sha256:da82d85960aeca34040ec1fffa03469aedc35ffe45ba780fb94210009c3132d4"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification-attempt.3c6aa690b0b31dacd7143e50df3a5de233a58ff3b3cfa3130ef5ea446c5a2206.json",
+          "rawSha256": "sha256:b716d7e9a42487a52ebd92534abb3ee3b35247ec84c78bf2f2a27f4406aa4363"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+          "rawSha256": "sha256:d8e34482546396501bc50a317095bb22cc26915f2fe5f80dc55b2ff6d14bf418"
+        }
+      ],
+      "limitation": "Current WI native 6/6 passing receipt and verified/fresh Runtime status prove fresh verification on the WI-1089 source snapshot; repository and CLI suites cover old failure interlock in isolated fixtures. Finish/archive have not occurred."
+    },
+    {
+      "scenario": "A4 rejection matrix",
+      "status": "supported_on_independent_WI1089_snapshot",
+      "formalNodeIds": [
+        "project-command-2",
+        "project-command-3",
+        "project-command-4"
+      ],
+      "evidence": [
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+          "rawSha256": "sha256:da82d85960aeca34040ec1fffa03469aedc35ffe45ba780fb94210009c3132d4"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+          "rawSha256": "sha256:d8e34482546396501bc50a317095bb22cc26915f2fe5f80dc55b2ff6d14bf418"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+          "rawSha256": "sha256:3bda169058b537bd059ba8599a6bc44a05ae2bcc4051185aad2df12702bfd347"
+        },
+        {
+          "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+          "rawSha256": "sha256:3c30debf56626fbf8e20299c358d58d74a36d5690876754150d68b0b5f68c9fd"
+        }
+      ],
+      "limitation": "Formal repository/CLI/MCP negative tests cover committed Finding, unavailable/dirty material, unbound/foreign/tampered or stale inputs and replay, with no successful side effects in fixtures."
+    },
+    {
+      "scenario": "A5 serial WI-1087 composition",
+      "status": "unverified",
+      "formalNodeIds": [],
+      "evidence": [],
+      "limitation": "No separately admitted composed HEAD, authority-admission regression, native verification or CI on a combined tree."
+    }
+  ],
+  "userVisibleBenefit": {
+    "state": "inference_from_verified_recovery_behavior",
+    "statement": "For AI Cockpit users, an Outcome blocked after a sensitive Contract amendment can proceed through an exact approved material review to fresh native verification while preserving the rejection boundaries. This is a verified recovery-flow behavior, not proof of benefit in a downstream Sentinel checkout.",
+    "affectedUsers": "AI Cockpit operators using the blocked-Outcome recovery workflow",
+    "downstreamSentinelLocalValidation": "not_performed"
+  },
+  "remainingLimits": [
+    "A5 serial composition remains unverified.",
+    "Reviewer assurance is self_declared, not authenticated identity.",
+    "No finish, archive, merge, or downstream Sentinel validation has occurred."
+  ]
+}

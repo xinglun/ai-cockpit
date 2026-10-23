@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_explanation_not_runtime_admission_receipt",
+  "actor": "agent:Codex",
+  "humanDelegation": "Explicit instruction to save an honestly unverified WIP before long tests.",
+  "observedNativeState": "material_review_projection_unavailable; safeActions include resolve_blockers; material-review plan rejects the two uncommitted product files.",
+  "resolution": "Create a normal local source WIP commit to supply canonical committed blobs, then refresh native context/preflight before pushing. This preparation neither runs verification nor records material review nor waives any blocker.",
+  "preCommitVerification": {
+    "focused": "not_run",
+    "clippy": "not_run",
+    "workspace": "not_run"
+  },
+  "ifPostCommitStillBlocked": "Stop before push and long checks; report exact admission."
+}

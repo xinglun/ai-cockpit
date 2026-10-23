@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_summary_of_actual_current_focused_commands",
+  "recordedAt": "2026-10-17T04:57:24.371522+00:00",
+  "sourceHead": "999bb5f3a9ee941b59e5fcc1f9a5e991d7d423df",
+  "focused": [
+    {
+      "observation": "f01-core.json",
+      "passed": 19,
+      "failed": 0
+    },
+    {
+      "observation": "f02-protocol.json",
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "observation": "f03-authority.json",
+      "passed": 17,
+      "failed": 0
+    }
+  ],
+  "nativePlan": {
+    "observation": "v01-plan.json",
+    "nodesPlanned": 13,
+    "projectTestProcessesSpawned": 0,
+    "formalVerificationState": "not_run"
+  },
+  "clippyState": "not_run",
+  "review": {
+    "kind": "read_only_agent_code_review_summary_not_human_decision",
+    "reviewer": "agent:/root/review_p1_recovery",
+    "diffBase": "9ca721a2ae0915f96c95add698e29b6f795840a5",
+    "diffHead": "999bb5f3a9ee941b59e5fcc1f9a5e991d7d423df",
+    "blockingFindings": 0,
+    "priorSamplingGapFinding": "resolved_by_bracketed_sample_and_current_read_gap_test",
+    "limitations": [
+      "integer millisecond precision",
+      "snapshots age after sampling",
+      "conservative rejection of cross-bucket reads"
+    ],
+    "reviewerDidNotRunTests": true
+  },
+  "historicalLostEnvironmentEvidence": "not reused; unknown terminal states remain unknown"
+}

@@ -37,6 +37,7 @@ pub fn load_reusable_receipt(
     root: &Path,
     binding: &ReceiptStoreBinding,
 ) -> Result<ReceiptStoreLoad, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -227,6 +228,7 @@ pub fn persist_reusable_receipt(
     binding: &ReceiptStoreBinding,
     receipt: &cockpit_evidence::ReusableReceipt,
 ) -> Result<ReceiptStoreWrite, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -426,6 +428,23 @@ pub(super) fn open_cap_directory_nofollow_strict(
     })
 }
 
+/// Optional metadata location, preserving the same no-follow implementation
+/// on Windows and Unix. Other open/type/race errors remain errors.
+pub(super) fn open_optional_cap_directory_nofollow_strict(
+    parent: &Dir,
+    name: &str,
+    display_path: &Path,
+) -> Result<Option<Dir>, ObserverError> {
+    match open_cap_directory_nofollow(parent, name, display_path) {
+        Ok(directory) => Ok(Some(directory)),
+        Err("evidence_missing") => Ok(None),
+        Err(reason) => Err(ObserverError::State {
+            path: display_path.into(),
+            message: format!("receipt store directory rejected: {reason}"),
+        }),
+    }
+}
+
 pub(super) fn create_and_open_cap_directory(
     parent: &Dir,
     name: &str,
@@ -558,7 +577,7 @@ pub(super) fn read_cap_file_nofollow_bounded(
     Ok(bytes)
 }
 
-fn read_optional_cap_file_nofollow_bounded(
+pub(super) fn read_optional_cap_file_nofollow_bounded(
     parent: &Dir,
     name: &str,
     display_path: &Path,
@@ -654,6 +673,7 @@ fn write_cap_immutable(
     display_path: &Path,
     bytes: &[u8],
 ) -> Result<usize, ObserverError> {
+    let authority = crate::authority_admission::context_for_path(display_path)?;
     let sequence = NEXT_ATOMIC_WRITE_ID.fetch_add(1, Ordering::Relaxed);
     let temporary = format!("{name}.receipt-tmp-{}-{sequence}", std::process::id());
     let mut options = CapOpenOptions::new();
@@ -676,6 +696,10 @@ fn write_cap_immutable(
         });
     }
     drop(file);
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let installed = match parent.hard_link(&temporary, parent, name) {
         Ok(()) => Ok(0),
         Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
@@ -702,6 +726,11 @@ fn write_cap_immutable(
 }
 
 fn write_cap_commit_marker(parent: &Dir, display_path: &Path) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(display_path)?;
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let marker_path = display_path.join("index.pending");
     let mut options = CapOpenOptions::new();
     options
@@ -731,6 +760,7 @@ fn atomic_replace_cap_strict(
     display_path: &Path,
     bytes: &[u8],
 ) -> Result<(), ObserverError> {
+    let authority = crate::authority_admission::context_for_path(display_path)?;
     if let Ok(metadata) = parent.symlink_metadata(name)
         && (metadata.file_type().is_symlink() || !metadata.is_file())
     {
@@ -772,6 +802,10 @@ fn atomic_replace_cap_strict(
             source,
         });
     }
+    let _commit = authority
+        .as_ref()
+        .map(|context| context.before_commit())
+        .transpose()?;
     let replace_result = replace_cap_entry(parent, &file, &temporary, name, display_path);
     drop(file);
     if let Err(source) = replace_result {

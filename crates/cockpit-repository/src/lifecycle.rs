@@ -60,6 +60,7 @@ pub fn start_work_item(
     goal: &str,
     scope: &[String],
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     start_work_item_with_options(
         root,
         work_item_id,
@@ -82,6 +83,7 @@ pub fn start_work_item_with_options(
     scope: &[String],
     options: &WorkItemStartOptions,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     start_work_item_with_options_internal(root, work_item_id, intent, goal, scope, options, None)
 }
 
@@ -94,6 +96,7 @@ pub fn start_work_item_with_options_and_runtime(
     options: &WorkItemStartOptions,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     start_work_item_with_options_internal(
         root,
         work_item_id,
@@ -210,6 +213,7 @@ pub fn work_item_start_advisory(
     root: &Path,
     work_item_id: &str,
 ) -> Result<WorkItemStartAdvisory, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     work_item_start_advisory_with_mode(root, work_item_id, false)
 }
 
@@ -578,6 +582,7 @@ pub fn start_work_item_prepared(
     sources: &[String],
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let start = start_work_item_with_options_and_runtime(
         root,
         work_item_id,
@@ -843,6 +848,7 @@ pub fn scaffold_work_item(
     work_item_id: &str,
     mode: &str,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     // `work-item new` is itself a start boundary. Capture the same
     // read-only residual-resource inventory as `start` before writing the
     // scaffold, then reuse its exact conflicts for entry validation. The
@@ -1206,6 +1212,7 @@ pub fn checkpoint_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1405,6 +1412,7 @@ pub(crate) fn validate_contract_amendment_revalidation_ready(
     work_item_id: &str,
     summary: &serde_json::Value,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
@@ -1482,6 +1490,7 @@ pub fn revalidate_contract_amendment(
     work_item_id: &str,
     reason: &str,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     if reason.trim().is_empty() {
         return Err(ObserverError::State {
@@ -1725,6 +1734,7 @@ pub fn amend_work_item_contract(
     input: &serde_json::Value,
     reason: &str,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let executable = std::env::current_exe().map_err(|source| ObserverError::Read {
         path: PathBuf::from("current-executable"),
         source,
@@ -1749,6 +1759,7 @@ pub fn amend_work_item_contract_with_runtime(
     reason: &str,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let typed_request =
         crate::contract_amendment::typed_request_from_value(input).map_err(|error| {
@@ -1837,6 +1848,7 @@ pub fn apply_work_item_contract_amendment(
     request: &cockpit_protocol::ContractAmendmentRequest,
     runtime: &RuntimeContext,
 ) -> Result<crate::contract_amendment::ContractAmendmentReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     crate::contract_amendment::apply_work_item_contract_amendment(
         root,
         work_item_id,
@@ -1857,6 +1869,7 @@ pub fn preflight_work_item(
     root: &Path,
     contract_path: &Path,
 ) -> Result<GovernanceDecision, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     Ok(preflight_work_item_report(root, contract_path)?.decision)
 }
 
@@ -1866,6 +1879,7 @@ pub fn preflight_work_item_report(
     root: &Path,
     contract_path: &Path,
 ) -> Result<PreflightResult, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     preflight_work_item_internal(root, contract_path, None)
 }
 
@@ -1877,6 +1891,7 @@ pub fn preflight_work_item_with_runtime(
     contract_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<GovernanceDecision, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     Ok(preflight_work_item_with_runtime_report(root, contract_path, runtime)?.decision)
 }
 
@@ -1886,6 +1901,7 @@ pub fn preflight_work_item_with_runtime_report(
     contract_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<PreflightResult, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     preflight_work_item_internal(root, contract_path, Some(runtime))
 }
 
@@ -2178,6 +2194,7 @@ pub(super) fn contract_digest_for_evidence(
     root: &Path,
     contract: &cockpit_protocol::Contract,
 ) -> Result<Digest, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let active = root
         .join(".ai/work-items/active")
         .join(format!("{}.contract.json", contract.work_item_id));
@@ -2230,6 +2247,7 @@ pub fn finish_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     finish_work_item_internal(root, work_item_id, None)
 }
 
@@ -2242,6 +2260,7 @@ pub fn finish_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     finish_work_item_internal(root, work_item_id, Some(runtime))
 }
 
@@ -2674,6 +2693,7 @@ pub fn record_verification(
     runtime_version: &str,
     runtime_digest: &Digest,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -2721,6 +2741,7 @@ pub(super) fn validate_archived_revalidation_evidence(
     historical_contract_digest: &Digest,
     expected_evidence_digest: &Digest,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
@@ -2853,6 +2874,7 @@ pub(super) fn validate_recovery_predecessor_bindings(
     summary_path: &Path,
     candidate_path: Option<&Path>,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let decisions = root.join(".ai/decisions");
     let amendment_revalidation =
         receipt.successor_binding_mode.as_deref() == Some("contract_amendment_revalidation");
@@ -3354,6 +3376,7 @@ pub(crate) fn require_current_retry_recovery_binding(
     summary: &serde_json::Value,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     if summary["recoveryRetryPending"] != serde_json::json!(true) {
         return Ok(());
     }
@@ -3376,6 +3399,7 @@ pub(super) fn validate_recovery_successor_binding(
     work_item_id: &str,
     receipt: &RecoveryDecisionReceipt,
 ) -> Result<bool, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     if receipt.decision == "retry" {
         return Ok(false);
     }
@@ -3899,6 +3923,7 @@ pub fn revalidate_archived_work_item_with_runtime(
     request: &ArchivedContractRevalidationRequest,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     validate_work_item_id(&request.successor_work_item_id)?;
     for (field, value) in [
@@ -4583,6 +4608,7 @@ pub(crate) fn archived_verification_recovery_state(
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<EvidenceState, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -4654,6 +4680,7 @@ pub fn require_archived_verification_recovery_preconditions(
     snapshot: &RepositorySnapshot,
     current_runtime: &RuntimeContext,
 ) -> Result<(), ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -4699,6 +4726,7 @@ pub fn record_archived_verification_recovery_with_runtime(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     for (field, value) in [
         ("reason", request.reason.as_str()),
@@ -4876,6 +4904,7 @@ pub fn record_recovery_decision(
     receipt: &serde_json::Value,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -5124,6 +5153,7 @@ pub fn record_selected_successor_lineage_recovery(
     receipt: &serde_json::Value,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     validate_work_item_id(root_work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -6021,6 +6051,7 @@ pub(super) fn legacy_source_history_inventory(
     work_item_id: &str,
     repository_id: &str,
 ) -> Result<LegacySourceHistoryInventory, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let mut visited = BTreeSet::new();
     let mut completed = BTreeSet::new();
     let facts = validate_closeout_history_chain_inner(
@@ -6317,6 +6348,10 @@ pub fn plan_cross_checkout_closeout_recovery(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _destination_goal_authority =
+        crate::authority_admission::enter(destination_root, Some(work_item_id))?;
+    let _source_goal_authority =
+        crate::authority_admission::enter(source_root, Some(work_item_id))?;
     let plan = build_closeout_recovery_plan(destination_root, source_root, work_item_id, runtime)?;
     let files = plan
         .files
@@ -7052,6 +7087,10 @@ pub fn recover_cross_checkout_closeout(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _destination_goal_authority =
+        crate::authority_admission::enter(destination_root, Some(work_item_id))?;
+    let _source_goal_authority =
+        crate::authority_admission::enter(source_root, Some(work_item_id))?;
     recover_cross_checkout_closeout_with_hook(
         destination_root,
         source_root,
@@ -7835,6 +7874,11 @@ pub fn selected_successor_lineage_recovery_resolves_pending_close(
     work_item_id: &str,
     expected_repository_id: &str,
 ) -> bool {
+    if crate::authority_admission::require_goal_authority_access(root, Some(work_item_id)).is_err()
+    {
+        return false;
+    }
+
     let decisions = root.join(".ai/decisions");
     let Ok(entries) = fs::read_dir(&decisions) else {
         return false;
@@ -7984,6 +8028,7 @@ pub(super) fn work_item_artifact_path(
     work_item_id: &str,
     suffix: &str,
 ) -> Result<PathBuf, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     work_item_artifact_path_optional(root, work_item_id, suffix)?.ok_or_else(|| {
         ObserverError::State {
             path: root.join(".ai/work-items"),
@@ -8032,6 +8077,7 @@ pub fn persist_verification_attempt(
     diagnostic: Option<(&str, &str)>,
     receipt: Option<&serde_json::Value>,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     persist_verification_attempt_internal(
         root,
         work_item_id,
@@ -8061,6 +8107,7 @@ pub fn persist_verification_attempt_superseding(
     receipt: Option<&serde_json::Value>,
     supersedes_attempt_id: &str,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     persist_verification_attempt_internal(
         root,
         work_item_id,
@@ -8304,6 +8351,7 @@ pub fn load_reusable_verification_attempt(
     snapshot: &RepositorySnapshot,
     runtime: &RuntimeContext,
 ) -> Result<Option<serde_json::Value>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -8608,6 +8656,7 @@ pub(crate) fn current_verification_attempt_projection(
     snapshot: &RepositorySnapshot,
     runtime: Option<&RuntimeContext>,
 ) -> Result<Option<CurrentVerificationAttemptProjection>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     let evidence_dir = root.join(".ai/evidence");
     match fs::symlink_metadata(&evidence_dir) {
         Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_dir() => {
@@ -8807,6 +8856,7 @@ pub fn record_verification_with_snapshot(
     runtime_digest: &Digest,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     record_verification_internal(
         root,
         work_item_id,
@@ -8830,6 +8880,7 @@ pub fn record_verification_with_runtime(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<serde_json::Value, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     record_verification_internal(
         root,
         work_item_id,

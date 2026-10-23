@@ -1,0 +1,185 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:504afe972be8dd60ccfdf1f1fdb6d6a07c8f0bbc8de0d4a929842f678eee5f85",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1089-blocked-outcome-material-review-recovery",
+    "sequence": 2,
+    "changeId": "wi1089-final-parity-and-bounded-material-policy",
+    "requestDigest": "sha256:1d765707c6807e263b26e9bcc2915839707add8d05c14c3583abce2b5d2d539a",
+    "reason": "After actual human:Ray residual-risk authorization, apply Raydot-approved tri-language parity registration and one exact bounded material-review opt-in, with repository material-review tests added to verification; preserve the seven existing source paths and all prior verification checks.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+          "docs/reference/reference-parity.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+          "docs/reference/reference-parity.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+          "crates/cockpit-mcp/tests/material_review.rs",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.zh-CN.md",
+          "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md"
+        ]
+      },
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:Raydot",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          {
+            "path": "https://github.com/xinglun/ai-cockpit/issues/1041#issuecomment-6257220086",
+            "reason": "Public exact blocked-Outcome and material-record interlock reproduction; no Sentinel private checkout read."
+          },
+          {
+            "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/start-20261019/raydot-delegated-approval.agent-recorded.json",
+            "reason": "User delegated approvals to Raydot; Raydot approved START-ARGV sha256:2798ff7356698d2bacfeb624a07e33c4539601f7d6040b728b7d70ca1906ef44 on main b8ec269; agent-recorded provenance, not human:Ray confirm_review."
+          }
+        ],
+        "newValue": [
+          {
+            "path": "https://github.com/xinglun/ai-cockpit/issues/1041#issuecomment-6257220086",
+            "reason": "Public exact blocked-Outcome and material-record interlock reproduction; no Sentinel private checkout read."
+          },
+          {
+            "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/start-20261019/raydot-delegated-approval.agent-recorded.json",
+            "reason": "User delegated approvals to Raydot; Raydot approved START-ARGV sha256:2798ff7356698d2bacfeb624a07e33c4539601f7d6040b728b7d70ca1906ef44 on main b8ec269; agent-recorded provenance, not human:Ray confirm_review."
+          },
+          {
+            "path": ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-risk-consent/human-risk-acceptance-relayed.agent-recorded.json",
+            "reason": "Actual new human:Ray decision on the exact bounded WI-1089 Rust material scanner residual risk, relayed by Raydot; record must exist before this amendment runs."
+          }
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+          "cargo test --locked --package cockpit-repository --test status_projection",
+          "cargo test --locked --package cockpit-cli --test contract_amendment_processes",
+          "cargo test --locked --package cockpit-mcp --test material_review"
+        ],
+        "newValue": [
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --package cockpit-repository --package cockpit-cli --package cockpit-mcp --all-targets -- -D warnings",
+          "cargo test --locked --package cockpit-repository --test status_projection",
+          "cargo test --locked --package cockpit-cli --test contract_amendment_processes",
+          "cargo test --locked --package cockpit-mcp --test material_review",
+          "cargo test --locked --package cockpit-repository --test material_review"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+    "newContractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+    "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+    "environmentObservationDigest": "sha256:3ffe96dc397b1c4d14bd65cbca5c9787632ed152f7fa13fe4b7d6f0aa213f96f",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile",
+      "/scope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:2e5becf4e679095b0895b47929c9f6945cab1d910d5a110a2f908a7bad0ceaec",
+    "journalDigest": "sha256:b401d293596ebc4098a27dc78d6567cec08699f8c2d19be06e694b4d61990a3e",
+    "recordedAt": "2026-10-19T05:11:27Z"
+  }
+}

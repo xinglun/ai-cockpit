@@ -1,0 +1,33 @@
+{
+  "kind": "agent_static_draft_checks_not_native_validation_or_admission",
+  "recordedAt": "2026-10-17T07:25:30.509512+00:00",
+  "head": "6ee27dcf46aab2aa4352467de2e37f2a7e5ff483",
+  "worktreeClean": true,
+  "expectedContractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "schemaFieldsAndSetOperationsCheckedAgainstSource": true,
+  "protectedAndActivationFieldsUnchanged": true,
+  "scopeAdded": [
+    "crates/cockpit-repository/tests/authority_expiry.rs"
+  ],
+  "scopeRemoved": [],
+  "pendingPreparedSequencesByReadOnlyFileInventory": [],
+  "changeIdCollision": false,
+  "prospectivePlanSourceExistsInRepository": false,
+  "applyReady": false,
+  "blockers": [
+    "Planning-only instruction: no authorization to publish/apply/implement yet",
+    "Prospective plan source is not published in the repository",
+    "New native preflight/human binding does not exist until an authorized amendment is actually applied"
+  ],
+  "nativeFilesEqualCommittedBytes": {
+    ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.contract.json": true,
+    ".ai/work-items/active/WI-1087-contract-authority-scope-and-expiry.summary.json": true,
+    ".ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification.json": true
+  },
+  "nativeAmendInvoked": false,
+  "testsOrBuildsRun": false,
+  "hashes": {
+    "p2a-plan.draft.json": "c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e",
+    "contract-amendment.request.draft.json": "3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b"
+  }
+}

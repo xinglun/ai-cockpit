@@ -1,0 +1,919 @@
+{
+  "repository": "https://github.com/xinglun/ai-cockpit.git",
+  "revision": "a12ee2ff4413ac261560339c9ed7af59dde0f701",
+  "archiveSha256": "e7c3ed528149a61c406b5702dd429fdeb8692f25dd8fea3e2be63188011e14c2",
+  "files": [
+    {
+      "path": "Cargo.lock",
+      "sha256": "710c37f6d04e012289a855e468a8777248ceb6c8b83870b2c9029bd69080a78f"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "29c9b72a5e68c31b157c13b4158d203fefac5d41cb7b2f60f4e6bcb5ef0e33a1"
+    },
+    {
+      "path": "crates/cockpit-agent/Cargo.toml",
+      "sha256": "eb9e872ce69c47d99fab8e0bf95d5bb0902b060657241656dc1e50ad88fb6910"
+    },
+    {
+      "path": "crates/cockpit-agent/src/lib.rs",
+      "sha256": "465215cf7720e4ed550e697de7a8d729276c917e2b1559250d01bb43ae0a2891"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/context.rs",
+      "sha256": "16bc97e4c5379ccb645543df84f2970dc86d1cb1b6d85ba2a5ae57ee233efd34"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/detection.rs",
+      "sha256": "034c7e757b6ae2f164e39919849dec352d2301cf9d63c6c2ae5aa8ec44491e22"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/doctor.rs",
+      "sha256": "8e1a5cb211de37a6158034477914e8bed84fe6b9d4d8f970192607c82d94fcc1"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/install.rs",
+      "sha256": "ccfc11372a4981f1edc5a9d60bd6b49c8cb6649444f6b29d879cdccc010377bf"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/isolation.rs",
+      "sha256": "106dee1d9abaa713614982e172962652570d0b131d5d2608dbde3bc9e945014b"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/outcome_delivery.rs",
+      "sha256": "b076405ca6e61440bb384d21f5d099b82652fc99259ba8101d10acb6d37e6454"
+    },
+    {
+      "path": "crates/cockpit-agent/tests/outcome_host_command.rs",
+      "sha256": "42c1f03c198fd1ffe0202eeeba15f5c09a4fd152d3e7e206087b19a19df0c2d6"
+    },
+    {
+      "path": "crates/cockpit-cli/Cargo.toml",
+      "sha256": "e30ef8956746748c32558f15975530f353d0366e41dd8b0c10b7bb1bba940f49"
+    },
+    {
+      "path": "crates/cockpit-cli/src/cognitive_benefit.rs",
+      "sha256": "ad350a627bb17d1d6c4cadd4eb3669eba0f32d4c9b082fef0ff435bc9e6d3c0f"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "sha256": "632f4cd3f27b32a6e6bc3905d4afb43c16bbc9729e2db2ae6fca605d99f06115"
+    },
+    {
+      "path": "crates/cockpit-cli/src/runtime_identity.rs",
+      "sha256": "04504658f8c6ecc5111acd431475593d857c397a3db1fce190f0b9bb2589fed2"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/agent.rs",
+      "sha256": "0ba767ee2160a43917786bc96e158d39b659c11a3bb726e6ac4fc6d5ccc17133"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/attach.rs",
+      "sha256": "d32e912ce8bd1cabb3c20d9f81631025a693bf34272cc677e8d68f3fb45c4daa"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/audit_query.rs",
+      "sha256": "9bcb9671aa9e38b4461415728b6aa214f2f8ffe12e6fdc939684d1ce84cff424"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/ci_gate.rs",
+      "sha256": "b3bcc688db8a9f1f96acb571b861cf8ce99d80b559472fdb690f6f474d26f01d"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "sha256": "d67467c937e74c094d9f3a373d9433df67bbb0552a4d6c42407d19dc7a25dce5"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/closeout_recovery.rs",
+      "sha256": "8c8bb2985965c690af3a641f741b27de25993b53c7da8c7116e3d78a653e0ce2"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/cognitive_benefit.rs",
+      "sha256": "b6b2005d5cbf838188c237fc20241567d6fe128be4f1abfb733d13a5895509ef"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_cli.rs",
+      "sha256": "fa2a1c5a1ea0f212c425b1a23a9a7eb34a1978b75f881211deb098847ee24bdf"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+      "sha256": "a722ca312168f264e8326bfb81f02b4649a395b8f94aee8522e116bd77f77820"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+      "sha256": "1b1333a8230c4daa4ddbfc8a29ab9be47f248cc567b52c3d9fc08c2b797de8bd"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_outcome_parity.rs",
+      "sha256": "e5c94906c26bc0bba6d8906faf9515207b93be6440a2327142fbf2a85fb96bea"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+      "sha256": "56628d2d11af8273e066ead26a2e38ac1a3f7b61c4c3277611d2253cb7ab6dc4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/common/mod.rs",
+      "sha256": "ab50bd656567a38c54d267b535d383f18a4b1ef6df592cc0cc0ca6c5972c54c1"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "sha256": "713ecd90e708c4658d798ab637b9b129d507286c2e41fddeb23f9f3890ece1be"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/delegated_evidence.rs",
+      "sha256": "b7d185ddd637c709e8a573b5cfb1fb8d4395aa61a186700d60640b2248253373"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/doctor.rs",
+      "sha256": "21d2ebc54003fe9c37f907913a628cdfff31ddce0b729202913151752beef56e"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/gate_plan.rs",
+      "sha256": "be9cbbf6b7bae587a68db8915a6ec89211a4ab92b877845f41b46bbb2590d174"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/inspect.rs",
+      "sha256": "5a82d3f94402cc5a35825684b922e80ce656beb4af6fa0a225d8db94966b5796"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/intelligence.rs",
+      "sha256": "504d0d32335bfe3fac5a9be4aef6ceb881b98126c198d25def6566964b0797bb"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/knowledge.rs",
+      "sha256": "62807d6cfdc8dbc1de7c2bb7324e3289a6551c220a50f797db11afad609ce8d7"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/lifecycle.rs",
+      "sha256": "9623568b1b6af6b1a8c6d61de50739cafabd0a22e40a614ae624f140c2528de4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/material_review.rs",
+      "sha256": "aa892302d1ead95cca494925bebab89fff22a97226e2a50b93294c6fe2d2b681"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/mcp.rs",
+      "sha256": "f8c8597c4bbdfa0e6a57872868e1a2926fe38c20734b805de61b9e170f57ef93"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/observe.rs",
+      "sha256": "f4f6b88fc7994bd55a1242110557bf6186650c6dd296295d7cc7bb7fc8d1c04d"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+      "sha256": "e5acb9abfa283efb4a5be7d391df66b8b7e9efab9a72af8af33ba85b5550f1b9"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/outcome_human_decision.rs",
+      "sha256": "40ff8b5ddd6db0941bd3a877f236772341708f04ef42b930fae6dbd2650fed32"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/parallel_boundary.rs",
+      "sha256": "01187ba3714e30067beed4e6b7b9bb54bc370fa415dc3e51ce10fd183adeba96"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/performance.rs",
+      "sha256": "38c5863ef78239a53092b657909108e0414dea4d11cef1e7d23ca5cbbac8e660"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/preflight.rs",
+      "sha256": "259884a4ed53bc29ef3b1c0e9954d6e87b027ec6183ff6186c2ac8d201635038"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/profile.rs",
+      "sha256": "e92fb3fc345ff24e0cfd28d87bfef52c0d2bdc5c21fad8a22d684f533a1e0ecb"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/profile_propose.rs",
+      "sha256": "6fc7e03b3336b769058978b38fe5a383ce5d1f5961520e1ef4beeef48b0366fc"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/release_isolation.rs",
+      "sha256": "63dd2f2923f1a1400e3f2850ea83bcde8e8c5ce2414367f3d4f603f77e776938"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/release_plan.rs",
+      "sha256": "de02a94f02e6b5d4c28144d598aeac50b5da451981ff20c2650e4f7059919faa"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "sha256": "029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/retirement.rs",
+      "sha256": "0fa2086a6d681331f4ab275ae2f6479492abf0d66ff7b02aa78fc561e0c6ab4f"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/scope_amendment.rs",
+      "sha256": "0fffdf6f8822f0ced3dab708192b58bd70c885ab3ea736ba719e379232904cb5"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "sha256": "bacced8f6e727cf6b9240c7916300460e4fc9ed9b42d6ab992c674873abe729f"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "sha256": "3bcd0246ba8fa33929aaee7aa154a8f273c273ee71603810ea075f49822769c3"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/work_item_scaffold.rs",
+      "sha256": "693a687add212cdc9d308eaa96f147266c102bb842b552d967afbdcabb0fe3de"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/worktree_entry.rs",
+      "sha256": "071ca4b3c15aae7a26d19a1245b02a817546086f447e3737bc340ece078bd0e8"
+    },
+    {
+      "path": "crates/cockpit-core/Cargo.toml",
+      "sha256": "8c32012822658d5bf663edf08854e86c41259f0b01d698ce709e1aa303e26a2c"
+    },
+    {
+      "path": "crates/cockpit-core/src/lib.rs",
+      "sha256": "6291de5cd78e449e3eae61b2986b08868518afbd0064dc17b2eccc3e3cb1aa23"
+    },
+    {
+      "path": "crates/cockpit-core/tests/adversarial_v2.rs",
+      "sha256": "9f6429da5634bcab95c7a8fda240faf472efce5228cf7c7c1e6df279831ca779"
+    },
+    {
+      "path": "crates/cockpit-core/tests/conformance.rs",
+      "sha256": "7fbcb3a2e4298a9495dced27c247aaf364ca3a39673ef39dee618bca108bdf50"
+    },
+    {
+      "path": "crates/cockpit-core/tests/domain_types.rs",
+      "sha256": "8a6c2b28ba5f860c1f1921415a3d746fd53b698ee5fb15b32248e78856125b93"
+    },
+    {
+      "path": "crates/cockpit-core/tests/governance_semantics.rs",
+      "sha256": "8dfe43db1007e268952ae70d520198ed46e7a76fb6d9a1cacbb7f228d128e4e7"
+    },
+    {
+      "path": "crates/cockpit-core/tests/operation_time_policy.rs",
+      "sha256": "73d4ce1818c10497134a2f2d90fdbeaa3ee6963c8958790da5273885545c2de3"
+    },
+    {
+      "path": "crates/cockpit-core/tests/v1_oracle.rs",
+      "sha256": "8ec301ad15c71ee520b4db6bbbf3976da0c968092c78f7fb5357a3e8ec2a6e25"
+    },
+    {
+      "path": "crates/cockpit-evidence/Cargo.toml",
+      "sha256": "9817803598b5452c75617adb19881029edc2aac65764c4ab1db2b05042457eb3"
+    },
+    {
+      "path": "crates/cockpit-evidence/src/lib.rs",
+      "sha256": "7bced8483991c633c40f600a41babd4aa869b8fc9499218a6b62b3dfb0047e42"
+    },
+    {
+      "path": "crates/cockpit-evidence/tests/reuse.rs",
+      "sha256": "79ff21f96a3bec4fd20b1ac6465ab085e29fc87d91ef76da8c6ce26a7d3264fc"
+    },
+    {
+      "path": "crates/cockpit-git/Cargo.toml",
+      "sha256": "c48a500f7d49c7b82a652b8a1612ccfd0a629ee210b4c978e6689a0f4a05b3ad"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "sha256": "c5e2f34306bc038194c803a5e49bda7626b9bf399c39f2ad4afda92f406e9443"
+    },
+    {
+      "path": "crates/cockpit-git/tests/collaboration_topology.rs",
+      "sha256": "5a880774783c55d76d749f9a156f8f42cef17dd0257c5a59ef0a4739aa261ce3"
+    },
+    {
+      "path": "crates/cockpit-git/tests/repository.rs",
+      "sha256": "53289c35042e4e8d3c0528d2cd5485d5bdbec4ee39fef1cb233f0a88a60f2fb8"
+    },
+    {
+      "path": "crates/cockpit-git/tests/snapshot.rs",
+      "sha256": "f265d5beccd3edb02af9804642b9411c224d99d2b789670ce3efa8c602426d56"
+    },
+    {
+      "path": "crates/cockpit-interface/Cargo.toml",
+      "sha256": "c6cba79ba784f17861820fd769d9cdacf23cfe7e2727f0e8804d3cf3b8565b2f"
+    },
+    {
+      "path": "crates/cockpit-interface/src/interface_description.rs",
+      "sha256": "e0327112c2f77644d929c32632f8af75bc8580e3ccce00f946b931f58c9b0bbb"
+    },
+    {
+      "path": "crates/cockpit-interface/src/lib.rs",
+      "sha256": "dc8062e74219c06ec4561755738289a243ca5e22362fe163e232ac8e9409c59b"
+    },
+    {
+      "path": "crates/cockpit-isolation/Cargo.toml",
+      "sha256": "a64df77dde288beaeccdc3ba9c30aaa07258b54e832e87ba8860b80318abc37b"
+    },
+    {
+      "path": "crates/cockpit-isolation/src/lib.rs",
+      "sha256": "7431e7f904a5d9c0b8da978a41f63405ba3f29bc2b463be58d6d11fa475035ff"
+    },
+    {
+      "path": "crates/cockpit-isolation/tests/scanner.rs",
+      "sha256": "b6b1ff8f33fa964e050df3cec202a717a108820ec7fa32f99881dd6c0cd68306"
+    },
+    {
+      "path": "crates/cockpit-knowledge/Cargo.toml",
+      "sha256": "82f89e5c08432c44ebf822a55a3362e60aa3763e176a86b21fe7064cff0789dc"
+    },
+    {
+      "path": "crates/cockpit-knowledge/src/lib.rs",
+      "sha256": "ce605265cbe02e32b415c4e40bd8f23668738ceaebaa595dc46fade6412bf127"
+    },
+    {
+      "path": "crates/cockpit-knowledge/tests/query.rs",
+      "sha256": "ffa8a176155085aa7d1ea98e1ee8efe95c793519dc4d36ba8b63de61db02ac24"
+    },
+    {
+      "path": "crates/cockpit-mcp/Cargo.toml",
+      "sha256": "386bfa85c77d2ae8c2332c14edd2cf6fc93b88c362b27d819996318d4b5d23d3"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "sha256": "be1621fede3fc1718ed72e50a9935f40cd0e238b835a72bd95694c9ba4cc2ea8"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/closeout_recovery.rs",
+      "sha256": "603833b0045a2a64bfd3b4ddfab2355bc0cd1a426e3787473d51b5daddf0ff6b"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/collaboration_rpc.rs",
+      "sha256": "374a03c28e5000daf8804fb4e880aca3e618842380de68f75c9393acfd59908b"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "sha256": "84e8f068534e04916e94e5096cafbc2bd64f253064d72ec5816490f091000134"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "sha256": "ef669e31563637080845b5a4996746f50d9ce0cd1af873ea1293d9d58148b050"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/security.rs",
+      "sha256": "d258d4f8d46906211ae27cacd815f6aaa993fcb5acc26abf33596712f1019216"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "sha256": "1381083b73191a27aca9276ac55e5e782ef393099ece07bbbf41364bd2f56c84"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/work_item_amendment_parity.rs",
+      "sha256": "0d89b4c1b322d2e2c557b234d126576198726365a4821ab1af4fac1462c0fe02"
+    },
+    {
+      "path": "crates/cockpit-protocol/Cargo.toml",
+      "sha256": "87dafea6518abd4f51cd0106fb08db49c14b331d21efeb3776f316a83fa8731e"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/audit_query.rs",
+      "sha256": "31cae9779f4abe4174035dbf076599460e1849f3f6a03335c6348aa143d12b82"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/contract_amendment.rs",
+      "sha256": "089a06cbb6afb5ef235a1058b01fafc0b958088862b082094f8f20c3f0add277"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "sha256": "09ac92ce35d2bc686a39286529891145edc05dc02624727f819a0d6d692afe8f"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/release_plan.rs",
+      "sha256": "63f5e3669e40f230c67f909adb893055e02a3149ca890c670324d5027e2eb2c1"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/usage.rs",
+      "sha256": "d6d01256f482973e4a68d4f47ac7c2c749636c41511cca8efcf1b3f13b1dcfb4"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/audit_query.rs",
+      "sha256": "ceae742cf15bcee137c9ec213b60df5fe916091c15c9a337dbf9cf903c8efd85"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/collaboration.rs",
+      "sha256": "891cbc3962482bb9736433f714c39f8e82adce5ac865fc016c68fe9f6fcd3f2e"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/contract_amendment.rs",
+      "sha256": "9ecafd64f594cbcbd6abeee67e6ea1f4027c95d10c5a0dcd65134a1295391b5c"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/contract_v2.rs",
+      "sha256": "dc2a227a0e82442cab83d56b878e988c26d8ad8233b5c85d33da2df902f06072"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/intelligence_schema.rs",
+      "sha256": "eb4d0111efa7e172db7fc7505581b96845fbe08bb6ae05d2aefc8a46e0e25b9d"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/interface_description.rs",
+      "sha256": "0b3e4c23e198e3657efec7f8d24cc630251dabcf4349854b537e7018a2902250"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/parallel_boundary.rs",
+      "sha256": "ebf1d544aee5fe21e7a25a302bc2d0477bf1645a2d4592e3226d7fa0e2f54957"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/preflight_review.rs",
+      "sha256": "ac48759f789032bbdaed0f1948233e45d3abe9d118130ae78730bfd65188f662"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/protocol.rs",
+      "sha256": "c010788d38f3e83be00ae7c1bd4d22cd34f14ecf76a20586b39ddb5e6b8dee14"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/recovery_outcome.rs",
+      "sha256": "a26e8d198f9dcd0a4a117b613cf900135dd5890aa0aae3ffadfb4cc7672fa7ef"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/recovery_receipt.rs",
+      "sha256": "6e689a65c9319c5be23375f81f942dbb122a46c82458ca47e8c294c122e716d6"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/release_plan.rs",
+      "sha256": "648dc01fd1ad2c5e8b382bd532e74f05b5270053c277d42a0bc5eeca96cfca92"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/resource_finalization.rs",
+      "sha256": "d76598bca4c79cad8f98017b538daf621d8c9b85ec9aa2208009207da8db55ba"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/selected_successor_lineage_recovery.rs",
+      "sha256": "346525d9507cba91f12aab282fab3330594d2496bf34a1891be517693b9162a8"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/usage.rs",
+      "sha256": "df103282d42b11344abf29ac2736dcd24bcb28a77404fb02aaf6105e85475429"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/verification_semantics.rs",
+      "sha256": "29d3d5e2977083446e457ada52c63d4764ded5af5730d686cb4fb51c99f7a0a0"
+    },
+    {
+      "path": "crates/cockpit-release/Cargo.toml",
+      "sha256": "6680fa27a83debda8bfc0e7382ccdc07b5b8956731cbbd13cd183b31065493ca"
+    },
+    {
+      "path": "crates/cockpit-release/src/acceptance.rs",
+      "sha256": "4a5f5ba6122cc63f107ec5b340d1615d09dfd0efc66aae952c90832485e50e16"
+    },
+    {
+      "path": "crates/cockpit-release/src/archive.rs",
+      "sha256": "f0a4925715d5c289e2eea30925fdaed5ce059e1ad6b9ab77deb8ed6061f241e6"
+    },
+    {
+      "path": "crates/cockpit-release/src/error.rs",
+      "sha256": "b8f2ac8d2a4961688e8f9160933dcaf4e588fb20a716df7f1f3435e99b626ded"
+    },
+    {
+      "path": "crates/cockpit-release/src/formula.rs",
+      "sha256": "72641b2d79db3b5704866d5b605299d32238a28d4cdc041cc1a41e293bf3dd31"
+    },
+    {
+      "path": "crates/cockpit-release/src/handoff.rs",
+      "sha256": "8e096839ffe6bf9dbc62b054dec724d6f448f10e1587c993875deaf54808c723"
+    },
+    {
+      "path": "crates/cockpit-release/src/lib.rs",
+      "sha256": "e17a6a566785227d24cd2153096946f286967d63707568b01e6f9f4ac59d4b59"
+    },
+    {
+      "path": "crates/cockpit-release/src/main.rs",
+      "sha256": "2cced67dd8f0b09af8a2e73440f14792d0d8999b41afe2cbb2e2c964028a663c"
+    },
+    {
+      "path": "crates/cockpit-release/src/manifest.rs",
+      "sha256": "bdd5dd09a0f3875106c825a426c0e9e6a4e2e4ac77153efd985651c6c17f80a2"
+    },
+    {
+      "path": "crates/cockpit-release/src/provider.rs",
+      "sha256": "c8d959220557dc97a2e5b34006ad10a0819a5f63e1d736893cdf698c1152e17a"
+    },
+    {
+      "path": "crates/cockpit-release/src/recovery.rs",
+      "sha256": "80de87d50dd96f38584b53d0be8782dccbbf17f5467d94560a538d3d5be3f088"
+    },
+    {
+      "path": "crates/cockpit-release/src/resume.rs",
+      "sha256": "e7ff3fb7970d0443d0b7688ce2c75d8ef8eaf70d264fa1af9841789d939eeeb7"
+    },
+    {
+      "path": "crates/cockpit-release/src/sbom.rs",
+      "sha256": "90d08b0f06160beea0a6a9f573ecccb70faf5e7452ce2e3f570969d1edeccf0d"
+    },
+    {
+      "path": "crates/cockpit-release/src/version_consistency.rs",
+      "sha256": "b1f6f1dbe8f1435cf19fb7ebd540a1bd0662ece1d58c071093535956e3bbff26"
+    },
+    {
+      "path": "crates/cockpit-release/tests/acceptance_recovery.rs",
+      "sha256": "4b701c440a57c6476be3786a6835bb98dbca857422ce2e258d23e12e859cd9cc"
+    },
+    {
+      "path": "crates/cockpit-release/tests/archive.rs",
+      "sha256": "83f1ab169d8c3435a00f1feeb06e1dceabba465eaf1e09be4d8ed6d6eec93613"
+    },
+    {
+      "path": "crates/cockpit-release/tests/cli.rs",
+      "sha256": "c28504388a2232e2c45055e6c383d0ad8e7d2a343f1ec6176cd0f5529b318bea"
+    },
+    {
+      "path": "crates/cockpit-release/tests/fixtures.rs",
+      "sha256": "da3beb9813f7291e3d927f0e4aea588e18b2996c9446f14be1abc60aaded200c"
+    },
+    {
+      "path": "crates/cockpit-release/tests/formula.rs",
+      "sha256": "dfc7fc3ade7a6c4cc34078cfef17219418bfa5a2cc0b1a9ae964b54c5d2f887a"
+    },
+    {
+      "path": "crates/cockpit-release/tests/handoff.rs",
+      "sha256": "efbad869e00776eeeda3961869bfe184f0e2c1971288aad222c44e6947322432"
+    },
+    {
+      "path": "crates/cockpit-release/tests/manifest.rs",
+      "sha256": "4bbba2e3a2931d5eaa53a6f570b7b4ba03f02d1ab9f02ae19e42ec51523fe2d2"
+    },
+    {
+      "path": "crates/cockpit-release/tests/package_boundary.rs",
+      "sha256": "ab49ee030b02e2ec38542d983346dbb5975a67830903be821420f34afd0f22af"
+    },
+    {
+      "path": "crates/cockpit-release/tests/sbom.rs",
+      "sha256": "41147e7faef553fd386fdf6dac3f5db6249bebbfbdb1827414f9bb4dacf02c84"
+    },
+    {
+      "path": "crates/cockpit-release/tests/version_consistency.rs",
+      "sha256": "e1e92d7cb709dbe6f70766e7b5df7adc133c7336c895642a7a4ddf55a3696072"
+    },
+    {
+      "path": "crates/cockpit-repository/Cargo.toml",
+      "sha256": "2dcc393ab0ea6d007e9d66fedfb15421fc304f3d2fe6805bed6784730d120736"
+    },
+    {
+      "path": "crates/cockpit-repository/src/action_admission.rs",
+      "sha256": "08def208a54da624aa4e788c90be824d73f61927af9117d3f9050ec6c0ba7d45"
+    },
+    {
+      "path": "crates/cockpit-repository/src/audit_query.rs",
+      "sha256": "10ae4aad62a224a445d38e013223102d769f6afd3e036c89c78755a6934a3e3d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "sha256": "cdfb1361c5267ac90370d12f569b32ef3d0b35759049955ab34fb38ba1d3ae1d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "sha256": "a7863aa0b6dcd67ed1d9c7405e1547e167024d711a33c3e8ff248346cce601e5"
+    },
+    {
+      "path": "crates/cockpit-repository/src/coordination_store.rs",
+      "sha256": "13568f2dfa48ac47948beeec359b3c4eb680e00fdb02d28a6e746e2cbfa74f58"
+    },
+    {
+      "path": "crates/cockpit-repository/src/coordination_store_lock_tests.rs",
+      "sha256": "37a31962cbbf3a5abd878010ed47085b25d6c7cc6d5da4fcea3aa2596ed6801e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/evidence_store.rs",
+      "sha256": "226d368fb7eacf943346fbaa0be00a3ae76ce7a48c3e1e846facdac020b24c67"
+    },
+    {
+      "path": "crates/cockpit-repository/src/execution_context.rs",
+      "sha256": "60651123e57d30a8f4b681bf57c895de23d9630fad40c270d5900bf5219a5549"
+    },
+    {
+      "path": "crates/cockpit-repository/src/governance_controls.rs",
+      "sha256": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4"
+    },
+    {
+      "path": "crates/cockpit-repository/src/historical_compatibility.rs",
+      "sha256": "717ace241552a1dcbc9ddbbc3d1f36416246ad61edc7653c3e22c4fb63d38a49"
+    },
+    {
+      "path": "crates/cockpit-repository/src/knowledge_projection.rs",
+      "sha256": "72d04f061d1ecc5c8738b9fe88247be828a75cec1214beb35b365362805a3e19"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "sha256": "1339be683bd9ae8c1f81c15f4fbed3fd9c5763b0f736e562715ca088e2fe779a"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "sha256": "f419fbda545df202d37da645d7d0ed6bcbf9f5c058c7818d2d313d9243e7e2b1"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "sha256": "47faf7c778c28c170f6a59b9ba2bb612675090df9d6fa47ca9d619761accb41f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/observation_ledger.rs",
+      "sha256": "66e77772e7cecdc2cc020edcbbb2ded5a686a9209a78417560099f435d0ecefe"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "sha256": "73d8194b17d8a960bf0f5046c27fc802d936b6c243a7d08804f98533a56b0f79"
+    },
+    {
+      "path": "crates/cockpit-repository/src/project_governance.rs",
+      "sha256": "d025ddc3927f0c1d7f889472ac48fc8c4bf6f374c0725a90db95dda502b6a7eb"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "sha256": "9f0afabe32d525c93daf29baa3c4993e2c8732ba14e8ee0012b4e76fe5314734"
+    },
+    {
+      "path": "crates/cockpit-repository/src/rust_material.rs",
+      "sha256": "b8d7093d83d32e30ce37154a14f723bc935fded4acd6bd88e48f1fb9af3135b3"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "sha256": "6ab6bf4a75437f48adf66b001945d05e53fc3c73780da44ebb33bb54753c4920"
+    },
+    {
+      "path": "crates/cockpit-repository/src/usage.rs",
+      "sha256": "995dbebc29f2161e950f4ccbf29166585fa9b6a01c8273fa0789e0839645b764"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+      "sha256": "cdd7fd815662f956a6a54b1e1f432130bdce7b0a7f2d9a8b20d27a36f2a76775"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+      "sha256": "cd32d1818ea8b82f21607c4059e9939a7f57c1fefbe606bacc9f937a17b40109"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/agent_rule_parity.rs",
+      "sha256": "73888c31b513aa06ce956addcf058602f2689354fd22fc799e8f6034dd7fab8d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+      "sha256": "75fee7bf6cb8d9674ac0cc0776da3c7bcd70c2551f7ac949e1085cf1ecff7edd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/audit_query.rs",
+      "sha256": "7394b491619afff84180f51eb261a6bb97e4d44148336c843610001cdeb40329"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+      "sha256": "5c1978649c80464ce5de19fa50ed3039eb5e03bda56c7d6185815eaa2706dfc8"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/closeout_recovery.rs",
+      "sha256": "943f497c0153b7bda27239e02cbeed7fe7949a72cb403847972c70e5c0c0ae0a"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/collaboration_admission.rs",
+      "sha256": "32b1079c79608d9399d298e7d4a40bf5f642c0bd54e04500412f275264cb37e0"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "sha256": "8794e3607719d57322f0386987d09fe640b1135ba868fe38ea90d53e0cae1add"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_preflight.rs",
+      "sha256": "d6695d4831b1c968a3e379ac7207c39b0ca08147a4d868f67a1b163345dfeb10"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_schema.rs",
+      "sha256": "05086131576bad83d889d947c78170b2ff4b66a57bf8ce0116b45e343c0cead5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/coordination_store.rs",
+      "sha256": "fc34959b33f45a585e92648427597110715852905436bfcf118bd5655b73a83c"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/delegated_evidence_observations.rs",
+      "sha256": "706adafa5a4e58efd10904831e3bd649d62a39ea7a31f3a019b39733dc2aab70"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evidence_assurance.rs",
+      "sha256": "b384c72a5611ed29f2d5b5867b3d15e7ba90fbc05f292818822aab45f575526b"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evolution.rs",
+      "sha256": "e7a5d96d8c785d5fa6c439b1081ccc72e052d04d5245d0cf21b777a82c71fb30"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/governance_controls.rs",
+      "sha256": "1267cbc0ffcd6501c9877fbe8e4f624960055b65db0a76ec42f4756fb613902d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/governance_signals.rs",
+      "sha256": "7a1fa4b6c363c7ceb1ff971dc9e7cea62116b3dc02e04332206acaf8f441e589"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/input_trust.rs",
+      "sha256": "c7a813d4f9deeb6d98a8256087e8fec9bec9402b5cb3b04763f9001783edcf42"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/intelligence.rs",
+      "sha256": "72eda9695944968a95d95de88b38ecfa4c2f73862dbbdc80c018306f2d420bd0"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/knowledge_cache.rs",
+      "sha256": "05c29d875a0b06ac207a648233d8f2cae1857c8ae7b250c9efce13503070f4bc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/knowledge_projection.rs",
+      "sha256": "5b40ac19494521a902699836d567e3858f413942abbe56dbe2591d0f190e7c36"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+      "sha256": "61047c68529620d495b833c743866f97bc63f2495677ac49842532f6506ca0e5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "sha256": "2b08a73439819b3e5f489b68e965b5984000c93fbbade522474715dc4231a1a5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+      "sha256": "19f6ebe3d6455908c11631eb4ce729ec5f56f2206086a4ca4769c7f56a59bbe1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/material_review.rs",
+      "sha256": "d7df5fd5382679767d1c520a8f09e7efb6d77c50c28eddf9fccb2a111ef88471"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/observer.rs",
+      "sha256": "be963aeea84a49a07107a45443cf62ed593ee146b1159dfb0f3f7c53ea29b7c1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/ordinary_cleanup.rs",
+      "sha256": "a232ce21245d0173387ff5c1ccf5fb37d18b92143f0eb520ae4b47cd8feae4e5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "sha256": "365770ac956923e33047a71049479bfd35b23afecaaad607c928d850310269f4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/parallel_boundary.rs",
+      "sha256": "9644ca0ab5663b1f5b063259c49132f2a92b2242b5c710d32a66eed43728694c"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/preflight_review.rs",
+      "sha256": "7a5a1fa60cd2831b97178fcfa273bdcabd38e6a05e5c2353e5e49f77ad3a2656"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/project_governance.rs",
+      "sha256": "1d436c5706a3301733b5de8970a61e20cb95cadaa9e0dace5ff50566632c21d7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/receipt_store.rs",
+      "sha256": "13eb8688881d4bda69f9fc407012b7540405a6a2b56eb1c70ed105b95d9befe5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+      "sha256": "54cc775080774c8a25cfaf4db67595e38c7c3cfe4a1e42ad10f8f3156cb9c7e4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_events.rs",
+      "sha256": "103e2168901d56c73e0f464e980f20ab34cae364b8ea2664ce680751a232926e"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_revalidation.rs",
+      "sha256": "e9e74fc0929612511c8092bdbfb7296a623ce8d6b01395f1bcc5c4d83af449f6"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/repository_context.rs",
+      "sha256": "3897ff40f026a418abf9c11622625ee88a5a9b5393928873a5167f4a8670a7d3"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/resource_finalization.rs",
+      "sha256": "36cb6f839fb279a65f0f8f12ec4f655711fc7de5804b3dd003d6ccc4ba293bcc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+      "sha256": "73c8dc5d9f0156d7e63dfb36eb74b0e96cc0e165be494cd6c1e041003e4d7490"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+      "sha256": "d69a265a9c1429463efbea11e311691692e9e7fbd152fbeb3bb79f6cc9c5f118"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/scope_overlap.rs",
+      "sha256": "f9772102dbeaaa1fc3d479f3542b503e53a0f8430ca2b70b895113247e7dd4ff"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs",
+      "sha256": "932b617fff5c46558bf9c647cce6bce5816bb89d4430b83464c83ca79e036b3d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "sha256": "e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/supersede_archive.rs",
+      "sha256": "70644225d97da09aff5433438e713cdbcf32b77ecd80e413617dbdc8db7413ae"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/task_outcome_events.rs",
+      "sha256": "31f7c78ffe8c1267a9f49b6a0f05c34bb4806d503e7d0d37f81095b8d1b65b02"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "sha256": "34822defcf87255314461a071836b80cfaa91d30f4e85bfb27001de17ccba64a"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_attempts.rs",
+      "sha256": "c22a1d39762ec15bb7464e225d95e70aa4edcbd9351c22b76f21ae08668a62ba"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_command_selection.rs",
+      "sha256": "3685de15ae6c7b45f47688f235d3ed16d45b628380a057ac2675c350040adee0"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_context.rs",
+      "sha256": "a3564431d5abe8521b9051d872f887657e8558d22c67b6f5fe8a026535939ca7"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_route.rs",
+      "sha256": "92bf2c09c2fa1c14e1de9c1da40159d74e5ce130e4bfdf5b6cf5b7c06fc4e545"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "sha256": "107398c52468c4a4b3e88ad08df86145a6c013a4488cc576401cca5d53f842e2"
+    },
+    {
+      "path": "crates/cockpit-verification/Cargo.toml",
+      "sha256": "f41f90c7a12e3a62ea28ae9ca99703e2608da3f9f89d3b1acfe43462deda868b"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "sha256": "9a1aac3f76600cea29c45eac09bcf8702cb1b8bda8fcefff4faeb502ee77e4d7"
+    },
+    {
+      "path": "crates/cockpit-verification/src/development_cycle_cost.rs",
+      "sha256": "ad9ab889705cafe6815829e568dfe1d3f0bfb6f27e980aeda9c46755f14babf3"
+    },
+    {
+      "path": "crates/cockpit-verification/src/gate_plan.rs",
+      "sha256": "12d00219a0e3efd84d5571fe720a009743ce3a1d32f2b1b5759c352a4a8bd81c"
+    },
+    {
+      "path": "crates/cockpit-verification/src/lib.rs",
+      "sha256": "eef49ce5e6d4cb7b3e6a829232a5f054d574bc1ef60e6e5e443a1e30083e4ae0"
+    },
+    {
+      "path": "crates/cockpit-verification/src/runtime_benchmark_scenarios.rs",
+      "sha256": "c4dcff059b43c8c74940fe85c49b392c539be87a937e135595959382db72dfb4"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/affected_verification.rs",
+      "sha256": "e3e15ca88f8989b8b6b87b9cf4ff67fbc544e1d7d43f396f6cd6f0902d30b707"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "sha256": "3f877e056979aec50aaf537469a07b06ee9470b279f75ed432bc12f9c2be398c"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/cost_observation.rs",
+      "sha256": "868a2705562744b15a6214b21821d9655e99de14f0d3862ae1d94eb572edf975"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/development_cycle_cost.rs",
+      "sha256": "2a70af342b3b3bc36186ac3061566a6737e3ab1dd03dbeacd1dcc9cf6a20b028"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/diagnostic_summary.rs",
+      "sha256": "2adf27aced3b4da85b19b770748a818b8841a5187a01c85b917f6e35e86b27fa"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/execution.rs",
+      "sha256": "256931ca050e0b48500978f79cb063cc031385dbeab7839b922e680b0261d2a9"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/gate_plan_parity.rs",
+      "sha256": "f61be68b4e324f2d33fb6a085fc4b3452f89d855ca65bb30f06f961012e0e0e6"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/graph.rs",
+      "sha256": "f0e6868efb593775bbec18bf118af2b121bf47aab8a0f1aa43031bee2d8f65dc"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/intent_scenario_binding.rs",
+      "sha256": "36ccd96e30bd4cc936105d475a775ff6d100184bdb85a7d6bb61f6ec810061f3"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/physical_execution.rs",
+      "sha256": "4c15995a424de9e37ca0b8e58c6eaba88892b816caa65621ccf7a99c309581d9"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/policy_planner.rs",
+      "sha256": "b676cdeab26429c12ac5406f26fa847269b5d4df14db39654472409174ca6654"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/route_convergence.rs",
+      "sha256": "a64505fa063b63a72a7d4116b4381dd962d6e12903df9acd7c33a533520f75d6"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs",
+      "sha256": "5dd0255f76b45b55169fbb8272ab7d363d383917bee96fe908a888b6eaac994e"
+    },
+    {
+      "path": "docs/reference/agent-first-start.md",
+      "sha256": "bdd40ff11ea38b0fcf770687c9567856db94395336da4dd292b8c43ad362da07"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "a7a23801522d469e93021507fc88e9f5651056fce0e6aa22b3d3157c5f3dc6fe"
+    }
+  ]
+}

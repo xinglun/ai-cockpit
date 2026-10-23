@@ -1,0 +1,197 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-clippy.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-fmt.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-repository-material-review.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/mapping.agent-recorded.json",
+    ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-final-request-review-relayed.agent-recorded.json",
+    ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+    ".ai/work-items/active/WI-1089-blocked-outcome-material-review-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-10-19T04:29:52Z",
+  "checkpointContractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+      "recorded": true,
+      "recordedAt": "2026-10-19T04:29:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+      "previousContractHash": "sha256:6df4d519df7df6a8b60d1ca6c6fc7a4167cea1973eab035173b07a4f79928af6",
+      "reason": "After actual human:Ray residual-risk authorization, apply Raydot-approved tri-language parity registration and one exact bounded material-review opt-in, with repository material-review tests added to verification; preserve the seven existing source paths and all prior verification checks.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T05:11:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a1b9c98abd6508293e179e1cac71202f56646ac1ea77cf068b8056da54b9abdf",
+  "createdAt": "2026-10-19T04:22:04Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:09b50c73414c6cc5db4c81c858aa50309b331fdedd1119a89f4b922a9544bcb4",
+    "reason": "Ray replied literally confirm_review at 2026-10-19 05:14 UTC to Raydot request Sentinel_9074840549a08191bdbd7a70818ad851; reply Sentinel_033238439f408191837db4dff3eb632f. Agent:Codex records the relayed human decision; exact words, binding and provenance limit at .ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json. Confirms only amended Contract; not material review, verification, merge or close.",
+    "recordedAt": "2026-10-19T05:15:31Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a36bbecda9932a6635fb36c239e615b65bc3fc5299b014ce521d4963854cdb80",
+    "schemaVersion": 1,
+    "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/mapping.agent-recorded.json",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "docs/work-items/WI-1089-blocked-outcome-material-review-recovery.md",
+      ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/material-review-20261019/raydot-final-request-review-relayed.agent-recorded.json"
+    ],
+    "reason": "The bounded #1041 code path, declared work-item intent, exact material receipt, static review, and current-head development suites align. This is an intent-alignment mapping, not A5 composition or formal verification acceptance; both remain outstanding.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T04:22:04.808362362Z",
+      "recordedAt": "2026-10-19T04:22:04.808362362Z",
+      "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:6184a90951f00c8960d209db832f2da6cbf4d54effbbcdce2bff4d4cce02e1df",
+    "path": ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+    "receiptDigest": "sha256:aa129e3e471a216f8b9d2a8eb1950bc6e13c51e810527f855b4fcfb14c60d2ab",
+    "requestDigest": "sha256:c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-19T06:24:39Z",
+  "preflightContractDigest": "sha256:17c4100f053157817aa64257c2177e4c549e3f451ee03ecb7bf765957d864b07",
+  "preflightDecisionDigest": "sha256:c896acbb858cb4e442b1004ebf3ed650b60c62a38677deff3381dc10034ccc1b",
+  "preflightRepositorySnapshotDigest": "sha256:787d49f6b6b6a12762d453549866db9fd4cbd17fc3ae55c125a98d1174ed10e2",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.contract-amendments/00000002.committed.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/new-contract-review-20261019/human-contract-review-relayed.agent-recorded.json"
+      ],
+      "expected": "Persist real failed Outcome, amend sensitive Contract, obtain fresh preflight and identity-bound human review; old failure remains red.",
+      "required": true,
+      "scenario": "A1 blocked Outcome and amendment",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/material-inspection-review/WI-1089-blocked-outcome-material-review-recovery/c269e5e3173808d5496a9bf64acc5c1ee17c2cbf48a6e0b14b30bda58985e18a.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log"
+      ],
+      "expected": "Only current clean committed reviewable Rust syntax Unknown with no Finding and matched Contract preflight review request and policy admits independently accepted typed material decision.",
+      "required": true,
+      "scenario": "A2 exact material decision",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification-attempt.3c6aa690b0b31dacd7143e50df3a5de233a58ff3b3cfa3130ef5ea446c5a2206.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log"
+      ],
+      "expected": "Material receipt admits fresh Native verification; only actual passing receipt can supersede old failure for finish or archive and history remains readable.",
+      "required": true,
+      "scenario": "A3 real verification recovery",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-cli --test contract_amendment_processes"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/scenario-current-20261019/actual-formal-scenario-mapping.agent-recorded.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery.verification.json",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-status-projection.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-contract-amendment-processes.log",
+        ".ai/evidence/WI-1089-blocked-outcome-material-review-recovery/development-current-20261019/dev-current-mcp-material-review.log"
+      ],
+      "expected": "Dirty source unavailable projection Finding stale foreign tampered inputs or wrong retry remain rejected without business effects or extra governance writes.",
+      "required": true,
+      "scenario": "A4 rejection matrix",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test status_projection; cargo test --locked --package cockpit-mcp --test material_review"
+    },
+    {
+      "evidence": [],
+      "expected": "Composed HEAD retains the WI-1087 authority guard and both WI regression suites pass after serial integration.",
+      "required": true,
+      "scenario": "A5 serial WI-1087 composition",
+      "status": "unverified",
+      "verificationPlan": "On a separately admitted serial composed HEAD run repository status_projection and WI-1087 authority-admission regressions plus current Native verification and CI"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T06:09:32.700488018+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:e28be135010e0c7504500cc32a2a282477bdf4c15c58ef0e9277b5c6403ed264",
+  "workItemId": "WI-1089-blocked-outcome-material-review-recovery"
+}

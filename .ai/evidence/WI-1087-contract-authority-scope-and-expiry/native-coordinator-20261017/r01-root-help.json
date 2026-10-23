@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_current_environment_command_observation",
+  "command": [
+    "timeout",
+    "--signal=TERM",
+    "--kill-after=10s",
+    "890s",
+    "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+    "--help",
+    "--repo",
+    "/workspace/ai-cockpit"
+  ],
+  "cwd": "/workspace/ai-cockpit",
+  "startedAt": "2026-10-17T05:37:08.941573+00:00",
+  "processOnlyEnvironment": {
+    "PATH": "/workspace/.cloud-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/ai-cockpit/target/wi1087-rebuild-p1",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "RUST_TEST_THREADS": "1",
+    "RUST_TEST_NOCAPTURE": "1",
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER": "bash /workspace/ai-cockpit/tests/ci/run_process_observer_test_runner.sh"
+  },
+  "runtimePath": "/workspace/scratch/wi1087-rebuild-20261017/runtime-target/release/ai-cockpit",
+  "runtimeSha256": "0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4",
+  "sourceHead": "87643464e733ca9f65657659779e8f76c10bf3f3",
+  "productSourceHashes": {
+    "crates/cockpit-core/src/clock.rs": "81cbc5c3e3844439613c500cda18df960ccb0bdffa536b084d724ce2c6453bfd",
+    "crates/cockpit-core/src/lib.rs": "8ea99d4cadffa32e8d623bb257e94066d2faafcd1927ab304b079b0ec17231f3",
+    "crates/cockpit-protocol/src/lib.rs": "55e3a9459f2ac33fc33e089cd76e2edfb08099944d68e5eef3734eb9289fde18",
+    "crates/cockpit-repository/src/authority.rs": "a3ad0803318d919dd7db1d0d4d02d9c7ee278c3fb20c62c57ddaf1d9ca8e191d",
+    "crates/cockpit-repository/src/lib.rs": "65ebd92fc7f419ea328eb312d4bf254efab6c54d01d469351e28c245c3cddfea"
+  },
+  "exitCode": 0,
+  "endedAt": "2026-10-17T05:37:08.980747+00:00",
+  "elapsedSeconds": 0.006,
+  "stdout": {
+    "encoding": "base64",
+    "bytes": 1818,
+    "rawSha256": "sha256:bdaf59e9e365426da9b3e6b2196c1a4b9f64b16293253402a90b5f6679df8c65",
+    "data": "VXNhZ2U6IGFpLWNvY2twaXQgPENPTU1BTkQ+CgpDb21tYW5kczoKICBpbnNwZWN0ICAgICAgICAgICAgIAogIHByZWZsaWdodCAgICAgICAgICAgCiAgb2JzZXJ2ZSAgICAgICAgICAgICAKICBpc29sYXRpb24tbWFuaWZlc3QgIEVtaXQgYSBkZXRlcm1pbmlzdGljIEpTT05MIGZpbGVzeXN0ZW0gaXNvbGF0aW9uIG1hbmlmZXN0IGluIG9uZSBSdXN0IHByb2Nlc3MuIGAtLXBhdGhzLWZpbGVgIGFjY2VwdHMgYSBOVUwtZGVsaW1pdGVkIHNvdXJjZSBwYXRoIGxpc3Qgd2hlbiBHaXQsIHJhdGhlciB0aGFuIGEgd2hvbGUtdHJlZSB3YWxrLCBkZWZpbmVzIHRoZSBzb3VyY2UgYm91bmRhcnkKICBhdHRhY2ggICAgICAgICAgICAgIAogIHN0YXR1cyAgICAgICAgICAgICAgCiAgY29tcGF0aWJpbGl0eSAgICAgICAKICBtaWdyYXRlICAgICAgICAgICAgIAogIHN0YXJ0ICAgICAgICAgICAgICAgCiAgY2hlY2twb2ludCAgICAgICAgICAKICBmaW5pc2ggICAgICAgICAgICAgIAogIGFyY2hpdmUgICAgICAgICAgICAgCiAgYXJjaGl2ZS1oaXN0b3JpY2FsICBBcmNoaXZlIGNvbXBsZXRlIHNjaGVtYS12MiBldmlkZW5jZSBwcm9kdWNlZCBieSBhbiBvbGRlciBSdW50aW1lLiBUaGlzIGV4cGxpY2l0IGNvbXBhdGliaWxpdHkgcm91dGUgZG9lcyBub3QgcmVydW4gc291cmNlIHZlcmlmaWNhdGlvbjsgZmluYWxpemF0aW9uIGFuZCBjbG9zZSByZW1haW4gcmVxdWlyZWQgYWZ0ZXIgYXJjaGl2ZQogIGNsb3NlICAgICAgICAgICAgICAgCiAgdmVyaWZ5ICAgICAgICAgICAgICAKICBnYXRlICAgICAgICAgICAgICAgIEV2YWx1YXRlIHRoZSBDb250cmFjdC9wb2xpY3kgcm91dGUgd2l0aG91dCB3cml0aW5nIHJlcG9zaXRvcnkgZ292ZXJuYW5jZSBldmlkZW5jZS4gIENJIHVzZXMgdGhpcyBiZWZvcmUgZXhlY3V0aW5nIGl0cyBjb21tYW5kIGdhdGUKICBnYXRlLXJlcG9ydCAgICAgICAgIFZhbGlkYXRlIGFuIGV4aXN0aW5nIENvbnRyYWN0IHF1YWxpdHktZ2F0ZSByZXBvcnQgYWdhaW5zdCBpdHMgcmVwb3NpdG9yeS1ib3VuZCByb3V0ZSByZWNlaXB0IHdpdGhvdXQgZXhlY3V0aW5nIGFueSBnYXRlcwogIGdhdGUtcGxhbiAgICAgICAgICAgQnVpbGQgb3IgdmFsaWRhdGUgdGhlIHNoYXJlZCBSdXN0IENJIGdhdGUgcGxhbi4gIFRoZSBjb21wYXRpYmlsaXR5IFB5dGhvbiByb3V0ZSBtYXkgZGVsZWdhdGUgaGVyZSBzbyBwcm9kdWN0aW9uIGFuZCByZWdyZXNzaW9uIHBhdGhzIHVzZSBvbmUgbWFuaWZlc3QvcnVsZSBpbXBsZW1lbnRhdGlvbgogIHJlbGVhc2UtcGxhbiAgICAgICAgUmVzb2x2ZSBhIHR5cGVkLCBpZGVudGl0eS1ib3VuZCByZWxlYXNlIHJlcXVlc3QgaW50byBvbmUgY2Fub25pY2FsIFJlbGVhc2VQbGFuIGVudmVsb3BlLiBUaGlzIGNvbW1hbmQgcGVyZm9ybXMgbm8gYnVpbGQsIHZlcmlmaWNhdGlvbiwgb3IgcHVibGljYXRpb24gd29yawogIGV2aWRlbmNlICAgICAgICAgICAgCiAgYXVkaXQgICAgICAgICAgICAgICAKICB3b3JrLWl0ZW0gICAgICAgICAgIAogIGNhcGFiaWxpdHkgICAgICAgICAgCiAgZGlhZ25vc2UgICAgICAgICAgICAKICBrbm93bGVkZ2UgICAgICAgICAgIAogIHByb2ZpbGUgICAgICAgICAgICAgCiAgbWNwICAgICAgICAgICAgICAgICAKICBkb2N0b3IgICAgICAgICAgICAgIAogIGFnZW50ICAgICAgICAgICAgICAgCiAgaGVscCAgICAgICAgICAgICAgICBQcmludCB0aGlzIG1lc3NhZ2Ugb3IgdGhlIGhlbHAgb2YgdGhlIGdpdmVuIHN1YmNvbW1hbmQocykKCk9wdGlvbnM6CiAgLWgsIC0taGVscCAgICAgUHJpbnQgaGVscAogIC1WLCAtLXZlcnNpb24gIFByaW50IHZlcnNpb24K"
+  },
+  "stderr": {
+    "encoding": "base64",
+    "bytes": 0,
+    "rawSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "data": ""
+  }
+}

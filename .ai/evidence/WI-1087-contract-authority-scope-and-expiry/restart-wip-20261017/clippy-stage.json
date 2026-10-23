@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_summary_of_actual_current_commands",
+  "sourceHead": "07c0f33e67d8f2007432a8e9450c3de986a9907e",
+  "observation": "f04-clippy.json",
+  "clippy": "passed",
+  "arguments": [
+    "clippy",
+    "--locked",
+    "-p",
+    "cockpit-core",
+    "-p",
+    "cockpit-protocol",
+    "-p",
+    "cockpit-repository",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "formalVerification": "not_run",
+  "recordedAt": "2026-10-17T04:58:53.928225+00:00"
+}

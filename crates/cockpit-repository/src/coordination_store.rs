@@ -75,6 +75,7 @@ struct ObservedEventEvidence {
 
 #[derive(Clone, Debug)]
 pub struct CoordinationStore {
+    repository_root: PathBuf,
     root: PathBuf,
     common_dir: PathBuf,
     runtime: RuntimeCapabilityBinding,
@@ -94,6 +95,7 @@ impl CoordinationStore {
             "requests",
             "recoveries",
         ] {
+            store.check_authority()?;
             fs::create_dir_all(store.root.join(directory)).map_err(|source| {
                 CoordinationError::Io {
                     path: store.root.join(directory),
@@ -108,6 +110,8 @@ impl CoordinationStore {
         repository: &GitRepository,
         runtime: RuntimeCapabilityBinding,
     ) -> Result<Self, CoordinationError> {
+        crate::authority_admission::require_goal_authority_access(repository.root(), None)
+            .map_err(|error| CoordinationError::RecoveryRequired(error.to_string()))?;
         runtime.validate_candidate()?;
         let topology = repository
             .topology()
@@ -116,11 +120,30 @@ impl CoordinationStore {
                 source: std::io::Error::other(source.to_string()),
             })?;
         let root = topology.common_dir.join(".ai-cockpit/coordination/v1");
-        Ok(Self {
+        let store = Self {
+            repository_root: repository.root().to_path_buf(),
             root,
             common_dir: topology.common_dir,
             runtime,
-        })
+        };
+        store.check_authority()?;
+        Ok(store)
+    }
+
+    /// Request-only denial. This is not a source lease or trusted enrollment.
+    pub(crate) fn check_authority(&self) -> Result<(), CoordinationError> {
+        crate::authority_admission::require_goal_authority_access(&self.repository_root, None)
+            .map_err(|error| CoordinationError::RecoveryRequired(error.to_string()))?;
+        if self
+            .common_dir
+            .file_name()
+            .is_some_and(|name| name == ".git")
+            && let Some(common_root) = self.common_dir.parent()
+        {
+            crate::authority_admission::require_goal_authority_access(common_root, None)
+                .map_err(|error| CoordinationError::RecoveryRequired(error.to_string()))?;
+        }
+        Ok(())
     }
 
     pub fn root(&self) -> &Path {
@@ -141,6 +164,7 @@ impl CoordinationStore {
         &self,
         registration: WorktreeRegistration,
     ) -> Result<WorktreeRegistration, CoordinationError> {
+        self.check_authority()?;
         self.register_with_contract_reader(registration, |root, reference| {
             crate::collaboration::read_registered_worktree_file(root, reference)
         })
@@ -154,6 +178,12 @@ impl CoordinationStore {
     where
         F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
     {
+        self.check_authority()?;
+        crate::authority_admission::require_goal_authority_access(
+            Path::new(&registration.worktree_path),
+            None,
+        )
+        .map_err(|error| CoordinationError::RecoveryRequired(error.to_string()))?;
         self.runtime.validate_candidate()?;
         validate_registration(&registration)?;
         if !registration.runtime.same_identity(&self.runtime) {
@@ -284,6 +314,7 @@ impl CoordinationStore {
         &self,
         event: CoordinationEvent,
     ) -> Result<CoordinationEvent, CoordinationError> {
+        self.check_authority()?;
         if event.environment_change.is_some() {
             return Err(CoordinationError::RecoveryRequired(
                 "environment drift events must use the Runtime observation entry point".into(),
@@ -304,6 +335,7 @@ impl CoordinationStore {
         &self,
         request: &EnvironmentDriftRequest,
     ) -> Result<Option<CoordinationEvent>, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         request.validate()?;
         if !self.runtime.supports_environment_drift() {
@@ -320,6 +352,7 @@ impl CoordinationStore {
         &self,
         request: &EnvironmentDriftRequest,
     ) -> Result<bool, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         request.validate()?;
         if !self.runtime.supports_environment_drift() {
@@ -386,6 +419,7 @@ impl CoordinationStore {
         &self,
         request: &EnvironmentDriftRequest,
     ) -> Result<Option<CoordinationEvent>, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         request.validate()?;
         if !self.runtime.supports_environment_drift() {
@@ -503,6 +537,7 @@ impl CoordinationStore {
             &BTreeMap<String, Vec<u8>>,
         ) -> Result<(), CoordinationError>,
     {
+        self.check_authority()?;
         if event.kind != cockpit_protocol::CoordinationEventKind::OutcomePublished {
             return Err(CoordinationError::RecoveryRequired(
                 "typed Outcome publication accepts only OutcomePublished events".into(),
@@ -560,6 +595,7 @@ impl CoordinationStore {
         &self,
         mut event: CoordinationEvent,
     ) -> Result<CoordinationEvent, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         validate_event(&event)?;
         self.with_lock(|| {
@@ -593,6 +629,7 @@ impl CoordinationStore {
         &self,
         event: CoordinationEvent,
     ) -> Result<CoordinationEvent, CoordinationError> {
+        self.check_authority()?;
         let path = self
             .root
             .join("events")
@@ -612,6 +649,7 @@ impl CoordinationStore {
         &self,
         reservation: ResourceReservation,
     ) -> Result<ResourceReservation, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         validate_reservation(&reservation)?;
         self.with_lock(|| {
@@ -702,6 +740,7 @@ impl CoordinationStore {
         work_item_id: &str,
         generation: u64,
     ) -> Result<(), CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         self.with_lock(|| {
             let path = self
@@ -760,6 +799,7 @@ impl CoordinationStore {
         &self,
         request: CoordinationRequest,
     ) -> Result<CoordinationRequest, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         if request.schema_version != COLLABORATION_SCHEMA_VERSION {
             return Err(CoordinationError::RecoveryRequired(
@@ -823,6 +863,7 @@ impl CoordinationStore {
         request_id: &str,
         state: CoordinationRequestState,
     ) -> Result<CoordinationRequest, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         if !valid_component(request_id) {
             return Err(CoordinationError::RecoveryRequired(
@@ -883,6 +924,7 @@ impl CoordinationStore {
         consumer_work_item_id: &str,
         consumer_generation: u64,
     ) -> Result<CoordinationRecovery, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         if !valid_component(event_id)
             || !valid_component(consumer_work_item_id)
@@ -966,6 +1008,7 @@ impl CoordinationStore {
     }
 
     pub fn inspect(&self) -> Result<CoordinationInspection, CoordinationError> {
+        self.check_authority()?;
         self.runtime.validate_candidate()?;
         let mut inspection = CoordinationInspection {
             registrations: Vec::new(),
@@ -1023,6 +1066,7 @@ impl CoordinationStore {
     }
 
     pub fn recover(&self) -> Result<RecoveryReport, CoordinationError> {
+        self.check_authority()?;
         let inspection = self.inspect()?;
         Ok(RecoveryReport {
             unknowns: inspection.unknowns,
@@ -1038,6 +1082,7 @@ impl CoordinationStore {
         &self,
         registration: &WorktreeRegistration,
     ) -> Result<(), CoordinationError> {
+        self.check_authority()?;
         self.validate_registration_facts_with_contract_reader(
             registration,
             &mut |root, reference| {
@@ -1050,6 +1095,7 @@ impl CoordinationStore {
         &self,
         registration: &WorktreeRegistration,
     ) -> Result<EnvironmentObservation, CoordinationError> {
+        self.check_authority()?;
         let context =
             crate::RepositoryExecutionContext::capture(Path::new(&registration.worktree_path))
                 .map_err(|error| {
@@ -1074,6 +1120,7 @@ impl CoordinationStore {
     where
         F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
     {
+        self.check_authority()?;
         validate_registration(registration)?;
         let worktree = Path::new(&registration.worktree_path);
         let canonical_worktree = fs::canonicalize(worktree).map_err(|source| {
@@ -1202,6 +1249,7 @@ impl CoordinationStore {
         event: &CoordinationEvent,
         registration: &WorktreeRegistration,
     ) -> Result<(), CoordinationError> {
+        self.check_authority()?;
         if event.repository_id != registration.repository_id
             || event.generation > registration.generation
         {
@@ -1282,6 +1330,7 @@ impl CoordinationStore {
         path: &Path,
         recovery: &CoordinationRecovery,
     ) -> Result<(), CoordinationError> {
+        self.check_authority()?;
         validate_recovery_identity(recovery)?;
         if path.file_stem().and_then(|stem| stem.to_str()) != Some(recovery.consumption_id.as_str())
         {
@@ -1394,6 +1443,7 @@ impl CoordinationStore {
         &self,
         registration: &WorktreeRegistration,
     ) -> Result<(), CoordinationError> {
+        self.check_authority()?;
         let path =
             self.registration_history_path(&registration.work_item_id, registration.generation);
         let parent = path.parent().expect("registration history has parent");
@@ -1425,6 +1475,7 @@ impl CoordinationStore {
         event: &CoordinationEvent,
         registration: &WorktreeRegistration,
     ) -> Result<BTreeMap<String, Digest>, CoordinationError> {
+        self.check_authority()?;
         self.observed_event_evidence_bytes(event, registration)
             .map(|observed| observed.digests)
     }
@@ -1434,6 +1485,7 @@ impl CoordinationStore {
         event: &CoordinationEvent,
         registration: &WorktreeRegistration,
     ) -> Result<ObservedEventEvidence, CoordinationError> {
+        self.check_authority()?;
         self.validate_event_facts(event, registration)?;
         let root = Path::new(&registration.worktree_path);
         let mut digests = BTreeMap::new();
@@ -1456,6 +1508,7 @@ impl CoordinationStore {
     }
 
     fn read_reservations(&self) -> Result<Vec<ResourceReservation>, CoordinationError> {
+        self.check_authority()?;
         let mut values = Vec::new();
         let path = self.root.join("reservations");
         for entry in fs::read_dir(&path).map_err(|source| CoordinationError::Io {
@@ -1483,6 +1536,7 @@ impl CoordinationStore {
     where
         F: FnMut(&Path) -> Result<(), CoordinationError>,
     {
+        self.check_authority()?;
         let path = self.root.join(directory);
         let entries = match fs::read_dir(&path) {
             Ok(entries) => entries,
@@ -1511,6 +1565,7 @@ impl CoordinationStore {
     }
 
     fn read_json<T: DeserializeOwned>(&self, path: &Path) -> Result<T, CoordinationError> {
+        self.check_authority()?;
         let metadata = fs::symlink_metadata(path).map_err(|source| CoordinationError::Io {
             path: path.to_path_buf(),
             source,
@@ -1532,6 +1587,7 @@ impl CoordinationStore {
     }
 
     fn atomic_write<T: Serialize>(&self, path: &Path, value: &T) -> Result<(), CoordinationError> {
+        self.check_authority()?;
         let bytes = serde_json::to_vec_pretty(value).map_err(|source| {
             CoordinationError::InvalidRecord {
                 path: path.to_path_buf(),
@@ -1559,6 +1615,7 @@ impl CoordinationStore {
             path: temporary.clone(),
             source,
         })?;
+        self.check_authority()?;
         fs::rename(&temporary, path).map_err(|source| CoordinationError::Io {
             path: path.to_path_buf(),
             source,
@@ -1569,6 +1626,7 @@ impl CoordinationStore {
     where
         F: FnOnce() -> Result<T, CoordinationError>,
     {
+        self.check_authority()?;
         let lock_path = self.root.join(".lock");
         let lock = open_lock_file(&lock_path)?;
         let started = Instant::now();
@@ -1591,6 +1649,7 @@ impl CoordinationStore {
                 }
             }
         }
+        self.check_authority()?;
         let result = operation();
         drop(lock);
         result
