@@ -2491,7 +2491,10 @@ pub(crate) fn current_amendment_review_request_available(
     };
     validate_transition_chain(root, work_item_id, &history, None)?;
     if tail.new_contract_digest != *current_contract_digest
-        || !history.iter().any(|receipt| receipt.policy_review_required)
+        // A once-permitted delegated tail may require a normal fresh human
+        // review after current policy tightens. Keep the same complete native
+        // chain/checkpoint checks; do not rely only on its historical flag.
+        || !has_sensitive_amendment(root, work_item_id)?
         || !tail.checkpointed
         || summary["checkpointCount"] != json!(1)
         || !matches!(
