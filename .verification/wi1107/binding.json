@@ -3,22 +3,22 @@
   "purpose": "One fixed-official-Runtime formal verification of frozen WI-1107 in an isolated GitHub hosted checkout; no candidate self-approval, merge, release, close or activation.",
   "workItemId": "WI-1107-delegated-development-review",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "sourceHead": "6c441387f581cfdd0d4c6d6fba34c6179d65879a",
+  "sourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6",
   "sourceBase": "717af7539ef38cde6f9c4fe2bb2b9006e8768d5c",
   "sourceBranch": "codex/wi-1107-delegated-development-review",
   "validationBranch": "codex/wi-1107-actions-verification",
   "contractPath": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
   "summaryPath": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
   "contractDigest": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
-  "sourceSnapshotDigest": "sha256:16f9f39f4d86a5708c1ba7b8018675dc73879c360f9996203fb691f9eb737b35",
+  "sourceSnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
   "runtimeVersion": "1.0.1",
   "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
   "runtimeReleaseUrl": "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.1/ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz",
   "runtimeArchiveSHA256": "a8f68bba617975003e96ba07ec346fa49e323ae0b8e433eb2aca5a5f8f1ed879",
   "nativeArchive": {
     "path": "native-input.tar.gz",
-    "bytes": 206770,
-    "sha256": "9fcb6118dc9bddbe099fb168c2f9bc13aa87036b5af2adc3ac49987e9f310ffb"
+    "bytes": 206248,
+    "sha256": "983dd2c99657c3c8fba3c642c26acec55de346d23609449354d1c43dd5c9cd23"
   },
   "sourceFiles": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
-      "sha256": "92049cf3d7fb8f8440c91fd8d4999c10635ca11d270a16f9be70b37d30d9613e"
+      "sha256": "705a4ed9628bfc5daedb0df547803f0ddb0f11eb351929be85c0286d3a665bbd"
     },
     {
       "path": "crates/cockpit-mcp/src/lib.rs",
@@ -167,7 +167,7 @@
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
       "bytes": 16013,
-      "sha256": "e432f553288d9f2c200fd94793f0ee8d2291cd8dea68f4e2edd64f7e960f0a9a"
+      "sha256": "91b41a90d4fc1d15b21cfb331a8174bf571868c551c4b5fa5c25d02db97740e1"
     }
   ],
   "expectedRequests": [
@@ -714,19 +714,41 @@
   "rustToolchain": "1.98.1",
   "explicitCargoProfileOverrides": false,
   "publicationAuthority": {
-    "source": "actual-user-message:Sentinel_c4d452d29e288191b1faf2df6c6850a5",
-    "userMessageTimeKnown": "2026-10-23 17:16 UTC, minute precision",
+    "source": "actual-user-message:Sentinel_c0aff90770d881918f38219d9609dd14",
+    "userMessageTimeKnown": "2026-10-23 20:47 UTC, minute precision",
     "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
-    "preparationRecordedAt": "2026-10-23T17:26:44.187471+00:00",
-    "noIndependentIdentityAuthenticationClaimed": true
+    "preparationRecordedAt": "2026-10-23T20:48:56.306129+00:00",
+    "noIndependentIdentityAuthenticationClaimed": true,
+    "scope": "Publish exact f82e9159552cddac7b03fd912e2d43480595e8d6 and only necessary helper references/binding/native inputs for one original-nine fixed-b2 hosted verification. No merge/release/production."
   },
   "preservation": {
     "oldNativeFailureAttemptsRemainByteIdentical": true,
     "oldConfirmationsRemainByteIdentical": true,
     "privateRedAndStraceLogsNotPublished": true,
     "runnerUsesNaturalHome": true,
-    "noTestsOrAssertionsOrScannerChanged": true
+    "noTestsOrAssertionsOrScannerChanged": true,
+    "appliesToFrozenSourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6"
   },
   "interpretation": "Job success is insufficient. Fixed b2 must emit passed current canonical evidence with a unique new successful execution_completed native attempt, every original node executed, zero reuse, and current Runtime status verified/fresh. No finish or archive is performed by this helper.",
-  "executionEnvironmentPolicy": "Fixed b2 and all verification children receive a single finite noncredential environment. Natural HOME/PATH/toolchain values retained; omitted host key names recorded without values. Complete ordered effective environment and canonical cwd are saved for command identity reconstruction. No inherited Cargo profile overrides and no host tokens in Runtime/tests."
+  "executionEnvironmentPolicy": "Fixed b2 and all verification children receive a single finite noncredential environment. Natural HOME/PATH/toolchain values retained; omitted host key names recorded without values. Complete ordered effective environment and canonical cwd are saved for command identity reconstruction. No inherited Cargo profile overrides and no host tokens in Runtime/tests.",
+  "priorPublicationAuthorities": [
+    {
+      "source": "actual-user-message:Sentinel_c4d452d29e288191b1faf2df6c6850a5",
+      "userMessageTimeKnown": "2026-10-23 17:16 UTC, minute precision",
+      "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
+      "preparationRecordedAt": "2026-10-23T17:26:44.187471+00:00",
+      "noIndependentIdentityAuthenticationClaimed": true
+    }
+  ],
+  "approvedSourceDeltaFromPreviousFreeze": {
+    "previousSourceHead": "6c441387f581cfdd0d4c6d6fba34c6179d65879a",
+    "sourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6",
+    "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+    "insertions": 114,
+    "deletions": 0,
+    "existingFileBytesPreservedAsPrefix": true,
+    "productionChanged": false,
+    "priorRunId": 39996810841,
+    "priorSuccessAppliesOnlyToPreviousSource": true
+  }
 }
