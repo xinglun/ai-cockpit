@@ -90,8 +90,7 @@ fn preflight(root: &Path) -> cockpit_repository::PreflightResult {
     .expect("preflight")
 }
 
-fn owner_review(root: &Path) {
-    preflight(root);
+fn record_fixture_owner_decision(root: &Path) {
     let c = document(root, "contract");
     let s = document(root, "summary");
     record_work_item_governance_controls_with_runtime(root,WI,&json!({"decisionEvidence":{
@@ -101,6 +100,11 @@ fn owner_review(root: &Path) {
         "recordedAt":"2026-10-23T00:00:00Z", "recordedBy":"human:synthetic-fixture",
         "reason":"isolated local provenance fixture; no external identity authenticated"
     }}),&runtime()).expect("synthetic formal owner review");
+}
+
+fn owner_review(root: &Path) {
+    preflight(root);
+    record_fixture_owner_decision(root);
     preflight(root);
     checkpoint_work_item(root, WI).expect("checkpoint");
 }
@@ -277,7 +281,7 @@ fn a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command() {
     let r = request(
         root.path(),
         "scenario",
-        json!([{"path":"/scenarioCoverage","operation":"add","value":{
+        ::serde_json::json!([{"path":"/scenarioCoverage","operation":"add","value":{
         "scenario":"added-regression","required":true,"status":"unverified","evidence":[],
         "expected":"the new regression executes","verificationPlan":"git diff --check"}}]),
     );
@@ -294,7 +298,7 @@ fn a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command() {
     let r = request(
         root.path(),
         "next-command",
-        json!([{"path":"/verification","operation":"add","value":"git status --porcelain"}]),
+        ::serde_json::json!([{"path":"/verification","operation":"add","value":"git status --porcelain"}]),
     );
     assert_eq!(
         amend(root.path(), &r).expect("second delegated amendment")["policyReviewRequired"],
@@ -347,16 +351,15 @@ fn empty_existing_plan_can_be_filled_but_a_nonempty_plan_cannot_be_rewritten() {
 fn renamed_deleted_or_tampered_owner_receipt_invalidates_native_delegation() {
     for change in ["rename", "delete", "tamper"] {
         let root = fixture(true);
-        owner_review(root.path());
+        let root_path: &::std::path::Path = root.path();
+        owner_review(root_path);
         let r = request(
-            root.path(),
+            root_path,
             "first",
             json!([{"path":"/verification","operation":"add","value":"git status --porcelain"}]),
         );
-        amend(root.path(), &r).expect("first delegated change");
-        let path = root
-            .path()
-            .join(format!(".ai/decisions/{WI}.preflight-review.json"));
+        amend(root_path, &r).expect("first delegated change");
+        let path = root_path.join(format!(".ai/decisions/{WI}.preflight-review.json"));
         match change {
             "rename" => {
                 fs::rename(&path, path.with_extension("renamed.json")).expect("rename fixture")
@@ -365,7 +368,7 @@ fn renamed_deleted_or_tampered_owner_receipt_invalidates_native_delegation() {
             _ => fs::write(&path, b"{}").expect("tamper fixture"),
         }
         assert!(
-            read_work_item_contract_amendments(root.path(), WI).is_err(),
+            read_work_item_contract_amendments(root_path, WI).is_err(),
             "{change}"
         );
     }
@@ -597,6 +600,19 @@ fn actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy(
 #[test]
 fn stronger_current_policy_preserves_history_and_normal_fresh_human_recovery() {
     let root = fixture(true);
+    let path = root
+        .path()
+        .join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let mut baseline = document(root.path(), "contract");
+    baseline["governanceProfile"]["developmentReview"]["preapprovedCommands"]
+        .as_array_mut()
+        .expect("finite baseline commands")
+        .push(json!("git diff --name-only"));
+    fs::write(
+        path,
+        serde_json::to_vec(&baseline).expect("synthetic initial baseline"),
+    )
+    .expect("third preapproved fixture command");
     owner_review(root.path());
     let r = request(
         root.path(),
@@ -628,21 +644,30 @@ fn stronger_current_policy_preserves_history_and_normal_fresh_human_recovery() {
         root.path(),
         "after-policy-strengthening",
         json!([
-            {"path":"/verification","operation":"add","value":"git diff --check"}
+            {"path":"/verification","operation":"add","value":"git diff --name-only"}
         ]),
     );
+    let error =
+        amend(root.path(), &r).expect_err("current stronger policy denies a new agent amendment");
     assert!(
-        amend(root.path(), &r).is_err(),
-        "current stronger policy denies a new agent amendment"
+        error
+            .to_string()
+            .contains("current human/provider/multi-party policy"),
+        "{error}"
     );
     assert_eq!(state_bytes(root.path()), before);
-    owner_review(root.path());
+    record_fixture_owner_decision(root.path());
+    let recovered = work_item_status_snapshot_with_runtime(root.path(), WI, &runtime())
+        .expect("normal read-only current admission");
     assert!(
-        preflight(root.path())
-            .decision
-            .human_decision_request
-            .is_none(),
+        !recovered.human_decision_required,
         "normal fresh human review can recover"
+    );
+    assert!(
+        recovered
+            .safe_actions
+            .iter()
+            .any(|a| a == "run_verification")
     );
     let mut ordinary = r;
     ordinary.development_review = None;
@@ -656,12 +681,15 @@ fn stronger_current_policy_preserves_history_and_normal_fresh_human_recovery() {
             .human_decision_request
             .is_some()
     );
-    owner_review(root.path());
+    record_fixture_owner_decision(root.path());
+    let recovered = work_item_status_snapshot_with_runtime(root.path(), WI, &runtime())
+        .expect("fresh human review for ordinary amendment");
+    assert!(!recovered.human_decision_required);
     assert!(
-        preflight(root.path())
-            .decision
-            .human_decision_request
-            .is_none()
+        recovered
+            .safe_actions
+            .iter()
+            .any(|a| a == "run_verification")
     );
     assert_eq!(
         fs::read(

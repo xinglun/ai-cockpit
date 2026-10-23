@@ -4922,6 +4922,7 @@ fn confirm_delegated_fixture_owner(root: &Path, wi: &str) {
 #[test]
 fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() {
     let root = repository();
+    let root_path: &::std::path::Path = root.path();
     let wi = "WI-CLI-DELEGATED-FLOW";
     let policy = json!({"schemaVersion":1,"reviewerActor":"agent:fixture","authoritySource":"user:synthetic-flow",
         "allowedChanges":["append_verification"],"preapprovedCommands":["git status --porcelain", "git ls-files --error-unmatch retry-fixture.txt"]});
@@ -4934,7 +4935,7 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
     let start = run_cli(&[
         "start",
         "--repo",
-        root.path().to_str().expect("path"),
+        root_path.to_str().expect("path"),
         "--id",
         wi,
         "--intent",
@@ -4959,15 +4960,13 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
         started["preflight"]["humanDecisionRequest"].is_object(),
         "{started}"
     );
-    confirm_delegated_fixture_owner(root.path(), wi);
-    let contract_path = root
-        .path()
-        .join(format!(".ai/work-items/active/{wi}.contract.json"));
+    confirm_delegated_fixture_owner(root_path, wi);
+    let contract_path = root_path.join(format!(".ai/work-items/active/{wi}.contract.json"));
     assert_success(
         &run_cli(&[
             "preflight",
             "--repo",
-            root.path().to_str().expect("path"),
+            root_path.to_str().expect("path"),
             "--contract",
             contract_path.to_str().expect("Contract path"),
         ]),
@@ -4977,34 +4976,33 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
         &run_cli(&[
             "checkpoint",
             "--repo",
-            root.path().to_str().expect("path"),
+            root_path.to_str().expect("path"),
             "--id",
             wi,
         ]),
         "checkpoint",
     );
-    fs::create_dir_all(root.path().join("docs/work-items")).expect("fixture docs");
-    fs::create_dir_all(root.path().join("docs/reference")).expect("fixture parity");
+    fs::create_dir_all(root_path.join("docs/work-items")).expect("fixture docs");
+    fs::create_dir_all(root_path.join("docs/reference")).expect("fixture parity");
     for suffix in ["", ".zh-CN", ".ja"] {
-        fs::write(root.path().join(format!("docs/work-items/{wi}{suffix}.md")),format!("---\nworkItemId: {wi}\nlastVerifiedBy: {wi}\nstatus: in_progress\n---\nSynthetic bounded-development fixture; no delivered capability.\n")).expect("required fixture projection");
+        fs::write(root_path.join(format!("docs/work-items/{wi}{suffix}.md")),format!("---\nworkItemId: {wi}\nlastVerifiedBy: {wi}\nstatus: in_progress\n---\nSynthetic bounded-development fixture; no delivered capability.\n")).expect("required fixture projection");
         fs::write(
-            root.path()
-                .join(format!("docs/reference/reference-parity{suffix}.md")),
+            root_path.join(format!("docs/reference/reference-parity{suffix}.md")),
             format!("| {wi} | In progress | synthetic fixture |\n"),
         )
         .expect("required fixture parity");
     }
 
-    git(root.path(), &["add", "docs"]);
+    git(root_path, &["add", "docs"]);
     git(
-        root.path(),
+        root_path,
         &["commit", "-qm", "in-scope fixture documentation"],
     );
     assert_success(
         &run_cli(&[
             "preflight",
             "--repo",
-            root.path().to_str().expect("path"),
+            root_path.to_str().expect("path"),
             "--contract",
             contract_path.to_str().expect("path"),
         ]),
@@ -5013,12 +5011,10 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
 
     let before: Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("Contract")).expect("JSON");
-    let owner_path = root
-        .path()
-        .join(format!(".ai/decisions/{wi}.preflight-review.json"));
+    let owner_path = root_path.join(format!(".ai/decisions/{wi}.preflight-review.json"));
     let owner_bytes = fs::read(&owner_path).expect("owner receipt");
     let amended = mcp_call(
-        root.path(),
+        root_path,
         &candidate_runtime(),
         "work_item_amend",
         json!({"workItemId":wi,"request":{
@@ -5035,7 +5031,7 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
     let output = run_cli(&[
         "preflight",
         "--repo",
-        root.path().to_str().expect("path"),
+        root_path.to_str().expect("path"),
         "--contract",
         contract_path.to_str().expect("path"),
     ]);
@@ -5044,7 +5040,7 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
             "work-item",
             "status",
             "--repo",
-            root.path().to_str().expect("path"),
+            root_path.to_str().expect("path"),
             "--id",
             wi,
             "--json",
@@ -5060,12 +5056,12 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
     let output = run_cli(&[
         "verify",
         "--repo",
-        root.path().to_str().expect("path"),
+        root_path.to_str().expect("path"),
         "--work-item",
         wi,
     ]);
     assert_success(&output, "fresh delegated verify");
-    let attempt_dir = root.path().join(".ai/evidence");
+    let attempt_dir = root_path.join(".ai/evidence");
     let attempts: Vec<Value> = fs::read_dir(&attempt_dir)
         .expect("evidence")
         .map(|e| e.expect("entry").path())
@@ -5091,7 +5087,7 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
     let contract: Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("Contract")).expect("JSON");
     let extra = mcp_call(
-        root.path(),
+        root_path,
         &candidate_runtime(),
         "work_item_amend",
         json!({"workItemId":wi,"request":{
@@ -5110,7 +5106,7 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
         &run_cli(&[
             "preflight",
             "--repo",
-            root.path().to_str().expect("path"),
+            root_path.to_str().expect("path"),
             "--contract",
             contract_path.to_str().expect("path"),
         ]),
@@ -5119,7 +5115,7 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
     let failed = run_cli(&[
         "verify",
         "--repo",
-        root.path().to_str().expect("path"),
+        root_path.to_str().expect("path"),
         "--work-item",
         wi,
     ]);
@@ -5127,7 +5123,7 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
         !failed.status.success(),
         "missing tracked fixture must produce a real command failure"
     );
-    let evidence = root.path().join(".ai/evidence");
+    let evidence = root_path.join(".ai/evidence");
     let failed_files: Vec<_> = fs::read_dir(&evidence)
         .expect("evidence")
         .map(|e| e.expect("entry").path())
@@ -5144,16 +5140,13 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
         .collect();
     assert_eq!(failed_files.len(), 1);
     fs::write(
-        root.path().join("retry-fixture.txt"),
+        root_path.join("retry-fixture.txt"),
         "satisfy the already approved check\n",
     )
     .expect("in-scope correction");
-    git(root.path(), &["add", "retry-fixture.txt"]);
-    git(
-        root.path(),
-        &["commit", "-qm", "correct the scoped fixture"],
-    );
-    let active = root.path().join(".ai/work-items/active");
+    git(root_path, &["add", "retry-fixture.txt"]);
+    git(root_path, &["commit", "-qm", "correct the scoped fixture"]);
+    let active = root_path.join(".ai/work-items/active");
     let c: Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("Contract")).expect("JSON");
     let summary: Value = serde_json::from_slice(
@@ -5161,8 +5154,8 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
     )
     .expect("JSON");
     let runtime = candidate_runtime();
-    let mut retry = json!({
-        "schemaVersion":1,"decisionId":"work-item-recovery","decision":"retry","workItemId":wi,"repositoryId":repository_id(root.path()),
+    let mut retry = ::serde_json::json!({
+        "schemaVersion":1,"decisionId":"work-item-recovery","decision":"retry","workItemId":wi,"repositoryId":repository_id(root_path),
         "predecessorWorkItemId":wi,"predecessorContractDigest":cockpit_protocol::digest_json(&c).expect("digest"),
         "predecessorSummaryDigest":cockpit_protocol::digest_json(&summary).expect("digest"),
         "runtimeVersion":runtime.runtime_version,"runtimeDigest":runtime.runtime_digest,"actor":"agent:fixture",
@@ -5182,13 +5175,13 @@ fn delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review() 
             &fs::read(events_path).expect("events")
         ));
     }
-    record_recovery_decision(root.path(), wi, &retry, &runtime)
+    record_recovery_decision(root_path, wi, &retry, &runtime)
         .expect("actual bounded retry receipt");
     assert_success(
         &run_cli(&[
             "verify",
             "--repo",
-            root.path().to_str().expect("path"),
+            root_path.to_str().expect("path"),
             "--work-item",
             wi,
         ]),

@@ -2747,6 +2747,17 @@ fn finish_prepared(
     let directory = amendment_directory(root, &data.work_item_id);
     if let Some(review) = &data.delegated_review {
         validate_delegated_review(root, data, review)?;
+        let current_policy = super::policy_document(root)?;
+        if !delegated_policy_boundary_allows(
+            root,
+            &data.previous_contract,
+            current_policy.as_ref(),
+        )? {
+            return Err(state_error(
+                &directory,
+                "current human/provider/multi-party policy prevents completing delegated amendment",
+            ));
+        }
     }
     if data.repository_id != super::repository_id(root).to_string() {
         return Err(state_error(
@@ -3531,6 +3542,90 @@ mod tests {
         let mut post_checkpoint = before.clone();
         post_checkpoint["state"] = json!("implementation_active");
         assert!(super::activation_differences(&post_checkpoint, &after, true).is_err());
+    }
+
+    #[test]
+    fn delegated_pending_recovery_rechecks_current_policy_before_more_writes() {
+        for failpoint in [
+            AmendmentFailpoint::Prepared,
+            AmendmentFailpoint::ContractReplaced,
+            AmendmentFailpoint::SummaryProjected,
+        ] {
+            let directory = repository();
+            let root = directory.path();
+            let id = "WI-DELEGATED-PENDING-POLICY";
+            let runtime = cockpit_protocol::RuntimeContext {
+                runtime_version: "1.0.1-test".into(),
+                protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+                runtime_digest: cockpit_core::Digest::sha256_bytes(
+                    b"isolated-pending-review-fixture",
+                ),
+            };
+            start_work_item_with_options(root, id, "synthetic interrupted delegation", "recheck current policy", &["**".into()], &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["preserve partial evidence without prohibited effects".into()],
+                verification_commands: vec!["git diff --check".into()],
+                development_review: Some(serde_json::from_value(json!({
+                    "schemaVersion":1,"reviewerActor":"agent:fixture","authoritySource":"user:synthetic-pending",
+                    "allowedChanges":["append_verification"],"preapprovedCommands":["git status --porcelain"]
+                })).expect("typed fixture policy")),
+                ..Default::default()
+            }).expect("start");
+            let contract = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+            let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+            crate::preflight_work_item_with_runtime(root, &contract, &runtime)
+                .expect("owner preflight");
+            let c = read_json(&contract);
+            let s = read_json(&summary);
+            crate::record_work_item_governance_controls_with_runtime(root, id, &json!({"decisionEvidence":{
+                "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+                "workItemId":id,"repositoryId":crate::repository_id(root),"contractDigest":cockpit_protocol::digest_json(&c).expect("digest"),
+                "preflightDecisionDigest":s["preflightDecisionDigest"],"repositorySnapshotDigest":s["preflightRepositorySnapshotDigest"],
+                "recordedAt":"2026-10-23T00:00:00Z","recordedBy":"human:synthetic-fixture","reason":"isolated local provenance; no real identity authenticated"
+            }}), &runtime).expect("synthetic owner receipt");
+            crate::preflight_work_item_with_runtime(root, &contract, &runtime)
+                .expect("reviewed preflight");
+            checkpoint_work_item(root, id).expect("checkpoint");
+            let request = json!({"schemaVersion":1,"changeId":"interrupted-technical-review","reason":"exact preapproved check",
+                "expectedContractDigest":cockpit_protocol::digest_json(&c).expect("digest"),
+                "changes":[{"path":"/verification","operation":"add","value":"git status --porcelain"}],
+                "developmentReview":{"actor":"agent:fixture","authoritySource":"user:synthetic-pending","assurance":"self_declared",
+                    "operations":["review_development_amendment"],"policyRefs":[],"evidenceRefs":[]}
+            });
+            set_amendment_failpoint(failpoint);
+            let error =
+                crate::amend_work_item_contract_with_runtime(root, id, &request, "", &runtime)
+                    .expect_err("actual transaction interruption");
+            assert!(
+                error.to_string().contains("injected interruption"),
+                "{error}"
+            );
+            let prepared = super::amendment_record_path(root, id, 1, "prepared");
+            let before = [
+                fs::read(&contract).expect("Contract"),
+                fs::read(&summary).expect("Summary"),
+                fs::read(&prepared).expect("prepared"),
+            ];
+            fs::write(root.join(".ai/policy.json"), serde_json::to_vec(&json!({"schemaVersion":1,"project":{
+                "policyId":"now-human-required","layer":"project","rules":[{"operation":"modify_source","approvalMode":"single_authorized_human","requiredEvidence":[]}]
+            }})).expect("policy JSON")).expect("synthetic stronger current policy");
+            let error =
+                crate::amend_work_item_contract_with_runtime(root, id, &request, "", &runtime)
+                    .expect_err("current policy must stop any further delegated writes");
+            assert!(
+                error
+                    .to_string()
+                    .contains("current human/provider/multi-party policy"),
+                "{error}"
+            );
+            assert_eq!(fs::read(&contract).expect("Contract"), before[0]);
+            assert_eq!(fs::read(&summary).expect("Summary"), before[1]);
+            assert_eq!(
+                fs::read(&prepared).expect("retained partial record"),
+                before[2]
+            );
+            assert!(!super::amendment_record_path(root, id, 1, "committed").exists());
+        }
     }
 
     #[test]
