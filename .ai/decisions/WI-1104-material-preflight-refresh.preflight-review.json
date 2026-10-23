@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:05e73fc923f86e0f110d868fd1127722062eba640700c663dfbd207320bef99b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Actual user response: 允许 WI-1103 上述限定缓存写入；确认 WI-1104 上述计划、依赖、六项未验证场景及绑定，confirm_review。 Source user message Sentinel_49e014c21ce88191b4717bd1b69c5858 replying to Sentinel_5dac6aab9b648191a99d20eea33c48dc, relayed by trusted parent thread01a1576c-b0ab-7723-ad8e-95924e80102a. Reported user time2026-10-22 23:09 UTC has minute precision only; recordedAt is actual current recording time. Exact Contract/preflight/snapshot/sourceHEADc622 and fixedb2 bytes were rechecked unchanged. Records only the actual WI1104 bounded refresh plan with explicit unmergedPR1062 five-file prerequisite and six unverified scenes. WI1103 cache permission is separate and is not this native decision. No publication, merge, true close, externalB activation, risk acceptance, historical identity authentication or GitHub Review is asserted.",
+  "recordedAt": "2026-10-22T23:12:32.055281+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_49e014c21ce88191b4717bd1b69c5858; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+  "schemaVersion": 1,
+  "workItemId": "WI-1104-material-preflight-refresh"
+}

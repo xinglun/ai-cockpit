@@ -1,0 +1,200 @@
+{
+  "acceptanceResults": [
+    "Dependency declared at start: current main lacks the PR1062 recovery code. Import only its five business-file delta from base1330ef839f24f2e6bc24754a043f7950b7b3358e to candidate15c558ff7e1ae00432b50e9a6c75ddbcd291caaf. Preserve main WI1101 lifecycle.rs and closeout_recovery.rs byte-for-byte. Do not import WI1102 native records or change its approved branch/HEAD. This dependency is not treated as accepted or merged.",
+    "Scenario initially unverified: Use the real existing red blocked-Outcome sensitive-amendment fixture. Obtain genuine fixture plan review and current material receipt through supported public APIs. Then commit a same-Contract source change. Old material becomes stale and old nonred preflight no longer binds current source. Production status/public admission must first demonstrate the missing run_preflight route as RED rather than a test-only model.",
+    "Scenario initially unverified: Only that exact bounded stale-source context may collect a fresh preflight. Require the existing single checkpoint and validated sensitive-amendment lineage plus exact blocked Outcome binding and exclusive governance_red plus valid unchanged-Contract human plan review and an exact reviewable material request with stale prior receipt and no finding/projection error and intact original native verification inputs and no conflicting recovery. Require prior same-Contract nonred preflight with a changed source snapshot. Do not remove current_preflight from the actual material-record or verification readiness requirements.",
+    "Scenario initially unverified: Before preflight refresh only collection is admitted; material recording and verify/finish remain denied. Fresh preflight then permits only current exact material review. A renewed typed receipt preserves old receipt sidecars and failure history. Only actual current four-command all-pass native verification may reconcile the blocked Outcome. Verify exact Runtime/Contract/snapshot/count bindings and zero old reuse for the source-changed case. No actor strings are represented as independent identity authentication.",
+    "Scenario initially unverified: Missing/invalid/foreign/stale human review or changed Contract and malformed/stale/conflicting amendment/checkpoint/Outcome/evidence or finding/unsupported Unknown/projection failure/dirty source/other blocker/archived state deny the recovery route. A red preflight is not a stale nonred preflight. Source or request mutation after observation must be rejected by actual public service admission. Keep all original negative tests and strict readers.",
+    "Scenario initially unverified: Use real CLI and MCP material/preflight/verification service parity where supported. Preserve old receipt and failed attempt bytes and checkpoint count1. Repeating the original checkpoint or deleting old material is not a recovery method. Successful collection does not assert historical descriptor authenticity or turn old pass into current proof. Failure/timeout evidence remains append-only.",
+    "Scenario initially unverified: Execute all eight declared verification commands with actual selected/executed counts and complete workspace consumer compilation and independent review. Preserve baseline main CI39858553380 failure and WI1103 separate pending implicit-cache environment condition. No zero-test pass and no model-only claim of external identity verification.",
+    "Full conditional delivery planned at start: normal pinned-Runtime start/preflight/checkpoint then TDD then exact native verification/controls/Outcome and independent review then finish/archive. Applicable explicit approval is required before isolated public push/one draft implementation PR and exact final HEAD CI. Ordinary merge needs applicable exact owner approval and actual main CI. Safe recoverable exact resource cleanup/finalize/finalize-verify and separately bound actual human close precede native finalize/close two-record publication under applicable authority. No approval from PR1061/1062 is silently transferred to a new source HEAD.",
+    "Governance always uses official v1.0.1 b2a43b0a. Test-subject builds are isolated and cannot authorize this Work Item or replace shared Runtime. Benefits remain unmeasured until measured. Historical P3 descriptor-authenticity limits and original local Sentinel evidence/Issue status and old69candidate/externalB remain separate. Formal native records are generated only by supported Runtime commands and are never hand-edited."
+  ],
+  "createdAt": "2026-10-22T23:42:41.275511496Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:40fa4696bf1db755ed918ebf26914bad9bf31a298e3560a52b68752b62a86e5d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+      "workItemId": "WI-1104-material-preflight-refresh"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1104-material-preflight-refresh.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json"
+          ],
+          "inference": false,
+          "text": "On current main with the explicitly declared five-file PR1062 dependency add strictly collection-only preflight refresh admission for a stale prior material receipt and stale nonred same-Contract preflight; prove the production RED then renewal/fresh-execution chain and preserve all original guards/history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-22T23:42:41.275511496Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1104-material-preflight-refresh"
+    },
+    "workItemId": "WI-1104-material-preflight-refresh"
+  },
+  "taskReportDigest": "sha256:4c94177ccdceb035fb4f8eb737e38fc5ffe3bef0805567b6cd40ac65ab97c76f",
+  "taskReportMarkdownDigest": "sha256:2aeebb7684bce9be35a44b42e02e4437146a9b980faad76b69ada6a069ca0d49",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1104-material-preflight-refresh.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1104-material-preflight-refresh"
+}

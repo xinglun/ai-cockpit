@@ -1,0 +1,212 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1104-material-preflight-refresh",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-3e056e7207d915595dcd639fdd17e8775ba5542ff333cdcbc4b8a70efce993e5",
+      "expectedContractDigest": "sha256:a37640cfac1fb806e36b420b7fcb88d45651872fc07b79f121351971cbbe6be5",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "trusted-parent-thread01a1576c-b0ab-7723-ad8e-95924e80102a current delegation authorizes an independent bounded same-Contract stale-material/preflight recovery fix and regressions within the existing software development mandate; ordinary technical judgment delegated; true sensitive human decisions remain separate"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "parent-relayed actual downstream candidate15c558ff runtime2382fd at targetHEAD2ddedff: material_recovery_guard:current_preflight; unchanged Contracte27b984; current source snapshot460c3395; prior b46b preflight/receipt preserved"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "private independent read-only review f261a28bc5a64d2fa9aaf5a170f1aedbd566957fe36303b9380560bf476d0d78 confirms P2 admission cycle without executing the local Sentinel site"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "explicit dependency PR1062 HEAD15c558ff7e1ae00432b50e9a6c75ddbcd291caaf is unmerged and is not this Work Item authorization or proof"
+        }
+      ]
+    },
+    "requestDigest": "sha256:15d66ab08cb6803bd2ef084a28acd67a1b0fd7e649ab54823864545f2ea5085d",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Dependency declared at start: current main lacks the PR1062 recovery code. Import only its five business-file delta from base1330ef839f24f2e6bc24754a043f7950b7b3358e to candidate15c558ff7e1ae00432b50e9a6c75ddbcd291caaf. Preserve main WI1101 lifecycle.rs and closeout_recovery.rs byte-for-byte. Do not import WI1102 native records or change its approved branch/HEAD. This dependency is not treated as accepted or merged.",
+        "Scenario initially unverified: Use the real existing red blocked-Outcome sensitive-amendment fixture. Obtain genuine fixture plan review and current material receipt through supported public APIs. Then commit a same-Contract source change. Old material becomes stale and old nonred preflight no longer binds current source. Production status/public admission must first demonstrate the missing run_preflight route as RED rather than a test-only model.",
+        "Scenario initially unverified: Only that exact bounded stale-source context may collect a fresh preflight. Require the existing single checkpoint and validated sensitive-amendment lineage plus exact blocked Outcome binding and exclusive governance_red plus valid unchanged-Contract human plan review and an exact reviewable material request with stale prior receipt and no finding/projection error and intact original native verification inputs and no conflicting recovery. Require prior same-Contract nonred preflight with a changed source snapshot. Do not remove current_preflight from the actual material-record or verification readiness requirements.",
+        "Scenario initially unverified: Before preflight refresh only collection is admitted; material recording and verify/finish remain denied. Fresh preflight then permits only current exact material review. A renewed typed receipt preserves old receipt sidecars and failure history. Only actual current four-command all-pass native verification may reconcile the blocked Outcome. Verify exact Runtime/Contract/snapshot/count bindings and zero old reuse for the source-changed case. No actor strings are represented as independent identity authentication.",
+        "Scenario initially unverified: Missing/invalid/foreign/stale human review or changed Contract and malformed/stale/conflicting amendment/checkpoint/Outcome/evidence or finding/unsupported Unknown/projection failure/dirty source/other blocker/archived state deny the recovery route. A red preflight is not a stale nonred preflight. Source or request mutation after observation must be rejected by actual public service admission. Keep all original negative tests and strict readers.",
+        "Scenario initially unverified: Use real CLI and MCP material/preflight/verification service parity where supported. Preserve old receipt and failed attempt bytes and checkpoint count1. Repeating the original checkpoint or deleting old material is not a recovery method. Successful collection does not assert historical descriptor authenticity or turn old pass into current proof. Failure/timeout evidence remains append-only.",
+        "Scenario initially unverified: Execute all eight declared verification commands with actual selected/executed counts and complete workspace consumer compilation and independent review. Preserve baseline main CI39858553380 failure and WI1103 separate pending implicit-cache environment condition. No zero-test pass and no model-only claim of external identity verification.",
+        "Full conditional delivery planned at start: normal pinned-Runtime start/preflight/checkpoint then TDD then exact native verification/controls/Outcome and independent review then finish/archive. Applicable explicit approval is required before isolated public push/one draft implementation PR and exact final HEAD CI. Ordinary merge needs applicable exact owner approval and actual main CI. Safe recoverable exact resource cleanup/finalize/finalize-verify and separately bound actual human close precede native finalize/close two-record publication under applicable authority. No approval from PR1061/1062 is silently transferred to a new source HEAD.",
+        "Governance always uses official v1.0.1 b2a43b0a. Test-subject builds are isolated and cannot authorize this Work Item or replace shared Runtime. Benefits remain unmeasured until measured. Historical P3 descriptor-authenticity limits and original local Sentinel evidence/Issue status and old69candidate/externalB remain separate. Formal native records are generated only by supported Runtime commands and are never hand-edited."
+      ],
+      "authority": "authorized",
+      "baseRevision": "c622693376d45d0136a1b8e2f0884545e6bfadfe",
+      "createdAt": "2026-10-22T23:00:35Z",
+      "goal": "On current main with the explicitly declared five-file PR1062 dependency add strictly collection-only preflight refresh admission for a stale prior material receipt and stale nonred same-Contract preflight; prove the production RED then renewal/fresh-execution chain and preserve all original guards/history.",
+      "intent": "Repair only the bounded post-review same-Contract source-change material/preflight refresh deadlock without weakening current review or execution boundaries.",
+      "mode": "implementation",
+      "outOfScope": [
+        "No weakening of findings or real human/material review or verification/identity gates or original negative assertions",
+        "No current_preflight removal from material-record or actual-execution eligibility and no old evidence promoted to current pass",
+        "No repeated checkpoint or deletion/rewriting of old receipts or governance state-file edits",
+        "No source outside the five declared business files without normal scope handling",
+        "No production externalB or new authorization platform or sharedRuntime replacement or residual-risk acceptance",
+        "No HOME change or system permission expansion or sandbox bypass or CI/scanner/acceptance-command weakening",
+        "No Sentinel original-site mutation or automatic Issue closure or unapproved public logs/personal data",
+        "No force push or admin bypass or protection change or irreversible cleanup or fabricated human close"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "high",
+      "scope": [
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test status_projection -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test contract_amendment -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib -- --test-threads=1",
+        "cargo check --locked --workspace --all-targets",
+        "cargo clippy --locked -p cockpit-repository -p cockpit-cli --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check c622693376d45d0136a1b8e2f0884545e6bfadfe HEAD"
+      ],
+      "workItemId": "WI-1104-material-preflight-refresh"
+    },
+    "previousContractDigest": "sha256:a37640cfac1fb806e36b420b7fcb88d45651872fc07b79f121351971cbbe6be5",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Dependency declared at start: current main lacks the PR1062 recovery code. Import only its five business-file delta from base1330ef839f24f2e6bc24754a043f7950b7b3358e to candidate15c558ff7e1ae00432b50e9a6c75ddbcd291caaf. Preserve main WI1101 lifecycle.rs and closeout_recovery.rs byte-for-byte. Do not import WI1102 native records or change its approved branch/HEAD. This dependency is not treated as accepted or merged.",
+        "Scenario initially unverified: Use the real existing red blocked-Outcome sensitive-amendment fixture. Obtain genuine fixture plan review and current material receipt through supported public APIs. Then commit a same-Contract source change. Old material becomes stale and old nonred preflight no longer binds current source. Production status/public admission must first demonstrate the missing run_preflight route as RED rather than a test-only model.",
+        "Scenario initially unverified: Only that exact bounded stale-source context may collect a fresh preflight. Require the existing single checkpoint and validated sensitive-amendment lineage plus exact blocked Outcome binding and exclusive governance_red plus valid unchanged-Contract human plan review and an exact reviewable material request with stale prior receipt and no finding/projection error and intact original native verification inputs and no conflicting recovery. Require prior same-Contract nonred preflight with a changed source snapshot. Do not remove current_preflight from the actual material-record or verification readiness requirements.",
+        "Scenario initially unverified: Before preflight refresh only collection is admitted; material recording and verify/finish remain denied. Fresh preflight then permits only current exact material review. A renewed typed receipt preserves old receipt sidecars and failure history. Only actual current four-command all-pass native verification may reconcile the blocked Outcome. Verify exact Runtime/Contract/snapshot/count bindings and zero old reuse for the source-changed case. No actor strings are represented as independent identity authentication.",
+        "Scenario initially unverified: Missing/invalid/foreign/stale human review or changed Contract and malformed/stale/conflicting amendment/checkpoint/Outcome/evidence or finding/unsupported Unknown/projection failure/dirty source/other blocker/archived state deny the recovery route. A red preflight is not a stale nonred preflight. Source or request mutation after observation must be rejected by actual public service admission. Keep all original negative tests and strict readers.",
+        "Scenario initially unverified: Use real CLI and MCP material/preflight/verification service parity where supported. Preserve old receipt and failed attempt bytes and checkpoint count1. Repeating the original checkpoint or deleting old material is not a recovery method. Successful collection does not assert historical descriptor authenticity or turn old pass into current proof. Failure/timeout evidence remains append-only.",
+        "Scenario initially unverified: Execute all eight declared verification commands with actual selected/executed counts and complete workspace consumer compilation and independent review. Preserve baseline main CI39858553380 failure and WI1103 separate pending implicit-cache environment condition. No zero-test pass and no model-only claim of external identity verification.",
+        "Full conditional delivery planned at start: normal pinned-Runtime start/preflight/checkpoint then TDD then exact native verification/controls/Outcome and independent review then finish/archive. Applicable explicit approval is required before isolated public push/one draft implementation PR and exact final HEAD CI. Ordinary merge needs applicable exact owner approval and actual main CI. Safe recoverable exact resource cleanup/finalize/finalize-verify and separately bound actual human close precede native finalize/close two-record publication under applicable authority. No approval from PR1061/1062 is silently transferred to a new source HEAD.",
+        "Governance always uses official v1.0.1 b2a43b0a. Test-subject builds are isolated and cannot authorize this Work Item or replace shared Runtime. Benefits remain unmeasured until measured. Historical P3 descriptor-authenticity limits and original local Sentinel evidence/Issue status and old69candidate/externalB remain separate. Formal native records are generated only by supported Runtime commands and are never hand-edited."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c622693376d45d0136a1b8e2f0884545e6bfadfe",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-22T23:00:35Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "On current main with the explicitly declared five-file PR1062 dependency add strictly collection-only preflight refresh admission for a stale prior material receipt and stale nonred same-Contract preflight; prove the production RED then renewal/fresh-execution chain and preserve all original guards/history.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair only the bounded post-review same-Contract source-change material/preflight refresh deadlock without weakening current review or execution boundaries.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No weakening of findings or real human/material review or verification/identity gates or original negative assertions",
+        "No current_preflight removal from material-record or actual-execution eligibility and no old evidence promoted to current pass",
+        "No repeated checkpoint or deletion/rewriting of old receipts or governance state-file edits",
+        "No source outside the five declared business files without normal scope handling",
+        "No production externalB or new authorization platform or sharedRuntime replacement or residual-risk acceptance",
+        "No HOME change or system permission expansion or sandbox bypass or CI/scanner/acceptance-command weakening",
+        "No Sentinel original-site mutation or automatic Issue closure or unapproved public logs/personal data",
+        "No force push or admin bypass or protection change or irreversible cleanup or fabricated human close"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/contract_amendment.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs"
+      ],
+      "sources": [
+        "trusted-parent-thread01a1576c-b0ab-7723-ad8e-95924e80102a current delegation authorizes an independent bounded same-Contract stale-material/preflight recovery fix and regressions within the existing software development mandate; ordinary technical judgment delegated; true sensitive human decisions remain separate",
+        "parent-relayed actual downstream candidate15c558ff runtime2382fd at targetHEAD2ddedff: material_recovery_guard:current_preflight; unchanged Contracte27b984; current source snapshot460c3395; prior b46b preflight/receipt preserved",
+        "private independent read-only review f261a28bc5a64d2fa9aaf5a170f1aedbd566957fe36303b9380560bf476d0d78 confirms P2 admission cycle without executing the local Sentinel site",
+        "explicit dependency PR1062 HEAD15c558ff7e1ae00432b50e9a6c75ddbcd291caaf is unmerged and is not this Work Item authorization or proof"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test status_projection -- --test-threads=1",
+        "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --test contract_amendment -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib -- --test-threads=1",
+        "cargo check --locked --workspace --all-targets",
+        "cargo clippy --locked -p cockpit-repository -p cockpit-cli --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check c622693376d45d0136a1b8e2f0884545e6bfadfe HEAD"
+      ],
+      "workItemId": "WI-1104-material-preflight-refresh"
+    },
+    "newContractDigest": "sha256:1fdf3ab4f10afcf18dc453d80235b2f090c0f8f7289409943c3766b41f900624",
+    "previousSummaryDigest": "sha256:476b9992281e1d047e24b34c707e60ca2aff35e50cec4864389224bdde503a82",
+    "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+    "environmentObservationDigest": "sha256:8af8334b081de16bf5769307321b2306073d9266b4a2636f765f70162bb4a2c4",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:3e056e7207d915595dcd639fdd17e8775ba5542ff333cdcbc4b8a70efce993e5",
+    "preparedAt": "2026-10-22T23:00:35Z"
+  },
+  "preparedDigest": "sha256:16d861f08f6efa70bac326b41563fbf7bf7661fd596c2208e1aabe6d91151155"
+}

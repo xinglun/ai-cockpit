@@ -1796,7 +1796,20 @@ fn work_item_status_snapshot_with_snapshot(
             ready
         }};
     }
-    let amendment_material_recovery_ready = !archived
+    // A valid material receipt can become stale after an in-scope source
+    // commit while the same-Contract human review remains valid. Refresh only
+    // the prior nonred preflight; all other recovery guards remain shared.
+    let material_preflight_refresh_binding = !preflight_binding_current
+        && summary["preflightContractDigest"].as_str() == Some(contract_digest_string.as_str())
+        && matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
+        && summary["preflightRepositorySnapshotDigest"]
+            .as_str()
+            .is_some_and(|digest| {
+                digest.parse::<Digest>().is_ok() && digest != snapshot_digest_string
+            })
+        && material_review_decision_available
+        && material_unknowns.contains(&"material_review_receipt_stale".into());
+    let amendment_material_recovery_context = !archived
         && !historical
         && lifecycle_phase == "checkpointed"
         && governance_state == "red"
@@ -1813,7 +1826,7 @@ fn work_item_status_snapshot_with_snapshot(
         && recovery_guard!("amendment_provenance", amendment_provenance_matches)
         && recovery_guard!("current_amendment_binding", summary["verificationInvalidatedByContractAmendment"]["contractHash"].as_str()
             == Some(contract_digest_string.as_str()))
-        && recovery_guard!("current_preflight", preflight_binding_current)
+        && recovery_guard!("current_preflight", preflight_binding_current || material_preflight_refresh_binding)
         && recovery_guard!("current_human_review", super::governance_controls::preflight_decision_evidence_state(
             &root,
             work_item_id,
@@ -1864,6 +1877,15 @@ fn work_item_status_snapshot_with_snapshot(
             || (review_receipt_digest.is_some()
                 && material_unknowns.is_empty()
                 && raw_scanner_unknowns == ["repository_material_inspection_unavailable"]));
+    // Collection never authorizes recording a review or executing a check
+    // against the stale preflight. Those steps still require the current bind.
+    let amendment_material_recovery_ready =
+        amendment_material_recovery_context && preflight_binding_current;
+    let amendment_material_preflight_refresh_ready =
+        amendment_material_recovery_context && material_preflight_refresh_binding;
+    if amendment_material_preflight_refresh_ready {
+        diagnostics.push("material_recovery_guard:current_preflight".into());
+    }
     let supersede_archive_ready = !archived
         && matches!(
             load_recovery_decision(&root, work_item_id, Some(runtime)),
@@ -1946,6 +1968,8 @@ fn work_item_status_snapshot_with_snapshot(
         // aggregate governance state red and the lifecycle failure visible;
         // this only admits the bounded recovery action.
         vec!["run_verification".into()]
+    } else if amendment_material_preflight_refresh_ready {
+        vec!["run_preflight".into()]
     } else if amendment_material_recovery_ready {
         if material_review_decision_available {
             vec!["record_material_review_decision".into()]

@@ -421,6 +421,284 @@ fn blocked_material_recovery_reports_the_first_current_guard() {
 }
 
 #[test]
+fn source_change_after_material_review_admits_only_preflight_refresh() {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    record_human_preflight_review(root, id);
+    let request = cockpit_repository::plan_work_item_material_review(root, id)
+        .expect("initial exact material request");
+    let input = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest,
+        "reviewerActor": "agent:fixture-reviewer",
+        "authoritySource": "test-fixture:bounded-review",
+        "assurance": "self_declared",
+        "evidenceRefs": [{"path": "src/material.rs", "digest": request.material_manifest_digest}],
+        "rationale": "Review the exact committed fixture source.",
+        "residualRisk": "The bounded scanner cannot inspect this syntax completely."
+    }))
+    .expect("typed fixture review");
+    cockpit_repository::record_work_item_material_review(root, id, &input, &runtime())
+        .expect("initial current material receipt");
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{id}.contract.json"));
+    let contract_bytes = fs::read(&contract_path).expect("unchanged Contract");
+    let summary_path = active.join(format!("{id}.summary.json"));
+    let summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let old_review = summary["decisionEvidence"].clone();
+    let old_material_path = root.join(
+        summary["materialReviewReceipt"]["path"]
+            .as_str()
+            .expect("sidecar"),
+    );
+    let old_material_bytes = fs::read(&old_material_path).expect("old immutable material receipt");
+    let outcome_path = active.join(format!("{id}.outcome.json"));
+    let old_outcome_bytes = fs::read(&outcome_path).expect("failed Outcome");
+    let before = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("before edit");
+    assert!(
+        before.safe_actions.contains(&"run_verification".into()),
+        "{before:#?}"
+    );
+
+    let source_path = root.join("src/material.rs");
+    let mut source = fs::read_to_string(&source_path).expect("current source");
+    source.push_str("\n// Authorized same-Contract source change after material review.\n");
+    fs::write(&source_path, source).expect("source change");
+    commit_all(
+        root,
+        "commit same-Contract source change after material review",
+    );
+
+    let stale = work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("after edit");
+    assert!(
+        stale
+            .unknowns
+            .contains(&"material_review_receipt_stale".into()),
+        "{stale:#?}"
+    );
+    assert!(
+        !stale.human_decision_required,
+        "same-Contract plan review remains valid"
+    );
+    assert_ne!(before.snapshot_digest, stale.snapshot_digest);
+    assert_eq!(fs::read(&contract_path).expect("Contract"), contract_bytes);
+    assert_eq!(
+        fs::read(&old_material_path).expect("old receipt"),
+        old_material_bytes
+    );
+    assert_eq!(
+        fs::read(&outcome_path).expect("old Outcome"),
+        old_outcome_bytes
+    );
+    let current_summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    assert_eq!(current_summary["decisionEvidence"], old_review);
+    assert_eq!(current_summary["checkpointCount"], 1);
+    for action in [
+        "record_material_review_decision",
+        "run_verification",
+        "finish",
+    ] {
+        assert!(
+            !stale.safe_actions.contains(&action.into()),
+            "{action}: {stale:#?}"
+        );
+        require_current_action_admission(root, id, action, &runtime())
+            .expect_err("stale bindings cannot authorize material or execution");
+    }
+    require_current_action_admission(root, id, "run_preflight", &runtime())
+        .expect("bounded source-refresh preflight must remain available");
+    preflight_work_item_with_runtime_report(root, &contract_path, &runtime())
+        .expect("actual current preflight refresh");
+    let refreshed =
+        work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("refreshed");
+    assert!(refreshed.blocking);
+    assert!(
+        refreshed
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+    assert!(!refreshed.safe_actions.contains(&"run_verification".into()));
+    assert!(
+        cockpit_repository::record_work_item_material_review(root, id, &input, &runtime()).is_err()
+    );
+    assert_eq!(
+        fs::read(&old_material_path).expect("old material receipt"),
+        old_material_bytes
+    );
+    assert_eq!(
+        fs::read(&outcome_path).expect("still blocked Outcome"),
+        old_outcome_bytes
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("same Contract"),
+        contract_bytes
+    );
+}
+
+fn stale_material_refresh_fixture() -> tempfile::TempDir {
+    let directory = blocked_material_amendment_fixture();
+    let root = directory.path();
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    record_human_preflight_review(root, id);
+    let request =
+        cockpit_repository::plan_work_item_material_review(root, id).expect("material plan");
+    let input = serde_json::from_value(json!({
+        "schemaVersion": 1, "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest, "reviewerActor": "agent:fixture-reviewer",
+        "authoritySource": "test-fixture:bounded-review", "assurance": "self_declared",
+        "evidenceRefs": [{"path": "src/material.rs", "digest": request.material_manifest_digest}],
+        "rationale": "Review the exact isolated fixture source.",
+        "residualRisk": "Bounded syntax inspection remains incomplete."
+    }))
+    .expect("typed fixture material input");
+    cockpit_repository::record_work_item_material_review(root, id, &input, &runtime())
+        .expect("current material receipt");
+    let source_path = root.join("src/material.rs");
+    let source = fs::read_to_string(&source_path).expect("source");
+    fs::write(
+        source_path,
+        format!("{source}\n// Change after material review.\n"),
+    )
+    .expect("source change");
+    commit_all(root, "source change after review");
+    directory
+}
+
+#[test]
+fn source_refresh_does_not_bypass_material_recovery_guards() {
+    let id = "WI-STATUS-BLOCKED-MATERIAL-AMENDMENT";
+    for case in [
+        "red_preflight",
+        "foreign_preflight_contract",
+        "missing_preflight_snapshot",
+        "invalid_preflight_snapshot",
+        "missing_human_review",
+        "second_checkpoint",
+        "forged_amendment",
+        "forged_outcome",
+        "invalid_material_receipt",
+        "missing_material_receipt",
+        "dirty_source",
+        "committed_finding",
+        "contradictory_evidence",
+        "conflicting_recovery",
+    ] {
+        let directory = stale_material_refresh_fixture();
+        let root = directory.path();
+        let active = root.join(".ai/work-items/active");
+        let summary_path = active.join(format!("{id}.summary.json"));
+        let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+            .expect("Summary JSON");
+        match case {
+            "red_preflight" => summary["preflightState"] = json!("red"),
+            "foreign_preflight_contract" => {
+                summary["preflightContractDigest"] = json!(Digest::sha256_bytes(b"foreign"))
+            }
+            "missing_preflight_snapshot" => {
+                summary["preflightRepositorySnapshotDigest"] = Value::Null
+            }
+            "invalid_preflight_snapshot" => {
+                summary["preflightRepositorySnapshotDigest"] = json!("invalid")
+            }
+            "missing_human_review" => summary["decisionEvidence"] = Value::Null,
+            "second_checkpoint" => summary["checkpointCount"] = json!(2),
+            "forged_amendment" => {
+                summary["verificationInvalidatedByContractAmendment"]["contractHash"] =
+                    json!(Digest::sha256_bytes(b"foreign"))
+            }
+            "forged_outcome" => {
+                let path = active.join(format!("{id}.outcome.json"));
+                let mut outcome: Value = serde_json::from_slice(&fs::read(&path).expect("Outcome"))
+                    .expect("Outcome JSON");
+                outcome["failedGate"] = json!("fixture-foreign-gate");
+                fs::write(
+                    path,
+                    serde_json::to_vec_pretty(&outcome).expect("negative Outcome"),
+                )
+                .expect("isolated tampering");
+            }
+            "invalid_material_receipt" => {
+                let path = root.join(
+                    summary["materialReviewReceipt"]["path"]
+                        .as_str()
+                        .expect("receipt path"),
+                );
+                fs::write(path, b"{}").expect("isolated invalid receipt");
+            }
+            "missing_material_receipt" => summary["materialReviewReceipt"] = Value::Null,
+            "dirty_source" => {
+                fs::write(root.join("src/material.rs"), "fn material() {}\n").expect("dirty source")
+            }
+            "committed_finding" => {
+                let payload = include_str!("../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt").trim();
+                fs::write(
+                    root.join("src/material.rs"),
+                    format!("fn material() {{ let instruction = {payload:?}; }}\n"),
+                )
+                .expect("finding source");
+                commit_all(root, "commit finding negative input");
+            }
+            "contradictory_evidence" => fs::write(
+                root.join(format!(".ai/evidence/{id}.verification.json")),
+                br#"{"fixture":"invalid evidence"}"#,
+            )
+            .expect("invalid evidence"),
+            "conflicting_recovery" => fs::write(
+                root.join(format!(".ai/decisions/{id}.recovery.json")),
+                br#"{"decision":"retry","fixture":"invalid recovery"}"#,
+            )
+            .expect("conflicting recovery"),
+            _ => unreachable!(),
+        }
+        fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&summary).expect("negative Summary"),
+        )
+        .expect("isolated negative input");
+        let status =
+            work_item_status_snapshot_with_runtime(root, id, &runtime()).expect("negative status");
+        if case == "missing_human_review" {
+            // The existing amendment-review route may collect a preflight
+            // request for a real human; it does not grant material or execution.
+            assert!(status.human_decision_required);
+            assert!(status.safe_actions.contains(&"run_preflight".into()));
+        } else if case == "dirty_source" {
+            // The pre-existing unavailable-material route collects a blocker;
+            // it must not become a review or verification authorization.
+            assert!(
+                status
+                    .unknowns
+                    .contains(&"material_review_projection_unavailable".into())
+            );
+            assert!(status.safe_actions.contains(&"run_preflight".into()));
+        } else {
+            assert!(
+                !status.safe_actions.contains(&"run_preflight".into()),
+                "{case}: {status:#?}"
+            );
+            require_current_action_admission(root, id, "run_preflight", &runtime())
+                .expect_err("bounded collection guard remains enforced");
+        }
+        for action in [
+            "record_material_review_decision",
+            "run_verification",
+            "finish",
+        ] {
+            assert!(
+                !status.safe_actions.contains(&action.into()),
+                "{case}: {action}: {status:#?}"
+            );
+            require_current_action_admission(root, id, action, &runtime())
+                .expect_err("guard must remain enforced");
+        }
+    }
+}
+
+#[test]
 fn blocked_material_receipt_admits_real_verification_before_clearing_failure() {
     let directory = blocked_material_amendment_fixture();
     let root: &::std::path::Path = directory.path();

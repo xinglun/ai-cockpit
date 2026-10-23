@@ -1,0 +1,222 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1104-material-preflight-refresh.preflight-review.json",
+    ".ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000002.prepared.json",
+    ".ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json",
+    ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+  ],
+  "checkpointAt": "2026-10-22T23:13:28Z",
+  "checkpointContractDigest": "sha256:05e73fc923f86e0f110d868fd1127722062eba640700c663dfbd207320bef99b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+  "createdAt": "2026-10-22T23:00:35Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:05e73fc923f86e0f110d868fd1127722062eba640700c663dfbd207320bef99b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "Actual user response: 允许 WI-1103 上述限定缓存写入；确认 WI-1104 上述计划、依赖、六项未验证场景及绑定，confirm_review。 Source user message Sentinel_49e014c21ce88191b4717bd1b69c5858 replying to Sentinel_5dac6aab9b648191a99d20eea33c48dc, relayed by trusted parent thread01a1576c-b0ab-7723-ad8e-95924e80102a. Reported user time2026-10-22 23:09 UTC has minute precision only; recordedAt is actual current recording time. Exact Contract/preflight/snapshot/sourceHEADc622 and fixedb2 bytes were rechecked unchanged. Records only the actual WI1104 bounded refresh plan with explicit unmergedPR1062 five-file prerequisite and six unverified scenes. WI1103 cache permission is separate and is not this native decision. No publication, merge, true close, externalB activation, risk acceptance, historical identity authentication or GitHub Review is asserted.",
+    "recordedAt": "2026-10-22T23:12:32.055281+00:00",
+    "recordedBy": "Codex agent transcribing actual user message Sentinel_49e014c21ce88191b4717bd1b69c5858; no independent external identity authentication asserted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+    "schemaVersion": 1,
+    "workItemId": "WI-1104-material-preflight-refresh"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1104-material-preflight-refresh.verification.json",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/tests/status_projection.rs",
+      "crates/cockpit-cli/tests/contract_amendment_processes.rs"
+    ],
+    "reason": "The approved bounded current-main fix is implemented and independently reviewed at22d3d058. Explicit unmerged PR1062 five-file dependency preserved separately; current-main WI1101 files retained. All original non-preflight guard conditions are shared, collection-only refresh requires same-C prior nonred preflight+valid different snapshot+strict stale material. Actual material/verify still require current preflight. Actual repo+CLI RED before production, GREEN renewal and negative matrix, full native original8/21nodes/290tests/14packages all passed under official1.0.1/b2. New-test design corrections and their failures are preserved, original assertions/commands/scanner unchanged. Historical P3 descriptor preimage/producer authenticity not fixed or accepted as residual risk; synthetic fixtures are not authenticated external human identity. Benefits remain unmeasured, Sentinel original site not accepted by this local result, WI1103 cache and failed mainCI remain separate. No shared Runtime replacement, public push/PR/merge/true-close permission used.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-22T23:42:41.275511496Z",
+      "recordedAt": "2026-10-22T23:42:41.275511496Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-22T23:00:35.665456040Z",
+      "recordedAt": "2026-10-22T23:00:35.665456040Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-22T23:41:38Z",
+  "preflightContractDigest": "sha256:05e73fc923f86e0f110d868fd1127722062eba640700c663dfbd207320bef99b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "expected": "Old material receipt becomes stale and old preflight source binding expires after a real committed same-Contract source edit. The production route initially has no run_preflight admission.",
+      "reason": "Actual public repository RED at d6cc83ca and CLI preflight RED at96fa5125 each selected/executed one test and failed on governance_red/run_preflight before production change. Their original source-bound raw logs remain in private audit; current full native receipt covers the real GREEN regressions, not a test-only admission model.",
+      "required": true,
+      "scenario": "same-contract-post-review-source-red",
+      "status": "verified",
+      "verificationPlan": "Use the existing real blocked-Outcome sensitive-amendment repository fixture and actual CLI counterpart. Obtain native plan/material receipts before the source edit; assert expected stale issue and public-admission RED."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "expected": "Only an intact checkpointed sensitive-amendment blocked-Outcome context with stale prior material receipt and nonred same-Contract old preflight may collect current preflight. Material record and verify/finish still require all current bindings.",
+      "reason": "Current same-Contract source change refresh positive and fourteen-case matrix pass. Shared non-preflight guards remain; current preflight is still separately required for actual review/verification. Missing-human and dirty-source cases retain pre-existing diagnostic collectors while actual material/verify/finish stay denied. FailedGate tamper retains blocked identity to test the correct binding guard.",
+      "required": true,
+      "scenario": "strict-collection-only-refresh",
+      "status": "verified",
+      "verificationPlan": "Assert run_preflight is exposed only after all non-preflight guards validate; actual public preflight succeeds while old receipts/Outcome/checkpoint remain unchanged."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "expected": "Fresh preflight permits only exact current material review; renewed receipt preserves old sidecars. Only four actual current checks with zero old reuse reconcile the failed Outcome.",
+      "reason": "Real CLI legacy-shape fixture records current material, commits source after review, performs actual preflight refresh, rejects old typed review and pre-review verify plan, records fresh typed material, plans four current checks with zero spawn/old reuse, executes four with zero reuse, then actual fixture finish/archive. Old Contract, decision, material sidecars and preserved native evidence/Outcome bytes remain unchanged. Synthetic old producer does not authenticate unavailable historical binary or descriptor preimages.",
+      "required": true,
+      "scenario": "renewal-and-four-fresh-checks",
+      "status": "verified",
+      "verificationPlan": "Real CLI plan-only zero spawn then actual four commands; inspect native receipt/runtime/Contract/snapshot/counts and historical bytes. Keep old descriptor authenticity limit."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "expected": "Finding or unsupported Unknown or invalid/missing human/identity/amendment/checkpoint/Outcome/native input or conflict or dirty/archived source or red/foreign-Contract preflight denies collection or later action.",
+      "reason": "New fourteen-case source-stale matrix plus all inherited original integrity/current-guard negatives pass. Includes red/foreign/invalid prior preflight, missing human, second checkpoint, amendment and failedGate bindings, invalid/missing material, dirty/Finding, invalid native input/recovery. Existing old-canonical/legacy input guard tests still run; no original assertions or commands changed. This is bounded tested collection behavior, not a general TOCTOU guarantee.",
+      "required": true,
+      "scenario": "negative-and-stale-boundaries",
+      "status": "verified",
+      "verificationPlan": "Add focused per-guard negatives and stale observation/request/source mutations at actual public entry; retain all existing negative assertions."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "expected": "CLI and MCP share bounded preflight/material admission. A plan receipt never proves actual execution; prior failed events and old material remain preserved and checkpoint count remains one.",
+      "reason": "CLI/MCP status parity after actual same-C source change passes. Current plan-only0spawn4toexecute0reuse and actual4spawn4executed0reuse are asserted. Original failed Outcome, original material receipt and native canonical history preserved; checkpoint remains one and current same-C human decision is not repeated. Inherited real failure/timeout/interruption/exact retry tests pass; fixture actors are synthetic, not external identity verification.",
+      "required": true,
+      "scenario": "adapter-and-history-preservation",
+      "status": "verified",
+      "verificationPlan": "Exercise supported public CLI/MCP service paths and failed retry/history checks without deleting receipt or repeating checkpoint; preserve actual failure/timeout outputs."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "expected": "Only five declared business paths plus supported own native records change; the explicit unmerged dependency does not erase current-main fixes. All eight checks and independent review precede applicable conditional delivery.",
+      "reason": "Pinned b2 native original eight commands exited0 on source22d3d058:21 planned/executed,0reuse,50 projection+54 CLI/MCP+17 amendment+169 library=290passed,0failed/ignored;14 package checks and Clippy/fmt/diff0; no truncation/timeouts. Five declared business paths only, dependency separate459ae0b4 exact candidate15 delta, main WI1101 two files byte-identical. Independent final static review newP0-P3=0; original historical descriptor P3 retained. Publication/exact PR CI/merge/main CI/resource finalization/true close are future separately authorized delivery steps, not claimed local results.",
+      "required": true,
+      "scenario": "complete-quality-and-conditional-delivery",
+      "status": "verified",
+      "verificationPlan": "Run the original declared test/check/Clippy/fmt/diff commands with actual counts, exact-HEAD CI if separately published, and fresh owner approval for a changed/new delivery HEAD; no externalB/sharedRuntime change."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-22T23:42:41.275511496Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1104-material-preflight-refresh"
+}

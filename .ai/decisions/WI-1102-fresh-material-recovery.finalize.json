@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Actual user Sentinel_14d4a0f53ee88191976deb18fe9f8ca3 approved normal conditional1062 merge/mainverify/formal closeout; Sentinel_905b18cddec881918bfbd117feadc593 approved necessarybaseline integration; no humanclose inferred. Official b2 freshstatus permits finalize_resources, falsehuman; explicitsyncdefault completed.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c742190a09c4c24f8d6eb5234d93e70a87a6414b",
+    "name": "codex/wi-1102-fresh-material-recovery",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "1330ef839f24f2e6bc24754a043f7950b7b3358e",
+  "contractDigest": "sha256:04fc3d49076dabf36d4be29bcdd247b2cb905b0f0367d303019c9a5580847489",
+  "operationId": "wi1102-exact-normal-cleanup-main3cf",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1330ef839f24f2e6bc24754a043f7950b7b3358e",
+    "headRevision": "c742190a09c4c24f8d6eb5234d93e70a87a6414b",
+    "mergeCommit": "3cf1acb6229f42e824a3eefe3047b02acee5a4fd",
+    "number": 1062,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1062"
+  },
+  "reason": "Actual PR1062 sourcec742 merged atmain3cf at02:15:50Z; defaultmain synchronized and all22 published paths plus17 own native records matchsource. Frozen Contractbase1330 remains immutable; provider lastbasec622 and actualmerge firstparent08d are separately retained facts. Original formal8commands21nodes and original source546/currentc742 sourcebytes remain unchanged. Actual exactsourcePRCI39880533750 passed40gates14packages with matchingQuality/Windows revisionbindings; actualmainCI39888618846 is still pending at this finalization recording, not certified passed. Resource finalization follows official archive/defaultsync/exactcleanup sequence; it does not claim productCI acceptance or humanclose. Bundle175764B SHAa7a3f2d458915e3defa9d81eb4d4f49be0ff27a81b76f0e54da73a0ed861769e requiring1330 was independently imported withoutalternates and37related filebytes verified; original15candidate/olderbundle and0byte lifecyclelock retained externally. Ordinary exact worktree remove, branch-d, remote push-delete all exited0; sourcepath/gitdir/registration/local+remotebranch absence readback, unrelatedrefs/worktrees unchanged. Noforce/reset/clean/manualGitdir removal, whole-system process proof, sharedRuntime replacement, Sentinel originalsite change, Issueclosure, riskacceptance or CI/assertion/security modification. HistoricalP3 descriptor authenticity, unmeasuredbenefit, oldmainfailed39858553380 and separateWI1103EROFS remain unresolved history; WI1104 source-refresh fix remains separateunmergedPR1063. Actual before/after and provider facts in external wi1102-normal-resource-finalization-20261023. Truehuman close not yet requested or recorded.",
+  "receiptId": "wi1102-normal-resource-finalization-20261023",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1102-fresh-material-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1062",
+    "worktree": "/workspace/ai-cockpit-wi1102-fresh-material-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-23T02:34:41.789452+00:00",
+  "workItemId": "WI-1102-fresh-material-recovery",
+  "worktree": {
+    "branch": "codex/wi-1102-fresh-material-recovery",
+    "headRevision": "c742190a09c4c24f8d6eb5234d93e70a87a6414b",
+    "path": "/workspace/ai-cockpit-wi1102-fresh-material-recovery",
+    "worktreeId": "sha256:2ef42bfd83b36734d67c08c3ad07942c7b0023b59a6f14ccbe41495cc2ffd2e7"
+  }
+}
