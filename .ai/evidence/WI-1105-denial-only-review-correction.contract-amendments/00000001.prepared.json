@@ -1,0 +1,208 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1105-denial-only-review-correction",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-b9420e9e0589fb70b59212d4ac9c79d7db0b193fc6f04d03c0aafb1f4b3a7798",
+      "expectedContractDigest": "sha256:2ce892b4024669c16a769e01ab96ce84dbfb9fe6930c4e7f910afe9e3c75a67d",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Trusted parent01a1576c-b0ab-7723-ad8e-95924e80102a mainline continuation/dependency reconstruction and usability-first scope delegation; ordinarytechnical plan delegated toRaydot, not external identity attestation"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Frozen61ad4c26ed2f4422ec7280fabc41754e6fd2dc1e review_ledger.rs SHA256:cdd5dd4baf622dea63e91ccfaf20d41d7a73c195769ce34d95143fe4b1890be5"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Independent minimal4path planreview7843219163cf02fbcf84b3af4ae503aab4766d61c1994fac4381e31364733880 plus pre-start correction: no evidence_store:: testgroup exists; do not execute/count zero-selected filter"
+        }
+      ]
+    },
+    "requestDigest": "sha256:ae2018a75a659d541ef98d86a00692e21efd5917f87432bf0bfbf075adc4a2aa",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Exactly the four declared business paths; lib wiring exports only two public APIs. Existing immutable writer function body unchanged; only fn visibility becomes pub(super). No new Cargo dependency or fifth parser file.",
+        "Existing protocol Correction types, Digest/digest_json, PinnedRoot, cap readers, lifecycle guard, duplicate-key visitor with deserializer.end are reused. Local ObserverError::State helper avoids importing unaccepted full authority just for error construction.",
+        "Initially unverified: Restore only two public repository APIs for local denial-only correction reader/append on latest actual main. Public API absence RED is feature-restoration evidence only, not a proof that candidate approved-A race or external B is fixed. Existing main WI1097 source identity/WI1099 capture/WI1101 recovery/WI1102 fresh verification/WI1104 bounded preflight refresh remain intact.",
+        "Initially unverified: Exact typed request schema/repository/WI/target raw digest/reason constraints; new request must match exactly one existing target with correct identity. Validate actual target/event original bytes with128KiB precheck and existing recursive duplicate-key/end-input visitor before typed serde. Typed Rust request input is not claimed to authenticate or validate an unseen caller rawJSON serialization.",
+        "Initially unverified: Existing PinnedRoot/capability nofollow bounded readers/strict decisions parent identity, directory/event budgets, schema/sequence/parent/request digest/filename and timestamp chain integrity remain enforced; symlink, malformed, duplicate-key, trailing-data, overbudget, tampered/foreign/ambiguous target/chain variants reject without implicit permission.",
+        "Initially unverified: Same-WI lifecycle lock serializes actual public append and reader; internal already-locked reader avoids reentrant lock acquisition. Controlled contention/public production path and parent replacement/publication interruption retain evidence and deny unsafe publication, without changing system permissions or treating invisible facts as absent.",
+        "Initially unverified: Immutable publish/readback, exact idempotent replay and old Summary/receipt byte preservation. A validated existing-event replay is distinguished from a new request requiring current target validation. Events stay self_declared_denial_only/unverified_recorder/human_authority_granted=false; no current permission/hold/admission activation, independently authenticated identity, protected rollback detection, B or mirror functionality is introduced.",
+        "Initially unverified: Only four business paths plus supported native lifecycle outputs change; evidence_store immutable writer body remains byte-identical with only sibling visibility changed. Actual selected/executed tests nonzero, workspace consumers/typechecks, Clippy, format, exact diff, independent review, final published HEAD requiredCI/mainCI and recoverable lifecycle delivery are separately evidenced. Focused tests are not represented as the entire repository suite; prior failures/P3/benefit unknown and old69-file candidate remain separate.",
+        "Full delivery planned at entry: supported native Contract/controls/preflight/checkpoint/verification/failure/Outcome/archive/actual provider binding/finalization/close records; ordinary commits and isolated branch push, one source draftPR, actual finalHEAD CI and independentreview, separately authorized normalmerge, actual mainCI, recoverable exactcleanup, officialfinalize/verify and distinct truehumanclose with native closeout publication as authorized. User-visible benefit unmeasured unless actually measured/owner-declared.",
+        "Denial-only evidence publication touches identity-bound repository records and immutable filesystem/lock boundaries; obey actual Runtime classification/controls, without hiding security words or adding privilege. It grants no production authority.",
+        "Execution environment: existing installed Rust toolchain with explicit isolated CARGO_TARGET_DIR=/workspace/wi1105-denial-only-review-correction-run/cargo-target under already-writable /workspace, stable throughout this Work Item. No HOME or system permissions changes, no access to denied WI1103 cache and no reuse of its directory permission approval."
+      ],
+      "authority": "authorized",
+      "baseRevision": "e82928f3fec3692f6e7123dd2752557a702a00ab",
+      "createdAt": "2026-10-23T04:30:03Z",
+      "goal": "Implement and independently verify exactly two repository library APIs for reading/appending denial-only correction records with existing strict input/capability/lock/immutable publication constraints, and deliver through normal complete source/native PR/main/resource lifecycle with genuine later close.",
+      "intent": "Continue the approved bounded reconstruction of the frozen candidate toward A and minimum usable external B by restoring the directly needed local denial-only correction ledger; do not activate production authorization or deploy B.",
+      "mode": "implementation",
+      "outOfScope": [
+        "Full review_authority module",
+        " unconsumed local_hold_head",
+        " approval/revocation mirror helpers",
+        " external B/source authentication/protected service or credential/store deployment; CLI/MCP gate activation",
+        " new current human approval policy or persistent privileges; model/typed success is not authenticated identity; Wholesale69-file candidate restore or overwriting accepted main fixes; oldcandidate A race/fullcompile/old174-case acceptance is not completed by this slice; Changing existing assertions/test exclusions/CI/scanner/budgets/verification history",
+        " accepting residualrisk",
+        " replacing sharedRuntime or self-authorizing with a candidate; Publishing beyond this four-business-path change and its supported native governance/lifecycle records",
+        " merging without separately applicable owner authority",
+        " trueclose without an actual generated-binding user decision",
+        " force/admin/protection changes or unrelated cleanup; Sentinel business delivery/originalsite or Issue closure; independentWI1103 EROFS stays unresolved and is not treated as new integrationhardgate"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "high",
+      "scope": [
+        "crates/cockpit-repository/src/review_ledger.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/evidence_store.rs",
+        "crates/cockpit-repository/tests/review_correction.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test review_correction -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib review_ledger:: -- --test-threads=1",
+        "cargo check --locked --workspace --all-targets",
+        "cargo clippy --locked -p cockpit-repository --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check e82928f3fec3692f6e7123dd2752557a702a00ab HEAD"
+      ],
+      "workItemId": "WI-1105-denial-only-review-correction"
+    },
+    "previousContractDigest": "sha256:2ce892b4024669c16a769e01ab96ce84dbfb9fe6930c4e7f910afe9e3c75a67d",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Exactly the four declared business paths; lib wiring exports only two public APIs. Existing immutable writer function body unchanged; only fn visibility becomes pub(super). No new Cargo dependency or fifth parser file.",
+        "Existing protocol Correction types, Digest/digest_json, PinnedRoot, cap readers, lifecycle guard, duplicate-key visitor with deserializer.end are reused. Local ObserverError::State helper avoids importing unaccepted full authority just for error construction.",
+        "Initially unverified: Restore only two public repository APIs for local denial-only correction reader/append on latest actual main. Public API absence RED is feature-restoration evidence only, not a proof that candidate approved-A race or external B is fixed. Existing main WI1097 source identity/WI1099 capture/WI1101 recovery/WI1102 fresh verification/WI1104 bounded preflight refresh remain intact.",
+        "Initially unverified: Exact typed request schema/repository/WI/target raw digest/reason constraints; new request must match exactly one existing target with correct identity. Validate actual target/event original bytes with128KiB precheck and existing recursive duplicate-key/end-input visitor before typed serde. Typed Rust request input is not claimed to authenticate or validate an unseen caller rawJSON serialization.",
+        "Initially unverified: Existing PinnedRoot/capability nofollow bounded readers/strict decisions parent identity, directory/event budgets, schema/sequence/parent/request digest/filename and timestamp chain integrity remain enforced; symlink, malformed, duplicate-key, trailing-data, overbudget, tampered/foreign/ambiguous target/chain variants reject without implicit permission.",
+        "Initially unverified: Same-WI lifecycle lock serializes actual public append and reader; internal already-locked reader avoids reentrant lock acquisition. Controlled contention/public production path and parent replacement/publication interruption retain evidence and deny unsafe publication, without changing system permissions or treating invisible facts as absent.",
+        "Initially unverified: Immutable publish/readback, exact idempotent replay and old Summary/receipt byte preservation. A validated existing-event replay is distinguished from a new request requiring current target validation. Events stay self_declared_denial_only/unverified_recorder/human_authority_granted=false; no current permission/hold/admission activation, independently authenticated identity, protected rollback detection, B or mirror functionality is introduced.",
+        "Initially unverified: Only four business paths plus supported native lifecycle outputs change; evidence_store immutable writer body remains byte-identical with only sibling visibility changed. Actual selected/executed tests nonzero, workspace consumers/typechecks, Clippy, format, exact diff, independent review, final published HEAD requiredCI/mainCI and recoverable lifecycle delivery are separately evidenced. Focused tests are not represented as the entire repository suite; prior failures/P3/benefit unknown and old69-file candidate remain separate.",
+        "Full delivery planned at entry: supported native Contract/controls/preflight/checkpoint/verification/failure/Outcome/archive/actual provider binding/finalization/close records; ordinary commits and isolated branch push, one source draftPR, actual finalHEAD CI and independentreview, separately authorized normalmerge, actual mainCI, recoverable exactcleanup, officialfinalize/verify and distinct truehumanclose with native closeout publication as authorized. User-visible benefit unmeasured unless actually measured/owner-declared.",
+        "Denial-only evidence publication touches identity-bound repository records and immutable filesystem/lock boundaries; obey actual Runtime classification/controls, without hiding security words or adding privilege. It grants no production authority.",
+        "Execution environment: existing installed Rust toolchain with explicit isolated CARGO_TARGET_DIR=/workspace/wi1105-denial-only-review-correction-run/cargo-target under already-writable /workspace, stable throughout this Work Item. No HOME or system permissions changes, no access to denied WI1103 cache and no reuse of its directory permission approval."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "e82928f3fec3692f6e7123dd2752557a702a00ab",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-23T04:30:03Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Implement and independently verify exactly two repository library APIs for reading/appending denial-only correction records with existing strict input/capability/lock/immutable publication constraints, and deliver through normal complete source/native PR/main/resource lifecycle with genuine later close.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Continue the approved bounded reconstruction of the frozen candidate toward A and minimum usable external B by restoring the directly needed local denial-only correction ledger; do not activate production authorization or deploy B.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Full review_authority module",
+        " unconsumed local_hold_head",
+        " approval/revocation mirror helpers",
+        " external B/source authentication/protected service or credential/store deployment; CLI/MCP gate activation",
+        " new current human approval policy or persistent privileges; model/typed success is not authenticated identity; Wholesale69-file candidate restore or overwriting accepted main fixes; oldcandidate A race/fullcompile/old174-case acceptance is not completed by this slice; Changing existing assertions/test exclusions/CI/scanner/budgets/verification history",
+        " accepting residualrisk",
+        " replacing sharedRuntime or self-authorizing with a candidate; Publishing beyond this four-business-path change and its supported native governance/lifecycle records",
+        " merging without separately applicable owner authority",
+        " trueclose without an actual generated-binding user decision",
+        " force/admin/protection changes or unrelated cleanup; Sentinel business delivery/originalsite or Issue closure; independentWI1103 EROFS stays unresolved and is not treated as new integrationhardgate"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/review_ledger.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/evidence_store.rs",
+        "crates/cockpit-repository/tests/review_correction.rs"
+      ],
+      "sources": [
+        "Trusted parent01a1576c-b0ab-7723-ad8e-95924e80102a mainline continuation/dependency reconstruction and usability-first scope delegation; ordinarytechnical plan delegated toRaydot, not external identity attestation",
+        "Frozen61ad4c26ed2f4422ec7280fabc41754e6fd2dc1e review_ledger.rs SHA256:cdd5dd4baf622dea63e91ccfaf20d41d7a73c195769ce34d95143fe4b1890be5",
+        "Independent minimal4path planreview7843219163cf02fbcf84b3af4ae503aab4766d61c1994fac4381e31364733880 plus pre-start correction: no evidence_store:: testgroup exists; do not execute/count zero-selected filter"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository --test review_correction -- --test-threads=1",
+        "cargo test --locked -p cockpit-repository --lib review_ledger:: -- --test-threads=1",
+        "cargo check --locked --workspace --all-targets",
+        "cargo clippy --locked -p cockpit-repository --all-targets --all-features -- -D warnings",
+        "cargo fmt --all -- --check",
+        "git diff --check e82928f3fec3692f6e7123dd2752557a702a00ab HEAD"
+      ],
+      "workItemId": "WI-1105-denial-only-review-correction"
+    },
+    "newContractDigest": "sha256:337f0bfbfffa7e516171623e957d2f65ab67d00393adde38fddbea67d3df4baa",
+    "previousSummaryDigest": "sha256:018249c0c1fd44d6bb6f80d1f45bd6f52a52f6ffa74e68778e14709b010bdd10",
+    "repositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+    "environmentObservationDigest": "sha256:7257d11d51cb797e0cec1986d815a87bcbcfeae29fc92e3edab5e8b0bbc0e130",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:b9420e9e0589fb70b59212d4ac9c79d7db0b193fc6f04d03c0aafb1f4b3a7798",
+    "preparedAt": "2026-10-23T04:30:03Z"
+  },
+  "preparedDigest": "sha256:fec55e131969eb29b489b72f8467b38dc415383a7bcdfd129fd8c161d9d5b4d8"
+}
