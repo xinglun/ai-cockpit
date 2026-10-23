@@ -1,0 +1,178 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d747c201877b5930870c6f955c7ff2a5e310763830ff31fb2820cf52e7834e45",
+      "workItemId": "WI-1101-closeout-recovery-preflight"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1101-closeout-recovery-preflight.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1101-closeout-recovery-preflight.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1101-closeout-recovery-preflight.verification-attempt.59ad919b99c5012e640e0f5013ca30d18b82357cf5c0753e8db8e3d43fc5b5c1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1101-closeout-recovery-preflight.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1101-closeout-recovery-preflight.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via actual-user-message:Sentinel_ef07ac69bbec8191b2a30f157639289c; request-message:Sentinel_adf994eba7f4819182dd1c2f60ccc390; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted at 2026-10-23T00:58:32.737285+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1101-closeout-recovery-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json"
+          ],
+          "inference": false,
+          "text": "Make plan and recovery reject known generated origin/receipt conflicts before any canonical payload installation, with an actionable preservation path; keep execution-time race checks, lock order, close-last semantics and legacy compatible bindings, then deliver through independent review, exact-head CI and separately authorized normal merge/finalization."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1101-closeout-recovery-preflight.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-23T00:58:33.937734332Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1101-closeout-recovery-preflight"
+    },
+    "workItemId": "WI-1101-closeout-recovery-preflight"
+  },
+  "finalReportDigest": "sha256:fcce83a6f632123aec2464317bdf39f6690c268c6c0c0cb20631995ae5a8ccd2",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-23T00:58:33.937705950Z",
+  "recordedAt": "2026-10-23T00:58:33.937705950Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:b3db7e5afe57ba8f231844c980dac2b2b3420a09effba30589e3af7da5f66cfe",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1101-closeout-recovery-preflight.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "actual-user-message:Sentinel_ef07ac69bbec8191b2a30f157639289c; request-message:Sentinel_adf994eba7f4819182dd1c2f60ccc390; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted",
+    "decidedAt": "2026-10-23T00:58:32.737285+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1101-closeout-recovery-preflight.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Actual user replied: 确认按上述绑定关闭 WI-1101，confirmed，并批准上述收尾记录发布及条件合并。 The separate request binds WI-1101-closeout-recovery-preflight to finalization sequence0 and headDigest sha256:b3db7e5afe57ba8f231844c980dac2b2b3420a09effba30589e3af7da5f66cfe. Pinned officialb2 just revalidated the identical verified/deleted binding. User source time is known only at minute precision2026-10-23 00:57UTC; decidedAt is actual current recording time, not backdated service-time precision. This transcribes an actual user close decision, not GitHub humanReview, independent identity authentication, residual-risk acceptance or merge-approval substitution. Actual mainCI39858553380 remains FAILED at the linked-worktree fixture; WI1103 EROFS and all failure history remain unresolved. Close is lifecycle finalization of this exact bounded fix, not a claim that main or all legacy problems pass. Exact source27fbd mergedc622, original source bf8250 verification and archive bytes remain unchanged; resources normally removed with recovery bundle/prerequisite and ignored bytes retained outside. Sentinel isolated acceptance does not replace original-site registration/operational acceptance. User-visible benefit is undeclared/unmeasured. Only this WI finalize/close two-native-record public PR is separately conditionally authorized.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-23T00:58:33Z",
+  "usageCutoff": "2026-10-23T00:58:33.937734332Z",
+  "workItemId": "WI-1101-closeout-recovery-preflight"
+}
