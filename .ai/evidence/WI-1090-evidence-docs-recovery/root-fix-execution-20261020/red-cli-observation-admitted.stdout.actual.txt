@@ -1,0 +1,18 @@
+
+running 1 test
+test source_change_observation_precedes_failed_check_and_plan_is_read_only ... FAILED
+
+failures:
+
+---- source_change_observation_precedes_failed_check_and_plan_is_read_only stdout ----
+
+thread 'source_change_observation_precedes_failed_check_and_plan_is_read_only' (1091637) panicked at crates/cockpit-cli/tests/verify.rs:53:5:
+assertion failed: !failed.status.success()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    source_change_observation_precedes_failed_check_and_plan_is_read_only
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 2.70s
+

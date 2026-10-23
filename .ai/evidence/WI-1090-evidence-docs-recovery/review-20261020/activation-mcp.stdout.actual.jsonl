@@ -1,0 +1,2 @@
+{"id":1,"jsonrpc":"2.0","result":{"capabilities":{"tools":{"listChanged":false}},"protocolVersion":"2025-06-18","serverInfo":{"name":"ai-cockpit","runtimeDigest":"sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257","version":"1.0.1"}}}
+{"id":2,"jsonrpc":"2.0","result":{"content":[{"text":"repository protocol state error at activation-transition: unexplained activation Contract change at /verification; amend the plan first","type":"text"}],"isError":true}}

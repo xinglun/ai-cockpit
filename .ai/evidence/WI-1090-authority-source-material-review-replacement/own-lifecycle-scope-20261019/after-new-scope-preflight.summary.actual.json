@@ -1,0 +1,234 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-19T19:18:36Z",
+  "checkpointContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "recorded": true,
+      "recordedAt": "2026-10-19T19:18:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "previousContractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "reason": "Proposal only for a first WI1090 material-review opt-in. No current material risk consent or reviewer decision is recorded by this proposal. Preserve scope, verification, old history and all non-profile policy; obtain actual new native review/material bindings before any material record.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T22:27:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+      "previousContractHash": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+      "reason": "Propose only the explicit WI1090-own finish/archive exception in outOfScope item2 and acceptance criterion7. Preserve all other restrictions, profile, policy, source material and verification declarations. No scope amendment, terminal action or new-binding human review is implied before the actual required authorization.",
+      "recorded": true,
+      "recordedAt": "2026-10-19T23:15:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "createdAt": "2026-10-19T08:35:04Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:530d11843008f5fe306fdc19fae652d30724caa9ab39d7293eabd7c0d92cadca",
+    "reason": "Ray replied literally 确认上述 WI-1090 修约后完整绑定，confirm_review。 in Sentinel_5e627daabe548191ac72167f9a8963c3 to exact request Sentinel_09302e9f41a88191bcd960ffe84f27fa; relayed by agent:Raydot, recorder agent:Codex. Actual full binding and provenance at .ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/ray-new-contract-confirmation.relayed.agent-recorded.json. This is the new b6d2 Contract confirmation, not replay of c9, no invented new risk acceptance, ordinary acceptance, Sentinel recovery or release approval.",
+    "recordedAt": "2026-10-19T22:44:19.339363Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "schemaVersion": 1,
+    "workItemId": "WI-1090-authority-source-material-review-replacement"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/new-contract-verification-and-records.actual.agent-recorded.json",
+      ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json",
+      ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-two-case-execution-summary.actual.agent-recorded.json"
+    ],
+    "reason": "The bounded WI1090 implementation intent is supported by actual H/P/C/current-decision/transaction negative tests, both explicitly limited M6 synthetic fixture lifecycles, actual Ray-confirmed b6d2 Contract, exact current c5dd material record under the previously granted conditional risk acceptance, and a newly executed seven-node b6d2 formal verification. Old invalid receipts never grant current discharge. This states tested implementation alignment only: no real WI1089/Sentinel recovery, adoption, cache invalidation or producer-upgrade claim. Ordinary acceptance must be reviewed by Raydot before this proposed control is recorded.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-19T08:35:04.513592209Z",
+      "recordedAt": "2026-10-19T08:35:04.513592209Z",
+      "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:0f3949bae38b9a306bcb677c9441bbeb77af17368c8ea561db65fcd489f819b5",
+    "path": ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7.json",
+    "receiptDigest": "sha256:bf8fbd2e07bfad7fef99ae386f33038d5d7f031fc6161e63328e1400c9d9d9a0",
+    "requestDigest": "sha256:c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-19T23:16:29Z",
+  "preflightContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "preflightDecisionDigest": "sha256:32eb38ce7b28da40351e65b57900ddb1a2c02ec0924aac84303719660473ec45",
+  "preflightRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Complete valid R-to-A history permits only reviewed scope/acceptanceCriteria/scenarioCoverage/sources transitions with unchanged profile; real adjacent A-to-B changes only authoritySource, including correct whole-object governanceProfile replace. H/P only permit a NEW current decision; old receipt remains invalid/no discharge.",
+      "reason": "All original positive H/P/new-decision/no-discharge clauses map to passing native fixture integration tests and both actual M6 encodings.",
+      "required": true,
+      "scenario": "M1 authoritySource-only proof",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Missing required historical review, broken/foreign/pending native chain, intermediate forbidden profile/risk/base changes including revert, Summary-forged or nonadjacent anchors, mixed root-replace changes and unjournaled edits reject without new material writes.",
+      "reason": "Original clauses now have actual native finite-fixture negative coverage including independent foreign/fork/base/nonterminal/direct boundaries; all reject without governance writes. Protected base native refusal is not a successful amendment.",
+      "required": true,
+      "scenario": "M2 forbidden amendments",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Projection and under-lock record use the same H/P/C0 typed helper, preserving strict invalid diagnostics and blockers; record separately validates actual C1 current-request/reviewer/source/assurance input. Current exact material and actual approval/review provenance are required; self_declared human-authentication limits remain explicit.",
+      "reason": "Shared private proof and native admission under lifecycle lock plus actual independent C1 fixtures/wrong-input rejection; assurance remains self_declared, not a real WI1090 risk grant.",
+      "required": true,
+      "scenario": "M3 shared admission and service proof",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-repository --test status_projection"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Injected failures before/after prepare publish, receipt publish and one atomic Summary commit preserve old canonical bytes/history. Only exact pending continuation commits once; committed replay, wrong/conflicting input and CAS races reject without duplicate history or discharge from residue.",
+      "reason": "Actual six publication boundaries, exact original receipt retry, wrong/conflicting pending, replay, CAS/current-source/review/namespace races all passed; cooperative-lock logical atomicity only.",
+      "required": true,
+      "scenario": "M4 logical atomicity and bounded resume",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/native-seven.attempt3.metadata.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/minimal-negative-matrix-20261019/M1-M5-clause-to-evidence-map.final.actual.agent-recorded.json"
+      ],
+      "expected": "Finding, other Unknown, dirty/unavailable source, missing/stale/foreign current authorization, changed request/blob/hunk/profile/scanner/policy, corrupt/duplicate/symlinked receipt/pointer/history/chain and material/source changes after the adjacent anchor reject. Workflow review rejects falsely extending old approval to new bindings.",
+      "reason": "Existing validator/planner/transaction cases plus independent stale/foreign current review, actual Rust blob/hunk change, genuine foreign history receipt and Unix journal symlink passed. M5.7 proves refusal of old bindings; actual WI1090 risk consent remains a separate pending workflow.",
+      "required": true,
+      "scenario": "M5 integrity and source rejection",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --lib material_review; cargo test --locked --package cockpit-repository --test material_review"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/M6-two-case-execution-summary.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/leaf/current-verification.native.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/replace/current-verification.native.actual.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/m6-execution-20261019/F1-real-history-readonly-audit.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json",
+        ".ai/evidence/WI-1090-authority-source-material-review-replacement/scenario-mapping-20261019/M6-source-manifest-and-reuse.readonly-supplement.actual.agent-recorded.json"
+      ],
+      "expected": "Frozen real 17c4100f-to-a5 history and a native-produced mixed-then-source-only fixture are covered. With a separately approved combined ba1+WI1090 candidate, actual blocked predecessor Outcome proceeds through NEW material decision, four fresh executed checks/reuse0/max1, fresh green preflight and actual fixture finish/archive. Same-profile and existing CLI/MCP regressions remain compatible; no actual consumer lifecycle completion is inferred.",
+      "reason": "Approved exact ba1+33d79 source recipe actually built; leaf set and whole-profile replace synthetic fixtures each preserved old four-node canonical/blocked Outcome/material receipt, actual20-op R-to-A, source-only adjacent B and independent new decision; plan0/new executed4/reuse0/max1/fresh green/actual finish/archive passed. Actual frozen cloud history queried read-only; no Sentinel/real-consumer or old-producer-upgrade claim. Existing seven-check compatibility evidence remains tied to unchanged WI1090 source33/5b, not a new formal seven-node combined-source run. Both actual receipt node reasons are reuse_not_configured: zero reuse proves actual required executions only, not configured-cache invalidation or Runtime-change reuse prevention.",
+      "required": true,
+      "scenario": "M6 preserved compatibility and fixed candidate",
+      "status": "verified",
+      "verificationPlan": "cargo test --locked --package cockpit-repository --test material_review; cargo test --locked --package cockpit-cli --test contract_amendment_processes; cargo test --locked --package cockpit-mcp --test material_review"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-19T22:57:24.440575245+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-19T23:15:05Z"
+  },
+  "verificationRecoveryReconciled": "sha256:96ad9afabd7af5ab734d3de9ef7d7d5e986726e7d1cb9a075b7a17a3313665d1",
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}

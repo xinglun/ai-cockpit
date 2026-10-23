@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1090-additional-candidate-20261020/94e554ad836b19b4e027c3afda2159c4ace0fd18/ai-cockpit",
+    "work-item",
+    "controls",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+    "--id",
+    "WI-1090-evidence-docs-recovery",
+    "--input",
+    "/workspace/ai-cockpit-wi1090-evidence-docs-recovery/.ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-verified-controls.input.actual.json"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+  "startedAt": "2026-10-20T03:44:18.719787+00:00",
+  "finishedAt": "2026-10-20T03:44:28.122790+00:00",
+  "exitCode": 0,
+  "timedOut": false,
+  "environment": {
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/scratch/wi1090-confirmed-execution-20261020/target",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "AI_COCKPIT_INTERFACE_DESCRIPTION_BIN": "/workspace/scratch/wi1090-additional-candidate-20261020/94e554ad836b19b4e027c3afda2159c4ace0fd18/ai-cockpit"
+  }
+}

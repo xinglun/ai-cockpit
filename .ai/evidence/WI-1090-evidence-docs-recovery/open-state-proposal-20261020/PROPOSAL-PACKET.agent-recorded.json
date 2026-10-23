@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_proposal_packet_not_native_decision_or_gate_receipt",
+  "actor": "agent:Codex",
+  "recordedAt": "2026-10-20T01:37:41.325831+00:00",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "currentSourceHead": "00bdab587d1e1c32c1fc0b4aa3e9f48d566e6257",
+  "expectedCurrentContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "proposalFilesRawSha256": {
+    "predecessor-open-state.proposed.diff": "cf299e4e923c5706606eeda1c1849d2d68dff8d7d058f6683a22afde08a83adf",
+    "contract-open-state.amendment.proposed.json": "28dc27c6c0332ea020788750d62dfe47e555412f078517069891584557da09e6",
+    "contract-purpose-diff.proposed.json": "e2cb63e81aa3aed348c3e1fd758cd606e4d031b3d2151f6bd613cc407cc1969e",
+    "OPEN-STATE-REVIEW.actual.agent-recorded.json": "1ceba0658f46481ee6d1fd936edb0319a9c07cf7cd96cc700ea878f8a78a838a",
+    "ENTRY-COMPARISON.proposal-only.zh-CN.md": "531228dc62c3d7ad9cffcf95ef155485b92d8f712f3f6e62c4fbc7c981490ffb"
+  },
+  "selectedProposal": "Existing truthful pending-state documentation route; no Runtime/gate implementation",
+  "technicalReviewOwner": "agent:Raydot",
+  "technicalApprovalRecorded": false,
+  "nativeAmendmentExecuted": false,
+  "proposedDocumentDiffApplied": false,
+  "candidateFormalVerificationExecuted": false,
+  "currentAC3Satisfied": false,
+  "boundaries": "27 scope paths and both required checks stay unchanged; predecessor generated history, source Rust, protected manifests, current Contract/Summary and own pre-verification rows remain unchanged. A future native amendment/review/admission must establish any new binding."
+}

@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "work-item",
+    "amend",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+    "--id",
+    "WI-1090-evidence-docs-recovery",
+    "--request",
+    "/workspace/scratch/wi1090-root-cause-native-amend-20261020/input.collection-target-corrected.actual.json"
+  ],
+  "startedAt": "2026-10-20T02:05:12.975716+00:00",
+  "finishedAt": "2026-10-20T02:05:14.113575+00:00",
+  "exitCode": 0,
+  "requestRawSha256": "a22f1caeef05dd222d4bdf4e2b1e44b844dfbc12ba2d4960bf0dbca9b4c44323",
+  "technicalApprovalActor": "agent:Raydot",
+  "recorder": "agent:Codex"
+}

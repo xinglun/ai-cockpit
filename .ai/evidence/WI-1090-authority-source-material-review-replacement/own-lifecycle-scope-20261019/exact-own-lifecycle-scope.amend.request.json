@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1090-own-finish-archive-scope-exception-proposal-20261019-v1",
+  "expectedContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+  "reason": "Propose only the explicit WI1090-own finish/archive exception in outOfScope item2 and acceptance criterion7. Preserve all other restrictions, profile, policy, source material and verification declarations. No scope amendment, terminal action or new-binding human review is implied before the actual required authorization.",
+  "changes": [
+    {
+      "path": "/outOfScope/1",
+      "operation": "set",
+      "value": "No Sentinel operations, live authorization/grants, WI1087 P3/P4, release/version/tag/provider cleanup, merge or real WI finish/archive/closure. Isolated explicitly identified fixture lifecycle tests are permitted only after current native implementation/verification admission. The sole exception, superseding earlier referenced lifecycle prohibitions only to this extent, is WI-1090-authority-source-material-review-replacement's own finish and subsequent archive, each only under current native admission; close/closure and every other excluded action remain prohibited."
+    },
+    {
+      "path": "/acceptanceCriteria/6",
+      "operation": "set",
+      "value": "Preserve c960/Contract420 history and delivered ba1c6c90/Contracta5/CI39249701684 unchanged during this implementation. Later real-consumer composition requires a separately reviewed exact candidate containing both ba1 and completed WI1090 with fresh native runtime/admission/material bindings. No Sentinel, real WI finish/archive/closure, merge, live grant, broad profile migration or automatic Runtime adoption. The sole exception, superseding earlier referenced lifecycle prohibitions only to this extent, is WI-1090-authority-source-material-review-replacement's own finish and subsequent archive, each only under current native admission; close/closure and every other excluded action remain prohibited."
+    }
+  ]
+}

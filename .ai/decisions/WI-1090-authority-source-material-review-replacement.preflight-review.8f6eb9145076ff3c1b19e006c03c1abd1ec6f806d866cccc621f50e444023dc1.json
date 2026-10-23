@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:32eb38ce7b28da40351e65b57900ddb1a2c02ec0924aac84303719660473ec45",
+  "reason": "Actual Ray reply 确认上述 WI-1090 自身收尾范围修约完整绑定，confirm_review。 in Sentinel_e1b4efc9717c8191a666a96cb217df9a to exact request Sentinel_4b8a64e865388191a68d4076fd54636f; relayed by agent:Raydot, recorder agent:Codex. Full actual 1cc7 binding and provenance at .ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-completion-20261019/ray-own-scope-confirmation.relayed.agent-recorded.json. New generated identity confirmed, not replay of b6d2 or conversion of earlier scope permission into a confirmation. No new material-risk decision, close, cleanup, other WI, Sentinel, merge or release authority.",
+  "recordedAt": "2026-10-19T23:23:30.674793Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "schemaVersion": 1,
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}

@@ -1,0 +1,56 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:a5eed7a109aa1a507fbfabf98d08ebc1dd082a0b8076aaf15360ada14161b782",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-evidence-docs-recovery",
+    "sequence": 2,
+    "changeId": "wi1090-native-activation-command-representation-20261020-v1",
+    "requestDigest": "sha256:2e317a21c622f9741a52efce58f5de2d3a6c9d6c7fe0683c1caa13fcc8b3ad59",
+    "reason": "Native MCP activation rejected typed-to-string verification normalization before any write and explicitly requires amending the plan first. Register only the same two exact command strings for this supported transport, with no execution or implementation; preserve the approved typed declarations and restore them by native amendment immediately after activation, before presenting a final review. No scope, authority, risk, exclusions, acceptance, scenario or historical record changes.",
+    "changedValues": [
+      {
+        "path": "/verification",
+        "operation": "replace",
+        "oldValue": [
+          {
+            "check": "bash tests/docs/documentation_acceptance.sh",
+            "coversScenarios": [
+              "truthful_three_language_projection"
+            ],
+            "required": true
+          },
+          {
+            "check": "bash tests/docs/parity_status_check.sh",
+            "coversScenarios": [
+              "truthful_three_language_projection"
+            ],
+            "required": true
+          }
+        ],
+        "newValue": [
+          "bash tests/docs/documentation_acceptance.sh",
+          "bash tests/docs/parity_status_check.sh"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:7e16cf68c071dc671c0f3f906a326456ca23b94c3f9cf0592e675323a1e442ae",
+    "newContractDigest": "sha256:c9c223d1cd417494bf85cf15537b771a06e1e0f5fe0e198ec4f18a7b83f13336",
+    "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "environmentObservationDigest": "sha256:2b75bf7dcd8fd64b9b6d6948c36970acbf4d8618270e7207d395bee7ecae1a71",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:8c43bcf513dd0f38de1ace0413ae1e482d61553fae9eb88269b3dff27d71da3b",
+    "journalDigest": "sha256:1572bd3d4a1a070c7646ad9a65b0b7cf3fd520cf1f0a6a9b8d463c4b7b9c857c",
+    "recordedAt": "2026-10-20T00:50:29Z"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/exact8-and-39-scope-audit.actual.agent-recorded.json"
+      ],
+      "expected": "Exactly8 approved copy moves and2 locator files, full old Git blob/raw SHA/length match; explicit old-logical-to-new-path resolution works; 2 manifests,27 protected native records,2 Rust files and19 preventive candidates remain unchanged.",
+      "required": true,
+      "scenario": "exact8_byte_preserving_locator",
+      "status": "verified",
+      "verificationPlan": "Run a read-only audit against the frozen cba3 tree and approved index; preserve actual structured audit and record it through native scenario controls before finish.",
+      "reason": "Current read-only exact39 audit passed8 moves,2 locators,2 immutable manifests,27 protected native records,2 frozen inherited Rust files and19 untouched candidates; old logical keys resolve through exact index."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery.verification.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-formal-six-result.actual.agent-recorded.json"
+      ],
+      "expected": "Existing documentation acceptance and governance-integrity gates pass; old WI is selected into the native successor lineage, all3 ledgers owned, current source registration precedes first own verification and own pages remain valid across archive.",
+      "required": true,
+      "scenario": "truthful_three_language_projection",
+      "status": "verified",
+      "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority.",
+      "reason": "Both current real documentation acceptance/parity nodes passed. Native responsibility observation includes all3 ledger paths from validated S, with original real gate assertions retained. Local evidence only; provider CI remains separate."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery.verification.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-formal-six-result.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-nonzero-formal-test-inventory.actual.agent-recorded.json"
+      ],
+      "expected": "Native verification-start material observation covers committed successor changes before checks without claiming success; validated cba3 responsibility history excludes inherited b8ec-to-cba3 Rust. Missing/unchanged files and invalid or stale bindings cannot satisfy ownership. Failure/retry history remains intact; lock-wait and execution drift reject current-state promotion; successful recording preserves committed paths. Native fixtures demonstrate a continuous failed-to-successful finish/archive path with zero extra manual refresh or routine confirmation. Existing workflow documents carry this process standard. Current real recovery must additionally satisfy unchanged AC3, both original document checks and own AC5 lifecycle boundary; actual user interventions and review evidence are reported separately.",
+      "required": true,
+      "scenario": "source_change_observation_root_cause",
+      "status": "verified",
+      "verificationPlan": "Run the four added focused checks with matching source_change_observation_ tests listed before execution; preserve actual native CLI/MCP and binding outputs. Run both original document checks in this real Work Item, update truthful controls and complete own finish/archive only on actual native admission. Record actual intervention count/reason/binding and experience review; synthetic test expectations do not prove real human delivery.",
+      "reason": "Current native six checks passed with12 repository,1 CLI and1 MCP regressions. Real source-origin/lock-wait/execution/CAS/rollback and positive fixture assertions passed; current real closeout is the next separate native AC5 boundary."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery.verification.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-formal-six-result.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-nonzero-formal-test-inventory.actual.agent-recorded.json",
+        ".ai/evidence/material-inspection-review/WI-1090-evidence-docs-recovery/f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a.json"
+      ],
+      "expected": "A canonical unresolved material Unknown remains visible before terminal completion, and native status must not recommend a finish that its actual material guard will reject. A later actual failed lifecycle Outcome must remain blocking/visible even when an earlier successful verification reconciliation marker still matches. Fix permission/projection freshness rather than weakening the material guard or treating inherited source as a new implementation. Legitimate resolved-current-material finish/archive and evidence-only commit remain continuous, without unnecessary verification or human repetition.",
+      "required": true,
+      "scenario": "material_finish_admission_and_outcome_consistency",
+      "status": "verified",
+      "verificationPlan": "Extend the existing source_change_observation_ repository/CLI/MCP regressions within their already scoped files; exercise real native material plan, failed finish, latest failure visibility and resolved-current-dependency continuation, including prior marker and same-second/ambiguous ordering rejection. Preserve exact real failed-finish artifact and old verification receipts. Execute the same six required checks only after native Contract/admission permit the repaired source.",
+      "reason": "Current 12+1+1 formal regressions passed, including canonical material boundary in status/Outcome/transports, specific latest failure recovery, equal-time negative and resolved material/evidence-only commit/finish/archive fixture. Actual four-member finite review receipt1c6b is current. Current real finish/archive remains separately pending until native admission."
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "evidence": [
+      ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/current-formal-six-result.actual.agent-recorded.json",
+      ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/actual-four-member-material-review.agent-recorded.zh-CN.md",
+      "docs/reference/agent-workflow.zh-CN.md"
+    ],
+    "reason": "Current source94 remains inside approved39 scope and Contract be0f. Actual native six checks passed; real finite material review is recorded, protected inherited source/evidence unchanged. Own native closeout and authorized Draft PR/CI are later distinct evidence, with merge/close/delete/release excluded."
+  }
+}

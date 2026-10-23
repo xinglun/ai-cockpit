@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "kind": "root_cause_scope_and_acceptance_review_only",
+  "sourceHead": "2748e2d34bbd46c2b57c9fd99ff1d0d41a90dc37",
+  "expectedContractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "additionalProductionPaths": [
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/contract_amendment.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs"
+  ],
+  "additionalRegressionPaths": [
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-mcp/tests/rpc.rs"
+  ],
+  "additionalProcessDocumentPaths": [
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md"
+  ],
+  "scopeBefore": 27,
+  "scopeProposed": 37,
+  "nativeRequestOperationCount": 12,
+  "requiredChecksBefore": [
+    {
+      "check": "bash tests/docs/documentation_acceptance.sh",
+      "coversScenarios": [
+        "truthful_three_language_projection"
+      ],
+      "required": true
+    },
+    {
+      "check": "bash tests/docs/parity_status_check.sh",
+      "coversScenarios": [
+        "truthful_three_language_projection"
+      ],
+      "required": true
+    }
+  ],
+  "requiredChecksProposed": [
+    {
+      "check": "bash tests/docs/documentation_acceptance.sh",
+      "coversScenarios": [
+        "truthful_three_language_projection"
+      ],
+      "required": true
+    },
+    {
+      "check": "bash tests/docs/parity_status_check.sh",
+      "coversScenarios": [
+        "truthful_three_language_projection"
+      ],
+      "required": true
+    },
+    {
+      "check": "cargo fmt --all --check",
+      "required": true,
+      "coversScenarios": [
+        "source_change_observation_root_cause"
+      ]
+    },
+    {
+      "check": "cargo test --locked --package cockpit-repository --test lifecycle_order source_change_observation_ -- --test-threads=1",
+      "required": true,
+      "coversScenarios": [
+        "source_change_observation_root_cause"
+      ]
+    },
+    {
+      "check": "cargo test --locked --package cockpit-cli --test verify source_change_observation_ -- --test-threads=1",
+      "required": true,
+      "coversScenarios": [
+        "source_change_observation_root_cause"
+      ]
+    },
+    {
+      "check": "cargo test --locked --package cockpit-mcp --test rpc source_change_observation_ -- --test-threads=1",
+      "required": true,
+      "coversScenarios": [
+        "source_change_observation_root_cause"
+      ]
+    }
+  ],
+  "originalAC3Unchanged": "Correct the three existing Work Item pages and three parity ledgers against archived Contract1cc7 and actual failed CI, add the necessary own EN/zh-CN/ja pages and lifecycle-bound own ledger rows in a commit strictly before first own verification evidence. The selected successor and ownership of all3 ledgers must be recognized by the real existing governance gate.",
+  "originalTruthfulProjectionScenarioUnchanged": {
+    "evidence": [],
+    "expected": "Existing documentation acceptance and governance-integrity gates pass; old WI is selected into the native successor lineage, all3 ledgers owned, current source registration precedes first own verification and own pages remain valid across archive.",
+    "required": true,
+    "scenario": "truthful_three_language_projection",
+    "status": "unverified",
+    "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority."
+  },
+  "originalMigrationAcceptanceAndScenarioUnchanged": true,
+  "newRoutineManualRefreshCountByDesign": 0,
+  "newRoutineConfirmationCountByDesign": 0,
+  "actualRootDesignApprovalQuestionsAsked": 0,
+  "actualNewNativeHumanDecisionCount": 0,
+  "futureNecessaryNativeHumanDecisionCount": null,
+  "noPassingImplementationClaim": true,
+  "currentProductionOrContractChanges": [],
+  "supersededProposal": "Ordinary-progress documentation direction remains unimplemented historical evidence; this plan repairs the native root cause."
+}

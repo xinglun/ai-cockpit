@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-1090-evidence-docs-recovery",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+    "preflightDecisionDigest": "sha256:dcdd9edef1452071ae6fbb493ace7ca1a6ccf721bb9dd3e18e65fb14ef805ddf",
+    "repositorySnapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+    "recordedAt": "2026-10-20T02:58:15.571883+00:00",
+    "recordedBy": "agent:Codex",
+    "reason": "Actual human:Ray reply2026-10-20T02:56:59Z Sentinel_2ebfd7995c9c819198972617a5536a6b to exact Raydot request2026-10-20T02:54:00Z Sentinel_7a3992c483f08191aff11e84e5186119: 确认上述 39 路径修约完整绑定，confirm_review。 Full native binding at eef8c5cd272432db4d6bcd73abc08c94bc82f99b. Relay evidence .ai/evidence/WI-1090-evidence-docs-recovery/finish-flow-execution-20261020/ray-new39-confirmation.actual.agent-recorded.json. Existing finite risk approval remains limited to fixed inherited blob/hunk; this is not a completed agent material review or extra merge/close/delete/release/Sentinel authority."
+  }
+}

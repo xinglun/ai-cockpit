@@ -1,0 +1,25 @@
+
+running 1 test
+test source_change_observation_material_unknown_keeps_collection_but_blocks_finish ... [master (root-commit) ecb5ddf] fixture baseline
+[observation-fixture 0b3caed] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 2254028] readable committed syntax Unknown fixture
+ 1 file changed, 1 insertion(+)
+FAILED
+
+failures:
+
+---- source_change_observation_material_unknown_keeps_collection_but_blocks_finish stdout ----
+
+thread 'source_change_observation_material_unknown_keeps_collection_but_blocks_finish' (1204515) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:1402:5:
+assertion `left == right` failed: human Outcome must retain the canonical material boundary
+  left: Some(Green)
+ right: Some(Yellow)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    source_change_observation_material_unknown_keeps_collection_but_blocks_finish
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 23 filtered out; finished in 3.49s
+

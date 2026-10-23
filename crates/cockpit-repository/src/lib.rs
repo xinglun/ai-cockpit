@@ -11864,12 +11864,9 @@ fn append_task_outcome_recovery_event(
     };
     let original_len = events.len();
     let detail = format!("Lifecycle gate blocked: {failed_gate}. {recovery_condition}");
-    if events
-        .iter()
-        .any(|event| event.event_type == "blocked" && event.detail == detail)
-    {
-        return Ok(());
-    }
+    // Every failed invocation gets an ordered identity, even an identical
+    // failure in the same clock second. Never deduplicate a newer failure
+    // against one that an earlier verification may already have reconciled.
     let timestamp = now();
     let event_id = format!(
         "{}-{}",
@@ -11893,6 +11890,46 @@ fn append_task_outcome_recovery_event(
         finding_fingerprint: None,
     });
     append_task_outcome_event_lines(&path, &events[original_len..])
+}
+
+/// Bind a blocked Outcome to its latest native failure event. Event identity
+/// and ordered prefix, rather than clock resolution, establish causality.
+pub(crate) fn lifecycle_failure_binding(
+    root: &Path,
+    id: &str,
+) -> Result<Option<serde_json::Value>, ObserverError> {
+    let path = root.join(format!(".ai/work-items/active/{id}.outcome.json"));
+    if !optional_regular_artifact(&path, "lifecycle failure Outcome")? {
+        return Ok(None);
+    }
+    let value = read_json(&path)?;
+    if value["state"] != "blocked"
+        || value["workItemId"] != id
+        || value["repositoryId"] != repository_id(root).to_string()
+    {
+        return Ok(None);
+    }
+    let events_path = task_outcome_event_path(root, id, false);
+    let events = if optional_regular_artifact(&events_path, "lifecycle failure events")? {
+        validate_task_outcome_events(root, &events_path, &repository_id(root).to_string(), id)?
+    } else {
+        Vec::new()
+    };
+    let last = events
+        .iter()
+        .rposition(|event| event.event_type == "blocked");
+    let prefix = last
+        .map(|index| cockpit_protocol::digest_json(&serde_json::json!(&events[..=index])))
+        .transpose()
+        .map_err(|error| ObserverError::State {
+            path: events_path,
+            message: error.to_string(),
+        })?;
+    Ok(Some(serde_json::json!({
+        "outcomeDigest":cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State { path, message:error.to_string() })?,
+        "blockedEventId":last.map(|index| &events[index].event_id),
+        "blockedEventPrefixDigest":prefix,"failedGate":value["failedGate"],
+    })))
 }
 
 fn validate_task_outcome_events(
@@ -12623,7 +12660,37 @@ fn outcome_v2_internal_with_snapshot(
                 let Ok(digest) = cockpit_protocol::digest_json(&evidence) else {
                     return false;
                 };
+                let Some(failure) = lifecycle_failure_binding(&root, work_item_id)
+                    .ok()
+                    .flatten()
+                else {
+                    return false;
+                };
+                let Some(summary) = current_summary.as_ref() else {
+                    return false;
+                };
+                let basis = &summary["verificationRecoveryBasis"];
                 marker == digest.to_string()
+                    && basis["schemaVersion"] == 1
+                    && basis["verificationEvidenceDigest"] == marker
+                    && basis["failure"] == failure
+                    && failure["blockedEventId"].is_string()
+                    && (!failure["failedGate"]
+                        .as_str()
+                        .is_some_and(|gate| gate.starts_with("finish."))
+                        || (material_review::require_material_review_gate(
+                            &root,
+                            &contract,
+                            &current_summary_path,
+                            "finish",
+                        )
+                        .is_ok()
+                            && require_explicit_resource_finalization_plan(
+                                &contract,
+                                &contract_path,
+                                "finish",
+                            )
+                            .is_ok()))
                     && verification_evidence_state(
                         &root,
                         &contract,
@@ -12721,6 +12788,37 @@ fn outcome_v2_internal_with_snapshot(
             "verification_attempt_formal_receipt_rejected:{}:{}:{}:snapshot={}:evidence={}",
             attempt.attempt_id, code, message, attempt.snapshot_digest, attempt.path
         ));
+    }
+    // The human Outcome must use the same canonical terminal dependency as
+    // finish and status. A software receipt alone cannot discharge material.
+    // Historical archived evidence is not reinterpreted as a current review.
+    if !archived {
+        match material_review::material_review_gate_projection(
+            &root,
+            &contract,
+            &current_summary_path,
+        ) {
+            Ok(projection) => {
+                unknowns.retain(|code| !projection.discharged_unknowns.contains(code));
+                unknowns.extend(projection.effective_unknowns.iter().cloned());
+                if projection.blocked_by_finding {
+                    unknowns.extend(projection.finding_codes);
+                    decision_state = DecisionState::Red;
+                    state = OutcomeState::Unknown;
+                } else if !projection.effective_unknowns.is_empty()
+                    && decision_state == DecisionState::Green
+                {
+                    decision_state = DecisionState::Yellow;
+                    summary = "Software verification evidence is current; canonical material dependencies still prevent terminal completion.";
+                }
+            }
+            Err(_) => {
+                unknowns.push("material_review_projection_unavailable".into());
+                if decision_state == DecisionState::Green {
+                    decision_state = DecisionState::Yellow;
+                }
+            }
+        }
     }
     if contract.acceptance_criteria.is_empty() {
         unknowns.push("acceptanceCriteria".into());

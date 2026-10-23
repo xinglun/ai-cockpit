@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-authority-source-material-review-replacement",
+  "baseCommit": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "yellow",
+  "activityHealth": "active",
+  "blocking": false,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 7,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 1,
+    "checkpointCount": 1
+  },
+  "blockers": [],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "high"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+    "materialManifest": "sha256:333c731ee12c7cde9baab8b87025b96827d8a4b3c7322a1b6be40f9336f7e46e",
+    "repositorySnapshot": "sha256:95233a9935be86e42a309aa72480b183615bafe132d6ecd9a09329cdd9c871a4",
+    "summary": "sha256:fb0a25ef5c7e6e4f9d70acff1535e4033f9631b181e3f2650ddb3f3635fd115c",
+    "verificationEvidence": "sha256:d95bafb274ff552d06369a75d89adfd73addacefff53bc3819e9600e21638a96"
+  },
+  "unknowns": [
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "required_scenario_unverified",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:333c731ee12c7cde9baab8b87025b96827d8a4b3c7322a1b6be40f9336f7e46e",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "intent_alignment_insufficient",
+    "repository_material_inspection_unavailable",
+    "required_scenario_unverified",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:95233a9935be86e42a309aa72480b183615bafe132d6ecd9a09329cdd9c871a4",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-19T20:43:17Z",
+  "updatedAt": "2026-10-19T20:44:02.961667361+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "run_verification"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "record_governance_controls",
+    "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+    "admissionState": "allowed",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "intent_alignment_insufficient",
+        "message": "current projection reports intent_alignment_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "missing",
+        "code": "required_scenario_unverified",
+        "message": "current projection reports required_scenario_unverified"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:157b0708b0c5d0a1d8ee412848151f0452f1e3d6991ce03f9bc50a92a3bc1f2f"
+  },
+  "statusDigest": "sha256:1dbca1f5afb33bb7cbbf69c253f4db47f963f9b5c33f1a1d5f0fbfca31052f8f",
+  "historical": false
+}

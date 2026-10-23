@@ -1,0 +1,17 @@
+{
+  "exitCode": 1,
+  "requestRawSha256": "636b76a8f8a5c61b6415548a9f6da657ce172facbbbd55f5f1279b180a7e6540",
+  "fields": [
+    "intent",
+    "goal",
+    "scope",
+    "outOfScope",
+    "risk",
+    "authority",
+    "acceptanceCriteria",
+    "requiredEvidenceClasses",
+    "sources",
+    "verification",
+    "scenarioCoverage"
+  ]
+}

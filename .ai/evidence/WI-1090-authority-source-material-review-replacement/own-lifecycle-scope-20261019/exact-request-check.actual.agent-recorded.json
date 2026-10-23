@@ -1,0 +1,17 @@
+{
+  "recordedBy": "agent:Codex",
+  "rawSha256": "f1d2d06db05515e49e1074e28a0e8d4ab464fcf058f6e4285400d754ba98e5b4",
+  "exactlyTwoAppendedStringLeaves": true,
+  "changedPaths": [
+    "/outOfScope/1",
+    "/acceptanceCriteria/6"
+  ],
+  "changedRoots": [
+    "acceptanceCriteria",
+    "outOfScope"
+  ],
+  "all8MaterialEntriesAndRawBlobsUnchanged": true,
+  "scannerAndProfilePolicyUnchanged": true,
+  "allOtherContractFieldsUnchangedInRequestedOperation": true,
+  "newBindingNotPredicted": true
+}

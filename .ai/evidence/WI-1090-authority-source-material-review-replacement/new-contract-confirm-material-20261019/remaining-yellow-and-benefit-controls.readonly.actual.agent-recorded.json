@@ -1,0 +1,39 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T22:52:19.367564+00:00",
+  "recordType": "read-only native interface/source analysis and unexecuted ordinary-acceptance proposal",
+  "currentRuntimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "governanceControlsAllowedKeys": [
+    "scenarioCoverage",
+    "acceptanceEvidence",
+    "evidenceClasses",
+    "intentAlignment",
+    "finalDimensions",
+    "decisionEvidence"
+  ],
+  "intentAlignmentSupported": true,
+  "intentResolvedRequires": "nonempty evidence; reviewed proposal provided but not executed because ordinary acceptance is assigned to Raydot",
+  "humanBenefitReportAcceptedByControls": false,
+  "humanBenefitProjection": "Fixed Runtime source constructs HumanBenefitReport(state Unknown, user_visible_changes empty, affected_users empty, unknown user_visible_benefit_not_declared); no controls field routes a declared benefit into it.",
+  "noUnsupportedControlWriteAttempted": true,
+  "sourceGuards": [
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "rawSha256": "e4c489b6d2f1a48159c80132e58c3a959162c036edeaf71b8627b05e64386c25",
+      "sameBytesAsFixedRuntimeSource_b8ec269": true
+    },
+    {
+      "path": "crates/cockpit-repository/src/governance_controls.rs",
+      "rawSha256": "b610565f43136db0115e19d6072e6b9a23ceafff6d75a33fcef81690f6ab8fe4",
+      "sameBytesAsFixedRuntimeSource_b8ec269": true
+    }
+  ],
+  "remainingUnknowns": [
+    "intent_alignment_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "oldIntentReasonNowStale": "Summary unknown reason still mentions incomplete M2/M5 and profile null/no risk consent; these historical conditions have now been resolved. Native-supported intentAlignment can accurately replace that reason after Raydot ordinary acceptance.",
+  "provenTechnicalBenefit": "Actual test fixtures show the finite path permits a separate new current material decision only with valid historical/adjacent/current proofs, preserves immutable historical evidence, rejects independent integrity failures, and completes both bounded synthetic four-node lifecycles. Actual current WI1090 material record and new Contract verification now succeeded.",
+  "userBenefitInference": "Expected to reduce valid-material-review deadlocks and prevent improper approval carryover for future consumers. Real consumer/Sentinel effect is not observed.",
+  "ordinaryAcceptanceOrBenefitClaimRecorded": false
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:af4dc69ed22faa7e02174ae06b68449716e14dbbaa679ed55939f219c27cc3f6",
+  "reason": "Actual human:Ray reply at 2026-10-20T01:01:23Z, message Sentinel_d4f96bd3331481919648dde0b091f9e3, to exact request Sentinel_77b63f2d7d488191973a340ff33750c3: 确认上述 WI-1090-evidence-docs-recovery 完整绑定，confirm_review。 Recorder agent:Codex; source .ai/evidence/WI-1090-evidence-docs-recovery/review-20261020/ray-confirmation.actual.agent-recorded.json. Plan review only; no material-risk acceptance, merge/close/delete/release or Sentinel authority.",
+  "recordedAt": "2026-10-20T01:03:14.399357+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "schemaVersion": 1,
+  "workItemId": "WI-1090-evidence-docs-recovery"
+}

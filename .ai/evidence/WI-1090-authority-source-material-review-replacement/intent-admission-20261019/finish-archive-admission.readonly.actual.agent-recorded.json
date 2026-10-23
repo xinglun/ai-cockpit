@@ -1,0 +1,139 @@
+{
+  "recordedBy": "agent:Codex",
+  "observedAt": "2026-10-19T23:00:15.833378+00:00",
+  "intentControlApprovedRawSha256": "5c30d3b5083c6e3d5e8a40658dd5e1082307ad2e097d124628bfd621ff087b8d",
+  "intentResolvedNative": true,
+  "actualStatus": {
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "green",
+    "verification": "verified",
+    "evidenceFreshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "safeActions": [
+      "finish",
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "effectiveUnknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "finish",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [],
+      "admissionDigest": "sha256:94f5645c8424eacec739a30105d3a29c2a25f2182acdf2cccd99f9b0b072dd6e"
+    },
+    "sourceDigests": {
+      "contract": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+      "materialManifest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+      "materialReviewReceipt": "sha256:bf8fbd2e07bfad7fef99ae386f33038d5d7f031fc6161e63328e1400c9d9d9a0",
+      "repositorySnapshot": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "summary": "sha256:31ca9b1ddd53e68161c5f5bd0968b10d058cb7b025324d4ae011a0dccbc40d28",
+      "verificationEvidence": "sha256:96ad9afabd7af5ab734d3de9ef7d7d5e986726e7d1cb9a075b7a17a3313665d1"
+    }
+  },
+  "benefitUnknownBlocksCurrentNativeFinish": false,
+  "currentFinishAdmissionActuallyObserved": true,
+  "currentArchiveAdmissionActuallyObserved": false,
+  "archiveFutureCondition": "Only after actual finish_ready and a refreshed archive_when_reviewed safe action; source gates retain exact evidence/material/current review/event integrity. No blind terminal invocation.",
+  "nativeAdditionalHumanTerminalApprovalNowRequired": false,
+  "humanDecisionPoints": null,
+  "executionDecision": null,
+  "currentCommandAuthority": "This parent instruction authorized only the exact intent control and read-only inspection; no finish/archive call performed.",
+  "contractScopeClauseRequiringRaydotInterpretation": "No Sentinel operations, live authorization/grants, WI1087 P3/P4, release/version/tag/provider cleanup, merge or real WI finish/archive/closure. Isolated explicitly identified fixture lifecycle tests are permitted only after current native implementation/verification admission.",
+  "scopeInterpretation": "Native action admission is not a semantic exemption from human-owned Contract exclusions. Raydot should explicitly clarify whether own WI1090 finish/archive is within delegated normal delivery and how the real-WI exclusion applies; do not invent a mandatory extra Ray terminal signature or assume a scope amendment is required before that interpretation.",
+  "sourceConditions": [
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "line": 1802,
+      "rawSha256": "b8dbad7ba45a0090a4af52fd2212aab5203543ee05f9cc5511626bf060dcde67",
+      "sameAsFixedRuntimeSource_b8ec269": true,
+      "condition": "checkpointed+verified+no control gaps+current green preflight exposes finish; finish_ready+verified exposes archive_when_reviewed"
+    },
+    {
+      "path": "crates/cockpit-repository/src/action_admission.rs",
+      "line": 7,
+      "rawSha256": "08def208a54da624aa4e788c90be824d73f61927af9117d3f9050ec6c0ba7d45",
+      "sameAsFixedRuntimeSource_b8ec269": true,
+      "condition": "execution re-reads current safeActions; no caller-supplied admission reuse and no blanket aggregate-color permission"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "line": 2314,
+      "rawSha256": "ead5cb48507fa89d766f1a3afe7403da3197ff758a4afe19dc1aa2d0db02ff2d",
+      "sameAsFixedRuntimeSource_b8ec269": true,
+      "condition": "finish requires checkpointed/exactly one checkpoint/current material+action admission/fresh exact verification+preflight/control evidence"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "line": 7947,
+      "rawSha256": "e4c489b6d2f1a48159c80132e58c3a959162c036edeaf71b8627b05e64386c25",
+      "sameAsFixedRuntimeSource_b8ec269": true,
+      "condition": "finish/archive use pre-execution policy decision plus current preflight review; require actual inner green governance decision, not zero Outcome unknowns"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "line": 9569,
+      "rawSha256": "e4c489b6d2f1a48159c80132e58c3a959162c036edeaf71b8627b05e64386c25",
+      "sameAsFixedRuntimeSource_b8ec269": true,
+      "condition": "archive requires finish_ready, one checkpoint, green preflight, valid exact verification, current archive_when_reviewed admission and verified Outcome/events"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "line": 2600,
+      "rawSha256": "ead5cb48507fa89d766f1a3afe7403da3197ff758a4afe19dc1aa2d0db02ff2d",
+      "sameAsFixedRuntimeSource_b8ec269": true,
+      "condition": "successful finish deliberately persists HumanBenefitReport Unknown and user_visible_benefit_not_declared"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "line": 1340,
+      "rawSha256": "b8dbad7ba45a0090a4af52fd2212aab5203543ee05f9cc5511626bf060dcde67",
+      "sameAsFixedRuntimeSource_b8ec269": true,
+      "condition": "governance color derives decision state and governance control gaps, not an empty Outcome unknown list"
+    }
+  ],
+  "retainedSyntheticSupport": [
+    {
+      "case": "leaf",
+      "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+      "alreadyRetainedActualArchiveExitCode": 0,
+      "archivedOutcomeBenefitStillUnknown": true,
+      "newTestOrTerminalCallExecuted": false,
+      "limit": "Existing synthetic-candidate support only; not actual current WI1090 finish/archive or real consumer/Sentinel recovery."
+    },
+    {
+      "case": "replace",
+      "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+      "alreadyRetainedActualArchiveExitCode": 0,
+      "archivedOutcomeBenefitStillUnknown": true,
+      "newTestOrTerminalCallExecuted": false,
+      "limit": "Existing synthetic-candidate support only; not actual current WI1090 finish/archive or real consumer/Sentinel recovery."
+    }
+  ],
+  "noSourceMaterialChanges": true,
+  "noVerificationRerun": true,
+  "noFinishArchiveCloseMergeReleaseCalled": true,
+  "nextStepProposal": [
+    "Raydot clarifies/authorizes the own-WI1090 finish/archive delivery scope against the quoted exclusion; this is distinct from a new Runtime human gate.",
+    "If authorized and scope-consistent, refresh current status; execute native finish once only while finish remains safe. No repeated seven checks while evidence remains fresh.",
+    "Read actual finish_ready status and archive_when_reviewed admission, then execute native archive once only if admitted; keep finish/archive contiguous without an intervening commit and preserve the benefit Unknown.",
+    "Read/return actual full Outcome and preserve native artifacts; no close, merge, release, other-WI or Sentinel operations implied."
+  ]
+}

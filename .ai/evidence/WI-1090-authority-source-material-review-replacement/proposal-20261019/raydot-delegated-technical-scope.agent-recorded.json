@@ -1,0 +1,21 @@
+{
+  "kind": "agent_recorded_retained_delegation_not_native_human_review",
+  "actor": "agent:Raydot",
+  "recorder": "agent:Codex",
+  "authorityBasis": "User delegated ordinary technical approvals to Raydot. Retained parent handoff states Raydot approved bounded two-file proposal/regression design and exact native Contract preparation.",
+  "retainedDecisionText": "同意按你提出的两文件最小范围推进修复提案和回归设计，不需要 Ray 再做普通技术方案确认。只允许经完整原生 amendment 链证明的 authoritySource 单字段合法变更；其余 profile、范围、assurance、reviewer、残余风险字段变化不能借此续录。动作准入和 record 服务都必须验证同一有限资格。替换应保留旧历史并具备失败原子性。按 AI Cockpit 原生流程准备精确 Contract amendment/review 绑定，凡系统确实要求真人决定的部分再汇总一次。",
+  "provenanceLimit": "Retained delegated thread context; exact transport record is not available through current tools. Not an authenticated human review, risk acceptance, verification receipt or permission to bypass native gate.",
+  "proposalDigest": "sha256:07acccb8d7b8849c97378f2f8ef1f35657aab9b52a28b08524831c89186460fd",
+  "scope": [
+    "crates/cockpit-repository/src/material_review.rs",
+    "crates/cockpit-repository/tests/material_review.rs",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+    "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "materialRiskAccepted": false,
+  "humanConfirmReview": false
+}

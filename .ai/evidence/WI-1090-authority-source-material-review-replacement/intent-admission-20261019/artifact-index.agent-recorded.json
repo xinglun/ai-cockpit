@@ -1,0 +1,72 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:00:46.162041+00:00",
+  "intentControlExecutedOnce": true,
+  "lifecycleCallsExecuted": false,
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/INTENT-AND-TERMINAL-ADMISSION-HANDOFF.actual.zh-CN.md",
+      "sha256": "dd2325f01c399567660859d5530dc118704ad61c5ef51a98805f5971f6037e3c"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/after-intent-native-outcome-full.zh-CN.actual.txt",
+      "sha256": "54e9b4956e3a5ab7c96bb3660dff7334d12714018148d30e1c5c82d51f3940f3"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/after-intent-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/after-intent-status.stdout.actual.json",
+      "sha256": "2a7aaa52fc5f69f8e3311ac6b777e09e11f48367530105b8e2fef974998b4092"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/after-intent.summary.actual.json",
+      "sha256": "c50b3d9c0ee345b20631dbbf695e29a3577c8b4a80fdd4260dfe01c6a8b4adcb"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/before-intent-material-plan.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/before-intent-material-plan.stdout.actual.json",
+      "sha256": "686de86f80265fe88c81474a49faad6b4b5298bf80c122085c153d829182dc8e"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/before-intent-status.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/before-intent-status.stdout.actual.json",
+      "sha256": "bc88ee974ad81d2e1824440fddca478f67d6d421309673241fd3ec720c906497"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/before-intent.summary.actual.json",
+      "sha256": "1f691210fca47132986c2f10a1384bf6907b926eceaf2943397ff672ba3d24ec"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/finish-archive-admission.readonly.actual.agent-recorded.json",
+      "sha256": "fdf0fc5a9ae3a9c3087e10267edd282f9a78c6d95e716ddfa528627bc817255a"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/intent-controls.attempt1.metadata.actual.json",
+      "sha256": "854cb1a6abebdb832b2f5b4d701afaed0a75792eb77313a77c3f2d8c9937da1c"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/intent-controls.attempt1.stderr.actual.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/intent-controls.attempt1.stdout.actual.json",
+      "sha256": "d3df05d48661cf4ae5dbd38604c11e1562909d2603354b33f55b1daa3c1e61c9"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/record_intent_once.py",
+      "sha256": "ae10eba8728cf94592dbaa51f9798c425676ebc632ca4fee48f5f8a0ed23cb6f"
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/intent-admission-20261019/save_admission_review.py",
+      "sha256": "481440c843b4046d6ccc0a90c567e6a32b4f6a77afd9234932121ccbb5d1d283"
+    }
+  ]
+}

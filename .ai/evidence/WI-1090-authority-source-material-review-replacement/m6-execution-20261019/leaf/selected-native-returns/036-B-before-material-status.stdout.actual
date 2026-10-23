@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE",
+  "baseCommit": "02a6ab79c363d7337daf31790c94a63fec7970e8",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "red",
+  "activityHealth": "degraded",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 9,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 4,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "governance_red"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "normal"
+  ],
+  "verification": "unknown",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "unknown",
+    "workResult": "unknown"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:58b940f394aef77bf45b6538de395ec20ef75cc9e791c9f058d74fd6e10734c5",
+    "materialManifest": "sha256:bf7f20d547b9ebaf36b5d8c7547a860a3471e3bf82d6ed7c8da222de4439365d",
+    "repositorySnapshot": "sha256:71b9717ac0a9cd6489cfd59d7aaad5e3cacb33e17687ac7af6f6220ccfc5d64c",
+    "summary": "sha256:a4fbb7f2ac68724546119856e27d2f8a923605132d929657df45636cc9bb1ba0",
+    "verificationEvidence": "sha256:21a4a9c85c90f2054e72b5b02f55303b2a982ed57e9897c4615231448cb2e145"
+  },
+  "unknowns": [
+    "governance_controls_unknown",
+    "lifecycle_gate_failed",
+    "material_review_receipt_invalid",
+    "repository_material_inspection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:bf7f20d547b9ebaf36b5d8c7547a860a3471e3bf82d6ed7c8da222de4439365d",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "governance_controls_unknown",
+    "lifecycle_gate_failed",
+    "material_review_receipt_invalid",
+    "repository_material_inspection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:71b9717ac0a9cd6489cfd59d7aaad5e3cacb33e17687ac7af6f6220ccfc5d64c",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-19T21:09:12Z",
+  "updatedAt": "2026-10-19T21:09:16.293256645+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_material_review_decision",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "record_material_review_decision",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: governance_red",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "governance_controls_unknown",
+        "message": "current projection reports governance_controls_unknown"
+      },
+      {
+        "kind": "unknown",
+        "code": "lifecycle_gate_failed",
+        "message": "current projection reports lifecycle_gate_failed"
+      },
+      {
+        "kind": "malformed",
+        "code": "material_review_receipt_invalid",
+        "message": "current projection reports material_review_receipt_invalid"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:d25b1231329168577cc0adb06c4ffe784089dc8156bcb7e5ea06b0b1375723cd"
+  },
+  "statusDigest": "sha256:23b126128c26e2232bf778e1e72ac8e09532b1bf21e8edae677aa589e724a788",
+  "historical": false
+}

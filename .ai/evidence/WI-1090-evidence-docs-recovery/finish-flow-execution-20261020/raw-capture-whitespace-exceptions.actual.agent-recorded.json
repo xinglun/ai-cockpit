@@ -1,0 +1,7 @@
+{
+  "kind": "exact_raw_native_capture_exceptions_not_policy_change",
+  "files": {
+    ".ai/evidence/WI-1090-evidence-docs-recovery/finish-flow-execution-20261020/new39-outcome-full.stdout.actual.txt": "ab4ad9a69ea6cc835d5eee8a32f0c048b97b2a630d20b5a6e0499e7db07c7208"
+  },
+  "reason": "Preserve producer trailing spaces/blank EOF; authored JSON and code checked separately."
+}

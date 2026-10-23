@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:5ea29c1b4286388c29b7d2c30ab98931a18b00d5b3c4739c14a2b6cc77c27e8d",
+  "reason": "Actual decision actor human:Ray, recorder agent:Codex. Reply2026-10-20T03:34:25Z Sentinel_f5269f1600248191b01a5d3d8fb3cd8a to Raydot request2026-10-20T03:34:06Z Sentinel_a067b4185a3c8191a84b671833658f0e, exact full packet at6048fdcc2a8acb3da373ab496cc56efb5f3732ef: 确认上述四文件修约完整绑定，confirm_review。 Relay .ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/ray-new-four-member-contract-confirm.actual.agent-recorded.json. Separate four-member risk approval already recorded from2026-10-20T03:28:22Z; this confirms Contract be0f85d5 only, does not complete Agent review. Current execution ends after own finish/archive; no PR/hosted CI/merge/close/delete/release.",
+  "recordedAt": "2026-10-20T03:36:22.677687+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
+  "schemaVersion": 1,
+  "workItemId": "WI-1090-evidence-docs-recovery"
+}

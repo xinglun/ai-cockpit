@@ -1,0 +1,3 @@
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1090-evidence-docs-recovery/crates/cockpit-mcp)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.51s
+     Running tests/rpc.rs (/workspace/scratch/wi1090-confirmed-execution-20261020/target/debug/deps/rpc-09e055c3e59e4b73)

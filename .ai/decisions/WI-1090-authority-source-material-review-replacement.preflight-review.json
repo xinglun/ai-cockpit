@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3aa1437cc91a173b0ed24b3c8c2b7a2f79c8fe91a228f76405850ae16610b3e4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Ray replied literally 确认上述 WI-1090 绑定，confirm_review in Sentinel_8cff2cd1b5708191bcd7e37716f7fdc9 to exact request Sentinel_bed2b5133300819187238efecb01eecf, relayed by Raydot in this delegated thread. Recorder agent:Codex; exact reply, all bindings and provenance limit at .ai/evidence/WI-1090-authority-source-material-review-replacement/contract-review-20261019/human-confirm-review-relayed.agent-recorded.json. Confirms only this amended Contract; excludes new material residual-risk acceptance, verification, merge, finish/archive or Issue closure.",
+  "recordedAt": "2026-10-19T08:48:40Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a990e93dc0c7009e7473385dd2df368beca43e06b614af39ebd068404da873cc",
+  "schemaVersion": 1,
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}

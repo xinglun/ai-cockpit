@@ -1,0 +1,68 @@
+
+running 9 tests
+test source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts ... [master (root-commit) d9ff631] fixture baseline
+[observation-fixture 8249b46] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_execution_drift_and_completion_rollback_keep_start_facts ... [master (root-commit) cde7ec7] fixture baseline
+[observation-fixture 281f6b7] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_failure_success_evidence_commit_finish_archive ... [master (root-commit) 281eec7] fixture baseline
+[observation-fixture edbf39f] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_lock_wait_rejects_head_contract_and_journal_drift ... [master (root-commit) 5d2327e] fixture baseline
+[observation-fixture 8b5b03b] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 777cc9b] fixture baseline
+[observation-fixture 7a80a8f] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 6fba8b5] fixture baseline
+[observation-fixture 9d8bd18] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_material_unknown_keeps_collection_but_blocks_finish ... [master (root-commit) 71a67c5] fixture baseline
+[observation-fixture e5eea1a] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 44a709d] readable committed syntax Unknown fixture
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_new_failure_cannot_hide_under_old_marker_or_equal_time ... [master (root-commit) 6bd0cbf] fixture baseline
+[observation-fixture 3375b2b] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 455680f] readable committed syntax Unknown fixture
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_rejects_pending_foreign_tampered_and_missing_origin ... [master (root-commit) 923fd8a] fixture baseline
+[observation-fixture 9d8fd41] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) f02f37c] fixture baseline
+[observation-fixture e060321] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) e8b85c7] fixture baseline
+[observation-fixture c2e62eb] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 5c8f1ae] fixture baseline
+[observation-fixture c4d4472] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_same_path_inherited_and_successor_hunks ... [master (root-commit) 2b47929] fixture baseline
+[observation-fixture 0800449] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 0edd28f] same path successor hunk
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_validated_origin_and_real_gate_ownership ... [master (root-commit) bf4bc4b] fixture baseline
+[observation-fixture 06b5e5d] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 7518063] fixture baseline
+[observation-fixture 621004a] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 501c8c6] fixture baseline
+[observation-fixture 8f4039b] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 39.64s
+

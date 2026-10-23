@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_actual_preservation_audit",
+  "recordedAt": "2026-10-20T02:07:34.535769+00:00",
+  "protectedPredecessorNativeRecordsChecked": 27,
+  "allProtectedNativeRawHashesMatch": true,
+  "bothInheritedRustFilesMatchFrozenCba3": true,
+  "priorOwnNativeVerificationAttemptsPreservedByteForByte": {
+    ".ai/evidence/WI-1090-evidence-docs-recovery.verification-attempt.da4a9b77502c7d97389ddcf44464be7cf2f6cd0e22469746672df601adc9223e.json": "39f8ba5015b4e8818dd4deedfb92d9005ba84a0cb737a6c91825645f04c54f4c",
+    ".ai/evidence/WI-1090-evidence-docs-recovery.verification-attempt.b5699af612d2135b5a1b16acd028099dcaed804099699bc63f926b67c591c9d2.json": "7869fdb2d2d0a85f00345fb4aba23f5e9e0fa01d12e51ef0d6696f8b4729af4a"
+  },
+  "rootSourceChangesStarted": false,
+  "canonicalVerificationExists": false,
+  "freeDiskBytes": 5010337792,
+  "whitespaceCheckException": {
+    "path": ".ai/evidence/WI-1090-evidence-docs-recovery/root-cause-approval-20261020/human-outcome.full.actual.txt",
+    "rawSha256": "1149526ae531c0e2f704b7dfcb7868ee4ca1ccf60543d693c5ffdaaaf6e346d9",
+    "reason": "Captured native full Outcome contains original trailing spaces and blank EOF; raw producer bytes preserved. Only this exact capture excluded from whitespace check."
+  }
+}

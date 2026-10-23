@@ -1,0 +1,212 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:18:01.104986+00:00",
+  "artifactIndexOnlyNotNewHumanDecision": true,
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/NEW-SCOPE-BINDING-HANDOFF.actual.zh-CN.md",
+      "rawSha256": "90c60c6060049bdd6c851de642182eb2d460f2971bb725f1fce473f9e6c38114",
+      "bytes": 3686
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/actual-new-scope-review-binding.agent-recorded.json",
+      "rawSha256": "0941d14cdcc9ec91fda90110bbe33cf119e8c7d40d8d0e5622b6f45f83af02f5",
+      "bytes": 2555
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-new-scope-preflight-status.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-new-scope-preflight-status.stdout.actual.json",
+      "rawSha256": "b931bef01a15d95640ad92fec2d775fcd9a4dcd90ee3ead55ea0b46657a2f6ca",
+      "bytes": 4544
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-new-scope-preflight.summary.actual.json",
+      "rawSha256": "87b36a1ff20ac8e1d71a7827a7842cc6305483354d1aba3537091d1df9a2fd8e",
+      "bytes": 17780
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope-amendments.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope-amendments.stdout.actual.json",
+      "rawSha256": "2a33a9effe0939f10f59bc976705d447974fe16a288d40e78369a46eb82806ac",
+      "bytes": 56422
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope-before-preflight-status.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope-before-preflight-status.stdout.actual.json",
+      "rawSha256": "0f8034854db0a6da7fb71eddb7b3f18ed56363a27a59c94645f5defecb91d3d8",
+      "bytes": 4445
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope-material-plan.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope-material-plan.stdout.actual.json",
+      "rawSha256": "59640c38662b4b1515b2be25f85f6caa2000953d59337438d8746a6c3d550d85",
+      "bytes": 4866
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope.before-preflight.summary.actual.json",
+      "rawSha256": "d346bee7f3db013c6a150fc0dd3c57a19b8d89698a2faa6ebf2bac63c4f24c6f",
+      "bytes": 17781
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/after-scope.contract.actual.json",
+      "rawSha256": "19f761ca3b0bb1e770a7ecf023ef4cd92b68ad07a0be7433955fc8f82c8e3c50",
+      "bytes": 15134
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-agent-doctor.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-agent-doctor.stdout.actual.json",
+      "rawSha256": "5ea7c40439c055f01da089a30dab2b62f6207847e70f36489ee2c7e20c91d0f2",
+      "bytes": 455
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-amendments.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-amendments.stdout.actual.json",
+      "rawSha256": "bcf024a75fd7f64314764771dc5cca9dba33dd44c3a5129ea8adcc3253044c8a",
+      "bytes": 52283
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-inspect.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-inspect.stdout.actual.json",
+      "rawSha256": "853f4201aed7e8c4233622fdf674dd7bc85cb4ce1297d191bc69de83a2108afa",
+      "bytes": 704
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-material-plan.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-material-plan.stdout.actual.json",
+      "rawSha256": "b52e83e501a39131f492486cba548c81296dfb447fa8457930c92fbf09781fae",
+      "bytes": 4866
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-status.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope-status.stdout.actual.json",
+      "rawSha256": "2a7aaa52fc5f69f8e3311ac6b777e09e11f48367530105b8e2fef974998b4092",
+      "bytes": 3315
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope.contract.actual.json",
+      "rawSha256": "a45df6eeefcf4920dd44129fe63086373a219d7d84ecb6b1c804fe80dfbcddf7",
+      "bytes": 14544
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope.summary.actual.json",
+      "rawSha256": "c50b3d9c0ee345b20631dbbf695e29a3577c8b4a80fdd4260dfe01c6a8b4adcb",
+      "bytes": 16223
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/before-scope.verification.canonical.actual.json",
+      "rawSha256": "f5d328a96bb623aa675547fe2a6943a47217215d1a7c9394c7e784f9ce595821",
+      "bytes": 36076
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/conditional-risk-and-material-rebinding-check.actual.agent-recorded.json",
+      "rawSha256": "f35a20ace887211b7aecb3ad4e661987381ebd67336e37b818c430230d05e5b1",
+      "bytes": 3009
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/consent-binding-explicit-postread-check.actual.agent-recorded.json",
+      "rawSha256": "e80e6f6b7f1667381bab2a7f626a56e5178da5ac9d025ba05decd8b86fbbfe42",
+      "bytes": 875
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/exact-own-lifecycle-scope.amend.request.json",
+      "rawSha256": "f1d2d06db05515e49e1074e28a0e8d4ab464fcf058f6e4285400d754ba98e5b4",
+      "bytes": 2029
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/exact-request-check.actual.agent-recorded.json",
+      "rawSha256": "8d3415405d34e3a2d4ef3cad952c9759808afa5470632c07daba5dc5df4d50a3",
+      "bytes": 493
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/native-new-scope-pending-outcome-full.zh-CN.actual.txt",
+      "rawSha256": "9d486344e4b2f3ec1a596927fac9a221561a071d1552a295ea197f177923caeb",
+      "bytes": 5645
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/new-scope-preflight.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/new-scope-preflight.stdout.actual.json",
+      "rawSha256": "11874030a5c93992b979b7dbec98279558f4a1c134398778ec696e1e0a6ce496",
+      "bytes": 7013
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/prepare_and_amend_once.py",
+      "rawSha256": "a0f916567798db4f9ccd05c4f44558d0d5025cc8f899866dc46e15207966ce21",
+      "bytes": 8696
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/protected-history.before.actual.agent-recorded.json",
+      "rawSha256": "3cd64a194403ef7c4d758b32b8bbe0d5cda6e3d5e3be82930643b09233b1d24c",
+      "bytes": 2537
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/ray-own-lifecycle-scope-authorization.relayed.agent-recorded.json",
+      "rawSha256": "b05665de083540346da977b544b9ff1d3ed99d646726bfb827d3848dac6c2086",
+      "bytes": 1170
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/read_new_scope_and_preflight.corrected-not-rerun.py",
+      "rawSha256": "18c745ee1e95f3f117a38e0e5809cc9ecffa4d170c55f7932bcba3d108d30b01",
+      "bytes": 7940
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/read_new_scope_and_preflight.executed-initial.py",
+      "rawSha256": "85934652aa38659fa55c4bf9bee3fc8f670ed0ad6c9073e22b81b237ab332b39",
+      "bytes": 7729
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/scope-amend.attempt1.metadata.actual.json",
+      "rawSha256": "7b281d2b7a20845410a40391f131c9810d323904257e9f635c2a37a56b966daf",
+      "bytes": 851
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/scope-amend.attempt1.stderr.actual.txt",
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-scope-20261019/scope-amend.attempt1.stdout.actual.json",
+      "rawSha256": "d37faa64397038fe6ce663c2f10f16c0a73561900389acd9013402fd0b842fe4",
+      "bytes": 4085
+    }
+  ]
+}

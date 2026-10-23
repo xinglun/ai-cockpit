@@ -1,0 +1,84 @@
+{
+  "coverageManifest": null,
+  "nodesPlanned": 2,
+  "nodesReused": 0,
+  "nodesToExecute": 2,
+  "plannedNodes": [
+    {
+      "action": "execute",
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:210da4b271ae8aa95d7afaa4f9291581f1c2fb00caba303b3d93429d9e9b08b3",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "bash tests/docs/documentation_acceptance.sh",
+      "planningElapsedMs": 0,
+      "program": "bash",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    },
+    {
+      "action": "execute",
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "bindingMismatches": [],
+      "dependencies": [],
+      "identityBinding": {
+        "commandDigest": "sha256:d5c36715c347e5a0514754a0eb66a3e86f538d228f61f055313e43c81b892432",
+        "profileDigest": null,
+        "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+        "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257"
+      },
+      "nodeId": "bash tests/docs/parity_status_check.sh",
+      "planningElapsedMs": 0,
+      "program": "bash",
+      "reason": "reuse_not_configured",
+      "receiptId": null,
+      "reuseAuthorization": "denied:command_not_profile_verified",
+      "satisfiedBy": "execution",
+      "state": "not_applicable",
+      "timeoutSeconds": 300
+    }
+  ],
+  "processesSpawned": 0,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+  "requests": [
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "dependencies": [],
+      "nodeId": "bash tests/docs/documentation_acceptance.sh",
+      "program": "bash",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "dependencies": [],
+      "nodeId": "bash tests/docs/parity_status_check.sh",
+      "program": "bash",
+      "timeoutSeconds": 300
+    }
+  ],
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "state": "planned",
+  "timeoutSeconds": 300,
+  "workItemId": "WI-1090-evidence-docs-recovery"
+}

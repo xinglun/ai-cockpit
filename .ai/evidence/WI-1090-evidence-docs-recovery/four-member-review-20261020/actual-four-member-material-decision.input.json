@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a",
+  "reviewerActor": "agent:Codex",
+  "authoritySource": "user-decision:human:Ray/Sentinel_4894c6afcf14819186152a312ace0394/2026-10-20T03:28:22Z",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/actual-four-member-material-review.agent-recorded.zh-CN.md",
+      "digest": "sha256:56894db9c45a2a2b4e0f41569f90acd30181702c8e615fa515cfd519481afa07"
+    }
+  ],
+  "rationale": "Actually reviewed the four exact approved blob/hunk members and relevant current changed-source context under Contract be0f85d5; enforced the entire current Unknown set equals those four members, with no Findings. Review report records native identity and per-file assessment. This is finite self_declared review, not scanner completeness or live authority.",
+  "residualRisk": "Readable committed Rust syntax remains Unknown to rust-material-v1. Agent static review may miss semantic, concurrency or platform issues; Windows hosted execution and real consumers are unproven. Accept only the four fixed approved blob/hunk members; stop for any new/foreign/unreviewable member, Finding or changed identity. Raw scanner Unknowns and historical failures remain."
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:43581ed8d482da466e0f2eecf6b6a58df26ac147f8d401c025e8271100aeefbb",
+  "reason": "Synthetic self-declared fixture review for this exact binding; no real human identity or consumer authority.",
+  "recordedAt": "2026-10-19T21:10:23.697954Z",
+  "recordedBy": "human:isolated-m6-fixture",
+  "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+  "repositorySnapshotDigest": "sha256:cabbba200683416143f6255620904ee1a377c8c07c5270c7df3776d3bcb9a3c6",
+  "schemaVersion": 1,
+  "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE"
+}

@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--test",
+    "material_review",
+    "segmented_minimal_independent_integrity_boundaries",
+    "--",
+    "--exact"
+  ],
+  "sourceHead": "5c5ce4a56cd43792014223292379c8813d48c836",
+  "startedAt": "2026-10-19T21:45:20.261019+00:00",
+  "targetDirectory": "/workspace/scratch/wi1090-v4-verify-target-20261019",
+  "workerCount": 1,
+  "terminal": "returned",
+  "outerTimeoutSeconds": 850,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T21:45:33.503549+00:00",
+  "elapsedSeconds": 13.242330120003317
+}

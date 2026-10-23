@@ -1,0 +1,18 @@
+{
+  "kind": "actual_explicit_draft_pr_and_github_ci_authorization_relay_not_publish_result",
+  "actor": "human:Ray",
+  "recorder": "agent:Codex",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "request": {
+    "actor": "Raydot",
+    "at": "2026-10-20T03:35:28Z",
+    "messageId": "Sentinel_61c759baf9548191b478363bb59abf9b",
+    "question": "是否允许本轮验证通过后创建对应 Draft PR，并运行 GitHub CI？这可能消耗 GitHub Actions 额度；不包含合并或发布。"
+  },
+  "reply": {
+    "at": "2026-10-20T03:37:49Z",
+    "messageId": "Sentinel_259f62483a5c8191be0d5d5ffc47f5b8",
+    "verbatim": "允许"
+  },
+  "limits": "After successful current formal checks and own local closeout, create exactly one corresponding Draft PR after exact head/duplicate/material checks; actual CI may consume GitHub Actions quota. No merge/close/delete/release."
+}

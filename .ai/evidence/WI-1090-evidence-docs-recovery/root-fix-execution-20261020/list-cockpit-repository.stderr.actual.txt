@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/lifecycle_order.rs (/workspace/scratch/wi1090-confirmed-execution-20261020/target/debug/deps/lifecycle_order-3efc6f888b3f9c99)

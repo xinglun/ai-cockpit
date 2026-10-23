@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1090-m6-execution-20261019/build-target/debug/ai-cockpit",
+    "work-item",
+    "material-review",
+    "record",
+    "--id",
+    "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+    "--input",
+    "/workspace/scratch/wi1090-m6-execution-20261019/evidence/replace/B-independent-current-material-record.input.json",
+    "--repo",
+    "/workspace/scratch/wi1090-m6-execution-20261019/fixtures/replace/repository"
+  ],
+  "startedAt": "2026-10-19T21:10:25.327581+00:00",
+  "terminal": "returned",
+  "pid": 645405,
+  "processGroup": 645405,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T21:10:27.470108+00:00",
+  "elapsedSeconds": 2.1425377480045427,
+  "stdoutSha256": "91c798bf1e998a1c7f5100f3efec295bea9f71f090d9535c78fdcb300cbec41d",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

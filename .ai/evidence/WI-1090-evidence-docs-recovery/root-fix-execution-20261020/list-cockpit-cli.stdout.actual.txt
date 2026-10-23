@@ -1,0 +1,3 @@
+source_change_observation_precedes_failed_check_and_plan_is_read_only: test
+
+1 test, 0 benchmarks

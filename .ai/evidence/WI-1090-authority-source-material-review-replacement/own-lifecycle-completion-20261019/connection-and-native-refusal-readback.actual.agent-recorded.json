@@ -1,0 +1,61 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:35:34.232580+00:00",
+  "executionConnection": "working: shell and exact fixed Native status read returned normally",
+  "formalTerminal": "returned",
+  "formalExitCode": 0,
+  "formalContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "newHumanConfirmationStored": {
+    "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.8f6eb9145076ff3c1b19e006c03c1abd1ec6f806d866cccc621f50e444023dc1.json",
+    "rawSha256": "1b99fa8190b0e88355a4a7c406071ab5bf58745fa6020d2ea87651436c82c4d3"
+  },
+  "newMaterialReceiptDigest": "sha256:b09f40987129791c62f86a9a73c0d7b5aaf7a0421bf0eca364121e1796357449",
+  "preflightReobservationRefusedExitCode": 1,
+  "preflightReobservationOriginalError": "evaluate and record preflight decision: repository protocol state error at /workspace/ai-cockpit-wi1090-material-replacement/.ai/work-items/active/WI-1090-authority-source-material-review-replacement.summary.json: current action admission rejected requested action \"run_preflight\": admission=Allowed, blockers=[], safeActions=[\"finish\", \"record_governance_controls\", \"record_usage\", \"refresh_status\", \"run_verification\"], nextAction=Some(\"finish\"), admissionDigest=sha256:6589256cf172fe5b7d5d75ced37f504003eb0fb4733756fa755817635a98a14b, issues=[\"user_visible_benefit_not_declared\"]\n",
+  "liveNativeStatus": {
+    "lifecyclePhase": "checkpointed",
+    "governanceState": "green",
+    "verification": "verified",
+    "evidenceFreshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "safeActions": [
+      "finish",
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "effectiveUnknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "actionExplanation": {
+      "guideId": "ordinary-work-item",
+      "recommendedAction": "finish",
+      "recommendationReason": "Runtime admits the next safe action for lifecycle phase checkpointed",
+      "admissionState": "allowed",
+      "issues": [
+        {
+          "kind": "unknown",
+          "code": "user_visible_benefit_not_declared",
+          "message": "current projection reports user_visible_benefit_not_declared"
+        }
+      ],
+      "humanDecisionRequired": false,
+      "missingInputs": [],
+      "admissionDigest": "sha256:6589256cf172fe5b7d5d75ced37f504003eb0fb4733756fa755817635a98a14b"
+    }
+  },
+  "currentPreflightBinding": {
+    "preflightState": "green",
+    "preflightAt": "2026-10-19T23:34:00Z",
+    "preflightContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "preflightRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e"
+  },
+  "finishAndArchiveNotYetInvoked": true,
+  "continuation": "Do not retry refused run_preflight. Current persisted green preflight matches current Contract and snapshot; fresh Runtime explicitly admits finish. Proceed only through fresh finish then archive_when_reviewed admissions, preserving refusal and all existing evidence."
+}

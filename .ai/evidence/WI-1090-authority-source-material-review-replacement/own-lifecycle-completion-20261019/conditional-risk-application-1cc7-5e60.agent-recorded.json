@@ -1,0 +1,64 @@
+{
+  "recordType": "append-only application of actual prior conditional material risk acceptance to unchanged fixed material under actual new scope identity",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:24:46.656928Z",
+  "authorizerOfOriginalRisk": "human:Ray",
+  "originalRiskReplyMessageId": "Sentinel_89eec2e40c0c819181319fd54b8fa553",
+  "originalRiskReplyTimeAsProvided": "2026-10-19 22:25 UTC",
+  "verbatimOriginalRiskReply": "批准上述 WI-1090 最小材料审阅政策，并按上述条件接受固定材料的残余风险。",
+  "originalRiskConsentPath": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+  "originalRiskConsentRawSha256": "2068443c4ccd9d2b01af29d9d032679a9c87effca3364f3434b15fe3376add5e",
+  "originalConsentNotRewritten": true,
+  "newHumanRiskDecisionInvented": false,
+  "conditionsRechecked": {
+    "all8MaterialMembersRawBlobsAndHunksIdentical": true,
+    "scannerSemanticImplementationAndTargetIdentical": true,
+    "governanceMaterialProfileStrictlyEqualsApprovedFf93Policy": true,
+    "sourceSnapshotAndManifestIdentical": true,
+    "noAdditionalFindingOrRawScannerUnknown": true
+  },
+  "separateScopeAuthorization": {
+    "replyMessageId": "Sentinel_1e121636b65c8191a074452f13845c16",
+    "replyAsProvided": "允许",
+    "timeAsProvided": "2026-10-19 23:12 UTC",
+    "limit": "Only WI1090 own finish and subsequently admitted archive, no close/cleanup/consumer/Sentinel/merge/release."
+  },
+  "separateActualScopeIdentityConfirmation": {
+    "replyMessageId": "Sentinel_e1b4efc9717c8191a666a96cb217df9a",
+    "verbatimReply": "确认上述 WI-1090 自身收尾范围修约完整绑定，confirm_review。",
+    "nativeStoredDecision": {
+      "contractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+      "decision": "confirm_review",
+      "decisionId": "contract-preflight-review",
+      "preflightDecisionDigest": "sha256:32eb38ce7b28da40351e65b57900ddb1a2c02ec0924aac84303719660473ec45",
+      "reason": "Actual Ray reply 确认上述 WI-1090 自身收尾范围修约完整绑定，confirm_review。 in Sentinel_e1b4efc9717c8191a666a96cb217df9a to exact request Sentinel_4b8a64e865388191a68d4076fd54636f; relayed by agent:Raydot, recorder agent:Codex. Full actual 1cc7 binding and provenance at .ai/evidence/WI-1090-authority-source-material-review-replacement/own-lifecycle-completion-20261019/ray-own-scope-confirmation.relayed.agent-recorded.json. New generated identity confirmed, not replay of b6d2 or conversion of earlier scope permission into a confirmation. No new material-risk decision, close, cleanup, other WI, Sentinel, merge or release authority.",
+      "recordedAt": "2026-10-19T23:23:30.674793Z",
+      "recordedBy": "human:Ray",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+      "schemaVersion": 1,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    }
+  },
+  "newCurrentBinding": {
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1090-authority-source-material-review-replacement",
+    "contractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "requestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+    "sourceSnapshotDigest": "sha256:ffdcd5af8387e969dec46902088117057f82d986ef948d5e3d69c09776c52329",
+    "materialManifestDigest": "sha256:13d21e04a58c46874688c8998c67ea2582efe9be74f0070af3f37ad4ccc943ac",
+    "scannerSemanticVersion": "rust-material-v1",
+    "analysisImplementationDigest": "sha256:f2f7898225550abbf1cbde21c4780795bbd1bb953150a7a94fe993ab7b263d27",
+    "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+    "materialInspectionReviewProfileDigest": "sha256:e2a40be4695c566d35fac65e5854678b8877cb9d23828d10cea3a82cdaf172e9",
+    "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a"
+  },
+  "priorReceiptRemainsHistorical": {
+    "path": ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/c5ddefb60c57f35b2f1da6cbc4a4268cbf1039aa9bfe15b961a764d9dd23dae7.json",
+    "rawDigest": "sha256:0f3949bae38b9a306bcb677c9441bbeb77af17368c8ea561db65fcd489f819b5",
+    "receiptDigest": "sha256:bf8fbd2e07bfad7fef99ae386f33038d5d7f031fc6161e63328e1400c9d9d9a0"
+  },
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "provenanceLimit": "Relayed human decisions and delegated agent review; no new host-authenticated identity or real Sentinel recovery claim."
+}

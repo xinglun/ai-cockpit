@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "baseCommit": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "lifecyclePhase": "checkpointed",
+  "governanceState": "red",
+  "activityHealth": "degraded",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 10,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 279,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "governance_red"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "medium"
+  ],
+  "verification": "unknown",
+  "completionDomains": {
+    "closure": "open",
+    "implementation": "active",
+    "integration": "not_applicable",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "unknown",
+    "workResult": "unknown"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:98aeef1116be2d93944042744ec8c9c8faba5043f43ae4267058290e3313e71e",
+    "materialManifest": "sha256:3ab3dd361e83b528dcaee32b57d540983dbb3090560178e5f67b9fa43ca12413",
+    "repositorySnapshot": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+    "summary": "sha256:7c4c4bb9180160928d4c76741bc68a86bf0643a5696c63b6f318c3a4c83dfc8e",
+    "verificationEvidence": "sha256:55898805ef2850d8dc5d13a2c867bdf42773d1c00ec51b07a8270d970ba18b1b"
+  },
+  "unknowns": [
+    "governance_controls_unknown",
+    "lifecycle_gate_failed",
+    "repository_material_inspection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:3ab3dd361e83b528dcaee32b57d540983dbb3090560178e5f67b9fa43ca12413",
+  "reviewReceiptDigest": null,
+  "reviewAssurance": null,
+  "effectiveUnknowns": [
+    "governance_controls_unknown",
+    "lifecycle_gate_failed",
+    "repository_material_inspection_unavailable",
+    "scenario_coverage_insufficient",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [],
+  "snapshotDigest": "sha256:b4390989ee0478710065e22293949716d0652452eec53d82b8a4b8d5f656510d",
+  "evidenceFreshness": {
+    "state": "stale_or_invalid",
+    "reason": "verification evidence exists but does not authorize the current status"
+  },
+  "lastVerificationAt": "2026-10-20T02:32:36Z",
+  "updatedAt": "2026-10-20T02:58:18.925219963+00:00",
+  "safeActions": [
+    "record_governance_controls",
+    "record_usage",
+    "refresh_status",
+    "resolve_blockers",
+    "stop"
+  ],
+  "actionExplanation": {
+    "guideId": "verification-failure-recovery",
+    "recommendedAction": "resolve_blockers",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: governance_red",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "governance_controls_unknown",
+        "message": "current projection reports governance_controls_unknown"
+      },
+      {
+        "kind": "unknown",
+        "code": "lifecycle_gate_failed",
+        "message": "current projection reports lifecycle_gate_failed"
+      },
+      {
+        "kind": "unknown",
+        "code": "repository_material_inspection_unavailable",
+        "message": "current projection reports repository_material_inspection_unavailable"
+      },
+      {
+        "kind": "unknown",
+        "code": "scenario_coverage_insufficient",
+        "message": "current projection reports scenario_coverage_insufficient"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:32a4f0a11a2653a9ee90382468af533993012793f60c3b62e3841bd9960205f2"
+  },
+  "statusDigest": "sha256:3e6a09827ba421c6f2b027c6fad6b81a994caca81158caf7492342c544d2a28a",
+  "historical": false
+}

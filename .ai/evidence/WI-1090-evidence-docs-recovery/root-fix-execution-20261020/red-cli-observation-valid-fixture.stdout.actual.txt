@@ -1,0 +1,32 @@
+
+running 1 test
+test source_change_observation_precedes_failed_check_and_plan_is_read_only ... FAILED
+
+failures:
+
+---- source_change_observation_precedes_failed_check_and_plan_is_read_only stdout ----
+
+thread 'source_change_observation_precedes_failed_check_and_plan_is_read_only' (1091265) panicked at crates/cockpit-cli/tests/verify.rs:24:9:
+stdout={
+  "attempt": {
+    "attemptId": "sha256:8d1d90de91c62b31f81401303eaacfe2dc07e36c28e6a9ba120984dc94d1ab87",
+    "passed": false,
+    "path": ".ai/evidence/WI-SOURCE-OBSERVATION.verification-attempt.8d1d90de91c62b31f81401303eaacfe2dc07e36c28e6a9ba120984dc94d1ab87.json",
+    "processesSpawned": 0,
+    "state": "precondition_rejected"
+  },
+  "diagnostic": "repository protocol state error at /tmp/.tmp3fIwWY/.ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json: repository protocol state error at /tmp/.tmp3fIwWY/.ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json: current action admission rejected requested action \"run_verification\": admission=NeedsHumanDecision, blockers=[], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\"], nextAction=Some(\"record_governance_controls\"), admissionDigest=sha256:05fb53f64b5f579dafd37bd88aefa3236e6a75c6d67011ac9f96662ea378d465, issues=[\"acceptance_evidence_insufficient\", \"acceptance_evidence_missing\", \"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /tmp/.tmp3fIwWY/.ai/work-items/active/WI-SOURCE-OBSERVATION.contract.json: verification preconditions are blocked: acceptance_evidence_missing, intent_alignment_missing",
+  "gate": "verification_preconditions",
+  "state": "blocked",
+  "workItemId": "WI-SOURCE-OBSERVATION"
+}
+ stderr=verification preconditions rejected: repository protocol state error at /tmp/.tmp3fIwWY/.ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json: repository protocol state error at /tmp/.tmp3fIwWY/.ai/work-items/active/WI-SOURCE-OBSERVATION.summary.json: current action admission rejected requested action "run_verification": admission=NeedsHumanDecision, blockers=[], safeActions=["record_governance_controls", "record_usage", "refresh_status"], nextAction=Some("record_governance_controls"), admissionDigest=sha256:05fb53f64b5f579dafd37bd88aefa3236e6a75c6d67011ac9f96662ea378d465, issues=["acceptance_evidence_insufficient", "acceptance_evidence_missing", "user_visible_benefit_not_declared", "verification_action_preconditions_blocked", "verification_evidence_missing"]; additional verification precondition: repository protocol state error at /tmp/.tmp3fIwWY/.ai/work-items/active/WI-SOURCE-OBSERVATION.contract.json: verification preconditions are blocked: acceptance_evidence_missing, intent_alignment_missing
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    source_change_observation_precedes_failed_check_and_plan_is_read_only
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 1.50s
+

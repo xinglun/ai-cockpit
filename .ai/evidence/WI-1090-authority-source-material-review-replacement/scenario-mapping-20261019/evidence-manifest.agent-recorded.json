@@ -1,0 +1,24 @@
+{
+  "kind": "actual_mapping_inventory_and_unexecuted_policy_proposal_evidence",
+  "noChecksRerun": true,
+  "full3176PathManifestsNotPublished": true,
+  "entries": {
+    "M1-M5-clause-to-evidence-map.actual.agent-recorded.json": "e61e0ae554555c03cc5572153b4d5f8e9b8876a34bf678f23a2c347a23d41af5",
+    "M1-M5-evidence-map.actual.zh-CN.md": "defbd5f8225954134bdef028ae1153ea76bbafc6a4aa52948c1a1fa77709d54b",
+    "M1-M5-evidence-only.controls.input.json": "cb077068046d8f191346f345ce66d287ddc457cf8daee47d59f1cf0e35bb5c6a",
+    "M1-M5-evidence-only.controls.stderr.actual.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "M1-M5-evidence-only.controls.stdout.actual.json": "81383ef15c9047790b3c942554d1bbbd9776023af3287c735af635f131adb24e",
+    "M6-source-manifest-and-reuse.readonly-supplement.actual.agent-recorded.json": "e320e9636e01715eb46ff2bf6cc1651007b0fe03fa542a10a96ca6e425ba76c8",
+    "build_mapping.py": "541a0ef83ae63e0e9582135f7791f7bec6cdf49d0f09d8f802712d5ae272e53b",
+    "current-material-and-minimum-profile.proposal-only.zh-CN.md": "7e64a6316df80bb4e5ac8c3894b3e08502d276aac489f9f965ca55d5c5ce1d36",
+    "current-material-and-profile-proposal.actual.agent-recorded.json": "015d47c2181f3916030465273a834d74997499e83b92a3c06588f34040e8d3e3",
+    "current-material-plan.stdout.actual.json": "73f04452a9f7d107cb9897cd955ee95cdae587ecc88c36ebacbf70f4f0438e0b",
+    "first-profile-opt-in.amend.request.proposal-only.json": "ff93edd6797c0c6e973e1e3355024d84e96d4ca8d616604b37eec859785f323f",
+    "project-command-2.stdout.decoded-from-canonical.actual.txt": "f8476bf3060c6db53007c0a79c1daee76c6ef57c442612192feb7fb017cc3e28",
+    "project-command-3.stdout.decoded-from-canonical.actual.txt": "1eb87578576a2abc939a34d5575fb3c259081c9fb595bfec9d525ec3bea022f3",
+    "project-command-4.stdout.decoded-from-canonical.actual.txt": "cb8dc6ab04ed038e9c1f2a35c1286c98c080c6664305ffc58020b45ffbaec59f",
+    "project-command-5.stdout.decoded-from-canonical.actual.txt": "cc2d1f7547900fc25093322bda46b85c3defd4e8064b7562f22848fd163c44fd",
+    "project-command-6.stdout.decoded-from-canonical.actual.txt": "d7c7c58ead7ee26d44df7999a29e66f76a8edad225d96bb968ea274ba7c6c810",
+    "verify_manifest_readonly_counts.py": "fd4fba58d1bd0569f925acc405ec985a576b5f96994c226895231cbfc5e95490"
+  }
+}

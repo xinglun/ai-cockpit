@@ -1,0 +1,29 @@
+{
+  "kind": "actual_synthetic_m6_combined_fixture_acceptance_not_real_consumer_recovery",
+  "case": "replace",
+  "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+  "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "sourceManifestRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+  "R": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+  "A": "sha256:1cb027315ddec50e88f72fbf89d9e857ad92449cc398111907e88922f5ee240d",
+  "B": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+  "oldCanonicalRawSha256": "b89f010f1f6b9aff2c810c9c85e372dc5bd136452c75455bc17101b4e4b32a9c",
+  "oldBlockedOutcomeRawSha256": "50ada90dc4d6c0773916503d4c1ff131c5987366599bb1d865a135585cfa7295",
+  "oldMaterialReceiptRawSha256": "686d6df61378d521f1101393a4671324eb8f3bc9b73ad9eace037866ce714457",
+  "newCanonicalRawSha256": "4eeae83f13f625887ee9a45b58d107ebf790a58ccb10a3b391afa3c41bec98f0",
+  "newMaterialRequestDigest": "sha256:2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9",
+  "newMaterialReceiptDigest": "sha256:bf85fb55bf11853f17612f6e5402639598e8b75a22f8fad803c2942dc92572c0",
+  "planOnlyProcessesSpawned": 0,
+  "currentNodesExecuted": 4,
+  "currentNodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "freshGreenPreflight": true,
+  "actualFixtureFinish": true,
+  "actualFixtureArchive": true,
+  "historicalOriginalBytesUnchanged": true,
+  "oldAndCurrentProducerAreSameActualCandidate": true,
+  "limits": [
+    "Synthetic normal-risk scaffold, explicit fixture self_declared review/risk decisions only.",
+    "No real person authentication, real consumer recovery, old producer upgrade compatibility or physical multi-file durability claim."
+  ]
+}

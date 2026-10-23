@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--test",
+    "material_review",
+    "segmented_rejects_source_replace_that_adds_another_null_profile_field",
+    "--",
+    "--exact",
+    "--nocapture"
+  ],
+  "sourceHead": "c01e94ff806787d4b89e50785b4c4a75d1bd0696",
+  "startedAt": "2026-10-19T20:08:47.228967+00:00",
+  "targetDirectory": "/workspace/scratch/wi1090-v4-verify-target-20261019",
+  "workerCount": 1,
+  "terminal": "returned",
+  "outerTimeoutSeconds": 850,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T20:09:28.649659+00:00",
+  "elapsedSeconds": 41.42040420899866
+}

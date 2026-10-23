@@ -1,0 +1,24 @@
+{
+  "kind": "exact_raw_capture_whitespace_exceptions_not_policy_change",
+  "reason": "Original producer blank EOF/trailing-space bytes preserved; code/authored data checked separately.",
+  "files": {
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/mcp-readonly-negative-green.stdout.actual.txt": "20851c7ebcbba314e3ad3ec0cafadfc032f342d0605388d59b45db450ddb66b9",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/mcp-observation-regression.stdout.actual.txt": "8f7a879f8e1c5158ab896561f5479b7ad6c82f825a6584d6b89e1f4a7f977c88",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/green-cli-plan-readonly-fixed.stdout.actual.txt": "f1e9c0a2a3bcbe82efff3cc152fb37cc8008f86cb76794115b1c6f37b09f733d",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/green-cli-observation-compile-fixed.stdout.actual.txt": "61a3e8841253e057608d525f3e092eaafe8542a39a779f21be16114acd383192",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-negative-plan-readonly.stdout.actual.txt": "8d346e77b3a9ecd094e6220a3c76970fe59d012fbec60a4b70ccbaa6b36ba435",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation-valid-fixture.stdout.actual.txt": "0e0f4ebe47ad8fa4b39c3acdf5f1c9b0174de79826e612eac5fea5959a731fac",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-positive-flow-and-rollback.stdout.actual.txt": "5ab42e543b8a1cb52c53f72f32e63becd10bccbc716bf88a9d6b3304d9939259",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation-real-command.stdout.actual.txt": "282c968a49673befc6e449c4be3828310a710256a97970339d0dbd28dba3f43b",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/green-cli-readonly-plan.stdout.actual.txt": "dbde3416120b7ae04c313ba0a30788b95c4e27f462ee71aae6abaf435c0cb018",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-observation-regressions.stdout.actual.txt": "7147af6548adcc163cd5b14859c0a248dd777849187fd16c2e3c2ca914008af9",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/real-gate-native-fixture.stdout.actual.txt": "0d2619f0ba80266396e643c5a3fe8559d1f1df3190f7d40c545cde004e2fbd7b",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation.stdout.actual.txt": "da2302367166980d82e5bd185b6223e2051d028c122f7e69f256a91e132b0166",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation-admitted.stdout.actual.txt": "63735e373143253f2fb2fdaf621205baa7218287820c7cce442f7b2c95445be7",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-complete-regressions.stdout.actual.txt": "7bee6b975aa8ceb831865b368c0d0479ff5ad337d182d4c1d81ceefdc41cf717",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/stopping-outcome-full.stdout.actual.txt": "a418a40a29a49ab0b2491c11b2dfd6bceb9e909f723e02f981424dac770412ad",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/red-cli-observation-corrected.stdout.actual.txt": "5d234a5763c37a7bc08cb66f4b7b5c0c0881ae7d605eaa8016cfe9714b4811ea",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-positive-valid-material.stdout.actual.txt": "7a437c4c99bb0379f52c5e19fcbdcaff065bec9613eb4b6974b38a77b99b58f9",
+    ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/core-regressions-native-successor-fixture.stdout.actual.txt": "8d49160ab4b131ad2287b4a1533262deb0c84891424b184d307bde2d39a76de1"
+  }
+}

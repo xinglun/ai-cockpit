@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_preservation_after_native39_amendment",
+  "oldOwnCanonicalVerificationByteIdentical": true,
+  "oldOwnThreeVerificationAttemptsByteIdentical": true,
+  "predecessorNative27RawHashesMatch": true,
+  "newSourceEdits": [],
+  "newAgentMaterialReviewPerformed": false,
+  "newTypedMaterialReceiptRecorded": false,
+  "newHumanContractConfirmationRecorded": false,
+  "newCandidateBuilt": false,
+  "protectedCapabilityWasNativeDerived": true,
+  "oldSuccessfulEvidenceInvalidatedByNativeContractChangeNotDeleted": true
+}

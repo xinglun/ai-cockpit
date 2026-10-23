@@ -1348,11 +1348,30 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "green" && !governance_control_gaps.is_empty() {
         governance_state = "yellow".into();
     }
-    let verification = match outcome.state {
-        OutcomeState::Verified => "verified",
-        OutcomeState::Partial => "partial",
-        OutcomeState::NotReady => "not_ready",
-        OutcomeState::Unknown => "unknown",
+    // A terminal dependency failure must stay visible without relabelling
+    // an otherwise current software receipt as failed or forcing its rerun.
+    let software_verified = !archived
+        && snapshot_ref.is_some_and(|snapshot| {
+            matches!(
+                super::verification_evidence_state(
+                    &root,
+                    &contract,
+                    snapshot,
+                    false,
+                    Some(runtime)
+                ),
+                Ok(super::EvidenceState::Complete)
+            )
+        });
+    let verification = if software_verified {
+        "verified"
+    } else {
+        match outcome.state {
+            OutcomeState::Verified => "verified",
+            OutcomeState::Partial => "partial",
+            OutcomeState::NotReady => "not_ready",
+            OutcomeState::Unknown => "unknown",
+        }
     }
     .to_string();
     let historical = legacy_verification_evidence(&root, work_item_id);
@@ -1453,6 +1472,12 @@ fn work_item_status_snapshot_with_snapshot(
             false,
         ),
     };
+    let material_terminal_blocked = material_projection_unavailable
+        || material_blocked_by_finding
+        || !material_unknowns.is_empty();
+    if material_terminal_blocked && governance_state == "green" {
+        governance_state = "yellow".into();
+    }
     unknowns.retain(|unknown| !material_discharged_unknowns.contains(unknown));
     unknowns.extend(material_unknowns);
     if material_projection_unavailable && governance_state == "green" {
@@ -1717,6 +1742,21 @@ fn work_item_status_snapshot_with_snapshot(
             load_recovery_decision(&root, work_item_id, Some(runtime)),
             Ok(Some(decision)) if decision.decision == "supersede"
         );
+    // Keep only the bounded dependency-repair routes available for a retained
+    // finish failure. Aggregate red and its native failure remain visible.
+    let finish_failure_repair = !archived
+        && lifecycle_phase == "checkpointed"
+        && outcome
+            .failed_gate
+            .as_deref()
+            .is_some_and(|gate| gate.starts_with("finish."))
+        && summary["failedGate"]
+            .as_str()
+            .is_some_and(|gate| gate.starts_with("finish."))
+        && blockers.iter().all(|blocker| blocker == "governance_red")
+        && !amendment_review_required
+        && !material_projection_unavailable
+        && !material_blocked_by_finding;
     let mut safe_actions = if historical_recovery_resolved {
         vec!["read_outcome".into()]
     } else if archived && !close_decision_valid {
@@ -1794,6 +1834,18 @@ fn work_item_status_snapshot_with_snapshot(
         // aggregate governance state red and the lifecycle failure visible;
         // this only admits the bounded recovery action.
         vec!["run_verification".into()]
+    } else if finish_failure_repair {
+        if !preflight_binding_current {
+            vec!["run_preflight".into()]
+        } else if software_verified
+            && governance_control_gaps.is_empty()
+            && !material_terminal_blocked
+            && (preflight_green_current || review_receipt_digest.is_some())
+        {
+            vec!["finish".into()]
+        } else {
+            vec!["run_verification".into(), "resolve_blockers".into()]
+        }
     } else if blocking {
         vec!["resolve_blockers".into(), "stop".into()]
     } else {
@@ -1867,8 +1919,20 @@ fn work_item_status_snapshot_with_snapshot(
         // close marker freezes the Work Item even when malformed.
         safe_actions.push("record_usage".into());
     }
-    if !archived && !blocking && preflight_binding_current && material_review_decision_available {
-        safe_actions.push("record_material_review_decision".into());
+    if !archived
+        && (!blocking || finish_failure_repair)
+        && preflight_binding_current
+        && !amendment_review_required
+        && material_review_decision_available
+    {
+        safe_actions.insert(0, "record_material_review_decision".into());
+    }
+    if !archived && material_terminal_blocked {
+        safe_actions
+            .retain(|action| !matches!(action.as_str(), "finish" | "archive_when_reviewed"));
+        if !material_review_decision_available {
+            safe_actions.insert(0, "resolve_blockers".into());
+        }
     }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());

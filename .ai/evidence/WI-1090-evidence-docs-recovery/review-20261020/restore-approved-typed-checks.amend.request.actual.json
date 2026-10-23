@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1090-restore-approved-typed-checks-after-activation-20261020-v1",
+  "expectedContractDigest": "sha256:a1c7c5460c50a97dcd3b64b83826fa306f277bf68a9713853f57064b51478a7c",
+  "reason": "Restore exactly the two already-approved typed required checks and their coversScenarios after supported native MCP activation normalized command inputs. This changes only verification representation; keep the native activation base/main facts, identical scope/authority/risk/exclusions/acceptance/scenarios and immutable predecessor history. No human confirmation, check execution, checkpoint or implementation is supplied.",
+  "changes": [
+    {
+      "path": "/verification",
+      "operation": "replace",
+      "value": [
+        {
+          "check": "bash tests/docs/documentation_acceptance.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        },
+        {
+          "check": "bash tests/docs/parity_status_check.sh",
+          "coversScenarios": [
+            "truthful_three_language_projection"
+          ],
+          "required": true
+        }
+      ]
+    }
+  ]
+}

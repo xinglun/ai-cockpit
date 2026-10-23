@@ -1,0 +1,68 @@
+
+running 7 tests
+test source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts ... [master (root-commit) 1d4e8ba] fixture baseline
+[observation-fixture 57ba2aa] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_execution_drift_and_completion_rollback_keep_start_facts ... [master (root-commit) 0c6508f] fixture baseline
+[observation-fixture ea761f8] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_failure_success_evidence_commit_finish_archive ... [master (root-commit) 6404aab] fixture baseline
+[observation-fixture 45aca70] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+FAILED
+test source_change_observation_lock_wait_rejects_head_contract_and_journal_drift ... [master (root-commit) 524ae0b] fixture baseline
+[observation-fixture dfa2694] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) f7b5cac] fixture baseline
+[observation-fixture 7b84720] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 7a974ea] fixture baseline
+[observation-fixture f22ad1d] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_rejects_pending_foreign_tampered_and_missing_origin ... [master (root-commit) c3dad5d] fixture baseline
+[observation-fixture 05dcd39] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 7baf965] fixture baseline
+[observation-fixture 8b2cd3c] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 411eceb] fixture baseline
+[observation-fixture 0d5ae4c] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 268944b] fixture baseline
+[observation-fixture f134184] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_same_path_inherited_and_successor_hunks ... [master (root-commit) e27eebf] fixture baseline
+[observation-fixture 652ef68] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture d7944a3] same path successor hunk
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_validated_origin_and_real_gate_ownership ... [master (root-commit) 196d6b1] fixture baseline
+[observation-fixture 2312755] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) fae2f0d] fixture baseline
+[observation-fixture 9ae133b] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) a17dd8a] fixture baseline
+[observation-fixture aa734f9] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+
+failures:
+
+---- source_change_observation_failure_success_evidence_commit_finish_archive stdout ----
+
+thread 'source_change_observation_failure_success_evidence_commit_finish_archive' (1106974) panicked at crates/cockpit-repository/tests/lifecycle_order.rs:1000:79:
+called `Result::unwrap()` on an `Err` value: State { path: "/tmp/.tmpLXTDMd/.ai/work-items/active/WI-OBSERVATION-NATIVE.summary.json", message: "finish is blocked by canonical material Unknowns: repository_material_inspection_unavailable" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    source_change_observation_failure_success_evidence_commit_finish_archive
+
+test result: FAILED. 6 passed; 1 failed; 0 ignored; 0 measured; 13 filtered out; finished in 29.93s
+

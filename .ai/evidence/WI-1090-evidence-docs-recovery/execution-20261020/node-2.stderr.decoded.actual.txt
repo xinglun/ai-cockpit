@@ -1,0 +1,2 @@
+WI-1090-authority-source-material-review-replacement: stale_prearchive_parity_registration: docs/reference/reference-parity.ja.md
+WI-1090-authority-source-material-review-replacement: stale_prearchive_parity_registration: docs/reference/reference-parity.zh-CN.md

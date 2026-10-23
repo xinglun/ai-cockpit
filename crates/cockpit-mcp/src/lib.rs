@@ -2501,6 +2501,10 @@ fn verify_for_repo(
     if let Some(work_item_id) = work_item_id {
         validate_id(work_item_id)?;
     }
+    let verification_binding = work_item_id
+        .map(|id| cockpit_repository::capture_work_item_verification(&root, id, runtime))
+        .transpose()
+        .map_err(|error| error.to_string())?;
     let plan_only = arguments
         .get("planOnly")
         .and_then(Value::as_bool)
@@ -2513,7 +2517,9 @@ fn verify_for_repo(
                 .ok_or("timeoutSeconds argument must be a positive integer".to_owned())
         })
         .transpose()?;
-    let initial_snapshot = if work_item_id.is_some() || plan_only {
+    let initial_snapshot = if let Some(binding) = verification_binding.as_ref() {
+        Some(binding.snapshot().clone())
+    } else if plan_only {
         Some(
             cockpit_git::GitRepository::discover(&root)
                 .map_err(|error| error.to_string())?
@@ -2586,16 +2592,20 @@ fn verify_for_repo(
             });
         if let Err(error) = precondition {
             let diagnostic = error.to_string();
-            let persistence = cockpit_repository::persist_verification_attempt(
-                &root,
-                work_item_id,
-                std::slice::from_ref(&request),
-                snapshot,
-                runtime,
-                "precondition_rejected",
-                Some(("verification_preconditions", &diagnostic)),
-                None,
-            );
+            let persistence = if plan_only {
+                Ok(json!({"state":"plan_rejected","persisted":false}))
+            } else {
+                cockpit_repository::persist_verification_attempt(
+                    &root,
+                    work_item_id,
+                    std::slice::from_ref(&request),
+                    snapshot,
+                    runtime,
+                    "precondition_rejected",
+                    Some(("verification_preconditions", &diagnostic)),
+                    None,
+                )
+            };
             let persistence_note = match persistence {
                 Ok(attempt) => format!(
                     "; verification attempt persisted at {}",
@@ -2627,7 +2637,7 @@ fn verify_for_repo(
             Ok(planned) => planned,
             Err(error) => {
                 let diagnostic = error.to_string();
-                let attempt = if let Some(work_item_id) = work_item_id {
+                let attempt = if let Some(work_item_id) = work_item_id.filter(|_| !plan_only) {
                     cockpit_repository::persist_verification_attempt(
                         &root,
                         work_item_id,
@@ -2678,6 +2688,15 @@ fn verify_for_repo(
             "plannedNodes": [planned],
         }));
     }
+    let prepared_verification = verification_binding
+        .map(|binding| {
+            cockpit_repository::prepare_work_item_verification(
+                binding,
+                std::slice::from_ref(&request),
+            )
+        })
+        .transpose()
+        .map_err(|error| error.to_string())?;
     let run = cockpit_repository::run_repository_verification(&root, &request)
         .map_err(|error| error.to_string())?;
     let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
@@ -2699,11 +2718,11 @@ fn verify_for_repo(
         receipt
     };
     if let Some(work_item_id) = work_item_id
-        && let Err(error) = cockpit_repository::record_verification_with_runtime(
-            &root,
-            work_item_id,
+        && let Err(error) = cockpit_repository::record_prepared_work_item_verification(
+            prepared_verification
+                .as_ref()
+                .expect("Work Item prepared before execution"),
             &verification_receipt,
-            runtime,
             &run.final_snapshot,
         )
     {

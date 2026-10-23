@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-authority-source-material-review-replacement",
+  "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "immutableContractBaseRevision": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "sourceSnapshotDigest": "sha256:edc336e22e8205a1738e7aa3670e186b4419c520c20c5e0dc81e9a63e9aa5505",
+  "materialManifestDigest": "sha256:333c731ee12c7cde9baab8b87025b96827d8a4b3c7322a1b6be40f9336f7e46e",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:f2f7898225550abbf1cbde21c4780795bbd1bb953150a7a94fe993ab7b263d27",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": null,
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60",
+      "afterBlobDigest": "sha256:0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d3379b166c94fb79e9e05a3debacbbfb8396e3343b33f7a736b5cf13f9e4a168",
+      "afterBlobDigest": "sha256:d3f266676b90b0d5ed4bc547cacf0fcbc07211f79a09b131133cfbf0d24a393d"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4eb02a9316345f4220a3c6980072a97a4c8454c42f26b460870be74de84899e9",
+      "afterBlobDigest": "sha256:40486a8087e0e7afb5a820bac2c4b033282bd897463000ac1c898d11f87ab0c0"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:ac43d3246dacfbcdc1673f661f70d0a673de9aeaef26dc9ae9b330d0f9581bcb",
+      "afterBlobDigest": "sha256:fa01b9b5d447ff4103e33acb6b6a9b240bb869eafe2ad18ec367bffaaec13b06"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3053c29742dc0130a8b911d838d1b72fef269c5da68f73daebeaa1d79f5c9523",
+      "afterBlobDigest": "sha256:2038ffe6e85cb06a3ec2ab8ca6fb3ce2155588300613bd38bfc7acb82babe380"
+    },
+    {
+      "path": "docs/work-items/WI-1090-authority-source-material-review-replacement.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:19b4a410853346d955b91d62921ab9633f2c7246d65a41a835e8166614576666",
+      "afterBlobDigest": "sha256:a9bc68bc047f15b60510a8b4e4b7c308261f83c451cde5a21aeea2130a4ca24c"
+    },
+    {
+      "path": "docs/work-items/WI-1090-authority-source-material-review-replacement.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:07c5bab40b57c918d976fe414c3a513327bca2e5b68e4b02f3ee04f1f000f149",
+      "afterBlobDigest": "sha256:d4dfa5ee4bf2142dca780cd60613ddace011fd52bba6494d062ff301939fb1ad"
+    },
+    {
+      "path": "docs/work-items/WI-1090-authority-source-material-review-replacement.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a07dc24f029b3c5f59343ad07819c690b8d9294c6af748e715427cafa0f5d552",
+      "afterBlobDigest": "sha256:a332dc9c13d482403fd92697255274144e8a17542a117c647b5b1b99e31c02eb"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": false,
+  "reviewDiagnostic": "material_review_not_enabled",
+  "requestDigest": "sha256:2bfb58e93dd464897aeb4c3ef07c138e11372dba182ea70e578da267af14f233",
+  "reviewedSourceHead": "c1affb57188b152cfe15f00b4328302ca775d5d6"
+}

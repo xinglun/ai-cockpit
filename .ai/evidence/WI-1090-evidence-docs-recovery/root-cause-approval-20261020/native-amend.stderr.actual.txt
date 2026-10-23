@@ -1,0 +1,1 @@
+apply typed Contract amendment: repository protocol state error at /workspace/ai-cockpit-wi1090-evidence-docs-recovery/.ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json: invalid_path at /acceptanceCriteria/-: append indices are not accepted; target the collection itself

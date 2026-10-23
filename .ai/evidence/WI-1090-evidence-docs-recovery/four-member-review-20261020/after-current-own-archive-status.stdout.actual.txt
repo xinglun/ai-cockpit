@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "baseCommit": "b8ec2690976ab4c554aa9f5b2aa7fcca715156ca",
+  "lifecyclePhase": "archived",
+  "governanceState": "yellow",
+  "activityHealth": "inactive",
+  "blocking": true,
+  "humanDecisionRequired": false,
+  "progressFacts": {
+    "acceptanceCriteriaDeclared": 10,
+    "acceptanceEvidenceEntries": 0,
+    "changedPathCount": 485,
+    "checkpointCount": 1
+  },
+  "blockers": [
+    "archived_work_item_pending_close"
+  ],
+  "missingEvidence": [],
+  "dependencies": [],
+  "humanDecisions": [],
+  "risks": [
+    "medium"
+  ],
+  "verification": "verified",
+  "completionDomains": {
+    "closure": "archived",
+    "implementation": "recorded",
+    "integration": "recorded",
+    "resourceCleanup": "not_started",
+    "review": "required",
+    "verification": "verified",
+    "workResult": "verified"
+  },
+  "governancePermissions": [
+    "read_status",
+    "read_outcome"
+  ],
+  "sourceDigests": {
+    "contract": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
+    "materialManifest": "sha256:76009df3df2d11067ad3e78261ba55899349dce0046866e0723da893f724525b",
+    "materialReviewReceipt": "sha256:1c6b5fe99cb8d242be86d07b030ed92044df6b95edbc5024087e17457f16c639",
+    "repositorySnapshot": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
+    "summary": "sha256:3454c71d358d2d28bb853dea5e9df7a474c0038b60b3df1510fae997872b8248",
+    "verificationEvidence": "sha256:3d54c814a412356553e131343d88bcf6eb14511c157bc1ebc9e33237d43d5c4d"
+  },
+  "unknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "rawScannerUnknowns": [
+    "repository_material_inspection_unavailable"
+  ],
+  "materialManifestDigest": "sha256:76009df3df2d11067ad3e78261ba55899349dce0046866e0723da893f724525b",
+  "reviewReceiptDigest": "sha256:1c6b5fe99cb8d242be86d07b030ed92044df6b95edbc5024087e17457f16c639",
+  "reviewAssurance": "self_declared",
+  "effectiveUnknowns": [
+    "close_decision_pending",
+    "user_visible_benefit_not_declared"
+  ],
+  "diagnostics": [
+    "lifecycle_cleanup_required"
+  ],
+  "snapshotDigest": "sha256:880e5602b421577f2ae0819db92b3911ba03885a3f217ac7a08b24c1c9efa7b4",
+  "evidenceFreshness": {
+    "state": "fresh",
+    "reason": "verification evidence matches the current repository and Runtime bindings"
+  },
+  "lastVerificationAt": "2026-10-20T03:42:23Z",
+  "updatedAt": "2026-10-20T03:46:49.333688784Z",
+  "safeActions": [
+    "close_after_review",
+    "record_usage",
+    "refresh_status"
+  ],
+  "actionExplanation": {
+    "guideId": "ordinary-work-item",
+    "recommendedAction": "close_after_review",
+    "recommendationReason": "Runtime blocks continuation because current blockers are: archived_work_item_pending_close",
+    "admissionState": "blocked",
+    "issues": [
+      {
+        "kind": "unknown",
+        "code": "close_decision_pending",
+        "message": "current projection reports close_decision_pending"
+      },
+      {
+        "kind": "unknown",
+        "code": "user_visible_benefit_not_declared",
+        "message": "current projection reports user_visible_benefit_not_declared"
+      }
+    ],
+    "humanDecisionRequired": false,
+    "missingInputs": [],
+    "admissionDigest": "sha256:7d859908d73e0878fb3b29f37757642e117d83240bf4f5e0fc1c7fcce071dbcb"
+  },
+  "statusDigest": "sha256:22023ce231bed7420e639c765ce4a519baa60b1f2f03b3adb42bf9f28a7cc973",
+  "historical": false
+}

@@ -1,0 +1,12 @@
+{
+  "state": "unknown",
+  "scenarioCoverage": "unknown",
+  "acceptanceEvidence": "not_applicable",
+  "evidenceClasses": "verified",
+  "intentAlignment": "resolved",
+  "finalDimensions": "not_applicable",
+  "unknowns": [
+    "required_scenario_unverified:material_finish_admission_and_outcome_consistency"
+  ],
+  "findings": []
+}

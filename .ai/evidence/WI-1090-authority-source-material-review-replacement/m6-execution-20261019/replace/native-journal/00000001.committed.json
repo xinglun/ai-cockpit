@@ -1,0 +1,73 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:6e4db772df885af5189a5b36b2c3d8f9355a0ae758a81cdd81f67dfcc69b0044",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:4a504da0106cf7f07f63851ad85651815b5b4e4d3937d9ace65ba14894c21f48",
+    "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+    "sequence": 1,
+    "changeId": "initial-profile-R",
+    "requestDigest": "sha256:69b47ee6852a7f806814d647be7b48575073907efe666ebdd0bfa6211d3f48d4",
+    "reason": "Synthetic M6 native fixture only; no real consumer decision or authority.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:isolated-m6-fixture",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "All four old checks execute and immutable original evidence is retained.",
+            "required": true,
+            "scenario": "old fixture four-check cycle",
+            "status": "unverified",
+            "verificationPlan": "Native verify of the actual four fixture Cargo commands."
+          }
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:41356270b37942f4868b5b6b7a06e5778cb6c2272b52993ea95823f2e75b77ba",
+    "newContractDigest": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+    "repositorySnapshotDigest": "sha256:ece753f12745d952d5cb6abd01bfafe4b493a43cf5b252170585847bf86dc9b0",
+    "environmentObservationDigest": "sha256:5402a6f1649b2b273bb3de3870a1fd652c2f3d262e0147ef2210147a78e732b2",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile",
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:44e185dd18d018b29fc72490ec84150f46963b00269dc1f5f0e774680dd7b096",
+    "recordedAt": "2026-10-19T21:10:13Z"
+  }
+}

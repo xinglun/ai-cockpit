@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_parent_transcript_relay_not_native_decision_or_completed_agent_review",
+  "recordedAt": "2026-10-20T03:29:48.497334+00:00",
+  "recorder": "agent:Codex",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "proposalCommit": "a9f8bdda4333f23697bd6b97f1fab5a0dd8f9d07",
+  "proposalPath": ".ai/evidence/WI-1090-evidence-docs-recovery/finish-flow-execution-20261020/FINITE-FOUR-MEMBER-REVIEW.proposal-only.agent-recorded.zh-CN.md",
+  "raydotRequest": {
+    "actor": "Raydot",
+    "at": "2026-10-20T03:27:46Z",
+    "messageId": "Sentinel_108cd413eee88191a3c9ce9d4218c474",
+    "question": "是否批准按四文件精确绑定提案，由 agent:Codex 完成有限审阅，并接受这些固定材料的扫描盲区残余风险？测试和验收标准不变。"
+  },
+  "humanReply": {
+    "actor": "human:Ray",
+    "at": "2026-10-20T03:28:22Z",
+    "messageId": "Sentinel_4894c6afcf14819186152a312ace0394",
+    "verbatim": "批准"
+  },
+  "limits": "Only the four exact blob/hunk members in the a9f8bdda proposal. Not completed Agent review, not confirmation of a future Contract, not scanner completeness, merge/close/delete/release/Sentinel permission."
+}

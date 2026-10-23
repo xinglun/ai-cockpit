@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+    "--work-item",
+    "WI-1090-evidence-docs-recovery",
+    "--workers",
+    "1"
+  ],
+  "sourceHead": "28ae748c3d2a25f143e3113f16a0b505dc53b22e",
+  "startedAt": "2026-10-20T01:11:32.362829+00:00",
+  "finishedAt": "2026-10-20T01:15:00.696094+00:00",
+  "elapsedSeconds": 208.3333284179971,
+  "exitCode": 1,
+  "workers": 1,
+  "isolatedCargoTarget": "/workspace/scratch/wi1090-confirmed-execution-20261020/target"
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1090-first-material-review-opt-in-policy-proposal-20261019-v1",
+  "expectedContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "reason": "Proposal only for a first WI1090 material-review opt-in. No current material risk consent or reviewer decision is recorded by this proposal. Preserve scope, verification, old history and all non-profile policy; obtain actual new native review/material bindings before any material record.",
+  "changes": [
+    {
+      "path": "/governanceProfile",
+      "operation": "set",
+      "value": {
+        "materialInspectionReview": {
+          "schemaVersion": 1,
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "assurance": "self_declared",
+          "reviewerActor": "agent:Raydot",
+          "authoritySource": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+          "acceptResidualRisk": true
+        }
+      }
+    }
+  ]
+}

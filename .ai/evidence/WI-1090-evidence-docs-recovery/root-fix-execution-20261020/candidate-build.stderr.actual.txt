@@ -1,0 +1,2 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1090-evidence-docs-recovery/crates/cockpit-cli)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 9.18s

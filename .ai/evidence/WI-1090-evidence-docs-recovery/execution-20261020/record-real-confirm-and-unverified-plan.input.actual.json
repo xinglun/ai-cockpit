@@ -1,0 +1,33 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-1090-evidence-docs-recovery",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+    "preflightDecisionDigest": "sha256:af4dc69ed22faa7e02174ae06b68449716e14dbbaa679ed55939f219c27cc3f6",
+    "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "recordedAt": "2026-10-20T01:03:14.399357+00:00",
+    "recordedBy": "agent:Codex",
+    "reason": "Actual human:Ray reply at 2026-10-20T01:01:23Z, message Sentinel_d4f96bd3331481919648dde0b091f9e3, to exact request Sentinel_77b63f2d7d488191973a340ff33750c3: 确认上述 WI-1090-evidence-docs-recovery 完整绑定，confirm_review。 Recorder agent:Codex; source .ai/evidence/WI-1090-evidence-docs-recovery/review-20261020/ray-confirmation.actual.agent-recorded.json. Plan review only; no material-risk acceptance, merge/close/delete/release or Sentinel authority."
+  },
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Exactly8 approved copy moves and2 locator files, full old Git blob/raw SHA/length match; explicit old-logical-to-new-path resolution works; 2 manifests,27 protected native records,2 Rust files and19 preventive candidates remain unchanged.",
+      "required": true,
+      "scenario": "exact8_byte_preserving_locator",
+      "status": "unverified",
+      "verificationPlan": "Run a read-only audit against the frozen cba3 tree and approved index; preserve actual structured audit and record it through native scenario controls before finish."
+    },
+    {
+      "evidence": [],
+      "expected": "Existing documentation acceptance and governance-integrity gates pass; old WI is selected into the native successor lineage, all3 ledgers owned, current source registration precedes first own verification and own pages remain valid across archive.",
+      "required": true,
+      "scenario": "truthful_three_language_projection",
+      "status": "unverified",
+      "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority."
+    }
+  ]
+}

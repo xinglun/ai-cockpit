@@ -1,0 +1,28 @@
+{
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery/execution-20261020/exact8-migration-audit.actual.agent-recorded.json"
+      ],
+      "expected": "Exactly8 approved copy moves and2 locator files, full old Git blob/raw SHA/length match; explicit old-logical-to-new-path resolution works; 2 manifests,27 protected native records,2 Rust files and19 preventive candidates remain unchanged.",
+      "reason": "Actual read-only audit passed:8 exact moves,2 frozen manifests,27 native records,Rust2 and unchanged19; not hosted Windows evidence.",
+      "required": true,
+      "scenario": "exact8_byte_preserving_locator",
+      "status": "verified",
+      "verificationPlan": "Run a read-only audit against the frozen cba3 tree and approved index; preserve actual structured audit and record it through native scenario controls before finish."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery.verification-attempt.b5699af612d2135b5a1b16acd028099dcaed804099699bc63f926b67c591c9d2.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/execution-20261020/governance-integrity-targeted.actual.agent-recorded.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/execution-20261020/bootstrap-diagnosis.actual.agent-recorded.json"
+      ],
+      "expected": "Existing documentation acceptance and governance-integrity gates pass; old WI is selected into the native successor lineage, all3 ledgers owned, current source registration precedes first own verification and own pages remain valid across archive.",
+      "required": true,
+      "scenario": "truthful_three_language_projection",
+      "status": "unverified",
+      "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority.",
+      "reason": "Formal execution2, reuse0, max1:documentation acceptance passed; parity_status failed with two stale_prearchive_parity_registration findings (zh-CN,ja). Actual selected successor and own prearchive registration recognized. Existing ownership predicate lacks all3 paths in native Summary; no canonical verification, own finish/archive or hosted CI acceptance."
+    }
+  ]
+}

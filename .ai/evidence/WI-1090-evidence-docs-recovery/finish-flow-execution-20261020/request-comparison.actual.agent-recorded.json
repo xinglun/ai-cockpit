@@ -1,0 +1,11 @@
+{
+  "kind": "approved_request_authority_provenance_realization",
+  "originalApprovedRequestRawSha256": "26e4fe46ddabdbb399fac8a413999fbb80cb913971ccfde8654def015bb8dc75",
+  "actualInputRawSha256": "ac5129d0c3c12d8ae6beb60b08781b693f2691d43eead7e0f4df57b3d2336fc2",
+  "operationCount": 10,
+  "onlyValueChange": "/governanceProfile/materialInspectionReview/authoritySource",
+  "oldProposedAuthoritySource": "user-delegation:Ray/WI-1090-evidence-docs-recovery/finite-inherited-0ebba06d-20261020",
+  "actualAuthoritySource": "user-decision:human:Ray/Sentinel_a1137bc67fbc8191b467fa7fb5f359e8/2026-10-20T02:47:37Z",
+  "reasonUpdatedToActualApproval": true,
+  "otherOperationValuesIdentical": true
+}

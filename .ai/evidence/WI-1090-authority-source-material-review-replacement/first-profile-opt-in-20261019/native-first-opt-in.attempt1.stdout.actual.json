@@ -1,0 +1,60 @@
+{
+  "changeId": "wi1090-first-material-review-opt-in-policy-proposal-20261019-v1",
+  "changedValues": [
+    {
+      "newValue": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": ".ai/evidence/WI-1090-authority-source-material-review-replacement/material-risk-consent/current-risk-consent.agent-recorded.json",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:Raydot",
+          "schemaVersion": 1
+        }
+      },
+      "oldValue": null,
+      "operation": "set",
+      "path": "/governanceProfile"
+    },
+    {
+      "newValue": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "oldValue": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "operation": "set",
+      "path": "/requiredRuntimeCapabilities"
+    }
+  ],
+  "checkpointed": true,
+  "environmentObservationDigest": "sha256:8c6d22e61ed275b8eb9f5f61d45c13108d003436fddee33f30561955898d1a9e",
+  "invalidatedEvidence": [
+    ".ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json"
+  ],
+  "invalidatedRequiredChecks": [],
+  "journalDigest": "sha256:aba91250f9f3d5afc32cf729e73ac5da931ed9d7e5209b34cc80e6d44ffca9c0",
+  "newContractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+  "nextAction": "run_preflight",
+  "policyReviewRequired": true,
+  "policyReviewRequirements": [
+    "/governanceProfile"
+  ],
+  "previousContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "previousJournalDigest": "sha256:d5543f4af773e28502117438a5cb442245d8dd0a5a68b71ec445f1621956a920",
+  "reason": "Proposal only for a first WI1090 material-review opt-in. No current material risk consent or reviewer decision is recorded by this proposal. Preserve scope, verification, old history and all non-profile policy; obtain actual new native review/material bindings before any material record.",
+  "recordedAt": "2026-10-19T22:27:51Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "requestDigest": "sha256:f73939ab70c9c2fc750360f306552d2c6055acc577ce5ef2c0c897e09fd2ab94",
+  "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 3,
+  "verificationStarted": true,
+  "workItemId": "WI-1090-authority-source-material-review-replacement"
+}

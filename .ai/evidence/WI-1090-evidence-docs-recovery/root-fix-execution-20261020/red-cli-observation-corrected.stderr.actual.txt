@@ -1,0 +1,4 @@
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1090-evidence-docs-recovery/crates/cockpit-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.54s
+     Running tests/verify.rs (/workspace/scratch/wi1090-confirmed-execution-20261020/target/debug/deps/verify-4a5a2f719fedb50d)
+error: test failed, to rerun pass `-p cockpit-cli --test verify`

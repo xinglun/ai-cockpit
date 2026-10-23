@@ -1,0 +1,54 @@
+{
+  "registrations": [
+    {
+      "schemaVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+      "contractDigest": "sha256:d8df220783d20d1bad9d13e00587591fed89a7d31236ba3bb9d3071801343887",
+      "worktreePath": "/workspace/scratch/wi1089-serial-composition-20261019/provider-wi1087",
+      "branch": "scratch/wi1089-serial-provider-42aabe9b",
+      "head": "42aabe9bc0fcc60921821006ed7a7aae6be9b1ec",
+      "generation": 1,
+      "declaration": {
+        "providedOutcomes": [],
+        "consumedOutcomes": [],
+        "resourceClaims": [],
+        "integrationResponsibility": {
+          "responsibleWorkItemId": "WI-1087-contract-authority-scope-and-expiry",
+          "targetBranch": "scratch/wi1089-serial-composed-9db6370c-42aabe9b",
+          "compositionOrder": [],
+          "rationale": "Isolated read-only source registration at exact committed WI-1087 candidate head for WI-1089 serial composition admission diagnosis; no outcome publication or production merge."
+        },
+        "compositionVerification": {
+          "compatibilityConstraints": [],
+          "requiredScenarios": [],
+          "reusableNodes": []
+        }
+      },
+      "runtime": {
+        "schemaVersion": 1,
+        "runtimeVersion": "1.0.1",
+        "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+        "capability": "observed_environment_drift_v1"
+      },
+      "environment": {
+        "schemaVersion": 1,
+        "environmentDigest": "sha256:c06da83c29dd512d96f30136351baaa4417932ec57ef1a229b695f369f48c399",
+        "observedInputs": [
+          "process-environment",
+          "cargo-executable",
+          "repository-dependency-and-cargo-configuration-inputs",
+          "rustc-toolchain",
+          "operating-system-and-architecture"
+        ]
+      }
+    }
+  ],
+  "events": [],
+  "recoveries": [],
+  "requests": [],
+  "affectedWorkItems": [],
+  "blockers": {},
+  "cycles": [],
+  "unknowns": []
+}

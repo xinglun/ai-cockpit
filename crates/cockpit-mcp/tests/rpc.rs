@@ -2840,3 +2840,158 @@ fn mcp_preflight_reuses_derived_signals_without_disclosing_change_text() {
     assert!(!serialized.contains("changeEvidence"));
     fs::remove_dir_all(directory).expect("cleanup");
 }
+
+#[test]
+fn source_change_observation_mcp_plan_readonly_and_failed_check_sees_committed_paths() {
+    let directory = TestTempDir::new("cockpit-mcp-native-observation");
+    let root = directory.path();
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(root)
+            .status()
+            .unwrap()
+            .success()
+    );
+    commit_empty_baseline(root);
+    cockpit_repository::attach(root).unwrap();
+    let id = "WI-MCP-SOURCE-OBSERVATION";
+    let runtime = test_runtime_context();
+    cockpit_repository::start_work_item_with_options(
+        root,
+        id,
+        "observe committed source",
+        "checks see native facts",
+        &["source.rs".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["A1: truthful native paths".into()],
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    fs::write(root.join("source.rs"), "synthetic source\n").unwrap();
+    commit_test_source(root, &["source.rs"], "committed source change");
+    cockpit_repository::preflight_work_item_with_runtime(
+        root,
+        &root.join(format!(".ai/work-items/active/{id}.contract.json")),
+        &runtime,
+    )
+    .unwrap();
+    cockpit_repository::checkpoint_work_item(root, id).unwrap();
+    cockpit_repository::record_work_item_governance_controls_with_runtime(root,id,&serde_json::json!({
+        "acceptanceEvidence":[{"acceptanceId":"A1","evidence":[{"type":"test","path":"source.rs","locator":"synthetic source","verification":"passed"}]}],"intentAlignment":{"state":"resolved","evidence":["source.rs"]}
+    }),&runtime).unwrap();
+    let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let before = fs::read(&summary).unwrap();
+    let script = format!(
+        "import json,pathlib; s=json.loads(pathlib.Path('.ai/work-items/active/{id}.summary.json').read_text()); assert 'source.rs' in s['changedPaths']; assert not pathlib.Path('.ai/evidence/{id}.verification.json').exists(); raise SystemExit(7)"
+    );
+    let mut call = serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"verify","arguments":{"workItemId":id,"command":"python3","args":["-c",script],"planOnly":true}}});
+    let plan = handle_request_for_repo(&call, root, &runtime);
+    assert_eq!(plan["result"]["isError"], false, "{plan}");
+    assert_eq!(fs::read(&summary).unwrap(), before);
+    call["params"]["arguments"]["planOnly"] = false.into();
+    let failed = handle_request_for_repo(&call, root, &runtime);
+    assert_eq!(failed["result"]["isError"], true, "{failed}");
+    let facts: serde_json::Value = serde_json::from_slice(&fs::read(&summary).unwrap()).unwrap();
+    assert!(
+        facts["changedPaths"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|p| p == "source.rs")
+    );
+    let attempts = fs::read_dir(root.join(".ai/evidence"))
+        .unwrap()
+        .filter_map(Result::ok)
+        .filter(|e| {
+            e.file_name()
+                .to_string_lossy()
+                .starts_with(&format!("{id}.verification-attempt."))
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(attempts[0].path()).unwrap()).unwrap();
+    assert_eq!(attempt["state"], "execution_failed");
+    assert_eq!(
+        attempt["receipt"]["executionRecords"][0]["exitCode"], 7,
+        "{attempt}"
+    );
+    assert!(
+        !root
+            .join(format!(".ai/evidence/{id}.verification.json"))
+            .exists()
+    );
+    fs::write(root.join("source.rs"), "fn material() -> String { let mut label = String::from(\"token\"); label.push_str(\"ization\"); label }\n").unwrap();
+    commit_test_source(root, &["source.rs"], "synthetic material Unknown");
+    cockpit_repository::preflight_work_item_with_runtime(
+        root,
+        &root.join(format!(".ai/work-items/active/{id}.contract.json")),
+        &runtime,
+    )
+    .unwrap();
+    let verified = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"verify","arguments":{"workItemId":id,"command":"true"}}}),
+        root,
+        &runtime,
+    );
+    assert_eq!(verified["result"]["isError"], false, "{verified}");
+    let query_status = || {
+        handle_request_for_repo(
+            &serde_json::json!({"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"work_item_status","arguments":{"workItemId":id}}}),
+            root,
+            &runtime,
+        )
+    };
+    let status = query_status();
+    assert!(
+        !status["result"]["structuredContent"]["safeActions"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|a| a == "finish"),
+        "{status}"
+    );
+    // MCP has no finish tool; exercise the actual native guard and read its
+    // canonical failure through the supported MCP status/Outcome surfaces.
+    cockpit_repository::finish_work_item_with_runtime(root, id, &runtime).unwrap_err();
+    let status = query_status();
+    assert_eq!(
+        status["result"]["structuredContent"]["governanceState"], "red",
+        "{status}"
+    );
+    assert_eq!(
+        status["result"]["structuredContent"]["verification"], "verified",
+        "{status}"
+    );
+    let outcome = handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"work_item_outcome","arguments":{"workItemId":id}}}),
+        root,
+        &runtime,
+    );
+    assert_eq!(
+        outcome["result"]["structuredContent"]["outcome"]["failedGate"], "finish.lifecycle",
+        "{outcome}"
+    );
+    assert!(
+        outcome["result"]["structuredContent"]["humanHandoff"]
+            .as_str()
+            .unwrap()
+            .starts_with("Outcome: 🔴")
+    );
+    let mut negative = facts;
+    negative["checkpointCount"] = 0.into();
+    fs::write(&summary, serde_json::to_vec(&negative).unwrap()).unwrap();
+    let before = fs::read(&summary).unwrap();
+    let count = fs::read_dir(root.join(".ai/evidence")).unwrap().count();
+    call["params"]["arguments"]["planOnly"] = true.into();
+    let rejected = handle_request_for_repo(&call, root, &runtime);
+    assert_eq!(rejected["result"]["isError"], true);
+    assert_eq!(fs::read(&summary).unwrap(), before);
+    assert_eq!(
+        fs::read_dir(root.join(".ai/evidence")).unwrap().count(),
+        count
+    );
+}

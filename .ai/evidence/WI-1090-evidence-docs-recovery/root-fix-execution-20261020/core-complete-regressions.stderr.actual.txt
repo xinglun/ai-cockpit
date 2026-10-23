@@ -1,0 +1,3 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1090-evidence-docs-recovery/crates/cockpit-repository)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 44.95s
+     Running tests/lifecycle_order.rs (/workspace/scratch/wi1090-confirmed-execution-20261020/target/debug/deps/lifecycle_order-3efc6f888b3f9c99)

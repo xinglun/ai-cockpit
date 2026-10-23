@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_readonly_bootstrap_diagnosis_not_native_receipt",
+  "recordedAt": "2026-10-20T01:16:48.123507+00:00",
+  "sourceHead": "28ae748c3d2a25f143e3113f16a0b505dc53b22e",
+  "contractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "preflightDecisionDigest": "sha256:3798c12ae4ef8b0546e2fb066e7488ac89fd62c3af888ea5e7782365795011eb",
+  "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+  "predecessorSelection": {
+    "actor": "agent:Raydot",
+    "authoritySource": "user-delegation:Raydot:01a11856-d6ba-72e0-9aab-25a34cd2f018:WI-1090-evidence-docs-recovery",
+    "decidedAt": "2026-10-20T00:32:02.105310+00:00",
+    "decision": "successor",
+    "decisionId": "work-item-recovery",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1090-evidence-docs-recovery/raydot-technical-approval.agent-recorded.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/39344530319"
+    ],
+    "policyRefs": [],
+    "predecessorContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "predecessorEventsDigest": "sha256:9d1fa486587305413524d0794d3bc1a7b47468fc612fe96db79d9ec04558524b",
+    "predecessorOutcomeDigest": "sha256:1b0f43474968bb86dca2b0bee5010807718358c68c3cc4176d9e32298d2832b2",
+    "predecessorSummaryDigest": "sha256:5c4b3c8eee900183cb5f6a12f7780e58d345e78237c3a1f4edaf550662e525bd",
+    "predecessorWorkItemId": "WI-1090-authority-source-material-review-replacement",
+    "reason": "Raydot approved the exact bounded technical recovery proposal: preserve the archived predecessor and actual failed CI, relocate exactly eight Agent-owned evidence copies byte-for-byte, and restore truthful three-language documentation through a native successor. No Rust, old manifest, merge, close or deletion authority. decidedAt records current relay recording time, not an unavailable server timestamp.",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resumeCondition": "Only current native admission and complete successor scope/review permit checks and own finish/archive. Stop for actual human decision or rejected scope/admission; no implicit old review/risk reuse or predecessor mutation.",
+    "runtimeDigest": "sha256:b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "successorWorkItemId": "WI-1090-evidence-docs-recovery",
+    "workItemId": "WI-1090-authority-source-material-review-replacement"
+  },
+  "actualExistingGatePredicate": false,
+  "scopeContainsAllThree": true,
+  "nativeSummaryContainsAllThree": false,
+  "nativeSummaryChangedPaths": [
+    ".ai/evidence/WI-1090-evidence-docs-recovery.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1090-evidence-docs-recovery.contract-amendments/00000002.prepared.json",
+    ".ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json"
+  ],
+  "missingFromNativeSummary": [
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "canonicalOwnReceiptExists": false,
+  "sourceRegistrationCommit": "28ae748c3d2a25f143e3113f16a0b505dc53b22e",
+  "formalExecutionAttempt": ".ai/evidence/WI-1090-evidence-docs-recovery.verification-attempt.b5699af612d2135b5a1b16acd028099dcaed804099699bc63f926b67c591c9d2.json",
+  "sourceFacts": {
+    "gateOwnershipPredicate": "tests/ci/governance_integrity_gate.py:2024 requires Contract.scope AND Summary.changedPaths to contain all3 parity paths.",
+    "gateHistoricalRepair": "tests/ci/governance_integrity_gate.py:2991 calls that predicate before downgrading corrected late registration to historical.",
+    "nativeSummaryWriters": "crates/cockpit-repository/src/lifecycle.rs:774(start),1034(scaffold),9069(successful verification recorder).",
+    "failedReceiptRejected": "crates/cockpit-repository/src/lifecycle.rs:8905 rejects failed verification as completion evidence before Summary changedPaths recording.",
+    "controlsBoundary": "crates/cockpit-repository/src/governance_controls.rs:1383 supports six projection keys, excluding changedPaths."
+  },
+  "assessment": "The observed first-run bootstrap cycle prevents the selected successor from satisfying the historical repair predicate. The available native controls cannot truthfully refresh changedPaths, and this Contract prohibits gate/test/Runtime implementation changes. This is a technical scope blockage; current Runtime humanDecisionRequired is false, not a new human review request.",
+  "nextTechnicalDecisionOwner": "agent:Raydot",
+  "requestedTechnicalDecision": "Determine a supported native source-projection recovery or authorize a narrowly specified gate/Runtime repair through the proper Contract path. No unchanged test rerun, direct Summary edit, historical registration rewrite, finish/archive, publication or scope expansion executed."
+}

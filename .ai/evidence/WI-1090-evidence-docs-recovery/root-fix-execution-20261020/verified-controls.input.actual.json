@@ -1,0 +1,47 @@
+{
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/exact8-and-root-scope-audit.actual.agent-recorded.json"
+      ],
+      "expected": "Exactly8 approved copy moves and2 locator files, full old Git blob/raw SHA/length match; explicit old-logical-to-new-path resolution works; 2 manifests,27 protected native records,2 Rust files and19 preventive candidates remain unchanged.",
+      "required": true,
+      "scenario": "exact8_byte_preserving_locator",
+      "status": "verified",
+      "verificationPlan": "Run a read-only audit against the frozen cba3 tree and approved index; preserve actual structured audit and record it through native scenario controls before finish.",
+      "reason": "Actual extended audit preserves eight exact moves, two manifests,27 native records,two inherited Rust files and19 other paths; only the seven approved root Rust paths differ."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery.verification.json"
+      ],
+      "expected": "Existing documentation acceptance and governance-integrity gates pass; old WI is selected into the native successor lineage, all3 ledgers owned, current source registration precedes first own verification and own pages remain valid across archive.",
+      "required": true,
+      "scenario": "truthful_three_language_projection",
+      "status": "verified",
+      "verificationPlan": "Execute both required bash documentation gates on the real feature checkout and later the actual provider PR context; record actual terminal outputs without synthetic authority.",
+      "reason": "Actual native local documentation acceptance and parity checks passed; all3 ownership paths are natively observed from validated S and original real gate assertions retained. This is local source evidence, not hosted CI or final archive delivery."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1090-evidence-docs-recovery.verification.json",
+        ".ai/evidence/WI-1090-evidence-docs-recovery/root-fix-execution-20261020/nonzero-test-inventory.actual.agent-recorded.json"
+      ],
+      "expected": "Native verification-start material observation covers committed successor changes before checks without claiming success; validated cba3 responsibility history excludes inherited b8ec-to-cba3 Rust. Missing/unchanged files and invalid or stale bindings cannot satisfy ownership. Failure/retry history remains intact; lock-wait and execution drift reject current-state promotion; successful recording preserves committed paths. Native fixtures demonstrate a continuous failed-to-successful finish/archive path with zero extra manual refresh or routine confirmation. Existing workflow documents carry this process standard. Current real recovery must additionally satisfy unchanged AC3, both original document checks and own AC5 lifecycle boundary; actual user interventions and review evidence are reported separately.",
+      "required": true,
+      "scenario": "source_change_observation_root_cause",
+      "status": "verified",
+      "verificationPlan": "Run the four added focused checks with matching source_change_observation_ tests listed before execution; preserve actual native CLI/MCP and binding outputs. Run both original document checks in this real Work Item, update truthful controls and complete own finish/archive only on actual native admission. Record actual intervention count/reason/binding and experience review; synthetic test expectations do not prove real human delivery.",
+      "reason": "Native required fmt and three integration filters passed with9 real tests (repository7,CLI1,MCP1). Synthetic native recovery proves failure to success/evidence commit/finish/archive and negatives. Current real own finish/archive remains the separate AC5 boundary, pending actual admission."
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "evidence": [
+      ".ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json",
+      ".ai/evidence/WI-1090-evidence-docs-recovery.verification.json",
+      "docs/reference/agent-workflow.zh-CN.md"
+    ],
+    "reason": "Implementation remains inside reviewed37 scope; four Runtime files,three regression files and three workflow documents repair observed root cause. Six actual required checks passed. Hosted CI and own finish/archive are separate pending boundaries."
+  }
+}

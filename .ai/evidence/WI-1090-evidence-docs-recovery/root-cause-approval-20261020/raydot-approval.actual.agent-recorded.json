@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_relay_of_delegated_technical_approval_not_human_review_receipt",
+  "actor": "agent:Raydot",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-20T02:01:34.198449+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "workItemId": "WI-1090-evidence-docs-recovery",
+  "approvedProposalCommit": "6804c9d43fa6161f785240e02943fccaa25c61c5",
+  "approvedRequestRawSha256": "f0aa24e6709166354b36bb0b3fbacd244812823f5d0f5c6c11594cbb2b9a1494",
+  "approvedPlan": "CONSOLIDATED-ROOT-CAUSE-PLAN.proposal-only.zh-CN.md",
+  "approvalText": "Raydot 技术审阅通过：批准固定 6804c9d43fa6161f785240e02943fccaa25c61c5 的集中根因方案、12 项严格原生修约请求及三语流程条款补丁。独立审查已核对原27范围保留、精确新增10文件、原 AC3/门禁/终态限制不变，并核对 activation 原件 cba3→b8ec 及 Git 祖先关系。请现在原生修约并连续推进已授权准备；只有实际真人门槛才返回一次完整绑定。技术审阅如实记 agent:Raydot，不能代 Ray 的真人决定。",
+  "acceptanceRefinements": [
+    "Existing real gate positive/negative ownership, absent actual change cannot be manufactured from scope or hand-filled Summary.",
+    "Same path inherited and successor hunks, concurrent verify, legacy raw recorder rejection/non-erasure, failed/completion rollback retaining pre-execution facts.",
+    "Actual first failure -> reverify success -> .ai evidence commit -> finish/archive without redundant verification or confirmation; zero matched tests does not qualify.",
+    "Native responsibility-origin validation failure stops without fallback to scope. Real current Work Item document gates and own finish/archive remain required."
+  ],
+  "authorityLimits": [
+    "Not human:Ray confirm_review",
+    "Not material residual-risk acceptance",
+    "No permission expansion beyond approved10 added paths",
+    "No merge/close/deletion/release/consumer or Sentinel adoption"
+  ]
+}

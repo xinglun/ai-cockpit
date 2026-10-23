@@ -1,0 +1,28 @@
+{
+  "kind": "actual_native_seven_node_verification",
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-material-replacement",
+    "--work-item",
+    "WI-1090-authority-source-material-review-replacement",
+    "--workers",
+    "1"
+  ],
+  "sourceHead": "2785cfb2f90a3d4763f1b8d0ee7bf20585635138",
+  "contractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "runtimeSha256": "b5cbd8570df5d3cb2004ae517fe88df6136c66d92fc1913070d18f2c8f67f257",
+  "workerCount": 1,
+  "targetDirectory": "/workspace/scratch/wi1090-v4-verify-target-20261019",
+  "startedAt": "2026-10-19T21:45:54.840080+00:00",
+  "terminal": "returned",
+  "outerTimeoutSeconds": 850,
+  "canonicalExistedBefore": true,
+  "pid": 664847,
+  "processGroup": 664847,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T21:52:54.020545+00:00",
+  "elapsedSeconds": 419.1806805219967,
+  "sourceHeadAfter": "2785cfb2f90a3d4763f1b8d0ee7bf20585635138"
+}

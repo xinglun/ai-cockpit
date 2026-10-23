@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_agent_finite_material_review_identity_enforcement_not_native_receipt",
+  "completedAt": "2026-10-20T03:38:36.417132+00:00",
+  "reviewerActor": "agent:Codex",
+  "assurance": "self_declared",
+  "requestDigest": "sha256:f98cf3c3e5146c83cf10afd3c1046c9753fa240dd094d592235059fb5e8f4b6a",
+  "contractDigest": "sha256:be0f85d58e29bcc709fde3a3a81d1e221afff96bb8989783d21acd649e42935d",
+  "profileDigest": "sha256:711819ed3ca489e577a165080e3c305ee366cef0f87eed8580bed46ba4e18cf8",
+  "exactUnknownMembers": [
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:27441ef578adf4d56db736e2b96f15d2ca5e52376dc9e963e668309855e7a249",
+      "afterBlobDigest": "sha256:2bc8aeed5b4f5ede41bb2eb7ed0167261368bab9afd3c9ee93cde0da730bbb84"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:8c3a9e5bd225388cf57c28f78d49ac31fd7c5f4afddaba078cfeb7a821921ea7",
+      "afterBlobDigest": "sha256:1b4ddbe9d24b98e24920808f913674ee01ba722f3ee429221d6da4847700738b"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:09435234cf7961bdc1248e876d9215cc57a5c61601c889f6946bcd43076c2e60",
+      "afterBlobDigest": "sha256:0ebba06d433ff1aa1a25fbc70d59d8735575958142438c89a813c6381d571a48"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:9b6e660e749b97893fedf74ecfbf8387afd7b7e1766e67c9cf07b59e590c7f96",
+      "afterBlobDigest": "sha256:f971e470e9a4092f238dfa8fc8792ebf475c0fc9c707d27ac019f9ccf6a76d2d"
+    }
+  ],
+  "rawFindingCodes": [],
+  "currentDiskHashesMatch": true,
+  "matchesHumanApprovedSet": true,
+  "reviewReport": ".ai/evidence/WI-1090-evidence-docs-recovery/four-member-review-20261020/actual-four-member-material-review.agent-recorded.zh-CN.md",
+  "reviewReportRawDigest": "sha256:56894db9c45a2a2b4e0f41569f90acd30181702c8e615fa515cfd519481afa07",
+  "actualReviewPerformed": true,
+  "scannerCompletenessClaimed": false
+}

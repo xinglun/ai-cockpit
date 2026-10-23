@@ -1,0 +1,23 @@
+{
+  "recordedBy": "agent:Codex",
+  "actualStoredDecision": {
+    "contractDigest": "sha256:b6d2f736ba2c9872294578dea6e6c7dfae528f0c46c33ce603599d31b73a5214",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:530d11843008f5fe306fdc19fae652d30724caa9ab39d7293eabd7c0d92cadca",
+    "reason": "Ray replied literally 确认上述 WI-1090 修约后完整绑定，confirm_review。 in Sentinel_5e627daabe548191ac72167f9a8963c3 to exact request Sentinel_09302e9f41a88191bcd960ffe84f27fa; relayed by agent:Raydot, recorder agent:Codex. Actual full binding and provenance at .ai/evidence/WI-1090-authority-source-material-review-replacement/new-contract-confirm-material-20261019/ray-new-contract-confirmation.relayed.agent-recorded.json. This is the new b6d2 Contract confirmation, not replay of c9, no invented new risk acceptance, ordinary acceptance, Sentinel recovery or release approval.",
+    "recordedAt": "2026-10-19T22:44:19.339363Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "schemaVersion": 1,
+    "workItemId": "WI-1090-authority-source-material-review-replacement"
+  },
+  "nativeDecisionFiles": [
+    {
+      "path": ".ai/decisions/WI-1090-authority-source-material-review-replacement.preflight-review.affadc192ceb8f7dbd717501160417b0a22ba9175da1108b9d8016fa27103adf.json",
+      "rawSha256": "6603cbb3bd38f6f0db82b0da8dbcdd20e8e3824dcacc780b78d7cc999e41022d"
+    }
+  ],
+  "oldC9ReviewNotReplayed": true
+}

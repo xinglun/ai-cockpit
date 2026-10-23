@@ -1,0 +1,26 @@
+{
+  "kind": "agent_recorded_pre_new_source_verification_inventory",
+  "recordedAt": "2026-10-20T03:21:13.435956+00:00",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1090-evidence-docs-recovery.verification.json",
+      "rawSha256": "6f0165e50021fbe2030f3874be7d09f8d2a69c06175452944a0a45525520c357",
+      "bytes": 18321
+    },
+    {
+      "path": ".ai/evidence/WI-1090-evidence-docs-recovery.verification-attempt.9ac6958100e68b69cf44ad7d17396c9c11c6098fb1c4ab4eb5144a2d05cbd050.json",
+      "rawSha256": "f82a84d314735daa08c289e5d139107bf57f5f952ba5b0a15a7181838c9277b1",
+      "bytes": 33848
+    },
+    {
+      "path": ".ai/evidence/WI-1090-evidence-docs-recovery.verification-attempt.b5699af612d2135b5a1b16acd028099dcaed804099699bc63f926b67c591c9d2.json",
+      "rawSha256": "7869fdb2d2d0a85f00345fb4aba23f5e9e0fa01d12e51ef0d6696f8b4729af4a",
+      "bytes": 10576
+    },
+    {
+      "path": ".ai/evidence/WI-1090-evidence-docs-recovery.verification-attempt.da4a9b77502c7d97389ddcf44464be7cf2f6cd0e22469746672df601adc9223e.json",
+      "rawSha256": "39f8ba5015b4e8818dd4deedfb92d9005ba84a0cb737a6c91825645f04c54f4c",
+      "bytes": 3152
+    }
+  ]
+}

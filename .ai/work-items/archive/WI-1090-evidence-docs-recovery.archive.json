@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-20T03:47:54Z",
+  "files": {
+    "contractDigest": "sha256:e1d0ad6f5ff811b3b8195b477b08e0facbee9ba712ac346a24fd1a1be6160034",
+    "contractPath": ".ai/work-items/archive/WI-1090-evidence-docs-recovery.contract.json",
+    "eventsDigest": "sha256:4fcc3d40d04b751541c5784089d54917da5f6146e8b8c25fc458174838b78459",
+    "eventsPath": ".ai/work-items/archive/WI-1090-evidence-docs-recovery.events.jsonl",
+    "outcomeDigest": "sha256:052df8bc96850ef98e0c57af8f5e9f5d757686a8de6c40e850e6dec21f715682",
+    "outcomePath": ".ai/work-items/archive/WI-1090-evidence-docs-recovery.outcome.json",
+    "summaryDigest": "sha256:bb6142b9bb46d7276f243fd4d9f11dda28dff73d9bff97d37e20bb45c500708c",
+    "summaryPath": ".ai/work-items/archive/WI-1090-evidence-docs-recovery.summary.json",
+    "taskReportDigest": "sha256:918c15028199e8d0eee718951dd9cbb6aba05f6c8832382c2986b93869e62bc7",
+    "taskReportMarkdownDigest": "sha256:ad540bf3f22f013909379a07f9352ec067d0d0ff18f6d5e0bf986530c1c72455",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1090-evidence-docs-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1090-evidence-docs-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-20T03:47:54.515988526Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-20T03:47:54.515988526Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:e967d02a49806d0481272625bdc9813dc913a7aca1773aa734d4a095367b0a98",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1090-evidence-docs-recovery"
+}

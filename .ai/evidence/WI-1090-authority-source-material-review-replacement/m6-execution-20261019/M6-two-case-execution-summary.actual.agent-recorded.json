@@ -1,0 +1,103 @@
+{
+  "kind": "actual_m6_two_serial_synthetic_fixture_results_not_real_consumer_recovery",
+  "observedAt": "2026-10-19T21:12:32.127879+00:00",
+  "ownerWorkItemId": "WI-1090-authority-source-material-review-replacement",
+  "ownerContractDigest": "sha256:c9a3bda349078f1fc15891e9e789d100952cbadaea12eb464f2024c90617ce9c",
+  "approvedSourceManifestRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+  "approvedRustPatchRawSha256": "7129aa3fefeb5cfda56b93c948b695a4815e3e1878b3d0a13d591ea405738541",
+  "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "inspectRuntimeDigestBothCases": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "buildExitCode": 0,
+  "cases": [
+    {
+      "kind": "actual_synthetic_m6_combined_fixture_acceptance_not_real_consumer_recovery",
+      "case": "leaf",
+      "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE",
+      "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+      "sourceManifestRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+      "R": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+      "A": "sha256:e2ba0270259721bd8481f78494d0f22d16386d87dfbff250e5a8dde568813e0f",
+      "B": "sha256:58b940f394aef77bf45b6538de395ec20ef75cc9e791c9f058d74fd6e10734c5",
+      "oldCanonicalRawSha256": "e7d91947e409294d1d494c697fb5602baa687379300d16c78baa0836f52fe619",
+      "oldBlockedOutcomeRawSha256": "4603a0861abd595e39478047b171afa6dd6ab9bb82dc4d799f66ab5a1f67a3b0",
+      "oldMaterialReceiptRawSha256": "fece998c8c8f67333a2ec64c9c2886210a951a801f12a0ec0fb902846545df63",
+      "newCanonicalRawSha256": "b0e535c87d59ddc5958ccaa82727571b1178955b25eff934718c0ebe4439c75f",
+      "newMaterialRequestDigest": "sha256:9e041bcb7ecb4d6113283dd217e747ad675e88a38f1399d91efd3028203306aa",
+      "newMaterialReceiptDigest": "sha256:b1b6d87a21efb40f4582def922b1eadc156d04e20a28e5ccd82d34d2bf31121a",
+      "planOnlyProcessesSpawned": 0,
+      "currentNodesExecuted": 4,
+      "currentNodesReused": 0,
+      "maxConcurrentProcesses": 1,
+      "freshGreenPreflight": true,
+      "actualFixtureFinish": true,
+      "actualFixtureArchive": true,
+      "historicalOriginalBytesUnchanged": true,
+      "oldAndCurrentProducerAreSameActualCandidate": true,
+      "limits": [
+        "Synthetic normal-risk scaffold, explicit fixture self_declared review/risk decisions only.",
+        "No real person authentication, real consumer recovery, old producer upgrade compatibility or physical multi-file durability claim."
+      ]
+    },
+    {
+      "kind": "actual_synthetic_m6_combined_fixture_acceptance_not_real_consumer_recovery",
+      "case": "replace",
+      "workItemId": "WI-M6-REPLACE-SYNTHETIC-FIXTURE",
+      "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+      "sourceManifestRawSha256": "299d90d475d2905a43868e5dc995993f0b79fafc7b9f32c452114833d37c50b8",
+      "R": "sha256:9b8336545896d7fd719e6d34e8037d7ab613b3d15d455c69e5371efa59d14433",
+      "A": "sha256:1cb027315ddec50e88f72fbf89d9e857ad92449cc398111907e88922f5ee240d",
+      "B": "sha256:b574a288977750a3145bf21daf07900d31cf702a88b995d0147a1cf0532642c0",
+      "oldCanonicalRawSha256": "b89f010f1f6b9aff2c810c9c85e372dc5bd136452c75455bc17101b4e4b32a9c",
+      "oldBlockedOutcomeRawSha256": "50ada90dc4d6c0773916503d4c1ff131c5987366599bb1d865a135585cfa7295",
+      "oldMaterialReceiptRawSha256": "686d6df61378d521f1101393a4671324eb8f3bc9b73ad9eace037866ce714457",
+      "newCanonicalRawSha256": "4eeae83f13f625887ee9a45b58d107ebf790a58ccb10a3b391afa3c41bec98f0",
+      "newMaterialRequestDigest": "sha256:2660307ca3ccc1d05b5ab4dc882c5c07fda95b88c2f2a059e3320eb7972b19a9",
+      "newMaterialReceiptDigest": "sha256:bf85fb55bf11853f17612f6e5402639598e8b75a22f8fad803c2942dc92572c0",
+      "planOnlyProcessesSpawned": 0,
+      "currentNodesExecuted": 4,
+      "currentNodesReused": 0,
+      "maxConcurrentProcesses": 1,
+      "freshGreenPreflight": true,
+      "actualFixtureFinish": true,
+      "actualFixtureArchive": true,
+      "historicalOriginalBytesUnchanged": true,
+      "oldAndCurrentProducerAreSameActualCandidate": true,
+      "limits": [
+        "Synthetic normal-risk scaffold, explicit fixture self_declared review/risk decisions only.",
+        "No real person authentication, real consumer recovery, old producer upgrade compatibility or physical multi-file durability claim."
+      ]
+    }
+  ],
+  "F1": {
+    "kind": "actual_readonly_real_cloud_history_query_not_replacement_or_consumer_authority",
+    "candidateRuntimeDigest": "sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+    "nativeAmendmentsEqualPreviouslyReadOriginals": true,
+    "sequenceCount": 3,
+    "allIndexedOriginalBytesUnchanged": true,
+    "recoveredPreviousSummary": {
+      "archive": "/workspace/scratch/wi1089-historical-verification-amendment-20261019/pre-amend-c960-snapshot/c960.working-governance-overlay.actual.tar.gz",
+      "archiveRawSha256": "8626f95b06680ec1eadc71228c8bfead819b794bd7ab21b96e4b52394c2cf32b",
+      "member": ".ai/work-items/active/WI-1089-blocked-outcome-material-review-recovery.summary.json",
+      "memberRawSha256": "eb37ed645522d99cb78d41d1594a198a98af0fc4f590a200638254e4399a9e20",
+      "memberCanonicalSha256": "7dadedff7f640378ed76a68e0ad192a4b1006da43c6bd743e14221df92e25351",
+      "matchesActualAmendment3PreviousSummaryDigest": true,
+      "limits": "Recovered original cloud R Summary body, not reconstructed from digest and not a Sentinel snapshot."
+    },
+    "realConsumerHead": "ba1c6c90f4ac039521567c1365b4351fe7ce92ae",
+    "realConsumerContractDigest": "sha256:a5deac9a750543678deff0e444da6e2924976423fb21f419250692c768fc4a69",
+    "realAdjacentBGenerated": false,
+    "limits": [
+      "Full R material plan/blob-hunk inventory not found in the checked old cloud review/plan locations; receipt digests alone are not that body.",
+      "Real Sentinel latest raw canonical four-node envelope/nested plan/coverage/execution/retention, blocked Outcome/events, complete native current context and material source capsule remain unavailable here.",
+      "No adjacent source-only real-consumer B exists; the real consumer amendment has never been executed."
+    ]
+  },
+  "realOwnerAndConsumerRecordsUnchangedBeforeAnyOptionalControls": true,
+  "realConsumerAmended": false,
+  "candidateInstalledOrAdopted": false,
+  "limitations": [
+    "Only the approved two synthetic normal-risk fixtures; old/current cycle producer is the same actual candidate.",
+    "No real Sentinel recovery, historical producer upgrade compatibility, human authentication, parent-directory power-loss durability or CAS against uncooperative writers.",
+    "The original WI1090 seven-node receipt remains source33/5b evidence, not a new formal seven-node combined-source run."
+  ]
+}

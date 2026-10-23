@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--test",
+    "lifecycle_order",
+    "source_change_observation_",
+    "--",
+    "--test-threads=1"
+  ],
+  "cwd": "/workspace/ai-cockpit-wi1090-evidence-docs-recovery",
+  "startedAt": "2026-10-20T03:14:54.965270+00:00",
+  "finishedAt": "2026-10-20T03:15:42.582367+00:00",
+  "exitCode": 0,
+  "timedOut": false,
+  "environment": {
+    "CARGO_HOME": "/workspace/.cloud-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.cloud-tools/rustup",
+    "CARGO_TARGET_DIR": "/workspace/scratch/wi1090-confirmed-execution-20261020/target",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_INCREMENTAL": "0",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "AI_COCKPIT_INTERFACE_DESCRIPTION_BIN": "/workspace/scratch/wi1090-root-candidate-20261020/4237f5ec394c40a62b39b9b4ed8d2ee0fd9140fe/ai-cockpit"
+  }
+}

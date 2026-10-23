@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:d2a9c3ccbd406193ec4996ddc70d4878d25a093d0a0fa752f4514dd47fa2ec17",
+  "workItemId": "WI-M6-LEAF-SYNTHETIC-FIXTURE",
+  "contractDigest": "sha256:143ebf267d9256060c13be7af3ead5bf66b6bd54b73d61e3a2e8bb820d587a52",
+  "materialManifestDigest": "sha256:c8a5594f172555ac633c72c2e2f90915570fb5ca5c9622be1c537e7959da1619",
+  "profileDigest": "sha256:775cfd5fee9961603905b9393fcbfc2ffe345d3cc4a8912b5a95932c1e65902d",
+  "requestDigest": "sha256:a0c0d747e7023d7016e99dfbf0a203c31b51512b149b0c4e25f9509446bbf5d4",
+  "reviewedSourceHead": "ec42451acd2d2205ffdacb3b67930b0d4814f7c6",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:isolated-m6-fixture",
+  "recordedBy": "runtime:1.0.1:sha256:8e34f1e1b14addbf34a83180785846c2f84d6bd56f36a6252ff32aec58b7a02f",
+  "authoritySource": ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/m6-synthetic-consent/old.agent-recorded.json",
+      "digest": "sha256:024c80efba6d71cc743b0e55d56a3eb92b49a3e139e910e312bd97fd2864d2ff"
+    }
+  ],
+  "rationale": "Reviewed the exact synthetic fixture members and bounded readable syntax Unknown.",
+  "residualRisk": "Scanner incompleteness accepted for this synthetic fixture only; self_declared does not authenticate humans.",
+  "recordedAt": "2026-10-19T21:09:10Z",
+  "receiptDigest": "sha256:ef13b6593782363231559f55ef8c0466af36e07db708f252e38d77831e177b99"
+}

@@ -1,0 +1,79 @@
+Outcome: 🟢 已声明的验证通过 — WI-1090-authority-source-material-review-replacement
+结果
+- 验证状态: 已声明的验证通过
+- 生命周期状态: 已建立检查点
+- 人工决定状态: 未记录
+- 治理信号: 绿色；不是人工批准
+
+已完成
+- 验证证据有效；用户可见收益尚未声明。
+- 验收标准（Contract 原文） / Acceptance criteria (Contract language)
+- Establish separate H historical-integrity, P adjacent-source-change and C current-decision proofs. H validates the immutable old receipt R and complete native chain to A; only policy-reviewed scope, acceptanceCriteria, scenarioCoverage and sources changes are permitted on R-to-A, with the entire review profile constant per operation. Historical evidence grants no current material discharge.
+- P must derive A from the actual last adjacent committed native prepared/committed transition to current B, never a Summary marker or arbitrary earlier digest. Replay each operation: only one real authoritySource semantic leaf change is permitted. Support governanceProfile whole-object replace when semantically source-only; reject mixed, reverted, no-op-outside-anchor, pending, forked, direct or nonadjacent changes.
+- The old profile-mismatched receipt remains invalid and discharges no Unknown. One private typed finite eligibility is consumed by existing material action projection and recomputed under lifecycle lock by record, without status_projection.rs edits, generic Stale/Invalid waivers or a broad action allow-list bypass.
+- Require the full exact current request and member blob/hunk identities, current native authorization and required new Contract review, clean committed source, no Finding and only permitted reviewable Unknown. Validate the actual new reviewer decision independently. Preserve truthful current risk-approval/review provenance and self_declared limits: evidenceRefs syntax does not authenticate humans or extend an old grant to a new binding.
+- Preserve immutable receipt/pointer/history and all raw/canonical/native amendment identities. Use a sealed prepare, immutable new sidecar and one atomic current-Summary pointer/history commit with exact pending resume and at-most-once history. Validation failures publish no new material artifacts; precommit residue grants no evidence, committed replay and conflicting retries reject. No physical multi-file atomicity claim.
+- Reproduce the real R=17c4100f to A=a5deac9a mixed reviewed history and an actual native adjacent source-only B. Prove shared projection/record behavior, all negative and fault cases, same-profile/CLI/MCP compatibility, and an isolated full four-node lifecycle with actual blocked predecessor Outcome, fresh execution4/reuse0/max1 and actual fixture finish/archive. Do not substitute Missing, all-reuse or mutated positive digests.
+- Preserve c960/Contract420 history and delivered ba1c6c90/Contracta5/CI39249701684 unchanged during this implementation. Later real-consumer composition requires a separately reviewed exact candidate containing both ba1 and completed WI1090 with fresh native runtime/admission/material bindings. No Sentinel, real WI finish/archive/closure, merge, live grant, broad profile migration or automatic Runtime adoption.
+
+发现的问题
+- 当前 Contract 未声明 provider finalization；继续遵守生命周期和人工决定门槛。
+
+触发的停止
+- 恢复条件: 审阅当前生命周期状态并记录必需的人工作业；验证状态不扩大为授权。
+
+已解决的问题
+- The current verification evidence is valid for this repository and Work Item.
+
+避免的风险
+- 未记录
+
+剩余风险
+- Remaining unknown: user_visible_benefit_not_declared
+- User-visible benefit is not declared by the Work Item owner.
+
+未知项
+- user_visible_benefit_not_declared
+
+人工决定
+- 未记录
+
+验证
+- 已声明的验证通过: .ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json
+- 已声明的验证通过: .ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.38c83532fbd2638ceae088baf62f408b998a63c9e6d53b8662314ea1d96d1d9b.json
+
+用量
+- 用量覆盖: 未知 (unknown); 截止时间: 2026-10-19T22:57:24.440575245+00:00; 未知原因: no_usage_receipts; 记录数: 0
+- 用量小计: 输入 未知, 输出 未知, 缓存输入 未知, 推理 未知
+
+影响
+- 用户可见收益尚未声明。
+
+下一步
+- 审阅证据后再决定是否继续；🟢 不代表已授权合并或发布。
+
+证据
+- .ai/evidence/WI-1090-authority-source-material-review-replacement.verification.json
+- .ai/evidence/WI-1090-authority-source-material-review-replacement.verification-attempt.38c83532fbd2638ceae088baf62f408b998a63c9e6d53b8662314ea1d96d1d9b.json
+跨 WI 协调: WI-1090-authority-source-material-review-replacement
+- 状态: allowed
+- 实现状态: separate_lifecycle_outcome
+- 组合验证: not_observed
+- 执行结果: unknown
+- 执行证据完整: false
+- 组合适用性: not_observed
+- 目标合并: not_observed
+- 清理: not_observed
+- 清理处置: unknown
+- 提供方: 
+- 消费者: 
+- 等待边: 
+- 影响事件: 
+- 阻塞: 
+- 未知: 
+- 人工决定: false
+- 复验: not_required
+- 可复用检查: 
+- 下一步: refresh dependency state before the next dependent action
+- integration owner/order: not observed/
+

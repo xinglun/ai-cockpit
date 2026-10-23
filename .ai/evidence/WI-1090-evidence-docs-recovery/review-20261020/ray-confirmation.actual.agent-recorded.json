@@ -1,0 +1,18 @@
+{
+  "kind": "agent_recorded_relay_of_actual_human_plan_review",
+  "actor": "human:Ray",
+  "recorder": "agent:Codex",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "requestMessageId": "Sentinel_77b63f2d7d488191973a340ff33750c3",
+  "requestAt": "2026-10-20T00:59:21Z",
+  "replyMessageId": "Sentinel_d4f96bd3331481919648dde0b091f9e3",
+  "replyAt": "2026-10-20T01:01:23Z",
+  "recordedAt": "2026-10-20T01:03:14.399357+00:00",
+  "replyText": "确认上述 WI-1090-evidence-docs-recovery 完整绑定，confirm_review。",
+  "contractDigest": "sha256:f263774f07df8a5b88f6fc538538d6d5d249552f0fcc934374b281d07d0519b9",
+  "preflightDecisionDigest": "sha256:af4dc69ed22faa7e02174ae06b68449716e14dbbaa679ed55939f219c27cc3f6",
+  "repositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+  "planReviewOnly": true,
+  "materialResidualRiskAccepted": false,
+  "nativeDecisionRecordedBy": "agent:Codex"
+}

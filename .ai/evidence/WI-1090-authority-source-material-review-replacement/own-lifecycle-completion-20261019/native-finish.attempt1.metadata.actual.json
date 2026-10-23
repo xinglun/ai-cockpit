@@ -1,0 +1,20 @@
+{
+  "recordedBy": "agent:Codex",
+  "startedAt": "2026-10-19T23:36:38.923380+00:00",
+  "terminal": "returned",
+  "argv": [
+    "/workspace/scratch/wi1087-fixed-runtime-b8ec269-20261018/target/release/ai-cockpit",
+    "finish",
+    "--id",
+    "WI-1090-authority-source-material-review-replacement",
+    "--language",
+    "zh-CN",
+    "--repo",
+    "/workspace/ai-cockpit-wi1090-material-replacement"
+  ],
+  "mutating": true,
+  "singleAttempt": true,
+  "timeoutSeconds": 120,
+  "exitCode": 0,
+  "endedAt": "2026-10-19T23:36:43.023090+00:00"
+}

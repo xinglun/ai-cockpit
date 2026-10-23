@@ -1,0 +1,1 @@
+apply typed Contract amendment: repository protocol state error at /workspace/ai-cockpit-wi1090-evidence-docs-recovery/.ai/work-items/active/WI-1090-evidence-docs-recovery.contract.json: set_requires_leaf at /scope: set assigns a scalar leaf; use replace for an existing structured value

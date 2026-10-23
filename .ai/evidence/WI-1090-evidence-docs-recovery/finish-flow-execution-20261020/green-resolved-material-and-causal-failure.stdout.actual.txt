@@ -1,0 +1,80 @@
+
+running 11 tests
+test source_change_observation_concurrent_plans_and_legacy_recorders_preserve_facts ... [master (root-commit) 4947e64] fixture baseline
+[observation-fixture 9762cd6] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_execution_drift_and_completion_rollback_keep_start_facts ... [master (root-commit) b90bd26] fixture baseline
+[observation-fixture c1099a6] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_failure_success_evidence_commit_finish_archive ... [master (root-commit) 37ed66c] fixture baseline
+[observation-fixture b92257e] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_lock_wait_rejects_head_contract_and_journal_drift ... [master (root-commit) 92bf63e] fixture baseline
+[observation-fixture 64204a1] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 3c61371] fixture baseline
+[observation-fixture 5cb993e] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 983fac1] fixture baseline
+[observation-fixture 8836706] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_material_review_evidence_commit_finishes_without_reverification ... [master (root-commit) 1a6c1ca] fixture baseline
+[observation-fixture 6080ea4] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 9b1fcc7] readable committed syntax Unknown fixture
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_material_unknown_keeps_collection_but_blocks_finish ... [master (root-commit) 0da7ecb] fixture baseline
+[observation-fixture 17747d9] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture c444af5] readable committed syntax Unknown fixture
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_new_failure_cannot_hide_under_old_marker_or_equal_time ... [master (root-commit) d674b66] fixture baseline
+[observation-fixture 4fc0b32] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 0edb168] readable committed syntax Unknown fixture
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_new_failure_during_execution_rejects_completion ... [master (root-commit) 71af8a8] fixture baseline
+[observation-fixture e52153c] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 8f40597] readable committed syntax Unknown fixture
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_rejects_pending_foreign_tampered_and_missing_origin ... [master (root-commit) 6c87d47] fixture baseline
+[observation-fixture ca3e7df] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) e9d114b] fixture baseline
+[observation-fixture 09a3e58] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 7f4ab5a] fixture baseline
+[observation-fixture d7584a7] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) f2484ed] fixture baseline
+[observation-fixture b7850d4] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_same_path_inherited_and_successor_hunks ... [master (root-commit) 541d881] fixture baseline
+[observation-fixture 85d30dd] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[observation-fixture 106e2e1] same path successor hunk
+ 1 file changed, 1 insertion(+)
+ok
+test source_change_observation_validated_origin_and_real_gate_ownership ... [master (root-commit) 2ccb0d3] fixture baseline
+[observation-fixture 3b829c5] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 1e36fa4] fixture baseline
+[observation-fixture eb43c59] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+[master (root-commit) 9e63825] fixture baseline
+[observation-fixture 6cd64fb] inherited predecessor S
+ 1 file changed, 1 insertion(+)
+ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 45.68s
+

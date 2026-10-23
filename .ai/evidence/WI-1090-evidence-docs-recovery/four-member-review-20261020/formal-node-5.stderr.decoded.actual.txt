@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/rpc.rs (/workspace/scratch/wi1090-confirmed-execution-20261020/target/debug/deps/rpc-09e055c3e59e4b73)

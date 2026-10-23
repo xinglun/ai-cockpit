@@ -1,0 +1,37 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:24:48.920227+00:00",
+  "nativeRenewalExitCode": 0,
+  "newCurrentContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "newCurrentRequestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+  "newReceiptPath": ".ai/evidence/material-inspection-review/WI-1090-authority-source-material-review-replacement/5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c.json",
+  "newReceiptRawDigest": "sha256:21638cec0c7089f09517d9b8253fccc81f13689198e8b141c349391b81350726",
+  "newReceiptDigest": "sha256:b09f40987129791c62f86a9a73c0d7b5aaf7a0421bf0eca364121e1796357449",
+  "oldReceiptRawBytesPreserved": true,
+  "oldPointerAddedToHistoryExactlyOnce": true,
+  "originalConsentBytesPreserved": true,
+  "priorConditionalRiskConditionsExplicitlyMatched": true,
+  "newHumanRiskDecisionInvented": false,
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "runtimeNotChanged": true,
+  "status": {
+    "blocking": false,
+    "humanDecisionRequired": false,
+    "verification": "not_ready",
+    "safeActions": [
+      "record_governance_controls",
+      "record_usage",
+      "refresh_status",
+      "run_verification"
+    ],
+    "effectiveUnknowns": [
+      "evidence_stale",
+      "user_visible_benefit_not_declared"
+    ],
+    "evidenceFreshness": {
+      "state": "stale_or_invalid",
+      "reason": "verification evidence exists but does not authorize the current status"
+    }
+  }
+}

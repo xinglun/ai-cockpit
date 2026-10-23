@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "actual_relay_of_human_plan_review_not_material_risk_acceptance",
+  "actor": "human:Ray",
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-20T02:10:31.583617+00:00",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "request": {
+    "at": "2026-10-20T02:08:49Z",
+    "messageId": "Sentinel_c1fcfe0b80f8819195897dc802587d5b",
+    "actor": "agent:Raydot",
+    "bindingEvidenceCommit": "0536a3541a00f4eae62b487ccb3382a4d0362174"
+  },
+  "reply": {
+    "at": "2026-10-20T02:09:31Z",
+    "messageId": "Sentinel_78ff9b8c892c8191982a8a6cd9d444c7",
+    "text": "确认上述 WI-1090-evidence-docs-recovery 根因修复完整绑定，confirm_review。"
+  },
+  "contractDigest": "sha256:70ce83aedf772af25235d30e899452fd77891ca32f4ab8578dad246df8818cb8",
+  "preflightDecisionDigest": "sha256:3798c12ae4ef8b0546e2fb066e7488ac89fd62c3af888ea5e7782365795011eb",
+  "repositorySnapshotDigest": "sha256:7b1e1bae297aa899271021bc6f1737ef0af14848f01c85bb18cd97c9c8ab421c",
+  "materialRiskAccepted": false
+}

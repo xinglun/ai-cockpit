@@ -1,0 +1,93 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T23:36:48.412530+00:00",
+  "kind": "actual own WI1090 finish/archive under separately rechecked native admissions",
+  "sourceHeadAtVerificationAndLifecycle": "67f36f4c51a1fcf67780ae44725da30360035caf",
+  "contractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+  "materialRequestDigest": "sha256:5e6074dcbe622261f150fe097040062d5a92200fabc1ec9b2eb57deb356ecc1c",
+  "materialReceiptDigest": "sha256:b09f40987129791c62f86a9a73c0d7b5aaf7a0421bf0eca364121e1796357449",
+  "newVerificationCanonicalRawSha256": "92152d253fa3285f46111c9bade98393e0c1adabebbd55006acff8f6358ef7ce",
+  "newVerificationReceiptDigest": "sha256:3015ac2d68bf493095da0ff60a8d81784d3ec980d093f7e81a13802feaf89295",
+  "nodesExecuted": 7,
+  "nodesReused": 0,
+  "maxConcurrentProcesses": 1,
+  "newVerificationElapsedSeconds": 507.2431908920116,
+  "currentNativePreflightBinding": {
+    "preflightState": "green",
+    "preflightAt": "2026-10-19T23:34:00Z",
+    "preflightContractDigest": "sha256:1cc7ec218c2033ed48feb6b1ac298b392485dc898dcefac58f0fee14d06895c4",
+    "preflightRepositorySnapshotDigest": "sha256:8706ea4bcac43244c73cb2431c2eb6970ee0c448a9f2bcdc6f130aa58fd9cc25",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e"
+  },
+  "independentPreflightCallExitCode": 1,
+  "independentPreflightCallNotRetried": true,
+  "finishExitCode": 0,
+  "finishAdmissionDigest": "sha256:6589256cf172fe5b7d5d75ced37f504003eb0fb4733756fa755817635a98a14b",
+  "afterFinishPhase": "finish_ready",
+  "archiveExitCode": 0,
+  "archiveAdmissionDigest": "sha256:61b6b3c9768af23329ce0530c37af5880b666e69abf2e40bf3140927a6726b40",
+  "actualFinalPhase": "archived",
+  "finalNativeStatus": {
+    "lifecyclePhase": "archived",
+    "governanceState": "yellow",
+    "verification": "verified",
+    "blocking": true,
+    "humanDecisionRequired": false,
+    "effectiveUnknowns": [
+      "close_decision_pending",
+      "user_visible_benefit_not_declared"
+    ],
+    "safeActions": [
+      "close_after_review",
+      "record_usage",
+      "refresh_status"
+    ],
+    "completionDomains": {
+      "closure": "archived",
+      "implementation": "recorded",
+      "integration": "recorded",
+      "resourceCleanup": "not_started",
+      "review": "required",
+      "verification": "verified",
+      "workResult": "verified"
+    },
+    "evidenceFreshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    }
+  },
+  "benefitUnknownPreserved": true,
+  "all8MaterialAndSourceFilesFrozen": true,
+  "oldHistoryConsentAndMaterialReceiptsUnchanged": true,
+  "noInterveningCommitBetweenVerificationFinishArchive": true,
+  "archivePath": "/workspace/ai-cockpit-wi1090-material-replacement/.ai/work-items/archive/WI-1090-authority-source-material-review-replacement.archive.json",
+  "archiveOutcomeDeliveryReturned": true,
+  "nativeHostDeliveryMode": "full_handoff_only",
+  "nativeHostDisplayConfirmation": "unknown",
+  "nativeDeliveryReport": {
+    "complete": true,
+    "deliveryId": "sha256:77c929d4bf40d3348e0920af089877989a911882b957f95dac579cd916cdf9e7",
+    "deliveryState": "unknown",
+    "duplicateRisk": true,
+    "hostConfirmation": "unknown",
+    "nextAction": "Host acceptance/display is unknown; do not claim that a user saw or approved the message.",
+    "progress": {
+      "archiveIdentity": "sha256:a621835809ccbb6cc8fe19f7c96d5a3db79905d205d7de53c80b26a5ad366eb3",
+      "confirmed": [],
+      "deliveryId": "sha256:77c929d4bf40d3348e0920af089877989a911882b957f95dac579cd916cdf9e7",
+      "language": "zh",
+      "schemaVersion": 1,
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    "sentParts": 1,
+    "totalParts": 1,
+    "workItemId": "WI-1090-authority-source-material-review-replacement"
+  },
+  "externalHostProgramConfigured": false,
+  "hostAccepted": "unknown",
+  "hostDisplayed": "unknown",
+  "closeExecuted": false,
+  "branchOrWorktreeCleanupExecuted": false,
+  "otherWorkItemOrSentinelOperationExecuted": false,
+  "mergeOrReleaseExecuted": false
+}

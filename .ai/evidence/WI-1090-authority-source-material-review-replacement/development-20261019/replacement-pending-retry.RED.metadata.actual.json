@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "--package",
+    "cockpit-repository",
+    "--lib",
+    "material_review::tests::replacement_pending_retry_reuses_immutable_receipt",
+    "--",
+    "--exact",
+    "--nocapture"
+  ],
+  "sourceHead": "d77e130b4a9d97eb90547e1be8b6092c2e3a9168",
+  "startedAt": "2026-10-19T19:47:09.480420+00:00",
+  "targetDirectory": "/workspace/scratch/wi1090-v4-verify-target-20261019",
+  "workerCount": 1,
+  "terminal": "returned",
+  "outerTimeoutSeconds": 850,
+  "exitCode": 101,
+  "endedAt": "2026-10-19T19:48:14.293310+00:00",
+  "elapsedSeconds": 64.81211974899634
+}

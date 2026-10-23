@@ -1,0 +1,10 @@
+{
+  "kind": "actual_isolated_source_bound_additional_candidate",
+  "sourceCommit": "94e554ad836b19b4e027c3afda2159c4ace0fd18",
+  "binaryPath": "/workspace/scratch/wi1090-additional-candidate-20261020/94e554ad836b19b4e027c3afda2159c4ace0fd18/ai-cockpit",
+  "rawSha256": "e967d02a49806d0481272625bdc9813dc913a7aca1773aa734d4a095367b0a98",
+  "bytes": 170395480,
+  "recordedAt": "2026-10-20T03:22:05.304068+00:00",
+  "previousCandidatePreserved": "/workspace/scratch/wi1090-root-candidate-20261020/4237f5ec394c40a62b39b9b4ed8d2ee0fd9140fe/ai-cockpit",
+  "sharedRuntimeAdopted": false
+}

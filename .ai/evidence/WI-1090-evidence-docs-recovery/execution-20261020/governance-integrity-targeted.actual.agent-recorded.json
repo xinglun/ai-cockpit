@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "kind": "agent_recorded_targeted_projection_of_actual_gate_report",
+  "sourceReportRawSha256": "7f71b710ed2c2711be3aa3959dcd16f7d6fbac67790844c67eb53e0c776cf475",
+  "sourceFullReportExternal": "/workspace/scratch/wi1090-confirmed-execution-20261020/native-two.governance-integrity-full.actual.json",
+  "state": "failed",
+  "totalFindings": 2,
+  "findings": [
+    {
+      "code": "stale_prearchive_parity_registration",
+      "path": "docs/reference/reference-parity.ja.md",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "code": "stale_prearchive_parity_registration",
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "severity": "error",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    }
+  ],
+  "inventory": [
+    {
+      "classification": "current_release_cycle",
+      "decisionPath": ".ai/decisions/WI-1090-authority-source-material-review-replacement.recovery.json",
+      "lifecycleState": "awaiting_successor_close",
+      "location": "archive",
+      "workItemId": "WI-1090-authority-source-material-review-replacement"
+    },
+    {
+      "classification": "current_active",
+      "lifecycleState": "prearchive_parity_registered",
+      "location": "active",
+      "workItemId": "WI-1090-evidence-docs-recovery"
+    }
+  ],
+  "problems": [],
+  "legacyWarningCount": 4
+}

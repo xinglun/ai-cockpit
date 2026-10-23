@@ -355,6 +355,15 @@ must be retried from the current Work Item, never bypassed. Commit archived
 records only after archive succeeds, then run provider finalization and hosted
 checks.
 
+### Collaboration flow acceptance
+
+1. A legally authorized task must proceed through its admitted implementation, verification and delivery path continuously. Existing entries should automatically record genuine observed facts; do not add routine manual refresh commands or confirmations to compensate for an implementation defect.
+2. Preserve every explicit human gate. Request a new decision only when its protocol binding dependencies actually require one, and present the complete reason, current binding and resume condition together. Do not repeatedly ask for an already valid decision or add arbitrary phase approvals.
+3. Preserve failed attempts, outputs and historical evidence. Follow current native admission for recovery and reuse; prove that the retained failure can lead to successful verification and the authorized finish/archive boundary without rewriting history or removing required checks.
+4. Put automatable legal-path and rejection regressions in the existing test suites. Cover committed changes, inherited-source responsibility, lock/source drift and failed-to-successful recovery; report actual commands, results and evidence. A passing synthetic fixture does not prove the current real task completed.
+5. Include flow-experience evidence in the existing Work Item Outcome: actual user-intervention count, each reason and binding, necessary human decisions, delegated technical decisions and defect-caused interruptions. Distinguish automated assertions from human/Agent experience review and unknown host visibility; do not claim fully automated experience acceptance. Extra routine refresh and meaningless repeated confirmation must be zero for the normal legal path.
+6. Treat discovered friction as a defect. Repair it with regression coverage inside the current authorized scope, or provide one precise bounded amendment when scope changes; retain the issue and disposition in existing Work Item/issue evidence. A user operating warning alone is not a root-cause fix. This standard grants no additional merge, close, deletion, release or adoption authority.
+
 ## Resource finalization boundary
 
 New Work Items must complete provider-side branch and worktree cleanup before

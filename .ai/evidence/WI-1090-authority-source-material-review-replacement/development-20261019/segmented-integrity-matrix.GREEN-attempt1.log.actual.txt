@@ -1,0 +1,19 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1090-material-replacement/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 52.69s
+     Running tests/material_review.rs (/workspace/scratch/wi1090-v4-verify-target-20261019/debug/deps/material_review-c71d29be6e2965a3)
+
+running 11 tests
+test segmented_authority_source_change_exposes_only_new_decision ... ok
+test segmented_native_history_integrity_and_false_anchor_matrix ... ok
+test segmented_new_decision_preserves_history_and_rejects_committed_replay ... ok
+test segmented_old_sidecar_symlink_does_not_gain_replacement_eligibility ... ok
+test segmented_rejects_committed_source_changed_after_adjacent_anchor ... ok
+test segmented_rejects_corrupt_old_receipt_and_foreign_pointer_history ... ok
+test segmented_rejects_forbidden_intermediate_history_and_mixed_adjacency ... ok
+test segmented_rejects_source_replace_that_adds_another_null_profile_field ... ok
+test segmented_requires_each_historical_review_even_with_valid_current_confirmation ... ok
+test segmented_whole_profile_replace_has_source_only_projection ... ok
+test segmented_wrong_current_inputs_publish_no_prepare_or_receipt ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 41 filtered out; finished in 50.46s
+

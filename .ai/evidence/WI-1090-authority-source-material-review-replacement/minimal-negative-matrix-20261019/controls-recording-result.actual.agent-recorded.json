@@ -1,0 +1,8 @@
+{
+  "recordedBy": "agent:Codex",
+  "recordedAt": "2026-10-19T21:53:55.650071+00:00",
+  "attempt1": "native refused scenario_contract_summary_mismatch: submitted only5 original scenarios; existing M6 status preserved",
+  "attempt2": "native accepted complete6 including original M6 unmodified",
+  "noVerificationRerun": true,
+  "noContractOrRiskConsentChange": true
+}
