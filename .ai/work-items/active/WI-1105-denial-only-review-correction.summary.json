@@ -18,6 +18,11 @@
     "schemaVersion": 1,
     "workItemId": "WI-1105-denial-only-review-correction"
   },
+  "intentAlignment": {
+    "evidence": [],
+    "reason": "The actual approved plan and first public-API test target address only local denial-only correction audit. Implementation and tests have not passed yet; missing APIs are the intended restoration RED. No verified behavior, permission grant, external source identity, old-candidate A completion or benefit measurement is asserted. This explicit unknown projection is not resolved intent alignment.",
+    "state": "unknown"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -36,7 +41,57 @@
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Initially unverified: Restore only two public repository APIs for local denial-only correction reader/append on latest actual main. Public API absence RED is feature-restoration evidence only, not a proof that candidate approved-A race or external B is fixed. Existing main WI1097 source identity/WI1099 capture/WI1101 recovery/WI1102 fresh verification/WI1104 bounded preflight refresh remain intact.",
+      "required": true,
+      "scenario": "public-denial-only-api-restoration",
+      "status": "unverified",
+      "verificationPlan": "Use the actual new review_correction integration target and real public APIs; initial missing exports/module RED proves restoration absence only."
+    },
+    {
+      "evidence": [],
+      "expected": "Initially unverified: Exact typed request schema/repository/WI/target raw digest/reason constraints; new request must match exactly one existing target with correct identity. Validate actual target/event original bytes with128KiB precheck and existing recursive duplicate-key/end-input visitor before typed serde. Typed Rust request input is not claimed to authenticate or validate an unseen caller rawJSON serialization.",
+      "required": true,
+      "scenario": "exact-bound-input-and-original-bytes",
+      "status": "unverified",
+      "verificationPlan": "Use actual public append/read target and event byte fixtures: repository/WI/schema/raw digest/reason, duplicate keys/trailing data/overbudget, invalid/foreign/missing/ambiguous targets. A typed Rust request does not prove original caller JSON."
+    },
+    {
+      "evidence": [],
+      "expected": "Initially unverified: Existing PinnedRoot/capability nofollow bounded readers/strict decisions parent identity, directory/event budgets, schema/sequence/parent/request digest/filename and timestamp chain integrity remain enforced; symlink, malformed, duplicate-key, trailing-data, overbudget, tampered/foreign/ambiguous target/chain variants reject without implicit permission.",
+      "required": true,
+      "scenario": "bounded-capability-and-chain-negatives",
+      "status": "unverified",
+      "verificationPlan": "Use public filesystem paths and real cap readers for symlink/nofollow/parent replacement, malformed and bounded directory/event chain negatives, identity/schema/sequence/parent/request digest/name/time tampering; retain original bytes."
+    },
+    {
+      "evidence": [],
+      "expected": "Initially unverified: Same-WI lifecycle lock serializes actual public append and reader; internal already-locked reader avoids reentrant lock acquisition. Controlled contention/public production path and parent replacement/publication interruption retain evidence and deny unsafe publication, without changing system permissions or treating invisible facts as absent.",
+      "required": true,
+      "scenario": "same-work-item-lock-and-parent-identity",
+      "status": "unverified",
+      "verificationPlan": "Use actual same-WI lifecycle guard for public read/write contention and an already-held internal reader; deterministic cross-process or guard contention/parent replacement must reject safely and preserve evidence without permissions changes."
+    },
+    {
+      "evidence": [],
+      "expected": "Initially unverified: Immutable publish/readback, exact idempotent replay and old Summary/receipt byte preservation. A validated existing-event replay is distinguished from a new request requiring current target validation. Events stay self_declared_denial_only/unverified_recorder/human_authority_granted=false; no current permission/hold/admission activation, independently authenticated identity, protected rollback detection, B or mirror functionality is introduced.",
+      "required": true,
+      "scenario": "immutable-idempotent-history-preservation",
+      "status": "unverified",
+      "verificationPlan": "Exercise immutable publication, readback, exact retry/idempotence and interrupted/conflicting publication; verify Summary/old receipt raw bytes unchanged and all events remain self_declared_denial_only/unverified_recorder/human_authority_granted=false."
+    },
+    {
+      "evidence": [],
+      "expected": "Initially unverified: Only four business paths plus supported native lifecycle outputs change; evidence_store immutable writer body remains byte-identical with only sibling visibility changed. Actual selected/executed tests nonzero, workspace consumers/typechecks, Clippy, format, exact diff, independent review, final published HEAD requiredCI/mainCI and recoverable lifecycle delivery are separately evidenced. Focused tests are not represented as the entire repository suite; prior failures/P3/benefit unknown and old69-file candidate remain separate.",
+      "required": true,
+      "scenario": "four-path-quality-and-complete-delivery",
+      "status": "unverified",
+      "verificationPlan": "Run six original declared commands with real selected/executed counts, workspace consumers, exact diff, writer body preservation, independent review and actual published HEAD/main CI under separately applicable delivery authorization; actual later close requires generated binding and genuine user decision."
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-23T04:49:35Z",
+  "updatedAt": "2026-10-23T04:54:55.132215611+00:00",
   "workItemId": "WI-1105-denial-only-review-correction"
 }
