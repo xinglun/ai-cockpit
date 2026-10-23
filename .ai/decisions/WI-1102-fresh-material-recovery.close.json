@@ -1,0 +1,206 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fe42eb73ccb96b1f05d53be025b2c3cc8af0445d45662112c2bb73273276544",
+      "workItemId": "WI-1102-fresh-material-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1102-fresh-material-recovery.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.28950e3bf9369aeefad744cd5bec03d311c186de28b137c38f1004b7159ed3e2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1102-fresh-material-recovery.verification-attempt.34875a762c610114121cb8be8cb1e4dbfd21867afa1962f606256edaf1a6a309.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1102-fresh-material-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1102-fresh-material-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1102-fresh-material-recovery.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via actual-user-message:Sentinel_39d2dcc6ca388191ba08e897e40ff311; request-message:Sentinel_14505fc8ea8481918797f41685cb45e8; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted at 2026-10-23T02:57:07.646679+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1102-fresh-material-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "On current main, port only the necessary five-file cumulative PR1048 repair and add an explicit FreshExecutionRequired qualification for intact old inputs; support current-bound material review and actual declared re-execution with useful first-false diagnostics, independent regression/review and complete conditional delivery."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1102-fresh-material-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-23T02:57:09.318400152Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1102-fresh-material-recovery"
+    },
+    "workItemId": "WI-1102-fresh-material-recovery"
+  },
+  "finalReportDigest": "sha256:a7ed36079be9987e837c3a00f14acdef4a3fda50f86e6ba51e9a3808a6092cd9",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-23T02:57:09.318367473Z",
+  "recordedAt": "2026-10-23T02:57:09.318367473Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:2a726570294a9a023ab387bb86acbcf8f11982c7987321476171a88e3fe1c981",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1102-fresh-material-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "actual-user-message:Sentinel_39d2dcc6ca388191ba08e897e40ff311; request-message:Sentinel_14505fc8ea8481918797f41685cb45e8; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity verification asserted",
+    "decidedAt": "2026-10-23T02:57:07.646679+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1102-fresh-material-recovery.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Actual user replied: 确认按上述绑定关闭 WI-1102，confirmed，并批准两份收尾记录纳入 #1063 发布及条件合并。 This separately binds WI-1102-fresh-material-recovery finalization sequence0 and digest sha256:2a726570294a9a023ab387bb86acbcf8f11982c7987321476171a88e3fe1c981. Actual recordtime is currentdecidedAt; usermessage time is known only at2026-10-23 02:55UTC minute precision, not claimed precise service-time. This transcribes actualconfirmed, not a GitHub Review, independent identity authentication, residualrisk acceptance or borrowed mergeapproval. Sourcec742 mergedmain3cf; its actualmainCI39888618846 passed42gates14packages/Windows0reuse, verified after the actual earlier resourcefinalization. Originalfinalizereceipt correctly says CI pending at its earlier recordingtime and is not rewritten. Exact resourcebackup and ignoredoriginal retained, ordinarycleanup finalized/verified0. HistoricalP3 descriptorproducer authenticity, unmeasuredbenefit, priorfailedmain39858553380, WI1103EROFS and incompleteoriginalSentinelsite remain. This decision applies only to WI1102; it also explicitly permits only this WI finalize/close two-native-record integration into PR1063, whose changedfinalHEAD requires actualnewCI/review and normalmerge. No WI1104humanclose or Issueclosure is authorized.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-23T02:57:09Z",
+  "usageCutoff": "2026-10-23T02:57:09.318400152Z",
+  "workItemId": "WI-1102-fresh-material-recovery"
+}
