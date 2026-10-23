@@ -1,0 +1,732 @@
+{
+  "schemaVersion": 1,
+  "purpose": "One fixed-official-Runtime formal verification of frozen WI-1107 in an isolated GitHub hosted checkout; no candidate self-approval, merge, release, close or activation.",
+  "workItemId": "WI-1107-delegated-development-review",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourceHead": "6c441387f581cfdd0d4c6d6fba34c6179d65879a",
+  "sourceBase": "717af7539ef38cde6f9c4fe2bb2b9006e8768d5c",
+  "sourceBranch": "codex/wi-1107-delegated-development-review",
+  "validationBranch": "codex/wi-1107-actions-verification",
+  "contractPath": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
+  "summaryPath": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
+  "contractDigest": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
+  "sourceSnapshotDigest": "sha256:16f9f39f4d86a5708c1ba7b8018675dc73879c360f9996203fb691f9eb737b35",
+  "runtimeVersion": "1.0.1",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeReleaseUrl": "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.1/ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz",
+  "runtimeArchiveSHA256": "a8f68bba617975003e96ba07ec346fa49e323ae0b8e433eb2aca5a5f8f1ed879",
+  "nativeArchive": {
+    "path": "native-input.tar.gz",
+    "bytes": 206770,
+    "sha256": "9fcb6118dc9bddbe099fb168c2f9bc13aa87036b5af2adc3ac49987e9f310ffb"
+  },
+  "sourceFiles": [
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "sha256": "922d25c197792b3a38e99cd62c529d3ab9616621ccfc5fb5965e8fe111af5b5c"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "sha256": "92049cf3d7fb8f8440c91fd8d4999c10635ca11d270a16f9be70b37d30d9613e"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "sha256": "7c309d783123f3d4685b9c517ca61161d2fd5c4067dc66e60c66156b31c8ddee"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "sha256": "c9681742028f5d6c30ab5d71ebd2602732813cd161338e4eb8b96e036f46266d"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/contract_amendment.rs",
+      "sha256": "d5097946758095f085ee8fe2f7811b318879138951c2138e93436ee34c612e97"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "sha256": "dd14fc8873978365ae4002f0f607be5d099cd334b5338d8bc2b45dfbacf77a71"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/contract_amendment.rs",
+      "sha256": "ec402c7ce4cfe0879bac1cebd7cc9b43575e05a4871af401d0393bdd46f79901"
+    },
+    {
+      "path": "crates/cockpit-repository/src/contract_amendment.rs",
+      "sha256": "cda91dfbfc57bf3c2110ee3efca3526b4158f036b8e232adf7e151dc4fa2132c"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "sha256": "6276d7b40cdfa57aa5b2dd2bd7a68969cd0721a3830dc4f126dee87ab47c4778"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "sha256": "1efacde0e760b132976ddf17a7e1ad9fc3706e0ef2e11706be13e5bc49f9e382"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "sha256": "0cf797e715533d3c39351a7845f505e772ea0a68458e04b4ebadda8911f84c3b"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/delegated_development.rs",
+      "sha256": "73f24e05749738e4c103905e96b0ef9777c76b8c54d176a08359c3690c66dd46"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "sha256": "04f1c50a4a282e09cead68b0c2afeaf7d19d3578fa57ec551425d5390cf56caf"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "sha256": "2592d1054b41dc5687b81105bde9e748a7d27fba27cccac10f4f72154c063b19"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "sha256": "d9a6dbbfd4838f9bee6656040f177f4fc281487025fef254f18cae49aa553595"
+    },
+    {
+      "path": "docs/reference/contract-fields.ja.md",
+      "sha256": "a3af93adcf86e7dd58a24e29d2af966668c19a96851f499b052dcf3c5edcb447"
+    },
+    {
+      "path": "docs/reference/contract-fields.md",
+      "sha256": "1c7468f0b9bbfe8d8bfe088454b23faa0c488cc0a8dc5aba27632def13410ba5"
+    },
+    {
+      "path": "docs/reference/contract-fields.zh-CN.md",
+      "sha256": "22fdd9cbe70d83cdcd3cb8666355046974c82e9abfe5738c3d0a658e56c5c32a"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "sha256": "45d9ccd95ec1a61920a5a82e613d02de870e5d19c09a22409a26228001a76bd8"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "sha256": "f6369390e85f44e645df634074df8714dce4e8f65c8245202d2a49b4381b0aea"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "sha256": "b46b92d6c5cc8da17277433b4544ed585bb994088879d410562698b7b0dba517"
+    },
+    {
+      "path": "docs/work-items/WI-1107-delegated-development-review.ja.md",
+      "sha256": "c4c3f42730835a7222e61089a9dc421588f6732641c34c556b15db4f9efa2391"
+    },
+    {
+      "path": "docs/work-items/WI-1107-delegated-development-review.md",
+      "sha256": "5c10e236745d144942dd0116aec1f0818a50039f34c64a934733479bbf791436"
+    },
+    {
+      "path": "docs/work-items/WI-1107-delegated-development-review.zh-CN.md",
+      "sha256": "577d4ee36806fb5ca766880d0c9c0c8191925eed722ca202feed2fb38710c952"
+    }
+  ],
+  "nativeFiles": [
+    {
+      "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.4fad524905596f0d5f0d94e0a143382b167f9418007d4dbdf83e763e374763a0.json",
+      "bytes": 1573,
+      "sha256": "2ec91d83f0b0b05056db3ab7bacaba1a0f8626f50e52a4cd837b3c9b02d97d1e"
+    },
+    {
+      "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.json",
+      "bytes": 1474,
+      "sha256": "ef22953b6b4ce4ca6ea363199f37aa4292f042b553127cff2d049c207c20438f"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000001.committed.json",
+      "bytes": 137784,
+      "sha256": "3ff1c069a2bda6d20befc70feca10a755cafc966428f9a313c09165fa83fadb1"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000001.prepared.json",
+      "bytes": 50170,
+      "sha256": "942fd703f7d9b5471244a8b4b980f7d581ccaa3c74ce118e74ccf3ed80ebc822"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000002.committed.json",
+      "bytes": 2601,
+      "sha256": "d4df3e7b82dee9885facf0ee77c01b438776e80cfc2a82df7532b95eb5fc1937"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000002.prepared.json",
+      "bytes": 49751,
+      "sha256": "585370c623c8e8b6b7d0ccd145450a91365197f81e9da7e0d8acd07afcea4643"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.4cb2b0e03722bac41320b284a90eefbda66271c106698f0738667927e49815ab.json",
+      "bytes": 982301,
+      "sha256": "25414c4be112db5ffb523cb4bc175eca463a8de2b1137d2c6455cf9f021114f7"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a8b7d7003f5f4fc1e87942357b4d9615c1df0fa9ae65824b078b590677e9c526.json",
+      "bytes": 707287,
+      "sha256": "57d673337d23bb0084e455f42d2b4ffd6dcbda838fddf25fcef27ea7073a46a2"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
+      "bytes": 22476,
+      "sha256": "1bcde661ac189880a215b13ee762fc4e370e4874e234153ea2ed3ccb432bbade"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
+      "bytes": 16013,
+      "sha256": "e432f553288d9f2c200fd94793f0ee8d2291cd8dea68f4e2edd64f7e960f0a9a"
+    }
+  ],
+  "expectedRequests": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--test",
+        "contract_amendment",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "delegated_development",
+        "--test",
+        "contract_amendment",
+        "--test",
+        "lifecycle_entry",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "contract_amendment_processes",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-mcp",
+        "--test",
+        "rpc",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-agent",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-agent",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-cli",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-core",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-core",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-evidence",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-evidence",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-git",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-git",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-interface",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-interface",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-isolation",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-isolation",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-knowledge",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-knowledge",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-mcp",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-mcp",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-protocol",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-protocol",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-release",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-release",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-repository",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-review-receipt",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-review-receipt",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-verification",
+        "--",
+        "--test-threads=1"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-4-package-cockpit-verification",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-agent",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-agent",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-cli",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-cli",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-core",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-core",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-evidence",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-evidence",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-git",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-git",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-interface",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-interface",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-isolation",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-isolation",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-knowledge",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-knowledge",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-mcp",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-mcp",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-protocol",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-protocol",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-release",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-release",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-repository",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-review-receipt",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-review-receipt",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--package",
+        "cockpit-verification",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-5-package-cockpit-verification",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-6",
+      "program": "cargo",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-7",
+      "program": "bash",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "717af7539ef38cde6f9c4fe2bb2b9006e8768d5c",
+        "HEAD"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-8",
+      "program": "git",
+      "timeoutSeconds": 900
+    }
+  ],
+  "originalCommandCount": 9,
+  "expandedNodeCount": 35,
+  "workers": 1,
+  "timeoutSecondsPerNode": 900,
+  "rustToolchain": "1.98.1",
+  "explicitCargoProfileOverrides": false,
+  "publicationAuthority": {
+    "source": "actual-user-message:Sentinel_c4d452d29e288191b1faf2df6c6850a5",
+    "userMessageTimeKnown": "2026-10-23 17:16 UTC, minute precision",
+    "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
+    "preparationRecordedAt": "2026-10-23T17:26:44.187471+00:00",
+    "noIndependentIdentityAuthenticationClaimed": true
+  },
+  "preservation": {
+    "oldNativeFailureAttemptsRemainByteIdentical": true,
+    "oldConfirmationsRemainByteIdentical": true,
+    "privateRedAndStraceLogsNotPublished": true,
+    "runnerUsesNaturalHome": true,
+    "noTestsOrAssertionsOrScannerChanged": true
+  },
+  "interpretation": "Job success is insufficient. Fixed b2 must emit passed current canonical evidence with a unique new successful execution_completed native attempt, every original node executed, zero reuse, and current Runtime status verified/fresh. No finish or archive is performed by this helper.",
+  "executionEnvironmentPolicy": "Fixed b2 and all verification children receive a single finite noncredential environment. Natural HOME/PATH/toolchain values retained; omitted host key names recorded without values. Complete ordered effective environment and canonical cwd are saved for command identity reconstruction. No inherited Cargo profile overrides and no host tokens in Runtime/tests."
+}

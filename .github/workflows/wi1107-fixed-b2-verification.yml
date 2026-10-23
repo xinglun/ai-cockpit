@@ -1,0 +1,69 @@
+name: WI-1107 frozen source with fixed official b2 Runtime
+
+on:
+  push:
+    branches:
+      - codex/wi-1107-actions-verification
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wi1107-fixed-b2-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  formal-verification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout authorized verification helpers
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          path: wi1107-helper
+          persist-credentials: false
+      - name: Checkout exact frozen source independently
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 6c441387f581cfdd0d4c6d6fba34c6179d65879a
+          fetch-depth: 0
+          path: wi1107-source
+          persist-credentials: false
+      - name: Install the existing declared Rust toolchain
+        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.98.1
+          components: rustfmt, clippy
+      - name: Download and verify the existing official Runtime bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="$GITHUB_WORKSPACE/wi1107-helper/.verification/wi1107/binding.json"
+          runtime_dir="$RUNNER_TEMP/wi1107-official-b2"
+          mkdir "$runtime_dir"
+          curl --fail --location --silent --show-error \
+            "$(jq -er '.runtimeReleaseUrl' "$manifest")" \
+            --output "$runtime_dir/official-release.tar.gz"
+          printf '%s  %s\n' "$(jq -er '.runtimeArchiveSHA256' "$manifest")" \
+            "$runtime_dir/official-release.tar.gz" | sha256sum --check --strict
+          tar -xzf "$runtime_dir/official-release.tar.gz" -C "$runtime_dir"
+          printf '%s  %s\n' "$(jq -er '.runtimeDigest | sub("^sha256:"; "")' "$manifest")" \
+            "$runtime_dir/ai-cockpit" | sha256sum --check --strict
+          test -x "$runtime_dir/ai-cockpit"
+      - name: Execute only admitted verification using fixed b2
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 "$GITHUB_WORKSPACE/wi1107-helper/.verification/wi1107/run.py" \
+            --manifest "$GITHUB_WORKSPACE/wi1107-helper/.verification/wi1107/binding.json" \
+            --source "$GITHUB_WORKSPACE/wi1107-source" \
+            --runtime "$RUNNER_TEMP/wi1107-official-b2/ai-cockpit" \
+            --artifacts "$RUNNER_TEMP/wi1107-fixed-b2-evidence"
+      - name: Preserve actual native results and all failure logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: wi1107-fixed-b2-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/wi1107-fixed-b2-evidence
+          if-no-files-found: warn
+          retention-days: 30
