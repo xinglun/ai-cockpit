@@ -9,7 +9,7 @@
   "validationBranch": "codex/wi-1107-actions-verification",
   "contractPath": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
   "summaryPath": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
-  "contractDigest": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
+  "contractDigest": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
   "sourceSnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
   "runtimeVersion": "1.0.1",
   "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
@@ -17,8 +17,8 @@
   "runtimeArchiveSHA256": "a8f68bba617975003e96ba07ec346fa49e323ae0b8e433eb2aca5a5f8f1ed879",
   "nativeArchive": {
     "path": "native-input.tar.gz",
-    "bytes": 206248,
-    "sha256": "983dd2c99657c3c8fba3c642c26acec55de346d23609449354d1c43dd5c9cd23"
+    "bytes": 429534,
+    "sha256": "46462ef0a521377c274a14142e5632bdd2944d1d86ccaecac9cb3740719e29eb"
   },
   "sourceFiles": [
     {
@@ -125,6 +125,11 @@
       "sha256": "2ec91d83f0b0b05056db3ab7bacaba1a0f8626f50e52a4cd837b3c9b02d97d1e"
     },
     {
+      "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.8e62d271206aea94fc749e1749268703368657f9a0784388aa13d272c315cc17.json",
+      "bytes": 1558,
+      "sha256": "5515f7e7859184e03e8208550cb0d31ce30f84077aef1c6a4ac59870230ad3ad"
+    },
+    {
       "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.json",
       "bytes": 1474,
       "sha256": "ef22953b6b4ce4ca6ea363199f37aa4292f042b553127cff2d049c207c20438f"
@@ -150,6 +155,21 @@
       "sha256": "585370c623c8e8b6b7d0ccd145450a91365197f81e9da7e0d8acd07afcea4643"
     },
     {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000003.committed.json",
+      "bytes": 13417,
+      "sha256": "ecc57651211111eff61642b975c2bdd9b7175ab8f89e3df61ec80fd73e5f23b2"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000003.prepared.json",
+      "bytes": 50305,
+      "sha256": "ca4edcfa3b91c4b792467d275fdf60101a5d52d7b6536e5964c0c6041bd182ae"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.201a4ea0ed2c18c5acfbfd3166fcf3565d0f571dbcdc0930aeed2c71e20d7ce0.json",
+      "bytes": 1120324,
+      "sha256": "1059b263849bf0e9548cd2ae21bd9c2bba36478d35da8d3b170659ed08972224"
+    },
+    {
       "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.4cb2b0e03722bac41320b284a90eefbda66271c106698f0738667927e49815ab.json",
       "bytes": 982301,
       "sha256": "25414c4be112db5ffb523cb4bc175eca463a8de2b1137d2c6455cf9f021114f7"
@@ -160,14 +180,19 @@
       "sha256": "57d673337d23bb0084e455f42d2b4ffd6dcbda838fddf25fcef27ea7073a46a2"
     },
     {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.verification.json",
+      "bytes": 561873,
+      "sha256": "ae8823d09044517ce885e063b60d22c0b9b0a90fe2a9fc83022314b309ad4802"
+    },
+    {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
-      "bytes": 22476,
-      "sha256": "1bcde661ac189880a215b13ee762fc4e370e4874e234153ea2ed3ccb432bbade"
+      "bytes": 22330,
+      "sha256": "92417d1f796ec46eac63d48953503ea6c8ab3cac3390bfbb6c6fae057fc2a269"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
-      "bytes": 16013,
-      "sha256": "91b41a90d4fc1d15b21cfb331a8174bf571868c551c4b5fa5c25d02db97740e1"
+      "bytes": 37789,
+      "sha256": "18c9b63ee3b62ca3b5f94947b2eb9be83a583e7e96e8ddca9dd120c822ff8491"
     }
   ],
   "expectedRequests": [
@@ -714,12 +739,12 @@
   "rustToolchain": "1.98.1",
   "explicitCargoProfileOverrides": false,
   "publicationAuthority": {
-    "source": "actual-user-message:Sentinel_c0aff90770d881918f38219d9609dd14",
-    "userMessageTimeKnown": "2026-10-23 20:47 UTC, minute precision",
+    "source": "actual-user-message:Sentinel_bbb0e40386b88191afab3b9cb4ca98fd",
+    "userMessageTimeKnown": "2026-10-23 22:05 UTC, minute precision",
     "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
-    "preparationRecordedAt": "2026-10-23T20:48:56.306129+00:00",
+    "preparationRecordedAt": "2026-10-23T22:06:59.203481+00:00",
     "noIndependentIdentityAuthenticationClaimed": true,
-    "scope": "Publish exact f82e9159552cddac7b03fd912e2d43480595e8d6 and only necessary helper references/binding/native inputs for one original-nine fixed-b2 hosted verification. No merge/release/production."
+    "scope": "Publish only native-input.tar.gz, binding.json and the exact run.py post-verification guard correction allowing only current WI Summary and canonical verification pointer to change. Preserve the other 13 native inputs byte-for-byte, immutable old canonical in native-before.tar.gz, frozen f82 source, workflow and original nine commands. One new fixed-b2 hosted formal verification; no product PR, main merge, release, activation or cleanup."
   },
   "preservation": {
     "oldNativeFailureAttemptsRemainByteIdentical": true,
@@ -738,6 +763,22 @@
       "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
       "preparationRecordedAt": "2026-10-23T17:26:44.187471+00:00",
       "noIndependentIdentityAuthenticationClaimed": true
+    },
+    {
+      "source": "actual-user-message:Sentinel_c0aff90770d881918f38219d9609dd14",
+      "userMessageTimeKnown": "2026-10-23 20:47 UTC, minute precision",
+      "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
+      "preparationRecordedAt": "2026-10-23T20:48:56.306129+00:00",
+      "noIndependentIdentityAuthenticationClaimed": true,
+      "scope": "Publish exact f82e9159552cddac7b03fd912e2d43480595e8d6 and only necessary helper references/binding/native inputs for one original-nine fixed-b2 hosted verification. No merge/release/production."
+    },
+    {
+      "source": "actual-user-message:Sentinel_6c0f49be593c81919bc889bcfa27a3db",
+      "userMessageTimeKnown": "2026-10-23 21:56 UTC, minute precision",
+      "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
+      "preparationRecordedAt": "2026-10-23T21:58:08.208649+00:00",
+      "noIndependentIdentityAuthenticationClaimed": true,
+      "scope": "Publish only native-input.tar.gz and binding.json with 15 exact native inputs for sequence 3 Contract and recorded actual confirmation; one new fixed-b2 original-nine formal hosted verification. Frozen f82 source, driver, workflow, commands, assertions and criteria unchanged. No product PR, main merge, release, activation or cleanup."
     }
   ],
   "approvedSourceDeltaFromPreviousFreeze": {
@@ -750,5 +791,24 @@
     "productionChanged": false,
     "priorRunId": 39996810841,
     "priorSuccessAppliesOnlyToPreviousSource": true
+  },
+  "approvedStage3GovernanceInputUpdate": {
+    "sequence": 3,
+    "contractDigest": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
+    "preflightDecisionDigest": "sha256:22bc5c9da18bd41301d2c944ec42b94fe363aaaaf5f0593d82c72943d1e0f592",
+    "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+    "actualUserConfirmReviewSource": "Sentinel_343c7f400a408191b38178fd3e54fb72",
+    "nativeInputCount": 15,
+    "immutableHistoricalInputsRemainByteIdentical": true,
+    "priorCanonicalRemainsHistoricalUntilFixedB2ProducesNewCanonical": true
+  },
+  "authorizedCanonicalOutputUpdate": {
+    "additionalAuthorization": "actual-user-message:Sentinel_bbb0e40386b88191afab3b9cb4ca98fd",
+    "path": ".ai/evidence/WI-1107-delegated-development-review.verification.json",
+    "oldCanonicalBytes": 561873,
+    "oldCanonicalSHA256": "ae8823d09044517ce885e063b60d22c0b9b0a90fe2a9fc83022314b309ad4802",
+    "oldCanonicalPreservedIn": "native-before.tar.gz",
+    "allOtherNativeInputsExceptSummaryMustRemainByteIdentical": 13,
+    "newCanonicalMustPassExistingRequireSuccessWithUniqueNewAttempt": true
   }
 }

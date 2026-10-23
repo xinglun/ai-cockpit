@@ -326,7 +326,8 @@ def run(manifest_path, source, runtime, artifacts, validate_only=False):
         check(sha(runtime.read_bytes()) == manifest['runtimeDigest'].removeprefix('sha256:'),
               'fixed Runtime changed during verification')
         for item in manifest['nativeFiles']:
-            if item['path'] == manifest['summaryPath']:
+            if item['path'] in [manifest['summaryPath'],
+                                f".ai/evidence/{manifest['workItemId']}.verification.json"]:
                 continue
             check(sha((source / item['path']).read_bytes()) == item['sha256'],
                   'original immutable native input changed')
