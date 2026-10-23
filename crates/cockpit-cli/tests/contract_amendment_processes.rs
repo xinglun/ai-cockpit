@@ -5212,3 +5212,117 @@ fn initial_verified_or_malformed_scenarios_do_not_create_lifecycle_records() {
         assert!(!root.path().join(format!(".ai/work-items/active/{wi}.summary.json")).exists());
     }
 }
+
+#[test]
+fn initial_unverified_scenario_with_evidence_is_rejected_before_record_creation() {
+    for transport in ["cli", "mcp"] {
+        let root = repository();
+        let root_path = root.path();
+        let wi = "WI-INITIAL-EVIDENCE-CONTROL";
+        let active = root_path.join(".ai/work-items/active");
+        for reject in [true, false] {
+            let evidence = if reject {
+                json!(["invented"])
+            } else {
+                json!([])
+            };
+            let scenarios = json!([{
+                "scenario": "initial-evidence-boundary",
+                "required": true,
+                "status": "unverified",
+                "evidence": evidence,
+                "expected": "Only an empty-evidence initial plan is accepted.",
+                "verificationPlan": "git diff --check",
+                "reason": null,
+                "expectedResult": null,
+                "expectedOutcome": null,
+                "description": null
+            }]);
+            let diagnostic = "initial plan must be unverified with empty evidence";
+            if transport == "cli" {
+                let input = tempfile::NamedTempFile::new().expect("scenario input");
+                fs::write(input.path(), serde_json::to_vec(&scenarios).expect("JSON"))
+                    .expect("write scenario input");
+                let output = run_cli(&[
+                    "start",
+                    "--repo",
+                    root_path.to_str().expect("repository path"),
+                    "--id",
+                    wi,
+                    "--intent",
+                    "initial evidence boundary",
+                    "--goal",
+                    "accept an otherwise identical empty-evidence plan",
+                    "--scope",
+                    "**",
+                    "--authority",
+                    "authorized",
+                    "--acceptance",
+                    "initial execution evidence is rejected",
+                    "--verification",
+                    "git diff --check",
+                    "--scenario-coverage",
+                    input.path().to_str().expect("input path"),
+                ]);
+                if reject {
+                    assert!(!output.status.success(), "evidence-bearing CLI start");
+                    assert!(
+                        String::from_utf8_lossy(&output.stderr).contains(diagnostic),
+                        "wrong CLI rejection: {output:?}"
+                    );
+                } else {
+                    assert_success(&output, "empty-evidence CLI control");
+                }
+            } else {
+                let response = mcp_call(
+                    root_path,
+                    &candidate_runtime(),
+                    "work_item_start",
+                    json!({
+                        "workItemId": wi,
+                        "intent": "initial evidence boundary",
+                        "goal": "accept an otherwise identical empty-evidence plan",
+                        "scope": ["**"],
+                        "authority": "authorized",
+                        "acceptanceCriteria": ["initial execution evidence is rejected"],
+                        "verification": ["git diff --check"],
+                        "scenarioCoverage": scenarios
+                    }),
+                );
+                assert_eq!(
+                    response.pointer("/result/isError"),
+                    Some(&json!(reject)),
+                    "{response}"
+                );
+                if reject {
+                    assert!(response.to_string().contains(diagnostic), "{response}");
+                }
+            }
+            if reject {
+                for suffix in [
+                    "contract.json",
+                    "summary.json",
+                    "events.jsonl",
+                    "outcome.json",
+                ] {
+                    assert!(
+                        !active.join(format!("{wi}.{suffix}")).exists(),
+                        "{transport}: rejected input created {suffix}"
+                    );
+                }
+            } else {
+                for suffix in ["contract", "summary"] {
+                    let saved: Value = serde_json::from_slice(
+                        &fs::read(active.join(format!("{wi}.{suffix}.json")))
+                            .expect("accepted control record"),
+                    )
+                    .expect("record JSON");
+                    assert_eq!(
+                        saved["scenarioCoverage"], scenarios,
+                        "{transport}: {suffix}"
+                    );
+                }
+            }
+        }
+    }
+}
