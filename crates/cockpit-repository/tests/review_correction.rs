@@ -697,6 +697,107 @@ fn wait_for_child(child: &mut Child, timeout: Duration) -> bool {
     }
 }
 
+#[cfg(unix)]
+#[test]
+fn fifo_targets_and_events_are_rejected_without_blocking_the_public_apis() {
+    use std::os::unix::fs::FileTypeExt;
+    const CHILD: &str = "AI_COCKPIT_CORRECTION_FIFO_CHILD";
+    if let Some(action) = std::env::var_os(CHILD) {
+        let root =
+            PathBuf::from(std::env::var_os("AI_COCKPIT_CORRECTION_FIFO_ROOT").expect("child root"));
+        let request: ReviewCorrectionRequest = serde_json::from_slice(
+            &fs::read(root.join("child-request.json")).expect("child request bytes"),
+        )
+        .expect("typed child request");
+        let error = if action == "event-read" {
+            review_correction_events(&root, ID).expect_err("FIFO event must deny reading")
+        } else {
+            record_review_correction(&root, ID, &request).expect_err("FIFO must deny appending")
+        };
+        assert!(error.to_string().contains("regular_file_required"));
+        return;
+    }
+
+    let mut failures = Vec::new();
+    for action in ["target-append", "event-read", "event-append"] {
+        let directory = repository();
+        let root = directory.path();
+        let (mut request, target_path, original) = target(root);
+        let path = if action == "target-append" {
+            target_path.clone()
+        } else {
+            record_review_correction(root, ID, &request).expect("original event");
+            request.reason.push_str(" A distinct request.");
+            event_path(root)
+        };
+        let retained = root.join("retained-original.json");
+        fs::rename(&path, &retained).expect("retain original before FIFO fixture");
+        let retained_bytes = fs::read(&retained).expect("retained original bytes");
+        assert!(
+            Command::new("mkfifo")
+                .arg(&path)
+                .status()
+                .expect("create owned FIFO")
+                .success()
+        );
+        fs::write(
+            root.join("child-request.json"),
+            serde_json::to_vec(&request).expect("request"),
+        )
+        .expect("child input");
+        let names_before: Vec<_> = fs::read_dir(root.join(".ai/decisions"))
+            .expect("original decision names")
+            .map(|entry| entry.expect("entry").file_name())
+            .collect();
+        let mut child = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "fifo_targets_and_events_are_rejected_without_blocking_the_public_apis",
+                "--test-threads=1",
+                "--nocapture",
+            ])
+            .env(CHILD, action)
+            .env("AI_COCKPIT_CORRECTION_FIFO_ROOT", root)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("bounded own child");
+        let bounded = wait_for_child(&mut child, Duration::from_secs(5));
+        let output = child.wait_with_output().expect("reaped child output");
+        if !bounded || !output.status.success() {
+            failures.push(format!("{action}: bounded={bounded}, output={output:?}"));
+        }
+        assert!(
+            fs::symlink_metadata(&path)
+                .expect("FIFO retained")
+                .file_type()
+                .is_fifo()
+        );
+        assert_eq!(
+            fs::read(retained).expect("retained original after rejection"),
+            retained_bytes
+        );
+        if action != "target-append" {
+            assert_eq!(
+                fs::read(target_path).expect("old target unchanged"),
+                original
+            );
+        }
+        let names_after: Vec<_> = fs::read_dir(root.join(".ai/decisions"))
+            .expect("decision names after rejection")
+            .map(|entry| entry.expect("entry").file_name())
+            .collect();
+        assert_eq!(
+            names_after, names_before,
+            "no event publication on rejection"
+        );
+    }
+    assert!(
+        failures.is_empty(),
+        "public FIFO rejection must be bounded: {failures:?}"
+    );
+}
+
 #[test]
 fn public_reader_and_append_share_the_cross_process_work_item_lock() {
     const CHILD: &str = "AI_COCKPIT_CORRECTION_LOCK_CHILD";
