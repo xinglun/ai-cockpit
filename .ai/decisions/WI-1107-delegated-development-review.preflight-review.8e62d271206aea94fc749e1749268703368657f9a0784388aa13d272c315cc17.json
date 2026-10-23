@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:22bc5c9da18bd41301d2c944ec42b94fe363aaaaf5f0593d82c72943d1e0f592",
+  "reason": "Actual user response: 确认 WI-1107 上述阶段修订及新绑定，confirm_review。本次不包含合并、发布或生产启用。 Parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed source user message Sentinel_343c7f400a408191b38178fd3e54fb72 at2026-10-23 21:42 UTC (minute precision). Exact HEAD f82e9159552cddac7b03fd912e2d43480595e8d6 and new Contract/preflight/snapshot rechecked. This confirmation is only for sequence3 exact stage edits preserving quality, required=true and all delivery obligations; it is not merge/publication/production authority. Actual recordedAt is current recording time, not the user message time. Old native verification and failures remain unmodified; current evidence reuse must still be independently admitted by fixed official b2.",
+  "recordedAt": "2026-10-23T21:43:44.299576+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_343c7f400a408191b38178fd3e54fb72; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+  "schemaVersion": 1,
+  "workItemId": "WI-1107-delegated-development-review"
+}
