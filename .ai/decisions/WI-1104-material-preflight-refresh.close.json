@@ -1,0 +1,192 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+      "workItemId": "WI-1104-material-preflight-refresh"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1104-material-preflight-refresh.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1104-material-preflight-refresh.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1104-material-preflight-refresh.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1104-material-preflight-refresh.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via actual-user-message:Sentinel_b0a7f8038a408191b13eb3a0d0fc8617; request-message:Sentinel_9da2e1c400988191b628e21ad8cf2b8b; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity authentication asserted at 2026-10-23T03:51:18.449593+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1104-material-preflight-refresh.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json"
+          ],
+          "inference": false,
+          "text": "On current main with the explicitly declared five-file PR1062 dependency add strictly collection-only preflight refresh admission for a stale prior material receipt and stale nonred same-Contract preflight; prove the production RED then renewal/fresh-execution chain and preserve all original guards/history."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1104-material-preflight-refresh.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-23T03:51:19.990904089Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1104-material-preflight-refresh"
+    },
+    "workItemId": "WI-1104-material-preflight-refresh"
+  },
+  "finalReportDigest": "sha256:45496d1659987bcb42d8b016239961ef85092cf72d6221f11380106f64956391",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-23T03:51:19.990873533Z",
+  "recordedAt": "2026-10-23T03:51:19.990873533Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:3e9e8cb16a02c5f704e46d72a50cef7fc6f5f71e324ddf2c64a22e307b30eb8a",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1104-material-preflight-refresh.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "actual-user-message:Sentinel_b0a7f8038a408191b13eb3a0d0fc8617; request-message:Sentinel_9da2e1c400988191b628e21ad8cf2b8b; relayed-by-parent-thread:01a1576c-b0ab-7723-ad8e-95924e80102a; recorded-by:agent:Codex; no independent external identity authentication asserted",
+    "decidedAt": "2026-10-23T03:51:18.449593+00:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1104-material-preflight-refresh.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Actualuser replied: 确认按上述绑定关闭 WI-1104，confirmed，并批准两份收尾记录按正常 PR 流程发布、转 ready，检查通过后合并。 This separately binds WI-1104-material-preflight-refresh finalizationsequence0/digest sha256:3e9e8cb16a02c5f704e46d72a50cef7fc6f5f71e324ddf2c64a22e307b30eb8a. Usermessage time known only2026-10-2303:49UTC minute precision; decidedAt isactualcurrent recordingtime, not inventedpreciseservicetime or backdating. Formalnativefinalizationandverify exited0 and unchangedreceipt matchesverifiedbinding. Thisrecords actualconfirmed, not borrowedWI1102decision, GitHubReview, independentlyauthenticatedidentity or residualriskacceptance. ActualPR1063source6cf mergedmain587 at03:34:15Z, wholemain treeequals source6cf; finalsourceCI39892875598passed4jobs40actualgates14packages0reuse andmatchingQualityWindowsbinding,2mainonlydocgates deferrednotpassed. ActualmainCI39895721899 remainsinprogress atthisrecordingtime; thisdoesnotcertifymainpassed andoriginalfinalizepending statement remainsunchanged. Originalsource22d formal8commands21nodes290tests andnativehistory preserved; exactsource/localremote resources normallyremoved withcomplete6e+incremental6cf recoverablebundles/ignoredlockretained. HistoricalP3descriptorproducer authenticity, unmeasuredbenefit, priorfailedmain39858553380, independentWI1103EROFS, noReleasedRuntime/noBactivation/noIssueClosure/nooriginalSentinelDailyRadarcompletion remain. UserseparatelypermitsonlythisWI twofinalize/close nativefilespublicPR, readyafteractualnewHEADCI/review, normalconditionalmerge andmainverify; no otherWIhumanclose or sourceexpansion.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-23T03:51:19Z",
+  "usageCutoff": "2026-10-23T03:51:19.990904089Z",
+  "workItemId": "WI-1104-material-preflight-refresh"
+}
