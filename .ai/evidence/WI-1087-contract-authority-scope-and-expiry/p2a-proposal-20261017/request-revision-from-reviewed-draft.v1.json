@@ -1,0 +1,60 @@
+{
+  "kind": "agent_record_of_execution_input_revision_not_native_receipt",
+  "recordedAt": "2026-10-17T07:30:10.518741+00:00",
+  "reviewedDraftRawSha256": "3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b",
+  "executionRequestRawSha256": "8dad1c506b242a5cb308b68af3a055150c3c1c7db3d90e17d920605b88013ac5",
+  "expectedContractDigestUnchanged": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+  "changes": [
+    {
+      "field": "changeId",
+      "old": "p2a-pure-assessment-fixtures-v1-20261017",
+      "new": "p2a-pure-assessment-fixtures-v1-apply-20261017",
+      "reason": "Distinct actual execution ID; the reviewed draft was never applied."
+    },
+    {
+      "field": "reason",
+      "old": "UNAPPLIED DRAFT: narrow the next proposed slice to P2a pure assessment, a current-source interface contract, an Unsupported production default and controlled test-only fixtures after independent P1 review. Address confirmed no-Runtime controls and pre-CAS prepared-recovery bypasses by deferring all P2b production activation until a complete reviewed inventory exists. Plan raw SHA-256 c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e. This request records no implementation authority or human decision; publication, application and implementation require the separate actual authorizations and fresh native gates described by the plan.",
+      "new": "Apply the reviewed two-file P2a pure-assessment/source-interface/controlled-fixture plan under the actual relayed technical approval and explicit native-amendment delegation recorded in technical-plan-approval-source-20261017.json. Preserve the reviewed draft SHA-256 3cf0a893ad8017291fa6faed52052eb627ea6cfc7dc53111b6c9f387d375ca4b and plan SHA-256 c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e. Production opt-in, actual grants, P2b-P4, merge and lifecycle completion remain excluded. This amendment is not a human preflight decision; subsequent code work waits for the exact fresh native review and admission.",
+      "reason": "Replace historical draft-only state with actual relayed publication/application authority; keep native human review pending."
+    },
+    {
+      "field": "changes[/sources]",
+      "old": [
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/authority.json",
+          "reason": "Actual relayed Ray software-development delegation and Raydot ordinary technical approval for bounded five-file P1; not native human confirm_review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1-plan.json",
+          "reason": "Reviewed P1 five-file implementation and bounded verification plan; product execution waits for native admission and any exact human preflight review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/p2a-plan.v1.json",
+          "reason": "Agent-authored P2a minimal plan and relayed planning-only direction, raw SHA-256 c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e. This is not implementation authorization or a native human review. Exact plan bytes must first be published under explicit authority; this prospective path is currently absent, so the draft is not ready to apply."
+        }
+      ],
+      "new": [
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/authority.json",
+          "reason": "Actual relayed Ray software-development delegation and Raydot ordinary technical approval for bounded five-file P1; not native human confirm_review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1-activation-20261017/p1-plan.json",
+          "reason": "Reviewed P1 five-file implementation and bounded verification plan; product execution waits for native admission and any exact human preflight review."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/p2a-plan.v1.json",
+          "reason": "Exact agent-authored P2a minimal plan published under the relayed technical-plan approval; raw SHA-256 c3377c31c6867aa529e1a1c26c7178bb10bd53ee41c1688ad9bb9e85f2b01e4e. The plan itself is not a human preflight decision or live grant."
+        },
+        {
+          "path": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p2a-proposal-20261017/technical-plan-approval-source-20261017.json",
+          "reason": "Actual relayed ordinary technical approval by agent:Raydot and delegated authority to publish/apply the P2a plan, raw SHA-256 9e7e6475d11545a1d40ff7be7f755e9c5298e44831174384bd3aa9efb80ecd4a. Not a new human preflight decision; implementation remains conditional on fresh native admission and any exact new human gate."
+        }
+      ],
+      "reason": "Plan bytes now published; add exact actual technical approval source."
+    }
+  ],
+  "allOtherFieldsAndFiveOtherChangesUnchanged": true,
+  "authorityCapabilityOrProductionOptInFieldsAdded": false,
+  "humanDecisionRecorded": false
+}

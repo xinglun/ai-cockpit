@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "relayed_actual_human_decision_source_not_native_receipt",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "humanActor": "human:Ray",
+  "recorderActor": "agent:Codex",
+  "technicalReviewer": "agent:Raydot",
+  "promptMessageId": "Sentinel_24195062141081919db2e1c764ef1333",
+  "responseMessageId": "Sentinel_033b23ff060881918e1f25f4fb828914",
+  "sourceMessageTime": "2026-10-17 03:18 UTC",
+  "rawUserInput": "comfirm review",
+  "interpretedDecision": "confirm_review",
+  "interpretationReason": "The response is to the exact quoted WI-1087 contract-preflight-review request and is an unambiguous spelling error in this context, as explicitly relayed by the controller. The raw input above is preserved verbatim.",
+  "promptText": "WI-1087 已完成实施准入准备，现在需要你做一次原生 Contract 审阅确认。范围：P1 的五个 Rust 文件，增加授权数据结构、结构校验和可测试时钟；包含构建、测试、正常提交推送及 Draft PR，不配置真实授权或修改系统权限。确认绑定：WI：WI-1087-contract-authority-scope-and-expiry；HEAD：6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31；Contract：b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86；Snapshot：4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66；Decision：f9766bf4ba8467395dbb865863130f54af8e14bd02ad46826149c864554385aa。另有三语文档的六个状态字段待修正，确认不会直接豁免这些门禁；记录决定后仍需按实际准入处理。请回复：我本人 Ray 确认上述 WI-1087 绑定，选择 confirm_review。",
+  "binding": {
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+    "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+    "repositorySnapshotDigest": "sha256:4bb29bfa3d4475a4da69e5d4318b8a9dabd7f0ade7631ef7837b9cc3e2d19e66",
+    "preflightDecisionDigest": "sha256:f9766bf4ba8467395dbb865863130f54af8e14bd02ad46826149c864554385aa",
+    "head": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31"
+  },
+  "recordedAt": "2026-10-17T03:20:16.629321+00:00",
+  "agentSuppliedDecision": false
+}

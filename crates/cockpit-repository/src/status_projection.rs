@@ -22,6 +22,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 pub fn status(root: &Path) -> Result<RepositoryStatus, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     status_with_runtime(root, None)
 }
 
@@ -31,6 +32,7 @@ pub fn status_with_runtime(
     root: &Path,
     runtime: Option<&RuntimeContext>,
 ) -> Result<RepositoryStatus, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -234,6 +236,7 @@ mod human_decision_tests {
 /// snapshot.  Missing remote metadata is represented as `unknown`, never as
 /// a green `ready_on_base` claim.
 pub(super) fn repository_readiness(root: &Path) -> Result<RepositoryReadiness, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -558,6 +561,7 @@ pub(super) struct WorktreeLayout {
 /// first entry is Git's primary worktree; linked worktrees are explicit
 /// execution resources and must not be confused with that repository root.
 pub(super) fn discover_worktree_layout(root: &Path) -> Result<WorktreeLayout, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let raw = git_text(root, &["worktree", "list", "--porcelain"]).ok_or_else(|| {
         ObserverError::State {
             path: root.to_path_buf(),
@@ -599,6 +603,7 @@ fn non_governance_changed_paths(snapshot: &RepositorySnapshot) -> Vec<String> {
 }
 
 pub(super) fn unclosed_archived_work_items(root: &Path) -> Result<Vec<String>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let expected_repository_id = repository_id(root).to_string();
     unclosed_archived_work_items_with_id(root, &expected_repository_id)
 }
@@ -794,6 +799,7 @@ pub(super) fn historical_finalization_inventory(
     root: &Path,
     runtime: Option<&RuntimeContext>,
 ) -> Result<Vec<HistoricalFinalizationInventoryItem>, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let Some(runtime) = runtime else {
         return Ok(Vec::new());
     };
@@ -1121,6 +1127,7 @@ pub fn work_item_status_snapshot_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemStatusSnapshot, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, Some(work_item_id))?;
     work_item_status_snapshot_with_snapshot(root, work_item_id, runtime, None)
 }
 
@@ -2028,6 +2035,7 @@ pub fn work_item_status_index_with_runtime(
     root: &Path,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemStatusIndex, ObserverError> {
+    let _goal_authority = crate::authority_admission::enter(root, None)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,

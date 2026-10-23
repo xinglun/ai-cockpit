@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "actor": "agent:Codex",
+  "results": [
+    {
+      "phase": "expected TDD RED",
+      "counts": {
+        "passed": 1,
+        "failed": 11
+      },
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "895s",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-core",
+        "--lib",
+        "clock::tests",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 101,
+      "seconds": 12.74,
+      "log": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/red-clock.log.json",
+      "rawSha256": "sha256:2b6752e1fe15cf0f0077fbbf82173c69967874638a859cedf524fde50046f8dc",
+      "encoding": "base64 envelope; raw byte hash unchanged"
+    },
+    {
+      "phase": "initial local module regression",
+      "counts": {
+        "passed": 12,
+        "failed": 0
+      },
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "895s",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-core",
+        "--lib",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 0.666,
+      "log": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/green-core.log.json",
+      "rawSha256": "sha256:0bf09ef36758812decc52e77dddf79e62627dccc6dda26b5b0d79119b35952ca",
+      "encoding": "base64 envelope; raw byte hash unchanged"
+    },
+    {
+      "phase": "expected TDD RED",
+      "counts": {
+        "passed": 5,
+        "failed": 7
+      },
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "895s",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--lib",
+        "goal_authority_model_tests",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 101,
+      "seconds": 23.571,
+      "log": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/red-protocol.log.json",
+      "rawSha256": "sha256:68c2bf860da65fe9659e451bb119bfa1b7124ce1548de1b1dda87537e5d410fc",
+      "encoding": "base64 envelope; raw byte hash unchanged"
+    },
+    {
+      "phase": "initial local module regression",
+      "counts": {
+        "passed": 12,
+        "failed": 0
+      },
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "895s",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--lib",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 5.882,
+      "log": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/green-protocol.log.json",
+      "rawSha256": "sha256:5abf9659a96959f529c35cb0094c3d785cd7c8fd07c0de04cd97774536f2da71",
+      "encoding": "base64 envelope; raw byte hash unchanged"
+    },
+    {
+      "phase": "expected TDD RED",
+      "counts": {
+        "passed": 0,
+        "failed": 12
+      },
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "895s",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--lib",
+        "authority::tests",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 101,
+      "seconds": 64.826,
+      "log": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/red-authority.log.json",
+      "rawSha256": "sha256:db02abe9b44a0d539c0d1be459edf657039e33f95face779544a0a898a3f336b",
+      "encoding": "base64 envelope; raw byte hash unchanged"
+    },
+    {
+      "phase": "initial local module regression",
+      "counts": {
+        "passed": 164,
+        "failed": 0
+      },
+      "command": [
+        "timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "895s",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--lib",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 183.328,
+      "log": ".ai/evidence/WI-1087-contract-authority-scope-and-expiry/p1/green-repository.log.json",
+      "rawSha256": "sha256:3143ed1d6819ae3f4c7a2c68255bab70ffbd7bb5b92fad030dc9ebc73069c946",
+      "encoding": "base64 envelope; raw byte hash unchanged"
+    }
+  ],
+  "sourceBinding": "Local TDD stages before rustfmt; final committed source and full workspace receipt still pending.",
+  "fullFeatureAcceptance": "not_run",
+  "CI": "not_run"
+}

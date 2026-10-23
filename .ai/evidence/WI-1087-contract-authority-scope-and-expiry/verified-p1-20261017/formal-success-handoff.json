@@ -1,0 +1,186 @@
+{
+  "kind": "agent_summary_of_actual_formal_native_success_not_a_replacement_receipt",
+  "recordedAt": "2026-10-17T06:34:05.810725+00:00",
+  "head": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+  "productHashesUnchanged": true,
+  "historicalHumanPreflightBytesUnchanged": true,
+  "formal": {
+    "path": "/workspace/ai-cockpit/.ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification.json",
+    "receiptDigest": "sha256:960acaeebf14690f28f4a0e26d7a9949e79938374cb0647cee7d27de02532199",
+    "rawSha256": "39b46fbb120ed1996df9d4176cc4fcf3514ed6a7ec17f42cb02f6361ea90b6ca",
+    "createdAt": "2026-10-17T06:32:03Z",
+    "passed": true,
+    "contractDigest": "sha256:b6a6be5bb53bb857053b1167e9960ea1382ff9eccf98bc7ca37893e26d610e86",
+    "repositorySnapshotDigest": "sha256:d66f918edaeac05d93484b889a97b97222034dc9274ec06f1cff1c466fb86d39",
+    "runtimeDigest": "sha256:0ffdcd20740f22b96621cf06adb5479d83fb435f503a26c18d824d61c4bfe9c4"
+  },
+  "attempt": {
+    "path": "/workspace/ai-cockpit/.ai/evidence/WI-1087-contract-authority-scope-and-expiry.verification-attempt.6eda4e34a963c40e60f19e7d7135fb8de6bfe49d2f39dd1f3e1a0ea756cb2c9e.json",
+    "attemptId": "sha256:6eda4e34a963c40e60f19e7d7135fb8de6bfe49d2f39dd1f3e1a0ea756cb2c9e",
+    "state": "execution_completed",
+    "rawSha256": "9c5c700ee8e2b76fb582552977103e26d05c75fa0de429fb77a1131490f943fd"
+  },
+  "execution": {
+    "toolElapsedSeconds": 972.842,
+    "nativeElapsedMs": 970895,
+    "nodesPlanned": 13,
+    "nodesExecuted": 13,
+    "nodesReused": 0,
+    "maxConcurrentProcesses": 1,
+    "allNodes": [
+      {
+        "nodeId": "project-command-0-package-cockpit-agent",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 693,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-cli",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 345587,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-core",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 547,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-evidence",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 163,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-git",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 10418,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-interface",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 183,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-isolation",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 183,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-knowledge",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 428,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-mcp",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 13031,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-protocol",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 1557,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-release",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 957,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-repository",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 529136,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": true,
+        "stderrTruncated": false
+      },
+      {
+        "nodeId": "project-command-0-package-cockpit-verification",
+        "passed": true,
+        "exitCode": 0,
+        "timedOut": false,
+        "elapsedMs": 65602,
+        "timeoutSeconds": 600,
+        "stdoutTruncated": false,
+        "stderrTruncated": false
+      }
+    ]
+  },
+  "runtimeState": {
+    "governanceState": "green",
+    "verification": "verified",
+    "freshness": {
+      "state": "fresh",
+      "reason": "verification evidence matches the current repository and Runtime bindings"
+    },
+    "lifecyclePhase": "checkpointed",
+    "humanDecisionRequired": false,
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ]
+  },
+  "ci": {
+    "runId": 39008478651,
+    "status": "completed",
+    "conclusion": "success",
+    "head": "c72161f56bbcdfdf93fa893ab331c7b78e92408b",
+    "jobsAllFourPassed": true,
+    "readOnlyConnectorObservation": "ci-v05-terminal.json"
+  },
+  "scope": "P1 software tests and CI only. Wider feature acceptance, live grants and P2-P4 remain not_run; no finish, merge, archive, close or deletion.",
+  "publishing": "New success receipt, success attempt and Runtime-generated Summary kept local without staging/commit/push, as explicitly requested. Source head and green CI anchor remain c72161f5."
+}

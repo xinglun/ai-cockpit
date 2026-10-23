@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-1087-contract-authority-scope-and-expiry",
+  "stage": "P1",
+  "technicalPlanApprovedBy": "agent:Raydot",
+  "executedBy": "agent:Codex",
+  "nativeHumanReviewConfirmed": false,
+  "implementationStarted": false,
+  "baseMain": "6a40e5a2d9d46ec88e9480c2f3f0ecb1f3a1ed31",
+  "productPaths": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-core/src/clock.rs",
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-repository/src/authority.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "scopeDescriptions": [
+    "add backward-readable finite source/reference and deadline-mode models/shape validation",
+    "new injectable UTC/monotonic Clock and deterministic fixture without new supervisor or remote time",
+    "export Clock module only",
+    "new minimal authority type/normalization/interface boundary reusing AuthorityEvidence, no live writes/enforcement",
+    "register authority module only"
+  ],
+  "testPlan": {
+    "state": "not_run",
+    "inlineTestsWithinProductPaths": true,
+    "checks": [
+      "legacy/new serialization and required finite interval validation",
+      "missing/null/unbounded/invalid deadline shapes",
+      "exact notBefore inclusive and expiresAt exclusive boundaries",
+      "UTC equivalence and monotonic non-extension/rollback behavior"
+    ],
+    "controlledClockNoLongSleeps": true,
+    "isolatedTargetRequired": true,
+    "workers": 1,
+    "maxCommandSeconds": 900,
+    "preserveExistingWorkspaceVerification": [
+      "cargo test --locked --workspace"
+    ]
+  },
+  "stopAt": "real contract-preflight-review before protected implementation/checkpoint/verification actions; present exact Runtime binding without signing",
+  "fullFeatureAcceptanceState": "not_run",
+  "excluded": [
+    "live grant/system permission configuration",
+    "P2-P4 hooks/storage/CAS/revocation/runtime activation",
+    "merge/close/deletion"
+  ]
+}
