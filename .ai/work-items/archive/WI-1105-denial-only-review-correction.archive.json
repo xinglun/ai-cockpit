@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-23T05:32:26Z",
+  "files": {
+    "contractDigest": "sha256:da655f3284228c5d6275c7eaf9f71d35aee8337ae4a2c4cd800fe055002955f2",
+    "contractPath": ".ai/work-items/archive/WI-1105-denial-only-review-correction.contract.json",
+    "eventsDigest": "sha256:fa071862a5921bb06bb54ac8a1f55a75b35e84883362c4262f114515a1c07180",
+    "eventsPath": ".ai/work-items/archive/WI-1105-denial-only-review-correction.events.jsonl",
+    "outcomeDigest": "sha256:c2ccb7bd57da70ad814388dab03898ec6cbe850fed63bbe4ffb1acccf9f4c15a",
+    "outcomePath": ".ai/work-items/archive/WI-1105-denial-only-review-correction.outcome.json",
+    "summaryDigest": "sha256:b543cac048cc1bd9501cc9b31ff310f3393526e4cf05cd5d0b234ea8e8763380",
+    "summaryPath": ".ai/work-items/archive/WI-1105-denial-only-review-correction.summary.json",
+    "taskReportDigest": "sha256:b607af33af99e7ac0256096ff272069762c19d9b6eaf30b2c03194fcc954f014",
+    "taskReportMarkdownDigest": "sha256:f73cd669c0a33fe213320501dace74b127782ee525a9a9d321ecf5f02bed2907",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1105-denial-only-review-correction.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1105-denial-only-review-correction.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-23T05:32:26.359249973Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-23T05:32:26.359249973Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1105-denial-only-review-correction"
+}

@@ -29,6 +29,14 @@
     "state": "resolved"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-23T05:32:09.842613702Z",
+      "recordedAt": "2026-10-23T05:32:09.842613702Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -114,8 +122,8 @@
       "verificationPlan": "Run six original declared commands with real selected/executed counts, workspace consumers, exact diff, writer body preservation, independent review and actual published HEAD/main CI under separately applicable delivery authorization; actual later close requires generated binding and genuine user decision."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-23T05:31:42.606943486+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-23T05:32:09.842613702Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -194,6 +202,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:589774d99ebab5a6c9f6874b9f31b9f1f22fbe8bb06cdece8081e47affec20a8",
   "workItemId": "WI-1105-denial-only-review-correction"
 }
