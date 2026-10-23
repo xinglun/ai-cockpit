@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:1b22f8e61561ed780197b4b10545eca729ec95b3c219178f802732d6c3f8b997",
+  "contractDigest": "sha256:da655f3284228c5d6275c7eaf9f71d35aee8337ae4a2c4cd800fe055002955f2",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-23T05:45:51Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1105-denial-only-review-correction",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1066",
+    "worktree": "/workspace/ai-cockpit-wi1105-denial-only-review-correction"
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1105-denial-only-review-correction"
+}

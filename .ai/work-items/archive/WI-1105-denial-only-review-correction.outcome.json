@@ -1,0 +1,160 @@
+{
+  "acceptanceResults": [
+    "Exactly the four declared business paths; lib wiring exports only two public APIs. Existing immutable writer function body unchanged; only fn visibility becomes pub(super). No new Cargo dependency or fifth parser file.",
+    "Existing protocol Correction types, Digest/digest_json, PinnedRoot, cap readers, lifecycle guard, duplicate-key visitor with deserializer.end are reused. Local ObserverError::State helper avoids importing unaccepted full authority just for error construction.",
+    "Initially unverified: Restore only two public repository APIs for local denial-only correction reader/append on latest actual main. Public API absence RED is feature-restoration evidence only, not a proof that candidate approved-A race or external B is fixed. Existing main WI1097 source identity/WI1099 capture/WI1101 recovery/WI1102 fresh verification/WI1104 bounded preflight refresh remain intact.",
+    "Initially unverified: Exact typed request schema/repository/WI/target raw digest/reason constraints; new request must match exactly one existing target with correct identity. Validate actual target/event original bytes with128KiB precheck and existing recursive duplicate-key/end-input visitor before typed serde. Typed Rust request input is not claimed to authenticate or validate an unseen caller rawJSON serialization.",
+    "Initially unverified: Existing PinnedRoot/capability nofollow bounded readers/strict decisions parent identity, directory/event budgets, schema/sequence/parent/request digest/filename and timestamp chain integrity remain enforced; symlink, malformed, duplicate-key, trailing-data, overbudget, tampered/foreign/ambiguous target/chain variants reject without implicit permission.",
+    "Initially unverified: Same-WI lifecycle lock serializes actual public append and reader; internal already-locked reader avoids reentrant lock acquisition. Controlled contention/public production path and parent replacement/publication interruption retain evidence and deny unsafe publication, without changing system permissions or treating invisible facts as absent.",
+    "Initially unverified: Immutable publish/readback, exact idempotent replay and old Summary/receipt byte preservation. A validated existing-event replay is distinguished from a new request requiring current target validation. Events stay self_declared_denial_only/unverified_recorder/human_authority_granted=false; no current permission/hold/admission activation, independently authenticated identity, protected rollback detection, B or mirror functionality is introduced.",
+    "Initially unverified: Only four business paths plus supported native lifecycle outputs change; evidence_store immutable writer body remains byte-identical with only sibling visibility changed. Actual selected/executed tests nonzero, workspace consumers/typechecks, Clippy, format, exact diff, independent review, final published HEAD requiredCI/mainCI and recoverable lifecycle delivery are separately evidenced. Focused tests are not represented as the entire repository suite; prior failures/P3/benefit unknown and old69-file candidate remain separate.",
+    "Full delivery planned at entry: supported native Contract/controls/preflight/checkpoint/verification/failure/Outcome/archive/actual provider binding/finalization/close records; ordinary commits and isolated branch push, one source draftPR, actual finalHEAD CI and independentreview, separately authorized normalmerge, actual mainCI, recoverable exactcleanup, officialfinalize/verify and distinct truehumanclose with native closeout publication as authorized. User-visible benefit unmeasured unless actually measured/owner-declared.",
+    "Denial-only evidence publication touches identity-bound repository records and immutable filesystem/lock boundaries; obey actual Runtime classification/controls, without hiding security words or adding privilege. It grants no production authority.",
+    "Execution environment: existing installed Rust toolchain with explicit isolated CARGO_TARGET_DIR=/workspace/wi1105-denial-only-review-correction-run/cargo-target under already-writable /workspace, stable throughout this Work Item. No HOME or system permissions changes, no access to denied WI1103 cache and no reuse of its directory permission approval."
+  ],
+  "createdAt": "2026-10-23T05:32:09.842613702Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:589774d99ebab5a6c9f6874b9f31b9f1f22fbe8bb06cdece8081e47affec20a8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb2090f59ebcb7a6e4ef3861f28bb6ff34142275e2f292f3f059063aa56f8309",
+      "workItemId": "WI-1105-denial-only-review-correction"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1105-denial-only-review-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1105-denial-only-review-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "Implement and independently verify exactly two repository library APIs for reading/appending denial-only correction records with existing strict input/capability/lock/immutable publication constraints, and deliver through normal complete source/native PR/main/resource lifecycle with genuine later close."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1105-denial-only-review-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-23T05:32:09.842613702Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1105-denial-only-review-correction"
+    },
+    "workItemId": "WI-1105-denial-only-review-correction"
+  },
+  "taskReportDigest": "sha256:b607af33af99e7ac0256096ff272069762c19d9b6eaf30b2c03194fcc954f014",
+  "taskReportMarkdownDigest": "sha256:f73cd669c0a33fe213320501dace74b127782ee525a9a9d321ecf5f02bed2907",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1105-denial-only-review-correction.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1105-denial-only-review-correction"
+}

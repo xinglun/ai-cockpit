@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:96437d832d23e316922ff459c6fe9a9291d6740b1150634c038e8c445a52dc07",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Actual user response: 确认 WI-1105 上述计划、六项未验证场景及绑定，confirm_review。 Source user message Sentinel_30dcabbda9e48191a5cb82322dfb07dd replying to Sentinel_916c584f709c8191a903aba08b6390b0, relayed by trusted parent01a1576c-b0ab-7723-ad8e-95924e80102a. User context2026-10-23 04:46 UTC has minute precision only; recordedAt is actual current recording time. Exact repository/WI/Contract/preflight/snapshot/source HEAD e829 were rechecked unchanged. This confirms only the four-file local denial-only correction audit plan and six still-unverified scenes. No permission grant, production externalB, original receipt rewrite, public publication, merge, other Work Item approval, residual-risk acceptance, independent historical identity authentication or true close is asserted.",
+  "recordedAt": "2026-10-23T04:48:38.332047+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_30dcabbda9e48191a5cb82322dfb07dd; no independent external identity authentication or GitHub Review asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+  "schemaVersion": 1,
+  "workItemId": "WI-1105-denial-only-review-correction"
+}

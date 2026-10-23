@@ -648,7 +648,7 @@ fn read_optional_cap_file_nofollow_bounded(
     }
 }
 
-fn write_cap_immutable(
+pub(super) fn write_cap_immutable(
     parent: &Dir,
     name: &str,
     display_path: &Path,

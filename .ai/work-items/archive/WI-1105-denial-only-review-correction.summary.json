@@ -1,0 +1,206 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-23T04:49:35Z",
+  "checkpointContractDigest": "sha256:96437d832d23e316922ff459c6fe9a9291d6740b1150634c038e8c445a52dc07",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:eb2090f59ebcb7a6e4ef3861f28bb6ff34142275e2f292f3f059063aa56f8309",
+  "createdAt": "2026-10-23T04:30:03Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:96437d832d23e316922ff459c6fe9a9291d6740b1150634c038e8c445a52dc07",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "Actual user response: 确认 WI-1105 上述计划、六项未验证场景及绑定，confirm_review。 Source user message Sentinel_30dcabbda9e48191a5cb82322dfb07dd replying to Sentinel_916c584f709c8191a903aba08b6390b0, relayed by trusted parent01a1576c-b0ab-7723-ad8e-95924e80102a. User context2026-10-23 04:46 UTC has minute precision only; recordedAt is actual current recording time. Exact repository/WI/Contract/preflight/snapshot/source HEAD e829 were rechecked unchanged. This confirms only the four-file local denial-only correction audit plan and six still-unverified scenes. No permission grant, production externalB, original receipt rewrite, public publication, merge, other Work Item approval, residual-risk acceptance, independent historical identity authentication or true close is asserted.",
+    "recordedAt": "2026-10-23T04:48:38.332047+00:00",
+    "recordedBy": "Codex agent transcribing actual user message Sentinel_30dcabbda9e48191a5cb82322dfb07dd; no independent external identity authentication or GitHub Review asserted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:482979be18ecf70ddf83351cd385577a9986018df5cfb3336220ae3140acd3df",
+    "schemaVersion": 1,
+    "workItemId": "WI-1105-denial-only-review-correction"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1105-denial-only-review-correction.verification.json",
+      "crates/cockpit-repository/src/review_ledger.rs",
+      "crates/cockpit-repository/tests/review_correction.rs",
+      "crates/cockpit-repository/src/evidence_store.rs"
+    ],
+    "reason": "Approved four-path local denial-only repository slice implemented on true main e829; no extra authority module/CLI/MCP/B/mirror or new dependency. Actual API restoration RED, v2 compatibility failed evidence, three-mode FIFO behavioral RED/GREEN and final native six/19nodes/26tests/14packages pass retained; final independent review resolves FIFO P2 and has no new P0-P3. Explicit std Path spelling preserves original Path::join/diagnostic/assertions and official scanner reports rawUnknowns empty. This is local implementation verification, not authenticated identity, full old69 acceptance, benefits measurement or future publication/merge/close. Existing historical P3 and WI1103 EROFS remain.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-23T05:32:09.842613702Z",
+      "recordedAt": "2026-10-23T05:32:09.842613702Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-23T04:30:03.819358066Z",
+      "recordedAt": "2026-10-23T04:30:03.819358066Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-23T05:30:21Z",
+  "preflightContractDigest": "sha256:96437d832d23e316922ff459c6fe9a9291d6740b1150634c038e8c445a52dc07",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:eb2090f59ebcb7a6e4ef3861f28bb6ff34142275e2f292f3f059063aa56f8309",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "expected": "Initially unverified: Restore only two public repository APIs for local denial-only correction reader/append on latest actual main. Public API absence RED is feature-restoration evidence only, not a proof that candidate approved-A race or external B is fixed. Existing main WI1097 source identity/WI1099 capture/WI1101 recovery/WI1102 fresh verification/WI1104 bounded preflight refresh remain intact.",
+      "reason": "Both real repository library APIs restored. Missing-exports compile RED at800657 is retained as feature absence only, not behavioral A/B proof. All21 current public tests and5 private guards passed in formal receipt on d7741978.",
+      "required": true,
+      "scenario": "public-denial-only-api-restoration",
+      "status": "verified",
+      "verificationPlan": "Use the actual new review_correction integration target and real public APIs; initial missing exports/module RED proves restoration absence only."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "expected": "Initially unverified: Exact typed request schema/repository/WI/target raw digest/reason constraints; new request must match exactly one existing target with correct identity. Validate actual target/event original bytes with128KiB precheck and existing recursive duplicate-key/end-input visitor before typed serde. Typed Rust request input is not claimed to authenticate or validate an unseen caller rawJSON serialization.",
+      "reason": "Actual public target/event raw-byte and typed request tests passed: schema/repository/WI/missing/foreign/ambiguous/raw-digest, exact128KiB and16KiB UTF8 boundaries, duplicate/nested duplicate/trailing/overbudget. v2 receipt model correction RED is retained; only denial audit of v2 model is accepted, no source identity or unseen caller JSON authentication.",
+      "required": true,
+      "scenario": "exact-bound-input-and-original-bytes",
+      "status": "verified",
+      "verificationPlan": "Use actual public append/read target and event byte fixtures: repository/WI/schema/raw digest/reason, duplicate keys/trailing data/overbudget, invalid/foreign/missing/ambiguous targets. A typed Rust request does not prove original caller JSON."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "expected": "Initially unverified: Existing PinnedRoot/capability nofollow bounded readers/strict decisions parent identity, directory/event budgets, schema/sequence/parent/request digest/filename and timestamp chain integrity remain enforced; symlink, malformed, duplicate-key, trailing-data, overbudget, tampered/foreign/ambiguous target/chain variants reject without implicit permission.",
+      "reason": "Actual original-byte, capability/symlink/directory/event budget and chain identity/schema/sequence/parent/digest/name/time negative fixtures passed. Independent P2 FIFO issue has three public modes with retained bounded RED and same-test GREEN; both reads now reuse existing nofollow nonblocking regular-file bounded helper. This is bounded tested coverage, not a global TOCTOU/deadline proof.",
+      "required": true,
+      "scenario": "bounded-capability-and-chain-negatives",
+      "status": "verified",
+      "verificationPlan": "Use public filesystem paths and real cap readers for symlink/nofollow/parent replacement, malformed and bounded directory/event chain negatives, identity/schema/sequence/parent/request digest/name/time tampering; retain original bytes."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "expected": "Initially unverified: Same-WI lifecycle lock serializes actual public append and reader; internal already-locked reader avoids reentrant lock acquisition. Controlled contention/public production path and parent replacement/publication interruption retain evidence and deny unsafe publication, without changing system permissions or treating invisible facts as absent.",
+      "reason": "Actual public read and append cross-process lifecycle-lock contention passed; private captured-parent capability swap rejects. Tests kill/reap only owned deadline-bounded child and retain bytes; no system-wide process visibility or stronger adversarial scheduling guarantee claimed.",
+      "required": true,
+      "scenario": "same-work-item-lock-and-parent-identity",
+      "status": "verified",
+      "verificationPlan": "Use actual same-WI lifecycle guard for public read/write contention and an already-held internal reader; deterministic cross-process or guard contention/parent replacement must reject safely and preserve evidence without permissions changes."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "expected": "Initially unverified: Immutable publish/readback, exact idempotent replay and old Summary/receipt byte preservation. A validated existing-event replay is distinguished from a new request requiring current target validation. Events stay self_declared_denial_only/unverified_recorder/human_authority_granted=false; no current permission/hold/admission activation, independently authenticated identity, protected rollback detection, B or mirror functionality is introduced.",
+      "reason": "Actual public original Summary/target byte preservation, exact idempotent replay versus new request, conflicting-chain/readback and interrupted synthetic publication residue negatives passed. Shared immutable writer file differs from baseline only by sibling visibility, body untouched. All events remain false grant/self_declared_denial_only/unverified_recorder; local full rewrite/rollback remains unprotected without B.",
+      "required": true,
+      "scenario": "immutable-idempotent-history-preservation",
+      "status": "verified",
+      "verificationPlan": "Exercise immutable publication, readback, exact retry/idempotence and interrupted/conflicting publication; verify Summary/old receipt raw bytes unchanged and all events remain self_declared_denial_only/unverified_recorder/human_authority_granted=false."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1105-denial-only-review-correction.verification.json"
+      ],
+      "expected": "Initially unverified: Only four business paths plus supported native lifecycle outputs change; evidence_store immutable writer body remains byte-identical with only sibling visibility changed. Actual selected/executed tests nonzero, workspace consumers/typechecks, Clippy, format, exact diff, independent review, final published HEAD requiredCI/mainCI and recoverable lifecycle delivery are separately evidenced. Focused tests are not represented as the entire repository suite; prior failures/P3/benefit unknown and old69-file candidate remain separate.",
+      "reason": "Original six native commands passed on d7741978:19 executed0reuse,21public+5private tests,14 package all-target checks,Clippy/fmt/diff; no failure/ignored/timeout/truncation. Four business paths only, independent final review newP0-P3=0. Exact later publishedHEAD CI/mainCI, provider binding, safe resources and true close are separately authorized future delivery stages, not claimed as locally completed.",
+      "required": true,
+      "scenario": "four-path-quality-and-complete-delivery",
+      "status": "verified",
+      "verificationPlan": "Run six original declared commands with real selected/executed counts, workspace consumers, exact diff, writer body preservation, independent review and actual published HEAD/main CI under separately applicable delivery authorization; actual later close requires generated binding and genuine user decision."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-23T05:32:09.842613702Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1105-denial-only-review-correction"
+}
