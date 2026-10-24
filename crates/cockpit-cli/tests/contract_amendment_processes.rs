@@ -5444,7 +5444,7 @@ fn explicit_task_caller_and_resumption_assessment_match_cli_and_mcp() {
     let mcp_preflight = mcp_call(
         root.path(),
         &candidate_runtime(),
-        "runtime_preflight",
+        "preflight",
         json!({"contract":format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json"),"taskCaller":caller}),
     );
     assert_eq!(mcp_preflight["result"]["isError"], false, "{mcp_preflight}");
@@ -5472,7 +5472,7 @@ fn explicit_task_caller_and_resumption_assessment_match_cli_and_mcp() {
     let rejected = mcp_call(
         root.path(),
         &candidate_runtime(),
-        "runtime_preflight",
+        "preflight",
         json!({"contract":format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json"),"taskCaller":caller}),
     );
     assert_eq!(rejected["result"]["isError"], true, "{rejected}");
