@@ -18,9 +18,9 @@ On admission use `work-item controls` or MCP `work_item_controls`; both recheck.
 
 Keep lifecycle, snapshot-changing, and receipt producer-consumer actions serial. Verification defaults to --workers 1. Parallelism requires Runtime-verified dependency readiness and output isolation. Independent CI jobs may fan out only with ready dependencies, isolated outputs, and bounded resources.
 
-Cross-Work-Item work requires supported CLI/MCP, compatible declarations, linked worktrees, registration, a current slot lease, and fresh admission; otherwise use admitted serial work or stop. Use `capability show`, help and MCP `tools/list`: declarations alone do not prove support; fields or an older Runtime do not prove support. If unavailable, use admitted serial work or stop. See [workflow](../../docs/reference/agent-workflow.md).
+Cross-Work-Item work requires supported CLI/MCP, compatible declarations, linked worktrees, registration, a current slot lease, and fresh admission; otherwise use admitted serial work or stop. Use `capability show`, help and MCP `tools/list`: declarations alone do not prove support; fields or an older Runtime do not prove support. See [workflow](../../docs/reference/agent-workflow.md).
 
-Inspection is read-only. Registration, reports, coordination, leases and drift recovery write; recovery appends events. Check drift read-only before dependent actions, record changes, then refresh admission.
+Inspection is read-only. Registration, reports, coordination, leases and drift recovery write; recovery appends events. Before dependent actions, check environment drift read-only; record changes before refreshing admission.
 
 Amend via `work-item amend --request`, reason and current `expectedContractDigest`; `work-item amendments` reads history. Sensitive changes rerun policy and invalidate checks. Preserve identity, lifecycle, observations, failed/stale evidence and bindings. `preflight` is not verification.
 

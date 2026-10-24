@@ -880,6 +880,25 @@ fn an_archived_task_binds_only_its_owner_public_target_without_rewriting_the_arc
             .exists()
     );
     context = resource_context(root);
+    let question = cockpit_protocol::TaskAuthorizationRequest {
+        schema_version: 1,
+        caller: caller(),
+        action: "finalize_resources".into(),
+        paths: vec![],
+        public_target: Some(cockpit_protocol::TaskAuthorizationTarget {
+            provider: "github".into(),
+            repository: "example/fixture".into(),
+            base_branch: "main".into(),
+        }),
+    };
+    let answer =
+        cockpit_repository::assess_task_authorization(root, WI, &question, &runtime()).unwrap();
+    assert!(answer.authorized);
+    assert_eq!(
+        answer.action_admitted, None,
+        "the generic status lacks the input-specific plan; it must not invent a rejection"
+    );
+    assert_eq!(answer.next_action, "check_operation_boundary");
     let first = cockpit_repository::plan_resource_finalization_with_caller(
         root,
         WI,
@@ -1098,4 +1117,29 @@ fn task_authority_cannot_self_review_owner_only_changes() {
         assert_eq!(fs::read(&path).unwrap(), before);
         assert_eq!(cockpit_repository::read_work_item_contract_amendments(root, WI).unwrap().len(), count);
     }
+}
+
+#[test]
+fn a_checkpoint_query_does_not_confuse_generic_status_with_its_native_phase_checks() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let request = cockpit_protocol::TaskAuthorizationRequest {
+        schema_version: 1,
+        caller: caller(),
+        action: "checkpoint".into(),
+        paths: vec![],
+        public_target: None,
+    };
+    let assessment =
+        cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap();
+    assert!(assessment.authorized);
+    assert_eq!(assessment.action_admitted, None);
+    assert_eq!(assessment.next_action, "check_operation_boundary");
+    cockpit_repository::checkpoint_work_item_with_caller(root, WI, &runtime(), Some(&caller()))
+        .unwrap();
+    assert!(
+        cockpit_repository::checkpoint_work_item_with_caller(root, WI, &runtime(), Some(&caller()))
+            .is_err(),
+        "query guidance cannot waive native duplicate-checkpoint rejection"
+    );
 }
