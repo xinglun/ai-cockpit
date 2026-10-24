@@ -970,6 +970,15 @@ pub const TASK_AUTHORIZATION_ACTIONS: &[&str] = &[
     "cleanup_auxiliary_resources",
 ];
 
+pub const TASK_AUTHORIZATION_PUBLIC_ACTIONS: &[&str] = &[
+    "publish_branch",
+    "create_pull_request",
+    "ready_pull_request",
+    "merge_pull_request",
+    "verify_main",
+    "publish_native_closeout",
+];
+
 impl TaskAuthorizationPolicy {
     pub fn validate(&self) -> Result<(), String> {
         let explicit = |s: &str| !s.is_empty() && s.trim() == s;
@@ -1004,6 +1013,16 @@ impl TaskAuthorizationPolicy {
                 || !explicit(&target.base_branch))
         {
             return Err("taskAuthorization public target must be explicit".into());
+        }
+        if self.public_target.is_none()
+            && self
+                .allowed_actions
+                .iter()
+                .any(|action| TASK_AUTHORIZATION_PUBLIC_ACTIONS.contains(&action.as_str()))
+        {
+            return Err(
+                "taskAuthorization public actions require an explicit owner destination".into(),
+            );
         }
         Ok(())
     }

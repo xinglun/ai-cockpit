@@ -278,6 +278,27 @@ fn read_termination(
         Ok(_) => {}
     }
     let mut value = native_json(root, &relative)?;
+    let fields = [
+        "schemaVersion",
+        "repositoryId",
+        "workItemId",
+        "grantId",
+        "scopeDigest",
+        "request",
+        "recordedAt",
+        "runtimeVersion",
+        "runtimeDigest",
+        "recordDigest",
+    ];
+    if value.as_object().is_none_or(|object| {
+        object.len() != fields.len() || object.keys().any(|key| !fields.contains(&key.as_str()))
+    }) || value["runtimeVersion"]
+        .as_str()
+        .is_none_or(|version| version.trim().is_empty())
+        || serde_json::from_value::<cockpit_core::Digest>(value["runtimeDigest"].clone()).is_err()
+    {
+        return Err(error(root, "invalid task termination record schema"));
+    }
     let digest = value
         .as_object_mut()
         .and_then(|v| v.remove("recordDigest"))
