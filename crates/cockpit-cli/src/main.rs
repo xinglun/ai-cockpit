@@ -161,6 +161,12 @@ enum CommandKind {
         /// omitted, Runtime records the repository-observed default.
         #[arg(long, action = ArgAction::Append)]
         verification: Vec<String>,
+        /// JSON array of typed, unverified ScenarioCoverageEntry plans.
+        #[arg(long)]
+        scenario_coverage: Option<PathBuf>,
+        /// Explicit local development-review policy; requires formal owner review.
+        #[arg(long)]
+        development_review: Option<PathBuf>,
         /// Persist preflight and create one before-edit checkpoint when the
         /// decision has no blockers or human-confirmation boundary.
         #[arg(long, default_value_t = false)]
@@ -1844,6 +1850,8 @@ fn run() -> Result<()> {
             acceptance,
             required_evidence,
             verification,
+            scenario_coverage,
+            development_review,
             prepare,
             source,
         } => {
@@ -1860,6 +1868,25 @@ fn run() -> Result<()> {
                 acceptance_criteria: acceptance,
                 required_evidence_classes: required_evidence,
                 verification_commands: verification,
+                development_review: development_review
+                    .map(|path| -> anyhow::Result<_> {
+                        Ok(serde_json::from_slice(
+                            &std::fs::read(&path).with_context(|| {
+                                format!("read development review policy {}", path.display())
+                            })?,
+                        )?)
+                    })
+                    .transpose()?,
+                scenario_coverage: scenario_coverage
+                    .map(|path| -> anyhow::Result<_> {
+                        Ok(serde_json::from_slice(
+                            &std::fs::read(&path).with_context(|| {
+                                format!("read initial scenario plan {}", path.display())
+                            })?,
+                        )?)
+                    })
+                    .transpose()?
+                    .unwrap_or_default(),
             };
             if prepare {
                 let report = cockpit_repository::start_work_item_prepared(

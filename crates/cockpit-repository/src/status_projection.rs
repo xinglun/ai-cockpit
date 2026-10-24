@@ -1611,9 +1611,7 @@ fn work_item_status_snapshot_with_snapshot(
         .is_some_and(|receipt| receipt.checkpointed);
     let amendment_review_required = recovery_fresh_review.is_some()
         || (!archived
-            && amendment_history
-                .iter()
-                .any(|receipt| receipt.policy_review_required)
+            && super::contract_amendment::has_sensitive_amendment(&root, work_item_id)?
             && super::governance_controls::preflight_decision_evidence_state(
                 &root,
                 work_item_id,

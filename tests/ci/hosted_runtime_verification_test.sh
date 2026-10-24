@@ -83,6 +83,9 @@ path.write_text(
     "elif args and args[0] == 'verify':\n"
     "    assert args[args.index('--workers') + 1] == '1'\n"
     "    mode = os.environ['FAKE_MODE']\n"
+    "    if mode == 'timeout-runtime-rejected':\n"
+    "        print('fixture Runtime rejects timeout above its effective policy ceiling', file=sys.stderr)\n"
+    "        raise SystemExit(1)\n"
     "    repository = Path(args[args.index('--repo') + 1])\n"
     "    runtime_digest = 'sha256:' + hashlib.sha256(Path(sys.argv[0]).read_bytes()).hexdigest()\n"
     "    repository_id = 'sha256:' + '1' * 64\n"
@@ -153,6 +156,48 @@ run_helper() {
   local defer_worktree=${3:-false}
   local directory="$tmp/$mode"
   make_runtime "$mode"
+  if [[ "$mode" == timeout-* ]]; then
+    python3 - "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" "$mode" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+mode = sys.argv[2]
+contract = json.loads(path.read_text())
+ceilings = {
+    "timeout-bounded": 900,
+    "timeout-unrelated-policy": 900,
+    "timeout-runtime-rejected": 900,
+    "timeout-zero": 0,
+    "timeout-negative": -1,
+    "timeout-boolean": True,
+    "timeout-string": "900",
+    "timeout-fractional": 900.5,
+}
+contract["governancePolicy"] = {
+    "layer": "work_item",
+    "policyId": "fixture-bounded-timeout",
+    "rules": [{
+        "operation": "read_project" if mode == "timeout-unrelated-policy" else "modify_source",
+        "approvalMode": "single_authorized_human",
+        "requiredEvidence": [],
+        "verificationRequirement": {
+            "schemaVersion": 1,
+            "requiredTier": "T0",
+            "requiredAssurance": "self_declared",
+            "stageRefs": ["task"],
+            "policyRefs": ["fixture-bounded-timeout"],
+            "gateRefs": [],
+            "maxTimeoutSeconds": ceilings[mode],
+        },
+    }],
+}
+path.write_text(json.dumps(contract))
+PY
+    git -C "$directory/repository" add .ai/work-items/active/WI-HOSTED-TEST.contract.json
+    git -C "$directory/repository" commit -qm 'declare hosted timeout fixture before execution'
+  fi
   if [[ "$mode" == existing-fresh-receipt || "$mode" == existing-fresh-mismatched-receipt ]]; then
     python3 - "$directory/runtime" "$directory/repository" <<'PY'
 import hashlib
@@ -287,6 +332,55 @@ for command in sys.argv[2:]:
 PY
 }
 
+# Missing timeout forwarding must fail this consumer-boundary assertion; the
+# fake Runtime only avoids running the full project suite inside this test.
+run_helper timeout-bounded true
+python3 - "$tmp/timeout-bounded/commands.jsonl" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+verify, = [args for args in commands if args[0] == "verify"]
+assert "--timeout-seconds" in verify, "declared finite timeout was not forwarded"
+assert verify[verify.index("--timeout-seconds") + 1] == "900"
+assert verify[verify.index("--workers") + 1] == "1"
+PY
+
+run_helper timeout-unrelated-policy true
+python3 - "$tmp/timeout-unrelated-policy/commands.jsonl" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+verify, = [args for args in commands if args[0] == "verify"]
+assert "--timeout-seconds" not in verify
+PY
+
+for rejected_timeout in zero negative boolean string fractional; do
+  run_helper "timeout-$rejected_timeout" false
+  assert_no_commands "$tmp/timeout-$rejected_timeout/commands.jsonl" verify
+  cmp "$tmp/timeout-$rejected_timeout/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+    "$tmp/timeout-$rejected_timeout/initial-verification.json"
+done
+
+run_helper timeout-runtime-rejected false
+python3 - "$tmp/timeout-runtime-rejected/commands.jsonl" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
+verify, = [args for args in commands if args[0] == "verify"]
+assert verify[verify.index("--timeout-seconds") + 1] == "900"
+PY
+jq -e '.verificationState == "failed" and .failureReason == "verification_failed"' \
+  "$tmp/timeout-runtime-rejected/artifacts/hosted-runtime-orchestration.json" >/dev/null
+cmp "$tmp/timeout-runtime-rejected/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+  "$tmp/timeout-runtime-rejected/initial-verification.json"
+test ! -s "$tmp/timeout-runtime-rejected/artifacts/hosted-runtime-verification.json"
+
 run_helper stale true
 cmp "$tmp/stale/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
   "$tmp/stale/artifacts/hosted-runtime-verification.json"
@@ -317,6 +411,7 @@ commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitline
 assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "preflight", "work-item", "work-item", "verify", "work-item", "work-item"]
 verify = commands[6]
 assert "--workers" in verify and verify[verify.index("--workers") + 1] == "1"
+assert "--timeout-seconds" not in verify
 assert verify[verify.index("--repo") + 1] != str(Path(sys.argv[1]).parents[0] / "repository")
 PY
 jq -e '.state == "blocked" and (.unknowns | type == "array") and (.findings | type == "array")' \
@@ -592,4 +687,5 @@ jq -e '.verificationState == "invalidated" and .failureReason == "validation_rep
   "$tmp/invalid-validation/artifacts/hosted-runtime-orchestration.json" >/dev/null
 assert_no_commands "$tmp/invalid-validation/commands.jsonl" verify
 
+printf 'timeout regression passed: bounded=1, default=1, unrelated=1, invalid=5, Runtime-refusal=1\n'
 printf 'hosted Runtime verification orchestration regression passed\n'

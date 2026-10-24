@@ -15,6 +15,8 @@ pub struct ContractAmendmentRequest {
     pub expected_contract_digest: Digest,
     pub reason: String,
     pub changes: Vec<ContractAmendmentChange>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub development_review: Option<super::AuthorityEvidence>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -831,6 +833,23 @@ pub fn apply_contract_amendment_with_trace(
         prospective.required_runtime_capabilities.sort();
         prospective.required_runtime_capabilities.dedup();
     }
+    if prospective
+        .development_review_policy()
+        .map_err(|e| {
+            errors(error(
+                "contract_invariant_failed",
+                "/governanceProfile/developmentReview",
+                e,
+            ))
+        })?
+        .is_some()
+    {
+        prospective
+            .required_runtime_capabilities
+            .push(super::DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY.into());
+        prospective.required_runtime_capabilities.sort();
+        prospective.required_runtime_capabilities.dedup();
+    }
     prospective.validate().map_err(|validation_errors| {
         validation_errors
             .into_iter()
@@ -838,4 +857,105 @@ pub fn apply_contract_amendment_with_trace(
             .collect::<Vec<_>>()
     })?;
     Ok((prospective, trace))
+}
+
+/// The finite syntactic allowlist. The repository must separately prove the
+/// native owner review, current bindings, lock, policy and complete lineage.
+pub fn validate_development_review_changes(
+    previous: &Value,
+    request: &ContractAmendmentRequest,
+    policy: &super::DevelopmentReviewPolicy,
+) -> Result<(), String> {
+    use super::DevelopmentReviewChange as Allowed;
+    policy.validate()?;
+    let mut declared: BTreeSet<String> = policy.preapproved_commands.iter().cloned().collect();
+    for value in previous["verification"].as_array().into_iter().flatten() {
+        if let Some(s) = value
+            .as_str()
+            .or_else(|| value.get("check").and_then(Value::as_str))
+        {
+            declared.insert(s.into());
+        }
+    }
+    if request.changes.is_empty() {
+        return Err("empty delegated amendment".into());
+    }
+    for change in &request.changes {
+        match (change.path.as_str(), change.operation) {
+            ("/verification", ContractAmendmentOperation::Add)
+                if policy
+                    .allowed_changes
+                    .contains(&Allowed::AppendVerification) =>
+            {
+                if !change
+                    .value
+                    .as_ref()
+                    .and_then(Value::as_str)
+                    .is_some_and(|s| policy.preapproved_commands.iter().any(|c| c == s))
+                {
+                    return Err("command is not exactly preapproved".into());
+                }
+            }
+            ("/scenarioCoverage", ContractAmendmentOperation::Add)
+                if policy.allowed_changes.contains(&Allowed::AppendScenarios) =>
+            {
+                let entry: super::ScenarioCoverageEntry =
+                    serde_json::from_value(change.value.clone().ok_or("missing scenario value")?)
+                        .map_err(|e| e.to_string())?;
+                let mut errors = Vec::new();
+                entry.validate_initial_plan(0, &mut errors);
+                if !errors.is_empty()
+                    || !entry.required
+                    || entry
+                        .expected
+                        .as_deref()
+                        .or(entry.expected_result.as_deref())
+                        .or(entry.expected_outcome.as_deref())
+                        .is_none_or(|s| s.trim().is_empty())
+                    || entry
+                        .verification_plan
+                        .as_ref()
+                        .is_none_or(|p| !declared.contains(p))
+                {
+                    return Err("delegated scenario must be required, planned, unverified and use an exact approved command".into());
+                }
+            }
+            (path, ContractAmendmentOperation::Set)
+                if policy
+                    .allowed_changes
+                    .contains(&Allowed::FillVerificationPlan) =>
+            {
+                let parts: Vec<_> = path.split('/').collect();
+                if parts.len() != 4
+                    || parts[1] != "scenarioCoverage"
+                    || parts[3] != "verificationPlan"
+                    || parts[2].parse::<usize>().is_err()
+                    || previous
+                        .pointer(path)
+                        .is_some_and(|v| !v.is_null() && v != "")
+                    || previous
+                        .pointer(&format!("/scenarioCoverage/{}", parts[2]))
+                        .is_none_or(|entry| {
+                            entry["required"] != true
+                                || entry["status"] != "unverified"
+                                || entry["evidence"].as_array().is_none_or(|e| !e.is_empty())
+                        })
+                    || !change
+                        .value
+                        .as_ref()
+                        .and_then(Value::as_str)
+                        .is_some_and(|s| declared.contains(s))
+                {
+                    return Err("only an empty existing verificationPlan may be filled".into());
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "change {} is outside delegated development policy",
+                    change.path
+                ));
+            }
+        }
+    }
+    Ok(())
 }

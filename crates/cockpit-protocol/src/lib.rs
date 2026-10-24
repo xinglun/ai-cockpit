@@ -20,7 +20,7 @@ pub use contract_amendment::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,
     ContractAmendmentFieldClass, ContractAmendmentOperation, ContractAmendmentRequest,
     ContractAmendmentValueChange, apply_contract_amendment, apply_contract_amendment_with_trace,
-    contract_amendment_field_class,
+    contract_amendment_field_class, validate_development_review_changes,
 };
 
 pub const ACTIVATION_CONTINUITY_CAPABILITY: &str = "activation_continuity_recovery_v1";
@@ -233,6 +233,8 @@ pub use usage::{
 pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
 pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
+pub const DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY: &str = "delegated-development-review";
+
 pub const MATERIAL_INSPECTION_REVIEW_CAPABILITY: &str = "material-inspection-review";
 
 /// Stable command-level capabilities advertised by a repository's discovery
@@ -264,6 +266,7 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-contract-amendment",
     "work-item-environment-drift",
     MATERIAL_INSPECTION_REVIEW_CAPABILITY,
+    DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY,
     "evidence",
     "audit",
     "capability-show",
@@ -908,6 +911,56 @@ pub struct AuthorityEvidence {
     pub operations: Vec<String>,
     pub policy_refs: Vec<String>,
     pub evidence_refs: Vec<String>,
+}
+
+/// Explicit Work Item opt-in. This local provenance policy is not an external
+/// identity provider or a permission grant to the host environment.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DevelopmentReviewPolicy {
+    pub schema_version: u32,
+    pub reviewer_actor: String,
+    pub authority_source: String,
+    pub allowed_changes: Vec<DevelopmentReviewChange>,
+    pub preapproved_commands: Vec<String>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DevelopmentReviewChange {
+    AppendScenarios,
+    FillVerificationPlan,
+    AppendVerification,
+}
+
+impl DevelopmentReviewPolicy {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.schema_version != 1
+            || !self.reviewer_actor.starts_with("agent:")
+            || self.reviewer_actor.trim() != self.reviewer_actor
+            || self.reviewer_actor.len() <= 6
+            || self.authority_source.trim().is_empty()
+        {
+            return Err(
+                "developmentReview requires schema1, an explicit agent and authority source".into(),
+            );
+        }
+        let changes: std::collections::BTreeSet<_> = self.allowed_changes.iter().collect();
+        let commands: std::collections::BTreeSet<_> = self.preapproved_commands.iter().collect();
+        if changes.is_empty()
+            || changes.len() != self.allowed_changes.len()
+            || commands.len() != self.preapproved_commands.len()
+            || self
+                .preapproved_commands
+                .iter()
+                .any(|s| s.trim().is_empty() || s.trim() != s)
+        {
+            return Err(
+                "developmentReview requires unique finite change and exact command lists".into(),
+            );
+        }
+        Ok(())
+    }
 }
 
 #[derive(Debug, Error, PartialEq, Eq)]
@@ -3222,6 +3275,17 @@ pub struct ScenarioCoverageEntry {
 }
 
 impl ScenarioCoverageEntry {
+    /// Validate planned input using the same scenario shape, without accepting
+    /// caller-supplied execution evidence at the start boundary.
+    pub fn validate_initial_plan(&self, index: usize, errors: &mut Vec<String>) {
+        self.validate(index, errors);
+        if self.status != "unverified" || !self.evidence.is_empty() {
+            errors.push(format!(
+                "scenarioCoverage[{index}] initial plan must be unverified with empty evidence"
+            ));
+        }
+    }
+
     fn validate(&self, index: usize, errors: &mut Vec<String>) {
         let prefix = format!("scenarioCoverage[{index}]");
         if self.scenario.trim().is_empty() {
@@ -4051,6 +4115,20 @@ pub struct Contract {
 }
 
 impl Contract {
+    pub fn development_review_policy(&self) -> Result<Option<DevelopmentReviewPolicy>, String> {
+        let Some(value) = self
+            .governance_profile
+            .as_ref()
+            .and_then(|p| p.get("developmentReview"))
+        else {
+            return Ok(None);
+        };
+        let policy: DevelopmentReviewPolicy = serde_json::from_value(value.clone())
+            .map_err(|e| format!("invalid developmentReview: {e}"))?;
+        policy.validate()?;
+        Ok(Some(policy))
+    }
+
     pub fn material_inspection_review_profile(
         &self,
     ) -> Result<Option<MaterialInspectionReviewProfile>, String> {
@@ -4100,6 +4178,21 @@ impl Contract {
                 errors.push("requiredRuntimeCapabilities must be unique and sorted".into());
             }
             previous_capability = Some(capability);
+        }
+
+        let delegated_guard = self
+            .required_runtime_capabilities
+            .iter()
+            .any(|c| c == DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY);
+        match self.development_review_policy() {
+            Ok(Some(_)) if !delegated_guard => errors
+                .push("developmentReview requires delegated-development-review capability".into()),
+            Ok(None) if delegated_guard => errors.push(
+                "delegated-development-review capability requires explicit developmentReview"
+                    .into(),
+            ),
+            Err(e) => errors.push(e),
+            _ => {}
         }
 
         let has_material_review_guard = self

@@ -1,0 +1,83 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:aa93d5fe84383cf3467966f462ed3f5463781f416017e6a34915b7b02ddc0d37",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1107-delegated-development-review",
+    "sequence": 3,
+    "changeId": "wi1107-separate-pre-finish-quality-from-delivery-20261023",
+    "requestDigest": "sha256:563bc0bc7102adf855f8576b115e969e39ce4c972c2373347eac4ab676549b0f",
+    "reason": "Actual user message Sentinel_38081d7ed9408191bd710d2c075b5a22, 2026-10-23 21:36 UTC (minute precision), explicitly authorizes only these three exact stage edits. Preserve the complete quality requirement and required=true; move the identical later-delivery sentence from S12 and its matching criterion into a standalone acceptance obligation. Existing full-workflow obligation and all source/tests/nine commands/resource context remain unchanged. This is authorization to submit the amendment, not confirm_review for an ungenerated Contract/preflight binding; no human identity authentication is claimed.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/11/expected",
+        "operation": "replace",
+        "oldValue": "Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records. Delivery includes the normal source/native branch/PR/CI/main/resource lifecycle only under separately applicable exact public/merge/close authorization.",
+        "newValue": "Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records."
+      },
+      {
+        "path": "/acceptanceCriteria/11",
+        "operation": "replace",
+        "oldValue": "Initially unverified S12-quality-and-conditional-delivery: Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records. Delivery includes the normal source/native branch/PR/CI/main/resource lifecycle only under separately applicable exact public/merge/close authorization.",
+        "newValue": "Initially unverified S12-quality-and-conditional-delivery: Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records."
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Initially unverified S01-complete-typed-start: Use the existing ScenarioCoverageEntry type/validator in start options, CLI and MCP; save the complete initial unverified scenario plan before first preflight. Reject verified/evidence-bearing or malformed initial plans before creating/activating records. No second scenario protocol.",
+          "Initially unverified S02-strict-default-and-explicit-opt-in: Absent development-review configuration remains strict. Delegation never activates merely from authority=authorized, an actor label, an arbitrary file or a technical request. Explicit opt-in configuration requires a prior formal native owner review for the exact baseline Contract containing the opt-in.",
+          "Initially unverified S03-agent-and-authority-source: Technical reviewer is explicitly an agent, matches the approved reviewer and source, and uses existing AuthorityEvidence provenance semantics. Arbitrary claimed human/provider assurance, unsupported operations, missing source or reviewer mismatch reject.",
+          "Initially unverified S04-finite-safe-change-allowlist: Delegation allows only appending required unverified scenarios with empty evidence, filling an empty verificationPlan with an exact already declared/preapproved command, and appending an exact command from the reviewed finite preapproved-command set. Original declarations and original order remain intact.",
+          "Initially unverified S05-real-scope-and-standard-boundaries: Scope changes, authority/risk/policy/reviewer/source changes, resource or operation expansion, acceptance changes, command replacement/removal, required-scenario downgrade/removal, arbitrary verification commands and protected status/evidence changes remain rejected or require the normal fresh human boundary.",
+          "Initially unverified S06-exact-native-bindings: Derive delegated review only from Runtime-validated canonical owner-review state and a fully valid amendment lineage, never a caller-selected arbitrary approval file. Bind repository/WI, approved baseline, before/after Contract, policy digest, request/change set, current snapshot, Runtime and exact agent/source. Preserve the existing local provenance assurance boundary.",
+          "Initially unverified S07-locked-atomic-history: Recheck source/bindings under the existing lifecycle lock before publishing review/amendment effects. Preserve expected-digest/CAS, full current/prospective journal validation, byte immutability, interruption evidence and no completion of unrelated pending operations.",
+          "Initially unverified S08-agent-is-not-human-and-legacy-bytes: Record delegated decisions as agent technical review with their real provenance. Never write or rewrite decisionEvidence/human review as if a person reviewed the new Contract. Old absent-policy Contracts and old receipt serialization/digests remain unchanged.",
+          "Initially unverified S09-cli-mcp-parity: CLI and MCP use the same typed initial scenario/delegation declarations and core amendment decision. Reuse existing start/amend/control transports; do not introduce extra MCP tools or alter tool-count/name assertions.",
+          "Initially unverified S10-real-bounded-development-flow: In a real isolated repository, after one explicit baseline owner review, ordinary in-scope development, a permitted required-scenario/command addition and a legitimate verification retry do not request an extra product human review. Nonzero tests actually execute; failures remain.",
+          "Initially unverified S11-scope-and-activation-isolation: Change only the declared 9 production, 4 test and 12 trilingual documentation paths plus own native records. Preserve WI1087 design/planning records and every prior WI evidence. The governing WI uses fixed b2 legacy strict mode and never the feature under development.",
+          "Initially unverified S12-quality-and-conditional-delivery: Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records.",
+          "Complete workflow scope is declared at entry: native controls/preflight/checkpoint, production-path RED→GREEN, declared validation, material/diff review, independent whole-branch review, ordinary commits, later explicitly authorized branch push/draft/PR binding/exactHEAD CI/normalmerge/main verification/recoverable exact resources/native finalization/true close/closeout publication. No external action or human decision is inferred from this technical implementation authorization."
+        ],
+        "newValue": [
+          "Initially unverified S01-complete-typed-start: Use the existing ScenarioCoverageEntry type/validator in start options, CLI and MCP; save the complete initial unverified scenario plan before first preflight. Reject verified/evidence-bearing or malformed initial plans before creating/activating records. No second scenario protocol.",
+          "Initially unverified S02-strict-default-and-explicit-opt-in: Absent development-review configuration remains strict. Delegation never activates merely from authority=authorized, an actor label, an arbitrary file or a technical request. Explicit opt-in configuration requires a prior formal native owner review for the exact baseline Contract containing the opt-in.",
+          "Initially unverified S03-agent-and-authority-source: Technical reviewer is explicitly an agent, matches the approved reviewer and source, and uses existing AuthorityEvidence provenance semantics. Arbitrary claimed human/provider assurance, unsupported operations, missing source or reviewer mismatch reject.",
+          "Initially unverified S04-finite-safe-change-allowlist: Delegation allows only appending required unverified scenarios with empty evidence, filling an empty verificationPlan with an exact already declared/preapproved command, and appending an exact command from the reviewed finite preapproved-command set. Original declarations and original order remain intact.",
+          "Initially unverified S05-real-scope-and-standard-boundaries: Scope changes, authority/risk/policy/reviewer/source changes, resource or operation expansion, acceptance changes, command replacement/removal, required-scenario downgrade/removal, arbitrary verification commands and protected status/evidence changes remain rejected or require the normal fresh human boundary.",
+          "Initially unverified S06-exact-native-bindings: Derive delegated review only from Runtime-validated canonical owner-review state and a fully valid amendment lineage, never a caller-selected arbitrary approval file. Bind repository/WI, approved baseline, before/after Contract, policy digest, request/change set, current snapshot, Runtime and exact agent/source. Preserve the existing local provenance assurance boundary.",
+          "Initially unverified S07-locked-atomic-history: Recheck source/bindings under the existing lifecycle lock before publishing review/amendment effects. Preserve expected-digest/CAS, full current/prospective journal validation, byte immutability, interruption evidence and no completion of unrelated pending operations.",
+          "Initially unverified S08-agent-is-not-human-and-legacy-bytes: Record delegated decisions as agent technical review with their real provenance. Never write or rewrite decisionEvidence/human review as if a person reviewed the new Contract. Old absent-policy Contracts and old receipt serialization/digests remain unchanged.",
+          "Initially unverified S09-cli-mcp-parity: CLI and MCP use the same typed initial scenario/delegation declarations and core amendment decision. Reuse existing start/amend/control transports; do not introduce extra MCP tools or alter tool-count/name assertions.",
+          "Initially unverified S10-real-bounded-development-flow: In a real isolated repository, after one explicit baseline owner review, ordinary in-scope development, a permitted required-scenario/command addition and a legitimate verification retry do not request an extra product human review. Nonzero tests actually execute; failures remain.",
+          "Initially unverified S11-scope-and-activation-isolation: Change only the declared 9 production, 4 test and 12 trilingual documentation paths plus own native records. Preserve WI1087 design/planning records and every prior WI evidence. The governing WI uses fixed b2 legacy strict mode and never the feature under development.",
+          "Initially unverified S12-quality-and-conditional-delivery: Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records.",
+          "Complete workflow scope is declared at entry: native controls/preflight/checkpoint, production-path RED→GREEN, declared validation, material/diff review, independent whole-branch review, ordinary commits, later explicitly authorized branch push/draft/PR binding/exactHEAD CI/normalmerge/main verification/recoverable exact resources/native finalization/true close/closeout publication. No external action or human decision is inferred from this technical implementation authorization.",
+          "Delivery includes the normal source/native branch/PR/CI/main/resource lifecycle only under separately applicable exact public/merge/close authorization."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
+    "newContractDigest": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
+    "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+    "environmentObservationDigest": "sha256:3ba5f4527bb805c6d69a2086d3b8e4fc687a54cb5d46fe7c02994fe886d7e7a7",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1107-delegated-development-review.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/acceptanceCriteria/11",
+      "/scenarioCoverage/11/expected"
+    ],
+    "previousJournalDigest": "sha256:d9e988696d3948e1e461500095b0faf0af3b877beb4eb5c8a78ca2159f5f8d20",
+    "journalDigest": "sha256:2e418844ea2b67de90e109ed41d587a9a926a8a93b56115001e3216ea2d4bf2f",
+    "recordedAt": "2026-10-23T21:38:04Z"
+  }
+}

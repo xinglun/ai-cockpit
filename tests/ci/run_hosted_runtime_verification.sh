@@ -602,10 +602,45 @@ else
     exit 1
   fi
 
+  # Request only the current operation's explicit Work Item ceiling. This is
+  # not authorization: Runtime still checks the effective policy, stage and
+  # unconditional limit before spawning any verification command.
+  verification_timeout_args=()
+  if ! verification_timeout=$(python3 - "$contract" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+contract = json.loads(Path(sys.argv[1]).read_text())
+policy = contract.get("governancePolicy")
+if policy is None:
+    raise SystemExit(0)
+operation = contract.get("operation")
+if operation is None:
+    operation = "production_destructive" if "destructive" in contract.get("risk", "").lower() else "modify_source"
+rule = next((rule for rule in policy["rules"] if rule["operation"] == operation), None)
+requirement = rule.get("verificationRequirement") if rule else None
+timeout = requirement.get("maxTimeoutSeconds") if requirement else None
+if timeout is not None:
+    if type(timeout) is not int or timeout <= 0:
+        raise SystemExit("declared verification timeout must be a positive finite integer")
+    print(timeout)
+PY
+  ); then
+    verification_state=invalidated
+    failure_reason=verification_timeout_request_invalid
+    write_orchestration_report
+    exit 1
+  fi
+  if [[ -n "$verification_timeout" ]]; then
+    verification_timeout_args=(--timeout-seconds "$verification_timeout")
+  fi
+
   "$runtime_bin" verify \
     --repo "$execution_repository" \
     --work-item "$work_item_id" \
-    --workers 1 >"$verification_output" 2>"$artifact_dir/hosted-runtime-verification.stderr" || verification_exit=$?
+    --workers 1 "${verification_timeout_args[@]}" \
+    >"$verification_output" 2>"$artifact_dir/hosted-runtime-verification.stderr" || verification_exit=$?
   if [[ "$verification_exit" != 0 ]]; then
     verification_state=failed
     failure_reason=verification_failed

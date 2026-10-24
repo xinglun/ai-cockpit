@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Actual user response: 确认 WI-1107 上述完整起项、显式受托开发审阅计划、12 项未验证场景及绑定，confirm_review。 Trusted parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed source user message Sentinel_e692561a0bbc8191b04aa4ebf093230e at user context2026-10-23 10:37:23 UTC. recordedAt is actual recording time. Exact unchanged Contract/preflight/snapshot and source HEAD717af7539ef38cde6f9c4fe2bb2b9006e8768d5c rechecked. This confirms only the25-path plan and12 still-unverified scenes. No public publication, merge, close, shared Runtime replacement, production mode activation, externalB or test success asserted; feature never governs its own development.",
+  "recordedAt": "2026-10-23T10:38:27.099441+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_e692561a0bbc8191b04aa4ebf093230e; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb2090f59ebcb7a6e4ef3861f28bb6ff34142275e2f292f3f059063aa56f8309",
+  "schemaVersion": 1,
+  "workItemId": "WI-1107-delegated-development-review"
+}
