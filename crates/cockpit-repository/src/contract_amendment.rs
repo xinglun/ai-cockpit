@@ -2885,7 +2885,7 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
             schema_version: 1,
             actor: authority.actor.clone(),
             authority_source: authority.authority_source.clone(),
-            assurance: authority.assurance.clone(),
+            assurance: authority.assurance,
         };
         super::task_authorization::require_task_caller(
             &root,
