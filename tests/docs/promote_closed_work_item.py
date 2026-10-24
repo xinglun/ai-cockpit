@@ -273,6 +273,48 @@ def receipt_identity(
         )
 
 
+def legacy_finalization_context(
+    root_receipt: dict[str, Any], close: dict[str, Any]
+) -> dict[str, str]:
+    """Bind the older close-reference format, never a failed root alone.
+
+    These records predate the explicit close-head tuple. Their exact terminal
+    envelope reference and complete ordered chain are checked below; the
+    historical no-context documentation projection remains unchanged.
+    """
+    require(
+        all(close.get(field) is None for field in (
+            "resourceFinalizationSequence", "resourceFinalizationHeadPath",
+            "resourceFinalizationHeadDigest",
+        )),
+        "no-resource legacy close contains modern finalization head fields",
+    )
+    context = root_receipt.get("resourceContext")
+    require(
+        isinstance(context, dict)
+        and set(context) == {"baseBranch", "baseRemote", "branch", "provider", "pullRequest", "worktree"}
+        and all(isinstance(value, str) and bool(value.strip()) for value in context.values())
+        and all(value not in {"unknown", "pending"} and not value.startswith("pending:")
+                for value in context.values()),
+        "no-resource legacy finalization context is incomplete",
+    )
+    require(
+        type(root_receipt.get("schemaVersion")) is int
+        and root_receipt["schemaVersion"] == 1
+        and root_receipt.get("before") == {
+            "branch": "present", "pullRequest": "unmerged", "worktree": "clean",
+        }
+        and root_receipt.get("after") == root_receipt["before"]
+        and root_receipt.get("result") == {
+            "disposition": "blocked", "failureCodes": ["unmerged_pull_request"], "unknownCodes": [],
+        }
+        and isinstance(root_receipt.get("pullRequest"), dict)
+        and root_receipt["pullRequest"].get("mergeCommit") is None,
+        "no-resource legacy root must preserve its blocked unmerged observation",
+    )
+    return context
+
+
 def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalEvidence:
     if not WORK_ITEM_PATTERN.fullmatch(work_item_id):
         raise PromotionError(f"invalid Work Item ID: {work_item_id}")
@@ -359,25 +401,28 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
             "superseded close must not contain finalization transitions",
         )
     root_receipt: dict[str, Any] = {}
-    if no_resource_context and not superseded_close:
-        require(
-            not root_path.exists() and not root_path.is_symlink()
-            and not any((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json")),
-            "no-resource close contains finalization evidence",
-        )
+    legacy_context = None
+    if no_resource_context and not superseded_close and (
+        root_path.exists() or root_path.is_symlink()
+        or any((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json"))
+    ):
+        root_receipt = read_json(root_path)
+        legacy_context = legacy_finalization_context(root_receipt, close)
+    has_finalization = not no_resource_context or legacy_context is not None
+    receipt_context = handoff_context if legacy_context is None else legacy_context
     if not no_resource_context and not superseded_close:
         root_receipt = read_json(root_path)
-    if not no_resource_context and not superseded_close:
+    if has_finalization and not superseded_close:
         receipt_identity(
             root_receipt,
             work_item_id=work_item_id,
             repository_id=repository_id,
             contract_digest=contract_digest,
             base_revision=base_revision,
-            resource_context=handoff_context,
+            resource_context=receipt_context,
         )
     transitions: dict[int, tuple[Path, dict[str, Any], dict[str, Any]]] = {}
-    if not no_resource_context and not superseded_close:
+    if has_finalization and not superseded_close:
         for path in sorted((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json")):
             envelope = read_json(path)
             sequence = envelope.get("sequence")
@@ -399,16 +444,58 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
                 repository_id=repository_id,
                 contract_digest=contract_digest,
                 base_revision=base_revision,
-                resource_context=handoff_context,
-                worktree_id=(root_receipt["worktree"]["worktreeId"] if handoff_context is not None else None),
+                resource_context=receipt_context,
+                worktree_id=(root_receipt["worktree"]["worktreeId"] if receipt_context is not None else None),
             )
             transitions[sequence] = (path, envelope, receipt)
+
+    if legacy_context is not None:
+        require(sorted(transitions) == [1, 2], "legacy finalization requires unique sequences 1 and 2")
+        revisions = []
+        for receipt in (root_receipt, transitions[1][2], transitions[2][2]):
+            revision = receipt["pullRequest"].get("headRevision")
+            require(
+                type(receipt.get("schemaVersion")) is int and receipt["schemaVersion"] == 1
+                and isinstance(revision, str)
+                and re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", revision) is not None
+                and receipt["branch"].get("headRevision") == revision
+                and receipt["worktree"].get("headRevision") == revision,
+                "legacy finalization receipt schema or head revision mismatch",
+            )
+            revisions.append(revision)
+        # A governance append can advance the pre-merge root. Once the merge
+        # is observed, cleanup must concern that same exact source revision.
+        require(revisions[1] == revisions[2], "legacy cleanup source revision mismatch")
+        previous_state = root_receipt["after"]
+        for sequence, disposition, after in (
+            (1, "retained", {"branch": "present", "pullRequest": "merged", "worktree": "clean"}),
+            (2, "deleted", {"branch": "deleted", "pullRequest": "merged", "worktree": "removed"}),
+        ):
+            _, envelope, receipt = transitions[sequence]
+            require(
+                type(envelope.get("schemaVersion")) is int and envelope["schemaVersion"] == 1
+                and isinstance(envelope.get("transitionId"), str) and bool(envelope["transitionId"].strip())
+                and receipt.get("before") == previous_state
+                and receipt.get("after") == after
+                and receipt.get("result") == {
+                    "disposition": disposition, "failureCodes": [], "unknownCodes": [],
+                },
+                "legacy finalization transition state or result mismatch",
+            )
+            previous_state = after
+        structured = close.get("structuredDecision")
+        require(
+            isinstance(structured, dict)
+            and isinstance(structured.get("evidenceRefs"), list)
+            and transitions[2][0].relative_to(repository).as_posix() in structured["evidenceRefs"],
+            "legacy close must reference the exact terminal finalization envelope",
+        )
 
     reconciled_after_close = False
     if superseded_close:
         finalization_path = None
         reconciled_after_close = False
-    elif no_resource_context:
+    elif no_resource_context and legacy_context is None:
         finalization_path = None
     elif not transitions:
         # A provider may observe the merge and exact resource cleanup in one
@@ -602,6 +689,10 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
                 close.get(field) is None,
                 f"no-resource close contains {field}",
             )
+        # The legacy chain was fully validated, including its exact approved
+        # terminal reference. Preserve its original no-context projection;
+        # do not rewrite historical documentation or native evidence.
+        finalization_path = None
     elif reconciled_after_close:
         require(
             close_finalization_sequence == 0

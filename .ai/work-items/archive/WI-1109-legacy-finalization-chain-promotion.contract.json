@@ -1,0 +1,156 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "Initially unverified S01-exact-legacy-chain: Recognize only the legacy absent/null Contract-context shape with absent modern close-head fields and a complete blocked-unmerged root -> sequence1 retained-merged -> sequence2 deleted-cleaned chain, whose exact hash-named terminal envelope is referenced by the confirmed structured close. Keep historical no-context documentation projection compatible and native bytes unchanged.",
+    "Initially unverified S02-identity-and-chain-binding: Validate raw archive Contract digest, repository/WI/base identity, complete six-field receipt context, concrete stable branch/worktree identity, canonical envelope filenames/digests, unique contiguous sequence and predecessor links, merge identity and ordered before/after/result states. Root blocked evidence stays failed; latest valid cleanup and confirmed close are required.",
+    "Initially unverified S03-reject-spurious-or-unconfirmed-finalization: Continue to reject genuine no-resource records carrying arbitrary direct finalization, missing terminal close references, malformed/symlink/duplicate JSON, incomplete or retained latest cleanup, foreign resource or unconfirmed close. Merely present fields or actor labels grant no approval.",
+    "Initially unverified S04-preserve-modern-and-other-legacy-paths: Preserve official post-archive resource-context handoff, existing in-Contract contexts, direct sequence0 and sequence1/2 terminal paths, legacy retained reconciliation, actual no-resource, superseded/recovery and documentation-policy semantics. Do not edit any old native record or change permission/Runtime acceptance.",
+    "Initially unverified S05-real-main-consumer-coverage: Before delivery validate every currently selected closed Work Item from the actual main baseline with the production terminal consumer and execute the actual check-all CLI against current repository documents. Check selection count is nonzero and preserve corpus inputs. Do not skip failing historical items or hide them outside scope.",
+    "Initially unverified S06-quality-and-historical-preservation: Pass all eight declared checks with actual meaningful positive/negative counts and independent whole-change review. Preserve the WI-1108 main failure and rejected archived-recovery attempts, old immutable archive/verification/close history and the unexecuted candidate test commit. Only the two source files and genuine current-WI native records may change.",
+    "Subsequent delivery is an independent later obligation: authorized normal source/native public branch and draft PR, exact final HEAD CI and independent review, ready/ordinary merge/main verification, immutable archive and real resource-context binding, recoverable exact-resource cleanup, finalize/finalize-verify and separately actual human close, then native closeout publication. Resume WI-1108 and already closed WI-1107 closeout only after real integration evidence permits; preserve all historical archives, receipts, decisions and failures. Public actions require applicable explicit authorization; no release or production activation."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "795e18c5659738f44d350260229f4e13d9f80303",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-24T09:39:11Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Allow the exact legacy confirmed blocked-to-retained-to-deleted resource chain to be consumed safely, while rejecting spurious, foreign, tampered, unconfirmed or wrong-terminal material. Verify the actual complete main closed-record corpus before normal conditional delivery and resume predecessor closeout without rewriting any historical evidence.",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Repair the historical terminal-documentation regression introduced by WI-1108 and observed in actual main CI 40079822281. Its archived Contract and native history are immutable; fixed b2 archived recovery does not apply to its absent custom evidence-class projection. This successor preserves that failure and resumes WI-1107 closeout through only the same two scripts.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "No changes to Rust production Runtime",
+    " shared binary",
+    " permissions",
+    " B",
+    " risk acceptance",
+    " scanners",
+    " assertions or CI workflow; no edits to historical WI-1068",
+    " WI-1107 or WI-1108 archive/Contract/Summary/Outcome/manifest/receipt/decision or failure; no unrelated source/resources",
+    " force/admin",
+    " release or production activation. Public source/native PR",
+    " ready/merge/main and exact recoverable lifecycle are planned but require applicable actual authorization; true human close is separate."
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "predecessorContractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+  "predecessorWorkItemId": "WI-1108-archived-resource-context-promotion",
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1108-archived-resource-context-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Recognize only the legacy absent/null Contract-context shape with absent modern close-head fields and a complete blocked-unmerged root -> sequence1 retained-merged -> sequence2 deleted-cleaned chain, whose exact hash-named terminal envelope is referenced by the confirmed structured close. Keep historical no-context documentation projection compatible and native bytes unchanged.",
+      "reason": "Initial successor plan; no implementation or tests executed in this WI. Prior test candidate is unexecuted and will only be imported after admitted checkpoint.",
+      "required": true,
+      "scenario": "S01-exact-legacy-chain",
+      "status": "unverified",
+      "verificationPlan": "Production CLI RED then apply/check/idempotence positive fixtures for absent and null context; actual historical WI-1068 read-only consumer and native SHA inventory."
+    },
+    {
+      "evidence": [],
+      "expected": "Validate raw archive Contract digest, repository/WI/base identity, complete six-field receipt context, concrete stable branch/worktree identity, canonical envelope filenames/digests, unique contiguous sequence and predecessor links, merge identity and ordered before/after/result states. Root blocked evidence stays failed; latest valid cleanup and confirmed close are required.",
+      "reason": "Initial successor plan; no implementation or tests executed in this WI. Prior test candidate is unexecuted and will only be imported after admitted checkpoint.",
+      "required": true,
+      "scenario": "S02-identity-and-chain-binding",
+      "status": "unverified",
+      "verificationPlan": "Tamper and foreign identity negative cases, rehashed semantic tampering, missing/duplicate/wrong sequence, predecessor and before/after failures; prove no rejected case writes inputs/documents."
+    },
+    {
+      "evidence": [],
+      "expected": "Continue to reject genuine no-resource records carrying arbitrary direct finalization, missing terminal close references, malformed/symlink/duplicate JSON, incomplete or retained latest cleanup, foreign resource or unconfirmed close. Merely present fields or actor labels grant no approval.",
+      "reason": "Initial successor plan; no implementation or tests executed in this WI. Prior test candidate is unexecuted and will only be imported after admitted checkpoint.",
+      "required": true,
+      "scenario": "S03-reject-spurious-or-unconfirmed-finalization",
+      "status": "unverified",
+      "verificationPlan": "Preserve all existing assertions and add focused negative cases for exact legacy compatibility; fixture actors are not external identity authentication."
+    },
+    {
+      "evidence": [],
+      "expected": "Preserve official post-archive resource-context handoff, existing in-Contract contexts, direct sequence0 and sequence1/2 terminal paths, legacy retained reconciliation, actual no-resource, superseded/recovery and documentation-policy semantics. Do not edit any old native record or change permission/Runtime acceptance.",
+      "reason": "Initial successor plan; no implementation or tests executed in this WI. Prior test candidate is unexecuted and will only be imported after admitted checkpoint.",
+      "required": true,
+      "scenario": "S04-preserve-modern-and-other-legacy-paths",
+      "status": "unverified",
+      "verificationPlan": "Run complete original promoter suite plus parity/status/governance fixtures; compare main-base full source diff and original assertions."
+    },
+    {
+      "evidence": [],
+      "expected": "Before delivery validate every currently selected closed Work Item from the actual main baseline with the production terminal consumer and execute the actual check-all CLI against current repository documents. Check selection count is nonzero and preserve corpus inputs. Do not skip failing historical items or hide them outside scope.",
+      "reason": "Initial successor plan; no implementation or tests executed in this WI. Prior test candidate is unexecuted and will only be imported after admitted checkpoint.",
+      "required": true,
+      "scenario": "S05-real-main-consumer-coverage",
+      "status": "unverified",
+      "verificationPlan": "Add read-only full selected main corpus validation within the real regression suite and declare python3 tests/docs/promote_closed_work_item.py --repo . --check-all as an additional formal command; require real repository consumers before PR/main."
+    },
+    {
+      "evidence": [],
+      "expected": "Pass all eight declared checks with actual meaningful positive/negative counts and independent whole-change review. Preserve the WI-1108 main failure and rejected archived-recovery attempts, old immutable archive/verification/close history and the unexecuted candidate test commit. Only the two source files and genuine current-WI native records may change.",
+      "reason": "Initial successor plan; no implementation or tests executed in this WI. Prior test candidate is unexecuted and will only be imported after admitted checkpoint.",
+      "required": true,
+      "scenario": "S06-quality-and-historical-preservation",
+      "status": "unverified",
+      "verificationPlan": "Fixed official b2 verification, syntax and exact diff checks, independent source/native review, byte inventory and bounded complete logs; do not mark scenarios verified from approval."
+    }
+  ],
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "sources": [
+    "actual-main CI40079822281@795e18c5659738f44d350260229f4e13d9f80303: WI-1108 no-resource guard rejects historical confirmed canonical blocked->retained->deleted chain; native bytes preserved.",
+    "formal predecessor recovery: .ai/decisions/WI-1108-archived-resource-context-promotion.recovery.json; actual agent-recorded delegated technical successor, not human confirm_review or close.",
+    "unexecuted candidate tests effa06a9 on preserved codex/wi-1108-legacy-finalization-compat-20261024; import only after admitted checkpoint and reproduce current main first."
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "bash tests/docs/promote_closed_work_item_test.sh",
+    "bash tests/docs/parity_status_check_test.sh",
+    "bash tests/docs/work_item_status_consistency_test.sh",
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 -m py_compile tests/docs/promote_closed_work_item.py",
+    "git diff --check 795e18c5659738f44d350260229f4e13d9f80303 HEAD",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+}

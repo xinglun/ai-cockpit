@@ -1,0 +1,185 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e8995092e2b21b2969bf353a800a3d59f2f74eac09850bda2500e925597fc92d",
+      "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1108-archived-resource-context-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1109-legacy-finalization-chain-promotion.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1109-legacy-finalization-chain-promotion.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1109-legacy-finalization-chain-promotion.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1109-legacy-finalization-chain-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by agent:Codex via conversation:Sentinel_ef5b37f27fe481919b3bfe8db297d2d7 at 2026-10-24T11:28:13.107429Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow the exact legacy confirmed blocked-to-retained-to-deleted resource chain to be consumed safely, while rejecting spurious, foreign, tampered, unconfirmed or wrong-terminal material. Verify the actual complete main closed-record corpus before normal conditional delivery and resume predecessor closeout without rewriting any historical evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-24T11:28:14.030697810Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+    },
+    "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+  },
+  "finalReportDigest": "sha256:ddccf7e231e87efec77b115054e1660fa8aea4121f25ecc2a7b3597ad29cb1bf",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-24T11:28:14.030669798Z",
+  "recordedAt": "2026-10-24T11:28:14.030669798Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:3a325902ac8ba17fced0723281541e85b15ca7986ea018d908417e6ec56032ad",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1109-legacy-finalization-chain-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "agent:Codex",
+    "authoritySource": "conversation:Sentinel_ef5b37f27fe481919b3bfe8db297d2d7",
+    "decidedAt": "2026-10-24T11:28:13.107429Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1109-legacy-finalization-chain-promotion.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Agent records the actual user confirmed decision from message Sentinel_ef5b37f27fe481919b3bfe8db297d2d7 (received context 2026-10-24 11:26 UTC, not independent identity authentication), specifically sequence 0 and sha256:3a325902ac8ba17fced0723281541e85b15ca7986ea018d908417e6ec56032ad. Preserve original WI1108 failure and WI1109 successor repair, known warnings, token usage unknown and deployment benefit unmeasured. Recording time is current, not backdated.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-24T11:28:14Z",
+  "usageCutoff": "2026-10-24T11:28:14.030697810Z",
+  "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+}
