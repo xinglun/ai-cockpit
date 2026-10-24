@@ -93,6 +93,70 @@ def require(condition: bool, message: str) -> None:
         raise PromotionError(message)
 
 
+def archived_resource_context(
+    repository: Path, work_item_id: str, contract: dict[str, Any], contract_digest: str
+) -> dict[str, str] | None:
+    """Resolve the Runtime's immutable post-archive handoff, not an approval.
+
+    The native Runtime and governance inventory own broader lifecycle checks.
+    This consumer must bind the exact local archive before projecting its
+    already-finalized resources; metadata does not authenticate an issuer.
+    """
+    decision_dir = repository / ".ai/decisions"
+    path = decision_dir / f"{work_item_id}.resource-context.json"
+    if not path.exists() and not path.is_symlink():
+        return None
+    require(
+        not (repository / ".ai").is_symlink() and not decision_dir.is_symlink(),
+        "resource context binding parent must not be a symlink",
+    )
+    binding = read_json(path)
+    require(
+        set(binding) == {
+            "schemaVersion", "operation", "repositoryId", "workItemId",
+            "contractDigest", "archiveManifestDigest", "resourceContext",
+            "runtimeVersion", "runtimeDigest", "recordedAt",
+        },
+        "resource context binding fields are invalid",
+    )
+    require(
+        type(binding["schemaVersion"]) is int
+        and binding["schemaVersion"] == 1
+        and binding["operation"] == "resource_context_binding"
+        and binding["repositoryId"] == contract["repositoryId"]
+        and binding["workItemId"] == work_item_id
+        and binding["contractDigest"] == contract_digest
+        and binding["archiveManifestDigest"] == raw_digest(
+            repository / f".ai/work-items/archive/{work_item_id}.archive.json"
+        ),
+        "resource context binding identity or archive digest mismatch",
+    )
+    require(
+        isinstance(binding["runtimeVersion"], str) and bool(binding["runtimeVersion"].strip())
+        and isinstance(binding["runtimeDigest"], str)
+        and re.fullmatch(r"sha256:[0-9a-f]{64}", binding["runtimeDigest"]) is not None
+        and isinstance(binding["recordedAt"], str) and bool(binding["recordedAt"].strip()),
+        "resource context binding Runtime metadata is invalid",
+    )
+    context = binding["resourceContext"]
+    require(
+        isinstance(context, dict)
+        and set(context) == {"baseBranch", "baseRemote", "branch", "provider", "pullRequest", "worktree"}
+        and all(isinstance(value, str) and bool(value.strip()) for value in context.values()),
+        "resource context binding must contain six complete identity fields",
+    )
+    require(
+        all(context[field] not in {"unknown", "pending"} and not context[field].startswith("pending:")
+            for field in ("baseBranch", "baseRemote", "provider", "pullRequest")),
+        "resource context binding must not be provisional",
+    )
+    require(
+        contract.get("resourceContext") is None or contract["resourceContext"] == context,
+        "resource context binding conflicts with archived Contract",
+    )
+    return context
+
+
 def valid_recovery_decision_path(repository: Path, work_item_id: str) -> str | None:
     """Return the selected valid recovery receipt for an immutable predecessor.
 
@@ -161,12 +225,36 @@ def receipt_identity(
     repository_id: str,
     contract_digest: str,
     base_revision: str,
+    resource_context: dict[str, str] | None = None,
+    worktree_id: str | None = None,
 ) -> None:
     require(receipt.get("workItemId") == work_item_id, "finalization Work Item identity mismatch")
     require(receipt.get("repositoryId") == repository_id, "finalization repository identity mismatch")
     require(receipt.get("contractDigest") == contract_digest, "finalization Contract digest mismatch")
     pull_request = receipt.get("pullRequest")
     require(isinstance(pull_request, dict), "finalization pull request is missing")
+    if resource_context is not None:
+        require(
+            receipt.get("resourceContext") == resource_context
+            and receipt.get("provider") == resource_context["provider"]
+            and pull_request.get("url") == resource_context["pullRequest"]
+            and pull_request.get("baseBranch") == resource_context["baseBranch"]
+            and pull_request.get("baseRemote") == resource_context["baseRemote"],
+            "finalization resource context identity mismatch",
+        )
+        branch = receipt.get("branch")
+        worktree = receipt.get("worktree")
+        require(
+            isinstance(branch, dict) and isinstance(worktree, dict)
+            and branch.get("name") == resource_context["branch"]
+            and branch.get("remote") == resource_context["baseRemote"]
+            and worktree.get("branch") == resource_context["branch"]
+            and worktree.get("path") == resource_context["worktree"]
+            and isinstance(worktree.get("worktreeId"), str)
+            and bool(worktree["worktreeId"].strip())
+            and (worktree_id is None or worktree["worktreeId"] == worktree_id),
+            "finalization concrete resource identity mismatch",
+        )
     contract_base_revision = receipt.get("contractBaseRevision")
     if contract_base_revision is not None:
         require(
@@ -237,7 +325,8 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         "verification receipt identity or result mismatch",
     )
 
-    no_resource_context = contract.get("resourceContext") is None
+    handoff_context = archived_resource_context(repository, work_item_id, contract, contract_digest)
+    no_resource_context = contract.get("resourceContext") is None and handoff_context is None
     root_path = repository / f".ai/decisions/{work_item_id}.finalize.json"
     recovery_path = valid_recovery_decision_path(repository, work_item_id)
     structured_close = close.get("structuredDecision")
@@ -270,6 +359,12 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
             "superseded close must not contain finalization transitions",
         )
     root_receipt: dict[str, Any] = {}
+    if no_resource_context and not superseded_close:
+        require(
+            not root_path.exists() and not root_path.is_symlink()
+            and not any((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json")),
+            "no-resource close contains finalization evidence",
+        )
     if not no_resource_context and not superseded_close:
         root_receipt = read_json(root_path)
     if not no_resource_context and not superseded_close:
@@ -279,6 +374,7 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
             repository_id=repository_id,
             contract_digest=contract_digest,
             base_revision=base_revision,
+            resource_context=handoff_context,
         )
     transitions: dict[int, tuple[Path, dict[str, Any], dict[str, Any]]] = {}
     if not no_resource_context and not superseded_close:
@@ -286,7 +382,7 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
             envelope = read_json(path)
             sequence = envelope.get("sequence")
             require(
-                isinstance(sequence, int) and sequence > 0,
+                type(sequence) is int and sequence > 0,
                 "finalization transition sequence is invalid",
             )
             require(sequence not in transitions, "finalization chain is ambiguous")
@@ -303,6 +399,8 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
                 repository_id=repository_id,
                 contract_digest=contract_digest,
                 base_revision=base_revision,
+                resource_context=handoff_context,
+                worktree_id=(root_receipt["worktree"]["worktreeId"] if handoff_context is not None else None),
             )
             transitions[sequence] = (path, envelope, receipt)
 
@@ -482,6 +580,8 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
     close_finalization_sequence = close.get("resourceFinalizationSequence")
     close_finalization_path = close.get("resourceFinalizationHeadPath")
     close_finalization_digest = close.get("resourceFinalizationHeadDigest")
+    if handoff_context is not None and not superseded_close:
+        require(type(close_finalization_sequence) is int, "close finalization sequence is invalid")
     if superseded_close:
         for field in (
             "resourceFinalizationSequence",

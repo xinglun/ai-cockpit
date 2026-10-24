@@ -1,0 +1,230 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1108-archived-resource-context-promotion.preflight-review.394f73b186137ef1b35b98f95268989ea3b48fa2c9973d9d5cbd1e28e9d8cb2a.json",
+    ".ai/decisions/WI-1108-archived-resource-context-promotion.preflight-review.json",
+    ".ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000002.prepared.json",
+    ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.contract.json",
+    ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-10-24T07:01:22Z",
+  "checkpointContractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+      "recorded": true,
+      "recordedAt": "2026-10-24T07:01:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+      "previousContractHash": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+      "reason": "Correct the sole verification declaration representation rejected by fixed official b2 plan-only before any verification spawn. Its legacy declaration parser rejects the quotes, semicolons and parentheses in the planned inline python3 -c AST expression. The normal CLI explicit-command option has one shared argv vector and the supported MCP verify surface has only one explicit program, so neither represents all seven distinct declared argv nodes in one genuine complete attempt. Replace only that syntax-only check with the standard supported python3 -m py_compile invocation for the same exact promoter source file. This retains and strengthens Python syntax/compiler checks without changing the test commands, original assertions, acceptance, seven-check count, source scope, Runtime or permissions. Its ordinary tiny ignored __pycache__ is a rebuildable test byproduct, not public source. Preserve the failed zero-spawn plan and do not relabel direct TDD results as formal verification. All six scenarios remain unverified pending actual checks. If current Runtime requires a new human binding, stop there; no old confirmation is consumed for it.",
+      "recorded": true,
+      "recordedAt": "2026-10-24T07:12:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+  "createdAt": "2026-10-24T06:33:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:404e6a94de55084ff4909ecc5c32f49eab9e7bf987dfaeaa8c7098ea352788ec",
+    "reason": "Actual user Ray replied: 确认 WI-1108 上述验证命令更正及新绑定，confirm_review。原有公开增量及条件交付批准继续有效，无需重复批准。 User message Sentinel_bfea3d9dcda88191a0fb2df72527cb42 known as2026-10-24 08:01 UTC minute precision, in reply to request Sentinel_16388dd71a1c81919da96ee914aae9bf; relayed by parent01a1576c-b0ab-7723-ad8e-95924e80102a. Current source HEAD598942c3, exact Contract/preflight/snapshot rechecked unchanged before this transcription. This confirms only the supported Python syntax-check representation change in verification[5]; seven-check count, original other six commands, original assertions, two-file scope and safety/authority boundaries remain. Earlier actual source/native public increment and normal conditional delivery authorization remains valid. Actual recordedAt is transcription time, not invented exact service time. No test execution, new human close, GitHub Review, external identity authentication, release, production or shared Runtime activation is inferred; WI1107 real closed evidence stays immutable.",
+    "recordedAt": "2026-10-24T08:02:31.333522+00:00",
+    "recordedBy": "Codex agent transcribing actual user message Sentinel_bfea3d9dcda88191a0fb2df72527cb42; no independent external identity authentication asserted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+    "schemaVersion": 1,
+    "workItemId": "WI-1108-archived-resource-context-promotion"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-0]",
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-1]",
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-2]",
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-3]",
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-4]",
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-5]",
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-6]"
+    ],
+    "reason": "Restore only the terminal documentation consumer for an official post-archive resource-context handoff, with exact archive/provenance/resource identity/sequence and confirmed-close checks. Actual local Runtime verification and the real WI1107 read-only consumer validation demonstrate the intended recovery capability; its35native hashes are unchanged. Two script scope and all original assertions remain. Broader archive integrity/provider authenticity still belongs to the native Runtime and existing governance gate; this does not prove an authenticated external issuer, deployed benefit, finished PR/main/resource lifecycle or any new authority. Existing source/native conditional delivery follows separately.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-24T08:06:26.852466168Z",
+      "recordedAt": "2026-10-24T08:06:26.852466168Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-24T06:33:07.472488206Z",
+      "recordedAt": "2026-10-24T06:33:07.472488206Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-24T08:04:01Z",
+  "preflightContractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-0]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-1]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-2]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-3]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-4]"
+      ],
+      "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+      "reason": "Agent technical acceptance of actual fixed-b2 attempt sha256:7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a on frozen source598942c3/current Contractb7cbd986/snapshot2a99c9b5: seven declared commands actually executed, all exit0, zero reuse/timeout/truncation. Actual consumer suite reports4positive55negative and retains all original assertions. The independent P2 concrete resource finding was reproduced RED then fixed GREEN, including missing/foreign branch/worktree and stable chain worktreeId. This is local observed behavior and technical review; not external issuer authentication, deployed/measured benefit, PR/main success or actual human close. All later conditional delivery obligations remain separate and unfinished.",
+      "required": true,
+      "scenario": "S01-valid-archived-handoff",
+      "status": "verified",
+      "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-0]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-1]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-2]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-3]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-4]"
+      ],
+      "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+      "reason": "Agent technical acceptance of actual fixed-b2 attempt sha256:7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a on frozen source598942c3/current Contractb7cbd986/snapshot2a99c9b5: seven declared commands actually executed, all exit0, zero reuse/timeout/truncation. Actual consumer suite reports4positive55negative and retains all original assertions. The independent P2 concrete resource finding was reproduced RED then fixed GREEN, including missing/foreign branch/worktree and stable chain worktreeId. This is local observed behavior and technical review; not external issuer authentication, deployed/measured benefit, PR/main success or actual human close. All later conditional delivery obligations remain separate and unfinished.",
+      "required": true,
+      "scenario": "S02-exact-archive-and-runtime-provenance",
+      "status": "verified",
+      "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-0]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-1]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-2]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-3]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-4]"
+      ],
+      "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+      "reason": "Agent technical acceptance of actual fixed-b2 attempt sha256:7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a on frozen source598942c3/current Contractb7cbd986/snapshot2a99c9b5: seven declared commands actually executed, all exit0, zero reuse/timeout/truncation. Actual consumer suite reports4positive55negative and retains all original assertions. The independent P2 concrete resource finding was reproduced RED then fixed GREEN, including missing/foreign branch/worktree and stable chain worktreeId. This is local observed behavior and technical review; not external issuer authentication, deployed/measured benefit, PR/main success or actual human close. All later conditional delivery obligations remain separate and unfinished.",
+      "required": true,
+      "scenario": "S03-resource-identity-not-field-presence",
+      "status": "verified",
+      "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-0]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-1]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-2]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-3]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-4]"
+      ],
+      "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+      "reason": "Agent technical acceptance of actual fixed-b2 attempt sha256:7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a on frozen source598942c3/current Contractb7cbd986/snapshot2a99c9b5: seven declared commands actually executed, all exit0, zero reuse/timeout/truncation. Actual consumer suite reports4positive55negative and retains all original assertions. The independent P2 concrete resource finding was reproduced RED then fixed GREEN, including missing/foreign branch/worktree and stable chain worktreeId. This is local observed behavior and technical review; not external issuer authentication, deployed/measured benefit, PR/main success or actual human close. All later conditional delivery obligations remain separate and unfinished.",
+      "required": true,
+      "scenario": "S04-terminal-chain-remains-strict",
+      "status": "verified",
+      "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-0]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-1]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-2]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-3]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-4]"
+      ],
+      "expected": "Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+      "reason": "Agent technical acceptance of actual fixed-b2 attempt sha256:7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a on frozen source598942c3/current Contractb7cbd986/snapshot2a99c9b5: seven declared commands actually executed, all exit0, zero reuse/timeout/truncation. Actual consumer suite reports4positive55negative and retains all original assertions. The independent P2 concrete resource finding was reproduced RED then fixed GREEN, including missing/foreign branch/worktree and stable chain worktreeId. This is local observed behavior and technical review; not external issuer authentication, deployed/measured benefit, PR/main success or actual human close. All later conditional delivery obligations remain separate and unfinished.",
+      "required": true,
+      "scenario": "S05-legacy-and-projection-compatibility",
+      "status": "verified",
+      "verificationPlan": "Original promoter fixture suite, parity and status fixture suites, governance inventory regression suite and repository documentation acceptance; inspect full two-source-path diff."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-0]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-1]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-2]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-3]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-4]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-5]",
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification-attempt.7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a.json#receipt.executionRecords[nodeId=project-command-6]"
+      ],
+      "expected": "Pass the seven declared checks with meaningful executed positive and negative cases and independent whole-change review. Preserve the real old consumer failure, all later failures and raw records. Only the two declared scripts and this WI native records change; no production Runtime, authority, permission, archived evidence or assertion weakening.",
+      "reason": "Agent technical acceptance of actual fixed-b2 attempt sha256:7413a58120efe3f573aa7531e27791d722d9c4a95fda87df2d74e51ea2f7f56a on frozen source598942c3/current Contractb7cbd986/snapshot2a99c9b5: seven declared commands actually executed, all exit0, zero reuse/timeout/truncation. Actual consumer suite reports4positive55negative and retains all original assertions. The independent P2 concrete resource finding was reproduced RED then fixed GREEN, including missing/foreign branch/worktree and stable chain worktreeId. This is local observed behavior and technical review; not external issuer authentication, deployed/measured benefit, PR/main success or actual human close. All later conditional delivery obligations remain separate and unfinished.",
+      "required": true,
+      "scenario": "S06-quality-and-evidence",
+      "status": "verified",
+      "verificationPlan": "Formal fixed-b2 verification with complete logs and explicit selected-case count, syntax/diff checks and independent review; scenario status derives from execution, never from approval."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-24T08:06:26.852466168Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1108-archived-resource-context-promotion"
+}

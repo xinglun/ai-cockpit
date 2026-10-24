@@ -1,0 +1,205 @@
+{
+  "acceptanceResults": [
+    "Initially unverified S01-valid-archived-handoff: Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+    "Initially unverified S02-exact-archive-and-runtime-provenance: Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+    "Initially unverified S03-resource-identity-not-field-presence: A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+    "Initially unverified S04-terminal-chain-remains-strict: Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+    "Initially unverified S05-legacy-and-projection-compatibility: Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+    "Initially unverified S06-quality-and-evidence: Pass the seven declared checks with meaningful executed positive and negative cases and independent whole-change review. Preserve the real old consumer failure, all later failures and raw records. Only the two declared scripts and this WI native records change; no production Runtime, authority, permission, archived evidence or assertion weakening.",
+    "Subsequent delivery obligations are separate from pre-finish quality: normal source/native commit, independently authorized public branch/draft PR and exact HEAD CI/review, ready/ordinary merge/main verification, immutable archive and actual resource-context binding, recoverable exact resource cleanup, finalize/finalize-verify and separately actual human close, then native closeout publication. Preserve and resume the existing closed WI-1107 closeout without rewriting its Contract/manifest/finalize/close. No release, shared Runtime replacement or production activation."
+  ],
+  "createdAt": "2026-10-24T08:06:26.852466168Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:33a3e7ba10f5027d6754980f6cd96ba4abd13e37a3aecb0f9f67179201414364",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1108-archived-resource-context-promotion.preflight-review.394f73b186137ef1b35b98f95268989ea3b48fa2c9973d9d5cbd1e28e9d8cb2a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1108-archived-resource-context-promotion.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1108-archived-resource-context-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow legitimately finalized and actually human-closed work to complete its standard terminal projection without editing its immutable null-resource Contract; reject tampered or foreign handoffs and preserve no-resource, resource identity, sequence and close-head safety. Complete the normal source/native delivery and exact-resource lifecycle only under the separately applicable public/merge/close authorization."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-24T08:06:26.852466168Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    },
+    "workItemId": "WI-1108-archived-resource-context-promotion"
+  },
+  "taskReportDigest": "sha256:d33319c54afe9389b11f99a77c07cd7600871621bd66e1708e3e1bcc65e5fdaf",
+  "taskReportMarkdownDigest": "sha256:6a54edfaa8dd05be546bd7a303080a826fc5dda36ead61dcfea30d5b5008f6ab",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1108-archived-resource-context-promotion"
+}

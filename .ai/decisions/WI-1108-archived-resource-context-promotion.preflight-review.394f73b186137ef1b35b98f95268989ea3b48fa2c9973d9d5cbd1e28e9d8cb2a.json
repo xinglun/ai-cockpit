@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:404e6a94de55084ff4909ecc5c32f49eab9e7bf987dfaeaa8c7098ea352788ec",
+  "reason": "Actual user Ray replied: 确认 WI-1108 上述验证命令更正及新绑定，confirm_review。原有公开增量及条件交付批准继续有效，无需重复批准。 User message Sentinel_bfea3d9dcda88191a0fb2df72527cb42 known as2026-10-24 08:01 UTC minute precision, in reply to request Sentinel_16388dd71a1c81919da96ee914aae9bf; relayed by parent01a1576c-b0ab-7723-ad8e-95924e80102a. Current source HEAD598942c3, exact Contract/preflight/snapshot rechecked unchanged before this transcription. This confirms only the supported Python syntax-check representation change in verification[5]; seven-check count, original other six commands, original assertions, two-file scope and safety/authority boundaries remain. Earlier actual source/native public increment and normal conditional delivery authorization remains valid. Actual recordedAt is transcription time, not invented exact service time. No test execution, new human close, GitHub Review, external identity authentication, release, production or shared Runtime activation is inferred; WI1107 real closed evidence stays immutable.",
+  "recordedAt": "2026-10-24T08:02:31.333522+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_bfea3d9dcda88191a0fb2df72527cb42; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+  "schemaVersion": 1,
+  "workItemId": "WI-1108-archived-resource-context-promotion"
+}
