@@ -1583,4 +1583,160 @@ grep -Fq 'must be a regular non-symlink file' "$tmp/declared-docs-check-all.err"
 after_failure=$(docs_digest "$tmp/declared-docs-missing-language")
 test "$before_failure" = "$after_failure"
 
+# Older native close records can bind a complete provider transition chain
+# through their exact evidence reference without modern close-head fields or
+# an in-Contract context. Exercise the real consumer; no historical files in
+# this checkout are rewritten and fixture labels are not authentication.
+python3 - "$helper" "$tmp/unpromoted" "$tmp" "$root" <<'PY_LEGACY_CONTEXT'
+import copy
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+helper, original, temporary, repository = map(Path, sys.argv[1:])
+wi = "WI-999-closed-docs-fixture"
+contract_path = Path(f".ai/work-items/archive/{wi}.contract.json")
+archive_path = Path(f".ai/work-items/archive/{wi}.archive.json")
+decisions = Path(".ai/decisions")
+root_path = decisions / f"{wi}.finalize.json"
+close_path = decisions / f"{wi}.close.json"
+
+
+def load(root, path):
+    return json.loads((root / path).read_text())
+
+
+def write(root, path, value):
+    (root / path).write_text(json.dumps(value, indent=2) + "\n")
+
+
+def canonical(value):
+    return "sha256:" + hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+def inventory(root):
+    return {p.relative_to(root).as_posix(): p.read_bytes()
+            for p in root.rglob("*") if p.is_file()}
+
+
+def fixture(label, *, absent=False, mutate=lambda value: None):
+    root = temporary / ("legacy-context-" + label)
+    shutil.copytree(original, root)
+    contract = load(root, contract_path)
+    context = contract.pop("resourceContext")
+    if not absent:
+        contract["resourceContext"] = None
+    write(root, contract_path, contract)
+    digest = "sha256:" + hashlib.sha256((root / contract_path).read_bytes()).hexdigest()
+    archive = load(root, archive_path)
+    archive["files"]["contractDigest"] = digest
+    write(root, archive_path, archive)
+    receipts = [load(root, root_path)]
+    for path in sorted((root / decisions).glob(f"{wi}.finalize.*.json"),
+                       key=lambda p: json.loads(p.read_text())["sequence"]):
+        receipts.append(json.loads(path.read_text())["receipt"])
+        path.unlink()
+    for receipt in receipts:
+        receipt["contractDigest"] = digest
+        receipt["branch"] = {"name": context["branch"], "remote": context["baseRemote"]}
+        receipt["worktree"] = {"branch": context["branch"], "path": context["worktree"],
+                               "worktreeId": "legacy-fixture-worktree"}
+    receipts[0]["before"] = {"branch": "present", "pullRequest": "unmerged", "worktree": "clean"}
+    receipts[0]["after"] = copy.deepcopy(receipts[0]["before"])
+    receipts[0]["result"]["failureCodes"] = ["unmerged_pull_request"]
+    receipts[1]["before"] = copy.deepcopy(receipts[0]["after"])
+    receipts[2]["before"] = copy.deepcopy(receipts[1]["after"])
+    mutate(receipts)
+    write(root, root_path, receipts[0])
+    previous = canonical(receipts[0])
+    for sequence, receipt in enumerate(receipts[1:], 1):
+        envelope = {"schemaVersion": 1, "sequence": sequence,
+                    "transitionId": f"legacy-step-{sequence}",
+                    "predecessorReceiptDigest": previous, "receipt": receipt}
+        path = decisions / f"{wi}.finalize.{canonical(envelope)[7:]}.json"
+        write(root, path, envelope)
+        previous = canonical(receipt)
+    close = load(root, close_path)
+    for field in ("resourceFinalizationSequence", "resourceFinalizationHeadPath",
+                  "resourceFinalizationHeadDigest"):
+        close.pop(field)
+    close["structuredDecision"]["evidenceRefs"] = [
+        f".ai/evidence/{wi}.verification.json", path.as_posix()]
+    write(root, close_path, close)
+    return root
+
+
+def invoke(root, *args):
+    return subprocess.run([sys.executable, str(helper), "--repo", str(root),
+                           "--work-item", wi, *args], capture_output=True, text=True)
+
+
+for absent in (False, True):
+    root = fixture(str(absent), absent=absent)
+    before = inventory(root / ".ai")
+    result = invoke(root)
+    assert result.returncode == 0, ("legacy exact chain", result.stdout, result.stderr)
+    assert inventory(root / ".ai") == before
+    projected = inventory(root / "docs")
+    assert invoke(root, "--check").returncode == 0
+    assert invoke(root).returncode == 0
+    assert inventory(root / "docs") == projected
+    assert inventory(root / ".ai") == before
+
+negative_count = 0
+
+
+def reject(label, mutate_receipts=lambda value: None, mutate_root=lambda root: None):
+    global negative_count
+    root = fixture(label, mutate=mutate_receipts)
+    mutate_root(root)
+    before = inventory(root)
+    result = invoke(root)
+    assert result.returncode != 0, (label, result.stdout, result.stderr)
+    assert inventory(root) == before, (label, "rejection wrote input or documents")
+    negative_count += 1
+
+
+for index, (receipt_index, key, value) in enumerate((
+    (0, "repositoryId", "foreign"), (1, "workItemId", "WI-998-foreign"),
+    (2, "contractDigest", "sha256:" + "0" * 64),
+    (1, "resourceContext", {"provider": "foreign"}),
+    (2, "worktree", {"worktreeId": "foreign"}),
+    (0, "result", {"disposition": "deleted", "failureCodes": [], "unknownCodes": []}),
+    (1, "result", {"disposition": "blocked", "failureCodes": [], "unknownCodes": []}),
+    (2, "after", {"branch": "present", "pullRequest": "merged", "worktree": "clean"}),
+    (1, "before", {"branch": "present", "pullRequest": "merged", "worktree": "clean"}),
+)):
+    reject(f"bound-receipt-{index}",
+           lambda receipts, i=receipt_index, k=key, v=value: receipts[i].update({k: v}))
+
+
+def missing_reference(root):
+    close = load(root, close_path)
+    close["structuredDecision"]["evidenceRefs"] = [f".ai/evidence/{wi}.verification.json"]
+    write(root, close_path, close)
+
+
+reject("missing-close-reference", mutate_root=missing_reference)
+reject("missing-root", mutate_root=lambda root: (root / root_path).unlink())
+reject("missing-transition", mutate_root=lambda root: next(
+    p for p in (root / decisions).glob(f"{wi}.finalize.*.json")
+    if json.loads(p.read_text())["sequence"] == 1).unlink())
+
+# Exercise every currently selected real closed record in read-only mode.
+# This catches main-only compatibility failures before PR integration.
+sys.path.insert(0, str(helper.parent))
+import promote_closed_work_item as promotion
+selected, _ = promotion.closed_work_item_selection(repository)
+assert selected, "real closed-record corpus is empty"
+for work_item in selected:
+    promotion.validate_terminal_evidence(repository, work_item)
+print(f"legacy context: 2 positive, {negative_count} negative; {len(selected)} real closed records passed")
+PY_LEGACY_CONTEXT
+
 echo 'closed Work Item promotion regression passed'
