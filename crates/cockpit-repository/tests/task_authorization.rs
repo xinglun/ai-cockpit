@@ -1,0 +1,166 @@
+use cockpit_core::Digest;
+use cockpit_protocol::RuntimeContext;
+use cockpit_repository::{
+    WorkItemStartOptions, amend_work_item_contract_with_runtime, attach,
+    preflight_work_item_with_runtime_report, record_work_item_governance_controls_with_runtime,
+    repository_id, start_work_item_with_options, work_item_status_snapshot_with_runtime,
+};
+use serde_json::{Value, json};
+use std::{fs, path::Path, process::Command};
+
+const WI: &str = "WI-TASK-AUTHORIZATION";
+
+fn git(root: &Path, args: &[&str]) {
+    let result = Command::new("git")
+        .args(args)
+        .current_dir(root)
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "git {args:?}: {}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+}
+
+fn runtime() -> RuntimeContext {
+    RuntimeContext {
+        runtime_version: "1.0.1".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"isolated-task-authorization-fixture"),
+    }
+}
+
+fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
+    let directory = tempfile::tempdir().unwrap();
+    let root = directory.path();
+    git(root, &["init", "-q", "--initial-branch=main"]);
+    git(root, &["config", "user.name", "Task Authorization Test"]);
+    git(
+        root,
+        &["config", "user.email", "task-authorization@example.invalid"],
+    );
+    git(root, &["config", "core.autocrlf", "false"]);
+    fs::write(root.join("README.md"), "task authorization baseline\n").unwrap();
+    git(root, &["add", "README.md"]);
+    git(root, &["commit", "-qm", "baseline"]);
+    attach(root).unwrap();
+    start_work_item_with_options(
+        root,
+        WI,
+        "continue bounded work",
+        "deliver the same task",
+        &["README.md".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["bounded continuation preserves real review".into()],
+            verification_commands: vec!["git diff --check".into()],
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    let contract_path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    amend_work_item_contract_with_runtime(
+        root,
+        WI,
+        &json!({
+            "schemaVersion":1, "changeId":"explicit-task-grant",
+            "expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "reason":"isolated owner plan for a finite task",
+            "changes":[{"path":"/governanceProfile", "operation":"set", "value":{
+                "taskAuthorization":{
+                    "schemaVersion":1, "agentActor":"agent:task-worker",
+                    "authoritySource":"conversation:fixture-owner",
+                    "allowedActions":["run_preflight","run_verification"],
+                    "closeoutActions":[], "expiresAt":expires_at, "publicTarget":null
+                }
+            }}]
+        }),
+        "isolated owner plan for a finite task",
+        &runtime(),
+    )
+    .unwrap();
+    preflight_work_item_with_runtime_report(root, &contract_path, &runtime()).unwrap();
+    if owner_review {
+        let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+        let summary: Value = serde_json::from_slice(
+            &fs::read(root.join(format!(".ai/work-items/active/{WI}.summary.json"))).unwrap(),
+        )
+        .unwrap();
+        record_work_item_governance_controls_with_runtime(root, WI, &json!({"decisionEvidence":{
+            "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
+            "workItemId":WI, "repositoryId":repository_id(root),
+            "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":"2026-10-24T00:00:00Z", "recordedBy":"agent:test-recorder",
+            "reason":"Synthetic isolated owner confirmation; not external identity authentication."
+        }}), &runtime()).unwrap();
+    }
+    directory
+}
+
+fn status(root: &Path) -> Value {
+    serde_json::to_value(work_item_status_snapshot_with_runtime(root, WI, &runtime()).unwrap())
+        .unwrap()
+}
+
+#[test]
+fn native_owner_review_makes_exact_task_authority_visible() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let value = status(directory.path());
+    assert_eq!(value["taskAuthorization"]["state"], "active");
+    assert_eq!(
+        value["taskAuthorization"]["agentActor"],
+        "agent:task-worker"
+    );
+    assert_eq!(value["taskAuthorization"]["assurance"], "self_declared");
+    assert!(
+        value["taskAuthorization"]["grantId"]
+            .as_str()
+            .unwrap()
+            .starts_with("sha256:")
+    );
+}
+
+#[test]
+fn an_actor_string_without_native_owner_review_does_not_grant_authority() {
+    let directory = fixture("2099-01-01T00:00:00Z", false);
+    assert_eq!(
+        status(directory.path())["taskAuthorization"]["state"],
+        "owner_review_required"
+    );
+}
+
+#[test]
+fn an_expired_reviewed_grant_cannot_authorize_future_work() {
+    let directory = fixture("2000-01-01T00:00:00Z", true);
+    assert_eq!(
+        status(directory.path())["taskAuthorization"]["state"],
+        "expired"
+    );
+}
+
+#[test]
+fn source_commit_preserves_authority_without_claiming_current_test_evidence() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let before = status(directory.path());
+    fs::write(
+        directory.path().join("README.md"),
+        "normal in-scope source revision\n",
+    )
+    .unwrap();
+    git(directory.path(), &["add", "README.md"]);
+    git(
+        directory.path(),
+        &["commit", "-qm", "ordinary source revision"],
+    );
+    let after = status(directory.path());
+    assert_eq!(after["taskAuthorization"]["state"], "active");
+    assert_eq!(
+        after["taskAuthorization"]["grantId"],
+        before["taskAuthorization"]["grantId"]
+    );
+    assert_eq!(after["evidenceFreshness"]["state"], "missing");
+}
