@@ -462,6 +462,7 @@ pub fn assess_task_authorization(
     };
     let authorized = checked.is_ok() && status.task_authorization.is_some();
     let runtime_action = [
+        "checkpoint",
         "run_preflight",
         "run_verification",
         "record_governance_controls",
