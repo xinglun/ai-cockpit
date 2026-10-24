@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Actual owner Ray messages Sentinel_aaf122ad40008191a0aa1852b9cab1ac (2026-10-23 22:56 UTC), Sentinel_d0b9768073c08191a45b91f10c6d8147 (2026-10-24 04:02 UTC) approve current WI conditional ordinary merge/main verification/recoverable exact resource cleanup; latest owner scheduling message Sentinel_e850b18a74ac81919c77075e3f46cf69 (2026-10-24 06:02 UTC) explicitly preserves that order. Agent records observed facts; no independent external identity/GitHub Review or true-close decision asserted.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a605c84bf7dfe0ce274d85cbec8159966607aecf",
+    "name": "codex/wi-1107-delegated-development-review",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "717af7539ef38cde6f9c4fe2bb2b9006e8768d5c",
+  "contractDigest": "sha256:dbaa3b15a671e3f696a230646bb307672eba0a014e8b363f795eaf1a8ae84cec",
+  "operationId": "wi1107-exact-normal-cleanup-main96fad1ea",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "717af7539ef38cde6f9c4fe2bb2b9006e8768d5c",
+    "headRevision": "a605c84bf7dfe0ce274d85cbec8159966607aecf",
+    "mergeCommit": "96fad1ea084e5907616224f4ac1a04e83850aa82",
+    "number": 1068,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1068"
+  },
+  "reason": "PR1068 normally merged at2026-10-24T05:36:41Z from exacta605c84bf7dfe0ce274d85cbec8159966607aecf to96fad1ea084e5907616224f4ac1a04e83850aa82, parents717af753/a605c84b. Genuine fixed officialb2 source cfa7317a/Contractbd0ee49f/snapshot3fc06940 passed37actual0reuse0timeout all900s; all24 immutable input bytes and old29inputs preserved, original failures and confirmations not rewritten. Source and final native reviews no unresolvedP0-P3. ExactPRCI40064060092 passed40actualgates,14actualpackages,0reuse plus2 legitimate main deferrals; Linux/Windows boundsourcea605/testedea3f64ca/base717. ActualmainCI40066927359 all4jobs successful,42gates/14packages actually passed,0reusedgates; both platforms source/tested96fad1ea with correct two parents. Entire merged main tree equals approved source/native tree. Normalarchive0 and archived-context finalize-plan0; original archivedContract and archiveManifest unchanged. DefaultmainFF0/clean96fad1ea. Verified578016byte bundle SHAba747b0b708903aeb69b6571773d18a0965e123b8ce8c4b76435ca7b4fb0d190 requires717, actual independentbare import restoreda605 and all58blobs byte-identical. All ignored data, including2020759272bytes across2806 entries, moved within same filesystem to external audit backup with before/after file hashes/modes/link targets identical; no unique data deletion. Known own source task commands completed, no all-system/procfs absence claim. Immediate officialb2 safeActions admitted finalize_resources/record_finalization. Ordinary exactworktree remove, localbranch-d and remote originbranch delete all0 at06:08; path/Gitadmin/registration/local+remote refs absent. All other refs/worktrees unchanged, auxiliary/audit trees retained. No force/reset/gitclean/prune/manual Gitadmin deletion, protection/permission/Runtime/scanner/assertion changes or risk acceptance. Repository stdout truncation, unmeasured benefit and local historical descriptor provenance limit remain; this is not activation, release or actual user close. Current receipt must be independently finalize-verified before requesting real sequence/digest confirmed.",
+  "receiptId": "wi1107-normal-resource-finalization-20261024",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1107-delegated-development-review",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1068",
+    "worktree": "/workspace/ai-cockpit-wi1107-delegated-development-review"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-24T06:09:59.571628+00:00",
+  "workItemId": "WI-1107-delegated-development-review",
+  "worktree": {
+    "branch": "codex/wi-1107-delegated-development-review",
+    "headRevision": "a605c84bf7dfe0ce274d85cbec8159966607aecf",
+    "path": "/workspace/ai-cockpit-wi1107-delegated-development-review",
+    "worktreeId": "sha256:ef41a2bd2ac6e71ac0e8fde85c5f382d979f887eb0f3360c945c90c542ba832d"
+  }
+}
