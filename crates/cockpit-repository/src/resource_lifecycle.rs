@@ -5407,10 +5407,16 @@ fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
         if let syn::Item::Fn(function) = item {
             match function.sig.ident.to_string().as_str() {
                 "record_work_item_material_review" => {
+                    if !historical_writer_has_only_local_effects(function) {
+                        return None;
+                    }
                     writer_count += 1;
                     omitted.push(item.span().byte_range());
                 }
                 "record_work_item_material_review_with_caller" => {
+                    if !historical_writer_has_only_local_effects(function) {
+                        return None;
+                    }
                     caller_writer_count += 1;
                     omitted.push(item.span().byte_range());
                 }
@@ -5469,6 +5475,45 @@ fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
         .parse::<proc_macro2::TokenStream>()
         .ok()
         .map(|tokens| tokens.to_string())
+}
+
+fn historical_writer_has_only_local_effects(function: &syn::ItemFn) -> bool {
+    struct LocalWriter(bool);
+    fn opaque_value_tokens_are_local(tokens: proc_macro2::TokenStream) -> bool {
+        tokens.into_iter().all(|token| match token {
+            proc_macro2::TokenTree::Group(group) => opaque_value_tokens_are_local(group.stream()),
+            proc_macro2::TokenTree::Punct(punct) => !matches!(punct.as_char(), '#' | '!'),
+            proc_macro2::TokenTree::Ident(ident) => ident != "macro_rules" && ident != "macro",
+            proc_macro2::TokenTree::Literal(_) => true,
+        })
+    }
+    impl<'ast> syn::visit::Visit<'ast> for LocalWriter {
+        fn visit_item(&mut self, _: &'ast syn::Item) {
+            self.0 = false;
+        }
+        fn visit_attribute(&mut self, attribute: &'ast syn::Attribute) {
+            self.0 &= attribute.path().is_ident("doc");
+        }
+        fn visit_macro(&mut self, value: &'ast syn::Macro) {
+            let names = value
+                .path
+                .segments
+                .iter()
+                .map(|segment| segment.ident.to_string())
+                .collect::<Vec<_>>();
+            self.0 &= value.path.leading_colon.is_none()
+                && (names == ["format"] || names == ["serde_json", "json"])
+                && value
+                    .path
+                    .segments
+                    .iter()
+                    .all(|segment| matches!(segment.arguments, syn::PathArguments::None))
+                && opaque_value_tokens_are_local(value.tokens.clone());
+        }
+    }
+    let mut visitor = LocalWriter(true);
+    syn::visit::visit_item_fn(&mut visitor, function);
+    visitor.0
 }
 
 fn apply_historical_material_projection(
@@ -9353,12 +9398,35 @@ mod post_merge_sync_tests {
                 "require_current_action_admission,",
                 "require_current_action_admission as foreign_admission,",
             ),
+            (
+                "let root = fs::canonicalize(root)",
+                "#[macro_export] macro_rules! foreign_writer { () => {} }\nlet root = fs::canonicalize(root)",
+            ),
+            (
+                "let root = fs::canonicalize(root)",
+                "include!(\"foreign.rs\");\nlet root = fs::canonicalize(root)",
+            ),
+            (
+                "let root = fs::canonicalize(root)",
+                "let _ = foreign_writer!();\nlet root = fs::canonicalize(root)",
+            ),
+            (
+                "let root = fs::canonicalize(root)",
+                "let _ = format!(\"{}\", { #[macro_export] macro_rules! foreign_writer { () => {} } 0 });\nlet root = fs::canonicalize(root)",
+            ),
         ] {
             assert!(
                 historical.contains(before),
                 "negative fixture did not mutate {before}"
             );
-            let changed = historical.replacen(before, after, 1);
+            let changed = if before.starts_with("let root =") {
+                let writer = "pub fn record_work_item_material_review(";
+                let (prefix, body) = historical.split_once(writer).unwrap();
+                assert!(body.contains(before));
+                format!("{prefix}{writer}{}", body.replacen(before, after, 1))
+            } else {
+                historical.replacen(before, after, 1)
+            };
             assert!(
                 !super::analysis_recipe_source_matches(changed.as_bytes(), current),
                 "unsupported change accepted: {before}"
