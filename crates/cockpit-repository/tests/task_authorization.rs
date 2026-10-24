@@ -465,6 +465,7 @@ fn intent(action: &str, paths: &[&str]) -> cockpit_protocol::TaskAuthorizationRe
 #[test]
 fn explicit_caller_continues_without_fabricating_fresh_verification() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
+    cockpit_repository::checkpoint_work_item(directory.path(), WI).unwrap();
     let request = intent("run_verification", &[]);
     let before =
         cockpit_repository::assess_task_authorization(directory.path(), WI, &request, &runtime())

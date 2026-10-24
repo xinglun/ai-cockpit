@@ -443,6 +443,7 @@ pub fn assess_task_authorization(
         Err(error(root, "task_authorization_request_schema_invalid"))
     } else {
         require_task_caller(root, wi, &request.action, runtime, Some(&request.caller))
+            .and_then(|()| check_request_intent(root, wi, request))
     };
     let authorized = checked.is_ok() && status.task_authorization.is_some();
     let runtime_action = [
@@ -475,6 +476,64 @@ pub fn assess_task_authorization(
         next_action: next.into(),
         reason,
     })
+}
+
+fn check_request_intent(
+    root: &Path,
+    wi: &str,
+    request: &cockpit_protocol::TaskAuthorizationRequest,
+) -> Result<(), ObserverError> {
+    let root = std::fs::canonicalize(root).map_err(|e| error(root, e.to_string()))?;
+    let relative = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
+    let contract: Contract = serde_json::from_value(native_json(&root, &relative)?)
+        .map_err(|e| error(&root, e.to_string()))?;
+    let policy = contract
+        .task_authorization_policy()
+        .map_err(|e| error(&root, e))?
+        .ok_or_else(|| error(&root, "task_authorization_not_configured"))?;
+    if !cockpit_protocol::TASK_AUTHORIZATION_ACTIONS.contains(&request.action.as_str())
+        || (request.action == "modify_source" && request.paths.is_empty())
+        || (request.public_target.is_some() && request.public_target != policy.public_target)
+        || (cockpit_protocol::TASK_AUTHORIZATION_PUBLIC_ACTIONS.contains(&request.action.as_str())
+            && request.public_target != policy.public_target)
+    {
+        return Err(error(&root, "task_authorization_intent_outside_scope"));
+    }
+    for path in &request.paths {
+        // Require exact relative filenames, not caller-supplied patterns or aliases.
+        if path.is_empty()
+            || path.contains('\\')
+            || path.contains(':')
+            || path
+                .split('/')
+                .any(|part| part.is_empty() || part == "." || part == "..")
+            || super::scope_pattern_has_glob(path)
+            || !contract.scope.iter().any(|scope| {
+                super::scope_pattern_relation(scope, path) == super::ScopeRelation::Overlap
+            })
+            || contract.out_of_scope.iter().any(|scope| {
+                super::scope_pattern_relation(scope, path) != super::ScopeRelation::Disjoint
+            })
+        {
+            return Err(error(
+                &root,
+                format!("task_authorization_path_outside_scope: {path}"),
+            ));
+        }
+        let mut current = root.clone();
+        for part in Path::new(path).components() {
+            current.push(part.as_os_str());
+            match std::fs::symlink_metadata(&current) {
+                Ok(metadata) if metadata.file_type().is_symlink() => {
+                    return Err(error(&current, "task_authorization_path_is_symlink"));
+                }
+                Ok(_) => (),
+                Err(e) if e.kind() == std::io::ErrorKind::NotFound => break,
+                Err(e) => return Err(error(&current, e.to_string())),
+            }
+        }
+    }
+    Ok(())
 }
 
 pub(crate) fn reject_legacy_task_write(root: &Path, wi: &str) -> Result<(), ObserverError> {
