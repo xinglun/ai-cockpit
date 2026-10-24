@@ -930,6 +930,8 @@ fn closing_a_task_keeps_only_the_explicit_native_closeout_actions() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
     let root = directory.path();
     archive_reviewed_task(root);
+    git(root, &["add", "-f", ".ai/work-items/archive"]);
+    git(root, &["commit", "-qm", "publish exact archived fixture"]);
     cockpit_repository::close_work_item_with_structured_decision_and_runtime(
         root,
         WI,
