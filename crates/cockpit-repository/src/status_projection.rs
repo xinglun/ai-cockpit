@@ -2123,8 +2123,12 @@ fn work_item_status_snapshot_with_snapshot(
         recommended_action,
         malformed_evidence,
     )?;
-    let task_authorization =
-        super::task_authorization::task_authorization_projection(&root, work_item_id, &contract)?;
+    let task_authorization = super::task_authorization::task_authorization_projection(
+        &root,
+        work_item_id,
+        &contract,
+        runtime,
+    )?;
     let mut status_value = serde_json::json!({
         "schemaVersion": 1,
         "repositoryId": contract.repository_id,

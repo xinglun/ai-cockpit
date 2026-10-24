@@ -2599,6 +2599,13 @@ fn prepare_transaction(
         sequence,
         legacy_input_digest,
     } = input;
+    if let Some(deadline) = new_contract
+        .pointer("/governanceProfile/taskAuthorization/expiresAt")
+        .and_then(Value::as_str)
+    {
+        chrono::DateTime::parse_from_rfc3339(deadline)
+            .map_err(|e| state_error(root, format!("invalid task authorization deadline: {e}")))?;
+    }
     let request_digest = record_digest(request, Path::new("contract-amendment-request"))?;
     let previous_contract_digest = record_digest(&previous_contract, Path::new("Contract"))?;
     let new_contract_digest = record_digest(&new_contract, Path::new("Contract"))?;
@@ -3294,6 +3301,29 @@ fn prepare_delegated_review(
         &review,
     )?;
     Ok(Some(review))
+}
+
+/// Reuse the fully validated native mechanical-review lineage; never infer
+/// an owner baseline from a caller-supplied file or Summary marker alone.
+pub(crate) fn reviewed_task_owner_baseline(
+    root: &Path,
+    wi: &str,
+    current_digest: &Digest,
+    runtime: &RuntimeContext,
+) -> Result<Option<(Value, Value)>, ObserverError> {
+    if !delegated_review_is_current(root, wi, Some(runtime))? {
+        return Ok(None);
+    }
+    let history = read_work_item_contract_amendments(root, wi)?;
+    validate_transition_chain(root, wi, &history, Some(current_digest))?;
+    let Some(review) = history
+        .last()
+        .and_then(|receipt| receipt.delegated_review.as_ref())
+    else {
+        return Ok(None);
+    };
+    let owner = owner_receipt_value(root, wi, review)?;
+    Ok(Some((review.owner_contract.clone(), owner)))
 }
 
 pub(crate) fn delegated_review_is_current(

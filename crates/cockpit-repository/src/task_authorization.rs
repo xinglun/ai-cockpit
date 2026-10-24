@@ -87,6 +87,7 @@ fn assess(
     wi: &str,
     contract: &Contract,
     policy: &TaskAuthorizationPolicy,
+    runtime: &RuntimeContext,
 ) -> Result<TaskAuthorizationProjection, ObserverError> {
     let contract_path = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
     let current = native_json(root, &contract_path)?;
@@ -104,13 +105,46 @@ fn assess(
         root,
         Path::new(&format!(".ai/work-items/active/{wi}.summary.json")),
     )?;
-    let Some(value) = summary.get("decisionEvidence") else {
-        return Ok(projection(
-            policy,
-            "owner_review_required",
-            "The current task policy has no native owner decision.",
-        ));
-    };
+    let mut baseline = current.clone();
+    let mut value = summary.get("decisionEvidence").cloned();
+    if value
+        .as_ref()
+        .is_none_or(|owner| owner["contractDigest"] != json!(current_digest))
+    {
+        if let Some((owner_contract, owner)) =
+            super::contract_amendment::reviewed_task_owner_baseline(
+                root,
+                wi,
+                &current_digest,
+                runtime,
+            )?
+        {
+            let typed: Contract = serde_json::from_value(owner_contract.clone())
+                .map_err(|e| error(root, e.to_string()))?;
+            if typed
+                .task_authorization_policy()
+                .map_err(|e| error(root, e))?
+                .as_ref()
+                != Some(policy)
+            {
+                return Err(error(
+                    root,
+                    "task policy differs from the native owner baseline",
+                ));
+            }
+            baseline = owner_contract;
+            value = Some(owner);
+        } else {
+            return Ok(projection(
+                policy,
+                "owner_review_required",
+                "The current task policy needs its exact native owner decision or validated mechanical lineage.",
+            ));
+        }
+    }
+    let value = value.ok_or_else(|| error(root, "native task owner input missing"))?;
+    let baseline_digest =
+        cockpit_protocol::digest_json(&baseline).map_err(|e| error(root, e.to_string()))?;
     let owner: PreflightDecisionEvidence = serde_json::from_value(value.clone())
         .map_err(|e| error(root, format!("invalid task owner review: {e}")))?;
     if owner.schema_version != 1
@@ -118,7 +152,7 @@ fn assess(
         || owner.decision != "confirm_review"
         || owner.work_item_id != wi
         || owner.repository_id != contract.repository_id
-        || owner.contract_digest != current_digest
+        || owner.contract_digest != baseline_digest
         || owner.recorded_by.trim().is_empty()
         || owner.reason.trim().is_empty()
         || DateTime::parse_from_rfc3339(&owner.recorded_at).is_err()
@@ -129,15 +163,15 @@ fn assess(
         ));
     }
     let owner_digest =
-        cockpit_protocol::digest_json(value).map_err(|e| error(root, e.to_string()))?;
+        cockpit_protocol::digest_json(&value).map_err(|e| error(root, e.to_string()))?;
     let canonical = PathBuf::from(format!(".ai/decisions/{wi}.preflight-review.json"));
     let stored = native_json(root, &canonical)?;
-    if stored != *value {
+    if stored != value {
         let indexed = PathBuf::from(format!(
             ".ai/decisions/{wi}.preflight-review.{}.json",
             owner_digest.to_string().trim_start_matches("sha256:")
         ));
-        if native_json(root, &indexed)? != *value {
+        if native_json(root, &indexed)? != value {
             return Err(error(root, "native task owner receipt does not match"));
         }
     }
@@ -149,9 +183,9 @@ fn assess(
         Some(&current_digest),
     )?;
     let scope = json!({
-        "repositoryId":contract.repository_id, "workItemId":wi, "goal":contract.goal,
-        "scope":contract.scope, "outOfScope":contract.out_of_scope,
-        "verification":contract.verification, "acceptanceCriteria":contract.acceptance_criteria,
+        "repositoryId":baseline["repositoryId"], "workItemId":wi, "goal":baseline["goal"],
+        "scope":baseline["scope"], "outOfScope":baseline["outOfScope"],
+        "verification":baseline["verification"], "acceptanceCriteria":baseline["acceptanceCriteria"],
     });
     let scope_digest =
         cockpit_protocol::digest_json(&scope).map_err(|e| error(root, e.to_string()))?;
@@ -163,7 +197,7 @@ fn assess(
     result.grant_id = Some(
         cockpit_protocol::digest_json(&json!({
             "schemaVersion":1, "repositoryId":contract.repository_id, "workItemId":wi,
-            "ownerReceiptDigest":owner_digest, "policy":policy, "scopeDigest":scope_digest,
+        "ownerContractDigest":owner.contract_digest, "policy":policy, "scopeDigest":scope_digest,
         }))
         .map_err(|e| error(root, e.to_string()))?,
     );
@@ -288,7 +322,7 @@ pub(crate) fn record_termination_unlocked(
         .task_authorization_policy()
         .map_err(|e| error(root, e))?
         .ok_or_else(|| error(root, "task termination has no explicit owner policy"))?;
-    let task = assess(root, wi, &contract, &policy)?;
+    let task = assess(root, wi, &contract, &policy, runtime)?;
     check_terminal_request(root, &policy, &task, &request)?;
     if let Some(existing) = read_termination(root, wi, &task, &policy)? {
         if existing["request"] != *value {
@@ -360,6 +394,7 @@ pub(crate) fn task_authorization_projection(
     root: &Path,
     wi: &str,
     contract: &Contract,
+    runtime: &RuntimeContext,
 ) -> Result<Option<TaskAuthorizationProjection>, ObserverError> {
     let Some(policy) = contract
         .task_authorization_policy()
@@ -367,7 +402,8 @@ pub(crate) fn task_authorization_projection(
     else {
         return Ok(None);
     };
-    Ok(Some(assess(root, wi, contract, &policy).unwrap_or_else(
-        |e| projection(&policy, "invalid", &e.to_string()),
-    )))
+    Ok(Some(
+        assess(root, wi, contract, &policy, runtime)
+            .unwrap_or_else(|e| projection(&policy, "invalid", &e.to_string())),
+    ))
 }
