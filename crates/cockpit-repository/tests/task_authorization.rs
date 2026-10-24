@@ -319,6 +319,59 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
 }
 
 #[test]
+fn public_actions_require_an_explicit_owner_bound_destination() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let before = fs::read(&path).unwrap();
+    let contract: Value = serde_json::from_slice(&before).unwrap();
+    let result = amend_work_item_contract_with_runtime(
+        root,
+        WI,
+        &json!({
+            "schemaVersion":1,"changeId":"unspecified-public-target","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "reason":"refuse a public operation with no owner destination",
+            "changes":[{"path":"/governanceProfile/taskAuthorization/allowedActions","operation":"replace","value":["publish_branch"]}]
+        }),
+        "refuse a public operation with no owner destination",
+        &runtime(),
+    );
+    assert!(result.is_err());
+    assert_eq!(fs::read(path).unwrap(), before);
+}
+
+#[test]
+fn unknown_terminal_record_fields_fail_closed_even_when_the_digest_is_resealed() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    record_work_item_governance_controls_with_runtime(
+        root,
+        WI,
+        &termination(root, "withdrawn"),
+        &runtime(),
+    )
+    .unwrap();
+    let files: Vec<_> = fs::read_dir(root.join(".ai/decisions"))
+        .unwrap()
+        .map(|entry| entry.unwrap().path())
+        .filter(|path| {
+            path.file_name()
+                .unwrap()
+                .to_string_lossy()
+                .ends_with(".terminated.json")
+        })
+        .collect();
+    assert_eq!(files.len(), 1);
+    let path = &files[0];
+    let mut record: Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+    record.as_object_mut().unwrap().remove("recordDigest");
+    record["unexpectedAuthorityField"] = json!(true);
+    record["recordDigest"] = json!(cockpit_protocol::digest_json(&record).unwrap());
+    fs::write(path, serde_json::to_vec(&record).unwrap()).unwrap();
+    assert_eq!(status(root)["taskAuthorization"]["state"], "invalid");
+}
+
+#[test]
 fn refreshing_a_review_for_the_same_contract_cannot_revive_a_terminated_grant() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
     let root = directory.path();
