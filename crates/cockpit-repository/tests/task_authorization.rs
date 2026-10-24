@@ -281,15 +281,19 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
     let root = directory.path();
     let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
     let contract: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    let mut profile = contract["governanceProfile"].clone();
+    profile["developmentReview"] = json!({
+        "schemaVersion":1,"reviewerActor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
+        "allowedChanges":["append_scenarios"],"preapprovedCommands":[]
+    });
+    profile["taskAuthorization"]["allowedActions"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!("review_development_amendment"));
     amend_work_item_contract_with_runtime(root, WI, &json!({
         "schemaVersion":1,"changeId":"combined-local-review-plan","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
         "reason":"explicit isolated owner plan for mechanical review and task authority",
-        "changes":[
-            {"path":"/governanceProfile/developmentReview","operation":"set","value":{
-                "schemaVersion":1,"reviewerActor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
-                "allowedChanges":["append_scenarios"],"preapprovedCommands":[]}},
-            {"path":"/governanceProfile/taskAuthorization/allowedActions","operation":"add","value":"review_development_amendment"}
-        ]
+        "changes":[{"path":"/governanceProfile","operation":"set","value":profile}]
     }), "explicit isolated owner plan for mechanical review and task authority", &runtime()).unwrap();
     preflight_work_item_with_runtime_report(root, &path, &runtime()).unwrap();
     record_owner(root);
