@@ -83,22 +83,27 @@ fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
     .unwrap();
     preflight_work_item_with_runtime_report(root, &contract_path, &runtime()).unwrap();
     if owner_review {
-        let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
-        let summary: Value = serde_json::from_slice(
-            &fs::read(root.join(format!(".ai/work-items/active/{WI}.summary.json"))).unwrap(),
-        )
-        .unwrap();
-        record_work_item_governance_controls_with_runtime(root, WI, &json!({"decisionEvidence":{
-            "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
-            "workItemId":WI, "repositoryId":repository_id(root),
-            "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
-            "preflightDecisionDigest":summary["preflightDecisionDigest"],
-            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
-            "recordedAt":"2026-10-24T00:00:00Z", "recordedBy":"agent:test-recorder",
-            "reason":"Synthetic isolated owner confirmation; not external identity authentication."
-        }}), &runtime()).unwrap();
+        record_owner(root);
     }
     directory
+}
+
+fn record_owner(root: &Path) {
+    let contract_path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    let summary: Value = serde_json::from_slice(
+        &fs::read(root.join(format!(".ai/work-items/active/{WI}.summary.json"))).unwrap(),
+    )
+    .unwrap();
+    record_work_item_governance_controls_with_runtime(root, WI, &json!({"decisionEvidence":{
+        "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
+        "workItemId":WI, "repositoryId":repository_id(root),
+        "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+        "preflightDecisionDigest":summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+        "recordedAt":"2026-10-24T00:00:00Z", "recordedBy":"agent:test-recorder",
+        "reason":"Synthetic isolated owner confirmation; not external identity authentication."
+    }}), &runtime()).unwrap();
 }
 
 fn status(root: &Path) -> Value {
@@ -234,4 +239,77 @@ fn termination_cannot_smuggle_an_unrelated_governance_write() {
     );
     assert_eq!(fs::read(path).unwrap(), before);
     assert_eq!(status(root)["taskAuthorization"]["state"], "active");
+}
+
+#[test]
+fn an_invalid_deadline_is_rejected_before_any_contract_or_amendment_write() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let before = fs::read(&path).unwrap();
+    let contract: Value = serde_json::from_slice(&before).unwrap();
+    let count = cockpit_repository::read_work_item_contract_amendments(root, WI)
+        .unwrap()
+        .len();
+    let result = amend_work_item_contract_with_runtime(
+        root,
+        WI,
+        &json!({
+            "schemaVersion":1,"changeId":"invalid-time","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "reason":"check malformed timestamp refusal",
+            "changes":[{"path":"/governanceProfile/taskAuthorization/expiresAt","operation":"set","value":"not-a-timestamp"}]
+        }),
+        "check malformed timestamp refusal",
+        &runtime(),
+    );
+    assert!(
+        result.is_err(),
+        "invalid task deadline must be rejected before journaling"
+    );
+    assert_eq!(fs::read(path).unwrap(), before);
+    assert_eq!(
+        cockpit_repository::read_work_item_contract_amendments(root, WI)
+            .unwrap()
+            .len(),
+        count
+    );
+}
+
+#[test]
+fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
+    let directory = fixture("2099-01-01T00:00:00Z", false);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    amend_work_item_contract_with_runtime(root, WI, &json!({
+        "schemaVersion":1,"changeId":"combined-local-review-plan","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+        "reason":"explicit isolated owner plan for mechanical review and task authority",
+        "changes":[
+            {"path":"/governanceProfile/developmentReview","operation":"set","value":{
+                "schemaVersion":1,"reviewerActor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
+                "allowedChanges":["append_scenarios"],"preapprovedCommands":[]}},
+            {"path":"/governanceProfile/taskAuthorization/allowedActions","operation":"add","value":"review_development_amendment"}
+        ]
+    }), "explicit isolated owner plan for mechanical review and task authority", &runtime()).unwrap();
+    preflight_work_item_with_runtime_report(root, &path, &runtime()).unwrap();
+    record_owner(root);
+    let before = status(root);
+    assert_eq!(before["taskAuthorization"]["state"], "active");
+    let contract: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    amend_work_item_contract_with_runtime(root, WI, &json!({
+        "schemaVersion":1,"changeId":"permitted-mechanical-scenario","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+        "reason":"append one explicitly permitted unverified scenario",
+        "developmentReview":{"assurance":"self_declared","actor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
+            "operations":["review_development_amendment"],"policyRefs":[],"evidenceRefs":[]},
+        "changes":[{"path":"/scenarioCoverage","operation":"add","value":{
+            "scenario":"additional-declared-case","required":true,"status":"unverified","evidence":[],
+            "expected":"the new case is tested after implementation","verificationPlan":"git diff --check"}}]
+    }), "append one explicitly permitted unverified scenario", &runtime()).unwrap();
+    let after = status(root);
+    assert_eq!(after["taskAuthorization"]["state"], "active");
+    assert_eq!(
+        after["taskAuthorization"]["grantId"],
+        before["taskAuthorization"]["grantId"]
+    );
+    assert!(!after["humanDecisionRequired"].as_bool().unwrap());
 }
