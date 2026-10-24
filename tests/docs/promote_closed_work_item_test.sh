@@ -377,6 +377,37 @@ reject("duplicate-binding", duplicate, "duplicate key")
 reject("symlink-binding", symlink, "regular non-symlink")
 
 
+def symlink_parent(root):
+    path = root / decisions
+    target = path.with_name("real-decisions")
+    path.rename(target)
+    path.symlink_to(target.name, target_is_directory=True)
+
+
+reject("symlink-binding-parent", symlink_parent, "binding parent")
+reject("tampered-contract-bytes",
+       lambda root: (root / contract_path).write_bytes((root / contract_path).read_bytes() + b" "),
+       "archive Contract digest mismatch")
+reject("tampered-manifest-bytes",
+       lambda root: (root / manifest_path).write_bytes((root / manifest_path).read_bytes() + b" "),
+       "binding")
+
+
+def inconsistent_receipt(root, field):
+    receipt = load(root, root_path)
+    if field == "provider":
+        receipt["provider"] = "foreign"
+    else:
+        receipt["pullRequest"]["url"] = "https://example.invalid/pull/998"
+    write(root, root_path, receipt)
+    change(root, close_path, resourceFinalizationHeadDigest=canonical(receipt))
+
+
+for field in ("provider", "pullRequest"):
+    reject("inconsistent-receipt-" + field,
+           lambda root, f=field: inconsistent_receipt(root, f), "resource context")
+
+
 def conflicting_contract(root):
     contract = load(root, contract_path)
     contract["resourceContext"] = dict(load(root, binding_path)["resourceContext"], branch="foreign")
