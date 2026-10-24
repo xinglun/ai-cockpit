@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Actual user Ray replied: 确认 WI-1108 上述计划、六项未验证场景及绑定，confirm_review，并批准上述公开增量及条件交付。 Actual message Sentinel_c76c7b46c31c8191a6ef0b0c2f750afc known as2026-10-24 06:59 UTC minute precision, responding to request Sentinel_65bf0e140d788191a2a39b2399ae2c50, relayed by parent01a1576c-b0ab-7723-ad8e-95924e80102a. Current HEAD96fad1ea, exact Contract/preflight/snapshot rechecked unchanged before transcription. This confirms the six unverified scenarios and two-script minimal archived resource-context consumer repair. Confirmation is not test evidence. The actual user also authorized the exact two source files and this WI genuine native records with sensitive screening, normal PR/CI/review/conditional merge/main/recoverable cleanup; no other WI approval, true human close, release, production enablement or shared Runtime replacement is inferred. WI-1107 real closed evidence remains immutable. Current recordedAt is transcription time, not an invented exact service timestamp or backdated user event.",
+  "recordedAt": "2026-10-24T07:00:50.766434+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_c76c7b46c31c8191a6ef0b0c2f750afc; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
+  "schemaVersion": 1,
+  "workItemId": "WI-1108-archived-resource-context-promotion"
+}

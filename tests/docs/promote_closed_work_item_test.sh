@@ -183,6 +183,324 @@ PY
 
 cp -R "$fixture" "$tmp/unpromoted"
 
+# These synthetic handoffs exercise the real CLI consumer and local binding
+# checks; their actor/runtime labels do not assert external authentication.
+python3 - "$helper" "$tmp/unpromoted" "$tmp" <<'PY_HANDOFF'
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+helper, original, temporary = map(Path, sys.argv[1:])
+wi = "WI-999-closed-docs-fixture"
+archive = Path(".ai/work-items/archive")
+decisions = Path(".ai/decisions")
+binding_path = decisions / f"{wi}.resource-context.json"
+contract_path = archive / f"{wi}.contract.json"
+manifest_path = archive / f"{wi}.archive.json"
+close_path = decisions / f"{wi}.close.json"
+root_path = decisions / f"{wi}.finalize.json"
+
+
+def load(root, path):
+    return json.loads((root / path).read_text(encoding="utf-8"))
+
+
+def write(root, path, value):
+    (root / path).write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+
+def change(root, path, **values):
+    value = load(root, path)
+    value.update(values)
+    write(root, path, value)
+
+
+def raw(root, path):
+    return "sha256:" + hashlib.sha256((root / path).read_bytes()).hexdigest()
+
+
+def canonical(value):
+    return "sha256:" + hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+def inventory(root, directory):
+    return {p.relative_to(root).as_posix(): p.read_bytes()
+            for p in (root / directory).rglob("*") if p.is_file()}
+
+
+def invoke(root, *args):
+    return subprocess.run(
+        [sys.executable, str(helper), "--repo", str(root), "--work-item", wi, *args],
+        capture_output=True, text=True,
+    )
+
+
+def bound_fixture(label, *, direct=False, in_contract=False, absent=False):
+    root = temporary / ("handoff-" + label)
+    shutil.copytree(original, root)
+    contract = load(root, contract_path)
+    context = contract["resourceContext"]
+    if absent:
+        contract.pop("resourceContext")
+    elif not in_contract:
+        contract["resourceContext"] = None
+    write(root, contract_path, contract)
+    manifest = load(root, manifest_path)
+    manifest["files"]["contractDigest"] = raw(root, contract_path)
+    write(root, manifest_path, manifest)
+    transitions = sorted(
+        [(load(root, p.relative_to(root))["sequence"], p, load(root, p.relative_to(root)))
+         for p in (root / decisions).glob(f"{wi}.finalize.*.json")]
+    )
+    receipt = transitions[-1][2]["receipt"] if direct else load(root, root_path)
+    def bind_concrete_resources(value):
+        value["branch"] = {"name": context["branch"], "remote": context["baseRemote"],
+                           "headRevision": "c" * 40}
+        value["worktree"] = {"branch": context["branch"], "path": context["worktree"],
+                             "headRevision": "c" * 40, "worktreeId": "fixture-worktree-identity"}
+
+    bind_concrete_resources(receipt)
+    receipt["contractDigest"] = raw(root, contract_path)
+    write(root, root_path, receipt)
+    previous = canonical(receipt)
+    head, head_receipt, sequence = root_path, receipt, 0
+    for seq, path, envelope in transitions:
+        path.unlink()
+        if direct:
+            continue
+        bind_concrete_resources(envelope["receipt"])
+        envelope["receipt"]["contractDigest"] = raw(root, contract_path)
+        envelope["predecessorReceiptDigest"] = previous
+        head = decisions / f"{wi}.finalize.{canonical(envelope)[7:]}.json"
+        write(root, head, envelope)
+        head_receipt, sequence = envelope["receipt"], seq
+        previous = canonical(head_receipt)
+    change(root, close_path, resourceFinalizationHeadPath=head.as_posix(),
+           resourceFinalizationHeadDigest=canonical(head_receipt),
+           resourceFinalizationSequence=sequence)
+    write(root, binding_path, {
+        "schemaVersion": 1, "operation": "resource_context_binding",
+        "workItemId": wi, "repositoryId": contract["repositoryId"],
+        "contractDigest": raw(root, contract_path),
+        "archiveManifestDigest": raw(root, manifest_path),
+        "resourceContext": context, "runtimeVersion": "9.9.9",
+        "runtimeDigest": "sha256:" + "d" * 64, "recordedAt": "2026-09-16T00:00:00Z",
+    })
+    return root
+
+
+positives = 0
+for label, options in (
+    ("sequence-2", {}), ("sequence-0", {"direct": True}),
+    ("absent-contract-context", {"absent": True}),
+    ("matching-contract-context", {"in_contract": True}),
+):
+    root = bound_fixture(label, **options)
+    before = inventory(root, ".ai")
+    result = invoke(root)
+    assert result.returncode == 0, (label, result.returncode, result.stdout, result.stderr)
+    assert inventory(root, ".ai") == before, label
+    projected = inventory(root, "docs")
+    result = invoke(root, "--check")
+    assert result.returncode == 0, (label, result.stdout, result.stderr)
+    result = invoke(root)
+    assert result.returncode == 0, (label, result.stdout, result.stderr)
+    assert inventory(root, "docs") == projected, label
+    assert inventory(root, ".ai") == before, label
+    positives += 1
+
+negatives = 0
+
+
+def reject(label, mutate, expected, *, direct=True):
+    global negatives
+    root = bound_fixture(label, direct=direct)
+    mutate(root)
+    before = inventory(root, "docs")
+    result = invoke(root)
+    assert result.returncode != 0, (label, result.stdout)
+    assert expected in result.stderr, (label, result.stderr)
+    assert inventory(root, "docs") == before, label
+    negatives += 1
+
+
+for index, (field, value) in enumerate((
+    ("schemaVersion", 2), ("schemaVersion", True), ("operation", "other"),
+    ("repositoryId", "sha256:" + "f" * 64), ("workItemId", "WI-998-foreign"),
+    ("contractDigest", "sha256:" + "f" * 64),
+    ("archiveManifestDigest", "sha256:" + "f" * 64),
+    ("runtimeDigest", "invalid"), ("runtimeVersion", ""),
+    ("recordedAt", ""), ("unexpected", True),
+)):
+    reject(f"invalid-binding-{index}",
+           lambda root, f=field, v=value: change(root, binding_path, **{f: v}), "binding")
+
+
+def mutate_context(root, field, value):
+    binding = load(root, binding_path)
+    binding["resourceContext"][field] = value
+    write(root, binding_path, binding)
+
+
+for field in ("baseBranch", "baseRemote", "provider", "pullRequest"):
+    reject("pending-" + field,
+           lambda root, f=field: mutate_context(root, f, "pending:future"), "binding")
+for field in ("branch", "worktree", "baseBranch", "baseRemote", "provider", "pullRequest"):
+    reject("foreign-resource-" + field,
+           lambda root, f=field: mutate_context(root, f, "foreign"), "resource context")
+    reject("empty-resource-" + field,
+           lambda root, f=field: mutate_context(root, f, " "), "binding")
+
+
+def remove_field(root):
+    binding = load(root, binding_path)
+    del binding["resourceContext"]["worktree"]
+    write(root, binding_path, binding)
+
+
+reject("missing-context-field", remove_field, "binding")
+reject("extra-context-field", lambda root: mutate_context(root, "extra", "value"), "binding")
+reject("missing-binding", lambda root: (root / binding_path).unlink(), "no-resource")
+reject("malformed-binding", lambda root: (root / binding_path).write_text("{"), "malformed JSON")
+
+
+def duplicate(root):
+    path = root / binding_path
+    path.write_text('{"schemaVersion":1,' + path.read_text()[1:], encoding="utf-8")
+
+
+def symlink(root):
+    path = root / binding_path
+    target = path.with_suffix(".original")
+    path.rename(target)
+    path.symlink_to(target.name)
+
+
+reject("duplicate-binding", duplicate, "duplicate key")
+reject("symlink-binding", symlink, "regular non-symlink")
+
+
+def symlink_parent(root):
+    path = root / decisions
+    target = path.with_name("real-decisions")
+    path.rename(target)
+    path.symlink_to(target.name, target_is_directory=True)
+
+
+reject("symlink-binding-parent", symlink_parent, "binding parent")
+reject("tampered-contract-bytes",
+       lambda root: (root / contract_path).write_bytes((root / contract_path).read_bytes() + b" "),
+       "archive Contract digest mismatch")
+reject("tampered-manifest-bytes",
+       lambda root: (root / manifest_path).write_bytes((root / manifest_path).read_bytes() + b" "),
+       "binding")
+
+
+def inconsistent_receipt(root, field):
+    receipt = load(root, root_path)
+    if field == "provider":
+        receipt["provider"] = "foreign"
+    else:
+        receipt["pullRequest"]["url"] = "https://example.invalid/pull/998"
+    write(root, root_path, receipt)
+    change(root, close_path, resourceFinalizationHeadDigest=canonical(receipt))
+
+
+for field in ("provider", "pullRequest"):
+    reject("inconsistent-receipt-" + field,
+           lambda root, f=field: inconsistent_receipt(root, f), "resource context")
+
+
+def conflicting_contract(root):
+    contract = load(root, contract_path)
+    contract["resourceContext"] = dict(load(root, binding_path)["resourceContext"], branch="foreign")
+    write(root, contract_path, contract)
+    manifest = load(root, manifest_path)
+    manifest["files"]["contractDigest"] = raw(root, contract_path)
+    write(root, manifest_path, manifest)
+    change(root, binding_path, contractDigest=raw(root, contract_path), archiveManifestDigest=raw(root, manifest_path))
+
+
+reject("conflicting-contract", conflicting_contract, "binding")
+reject("missing-finalize", lambda root: (root / root_path).unlink(), "regular non-symlink")
+for index, (field, value) in enumerate((
+    ("resourceFinalizationSequence", 1), ("resourceFinalizationSequence", False),
+    ("resourceFinalizationHeadPath", ".ai/decisions/foreign.finalize.json"),
+    ("resourceFinalizationHeadDigest", "sha256:" + "f" * 64),
+)):
+    reject(f"bad-close-{index}",
+           lambda root, f=field, v=value: change(root, close_path, **{f: v}), "finalization")
+
+
+def spurious_finalization(root):
+    (root / binding_path).unlink()
+    close = load(root, close_path)
+    for field in ("resourceFinalizationSequence", "resourceFinalizationHeadPath", "resourceFinalizationHeadDigest"):
+        close.pop(field)
+    write(root, close_path, close)
+
+
+reject("no-resource-spurious-finalization", spurious_finalization, "no-resource")
+
+
+def concrete_resource_mismatch(root, object_name, field, value):
+    receipt = load(root, root_path)
+    if field is None:
+        receipt.pop(object_name)
+    else:
+        receipt[object_name][field] = value
+    write(root, root_path, receipt)
+    change(root, close_path, resourceFinalizationHeadDigest=canonical(receipt))
+
+
+for index, (object_name, field, value) in enumerate((
+    ("branch", None, None), ("worktree", None, None),
+    ("branch", "name", "foreign"), ("branch", "remote", "foreign"),
+    ("worktree", "branch", "foreign"), ("worktree", "path", "/tmp/foreign"),
+    ("worktree", "worktreeId", ""), ("worktree", "worktreeId", False),
+)):
+    reject(f"concrete-resource-{index}",
+           lambda root, o=object_name, f=field, v=value: concrete_resource_mismatch(root, o, f, v),
+           "resource identity")
+
+
+def changed_chain_identity(root):
+    previous = canonical(load(root, root_path))
+    for seq, path, envelope in sorted(
+        [(load(root, p.relative_to(root))["sequence"], p, load(root, p.relative_to(root)))
+         for p in (root / decisions).glob(f"{wi}.finalize.*.json")]
+    ):
+        envelope["receipt"]["worktree"]["worktreeId"] = "foreign-worktree-identity"
+        envelope["predecessorReceiptDigest"] = previous
+        path.unlink()
+        new_path = decisions / f"{wi}.finalize.{canonical(envelope)[7:]}.json"
+        write(root, new_path, envelope)
+        previous = canonical(envelope["receipt"])
+        if seq == 2:
+            change(root, close_path, resourceFinalizationHeadPath=new_path.as_posix(),
+                   resourceFinalizationHeadDigest=previous)
+
+
+reject("changed-chain-worktree", changed_chain_identity, "resource identity", direct=False)
+
+
+def retained_root(root):
+    receipt = load(root, root_path)
+    receipt["result"]["disposition"] = "retained"
+    receipt["after"].update(branch="present", worktree="clean")
+    write(root, root_path, receipt)
+    change(root, close_path, resourceFinalizationHeadDigest=canonical(receipt))
+
+
+reject("retained-root", retained_root, "must be deleted or abandoned")
+print(f"archived handoff consumer: {positives} positive, {negatives} negative cases passed")
+PY_HANDOFF
+
 # A finalization receipt binds the archived Contract base separately from the
 # provider PR base when the PR was created from an earlier reviewed main.  The
 # Contract binding must be checked without pretending those two identities are
