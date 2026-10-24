@@ -17,6 +17,112 @@ use std::{
 
 static NEXT_ID: AtomicU64 = AtomicU64::new(0);
 
+#[test]
+fn canonical_clean_large_rust_source_satisfies_read_only_quality_gate() {
+    use cockpit_core::Digest;
+    use cockpit_protocol::{RuntimeContext, VerificationStage};
+    use cockpit_repository::{
+        WorkItemStartOptions, attach, evaluate_contract_quality_gate,
+        plan_work_item_material_review, start_work_item_with_options,
+    };
+
+    let root = repository("canonical-clean-large-rust");
+    fs::create_dir(root.join("crates")).expect("source directory");
+    let padding = "// unchanged source padding\n".repeat(10_000);
+    assert!(padding.len() > cockpit_git::MAX_CHANGE_TEXT_BYTES);
+    let source = root.join("crates/material.rs");
+    fs::write(
+        &source,
+        format!("{padding}pub fn count() -> usize {{ 1 }}\n"),
+    )
+    .expect("large baseline source");
+    run_git(&root, &["add", "crates/material.rs"]);
+    run_git(
+        &root,
+        &[
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit@example.invalid",
+            "commit",
+            "-qm",
+            "large source baseline",
+        ],
+    );
+    attach(&root).expect("attach fixture");
+    let id = "WI-CANONICAL-CLEAN-MATERIAL";
+    start_work_item_with_options(
+        &root,
+        id,
+        "inspect complete committed source",
+        "preserve exact material checks",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["complete source inspection satisfies the gate".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start isolated fixture");
+    fs::write(
+        &source,
+        format!("{padding}pub fn token_count() -> usize {{ 2 }}\n"),
+    )
+    .expect("small harmless source change");
+    run_git(&root, &["add", "crates/material.rs"]);
+    run_git(
+        &root,
+        &[
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit@example.invalid",
+            "commit",
+            "-qm",
+            "small harmless material change",
+        ],
+    );
+    let contract_path = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let contract_bytes = fs::read(&contract_path).expect("Contract bytes");
+    let contract: serde_json::Value = serde_json::from_slice(&contract_bytes).unwrap();
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let summary_bytes = fs::read(&summary_path).expect("Summary bytes");
+    let request = plan_work_item_material_review(&root, id).expect("complete canonical inspection");
+    assert_eq!(
+        request.contract_digest,
+        cockpit_protocol::digest_json(&contract).unwrap()
+    );
+    assert!(request.raw_unknown_codes.is_empty(), "{request:?}");
+    assert!(request.finding_codes.is_empty());
+    assert_eq!(request.entries.len(), 1);
+    assert_eq!(
+        serde_json::to_value(&request.entries[0]).unwrap()["scannerAssessment"],
+        "clean",
+    );
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"canonical-clean-material-fixture"),
+    };
+    let report = evaluate_contract_quality_gate(
+        &root,
+        &contract_path,
+        VerificationStage::PullRequest,
+        "hosted",
+        contract["baseRevision"].as_str(),
+        &runtime,
+    )
+    .expect("actual read-only quality gate");
+    assert_eq!(fs::read(&contract_path).unwrap(), contract_bytes);
+    assert_eq!(fs::read(&summary_path).unwrap(), summary_bytes);
+    assert!(report.raw_scanner_unknowns.is_empty(), "{report:?}");
+    assert!(report.review_receipt_digest.is_none());
+    assert_eq!(report.contract_digest, request.contract_digest);
+    assert_eq!(report.state, "passed", "{report:?}");
+    assert!(report.unknowns.is_empty(), "{report:?}");
+    fs::remove_dir_all(root).expect("cleanup isolated fixture");
+}
+
 fn repository(name: &str) -> PathBuf {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)
