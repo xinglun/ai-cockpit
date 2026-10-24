@@ -309,7 +309,7 @@ def legacy_finalization_context(
             "disposition": "blocked", "failureCodes": ["unmerged_pull_request"], "unknownCodes": [],
         }
         and isinstance(root_receipt.get("pullRequest"), dict)
-        and not root_receipt["pullRequest"].get("mergeCommit"),
+        and root_receipt["pullRequest"].get("mergeCommit") is None,
         "no-resource legacy root must preserve its blocked unmerged observation",
     )
     return context
@@ -451,6 +451,21 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
 
     if legacy_context is not None:
         require(sorted(transitions) == [1, 2], "legacy finalization requires unique sequences 1 and 2")
+        revisions = []
+        for receipt in (root_receipt, transitions[1][2], transitions[2][2]):
+            revision = receipt["pullRequest"].get("headRevision")
+            require(
+                type(receipt.get("schemaVersion")) is int and receipt["schemaVersion"] == 1
+                and isinstance(revision, str)
+                and re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", revision) is not None
+                and receipt["branch"].get("headRevision") == revision
+                and receipt["worktree"].get("headRevision") == revision,
+                "legacy finalization receipt schema or head revision mismatch",
+            )
+            revisions.append(revision)
+        # A governance append can advance the pre-merge root. Once the merge
+        # is observed, cleanup must concern that same exact source revision.
+        require(revisions[1] == revisions[2], "legacy cleanup source revision mismatch")
         previous_state = root_receipt["after"]
         for sequence, disposition, after in (
             (1, "retained", {"branch": "present", "pullRequest": "merged", "worktree": "clean"}),
