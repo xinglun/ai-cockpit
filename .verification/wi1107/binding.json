@@ -3,153 +3,163 @@
   "purpose": "One fixed-official-Runtime formal verification of frozen WI-1107 in an isolated GitHub hosted checkout; no candidate self-approval, merge, release, close or activation.",
   "workItemId": "WI-1107-delegated-development-review",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "sourceHead": "46be639e6cb19255cba27cf1411629e9e3382938",
+  "sourceHead": "cfa7317a1052ed459e33696936f0a2e3b53b7f15",
   "sourceBase": "717af7539ef38cde6f9c4fe2bb2b9006e8768d5c",
   "sourceBranch": "codex/wi-1107-delegated-development-review",
   "validationBranch": "codex/wi-1107-actions-verification",
   "contractPath": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
   "summaryPath": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
-  "contractDigest": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
-  "sourceSnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
+  "contractDigest": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+  "sourceSnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
   "runtimeVersion": "1.0.1",
   "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
   "runtimeReleaseUrl": "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.1/ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz",
   "runtimeArchiveSHA256": "a8f68bba617975003e96ba07ec346fa49e323ae0b8e433eb2aca5a5f8f1ed879",
   "nativeArchive": {
     "path": "native-input.tar.gz",
-    "bytes": 726052,
-    "sha256": "ac07e2fa4cad08a4a1d758dbfc01931397278dbbfb8a332f003c31fd34575797"
+    "bytes": 874210,
+    "sha256": "2aee5d8c7f81f3711b4606d8fff806e76a3c69730f2b11bdcbec5411c52282e3"
   },
   "sourceFiles": [
     {
       "path": "crates/cockpit-cli/src/main.rs",
-      "sha256": "922d25c197792b3a38e99cd62c529d3ab9616621ccfc5fb5965e8fe111af5b5c",
-      "bytes": 206028
+      "bytes": 206028,
+      "sha256": "922d25c197792b3a38e99cd62c529d3ab9616621ccfc5fb5965e8fe111af5b5c"
     },
     {
       "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
-      "sha256": "705a4ed9628bfc5daedb0df547803f0ddb0f11eb351929be85c0286d3a665bbd",
-      "bytes": 208129
+      "bytes": 208129,
+      "sha256": "705a4ed9628bfc5daedb0df547803f0ddb0f11eb351929be85c0286d3a665bbd"
     },
     {
       "path": "crates/cockpit-mcp/src/lib.rs",
-      "sha256": "7c309d783123f3d4685b9c517ca61161d2fd5c4067dc66e60c66156b31c8ddee",
-      "bytes": 133651
+      "bytes": 133651,
+      "sha256": "7c309d783123f3d4685b9c517ca61161d2fd5c4067dc66e60c66156b31c8ddee"
     },
     {
       "path": "crates/cockpit-mcp/tests/rpc.rs",
-      "sha256": "c9681742028f5d6c30ab5d71ebd2602732813cd161338e4eb8b96e036f46266d",
-      "bytes": 101493
+      "bytes": 101493,
+      "sha256": "c9681742028f5d6c30ab5d71ebd2602732813cd161338e4eb8b96e036f46266d"
     },
     {
       "path": "crates/cockpit-protocol/src/contract_amendment.rs",
-      "sha256": "d5097946758095f085ee8fe2f7811b318879138951c2138e93436ee34c612e97",
-      "bytes": 34229
+      "bytes": 34229,
+      "sha256": "d5097946758095f085ee8fe2f7811b318879138951c2138e93436ee34c612e97"
     },
     {
       "path": "crates/cockpit-protocol/src/lib.rs",
-      "sha256": "dd14fc8873978365ae4002f0f607be5d099cd334b5338d8bc2b45dfbacf77a71",
-      "bytes": 233828
+      "bytes": 233828,
+      "sha256": "dd14fc8873978365ae4002f0f607be5d099cd334b5338d8bc2b45dfbacf77a71"
     },
     {
       "path": "crates/cockpit-protocol/tests/contract_amendment.rs",
-      "sha256": "ec402c7ce4cfe0879bac1cebd7cc9b43575e05a4871af401d0393bdd46f79901",
-      "bytes": 15297
+      "bytes": 15297,
+      "sha256": "ec402c7ce4cfe0879bac1cebd7cc9b43575e05a4871af401d0393bdd46f79901"
     },
     {
       "path": "crates/cockpit-repository/src/contract_amendment.rs",
-      "sha256": "cda91dfbfc57bf3c2110ee3efca3526b4158f036b8e232adf7e151dc4fa2132c",
-      "bytes": 154705
+      "bytes": 154705,
+      "sha256": "cda91dfbfc57bf3c2110ee3efca3526b4158f036b8e232adf7e151dc4fa2132c"
     },
     {
       "path": "crates/cockpit-repository/src/lib.rs",
-      "sha256": "6276d7b40cdfa57aa5b2dd2bd7a68969cd0721a3830dc4f126dee87ab47c4778",
-      "bytes": 631027
+      "bytes": 631027,
+      "sha256": "6276d7b40cdfa57aa5b2dd2bd7a68969cd0721a3830dc4f126dee87ab47c4778"
     },
     {
       "path": "crates/cockpit-repository/src/lifecycle.rs",
-      "sha256": "1efacde0e760b132976ddf17a7e1ad9fc3706e0ef2e11706be13e5bc49f9e382",
-      "bytes": 457380
+      "bytes": 457380,
+      "sha256": "1efacde0e760b132976ddf17a7e1ad9fc3706e0ef2e11706be13e5bc49f9e382"
     },
     {
       "path": "crates/cockpit-repository/src/status_projection.rs",
-      "sha256": "0cf797e715533d3c39351a7845f505e772ea0a68458e04b4ebadda8911f84c3b",
-      "bytes": 98992
+      "bytes": 98992,
+      "sha256": "0cf797e715533d3c39351a7845f505e772ea0a68458e04b4ebadda8911f84c3b"
     },
     {
       "path": "crates/cockpit-repository/tests/delegated_development.rs",
-      "sha256": "73f24e05749738e4c103905e96b0ef9777c76b8c54d176a08359c3690c66dd46",
-      "bytes": 26156
+      "bytes": 26156,
+      "sha256": "73f24e05749738e4c103905e96b0ef9777c76b8c54d176a08359c3690c66dd46"
     },
     {
       "path": "docs/reference/commands.ja.md",
-      "sha256": "04f1c50a4a282e09cead68b0c2afeaf7d19d3578fa57ec551425d5390cf56caf",
-      "bytes": 74631
+      "bytes": 74631,
+      "sha256": "04f1c50a4a282e09cead68b0c2afeaf7d19d3578fa57ec551425d5390cf56caf"
     },
     {
       "path": "docs/reference/commands.md",
-      "sha256": "2592d1054b41dc5687b81105bde9e748a7d27fba27cccac10f4f72154c063b19",
-      "bytes": 70284
+      "bytes": 70284,
+      "sha256": "2592d1054b41dc5687b81105bde9e748a7d27fba27cccac10f4f72154c063b19"
     },
     {
       "path": "docs/reference/commands.zh-CN.md",
-      "sha256": "d9a6dbbfd4838f9bee6656040f177f4fc281487025fef254f18cae49aa553595",
-      "bytes": 62183
+      "bytes": 62183,
+      "sha256": "d9a6dbbfd4838f9bee6656040f177f4fc281487025fef254f18cae49aa553595"
     },
     {
       "path": "docs/reference/contract-fields.ja.md",
-      "sha256": "a3af93adcf86e7dd58a24e29d2af966668c19a96851f499b052dcf3c5edcb447",
-      "bytes": 15267
+      "bytes": 15267,
+      "sha256": "a3af93adcf86e7dd58a24e29d2af966668c19a96851f499b052dcf3c5edcb447"
     },
     {
       "path": "docs/reference/contract-fields.md",
-      "sha256": "1c7468f0b9bbfe8d8bfe088454b23faa0c488cc0a8dc5aba27632def13410ba5",
-      "bytes": 14210
+      "bytes": 14210,
+      "sha256": "1c7468f0b9bbfe8d8bfe088454b23faa0c488cc0a8dc5aba27632def13410ba5"
     },
     {
       "path": "docs/reference/contract-fields.zh-CN.md",
-      "sha256": "22fdd9cbe70d83cdcd3cb8666355046974c82e9abfe5738c3d0a658e56c5c32a",
-      "bytes": 13111
+      "bytes": 13111,
+      "sha256": "22fdd9cbe70d83cdcd3cb8666355046974c82e9abfe5738c3d0a658e56c5c32a"
     },
     {
       "path": "docs/reference/reference-parity.ja.md",
-      "sha256": "d5e663cac704ca2fb24fe8c9735de634f0ac79a7ca28cd3ad83d4da2ab3b7426",
-      "bytes": 383076
+      "bytes": 383076,
+      "sha256": "d5e663cac704ca2fb24fe8c9735de634f0ac79a7ca28cd3ad83d4da2ab3b7426"
     },
     {
       "path": "docs/reference/reference-parity.md",
-      "sha256": "8a6a56ab009b6070b00d50996b239e4bf3eef8f5630d04438ad93e23f4deeda3",
-      "bytes": 374702
+      "bytes": 374702,
+      "sha256": "8a6a56ab009b6070b00d50996b239e4bf3eef8f5630d04438ad93e23f4deeda3"
     },
     {
       "path": "docs/reference/reference-parity.zh-CN.md",
-      "sha256": "6ea944d6d3b47a0d6bda320b787fb705a3b61a5107bf04798ae2450d24eb7db6",
-      "bytes": 365416
+      "bytes": 365416,
+      "sha256": "6ea944d6d3b47a0d6bda320b787fb705a3b61a5107bf04798ae2450d24eb7db6"
     },
     {
       "path": "docs/work-items/WI-1107-delegated-development-review.ja.md",
-      "sha256": "c4c3f42730835a7222e61089a9dc421588f6732641c34c556b15db4f9efa2391",
-      "bytes": 3590
+      "bytes": 3590,
+      "sha256": "c4c3f42730835a7222e61089a9dc421588f6732641c34c556b15db4f9efa2391"
     },
     {
       "path": "docs/work-items/WI-1107-delegated-development-review.md",
-      "sha256": "5c10e236745d144942dd0116aec1f0818a50039f34c64a934733479bbf791436",
-      "bytes": 3606
+      "bytes": 3606,
+      "sha256": "5c10e236745d144942dd0116aec1f0818a50039f34c64a934733479bbf791436"
     },
     {
       "path": "docs/work-items/WI-1107-delegated-development-review.zh-CN.md",
-      "sha256": "577d4ee36806fb5ca766880d0c9c0c8191925eed722ca202feed2fb38710c952",
-      "bytes": 3072
+      "bytes": 3072,
+      "sha256": "577d4ee36806fb5ca766880d0c9c0c8191925eed722ca202feed2fb38710c952"
     },
     {
       "path": "tests/ci/hosted_runtime_verification_test.sh",
-      "sha256": "e4299bb026a380c344982161212167bb6a6a510c6fec048f7ce784c9cd65f423",
-      "bytes": 36346
+      "bytes": 36346,
+      "sha256": "e4299bb026a380c344982161212167bb6a6a510c6fec048f7ce784c9cd65f423"
     },
     {
       "path": "tests/ci/run_hosted_runtime_verification.sh",
-      "sha256": "9f24efebfca989e4d2e2881c0ff122e83ecb45d9cb6d5214361182c03fcdb4a7",
-      "bytes": 31232
+      "bytes": 31232,
+      "sha256": "9f24efebfca989e4d2e2881c0ff122e83ecb45d9cb6d5214361182c03fcdb4a7"
+    },
+    {
+      "path": "tests/ci/run_workspace_package_tests.sh",
+      "bytes": 34099,
+      "sha256": "da8048dd1425eb4110915545bfb6184f055d4a6e3241126c640164a663031005"
+    },
+    {
+      "path": "tests/ci/workspace_package_coverage_test.sh",
+      "bytes": 41262,
+      "sha256": "09aaab0788a86dd5fb96d3644732ff94519e62f62386a69dfd2edcdcac18ec1b"
     }
   ],
   "nativeFiles": [
@@ -167,6 +177,11 @@
       "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.eaa43c1e2822082b0fd9cb989b5f9efef03054253765379f892a18c92a24ab5f.json",
       "bytes": 1633,
       "sha256": "e8d8cd644e1d52630325b3e20b13d6094c41bc4cc7c9ee113e08bd1fb7865c77"
+    },
+    {
+      "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.f5a2b87518d019008503023034f7d3b838ee2451ef732378c2840f16898d5cd3.json",
+      "bytes": 1811,
+      "sha256": "d5b96b4670f1f0c642e09cde5b7f9fca93d5b21b9f5f1d5a175ab48068116444"
     },
     {
       "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.json",
@@ -214,6 +229,16 @@
       "sha256": "c45a621b85830b8d5dc0a29fafe2f8865f4b2504df505ee80c6d924f0318a698"
     },
     {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000005.committed.json",
+      "bytes": 11254,
+      "sha256": "0f4b3588c8e88ee04ae167cb1f4f66cffa6adfda05765aaa4b1130857f86c72b"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000005.prepared.json",
+      "bytes": 50679,
+      "sha256": "f2bba7ff6e4c1dacd98dd0015fb84544d93eaa3a0c365174441a0676a771d17a"
+    },
+    {
       "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.201a4ea0ed2c18c5acfbfd3166fcf3565d0f571dbcdc0930aeed2c71e20d7ce0.json",
       "bytes": 1120324,
       "sha256": "1059b263849bf0e9548cd2ae21bd9c2bba36478d35da8d3b170659ed08972224"
@@ -234,6 +259,11 @@
       "sha256": "3ee20e0c7313c30ef85ca65c523fd184d23785c6352c2c52cfbb70ec42e60192"
     },
     {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json",
+      "bytes": 1128016,
+      "sha256": "5a78732845906727d28e648d8b4066d7b7b0c4d467ee60fee993e32eb4beeba5"
+    },
+    {
       "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a4424e41bf98acbf4d7ebb3c7a197b56b6de82a8d7dfcaef0046e722acfba693.json",
       "bytes": 1120336,
       "sha256": "a400f4e7d8106662f7cfe7903db5c4e7b51be41482f60995bf1ffe980811f28f"
@@ -245,13 +275,13 @@
     },
     {
       "path": ".ai/evidence/WI-1107-delegated-development-review.verification.json",
-      "bytes": 565707,
-      "sha256": "cf97719099edacef9b820754438667152631322543e7f8817610355bdc5ebfb7"
+      "bytes": 565714,
+      "sha256": "291ef352ac93be9311401388fd16444677b759c1c357fa2d7f4839ad4396627f"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
-      "bytes": 22490,
-      "sha256": "0006fd4cac688824b8257c55556b388b72771933f2d96a5ee89c7af0a549d6ea"
+      "bytes": 22644,
+      "sha256": "dbaa3b15a671e3f696a230646bb307672eba0a014e8b363f795eaf1a8ae84cec"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.events.jsonl",
@@ -261,17 +291,17 @@
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.outcome.json",
       "bytes": 10122,
-      "sha256": "0ddac0fe6d2b334b6a6cbf530923506f99329148bc9db5e8087ec07f22175fac"
+      "sha256": "8d8d5168a87c9f8548fb96f3a8163e7b515be88d6d23813962fe04d97790a1f8"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
-      "bytes": 42950,
-      "sha256": "16cb1041482cae40e4c309289d1442dd9765fcff9490a5bc2e8e3c22e82561d8"
+      "bytes": 46381,
+      "sha256": "e263ae6e375a5b6e0c3872ba03a857bcdbf0d12ef2b7b1176c6255bba3f1ceef"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.task-report.json",
       "bytes": 3790,
-      "sha256": "2b2a0a69c382b9cfd673b777bd069d49a34010e895878d52d896fc7ba0d64332"
+      "sha256": "04b2be9d9b88e6e0867fd136af40e09434f37ccda7b659ead9d0e8bee0dc21c4"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.task-report.md",
@@ -823,29 +853,30 @@
       "nodeId": "project-command-9",
       "program": "bash",
       "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/workspace_package_coverage_test.sh"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-10",
+      "program": "bash",
+      "timeoutSeconds": 900
     }
   ],
   "originalCommandCount": 9,
-  "expandedNodeCount": 36,
+  "expandedNodeCount": 37,
   "workers": 1,
   "timeoutSecondsPerNode": 900,
   "rustToolchain": "1.98.1",
   "explicitCargoProfileOverrides": false,
   "publicationAuthority": {
-    "source": "actual-user-message:Sentinel_bbb0e40386b88191afab3b9cb4ca98fd",
-    "userMessageTimeKnown": "2026-10-23 22:05 UTC, minute precision",
+    "source": "actual-user-message:Sentinel_d0b9768073c08191a45b91f10c6d8147",
+    "userMessageTimeKnown": "2026-10-24 04:02 UTC, minute precision",
     "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
-    "preparationRecordedAt": "2026-10-23T22:06:59.203481+00:00",
+    "preparationRecordedAt": "2026-10-24T04:13:05.939414+00:00",
     "noIndependentIdentityAuthenticationClaimed": true,
-    "scope": "Publish only native-input.tar.gz, binding.json and the exact run.py post-verification guard correction allowing only current WI Summary and canonical verification pointer to change. Preserve the other 13 native inputs byte-for-byte, immutable old canonical in native-before.tar.gz, frozen f82 source, workflow and original nine commands. One new fixed-b2 hosted formal verification; no product PR, main merge, release, activation or cleanup."
-  },
-  "preservation": {
-    "oldNativeFailureAttemptsRemainByteIdentical": true,
-    "oldConfirmationsRemainByteIdentical": true,
-    "privateRedAndStraceLogsNotPublished": true,
-    "runnerUsesNaturalHome": true,
-    "noTestsOrAssertionsOrScannerChanged": true,
-    "appliesToFrozenSourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6"
+    "scope": "Sequence5 exact owner confirm_review; publish two additional coverage consumer/regression CI source files, genuine own amendment/confirmation/verification records and necessary auxiliary input bindings to the existing verification branch and PR1068. Preserve original ten commands/assertions/standards, use official fixed b2 and37 actual nodes with finite900s cap, ordinary CI/review-conditional delivery only; true close separate, no release or production activation."
   },
   "interpretation": "Job success is insufficient. Fixed b2 must emit passed current canonical evidence with a unique new successful execution_completed native attempt, every original node executed, zero reuse, and current Runtime status verified/fresh. No finish or archive is performed by this helper.",
   "executionEnvironmentPolicy": "Fixed b2 and all verification children receive a single finite noncredential environment. Natural HOME/PATH/toolchain values retained; omitted host key names recorded without values. Complete ordered effective environment and canonical cwd are saved for command identity reconstruction. No inherited Cargo profile overrides and no host tokens in Runtime/tests.",
@@ -872,37 +903,83 @@
       "preparationRecordedAt": "2026-10-23T21:58:08.208649+00:00",
       "noIndependentIdentityAuthenticationClaimed": true,
       "scope": "Publish only native-input.tar.gz and binding.json with 15 exact native inputs for sequence 3 Contract and recorded actual confirmation; one new fixed-b2 original-nine formal hosted verification. Frozen f82 source, driver, workflow, commands, assertions and criteria unchanged. No product PR, main merge, release, activation or cleanup."
+    },
+    {
+      "source": "actual-user-message:Sentinel_bbb0e40386b88191afab3b9cb4ca98fd",
+      "userMessageTimeKnown": "2026-10-23 22:05 UTC, minute precision",
+      "relayedByParentThread": "01a1576c-b0ab-7723-ad8e-95924e80102a",
+      "preparationRecordedAt": "2026-10-23T22:06:59.203481+00:00",
+      "noIndependentIdentityAuthenticationClaimed": true,
+      "scope": "Publish only native-input.tar.gz, binding.json and the exact run.py post-verification guard correction allowing only current WI Summary and canonical verification pointer to change. Preserve the other 13 native inputs byte-for-byte, immutable old canonical in native-before.tar.gz, frozen f82 source, workflow and original nine commands. One new fixed-b2 hosted formal verification; no product PR, main merge, release, activation or cleanup."
     }
   ],
-  "approvedSourceDeltaFromPreviousFreeze": {
-    "previousSourceHead": "6c441387f581cfdd0d4c6d6fba34c6179d65879a",
-    "sourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6",
-    "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
-    "insertions": 114,
-    "deletions": 0,
-    "existingFileBytesPreservedAsPrefix": true,
-    "productionChanged": false,
-    "priorRunId": 39996810841,
-    "priorSuccessAppliesOnlyToPreviousSource": true
-  },
-  "approvedStage3GovernanceInputUpdate": {
-    "sequence": 3,
-    "contractDigest": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
-    "preflightDecisionDigest": "sha256:22bc5c9da18bd41301d2c944ec42b94fe363aaaaf5f0593d82c72943d1e0f592",
-    "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
-    "actualUserConfirmReviewSource": "Sentinel_343c7f400a408191b38178fd3e54fb72",
-    "nativeInputCount": 15,
-    "immutableHistoricalInputsRemainByteIdentical": true,
-    "priorCanonicalRemainsHistoricalUntilFixedB2ProducesNewCanonical": true
-  },
+  "currentCommandCount": 11,
+  "historicalBindingMetadata": [
+    {
+      "approvedSourceDeltaFromPreviousFreeze": {
+        "previousSourceHead": "6c441387f581cfdd0d4c6d6fba34c6179d65879a",
+        "sourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6",
+        "path": "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+        "insertions": 114,
+        "deletions": 0,
+        "existingFileBytesPreservedAsPrefix": true,
+        "productionChanged": false,
+        "priorRunId": 39996810841,
+        "priorSuccessAppliesOnlyToPreviousSource": true
+      },
+      "approvedStage3GovernanceInputUpdate": {
+        "sequence": 3,
+        "contractDigest": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
+        "preflightDecisionDigest": "sha256:22bc5c9da18bd41301d2c944ec42b94fe363aaaaf5f0593d82c72943d1e0f592",
+        "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+        "actualUserConfirmReviewSource": "Sentinel_343c7f400a408191b38178fd3e54fb72",
+        "nativeInputCount": 15,
+        "immutableHistoricalInputsRemainByteIdentical": true,
+        "priorCanonicalRemainsHistoricalUntilFixedB2ProducesNewCanonical": true
+      },
+      "authorizedCanonicalOutputUpdate": {
+        "additionalAuthorization": "actual-user-message:Sentinel_bbb0e40386b88191afab3b9cb4ca98fd",
+        "path": ".ai/evidence/WI-1107-delegated-development-review.verification.json",
+        "oldCanonicalBytes": 561873,
+        "oldCanonicalSHA256": "ae8823d09044517ce885e063b60d22c0b9b0a90fe2a9fc83022314b309ad4802",
+        "oldCanonicalPreservedIn": "native-before.tar.gz",
+        "allOtherNativeInputsExceptSummaryMustRemainByteIdentical": 13,
+        "newCanonicalMustPassExistingRequireSuccessWithUniqueNewAttempt": true
+      },
+      "preservation": {
+        "oldNativeFailureAttemptsRemainByteIdentical": true,
+        "oldConfirmationsRemainByteIdentical": true,
+        "privateRedAndStraceLogsNotPublished": true,
+        "runnerUsesNaturalHome": true,
+        "noTestsOrAssertionsOrScannerChanged": true,
+        "appliesToFrozenSourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6"
+      }
+    }
+  ],
   "authorizedCanonicalOutputUpdate": {
-    "additionalAuthorization": "actual-user-message:Sentinel_bbb0e40386b88191afab3b9cb4ca98fd",
+    "additionalAuthorization": "actual-user-message:Sentinel_d0b9768073c08191a45b91f10c6d8147",
     "path": ".ai/evidence/WI-1107-delegated-development-review.verification.json",
-    "oldCanonicalBytes": 561873,
-    "oldCanonicalSHA256": "ae8823d09044517ce885e063b60d22c0b9b0a90fe2a9fc83022314b309ad4802",
+    "oldCanonicalBytes": 565714,
+    "oldCanonicalSHA256": "291ef352ac93be9311401388fd16444677b759c1c357fa2d7f4839ad4396627f",
     "oldCanonicalPreservedIn": "native-before.tar.gz",
-    "allOtherNativeInputsExceptSummaryMustRemainByteIdentical": 13,
+    "mutableProjectionPathsOnly": [
+      ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
+      ".ai/evidence/WI-1107-delegated-development-review.verification.json",
+      ".ai/work-items/active/WI-1107-delegated-development-review.outcome.json",
+      ".ai/work-items/active/WI-1107-delegated-development-review.task-report.json",
+      ".ai/work-items/active/WI-1107-delegated-development-review.task-report.md"
+    ],
+    "allOtherNativeInputsMustRemainByteIdentical": 24,
     "newCanonicalMustPassExistingRequireSuccessWithUniqueNewAttempt": true
   },
-  "currentCommandCount": 10
+  "preservation": {
+    "oldNativeFailureAndSuccessAttemptsRemainByteIdentical": true,
+    "oldConfirmationsRemainByteIdentical": true,
+    "privateRedAndStraceAndSentinelLogsNotPublished": true,
+    "runnerUsesNaturalHome": true,
+    "existingAssertionsAndScannerRulesUnchanged": true,
+    "originalTenCommandsUnchanged": true,
+    "approvedCoverageRegressionAdded": true,
+    "appliesToSourceHead": "cfa7317a1052ed459e33696936f0a2e3b53b7f15"
+  }
 }
