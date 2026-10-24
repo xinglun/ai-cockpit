@@ -9215,6 +9215,75 @@ mod post_merge_sync_tests {
         ));
     }
 
+    #[test]
+    fn post_merge_layout_recipe_allows_only_the_writer_boundary_evolution() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let historical = super::git_blob_bytes(
+            &root,
+            "c85105db9849d8ee27635ee762f98d991955aa21",
+            "crates/cockpit-repository/src/material_review.rs",
+        )
+        .unwrap();
+        let current = include_bytes!("material_review.rs");
+        assert_ne!(
+            Digest::sha256_bytes(&historical),
+            Digest::sha256_bytes(current)
+        );
+        assert!(super::analysis_recipe_source_matches(&historical, current));
+
+        let historical = String::from_utf8(historical).unwrap();
+        for (before, after) in [
+            (
+                "material-analysis-implementation:v1",
+                "material-analysis-implementation:v2",
+            ),
+            (".to_le_bytes()", ".to_be_bytes()"),
+            ("\"Cargo.lock\"", "\"foreign.lock\""),
+            (
+                "Digest::sha256_bytes(&hasher.finalize())",
+                "Digest::sha256_bytes(b\"foreign\")",
+            ),
+            (
+                "fields.remove(\"reviewDiagnostic\")",
+                "fields.remove(\"foreignDiagnostic\")",
+            ),
+            ("fn valid_digest(", "fn foreign_valid_digest("),
+            (
+                "pub fn record_work_item_material_review(",
+                "pub fn missing_writer(",
+            ),
+            (
+                "require_current_action_admission,",
+                "require_current_action_admission as foreign_admission,",
+            ),
+        ] {
+            assert!(
+                historical.contains(before),
+                "negative fixture did not mutate {before}"
+            );
+            let changed = historical.replacen(before, after, 1);
+            assert!(
+                !super::analysis_recipe_source_matches(changed.as_bytes(), current),
+                "unsupported change accepted: {before}"
+            );
+        }
+        let duplicate = format!("{historical}\npub fn record_work_item_material_review() {{}}\n");
+        assert!(!super::analysis_recipe_source_matches(
+            duplicate.as_bytes(),
+            current
+        ));
+        let malformed = format!("{historical}\n{{");
+        assert!(!super::analysis_recipe_source_matches(
+            malformed.as_bytes(),
+            current
+        ));
+        let lone_cr = historical.replacen('\n', "\r", 1);
+        assert!(!super::analysis_recipe_source_matches(
+            lone_cr.as_bytes(),
+            current
+        ));
+    }
+
     fn github_pull_request_origin(identity: &ResourceFinalizationPullRequestIdentity) -> String {
         format!(
             "https://api.github.com/repos/example/fixture/pulls/{}",
