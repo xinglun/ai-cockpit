@@ -236,6 +236,7 @@ pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
 pub const DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY: &str = "delegated-development-review";
 
 pub const MATERIAL_INSPECTION_REVIEW_CAPABILITY: &str = "material-inspection-review";
+pub const TASK_AUTHORIZATION_CAPABILITY: &str = "bounded-task-authorization";
 
 /// Stable command-level capabilities advertised by a repository's discovery
 /// manifest.  These names describe Runtime surfaces only; they do not claim
@@ -267,6 +268,7 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-environment-drift",
     MATERIAL_INSPECTION_REVIEW_CAPABILITY,
     DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY,
+    TASK_AUTHORIZATION_CAPABILITY,
     "evidence",
     "audit",
     "capability-show",
@@ -923,6 +925,103 @@ pub struct DevelopmentReviewPolicy {
     pub authority_source: String,
     pub allowed_changes: Vec<DevelopmentReviewChange>,
     pub preapproved_commands: Vec<String>,
+}
+
+/// An explicit local owner-reviewed boundary, not host or external identity authority.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskAuthorizationPolicy {
+    pub schema_version: u32,
+    pub agent_actor: String,
+    pub authority_source: String,
+    pub allowed_actions: Vec<String>,
+    pub closeout_actions: Vec<String>,
+    pub expires_at: Option<String>,
+    pub public_target: Option<TaskAuthorizationTarget>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskAuthorizationTarget {
+    pub provider: String,
+    pub repository: String,
+    pub base_branch: String,
+}
+
+pub const TASK_AUTHORIZATION_ACTIONS: &[&str] = &[
+    "modify_source",
+    "run_preflight",
+    "run_verification",
+    "review_development_amendment",
+    "record_governance_controls",
+    "record_material_review_decision",
+    "finish",
+    "archive_when_reviewed",
+    "publish_branch",
+    "create_pull_request",
+    "ready_pull_request",
+    "merge_pull_request",
+    "verify_main",
+    "finalize_resources",
+    "record_finalization",
+    "finalize_verify",
+    "cleanup_resources",
+    "publish_native_closeout",
+    "cleanup_auxiliary_resources",
+];
+
+impl TaskAuthorizationPolicy {
+    pub fn validate(&self) -> Result<(), String> {
+        let explicit = |s: &str| !s.is_empty() && s.trim() == s;
+        if self.schema_version != 1
+            || !self.agent_actor.starts_with("agent:")
+            || self.agent_actor.len() <= 6
+            || !explicit(&self.agent_actor)
+            || !explicit(&self.authority_source)
+        {
+            return Err("taskAuthorization requires schema1, an explicit agent and source".into());
+        }
+        let actions: std::collections::BTreeSet<_> = self.allowed_actions.iter().collect();
+        let closeout: std::collections::BTreeSet<_> = self.closeout_actions.iter().collect();
+        if actions.is_empty()
+            || actions.len() != self.allowed_actions.len()
+            || closeout.len() != self.closeout_actions.len()
+            || self
+                .allowed_actions
+                .iter()
+                .any(|s| !TASK_AUTHORIZATION_ACTIONS.contains(&s.as_str()))
+            || self.closeout_actions.iter().any(|s| {
+                !matches!(
+                    s.as_str(),
+                    "publish_native_closeout" | "cleanup_auxiliary_resources"
+                ) || !actions.contains(s)
+            })
+            || self.expires_at.as_deref().is_some_and(|s| !explicit(s))
+        {
+            return Err("taskAuthorization requires unique finite supported actions and bounded closeout intent".into());
+        }
+        if let Some(target) = &self.public_target
+            && (!explicit(&target.provider)
+                || !explicit(&target.repository)
+                || !explicit(&target.base_branch))
+        {
+            return Err("taskAuthorization public target must be explicit".into());
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskAuthorizationProjection {
+    pub state: String,
+    pub assurance: AssuranceLevel,
+    pub agent_actor: String,
+    pub authority_source: String,
+    pub grant_id: Option<Digest>,
+    pub scope_digest: Option<Digest>,
+    pub expires_at: Option<String>,
+    pub reason: String,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -4115,6 +4214,20 @@ pub struct Contract {
 }
 
 impl Contract {
+    pub fn task_authorization_policy(&self) -> Result<Option<TaskAuthorizationPolicy>, String> {
+        let Some(value) = self
+            .governance_profile
+            .as_ref()
+            .and_then(|p| p.get("taskAuthorization"))
+        else {
+            return Ok(None);
+        };
+        let policy: TaskAuthorizationPolicy = serde_json::from_value(value.clone())
+            .map_err(|e| format!("invalid taskAuthorization: {e}"))?;
+        policy.validate()?;
+        Ok(Some(policy))
+    }
+
     pub fn development_review_policy(&self) -> Result<Option<DevelopmentReviewPolicy>, String> {
         let Some(value) = self
             .governance_profile
@@ -4190,6 +4303,20 @@ impl Contract {
             Ok(None) if delegated_guard => errors.push(
                 "delegated-development-review capability requires explicit developmentReview"
                     .into(),
+            ),
+            Err(e) => errors.push(e),
+            _ => {}
+        }
+
+        let task_guard = self
+            .required_runtime_capabilities
+            .iter()
+            .any(|c| c == TASK_AUTHORIZATION_CAPABILITY);
+        match self.task_authorization_policy() {
+            Ok(Some(_)) if !task_guard => errors
+                .push("taskAuthorization requires bounded-task-authorization capability".into()),
+            Ok(None) if task_guard => errors.push(
+                "bounded-task-authorization capability requires explicit taskAuthorization".into(),
             ),
             Err(e) => errors.push(e),
             _ => {}
@@ -5805,6 +5932,8 @@ pub struct WorkItemStatusSnapshot {
     /// readable when this field is absent.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub action_explanation: Option<WorkItemActionExplanation>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub task_authorization: Option<TaskAuthorizationProjection>,
     pub status_digest: Digest,
     pub historical: bool,
 }

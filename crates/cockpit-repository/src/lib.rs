@@ -68,6 +68,7 @@ mod resource_lifecycle;
 mod review_ledger;
 mod rust_material;
 mod status_projection;
+mod task_authorization;
 mod usage;
 
 pub use material_review::{

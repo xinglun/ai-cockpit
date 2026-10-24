@@ -850,6 +850,23 @@ pub fn apply_contract_amendment_with_trace(
         prospective.required_runtime_capabilities.sort();
         prospective.required_runtime_capabilities.dedup();
     }
+    if prospective
+        .task_authorization_policy()
+        .map_err(|message| {
+            errors(error(
+                "contract_invariant_failed",
+                "/governanceProfile/taskAuthorization",
+                message,
+            ))
+        })?
+        .is_some()
+    {
+        prospective
+            .required_runtime_capabilities
+            .push(super::TASK_AUTHORIZATION_CAPABILITY.into());
+        prospective.required_runtime_capabilities.sort();
+        prospective.required_runtime_capabilities.dedup();
+    }
     prospective.validate().map_err(|validation_errors| {
         validation_errors
             .into_iter()
