@@ -721,3 +721,33 @@ fn actual_child_execution_requires_explicit_caller_and_declared_argv() {
         .is_err()
     );
 }
+
+fn resource_context(root: &Path) -> cockpit_protocol::ResourceFinalizationContext {
+    cockpit_protocol::ResourceFinalizationContext {
+        branch: "task-worker".into(),
+        worktree: root.to_string_lossy().into_owned(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: "https://github.com/example/fixture/pull/1".into(),
+    }
+}
+
+#[test]
+fn a_context_free_resource_plan_cannot_mutate_a_reviewed_task() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let before = fs::read(&path).unwrap();
+    let result = cockpit_repository::plan_resource_finalization_with_runtime(
+        root,
+        WI,
+        &resource_context(root),
+        &runtime(),
+    );
+    assert!(
+        result.is_err(),
+        "an unbound resource call must be rejected before writing: {result:?}"
+    );
+    assert_eq!(fs::read(path).unwrap(), before);
+}
