@@ -5375,7 +5375,100 @@ fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
             .filter_map(|(i, b)| (!(*b == b'\r' && bytes.get(i + 1) == Some(&b'\n'))).then_some(*b))
             .collect::<Vec<_>>()
     };
-    normalized(historical) == normalized(compiled)
+    let historical = normalized(historical);
+    let compiled = normalized(compiled);
+    if historical == compiled {
+        return true;
+    }
+    if historical.contains(&b'\r') || compiled.contains(&b'\r') {
+        return false;
+    }
+    match (
+        historical_analysis_recipe_projection(&historical),
+        historical_analysis_recipe_projection(&compiled),
+    ) {
+        (Some(historical), Some(compiled)) => historical == compiled,
+        _ => false,
+    }
+}
+
+fn historical_analysis_recipe_projection(source: &[u8]) -> Option<String> {
+    use syn::spanned::Spanned;
+
+    let source = std::str::from_utf8(source).ok()?;
+    let module = syn::parse_file(source).ok()?;
+    let mut omitted = Vec::new();
+    let mut writer_count = 0;
+    let mut caller_writer_count = 0;
+    let mut digest_count = 0;
+    let mut implementation_count = 0;
+    let mut obsolete_import_count = 0;
+    for item in &module.items {
+        if let syn::Item::Fn(function) = item {
+            match function.sig.ident.to_string().as_str() {
+                "record_work_item_material_review" => {
+                    writer_count += 1;
+                    omitted.push(item.span().byte_range());
+                }
+                "record_work_item_material_review_with_caller" => {
+                    caller_writer_count += 1;
+                    omitted.push(item.span().byte_range());
+                }
+                "implementation_digest_from_sources" => digest_count += 1,
+                "analysis_implementation_digest" => implementation_count += 1,
+                _ => {}
+            }
+        }
+        if let syn::Item::Use(import) = item
+            && import.attrs.is_empty()
+            && matches!(import.vis, syn::Visibility::Inherited)
+            && import.leading_colon.is_none()
+            && let syn::UseTree::Path(path) = &import.tree
+            && path.ident == "super"
+            && let syn::UseTree::Group(group) = path.tree.as_ref()
+        {
+            for pair in group.items.pairs() {
+                if let syn::UseTree::Name(name) = pair.value()
+                    && name.ident == "require_current_action_admission"
+                {
+                    obsolete_import_count += 1;
+                    let comma = pair.punct()?;
+                    omitted.push(name.span().byte_range().start..comma.span().byte_range().end);
+                }
+            }
+        }
+    }
+    if writer_count != 1
+        || caller_writer_count > 1
+        || digest_count != 1
+        || implementation_count != 1
+        || obsolete_import_count > 1
+    {
+        return None;
+    }
+    // Only the named effect writers and their obsolete admission import may
+    // evolve independently. Every other token, including the hash domain,
+    // input order, request construction, scanner and validators, must match.
+    // Historical evidence and implementation inputs are still hashed raw.
+    omitted.sort_unstable_by_key(|range| range.start);
+    if omitted.windows(2).any(|pair| pair[0].end > pair[1].start) {
+        return None;
+    }
+    let mut projection = source.to_owned();
+    for range in omitted.into_iter().rev() {
+        if range.start > range.end
+            || range.end > projection.len()
+            || !projection.is_char_boundary(range.start)
+            || !projection.is_char_boundary(range.end)
+        {
+            return None;
+        }
+        projection.replace_range(range, "");
+    }
+    projection
+        .parse::<proc_macro2::TokenStream>()
+        .ok()
+        .map(|tokens| tokens.to_string())
 }
 
 fn apply_historical_material_projection(
