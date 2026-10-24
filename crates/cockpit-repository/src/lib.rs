@@ -214,9 +214,11 @@ pub use project_governance::*;
 pub use resource_lifecycle::{
     OrdinaryCleanupObservation, OrdinaryCleanupReceipt, OrdinaryCleanupResult,
     historical_finalization_recovery_plan, plan_resource_finalization,
-    plan_resource_finalization_with_runtime, record_historical_finalization_recovery,
-    record_ordinary_cleanup_with_runtime, record_resource_finalization,
-    verify_resource_finalization,
+    plan_resource_finalization_with_caller, plan_resource_finalization_with_runtime,
+    record_historical_finalization_recovery, record_historical_finalization_recovery_with_caller,
+    record_ordinary_cleanup_with_caller, record_ordinary_cleanup_with_runtime,
+    record_resource_finalization, record_resource_finalization_with_caller,
+    verify_resource_finalization, verify_resource_finalization_with_caller,
 };
 pub(crate) use resource_lifecycle::{
     archived_contract_digest, capture_ordinary_cleanup_binding,

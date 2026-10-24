@@ -493,7 +493,7 @@ pub fn assess_task_authorization(
     })
 }
 
-fn check_request_intent(
+pub(crate) fn check_request_intent(
     root: &Path,
     wi: &str,
     request: &cockpit_protocol::TaskAuthorizationRequest,

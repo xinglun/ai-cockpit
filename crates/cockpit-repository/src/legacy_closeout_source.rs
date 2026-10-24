@@ -1370,6 +1370,7 @@ pub fn record_legacy_closeout_source(
     let _query = QuerySession::start();
     let _visit = QueryVisit::enter(&root, id, "root_write")?;
     let guard = acquire_lifecycle_lock(&root, id)?;
+    super::task_authorization::reject_legacy_task_write(&root, id)?;
     require_plan_directory(&root, plan)?;
     if matches!(
         plan.operation,
@@ -1949,6 +1950,7 @@ pub(crate) fn record_finalization_locked(
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
     guard.require_subject(root, id)?;
+    super::task_authorization::reject_legacy_task_write(root, id)?;
     let _query = QuerySession::start();
     let _visit = QueryVisit::enter(root, id, "finalization_write")?;
     if input["kind"] == "legacy_closeout_source_plan" {

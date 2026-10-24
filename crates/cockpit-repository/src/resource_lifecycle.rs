@@ -46,7 +46,7 @@ pub fn plan_resource_finalization(
     work_item_id: &str,
     context: &ResourceFinalizationContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    plan_resource_finalization_internal(root, work_item_id, context, None)
+    plan_resource_finalization_internal(root, work_item_id, context, None, None)
 }
 
 /// Runtime-aware variant used by the CLI/MCP entrypoints.  The legacy
@@ -59,7 +59,18 @@ pub fn plan_resource_finalization_with_runtime(
     context: &ResourceFinalizationContext,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    plan_resource_finalization_internal(root, work_item_id, context, Some(runtime))
+    plan_resource_finalization_with_caller(root, work_item_id, context, runtime, None)
+}
+
+/// Caller metadata is rechecked while holding the Work Item transaction lock.
+pub fn plan_resource_finalization_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    context: &ResourceFinalizationContext,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    plan_resource_finalization_internal(root, work_item_id, context, Some(runtime), caller)
 }
 
 fn plan_resource_finalization_internal(
@@ -67,6 +78,7 @@ fn plan_resource_finalization_internal(
     work_item_id: &str,
     context: &ResourceFinalizationContext,
     runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -74,6 +86,17 @@ fn plan_resource_finalization_internal(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    match runtime {
+        Some(runtime) => require_resource_task_caller(
+            &root,
+            work_item_id,
+            "finalize_resources",
+            runtime,
+            caller,
+            Some(context),
+        )?,
+        None => super::task_authorization::reject_legacy_task_write(&root, work_item_id)?,
+    }
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
@@ -85,6 +108,14 @@ fn plan_resource_finalization_internal(
         .join(format!("{work_item_id}.summary.json"));
     let contract = read_contract(&contract_path)?;
     let summary = read_json(&summary_path)?;
+    if super::task_authorization::task_policy_configured(&root, work_item_id)?
+        && contract.resource_context.as_ref() != Some(context)
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "task_authorization_archive_before_resource_binding: append a reviewed target after archive without changing the owner Contract".into(),
+        });
+    }
     if !matches!(
         summary["state"].as_str(),
         Some("implementation_active" | "checkpointed")
@@ -1561,12 +1592,36 @@ pub fn record_historical_finalization_recovery(
     input_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    record_historical_finalization_recovery_with_caller(
+        root,
+        work_item_id,
+        input_path,
+        runtime,
+        None,
+    )
+}
+
+pub fn record_historical_finalization_recovery_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    input_path: &Path,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let lifecycle_guard = acquire_lifecycle_lock(&root, work_item_id)?;
+    require_resource_task_caller(
+        &root,
+        work_item_id,
+        "record_finalization",
+        runtime,
+        caller,
+        None,
+    )?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
     let expected_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
@@ -1984,17 +2039,44 @@ pub fn record_resource_finalization(
     receipt_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    record_resource_finalization_with_caller(root, work_item_id, receipt_path, runtime, None)
+}
+
+pub fn record_resource_finalization_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    receipt_path: &Path,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let guard = acquire_lifecycle_lock(&root, work_item_id)?;
-    record_resource_finalization_locked(&root, work_item_id, receipt_path, runtime, &guard)
+    require_resource_task_caller(
+        &root,
+        work_item_id,
+        "record_finalization",
+        runtime,
+        caller,
+        None,
+    )?;
+    let input_bytes = super::legacy_closeout_source::read_input_bytes(receipt_path)?;
+    record_resource_finalization_bytes_locked(
+        &root,
+        work_item_id,
+        receipt_path,
+        &input_bytes,
+        runtime,
+        &guard,
+    )
 }
 
 /// The single finalization writer. Callers already holding the same Work Item
 /// lock use this crate-private core rather than recursively acquiring it.
+#[cfg(test)]
 pub(crate) fn record_resource_finalization_locked(
     root: &Path,
     work_item_id: &str,
@@ -2003,6 +2085,14 @@ pub(crate) fn record_resource_finalization_locked(
     guard: &super::LifecycleLockGuard,
 ) -> Result<serde_json::Value, ObserverError> {
     guard.require_subject(root, work_item_id)?;
+    require_resource_task_caller(
+        root,
+        work_item_id,
+        "record_finalization",
+        runtime,
+        None,
+        None,
+    )?;
     let input_bytes = super::legacy_closeout_source::read_input_bytes(receipt_path)?;
     record_resource_finalization_bytes_locked(
         root,
@@ -5969,7 +6059,30 @@ pub fn verify_resource_finalization(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    verify_resource_finalization_internal(root, work_item_id, Some(runtime))
+    verify_resource_finalization_with_caller(root, work_item_id, runtime, None)
+}
+
+pub fn verify_resource_finalization_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _guard = acquire_lifecycle_lock(&root, work_item_id)?;
+    require_resource_task_caller(
+        &root,
+        work_item_id,
+        "finalize_verify",
+        runtime,
+        caller,
+        None,
+    )?;
+    verify_resource_finalization_internal(&root, work_item_id, Some(runtime))
 }
 
 pub(crate) fn verify_resource_finalization_internal(
@@ -6861,12 +6974,28 @@ pub fn record_ordinary_cleanup_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<OrdinaryCleanupReceipt, ObserverError> {
+    record_ordinary_cleanup_with_caller(root, work_item_id, runtime, None)
+}
+
+pub fn record_ordinary_cleanup_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<OrdinaryCleanupReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    super::task_authorization::require_task_caller(
+        &root,
+        work_item_id,
+        "cleanup_auxiliary_resources",
+        runtime,
+        caller,
+    )?;
     let contract_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
@@ -11318,3 +11447,58 @@ mod legacy_source_lock_tests {
 
 #[cfg(test)]
 mod input_capture_tests;
+
+/// This is a local task boundary only. Existing provider/receipt/sequence and
+/// human-close checks still determine whether the requested operation is valid.
+fn require_resource_task_caller(
+    root: &Path,
+    work_item_id: &str,
+    action: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    proposed: Option<&ResourceFinalizationContext>,
+) -> Result<(), ObserverError> {
+    if !super::task_authorization::task_policy_configured(root, work_item_id)? {
+        return Ok(());
+    }
+    super::task_authorization::require_task_caller(root, work_item_id, action, runtime, caller)?;
+    let active = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let path = if fs::symlink_metadata(&active).is_ok() {
+        active
+    } else {
+        root.join(format!(
+            ".ai/work-items/archive/{work_item_id}.contract.json"
+        ))
+    };
+    let contract = read_contract(&path)?;
+    let current = effective_resource_context(root, work_item_id, &contract)?;
+    let context = proposed
+        .or(current.as_ref())
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "task_authorization_resource_target_missing".into(),
+        })?;
+    let (repository, _) = github_repository_from_pull_request_url(&context.pull_request)
+        .filter(|_| context.provider == "github")
+        .ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "task_authorization_resource_target_unsupported".into(),
+        })?;
+    let request = cockpit_protocol::TaskAuthorizationRequest {
+        schema_version: 1,
+        caller: caller.cloned().ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "task_authorization_caller_required".into(),
+        })?,
+        action: action.into(),
+        paths: vec![],
+        public_target: Some(cockpit_protocol::TaskAuthorizationTarget {
+            provider: context.provider.clone(),
+            repository,
+            base_branch: context.base_branch.clone(),
+        }),
+    };
+    super::task_authorization::check_request_intent(root, work_item_id, &request)
+}

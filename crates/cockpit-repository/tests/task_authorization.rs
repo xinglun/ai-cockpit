@@ -751,3 +751,176 @@ fn a_context_free_resource_plan_cannot_mutate_a_reviewed_task() {
     );
     assert_eq!(fs::read(path).unwrap(), before);
 }
+
+fn allow_task_actions(root: &Path, actions: &[&str], closeout: &[&str]) {
+    let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    let mut profile = contract["governanceProfile"].clone();
+    profile["taskAuthorization"]["allowedActions"] = ::serde_json::json!(actions);
+    profile["taskAuthorization"]["closeoutActions"] = ::serde_json::json!(closeout);
+    profile["taskAuthorization"]["publicTarget"] = ::serde_json::json!({
+        "provider":"github", "repository":"example/fixture", "baseBranch":"main"
+    });
+    amend_work_item_contract_with_runtime(root, WI, &::serde_json::json!({
+        "schemaVersion":1,"changeId":"explicit-delivery-actions","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+        "reason":"synthetic isolated owner specifies actual delivery actions and one target",
+        "changes":[{"path":"/governanceProfile","operation":"replace","value":profile}]
+    }), "synthetic isolated owner specifies actual delivery actions and one target", &runtime()).unwrap();
+    preflight_work_item_with_runtime_report(root, &path, &runtime()).unwrap();
+    record_owner(root);
+}
+
+#[test]
+fn resource_writers_reject_expired_or_unbound_callers_before_reading_external_input() {
+    for deadline in ["2000-01-01T00:00:00Z", "2099-01-01T00:00:00Z"] {
+        let directory = fixture(deadline, true);
+        let root = directory.path();
+        let missing = root.join("must-not-read.json");
+        for result in [
+            cockpit_repository::record_resource_finalization_with_caller(
+                root,
+                WI,
+                &missing,
+                &runtime(),
+                Some(&caller()),
+            ),
+            cockpit_repository::record_historical_finalization_recovery_with_caller(
+                root,
+                WI,
+                &missing,
+                &runtime(),
+                Some(&caller()),
+            ),
+            cockpit_repository::verify_resource_finalization_with_caller(
+                root,
+                WI,
+                &runtime(),
+                Some(&caller()),
+            ),
+        ] {
+            let error = result.unwrap_err().to_string();
+            assert!(
+                error.contains("task_authorization_"),
+                "must reject the grant before missing external input: {error}"
+            );
+        }
+        assert!(
+            !root
+                .join(format!(".ai/decisions/{WI}.finalize.json"))
+                .exists()
+        );
+    }
+}
+
+fn archive_reviewed_task(root: &Path) {
+    allow_task_actions(
+        root,
+        &[
+            "checkpoint",
+            "run_preflight",
+            "run_verification",
+            "finish",
+            "archive_when_reviewed",
+            "record_governance_controls",
+            "finalize_resources",
+            "record_finalization",
+            "finalize_verify",
+            "publish_native_closeout",
+            "cleanup_auxiliary_resources",
+        ],
+        &["publish_native_closeout", "cleanup_auxiliary_resources"],
+    );
+    cockpit_repository::checkpoint_work_item_with_caller(root, WI, &runtime(), Some(&caller()))
+        .unwrap();
+    let execution = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &command_request("git", &["diff", "--check"]),
+        &runtime(),
+        Some(&caller()),
+        |_node, _pid, _started| Ok(()),
+    )
+    .unwrap();
+    assert!(execution.receipt.passed);
+    cockpit_repository::record_verification_with_caller(
+        root,
+        WI,
+        &serde_json::to_value(execution.receipt).unwrap(),
+        &runtime(),
+        &execution.final_snapshot,
+        Some(&caller()),
+    )
+    .unwrap();
+    cockpit_repository::finish_work_item_with_caller(root, WI, &runtime(), Some(&caller()))
+        .unwrap();
+    cockpit_repository::archive_work_item_with_caller(root, WI, &runtime(), Some(&caller()))
+        .unwrap();
+}
+
+#[test]
+fn an_archived_task_binds_only_its_owner_public_target_without_rewriting_the_archive() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    archive_reviewed_task(root);
+    assert_eq!(status(root)["taskAuthorization"]["state"], "delivery_only");
+    let path = root.join(format!(".ai/work-items/archive/{WI}.contract.json"));
+    let before = fs::read(&path).unwrap();
+    let mut context = resource_context(root);
+    context.pull_request = "https://github.com/foreign/repo/pull/1".into();
+    let result = cockpit_repository::plan_resource_finalization_with_caller(
+        root,
+        WI,
+        &context,
+        &runtime(),
+        Some(&caller()),
+    );
+    assert!(result.unwrap_err().to_string().contains("outside_scope"));
+    assert!(
+        !root
+            .join(format!(".ai/decisions/{WI}.resource-context.json"))
+            .exists()
+    );
+    context = resource_context(root);
+    let first = cockpit_repository::plan_resource_finalization_with_caller(
+        root,
+        WI,
+        &context,
+        &runtime(),
+        Some(&caller()),
+    )
+    .unwrap();
+    let replay = cockpit_repository::plan_resource_finalization_with_caller(
+        root,
+        WI,
+        &context,
+        &runtime(),
+        Some(&caller()),
+    )
+    .unwrap();
+    assert_eq!(first["resourceContext"], replay["resourceContext"]);
+    assert_eq!(fs::read(path).unwrap(), before);
+    assert_eq!(status(root)["taskAuthorization"]["state"], "delivery_only");
+}
+
+#[test]
+fn an_archived_task_can_withdraw_once_and_cannot_continue_using_a_cached_caller() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    archive_reviewed_task(root);
+    let request = termination(root, "withdrawn");
+    let first =
+        record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime()).unwrap();
+    let replay =
+        record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime()).unwrap();
+    assert_eq!(first, replay);
+    assert_eq!(status(root)["taskAuthorization"]["state"], "withdrawn");
+    assert!(
+        cockpit_repository::plan_resource_finalization_with_caller(
+            root,
+            WI,
+            &resource_context(root),
+            &runtime(),
+            Some(&caller())
+        )
+        .is_err()
+    );
+}

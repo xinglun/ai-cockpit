@@ -15,10 +15,9 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_historical_work_item_with_runtime, attach, close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, generate_knowledge,
-    plan_resource_finalization_with_runtime, preflight_work_item_with_runtime_report,
-    prepare_archive_outcome_delivery, record_resource_finalization,
+    preflight_work_item_with_runtime_report, prepare_archive_outcome_delivery,
     resolve_archived_verification_route, resolve_verification_route,
-    retire_active_work_item_with_runtime, scaffold_work_item, verify_resource_finalization,
+    retire_active_work_item_with_runtime, scaffold_work_item,
 };
 use cockpit_verification::gate_plan::{
     GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
@@ -1646,6 +1645,7 @@ fn run_composition_command(
     coordination_output(&store, serde_json::to_value(attempt)?)
 }
 
+#[cfg(test)]
 fn record_ordinary_cleanup_command(
     repo: &Path,
     work_item_id: &str,
@@ -3406,37 +3406,63 @@ fn run() -> Result<()> {
                 let context: cockpit_protocol::ResourceFinalizationContext =
                     serde_json::from_slice(&bytes)
                         .context("parse resource finalization context")?;
-                let plan =
-                    plan_resource_finalization_with_runtime(&repo, &id, &context, &runtime_context)
-                        .context("plan resource finalization")?;
+                let plan = cockpit_repository::plan_resource_finalization_with_caller(
+                    &repo,
+                    &id,
+                    &context,
+                    &runtime_context,
+                    task_caller.as_ref(),
+                )
+                .context("plan resource finalization")?;
                 println!("{}", serde_json::to_string_pretty(&plan)?);
             }
             WorkItemCommand::Finalize { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
-                let receipt = record_resource_finalization(&repo, &id, &input, &runtime_context)
-                    .context("record resource finalization")?;
-                println!("{}", serde_json::to_string_pretty(&receipt)?);
-            }
-            WorkItemCommand::FinalizeVerify { repo, id } => {
-                require_compatible(&repo, &runtime_context)?;
-                let result = verify_resource_finalization(&repo, &id, &runtime_context)
-                    .context("verify resource finalization")?;
-                println!("{}", serde_json::to_string_pretty(&result)?);
-            }
-            WorkItemCommand::OrdinaryCleanup { repo, id } => {
-                require_compatible(&repo, &runtime_context)?;
-                let result = record_ordinary_cleanup_command(&repo, &id, &runtime_context)?;
-                println!("{}", serde_json::to_string_pretty(&result)?);
-            }
-            WorkItemCommand::FinalizeRecovery { repo, id, input } => {
-                require_compatible(&repo, &runtime_context)?;
-                let result = cockpit_repository::record_historical_finalization_recovery(
+                let receipt = cockpit_repository::record_resource_finalization_with_caller(
                     &repo,
                     &id,
                     &input,
                     &runtime_context,
+                    task_caller.as_ref(),
                 )
-                .context("record historical finalization recovery")?;
+                .context("record resource finalization")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
+            }
+            WorkItemCommand::FinalizeVerify { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let result = cockpit_repository::verify_resource_finalization_with_caller(
+                    &repo,
+                    &id,
+                    &runtime_context,
+                    task_caller.as_ref(),
+                )
+                .context("verify resource finalization")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::OrdinaryCleanup { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let result = serde_json::to_value(
+                    cockpit_repository::record_ordinary_cleanup_with_caller(
+                        &repo,
+                        &id,
+                        &runtime_context,
+                        task_caller.as_ref(),
+                    )
+                    .context("record ordinary cleanup")?,
+                )?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::FinalizeRecovery { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let result =
+                    cockpit_repository::record_historical_finalization_recovery_with_caller(
+                        &repo,
+                        &id,
+                        &input,
+                        &runtime_context,
+                        task_caller.as_ref(),
+                    )
+                    .context("record historical finalization recovery")?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
             WorkItemCommand::FinalizeRecoveryPlan {
