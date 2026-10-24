@@ -79,7 +79,7 @@
       "workItemId": "WI-1107-delegated-development-review"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:4f1c771025c5b7aa38502431600bc073d744f74e19902ec68db6a0e17af32389",
+  "checkpointRepositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
   "createdAt": "2026-10-23T10:24:02Z",
   "decisionEvidence": {
     "contractDigest": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
@@ -96,21 +96,21 @@
   },
   "intentAlignment": {
     "evidence": [
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=strict_mode_and_absent_owner_review_never_allow_a_claimed_agent",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=each_protected_change_or_unapproved_command_has_zero_native_side_effects",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=protected_and_unknown_paths_fail_closed",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=stronger_current_policy_preserves_history_and_normal_fresh_human_recovery",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#runtimeDigest",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#repositorySnapshotDigest",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-8]",
-      "https://github.com/xinglun/ai-cockpit/actions/runs/40046504098/artifacts/12542597130#binding-manifest.json",
-      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-9]"
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=strict_mode_and_absent_owner_review_never_allow_a_claimed_agent",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=each_protected_change_or_unapproved_command_has_zero_native_side_effects",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=protected_and_unknown_paths_fail_closed",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=stronger_current_policy_preserves_history_and_normal_fresh_human_recovery",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#runtimeDigest",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#repositorySnapshotDigest",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-8]",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/40053793076/artifacts/12545177732#binding-manifest.json",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-9]"
     ],
-    "reason": "Delegated agent technical acceptance, not a new human confirmation: current input2fd8e38a and Contractb9f4b315 passed genuine fixed-b2 Run40046504098 with36 fresh actual nodes, preserving complete typed start and only three finite owner-baseline-bound development-review classes. The added CI repair forwards a finite request while unchanged Runtime authorization remains authoritative. Strict default, protected changes, explicit human and host boundaries remain. This resolves implementation/intent alignment and current quality only; public PR/main/resource/close obligations, product activation, full authorization lifetime/withdrawal/session continuity and measured deployed benefit are not claimed complete.",
+    "reason": "Agent technical acceptance of the current input46be639e/Contractb9f4b315/snapshotf87f6b9f under genuine fixed-b236-node verification. Complete typed start and three finite explicitly owner-baseline-bound development amendments remain the implementation intent, with strict defaults and human/host boundaries preserved. Three registered conditional documentation rows repair an existing repository requirement without granting permission or weakening validation. This does not complete whole-task authorization lifetime/withdrawal/session continuity, external B, production activation, measured benefit or pending PR/main/resource/close delivery.",
     "state": "resolved"
   },
   "lifecycleFacts": {
@@ -130,22 +130,22 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-24T02:14:43Z",
+  "preflightAt": "2026-10-24T02:57:45Z",
   "preflightContractDigest": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
-  "preflightDecisionDigest": "sha256:1eb8f60c89416723ef64e2b5d7a002a271c8031f07a1339bfad72dd126a96e7d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=complete_initial_scenarios_are_saved_before_preflight",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_verified_or_malformed_scenarios_do_not_create_lifecycle_records",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_unverified_scenario_with_evidence_is_rejected_before_record_creation"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=complete_initial_scenarios_are_saved_before_preflight",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_verified_or_malformed_scenarios_do_not_create_lifecycle_records",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_unverified_scenario_with_evidence_is_rejected_before_record_creation"
       ],
       "expected": "Use the existing ScenarioCoverageEntry type/validator in start options, CLI and MCP; save the complete initial unverified scenario plan before first preflight. Reject verified/evidence-bearing or malformed initial plans before creating/activating records. No second scenario protocol.",
-      "reason": "New f82 formal run actually executed all 58 CLI adapter tests including the evidence-only negative and empty-evidence positive control for both CLI/MCP; initial typed scenarios and malformed/verified rejection are also executed. This is observed test coverage, not a new owner decision. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "New f82 formal run actually executed all 58 CLI adapter tests including the evidence-only negative and empty-evidence positive control for both CLI/MCP; initial typed scenarios and malformed/verified rejection are also executed. This is observed test coverage, not a new owner decision. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S01-complete-typed-start",
       "status": "verified",
@@ -153,11 +153,11 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=strict_mode_and_absent_owner_review_never_allow_a_claimed_agent",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=strict_mode_and_absent_owner_review_never_allow_a_claimed_agent",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision"
       ],
       "expected": "Absent development-review configuration remains strict. Delegation never activates merely from authority=authorized, an actor label, an arbitrary file or a technical request. Explicit opt-in configuration requires a prior formal native owner review for the exact baseline Contract containing the opt-in.",
-      "reason": "Existing strict/no-owner negatives and formally reviewed finite opt-in positive ran successfully. Synthetic fixture owner provenance is explicitly local and is not external identity authentication. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Existing strict/no-owner negatives and formally reviewed finite opt-in positive ran successfully. Synthetic fixture owner provenance is explicitly local and is not external identity authentication. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S02-strict-default-and-explicit-opt-in",
       "status": "verified",
@@ -165,11 +165,11 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=wrong_reviewer_source_operation_and_assurance_cannot_borrow_the_baseline",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=material_review_profile_rejects_mismatched_values_and_incomplete_authority"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=wrong_reviewer_source_operation_and_assurance_cannot_borrow_the_baseline",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=material_review_profile_rejects_mismatched_values_and_incomplete_authority"
       ],
       "expected": "Technical reviewer is explicitly an agent, matches the approved reviewer and source, and uses existing AuthorityEvidence provenance semantics. Arbitrary claimed human/provider assurance, unsupported operations, missing source or reviewer mismatch reject.",
-      "reason": "Actual agent/source/operation/assurance negatives plus shared strict AuthorityEvidence validation cover the declared identity/source predicates. No provider or human assurance is promoted from self-declaration. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Actual agent/source/operation/assurance negatives plus shared strict AuthorityEvidence validation cover the declared identity/source predicates. No provider or human assurance is promoted from self-declaration. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S03-agent-and-authority-source",
       "status": "verified",
@@ -177,12 +177,12 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=empty_existing_plan_can_be_filled_but_a_nonempty_plan_cannot_be_rewritten",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=filling_a_plan_cannot_reuse_a_scenario_that_already_claims_verified_evidence"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=empty_existing_plan_can_be_filled_but_a_nonempty_plan_cannot_be_rewritten",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=filling_a_plan_cannot_reuse_a_scenario_that_already_claims_verified_evidence"
       ],
       "expected": "Delegation allows only appending required unverified scenarios with empty evidence, filling an empty verificationPlan with an exact already declared/preapproved command, and appending an exact command from the reviewed finite preapproved-command set. Original declarations and original order remain intact.",
-      "reason": "All three finite permitted classes and nonempty/previously-verified plan refusal ran. Exact declarations and order are retained; no natural-language command equivalence is claimed. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "All three finite permitted classes and nonempty/previously-verified plan refusal ran. Exact declarations and order are retained; no natural-language command equivalence is claimed. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S04-finite-safe-change-allowlist",
       "status": "verified",
@@ -190,13 +190,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=each_protected_change_or_unapproved_command_has_zero_native_side_effects",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=protected_and_unknown_paths_fail_closed",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=stronger_current_policy_preserves_history_and_normal_fresh_human_recovery"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=each_protected_change_or_unapproved_command_has_zero_native_side_effects",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=protected_and_unknown_paths_fail_closed",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=stronger_current_policy_preserves_history_and_normal_fresh_human_recovery"
       ],
       "expected": "Scope changes, authority/risk/policy/reviewer/source changes, resource or operation expansion, acceptance changes, command replacement/removal, required-scenario downgrade/removal, arbitrary verification commands and protected status/evidence changes remain rejected or require the normal fresh human boundary.",
-      "reason": "Actual protected-change, exact-command, protected-path and stronger human-policy negatives exercise the shared deny boundary. Technical acceptance uses equivalent shared predicates, not an invented full Cartesian attack matrix. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Actual protected-change, exact-command, protected-path and stronger human-policy negatives exercise the shared deny boundary. Technical acceptance uses equivalent shared predicates, not an invented full Cartesian attack matrix. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S05-real-scope-and-standard-boundaries",
       "status": "verified",
@@ -204,15 +204,15 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=renamed_deleted_or_tampered_owner_receipt_invalidates_native_delegation",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=changed_source_requires_fresh_preflight_and_stale_cas_remains_rejected",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_rebuilt_runtime_cannot_reuse_agent_review_as_current_admission",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=missing_prepared_record_never_becomes_a_valid_technical_review",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=amendment_history_rejects_a_resealed_receipt_detached_from_its_request",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::request_binding_rejects_a_rehashed_discontinuous_contract_chain"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=renamed_deleted_or_tampered_owner_receipt_invalidates_native_delegation",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=changed_source_requires_fresh_preflight_and_stale_cas_remains_rejected",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_rebuilt_runtime_cannot_reuse_agent_review_as_current_admission",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=missing_prepared_record_never_becomes_a_valid_technical_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=amendment_history_rejects_a_resealed_receipt_detached_from_its_request",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::request_binding_rejects_a_rehashed_discontinuous_contract_chain"
       ],
       "expected": "Derive delegated review only from Runtime-validated canonical owner-review state and a fully valid amendment lineage, never a caller-selected arbitrary approval file. Bind repository/WI, approved baseline, before/after Contract, policy digest, request/change set, current snapshot, Runtime and exact agent/source. Preserve the existing local provenance assurance boundary.",
-      "reason": "Native receipt integrity, stale source/CAS, Runtime change, prepared/committed continuity, exact request and rehashed discontinuity predicates ran. Together with exact native path/value binding these cover the original bounded local-provenance claim, not an attacker rewriting all writable records or protected B identity. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Native receipt integrity, stale source/CAS, Runtime change, prepared/committed continuity, exact request and rehashed discontinuity predicates ran. Together with exact native path/value binding these cover the original bounded local-provenance claim, not an attacker rewriting all writable records or protected B identity. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S06-exact-native-bindings",
       "status": "verified",
@@ -220,12 +220,12 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=delegated_amendment_rechecks_owner_after_waiting_for_work_item_lock",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::delegated_pending_recovery_rechecks_current_policy_before_more_writes",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::unrelated_request_does_not_finish_a_pending_amendment"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=delegated_amendment_rechecks_owner_after_waiting_for_work_item_lock",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::delegated_pending_recovery_rechecks_current_policy_before_more_writes",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::unrelated_request_does_not_finish_a_pending_amendment"
       ],
       "expected": "Recheck source/bindings under the existing lifecycle lock before publishing review/amendment effects. Preserve expected-digest/CAS, full current/prospective journal validation, byte immutability, interruption evidence and no completion of unrelated pending operations.",
-      "reason": "Actual same-WI lock/source replacement, stale CAS, three durable interruption phases and unrelated-pending-request refusal executed. Contract/journal byte preservation is asserted; no permission or fencing platform claim. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Actual same-WI lock/source replacement, stale CAS, three durable interruption phases and unrelated-pending-request refusal executed. Contract/journal byte preservation is asserted; no permission or fencing platform claim. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S07-locked-atomic-history",
       "status": "verified",
@@ -233,13 +233,13 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=absent_agent_review_keeps_legacy_request_wire_bytes",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=explicit_human_policy_cannot_be_discharged_by_agent_review",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=absent_agent_review_keeps_legacy_request_wire_bytes",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=explicit_human_policy_cannot_be_discharged_by_agent_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review"
       ],
       "expected": "Record delegated decisions as agent technical review with their real provenance. Never write or rewrite decisionEvidence/human review as if a person reviewed the new Contract. Old absent-policy Contracts and old receipt serialization/digests remain unchanged.",
-      "reason": "Actual legacy wire/digest and owner-receipt byte preservation plus strict human-policy refusal executed. Technical review remains agent review and does not replace human-only close/provider decisions. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Actual legacy wire/digest and owner-receipt byte preservation plus strict human-policy refusal executed. Technical review remains agent review and does not replace human-only close/provider decisions. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S08-agent-is-not-human-and-legacy-bytes",
       "status": "verified",
@@ -247,15 +247,15 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=complete_initial_scenarios_are_saved_before_preflight",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_unverified_scenario_with_evidence_is_rejected_before_record_creation",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=typed_cli_and_mcp_share_receipt_and_read_history_without_writes",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-3]::stdout/test=mcp_tool_list_exposes_typed_argument_schemas",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-3]::stdout/test=mcp_initialize_and_tool_list_are_read_only_and_deterministic"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=complete_initial_scenarios_are_saved_before_preflight",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_unverified_scenario_with_evidence_is_rejected_before_record_creation",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=typed_cli_and_mcp_share_receipt_and_read_history_without_writes",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-3]::stdout/test=mcp_tool_list_exposes_typed_argument_schemas",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-3]::stdout/test=mcp_initialize_and_tool_list_are_read_only_and_deterministic"
       ],
       "expected": "CLI and MCP use the same typed initial scenario/delegation declarations and core amendment decision. Reuse existing start/amend/control transports; do not introduce extra MCP tools or alter tool-count/name assertions.",
-      "reason": "Actual CLI/MCP start and refusal round trips, shared typed-amendment receipt parity, delegated MCP amendment with CLI preflight/verify, and schema/tool-set assertions executed. Shared core equivalence is accepted without claiming an unrun additional golden pair. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Actual CLI/MCP start and refusal round trips, shared typed-amendment receipt parity, delegated MCP amendment with CLI preflight/verify, and schema/tool-set assertions executed. Shared core equivalence is accepted without claiming an unrun additional golden pair. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S09-cli-mcp-parity",
       "status": "verified",
@@ -263,11 +263,11 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command"
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command"
       ],
       "expected": "In a real isolated repository, after one explicit baseline owner review, ordinary in-scope development, a permitted required-scenario/command addition and a legitimate verification retry do not request an extra product human review. Nonzero tests actually execute; failures remain.",
-      "reason": "Actual isolated bounded flow ran after one explicitly synthetic native baseline review: 2 executed checks, a genuine failure, a scoped correction and 3-check fresh retry with zero reuse; original failure and owner bytes remain. No production reduction or external authentication is measured. Current-source evidence is the genuine fixed-b2 Run40046504098 attempt864134c1 for input2fd8e38a, Contractb9f4b315 and snapshot4f1c7710, not a local re-execution or a new human decision.",
+      "reason": "Actual isolated bounded flow ran after one explicitly synthetic native baseline review: 2 executed checks, a genuine failure, a scoped correction and 3-check fresh retry with zero reuse; original failure and owner bytes remain. No production reduction or external authentication is measured. Current snapshot proof is genuine fixed-b2 Run40053793076/attempt9458f795 for input46be639e, Contractb9f4b315 and snapshotf87f6b9f;36 nodes actually executed,0reuse/timeout,all900s. This is agent technical acceptance, not a human confirmation or a local re-execution.",
       "required": true,
       "scenario": "S10-real-bounded-development-flow",
       "status": "verified",
@@ -275,14 +275,14 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#runtimeDigest",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#repositorySnapshotDigest",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-8]",
-        "https://github.com/xinglun/ai-cockpit/actions/runs/40046504098/artifacts/12542597130#binding-manifest.json",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#runtimeDigest",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#repositorySnapshotDigest",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-8]",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40053793076/artifacts/12545177732#binding-manifest.json",
         ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000004.committed.json"
       ],
       "expected": "Change only the declared 9 production, 4 test and 12 trilingual documentation paths plus own native records. Preserve WI1087 design/planning records and every prior WI evidence. The governing WI uses fixed b2 legacy strict mode and never the feature under development.",
-      "reason": "The original production/test/documentation inventory plus the two explicitly human-approved sequence4 CI paths is within the current27 declared paths;26 source paths actually change. Exact input2fd8e38a/source5149150d hashes match the approved manifest. All19 immutable native inputs and all old attempts/confirmations are byte-preserved, with all24 originals backed up before the fixed-b2 regeneration. Only current-WI five projections and one new attempt came from the actual remote Runtime. No other-WI record, production opt-in, shared Runtime, external B or host policy was changed. The baseline numeric inventory wording is not used to exclude the two formally appended CI paths.",
+      "reason": "Current Contract scope remains27 declared paths with26 source paths actually changed. The only source correction since input2fd/d9 is one conditionally pending lifecycle row in each of the three already-declared reference-parity documents; all production and test bytes are preserved. No current archive/finalize/close existence or success is asserted by those future targets. Fixed official b2 governs;20 immutable native inputs remained unchanged during the real run and all25 originals were backed up. No other-WI evidence, production configuration, shared Runtime, B or host permission changed.",
       "required": true,
       "scenario": "S11-scope-and-activation-isolation",
       "status": "verified",
@@ -291,16 +291,17 @@
     {
       "evidence": [
         ".ai/evidence/WI-1107-delegated-development-review.verification.json",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords",
-        "https://github.com/xinglun/ai-cockpit/actions/runs/40046504098",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40053793076",
         "/workspace/wi1107-delegated-development-review-run/final-independent-review-6c441387.json",
         "/workspace/wi1107-actions-verification-run/s01-coverage-supplement/independent-delta-review.json",
-        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.864134c1f052a565b9bb4ea9dd6b969c82fdf702efc0c633847ae45972704b27.json#receipt.executionRecords[nodeId=project-command-9]",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.9458f7953a2103a7311823c178082b0a4aa7981b29824020624b2f65cb1b8fe4.json#receipt.executionRecords[nodeId=project-command-9]",
         "/workspace/wi1107-product-delivery-20261023/hosted-timeout-scope-amendment/source-commit-and-independent-review.json",
-        "/workspace/wi1107-product-delivery-20261023/hosted-timeout-scope-amendment/fixed-b2-run40046504098/wi1107-fixed-b2-40046504098-1/independent-native-evidence-review.json"
+        "/workspace/wi1107-product-delivery-20261023/hosted-timeout-scope-amendment/parity-registration-repair/fixed-b2-run40053793076/wi1107-fixed-b2-40053793076-1/independent-native-evidence-review.json",
+        "/workspace/wi1107-product-delivery-20261023/hosted-timeout-scope-amendment/parity-registration-repair/after-governance-integrity-report.json"
       ],
       "expected": "Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records.",
-      "reason": "Agent technical acceptance under Raydot delegation, not human:Ray or external identity authentication. Genuine fixed official b2 Run40046504098 executed the original nine commands plus the approved driver regression as36 actual nodes across14 packages, zero reuse/timeout, all exit0 and all finite900s budgets. CLI58 includes the S01 negative/control; the driver regression verifies finite/default/unrelated/invalid requests and Runtime refusal. Source input2fd8e38a, current Contractb9f4b315 and snapshot4f1c7710 bind the new attempt864134c1. Independent original whole-branch review, f82 test delta and5149150d two-file repair review cover the source changes without unresolved production P0-P3; auxiliary metadata expandedNodeCount35 is stale and explicitly disclosed, while authoritative expectedRequests/plan/receipt enforce36. Original RED/failures and old24 input bytes remain preserved;19 immutable inputs are unchanged. Repository package stdout is truncated, and this formal run is Linux only. The current quality predicate is satisfied. Separate PR/CI/main/resource/true-close delivery obligations remain incomplete. No production activation, external identity B, full WI1087, Windows product CI, release or measured benefit is claimed.",
+      "reason": "Agent technical acceptance under delegated technical judgment; no human:Ray attribution. Genuine fixed-b2 Run40053793076 passed the original nine commands plus the approved driver regression as36 actual nodes across14 packages,all900s/exit0,0reuse/timeout. New input46be639e and snapshotf87f6b9f bind current Contractb9f4b315 and attempt9458f795. CLI58 includes the S01 evidence-only negative/control; driver positive/default/unrelated/invalid/refusal cases ran. The prior exact-head CI40049607433 hosted36 and Windows passed, but its three prearchive row findings are retained; the in-scope three-line fix made the original governance gate pass928 work items with no finding. No gate, assertion, Contract or command was weakened. Original source/delta/driver reviews and the incremental doc/phase review cover the source changes. Old auxiliary count35 is preserved in the old run; the new input manifest correctly declares36.20 immutable input bytes and all original25 backups are preserved. Repository-package stdout remains truncated; formal execution is Linux-only, and benefit is unmeasured. New product PR CI/main/resource/true-close delivery remains incomplete; no production activation or external identity assurance is claimed.",
       "required": true,
       "scenario": "S12-quality-and-conditional-delivery",
       "status": "verified",
@@ -308,7 +309,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-10-24T01:22:20.551366860Z",
+  "updatedAt": "2026-10-24T03:00:54.344585310+00:00",
   "verification": [
     {
       "check": "project-command-0",
