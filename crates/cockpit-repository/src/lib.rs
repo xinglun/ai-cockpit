@@ -16220,7 +16220,7 @@ mod post_prepare_identity_tests {
                     &runtime,
                 )
                 .unwrap();
-                let path = root.join(".ai/verification-context.json");
+                let path = root.join(".ai/project.json");
                 let mut bytes = fs::read(&path).unwrap();
                 bytes.push(b'\n');
                 fs::write(path, bytes).unwrap();
