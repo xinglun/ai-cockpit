@@ -15,9 +15,9 @@
     "Complete workflow scope is declared at entry: native controls/preflight/checkpoint, production-path RED→GREEN, declared validation, material/diff review, independent whole-branch review, ordinary commits, later explicitly authorized branch push/draft/PR binding/exactHEAD CI/normalmerge/main verification/recoverable exact resources/native finalization/true close/closeout publication. No external action or human decision is inferred from this technical implementation authorization.",
     "Delivery includes the normal source/native branch/PR/CI/main/resource lifecycle only under separately applicable exact public/merge/close authorization."
   ],
-  "createdAt": "2026-10-23T22:48:15.102757460Z",
+  "createdAt": "2026-10-24T01:22:20.551366860Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:7a36fd0fda92dbd1fa4ca6477519f6ca330be5039635bcd191ba19a0ce496256",
+  "evidenceDigest": "sha256:a4ec649a7b7f25245abc7b50d1d375aea4db994d9bf6d50640eb3d527159a6b4",
   "evidenceRefs": [
     ".ai/evidence/WI-1107-delegated-development-review.verification.json"
   ],
@@ -43,7 +43,7 @@
         ".ai/evidence/WI-1107-delegated-development-review.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+      "repositorySnapshotDigest": "sha256:4f1c771025c5b7aa38502431600bc073d744f74e19902ec68db6a0e17af32389",
       "workItemId": "WI-1107-delegated-development-review"
     },
     "format": "ai-cockpit.task-outcome",
@@ -51,113 +51,7 @@
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
-      "deliveredChanges": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1107-delegated-development-review.preflight-review.4fad524905596f0d5f0d94e0a143382b167f9418007d4dbdf83e763e374763a0.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1107-delegated-development-review.preflight-review.8e62d271206aea94fc749e1749268703368657f9a0784388aa13d272c315cc17.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1107-delegated-development-review.preflight-review.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000001.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000001.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000002.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000002.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000003.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000003.prepared.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.verification-attempt.201a4ea0ed2c18c5acfbfd3166fcf3565d0f571dbcdc0930aeed2c71e20d7ce0.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.verification-attempt.4cb2b0e03722bac41320b284a90eefbda66271c106698f0738667927e49815ab.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.verification-attempt.a8b7d7003f5f4fc1e87942357b4d9615c1df0fa9ae65824b078b590677e9c526.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1107-delegated-development-review.verification.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1107-delegated-development-review.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1107-delegated-development-review.summary.json"
-        }
-      ],
+      "deliveredChanges": [],
       "evidence": [
         {
           "evidenceRefs": [
@@ -178,7 +72,15 @@
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
-      "nonRiskExplanations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1107-delegated-development-review.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
       "outcomeSummary": [
         {
           "evidenceRefs": [
@@ -230,7 +132,7 @@
     "status": "verified",
     "usage": {
       "coverage": "unknown",
-      "cutoff": "2026-10-23T22:48:15.102757460Z",
+      "cutoff": "2026-10-24T01:22:20.551366860Z",
       "receiptRefs": [],
       "schemaVersion": 1,
       "subtotals": [],
@@ -247,8 +149,8 @@
     },
     "workItemId": "WI-1107-delegated-development-review"
   },
-  "taskReportDigest": "sha256:4adc379f801c62cd6e69617558fc5815a8c65ac93cee17b3500c36e44c323f64",
-  "taskReportMarkdownDigest": "sha256:ec7b4a37aa66fc805734dc688d5b9723dbd5477f2418303b442556b0d3564011",
+  "taskReportDigest": "sha256:2b2a0a69c382b9cfd673b777bd069d49a34010e895878d52d896fc7ba0d64332",
+  "taskReportMarkdownDigest": "sha256:6a6a3d80c98231e21ae41c4200ed01e6b7416b31b44040f8cc6983c9a4f1eee2",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
