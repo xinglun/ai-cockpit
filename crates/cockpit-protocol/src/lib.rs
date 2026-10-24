@@ -1050,6 +1050,31 @@ pub struct TaskAuthorizationCaller {
     pub assurance: AssuranceLevel,
 }
 
+/// A read-only question about one exact operation. It is not a permission token.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskAuthorizationRequest {
+    pub schema_version: u32,
+    pub caller: TaskAuthorizationCaller,
+    pub action: String,
+    #[serde(default)]
+    pub paths: Vec<String>,
+    pub public_target: Option<TaskAuthorizationTarget>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskAuthorizationAssessment {
+    pub authority: Option<TaskAuthorizationProjection>,
+    pub requested_action: String,
+    pub authorized: bool,
+    /// None means that this Runtime does not execute the requested host/provider action.
+    pub action_admitted: Option<bool>,
+    pub evidence_freshness: WorkItemEvidenceFreshness,
+    pub next_action: String,
+    pub reason: String,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum TaskAuthorizationTerminationDecision {

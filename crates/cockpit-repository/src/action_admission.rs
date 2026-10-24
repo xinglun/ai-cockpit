@@ -10,13 +10,24 @@ pub fn require_current_action_admission(
     requested_action: &str,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemActionExplanation, ObserverError> {
+    require_current_action_admission_with_caller(root, work_item_id, requested_action, runtime, None)
+}
+
+/// Explicit request-scoped identity; callers cannot supply an earlier admission result.
+pub fn require_current_action_admission_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    requested_action: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<WorkItemActionExplanation, ObserverError> {
     let explanation = require_base_action_admission(root, work_item_id, requested_action, runtime)?;
     super::task_authorization::require_task_caller(
         root,
         work_item_id,
         requested_action,
         runtime,
-        None,
+        caller,
     )?;
     Ok(explanation)
 }

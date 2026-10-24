@@ -442,3 +442,73 @@ fn refreshing_a_review_for_the_same_contract_cannot_revive_a_terminated_grant() 
         before["taskAuthorization"]["grantId"]
     );
 }
+
+fn caller() -> cockpit_protocol::TaskAuthorizationCaller {
+    cockpit_protocol::TaskAuthorizationCaller {
+        schema_version: 1,
+        actor: "agent:task-worker".into(),
+        authority_source: "conversation:fixture-owner".into(),
+        assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+    }
+}
+
+fn intent(action: &str, paths: &[&str]) -> cockpit_protocol::TaskAuthorizationRequest {
+    cockpit_protocol::TaskAuthorizationRequest {
+        schema_version: 1,
+        caller: caller(),
+        action: action.into(),
+        paths: paths.iter().map(|p| p.to_string()).collect(),
+        public_target: None,
+    }
+}
+
+#[test]
+fn explicit_caller_continues_without_fabricating_fresh_verification() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let request = intent("run_verification", &[]);
+    let before = cockpit_repository::assess_task_authorization(directory.path(), WI, &request, &runtime()).unwrap();
+    assert!(before.authorized);
+    assert_eq!(before.next_action, "reverify");
+    assert_eq!(before.action_admitted, Some(true));
+    cockpit_repository::require_current_action_admission_with_caller(directory.path(), WI, "run_verification", &runtime(), Some(&caller())).unwrap();
+    fs::write(directory.path().join("README.md"), "new bounded implementation\n").unwrap();
+    git(directory.path(), &["add", "README.md"]);
+    git(directory.path(), &["commit", "-qm", "ordinary new source"]);
+    let after = cockpit_repository::assess_task_authorization(directory.path(), WI, &request, &runtime()).unwrap();
+    assert!(after.authorized);
+    assert_eq!(after.authority.unwrap().grant_id, before.authority.unwrap().grant_id);
+    assert_ne!(after.evidence_freshness.state, "fresh");
+    assert_ne!(after.next_action, "owner_review_required");
+}
+
+#[test]
+fn an_authorization_question_cannot_expand_files_or_public_destination() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    for path in ["unapproved.rs", "../README.md", "/README.md", "README.md/../foreign"] {
+        let request = intent("run_verification", &[path]);
+        let result = cockpit_repository::assess_task_authorization(directory.path(), WI, &request, &runtime()).unwrap();
+        assert!(!result.authorized, "foreign path accepted: {path}");
+        assert_eq!(result.next_action, "stop");
+    }
+    let mut request = intent("run_verification", &["README.md"]);
+    request.public_target = Some(cockpit_protocol::TaskAuthorizationTarget {
+        provider: "github".into(), repository: "foreign/repository".into(), base_branch: "main".into(),
+    });
+    assert!(!cockpit_repository::assess_task_authorization(directory.path(), WI, &request, &runtime()).unwrap().authorized);
+}
+
+#[test]
+fn caller_context_is_explicit_and_rechecked_after_termination() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let mut foreign = caller();
+    foreign.actor = "human:owner".into();
+    assert!(cockpit_repository::require_current_action_admission_with_caller(root, WI, "run_verification", &runtime(), Some(&foreign)).is_err());
+    let request = intent("run_verification", &[]);
+    assert!(cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap().authorized);
+    record_work_item_governance_controls_with_runtime(root, WI, &termination(root, "withdrawn"), &runtime()).unwrap();
+    let current = cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap();
+    assert!(!current.authorized);
+    assert_eq!(current.next_action, "stop");
+    assert!(cockpit_repository::require_current_action_admission_with_caller(root, WI, "run_verification", &runtime(), Some(&caller())).is_err());
+}

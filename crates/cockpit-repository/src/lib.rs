@@ -83,7 +83,8 @@ use rust_material::{
     diagnose_rust_material,
 };
 
-pub use action_admission::require_current_action_admission;
+pub use action_admission::{require_current_action_admission, require_current_action_admission_with_caller};
+pub use task_authorization::assess_task_authorization;
 pub use audit_query::{export_audit_events_filtered, query_audit_events};
 pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,

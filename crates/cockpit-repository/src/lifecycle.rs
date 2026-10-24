@@ -1925,7 +1925,7 @@ pub fn preflight_work_item_report(
     root: &Path,
     contract_path: &Path,
 ) -> Result<PreflightResult, ObserverError> {
-    preflight_work_item_internal(root, contract_path, None)
+    preflight_work_item_internal(root, contract_path, None, None)
 }
 
 /// Evaluate and persist preflight while binding evidence checks to the
@@ -1945,13 +1945,24 @@ pub fn preflight_work_item_with_runtime_report(
     contract_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<PreflightResult, ObserverError> {
-    preflight_work_item_internal(root, contract_path, Some(runtime))
+    preflight_work_item_internal(root, contract_path, Some(runtime), None)
+}
+
+/// Request-scoped delegated caller, checked again under the lifecycle lock.
+pub fn preflight_work_item_with_task_authorization(
+    root: &Path,
+    contract_path: &Path,
+    runtime: &RuntimeContext,
+    caller: &cockpit_protocol::TaskAuthorizationCaller,
+) -> Result<PreflightResult, ObserverError> {
+    preflight_work_item_internal(root, contract_path, Some(runtime), Some(caller))
 }
 
 fn preflight_work_item_internal(
     root: &Path,
     contract_path: &Path,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<PreflightResult, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1972,7 +1983,10 @@ fn preflight_work_item_internal(
     } else {
         None
     };
-    preflight_work_item_internal_unlocked(&root, &contract_path, &work_item_id, current_runtime)
+    if current_runtime.is_none() {
+        super::task_authorization::reject_legacy_task_write(&root, &work_item_id)?;
+    }
+    preflight_work_item_internal_unlocked(&root, &contract_path, &work_item_id, current_runtime, caller)
 }
 
 fn preflight_work_item_internal_unlocked(
@@ -1980,6 +1994,7 @@ fn preflight_work_item_internal_unlocked(
     contract_path: &Path,
     expected_work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<PreflightResult, ObserverError> {
     let contract = read_contract(contract_path)?;
     if contract.work_item_id != expected_work_item_id {
@@ -2050,11 +2065,12 @@ fn preflight_work_item_internal_unlocked(
         }
         let mut summary: serde_json::Value = read_json(&summary_path)?;
         if let Some(runtime) = current_runtime {
-            require_current_action_admission(
+            super::require_current_action_admission_with_caller(
                 root,
                 &contract.work_item_id,
                 "run_preflight",
                 runtime,
+                caller,
             )?;
         }
         require_current_retry_recovery_binding(

@@ -429,6 +429,47 @@ pub(crate) fn task_authorization_projection(
     ))
 }
 
+/// Explain current authority separately from verification and host admission.
+/// Every write must still repeat its own checks; this result is never accepted as input.
+pub fn assess_task_authorization(
+    root: &Path,
+    wi: &str,
+    request: &cockpit_protocol::TaskAuthorizationRequest,
+    runtime: &RuntimeContext,
+) -> Result<cockpit_protocol::TaskAuthorizationAssessment, ObserverError> {
+    super::validate_work_item_id(wi)?;
+    let status = super::work_item_status_snapshot_with_runtime(root, wi, runtime)?;
+    let checked = if request.schema_version != 1 {
+        Err(error(root, "task_authorization_request_schema_invalid"))
+    } else {
+        require_task_caller(root, wi, &request.action, runtime, Some(&request.caller))
+    };
+    let authorized = checked.is_ok() && status.task_authorization.is_some();
+    let runtime_action = [
+        "run_preflight", "run_verification", "record_governance_controls",
+        "record_material_review_decision", "finish", "archive_when_reviewed",
+        "finalize_resources", "record_finalization", "finalize_verify",
+    ].contains(&request.action.as_str());
+    let admitted = runtime_action.then(|| status.safe_actions.contains(&request.action));
+    let (next, reason) = match checked {
+        Err(e) => ("stop", e.to_string()),
+        Ok(()) if !authorized => ("owner_review_required", "No explicit owner-bound task authorization is configured.".into()),
+        Ok(()) if admitted == Some(false) => ("resolve_current_gate", "The task authority remains valid, but current Runtime admission rejects this operation. Follow its current safeActions; do not request the same task authorization again.".into()),
+        Ok(()) if request.action == "run_verification" && status.evidence_freshness.state != "fresh" => ("reverify", "Authority remains valid. Execute current verification because evidence is missing or stale; source changes alone do not require new owner approval.".into()),
+        Ok(()) if admitted.is_none() => ("check_host_boundary", "The task boundary permits this intent. Host/provider permission and the actual operation's fresh checks remain independent.".into()),
+        Ok(()) => ("continue", "The explicit task authority and current Runtime action admission both permit continuation.".into()),
+    };
+    Ok(cockpit_protocol::TaskAuthorizationAssessment {
+        authority: status.task_authorization,
+        requested_action: request.action.clone(),
+        authorized,
+        action_admitted: admitted,
+        evidence_freshness: status.evidence_freshness,
+        next_action: next.into(),
+        reason,
+    })
+}
+
 pub(crate) fn reject_legacy_task_write(root: &Path, wi: &str) -> Result<(), ObserverError> {
     let path = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
     if !root.join(&path).exists() {
