@@ -236,7 +236,9 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-1107-delegated-development-review.md",
     "docs/work-items/WI-1107-delegated-development-review.zh-CN.md",
-    "docs/work-items/WI-1107-delegated-development-review.ja.md"
+    "docs/work-items/WI-1107-delegated-development-review.ja.md",
+    "tests/ci/run_hosted_runtime_verification.sh",
+    "tests/ci/hosted_runtime_verification_test.sh"
   ],
   "sources": [
     "Trusted parent01a1576c-b0ab-7723-ad8e-95924e80102a technical review accepts complete initial plans plus explicit preauthorized delegated development review; source user permissive/usability-first goal retained. No human confirm_review for this WI has been recorded yet.",
@@ -258,7 +260,8 @@
     "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
     "cargo fmt --all -- --check",
     "bash tests/docs/documentation_acceptance.sh",
-    "git diff --check 717af7539ef38cde6f9c4fe2bb2b9006e8768d5c HEAD"
+    "git diff --check 717af7539ef38cde6f9c4fe2bb2b9006e8768d5c HEAD",
+    "bash tests/ci/hosted_runtime_verification_test.sh"
   ],
   "workItemId": "WI-1107-delegated-development-review"
 }
