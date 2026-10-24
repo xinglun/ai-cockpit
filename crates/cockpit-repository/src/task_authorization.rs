@@ -461,17 +461,25 @@ pub fn assess_task_authorization(
             .and_then(|()| check_request_intent(root, wi, request))
     };
     let authorized = checked.is_ok() && status.task_authorization.is_some();
+    // Only these operations use the shared safeActions gate. Checkpoint and
+    // resource transactions validate their input/phase in their own locked
+    // entrypoints; absence from generic status is not a rejection of them.
     let runtime_action = [
-        "checkpoint",
         "run_preflight",
         "run_verification",
         "record_governance_controls",
         "record_material_review_decision",
         "finish",
         "archive_when_reviewed",
+    ]
+    .contains(&request.action.as_str());
+    let native_operation = [
+        "checkpoint",
         "finalize_resources",
         "record_finalization",
         "finalize_verify",
+        "cleanup_resources",
+        "cleanup_auxiliary_resources",
     ]
     .contains(&request.action.as_str());
     let admitted = runtime_action.then(|| status.safe_actions.contains(&request.action));
@@ -480,6 +488,7 @@ pub fn assess_task_authorization(
         Ok(()) if !authorized => ("owner_review_required", "No explicit owner-bound task authorization is configured.".into()),
         Ok(()) if admitted == Some(false) => ("resolve_current_gate", "The task authority remains valid, but current Runtime admission rejects this operation. Follow its current safeActions; do not request the same task authorization again.".into()),
         Ok(()) if request.action == "run_verification" && status.evidence_freshness.state != "fresh" => ("reverify", "Authority remains valid. Execute current verification because evidence is missing or stale; source changes alone do not require new owner approval.".into()),
+        Ok(()) if native_operation => ("check_operation_boundary", "Task authority permits this intent. The supported caller-bearing native operation checks its exact input and lifecycle phase under its own lock; generic safeActions does not project that input-specific admission. No prior query authorizes the effect.".into()),
         Ok(()) if admitted.is_none() => ("check_host_boundary", "The task boundary permits this intent. Host/provider permission and the actual operation's fresh checks remain independent.".into()),
         Ok(()) => ("continue", "The explicit task authority and current Runtime action admission both permit continuation.".into()),
     };

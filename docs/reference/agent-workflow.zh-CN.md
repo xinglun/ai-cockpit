@@ -387,7 +387,7 @@ Schema-v3 资源收尾使用 `postMergeSync.lifecycleLayout`（`separate` 或 `c
 
 支持的操作传入真实类型化调用者（`schemaVersion`、`actor`、`authoritySource`、`assurance:"self_declared"`）：CLI `--task-caller <caller.json>`，MCP `taskCaller`。Runtime 在同一 WI 锁内重新检查，包括验证子进程实际启动和缓存漂移回退；无上下文调用不得继承配置中的 actor。Task 模式尚不支持的旧收尾登记明确拒绝。资源目标目前要求与预授权仓库及 base 一致的 GitHub PR URL；归档后绑定新资源，不改写原授权 Contract。
 
-恢复会话时使用单 WI 的 CLI `work-item status --json --authorization-request <request.json>` 或 MCP `work_item_status.authorizationRequest`。严格请求含 `schemaVersion:1`、`caller`、`action`、精确相对 `paths` 和可选 `publicTarget`，不能与查询全部 WI 混用。响应分别说明授权、证据新鲜度、当前操作准入及 `nextAction`：继续、重验、解决当前门禁、检查宿主边界或停止。查询不是可缓存的许可证。范围内普通提交保留授权，但可能使测试证据过期；扩范围、权限、目标或验收／命令变化仍走原有本人或受限机械审阅规则。
+恢复会话时使用单 WI 的 CLI `work-item status --json --authorization-request <request.json>` 或 MCP `work_item_status.authorizationRequest`。严格请求含 `schemaVersion:1`、`caller`、`action`、精确相对 `paths` 和可选 `publicTarget`，不能与查询全部 WI 混用。响应分别说明授权、证据新鲜度、当前操作准入及 `nextAction`：继续、重验、解决当前门禁、由专用入口核验输入与阶段（`check_operation_boundary`）、检查宿主边界或停止。查询不是可缓存的许可证。范围内普通提交保留授权，但可能使测试证据过期；扩范围、权限、目标或验收／命令变化仍走原有本人或受限机械审阅规则。
 
 交付完成、撤回或截止时间最早发生时结束授权。通过 controls 记录 `taskAuthorizationTermination`，含 `schemaVersion:1`、当前 `grantId`、`decision:"withdrawn"` 或 `"completed"`、明确 `caller`、`reason`。不可变绑定记录幂等，只缩小权限，不恢复授权、不制造业务成功。每个边界检查期限；剩余时间不足以容纳不可变的声明预算时，不启动子进程。已运行的操作在安全边界观察处理，不盲目回滚。
 
