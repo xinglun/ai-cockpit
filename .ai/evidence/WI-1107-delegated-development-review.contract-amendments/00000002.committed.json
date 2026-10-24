@@ -1,0 +1,42 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:f889e1297c6cab61230e536470e8fc29122f272c531872875af37ed108b1c3b1",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1107-delegated-development-review",
+    "sequence": 2,
+    "changeId": "correct-finite-verification-policy-reference",
+    "requestDigest": "sha256:6be598e7353c1e1ed19e440169430a14f1c388f20752d7d48912f070dd17e227",
+    "reason": "The first formal plan and verify both stopped before any project command: the initial verificationRequirement.policyRefs used an explanatory WI label instead of its actual governing policyId. Correct this single reference to wi1107-bounded-existing-verification-ceiling. Keep the existing900second ceiling, single_authorized_human approval, T0/self_declared requirements, scope, acceptance, all12 unverified scenarios and all nine commands unchanged. This is not the delegated feature, production enablement, public publication, merge or close; fixed b2 remains sole governance. Preserve both failed invocations and request the exact fresh human review if Runtime requires it.",
+    "changedValues": [
+      {
+        "path": "/governancePolicy/rules/0/verificationRequirement/policyRefs",
+        "operation": "replace",
+        "oldValue": [
+          "WI-1107-delegated-development-review:formal-verification-only"
+        ],
+        "newValue": [
+          "wi1107-bounded-existing-verification-ceiling"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+    "newContractDigest": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
+    "repositorySnapshotDigest": "sha256:a0245f71cdefae0faf1c65ffafe562285951177c6ec63c9ae76de032e70de07f",
+    "environmentObservationDigest": "sha256:8756e2204fd3904ecfab38696069edc237beb2562130619564e6f1b024d0d6f0",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governancePolicy/rules/0/verificationRequirement/policyRefs"
+    ],
+    "previousJournalDigest": "sha256:682f0f31f1b762653e226e3aa8e6007830a14c9c61d84d9e874bb51f4ecd744f",
+    "journalDigest": "sha256:d9e988696d3948e1e461500095b0faf0af3b877beb4eb5c8a78ca2159f5f8d20",
+    "recordedAt": "2026-10-23T11:18:39Z"
+  }
+}

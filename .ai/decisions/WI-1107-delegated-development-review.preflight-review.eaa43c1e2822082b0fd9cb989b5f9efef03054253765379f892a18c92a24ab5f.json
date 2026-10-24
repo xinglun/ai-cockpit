@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:22bc5c9da18bd41301d2c944ec42b94fe363aaaaf5f0593d82c72943d1e0f592",
+  "reason": "Actual user response: 确认 WI-1107 上述两文件范围、追加回归及新绑定，confirm_review。 Parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed the actual user Ray message Sentinel_b01a42708f348191b9253373567ebab9 at2026-10-24 00:22 UTC (minute precision), responding to exact request Sentinel_f225c39db6388191956ce3818d95ea1b. HEAD994ffad3017b1cf19dabfae2092c6463fc6f495d and sequence4 Contract/preflight/snapshot were rechecked unchanged. This is a new binding-specific user confirmation for two CI paths and one additional driver regression command; original nine commands, existing finite900s policy, assertions and acceptance remain. Recorded time is actual current recording time; prior approvals and successful evidence are not reused for this changed Contract. No release or production activation is authorized by this record.",
+  "recordedAt": "2026-10-24T00:23:42.889967+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_b01a42708f348191b9253373567ebab9; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+  "schemaVersion": 1,
+  "workItemId": "WI-1107-delegated-development-review"
+}

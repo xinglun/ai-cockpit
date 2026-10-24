@@ -956,6 +956,9 @@ pub struct WorkItemStartObligation {
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct WorkItemStartOptions {
+    pub development_review: Option<cockpit_protocol::DevelopmentReviewPolicy>,
+    /// Complete initial scenario plan; never evidence of test execution.
+    pub scenario_coverage: Vec<cockpit_protocol::ScenarioCoverageEntry>,
     pub out_of_scope: Vec<String>,
     pub risk: String,
     pub authority: String,
@@ -5337,7 +5340,7 @@ fn governance_decision_for_pre_execution_quality_gate(
         Some(pre_execution_evidence),
         None,
     )?;
-    apply_current_preflight_review_evidence(root, contract, decision, archived)
+    apply_current_preflight_review_evidence(root, contract, decision, archived, None)
 }
 
 /// Evidence that may authorize starting or finishing the current source
@@ -5642,7 +5645,7 @@ pub(crate) fn check_verification_preconditions(
     // the current, identity-bound review request. Once that fresh preflight is
     // recorded, the review gate below still rejects verification until a
     // matching human decision receipt exists.
-    require_contract_amendment_policy_review(&root, work_item_id, &contract_path)?;
+    require_contract_amendment_policy_review(&root, work_item_id, &contract_path, runtime)?;
     let preflight_state = summary["preflightState"].as_str().unwrap_or_default();
     let amendment_pending = summary
         .get("verificationInvalidatedByContractAmendment")
@@ -5746,7 +5749,16 @@ fn require_contract_amendment_policy_review(
     root: &Path,
     work_item_id: &str,
     contract_path: &Path,
+    runtime: &RuntimeContext,
 ) -> Result<(), ObserverError> {
+    if contract_amendment::delegated_review_is_current(root, work_item_id, None)?
+        && !contract_amendment::delegated_review_is_current(root, work_item_id, Some(runtime))?
+    {
+        return Err(ObserverError::State {
+            path: contract_path.into(),
+            message: "delegated development review Runtime binding changed".into(),
+        });
+    }
     if !contract_amendment::has_sensitive_amendment(root, work_item_id)? {
         return Ok(());
     }
@@ -7123,8 +7135,13 @@ pub fn governance_decision_for_observation_context(
         None,
         Some(observation),
     )?;
-    let decision =
-        apply_current_preflight_review_evidence(observation.root(), contract, decision, false)?;
+    let decision = apply_current_preflight_review_evidence(
+        observation.root(),
+        contract,
+        decision,
+        false,
+        observation.runtime(),
+    )?;
     observation.validate_current()?;
     Ok(decision)
 }
@@ -7190,7 +7207,7 @@ fn governance_decision_for_archived_contract_internal(
         evidence_override,
         None,
     )?;
-    apply_current_preflight_review_evidence(root, contract, decision, true)
+    apply_current_preflight_review_evidence(root, contract, decision, true, current_runtime)
 }
 
 fn governance_decision_for_contract_internal_with_archive(
@@ -7209,7 +7226,7 @@ fn governance_decision_for_contract_internal_with_archive(
         None,
         None,
     )?;
-    apply_current_preflight_review_evidence(root, contract, decision, archived)
+    apply_current_preflight_review_evidence(root, contract, decision, archived, current_runtime)
 }
 
 fn governance_decision_for_contract_base_internal_with_archive(
@@ -7451,6 +7468,7 @@ fn apply_current_preflight_review_evidence(
     contract: &cockpit_protocol::Contract,
     decision: GovernanceDecision,
     archived: bool,
+    current_runtime: Option<&RuntimeContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
     let contract_path = root
         .join(".ai/work-items/active")
@@ -7465,6 +7483,22 @@ fn apply_current_preflight_review_evidence(
             &history,
             Some(&digest),
         )?;
+    }
+    if !archived
+        && !contract.work_item_id.trim().is_empty()
+        && contract_path.is_file()
+        && let Some(runtime) = current_runtime
+        && contract_amendment::delegated_review_is_current(root, &contract.work_item_id, None)?
+        && !contract_amendment::delegated_review_is_current(
+            root,
+            &contract.work_item_id,
+            Some(runtime),
+        )?
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "delegated development review Runtime binding changed".into(),
+        });
     }
     apply_preflight_review_evidence(root, contract, decision, archived)
 }
@@ -7507,6 +7541,14 @@ fn apply_preflight_review_evidence(
     let mut evidence_state =
         preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest);
     if recovery_fresh_review.is_some() {
+        evidence_state = governance_controls::PreflightDecisionEvidenceState::Missing;
+    }
+    let delegated = recovery_fresh_review.is_none()
+        && contract_amendment::delegated_review_is_current(root, &contract.work_item_id, None)?;
+    if delegated {
+        // The old human receipt remains immutable and is not relabelled as a
+        // human decision about this new Contract. Its native delegation is a
+        // separate technical authorization; unrelated core blockers remain.
         evidence_state = governance_controls::PreflightDecisionEvidenceState::Missing;
     }
     let sensitive_amendment =
@@ -7968,7 +8010,13 @@ fn require_green_governance_internal(
             current_runtime,
             None,
         )?;
-        let decision = apply_current_preflight_review_evidence(root, contract, decision, false)?;
+        let decision = apply_current_preflight_review_evidence(
+            root,
+            contract,
+            decision,
+            false,
+            current_runtime,
+        )?;
         if decision.state != DecisionState::Green {
             return Err(ObserverError::State {
                 path: contract_path.to_path_buf(),

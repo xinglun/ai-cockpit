@@ -1,0 +1,485 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-23T10:38:30Z",
+  "checkpointContractDigest": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+      "recorded": true,
+      "recordedAt": "2026-10-23T10:38:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb2090f59ebcb7a6e4ef3861f28bb6ff34142275e2f292f3f059063aa56f8309",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1107-delegated-development-review"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+      "previousContractHash": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+      "reason": "The first formal plan and verify both stopped before any project command: the initial verificationRequirement.policyRefs used an explanatory WI label instead of its actual governing policyId. Correct this single reference to wi1107-bounded-existing-verification-ceiling. Keep the existing900second ceiling, single_authorized_human approval, T0/self_declared requirements, scope, acceptance, all12 unverified scenarios and all nine commands unchanged. This is not the delegated feature, production enablement, public publication, merge or close; fixed b2 remains sole governance. Preserve both failed invocations and request the exact fresh human review if Runtime requires it.",
+      "recorded": true,
+      "recordedAt": "2026-10-23T11:18:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0245f71cdefae0faf1c65ffafe562285951177c6ec63c9ae76de032e70de07f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1107-delegated-development-review"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+      "previousContractHash": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
+      "reason": "Actual user message Sentinel_38081d7ed9408191bd710d2c075b5a22, 2026-10-23 21:36 UTC (minute precision), explicitly authorizes only these three exact stage edits. Preserve the complete quality requirement and required=true; move the identical later-delivery sentence from S12 and its matching criterion into a standalone acceptance obligation. Existing full-workflow obligation and all source/tests/nine commands/resource context remain unchanged. This is authorization to submit the amendment, not confirm_review for an ungenerated Contract/preflight binding; no human identity authentication is claimed.",
+      "recorded": true,
+      "recordedAt": "2026-10-23T21:38:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1107-delegated-development-review"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+      "previousContractHash": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
+      "reason": "PR1068 exact-head CI40037118723 executed35 nodes with33 passing and2 terminated at the default300s/600s budgets. The same frozen source passed formal fixed-b2 verification under the existing owner-approved finite900s ceiling, with the two corresponding nodes taking334.069s/685.191s. Admit only the hosted driver and its existing regression suite to forward the current operation-specific finite declared timeout request to the Runtime, preserve missing-budget defaults and the Runtime independent policy/stage/ceiling checks, and add the fast driver regression command. Preserve all original nine verification commands, assertions, policy/900s ceiling, acceptance, scenario declarations, source/history and failed CI evidence. This amendment does not record confirm_review for an ungenerated binding, enable production, release a version or authorize unbounded execution.",
+      "recorded": true,
+      "recordedAt": "2026-10-24T00:16:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1107-delegated-development-review"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+      "previousContractHash": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
+      "reason": "Exact-head PR1068 CI40056787737 passed all36 hosted nodes with900s budgets, zero reuse/timeouts and matching Linux/Windows revision bindings, but its workspace coverage receipt consumer rejected the original unfiltered cargo test --locked --workspace -- --test-threads=1 declaration. A second existing guard also incorrectly requires the Contract to contain only one Cargo test, conflicting with four additional targeted regressions. Add only the existing coverage consumer and its regression suite to scope and append its fast regression command. Recognize only explicit semantically unfiltered serial libtest scheduling, retain exactly one complete workspace declaration and all package/node/command/Contract/source/Runtime/attempt/current-freshness checks; explicitly parsed targeted tests are additional checks and can never substitute for any full package execution. Preserve every original assertion, all ten current verification commands,900s policy, acceptance/scenario/authority/permissions and all historical failed/successful evidence. No verification is claimed for this new Contract, no agent records a human confirmation, and no release or production activation is authorized by this request.",
+      "recorded": true,
+      "recordedAt": "2026-10-24T03:58:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1107-delegated-development-review"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
+  "createdAt": "2026-10-23T10:24:02Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1eb8f60c89416723ef64e2b5d7a002a271c8031f07a1339bfad72dd126a96e7d",
+    "reason": "Actual user response: 确认 WI-1107 上述两文件覆盖检查修订及新绑定，confirm_review，并批准上述公开增量及条件交付。 Parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed actual user Ray message Sentinel_d0b9768073c08191a45b91f10c6d8147 at2026-10-24 04:02 UTC (minute precision), responding to exact request Sentinel_8b3fe9379a748191b5e2ff51f8e64dfa. Exact HEAD and sequence5 Contract/preflight/source snapshot rechecked unchanged. Only two coverage-consumer CI files and one additional fast regression command; all ten prior commands, assertions, acceptance, finite900s ceiling and original human/permission boundaries remain unchanged. Source changes and new Contract require genuine new verification; no old receipt is relabeled or old confirmation reused. Public increment and normal conditional PR delivery were explicitly approved in the same actual user response; this is not a true-close decision, release or production activation. Agent technical judgments are not attributed to the user.",
+    "recordedAt": "2026-10-24T04:03:56.919330+00:00",
+    "recordedBy": "Codex agent transcribing actual user message Sentinel_d0b9768073c08191a45b91f10c6d8147; no independent external identity authentication asserted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
+    "schemaVersion": 1,
+    "workItemId": "WI-1107-delegated-development-review"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=strict_mode_and_absent_owner_review_never_allow_a_claimed_agent",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=each_protected_change_or_unapproved_command_has_zero_native_side_effects",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=protected_and_unknown_paths_fail_closed",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=stronger_current_policy_preserves_history_and_normal_fresh_human_recovery",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#runtimeDigest",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#repositorySnapshotDigest",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-8]",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/40053793076/artifacts/12545177732#binding-manifest.json",
+      ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-9]"
+    ],
+    "reason": "Agent technical acceptance of the current input46be639e/Contractb9f4b315/snapshotf87f6b9f under genuine fixed-b236-node verification. Complete typed start and three finite explicitly owner-baseline-bound development amendments remain the implementation intent, with strict defaults and human/host boundaries preserved. Three registered conditional documentation rows repair an existing repository requirement without granting permission or weakening validation. This does not complete whole-task authorization lifetime/withdrawal/session continuity, external B, production activation, measured benefit or pending PR/main/resource/close delivery. Agent technical acceptance: current source/Contract proof is genuine fixed-b2 Run40061527801,37actual/0reuse/0timeout. The bounded permission slice and directly required delivery adapters retain strict default/human-only boundaries. Actual conditional PR/main/resource/true-close delivery remains unfinished; protected external B, full expiry/revocation/cross-session continuation, production activation and measured benefit are not asserted.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-24T04:51:04.211535641Z",
+      "recordedAt": "2026-10-24T04:51:04.211535641Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-23T10:24:02.868710956Z",
+      "recordedAt": "2026-10-23T10:24:02.868710956Z"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-24T04:47:02Z",
+  "preflightContractDigest": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=complete_initial_scenarios_are_saved_before_preflight",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_verified_or_malformed_scenarios_do_not_create_lifecycle_records",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_unverified_scenario_with_evidence_is_rejected_before_record_creation"
+      ],
+      "expected": "Use the existing ScenarioCoverageEntry type/validator in start options, CLI and MCP; save the complete initial unverified scenario plan before first preflight. Reject verified/evidence-bearing or malformed initial plans before creating/activating records. No second scenario protocol.",
+      "reason": "Current formal run actually executed all 58 CLI adapter tests including the evidence-only negative and empty-evidence positive control for both CLI/MCP; initial typed scenarios and malformed/verified rejection are also executed. This is observed test coverage, not a new owner decision. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S01-complete-typed-start",
+      "status": "verified",
+      "verificationPlan": "Actual CLI/MCP entry-point RED then GREEN; inspect saved initial Contract, preflight and checkpoint state; negative requests leave no new lifecycle records."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=strict_mode_and_absent_owner_review_never_allow_a_claimed_agent",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision"
+      ],
+      "expected": "Absent development-review configuration remains strict. Delegation never activates merely from authority=authorized, an actor label, an arbitrary file or a technical request. Explicit opt-in configuration requires a prior formal native owner review for the exact baseline Contract containing the opt-in.",
+      "reason": "Existing strict/no-owner negatives and formally reviewed finite opt-in positive ran successfully. Synthetic fixture owner provenance is explicitly local and is not external identity authentication. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S02-strict-default-and-explicit-opt-in",
+      "status": "verified",
+      "verificationPlan": "Strict/no-owner/legacy-baseline controls remain human-required; actual formal preflight-review recording in an explicitly synthetic TempDir establishes only the local test baseline, never authenticated identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=wrong_reviewer_source_operation_and_assurance_cannot_borrow_the_baseline",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=material_review_profile_rejects_mismatched_values_and_incomplete_authority"
+      ],
+      "expected": "Technical reviewer is explicitly an agent, matches the approved reviewer and source, and uses existing AuthorityEvidence provenance semantics. Arbitrary claimed human/provider assurance, unsupported operations, missing source or reviewer mismatch reject.",
+      "reason": "Actual agent/source/operation/assurance negatives plus shared strict AuthorityEvidence validation cover the declared identity/source predicates. No provider or human assurance is promoted from self-declaration. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S03-agent-and-authority-source",
+      "status": "verified",
+      "verificationPlan": "Real repository/API and CLI negatives check agent identity/source/operations plus no technical or human receipt on rejection; self_declared evidence is never upgraded to external authentication."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=empty_existing_plan_can_be_filled_but_a_nonempty_plan_cannot_be_rewritten",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=filling_a_plan_cannot_reuse_a_scenario_that_already_claims_verified_evidence"
+      ],
+      "expected": "Delegation allows only appending required unverified scenarios with empty evidence, filling an empty verificationPlan with an exact already declared/preapproved command, and appending an exact command from the reviewed finite preapproved-command set. Original declarations and original order remain intact.",
+      "reason": "All three finite permitted classes and nonempty/previously-verified plan refusal ran. Exact declarations and order are retained; no natural-language command equivalence is claimed. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S04-finite-safe-change-allowlist",
+      "status": "verified",
+      "verificationPlan": "Positive public typed amendments for all three finite classes; each new scenario/command exact value and actual decision class is checked. No arbitrary command parser or natural-language equivalence inference."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=each_protected_change_or_unapproved_command_has_zero_native_side_effects",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=protected_and_unknown_paths_fail_closed",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=actual_review_operation_cannot_borrow_agent_review_for_explicit_human_policy",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=stronger_current_policy_preserves_history_and_normal_fresh_human_recovery"
+      ],
+      "expected": "Scope changes, authority/risk/policy/reviewer/source changes, resource or operation expansion, acceptance changes, command replacement/removal, required-scenario downgrade/removal, arbitrary verification commands and protected status/evidence changes remain rejected or require the normal fresh human boundary.",
+      "reason": "Actual protected-change, exact-command, protected-path and stronger human-policy negatives exercise the shared deny boundary. Technical acceptance uses equivalent shared predicates, not an invented full Cartesian attack matrix. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S05-real-scope-and-standard-boundaries",
+      "status": "verified",
+      "verificationPlan": "Table-driven negative public amendments assert exact rejection/human requirement, zero unauthorized lifecycle/command effects and original source/receipt bytes retained; existing strict assertions remain unchanged."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=renamed_deleted_or_tampered_owner_receipt_invalidates_native_delegation",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=changed_source_requires_fresh_preflight_and_stale_cas_remains_rejected",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_rebuilt_runtime_cannot_reuse_agent_review_as_current_admission",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=missing_prepared_record_never_becomes_a_valid_technical_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=amendment_history_rejects_a_resealed_receipt_detached_from_its_request",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::request_binding_rejects_a_rehashed_discontinuous_contract_chain"
+      ],
+      "expected": "Derive delegated review only from Runtime-validated canonical owner-review state and a fully valid amendment lineage, never a caller-selected arbitrary approval file. Bind repository/WI, approved baseline, before/after Contract, policy digest, request/change set, current snapshot, Runtime and exact agent/source. Preserve the existing local provenance assurance boundary.",
+      "reason": "Native receipt integrity, stale source/CAS, Runtime change, prepared/committed continuity, exact request and rehashed discontinuity predicates ran. Together with exact native path/value binding these cover the original bounded local-provenance claim, not an attacker rewriting all writable records or protected B identity. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S06-exact-native-bindings",
+      "status": "verified",
+      "verificationPlan": "Missing/tampered/deleted/unindexed/foreign/renamed/replayed/stale receipt, Contract/policy/snapshot/Runtime/request and chain variants reject. Do not claim resistance to an attacker rewriting all local writable records or protected B identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=delegated_amendment_rechecks_owner_after_waiting_for_work_item_lock",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::delegated_pending_recovery_rechecks_current_policy_before_more_writes",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-4-package-cockpit-repository]::stdout/test=contract_amendment::tests::unrelated_request_does_not_finish_a_pending_amendment"
+      ],
+      "expected": "Recheck source/bindings under the existing lifecycle lock before publishing review/amendment effects. Preserve expected-digest/CAS, full current/prospective journal validation, byte immutability, interruption evidence and no completion of unrelated pending operations.",
+      "reason": "Actual same-WI lock/source replacement, stale CAS, three durable interruption phases and unrelated-pending-request refusal executed. Contract/journal byte preservation is asserted; no permission or fencing platform claim. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S07-locked-atomic-history",
+      "status": "verified",
+      "verificationPlan": "Deterministic same-WI contention/source replacement/stale CAS and partial-journal negative tests using actual locks/files; original activation/recovery and journal regressions remain part of validation."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-0]::stdout/test=absent_agent_review_keeps_legacy_request_wire_bytes",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=formally_reviewed_opt_in_allows_exact_preapproved_append_without_a_new_human_decision",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=explicit_human_policy_cannot_be_discharged_by_agent_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review"
+      ],
+      "expected": "Record delegated decisions as agent technical review with their real provenance. Never write or rewrite decisionEvidence/human review as if a person reviewed the new Contract. Old absent-policy Contracts and old receipt serialization/digests remain unchanged.",
+      "reason": "Actual legacy wire/digest and owner-receipt byte preservation plus strict human-policy refusal executed. Technical review remains agent review and does not replace human-only close/provider decisions. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S08-agent-is-not-human-and-legacy-bytes",
+      "status": "verified",
+      "verificationPlan": "Golden legacy serialization/digest tests and before/after byte checks; technical review cannot satisfy close, provider/multi-party approval, explicit human-only rules, findings, missing required evidence or failed verification."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=complete_initial_scenarios_are_saved_before_preflight",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=initial_unverified_scenario_with_evidence_is_rejected_before_record_creation",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=typed_cli_and_mcp_share_receipt_and_read_history_without_writes",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-3]::stdout/test=mcp_tool_list_exposes_typed_argument_schemas",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-3]::stdout/test=mcp_initialize_and_tool_list_are_read_only_and_deterministic"
+      ],
+      "expected": "CLI and MCP use the same typed initial scenario/delegation declarations and core amendment decision. Reuse existing start/amend/control transports; do not introduce extra MCP tools or alter tool-count/name assertions.",
+      "reason": "Actual CLI/MCP start and refusal round trips, shared typed-amendment receipt parity, delegated MCP amendment with CLI preflight/verify, and schema/tool-set assertions executed. Shared core equivalence is accepted without claiming an unrun additional golden pair. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S09-cli-mcp-parity",
+      "status": "verified",
+      "verificationPlan": "Actual CLI process and MCP rpc round trips for strict/positive/negative cases, exact schemas and stable tool names/count; no mocks claiming host identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-2]::stdout/test=delegated_cli_mcp_flow_executes_checks_after_one_synthetic_baseline_review",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-1]::stdout/test=a_finite_scenario_append_can_be_followed_by_an_exact_preapproved_command"
+      ],
+      "expected": "In a real isolated repository, after one explicit baseline owner review, ordinary in-scope development, a permitted required-scenario/command addition and a legitimate verification retry do not request an extra product human review. Nonzero tests actually execute; failures remain.",
+      "reason": "Actual isolated bounded flow ran after one explicitly synthetic native baseline review: 2 executed checks, a genuine failure, a scoped correction and 3-check fresh retry with zero reuse; original failure and owner bytes remain. No production reduction or external authentication is measured. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit.",
+      "required": true,
+      "scenario": "S10-real-bounded-development-flow",
+      "status": "verified",
+      "verificationPlan": "Exercise actual start/preflight/checkpoint/amend/verify flow with process effects/counts; compare strict control and out-of-bound negative. Count only AI Cockpit product requests, not immutable host or GitHub approvals. Cross-WI grant/expiry is not claimed."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#runtimeDigest",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#repositorySnapshotDigest",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-8]",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40053793076/artifacts/12545177732#binding-manifest.json",
+        ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000004.committed.json"
+      ],
+      "expected": "Change only the declared 9 production, 4 test and 12 trilingual documentation paths plus own native records. Preserve WI1087 design/planning records and every prior WI evidence. The governing WI uses fixed b2 legacy strict mode and never the feature under development.",
+      "reason": "Current Contract scope remains27 declared paths with26 source paths actually changed. The only source correction since input2fd/d9 is one conditionally pending lifecycle row in each of the three already-declared reference-parity documents; all production and test bytes are preserved. No current archive/finalize/close existence or success is asserted by those future targets. Fixed official b2 governs;20 immutable native inputs remained unchanged during the real run and all25 originals were backed up. No other-WI evidence, production configuration, shared Runtime, B or host permission changed. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit. Original business source boundaries remain, with only the four separately owner-approved CI validation paths added by sequences4/5.",
+      "required": true,
+      "scenario": "S11-scope-and-activation-isolation",
+      "status": "verified",
+      "verificationPlan": "Full diff/file inventory, same b2 binary SHA, unchanged main/other worktrees and old receipts; production configuration and shared Runtime remain unchanged. No B, Clock, fencing, global permission or root policy activation."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1107-delegated-development-review.verification.json",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/40053793076",
+        "/workspace/wi1107-delegated-development-review-run/final-independent-review-6c441387.json",
+        "/workspace/wi1107-actions-verification-run/s01-coverage-supplement/independent-delta-review.json",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-9]",
+        "/workspace/wi1107-product-delivery-20261023/hosted-timeout-scope-amendment/source-commit-and-independent-review.json",
+        "/workspace/wi1107-product-delivery-20261023/hosted-timeout-scope-amendment/parity-registration-repair/fixed-b2-run40053793076/wi1107-fixed-b2-40053793076-1/independent-native-evidence-review.json",
+        "/workspace/wi1107-product-delivery-20261023/hosted-timeout-scope-amendment/parity-registration-repair/after-governance-integrity-report.json",
+        ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a874aa206c875ae04a0cbcb0fb074ba34095e3781db95b3940691de5511558b0.json#receipt.executionRecords[nodeId=project-command-10]::stdout"
+      ],
+      "expected": "Pass the nine declared commands, meaningful selected tests, full workspace/package coverage, strict Clippy, formatting/docs/diff and independent whole-branch review. Preserve all RED/failure records.",
+      "reason": "Agent technical acceptance under delegated technical judgment; no human:Ray attribution. Genuine fixed-b2 Run40053793076 passed the original nine commands plus the approved driver regression as36 actual nodes across14 packages,all900s/exit0,0reuse/timeout. New input46be639e and snapshotf87f6b9f bind current Contractb9f4b315 and attempt9458f795. CLI58 includes the S01 evidence-only negative/control; driver positive/default/unrelated/invalid/refusal cases ran. The prior exact-head CI40049607433 hosted36 and Windows passed, but its three prearchive row findings are retained; the in-scope three-line fix made the original governance gate pass928 work items with no finding. No gate, assertion, Contract or command was weakened. Original source/delta/driver reviews and the incremental doc/phase review cover the source changes. Old auxiliary count35 is preserved in the old run; the new input manifest correctly declares36.20 immutable input bytes and all original25 backups are preserved. Repository-package stdout remains truncated; formal execution is Linux-only, and benefit is unmeasured. New product PR CI/main/resource/true-close delivery remains incomplete; no production activation or external identity assurance is claimed. Current snapshot proof is actual official fixed-b2 Run40061527801/attempta874aa20 for source cfa7317a, Contract bd0ee49f and snapshot3fc06940;37 nodes actually executed,0reuse/timeout,all900s. Original36 requests and existing assertions remain unchanged; new coverage-consumer regression passed23 cases (4positive/19negative) plus all original cases. This is agent technical acceptance of real remote execution, not a new human confirmation, a local full re-execution, production activation or measured benefit. Independent incremental coverage-consumer/source review on7bd70e2a plus preserved whole-branch reviews found no unresolvedP0-P3; actual PR/main/resource/true-close delivery remains pending and is not marked complete by this quality scenario.",
+      "required": true,
+      "scenario": "S12-quality-and-conditional-delivery",
+      "status": "verified",
+      "verificationPlan": "Run necessary fresh evidence for each real source binding; report actual nodes/tests/reuse/exit/truncation and platform revision bindings. Do not claim full WI1087, production enablement or measurable benefit without its own evidence."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-24T04:51:04.211535641Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-10",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-review-receipt",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1107-delegated-development-review"
+}

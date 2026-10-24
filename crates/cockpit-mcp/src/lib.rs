@@ -434,6 +434,7 @@ fn contract_amendment_request_schema() -> Value {
             "expectedContractDigest": {"type":"string", "pattern":"^sha256:[0-9a-f]{64}$"},
             "reason": string_property("Human-readable rationale explaining why the implementation plan changed."),
             "changes": {"type":"array", "minItems":1, "items":change},
+            "developmentReview": {"type":"object", "description":"Explicit agent AuthorityEvidence; never a human decision. Repository must validate the native owner baseline and finite policy."},
         },
         "required": ["schemaVersion", "changeId", "expectedContractDigest", "reason", "changes"],
         "additionalProperties": false,
@@ -600,6 +601,8 @@ fn mcp_tool_schema(name: &str) -> Value {
                 "requiredEvidenceClasses": {"type":"array", "items":string_property("Evidence class required by the Contract.")},
                 "verification": {"type":"array", "items":string_property("Explicit verification command. When omitted, Runtime uses the repository-observed default.")},
                 "sources": {"type":"array", "items":string_property("Human- or task-provided source reference appended before preflight.")},
+                "developmentReview": {"type":"object", "description":"Explicit opt-in policy; only formal native owner review establishes its local delegation."},
+                "scenarioCoverage": {"type":"array", "items":{"type":"object"}, "description":"Typed unverified initial scenario plans, with empty evidence."},
             }),
             &["workItemId", "intent", "goal", "scope"],
         ),
@@ -1012,6 +1015,8 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 "requiredEvidenceClasses",
                 "verification",
                 "sources",
+                "scenarioCoverage",
+                "developmentReview",
             ][..],
         ),
         // The protocol-owned MCP spec is the source for this field set.
@@ -2379,6 +2384,19 @@ fn work_item_start(
         acceptance_criteria,
         required_evidence_classes,
         verification_commands,
+        development_review: object
+            .get("developmentReview")
+            .cloned()
+            .map(serde_json::from_value)
+            .transpose()
+            .map_err(|error| format!("invalid developmentReview: {error}"))?,
+        scenario_coverage: object
+            .get("scenarioCoverage")
+            .cloned()
+            .map(serde_json::from_value)
+            .transpose()
+            .map_err(|error| format!("invalid initial scenarioCoverage: {error}"))?
+            .unwrap_or_default(),
     };
     let intent = arguments
         .get("intent")

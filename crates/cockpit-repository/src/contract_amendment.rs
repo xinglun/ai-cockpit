@@ -43,6 +43,22 @@ where
     Value::deserialize(deserializer).map(Some)
 }
 
+/// Runtime-captured local provenance for an agent technical review. It is
+/// deliberately separate from HumanDecision/decisionEvidence.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DelegatedDevelopmentReview {
+    owner_contract: Value,
+    owner_review: cockpit_protocol::PreflightDecisionEvidence,
+    owner_receipt_path: String,
+    owner_receipt_digest: Digest,
+    policy_digest: Digest,
+    // Capture the policy used at admission, including its absence. Historical
+    // integrity must not depend on later mutable repository policy.
+    repository_policy: Option<cockpit_protocol::GovernancePolicyDocument>,
+    authority: cockpit_protocol::AuthorityEvidence,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ContractAmendmentReceipt {
@@ -68,6 +84,8 @@ pub struct ContractAmendmentReceipt {
     pub checkpointed: bool,
     pub invalidated_required_checks: Vec<String>,
     pub invalidated_evidence: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub delegated_review: Option<DelegatedDevelopmentReview>,
     pub policy_review_required: bool,
     pub policy_review_requirements: Vec<String>,
     pub previous_journal_digest: Digest,
@@ -98,6 +116,8 @@ struct PreparedAmendment {
     checkpointed: Option<bool>,
     previous_journal_digest: Digest,
     policy_review_requirements: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    delegated_review: Option<DelegatedDevelopmentReview>,
     legacy_input_digest: Option<Digest>,
     prepared_at: String,
 }
@@ -1738,6 +1758,7 @@ pub(crate) fn legacy_request_from_value(
         .map_err(|error| format!("legacy change identity failed: {error}"))?;
     let change_id = format!("legacy-{}", &change_digest.as_str()[7..]);
     Ok(ContractAmendmentRequest {
+        development_review: None,
         schema_version: 1,
         change_id,
         expected_contract_digest,
@@ -2102,6 +2123,7 @@ fn load_history_with_predecessor(
     let repository_identity = super::repository_id(root).to_string();
     let mut pending = None;
     let mut predecessor_contract = None;
+    let mut previous_delegation: Option<DelegatedDevelopmentReview> = None;
     for (expected_sequence, (sequence, (prepared, committed))) in records
         .into_iter()
         .enumerate()
@@ -2143,6 +2165,27 @@ fn load_history_with_predecessor(
             return Err(state_error(
                 &directory,
                 "Contract amendment prepared record failed its identity or digest chain",
+            ));
+        }
+        if let Some(review) = &prepared.prepared.delegated_review {
+            validate_delegated_review(root, &prepared.prepared, review)?;
+            let owner_digest = record_digest(&review.owner_contract, &directory)?;
+            if owner_digest != prepared.prepared.previous_contract_digest
+                && previous_delegation.as_ref().is_none_or(|prior| {
+                    prior.owner_review != review.owner_review
+                        || prior.owner_contract != review.owner_contract
+                        || prior.owner_receipt_path != review.owner_receipt_path
+                })
+            {
+                return Err(state_error(
+                    &directory,
+                    "delegated owner review is not anchored to the native predecessor chain",
+                ));
+            }
+        } else if prepared.prepared.request.development_review.is_some() {
+            return Err(state_error(
+                &directory,
+                "technical request lacks its native delegated review",
             ));
         }
         let mut derived_contract = apply_typed_amendment(
@@ -2224,7 +2267,9 @@ fn load_history_with_predecessor(
                 .checkpointed
                 .is_some_and(|checkpointed| receipt.checkpointed != checkpointed)
             || receipt.policy_review_required
-                != !prepared.prepared.policy_review_requirements.is_empty()
+                != (!prepared.prepared.policy_review_requirements.is_empty()
+                    && prepared.prepared.delegated_review.is_none())
+            || receipt.delegated_review != prepared.prepared.delegated_review
             || receipt.policy_review_requirements != prepared.prepared.policy_review_requirements
             || receipt.previous_journal_digest != previous_digest
             || journal_digest(&receipt)? != receipt.journal_digest
@@ -2234,6 +2279,7 @@ fn load_history_with_predecessor(
                 "Contract amendment committed record is detached from its prepared amendment or has an invalid digest chain",
             ));
         }
+        previous_delegation = receipt.delegated_review.clone();
         previous_digest = receipt.journal_digest.clone();
         if predecessor == Some(&prepared.prepared.previous_contract_digest) {
             if predecessor_contract.is_some() {
@@ -2391,9 +2437,16 @@ pub(crate) fn has_sensitive_amendment(
     root: &Path,
     work_item_id: &str,
 ) -> Result<bool, ObserverError> {
-    Ok(read_work_item_contract_amendments(root, work_item_id)?
-        .iter()
-        .any(|receipt| receipt.policy_review_required))
+    if delegated_review_is_current(root, work_item_id, None)? {
+        return Ok(false);
+    }
+    let contract = super::read_json(&root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    )))?;
+    Ok(development_policy(&contract)?.is_some()
+        || read_work_item_contract_amendments(root, work_item_id)?
+            .iter()
+            .any(|receipt| receipt.policy_review_required))
 }
 
 /// Validate the native amendment and its current invalidation projection
@@ -2438,7 +2491,10 @@ pub(crate) fn current_amendment_review_request_available(
     };
     validate_transition_chain(root, work_item_id, &history, None)?;
     if tail.new_contract_digest != *current_contract_digest
-        || !history.iter().any(|receipt| receipt.policy_review_required)
+        // A once-permitted delegated tail may require a normal fresh human
+        // review after current policy tightens. Keep the same complete native
+        // chain/checkpoint checks; do not rely only on its historical flag.
+        || !has_sensitive_amendment(root, work_item_id)?
         || !tail.checkpointed
         || summary["checkpointCount"] != json!(1)
         || !matches!(
@@ -2554,7 +2610,18 @@ fn prepare_transaction(
         .get("checkpointCount")
         .and_then(Value::as_u64)
         .is_some_and(|count| count > 0);
+    let delegated_review = prepare_delegated_review(
+        root,
+        work_item_id,
+        request,
+        runtime,
+        &previous_contract,
+        &new_contract,
+        previous_summary,
+        &repository_snapshot_digest,
+    )?;
     let prepared = PreparedAmendment {
+        delegated_review,
         schema_version: 1,
         repository_id: super::repository_id(root).to_string(),
         work_item_id: work_item_id.into(),
@@ -2652,7 +2719,9 @@ fn commit_prepared(
         checkpointed,
         invalidated_required_checks,
         invalidated_evidence,
-        policy_review_required: !data.policy_review_requirements.is_empty(),
+        delegated_review: data.delegated_review.clone(),
+        policy_review_required: !data.policy_review_requirements.is_empty()
+            && data.delegated_review.is_none(),
         policy_review_requirements: data.policy_review_requirements.clone(),
         previous_journal_digest: data.previous_journal_digest.clone(),
         journal_digest: Digest::sha256_bytes(b"uncommitted"),
@@ -2676,6 +2745,20 @@ fn finish_prepared(
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
     let data = &prepared.prepared;
     let directory = amendment_directory(root, &data.work_item_id);
+    if let Some(review) = &data.delegated_review {
+        validate_delegated_review(root, data, review)?;
+        let current_policy = super::policy_document(root)?;
+        if !delegated_policy_boundary_allows(
+            root,
+            &data.previous_contract,
+            current_policy.as_ref(),
+        )? {
+            return Err(state_error(
+                &directory,
+                "current human/provider/multi-party policy prevents completing delegated amendment",
+            ));
+        }
+    }
     if data.repository_id != super::repository_id(root).to_string() {
         return Err(state_error(
             &directory,
@@ -2926,6 +3009,316 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
     Ok(receipt)
 }
 
+fn development_policy(
+    contract: &Value,
+) -> Result<Option<cockpit_protocol::DevelopmentReviewPolicy>, ObserverError> {
+    let c: Contract = serde_json::from_value(contract.clone())
+        .map_err(|e| state_error("development-review", e.to_string()))?;
+    c.development_review_policy()
+        .map_err(|e| state_error("development-review", e))
+}
+
+fn delegated_policy_boundary_allows(
+    root: &Path,
+    contract: &Value,
+    document: Option<&cockpit_protocol::GovernancePolicyDocument>,
+) -> Result<bool, ObserverError> {
+    let c: Contract =
+        serde_json::from_value(contract.clone()).map_err(|e| state_error(root, e.to_string()))?;
+    let mut policies = vec![c.governance_policy.as_ref()];
+    if let Some(document) = document {
+        if document.schema_version != 1
+            || document.organization.is_none() && document.project.is_none()
+            || document
+                .organization
+                .as_ref()
+                .is_some_and(|p| p.layer != cockpit_protocol::PolicyLayer::Organization)
+            || document
+                .project
+                .as_ref()
+                .is_some_and(|p| p.layer != cockpit_protocol::PolicyLayer::Project)
+        {
+            return Err(state_error(root, "invalid captured repository policy"));
+        }
+        policies.extend([document.organization.as_ref(), document.project.as_ref()]);
+    }
+    let operation = super::verification_operation_for_contract(&c);
+    Ok(!policies
+        .into_iter()
+        .flatten()
+        .flat_map(|p| &p.rules)
+        .any(|rule| {
+            (rule.operation == operation
+                || matches!(
+                    rule.operation.as_str(),
+                    "*" | "modify_source" | "review_development_amendment"
+                ))
+                && rule.approval_mode != cockpit_protocol::ApprovalMode::NoHumanApprovalForLowRisk
+        })
+        && !c
+            .human_decision_points
+            .as_ref()
+            .is_some_and(|p| !p.is_null() && p != &json!([]) && p != &json!({})))
+}
+
+fn native_owner_receipt_json(root: &Path, relative: &str) -> Result<Value, ObserverError> {
+    let pinned = super::legacy_closeout_source::PinnedRoot::open(root)?;
+    let root_dir = pinned.directory()?;
+    let ai = super::open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let directory_path = root.join(".ai/decisions");
+    let decisions = super::open_cap_directory_nofollow_strict(&ai, "decisions", &directory_path)?;
+    let path = root.join(relative);
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or_else(|| state_error(&path, "invalid native review filename"))?;
+    let bytes = super::legacy_closeout_source::read_regular_cap_bounded(
+        &decisions,
+        name,
+        &path,
+        1024 * 1024,
+    )?;
+    super::reject_duplicate_json_keys(&bytes).map_err(|e| state_error(&path, e))?;
+    pinned.require_current()?;
+    let current_root = pinned.directory()?;
+    let current_ai =
+        super::open_cap_directory_nofollow_strict(&current_root, ".ai", &root.join(".ai"))?;
+    let current_decisions =
+        super::open_cap_directory_nofollow_strict(&current_ai, "decisions", &directory_path)?;
+    if super::legacy_closeout_source::directory_identity(&root.join(".ai"), &ai)?
+        != super::legacy_closeout_source::directory_identity(&root.join(".ai"), &current_ai)?
+        || super::legacy_closeout_source::directory_identity(&directory_path, &decisions)?
+            != super::legacy_closeout_source::directory_identity(
+                &directory_path,
+                &current_decisions,
+            )?
+    {
+        return Err(state_error(
+            &directory_path,
+            "native owner review parent identity changed",
+        ));
+    }
+    serde_json::from_slice(&bytes).map_err(|e| state_error(&path, e.to_string()))
+}
+
+fn owner_receipt_value(
+    root: &Path,
+    wi: &str,
+    review: &DelegatedDevelopmentReview,
+) -> Result<Value, ObserverError> {
+    let value =
+        serde_json::to_value(&review.owner_review).map_err(|e| state_error(root, e.to_string()))?;
+    let digest = record_digest(&value, root)?;
+    let suffix = digest.to_string();
+    let canonical = format!(".ai/decisions/{wi}.preflight-review.json");
+    let indexed = format!(
+        ".ai/decisions/{wi}.preflight-review.{}.json",
+        suffix.strip_prefix("sha256:").unwrap_or(&suffix)
+    );
+    if review.owner_receipt_path != canonical && review.owner_receipt_path != indexed {
+        return Err(state_error(
+            root,
+            "delegated owner receipt is not at its native indexed path",
+        ));
+    }
+    let path = root.join(&review.owner_receipt_path);
+    if native_owner_receipt_json(root, &review.owner_receipt_path)? != value
+        || digest != review.owner_receipt_digest
+    {
+        return Err(state_error(
+            path,
+            "delegated owner receipt is missing, replaced, foreign or invalid",
+        ));
+    }
+    Ok(value)
+}
+
+fn validate_delegated_review(
+    root: &Path,
+    data: &PreparedAmendment,
+    review: &DelegatedDevelopmentReview,
+) -> Result<(), ObserverError> {
+    validate_delegated_review_values(
+        root,
+        &data.repository_id,
+        &data.work_item_id,
+        &data.previous_contract,
+        &data.new_contract,
+        &data.request,
+        review,
+    )
+}
+
+fn validate_delegated_review_values(
+    root: &Path,
+    repository: &str,
+    wi: &str,
+    before: &Value,
+    after: &Value,
+    request: &ContractAmendmentRequest,
+    review: &DelegatedDevelopmentReview,
+) -> Result<(), ObserverError> {
+    let fail = |message: &str| state_error(amendment_directory(root, wi), message);
+    let policy = development_policy(&review.owner_contract)?
+        .ok_or_else(|| fail("owner baseline has no explicit developmentReview"))?;
+    let before_policy = development_policy(before)?;
+    let after_policy = development_policy(after)?;
+    if before_policy.as_ref() != Some(&policy)
+        || after_policy.as_ref() != Some(&policy)
+        || record_digest(&policy, root)? != review.policy_digest
+    {
+        return Err(fail(
+            "delegated policy is not the exact owner-reviewed baseline policy",
+        ));
+    }
+    let owner = &review.owner_review;
+    if owner.schema_version != 1
+        || owner.decision_id != "contract-preflight-review"
+        || owner.decision != "confirm_review"
+        || owner.repository_id != repository
+        || owner.work_item_id != wi
+        || review.owner_contract["repositoryId"] != repository
+        || review.owner_contract["workItemId"] != wi
+        || owner.contract_digest != record_digest(&review.owner_contract, root)?
+        || chrono::DateTime::parse_from_rfc3339(&owner.recorded_at).is_err()
+        || owner.recorded_by.trim().is_empty()
+        || owner.reason.trim().is_empty()
+    {
+        return Err(fail(
+            "delegated owner review identity or baseline binding is invalid",
+        ));
+    }
+    owner_receipt_value(root, wi, review)?;
+    let authority = request
+        .development_review
+        .as_ref()
+        .ok_or_else(|| fail("agent review input is missing"))?;
+    cockpit_protocol::validate_authority_evidence(authority).map_err(|e| fail(&e.to_string()))?;
+    if authority != &review.authority
+        || authority.actor != policy.reviewer_actor
+        || authority.authority_source != policy.authority_source
+        || authority.assurance != cockpit_protocol::AssuranceLevel::SelfDeclared
+        || authority.operations != ["review_development_amendment"]
+    {
+        return Err(fail(
+            "delegated reviewer, source, operation or assurance is outside the exact policy",
+        ));
+    }
+    if !delegated_policy_boundary_allows(root, before, review.repository_policy.as_ref())? {
+        return Err(fail(
+            "captured human/provider/multi-party policy cannot be discharged by delegated review",
+        ));
+    }
+    cockpit_protocol::validate_development_review_changes(before, request, &policy)
+        .map_err(|e| fail(&e))?;
+    Ok(())
+}
+
+#[allow(clippy::too_many_arguments)]
+fn prepare_delegated_review(
+    root: &Path,
+    wi: &str,
+    request: &ContractAmendmentRequest,
+    runtime: &RuntimeContext,
+    before: &Value,
+    after: &Value,
+    summary: &Value,
+    snapshot: &Digest,
+) -> Result<Option<DelegatedDevelopmentReview>, ObserverError> {
+    let Some(authority) = &request.development_review else {
+        return Ok(None);
+    };
+    let fail = |message: &str| state_error(amendment_directory(root, wi), message);
+    let policy = development_policy(before)?
+        .ok_or_else(|| fail("strict mode has no delegated development policy"))?;
+    let repository_policy = super::policy_document(root)?;
+    if !delegated_policy_boundary_allows(root, before, repository_policy.as_ref())? {
+        return Err(fail(
+            "current human/provider/multi-party policy cannot be discharged by delegated review",
+        ));
+    }
+    let before_digest = record_digest(before, root)?;
+    if summary["preflightContractDigest"] != before_digest.to_string()
+        || summary["preflightRepositorySnapshotDigest"] != snapshot.to_string()
+        || !matches!(summary["preflightState"].as_str(), Some("green" | "yellow"))
+    {
+        return Err(fail(
+            "delegated review requires current non-red preflight Contract and snapshot bindings",
+        ));
+    }
+    let mut review = if super::governance_controls::preflight_decision_evidence_state(
+        root,
+        wi,
+        &before_digest,
+    ) == super::governance_controls::PreflightDecisionEvidenceState::Valid
+    {
+        let owner: cockpit_protocol::PreflightDecisionEvidence =
+            serde_json::from_value(summary["decisionEvidence"].clone())
+                .map_err(|e| fail(&e.to_string()))?;
+        let value = serde_json::to_value(&owner).map_err(|e| fail(&e.to_string()))?;
+        let digest = record_digest(&value, root)?;
+        let canonical = format!(".ai/decisions/{wi}.preflight-review.json");
+        let path = if super::is_regular_non_symlink(&root.join(&canonical))?
+            && native_owner_receipt_json(root, &canonical)? == value
+        {
+            canonical
+        } else {
+            format!(
+                ".ai/decisions/{wi}.preflight-review.{}.json",
+                digest.to_string().trim_start_matches("sha256:")
+            )
+        };
+        DelegatedDevelopmentReview {
+            owner_contract: before.clone(),
+            owner_review: owner,
+            owner_receipt_path: path,
+            owner_receipt_digest: digest,
+            policy_digest: record_digest(&policy, root)?,
+            repository_policy: repository_policy.clone(),
+            authority: authority.clone(),
+        }
+    } else {
+        let history = read_work_item_contract_amendments(root, wi)?;
+        history.last().filter(|r| r.new_contract_digest == before_digest && r.runtime_digest == runtime.runtime_digest && r.runtime_version == runtime.runtime_version)
+            .and_then(|r| r.delegated_review.clone()).ok_or_else(|| fail("delegated review requires a formal owner baseline or exact native delegated predecessor"))?
+    };
+    review.authority = authority.clone();
+    review.repository_policy = repository_policy;
+    validate_delegated_review_values(
+        root,
+        &super::repository_id(root).to_string(),
+        wi,
+        before,
+        after,
+        request,
+        &review,
+    )?;
+    Ok(Some(review))
+}
+
+pub(crate) fn delegated_review_is_current(
+    root: &Path,
+    wi: &str,
+    runtime: Option<&RuntimeContext>,
+) -> Result<bool, ObserverError> {
+    let history = read_work_item_contract_amendments(root, wi)?;
+    let Some(tail) = history.last().filter(|r| r.delegated_review.is_some()) else {
+        return Ok(false);
+    };
+    let contract = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
+    let current_contract = super::read_json(&contract)?;
+    let current_policy = super::policy_document(root)?;
+    if !delegated_policy_boundary_allows(root, &current_contract, current_policy.as_ref())? {
+        return Ok(false);
+    }
+    Ok(
+        super::contract_digest(&contract)? == tail.new_contract_digest
+            && runtime.is_none_or(|r| {
+                r.runtime_digest == tail.runtime_digest && r.runtime_version == tail.runtime_version
+            }),
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::{AmendmentFailpoint, set_amendment_failpoint};
@@ -3149,6 +3542,90 @@ mod tests {
         let mut post_checkpoint = before.clone();
         post_checkpoint["state"] = json!("implementation_active");
         assert!(super::activation_differences(&post_checkpoint, &after, true).is_err());
+    }
+
+    #[test]
+    fn delegated_pending_recovery_rechecks_current_policy_before_more_writes() {
+        for failpoint in [
+            AmendmentFailpoint::Prepared,
+            AmendmentFailpoint::ContractReplaced,
+            AmendmentFailpoint::SummaryProjected,
+        ] {
+            let directory = repository();
+            let root = directory.path();
+            let id = "WI-DELEGATED-PENDING-POLICY";
+            let runtime = cockpit_protocol::RuntimeContext {
+                runtime_version: "1.0.1-test".into(),
+                protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+                runtime_digest: cockpit_core::Digest::sha256_bytes(
+                    b"isolated-pending-review-fixture",
+                ),
+            };
+            start_work_item_with_options(root, id, "synthetic interrupted delegation", "recheck current policy", &["**".into()], &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["preserve partial evidence without prohibited effects".into()],
+                verification_commands: vec!["git diff --check".into()],
+                development_review: Some(serde_json::from_value(json!({
+                    "schemaVersion":1,"reviewerActor":"agent:fixture","authoritySource":"user:synthetic-pending",
+                    "allowedChanges":["append_verification"],"preapprovedCommands":["git status --porcelain"]
+                })).expect("typed fixture policy")),
+                ..Default::default()
+            }).expect("start");
+            let contract = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+            let summary = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+            crate::preflight_work_item_with_runtime(root, &contract, &runtime)
+                .expect("owner preflight");
+            let c = read_json(&contract);
+            let s = read_json(&summary);
+            crate::record_work_item_governance_controls_with_runtime(root, id, &json!({"decisionEvidence":{
+                "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+                "workItemId":id,"repositoryId":crate::repository_id(root),"contractDigest":cockpit_protocol::digest_json(&c).expect("digest"),
+                "preflightDecisionDigest":s["preflightDecisionDigest"],"repositorySnapshotDigest":s["preflightRepositorySnapshotDigest"],
+                "recordedAt":"2026-10-23T00:00:00Z","recordedBy":"human:synthetic-fixture","reason":"isolated local provenance; no real identity authenticated"
+            }}), &runtime).expect("synthetic owner receipt");
+            crate::preflight_work_item_with_runtime(root, &contract, &runtime)
+                .expect("reviewed preflight");
+            checkpoint_work_item(root, id).expect("checkpoint");
+            let request = json!({"schemaVersion":1,"changeId":"interrupted-technical-review","reason":"exact preapproved check",
+                "expectedContractDigest":cockpit_protocol::digest_json(&c).expect("digest"),
+                "changes":[{"path":"/verification","operation":"add","value":"git status --porcelain"}],
+                "developmentReview":{"actor":"agent:fixture","authoritySource":"user:synthetic-pending","assurance":"self_declared",
+                    "operations":["review_development_amendment"],"policyRefs":[],"evidenceRefs":[]}
+            });
+            set_amendment_failpoint(failpoint);
+            let error =
+                crate::amend_work_item_contract_with_runtime(root, id, &request, "", &runtime)
+                    .expect_err("actual transaction interruption");
+            assert!(
+                error.to_string().contains("injected interruption"),
+                "{error}"
+            );
+            let prepared = super::amendment_record_path(root, id, 1, "prepared");
+            let before = [
+                fs::read(&contract).expect("Contract"),
+                fs::read(&summary).expect("Summary"),
+                fs::read(&prepared).expect("prepared"),
+            ];
+            fs::write(root.join(".ai/policy.json"), serde_json::to_vec(&json!({"schemaVersion":1,"project":{
+                "policyId":"now-human-required","layer":"project","rules":[{"operation":"modify_source","approvalMode":"single_authorized_human","requiredEvidence":[]}]
+            }})).expect("policy JSON")).expect("synthetic stronger current policy");
+            let error =
+                crate::amend_work_item_contract_with_runtime(root, id, &request, "", &runtime)
+                    .expect_err("current policy must stop any further delegated writes");
+            assert!(
+                error
+                    .to_string()
+                    .contains("current human/provider/multi-party policy"),
+                "{error}"
+            );
+            assert_eq!(fs::read(&contract).expect("Contract"), before[0]);
+            assert_eq!(fs::read(&summary).expect("Summary"), before[1]);
+            assert_eq!(
+                fs::read(&prepared).expect("retained partial record"),
+                before[2]
+            );
+            assert!(!super::amendment_record_path(root, id, 1, "committed").exists());
+        }
     }
 
     #[test]

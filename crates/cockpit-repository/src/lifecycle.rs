@@ -114,6 +114,7 @@ fn start_work_item_with_options_internal(
     options: &WorkItemStartOptions,
     runtime: Option<&RuntimeContext>,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    validate_initial_scenarios(root, options)?;
     if !matches!(options.authority.as_str(), "authorized" | "missing") {
         return Err(ObserverError::State {
             path: root.join(".ai/work-items/active"),
@@ -171,6 +172,61 @@ fn start_work_item_with_options_internal(
         timestamp,
         start_advisory: Some(start_advisory),
     })
+}
+
+fn validate_initial_scenarios(
+    root: &Path,
+    options: &WorkItemStartOptions,
+) -> Result<(), ObserverError> {
+    if let Some(policy) = &options.development_review {
+        policy.validate().map_err(|message| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message,
+        })?;
+    }
+    let mut names = std::collections::BTreeSet::new();
+    for (index, entry) in options.scenario_coverage.iter().enumerate() {
+        let mut errors = Vec::new();
+        entry.validate_initial_plan(index, &mut errors);
+        if !names.insert(&entry.scenario) {
+            errors.push("duplicate initial scenario".into());
+        }
+        if !errors.is_empty() {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: errors.join("; "),
+            });
+        }
+    }
+    Ok(())
+}
+
+fn apply_initial_scenarios(
+    contract: &mut serde_json::Value,
+    summary: &mut serde_json::Value,
+    options: &WorkItemStartOptions,
+) {
+    if let Some(policy) = &options.development_review {
+        contract["governanceProfile"]["developmentReview"] =
+            serde_json::to_value(policy).expect("typed review policy");
+        let caps = contract
+            .as_object_mut()
+            .expect("Contract object")
+            .entry("requiredRuntimeCapabilities")
+            .or_insert_with(|| serde_json::json!([]));
+        let caps = caps.as_array_mut().expect("capability list");
+        let cap = serde_json::json!(cockpit_protocol::DELEGATED_DEVELOPMENT_REVIEW_CAPABILITY);
+        if !caps.contains(&cap) {
+            caps.push(cap);
+            caps.sort_by_key(|v| v.as_str().unwrap_or_default().to_owned());
+        }
+    }
+    if !options.scenario_coverage.is_empty() {
+        let value = serde_json::to_value(&options.scenario_coverage)
+            .expect("serializable typed scenario plan");
+        contract["scenarioCoverage"] = value.clone();
+        summary["scenarioCoverage"] = value;
+    }
 }
 
 fn record_start_lifecycle_fact(
@@ -769,6 +825,7 @@ fn activate_not_ready_scaffold(
             path: contract_path.clone(),
             message: error.to_string(),
         })?;
+    apply_initial_scenarios(&mut contract, &mut summary, options);
     summary["state"] = serde_json::json!("implementation_active");
     summary["repositoryId"] = serde_json::json!(profile.repository_id);
     summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
@@ -886,6 +943,7 @@ fn scaffold_work_item_internal(
         acceptance_criteria: Vec::new(),
         required_evidence_classes: Vec::new(),
         verification_commands: Vec::new(),
+        ..Default::default()
     };
     let scaffold = create_work_item_scaffold(
         root,
@@ -1004,7 +1062,7 @@ fn create_work_item_scaffold(
         repository_snapshot_digest: snapshot_digest(&snapshot)?,
     };
     let now = now();
-    let contract = serde_json::json!({
+    let mut contract = serde_json::json!({
         "protocolVersion": 1,
         "repositoryId": facts.repository_id,
         "workItemId": input.work_item_id,
@@ -1025,7 +1083,7 @@ fn create_work_item_scaffold(
         "repositorySnapshotDigest": facts.repository_snapshot_digest,
         "createdAt": now,
     });
-    let summary = serde_json::json!({
+    let mut summary = serde_json::json!({
         "protocolVersion": 1,
         "repositoryId": facts.repository_id,
         "workItemId": input.work_item_id,
@@ -1037,6 +1095,7 @@ fn create_work_item_scaffold(
         "createdAt": now,
         "updatedAt": now,
     });
+    apply_initial_scenarios(&mut contract, &mut summary, input.options);
     let active = ai.join("work-items/active");
     let archive = ai.join("work-items/archive");
     // A repository may legitimately have no active Work Items after all
@@ -1964,6 +2023,7 @@ fn preflight_work_item_internal_unlocked(
         &contract,
         raw_decision.clone(),
         false,
+        current_runtime,
     )?;
     observation_context.validate_current()?;
 
@@ -2199,7 +2259,8 @@ fn require_green_or_yellow_preflight_governance(
 ) -> Result<(), ObserverError> {
     let decision =
         governance_decision_for_pre_execution_boundary(root, contract, snapshot, None, None)?;
-    let decision = super::apply_current_preflight_review_evidence(root, contract, decision, false)?;
+    let decision =
+        super::apply_current_preflight_review_evidence(root, contract, decision, false, None)?;
     let current_state = decision_state_name(decision.state.clone());
     if current_state == "red" || preflight_state == "red" {
         return Err(ObserverError::State {

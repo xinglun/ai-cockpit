@@ -64,6 +64,7 @@ fn contract() -> Contract {
 
 fn request(changes: Vec<ContractAmendmentChange>) -> ContractAmendmentRequest {
     ContractAmendmentRequest {
+        development_review: None,
         schema_version: 1,
         change_id: "change-1".into(),
         expected_contract_digest: Digest::sha256_bytes(b"fixture-contract"),
@@ -404,4 +405,42 @@ fn field_registry_distinguishes_sensitive_plan_changes() {
         ContractAmendmentFieldClass::SensitivePlanEditable
     );
     assert!(contract_amendment_field_class("/repositoryId").is_err());
+}
+
+#[test]
+fn absent_agent_review_keeps_legacy_request_wire_bytes() {
+    let wire = json!({"schemaVersion":1,"changeId":"legacy","expectedContractDigest":"sha256:0000000000000000000000000000000000000000000000000000000000000000","reason":"legacy rationale","changes":[{"path":"/goal","operation":"set","value":"bounded goal"}]});
+    let request: ContractAmendmentRequest =
+        serde_json::from_value(wire.clone()).expect("legacy request");
+    assert!(request.development_review.is_none());
+    assert_eq!(
+        serde_json::to_value(&request).expect("serialized request"),
+        wire
+    );
+    assert_eq!(
+        cockpit_protocol::digest_json(&request)
+            .expect("legacy digest")
+            .to_string(),
+        "sha256:da18d1c2d97a7c2d1458e177758ace3b581ae36a91d972fa9f519ba6c8bec0bb"
+    );
+}
+
+#[test]
+fn filling_a_plan_cannot_reuse_a_scenario_that_already_claims_verified_evidence() {
+    let mut before = serde_json::to_value(contract()).expect("fixture");
+    before["scenarioCoverage"][0]["status"] = json!("verified");
+    before["scenarioCoverage"][0]["evidence"] = json!(["old-evidence"]);
+    before["scenarioCoverage"][0]["verificationPlan"] = json!(null);
+    let policy:cockpit_protocol::DevelopmentReviewPolicy=serde_json::from_value(json!({"schemaVersion":1,
+        "reviewerActor":"agent:fixture","authoritySource":"user:fixture","allowedChanges":["fill_verification_plan"],
+        "preapprovedCommands":["cargo test"]})).expect("explicit policy");
+    let r = request(vec![ContractAmendmentChange {
+        path: "/scenarioCoverage/0/verificationPlan".into(),
+        operation: ContractAmendmentOperation::Set,
+        value: Some(json!("cargo test")),
+    }]);
+    assert!(
+        cockpit_protocol::validate_development_review_changes(&before, &r, &policy).is_err(),
+        "new planning semantics must not silently inherit an old verified claim"
+    );
 }

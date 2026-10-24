@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9b393ac335d7e500bee1965469617977957dd254b3305fdaf64489831e39d5c7",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:f45ccec30e8ee3fe3c7ddc9a2ed5fd9ad6e94c3b4a46e4f373febc59c7172c04",
+  "reason": "Actual user response: 确认 WI-1107 上述 policyRefs 更正及绑定，confirm_review。本次不包含生产启用或发布。 Trusted parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed source user message Sentinel_ba04b709dc188191936e8dbc5f1d3caf at2026-10-23 11:22:47 UTC. Current HEAD55831a3fe19a11645d1ad10c66c2f5357ac54f6e and exact Contract/preflight/snapshot rechecked. Only the source policy ID reference correction is authorized; all9 commands,12 unverified scenarios,scope,900second ceiling and approval rules unchanged. No production activation, public publication, merge or close. Actual recordedAt is current recording time; prior failed plan/verify and original owner confirmation retained. Governing Runtime remains fixed b2; candidate feature never authorizes this WI.",
+  "recordedAt": "2026-10-23T11:26:11.258586+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_ba04b709dc188191936e8dbc5f1d3caf; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a0245f71cdefae0faf1c65ffafe562285951177c6ec63c9ae76de032e70de07f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1107-delegated-development-review"
+}
