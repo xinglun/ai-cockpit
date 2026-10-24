@@ -77,20 +77,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1107-delegated-development-review"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ef3d80b46b323504236e2fd7b52a0eddd6faf6f72c5f92f77d8520f77aaa1d74",
+      "previousContractHash": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
+      "reason": "Exact-head PR1068 CI40056787737 passed all36 hosted nodes with900s budgets, zero reuse/timeouts and matching Linux/Windows revision bindings, but its workspace coverage receipt consumer rejected the original unfiltered cargo test --locked --workspace -- --test-threads=1 declaration. A second existing guard also incorrectly requires the Contract to contain only one Cargo test, conflicting with four additional targeted regressions. Add only the existing coverage consumer and its regression suite to scope and append its fast regression command. Recognize only explicit semantically unfiltered serial libtest scheduling, retain exactly one complete workspace declaration and all package/node/command/Contract/source/Runtime/attempt/current-freshness checks; explicitly parsed targeted tests are additional checks and can never substitute for any full package execution. Preserve every original assertion, all ten current verification commands,900s policy, acceptance/scenario/authority/permissions and all historical failed/successful evidence. No verification is claimed for this new Contract, no agent records a human confirmation, and no release or production activation is authorized by this request.",
+      "recorded": true,
+      "recordedAt": "2026-10-24T03:58:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1107-delegated-development-review"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
   "createdAt": "2026-10-23T10:24:02Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
+    "contractDigest": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:22bc5c9da18bd41301d2c944ec42b94fe363aaaaf5f0593d82c72943d1e0f592",
-    "reason": "Actual user response: 确认 WI-1107 上述两文件范围、追加回归及新绑定，confirm_review。 Parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed the actual user Ray message Sentinel_b01a42708f348191b9253373567ebab9 at2026-10-24 00:22 UTC (minute precision), responding to exact request Sentinel_f225c39db6388191956ce3818d95ea1b. HEAD994ffad3017b1cf19dabfae2092c6463fc6f495d and sequence4 Contract/preflight/snapshot were rechecked unchanged. This is a new binding-specific user confirmation for two CI paths and one additional driver regression command; original nine commands, existing finite900s policy, assertions and acceptance remain. Recorded time is actual current recording time; prior approvals and successful evidence are not reused for this changed Contract. No release or production activation is authorized by this record.",
-    "recordedAt": "2026-10-24T00:23:42.889967+00:00",
-    "recordedBy": "Codex agent transcribing actual user message Sentinel_b01a42708f348191b9253373567ebab9; no independent external identity authentication asserted",
+    "preflightDecisionDigest": "sha256:1eb8f60c89416723ef64e2b5d7a002a271c8031f07a1339bfad72dd126a96e7d",
+    "reason": "Actual user response: 确认 WI-1107 上述两文件覆盖检查修订及新绑定，confirm_review，并批准上述公开增量及条件交付。 Parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed actual user Ray message Sentinel_d0b9768073c08191a45b91f10c6d8147 at2026-10-24 04:02 UTC (minute precision), responding to exact request Sentinel_8b3fe9379a748191b5e2ff51f8e64dfa. Exact HEAD and sequence5 Contract/preflight/source snapshot rechecked unchanged. Only two coverage-consumer CI files and one additional fast regression command; all ten prior commands, assertions, acceptance, finite900s ceiling and original human/permission boundaries remain unchanged. Source changes and new Contract require genuine new verification; no old receipt is relabeled or old confirmation reused. Public increment and normal conditional PR delivery were explicitly approved in the same actual user response; this is not a true-close decision, release or production activation. Agent technical judgments are not attributed to the user.",
+    "recordedAt": "2026-10-24T04:03:56.919330+00:00",
+    "recordedBy": "Codex agent transcribing actual user message Sentinel_d0b9768073c08191a45b91f10c6d8147; no independent external identity authentication asserted",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+    "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
     "schemaVersion": 1,
     "workItemId": "WI-1107-delegated-development-review"
   },
@@ -130,11 +150,11 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-24T02:57:45Z",
-  "preflightContractDigest": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
-  "preflightState": "green",
+  "preflightAt": "2026-10-24T04:05:46Z",
+  "preflightContractDigest": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "preflightRepositorySnapshotDigest": "sha256:821ed29806f62808664deafb101f7e63b4f55c3361d4807718b559aeb2d5a23d",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -308,8 +328,8 @@
       "verificationPlan": "Run necessary fresh evidence for each real source binding; report actual nodes/tests/reuse/exit/truncation and platform revision bindings. Do not claim full WI1087, production enablement or measurable benefit without its own evidence."
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-10-24T03:00:54.344585310+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-24T04:03:57.954371122+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -456,5 +476,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-24T03:58:23Z"
+  },
   "workItemId": "WI-1107-delegated-development-review"
 }

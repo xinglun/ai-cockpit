@@ -649,4 +649,153 @@ fi
 jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and .executed == []' \
   "$tmp/invalid-hosted-report.json" >/dev/null
 
+# A serial libtest scheduling option does not filter the workspace. Explicit
+# package/target regressions can accompany it, but cannot supply a missing
+# workspace result. Exercise the real consumer, not a copy of its predicate.
+serial_receipt_case_count=0
+for coverage_case in serial_equal serial_separate targeted_serial targeted_default \
+  filter_tail ignored_tail skipped_tail parallel_threads zero_threads duplicate_threads \
+  duplicate_separator unknown_cargo_option unknown_target_option foreign_target_package \
+  targeted_filter targeted_environment targeted_only missing_package_result failed_package_result \
+  failed_targeted_result missing_targeted_result foreign_snapshot foreign_contract; do
+  cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+  cp "$tmp/valid-hosted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+  python3 - "$coverage_case" "$tmp/hosted-verification.json" \
+    "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" \
+    "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" \
+    "$tmp/contract-digest" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+case = sys.argv[1]
+receipt_path, evidence_path, contract_path, digest_path = map(Path, sys.argv[2:])
+formal = json.loads(receipt_path.read_text(encoding="utf-8"))
+receipt = formal["receipt"]
+plan = receipt["planReceipt"]
+coverage = plan["coverageManifest"]
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+serial_tail = ["--", "--test-threads=1"]
+if case == "serial_separate":
+    serial_tail = ["--", "--test-threads", "1"]
+elif case == "targeted_default":
+    serial_tail = []
+elif case == "filter_tail":
+    serial_tail = ["--", "one_test_only"]
+elif case == "ignored_tail":
+    serial_tail = ["--", "--test-threads=1", "--ignored"]
+elif case == "skipped_tail":
+    serial_tail = ["--", "--test-threads=1", "--skip", "important_test"]
+elif case == "parallel_threads":
+    serial_tail = ["--", "--test-threads=2"]
+elif case == "zero_threads":
+    serial_tail = ["--", "--test-threads=0"]
+elif case == "duplicate_threads":
+    serial_tail = ["--", "--test-threads=1", "--test-threads=1"]
+elif case == "duplicate_separator":
+    serial_tail = ["--", "--", "--test-threads=1"]
+coverage["sourceArgs"] = ["test", "--locked", "--workspace"] + serial_tail
+if case == "unknown_cargo_option":
+    coverage["sourceArgs"].insert(1, "--unrecognized-option")
+contract["verification"][2] = "cargo " + " ".join(coverage["sourceArgs"])
+
+if case not in {"serial_equal", "serial_separate"}:
+    targeted = [
+        "cargo test --locked -p package-a --test acceptance -- --test-threads=1",
+        "cargo test --locked -p package-b --test unit --test locks --test journal -- --test-threads=1",
+        "cargo test --locked --package package-a --test cli -- --test-threads 1",
+        "cargo test --locked -p package-b --test rpc -- --test-threads=1",
+    ]
+    if case == "unknown_target_option":
+        targeted[-1] = "cargo test --locked -p package-b --test rpc --unrecognized-option"
+    elif case == "foreign_target_package":
+        targeted[-1] = "cargo test --locked -p not-a-workspace-member --test rpc"
+    elif case == "targeted_filter":
+        targeted[-1] += " one_test_only"
+    elif case == "targeted_environment":
+        targeted[-1] = "FOO=1 " + targeted[-1]
+    for command in targeted:
+        index = len(contract["verification"])
+        contract["verification"].append(command)
+        node = f"project-command-{index}"
+        plan["executedNodes"].append(node)
+        receipt["results"].append({"nodeId": node, "passed": True,
+                                   "reused": False, "action": "execute", "satisfiedBy": "execution"})
+        receipt["executionRecords"].append({"nodeId": node, "commandDigest": "sha256:" + "5" * 64,
+                                            "spawned": True, "passed": True, "exitCode": 0})
+        receipt["nodesPlanned"] += 1
+        receipt["nodesExecuted"] += 1
+    if case == "targeted_only":
+        contract["verification"][2] = targeted[0]
+    elif case in {"missing_package_result", "missing_targeted_result"}:
+        missing = "project-command-2-package-package-b" if case == "missing_package_result" else "project-command-6"
+        receipt["results"] = [r for r in receipt["results"] if r["nodeId"] != missing]
+        receipt["executionRecords"] = [r for r in receipt["executionRecords"] if r["nodeId"] != missing]
+        plan["executedNodes"].remove(missing)
+        receipt["nodesPlanned"] -= 1
+        receipt["nodesExecuted"] -= 1
+    elif case in {"failed_package_result", "failed_targeted_result"}:
+        failed = "project-command-2-package-package-b" if case == "failed_package_result" else "project-command-6"
+        for result in receipt["results"]:
+            if result["nodeId"] == failed:
+                result["passed"] = False
+        for record in receipt["executionRecords"]:
+            if record["nodeId"] == failed:
+                record.update(passed=False, exitCode=17)
+contract_path.write_text(json.dumps(contract), encoding="utf-8")
+contract_digest = "sha256:" + hashlib.sha256(
+    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+).hexdigest()
+digest_path.write_text(contract_digest, encoding="utf-8")
+formal["contractDigest"] = contract_digest
+if case == "foreign_contract":
+    formal["contractDigest"] = "sha256:" + "f" * 64
+elif case == "foreign_snapshot":
+    formal["repositorySnapshotDigest"] = plan["repositorySnapshotDigest"] = "sha256:" + "f" * 64
+encoded = json.dumps(formal).encode("utf-8")
+receipt_path.write_bytes(encoded)
+evidence_path.write_bytes(encoded)
+PY
+  refresh_hosted_orchestration passed
+  coverage_case_exit=0
+  PACKAGE_LOG="$tmp/serial-$coverage_case-package-processes.log" \
+  FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
+      --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" \
+      --report "$tmp/serial-$coverage_case-report.json" \
+      >"$tmp/serial-$coverage_case.stdout" 2>"$tmp/serial-$coverage_case.stderr" || coverage_case_exit=$?
+  case "$coverage_case" in
+    serial_equal|serial_separate|targeted_serial|targeted_default)
+      if [[ "$coverage_case_exit" != 0 ]]; then
+        printf 'workspace coverage rejected valid unfiltered case %s\n' "$coverage_case" >&2
+        cat "$tmp/serial-$coverage_case.stderr" >&2
+        jq '{state, failurePhase, failureDiagnosticTail}' "$tmp/serial-$coverage_case-report.json" >&2
+        exit 1
+      fi
+      jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned and .executedByHostedRuntime == .planned and .executedByCoverageRunner == []' \
+        "$tmp/serial-$coverage_case-report.json" >/dev/null
+      ;;
+    *)
+      if [[ "$coverage_case_exit" == 0 ]]; then
+        printf 'workspace coverage accepted invalid serial/targeted case %s\n' "$coverage_case" >&2
+        exit 1
+      fi
+      jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and .executed == []' \
+        "$tmp/serial-$coverage_case-report.json" >/dev/null
+      ;;
+  esac
+  test ! -e "$tmp/serial-$coverage_case-package-processes.log" || {
+    printf 'serial receipt validation spawned unexpected package cargo for %s\n' "$coverage_case" >&2
+    exit 1
+  }
+  serial_receipt_case_count=$((serial_receipt_case_count + 1))
+done
+printf 'serial/targeted receipt regression cases passed: %s\n' "$serial_receipt_case_count"
+
 printf 'workspace package coverage regression passed\n'
