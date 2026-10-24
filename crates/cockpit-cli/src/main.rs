@@ -167,6 +167,9 @@ enum CommandKind {
         /// Explicit local development-review policy; requires formal owner review.
         #[arg(long)]
         development_review: Option<PathBuf>,
+        /// Explicit bounded local policy; declaration alone does not approve it.
+        #[arg(long)]
+        task_authorization: Option<PathBuf>,
         /// Persist preflight and create one before-edit checkpoint when the
         /// decision has no blockers or human-confirmation boundary.
         #[arg(long, default_value_t = false)]
@@ -1852,17 +1855,17 @@ fn run() -> Result<()> {
             verification,
             scenario_coverage,
             development_review,
+            task_authorization,
             prepare,
             source,
         } => {
             require_compatible(&repo, &runtime_context)?;
-            if !prepare && !source.is_empty() {
-                anyhow::bail!(
-                    "--source requires --prepare so references are recorded before preflight"
-                );
-            }
             let options = WorkItemStartOptions {
-                task_authorization: None,
+                task_authorization: task_authorization
+                    .map(|path| -> anyhow::Result<_> {
+                        Ok(serde_json::from_slice(&fs::read(&path)?)?)
+                    })
+                    .transpose()?,
                 out_of_scope,
                 risk,
                 authority,
@@ -1889,32 +1892,29 @@ fn run() -> Result<()> {
                     .transpose()?
                     .unwrap_or_default(),
             };
-            if prepare {
-                let report = cockpit_repository::start_work_item_prepared(
-                    &repo,
-                    &id,
-                    &intent,
-                    &goal,
-                    &scope,
-                    &options,
-                    &source,
-                    &runtime_context,
-                )
-                .context("start and prepare work item")?;
-                println!("{}", serde_json::to_string_pretty(&report)?);
+            let report = cockpit_repository::start_work_item_with_preparation(
+                &repo,
+                &cockpit_repository::WorkItemStartDeclaration {
+                    work_item_id: &id,
+                    intent: &intent,
+                    goal: &goal,
+                    scope: &scope,
+                    options: &options,
+                    sources: &source,
+                    prepare,
+                },
+                &runtime_context,
+            )
+            .context("start work item with complete declaration")?;
+            let mut output = if prepare {
+                report.clone()
             } else {
-                let receipt = start_work_item_with_options_and_runtime(
-                    &repo,
-                    &id,
-                    &intent,
-                    &goal,
-                    &scope,
-                    &options,
-                    &runtime_context,
-                )
-                .context("start work item")?;
-                println!("{}", serde_json::to_string_pretty(&receipt)?);
+                report["start"].clone()
+            };
+            if !prepare && !source.is_empty() {
+                output["sourceAmendment"] = report["sourceAmendment"].clone();
             }
+            println!("{}", serde_json::to_string_pretty(&output)?);
         }
         CommandKind::Checkpoint { repo, id } => {
             require_compatible(&repo, &runtime_context)?;

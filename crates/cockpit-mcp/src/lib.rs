@@ -601,6 +601,8 @@ fn mcp_tool_schema(name: &str) -> Value {
                 "requiredEvidenceClasses": {"type":"array", "items":string_property("Evidence class required by the Contract.")},
                 "verification": {"type":"array", "items":string_property("Explicit verification command. When omitted, Runtime uses the repository-observed default.")},
                 "sources": {"type":"array", "items":string_property("Human- or task-provided source reference appended before preflight.")},
+                "prepare": {"type":"boolean", "description":"Defaults to true for compatibility. False saves complete initial declarations without preflight or checkpoint."},
+                "taskAuthorization": {"type":"object", "description":"Explicit bounded local task policy. Native owner confirmation is still required; this object alone grants no authority."},
                 "developmentReview": {"type":"object", "description":"Explicit opt-in policy; only formal native owner review establishes its local delegation."},
                 "scenarioCoverage": {"type":"array", "items":{"type":"object"}, "description":"Typed unverified initial scenario plans, with empty evidence."},
             }),
@@ -1017,6 +1019,8 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 "sources",
                 "scenarioCoverage",
                 "developmentReview",
+                "prepare",
+                "taskAuthorization",
             ][..],
         ),
         // The protocol-owned MCP spec is the source for this field set.
@@ -1125,6 +1129,14 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             }
         }
         "work_item_start" => {
+            if object
+                .get("prepare")
+                .is_some_and(|value| !value.is_boolean())
+            {
+                return Err(
+                    "invalid arguments for work_item_start: prepare must be a boolean".into(),
+                );
+            }
             require_string(object, "workItemId", name)?;
             require_string(object, "intent", name)?;
             require_string(object, "goal", name)?;
@@ -2370,7 +2382,12 @@ fn work_item_start(
     let verification_commands =
         parse_string_array(object, "verification", "work_item_start", false, 0)?;
     let options = cockpit_repository::WorkItemStartOptions {
-        task_authorization: None,
+        task_authorization: object
+            .get("taskAuthorization")
+            .cloned()
+            .map(serde_json::from_value)
+            .transpose()
+            .map_err(|error| format!("invalid taskAuthorization: {error}"))?,
         out_of_scope,
         risk: arguments
             .get("risk")
@@ -2407,14 +2424,22 @@ fn work_item_start(
         .get("goal")
         .and_then(Value::as_str)
         .ok_or("goal argument is required")?;
-    cockpit_repository::start_work_item_prepared(
+    let prepare = object
+        .get("prepare")
+        .map(|value| value.as_bool().ok_or("prepare must be a boolean"))
+        .transpose()?
+        .unwrap_or(true);
+    cockpit_repository::start_work_item_with_preparation(
         repo,
-        work_item_id,
-        intent,
-        goal,
-        &scope,
-        &options,
-        &sources,
+        &cockpit_repository::WorkItemStartDeclaration {
+            work_item_id,
+            intent,
+            goal,
+            scope: &scope,
+            options: &options,
+            sources: &sources,
+            prepare,
+        },
         runtime,
     )
     .map_err(|error| error.to_string())
