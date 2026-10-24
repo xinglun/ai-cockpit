@@ -1728,6 +1728,50 @@ reject("missing-transition", mutate_root=lambda root: next(
     p for p in (root / decisions).glob(f"{wi}.finalize.*.json")
     if json.loads(p.read_text())["sequence"] == 1).unlink())
 
+
+def rewrite_transition(root, sequence, mutate, *, duplicate=False):
+    path = next(p for p in (root / decisions).glob(f"{wi}.finalize.*.json")
+                if json.loads(p.read_text())["sequence"] == sequence)
+    envelope = json.loads(path.read_text())
+    mutate(envelope)
+    replacement = decisions / f"{wi}.finalize.{canonical(envelope)[7:]}.json"
+    if not duplicate:
+        path.unlink()
+    write(root, replacement, envelope)
+    close = load(root, close_path)
+    close["structuredDecision"]["evidenceRefs"] = [
+        replacement.as_posix() if ref == path.relative_to(root).as_posix() else ref
+        for ref in close["structuredDecision"]["evidenceRefs"]]
+    write(root, close_path, close)
+
+
+for label, sequence, mutation, duplicate in (
+    ("wrong-predecessor", 2, lambda e: e.update(predecessorReceiptDigest="sha256:" + "0" * 64), False),
+    ("wrong-sequence", 2, lambda e: e.update(sequence=3), False),
+    ("bool-sequence", 1, lambda e: e.update(sequence=True), False),
+    ("duplicate-sequence", 1, lambda e: e.update(transitionId="different-transition"), True),
+    ("bool-schema", 1, lambda e: e.update(schemaVersion=True), False),
+    ("missing-transition-id", 2, lambda e: e.pop("transitionId"), False),
+):
+    reject(label, mutate_root=lambda root, s=sequence, m=mutation, d=duplicate:
+           rewrite_transition(root, s, m, duplicate=d))
+
+
+def unconfirmed_close(root):
+    close = load(root, close_path)
+    close["decisionState"] = "pending"
+    write(root, close_path, close)
+
+
+reject("unconfirmed-close", mutate_root=unconfirmed_close)
+reject("root-already-merged", lambda receipts:
+       receipts[0]["pullRequest"].update(mergeCommit="f" * 40))
+reject("root-unknown", lambda receipts:
+       receipts[0]["result"].update(unknownCodes=["unknown"]))
+reject("missing-terminal", mutate_root=lambda root: next(
+    p for p in (root / decisions).glob(f"{wi}.finalize.*.json")
+    if json.loads(p.read_text())["sequence"] == 2).unlink())
+
 # Exercise every currently selected real closed record in read-only mode.
 # This catches main-only compatibility failures before PR integration.
 sys.path.insert(0, str(helper.parent))
