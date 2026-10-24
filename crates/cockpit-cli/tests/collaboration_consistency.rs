@@ -11,12 +11,15 @@ use std::{
     fs,
     path::Path,
     process::{Command, Output},
-    thread,
-    time::{Duration, Instant},
 };
 
 #[cfg(unix)]
-use std::{path::PathBuf, process::Child};
+use std::{
+    path::PathBuf,
+    process::Child,
+    thread,
+    time::{Duration, Instant},
+};
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("controlled repository");

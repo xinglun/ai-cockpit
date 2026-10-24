@@ -494,7 +494,7 @@ impl ResolvedExecutableIdentity {
     pub(super) fn execution(&self, original_args: &[String]) -> Option<(String, Vec<String>)> {
         #[cfg(windows)]
         {
-            return Some((self.path.clone(), original_args.to_vec()));
+            Some((self.path.clone(), original_args.to_vec()))
         }
         #[cfg(unix)]
         {

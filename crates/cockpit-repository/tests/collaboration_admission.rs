@@ -21,7 +21,9 @@ use cockpit_verification::{
 };
 use std::fs;
 use std::io::Write as _;
-use std::path::{Path, PathBuf};
+use std::path::Path;
+#[cfg(target_os = "linux")]
+use std::path::PathBuf;
 use std::process::Command;
 
 fn digest(label: &str) -> Digest {

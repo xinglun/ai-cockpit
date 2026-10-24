@@ -1,6 +1,6 @@
-use cockpit_isolation::{
-    ManifestRecord, ScanError, scan_tree, scan_tree_to_jsonl, validate_symlink_containment,
-};
+use cockpit_isolation::{ManifestRecord, scan_tree, scan_tree_to_jsonl};
+#[cfg(unix)]
+use cockpit_isolation::{ScanError, validate_symlink_containment};
 use std::fs;
 use std::io::Cursor;
 use std::path::PathBuf;

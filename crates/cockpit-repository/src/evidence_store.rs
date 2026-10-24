@@ -400,7 +400,7 @@ fn open_cap_directory_nofollow(
         if !metadata.is_dir() {
             return Err("store_path_invalid");
         }
-        return Ok(directory);
+        Ok(directory)
     }
 
     #[cfg(not(windows))]
@@ -626,7 +626,7 @@ fn read_optional_cap_file_nofollow_bounded(
                 message: "receipt store entry exceeds the bounded read limit".into(),
             });
         }
-        return Ok(Some(bytes));
+        Ok(Some(bytes))
     }
 
     #[cfg(not(windows))]
@@ -789,7 +789,7 @@ fn sync_cap_directory(parent: &Dir, display_path: &Path) -> Result<(), ObserverE
     #[cfg(windows)]
     {
         let _ = (parent, display_path);
-        return Ok(());
+        Ok(())
     }
     #[cfg(not(windows))]
     #[cfg(not(windows))]
