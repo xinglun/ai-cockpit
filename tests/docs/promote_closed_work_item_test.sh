@@ -1643,9 +1643,11 @@ def fixture(label, *, absent=False, mutate=lambda value: None):
         path.unlink()
     for receipt in receipts:
         receipt["contractDigest"] = digest
-        receipt["branch"] = {"name": context["branch"], "remote": context["baseRemote"]}
+        receipt["branch"] = {"name": context["branch"], "remote": context["baseRemote"],
+                             "headRevision": receipt["pullRequest"]["headRevision"]}
         receipt["worktree"] = {"branch": context["branch"], "path": context["worktree"],
-                               "worktreeId": "legacy-fixture-worktree"}
+                               "worktreeId": "legacy-fixture-worktree",
+                               "headRevision": receipt["pullRequest"]["headRevision"]}
     receipts[0]["before"] = {"branch": "present", "pullRequest": "unmerged", "worktree": "clean"}
     receipts[0]["after"] = copy.deepcopy(receipts[0]["before"])
     receipts[0]["result"]["failureCodes"] = ["unmerged_pull_request"]
@@ -1772,6 +1774,35 @@ reject("missing-terminal", mutate_root=lambda root: next(
     p for p in (root / decisions).glob(f"{wi}.finalize.*.json")
     if json.loads(p.read_text())["sequence"] == 2).unlink())
 
+
+for index in range(3):
+    for resource in ("pullRequest", "branch", "worktree"):
+        reject(f"revision-mismatch-{index}-{resource}",
+               lambda receipts, i=index, key=resource:
+               receipts[i][key].update(headRevision="0" * 40))
+    for schema in (None, True, 999):
+        reject(f"receipt-schema-{index}-{schema}", lambda receipts, i=index, value=schema:
+               receipts[i].pop("schemaVersion") if value is None
+               else receipts[i].update(schemaVersion=value))
+
+
+def changed_cleanup_head(receipts):
+    for resource in ("pullRequest", "branch", "worktree"):
+        receipts[2][resource]["headRevision"] = "0" * 40
+
+
+reject("changed-cleanup-head", changed_cleanup_head)
+
+# A governance append may legitimately change the source between the failed
+# pre-merge root and the later merge observation. Only the merged->cleanup
+# head must stay fixed; do not rewrite or conflate the earlier observation.
+root = fixture("root-head-advances", mutate=lambda receipts: [
+    receipts[0][resource].update(headRevision="1" * 40)
+    for resource in ("pullRequest", "branch", "worktree")])
+result = invoke(root)
+assert result.returncode == 0, ("valid root head advance", result.stdout, result.stderr)
+assert invoke(root, "--check").returncode == 0
+
 # Exercise every currently selected real closed record in read-only mode.
 # This catches main-only compatibility failures before PR integration.
 sys.path.insert(0, str(helper.parent))
@@ -1780,7 +1811,7 @@ selected, _ = promotion.closed_work_item_selection(repository)
 assert selected, "real closed-record corpus is empty"
 for work_item in selected:
     promotion.validate_terminal_evidence(repository, work_item)
-print(f"legacy context: 2 positive, {negative_count} negative; {len(selected)} real closed records passed")
+print(f"legacy context: 3 positive, {negative_count} negative; {len(selected)} real closed records passed")
 PY_LEGACY_CONTEXT
 
 echo 'closed Work Item promotion regression passed'
