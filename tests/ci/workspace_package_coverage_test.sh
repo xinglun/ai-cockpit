@@ -676,6 +676,19 @@ receipt = formal["receipt"]
 plan = receipt["planReceipt"]
 coverage = plan["coverageManifest"]
 contract = json.loads(contract_path.read_text(encoding="utf-8"))
+# The saved legacy fixture intentionally reuses package-b. These new cases
+# model this run executing every package; leave the original reuse cases alone.
+receipt["nodesReused"] = 0
+receipt["nodesExecuted"] = receipt["nodesPlanned"]
+plan["reusedNodes"] = []
+plan["executedNodes"] = [result["nodeId"] for result in receipt["results"]]
+for result in receipt["results"]:
+    if result["nodeId"] == "project-command-2-package-package-b":
+        result.update(reused=False, action="execute", satisfiedBy="execution")
+receipt["executionRecords"].append({
+    "nodeId": "project-command-2-package-package-b", "commandDigest": "sha256:" + "4" * 64,
+    "spawned": True, "passed": True, "exitCode": 0,
+})
 serial_tail = ["--", "--test-threads=1"]
 if case == "serial_separate":
     serial_tail = ["--", "--test-threads", "1"]
@@ -779,7 +792,11 @@ PY
         exit 1
       fi
       jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned and .executedByHostedRuntime == .planned and .executedByCoverageRunner == []' \
-        "$tmp/serial-$coverage_case-report.json" >/dev/null
+        "$tmp/serial-$coverage_case-report.json" >/dev/null || {
+        printf 'workspace coverage returned inconsistent full execution for %s\n' "$coverage_case" >&2
+        cat "$tmp/serial-$coverage_case-report.json" >&2
+        exit 1
+      }
       ;;
     *)
       if [[ "$coverage_case_exit" == 0 ]]; then
