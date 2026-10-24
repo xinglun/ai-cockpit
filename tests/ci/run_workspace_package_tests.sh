@@ -247,7 +247,18 @@ expected_nodes = [f"project-command-{command_index}-package-{package}" for packa
 if node_ids != expected_nodes:
     reject("hosted Runtime test manifest is missing or duplicating packages")
 
+def unfiltered_serial_test_args(args):
+    if not isinstance(args, list) or any(not isinstance(arg, str) or not arg for arg in args):
+        return None
+    if "--" in args:
+        separator = args.index("--")
+        if args[separator + 1:] not in (["--test-threads=1"], ["--test-threads", "1"]):
+            return None
+        return args[:separator]
+    return args
+
 def complete_workspace_test(program, args):
+    args = unfiltered_serial_test_args(args)
     return (
         program == "cargo"
         and isinstance(args, list)
@@ -257,6 +268,34 @@ def complete_workspace_test(program, args):
         and all(arg in {"--workspace", "--locked", "--all-features", "--all-targets"} for arg in args[1:])
         and len(args[1:]) == len(set(args[1:]))
     )
+
+def additional_targeted_test(program, args):
+    args = unfiltered_serial_test_args(args)
+    if program != "cargo" or not args or args[0] != "test":
+        return False
+    package = None
+    targets = set()
+    locked = False
+    index = 1
+    while index < len(args):
+        arg = args[index]
+        if arg == "--locked" and not locked:
+            locked = True
+            index += 1
+        elif arg in {"-p", "--package"} and package is None and index + 1 < len(args):
+            package = args[index + 1]
+            if package not in expected:
+                return False
+            index += 2
+        elif arg == "--test" and index + 1 < len(args):
+            target = args[index + 1]
+            if not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_.-]*", target) or target in targets:
+                return False
+            targets.add(target)
+            index += 2
+        else:
+            return False
+    return package is not None and bool(targets)
 
 if not complete_workspace_test(coverage.get("sourceProgram"), coverage.get("sourceArgs")):
     reject("hosted Runtime manifest is not a complete unfiltered Cargo workspace test")
@@ -282,6 +321,7 @@ if contract.get("workItemId") != work_item_id or not isinstance(declarations, li
 if command_index >= len(declarations):
     reject("hosted Runtime test command index is outside the current Contract")
 test_declarations = []
+targeted_declarations = []
 assignment_name = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 for index, declaration in enumerate(declarations):
     source = declaration if isinstance(declaration, str) else declaration.get("check") if isinstance(declaration, dict) else None
@@ -311,11 +351,14 @@ for index, declaration in enumerate(declarations):
     if command_words[:2] == ["cargo", "test"]:
         if assignment_count or explicit_env:
             reject("current Contract declares an unsupported environment-wrapped Cargo test")
-        test_declarations.append(index)
-        if not complete_workspace_test(words[0], words[1:]):
+        if complete_workspace_test(words[0], words[1:]):
+            test_declarations.append(index)
+            if index == command_index and words[1:] != coverage["sourceArgs"]:
+                reject("hosted Runtime test manifest differs from the indexed Contract command")
+        elif additional_targeted_test(words[0], words[1:]):
+            targeted_declarations.append(index)
+        else:
             reject("current Contract declares a filtered or unsupported Cargo test")
-        if index == command_index and words[1:] != coverage["sourceArgs"]:
-            reject("hosted Runtime test manifest differs from the indexed Contract command")
 if test_declarations != [command_index]:
     reject("hosted Runtime test manifest has no unique matching Contract declaration")
 all_node_ids = []
@@ -332,6 +375,8 @@ if len(set(all_node_ids)) != len(all_node_ids):
     reject("hosted Runtime receipt contains duplicate verification nodes")
 if not set(expected_nodes).issubset(result_by_id):
     reject("hosted Runtime receipt package set does not match Cargo workspace metadata")
+if any(f"project-command-{index}" not in result_by_id for index in targeted_declarations):
+    reject("hosted Runtime receipt omits an additional targeted test result")
 if any(
     re.fullmatch(rf"project-command-{command_index}-package-.+", node)
     and node not in expected_nodes
