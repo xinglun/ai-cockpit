@@ -1986,7 +1986,13 @@ fn preflight_work_item_internal(
     if current_runtime.is_none() {
         super::task_authorization::reject_legacy_task_write(&root, &work_item_id)?;
     }
-    preflight_work_item_internal_unlocked(&root, &contract_path, &work_item_id, current_runtime, caller)
+    preflight_work_item_internal_unlocked(
+        &root,
+        &contract_path,
+        &work_item_id,
+        current_runtime,
+        caller,
+    )
 }
 
 fn preflight_work_item_internal_unlocked(

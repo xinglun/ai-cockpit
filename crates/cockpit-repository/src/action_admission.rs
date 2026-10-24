@@ -10,7 +10,13 @@ pub fn require_current_action_admission(
     requested_action: &str,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemActionExplanation, ObserverError> {
-    require_current_action_admission_with_caller(root, work_item_id, requested_action, runtime, None)
+    require_current_action_admission_with_caller(
+        root,
+        work_item_id,
+        requested_action,
+        runtime,
+        None,
+    )
 }
 
 /// Explicit request-scoped identity; callers cannot supply an earlier admission result.

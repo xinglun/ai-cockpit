@@ -83,8 +83,9 @@ use rust_material::{
     diagnose_rust_material,
 };
 
-pub use action_admission::{require_current_action_admission, require_current_action_admission_with_caller};
-pub use task_authorization::assess_task_authorization;
+pub use action_admission::{
+    require_current_action_admission, require_current_action_admission_with_caller,
+};
 pub use audit_query::{export_audit_events_filtered, query_audit_events};
 pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,
@@ -126,6 +127,7 @@ use execution_context::{
     effective_verification_environment, execution_environment_digest_from_values,
 };
 pub use governance_controls::*;
+pub use task_authorization::assess_task_authorization;
 
 /// Compatibility controls cannot supply the Runtime identity required by
 /// activation continuity/recovery. Those items use the admitted Runtime

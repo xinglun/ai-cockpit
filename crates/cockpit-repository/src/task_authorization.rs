@@ -446,10 +446,17 @@ pub fn assess_task_authorization(
     };
     let authorized = checked.is_ok() && status.task_authorization.is_some();
     let runtime_action = [
-        "run_preflight", "run_verification", "record_governance_controls",
-        "record_material_review_decision", "finish", "archive_when_reviewed",
-        "finalize_resources", "record_finalization", "finalize_verify",
-    ].contains(&request.action.as_str());
+        "run_preflight",
+        "run_verification",
+        "record_governance_controls",
+        "record_material_review_decision",
+        "finish",
+        "archive_when_reviewed",
+        "finalize_resources",
+        "record_finalization",
+        "finalize_verify",
+    ]
+    .contains(&request.action.as_str());
     let admitted = runtime_action.then(|| status.safe_actions.contains(&request.action));
     let (next, reason) = match checked {
         Err(e) => ("stop", e.to_string()),
