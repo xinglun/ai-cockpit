@@ -478,7 +478,6 @@ pub fn assess_task_authorization(
         "finalize_resources",
         "record_finalization",
         "finalize_verify",
-        "cleanup_resources",
         "cleanup_auxiliary_resources",
     ]
     .contains(&request.action.as_str());

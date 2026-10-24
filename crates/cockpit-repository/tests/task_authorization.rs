@@ -1143,3 +1143,26 @@ fn a_checkpoint_query_does_not_confuse_generic_status_with_its_native_phase_chec
         "query guidance cannot waive native duplicate-checkpoint rejection"
     );
 }
+
+#[test]
+fn resource_deletion_is_an_external_boundary_not_a_native_writer() {
+    let directory = fixture("2099-01-01T00:00:00Z", false);
+    let root = directory.path();
+    allow_task_actions(root, &["run_preflight", "cleanup_resources"], &[]);
+    let request = cockpit_protocol::TaskAuthorizationRequest {
+        schema_version: 1,
+        caller: caller(),
+        action: "cleanup_resources".into(),
+        paths: vec![],
+        public_target: Some(cockpit_protocol::TaskAuthorizationTarget {
+            provider: "github".into(),
+            repository: "example/fixture".into(),
+            base_branch: "main".into(),
+        }),
+    };
+    let assessment =
+        cockpit_repository::assess_task_authorization(root, WI, &request, &runtime()).unwrap();
+    assert!(assessment.authorized);
+    assert_eq!(assessment.action_admitted, None);
+    assert_eq!(assessment.next_action, "check_host_boundary");
+}

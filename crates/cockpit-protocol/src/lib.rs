@@ -1118,7 +1118,7 @@ pub struct TaskAuthorizationAssessment {
     pub authority: Option<TaskAuthorizationProjection>,
     pub requested_action: String,
     pub authorized: bool,
-    /// None means that this Runtime does not execute the requested host/provider action.
+    /// None means full admission belongs to an input-specific native or host boundary.
     pub action_admitted: Option<bool>,
     pub evidence_freshness: WorkItemEvidenceFreshness,
     pub next_action: String,
