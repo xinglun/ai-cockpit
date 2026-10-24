@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1107-delegated-development-review.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
+    "repositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
     "workItemId": "WI-1107-delegated-development-review"
   },
   "format": "ai-cockpit.task-outcome",
@@ -93,7 +93,7 @@
   "status": "verified",
   "usage": {
     "coverage": "unknown",
-    "cutoff": "2026-10-24T01:22:20.551366860Z",
+    "cutoff": "2026-10-24T04:51:04.211535641Z",
     "receiptRefs": [],
     "schemaVersion": 1,
     "subtotals": [],
