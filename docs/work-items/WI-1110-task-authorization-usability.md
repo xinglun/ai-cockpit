@@ -13,7 +13,7 @@ lastVerifiedBy: WI-1110-task-authorization-usability
 
 # WI-1110-task-authorization-usability — Bounded task authorization and usability
 
-Implementation in progress. The native sequence3 owner review is recorded; all17 required scenarios remain unverified. No candidate permission policy is activated in this governing Work Item or shared Runtime.
+Implementation in progress. The native sequence4 owner review is recorded; all17 required scenarios remain unverified. No candidate permission policy is activated in this governing Work Item or shared Runtime.
 
 Bind authorization to the repository, Work Item, goal, paths, actions, verification standards and explicit caller/source. Completion, withdrawal or a declared deadline ends future authority. Source changes can require revalidation without automatically requiring another owner authorization.
 

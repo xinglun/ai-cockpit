@@ -35,3 +35,11 @@ Preserve scope, history, failures, receipts, and bindings; never edit generated 
 ## Continue or stop
 
 Preserve unknowns; unknowns alone do not stop an operation admitted by the current Runtime. Stop for missing authority, contradictory evidence, or required human decision; show the Runtime reason.
+
+## Explicit bounded task mode
+
+When current status exposes `taskAuthorization`, read its state and use an explicit per-WI typed intent query (`work-item status --authorization-request` / MCP `authorizationRequest`). Check authority, evidence freshness and actual operation admission separately. Continue admitted work while the same native owner-bound authority remains effective; normal in-scope source commits require fresh proof where applicable, not another copy of the same owner approval. A status query is not a cached permit.
+
+Pass the actual caller with CLI `--task-caller` or supported MCP `taskCaller`; do not fill `human:*` or infer the configured actor. Missing owner evidence, scope/target mismatch, withdrawal, delivery completion, expiry, human-only decision or host/provider refusal requires stopping that operation. Existing material/Finding/identity/platform gates remain. Unconfigured tasks retain their legacy/strict behavior. Stage a complete new task before owner review (`prepare:false` in MCP; omit CLI `--prepare`); do not repair omissions by pretending an old review covered a new Contract.
+
+Only explicitly preauthorized closeout publication/auxiliary cleanup may continue after native human close. Record the exact grant completed when delivery ends; never reopen source work or interpret the local grant as external B or host permission. Read the command and Contract-field reference for typed request/termination fields and currently supported resource providers.

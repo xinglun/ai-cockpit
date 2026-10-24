@@ -579,3 +579,18 @@ Runtime は既存ロック内で別の `delegatedReview` を prepared／committe
 これはローカル出典であり外部本人認証ではない。全ローカル記録の書換えに対する保証もない。
 共有 Runtime と本番設定は変更しない。本番利用には別途明示選択と新しい所有者レビューが必要で、agent の技術判断は誤り得る。
 WI 間の期限／取消と外部 B は対象外。隔離テストでの確認回数削減は実際の利益測定ではない。
+
+
+## 範囲を限定したタスク認可
+
+完全なネイティブ `governanceProfile.taskAuthorization` を明示して選択します。従来モードと strict モードは変更しません。CLI `start --task-authorization <policy.json>` または MCP `work_item_start.taskAuthorization` で型付き宣言を保存します。新しい所有者判断が必要な場合は staged 起項（MCP `prepare:false`、CLI は `--prepare` を省略）でシナリオ・コマンド・入力参照を先に保存し、その後 preflight、実際のレビュー、checkpoint を行います。MCP の既存既定値 `prepare:true` は互換です。
+
+ポリシーは `schemaVersion:1`、明示的な `agentActor`、`authoritySource`、有限の `allowedActions` とその部分集合 `closeoutActions`、任意の RFC3339 `expiresAt` を含みます。公開操作には `publicTarget` の `provider`、`repository`、`baseBranch` が必要です。ネイティブ所有者判断は repository・WI・目標・ファイル・操作・検証基準を束縛します。caller ファイルや actor 文字列は人間／外部の本人認証ではなく、ホストや provider の権限を与えません。
+
+対応操作は型付き caller（`schemaVersion`、`actor`、`authoritySource`、`assurance:"self_declared"`）を CLI `--task-caller <caller.json>` または MCP `taskCaller` で渡します。Runtime は同じ WI ロック内で再確認し、検証の実プロセス起動とキャッシュ変化時の再実行にも適用します。caller のない呼出しは設定済み actor を継承しません。未対応の Task モード旧 closeout 登録は明示的に拒否します。資源対象は現在、所有者が認めた repository/base に一致する GitHub PR URL に限定し、新しい資源は archive 後に元の Contract を変更せず束縛します。
+
+セッション再開では単一 WI の CLI `work-item status --json --authorization-request <request.json>` または MCP `work_item_status.authorizationRequest` を利用します。要求は `schemaVersion:1`、`caller`、`action`、正確な相対 `paths`、任意の `publicTarget` を含み、全 WI 問合せとは併用できません。応答は認可・証拠の新鮮度・現在の操作准入・`nextAction`（継続、再検証、現在の gate 解決、host 境界確認、停止）を分離します。問合せ結果は再利用可能な許可証ではありません。範囲内の通常 commit は認可を維持しますが、証拠は再検証が必要になり得ます。範囲・権限・目標・受入基準やコマンド変更は既存の所有者／限定的な機械レビュー規則に従います。
+
+認可は交付完了・撤回・期限の最初の事象で終了します。controls の `taskAuthorizationTermination` に `schemaVersion:1`、現在の `grantId`、`decision:"withdrawn"` または `"completed"`、明示 caller、reason を記録します。不変の記録は冪等で、権限を狭めるだけであり、認可復活や業務成功を作りません。各境界で期限を確認し、残り時間が不変の宣言済み予算より短い場合は子プロセスを開始しません。実行中の操作は安全な境界で観測し、盲目的にロールバックしません。
+
+archive 後は宣言済み残余交付／資源操作だけが可能です。別途有効なネイティブの人間 close 後は、事前認可済み closeout 公開と補助資源整理だけを許し、ソース作業を再開できません。交付完了時は completed を記録し、撤回や期限で停止します。人間 close は別判断です。本 WI はこの機能で自己承認せず、共有 Runtime・外部 B・本番権限を有効化しません。
