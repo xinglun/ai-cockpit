@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bd0ee49fe39f29d0f55b6515be49d71c1030f6349bbc77be6747e8082f81a26a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1eb8f60c89416723ef64e2b5d7a002a271c8031f07a1339bfad72dd126a96e7d",
+  "reason": "Actual user response: 确认 WI-1107 上述两文件覆盖检查修订及新绑定，confirm_review，并批准上述公开增量及条件交付。 Parent01a1576c-b0ab-7723-ad8e-95924e80102a relayed actual user Ray message Sentinel_d0b9768073c08191a45b91f10c6d8147 at2026-10-24 04:02 UTC (minute precision), responding to exact request Sentinel_8b3fe9379a748191b5e2ff51f8e64dfa. Exact HEAD and sequence5 Contract/preflight/source snapshot rechecked unchanged. Only two coverage-consumer CI files and one additional fast regression command; all ten prior commands, assertions, acceptance, finite900s ceiling and original human/permission boundaries remain unchanged. Source changes and new Contract require genuine new verification; no old receipt is relabeled or old confirmation reused. Public increment and normal conditional PR delivery were explicitly approved in the same actual user response; this is not a true-close decision, release or production activation. Agent technical judgments are not attributed to the user.",
+  "recordedAt": "2026-10-24T04:03:56.919330+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_d0b9768073c08191a45b91f10c6d8147; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
+  "schemaVersion": 1,
+  "workItemId": "WI-1107-delegated-development-review"
+}
