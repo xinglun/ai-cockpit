@@ -179,11 +179,48 @@ def require_success(evidence, status, manifest, attempts):
     check(len(matching) == 1, 'no unique new successful native attempt binds the canonical receipt')
 
 
-def verify_source(source, manifest):
+def regenerated_native_paths(manifest):
+    work_item = manifest['workItemId']
+    active = '.ai/work-items/active/' + work_item
+    return {manifest['summaryPath'], '.ai/evidence/' + work_item + '.verification.json',
+            active + '.outcome.json', active + '.task-report.json', active + '.task-report.md'}
+
+
+def require_regenerated_projections(source, manifest, status):
+    work_item = manifest['workItemId']
+    active = source / '.ai/work-items/active'
+    outcome = read_json(active / (work_item + '.outcome.json'))
+    report_path = active / (work_item + '.task-report.json')
+    markdown_path = active / (work_item + '.task-report.md')
+    report = read_json(report_path)
+    check(outcome.get('workItemId') == work_item
+          and outcome.get('repositoryId') == manifest['repositoryId']
+          and outcome.get('state') == 'checkpointed'
+          and outcome.get('decisionState') == 'green'
+          and outcome.get('verification', {}).get('status') == 'verified',
+          'regenerated Outcome is not the verified current Work Item projection')
+    check(outcome.get('evidenceDigest') == status['sourceDigests']['verificationEvidence'],
+          'regenerated Outcome does not bind the actual verified canonical evidence')
+    check(outcome.get('taskOutcomeReport') == report
+          and outcome.get('taskReportDigest') == 'sha256:' + sha(report_path.read_bytes())
+          and outcome.get('taskReportMarkdownDigest') == 'sha256:' + sha(markdown_path.read_bytes()),
+          'regenerated task report or Markdown digest mismatch')
+    bindings = report.get('bindings', {})
+    check(report.get('status') == 'verified' and report.get('workItemId') == work_item
+          and bindings.get('repositoryId') == manifest['repositoryId']
+          and bindings.get('workItemId') == work_item
+          and bindings.get('repositorySnapshotDigest') == manifest['sourceSnapshotDigest'],
+          'regenerated task report identity or source snapshot mismatch')
+
+
+def verify_source(source, manifest, after_verification=False):
     head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=source, text=True).strip()
     check(head == manifest['sourceHead'], 'not the frozen source HEAD')
-    subprocess.run(['git', 'diff', '--exit-code', 'HEAD', '--'], cwd=source, check=True,
-                   stdout=subprocess.DEVNULL)
+    paths = ['.']
+    if after_verification:
+        paths.extend(':(exclude)' + path for path in sorted(regenerated_native_paths(manifest)))
+    subprocess.run(['git', 'diff', '--exit-code', 'HEAD', '--'] + paths,
+                   cwd=source, check=True, stdout=subprocess.DEVNULL)
     for item in manifest['sourceFiles']:
         path = source / item['path']
         check(not path.is_symlink() and sha(path.read_bytes()) == item['sha256'],
@@ -251,7 +288,7 @@ def run(manifest_path, source, runtime, artifacts, validate_only=False):
     verify_source(source, manifest)
     payloads = archive_payloads(archive, manifest['nativeFiles'])
     if validate_only:
-        print('Exact frozen source, fixed Runtime and ten native input bytes checked; no verification executed.')
+        print('Exact frozen source, fixed Runtime and declared native input bytes checked; no verification executed.')
         return 0
     artifacts.mkdir(parents=True, exist_ok=False)
     shutil.copyfile(archive, artifacts / 'native-before.tar.gz')
@@ -321,13 +358,14 @@ def run(manifest_path, source, runtime, artifacts, validate_only=False):
         evidence = read_json(evidence_path)
         attempts = [read_json(p) for p in sorted(set((source / '.ai/evidence').glob(
             manifest['workItemId'] + '.verification-attempt.*.json')) - before)]
-        require_success(evidence, read_json(artifacts / 'status-after.stdout'), manifest, attempts)
-        verify_source(source, manifest)
+        status_after = read_json(artifacts / 'status-after.stdout')
+        require_success(evidence, status_after, manifest, attempts)
+        require_regenerated_projections(source, manifest, status_after)
+        verify_source(source, manifest, after_verification=True)
         check(sha(runtime.read_bytes()) == manifest['runtimeDigest'].removeprefix('sha256:'),
               'fixed Runtime changed during verification')
         for item in manifest['nativeFiles']:
-            if item['path'] in [manifest['summaryPath'],
-                                f".ai/evidence/{manifest['workItemId']}.verification.json"]:
+            if item['path'] in regenerated_native_paths(manifest):
                 continue
             check(sha((source / item['path']).read_bytes()) == item['sha256'],
                   'original immutable native input changed')

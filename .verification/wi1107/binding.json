@@ -3,22 +3,22 @@
   "purpose": "One fixed-official-Runtime formal verification of frozen WI-1107 in an isolated GitHub hosted checkout; no candidate self-approval, merge, release, close or activation.",
   "workItemId": "WI-1107-delegated-development-review",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "sourceHead": "f82e9159552cddac7b03fd912e2d43480595e8d6",
+  "sourceHead": "2fd8e38a2ea2e4b73dd3993438d546eac86cd797",
   "sourceBase": "717af7539ef38cde6f9c4fe2bb2b9006e8768d5c",
   "sourceBranch": "codex/wi-1107-delegated-development-review",
   "validationBranch": "codex/wi-1107-actions-verification",
   "contractPath": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
   "summaryPath": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
-  "contractDigest": "sha256:efc350c4d01f789976049583d2cd9f5e3afa2948d65d364eeee60b61eca05251",
-  "sourceSnapshotDigest": "sha256:5785eaa9bc944b91577d7523826c08118459c9aaafd2e031ca75687026739a7a",
+  "contractDigest": "sha256:b9f4b315edbae45a599585b74768ae34bfcc305ff95d7308728ca41e8502f540",
+  "sourceSnapshotDigest": "sha256:4f1c771025c5b7aa38502431600bc073d744f74e19902ec68db6a0e17af32389",
   "runtimeVersion": "1.0.1",
   "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
   "runtimeReleaseUrl": "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.1/ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz",
   "runtimeArchiveSHA256": "a8f68bba617975003e96ba07ec346fa49e323ae0b8e433eb2aca5a5f8f1ed879",
   "nativeArchive": {
     "path": "native-input.tar.gz",
-    "bytes": 429534,
-    "sha256": "46462ef0a521377c274a14142e5632bdd2944d1d86ccaecac9cb3740719e29eb"
+    "bytes": 583999,
+    "sha256": "671ec7a9caf54ae005f11aa48e2b5278f5b395c1fe0908c320e8db09f6e2a449"
   },
   "sourceFiles": [
     {
@@ -116,6 +116,14 @@
     {
       "path": "docs/work-items/WI-1107-delegated-development-review.zh-CN.md",
       "sha256": "577d4ee36806fb5ca766880d0c9c0c8191925eed722ca202feed2fb38710c952"
+    },
+    {
+      "path": "tests/ci/hosted_runtime_verification_test.sh",
+      "sha256": "e4299bb026a380c344982161212167bb6a6a510c6fec048f7ce784c9cd65f423"
+    },
+    {
+      "path": "tests/ci/run_hosted_runtime_verification.sh",
+      "sha256": "9f24efebfca989e4d2e2881c0ff122e83ecb45d9cb6d5214361182c03fcdb4a7"
     }
   ],
   "nativeFiles": [
@@ -128,6 +136,11 @@
       "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.8e62d271206aea94fc749e1749268703368657f9a0784388aa13d272c315cc17.json",
       "bytes": 1558,
       "sha256": "5515f7e7859184e03e8208550cb0d31ce30f84077aef1c6a4ac59870230ad3ad"
+    },
+    {
+      "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.eaa43c1e2822082b0fd9cb989b5f9efef03054253765379f892a18c92a24ab5f.json",
+      "bytes": 1633,
+      "sha256": "e8d8cd644e1d52630325b3e20b13d6094c41bc4cc7c9ee113e08bd1fb7865c77"
     },
     {
       "path": ".ai/decisions/WI-1107-delegated-development-review.preflight-review.json",
@@ -165,6 +178,16 @@
       "sha256": "ca4edcfa3b91c4b792467d275fdf60101a5d52d7b6536e5964c0c6041bd182ae"
     },
     {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000004.committed.json",
+      "bytes": 10344,
+      "sha256": "d4b838569c4c23255afa28e4c7219399326ed722fe9a9566375c57d0dd27eed2"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.contract-amendments/00000004.prepared.json",
+      "bytes": 50009,
+      "sha256": "c45a621b85830b8d5dc0a29fafe2f8865f4b2504df505ee80c6d924f0318a698"
+    },
+    {
       "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.201a4ea0ed2c18c5acfbfd3166fcf3565d0f571dbcdc0930aeed2c71e20d7ce0.json",
       "bytes": 1120324,
       "sha256": "1059b263849bf0e9548cd2ae21bd9c2bba36478d35da8d3b170659ed08972224"
@@ -175,24 +198,54 @@
       "sha256": "25414c4be112db5ffb523cb4bc175eca463a8de2b1137d2c6455cf9f021114f7"
     },
     {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.4d5da2ebb817297f7f7892c5cab2ccd873272f8fa48f1880aa99015470971c84.json",
+      "bytes": 3841,
+      "sha256": "1c572e019b56690085783d9d6656e9252cec8b27e8230d4d03a5dfb715960bf7"
+    },
+    {
+      "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a4424e41bf98acbf4d7ebb3c7a197b56b6de82a8d7dfcaef0046e722acfba693.json",
+      "bytes": 1120336,
+      "sha256": "a400f4e7d8106662f7cfe7903db5c4e7b51be41482f60995bf1ffe980811f28f"
+    },
+    {
       "path": ".ai/evidence/WI-1107-delegated-development-review.verification-attempt.a8b7d7003f5f4fc1e87942357b4d9615c1df0fa9ae65824b078b590677e9c526.json",
       "bytes": 707287,
       "sha256": "57d673337d23bb0084e455f42d2b4ffd6dcbda838fddf25fcef27ea7073a46a2"
     },
     {
       "path": ".ai/evidence/WI-1107-delegated-development-review.verification.json",
-      "bytes": 561873,
-      "sha256": "ae8823d09044517ce885e063b60d22c0b9b0a90fe2a9fc83022314b309ad4802"
+      "bytes": 561879,
+      "sha256": "5072ca8b5956378f1a7fad038df9de345c35e151803f177357add8522dbde8eb"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.contract.json",
-      "bytes": 22330,
-      "sha256": "92417d1f796ec46eac63d48953503ea6c8ab3cac3390bfbb6c6fae057fc2a269"
+      "bytes": 22490,
+      "sha256": "0006fd4cac688824b8257c55556b388b72771933f2d96a5ee89c7af0a549d6ea"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1107-delegated-development-review.events.jsonl",
+      "bytes": 2372,
+      "sha256": "780ce0379018ba240a398f096467867a71802404949121684d419e084c917f17"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1107-delegated-development-review.outcome.json",
+      "bytes": 14581,
+      "sha256": "a0db951a642d8a2fa990fe5df460bc7c35d5b675e7f11b65bbe51098b4041f5c"
     },
     {
       "path": ".ai/work-items/active/WI-1107-delegated-development-review.summary.json",
-      "bytes": 37789,
-      "sha256": "18c9b63ee3b62ca3b5f94947b2eb9be83a583e7e96e8ddca9dd120c822ff8491"
+      "bytes": 41439,
+      "sha256": "cb3d8b59d5189dbb3527d1b43d70f10cd82520cda5ce2fef820e6e920803378c"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1107-delegated-development-review.task-report.json",
+      "bytes": 8053,
+      "sha256": "4adc379f801c62cd6e69617558fc5815a8c65ac93cee17b3500c36e44c323f64"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1107-delegated-development-review.task-report.md",
+      "bytes": 3025,
+      "sha256": "ec7b4a37aa66fc805734dc688d5b9723dbd5477f2418303b442556b0d3564011"
     }
   ],
   "expectedRequests": [
@@ -729,6 +782,15 @@
       "dependencies": [],
       "nodeId": "project-command-8",
       "program": "git",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/hosted_runtime_verification_test.sh"
+      ],
+      "dependencies": [],
+      "nodeId": "project-command-9",
+      "program": "bash",
       "timeoutSeconds": 900
     }
   ],
