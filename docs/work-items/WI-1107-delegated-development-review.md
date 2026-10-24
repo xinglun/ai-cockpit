@@ -6,9 +6,13 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1107-delegated-development-review
-status: in_progress
+status: implemented
 authority: work-item-record
 lastVerifiedBy: WI-1107-delegated-development-review
+terminalArchive: .ai/work-items/archive/WI-1107-delegated-development-review.contract.json
+terminalVerification: .ai/evidence/WI-1107-delegated-development-review.verification.json
+terminalFinalization: .ai/decisions/WI-1107-delegated-development-review.finalize.json
+terminalDecision: .ai/decisions/WI-1107-delegated-development-review.close.json
 ---
 
 # WI-1107 — Complete initial plans and explicit delegated development review

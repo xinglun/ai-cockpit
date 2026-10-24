@@ -1,0 +1,199 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1108-archived-resource-context-promotion.preflight-review.394f73b186137ef1b35b98f95268989ea3b48fa2c9973d9d5cbd1e28e9d8cb2a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1108-archived-resource-context-promotion.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1108-archived-resource-context-promotion.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1108-archived-resource-context-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1108-archived-resource-context-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1108-archived-resource-context-promotion.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by agent:Codex via conversation:Sentinel_ef5b37f27fe481919b3bfe8db297d2d7 at 2026-10-24T11:28:11.485201Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow legitimately finalized and actually human-closed work to complete its standard terminal projection without editing its immutable null-resource Contract; reject tampered or foreign handoffs and preserve no-resource, resource identity, sequence and close-head safety. Complete the normal source/native delivery and exact-resource lifecycle only under the separately applicable public/merge/close authorization."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-24T11:28:12.363356253Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    },
+    "workItemId": "WI-1108-archived-resource-context-promotion"
+  },
+  "finalReportDigest": "sha256:fe60d6015ac9461a5eee1fd8c78b88f6403bc1626f7b2cf2695364766e756104",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-24T11:28:12.363324116Z",
+  "recordedAt": "2026-10-24T11:28:12.363324116Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:b030eb676e3322724418c8e2182756e3ee385265fd32780f173ebaede9ca8a44",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1108-archived-resource-context-promotion.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "agent:Codex",
+    "authoritySource": "conversation:Sentinel_ef5b37f27fe481919b3bfe8db297d2d7",
+    "decidedAt": "2026-10-24T11:28:11.485201Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1108-archived-resource-context-promotion.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "Agent records the actual user confirmed decision from message Sentinel_ef5b37f27fe481919b3bfe8db297d2d7 (received context 2026-10-24 11:26 UTC, not independent identity authentication), specifically sequence 0 and sha256:b030eb676e3322724418c8e2182756e3ee385265fd32780f173ebaede9ca8a44. Preserve original WI1108 failure and WI1109 successor repair, known warnings, token usage unknown and deployment benefit unmeasured. Recording time is current, not backdated.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-24T11:28:12Z",
+  "usageCutoff": "2026-10-24T11:28:12.363356253Z",
+  "workItemId": "WI-1108-archived-resource-context-promotion"
+}

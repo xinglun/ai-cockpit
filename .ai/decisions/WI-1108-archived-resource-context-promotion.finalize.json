@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Actual user authorized normal source/native PR, CI/review, conditional merge, main validation and recoverable exact resource cleanup for WI1108; WI1109 authorization Sentinel_54656166395c8191a31fa48fc8c2686d and exact PR1070 approval Sentinel_d6daeab32c6c81918bab094d223279fb. This records delegated agent resource observations, not human close, GitHub Review or new permission.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d71b99cdf1a612dc61ec3ee889dd61edc3774030",
+    "name": "codex/wi-1108-archived-resource-context-promotion",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "96fad1ea084e5907616224f4ac1a04e83850aa82",
+  "contractDigest": "sha256:03c8a77ea8b5c677d95cf8d71993a982d6043bbd0c0b4c5a1382c772eb4eab05",
+  "operationId": "github-pr-1069-exact-cleanup-20261024",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "96fad1ea084e5907616224f4ac1a04e83850aa82",
+    "headRevision": "d71b99cdf1a612dc61ec3ee889dd61edc3774030",
+    "mergeCommit": "795e18c5659738f44d350260229f4e13d9f80303",
+    "number": 1069,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1069"
+  },
+  "reason": "Actual repaired main6ba89f5a5009f4a129a9c7c6c6d4bda6f464ec01 CI40086345060 passed all four jobs,42 executed gates with zero reuse/defer and14 actual packages; Linux/Windows revision bindings match. Exact clean worktree and local/remote branch were ordinarily removed after source/native bundles were actually restored and all ignored bytes/modes were preserved by same-filesystem rename. Other refs and worktrees unchanged. Original WI1108 main40079822281 failure is preserved; successor WI1109/PR1070 supplies the observed repair, not a rewrite of earlier evidence. Benefit unmeasured and usage unknown; actual human close remains pending.",
+  "receiptId": "WI-1108-archived-resource-context-promotion-exact-cleanup-20261024",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1108-archived-resource-context-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1069",
+    "worktree": "/workspace/ai-cockpit-wi1108-archived-resource-context-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-24T11:09:59.461959Z",
+  "workItemId": "WI-1108-archived-resource-context-promotion",
+  "worktree": {
+    "branch": "codex/wi-1108-archived-resource-context-promotion",
+    "headRevision": "d71b99cdf1a612dc61ec3ee889dd61edc3774030",
+    "path": "/workspace/ai-cockpit-wi1108-archived-resource-context-promotion",
+    "worktreeId": "sha256:304daf33f697b4074445b3f634f0e3992e99e73c8dcd01c7d1012fe2b2a1fa53"
+  }
+}
