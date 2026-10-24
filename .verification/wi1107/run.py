@@ -195,7 +195,8 @@ def require_regenerated_projections(source, manifest, status):
     report = read_json(report_path)
     check(outcome.get('workItemId') == work_item
           and outcome.get('repositoryId') == manifest['repositoryId']
-          and outcome.get('state') == 'checkpointed'
+          and outcome.get('state') in ('checkpointed', 'finish_ready')
+          and outcome.get('state') == status.get('lifecyclePhase')
           and outcome.get('decisionState') == 'green'
           and outcome.get('verification', {}).get('status') == 'verified',
           'regenerated Outcome is not the verified current Work Item projection')
