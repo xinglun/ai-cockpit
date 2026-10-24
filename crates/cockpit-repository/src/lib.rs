@@ -16126,6 +16126,127 @@ mod post_prepare_identity_tests {
         (root, parent, request)
     }
 
+    #[test]
+    fn revoked_task_cannot_spawn_the_cache_drift_fallback() {
+        let (root, parent, mut request) = fixture("task-revoked-fallback");
+        let wi = "WI-TASK-FALLBACK";
+        let runtime = cockpit_protocol::RuntimeContext {
+            runtime_version: "1.0.1".into(),
+            protocol_version: 1,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"isolated-fallback-runtime"),
+        };
+        let caller = cockpit_protocol::TaskAuthorizationCaller {
+            schema_version: 1,
+            actor: "agent:fallback-test".into(),
+            authority_source: "fixture:local-owner".into(),
+            assurance: cockpit_protocol::AssuranceLevel::SelfDeclared,
+        };
+        super::start_work_item_with_options_and_runtime(
+            &root,
+            wi,
+            "bound fallback",
+            "preserve withdrawal",
+            &["tracked.txt".into()],
+            &super::WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["never spawn a revoked fallback".into()],
+                verification_commands: vec![request.program.clone()],
+                task_authorization: Some(cockpit_protocol::TaskAuthorizationPolicy {
+                    schema_version: 1,
+                    agent_actor: caller.actor.clone(),
+                    authority_source: caller.authority_source.clone(),
+                    allowed_actions: vec![
+                        "run_preflight".into(),
+                        "checkpoint".into(),
+                        "run_verification".into(),
+                    ],
+                    closeout_actions: vec![],
+                    expires_at: Some("2099-01-01T00:00:00Z".into()),
+                    public_target: None,
+                }),
+                ..Default::default()
+            },
+            &runtime,
+        )
+        .unwrap();
+        let contract_path = root.join(format!(".ai/work-items/active/{wi}.contract.json"));
+        super::preflight_work_item_with_runtime_report(&root, &contract_path, &runtime).unwrap();
+        let contract = super::read_json(&contract_path).unwrap();
+        let summary =
+            super::read_json(&root.join(format!(".ai/work-items/active/{wi}.summary.json")))
+                .unwrap();
+        super::record_work_item_governance_controls_with_runtime(&root, wi, &::serde_json::json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "workItemId":wi,"repositoryId":super::repository_id(&root),
+            "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":chrono::Utc::now().to_rfc3339(),"recordedBy":"agent:test-recorder",
+            "reason":"Synthetic local fixture, not external human authentication."
+        }}), &runtime).unwrap();
+        super::checkpoint_work_item_with_caller(&root, wi, &runtime, Some(&caller)).unwrap();
+        request.work_item_id = Some(wi.into());
+        request.runtime_digest = runtime.runtime_digest.to_string();
+        let first = super::run_repository_verification_with_task_authorization(
+            &root,
+            &request,
+            &runtime,
+            Some(&caller),
+            |_node, _pid, _started| Ok(()),
+        )
+        .unwrap();
+        assert!(first.receipt.passed);
+        assert_eq!(first.receipt.processes_spawned, 1);
+        let second = super::run_repository_verification_inner(
+            &root,
+            &request,
+            |_node, _pid, _started| Ok(()),
+            |prepared| {
+                assert!(
+                    prepared.candidate_loaded,
+                    "must exercise a real reuse candidate"
+                );
+                let task = super::work_item_status_snapshot_with_runtime(&root, wi, &runtime)
+                    .unwrap()
+                    .task_authorization
+                    .unwrap();
+                super::record_work_item_governance_controls_with_runtime(
+                    &root,
+                    wi,
+                    &::serde_json::json!({"taskAuthorizationTermination":{
+                        "schemaVersion":1,"grantId":task.grant_id,"decision":"withdrawn",
+                        "caller":caller,"reason":"withdraw between reuse and fallback"
+                    }}),
+                    &runtime,
+                )
+                .unwrap();
+                let path = root.join(".ai/verification-context.json");
+                let mut bytes = fs::read(&path).unwrap();
+                bytes.push(b'\n');
+                fs::write(path, bytes).unwrap();
+            },
+            Some((&runtime, Some(&caller))),
+        );
+        let second = second.unwrap();
+        assert!(!second.receipt.passed);
+        assert_eq!(
+            second.receipt.processes_spawned, 0,
+            "fallback must stop at the actual child boundary"
+        );
+        assert!(
+            second
+                .receipt
+                .execution_records
+                .iter()
+                .all(|record| !record.spawned)
+        );
+        assert_eq!(
+            fs::read_to_string(root.join(".counter")).unwrap().trim(),
+            "1"
+        );
+        fs::remove_dir_all(parent).unwrap();
+    }
+
     fn assert_second_run_at_exact_boundary(identity_file: Option<&str>) {
         let label = identity_file.unwrap_or("unchanged");
         let (root, parent, request) = fixture(label);
