@@ -428,3 +428,90 @@ pub(crate) fn task_authorization_projection(
             .unwrap_or_else(|e| projection(&policy, "invalid", &e.to_string())),
     ))
 }
+
+pub(crate) fn reject_legacy_task_write(root: &Path, wi: &str) -> Result<(), ObserverError> {
+    let path = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
+    if !root.join(&path).exists() {
+        return Ok(());
+    }
+    let contract: Contract = serde_json::from_value(native_json(root, &path)?)
+        .map_err(|e| error(root, e.to_string()))?;
+    if contract
+        .task_authorization_policy()
+        .map_err(|e| error(root, e))?
+        .is_some()
+    {
+        return Err(error(
+            root,
+            "task_authorization_caller_required: legacy write has no Runtime or caller context",
+        ));
+    }
+    Ok(())
+}
+
+pub(crate) fn require_task_caller(
+    root: &Path,
+    wi: &str,
+    action: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<(), ObserverError> {
+    let canonical_root = std::fs::canonicalize(root).map_err(|e| error(root, e.to_string()))?;
+    let root = canonical_root.as_path();
+    let relative = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
+    let relative = if root.join(&relative).is_file() {
+        relative
+    } else {
+        PathBuf::from(format!(".ai/work-items/archive/{wi}.contract.json"))
+    };
+    let contract: Contract = serde_json::from_value(native_json(root, &relative)?)
+        .map_err(|e| error(root, e.to_string()))?;
+    let Some(policy) = contract
+        .task_authorization_policy()
+        .map_err(|e| error(root, e))?
+    else {
+        return Ok(());
+    };
+    // These are separate owner or narrowing-metadata decisions, never
+    // delegated operations. Their existing native evidence checks remain.
+    if [
+        "close",
+        "close_after_review",
+        "close_after_cleanup",
+        "record_usage",
+    ]
+    .contains(&action)
+    {
+        return Ok(());
+    }
+    let task = assess(root, wi, &contract, &policy, runtime)?;
+    if caller.is_none() && action == "run_preflight" && task.state == "owner_review_required" {
+        // Generate only the missing exact owner-review observation. This
+        // starts no checks and grants no source, verification or policy right.
+        return Ok(());
+    }
+    let caller = caller.ok_or_else(|| {
+        error(
+            root,
+            format!("task_authorization_caller_required: {}", task.state),
+        )
+    })?;
+    if caller.schema_version != 1
+        || caller.actor != policy.agent_actor
+        || caller.authority_source != policy.authority_source
+        || caller.assurance != AssuranceLevel::SelfDeclared
+    {
+        return Err(error(root, "task_authorization_caller_mismatch"));
+    }
+    if task.state != "active" {
+        return Err(error(root, format!("task_authorization_{}", task.state)));
+    }
+    if !policy
+        .allowed_actions
+        .iter()
+        .any(|allowed| allowed == action)
+    {
+        return Err(error(root, "task_authorization_action_outside_scope"));
+    }
+    Ok(())
+}

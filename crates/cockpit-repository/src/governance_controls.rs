@@ -1323,6 +1323,7 @@ pub fn record_work_item_governance_controls(
         source,
     })?;
     let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
+    crate::task_authorization::reject_legacy_task_write(&root, work_item_id)?;
     record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
 }
 
@@ -1357,6 +1358,21 @@ pub fn record_work_item_governance_controls_with_runtime(
         )?;
         _lifecycle_lock.require_subject(&root, work_item_id)?;
         return Ok(recorded);
+    }
+    if controls
+        .as_object()
+        .is_some_and(|object| object.len() == 1 && object.contains_key("decisionEvidence"))
+    {
+        // Actual owner review remains possible when no delegated authority
+        // exists or it has ended. The current Contract/preflight evidence is
+        // independently validated before any receipt or Summary is written.
+        crate::action_admission::require_base_action_admission(
+            &root,
+            work_item_id,
+            "record_governance_controls",
+            runtime,
+        )?;
+        return record_work_item_governance_controls_unlocked(&root, work_item_id, controls);
     }
     crate::require_current_action_admission(
         &root,

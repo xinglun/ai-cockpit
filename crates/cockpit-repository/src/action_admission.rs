@@ -10,6 +10,25 @@ pub fn require_current_action_admission(
     requested_action: &str,
     runtime: &RuntimeContext,
 ) -> Result<WorkItemActionExplanation, ObserverError> {
+    let explanation = require_base_action_admission(root, work_item_id, requested_action, runtime)?;
+    super::task_authorization::require_task_caller(
+        root,
+        work_item_id,
+        requested_action,
+        runtime,
+        None,
+    )?;
+    Ok(explanation)
+}
+
+/// Native lifecycle/owner gates remain authoritative and independent of a
+/// delegated task grant. Exact owner decision recording uses this base gate.
+pub(crate) fn require_base_action_admission(
+    root: &Path,
+    work_item_id: &str,
+    requested_action: &str,
+    runtime: &RuntimeContext,
+) -> Result<WorkItemActionExplanation, ObserverError> {
     let status = super::work_item_status_snapshot_with_runtime(root, work_item_id, runtime)?;
     let explanation = status
         .action_explanation

@@ -5,7 +5,7 @@ use cockpit_repository::{
     preflight_work_item_with_runtime_report, record_work_item_governance_controls_with_runtime,
     repository_id, start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
-use serde_json::{Value, json};
+use serde_json::Value;
 use std::{fs, path::Path, process::Command};
 
 const WI: &str = "WI-TASK-AUTHORIZATION";
@@ -64,7 +64,7 @@ fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
     amend_work_item_contract_with_runtime(
         root,
         WI,
-        &json!({
+        &::serde_json::json!({
             "schemaVersion":1, "changeId":"explicit-task-grant",
             "expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
             "reason":"isolated owner plan for a finite task",
@@ -95,7 +95,7 @@ fn record_owner(root: &Path) {
         &fs::read(root.join(format!(".ai/work-items/active/{WI}.summary.json"))).unwrap(),
     )
     .unwrap();
-    record_work_item_governance_controls_with_runtime(root, WI, &json!({"decisionEvidence":{
+    record_work_item_governance_controls_with_runtime(root, WI, &::serde_json::json!({"decisionEvidence":{
         "schemaVersion":1, "decisionId":"contract-preflight-review", "decision":"confirm_review",
         "workItemId":WI, "repositoryId":repository_id(root),
         "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
@@ -171,7 +171,7 @@ fn source_commit_preserves_authority_without_claiming_current_test_evidence() {
 }
 
 fn termination(root: &Path, decision: &str) -> Value {
-    json!({"taskAuthorizationTermination": {
+    ::serde_json::json!({"taskAuthorizationTermination": {
         "schemaVersion": 1,
         "grantId": status(root)["taskAuthorization"]["grantId"],
         "decision": decision,
@@ -197,7 +197,7 @@ fn withdrawing_exact_authority_is_immutable_idempotent_and_not_business_completi
     assert_ne!(projected["verification"], "verified");
     assert!(!root.join(format!(".ai/decisions/{WI}.close.json")).exists());
     let mut conflicting = request;
-    conflicting["taskAuthorizationTermination"]["decision"] = json!("completed");
+    conflicting["taskAuthorizationTermination"]["decision"] = ::serde_json::json!("completed");
     assert!(
         record_work_item_governance_controls_with_runtime(root, WI, &conflicting, &runtime())
             .is_err()
@@ -213,10 +213,10 @@ fn a_foreign_caller_or_grant_cannot_terminate_the_current_authority() {
         let mut request = termination(root, "withdrawn");
         if field == "caller" {
             request["taskAuthorizationTermination"]["caller"]["actor"] =
-                json!("agent:someone-else");
+                ::serde_json::json!("agent:someone-else");
         } else {
             request["taskAuthorizationTermination"]["grantId"] =
-                json!(Digest::sha256_bytes(b"another grant"));
+                ::serde_json::json!(Digest::sha256_bytes(b"another grant"));
         }
         assert!(
             record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime())
@@ -233,7 +233,7 @@ fn termination_cannot_smuggle_an_unrelated_governance_write() {
     let path = root.join(format!(".ai/work-items/active/{WI}.summary.json"));
     let before = fs::read(&path).unwrap();
     let mut request = termination(root, "withdrawn");
-    request["intentAlignment"] = json!({"state":"aligned"});
+    request["intentAlignment"] = ::serde_json::json!({"state":"aligned"});
     assert!(
         record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime()).is_err()
     );
@@ -254,7 +254,7 @@ fn an_invalid_deadline_is_rejected_before_any_contract_or_amendment_write() {
     let result = amend_work_item_contract_with_runtime(
         root,
         WI,
-        &json!({
+        &::serde_json::json!({
             "schemaVersion":1,"changeId":"invalid-time","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
             "reason":"check malformed timestamp refusal",
             "changes":[{"path":"/governanceProfile/taskAuthorization/expiresAt","operation":"set","value":"not-a-timestamp"}]
@@ -282,15 +282,15 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
     let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
     let contract: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
     let mut profile = contract["governanceProfile"].clone();
-    profile["developmentReview"] = json!({
+    profile["developmentReview"] = ::serde_json::json!({
         "schemaVersion":1,"reviewerActor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
         "allowedChanges":["append_scenarios"],"preapprovedCommands":[]
     });
     profile["taskAuthorization"]["allowedActions"]
         .as_array_mut()
         .unwrap()
-        .push(json!("review_development_amendment"));
-    amend_work_item_contract_with_runtime(root, WI, &json!({
+        .push(::serde_json::json!("review_development_amendment"));
+    amend_work_item_contract_with_runtime(root, WI, &::serde_json::json!({
         "schemaVersion":1,"changeId":"combined-local-review-plan","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
         "reason":"explicit isolated owner plan for mechanical review and task authority",
         "changes":[{"path":"/governanceProfile","operation":"replace","value":profile}]
@@ -300,7 +300,7 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
     let before = status(root);
     assert_eq!(before["taskAuthorization"]["state"], "active");
     let contract: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
-    amend_work_item_contract_with_runtime(root, WI, &json!({
+    amend_work_item_contract_with_runtime(root, WI, &::serde_json::json!({
         "schemaVersion":1,"changeId":"permitted-mechanical-scenario","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
         "reason":"append one explicitly permitted unverified scenario",
         "developmentReview":{"assurance":"self_declared","actor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
@@ -321,14 +321,14 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
 #[test]
 fn public_actions_require_an_explicit_owner_bound_destination() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
-    let root: &Path = directory.path();
+    let root: &::std::path::Path = directory.path();
     let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
     let before = fs::read(&path).unwrap();
     let contract: Value = serde_json::from_slice(&before).unwrap();
     let result = amend_work_item_contract_with_runtime(
         root,
         WI,
-        &json!({
+        &::serde_json::json!({
             "schemaVersion":1,"changeId":"unspecified-public-target","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
             "reason":"refuse a public operation with no owner destination",
             "changes":[{"path":"/governanceProfile/taskAuthorization/allowedActions","operation":"replace","value":["publish_branch"]}]
@@ -365,8 +365,8 @@ fn unknown_terminal_record_fields_fail_closed_even_when_the_digest_is_resealed()
     let path = &files[0];
     let mut record: Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
     record.as_object_mut().unwrap().remove("recordDigest");
-    record["unexpectedAuthorityField"] = json!(true);
-    record["recordDigest"] = json!(cockpit_protocol::digest_json(&record).unwrap());
+    record["unexpectedAuthorityField"] = ::serde_json::json!(true);
+    record["recordDigest"] = ::serde_json::json!(cockpit_protocol::digest_json(&record).unwrap());
     fs::write(path, serde_json::to_vec(&record).unwrap()).unwrap();
     assert_eq!(status(root)["taskAuthorization"]["state"], "invalid");
 }
@@ -410,7 +410,11 @@ fn legacy_controls_without_a_caller_cannot_mutate_a_configured_task() {
     let root = directory.path();
     let path = root.join(format!(".ai/work-items/active/{WI}.summary.json"));
     let before = fs::read(&path).unwrap();
-    let result = cockpit_repository::record_work_item_governance_controls(root, WI, &json!({}));
+    let result = cockpit_repository::record_work_item_governance_controls(
+        root,
+        WI,
+        &::serde_json::json!({}),
+    );
     assert!(
         result.is_err(),
         "a legacy no-context write cannot impersonate the delegated actor"
