@@ -1029,3 +1029,73 @@ fn a_native_review_with_foreign_or_duplicate_bindings_is_never_authority() {
         );
     }
 }
+
+#[cfg(unix)]
+#[test]
+fn symlinked_native_owner_input_cannot_become_a_resume_authority() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let path = root.join(format!(".ai/decisions/{WI}.preflight-review.json"));
+    let retained = root.join("retained-owner-review.json");
+    fs::rename(&path, &retained).unwrap();
+    std::os::unix::fs::symlink(&retained, &path).unwrap();
+    assert_ne!(status(root)["taskAuthorization"]["state"], "active");
+    assert!(
+        cockpit_repository::require_current_action_admission_with_caller(
+            root,
+            WI,
+            "run_verification",
+            &runtime(),
+            Some(&caller())
+        )
+        .is_err()
+    );
+}
+
+#[test]
+fn task_authority_cannot_self_review_owner_only_changes() {
+    let directory = fixture("2099-01-01T00:00:00Z", false);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    let mut profile = contract["governanceProfile"].clone();
+    profile["developmentReview"] = ::serde_json::json!({
+        "schemaVersion":1,"reviewerActor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
+        "allowedChanges":["append_scenarios"],"preapprovedCommands":[]
+    });
+    profile["taskAuthorization"]["allowedActions"]
+        .as_array_mut()
+        .unwrap()
+        .push(::serde_json::json!("review_development_amendment"));
+    amend_work_item_contract_with_runtime(root, WI, &::serde_json::json!({
+        "schemaVersion":1,"changeId":"explicit-owner-only-boundary","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+        "reason":"synthetic owner retains sensitive decisions while delegating append-only review",
+        "changes":[{"path":"/governanceProfile","operation":"replace","value":profile}]
+    }), "synthetic owner retains sensitive decisions while delegating append-only review", &runtime()).unwrap();
+    preflight_work_item_with_runtime_report(root, &path, &runtime()).unwrap();
+    record_owner(root);
+    let before = fs::read(&path).unwrap();
+    let digest =
+        cockpit_protocol::digest_json(&serde_json::from_slice::<Value>(&before).unwrap()).unwrap();
+    let count = cockpit_repository::read_work_item_contract_amendments(root, WI)
+        .unwrap()
+        .len();
+    for (index, change) in [
+        ::serde_json::json!({"path":"/scope","operation":"add","value":"foreign/**"}),
+        ::serde_json::json!({"path":"/goal","operation":"replace","value":"a different business goal"}),
+        ::serde_json::json!({"path":"/acceptanceCriteria/0","operation":"replace","value":"skip the original proof"}),
+        ::serde_json::json!({"path":"/verification/0","operation":"replace","value":"git --version"}),
+        ::serde_json::json!({"path":"/governanceProfile/taskAuthorization/allowedActions","operation":"add","value":"finish"}),
+    ].into_iter().enumerate() {
+        let result = amend_work_item_contract_with_runtime(root, WI, &::serde_json::json!({
+            "schemaVersion":1,"changeId":format!("refused-owner-change-{index}"),"expectedContractDigest":digest,
+            "reason":"a local task grant cannot expand or weaken its owner decision",
+            "developmentReview":{"assurance":"self_declared","actor":"agent:task-worker","authoritySource":"conversation:fixture-owner",
+                "operations":["review_development_amendment"],"policyRefs":[],"evidenceRefs":[]},
+            "changes":[change]
+        }), "a local task grant cannot expand or weaken its owner decision", &runtime());
+        assert!(result.is_err(), "owner-only change must remain refused: {result:?}");
+        assert_eq!(fs::read(&path).unwrap(), before);
+        assert_eq!(cockpit_repository::read_work_item_contract_amendments(root, WI).unwrap().len(), count);
+    }
+}

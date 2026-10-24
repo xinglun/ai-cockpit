@@ -820,10 +820,11 @@ def main() -> int:
                     else:
                         # Successful child diagnostics are quality evidence too. Never
                         # hide them just because the command returned zero.
-                        if completed.stdout:
-                            print(completed.stdout, end="", flush=True)
-                        if completed.stderr:
-                            print(completed.stderr, end="", file=sys.stderr, flush=True)
+                        if completed.returncode == 0:
+                            if completed.stdout:
+                                print(completed.stdout, end="", flush=True)
+                            if completed.stderr:
+                                print(completed.stderr, end="", file=sys.stderr, flush=True)
                         diagnostics = warning_diagnostics(completed.stdout + "\n" + completed.stderr)
                         if completed.returncode == 0 and diagnostics:
                             completed = subprocess.CompletedProcess(

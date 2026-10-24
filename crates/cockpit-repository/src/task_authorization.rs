@@ -223,7 +223,7 @@ fn assess(
     }
     let terminal = read_termination(root, wi, &result, policy)?;
     let deadline_first = deadline.is_some_and(|deadline| {
-        Utc::now() >= deadline
+        deadline_reached(deadline, Utc::now())
             && terminal.as_ref().is_none_or(|v| {
                 DateTime::parse_from_rfc3339(v["recordedAt"].as_str().unwrap_or_default())
                     .is_ok_and(|at| deadline <= at)
@@ -756,4 +756,28 @@ pub(crate) fn require_declared_task_command(
         root,
         "task_authorization_command_outside_owner_verification",
     ))
+}
+
+// Kept explicit so exact equality, offsets and the nanosecond boundary are
+// tested without sleeps or changing the executing process clock.
+fn deadline_reached(deadline: DateTime<chrono::FixedOffset>, current: DateTime<Utc>) -> bool {
+    current >= deadline
+}
+
+#[cfg(test)]
+mod deadline_tests {
+    #[test]
+    fn exact_declared_deadline_stops_authority_at_equality() {
+        let deadline = chrono::DateTime::parse_from_rfc3339("2030-01-01T09:00:00+09:00").unwrap();
+        let instant = deadline.with_timezone(&chrono::Utc);
+        assert!(!super::deadline_reached(
+            deadline,
+            instant - chrono::Duration::nanoseconds(1)
+        ));
+        assert!(super::deadline_reached(deadline, instant));
+        assert!(super::deadline_reached(
+            deadline,
+            instant + chrono::Duration::nanoseconds(1)
+        ));
+    }
 }
