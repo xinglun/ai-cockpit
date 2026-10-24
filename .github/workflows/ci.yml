@@ -13,6 +13,11 @@ concurrency:
   group: ai-cockpit-quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
+# Compiler diagnostics are errors on every actual target, including build scripts.
+env:
+  RUSTFLAGS: -D warnings
+  RUSTDOCFLAGS: -D warnings
+
 jobs:
   route:
     runs-on: ubuntu-24.04
@@ -123,10 +128,41 @@ jobs:
           toolchain: 1.98.1
           components: rustfmt, clippy
       - name: Download the shared Rust gate-plan tool
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
           name: ci-gate-plan-tool
-          path: target
+          path: target/ci-gate-plan-download
+          # Replace the dependency's deprecated Buffer-based ZIP extraction.
+          # The pinned action still verifies the original archive digest.
+          skip-decompress: true
+          digest-mismatch: error
+      - name: Extract the exact shared gate-plan files without deprecated dependencies
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import stat
+          import zipfile
+          downloads = list(Path('target/ci-gate-plan-download').iterdir())
+          if len(downloads) != 1 or downloads[0].is_symlink() or not downloads[0].is_file():
+              raise SystemExit('one regular downloaded gate-plan archive is required')
+          expected = {'release/ai-cockpit', 'quality-selection.json', 'quality-route.json'}
+          with zipfile.ZipFile(downloads[0]) as archive:
+              entries = archive.infolist()
+              files = [entry for entry in entries if not entry.is_dir()]
+              if len(files) != len(expected) or {entry.filename for entry in files} != expected:
+                  raise SystemExit('gate-plan archive file identities do not match')
+              if any(stat.S_ISLNK(entry.external_attr >> 16) for entry in entries):
+                  raise SystemExit('gate-plan archive contains a symbolic link')
+              if archive.testzip() is not None:
+                  raise SystemExit('gate-plan archive checksum failed')
+              for entry in files:
+                  path = Path('target') / entry.filename
+                  path.parent.mkdir(parents=True, exist_ok=True)
+                  if path.is_symlink() or path.parent.is_symlink():
+                      raise SystemExit('gate-plan destination must not be a symlink')
+                  path.write_bytes(archive.read(entry))
+          PY
       - name: Make the shared Rust gate-plan tool executable
         run: chmod +x target/release/ai-cockpit
       - name: Bind source and tested revisions; validate the shared typed quality route
@@ -626,6 +662,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.98.1
+      - name: verify Windows zero-warning workspace Clippy
+        run: python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
       - name: verify Windows agent adapter boundaries
         run: cargo test -p cockpit-agent --all-targets
       - name: verify Windows process and composition lifecycle boundaries

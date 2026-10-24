@@ -13,6 +13,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from run_no_warnings import warning_diagnostics
+
 from quality_route import (
     PROFILE_ORDER,
     RouteValidationError,
@@ -816,6 +818,18 @@ def main() -> int:
                         result["remediation"] = failure_remediation(code, result["id"])
                         failed = True
                     else:
+                        # Successful child diagnostics are quality evidence too. Never
+                        # hide them just because the command returned zero.
+                        if completed.stdout:
+                            print(completed.stdout, end="", flush=True)
+                        if completed.stderr:
+                            print(completed.stderr, end="", file=sys.stderr, flush=True)
+                        diagnostics = warning_diagnostics(completed.stdout + "\n" + completed.stderr)
+                        if completed.returncode == 0 and diagnostics:
+                            completed = subprocess.CompletedProcess(
+                                completed.args, 1, completed.stdout,
+                                completed.stderr + "\nquality gate rejected warning diagnostics or incomplete capture\n",
+                            )
                         result["exitCode"] = completed.returncode
                         result["state"] = "passed" if completed.returncode == 0 else "failed"
                         if (

@@ -31,6 +31,13 @@ def job_block(name):
 # Pull-request runs must converge by cancelling only superseded runs for the
 # same PR.  Main pushes and release workflow truth must not be cancellable by
 # this policy.
+assert "RUSTFLAGS: -D warnings" in workflow
+assert "RUSTDOCFLAGS: -D warnings" in workflow
+assert "name: verify Windows zero-warning workspace Clippy" in workflow
+assert "run: python tests/ci/run_no_warnings.py -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings" in workflow
+assert "skip-decompress: true" in workflow
+assert "digest-mismatch: error" in workflow
+assert "actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333" in workflow
 assert "concurrency:" in workflow
 assert "group: ai-cockpit-quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}" in workflow
 assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in workflow

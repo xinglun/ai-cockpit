@@ -723,6 +723,10 @@ PY
         (cd "$root" && "$cargo_bin" test -p "$package" --target "$host_target" --all-targets -- --test-threads="$test_threads") \
           >"$tmp/results/$index.log" 2>&1
         result=$?
+        if [[ "$result" == 0 ]]; then
+          python3 "$root/tests/ci/run_no_warnings.py" --check-log "$tmp/results/$index.log"             >>"$tmp/results/$index.log" 2>&1
+          result=$?
+        fi
         printf '%s\n' "$result" >"$tmp/results/$index.status"
         exit 0
       ) &
@@ -735,6 +739,7 @@ PY
       if [[ -f "$tmp/results/$index.status" ]]; then
         wait "${pids[$index]}" 2>/dev/null
         result=$(<"$tmp/results/$index.status")
+        cat "$tmp/results/$index.log"
         if [[ "$result" != 0 && "$state" == passed ]]; then
           state=failed
           failure_phase=package_test
