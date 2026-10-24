@@ -5326,3 +5326,154 @@ fn initial_unverified_scenario_with_evidence_is_rejected_before_record_creation(
         }
     }
 }
+
+#[test]
+fn explicit_task_caller_and_resumption_assessment_match_cli_and_mcp() {
+    let root = repository();
+    let mut request = typed_request(root.path());
+    request.change_id = "bounded-task-adapters".into();
+    request.changes = vec![ContractAmendmentChange {
+        path: "/governanceProfile".into(),
+        operation: ContractAmendmentOperation::Set,
+        value: Some(json!({"taskAuthorization":{
+            "schemaVersion":1,"agentActor":"agent:adapter-task", "authoritySource":"fixture:explicit-owner",
+            "allowedActions":["modify_source","run_preflight","run_verification","record_governance_controls"],
+            "closeoutActions":[],"expiresAt":"2099-01-01T00:00:00Z","publicTarget":null
+        }})),
+    }];
+    cockpit_repository::apply_work_item_contract_amendment(
+        root.path(),
+        WORK_ITEM_ID,
+        &request,
+        &candidate_runtime(),
+    )
+    .unwrap();
+    let repository_path = root.path().to_str().unwrap();
+    let contract_path = root.path().join(format!(
+        ".ai/work-items/active/{WORK_ITEM_ID}.contract.json"
+    ));
+    let preflight = run_cli(&[
+        "preflight",
+        "--repo",
+        repository_path,
+        "--contract",
+        contract_path.to_str().unwrap(),
+    ]);
+    assert_success(&preflight, "native owner-review observation");
+    let contract = retained_document(root.path(), "contract");
+    let summary = retained_document(root.path(), "summary");
+    record_work_item_governance_controls_with_runtime(
+        root.path(),
+        WORK_ITEM_ID,
+        &json!({"decisionEvidence":{
+            "schemaVersion":1,"decisionId":"contract-preflight-review","decision":"confirm_review",
+            "repositoryId":repository_id(root.path()),"workItemId":WORK_ITEM_ID,
+            "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
+            "preflightDecisionDigest":summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
+            "recordedAt":"2026-10-24T18:00:00Z","recordedBy":"agent:isolated-test-recorder",
+            "reason":"Synthetic native adapter fixture, not external human identity authentication."
+        }}),
+        &candidate_runtime(),
+    )
+    .unwrap();
+    let caller = json!({"schemaVersion":1,"actor":"agent:adapter-task","authoritySource":"fixture:explicit-owner","assurance":"self_declared"});
+    let query = json!({"schemaVersion":1,"caller":caller,"action":"modify_source","paths":["README.md"],"publicTarget":null});
+    let input = tempfile::NamedTempFile::new().unwrap();
+    fs::write(input.path(), serde_json::to_vec(&query).unwrap()).unwrap();
+    let output = run_cli(&[
+        "work-item",
+        "status",
+        "--repo",
+        repository_path,
+        "--id",
+        WORK_ITEM_ID,
+        "--json",
+        "--authorization-request",
+        input.path().to_str().unwrap(),
+    ]);
+    assert_success(&output, "CLI exact task intent");
+    let cli: Value = serde_json::from_slice(&output.stdout).unwrap();
+    let mcp = mcp_call(
+        root.path(),
+        &candidate_runtime(),
+        "work_item_status",
+        json!({"workItemId":WORK_ITEM_ID,"authorizationRequest":query}),
+    );
+    assert_eq!(mcp["result"]["isError"], false, "{mcp}");
+    assert_eq!(
+        cli["authorizationAssessment"],
+        mcp["result"]["structuredContent"]["authorizationAssessment"]
+    );
+    assert_eq!(cli["authorizationAssessment"]["authorized"], true);
+    let all = mcp_call(
+        root.path(),
+        &candidate_runtime(),
+        "work_item_status",
+        json!({"all":true,"authorizationRequest":query}),
+    );
+    assert_eq!(
+        all["result"]["isError"], true,
+        "a single task grant cannot authorize all WIs: {all}"
+    );
+    let missing = run_cli(&[
+        "preflight",
+        "--repo",
+        repository_path,
+        "--contract",
+        contract_path.to_str().unwrap(),
+    ]);
+    assert!(
+        !missing.status.success(),
+        "legacy call must not infer the configured agent"
+    );
+    let context_file = tempfile::NamedTempFile::new().unwrap();
+    fs::write(context_file.path(), serde_json::to_vec(&caller).unwrap()).unwrap();
+    assert_success(
+        &run_cli(&[
+            "--task-caller",
+            context_file.path().to_str().unwrap(),
+            "preflight",
+            "--repo",
+            repository_path,
+            "--contract",
+            contract_path.to_str().unwrap(),
+        ]),
+        "explicit CLI caller",
+    );
+    let mcp_preflight = mcp_call(
+        root.path(),
+        &candidate_runtime(),
+        "runtime_preflight",
+        json!({"contract":format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json"),"taskCaller":caller}),
+    );
+    assert_eq!(mcp_preflight["result"]["isError"], false, "{mcp_preflight}");
+    let grant = cli["authorizationAssessment"]["authority"]["grantId"].clone();
+    let narrowed = mcp_call(
+        root.path(),
+        &candidate_runtime(),
+        "work_item_controls",
+        json!({"workItemId":WORK_ITEM_ID,"input":{"taskAuthorizationTermination":{
+        "schemaVersion":1,"grantId":grant,"decision":"withdrawn","caller":caller,"reason":"Explicit synthetic agent withdraws the exact local grant."
+    }},"taskCaller":caller}),
+    );
+    assert_eq!(narrowed["result"]["isError"], false, "{narrowed}");
+    let after = run_cli(&[
+        "--task-caller",
+        context_file.path().to_str().unwrap(),
+        "preflight",
+        "--repo",
+        repository_path,
+        "--contract",
+        contract_path.to_str().unwrap(),
+    ]);
+    assert!(!after.status.success());
+    assert!(String::from_utf8_lossy(&after.stderr).contains("withdrawn"));
+    let rejected = mcp_call(
+        root.path(),
+        &candidate_runtime(),
+        "runtime_preflight",
+        json!({"contract":format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json"),"taskCaller":caller}),
+    );
+    assert_eq!(rejected["result"]["isError"], true, "{rejected}");
+}

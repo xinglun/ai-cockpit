@@ -924,3 +924,106 @@ fn an_archived_task_can_withdraw_once_and_cannot_continue_using_a_cached_caller(
         .is_err()
     );
 }
+
+#[test]
+fn closing_a_task_keeps_only_the_explicit_native_closeout_actions() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    archive_reviewed_task(root);
+    cockpit_repository::close_work_item_with_structured_decision_and_runtime(
+        root,
+        WI,
+        &cockpit_protocol::HumanDecision {
+            decision: "confirmed".into(),
+            actor: "fixture:isolated-owner".into(),
+            authority_source: "fixture:synthetic-close-decision".into(),
+            reason: "Isolated native close integration test; no external identity assertion."
+                .into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: chrono::Utc::now().to_rfc3339(),
+            resume_condition: None,
+        },
+        &runtime(),
+    )
+    .unwrap();
+    assert_eq!(status(root)["taskAuthorization"]["state"], "closeout_only");
+    for action in [
+        "modify_source",
+        "run_verification",
+        "record_finalization",
+        "finalize_resources",
+    ] {
+        let request = cockpit_protocol::TaskAuthorizationRequest {
+            schema_version: 1,
+            caller: caller(),
+            action: action.into(),
+            paths: vec![],
+            public_target: None,
+        };
+        assert!(
+            !cockpit_repository::assess_task_authorization(root, WI, &request, &runtime())
+                .unwrap()
+                .authorized,
+            "closed task must not reopen {action}"
+        );
+    }
+    let request = cockpit_protocol::TaskAuthorizationRequest {
+        schema_version: 1,
+        caller: caller(),
+        action: "publish_native_closeout".into(),
+        paths: vec![],
+        public_target: Some(cockpit_protocol::TaskAuthorizationTarget {
+            provider: "github".into(),
+            repository: "example/fixture".into(),
+            base_branch: "main".into(),
+        }),
+    };
+    assert!(
+        cockpit_repository::assess_task_authorization(root, WI, &request, &runtime())
+            .unwrap()
+            .authorized
+    );
+    let terminal = termination(root, "completed");
+    record_work_item_governance_controls_with_runtime(root, WI, &terminal, &runtime()).unwrap();
+    assert_eq!(status(root)["taskAuthorization"]["state"], "completed");
+    assert!(
+        !cockpit_repository::assess_task_authorization(root, WI, &request, &runtime())
+            .unwrap()
+            .authorized
+    );
+}
+
+#[test]
+fn a_native_review_with_foreign_or_duplicate_bindings_is_never_authority() {
+    for alteration in ["foreign", "duplicate", "missing"] {
+        let directory = fixture("2099-01-01T00:00:00Z", true);
+        let root = directory.path();
+        let path = root.join(format!(".ai/decisions/{WI}.preflight-review.json"));
+        let mut review: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        match alteration {
+            "foreign" => {
+                review["repositoryId"] =
+                    ::serde_json::json!(Digest::sha256_bytes(b"foreign repository"));
+                fs::write(&path, serde_json::to_vec(&review).unwrap()).unwrap();
+            }
+            "duplicate" => {
+                let text = serde_json::to_string(&review).unwrap();
+                fs::write(&path, text.replacen('{', "{\"schemaVersion\":1,", 1)).unwrap();
+            }
+            "missing" => fs::remove_file(path).unwrap(),
+            _ => unreachable!(),
+        }
+        assert_ne!(status(root)["taskAuthorization"]["state"], "active");
+        assert!(
+            cockpit_repository::require_current_action_admission_with_caller(
+                root,
+                WI,
+                "run_verification",
+                &runtime(),
+                Some(&caller())
+            )
+            .is_err()
+        );
+    }
+}
