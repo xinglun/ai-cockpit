@@ -2,8 +2,8 @@
 use super::{ObserverError, legacy_closeout_source::PinnedRoot};
 use chrono::{DateTime, Utc};
 use cockpit_protocol::{
-    AssuranceLevel, Contract, PreflightDecisionEvidence, TaskAuthorizationPolicy,
-    TaskAuthorizationProjection,
+    AssuranceLevel, Contract, PreflightDecisionEvidence, RuntimeContext, TaskAuthorizationPolicy,
+    TaskAuthorizationProjection, TaskAuthorizationTerminationRequest,
 };
 use serde_json::{Value, json};
 use std::path::{Component, Path, PathBuf};
@@ -168,15 +168,192 @@ fn assess(
         .map_err(|e| error(root, e.to_string()))?,
     );
     result.scope_digest = Some(scope_digest);
-    if let Some(deadline) = &policy.expires_at {
-        let deadline = DateTime::parse_from_rfc3339(deadline)
-            .map_err(|e| error(root, format!("invalid task authorization deadline: {e}")))?;
-        if Utc::now() >= deadline {
-            result.state = "expired".into();
-            result.reason = "The declared task authorization deadline has been reached.".into();
-        }
+    let deadline = policy
+        .expires_at
+        .as_deref()
+        .map(DateTime::parse_from_rfc3339)
+        .transpose()
+        .map_err(|e| error(root, format!("invalid task authorization deadline: {e}")))?;
+    let terminal = read_termination(root, wi, &result, policy)?;
+    let deadline_first = deadline.is_some_and(|deadline| {
+        Utc::now() >= deadline
+            && terminal.as_ref().is_none_or(|v| {
+                DateTime::parse_from_rfc3339(v["recordedAt"].as_str().unwrap_or_default())
+                    .is_ok_and(|at| deadline <= at)
+            })
+    });
+    if deadline_first {
+        result.state = "expired".into();
+        result.reason = "The declared task authorization deadline has been reached.".into();
+    } else if let Some(record) = terminal {
+        result.state = record["request"]["decision"]
+            .as_str()
+            .unwrap_or_default()
+            .into();
+        result.reason =
+            "An immutable bound termination ended this grant without changing business completion."
+                .into();
     }
     Ok(result)
+}
+
+fn terminal_path(wi: &str, task: &TaskAuthorizationProjection) -> Result<PathBuf, ObserverError> {
+    let grant = task
+        .grant_id
+        .as_ref()
+        .ok_or_else(|| error(Path::new(wi), "task grant is not owner-bound"))?;
+    Ok(PathBuf::from(format!(
+        ".ai/decisions/{wi}.task-authorization.{}.terminated.json",
+        grant.as_str().trim_start_matches("sha256:")
+    )))
+}
+
+fn check_terminal_request(
+    root: &Path,
+    policy: &TaskAuthorizationPolicy,
+    task: &TaskAuthorizationProjection,
+    request: &TaskAuthorizationTerminationRequest,
+) -> Result<(), ObserverError> {
+    if request.schema_version != 1
+        || Some(&request.grant_id) != task.grant_id.as_ref()
+        || request.caller.schema_version != 1
+        || request.caller.actor != policy.agent_actor
+        || request.caller.authority_source != policy.authority_source
+        || request.caller.assurance != AssuranceLevel::SelfDeclared
+        || request.reason.trim().is_empty()
+        || request.reason.len() > 16 * 1024
+    {
+        return Err(error(
+            root,
+            "task termination caller, grant or input mismatch",
+        ));
+    }
+    Ok(())
+}
+
+fn read_termination(
+    root: &Path,
+    wi: &str,
+    task: &TaskAuthorizationProjection,
+    policy: &TaskAuthorizationPolicy,
+) -> Result<Option<Value>, ObserverError> {
+    let relative = terminal_path(wi, task)?;
+    match std::fs::symlink_metadata(root.join(&relative)) {
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(e) => return Err(error(root, e.to_string())),
+        Ok(_) => {}
+    }
+    let mut value = native_json(root, &relative)?;
+    let digest = value
+        .as_object_mut()
+        .and_then(|v| v.remove("recordDigest"))
+        .ok_or_else(|| error(root, "task termination digest missing"))?;
+    let actual = cockpit_protocol::digest_json(&value).map_err(|e| error(root, e.to_string()))?;
+    let request: TaskAuthorizationTerminationRequest =
+        serde_json::from_value(value["request"].clone()).map_err(|e| error(root, e.to_string()))?;
+    check_terminal_request(root, policy, task, &request)?;
+    if value["schemaVersion"] != 1
+        || value["repositoryId"] != super::repository_id(root).to_string()
+        || value["workItemId"] != wi
+        || value["grantId"] != json!(task.grant_id)
+        || value["scopeDigest"] != json!(task.scope_digest)
+        || digest != json!(actual)
+        || DateTime::parse_from_rfc3339(value["recordedAt"].as_str().unwrap_or_default()).is_err()
+    {
+        return Err(error(
+            root,
+            "task termination native binding or digest mismatch",
+        ));
+    }
+    value["recordDigest"] = digest;
+    Ok(Some(value))
+}
+
+/// Caller holds the own-WI lifecycle lock. This only appends narrowing metadata.
+pub(crate) fn record_termination_unlocked(
+    root: &Path,
+    wi: &str,
+    value: &Value,
+    runtime: &RuntimeContext,
+) -> Result<Value, ObserverError> {
+    let request: TaskAuthorizationTerminationRequest = serde_json::from_value(value.clone())
+        .map_err(|e| error(root, format!("invalid task termination input: {e}")))?;
+    let contract_value = native_json(
+        root,
+        Path::new(&format!(".ai/work-items/active/{wi}.contract.json")),
+    )?;
+    let contract: Contract =
+        serde_json::from_value(contract_value).map_err(|e| error(root, e.to_string()))?;
+    let policy = contract
+        .task_authorization_policy()
+        .map_err(|e| error(root, e))?
+        .ok_or_else(|| error(root, "task termination has no explicit owner policy"))?;
+    let task = assess(root, wi, &contract, &policy)?;
+    check_terminal_request(root, &policy, &task, &request)?;
+    if let Some(existing) = read_termination(root, wi, &task, &policy)? {
+        if existing["request"] != *value {
+            return Err(error(
+                root,
+                "task termination is immutable and conflicts with this request",
+            ));
+        }
+        return Ok(existing);
+    }
+    let relative = terminal_path(wi, &task)?;
+    let mut record = json!({
+        "schemaVersion":1, "repositoryId":contract.repository_id, "workItemId":wi,
+        "grantId":task.grant_id, "scopeDigest":task.scope_digest, "request":request,
+        "recordedAt":Utc::now().to_rfc3339(), "runtimeVersion":runtime.runtime_version,
+        "runtimeDigest":runtime.runtime_digest,
+    });
+    record["recordDigest"] =
+        json!(cockpit_protocol::digest_json(&record).map_err(|e| error(root, e.to_string()))?);
+    let pinned = PinnedRoot::open(root)?;
+    let directory = pinned.directory()?;
+    let ai_path = root.join(".ai");
+    let ai = super::open_cap_directory_nofollow_strict(&directory, ".ai", &ai_path)?;
+    let decisions_path = ai_path.join("decisions");
+    let decisions = super::open_cap_directory_nofollow_strict(&ai, "decisions", &decisions_path)?;
+    let identities = [
+        super::legacy_closeout_source::directory_identity(&ai_path, &ai)?,
+        super::legacy_closeout_source::directory_identity(&decisions_path, &decisions)?,
+    ];
+    let check_parent = || -> Result<(), ObserverError> {
+        pinned.require_current()?;
+        let current_root = pinned.directory()?;
+        let current_ai = super::open_cap_directory_nofollow_strict(&current_root, ".ai", &ai_path)?;
+        let current_decisions =
+            super::open_cap_directory_nofollow_strict(&current_ai, "decisions", &decisions_path)?;
+        if identities
+            != [
+                super::legacy_closeout_source::directory_identity(&ai_path, &current_ai)?,
+                super::legacy_closeout_source::directory_identity(
+                    &decisions_path,
+                    &current_decisions,
+                )?,
+            ]
+        {
+            return Err(error(root, "task termination parent identity changed"));
+        }
+        Ok(())
+    };
+    check_parent()?;
+    let bytes = serde_json::to_vec_pretty(&record).map_err(|e| error(root, e.to_string()))?;
+    super::evidence_store::write_cap_immutable(
+        &decisions,
+        relative
+            .file_name()
+            .and_then(|n| n.to_str())
+            .ok_or_else(|| error(root, "invalid termination filename"))?,
+        &root.join(&relative),
+        &bytes,
+    )?;
+    check_parent()?;
+    let stored = read_termination(root, wi, &task, &policy)?;
+    if stored.as_ref() != Some(&record) {
+        return Err(error(root, "task termination publication is incomplete"));
+    }
+    Ok(record)
 }
 
 pub(crate) fn task_authorization_projection(

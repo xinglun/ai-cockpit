@@ -991,10 +991,8 @@ impl TaskAuthorizationPolicy {
                 .iter()
                 .any(|s| !TASK_AUTHORIZATION_ACTIONS.contains(&s.as_str()))
             || self.closeout_actions.iter().any(|s| {
-                !matches!(
-                    s.as_str(),
-                    "publish_native_closeout" | "cleanup_auxiliary_resources"
-                ) || !actions.contains(s)
+                !["publish_native_closeout", "cleanup_auxiliary_resources"].contains(&s.as_str())
+                    || !actions.contains(s)
             })
             || self.expires_at.as_deref().is_some_and(|s| !explicit(s))
         {
@@ -1021,6 +1019,32 @@ pub struct TaskAuthorizationProjection {
     pub grant_id: Option<Digest>,
     pub scope_digest: Option<Digest>,
     pub expires_at: Option<String>,
+    pub reason: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskAuthorizationCaller {
+    pub schema_version: u32,
+    pub actor: String,
+    pub authority_source: String,
+    pub assurance: AssuranceLevel,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TaskAuthorizationTerminationDecision {
+    Withdrawn,
+    Completed,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct TaskAuthorizationTerminationRequest {
+    pub schema_version: u32,
+    pub grant_id: Digest,
+    pub decision: TaskAuthorizationTerminationDecision,
+    pub caller: TaskAuthorizationCaller,
     pub reason: String,
 }
 

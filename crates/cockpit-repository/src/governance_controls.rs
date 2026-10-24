@@ -1323,6 +1323,23 @@ pub fn record_work_item_governance_controls(
         source,
     })?;
     let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(value) = controls.get("taskAuthorizationTermination") {
+        if controls.as_object().is_none_or(|object| object.len() != 1) {
+            return Err(ObserverError::State {
+                path: root,
+                message: "task termination must be the only governance operation".into(),
+            });
+        }
+        _lifecycle_lock.require_subject(&root, work_item_id)?;
+        let recorded = crate::task_authorization::record_termination_unlocked(
+            &root,
+            work_item_id,
+            value,
+            runtime,
+        )?;
+        _lifecycle_lock.require_subject(&root, work_item_id)?;
+        return Ok(recorded);
+    }
     record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
 }
 
