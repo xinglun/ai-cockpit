@@ -17,7 +17,7 @@
   ],
   "createdAt": "2026-10-24T01:22:20.551366860Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:a4ec649a7b7f25245abc7b50d1d375aea4db994d9bf6d50640eb3d527159a6b4",
+  "evidenceDigest": "sha256:8578b96aa86bf38693642193ca93f074b250f5ceda516db9656fc0702b25b392",
   "evidenceRefs": [
     ".ai/evidence/WI-1107-delegated-development-review.verification.json"
   ],
@@ -43,7 +43,7 @@
         ".ai/evidence/WI-1107-delegated-development-review.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:4f1c771025c5b7aa38502431600bc073d744f74e19902ec68db6a0e17af32389",
+      "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
       "workItemId": "WI-1107-delegated-development-review"
     },
     "format": "ai-cockpit.task-outcome",
@@ -149,7 +149,7 @@
     },
     "workItemId": "WI-1107-delegated-development-review"
   },
-  "taskReportDigest": "sha256:2b2a0a69c382b9cfd673b777bd069d49a34010e895878d52d896fc7ba0d64332",
+  "taskReportDigest": "sha256:04b2be9d9b88e6e0867fd136af40e09434f37ccda7b659ead9d0e8bee0dc21c4",
   "taskReportMarkdownDigest": "sha256:6a6a3d80c98231e21ae41c4200ed01e6b7416b31b44040f8cc6983c9a4f1eee2",
   "unknowns": [
     "user_visible_benefit_not_declared"

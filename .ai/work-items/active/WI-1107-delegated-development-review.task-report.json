@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1107-delegated-development-review.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:4f1c771025c5b7aa38502431600bc073d744f74e19902ec68db6a0e17af32389",
+    "repositorySnapshotDigest": "sha256:f87f6b9f902d561aafb5116da04ae83621eabdff5aa1ce2f7d30371223901da8",
     "workItemId": "WI-1107-delegated-development-review"
   },
   "format": "ai-cockpit.task-outcome",
