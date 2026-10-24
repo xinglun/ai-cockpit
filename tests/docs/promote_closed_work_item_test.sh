@@ -258,6 +258,13 @@ def bound_fixture(label, *, direct=False, in_contract=False, absent=False):
          for p in (root / decisions).glob(f"{wi}.finalize.*.json")]
     )
     receipt = transitions[-1][2]["receipt"] if direct else load(root, root_path)
+    def bind_concrete_resources(value):
+        value["branch"] = {"name": context["branch"], "remote": context["baseRemote"],
+                           "headRevision": "c" * 40}
+        value["worktree"] = {"branch": context["branch"], "path": context["worktree"],
+                             "headRevision": "c" * 40, "worktreeId": "fixture-worktree-identity"}
+
+    bind_concrete_resources(receipt)
     receipt["contractDigest"] = raw(root, contract_path)
     write(root, root_path, receipt)
     previous = canonical(receipt)
@@ -266,6 +273,7 @@ def bound_fixture(label, *, direct=False, in_contract=False, absent=False):
         path.unlink()
         if direct:
             continue
+        bind_concrete_resources(envelope["receipt"])
         envelope["receipt"]["contractDigest"] = raw(root, contract_path)
         envelope["predecessorReceiptDigest"] = previous
         head = decisions / f"{wi}.finalize.{canonical(envelope)[7:]}.json"
@@ -309,9 +317,9 @@ for label, options in (
 negatives = 0
 
 
-def reject(label, mutate, expected):
+def reject(label, mutate, expected, *, direct=True):
     global negatives
-    root = bound_fixture(label, direct=True)
+    root = bound_fixture(label, direct=direct)
     mutate(root)
     before = inventory(root, "docs")
     result = invoke(root)
@@ -438,6 +446,58 @@ def spurious_finalization(root):
 
 
 reject("no-resource-spurious-finalization", spurious_finalization, "no-resource")
+
+
+def concrete_resource_mismatch(root, object_name, field, value):
+    receipt = load(root, root_path)
+    if field is None:
+        receipt.pop(object_name)
+    else:
+        receipt[object_name][field] = value
+    write(root, root_path, receipt)
+    change(root, close_path, resourceFinalizationHeadDigest=canonical(receipt))
+
+
+for index, (object_name, field, value) in enumerate((
+    ("branch", None, None), ("worktree", None, None),
+    ("branch", "name", "foreign"), ("branch", "remote", "foreign"),
+    ("worktree", "branch", "foreign"), ("worktree", "path", "/tmp/foreign"),
+    ("worktree", "worktreeId", ""), ("worktree", "worktreeId", False),
+)):
+    reject(f"concrete-resource-{index}",
+           lambda root, o=object_name, f=field, v=value: concrete_resource_mismatch(root, o, f, v),
+           "resource identity")
+
+
+def changed_chain_identity(root):
+    previous = canonical(load(root, root_path))
+    for seq, path, envelope in sorted(
+        [(load(root, p.relative_to(root))["sequence"], p, load(root, p.relative_to(root)))
+         for p in (root / decisions).glob(f"{wi}.finalize.*.json")]
+    ):
+        envelope["receipt"]["worktree"]["worktreeId"] = "foreign-worktree-identity"
+        envelope["predecessorReceiptDigest"] = previous
+        path.unlink()
+        new_path = decisions / f"{wi}.finalize.{canonical(envelope)[7:]}.json"
+        write(root, new_path, envelope)
+        previous = canonical(envelope["receipt"])
+        if seq == 2:
+            change(root, close_path, resourceFinalizationHeadPath=new_path.as_posix(),
+                   resourceFinalizationHeadDigest=previous)
+
+
+reject("changed-chain-worktree", changed_chain_identity, "resource identity", direct=False)
+
+
+def retained_root(root):
+    receipt = load(root, root_path)
+    receipt["result"]["disposition"] = "retained"
+    receipt["after"].update(branch="present", worktree="clean")
+    write(root, root_path, receipt)
+    change(root, close_path, resourceFinalizationHeadDigest=canonical(receipt))
+
+
+reject("retained-root", retained_root, "must be deleted or abandoned")
 print(f"archived handoff consumer: {positives} positive, {negatives} negative cases passed")
 PY_HANDOFF
 

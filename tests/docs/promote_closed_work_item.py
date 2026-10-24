@@ -226,6 +226,7 @@ def receipt_identity(
     contract_digest: str,
     base_revision: str,
     resource_context: dict[str, str] | None = None,
+    worktree_id: str | None = None,
 ) -> None:
     require(receipt.get("workItemId") == work_item_id, "finalization Work Item identity mismatch")
     require(receipt.get("repositoryId") == repository_id, "finalization repository identity mismatch")
@@ -240,6 +241,19 @@ def receipt_identity(
             and pull_request.get("baseBranch") == resource_context["baseBranch"]
             and pull_request.get("baseRemote") == resource_context["baseRemote"],
             "finalization resource context identity mismatch",
+        )
+        branch = receipt.get("branch")
+        worktree = receipt.get("worktree")
+        require(
+            isinstance(branch, dict) and isinstance(worktree, dict)
+            and branch.get("name") == resource_context["branch"]
+            and branch.get("remote") == resource_context["baseRemote"]
+            and worktree.get("branch") == resource_context["branch"]
+            and worktree.get("path") == resource_context["worktree"]
+            and isinstance(worktree.get("worktreeId"), str)
+            and bool(worktree["worktreeId"].strip())
+            and (worktree_id is None or worktree["worktreeId"] == worktree_id),
+            "finalization concrete resource identity mismatch",
         )
     contract_base_revision = receipt.get("contractBaseRevision")
     if contract_base_revision is not None:
@@ -386,6 +400,7 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
                 contract_digest=contract_digest,
                 base_revision=base_revision,
                 resource_context=handoff_context,
+                worktree_id=(root_receipt["worktree"]["worktreeId"] if handoff_context is not None else None),
             )
             transitions[sequence] = (path, envelope, receipt)
 
