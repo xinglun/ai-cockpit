@@ -25,7 +25,7 @@ jobs:
       - name: Checkout exact frozen source independently
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: 2fd8e38a2ea2e4b73dd3993438d546eac86cd797
+          ref: 46be639e6cb19255cba27cf1411629e9e3382938
           fetch-depth: 0
           path: wi1107-source
           persist-credentials: false
