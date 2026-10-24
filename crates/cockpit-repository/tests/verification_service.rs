@@ -33,7 +33,7 @@ fn canonical_clean_large_rust_source_satisfies_read_only_quality_gate() {
         file.write_all(body.as_bytes()).expect("source body");
     }
 
-    let root: PathBuf = repository("canonical-clean-large-rust");
+    let root: ::std::path::PathBuf = repository("canonical-clean-large-rust");
     fs::create_dir(root.join("crates")).expect("source directory");
     let padding = "// unchanged source padding\n".repeat(10_000);
     assert!(padding.len() > cockpit_git::MAX_CHANGE_TEXT_BYTES);
