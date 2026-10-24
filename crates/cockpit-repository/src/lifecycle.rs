@@ -178,6 +178,18 @@ fn validate_initial_scenarios(
     root: &Path,
     options: &WorkItemStartOptions,
 ) -> Result<(), ObserverError> {
+    if let Some(policy) = &options.task_authorization {
+        policy.validate().map_err(|message| ObserverError::State {
+            path: root.into(),
+            message,
+        })?;
+        if let Some(deadline) = &policy.expires_at {
+            chrono::DateTime::parse_from_rfc3339(deadline).map_err(|e| ObserverError::State {
+                path: root.into(),
+                message: format!("invalid task authorization deadline: {e}"),
+            })?;
+        }
+    }
     if let Some(policy) = &options.development_review {
         policy.validate().map_err(|message| ObserverError::State {
             path: root.join(".ai/work-items/active"),
@@ -206,6 +218,22 @@ fn apply_initial_scenarios(
     summary: &mut serde_json::Value,
     options: &WorkItemStartOptions,
 ) {
+    if let Some(policy) = &options.task_authorization {
+        contract["governanceProfile"]["taskAuthorization"] =
+            serde_json::to_value(policy).expect("typed task policy");
+        let caps = contract
+            .as_object_mut()
+            .expect("Contract object")
+            .entry("requiredRuntimeCapabilities")
+            .or_insert_with(|| serde_json::json!([]))
+            .as_array_mut()
+            .expect("capability list");
+        let capability = serde_json::json!(cockpit_protocol::TASK_AUTHORIZATION_CAPABILITY);
+        if !caps.contains(&capability) {
+            caps.push(capability);
+            caps.sort_by_key(|v| v.as_str().unwrap_or_default().to_owned());
+        }
+    }
     if let Some(policy) = &options.development_review {
         contract["governanceProfile"]["developmentReview"] =
             serde_json::to_value(policy).expect("typed review policy");
@@ -634,6 +662,37 @@ pub fn start_work_item_prepared(
     sources: &[String],
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
+    start_work_item_with_preparation(
+        root,
+        &super::WorkItemStartDeclaration {
+            work_item_id,
+            intent,
+            goal,
+            scope,
+            options,
+            sources,
+            prepare: true,
+        },
+        runtime,
+    )
+}
+
+/// Explicit staged startup writes the complete declaration but performs no
+/// preflight or checkpoint. Omitted MCP prepare retains its historical default.
+pub fn start_work_item_with_preparation(
+    root: &Path,
+    declaration: &super::WorkItemStartDeclaration<'_>,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    let super::WorkItemStartDeclaration {
+        work_item_id,
+        intent,
+        goal,
+        scope,
+        options,
+        sources,
+        prepare,
+    } = declaration;
     let start = start_work_item_with_options_and_runtime(
         root,
         work_item_id,
@@ -654,6 +713,12 @@ pub fn start_work_item_prepared(
             runtime,
         )?)
     };
+    if !*prepare {
+        return Ok(serde_json::json!({
+            "state":"implementation_active", "start":start,
+            "sourceAmendment":source_amendment, "preflight":null, "checkpoint":null,
+        }));
+    }
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));

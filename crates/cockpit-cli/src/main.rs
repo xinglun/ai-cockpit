@@ -1862,6 +1862,7 @@ fn run() -> Result<()> {
                 );
             }
             let options = WorkItemStartOptions {
+                task_authorization: None,
                 out_of_scope,
                 risk,
                 authority,

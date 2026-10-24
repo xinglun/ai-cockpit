@@ -5,8 +5,7 @@ use super::{
     ObserverError, acquire_lifecycle_lock, contains_strong_instruction_injection,
     create_and_open_cap_directory, derive_governance_signals_with_diagnostics,
     effective_policy_for_contract, open_cap_directory_nofollow_strict,
-    read_cap_file_nofollow_bounded, repository_id, require_current_action_admission,
-    validate_work_item_id,
+    read_cap_file_nofollow_bounded, repository_id, validate_work_item_id,
 };
 use crate::rust_material::{MaterialUnknownCause, RustMaterialAssessment};
 #[cfg(windows)]

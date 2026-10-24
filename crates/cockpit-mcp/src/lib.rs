@@ -2370,6 +2370,7 @@ fn work_item_start(
     let verification_commands =
         parse_string_array(object, "verification", "work_item_start", false, 0)?;
     let options = cockpit_repository::WorkItemStartOptions {
+        task_authorization: None,
         out_of_scope,
         risk: arguments
             .get("risk")

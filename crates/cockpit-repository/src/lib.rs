@@ -960,6 +960,7 @@ pub struct WorkItemStartObligation {
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct WorkItemStartOptions {
+    pub task_authorization: Option<cockpit_protocol::TaskAuthorizationPolicy>,
     pub development_review: Option<cockpit_protocol::DevelopmentReviewPolicy>,
     /// Complete initial scenario plan; never evidence of test execution.
     pub scenario_coverage: Vec<cockpit_protocol::ScenarioCoverageEntry>,
@@ -971,6 +972,18 @@ pub struct WorkItemStartOptions {
     /// Human-declared verification commands. An empty list preserves the
     /// repository-observed default at the start boundary.
     pub verification_commands: Vec<String>,
+}
+
+/// Shared CLI/MCP startup declaration; staging is explicit rather than an
+/// implicit lifecycle side effect of a transport.
+pub struct WorkItemStartDeclaration<'a> {
+    pub work_item_id: &'a str,
+    pub intent: &'a str,
+    pub goal: &'a str,
+    pub scope: &'a [String],
+    pub options: &'a WorkItemStartOptions,
+    pub sources: &'a [String],
+    pub prepare: bool,
 }
 
 /// The built-in required-evidence vocabulary is intentionally small and
@@ -7568,7 +7581,14 @@ fn apply_preflight_review_evidence(
     }
     let sensitive_amendment =
         contract_amendment::has_sensitive_amendment(root, &contract.work_item_id)?
-            || recovery_fresh_review.is_some();
+            || recovery_fresh_review.is_some()
+            || contract
+                .task_authorization_policy()
+                .map_err(|message| ObserverError::State {
+                    path: contract_path.clone(),
+                    message,
+                })?
+                .is_some();
     if sensitive_amendment {
         if evidence_state == governance_controls::PreflightDecisionEvidenceState::Valid {
             // A valid receipt is bound to this exact Contract and preflight
@@ -9598,7 +9618,7 @@ pub fn archive_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, None, None)
+    archive_work_item_internal(root, work_item_id, None, None, None)
 }
 
 /// Archive a Work Item only when its evidence was produced by this Runtime
@@ -9608,7 +9628,17 @@ pub fn archive_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, Some(runtime), None)
+    archive_work_item_internal(root, work_item_id, Some(runtime), None, None)
+}
+
+/// Explicit caller is checked under the existing archive transaction lock.
+pub fn archive_work_item_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
+    archive_work_item_internal(root, work_item_id, Some(runtime), None, caller)
 }
 
 /// Archive a Work Item whose complete schema-v2 verification receipt was
@@ -9622,7 +9652,7 @@ pub fn archive_historical_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, None, Some(runtime))
+    archive_work_item_internal(root, work_item_id, None, Some(runtime), None)
 }
 
 /// Retire an active Work Item through an explicit, append-only terminal
@@ -10213,6 +10243,7 @@ fn archive_work_item_internal(
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
     historical_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -10220,6 +10251,18 @@ fn archive_work_item_internal(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(runtime) = current_runtime {
+        task_authorization::require_task_caller(
+            &root,
+            work_item_id,
+            "archive_when_reviewed",
+            runtime,
+            caller,
+        )?;
+    } else {
+        task_authorization::reject_legacy_task_write(&root, work_item_id)?;
+    }
+
     let ai = root.join(".ai");
     let active = ai.join("work-items/active");
     let archive = ai.join("work-items/archive");
@@ -10275,11 +10318,12 @@ fn archive_work_item_internal(
             });
         }
         if let Some(runtime) = current_runtime {
-            action_admission::require_current_action_admission(
+            action_admission::require_current_action_admission_with_caller(
                 &root,
                 work_item_id,
                 "archive_when_reviewed",
                 runtime,
+                caller,
             )?;
         }
         return archive_superseded_work_item(&root, work_item_id, &decision);
@@ -10356,11 +10400,12 @@ fn archive_work_item_internal(
         require_green_governance(&root, &contract_path, &contract, &snapshot, "archive")?;
     }
     if let Some(runtime) = current_runtime {
-        action_admission::require_current_action_admission(
+        action_admission::require_current_action_admission_with_caller(
             &root,
             work_item_id,
             "archive_when_reviewed",
             runtime,
+            caller,
         )?;
     }
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));

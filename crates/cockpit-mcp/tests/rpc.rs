@@ -2848,3 +2848,100 @@ fn mcp_preflight_reuses_derived_signals_without_disclosing_change_text() {
     assert!(!serialized.contains("changeEvidence"));
     fs::remove_dir_all(directory).expect("cleanup");
 }
+
+#[test]
+fn mcp_staged_start_preserves_the_complete_plan_without_checkpointing() {
+    let directory = TestTempDir::new("cockpit-mcp-staged-start");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(directory.path())
+            .status()
+            .unwrap()
+            .success()
+    );
+    fs::write(directory.path().join("README.md"), "staged baseline\n").unwrap();
+    commit_test_source(directory.path(), &["README.md"], "staged baseline");
+    cockpit_repository::attach(directory.path()).unwrap();
+    let response = handle_request_for_repo(
+        &::serde_json::json!({
+            "jsonrpc":"2.0", "id":910, "method":"tools/call",
+            "params":{"name":"work_item_start","arguments":{
+                "workItemId":"WI-MCP-STAGED", "intent":"declare first", "goal":"review complete plan",
+                "scope":["README.md"], "authority":"authorized", "prepare":false,
+                "sources":["README.md:staged input"], "verification":["git diff --check"],
+                "scenarioCoverage":[{"scenario":"required-initial-case","expected":"real evidence is required", "required":true,"status":"unverified","evidence":[],"verificationPlan":"git diff --check"}]
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false, "{response:#}");
+    let result = &response["result"]["structuredContent"];
+    assert_eq!(result["state"], "implementation_active");
+    assert!(result["checkpoint"].is_null());
+    assert!(result["preflight"].is_null());
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-MCP-STAGED.summary.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(summary["checkpointCount"], 0);
+    assert_eq!(summary["preflightState"], "not_run");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-MCP-STAGED.contract.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(contract["sources"][0], "README.md:staged input");
+    assert_eq!(contract["scenarioCoverage"][0]["status"], "unverified");
+    assert_eq!(
+        contract["scenarioCoverage"][0]["evidence"],
+        ::serde_json::json!([])
+    );
+}
+
+#[test]
+fn mcp_non_boolean_prepare_is_rejected_before_any_work_item_write() {
+    for prepare in [
+        ::serde_json::json!("false"),
+        ::serde_json::json!(0),
+        ::serde_json::json!(null),
+    ] {
+        let directory = TestTempDir::new("cockpit-mcp-invalid-prepare");
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(directory.path())
+                .status()
+                .unwrap()
+                .success()
+        );
+        commit_empty_baseline(directory.path());
+        cockpit_repository::attach(directory.path()).unwrap();
+        let response = handle_request_for_repo(
+            &::serde_json::json!({
+                "jsonrpc":"2.0", "id":911, "method":"tools/call", "params":{"name":"work_item_start","arguments":{
+                    "workItemId":"WI-MCP-INVALID-PREPARE", "intent":"declare", "goal":"reject before writes", "scope":["README.md"], "prepare":prepare
+                }}
+            }),
+            directory.path(),
+            &test_runtime_context(),
+        );
+        assert_eq!(response["result"]["isError"], true, "{response:#}");
+        assert!(
+            !directory
+                .path()
+                .join(".ai/work-items/active/WI-MCP-INVALID-PREPARE.contract.json")
+                .exists()
+        );
+    }
+}
