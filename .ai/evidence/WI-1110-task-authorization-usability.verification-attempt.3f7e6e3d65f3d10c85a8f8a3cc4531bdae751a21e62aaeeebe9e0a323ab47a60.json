@@ -1,0 +1,311 @@
+{
+  "attemptId": "sha256:3f7e6e3d65f3d10c85a8f8a3cc4531bdae751a21e62aaeeebe9e0a323ab47a60",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "task_authorization",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:c6ead63b29591bb79ee38553bc0dc5cb7e2dffc118b2788ed17a0b0e5dd4149b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "contract_amendment_processes",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:4f1ccfd91918db35e01895745b0f6dbbc6eb4f1795dbe778ea6d2d49013c808a",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-mcp",
+        "--test",
+        "rpc",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:e613bacfa3555b859272d5603c5967a74911535de1917c128d492c136feb4001",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:42ac6e04a874e82b54e4ef6bad17bed0b6cb77ac5f2697746c56899122898e1c",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "check",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:862526292b58138620a13b1212c3a14fb27aa5cfe32258ef38f5594ee3fa189b",
+      "nodeId": "project-command-4",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:8fe683874bc8c0763df69f8ce581c1838ef1d997a1216c5b8d027923adfdf49b",
+      "nodeId": "project-command-5",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:f2680a5e3d28d6e86555e08f9ef1b2f1d1d70f844f06833304b60e9438ba9949",
+      "nodeId": "project-command-6",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/no_warnings_quality_gate_test.sh"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:59ec294e0a6ec28c10ddd52faa7522d6b459f48de268ea4c25c238638c27ac51",
+      "nodeId": "project-command-7",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:55a944d5e52d9aff0f9fac396b0920a1284ff648ed82011c7e9d3a958013ffb3",
+      "nodeId": "project-command-8",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/workspace_package_coverage_test.sh"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:51410b92c52f9aa1b1f5a790de1b6b46e58c272e89850be04b2649088384a9af",
+      "nodeId": "project-command-9",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/ci/hosted_runtime_verification_test.sh"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:2712817176a3f1c0f53688bc50667efd77ed80618d555bc624c4f17f49dc15bc",
+      "nodeId": "project-command-10",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:be3fa62bb36c94572baedcfb2daffac4c21190a051c911fa1b99d3d086a1ee1f",
+      "nodeId": "project-command-11",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        ".",
+        "--check-all"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:3fbb3ad38695bf7886acb047fdb39c8c3c606ded520a878534aa0e01fcccfedc",
+      "nodeId": "project-command-12",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "-m",
+        "py_compile",
+        "tests/ci/run_no_warnings.py"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:43693d65d78eae0e2b089710d9103e6ba8f1edcaf9c4f1f7faf622584e7e63ba",
+      "nodeId": "project-command-13",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "c85105db9849d8ee27635ee762f98d991955aa21",
+        "HEAD"
+      ],
+      "baseCommit": "c85105db9849d8ee27635ee762f98d991955aa21",
+      "commandDigest": "sha256:5a1952315844a0932caa260321acc619887afa4383c19b7fa2214f92de706821",
+      "nodeId": "project-command-14",
+      "program": "git",
+      "runner": "local",
+      "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
+  "contractExecutionScopeDigest": "sha256:359eb56ff25d619686bbc9773efd00436f30e49a317d3b208fff1b07aa023ed8",
+  "createdAt": "2026-10-24T23:11:49Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1110-task-authorization-usability/.ai/work-items/active/WI-1110-task-authorization-usability.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"material_review_projection_unavailable\"], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\", \"resolve_blockers\", \"run_preflight\", \"stop\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:949317c4fb7e0bb672c4585dc014b833c52bf82c2a5a807505cd8f2a5f1b1c71, issues=[\"evidence_stale\", \"material_review_projection_unavailable\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8c5aa905693bbad8abcf71a7ffb9f08089515de61539b50ef5f599f6de624633",
+  "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1110-task-authorization-usability"
+}

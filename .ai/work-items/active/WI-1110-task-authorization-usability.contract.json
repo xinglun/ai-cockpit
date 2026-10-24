@@ -296,7 +296,12 @@
     "crates/cockpit-repository/src/resource_lifecycle.rs",
     "crates/cockpit-repository/src/legacy_closeout_source.rs",
     "tests/ci/repository_gate_manifest.json",
-    "tests/ci/hosted_runtime_verification_test.sh"
+    "tests/ci/hosted_runtime_verification_test.sh",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-repository/src/evidence_store.rs",
+    "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    "crates/cockpit-isolation/tests/scanner.rs",
+    "crates/cockpit-repository/tests/collaboration_admission.rs"
   ],
   "sources": [
     "conversation:Sentinel_de6d7abfff848191ac4572c930c54859",

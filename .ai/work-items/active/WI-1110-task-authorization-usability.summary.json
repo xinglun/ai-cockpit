@@ -138,20 +138,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1110-task-authorization-usability"
+    },
+    {
+      "acceptanceCount": 19,
+      "contractHash": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:76f7f4cbe8706b437aac9ba582f3f04ff17d20a71daba150bb83da825774dda6",
+      "previousContractHash": "sha256:ea6d9e1f1930d3eefe4db1114d519e42a4aa563ad6e1875523680cafc9a7b3b2",
+      "reason": "Complete the already-required native Windows zero-warning quality boundary after actual PR1072/Run40139070422 Windows strict Clippy failed. Read-only full workspace x86_64-pc-windows-msvc Clippy inventory found nine unique warning groups across six files (15 duplicate-inclusive messages, 14 packages, no source edits); it was compiler diagnosis only, not acceptance. Add only these five omitted paths; execution_context.rs is already scoped. Planned changes only remove five unnecessary tail returns, collapse the existing owner-PID/thread conditional preserving short-circuit order and replacement side effect, and cfg-guard Unix/Linux-only imports to match existing test bodies. Preserve every reader/process safety check, error behavior, test/assertion and strict lint standard. Original17 scenes,15 formal commands,19 criteria,900-second/workers1 finite execution policy and all human/platform boundaries remain unchanged. Preserve failed Windows evidence and prior native successful/failed attempts; old source/Contract proof cannot satisfy the new source/Contract. This stages exact owner scope review before editing the new paths; no release, production activation, shared Runtime replacement, host privilege or external B authority.",
+      "recorded": true,
+      "recordedAt": "2026-10-24T23:01:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb13a82f0c163f6b891a4b02a51c067c520cd6ecd5e0c2e194b5a0358a6c16a4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1110-task-authorization-usability"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:eb13a82f0c163f6b891a4b02a51c067c520cd6ecd5e0c2e194b5a0358a6c16a4",
   "createdAt": "2026-10-24T13:18:58Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:ea6d9e1f1930d3eefe4db1114d519e42a4aa563ad6e1875523680cafc9a7b3b2",
+    "contractDigest": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:c93816c782dc549a630b3338122d93b90cbeb4422c9dbe44ccc1bd38273e56a0",
-    "reason": "Actual user message Sentinel_6ca4b673b0488191894b03c5436cde88 in parent conversation 01a1576c-b0ab-7723-ad8e-95924e80102a: 确认 WI-1110 上述 hosted 回归夹具范围修订及 sequence 6 新绑定，confirm_review，并批准该公开增量及原条件交付。 Supplied user-message timestamp was not provided; actual recording time is used. Agent records actual supplied user provenance, not independent human identity authentication or a coordinator judgment. No tests, release, production activation, shared Runtime replacement or human close is asserted.",
-    "recordedAt": "2026-10-24T21:45:23.769035+00:00",
+    "preflightDecisionDigest": "sha256:a6b56420a50e0d0e626c66dff13f9ebfe6fbb93e27597c47bbfa8de1e801f6a5",
+    "reason": "Actual user message Sentinel_85a84d1d277c8191ababa99565aaddd1 in parent conversation 01a1576c-b0ab-7723-ad8e-95924e80102a: 确认 WI-1110 上述 Windows 零警告五文件范围修订及 sequence 7 新绑定，confirm_review，并批准上述公开增量及原条件交付。 User-message timestamp not supplied; actual recording time used. agent:Codex records supplied actual user provenance, not independent human authentication or a coordinator judgment. This does not claim new-version tests passed, human close, release, production activation or shared Runtime replacement.",
+    "recordedAt": "2026-10-24T23:09:52.508474+00:00",
     "recordedBy": "agent:Codex",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:1ed6c14ea632a38a69097e287270e496c412cb3c0bcbdec78b24aa786ee705a7",
+    "repositorySnapshotDigest": "sha256:eb13a82f0c163f6b891a4b02a51c067c520cd6ecd5e0c2e194b5a0358a6c16a4",
     "schemaVersion": 1,
     "workItemId": "WI-1110-task-authorization-usability"
   },
@@ -181,11 +201,11 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-24T22:14:13Z",
-  "preflightContractDigest": "sha256:ea6d9e1f1930d3eefe4db1114d519e42a4aa563ad6e1875523680cafc9a7b3b2",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:eb13a82f0c163f6b891a4b02a51c067c520cd6ecd5e0c2e194b5a0358a6c16a4",
-  "preflightState": "green",
+  "preflightAt": "2026-10-24T23:11:47Z",
+  "preflightContractDigest": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "preflightRepositorySnapshotDigest": "sha256:8c5aa905693bbad8abcf71a7ffb9f08089515de61539b50ef5f599f6de624633",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -395,8 +415,8 @@
       "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-10-24T22:29:21.189011670Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-24T23:09:53.705584172+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -615,5 +635,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-24T23:01:33Z"
+  },
   "workItemId": "WI-1110-task-authorization-usability"
 }
