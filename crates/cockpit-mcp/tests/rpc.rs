@@ -37,6 +37,15 @@ impl Drop for TestTempDir {
 }
 
 fn commit_test_source(root: &Path, paths: &[&str], message: &str) {
+    assert!(
+        Command::new("git")
+            .args(["config", "core.autocrlf", "false"])
+            .current_dir(root)
+            .output()
+            .expect("set fixture-local newline semantics")
+            .status
+            .success()
+    );
     if !paths.is_empty() {
         let mut add = Command::new("git");
         add.args(["add", "--"]).args(paths).current_dir(root);

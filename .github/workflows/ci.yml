@@ -671,6 +671,12 @@ jobs:
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1
       - name: verify Windows repository boundaries
         run: python tests/ci/run_no_warnings.py -- cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
+      - name: verify Windows bounded task authorization
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1
+      - name: verify Windows task caller CLI and MCP parity
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-cli --test contract_amendment_processes explicit_task_caller_and_resumption_assessment_match_cli_and_mcp -- --exact --test-threads=1
+      - name: verify Windows complete staged MCP start
+        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-mcp --test rpc mcp_staged_start_preserves_the_complete_plan_without_checkpointing -- --exact --test-threads=1
       - name: verify Windows directory-handle containment regressions
         run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib
       - name: verify Windows preflight lifecycle-lock admission

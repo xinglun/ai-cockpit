@@ -31,6 +31,7 @@ fn git(root: &Path, args: &[&str]) {
 fn repository() -> tempfile::TempDir {
     let root = tempfile::tempdir().expect("temporary repository");
     git(root.path(), &["init", "-q", "--initial-branch=main"]);
+    git(root.path(), &["config", "core.autocrlf", "false"]);
     git(
         root.path(),
         &["config", "user.email", "acceptance@example.invalid"],

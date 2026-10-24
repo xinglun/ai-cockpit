@@ -441,7 +441,7 @@ for node, digest in zip(expected_nodes, command_digests):
             if not isinstance(raw, str) or re.fullmatch(r"(?:[0-9a-f]{2})*", raw) is None:
                 reject(f"hosted Runtime package diagnostic hex is invalid: {node}")
             flag = record.get(stream + "Truncated")
-            if flag is not None and type(flag) is not bool:
+            if stream + "Truncated" in record and type(flag) is not bool:
                 reject(f"hosted Runtime package capture flag is invalid: {node}")
             try:
                 text = codecs.getincrementaldecoder("utf-8")("strict").decode(bytes.fromhex(raw), final=flag is not True)
