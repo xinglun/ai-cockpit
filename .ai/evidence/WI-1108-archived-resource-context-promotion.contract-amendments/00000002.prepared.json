@@ -1,0 +1,349 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1108-archived-resource-context-promotion",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1108-use-supported-python-syntax-check-argv",
+      "expectedContractDigest": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+      "reason": "Correct the sole verification declaration representation rejected by fixed official b2 plan-only before any verification spawn. Its legacy declaration parser rejects the quotes, semicolons and parentheses in the planned inline python3 -c AST expression. The normal CLI explicit-command option has one shared argv vector and the supported MCP verify surface has only one explicit program, so neither represents all seven distinct declared argv nodes in one genuine complete attempt. Replace only that syntax-only check with the standard supported python3 -m py_compile invocation for the same exact promoter source file. This retains and strengthens Python syntax/compiler checks without changing the test commands, original assertions, acceptance, seven-check count, source scope, Runtime or permissions. Its ordinary tiny ignored __pycache__ is a rebuildable test byproduct, not public source. Preserve the failed zero-spawn plan and do not relabel direct TDD results as formal verification. All six scenarios remain unverified pending actual checks. If current Runtime requires a new human binding, stop there; no old confirmation is consumed for it.",
+      "changes": [
+        {
+          "path": "/verification/5",
+          "operation": "replace",
+          "value": "python3 -m py_compile tests/docs/promote_closed_work_item.py"
+        }
+      ]
+    },
+    "requestDigest": "sha256:31240d1326a01c94a397d45c0cbe367e6379fe78def74fdb1a5218d57b38de4d",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Initially unverified S01-valid-archived-handoff: Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+        "Initially unverified S02-exact-archive-and-runtime-provenance: Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+        "Initially unverified S03-resource-identity-not-field-presence: A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+        "Initially unverified S04-terminal-chain-remains-strict: Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+        "Initially unverified S05-legacy-and-projection-compatibility: Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+        "Initially unverified S06-quality-and-evidence: Pass the seven declared checks with meaningful executed positive and negative cases and independent whole-change review. Preserve the real old consumer failure, all later failures and raw records. Only the two declared scripts and this WI native records change; no production Runtime, authority, permission, archived evidence or assertion weakening.",
+        "Subsequent delivery obligations are separate from pre-finish quality: normal source/native commit, independently authorized public branch/draft PR and exact HEAD CI/review, ready/ordinary merge/main verification, immutable archive and actual resource-context binding, recoverable exact resource cleanup, finalize/finalize-verify and separately actual human close, then native closeout publication. Preserve and resume the existing closed WI-1107 closeout without rewriting its Contract/manifest/finalize/close. No release, shared Runtime replacement or production activation."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "96fad1ea084e5907616224f4ac1a04e83850aa82",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-24T06:33:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Allow legitimately finalized and actually human-closed work to complete its standard terminal projection without editing its immutable null-resource Contract; reject tampered or foreign handoffs and preserve no-resource, resource identity, sequence and close-head safety. Complete the normal source/native delivery and exact-resource lifecycle only under the separately applicable public/merge/close authorization.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair the current WI-1107 closeout blocker in the terminal documentation consumer: recognize the official append-only archived resource-context handoff with complete existing native provenance and terminal checks. WI-1107 is already actually closed and cannot be amended; this isolated implementation Work Item repairs only the two script files and does not rewrite the predecessor history.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No production Rust or shared Runtime change; no permission",
+        " authority",
+        " review or evidence acceptance expansion; no edits to any WI-1107 Contract",
+        " manifest",
+        " receipt",
+        " archive",
+        " decision",
+        " failure",
+        " audit bundle or closed state; no deleting or weakening assertions",
+        " scanner or gates; no unrelated files or resources",
+        " B",
+        " release or production activation. Public two-script/native publication",
+        " ready/merge and exact cleanup are planned but require applicable actual authorization",
+        " not inferred from start; any true human close remains exact and separate."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S01-valid-archived-handoff",
+          "status": "unverified",
+          "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+        },
+        {
+          "evidence": [],
+          "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S02-exact-archive-and-runtime-provenance",
+          "status": "unverified",
+          "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+        },
+        {
+          "evidence": [],
+          "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S03-resource-identity-not-field-presence",
+          "status": "unverified",
+          "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+        },
+        {
+          "evidence": [],
+          "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S04-terminal-chain-remains-strict",
+          "status": "unverified",
+          "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+        },
+        {
+          "evidence": [],
+          "expected": "Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S05-legacy-and-projection-compatibility",
+          "status": "unverified",
+          "verificationPlan": "Original promoter fixture suite, parity and status fixture suites, governance inventory regression suite and repository documentation acceptance; inspect full two-source-path diff."
+        },
+        {
+          "evidence": [],
+          "expected": "Pass the seven declared checks with meaningful executed positive and negative cases and independent whole-change review. Preserve the real old consumer failure, all later failures and raw records. Only the two declared scripts and this WI native records change; no production Runtime, authority, permission, archived evidence or assertion weakening.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S06-quality-and-evidence",
+          "status": "unverified",
+          "verificationPlan": "Formal fixed-b2 verification with complete logs and explicit selected-case count, syntax/diff checks and independent review; scenario status derives from execution, never from approval."
+        }
+      ],
+      "scope": [
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "sources": [
+        "current-delivery-blocker:WI-1107-delegated-development-review; canonical archived resource-context generated by fixed official v1.0.1; strict terminal consumer currently rejects it",
+        "coordinator technical direction: minimal two-script repair in this existing execution task; actual implementation authorization is not public approval or human close"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "bash tests/docs/promote_closed_work_item_test.sh",
+        "bash tests/docs/parity_status_check_test.sh",
+        "bash tests/docs/work_item_status_consistency_test.sh",
+        "bash tests/ci/governance_integrity_gate_test.sh",
+        "bash tests/docs/documentation_acceptance.sh",
+        "python3 -c 'import ast; from pathlib import Path; ast.parse(Path(\"tests/docs/promote_closed_work_item.py\").read_text(encoding=\"utf-8\"))'",
+        "git diff --check 96fad1ea084e5907616224f4ac1a04e83850aa82 HEAD"
+      ],
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    },
+    "previousContractDigest": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Initially unverified S01-valid-archived-handoff: Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+        "Initially unverified S02-exact-archive-and-runtime-provenance: Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+        "Initially unverified S03-resource-identity-not-field-presence: A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+        "Initially unverified S04-terminal-chain-remains-strict: Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+        "Initially unverified S05-legacy-and-projection-compatibility: Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+        "Initially unverified S06-quality-and-evidence: Pass the seven declared checks with meaningful executed positive and negative cases and independent whole-change review. Preserve the real old consumer failure, all later failures and raw records. Only the two declared scripts and this WI native records change; no production Runtime, authority, permission, archived evidence or assertion weakening.",
+        "Subsequent delivery obligations are separate from pre-finish quality: normal source/native commit, independently authorized public branch/draft PR and exact HEAD CI/review, ready/ordinary merge/main verification, immutable archive and actual resource-context binding, recoverable exact resource cleanup, finalize/finalize-verify and separately actual human close, then native closeout publication. Preserve and resume the existing closed WI-1107 closeout without rewriting its Contract/manifest/finalize/close. No release, shared Runtime replacement or production activation."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "96fad1ea084e5907616224f4ac1a04e83850aa82",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-24T06:33:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Allow legitimately finalized and actually human-closed work to complete its standard terminal projection without editing its immutable null-resource Contract; reject tampered or foreign handoffs and preserve no-resource, resource identity, sequence and close-head safety. Complete the normal source/native delivery and exact-resource lifecycle only under the separately applicable public/merge/close authorization.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair the current WI-1107 closeout blocker in the terminal documentation consumer: recognize the official append-only archived resource-context handoff with complete existing native provenance and terminal checks. WI-1107 is already actually closed and cannot be amended; this isolated implementation Work Item repairs only the two script files and does not rewrite the predecessor history.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No production Rust or shared Runtime change; no permission",
+        " authority",
+        " review or evidence acceptance expansion; no edits to any WI-1107 Contract",
+        " manifest",
+        " receipt",
+        " archive",
+        " decision",
+        " failure",
+        " audit bundle or closed state; no deleting or weakening assertions",
+        " scanner or gates; no unrelated files or resources",
+        " B",
+        " release or production activation. Public two-script/native publication",
+        " ready/merge and exact cleanup are planned but require applicable actual authorization",
+        " not inferred from start; any true human close remains exact and separate."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S01-valid-archived-handoff",
+          "status": "unverified",
+          "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+        },
+        {
+          "evidence": [],
+          "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S02-exact-archive-and-runtime-provenance",
+          "status": "unverified",
+          "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+        },
+        {
+          "evidence": [],
+          "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S03-resource-identity-not-field-presence",
+          "status": "unverified",
+          "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+        },
+        {
+          "evidence": [],
+          "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S04-terminal-chain-remains-strict",
+          "status": "unverified",
+          "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+        },
+        {
+          "evidence": [],
+          "expected": "Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S05-legacy-and-projection-compatibility",
+          "status": "unverified",
+          "verificationPlan": "Original promoter fixture suite, parity and status fixture suites, governance inventory regression suite and repository documentation acceptance; inspect full two-source-path diff."
+        },
+        {
+          "evidence": [],
+          "expected": "Pass the seven declared checks with meaningful executed positive and negative cases and independent whole-change review. Preserve the real old consumer failure, all later failures and raw records. Only the two declared scripts and this WI native records change; no production Runtime, authority, permission, archived evidence or assertion weakening.",
+          "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+          "required": true,
+          "scenario": "S06-quality-and-evidence",
+          "status": "unverified",
+          "verificationPlan": "Formal fixed-b2 verification with complete logs and explicit selected-case count, syntax/diff checks and independent review; scenario status derives from execution, never from approval."
+        }
+      ],
+      "scope": [
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "sources": [
+        "current-delivery-blocker:WI-1107-delegated-development-review; canonical archived resource-context generated by fixed official v1.0.1; strict terminal consumer currently rejects it",
+        "coordinator technical direction: minimal two-script repair in this existing execution task; actual implementation authorization is not public approval or human close"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "bash tests/docs/promote_closed_work_item_test.sh",
+        "bash tests/docs/parity_status_check_test.sh",
+        "bash tests/docs/work_item_status_consistency_test.sh",
+        "bash tests/ci/governance_integrity_gate_test.sh",
+        "bash tests/docs/documentation_acceptance.sh",
+        "python3 -m py_compile tests/docs/promote_closed_work_item.py",
+        "git diff --check 96fad1ea084e5907616224f4ac1a04e83850aa82 HEAD"
+      ],
+      "workItemId": "WI-1108-archived-resource-context-promotion"
+    },
+    "newContractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+    "previousSummaryDigest": "sha256:fc7f22b554f1c7a8d43a5f777414f8add7157bee377c9d4a59f5d05e708df257",
+    "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+    "environmentObservationDigest": "sha256:7662af9dd5f8936708977724687fd7fc6c07f77c4f336d6368ba8ba96bd39ccb",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:77e3ef328d6e43f8ccadff82792614d63b6ba1aee166e1a94279bec0abed5abe",
+    "policyReviewRequirements": [
+      "/verification/5"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-24T07:12:16Z"
+  },
+  "preparedDigest": "sha256:a1df6de716033d4dd68c5d0bf58f93c8335eb714519309f809e34ed5b209d139"
+}

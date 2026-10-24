@@ -1,0 +1,430 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:070d0329f2b2162051f80b6e50f7ac32d30d50bc63d76ff3509d2e64ecac7a57",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1108-archived-resource-context-promotion",
+    "sequence": 1,
+    "changeId": "wi1108-complete-six-initial-unverified-scenarios",
+    "requestDigest": "sha256:7935dd24cd7788f2fc08c3086410061d57f83476f009ec338e37eca748678ef8",
+    "reason": "Before any implementation/test edit or checkpoint, record the six complete initially declared scenarios using the existing typed API because the fixed official b2 start has no structured initial-scenario option. Only scenario structure and previously declared provenance are added; two-script scope, all seven acceptance/verification declarations, authority and risk remain unchanged. All scenarios are unverified with no fabricated evidence. No human decision, publication or passing check is inferred from this plan.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          },
+          {
+            "evidence": [],
+            "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S03-resource-identity-not-field-presence",
+            "status": "unverified",
+            "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          },
+          {
+            "evidence": [],
+            "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S03-resource-identity-not-field-presence",
+            "status": "unverified",
+            "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          },
+          {
+            "evidence": [],
+            "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S03-resource-identity-not-field-presence",
+            "status": "unverified",
+            "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+          },
+          {
+            "evidence": [],
+            "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S04-terminal-chain-remains-strict",
+            "status": "unverified",
+            "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          },
+          {
+            "evidence": [],
+            "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S03-resource-identity-not-field-presence",
+            "status": "unverified",
+            "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+          },
+          {
+            "evidence": [],
+            "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S04-terminal-chain-remains-strict",
+            "status": "unverified",
+            "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          },
+          {
+            "evidence": [],
+            "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S03-resource-identity-not-field-presence",
+            "status": "unverified",
+            "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+          },
+          {
+            "evidence": [],
+            "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S04-terminal-chain-remains-strict",
+            "status": "unverified",
+            "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+          },
+          {
+            "evidence": [],
+            "expected": "Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S05-legacy-and-projection-compatibility",
+            "status": "unverified",
+            "verificationPlan": "Original promoter fixture suite, parity and status fixture suites, governance inventory regression suite and repository documentation acceptance; inspect full two-source-path diff."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          },
+          {
+            "evidence": [],
+            "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S03-resource-identity-not-field-presence",
+            "status": "unverified",
+            "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+          },
+          {
+            "evidence": [],
+            "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S04-terminal-chain-remains-strict",
+            "status": "unverified",
+            "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+          },
+          {
+            "evidence": [],
+            "expected": "Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S05-legacy-and-projection-compatibility",
+            "status": "unverified",
+            "verificationPlan": "Original promoter fixture suite, parity and status fixture suites, governance inventory regression suite and repository documentation acceptance; inspect full two-source-path diff."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Recognize the official append-only resource_context_binding when the immutable archived Contract resourceContext is null. A correctly bound direct sequence0 terminal receipt and the existing valid sequence1/2 chain can be promoted; check/apply is idempotent and native input bytes remain unchanged.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S01-valid-archived-handoff",
+            "status": "unverified",
+            "verificationPlan": "Real promoter regression fixtures, real positive check/apply/idempotence and sequence0/2 cases; preserve the old consumer rejection as RED."
+          },
+          {
+            "evidence": [],
+            "expected": "Require regular non-symlink strict JSON at the canonical current-WI handoff path; schema1/operation, repository/WI, exact raw archived Contract and archive-manifest digests, complete typed nonprovisional six-field context and valid Runtime identity metadata. Reject missing, malformed, duplicate or unknown fields, stale hashes and cross-repository/WI handoffs. Do not claim cryptographic external human/provider authentication.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S02-exact-archive-and-runtime-provenance",
+            "status": "unverified",
+            "verificationPlan": "Promoter positive fixture plus field-by-field negative fixtures; raw-byte before/after inventories; compare fixed official Runtime semantics and existing governance inventory."
+          },
+          {
+            "evidence": [],
+            "expected": "A handoff cannot replace a conflicting in-Contract resource context or borrow a different provider/PR/base/branch/worktree identity. Validate the resolved handoff against the actual finalization receipt context and resource identities. Presence of a resource-context field or arbitrary decision file alone grants nothing.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S03-resource-identity-not-field-presence",
+            "status": "unverified",
+            "verificationPlan": "Real consumer conflicting context and cross-resource negative fixtures, including matching archive hashes but foreign receipt context."
+          },
+          {
+            "evidence": [],
+            "expected": "Keep the existing finalization shape, retained/partial/blocked disposition, predecessor digest, unique sequence, current close-head path/digest and confirmed close checks. Reject wrong or missing sequence/head and invalid receipt/close identity; genuine no-resource close cannot carry spurious finalization references.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S04-terminal-chain-remains-strict",
+            "status": "unverified",
+            "verificationPlan": "Run all original assertions unchanged and add handoff cases with bad close sequence, head path/digest, missing/fabricated finalization and true no-resource spurious references."
+          },
+          {
+            "evidence": [],
+            "expected": "Preserve existing in-Contract context, legacy absent/null no-resource, recovery/superseded and documentation-policy behavior. The existing governance and parity/status consumers remain consistent. This implementation-only script repair does not invent a public documentation registration.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S05-legacy-and-projection-compatibility",
+            "status": "unverified",
+            "verificationPlan": "Original promoter fixture suite, parity and status fixture suites, governance inventory regression suite and repository documentation acceptance; inspect full two-source-path diff."
+          },
+          {
+            "evidence": [],
+            "expected": "Pass the seven declared checks with meaningful executed positive and negative cases and independent whole-change review. Preserve the real old consumer failure, all later failures and raw records. Only the two declared scripts and this WI native records change; no production Runtime, authority, permission, archived evidence or assertion weakening.",
+            "reason": "Initial complete plan; no implementation or tests yet, approval is not execution.",
+            "required": true,
+            "scenario": "S06-quality-and-evidence",
+            "status": "unverified",
+            "verificationPlan": "Formal fixed-b2 verification with complete logs and explicit selected-case count, syntax/diff checks and independent review; scenario status derives from execution, never from approval."
+          }
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "current-delivery-blocker:WI-1107-delegated-development-review; canonical archived resource-context generated by fixed official v1.0.1; strict terminal consumer currently rejects it"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "current-delivery-blocker:WI-1107-delegated-development-review; canonical archived resource-context generated by fixed official v1.0.1; strict terminal consumer currently rejects it"
+        ],
+        "newValue": [
+          "current-delivery-blocker:WI-1107-delegated-development-review; canonical archived resource-context generated by fixed official v1.0.1; strict terminal consumer currently rejects it",
+          "coordinator technical direction: minimal two-script repair in this existing execution task; actual implementation authorization is not public approval or human close"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c861e993a20590857e3f56fab15e7eb6167a394c25bd4008ee32fd3ba827ee5b",
+    "newContractDigest": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+    "repositorySnapshotDigest": "sha256:3fc069406d0ba4b7c0d4101b55faab6121bd94c4a5747efb4ff28c60704ec569",
+    "environmentObservationDigest": "sha256:7662af9dd5f8936708977724687fd7fc6c07f77c4f336d6368ba8ba96bd39ccb",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:77e3ef328d6e43f8ccadff82792614d63b6ba1aee166e1a94279bec0abed5abe",
+    "recordedAt": "2026-10-24T06:33:37Z"
+  }
+}

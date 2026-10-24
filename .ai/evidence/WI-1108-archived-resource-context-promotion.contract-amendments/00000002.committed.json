@@ -1,0 +1,38 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:a1df6de716033d4dd68c5d0bf58f93c8335eb714519309f809e34ed5b209d139",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1108-archived-resource-context-promotion",
+    "sequence": 2,
+    "changeId": "wi1108-use-supported-python-syntax-check-argv",
+    "requestDigest": "sha256:31240d1326a01c94a397d45c0cbe367e6379fe78def74fdb1a5218d57b38de4d",
+    "reason": "Correct the sole verification declaration representation rejected by fixed official b2 plan-only before any verification spawn. Its legacy declaration parser rejects the quotes, semicolons and parentheses in the planned inline python3 -c AST expression. The normal CLI explicit-command option has one shared argv vector and the supported MCP verify surface has only one explicit program, so neither represents all seven distinct declared argv nodes in one genuine complete attempt. Replace only that syntax-only check with the standard supported python3 -m py_compile invocation for the same exact promoter source file. This retains and strengthens Python syntax/compiler checks without changing the test commands, original assertions, acceptance, seven-check count, source scope, Runtime or permissions. Its ordinary tiny ignored __pycache__ is a rebuildable test byproduct, not public source. Preserve the failed zero-spawn plan and do not relabel direct TDD results as formal verification. All six scenarios remain unverified pending actual checks. If current Runtime requires a new human binding, stop there; no old confirmation is consumed for it.",
+    "changedValues": [
+      {
+        "path": "/verification/5",
+        "operation": "replace",
+        "oldValue": "python3 -c 'import ast; from pathlib import Path; ast.parse(Path(\"tests/docs/promote_closed_work_item.py\").read_text(encoding=\"utf-8\"))'",
+        "newValue": "python3 -m py_compile tests/docs/promote_closed_work_item.py"
+      }
+    ],
+    "previousContractDigest": "sha256:da7575a04b827f2fbafe13a7a2e62470d72a44e4658b5373b762d66e734ded4d",
+    "newContractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+    "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+    "environmentObservationDigest": "sha256:7662af9dd5f8936708977724687fd7fc6c07f77c4f336d6368ba8ba96bd39ccb",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification/5"
+    ],
+    "previousJournalDigest": "sha256:77e3ef328d6e43f8ccadff82792614d63b6ba1aee166e1a94279bec0abed5abe",
+    "journalDigest": "sha256:a2fe48b76899a5c1b0b0083122d00acd1078febec73ec4fe8d245ce7204d820b",
+    "recordedAt": "2026-10-24T07:12:16Z"
+  }
+}
