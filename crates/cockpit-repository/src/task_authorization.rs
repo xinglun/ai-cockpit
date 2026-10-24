@@ -554,9 +554,11 @@ fn check_request_intent(
 }
 
 pub(crate) fn reject_legacy_task_write(root: &Path, wi: &str) -> Result<(), ObserverError> {
-    let path = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
-    if !root.join(&path).exists() {
-        return Ok(());
+    let path = own_path(root, wi, "contract")?;
+    match std::fs::symlink_metadata(root.join(&path)) {
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(e) => return Err(error(root, e.to_string())),
+        Ok(_) => (),
     }
     let contract: Contract = serde_json::from_value(native_json(root, &path)?)
         .map_err(|e| error(root, e.to_string()))?;
@@ -690,4 +692,66 @@ pub fn task_authorization_timeout(
         ));
     }
     Ok(authorized_ceiling.min(remaining as u64))
+}
+
+/// Check the actual argv against the owner-reviewed declarations, including
+/// the existing deterministic Cargo workspace-to-package expansion.
+pub(crate) fn require_declared_task_command(
+    root: &Path,
+    request: &super::RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<(), ObserverError> {
+    let Some(wi) = request.work_item_id.as_deref() else {
+        return Ok(());
+    };
+    require_task_caller(root, wi, "run_verification", runtime, caller)?;
+    let contract: Contract =
+        serde_json::from_value(native_json(root, &own_path(root, wi, "contract")?)?)
+            .map_err(|e| error(root, e.to_string()))?;
+    if contract
+        .task_authorization_policy()
+        .map_err(|e| error(root, e))?
+        .is_none()
+    {
+        return Ok(());
+    }
+    if request.runtime_digest != runtime.runtime_digest.to_string() {
+        return Err(error(root, "task_authorization_command_runtime_mismatch"));
+    }
+    for declaration in &contract.verification {
+        let raw = match declaration {
+            cockpit_protocol::VerificationDeclaration::Legacy(command) => command,
+            cockpit_protocol::VerificationDeclaration::Check(check) => &check.check,
+        };
+        let (program, args) =
+            cockpit_protocol::parse_verification_argv(raw).map_err(|e| error(root, e))?;
+        let replace = |token: String| {
+            if token == "<repo>" {
+                root.to_string_lossy().into_owned()
+            } else {
+                token
+            }
+        };
+        let mut declared = request.clone();
+        declared.program = replace(program);
+        declared.args = args.into_iter().map(replace).collect();
+        if declared.program == request.program && declared.args == request.args {
+            return Ok(());
+        }
+        if declared.program == "cargo" && declared.args.iter().any(|arg| arg == "--workspace") {
+            let plan = super::plan_repository_verification(root, &declared)?;
+            if plan
+                .requests
+                .iter()
+                .any(|planned| planned.program == request.program && planned.args == request.args)
+            {
+                return Ok(());
+            }
+        }
+    }
+    Err(error(
+        root,
+        "task_authorization_command_outside_owner_verification",
+    ))
 }

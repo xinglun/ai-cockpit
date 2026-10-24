@@ -1330,11 +1330,41 @@ pub fn checkpoint_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    checkpoint_work_item_with_context(root, work_item_id, None, None)
+}
+
+pub fn checkpoint_work_item_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
+    checkpoint_work_item_with_context(root, work_item_id, Some(runtime), caller)
+}
+
+fn checkpoint_work_item_with_context(
+    root: &Path,
+    work_item_id: &str,
+    runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
+    let _lifecycle = acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(runtime) = runtime {
+        super::task_authorization::require_task_caller(
+            &root,
+            work_item_id,
+            "checkpoint",
+            runtime,
+            caller,
+        )?;
+    } else {
+        super::task_authorization::reject_legacy_task_write(&root, work_item_id)?;
+    }
     let path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
@@ -8990,9 +9020,9 @@ pub fn record_verification_with_snapshot(
         root,
         work_item_id,
         receipt,
-        runtime_version,
-        runtime_digest,
+        (runtime_version, runtime_digest),
         snapshot,
+        None,
         None,
     )
 }
@@ -9013,10 +9043,31 @@ pub fn record_verification_with_runtime(
         root,
         work_item_id,
         receipt,
-        &runtime.runtime_version,
-        &runtime.runtime_digest,
+        (&runtime.runtime_version, &runtime.runtime_digest),
         snapshot,
         Some(runtime),
+        None,
+    )
+}
+
+/// Current caller-bearing receipt publication. Immutable attempts remain
+/// separate historical facts even if the grant ends before publication.
+pub fn record_verification_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<serde_json::Value, ObserverError> {
+    record_verification_internal(
+        root,
+        work_item_id,
+        receipt,
+        (&runtime.runtime_version, &runtime.runtime_digest),
+        snapshot,
+        Some(runtime),
+        caller,
     )
 }
 
@@ -9126,16 +9177,29 @@ fn record_verification_internal(
     root: &Path,
     work_item_id: &str,
     receipt: &serde_json::Value,
-    runtime_version: &str,
-    runtime_digest: &Digest,
+    runtime_identity: (&str, &Digest),
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<serde_json::Value, ObserverError> {
+    let (runtime_version, runtime_digest) = runtime_identity;
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
+    let _lifecycle = acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(runtime) = current_runtime {
+        super::task_authorization::require_task_caller(
+            &root,
+            work_item_id,
+            "run_verification",
+            runtime,
+            caller,
+        )?;
+    } else {
+        super::task_authorization::reject_legacy_task_write(&root, work_item_id)?;
+    }
     if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
         return Err(ObserverError::SnapshotRootMismatch);
     }

@@ -948,8 +948,58 @@ pub struct TaskAuthorizationTarget {
     pub base_branch: String,
 }
 
+/// Parse the same finite argv declaration at transport and actual execution boundaries.
+pub fn parse_verification_argv(declaration: &str) -> Result<(String, Vec<String>), String> {
+    let tokens = declaration.split_ascii_whitespace().collect::<Vec<_>>();
+    if declaration.trim().is_empty()
+        || declaration.chars().any(|character| {
+            matches!(
+                character,
+                '\'' | '"' | '\\' | '|' | '&' | ';' | '`' | '$' | '(' | ')'
+            ) || matches!(character, '<' | '>') && !tokens.contains(&"<repo>")
+        })
+    {
+        return Err(format!(
+            "verification declaration is not a supported argv command: {declaration:?}; use an explicit --command invocation"
+        ));
+    }
+    let mut tokens = declaration
+        .split_ascii_whitespace()
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    let assignment_count = tokens
+        .iter()
+        .take_while(|token| is_environment_assignment(token))
+        .count();
+    if tokens.len() == assignment_count {
+        return Err(format!(
+            "verification declaration has environment assignments but no program: {declaration:?}"
+        ));
+    }
+    if assignment_count == 0 {
+        let program = tokens.remove(0);
+        return Ok((program, tokens));
+    }
+    let mut args = tokens.drain(..assignment_count).collect::<Vec<_>>();
+    args.extend(tokens);
+    Ok(("env".into(), args))
+}
+
+fn is_environment_assignment(token: &str) -> bool {
+    let Some((name, value)) = token.split_once('=') else {
+        return false;
+    };
+    !value.is_empty()
+        && name.chars().enumerate().all(|(index, character)| {
+            character == '_'
+                || character.is_ascii_alphanumeric()
+                    && (index > 0 || character.is_ascii_alphabetic())
+        })
+}
+
 pub const TASK_AUTHORIZATION_ACTIONS: &[&str] = &[
     "modify_source",
+    "checkpoint",
     "run_preflight",
     "run_verification",
     "review_development_amendment",

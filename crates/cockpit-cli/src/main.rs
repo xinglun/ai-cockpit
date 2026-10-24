@@ -13,14 +13,12 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_historical_work_item_with_runtime, archive_work_item_with_runtime, attach,
-    checkpoint_work_item, close_work_item_with_decision_and_runtime,
-    close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    generate_knowledge, plan_resource_finalization_with_runtime,
-    preflight_work_item_with_runtime_report, prepare_archive_outcome_delivery,
-    record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
-    retire_active_work_item_with_runtime, run_repository_verification_with_process_observer,
-    scaffold_work_item, start_work_item_with_options_and_runtime, verify_resource_finalization,
+    archive_historical_work_item_with_runtime, attach, close_work_item_with_decision_and_runtime,
+    close_work_item_with_structured_decision_and_runtime, generate_knowledge,
+    plan_resource_finalization_with_runtime, preflight_work_item_with_runtime_report,
+    prepare_archive_outcome_delivery, record_resource_finalization,
+    resolve_archived_verification_route, resolve_verification_route,
+    retire_active_work_item_with_runtime, scaffold_work_item, verify_resource_finalization,
 };
 use cockpit_verification::gate_plan::{
     GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
@@ -45,6 +43,9 @@ mod runtime_identity;
 #[derive(Debug, Parser)]
 #[command(name = "ai-cockpit", version)]
 struct Cli {
+    /// Explicit request-scoped caller metadata, never inferred from a policy or environment.
+    #[arg(long, global = true)]
+    task_caller: Option<PathBuf>,
     #[command(subcommand)]
     command: CommandKind,
 }
@@ -844,6 +845,9 @@ enum WorkItemCommand {
         /// Emit the stable machine-readable status snapshot.
         #[arg(long)]
         json: bool,
+        /// Read-only exact action/file/target question; never a reusable permission token.
+        #[arg(long, conflicts_with = "all")]
+        authorization_request: Option<PathBuf>,
     },
     Inspect {
         #[arg(long)]
@@ -1688,6 +1692,12 @@ fn run() -> Result<()> {
         return cockpit_repository::run_composition_supervisor_stdio().map_err(anyhow::Error::msg);
     }
     let cli = Cli::parse();
+    let task_caller: Option<cockpit_protocol::TaskAuthorizationCaller> = cli
+        .task_caller
+        .as_ref()
+        .map(|path| read_json_file(path, "explicit task caller"))
+        .transpose()?;
+
     if let CommandKind::IsolationManifest {
         root,
         output,
@@ -1756,9 +1766,16 @@ fn run() -> Result<()> {
         }
         CommandKind::Preflight { repo, contract } => {
             require_compatible(&repo, &runtime_context)?;
-            let result =
-                preflight_work_item_with_runtime_report(&repo, &contract, &runtime_context)
-                    .context("evaluate and record preflight decision")?;
+            let result = match task_caller.as_ref() {
+                Some(caller) => cockpit_repository::preflight_work_item_with_task_authorization(
+                    &repo,
+                    &contract,
+                    &runtime_context,
+                    caller,
+                ),
+                None => preflight_work_item_with_runtime_report(&repo, &contract, &runtime_context),
+            }
+            .context("evaluate and record preflight decision")?;
             println!("{}", serde_json::to_string_pretty(&result)?);
         }
         CommandKind::Observe { repo } => {
@@ -1918,7 +1935,13 @@ fn run() -> Result<()> {
         }
         CommandKind::Checkpoint { repo, id } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = checkpoint_work_item(&repo, &id).context("checkpoint work item")?;
+            let receipt = cockpit_repository::checkpoint_work_item_with_caller(
+                &repo,
+                &id,
+                &runtime_context,
+                task_caller.as_ref(),
+            )
+            .context("checkpoint work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CommandKind::Finish {
@@ -1928,7 +1951,12 @@ fn run() -> Result<()> {
             language,
         } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = match finish_work_item_with_runtime(&repo, &id, &runtime_context) {
+            let receipt = match cockpit_repository::finish_work_item_with_caller(
+                &repo,
+                &id,
+                &runtime_context,
+                task_caller.as_ref(),
+            ) {
                 Ok(receipt) => receipt,
                 Err(error) => {
                     if !json {
@@ -1959,8 +1987,13 @@ fn run() -> Result<()> {
             language,
         } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = archive_work_item_with_runtime(&repo, &id, &runtime_context)
-                .context("archive work item")?;
+            let receipt = cockpit_repository::archive_work_item_with_caller(
+                &repo,
+                &id,
+                &runtime_context,
+                task_caller.as_ref(),
+            )
+            .context("archive work item")?;
             print_lifecycle_result(
                 &repo,
                 &id,
@@ -2197,11 +2230,12 @@ fn run() -> Result<()> {
                             // and deterministic. Reject them before starting the build or
                             // test command so a missing registration cannot surface only
                             // at finish after the expensive verification has completed.
-                            cockpit_repository::require_verification_preconditions(
+                            cockpit_repository::require_verification_preconditions_with_caller(
                                 &root,
                                 work_item_id,
                                 &runtime_context,
                                 &initial_snapshot,
+                                task_caller.as_ref(),
                             )
                         });
                 if let Err(error) = precondition {
@@ -2516,12 +2550,16 @@ fn run() -> Result<()> {
                                 let progress_sender = progress_sender.clone();
                                 let repository_root = &root;
                                 let process_concurrency = Arc::clone(&process_concurrency);
+                                let caller = task_caller.as_ref();
+                                let runtime = &runtime_context;
                                 scope.spawn(move || {
                                     let node_id = request.node_id.clone();
                                     let _ = progress_sender.send((node_id.clone(), None));
-                                    let run = run_repository_verification_with_process_observer(
+                                    let run = cockpit_repository::run_repository_verification_with_task_authorization(
                                         repository_root,
                                         request,
+                                        runtime,
+                                        caller,
                                         move |_node_id, _process_id, started| {
                                             process_concurrency.observe(started)
                                         },
@@ -2781,12 +2819,13 @@ fn run() -> Result<()> {
                         anyhow::bail!("record archived verification recovery: {error}");
                     }
                 } else {
-                    if let Err(error) = cockpit_repository::record_verification_with_runtime(
+                    if let Err(error) = cockpit_repository::record_verification_with_caller(
                         &root,
                         &work_item,
                         &verification_receipt,
                         &runtime_context,
                         &run.final_snapshot,
+                        task_caller.as_ref(),
                     ) {
                         let recovery_attempt =
                             cockpit_repository::persist_verification_attempt_superseding(
@@ -3344,11 +3383,12 @@ fn run() -> Result<()> {
                             &fs::read(&input).context("read material review decision input")?,
                         )
                         .context("parse strict MaterialInspectionReviewDecisionInput")?;
-                    let receipt = cockpit_repository::record_work_item_material_review(
+                    let receipt = cockpit_repository::record_work_item_material_review_with_caller(
                         &repo,
                         &id,
                         &request,
                         &runtime_context,
+                        task_caller.as_ref(),
                     )
                     .context("record Work Item material review decision")?;
                     println!("{}", serde_json::to_string_pretty(&receipt)?);
@@ -3487,6 +3527,7 @@ fn run() -> Result<()> {
                 id,
                 all,
                 json,
+                authorization_request,
             } => {
                 require_compatible(&repo, &runtime_context)?;
                 if all {
@@ -3520,6 +3561,23 @@ fn run() -> Result<()> {
                     &runtime_context,
                 )
                 .context("read Work Item status")?;
+                if let Some(path) = authorization_request {
+                    let request: cockpit_protocol::TaskAuthorizationRequest =
+                        read_json_file(&path, "task authorization request")?;
+                    let assessment = cockpit_repository::assess_task_authorization(
+                        &repo,
+                        &id,
+                        &request,
+                        &runtime_context,
+                    )?;
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(
+                            &json!({"status":snapshot, "authorizationAssessment":assessment})
+                        )?
+                    );
+                    return Ok(());
+                }
                 if json {
                     println!("{}", serde_json::to_string_pretty(&snapshot)?);
                 } else {
@@ -3627,14 +3685,14 @@ fn run() -> Result<()> {
                     &std::fs::read(&input).context("read governance controls input")?,
                 )
                 .context("parse governance controls input")?;
-                let summary =
-                    cockpit_repository::record_work_item_governance_controls_with_runtime(
-                        &repo,
-                        &id,
-                        &controls,
-                        &runtime_context,
-                    )
-                    .context("record Work Item governance controls")?;
+                let summary = cockpit_repository::record_work_item_governance_controls_with_caller(
+                    &repo,
+                    &id,
+                    &controls,
+                    &runtime_context,
+                    task_caller.as_ref(),
+                )
+                .context("record Work Item governance controls")?;
                 println!("{}", serde_json::to_string_pretty(&summary)?);
             }
             WorkItemCommand::Retire { repo, id, input } => {
@@ -4262,51 +4320,7 @@ fn detected_verification_commands(root: &Path) -> Result<Vec<(String, Vec<String
 }
 
 fn parse_declared_verification_command(declaration: &str) -> Result<(String, Vec<String>)> {
-    let tokens = declaration.split_ascii_whitespace().collect::<Vec<_>>();
-    if declaration.trim().is_empty()
-        || declaration.chars().any(|character| {
-            matches!(
-                character,
-                '\'' | '"' | '\\' | '|' | '&' | ';' | '`' | '$' | '(' | ')'
-            ) || matches!(character, '<' | '>') && !tokens.contains(&"<repo>")
-        })
-    {
-        anyhow::bail!(
-            "verification declaration is not a supported argv command: {declaration:?}; use an explicit --command invocation"
-        );
-    }
-    let mut tokens = declaration
-        .split_ascii_whitespace()
-        .map(str::to_owned)
-        .collect::<Vec<_>>();
-    let assignment_count = tokens
-        .iter()
-        .take_while(|token| is_environment_assignment(token))
-        .count();
-    if tokens.len() == assignment_count {
-        anyhow::bail!(
-            "verification declaration has environment assignments but no program: {declaration:?}"
-        );
-    }
-    if assignment_count == 0 {
-        let program = tokens.remove(0);
-        return Ok((program, tokens));
-    }
-    let mut args = tokens.drain(..assignment_count).collect::<Vec<_>>();
-    args.extend(tokens);
-    Ok(("env".into(), args))
-}
-
-fn is_environment_assignment(token: &str) -> bool {
-    let Some((name, value)) = token.split_once('=') else {
-        return false;
-    };
-    !value.is_empty()
-        && name.chars().enumerate().all(|(index, character)| {
-            character == '_'
-                || character.is_ascii_alphanumeric()
-                    && (index > 0 || character.is_ascii_alphabetic())
-        })
+    cockpit_protocol::parse_verification_argv(declaration).map_err(anyhow::Error::msg)
 }
 
 fn concurrent_phase_elapsed(durations: impl IntoIterator<Item = u128>) -> u128 {

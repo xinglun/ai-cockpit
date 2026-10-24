@@ -72,7 +72,7 @@ fn fixture(expires_at: &str, owner_review: bool) -> tempfile::TempDir {
                 "taskAuthorization":{
                     "schemaVersion":1, "agentActor":"agent:task-worker",
                     "authoritySource":"conversation:fixture-owner",
-                    "allowedActions":["run_preflight","run_verification"],
+                    "allowedActions":["checkpoint","run_preflight","run_verification"],
                     "closeoutActions":[], "expiresAt":expires_at, "publicTarget":null
                 }
             }}]
@@ -465,7 +465,13 @@ fn intent(action: &str, paths: &[&str]) -> cockpit_protocol::TaskAuthorizationRe
 #[test]
 fn explicit_caller_continues_without_fabricating_fresh_verification() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
-    cockpit_repository::checkpoint_work_item(directory.path(), WI).unwrap();
+    cockpit_repository::checkpoint_work_item_with_caller(
+        directory.path(),
+        WI,
+        &runtime(),
+        Some(&caller()),
+    )
+    .unwrap();
     let request = intent("run_verification", &[]);
     let before =
         cockpit_repository::assess_task_authorization(directory.path(), WI, &request, &runtime())
@@ -641,4 +647,75 @@ fn an_expired_caller_cannot_write_a_blocked_finish_outcome() {
             .is_err()
     );
     assert_eq!(fs::read(outcome).ok(), before);
+}
+
+fn command_request(
+    program: &str,
+    args: &[&str],
+) -> cockpit_repository::RepositoryVerificationRequest {
+    cockpit_repository::RepositoryVerificationRequest {
+        node_id: "project-command-0".into(),
+        program: program.into(),
+        args: args.iter().map(|s| s.to_string()).collect(),
+        scope: vec!["README.md".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: runtime().runtime_digest.to_string(),
+        base_commit: None,
+        workers: 1,
+        work_item_id: Some(WI.into()),
+        timeout_seconds: None,
+        policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
+    }
+}
+
+#[test]
+fn actual_child_execution_requires_explicit_caller_and_declared_argv() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let expected = command_request("git", &["diff", "--check"]);
+    assert!(cockpit_repository::run_repository_verification(root, &expected).is_err());
+    let foreign = command_request(
+        "python3",
+        &["-c", "open('foreign-marker', 'w').write('bad')"],
+    );
+    assert!(
+        cockpit_repository::run_repository_verification_with_task_authorization(
+            root,
+            &foreign,
+            &runtime(),
+            Some(&caller()),
+            |_node, _pid, _started| Ok(())
+        )
+        .is_err()
+    );
+    assert!(!root.join("foreign-marker").exists());
+    let execution = cockpit_repository::run_repository_verification_with_task_authorization(
+        root,
+        &expected,
+        &runtime(),
+        Some(&caller()),
+        |_node, _pid, _started| Ok(()),
+    )
+    .unwrap();
+    assert!(execution.receipt.passed);
+    assert_eq!(execution.receipt.nodes_executed, 1);
+    assert_eq!(execution.receipt.execution_records.len(), 1);
+    record_work_item_governance_controls_with_runtime(
+        root,
+        WI,
+        &termination(root, "withdrawn"),
+        &runtime(),
+    )
+    .unwrap();
+    assert!(
+        cockpit_repository::run_repository_verification_with_task_authorization(
+            root,
+            &expected,
+            &runtime(),
+            Some(&caller()),
+            |_node, _pid, _started| Ok(())
+        )
+        .is_err()
+    );
 }

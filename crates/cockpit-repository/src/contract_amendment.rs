@@ -2878,6 +2878,22 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
         ));
     }
     let _lock = super::acquire_lifecycle_lock(&root, work_item_id)?;
+    if let Some(authority) = &request.development_review {
+        let caller = cockpit_protocol::TaskAuthorizationCaller {
+            schema_version: 1,
+            actor: authority.actor.clone(),
+            authority_source: authority.authority_source.clone(),
+            assurance: authority.assurance.clone(),
+        };
+        super::task_authorization::require_task_caller(
+            &root,
+            work_item_id,
+            "review_development_amendment",
+            runtime,
+            Some(&caller),
+        )?;
+    }
+
     let (mut history, pending) = read_history_with_pending(&root, work_item_id)?;
     let request_digest = record_digest(request, Path::new("contract-amendment-request"))?;
     if let Some(pending) = pending {

@@ -1444,7 +1444,7 @@ pub fn run_repository_verification_with_process_observer<F>(
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
 {
-    run_repository_verification_inner(root, request, process_observer, |_| {})
+    run_repository_verification_inner(root, request, process_observer, |_| {}, None)
 }
 
 #[cfg(test)]
@@ -1461,6 +1461,28 @@ where
         request,
         |_node_id, _process_id, _started| Ok(()),
         post_prepare,
+        None,
+    )
+}
+
+/// Execute with explicit per-request task provenance; legacy requests cannot
+/// impersonate it. Recheck at the last boundary before the actual child spawn.
+pub fn run_repository_verification_with_task_authorization<F>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    process_observer: F,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    run_repository_verification_inner(
+        root,
+        request,
+        process_observer,
+        |_| {},
+        Some((runtime, caller)),
     )
 }
 
@@ -1469,6 +1491,10 @@ fn run_repository_verification_inner<F, H>(
     request: &RepositoryVerificationRequest,
     process_observer: F,
     post_prepare: H,
+    task_context: Option<(
+        &RuntimeContext,
+        Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    )>,
 ) -> Result<RepositoryVerificationRun, ObserverError>
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
@@ -1481,6 +1507,14 @@ where
         path: root.into(),
         source,
     })?;
+    if let Some(wi) = request.work_item_id.as_deref() {
+        match task_context {
+            Some((runtime, caller)) => {
+                task_authorization::require_declared_task_command(&root, request, runtime, caller)?
+            }
+            None => task_authorization::reject_legacy_task_write(&root, wi)?,
+        }
+    }
     let git =
         cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -1500,6 +1534,23 @@ where
     let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
+    if let (Some(wi), Some((runtime, caller))) = (request.work_item_id.as_deref(), task_context) {
+        task_authorization::require_declared_task_command(&root, request, runtime, caller)?;
+        let planned_timeout = command.timeout_seconds();
+        let available = task_authorization::task_authorization_timeout(
+            &root,
+            wi,
+            runtime,
+            caller,
+            planned_timeout,
+        )?;
+        if available < planned_timeout {
+            return Err(ObserverError::State {
+                path: root.clone(),
+                message: "task_authorization_remaining_time_requires_fresh_bounded_plan".into(),
+            });
+        }
+    }
     let observer = Arc::clone(&process_observer);
     let mut receipt = cockpit_verification::execute_bounded_with_process_observer(
         vec![command],

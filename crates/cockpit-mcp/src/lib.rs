@@ -570,7 +570,7 @@ fn mcp_tool_schema(name: &str) -> Value {
         "workItemId": string_property("Canonical Work Item identifier."),
         "id": string_property("Deprecated alias for workItemId."),
     });
-    match name {
+    let mut schema = match name {
         "status" | "work_item_list" | "repository_observe" => object_schema(json!({}), &[]),
         "capability_show" => {
             let specs = cockpit_protocol::capability_show_interface_specs();
@@ -621,6 +621,7 @@ fn mcp_tool_schema(name: &str) -> Value {
         }
         "work_item_status" => {
             let mut properties = id_properties;
+            properties["authorizationRequest"] = json!({"type":"object", "description":"Typed exact per-WI intent question; not a cached admission. Incompatible with all=true."});
             properties["all"] = json!({
                 "type": "boolean",
                 "description": "When true, return the stable repository-wide Work Item index.",
@@ -817,7 +818,38 @@ fn mcp_tool_schema(name: &str) -> Value {
         ),
         "work_item_environment_drift" => environment_drift_schema(),
         _ => object_schema(json!({}), &[]),
+    };
+    if task_caller_tool(name) {
+        schema["properties"]["taskCaller"] = json!({
+            "type":"object", "additionalProperties":false,
+            "properties": {"schemaVersion":{"const":1},"actor":{"type":"string"},
+                "authoritySource":{"type":"string"}, "assurance":{"const":"self_declared"}},
+            "required":["schemaVersion","actor","authoritySource","assurance"],
+            "description":"Explicit request-scoped metadata; does not authenticate a human or grant authority."
+        });
     }
+    schema
+}
+
+fn task_caller_tool(name: &str) -> bool {
+    [
+        "preflight",
+        "verify",
+        "work_item_controls",
+        "work_item_material_review_record",
+    ]
+    .contains(&name)
+}
+
+fn task_caller(
+    arguments: &Value,
+) -> Result<Option<cockpit_protocol::TaskAuthorizationCaller>, String> {
+    arguments
+        .get("taskCaller")
+        .cloned()
+        .map(serde_json::from_value)
+        .transpose()
+        .map_err(|error| format!("invalid taskCaller: {error}"))
 }
 
 fn parallel_tool_schema() -> Value {
@@ -1025,7 +1057,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         ),
         // The protocol-owned MCP spec is the source for this field set.
         "work_item_outcome" => None,
-        "work_item_status" => Some(&["workItemId", "id", "all"][..]),
+        "work_item_status" => Some(&["workItemId", "id", "all", "authorizationRequest"][..]),
         "blockers" | "safe_actions" | "preflight" => Some(&["contract"][..]),
         "knowledge_query" => Some(&["topic", "component", "state", "workItemId"][..]),
         "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
@@ -1096,11 +1128,27 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                     }
                 })
         };
+        let is_allowed = is_allowed || (key == "taskCaller" && task_caller_tool(name));
         if !is_allowed {
             return Err(format!("invalid arguments for {name}: unknown field {key}"));
         }
     }
 
+    if task_caller_tool(name) {
+        task_caller(arguments)?;
+    }
+    if name == "work_item_status"
+        && let Some(value) = object.get("authorizationRequest")
+    {
+        let _: cockpit_protocol::TaskAuthorizationRequest =
+            serde_json::from_value(value.clone())
+                .map_err(|error| format!("invalid authorizationRequest: {error}"))?;
+        if object.get("all").and_then(Value::as_bool) == Some(true) {
+            return Err(
+                "authorizationRequest requires one Work Item; all=true is incompatible".into(),
+            );
+        }
+    }
     match name {
         "work_item_get" | "work_item_outcome" | "work_item_validate" => {
             let identity_names = if name == "work_item_outcome" {
@@ -2149,11 +2197,13 @@ pub fn handle_request_for_repo(
             let decision: cockpit_protocol::MaterialInspectionReviewDecisionInput =
                 serde_json::from_value(arguments["decision"].clone())
                     .map_err(|error| format!("invalid material review decision: {error}"))?;
-            cockpit_repository::record_work_item_material_review(
+            let caller = task_caller(&arguments)?;
+            cockpit_repository::record_work_item_material_review_with_caller(
                 repo,
                 work_item_id,
                 &decision,
                 runtime,
+                caller.as_ref(),
             )
             .map_err(|error| error.to_string())
             .and_then(|receipt| serde_json::to_value(receipt).map_err(|error| error.to_string()))
@@ -2324,9 +2374,21 @@ fn preflight_for_repo(
         .and_then(Value::as_str)
         .ok_or("contract argument is required")?;
     let contract_path = repository_path(repo, contract_path)?;
-    let result =
-        cockpit_repository::preflight_work_item_with_runtime_report(repo, &contract_path, runtime)
-            .map_err(|error| error.to_string())?;
+    let caller = task_caller(arguments)?;
+    let result = match caller.as_ref() {
+        Some(caller) => cockpit_repository::preflight_work_item_with_task_authorization(
+            repo,
+            &contract_path,
+            runtime,
+            caller,
+        ),
+        None => cockpit_repository::preflight_work_item_with_runtime_report(
+            repo,
+            &contract_path,
+            runtime,
+        ),
+    }
+    .map_err(|error| error.to_string())?;
     serde_json::to_value(result).map_err(|error| error.to_string())
 }
 
@@ -2345,11 +2407,13 @@ fn work_item_controls(
         .get("controls")
         .or_else(|| arguments.get("input"))
         .ok_or("controls argument is required")?;
-    cockpit_repository::record_work_item_governance_controls_with_runtime(
+    let caller = task_caller(arguments)?;
+    cockpit_repository::record_work_item_governance_controls_with_caller(
         repo,
         work_item_id,
         controls,
         runtime,
+        caller.as_ref(),
     )
     .map_err(|error| error.to_string())
 }
@@ -2572,6 +2636,7 @@ fn verify_for_repo(
         Some(_) => return Err("command argument must be a string".into()),
         None => None,
     };
+    let caller = task_caller(arguments)?;
     let explicit = explicit_program.is_some();
     let supplied_args = match arguments.get("args") {
         Some(Value::Array(items)) if items.iter().all(Value::is_string) => items
@@ -2621,11 +2686,12 @@ fn verify_for_repo(
     if let (Some(work_item_id), Some(snapshot)) = (work_item_id, initial_snapshot.as_ref()) {
         let precondition = cockpit_repository::require_policy_for_verification(&root, work_item_id)
             .and_then(|_| {
-                cockpit_repository::require_verification_preconditions(
+                cockpit_repository::require_verification_preconditions_with_caller(
                     &root,
                     work_item_id,
                     runtime,
                     snapshot,
+                    caller.as_ref(),
                 )
             });
         if let Err(error) = precondition {
@@ -2722,8 +2788,14 @@ fn verify_for_repo(
             "plannedNodes": [planned],
         }));
     }
-    let run = cockpit_repository::run_repository_verification(&root, &request)
-        .map_err(|error| error.to_string())?;
+    let run = cockpit_repository::run_repository_verification_with_task_authorization(
+        &root,
+        &request,
+        runtime,
+        caller.as_ref(),
+        |_node_id, _pid, _started| Ok(()),
+    )
+    .map_err(|error| error.to_string())?;
     let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
     output["runtimeVersion"] = Value::String(runtime.runtime_version.clone());
     output["runtimeDigest"] = Value::String(runtime.runtime_digest.to_string());
@@ -2743,12 +2815,13 @@ fn verify_for_repo(
         receipt
     };
     if let Some(work_item_id) = work_item_id
-        && let Err(error) = cockpit_repository::record_verification_with_runtime(
+        && let Err(error) = cockpit_repository::record_verification_with_caller(
             &root,
             work_item_id,
             &verification_receipt,
             runtime,
             &run.final_snapshot,
+            caller.as_ref(),
         )
     {
         let execution_succeeded = output["passed"] == Value::Bool(true);
@@ -3066,6 +3139,14 @@ fn work_item_status(
     validate_id(id)?;
     let snapshot = cockpit_repository::work_item_status_snapshot_with_runtime(repo, id, runtime)
         .map_err(|error| error.to_string())?;
+    if let Some(value) = arguments.get("authorizationRequest") {
+        let request: cockpit_protocol::TaskAuthorizationRequest =
+            serde_json::from_value(value.clone())
+                .map_err(|error| format!("invalid authorizationRequest: {error}"))?;
+        let assessment = cockpit_repository::assess_task_authorization(repo, id, &request, runtime)
+            .map_err(|error| error.to_string())?;
+        return Ok(json!({"status":snapshot, "authorizationAssessment":assessment}));
+    }
     serde_json::to_value(snapshot).map_err(|error| error.to_string())
 }
 
