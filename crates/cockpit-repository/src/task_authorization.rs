@@ -553,20 +553,23 @@ fn check_request_intent(
     Ok(())
 }
 
-pub(crate) fn reject_legacy_task_write(root: &Path, wi: &str) -> Result<(), ObserverError> {
+pub(crate) fn task_policy_configured(root: &Path, wi: &str) -> Result<bool, ObserverError> {
     let path = own_path(root, wi, "contract")?;
     match std::fs::symlink_metadata(root.join(&path)) {
-        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(false),
         Err(e) => return Err(error(root, e.to_string())),
         Ok(_) => (),
     }
     let contract: Contract = serde_json::from_value(native_json(root, &path)?)
         .map_err(|e| error(root, e.to_string()))?;
-    if contract
+    Ok(contract
         .task_authorization_policy()
         .map_err(|e| error(root, e))?
-        .is_some()
-    {
+        .is_some())
+}
+
+pub(crate) fn reject_legacy_task_write(root: &Path, wi: &str) -> Result<(), ObserverError> {
+    if task_policy_configured(root, wi)? {
         return Err(error(
             root,
             "task_authorization_caller_required: legacy write has no Runtime or caller context",

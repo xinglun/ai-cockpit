@@ -1487,6 +1487,70 @@ where
     )
 }
 
+/// The existing executor holds this own-WI lock through the actual OS spawn,
+/// including worker scheduling. It releases it before waiting for the child,
+/// so a withdrawal can be recorded while an admitted child finishes safely.
+fn repository_task_start_gate(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    task_context: Option<(
+        &RuntimeContext,
+        Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    )>,
+    planned_timeout: u64,
+) -> cockpit_verification::ProcessStartGate {
+    let root = root.to_path_buf();
+    let request = request.clone();
+    let task_context = task_context.map(|(runtime, caller)| (runtime.clone(), caller.cloned()));
+    Arc::new(move |node_id, spawn| {
+        if node_id != request.node_id {
+            return Err("unexpected task verification node".into());
+        }
+        let Some(wi) = request.work_item_id.as_deref() else {
+            return spawn();
+        };
+        let guard = acquire_lifecycle_lock(&root, wi).map_err(|e| e.to_string())?;
+        if let Some((runtime, caller)) = &task_context {
+            task_authorization::require_declared_task_command(
+                &root,
+                &request,
+                runtime,
+                caller.as_ref(),
+            )
+            .map_err(|e| e.to_string())?;
+            if task_authorization::task_policy_configured(&root, wi).map_err(|e| e.to_string())? {
+                require_current_action_admission_with_caller(
+                    &root,
+                    wi,
+                    "run_verification",
+                    runtime,
+                    caller.as_ref(),
+                )
+                .map_err(|e| e.to_string())?;
+                let available = task_authorization::task_authorization_timeout(
+                    &root,
+                    wi,
+                    runtime,
+                    caller.as_ref(),
+                    planned_timeout,
+                )
+                .map_err(|e| e.to_string())?;
+                if available < planned_timeout {
+                    return Err(format!(
+                        "task_authorization_remaining_time_requires_fresh_bounded_plan: planned={planned_timeout}s, remaining={available}s"
+                    ));
+                }
+            }
+        } else {
+            task_authorization::reject_legacy_task_write(&root, wi).map_err(|e| e.to_string())?;
+        }
+        guard
+            .require_subject(&root, wi)
+            .map_err(|e| e.to_string())?;
+        spawn()
+    })
+}
+
 fn run_repository_verification_inner<F, H>(
     root: &Path,
     request: &RepositoryVerificationRequest,
@@ -1535,28 +1599,14 @@ where
     let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
-    if let (Some(wi), Some((runtime, caller))) = (request.work_item_id.as_deref(), task_context) {
-        task_authorization::require_declared_task_command(&root, request, runtime, caller)?;
-        let planned_timeout = command.timeout_seconds();
-        let available = task_authorization::task_authorization_timeout(
-            &root,
-            wi,
-            runtime,
-            caller,
-            planned_timeout,
-        )?;
-        if available < planned_timeout {
-            return Err(ObserverError::State {
-                path: root.clone(),
-                message: "task_authorization_remaining_time_requires_fresh_bounded_plan".into(),
-            });
-        }
-    }
+    let start_gate =
+        repository_task_start_gate(&root, request, task_context, command.timeout_seconds());
     let observer = Arc::clone(&process_observer);
-    let mut receipt = cockpit_verification::execute_bounded_with_process_observer(
+    let mut receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
         vec![command],
         request.workers,
         move |node_id, process_id, started| observer(node_id, process_id, started),
+        Arc::clone(&start_gate),
     )
     .map_err(|error| ObserverError::State {
         path: root.clone(),
