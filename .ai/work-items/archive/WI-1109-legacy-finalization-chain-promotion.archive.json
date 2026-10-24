@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-24T09:55:09Z",
+  "files": {
+    "contractDigest": "sha256:047125de3aecfcdedcecca5cc4fa0f50c1a46902309bccc263605f1e4efc281b",
+    "contractPath": ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.contract.json",
+    "eventsDigest": "sha256:6e2d64e42d3976ced208a38568e099bea684bc610e9c9af069d00a6877486c25",
+    "eventsPath": ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.events.jsonl",
+    "outcomeDigest": "sha256:9822fc0c1f1ff6e70ee47f76a45ef3a8a2dcbc8f0ff3af443884e854f3e7cf8f",
+    "outcomePath": ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.outcome.json",
+    "summaryDigest": "sha256:548eadad42cdb12878cb95660fca8f6d9d6496e251fbc1b978140d992976f041",
+    "summaryPath": ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json",
+    "taskReportDigest": "sha256:4a6f26c00d27412cb8e31179aaf5fda3995591dbd877c5c28385d3e8431923fc",
+    "taskReportMarkdownDigest": "sha256:81be5b68ce06394316abbdc957a7d13aefbc4dfe2b87497615de4dc776fdd314",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-24T09:55:09.572336610Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-24T09:55:09.572336610Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+}

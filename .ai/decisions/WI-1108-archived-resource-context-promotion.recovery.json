@@ -1,0 +1,27 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "Existing user instruction: safe cleanup where possible, continue unfinished work, use a new WI for blocked work; solve related issues discovered in the current task. Coordinator Raydot explicitly technically reviewed the two-script WI-1108 successor in parent thread 01a1576c-b0ab-7723-ad8e-95924e80102a. This is delegated technical recovery recorded by an agent, not human confirm_review, human close or GitHub Review.",
+  "decidedAt": "2026-10-24T09:38:57.165488+00:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.archive.json",
+    ".ai/work-items/archive/WI-1108-archived-resource-context-promotion.outcome.json",
+    ".ai/evidence/WI-1108-archived-resource-context-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/40079822281"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:b7cbd98698453c755365ac41cab9d012ba34cb2b1d3aafd6d1bfa2f3f504ffe1",
+  "predecessorEventsDigest": "sha256:26ca22e6d0004eb761fc87e7258f18cc5344527ddb66a7f1b5644cb45f55ff4d",
+  "predecessorOutcomeDigest": "sha256:a3016843b9ab07340190bd0c7a7c22c363737d68f001bcc98e9aa15f8add6815",
+  "predecessorSummaryDigest": "sha256:d9b9c8e4e244a27e3af8fed57f5679cc85fabc74f90965fd560e76c4ca72f101",
+  "predecessorWorkItemId": "WI-1108-archived-resource-context-promotion",
+  "reason": "Actual merged main 795e18c5659738f44d350260229f4e13d9f80303 CI40079822281 failed docs_closed_work_item_promotion because the new no-context receipt-presence guard rejects an immutable historical confirmed blocked->retained->deleted chain. Ordinary archived verification recovery is inapplicable to the predecessor null evidenceClasses. Preserve predecessor bytes and actual failure; explicitly bind this minimal same-two-file successor before activation.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate only the linked WI-1109 two-file successor from actual main, record complete unverified scenarios and obey any real human confirmation, then prove production-path RED/GREEN, strict positive/negative identity and terminal chain regressions, full real main historical consumer coverage and independent review. Original WI-1108 remains archived and not closed; do not erase failed integration or finalize/cleanup it under failed acceptance.",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1109-legacy-finalization-chain-promotion",
+  "workItemId": "WI-1108-archived-resource-context-promotion"
+}
