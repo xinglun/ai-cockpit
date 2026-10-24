@@ -2313,7 +2313,7 @@ pub fn finish_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    finish_work_item_internal(root, work_item_id, None)
+    finish_work_item_internal(root, work_item_id, None, None)
 }
 
 /// Finish a Work Item while requiring evidence produced by the current
@@ -2325,7 +2325,17 @@ pub fn finish_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    finish_work_item_internal(root, work_item_id, Some(runtime))
+    finish_work_item_internal(root, work_item_id, Some(runtime), None)
+}
+
+/// Caller-bearing finish preserves every existing evidence and lifecycle gate.
+pub fn finish_work_item_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<LifecycleReceipt, ObserverError> {
+    finish_work_item_internal(root, work_item_id, Some(runtime), caller)
 }
 
 fn snapshot_finish_artifact(path: &Path) -> Result<Option<Vec<u8>>, ObserverError> {
@@ -2370,6 +2380,7 @@ fn finish_work_item_internal(
     root: &Path,
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -2377,7 +2388,20 @@ fn finish_work_item_internal(
         source,
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&canonical_root, work_item_id)?;
-    let result = finish_work_item_internal_unlocked(&canonical_root, work_item_id, current_runtime);
+    // A refused caller has no authority to publish even a blocked Outcome.
+    if let Some(runtime) = current_runtime {
+        super::task_authorization::require_task_caller(
+            &canonical_root,
+            work_item_id,
+            "finish",
+            runtime,
+            caller,
+        )?;
+    } else {
+        super::task_authorization::reject_legacy_task_write(&canonical_root, work_item_id)?;
+    }
+    let result =
+        finish_work_item_internal_unlocked(&canonical_root, work_item_id, current_runtime, caller);
     if let Err(error) = &result
         && let Err(persist_error) =
             persist_blocked_lifecycle_outcome(&canonical_root, work_item_id, error)
@@ -2398,6 +2422,7 @@ fn finish_work_item_internal_unlocked(
     root: &Path,
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -2435,7 +2460,13 @@ fn finish_work_item_internal_unlocked(
         "finish",
     )?;
     if let Some(runtime) = current_runtime {
-        super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
+        super::require_current_action_admission_with_caller(
+            &root,
+            work_item_id,
+            "finish",
+            runtime,
+            caller,
+        )?;
     }
     if contract.checkpoint_policy.is_some() {
         let current_contract_hash = contract_digest(&contract_path)?.to_string();

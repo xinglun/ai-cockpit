@@ -15,6 +15,17 @@ fn error(path: &Path, message: impl Into<String>) -> ObserverError {
     }
 }
 
+fn own_path(root: &Path, wi: &str, suffix: &str) -> Result<PathBuf, ObserverError> {
+    let active = PathBuf::from(format!(".ai/work-items/active/{wi}.{suffix}.json"));
+    match std::fs::symlink_metadata(root.join(&active)) {
+        Ok(_) => Ok(active), // native_json refuses symlinks rather than falling back.
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(PathBuf::from(format!(
+            ".ai/work-items/archive/{wi}.{suffix}.json"
+        ))),
+        Err(e) => Err(error(root, e.to_string())),
+    }
+}
+
 /// All paths originate from the exact own-WI native layout, never caller filenames.
 /// Pin and recheck every directory around the bounded, no-follow file read.
 fn native_json(root: &Path, relative: &Path) -> Result<Value, ObserverError> {
@@ -89,7 +100,7 @@ fn assess(
     policy: &TaskAuthorizationPolicy,
     runtime: &RuntimeContext,
 ) -> Result<TaskAuthorizationProjection, ObserverError> {
-    let contract_path = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
+    let contract_path = own_path(root, wi, "contract")?;
     let current = native_json(root, &contract_path)?;
     let current_digest =
         cockpit_protocol::digest_json(&current).map_err(|e| error(root, e.to_string()))?;
@@ -101,10 +112,7 @@ fn assess(
             "task authorization repository or Work Item mismatch",
         ));
     }
-    let summary = native_json(
-        root,
-        Path::new(&format!(".ai/work-items/active/{wi}.summary.json")),
-    )?;
+    let summary = native_json(root, &own_path(root, wi, "summary")?)?;
     let mut baseline = current.clone();
     let mut value = summary.get("decisionEvidence").cloned();
     if value
@@ -208,6 +216,10 @@ fn assess(
         .map(DateTime::parse_from_rfc3339)
         .transpose()
         .map_err(|e| error(root, format!("invalid task authorization deadline: {e}")))?;
+    if contract_path.starts_with(".ai/work-items/archive") {
+        result.state = "delivery_only".into();
+        result.reason = "Archived source is immutable; only the declared remaining delivery and resource lifecycle may continue.".into();
+    }
     let terminal = read_termination(root, wi, &result, policy)?;
     let deadline_first = deadline.is_some_and(|deadline| {
         Utc::now() >= deadline
@@ -227,6 +239,11 @@ fn assess(
         result.reason =
             "An immutable bound termination ended this grant without changing business completion."
                 .into();
+    } else if contract_path.starts_with(".ai/work-items/archive")
+        && super::close_decision_is_valid_for_status(root, wi, &contract.repository_id)
+    {
+        result.state = "closeout_only".into();
+        result.reason = "The task is closed. Only explicitly preauthorized native closeout publication and auxiliary cleanup may continue; source work cannot reopen.".into();
     }
     Ok(result)
 }
@@ -484,7 +501,7 @@ fn check_request_intent(
     request: &cockpit_protocol::TaskAuthorizationRequest,
 ) -> Result<(), ObserverError> {
     let root = std::fs::canonicalize(root).map_err(|e| error(root, e.to_string()))?;
-    let relative = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
+    let relative = own_path(&root, wi, "contract")?;
     let contract: Contract = serde_json::from_value(native_json(&root, &relative)?)
         .map_err(|e| error(&root, e.to_string()))?;
     let policy = contract
@@ -565,12 +582,7 @@ pub(crate) fn require_task_caller(
 ) -> Result<(), ObserverError> {
     let canonical_root = std::fs::canonicalize(root).map_err(|e| error(root, e.to_string()))?;
     let root = canonical_root.as_path();
-    let relative = PathBuf::from(format!(".ai/work-items/active/{wi}.contract.json"));
-    let relative = if root.join(&relative).is_file() {
-        relative
-    } else {
-        PathBuf::from(format!(".ai/work-items/archive/{wi}.contract.json"))
-    };
+    let relative = own_path(root, wi, "contract")?;
     let contract: Contract = serde_json::from_value(native_json(root, &relative)?)
         .map_err(|e| error(root, e.to_string()))?;
     let Some(policy) = contract
@@ -610,7 +622,27 @@ pub(crate) fn require_task_caller(
     {
         return Err(error(root, "task_authorization_caller_mismatch"));
     }
-    if task.state != "active" {
+    let closeout = task.state == "closeout_only"
+        && policy
+            .closeout_actions
+            .iter()
+            .any(|allowed| allowed == action);
+    let delivery = task.state == "delivery_only"
+        && [
+            "publish_branch",
+            "create_pull_request",
+            "ready_pull_request",
+            "merge_pull_request",
+            "verify_main",
+            "finalize_resources",
+            "record_finalization",
+            "finalize_verify",
+            "cleanup_resources",
+            "publish_native_closeout",
+            "cleanup_auxiliary_resources",
+        ]
+        .contains(&action);
+    if task.state != "active" && !closeout && !delivery {
         return Err(error(root, format!("task_authorization_{}", task.state)));
     }
     if !policy
@@ -621,4 +653,41 @@ pub(crate) fn require_task_caller(
         return Err(error(root, "task_authorization_action_outside_scope"));
     }
     Ok(())
+}
+
+/// Reduce an already policy-authorized finite node budget. This function grants
+/// no timeout extension or command permission; callers still validate both.
+/// Re-evaluate before each child spawn, never cache it for the whole session.
+pub fn task_authorization_timeout(
+    root: &Path,
+    wi: &str,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+    authorized_ceiling: u64,
+) -> Result<u64, ObserverError> {
+    if !(1..=cockpit_protocol::MAX_VERIFICATION_TIMEOUT_SECONDS).contains(&authorized_ceiling) {
+        return Err(error(root, "task_authorization_invalid_execution_ceiling"));
+    }
+    require_task_caller(root, wi, "run_verification", runtime, caller)?;
+    let root = std::fs::canonicalize(root).map_err(|e| error(root, e.to_string()))?;
+    let contract: Contract =
+        serde_json::from_value(native_json(&root, &own_path(&root, wi, "contract")?)?)
+            .map_err(|e| error(&root, e.to_string()))?;
+    let Some(deadline) = contract
+        .task_authorization_policy()
+        .map_err(|e| error(&root, e))?
+        .and_then(|policy| policy.expires_at)
+    else {
+        return Ok(authorized_ceiling);
+    };
+    let deadline =
+        DateTime::parse_from_rfc3339(&deadline).map_err(|e| error(&root, e.to_string()))?;
+    let remaining = (deadline.with_timezone(&Utc) - Utc::now()).num_seconds();
+    if remaining < 1 {
+        return Err(error(
+            &root,
+            "task_authorization_deadline_before_next_spawn",
+        ));
+    }
+    Ok(authorized_ceiling.min(remaining as u64))
 }

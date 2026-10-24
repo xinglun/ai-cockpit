@@ -1956,6 +1956,16 @@ pub fn record_work_item_material_review(
     input: &MaterialInspectionReviewDecisionInput,
     runtime: &RuntimeContext,
 ) -> Result<MaterialInspectionReviewDecisionReceipt, ObserverError> {
+    record_work_item_material_review_with_caller(root, work_item_id, input, runtime, None)
+}
+
+pub fn record_work_item_material_review_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    input: &MaterialInspectionReviewDecisionInput,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<MaterialInspectionReviewDecisionReceipt, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,
@@ -1990,11 +2000,12 @@ pub fn record_work_item_material_review(
             message: "material review decision is not enabled by the current Contract".into(),
         });
     }
-    require_current_action_admission(
+    super::require_current_action_admission_with_caller(
         &root,
         work_item_id,
         "record_material_review_decision",
         runtime,
+        caller,
     )?;
     let recorded_by = format!(
         "runtime:{}:{}",

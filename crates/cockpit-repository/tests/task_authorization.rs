@@ -498,6 +498,19 @@ fn explicit_caller_continues_without_fabricating_fresh_verification() {
     );
     assert_ne!(after.evidence_freshness.state, "fresh");
     assert_ne!(after.next_action, "owner_review_required");
+    let contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{WI}.contract.json"));
+    cockpit_repository::preflight_work_item_with_task_authorization(
+        directory.path(),
+        &contract,
+        &runtime(),
+        &caller(),
+    )
+    .unwrap();
+    let refreshed = status(directory.path());
+    assert!(!refreshed["humanDecisionRequired"].as_bool().unwrap());
+    assert_eq!(refreshed["taskAuthorization"]["state"], "active");
 }
 
 #[test]
@@ -576,4 +589,56 @@ fn caller_context_is_explicit_and_rechecked_after_termination() {
         )
         .is_err()
     );
+}
+
+#[test]
+fn a_node_budget_is_finite_reduced_and_rechecked_at_each_boundary() {
+    let deadline = (chrono::Utc::now() + chrono::Duration::seconds(300)).to_rfc3339();
+    let directory = fixture(&deadline, true);
+    let root = directory.path();
+    let bounded =
+        cockpit_repository::task_authorization_timeout(root, WI, &runtime(), Some(&caller()), 900)
+            .unwrap();
+    assert!((1..=300).contains(&bounded));
+    assert_eq!(
+        cockpit_repository::task_authorization_timeout(root, WI, &runtime(), Some(&caller()), 42)
+            .unwrap(),
+        42
+    );
+    for ceiling in [0, 901, u64::MAX] {
+        assert!(
+            cockpit_repository::task_authorization_timeout(
+                root,
+                WI,
+                &runtime(),
+                Some(&caller()),
+                ceiling
+            )
+            .is_err()
+        );
+    }
+    record_work_item_governance_controls_with_runtime(
+        root,
+        WI,
+        &termination(root, "withdrawn"),
+        &runtime(),
+    )
+    .unwrap();
+    assert!(
+        cockpit_repository::task_authorization_timeout(root, WI, &runtime(), Some(&caller()), 42)
+            .is_err()
+    );
+}
+
+#[test]
+fn an_expired_caller_cannot_write_a_blocked_finish_outcome() {
+    let directory = fixture("2000-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let outcome = root.join(format!(".ai/work-items/active/{WI}.outcome.json"));
+    let before = fs::read(&outcome).ok();
+    assert!(
+        cockpit_repository::finish_work_item_with_caller(root, WI, &runtime(), Some(&caller()))
+            .is_err()
+    );
+    assert_eq!(fs::read(outcome).ok(), before);
 }

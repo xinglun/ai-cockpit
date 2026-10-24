@@ -127,7 +127,7 @@ use execution_context::{
     effective_verification_environment, execution_environment_digest_from_values,
 };
 pub use governance_controls::*;
-pub use task_authorization::assess_task_authorization;
+pub use task_authorization::{assess_task_authorization, task_authorization_timeout};
 
 /// Compatibility controls cannot supply the Runtime identity required by
 /// activation continuity/recovery. Those items use the admitted Runtime
@@ -5505,11 +5505,22 @@ pub fn require_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
-    let admission = action_admission::require_current_action_admission(
+    require_verification_preconditions_with_caller(root, work_item_id, runtime, snapshot, None)
+}
+
+pub fn require_verification_preconditions_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<(), ObserverError> {
+    let admission = action_admission::require_current_action_admission_with_caller(
         root,
         work_item_id,
         "run_verification",
         runtime,
+        caller,
     );
     let preconditions = check_verification_preconditions(root, work_item_id, runtime, snapshot);
     match (admission, preconditions) {

@@ -1336,6 +1336,17 @@ pub fn record_work_item_governance_controls_with_runtime(
     controls: &Value,
     runtime: &RuntimeContext,
 ) -> Result<Value, ObserverError> {
+    record_work_item_governance_controls_with_caller(root, work_item_id, controls, runtime, None)
+}
+
+/// Explicit context is never inferred from a configured actor string.
+pub fn record_work_item_governance_controls_with_caller(
+    root: &Path,
+    work_item_id: &str,
+    controls: &Value,
+    runtime: &RuntimeContext,
+    caller: Option<&cockpit_protocol::TaskAuthorizationCaller>,
+) -> Result<Value, ObserverError> {
     crate::validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1374,11 +1385,12 @@ pub fn record_work_item_governance_controls_with_runtime(
         )?;
         return record_work_item_governance_controls_unlocked(&root, work_item_id, controls);
     }
-    crate::require_current_action_admission(
+    crate::require_current_action_admission_with_caller(
         &root,
         work_item_id,
         "record_governance_controls",
         runtime,
+        caller,
     )?;
     record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
 }
