@@ -9346,6 +9346,10 @@ mod post_merge_sync_tests {
                 "pub fn missing_writer(",
             ),
             (
+                "pub fn record_work_item_material_review(",
+                "#[foreign_writer_macro]\npub fn record_work_item_material_review(",
+            ),
+            (
                 "require_current_action_admission,",
                 "require_current_action_admission as foreign_admission,",
             ),
