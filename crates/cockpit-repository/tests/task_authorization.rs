@@ -101,7 +101,7 @@ fn record_owner(root: &Path) {
         "contractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
         "preflightDecisionDigest":summary["preflightDecisionDigest"],
         "repositorySnapshotDigest":summary["preflightRepositorySnapshotDigest"],
-        "recordedAt":"2026-10-24T00:00:00Z", "recordedBy":"agent:test-recorder",
+        "recordedAt":chrono::Utc::now().to_rfc3339(), "recordedBy":"agent:test-recorder",
         "reason":"Synthetic isolated owner confirmation; not external identity authentication."
     }}), &runtime()).unwrap();
 }
@@ -293,7 +293,7 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
     amend_work_item_contract_with_runtime(root, WI, &json!({
         "schemaVersion":1,"changeId":"combined-local-review-plan","expectedContractDigest":cockpit_protocol::digest_json(&contract).unwrap(),
         "reason":"explicit isolated owner plan for mechanical review and task authority",
-        "changes":[{"path":"/governanceProfile","operation":"set","value":profile}]
+        "changes":[{"path":"/governanceProfile","operation":"replace","value":profile}]
     }), "explicit isolated owner plan for mechanical review and task authority", &runtime()).unwrap();
     preflight_work_item_with_runtime_report(root, &path, &runtime()).unwrap();
     record_owner(root);
@@ -316,4 +316,25 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
         before["taskAuthorization"]["grantId"]
     );
     assert!(!after["humanDecisionRequired"].as_bool().unwrap());
+}
+
+#[test]
+fn refreshing_a_review_for_the_same_contract_cannot_revive_a_terminated_grant() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let before = status(root);
+    record_work_item_governance_controls_with_runtime(
+        root,
+        WI,
+        &termination(root, "withdrawn"),
+        &runtime(),
+    )
+    .unwrap();
+    record_owner(root);
+    let after = status(root);
+    assert_eq!(after["taskAuthorization"]["state"], "withdrawn");
+    assert_eq!(
+        after["taskAuthorization"]["grantId"],
+        before["taskAuthorization"]["grantId"]
+    );
 }
