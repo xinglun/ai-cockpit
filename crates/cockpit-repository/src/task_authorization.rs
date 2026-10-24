@@ -125,6 +125,7 @@ fn assess(
                 wi,
                 &current_digest,
                 runtime,
+                &current,
             )?
         {
             let typed: Contract = serde_json::from_value(owner_contract.clone())
@@ -350,10 +351,7 @@ pub(crate) fn record_termination_unlocked(
 ) -> Result<Value, ObserverError> {
     let request: TaskAuthorizationTerminationRequest = serde_json::from_value(value.clone())
         .map_err(|e| error(root, format!("invalid task termination input: {e}")))?;
-    let contract_value = native_json(
-        root,
-        Path::new(&format!(".ai/work-items/active/{wi}.contract.json")),
-    )?;
+    let contract_value = native_json(root, &own_path(root, wi, "contract")?)?;
     let contract: Contract =
         serde_json::from_value(contract_value).map_err(|e| error(root, e.to_string()))?;
     let policy = contract

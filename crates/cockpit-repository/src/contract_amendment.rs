@@ -3326,18 +3326,36 @@ pub(crate) fn reviewed_task_owner_baseline(
     wi: &str,
     current_digest: &Digest,
     runtime: &RuntimeContext,
+    current_contract: &Value,
 ) -> Result<Option<(Value, Value)>, ObserverError> {
-    if !delegated_review_is_current(root, wi, Some(runtime))? {
-        return Ok(None);
+    // The caller supplied the bounded, no-follow own-WI active/archive
+    // document. Validate the same native chain/policy/Runtime as the active
+    // delegation reader without reopening a hardcoded active path.
+    if record_digest(current_contract, root)? != *current_digest {
+        return Err(state_error(
+            root,
+            "task owner current Contract digest mismatch",
+        ));
     }
     let history = read_work_item_contract_amendments(root, wi)?;
     validate_transition_chain(root, wi, &history, Some(current_digest))?;
-    let Some(review) = history
-        .last()
-        .and_then(|receipt| receipt.delegated_review.as_ref())
-    else {
+    let Some(tail) = history.last() else {
         return Ok(None);
     };
+    let Some(review) = tail.delegated_review.as_ref() else {
+        return Ok(None);
+    };
+    if tail.new_contract_digest != *current_digest
+        || tail.runtime_digest != runtime.runtime_digest
+        || tail.runtime_version != runtime.runtime_version
+        || !delegated_policy_boundary_allows(
+            root,
+            current_contract,
+            super::policy_document(root)?.as_ref(),
+        )?
+    {
+        return Ok(None);
+    }
     let owner = owner_receipt_value(root, wi, review)?;
     Ok(Some((review.owner_contract.clone(), owner)))
 }

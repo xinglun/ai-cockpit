@@ -673,6 +673,8 @@ fn command_request(
 fn actual_child_execution_requires_explicit_caller_and_declared_argv() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
     let root = directory.path();
+    cockpit_repository::checkpoint_work_item_with_caller(root, WI, &runtime(), Some(&caller()))
+        .unwrap();
     let expected = command_request("git", &["diff", "--check"]);
     assert!(cockpit_repository::run_repository_verification(root, &expected).is_err());
     let foreign = command_request(

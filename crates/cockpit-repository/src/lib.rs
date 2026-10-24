@@ -1692,10 +1692,11 @@ where
             )
         };
         let observer = Arc::clone(&process_observer);
-        receipt = cockpit_verification::execute_bounded_with_process_observer(
+        receipt = cockpit_verification::execute_bounded_with_process_observer_and_start_gate(
             vec![command],
             request.workers,
             move |node_id, process_id, started| observer(node_id, process_id, started),
+            Arc::clone(&start_gate),
         )
         .map_err(|error| ObserverError::State {
             path: root.clone(),
