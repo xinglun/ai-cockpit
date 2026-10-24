@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6c767370cc6427189506255b6c3eb8d8cc8529f2e1d335ea32648dcb1d4e0024",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Actual user replied: 确认 WI-1109 上述计划、六项未验证场景及绑定，confirm_review，并批准上述公开增量及条件交付。 Actual message Sentinel_54656166395c8191a31fa48fc8c2686d known2026-10-24 09:43 UTC minute precision, in reply to request Sentinel_3cc85c7913e88191be19738b82b451ed; relayed by parent01a1576c-b0ab-7723-ad8e-95924e80102a. Current main HEAD795e18c5 and exact Contract/preflight/snapshot checked unchanged. Approval is not test evidence: six scenes remain unverified, checkpoint and candidate import not yet performed. Actual public authorization covers the two source scripts, own actual native records and the one appended predecessor WI1108 successor recovery record, sensitive screening and normal PR/CI/review/conditional merge/main/recoverable cleanup. No true human close, GitHub Review, release, production or shared Runtime replacement is inferred. Original sixteen predecessor records remain byte-identical. recordedAt is actual transcription time, not invented precise user service time.",
+  "recordedAt": "2026-10-24T09:44:20.569420+00:00",
+  "recordedBy": "Codex agent transcribing actual user message Sentinel_54656166395c8191a31fa48fc8c2686d; no independent external identity authentication asserted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a99c9b57a841652b2fab1a8e5108c326dd787b76bc315c720496016bd437119",
+  "schemaVersion": 1,
+  "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+}

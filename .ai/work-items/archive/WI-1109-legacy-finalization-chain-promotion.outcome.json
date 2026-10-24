@@ -1,0 +1,191 @@
+{
+  "acceptanceResults": [
+    "Initially unverified S01-exact-legacy-chain: Recognize only the legacy absent/null Contract-context shape with absent modern close-head fields and a complete blocked-unmerged root -> sequence1 retained-merged -> sequence2 deleted-cleaned chain, whose exact hash-named terminal envelope is referenced by the confirmed structured close. Keep historical no-context documentation projection compatible and native bytes unchanged.",
+    "Initially unverified S02-identity-and-chain-binding: Validate raw archive Contract digest, repository/WI/base identity, complete six-field receipt context, concrete stable branch/worktree identity, canonical envelope filenames/digests, unique contiguous sequence and predecessor links, merge identity and ordered before/after/result states. Root blocked evidence stays failed; latest valid cleanup and confirmed close are required.",
+    "Initially unverified S03-reject-spurious-or-unconfirmed-finalization: Continue to reject genuine no-resource records carrying arbitrary direct finalization, missing terminal close references, malformed/symlink/duplicate JSON, incomplete or retained latest cleanup, foreign resource or unconfirmed close. Merely present fields or actor labels grant no approval.",
+    "Initially unverified S04-preserve-modern-and-other-legacy-paths: Preserve official post-archive resource-context handoff, existing in-Contract contexts, direct sequence0 and sequence1/2 terminal paths, legacy retained reconciliation, actual no-resource, superseded/recovery and documentation-policy semantics. Do not edit any old native record or change permission/Runtime acceptance.",
+    "Initially unverified S05-real-main-consumer-coverage: Before delivery validate every currently selected closed Work Item from the actual main baseline with the production terminal consumer and execute the actual check-all CLI against current repository documents. Check selection count is nonzero and preserve corpus inputs. Do not skip failing historical items or hide them outside scope.",
+    "Initially unverified S06-quality-and-historical-preservation: Pass all eight declared checks with actual meaningful positive/negative counts and independent whole-change review. Preserve the WI-1108 main failure and rejected archived-recovery attempts, old immutable archive/verification/close history and the unexecuted candidate test commit. Only the two source files and genuine current-WI native records may change.",
+    "Subsequent delivery is an independent later obligation: authorized normal source/native public branch and draft PR, exact final HEAD CI and independent review, ready/ordinary merge/main verification, immutable archive and real resource-context binding, recoverable exact-resource cleanup, finalize/finalize-verify and separately actual human close, then native closeout publication. Resume WI-1108 and already closed WI-1107 closeout only after real integration evidence permits; preserve all historical archives, receipts, decisions and failures. Public actions require applicable explicit authorization; no release or production activation."
+  ],
+  "createdAt": "2026-10-24T09:55:08.358734382Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:97d8f43fe196a9a4cd880b1363a0a661da811f2693a10d4f729664d4fc9b1383",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e8995092e2b21b2969bf353a800a3d59f2f74eac09850bda2500e925597fc92d",
+      "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1108-archived-resource-context-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1109-legacy-finalization-chain-promotion.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1109-legacy-finalization-chain-promotion.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1109-legacy-finalization-chain-promotion.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow the exact legacy confirmed blocked-to-retained-to-deleted resource chain to be consumed safely, while rejecting spurious, foreign, tampered, unconfirmed or wrong-terminal material. Verify the actual complete main closed-record corpus before normal conditional delivery and resume predecessor closeout without rewriting any historical evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1109-legacy-finalization-chain-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-24T09:55:08.358734382Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+    },
+    "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+  },
+  "taskReportDigest": "sha256:4a6f26c00d27412cb8e31179aaf5fda3995591dbd877c5c28385d3e8431923fc",
+  "taskReportMarkdownDigest": "sha256:81be5b68ce06394316abbdc957a7d13aefbc4dfe2b87497615de4dc776fdd314",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1109-legacy-finalization-chain-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1109-legacy-finalization-chain-promotion"
+}
