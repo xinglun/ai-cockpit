@@ -164,3 +164,74 @@ fn source_commit_preserves_authority_without_claiming_current_test_evidence() {
     );
     assert_eq!(after["evidenceFreshness"]["state"], "missing");
 }
+
+fn termination(root: &Path, decision: &str) -> Value {
+    json!({"taskAuthorizationTermination": {
+        "schemaVersion": 1,
+        "grantId": status(root)["taskAuthorization"]["grantId"],
+        "decision": decision,
+        "caller": {"schemaVersion": 1, "actor": "agent:task-worker",
+            "authoritySource": "conversation:fixture-owner", "assurance": "self_declared"},
+        "reason": "The exact delegated agent narrows its own task authority."
+    }})
+}
+
+#[test]
+fn withdrawing_exact_authority_is_immutable_idempotent_and_not_business_completion() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let request = termination(root, "withdrawn");
+    let first = record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime())
+        .expect("the exact authorized agent may narrow its own grant");
+    let second = record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime())
+        .expect("the identical terminal request is idempotent");
+    assert_eq!(first, second);
+    let projected = status(root);
+    assert_eq!(projected["taskAuthorization"]["state"], "withdrawn");
+    assert_eq!(projected["lifecyclePhase"], "implementation_active");
+    assert_ne!(projected["verification"], "verified");
+    assert!(!root.join(format!(".ai/decisions/{WI}.close.json")).exists());
+    let mut conflicting = request;
+    conflicting["taskAuthorizationTermination"]["decision"] = json!("completed");
+    assert!(
+        record_work_item_governance_controls_with_runtime(root, WI, &conflicting, &runtime())
+            .is_err()
+    );
+    assert_eq!(status(root)["taskAuthorization"]["state"], "withdrawn");
+}
+
+#[test]
+fn a_foreign_caller_or_grant_cannot_terminate_the_current_authority() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    for field in ["caller", "grantId"] {
+        let mut request = termination(root, "withdrawn");
+        if field == "caller" {
+            request["taskAuthorizationTermination"]["caller"]["actor"] =
+                json!("agent:someone-else");
+        } else {
+            request["taskAuthorizationTermination"]["grantId"] =
+                json!(Digest::sha256_bytes(b"another grant"));
+        }
+        assert!(
+            record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime())
+                .is_err()
+        );
+        assert_eq!(status(root)["taskAuthorization"]["state"], "active");
+    }
+}
+
+#[test]
+fn termination_cannot_smuggle_an_unrelated_governance_write() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.summary.json"));
+    let before = fs::read(&path).unwrap();
+    let mut request = termination(root, "withdrawn");
+    request["intentAlignment"] = json!({"state":"aligned"});
+    assert!(
+        record_work_item_governance_controls_with_runtime(root, WI, &request, &runtime()).is_err()
+    );
+    assert_eq!(fs::read(path).unwrap(), before);
+    assert_eq!(status(root)["taskAuthorization"]["state"], "active");
+}
