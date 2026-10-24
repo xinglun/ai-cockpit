@@ -74,7 +74,8 @@ mod usage;
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
     MaterialReviewRequestError, material_review_request, plan_work_item_material_review,
-    record_work_item_material_review, validate_material_review_decision,
+    record_work_item_material_review, record_work_item_material_review_with_caller,
+    validate_material_review_decision,
 };
 pub use review_ledger::{record_review_correction, review_correction_events};
 pub use rust_material::MaterialUnknownCause;
