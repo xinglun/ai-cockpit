@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:878cc6fe20e45ec4e88b8bd302f861c60af58954c0bacf0d138950c0aa50cab3",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:41de005286fde36cb90bafd4138f1d58b3a94186aac1bac21788e11a29678cfd",
+  "reason": "Actual user message Sentinel_09419cb4dc388191b57291558864a136 in parent conversation 01a1576c-b0ab-7723-ad8e-95924e80102a: 确认 WI-1110 上述中央零警告门禁登记修订及新绑定，confirm_review，并批准该公开增量及原条件交付。 The supplied quote confirms the exact sequence5 binding. User-message timestamp was not supplied; this record uses the actual recording time. Agent records supplied user provenance, not independent human identity authentication. No source/test result, production activation, shared Runtime replacement, release or human close is asserted.",
+  "recordedAt": "2026-10-24T20:24:08.682564+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:36560b8c1a30618ff72c870ed3c36676c2189d18d07c38aa1999bc56ac269476",
+  "schemaVersion": 1,
+  "workItemId": "WI-1110-task-authorization-usability"
+}

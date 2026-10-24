@@ -1,0 +1,2242 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:f9c2696006fd92daa89979406615243e9e178ab9d83300e8029b7f13f18199e3",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1110-task-authorization-usability",
+    "sequence": 2,
+    "changeId": "wi1110-complete-initial-scenarios-and-finite-budget",
+    "requestDigest": "sha256:f91c2bc3e0e209c7ce99e4b420668e2f7d25e65f9060ab3f603d5e077363f01e",
+    "reason": "Complete all sixteen structured source-stage scenarios and this Work Item own strict single-authorized-human finite 900-second verification ceiling through the fixed official b2 typed amendment interface. Its start surface has no scenarioCoverage input and the single start already automatically checkpointed; no product source edits, candidate self-approval, tests or public delivery have occurred. Preserve all forty-seven declared paths, fifteen commands, assertions and acceptance criteria. Later actual Windows/public/merge/main/resource/real-human-close obligations stay explicit later acceptance, not pre-finish scenario completion. Any required fresh owner decision is requested with the actual generated binding. This neither activates the task-grant feature nor grants host privilege, public publication, merge, release or production permission.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+            "required": true,
+            "scenario": "S13-tools-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+            "required": true,
+            "scenario": "S13-tools-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+            "required": true,
+            "scenario": "S13-tools-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+            "required": true,
+            "scenario": "S14-quality-gate-accuracy",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+            "required": true,
+            "scenario": "S13-tools-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+            "required": true,
+            "scenario": "S14-quality-gate-accuracy",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+            "required": true,
+            "scenario": "S13-tools-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+            "required": true,
+            "scenario": "S14-quality-gate-accuracy",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Preserve all original failed and successful evidence and user confirmations, bounded resource identities, unknown usage, unmeasured benefit and declared file scope. No warning management baseline, exception system, Outcome warning product, external B or additional host permission.",
+            "required": true,
+            "scenario": "S15-history-and-scope",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+            "required": true,
+            "scenario": "S13-tools-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+            "required": true,
+            "scenario": "S14-quality-gate-accuracy",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Preserve all original failed and successful evidence and user confirmations, bounded resource identities, unknown usage, unmeasured benefit and declared file scope. No warning management baseline, exception system, Outcome warning product, external B or additional host permission.",
+            "required": true,
+            "scenario": "S15-history-and-scope",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A native owner-reviewed task grant binds exact repository, WI, goal, file boundaries, allowed actions, verification standard and public target. Within that grant normal source commits do not require repeated owner approval.",
+            "required": true,
+            "scenario": "S01-owner-bound-once",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Reject missing, malformed, duplicate-key, symlinked, tampered or foreign native owner/grant input; an actor/source string or arbitrary file alone never authenticates human authority or external B.",
+            "required": true,
+            "scenario": "S02-authority-integrity",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Retain the existing finite mechanical-review checks. Scope, permission, goal, acceptance weakening, unapproved command removal/replacement and genuinely human-only decisions require the actual owner; a task grant does not override them.",
+            "required": true,
+            "scenario": "S03-review-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Authorization ends at completion, withdrawal or a declared deadline, whichever occurs first. Test exact time boundaries and reject malformed or self-extended deadlines. Historical executed evidence does not become fabricated or disappear when current authority ends.",
+            "required": true,
+            "scenario": "S04-expiry",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "An exact bound append-only termination is idempotent and cannot be replayed for a different grant/WI/repository or used to restore authority. Completion/withdrawal only narrows authority and never manufactures business success or human close.",
+            "required": true,
+            "scenario": "S05-termination",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Session resumption checks the original native owner baseline, current actor/source, scope, policy and termination. A new actor or new goal cannot inherit unlimited permission; same authorized identity and scope may continue.",
+            "required": true,
+            "scenario": "S06-continuation",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Normal source changes may leave authority valid while verification becomes stale. Guidance recommends the real refresh/revalidation, not repeated owner confirmation or relabeling old tests as current.",
+            "required": true,
+            "scenario": "S07-authority-versus-evidence",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Current Runtime checks are recomputed under the relevant lock before supported effects and retries; current Finding, identity, material review, coordination and platform requirements remain effective. External approvals are independent and cannot be bypassed.",
+            "required": true,
+            "scenario": "S08-admission-boundaries",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "After local close, only explicitly authorized native closeout/projection publication and exact auxiliary cleanup may remain eligible until the declared delivery end, withdrawal or deadline. Source edits do not reopen a closed WI. In-flight effects are observed and stopped at safe boundaries, not blindly rolled back.",
+            "required": true,
+            "scenario": "S09-post-close-delivery",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "CLI and MCP share typed status/controls decisions and reason codes. Production-path integration tests execute nonzero cases; synthetic test owner records do not claim external identity authentication.",
+            "required": true,
+            "scenario": "S10-cli-mcp",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy native records and strict mode remain readable and safe. Opt-in needs a real native owner baseline; unsupported capability and missing inputs are explicit, and no shared Runtime or production permission is enabled.",
+            "required": true,
+            "scenario": "S11-compatibility",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked -p cockpit-repository --test task_authorization -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Remove observed platform-unused imports/helpers and unreachable test statements while preserving assertions; implement strict compiler/Clippy checks for the declared Linux and Windows targets. Pre-finish evidence proves source behavior and the warning-gate regressions. Actual Windows zero-warning CI on the published final HEAD is a separate mandatory delivery acceptance, never claimed by source-stage fixture results.",
+            "required": true,
+            "scenario": "S12-rust-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Fix the artifact dependency deprecation by a verified pinned repair, explicit repository-local newline semantics in synthetic Git fixtures and full canonical-ID rows for the four current governance ambiguities. Source-stage validation includes real focused reproduction where available; final real Actions and Windows runs must have no tool warnings before merge. No global OS/Git setting, warning exemption or immutable-history change.",
+            "required": true,
+            "scenario": "S13-tools-zero-warning",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "Actual compiler/tool warnings fail required checks even with an underlying zero exit, and warning diagnostics are not discarded from successful child output. Business error text, test names and quoted negative fixtures are not compiler/tool diagnostics. Missing/truncated capture cannot certify zero warnings.",
+            "required": true,
+            "scenario": "S14-quality-gate-accuracy",
+            "status": "unverified",
+            "verificationPlan": "bash tests/ci/no_warnings_quality_gate_test.sh"
+          },
+          {
+            "evidence": [],
+            "expected": "Preserve all original failed and successful evidence and user confirmations, bounded resource identities, unknown usage, unmeasured benefit and declared file scope. No warning management baseline, exception system, Outcome warning product, external B or additional host permission.",
+            "required": true,
+            "scenario": "S15-history-and-scope",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          },
+          {
+            "evidence": [],
+            "expected": "The full declared verification plan, nonzero focused tests, complete workspace/package coverage, syntax/format/diff checks and independent review must actually pass. Source-quality evidence is required before finish; subsequent public/merge/main/cleanup duties remain explicit later obligations, not falsely completed scenarios.",
+            "required": true,
+            "scenario": "S16-required-quality",
+            "status": "unverified",
+            "verificationPlan": "cargo test --locked --workspace --all-targets -- --test-threads=1"
+          }
+        ]
+      },
+      {
+        "path": "/governancePolicy",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "layer": "work_item",
+          "policyId": "wi1110-bounded-source-verification-ceiling",
+          "rules": [
+            {
+              "approvalMode": "single_authorized_human",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi1110-bounded-source-verification-ceiling"
+                ],
+                "reason": "Finite 900-second ceiling for the explicitly declared source-quality checks and exact subsequent revision validation. Strict single-authorized-human governance remains. This is not task-grant feature activation, public/merge/close permission, shared Runtime replacement or external host privilege.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task",
+                  "pre_ci",
+                  "pr",
+                  "merge",
+                  "release"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "previousContractDigest": "sha256:76f7f4cbe8706b437aac9ba582f3f04ff17d20a71daba150bb83da825774dda6",
+    "newContractDigest": "sha256:d81f5b9fb6928178df385ae485666161c6b33adcc4116d3bb48f9f7be6175ef3",
+    "repositorySnapshotDigest": "sha256:2968b5557c8353b32dd3476aae66ba0dce0d092285564fcd1a8a272b62fd0cd3",
+    "environmentObservationDigest": "sha256:3ba5f4527bb805c6d69a2086d3b8e4fc687a54cb5d46fe7c02994fe886d7e7a7",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governancePolicy",
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:0710f57a100b99e0ab40f75878d812dccb36b92c86caff1337e5422f3f886917",
+    "journalDigest": "sha256:f47a134904dec677d466a7bb72c93e175a9e179c803f7b92f097454a3d2c273e",
+    "recordedAt": "2026-10-24T13:22:34Z"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:eb69f2f5669719f893a22d0c998be803e390a5b6423e500210614b393ea5db15",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7107c10c4b526a92bda173cce0c143bf92ac9a6eeb183fff7e567a1e88055c60",
+  "reason": "Record the actual user decision from conversation:Sentinel_8de118a952a08191b6322b824bf0a356 in parent conversation 01a1576c-b0ab-7723-ad8e-95924e80102a. User-message context:2026-10-24 15:27 UTC, minute precision only. Actual answer:确认 WI-1110 上述计划、范围、17 项未验证场景、15 条验证命令及精确绑定，confirm_review，并批准上述公开材料及条件交付。This agent records the real supplied conversation provenance at the actual current recording time; this is not independent user identity authentication or a coordinator judgment attributed to the user. The exact sequence3 current red preflight/Contract/snapshot is reviewed, its six missing documentation blockers and all unverified scenarios remain; no verification success, production/shared Runtime activation, release, external B or human close is asserted.",
+  "recordedAt": "2026-10-24T15:28:30.542860+00:00",
+  "recordedBy": "agent:Codex",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2968b5557c8353b32dd3476aae66ba0dce0d092285564fcd1a8a272b62fd0cd3",
+  "schemaVersion": 1,
+  "workItemId": "WI-1110-task-authorization-usability"
+}
