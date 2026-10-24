@@ -16766,7 +16766,7 @@ mod canonical_clean_comparison_tests {
         let change = ChangeEvidence {
             path: "crates/material.rs".into(),
             kind: ChangeKind::Modified,
-            added_lines: vec!["    let token_count = 2;".into()],
+            added_lines: Vec::from(["    let token_count = 2;".into()]),
             added_line_origins: vec![cockpit_git::AddedLineOrigin {
                 after_line: 2,
                 hunk_index: 0,

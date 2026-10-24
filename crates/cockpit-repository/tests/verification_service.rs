@@ -26,16 +26,19 @@ fn canonical_clean_large_rust_source_satisfies_read_only_quality_gate() {
         plan_work_item_material_review, start_work_item_with_options,
     };
 
-    let root = repository("canonical-clean-large-rust");
+    fn write_source(path: &Path, padding: &str, body: &str) {
+        use std::io::Write as _;
+        let mut file = fs::File::create(path).expect("source file");
+        file.write_all(padding.as_bytes()).expect("source padding");
+        file.write_all(body.as_bytes()).expect("source body");
+    }
+
+    let root: PathBuf = repository("canonical-clean-large-rust");
     fs::create_dir(root.join("crates")).expect("source directory");
     let padding = "// unchanged source padding\n".repeat(10_000);
     assert!(padding.len() > cockpit_git::MAX_CHANGE_TEXT_BYTES);
     let source = root.join("crates/material.rs");
-    fs::write(
-        &source,
-        format!("{padding}pub fn count() -> usize {{ 1 }}\n"),
-    )
-    .expect("large baseline source");
+    write_source(&source, &padding, "pub fn count() -> usize { 1 }\n");
     run_git(&root, &["add", "crates/material.rs"]);
     run_git(
         &root,
@@ -64,11 +67,7 @@ fn canonical_clean_large_rust_source_satisfies_read_only_quality_gate() {
         },
     )
     .expect("start isolated fixture");
-    fs::write(
-        &source,
-        format!("{padding}pub fn token_count() -> usize {{ 2 }}\n"),
-    )
-    .expect("small harmless source change");
+    write_source(&source, &padding, "pub fn token_count() -> usize { 2 }\n");
     run_git(&root, &["add", "crates/material.rs"]);
     run_git(
         &root,
@@ -95,6 +94,10 @@ fn canonical_clean_large_rust_source_satisfies_read_only_quality_gate() {
     assert!(request.raw_unknown_codes.is_empty(), "{request:?}");
     assert!(request.finding_codes.is_empty());
     assert_eq!(request.entries.len(), 1);
+    assert_eq!(
+        request.entries[0].after_blob_digest,
+        Some(Digest::sha256_bytes(&fs::read(&source).unwrap())),
+    );
     assert_eq!(
         serde_json::to_value(&request.entries[0]).unwrap()["scannerAssessment"],
         "clean",
