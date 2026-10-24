@@ -1219,7 +1219,7 @@ struct PreparedRepositoryVerificationCommand {
     executable_files_read: usize,
     executable_files_hashed: usize,
     reuse_authorization: String,
-    #[cfg(test)]
+    #[cfg(all(test, unix))]
     candidate_loaded: bool,
 }
 
@@ -1262,7 +1262,7 @@ fn prepare_repository_verification_command(
         base_commit: request.base_commit.clone(),
     };
     let mut authorized_binding = None;
-    #[cfg(test)]
+    #[cfg(all(test, unix))]
     let mut candidate_loaded = false;
     let mut reuse_authorization = match request.policy {
         RepositoryVerificationPolicy::ProfileAuthorized => "denied:unknown".into(),
@@ -1304,11 +1304,11 @@ fn prepare_repository_verification_command(
                         None
                     }
                 };
-                #[cfg(test)]
+                #[cfg(all(test, unix))]
                 let candidate_loaded_here = candidate.is_some();
                 reuse_authorization = "authorized".into();
                 authorized_binding = Some((binding, authorization));
-                #[cfg(test)]
+                #[cfg(all(test, unix))]
                 {
                     candidate_loaded = candidate_loaded_here;
                 }
@@ -1352,7 +1352,7 @@ fn prepare_repository_verification_command(
         executable_files_read,
         executable_files_hashed,
         reuse_authorization,
-        #[cfg(test)]
+        #[cfg(all(test, unix))]
         candidate_loaded,
     })
 }
@@ -1448,7 +1448,7 @@ where
     run_repository_verification_inner(root, request, process_observer, |_| {}, None)
 }
 
-#[cfg(test)]
+#[cfg(all(test, unix))]
 fn run_repository_verification_with_post_prepare<H>(
     root: &Path,
     request: &RepositoryVerificationRequest,
@@ -7456,6 +7456,7 @@ mod amendment_review_projection_tests {
         fs::write(root.path().join("README.md"), "fixture\n").expect("README");
         for args in [
             vec!["init", "-q", "--initial-branch=main"],
+            vec!["config", "core.autocrlf", "false"],
             vec!["add", "."],
             vec![
                 "-c",

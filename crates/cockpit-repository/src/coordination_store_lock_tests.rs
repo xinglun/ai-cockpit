@@ -51,6 +51,7 @@ fn git(root: &Path, args: &[&str]) {
 fn fixture() -> TestDirectory {
     let root = TestDirectory::new();
     git(&root.0, &["init", "-q"]);
+    git(&root.0, &["config", "core.autocrlf", "false"]);
     git(&root.0, &["config", "user.email", "test@example.invalid"]);
     git(&root.0, &["config", "user.name", "Coordination Lock Test"]);
     fs::write(root.0.join("README.md"), "initial\n").expect("write initial commit");

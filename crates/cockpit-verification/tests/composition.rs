@@ -1,6 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{COLLABORATION_CAPABILITY, CompositionBinding, RuntimeCapabilityBinding};
 use cockpit_verification::composition::CompositionCleanup;
+#[cfg(target_os = "linux")]
+use cockpit_verification::reap_composition_supervisor_descendants;
 use cockpit_verification::{
     CompositionAttempt, CompositionCleanupDisposition, CompositionCommand, CompositionError,
     CompositionExecutionOutcome, CompositionExecutionRecord, CompositionIdentity, CompositionInput,
@@ -8,8 +10,8 @@ use cockpit_verification::{
     ProcessAdmissionCheck, ProcessStartGate, ReuseDecision, ReuseDecisionKind, classify_reuse,
     composition_commands_digest, composition_linux_boot_id, current_composition_process_identity,
     execution_records_digest, initialize_composition_supervisor_backend, new_composition_run_nonce,
-    new_supervised_composition_attempt_id, reap_composition_supervisor_descendants,
-    run_composition, run_composition_with_process_gates, run_composition_with_supervisor_receipt,
+    new_supervised_composition_attempt_id, run_composition, run_composition_with_process_gates,
+    run_composition_with_supervisor_receipt,
 };
 #[cfg(target_os = "linux")]
 use cockpit_verification::{
@@ -20,9 +22,13 @@ use std::path::{Path, PathBuf};
 #[cfg(target_os = "linux")]
 use std::process::Stdio;
 use std::process::{Child, Command};
-use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
+#[cfg(unix)]
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, mpsc};
-use std::time::{Duration, Instant};
+use std::time::Duration;
+#[cfg(unix)]
+use std::time::Instant;
 
 #[cfg(target_os = "linux")]
 #[test]
@@ -300,6 +306,7 @@ fn unknown_observer_fixture_owners_survive_assertion_unwind() {
     fs::remove_dir_all(worktree_owner.path()).expect("remove synthetic worktree owner");
 }
 
+#[cfg(unix)]
 fn run_composition_with_test_supervisor(
     input: CompositionInput,
 ) -> Result<cockpit_verification::CompositionAttempt, String> {
@@ -1030,11 +1037,13 @@ fn assert_successful_unowned_execution_and_observation(
             assert!(attempt.cleanup.is_none());
             let failure = attempt.failure.as_deref().expect("observer failure");
             #[cfg(target_os = "linux")]
-            assert_expected_procfs_observer_failure(failure);
+            {
+                assert_expected_procfs_observer_failure(failure);
+                assert!(worktree.is_dir(), "unknown worktree must be retained");
+                assert!(worktree_is_registered(&root_path, worktree));
+            }
             #[cfg(not(target_os = "linux"))]
             panic!("only the exact Linux procfs cwd EACCES outcome is accepted: {failure}");
-            assert!(worktree.is_dir(), "unknown worktree must be retained");
-            assert!(worktree_is_registered(&root_path, worktree));
         }
         outcome => panic!("unexpected execution/cleanup outcome: {outcome:?}; {attempt:?}"),
     }

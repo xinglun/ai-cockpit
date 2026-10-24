@@ -4115,6 +4115,7 @@ mod outcome_publication_tests {
     fn repository() -> tempfile::TempDir {
         let root = tempfile::tempdir().expect("repository root");
         git(root.path(), &["init", "-q"]);
+        git(root.path(), &["config", "core.autocrlf", "false"]);
         git(
             root.path(),
             &["config", "user.email", "test@example.invalid"],

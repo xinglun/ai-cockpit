@@ -12,7 +12,9 @@ use cockpit_protocol::{
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::{Value, json};
 use std::collections::BTreeMap;
-use std::fs::{self, File, OpenOptions};
+#[cfg(unix)]
+use std::fs::File;
+use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};

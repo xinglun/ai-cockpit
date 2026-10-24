@@ -31,6 +31,7 @@ fn repository(name: &str) -> PathBuf {
     fs::write(root.join("tracked.txt"), "before\n").expect("tracked file");
     fs::write(root.join(".gitignore"), ".counter\n").expect("ignore counter");
     run_git(&root, &["init", "-q"]);
+    run_git(&root, &["config", "core.autocrlf", "false"]);
     run_git(&root, &["add", "."]);
     run_git(
         &root,

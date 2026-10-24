@@ -34,6 +34,7 @@ fn repository(name: &str, commit: bool) -> PathBuf {
     .expect("manifest");
     fs::write(root.join("src/lib.rs"), "pub fn value() -> u8 { 1 }\n").expect("source");
     run(&root, &["init", "-q"]);
+    run(&root, &["config", "core.autocrlf", "false"]);
     if commit {
         run(&root, &["add", "Cargo.toml", "src/lib.rs"]);
         run(
