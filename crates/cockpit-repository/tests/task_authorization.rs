@@ -321,7 +321,7 @@ fn a_verified_mechanical_amendment_retains_the_original_task_grant_identity() {
 #[test]
 fn public_actions_require_an_explicit_owner_bound_destination() {
     let directory = fixture("2099-01-01T00:00:00Z", true);
-    let root = directory.path();
+    let root: &Path = directory.path();
     let path = root.join(format!(".ai/work-items/active/{WI}.contract.json"));
     let before = fs::read(&path).unwrap();
     let contract: Value = serde_json::from_slice(&before).unwrap();
@@ -369,6 +369,53 @@ fn unknown_terminal_record_fields_fail_closed_even_when_the_digest_is_resealed()
     record["recordDigest"] = json!(cockpit_protocol::digest_json(&record).unwrap());
     fs::write(path, serde_json::to_vec(&record).unwrap()).unwrap();
     assert_eq!(status(root)["taskAuthorization"]["state"], "invalid");
+}
+
+#[test]
+fn a_context_free_admission_cannot_claim_the_configured_agent_identity() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let result = cockpit_repository::require_current_action_admission(
+        directory.path(),
+        WI,
+        "run_preflight",
+        &runtime(),
+    );
+    assert!(
+        result.is_err(),
+        "the policy actor is not evidence of the actual caller"
+    );
+}
+
+#[test]
+fn expired_authority_rejects_preflight_before_summary_side_effects() {
+    let directory = fixture("2000-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.summary.json"));
+    let before = fs::read(&path).unwrap();
+    let result = preflight_work_item_with_runtime_report(
+        root,
+        &root.join(format!(".ai/work-items/active/{WI}.contract.json")),
+        &runtime(),
+    );
+    assert!(
+        result.is_err(),
+        "expired authority must not enter the preflight write"
+    );
+    assert_eq!(fs::read(path).unwrap(), before);
+}
+
+#[test]
+fn legacy_controls_without_a_caller_cannot_mutate_a_configured_task() {
+    let directory = fixture("2099-01-01T00:00:00Z", true);
+    let root = directory.path();
+    let path = root.join(format!(".ai/work-items/active/{WI}.summary.json"));
+    let before = fs::read(&path).unwrap();
+    let result = cockpit_repository::record_work_item_governance_controls(root, WI, &json!({}));
+    assert!(
+        result.is_err(),
+        "a legacy no-context write cannot impersonate the delegated actor"
+    );
+    assert_eq!(fs::read(path).unwrap(), before);
 }
 
 #[test]
