@@ -96,7 +96,7 @@ assert "name: Record successful Windows suite" in windows_suites
 assert "target/windows-suite-result.json" in windows_suites
 windows_aggregate = job_block("windows-runtime")
 assert "needs: [route, windows-runtime-suites]" in windows_aggregate
-assert "if: always() && needs.route.result == 'success' && needs.route.outputs.profile != 'light'" in windows_aggregate
+assert "if: always() && (needs.route.result != 'success' || needs.route.outputs.profile != 'light')" in windows_aggregate
 assert "SUITES_RESULT: ${{ needs.windows-runtime-suites.result }}" in windows_aggregate
 assert "run: test \"$SUITES_RESULT\" = success" in windows_aggregate
 for suite in ("boundaries", "repository-library"):
