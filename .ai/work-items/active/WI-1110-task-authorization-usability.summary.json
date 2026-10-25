@@ -187,6 +187,10 @@
   "preflightRepositorySnapshotDigest": "sha256:845ea70147ee8b78c3fab38be833bb45e7fc33a159b2922e7e2ca32ba83fbbc8",
   "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryRetryContractDigest": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
+  "recoveryRetryDecisionDigest": "sha256:6763824952c880ac9f7303ee05783d30ac064b3b611660827fdd6f0fb5036659",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-1110-task-authorization-usability.recovery.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -394,8 +398,8 @@
       "verificationPlan": "cargo test --locked -p cockpit-cli --test contract_amendment_processes -- --test-threads=1"
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-10-25T00:32:07.616759518Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-25T02:11:32Z",
   "verification": [
     {
       "check": "project-command-0",

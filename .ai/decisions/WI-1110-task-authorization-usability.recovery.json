@@ -1,0 +1,28 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "conversation:Sentinel_dd7dc67f6f1c8191b4c7a1ea9fdbaaed",
+  "decidedAt": "2026-10-25T02:11:31.986276+00:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "conversation:Sentinel_dd7dc67f6f1c8191b4c7a1ea9fdbaaed",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/40147351230",
+    ".ai/evidence/WI-1110-task-authorization-usability.verification.json",
+    ".ai/decisions/WI-1110-task-authorization-usability.preflight-review.json"
+  ],
+  "policyRefs": [
+    "wi1110-bounded-source-verification-ceiling"
+  ],
+  "predecessorContractDigest": "sha256:c19febe6000bbb42fd7d7b02d85f6c3c9c504ba60f3278fcb7290cbe0819037b",
+  "predecessorEventsDigest": "sha256:cc23b61d7e34295a71058c911952c132378f45059a64232716a41dd16ea3bc67",
+  "predecessorOutcomeDigest": "sha256:3255a714a54828a5dd0f1bad9f20c3f79ab3e89b9b44aa58b685bb0c2657cba7",
+  "predecessorSummaryDigest": "sha256:4ed4e1ff36b8805d4d155fc3b311171e465b8e483615c8f8744db480d8d5340d",
+  "predecessorWorkItemId": "WI-1110-task-authorization-usability",
+  "reason": "Record the actual user confirmation: 确认 WI-1110 按上述当前前任绑定执行 retry，继续原已批准的验证和交付。 The user approved the exact current predecessor binding after PR CI40147351230 failed two gates. Same-scope two-file corrections are already frozen; this retry re-enters checkpointed for fresh verification and the admitted complete-output quality supplement. The earlier formal success remains true only for its own source. Actor identifies the recording agent, not independently authenticated human identity. decidedAt is this actual relay-recording time; upstream user-message event timestamp was not supplied.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue the same WI with unchanged Contract c19febe6,55 source blobs,17 scenarios,15 commands and19 acceptance criteria; execute54 current-source nodes with fixed0729 Runtime,900-second finite budgets and one worker, preserve old attempts and all input guards, require exact final PR/main checks and independent review before normal conditional delivery; actual human close remains separate.",
+  "runtimeDigest": "sha256:0729dc7589d6fc5d466e15a5e3b7b225a94934576da3ca3bf3cbcec7d6341c5c",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1110-task-authorization-usability"
+}
