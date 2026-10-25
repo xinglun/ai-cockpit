@@ -226,8 +226,9 @@ pub use release_plan::{
     ReleaseStageTransition,
 };
 pub use usage::{
-    USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage, UsageReceipt, UsageReceiptRef,
-    UsageRecordRequest, UsageSourceKind, UsageSubtotal, UsageSummary, UsageTokenCounts, UsageUnit,
+    USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage, UsageImportRequest, UsageReceipt,
+    UsageReceiptRef, UsageRecordRequest, UsageSourceKind, UsageSubtotal, UsageSummary,
+    UsageTokenCounts, UsageUnit,
 };
 
 pub const PROTOCOL_VERSION: u32 = 1;

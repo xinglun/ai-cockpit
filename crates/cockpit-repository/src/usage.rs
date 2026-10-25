@@ -636,6 +636,16 @@ pub fn record_work_item_usage(
     request: &UsageRecordRequest,
     runtime: &RuntimeContext,
 ) -> Result<UsageReceipt, ObserverError> {
+    record_usage_from_source(root, request, runtime, |_| Ok(request.clone()))
+}
+
+pub(super) fn record_usage_from_source(
+    root: &Path,
+    context: &UsageRecordRequest,
+    runtime: &RuntimeContext,
+    resolve: impl FnOnce(&[u8]) -> Result<UsageRecordRequest, ObserverError>,
+) -> Result<UsageReceipt, ObserverError> {
+    let request = context;
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
     request
         .validate()
@@ -664,6 +674,28 @@ pub fn record_work_item_usage(
             "usage evidence is too large or its digest differs from observed bytes",
         ));
     }
+    let resolved = resolve(&evidence)?;
+    resolved
+        .validate()
+        .map_err(|message| state_error(&root, message))?;
+    if resolved.repository_id != context.repository_id
+        || resolved.work_item_id != context.work_item_id
+        || resolved.evidence_ref != context.evidence_ref
+        || resolved.evidence_digest != context.evidence_digest
+        || resolved.actor != context.actor
+        || resolved.configured_model != context.configured_model
+        || resolved.role != context.role
+        || resolved.phase != context.phase
+        || resolved.source_kind != context.source_kind
+        || resolved.unit != context.unit
+        || resolved.source_observed_at.is_some()
+    {
+        return Err(state_error(
+            &root,
+            "resolved usage source context differs from admission",
+        ));
+    }
+    let request = &resolved;
     let lock = usage_lock(&root, true)?;
     lock.lock()
         .map_err(|source| read_error(&root.join(".ai/locks/usage.lock"), source))?;

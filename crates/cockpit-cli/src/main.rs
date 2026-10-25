@@ -943,6 +943,13 @@ enum WorkItemCommand {
 
 #[derive(Debug, Subcommand)]
 enum WorkItemUsageCommand {
+    /// Import exact counters from one explicitly supplied completed response.
+    Import {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        input: PathBuf,
+    },
     /// Append one strict UsageRecordRequest JSON claim.
     Record {
         #[arg(long)]
@@ -3354,6 +3361,20 @@ fn run() -> Result<()> {
                 }
             }
             WorkItemCommand::Usage { command } => match command {
+                WorkItemUsageCommand::Import { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::UsageImportRequest = serde_json::from_slice(
+                        &std::fs::read(&input)
+                            .with_context(|| format!("read usage import {}", input.display()))?,
+                    )
+                    .context("parse strict UsageImportRequest")?;
+                    let receipt = cockpit_repository::import_work_item_usage(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )?;
+                    println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
                 WorkItemUsageCommand::Record { repo, input } => {
                     require_compatible(&repo, &runtime_context)?;
                     let request: cockpit_protocol::UsageRecordRequest = serde_json::from_slice(

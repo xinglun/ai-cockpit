@@ -70,6 +70,7 @@ mod rust_material;
 mod status_projection;
 mod task_authorization;
 mod usage;
+mod usage_import;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
@@ -242,6 +243,7 @@ pub use usage::{
     query_work_item_usage, read_work_item_usage, read_work_item_usage_receipts,
     record_work_item_usage,
 };
+pub use usage_import::import_work_item_usage;
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
