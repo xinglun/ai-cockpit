@@ -2271,7 +2271,7 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
         directory.path(),
         work_item_id,
         "refresh stale verification after committing source",
-        "a finish-ready Work Item can reverify the committed source snapshot",
+        "a committed source change needs native retry, fresh preflight, replacement verification, and explicit finish",
         &["src.rs".into()],
         &start_options(),
     )
@@ -2350,7 +2350,7 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
     );
 
     let refreshed = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
-        .expect("finish-ready retry preflight");
+        .expect("finish-ready retry preflight before recording the retry");
     assert_eq!(refreshed.state, DecisionState::Yellow);
     assert!(
         refreshed
@@ -2359,6 +2359,41 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
             .any(|unknown| unknown == "evidence_stale"),
         "the changed source must still require replacement verification: {refreshed:?}"
     );
+
+    let active = directory.path().join(".ai/work-items/active");
+    let contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract).expect("Contract")).expect("Contract JSON");
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("Outcome")).expect("Outcome JSON");
+    let events_path = active.join(format!("{work_item_id}.events.jsonl"));
+    let events = fs::read(&events_path).expect("Events bytes");
+    let retry = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "retry",
+        "workItemId": work_item_id,
+        "repositoryId": repository_id(directory.path()).to_string(),
+        "predecessorWorkItemId": work_item_id,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract_value).expect("Contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(&events),
+        "runtimeVersion": runtime.runtime_version.clone(),
+        "runtimeDigest": runtime.runtime_digest.to_string(),
+        "actor": "human:test-fixture",
+        "authoritySource": "lifecycle integration fixture",
+        "reason": "replace stale verification after a committed source change",
+        "evidenceRefs": [],
+        "policyRefs": [],
+        "decidedAt": "2026-10-25T12:00:00Z",
+        "resumeCondition": "current preflight, replacement verification, and explicit finish"
+    });
+    record_recovery_decision(directory.path(), work_item_id, &retry, &runtime)
+        .expect("bind native retry to exact predecessor artifacts");
     let current_status =
         work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
             .expect("finish-ready refreshed status");
@@ -2370,6 +2405,8 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
     );
 
     verify("after-commit");
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("explicit finish after replacement verification");
     archive_work_item(directory.path(), work_item_id).expect("archive replacement evidence");
 }
 

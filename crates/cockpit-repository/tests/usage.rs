@@ -1,12 +1,12 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    RuntimeContext, UsageAssurance, UsageCoverage, UsageImportRequest, UsageReceipt,
+    OutcomeState, RuntimeContext, UsageAssurance, UsageCoverage, UsageImportRequest, UsageReceipt,
     UsageRecordRequest, UsageSourceKind, UsageUnit,
 };
 use cockpit_repository::{
     OutcomeRenderView, WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_decision, finish_work_item, import_work_item_usage, outcome_render_input,
-    preflight_work_item, query_work_item_usage, read_work_item_usage,
+    outcome_v2, preflight_work_item, query_work_item_usage, read_work_item_usage,
     read_work_item_usage_receipts, record_verification, record_work_item_usage,
     render_human_outcome_with_view, start_work_item_with_options,
     work_item_status_snapshot_with_runtime,
@@ -117,6 +117,110 @@ fn finish_with_usage(root: &std::path::Path, id: &str) -> String {
         .receipt_refs[0]
         .path
         .clone()
+}
+
+fn rewrite_archived_report_digest_chain(root: &std::path::Path, id: &str, report_bytes: &[u8]) {
+    let archive = root.join(".ai/work-items/archive");
+    let report_digest = Digest::sha256_bytes(report_bytes).to_string();
+    let summary_path = archive.join(format!("{id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"]["taskReportJsonDigest"] =
+        report_digest.clone().into();
+    let summary_bytes = serde_json::to_vec_pretty(&summary).expect("serialize Summary");
+    fs::write(&summary_path, &summary_bytes).expect("rewrite Summary digest binding");
+
+    let events_path = archive.join(format!("{id}.events.jsonl"));
+    let events = fs::read_to_string(&events_path).expect("events");
+    let rebound_events = events
+        .lines()
+        .map(|line| {
+            let mut event: serde_json::Value = serde_json::from_str(line).expect("event JSON");
+            if event["eventType"] == "completed" {
+                event["projectionBinding"]["taskReportJsonDigest"] = report_digest.clone().into();
+            }
+            serde_json::to_string(&event).expect("serialize event")
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    fs::write(&events_path, &rebound_events).expect("rewrite event digest binding");
+
+    let outcome_path = archive.join(format!("{id}.outcome.json"));
+    let mut outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("Outcome")).expect("Outcome JSON");
+    outcome["taskReportDigest"] = report_digest.clone().into();
+    let outcome_bytes = serde_json::to_vec_pretty(&outcome).expect("serialize Outcome");
+    fs::write(&outcome_path, &outcome_bytes).expect("rewrite Outcome digest binding");
+
+    let manifest_path = archive.join(format!("{id}.archive.json"));
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).expect("manifest"))
+            .expect("manifest JSON");
+    manifest["files"]["taskReportDigest"] = report_digest.into();
+    manifest["files"]["summaryDigest"] = Digest::sha256_bytes(&summary_bytes).to_string().into();
+    manifest["files"]["eventsDigest"] = Digest::sha256_bytes(rebound_events.as_bytes())
+        .to_string()
+        .into();
+    manifest["files"]["outcomeDigest"] = Digest::sha256_bytes(&outcome_bytes).to_string().into();
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("rewrite manifest digest chain");
+}
+
+#[test]
+fn archived_report_reference_tamper_is_rejected_after_local_digest_rebinding() {
+    let root = repository();
+    let id = "WI-USAGE-REPORT-REFERENCE-TAMPER";
+    finish_with_usage(root.path(), id);
+    archive_work_item(root.path(), id).expect("archive");
+
+    let report_path = root
+        .path()
+        .join(format!(".ai/work-items/archive/{id}.task-report.json"));
+    let mut report: serde_json::Value =
+        serde_json::from_slice(&fs::read(&report_path).expect("report bytes"))
+            .expect("report JSON");
+    report["bindings"]["evidenceRefs"] = serde_json::json!([".ai/evidence/foreign-receipt.json"]);
+    let report_bytes = serde_json::to_vec_pretty(&report).expect("serialize report");
+    fs::write(&report_path, &report_bytes).expect("write changed evidence reference");
+    rewrite_archived_report_digest_chain(root.path(), id, &report_bytes);
+
+    let observed = outcome_v2(root.path(), id).expect("read archived outcome");
+    assert_ne!(
+        observed.state,
+        OutcomeState::Verified,
+        "rebound file and manifest digests must not make a report differ from its frozen Outcome copy"
+    );
+}
+
+#[test]
+fn archived_usage_count_tamper_is_rejected_after_local_digest_rebinding() {
+    let root = repository();
+    let id = "WI-USAGE-REPORT-COUNT-TAMPER";
+    finish_with_usage(root.path(), id);
+    archive_work_item(root.path(), id).expect("archive");
+
+    let report_path = root
+        .path()
+        .join(format!(".ai/work-items/archive/{id}.task-report.json"));
+    let mut report: serde_json::Value =
+        serde_json::from_slice(&fs::read(&report_path).expect("report bytes"))
+            .expect("report JSON");
+    report["usage"]["totals"]["inputTokens"] = serde_json::json!(11);
+    report["usage"]["subtotals"][0]["counts"]["inputTokens"] = serde_json::json!(11);
+    let report_bytes = serde_json::to_vec_pretty(&report).expect("serialize report");
+    fs::write(&report_path, &report_bytes).expect("write changed usage counts");
+    rewrite_archived_report_digest_chain(root.path(), id, &report_bytes);
+
+    let observed = outcome_v2(root.path(), id).expect("read archived outcome");
+    assert_ne!(
+        observed.state,
+        OutcomeState::Verified,
+        "recomputed local digest bindings must not turn an altered usage count into a verified frozen snapshot"
+    );
 }
 
 #[test]
@@ -372,9 +476,15 @@ fn removed_archived_receipt_blocks_close_without_rewriting_archive() {
 fn closed_with_late_usage(root: &std::path::Path, id: &str) -> (String, Vec<u8>) {
     let finish_reference = finish_with_usage(root, id);
     archive_work_item(root, id).expect("archive finish report");
+    let archive_report_path = root.join(format!(".ai/work-items/archive/{id}.task-report.json"));
+    let archive_report_bytes = fs::read(&archive_report_path).expect("frozen archive report");
     record_work_item_usage(root, &request(root, id, "turn-after-archive"), &runtime())
         .expect("record late usage before close");
     close_work_item_with_decision(root, id, "approved").expect("close with late usage");
+    assert_eq!(
+        fs::read(&archive_report_path).expect("archive report remains frozen"),
+        archive_report_bytes
+    );
     let close_path = root.join(format!(".ai/decisions/{id}.close.json"));
     let close_bytes = fs::read(&close_path).expect("frozen close bytes");
     let refs = read_work_item_usage(root, id, None)
@@ -606,12 +716,16 @@ fn close_with_usage_claim_cannot_become_historical_by_dropping_cutoff() {
     assert!(error.to_string().contains("frozen usage"), "{error}");
     let status = work_item_status_snapshot_with_runtime(root.path(), id, &runtime())
         .expect("read-only status reports invalid frozen usage");
-    assert_ne!(status.lifecycle_phase, "closed");
+    assert_ne!(
+        status.lifecycle_phase, "closed",
+        "unexpected closed status with unknowns={:?} and blockers={:?}",
+        status.unknowns, status.blockers
+    );
     assert!(status.unknowns.contains(&"frozen_usage_invalid".into()));
 }
 
 #[test]
-fn legacy_closed_report_without_usage_fields_remains_readable() {
+fn current_policy_report_cannot_be_downgraded_to_legacy_by_removing_usage_fields() {
     let root = repository();
     let id = "WI-USAGE-LEGACY-CLOSE";
     start(root.path(), id);
@@ -643,53 +757,12 @@ fn legacy_closed_report_without_usage_fields_remains_readable() {
         serde_json::to_vec_pretty(&report).expect("report JSON"),
     )
     .expect("make pre-usage report shape");
-    archive_work_item(root.path(), id).expect("archive legacy shape");
-    let archived_report_path = root
-        .path()
-        .join(format!(".ai/work-items/archive/{id}.task-report.json"));
-    let archived_historical_bytes =
-        fs::read(&archived_report_path).expect("archived historical report bytes");
-    close_work_item_with_decision(root.path(), id, "approved").expect("close");
-    let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
-    let mut close: serde_json::Value =
-        serde_json::from_slice(&fs::read(&path).expect("close")).expect("close JSON");
-    close["finalReport"]
-        .as_object_mut()
-        .expect("historical final report")
-        .remove("usage");
-    close["finalReportDigest"] = cockpit_protocol::digest_json(&close["finalReport"])
-        .expect("historical final report digest")
-        .to_string()
-        .into();
-    close
-        .as_object_mut()
-        .expect("close object")
-        .remove("usageCutoff");
-    fs::write(
-        &path,
-        serde_json::to_vec_pretty(&close).expect("close JSON"),
-    )
-    .expect("make pre-usage close shape");
-    let summary = read_work_item_usage(root.path(), id, None)
-        .expect("historical absence is represented as unknown");
-    assert_eq!(summary.coverage, UsageCoverage::Unknown);
-    assert_eq!(summary.unknown_reasons, ["no_usage_receipts"]);
-    assert_eq!(summary.totals.input_tokens, None);
-    assert_eq!(
-        fs::read(&archived_report_path).expect("unchanged archived historical report"),
-        archived_historical_bytes
+    let error = archive_work_item(root.path(), id)
+        .expect_err("current policy binding rejects a report rewritten as legacy");
+    assert!(
+        error.to_string().contains("policy") || error.to_string().contains("binding"),
+        "{error}"
     );
-    close["finalReportDigest"] = Digest::sha256_bytes(b"wrong historical report")
-        .to_string()
-        .into();
-    fs::write(
-        &path,
-        serde_json::to_vec_pretty(&close).expect("close JSON"),
-    )
-    .expect("tamper historical digest");
-    let error = read_work_item_usage(root.path(), id, None)
-        .expect_err("historical close still binds its final report digest");
-    assert!(error.to_string().contains("frozen usage"), "{error}");
 }
 
 #[cfg(windows)]

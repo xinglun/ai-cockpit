@@ -105,6 +105,7 @@ fn event(
         related_event_ids,
         correction_of: correction_of.map(str::to_owned),
         finding_fingerprint: fingerprint.map(str::to_owned),
+        projection_binding: None,
     }
 }
 

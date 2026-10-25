@@ -10638,7 +10638,24 @@ fn archive_work_item_internal(
     }
     if outcome.get("taskOutcomeReport").is_some() {
         let events_path = task_outcome_event_path(&root, work_item_id, false);
-        validate_task_outcome_events(&root, &events_path, &contract.repository_id, work_item_id)?;
+        let events = validate_task_outcome_events(
+            &root,
+            &events_path,
+            &contract.repository_id,
+            work_item_id,
+        )?;
+        validate_active_task_outcome_projection_binding(
+            &root,
+            work_item_id,
+            &contract,
+            &summary,
+            &outcome,
+            &events,
+            &snapshot_digest(&snapshot).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?,
+        )?;
     }
     fs::create_dir_all(&archive).map_err(|source| ObserverError::Read {
         path: archive.clone(),
@@ -10724,6 +10741,31 @@ fn archive_work_item_internal(
             source_bytes.clone()
         } else {
             normalized_archive_artifact_bytes(&suffix, &source_bytes, work_item_id)?
+        };
+        let archived_bytes = if cutoff_bound_report && suffix == "outcome.json" {
+            // Keep the embedded Task Outcome facts byte-equivalent to the
+            // separately frozen JSON report. Archive path resolution happens
+            // when reading references; rewriting this embedded copy would
+            // make the archive contain two different versions of the report.
+            let mut normalized: serde_json::Value = serde_json::from_slice(&archived_bytes)
+                .map_err(|error| ObserverError::State {
+                    path: target.clone(),
+                    message: format!("invalid normalized Outcome while preserving report: {error}"),
+                })?;
+            let original: serde_json::Value =
+                serde_json::from_slice(&source_bytes).map_err(|error| ObserverError::State {
+                    path: source_path.clone(),
+                    message: format!("invalid active Outcome while preserving report: {error}"),
+                })?;
+            if let Some(report) = original.get("taskOutcomeReport") {
+                normalized["taskOutcomeReport"] = report.clone();
+            }
+            serde_json::to_vec_pretty(&normalized).map_err(|error| ObserverError::State {
+                path: target.clone(),
+                message: format!("serialize frozen Outcome report copy: {error}"),
+            })?
+        } else {
+            archived_bytes
         };
         if target.exists() {
             return Err(ObserverError::State {
@@ -12061,6 +12103,34 @@ fn validate_archived_task_outcome_projection_binding(
             path: report_path.clone(),
             message: format!("archived Task Outcome JSON schema is unsupported: {error}"),
         })?;
+    let outcome_report: TaskOutcomeReport =
+        serde_json::from_value(outcome["taskOutcomeReport"].clone()).map_err(|error| {
+            ObserverError::State {
+                path: outcome_path.clone(),
+                message: format!("archived Outcome Task Outcome copy is invalid: {error}"),
+            }
+        })?;
+    if outcome_report != report {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message:
+                "archived Task Outcome JSON differs from the frozen report embedded in Outcome"
+                    .into(),
+        });
+    }
+    if report.format != policy.json_format
+        || report.schema_version != policy.json_schema_version
+        || report.work_item_id != policy.work_item_id
+        || report.bindings.repository_id != policy.repository_id
+        || report.bindings.work_item_id != policy.work_item_id
+        || report.bindings.repository_snapshot_digest.as_ref()
+            != Some(&policy.source_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: report_path,
+            message: "archived Task Outcome JSON format, schema, or identity differs from its fixed projection policy".into(),
+        });
+    }
     let canonical_json =
         serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
             path: report_path.clone(),
@@ -12188,15 +12258,174 @@ fn validate_task_outcome_projection_predecessors(
     Ok(())
 }
 
+fn validate_active_task_outcome_projection_binding(
+    root: &Path,
+    work_item_id: &str,
+    contract: &Contract,
+    summary: &serde_json::Value,
+    outcome: &serde_json::Value,
+    events: &[cockpit_protocol::TaskOutcomeEvent],
+    current_snapshot_digest: &Digest,
+) -> Result<(), ObserverError> {
+    let active = root.join(".ai/work-items/active");
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let policy = serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionPolicy>(
+        summary["taskOutcomeProjectionPolicy"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("active Task Outcome projection policy is missing or invalid: {error}"),
+    })?;
+    let binding = serde_json::from_value::<cockpit_protocol::TaskOutcomeProjectionFinishBinding>(
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].clone(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("active Task Outcome finish binding is missing or invalid: {error}"),
+    })?;
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let contract_digest = contract_digest(&contract_path)?;
+    validate_task_outcome_projection_policy(
+        &policy,
+        &contract.repository_id,
+        work_item_id,
+        &contract_digest,
+        current_snapshot_digest,
+    )
+    .map_err(|message| ObserverError::State {
+        path: summary_path.clone(),
+        message,
+    })?;
+    let policy_digest =
+        cockpit_protocol::digest_json(&policy).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    let report_path = active.join(format!("{work_item_id}.task-report.json"));
+    let report_bytes =
+        read_governance_bytes(&report_path).map_err(|source| ObserverError::Read {
+            path: report_path.clone(),
+            source,
+        })?;
+    let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let markdown_bytes =
+        read_governance_bytes(&markdown_path).map_err(|source| ObserverError::Read {
+            path: markdown_path.clone(),
+            source,
+        })?;
+    let completed = events
+        .iter()
+        .rev()
+        .find(|event| event.event_type == "completed")
+        .ok_or_else(|| ObserverError::State {
+            path: task_outcome_event_path(root, work_item_id, false),
+            message: "active Task Outcome has no completion event".into(),
+        })?;
+    if binding.schema_version != 1
+        || binding.projection_policy_digest != policy_digest
+        || binding.task_report_json_digest != Digest::sha256_bytes(&report_bytes)
+        || binding.task_report_markdown_digest != Digest::sha256_bytes(&markdown_bytes)
+        || outcome["taskReportDigest"] != binding.task_report_json_digest.to_string()
+        || outcome["taskReportMarkdownDigest"] != binding.task_report_markdown_digest.to_string()
+        || completed.projection_binding.as_ref() != Some(&binding)
+    {
+        return Err(ObserverError::State {
+            path: report_path,
+            message:
+                "active Task Outcome policy, finish, Outcome, event, and report bytes do not agree"
+                    .into(),
+        });
+    }
+    let report_value: serde_json::Value =
+        serde_json::from_slice(&report_bytes).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("active Task Outcome JSON is invalid: {error}"),
+        })?;
+    let report: TaskOutcomeReport =
+        serde_json::from_value(report_value.clone()).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("active Task Outcome JSON schema is unsupported: {error}"),
+        })?;
+    let embedded_report: TaskOutcomeReport =
+        serde_json::from_value(outcome["taskOutcomeReport"].clone()).map_err(|error| {
+            ObserverError::State {
+                path: outcome_path.clone(),
+                message: format!("active Outcome Task Outcome copy is invalid: {error}"),
+            }
+        })?;
+    if embedded_report != report
+        || report.format != policy.json_format
+        || report.schema_version != policy.json_schema_version
+        || report.work_item_id != work_item_id
+        || report.bindings.repository_id != contract.repository_id
+        || report.bindings.work_item_id != work_item_id
+        || report.bindings.repository_snapshot_digest.as_ref()
+            != Some(&policy.source_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: report_path,
+            message:
+                "active Task Outcome JSON differs from its fixed finish policy or Outcome copy"
+                    .into(),
+        });
+    }
+    let canonical_json =
+        serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: error.to_string(),
+        })?;
+    if canonical_json != report_bytes {
+        return Err(task_outcome_projection_mismatch(
+            &report_path,
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            &canonical_json,
+            &report_bytes,
+        ));
+    }
+    let canonical_markdown = task_outcome_markdown(&report).into_bytes();
+    if canonical_markdown != markdown_bytes {
+        return Err(task_outcome_projection_mismatch(
+            &markdown_path,
+            "Markdown",
+            &format!(
+                "{}/v{}",
+                policy.markdown_renderer, policy.markdown_renderer_version
+            ),
+            &canonical_markdown,
+            &markdown_bytes,
+        ));
+    }
+    Ok(())
+}
+
 fn validate_legacy_archive_git_anchor(
     root: &Path,
     work_item_id: &str,
     manifest: &serde_json::Value,
 ) -> Result<(), ObserverError> {
     let manifest_path = format!(".ai/work-items/archive/{work_item_id}.archive.json");
-    let revision = git_text(root, &["rev-parse", "HEAD"]).ok_or_else(|| ObserverError::State {
+    let revisions = git_text(
+        root,
+        &[
+            "log",
+            "--reverse",
+            "--diff-filter=A",
+            "--format=%H",
+            "HEAD",
+            "--",
+            &manifest_path,
+        ],
+    )
+    .filter(|revisions| !revisions.trim().is_empty())
+    .ok_or_else(|| ObserverError::State {
         path: root.join(&manifest_path),
-        message: "legacy Task Outcome has no fixed Git revision or historical evidence receipt; preserve the raw report and use a Runtime with a supported adapter".into(),
+        message: "legacy Task Outcome has no fixed archive-introduction revision; preserve the raw report and use a Runtime with a supported adapter".into(),
+    })?;
+    let revision = revisions.lines().next().ok_or_else(|| ObserverError::State {
+        path: root.join(&manifest_path),
+        message: "legacy Task Outcome has no fixed archive-introduction revision; preserve the raw report and use a Runtime with a supported adapter".into(),
     })?;
     let mut paths = vec![
         manifest_path,
@@ -12215,7 +12444,7 @@ fn validate_legacy_archive_git_anchor(
     }
     let evidence_path = format!(".ai/evidence/{work_item_id}.verification.json");
     for path in paths {
-        let committed = git_revision_blob_bytes(root, &revision, &path).map_err(|_| ObserverError::State {
+        let committed = git_revision_blob_bytes(root, revision, &path).map_err(|_| ObserverError::State {
             path: root.join(&path),
             message: format!("legacy Task Outcome path {path} is not present at fixed Git revision {revision}"),
         })?;
@@ -12233,23 +12462,248 @@ fn validate_legacy_archive_git_anchor(
             });
         }
     }
-    if let Ok(committed) = git_revision_blob_bytes(root, &revision, &evidence_path) {
+    if manifest["files"]["taskReportDigest"].is_string() {
+        let report_path = root.join(format!(
+            ".ai/work-items/archive/{work_item_id}.task-report.json"
+        ));
+        let report_bytes =
+            read_governance_bytes(&report_path).map_err(|source| ObserverError::Read {
+                path: report_path.clone(),
+                source,
+            })?;
+        let report_value: serde_json::Value =
+            serde_json::from_slice(&report_bytes).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: format!("legacy Task Outcome JSON is invalid: {error}"),
+            })?;
+        let report: TaskOutcomeReport =
+            serde_json::from_value(report_value.clone()).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: format!("legacy Task Outcome JSON schema is unsupported: {error}"),
+            })?;
+        if report.format != "ai-cockpit.task-outcome"
+            || report.schema_version != 1
+            || report.work_item_id != work_item_id
+            || report.bindings.work_item_id != work_item_id
+            || report.bindings.repository_id != repository_id(root).to_string()
+        {
+            return Err(ObserverError::State {
+                path: report_path,
+                message: "legacy Task Outcome JSON format, schema, or identity is unsupported"
+                    .into(),
+            });
+        }
+        let canonical_json =
+            serde_json::to_vec_pretty(&report_value).map_err(|error| ObserverError::State {
+                path: report_path.clone(),
+                message: error.to_string(),
+            })?;
+        if canonical_json != report_bytes {
+            return Err(task_outcome_projection_mismatch(
+                &report_path,
+                "JSON",
+                "ai-cockpit.task-outcome/schema-v1",
+                &canonical_json,
+                &report_bytes,
+            ));
+        }
+        let fixed_verification = fixed_legacy_verification_receipt(
+            root,
+            revision,
+            work_item_id,
+            &evidence_path,
+            &report,
+        )?;
         let current = read_governance_bytes(root.join(&evidence_path)).map_err(|source| {
             ObserverError::Read {
                 path: root.join(&evidence_path),
                 source,
             }
         })?;
-        if committed != current {
+        if current != fixed_verification {
             return Err(ObserverError::State {
-                path: root.join(evidence_path),
-                message: format!(
-                    "legacy Task Outcome verification receipt differs from fixed Git revision {revision}"
-                ),
+                path: root.join(&evidence_path),
+                message: "legacy Task Outcome verification receipt differs from the unique fixed receipt bound by its archived report".into(),
             });
         }
+        let verification: VerificationEvidenceEnvelope =
+            serde_json::from_slice(&fixed_verification).map_err(|error| ObserverError::State {
+                path: root.join(&evidence_path),
+                message: format!("fixed legacy verification receipt is invalid: {error}"),
+            })?;
+        if manifest["files"]["taskReportMarkdownDigest"].is_string() {
+            let markdown_path = root.join(format!(
+                ".ai/work-items/archive/{work_item_id}.task-report.md"
+            ));
+            let markdown_bytes =
+                read_governance_bytes(&markdown_path).map_err(|source| ObserverError::Read {
+                    path: markdown_path.clone(),
+                    source,
+                })?;
+            let canonical_markdown =
+                task_outcome_markdown_legacy_for_runtime(&report, &verification.runtime_version)
+                    .map_err(|message| ObserverError::State {
+                        path: report_path.clone(),
+                        message,
+                    })?
+                    .into_bytes();
+            if canonical_markdown != markdown_bytes {
+                return Err(task_outcome_projection_mismatch(
+                    &markdown_path,
+                    "Markdown",
+                    "ai-cockpit.task-outcome-markdown/v1",
+                    &canonical_markdown,
+                    &markdown_bytes,
+                ));
+            }
+        }
+    } else if manifest["files"]["taskReportMarkdownDigest"].is_string() {
+        return Err(ObserverError::State {
+            path: root.join(format!(
+                ".ai/work-items/archive/{work_item_id}.task-report.md"
+            )),
+            message: "legacy Task Outcome Markdown has no bound canonical JSON source".into(),
+        });
     }
     Ok(())
+}
+
+/// Select the one historical verification receipt whose fixed Git bytes
+/// match the immutable report's repository, Work Item, and source snapshot.
+/// Some legacy archives committed their report before a final verification
+/// receipt update; anchoring only at archive introduction would reject those
+/// otherwise byte-stable closed records. A later arbitrary receipt is never
+/// accepted: the matching revision must exist in Git history and the current
+/// receipt must still equal its exact bytes.
+fn fixed_legacy_verification_receipt(
+    root: &Path,
+    archive_revision: &str,
+    work_item_id: &str,
+    evidence_path: &str,
+    report: &TaskOutcomeReport,
+) -> Result<Vec<u8>, ObserverError> {
+    let path = root.join(evidence_path);
+    let repository_id = repository_id(root).to_string();
+    let expected_snapshot = report.bindings.repository_snapshot_digest.as_ref();
+    if report.bindings.repository_id != repository_id
+        || report.bindings.work_item_id != work_item_id
+        || report.work_item_id != work_item_id
+        || expected_snapshot.is_none()
+        || !report
+            .bindings
+            .evidence_refs
+            .iter()
+            .any(|reference| reference == evidence_path)
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "legacy Task Outcome report does not bind its fixed verification receipt and source snapshot".into(),
+        });
+    }
+    if git_text(
+        root,
+        &["merge-base", "--is-ancestor", archive_revision, "HEAD"],
+    )
+    .is_none()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "legacy Task Outcome archive-introduction revision is not an ancestor of the current Git history".into(),
+        });
+    }
+    let mut revisions = vec![archive_revision.to_owned()];
+    if let Some(descendants) = git_text(
+        root,
+        &[
+            "log",
+            "--reverse",
+            "--format=%H",
+            &format!("{archive_revision}..HEAD"),
+            "--",
+            evidence_path,
+        ],
+    ) {
+        revisions.extend(
+            descendants
+                .lines()
+                .filter(|revision| !revision.is_empty())
+                .map(str::to_owned),
+        );
+    }
+
+    let mut candidates = Vec::<(String, Vec<u8>)>::new();
+    for revision in revisions {
+        let Ok(bytes) = git_revision_blob_bytes(root, &revision, evidence_path) else {
+            continue;
+        };
+        if !legacy_verification_receipt_matches_report(
+            &bytes,
+            work_item_id,
+            &repository_id,
+            expected_snapshot.expect("checked above"),
+        ) {
+            continue;
+        }
+        if !candidates
+            .iter()
+            .any(|(_, existing)| existing.as_slice() == bytes.as_slice())
+        {
+            candidates.push((revision, bytes));
+        }
+    }
+    if candidates.len() != 1 {
+        return Err(ObserverError::State {
+            path,
+            message: format!(
+                "legacy Task Outcome report has {} fixed Git verification receipts matching its source identity; preserve the report and use a Runtime with a supported adapter",
+                candidates.len()
+            ),
+        });
+    }
+    Ok(candidates.remove(0).1)
+}
+
+fn legacy_verification_receipt_matches_report(
+    bytes: &[u8],
+    work_item_id: &str,
+    repository_id: &str,
+    source_snapshot_digest: &Digest,
+) -> bool {
+    if reject_duplicate_json_keys(bytes).is_err() {
+        return false;
+    }
+    let Ok(value) = serde_json::from_slice::<serde_json::Value>(bytes) else {
+        return false;
+    };
+    let Ok(evidence) = serde_json::from_value::<VerificationEvidenceEnvelope>(value.clone()) else {
+        return false;
+    };
+    let Some(raw_receipt) = value.get("receipt") else {
+        return false;
+    };
+    let Ok(receipt) =
+        serde_json::from_value::<cockpit_verification::VerificationReceipt>(raw_receipt.clone())
+    else {
+        return false;
+    };
+    evidence.protocol_version == 1
+        && evidence.evidence_schema_version == 2
+        && evidence.work_item_id == work_item_id
+        && evidence.repository_id == repository_id
+        && evidence.repository_snapshot_digest == *source_snapshot_digest
+        && evidence.passed
+        && !evidence.runtime_version.trim().is_empty()
+        && matches!(
+            evidence.capture_mode,
+            VerificationCaptureMode::FullCapture | VerificationCaptureMode::RedactedCapture
+        )
+        && cockpit_protocol::digest_json(raw_receipt).ok().as_ref()
+            == Some(&evidence.receipt_digest)
+        && receipt.passed
+        && receipt.work_item_id.as_deref() == Some(work_item_id)
+        && receipt.repository_id.as_deref() == Some(repository_id)
+        && receipt.runtime_version.as_deref() == Some(evidence.runtime_version.as_str())
+        && receipt.runtime_digest.as_deref() == Some(evidence.runtime_digest.to_string().as_str())
 }
 
 fn git_revision_blob_bytes(
@@ -12928,16 +13382,16 @@ pub(crate) fn validate_task_outcome_projection_policy(
             != cockpit_protocol::TASK_OUTCOME_MARKDOWN_RENDERER_VERSION
     {
         return Err(format!(
-            "unsupported Task Outcome Markdown renderer {}/v{}; preserve the original report and use a Runtime with an explicit adapter",
-            policy.markdown_renderer, policy.markdown_renderer_version
+            "unsupported Task Outcome Markdown renderer (identifier redacted), version {}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.markdown_renderer_version
         ));
     }
     if policy.json_format != cockpit_protocol::TASK_OUTCOME_JSON_FORMAT
         || policy.json_schema_version != cockpit_protocol::TASK_OUTCOME_JSON_SCHEMA_VERSION
     {
         return Err(format!(
-            "unsupported Task Outcome JSON projection {}/schema v{}; preserve the original report and use a Runtime with an explicit adapter",
-            policy.json_format, policy.json_schema_version
+            "unsupported Task Outcome JSON projection (format identifier redacted), schema version {}; preserve the original report and use a Runtime with an explicit adapter",
+            policy.json_schema_version
         ));
     }
     if policy.repository_id != repository_id
@@ -12968,7 +13422,7 @@ pub(crate) fn task_outcome_projection_mismatch(
             (Ok(expected), Ok(actual)) => first_json_difference(&expected, &actual, ""),
             _ => None,
         }
-        .map(|pointer| format!("first differing JSON pointer {pointer}"))
+        .map(|pointer| safe_json_difference_location(&pointer))
         .unwrap_or_else(|| {
             format!(
                 "first differing byte {}",
@@ -12984,12 +13438,29 @@ pub(crate) fn task_outcome_projection_mismatch(
             + 1;
         format!("first differing Markdown line {line}, byte {offset}")
     };
+    let safe_profile = match (material, profile) {
+        ("JSON", "ai-cockpit.task-outcome/schema-v1") => profile,
+        ("Markdown", "ai-cockpit.task-outcome-markdown/v1") => profile,
+        ("Markdown", "ai-cockpit.task-outcome-markdown/v2") => profile,
+        ("JSON", _) => "unrecognized JSON projection (identifier redacted)",
+        ("Markdown", _) => "unrecognized Markdown projection (identifier redacted)",
+        _ => "unrecognized projection (identifier redacted)",
+    };
     ObserverError::State {
         path: path.to_path_buf(),
         message: format!(
-            "Task Outcome {material} projection ({profile}) differs from its canonical finish bytes; expected {expected_digest}, actual {actual_digest}; {location}. Preserve the original evidence and use a Runtime with an explicit compatible adapter."
+            "Task Outcome {material} projection ({safe_profile}) differs from its canonical finish bytes; expected {expected_digest}, actual {actual_digest}; {location}. Preserve the original evidence and use a Runtime with an explicit compatible adapter."
         ),
     }
+}
+
+fn safe_json_difference_location(pointer: &str) -> String {
+    let depth = pointer
+        .split('/')
+        .skip(1)
+        .filter(|segment| !segment.is_empty())
+        .count();
+    format!("first differing JSON location at nesting depth {depth} (object keys redacted)")
 }
 
 fn first_differing_byte(left: &[u8], right: &[u8]) -> usize {
@@ -13052,6 +13523,100 @@ mod task_outcome_projection_diagnostic_tests {
     use super::*;
 
     #[test]
+    fn preserved_historical_reports_match_the_exact_legacy_markdown_renderer() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .canonicalize()
+            .expect("workspace root");
+        for work_item_id in [
+            "WI-1076-governance-recovered-predecessor-projection",
+            "WI-1078-v1-0-1-post-merge-sync-finalization",
+            "WI-1043-amendment-review-admission-fix",
+            "WI-677-wi657-lifecycle-concurrency-successor",
+            "WI-754-runtime-recovery-digest",
+            "WI-755-p1-observation-context-successor",
+            "WI-798-collaboration-observability-performance",
+            "WI-902-verification-receipt-snapshot-boundary",
+            "WI-936-interface-ssot",
+            "WI-903-precheckpoint-contract-scope",
+            "WI-937-outcome-archive-delivery-facts",
+            "WI-769-performance-terminal-docs",
+            "WI-771-wi770-doc-promotion",
+        ] {
+            let archive = root.join(".ai/work-items/archive");
+            let report_bytes = fs::read(archive.join(format!("{work_item_id}.task-report.json")))
+                .expect("preserved historical report");
+            let report: TaskOutcomeReport =
+                serde_json::from_slice(&report_bytes).expect("historical report schema");
+            let verification = read_json(
+                &root
+                    .join(".ai/evidence")
+                    .join(format!("{work_item_id}.verification.json")),
+            )
+            .expect("fixed historical verification receipt");
+            let runtime_version = verification["runtimeVersion"]
+                .as_str()
+                .expect("historical producer version");
+            let markdown = fs::read(archive.join(format!("{work_item_id}.task-report.md")))
+                .expect("preserved historical Markdown");
+            assert_eq!(
+                task_outcome_markdown_legacy_for_runtime(&report, runtime_version)
+                    .expect("supported fixed historical renderer")
+                    .as_bytes(),
+                markdown,
+                "historical renderer mismatch for {work_item_id}"
+            );
+        }
+    }
+
+    #[test]
+    fn historical_legacy_runtimes_markdown_matches_one_exact_legacy_v1_shape() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../..")
+            .canonicalize()
+            .expect("workspace root");
+        for work_item_id in [
+            "WI-903-precheckpoint-contract-scope",
+            "WI-937-outcome-archive-delivery-facts",
+            "WI-769-performance-terminal-docs",
+            "WI-771-wi770-doc-promotion",
+        ] {
+            let archive = root.join(".ai/work-items/archive");
+            let report_bytes = fs::read(archive.join(format!("{work_item_id}.task-report.json")))
+                .expect("preserved historical report");
+            let report: TaskOutcomeReport =
+                serde_json::from_slice(&report_bytes).expect("historical report schema");
+            let markdown = fs::read(archive.join(format!("{work_item_id}.task-report.md")))
+                .expect("preserved historical Markdown");
+            let verification = read_json(
+                &root
+                    .join(".ai/evidence")
+                    .join(format!("{work_item_id}.verification.json")),
+            )
+            .expect("fixed historical verification receipt");
+            let runtime_version = verification["runtimeVersion"]
+                .as_str()
+                .expect("historical producer version");
+            let base = task_outcome_markdown_legacy_v1(&report);
+            let mut one_extra_lf = base.clone();
+            one_extra_lf.push('\n');
+            let matches = [base.as_bytes(), one_extra_lf.as_bytes()]
+                .into_iter()
+                .filter(|candidate| *candidate == markdown.as_slice())
+                .count();
+            assert_eq!(
+                matches, 1,
+                "historical legacy renderer must match exactly one byte shape for {work_item_id}"
+            );
+            assert_eq!(
+                runtime_version == "0.2.89" || runtime_version == "0.2.100",
+                markdown == one_extra_lf.as_bytes(),
+                "fixed historical Runtime {runtime_version} must map to the exact checked renderer for {work_item_id}"
+            );
+        }
+    }
+
+    #[test]
     fn json_projection_mismatch_reports_digests_and_safe_pointer_only() {
         let expected = br#"{"sections":{"usage":{"total":3,"secret":"private"}}}"#;
         let actual = br#"{"sections":{"usage":{"total":4,"secret":"private"}}}"#;
@@ -13065,7 +13630,9 @@ mod task_outcome_projection_diagnostic_tests {
         .to_string();
         assert!(diagnostic.contains(&Digest::sha256_bytes(expected).to_string()));
         assert!(diagnostic.contains(&Digest::sha256_bytes(actual).to_string()));
-        assert!(diagnostic.contains("/sections/usage/total"));
+        assert!(diagnostic.contains("nesting depth 3"));
+        assert!(diagnostic.contains("object keys redacted"));
+        assert!(!diagnostic.contains("/sections/usage/total"));
         assert!(!diagnostic.contains("private"));
     }
 
@@ -13134,6 +13701,69 @@ mod task_outcome_projection_diagnostic_tests {
             .unwrap_err()
             .contains("identity or source binding")
         );
+    }
+
+    #[test]
+    fn unknown_renderer_diagnostic_bounds_and_escapes_untrusted_metadata() {
+        let contract = Digest::sha256_bytes(b"contract");
+        let source = Digest::sha256_bytes(b"source");
+        let mut policy = new_task_outcome_projection_policy(
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "WI-PROJECTION",
+            contract.clone(),
+            source.clone(),
+            "1.0.1-candidate",
+            Digest::sha256_bytes(b"runtime"),
+        );
+        policy.markdown_renderer = format!("{}api_key=private\n\u{001b}[31m", "x".repeat(4096));
+        let error = validate_task_outcome_projection_policy(
+            &policy,
+            &policy.repository_id,
+            "WI-PROJECTION",
+            &contract,
+            &source,
+        )
+        .expect_err("unknown renderer must be refused");
+        assert!(
+            error.len() <= 512,
+            "renderer diagnostic is unbounded: {}",
+            error.len()
+        );
+        assert!(
+            !error.chars().any(char::is_control),
+            "control character leaked"
+        );
+        assert!(
+            !error.contains("api_key=private"),
+            "sensitive metadata leaked"
+        );
+    }
+
+    #[test]
+    fn json_pointer_diagnostic_does_not_echo_untrusted_key_names_or_controls() {
+        let expected = br#"{"sections":{"authorization\u001bBearerToken":"old"}}"#;
+        let actual = br#"{"sections":{"authorization\u001bBearerToken":"new"}}"#;
+        let diagnostic = task_outcome_projection_mismatch(
+            Path::new("report.json"),
+            "JSON",
+            "ai-cockpit.task-outcome/schema-v1",
+            expected,
+            actual,
+        )
+        .to_string();
+        assert!(
+            diagnostic.len() <= 1024,
+            "JSON pointer diagnostic is unbounded"
+        );
+        assert!(
+            !diagnostic.chars().any(char::is_control),
+            "control character leaked"
+        );
+        assert!(
+            !diagnostic.contains("authorization"),
+            "untrusted sensitive key name leaked in JSON pointer"
+        );
+        assert!(!diagnostic.contains("old") && !diagnostic.contains("new"));
     }
 }
 
@@ -13760,6 +14390,41 @@ fn append_task_outcome_events_at_with_binding(
 }
 
 fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
+    task_outcome_markdown_with_usage(report, true)
+}
+
+/// Exact Markdown renderer for the fixed pre-Usage legacy projection. Callers
+/// may use it only after immutable predecessor facts select the legacy route.
+pub(crate) fn task_outcome_markdown_legacy_v1(report: &TaskOutcomeReport) -> String {
+    task_outcome_markdown_with_usage(report, false)
+}
+
+/// Select one exact historical renderer only after the caller has validated
+/// the fixed Git-bound verification receipt. The producer version is a
+/// compatibility discriminator here, not an authentication claim.
+pub(crate) fn task_outcome_markdown_legacy_for_runtime(
+    report: &TaskOutcomeReport,
+    fixed_runtime_version: &str,
+) -> Result<String, String> {
+    let mut markdown = task_outcome_markdown_legacy_v1(report);
+    match fixed_runtime_version {
+        // The 0.2.87/90/99/100 Task Outcome writers left one extra terminal blank
+        // line. The exact bytes are part of those committed historical reports.
+        "0.2.87" | "0.2.89" | "0.2.90" | "0.2.99" | "0.2.100" => {
+            markdown.push('\n');
+        }
+        // The 1.0.1 writer normalized the report to exactly one terminal LF.
+        "1.0.0" | "1.0.1" => {}
+        _ => {
+            return Err(
+                "legacy Task Outcome producer Runtime has no supported Markdown renderer".into(),
+            );
+        }
+    }
+    Ok(markdown)
+}
+
+fn task_outcome_markdown_with_usage(report: &TaskOutcomeReport, include_usage: bool) -> String {
     let mut output = format!(
         "# Task Outcome Report\n\n- Work Item: `{}`\n- Status: `{}`\n- Human status color: `{}`\n\n",
         report.work_item_id,
@@ -13800,11 +14465,13 @@ fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
         }
         output.push('\n');
     }
-    output.push_str("## Usage\n\n");
-    for item in outcome_render::localized_report_usage_items(Some(report), "en") {
-        output.push_str(&format!("- {item}\n"));
+    if include_usage {
+        output.push_str("## Usage\n\n");
+        for item in outcome_render::localized_report_usage_items(Some(report), "en") {
+            output.push_str(&format!("- {item}\n"));
+        }
+        output.push('\n');
     }
-    output.push('\n');
     if let Some(gate) = &report.failed_gate {
         output.push_str(&format!("## Failed gate\n\n- {gate}\n\n"));
     }
@@ -14138,14 +14805,37 @@ fn outcome_v2_internal_with_snapshot(
         .join(format!("{work_item_id}.close.json"));
     let closed_usage_validation =
         usage::validate_existing_frozen_usage_snapshots(&root, work_item_id);
-    let frozen_usage_invalid = archived && !historical && closed_usage_validation.is_err();
-    let close_pending = archived
+    let frozen_closed_task_report = if archived
         && !historical
+        && closed_usage_validation.is_ok()
+        && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id)
+    {
+        read_json(&close_decision_path)
+            .ok()
+            .and_then(|close| close.get("finalReport").cloned())
+            .and_then(|report| serde_json::from_value::<TaskOutcomeReport>(report).ok())
+    } else {
+        None
+    };
+    // Usage snapshot integrity is independent of whether verification evidence
+    // is historical.  A historically valid close event must remain visible,
+    // but it cannot make a close with a broken final usage binding terminal.
+    let frozen_usage_invalid = archived && closed_usage_validation.is_err();
+    let close_pending = archived
         && (frozen_usage_invalid
-            || !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id));
-    if close_pending && state == OutcomeState::Verified {
+            || (!historical
+                && !close_decision_is_valid_for_status(
+                    &root,
+                    work_item_id,
+                    &contract.repository_id,
+                )));
+    if close_pending && (state == OutcomeState::Verified || frozen_usage_invalid) {
         decision_state = DecisionState::Yellow;
-        summary = "Archived verification is valid, but the required human close decision is missing or invalid; authorization remains pending.";
+        summary = if frozen_usage_invalid {
+            "Archived evidence is preserved, but the frozen close usage report is invalid; terminal handoff remains blocked."
+        } else {
+            "Archived verification is valid, but the required human close decision is missing or invalid; authorization remains pending."
+        };
         evidence_unknown = Some(if frozen_usage_invalid {
             "frozen_usage_invalid"
         } else if fs::symlink_metadata(&close_decision_path).is_ok() {
@@ -14344,7 +15034,17 @@ fn outcome_v2_internal_with_snapshot(
         usage_cutoff: None,
         closed_usage_validation: Some(&closed_usage_validation),
     })?;
-    let task_report = frozen_archived_task_report.unwrap_or(current_task_report);
+    // A broken close usage binding must remain visible in the current
+    // projection.  The archived finish report is immutable and may still
+    // contain a valid earlier usage snapshot, but it cannot stand in for a
+    // rejected close-time snapshot.
+    let task_report = if frozen_usage_invalid {
+        current_task_report
+    } else {
+        frozen_closed_task_report
+            .or(frozen_archived_task_report)
+            .unwrap_or(current_task_report)
+    };
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();
     Ok(OutcomeV2 {

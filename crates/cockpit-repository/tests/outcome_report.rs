@@ -7,8 +7,8 @@ use cockpit_protocol::{
 use cockpit_repository::{
     OutcomeRenderView, WorkItemStartOptions, archive_work_item, checkpoint_work_item,
     finish_work_item, outcome_render_input_from_outcome, outcome_v2, plan_resource_finalization,
-    preflight_work_item, record_verification, render_human_outcome_with_view,
-    start_work_item_with_options,
+    preflight_work_item, record_recovery_decision, record_verification,
+    render_human_outcome_with_view, start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -43,6 +43,42 @@ fn repository() -> tempfile::TempDir {
     directory
 }
 
+#[test]
+fn fixed_git_anchored_pre_policy_archive_remains_readable() {
+    const FIXED_ARCHIVE_REVISION: &str = "d18be4f8624d08f91fe1c961dfed287cfe9543df";
+    const WORK_ITEM_ID: &str = "WI-1078-v1-0-1-post-merge-sync-finalization";
+
+    let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let checkout = tempfile::tempdir().expect("temporary historical checkout root");
+    let root = checkout.path().join("repository");
+    let clone = Command::new("git")
+        .args(["clone", "--quiet", "--shared", "--no-checkout", "--"])
+        .arg(&source)
+        .arg(&root)
+        .status()
+        .expect("clone fixed historical repository");
+    assert!(clone.success(), "historical repository clone failed");
+    let checkout_status = Command::new("git")
+        .args(["checkout", "--quiet", "--detach", FIXED_ARCHIVE_REVISION])
+        .current_dir(&root)
+        .status()
+        .expect("checkout fixed historical archive revision");
+    assert!(
+        checkout_status.success(),
+        "fixed historical checkout failed"
+    );
+
+    let outcome = outcome_v2(&root, WORK_ITEM_ID)
+        .expect("fixed Git-anchored pre-policy archive remains readable");
+    let report = outcome
+        .task_outcome_report
+        .as_ref()
+        .expect("historical archive exposes its preserved Task Outcome report");
+    assert_eq!(report.work_item_id, WORK_ITEM_ID);
+    assert_eq!(report.format, "ai-cockpit.task-outcome");
+    assert_eq!(report.schema_version, 1);
+}
+
 fn commit_fixture_source(path: &std::path::Path, source: &str) {
     assert!(
         Command::new("git")
@@ -68,6 +104,53 @@ fn commit_fixture_source(path: &std::path::Path, source: &str) {
             .expect("git commit fixture source")
             .success()
     );
+}
+
+fn record_fixture_retry(directory: &tempfile::TempDir, work_item_id: &str) {
+    let active = directory.path().join(".ai/work-items/active");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.contract.json"))).expect("Contract"),
+    )
+    .expect("Contract JSON");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("Summary"),
+    )
+    .expect("Summary JSON");
+    let outcome: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.outcome.json"))).expect("Outcome"),
+    )
+    .expect("Outcome JSON");
+    let events =
+        fs::read(active.join(format!("{work_item_id}.events.jsonl"))).expect("Events bytes");
+    let runtime_digest = Digest::sha256_bytes(b"wi136-runtime");
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "0.2.10".into(),
+        protocol_version: 1,
+        runtime_digest: runtime_digest.clone(),
+    };
+    let retry = serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "retry",
+        "workItemId": work_item_id,
+        "repositoryId": contract["repositoryId"],
+        "predecessorWorkItemId": work_item_id,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(&events),
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:test-fixture",
+        "authoritySource": "WI-1111 lifecycle fixture",
+        "reason": "source changed after a completed finish",
+        "evidenceRefs": [],
+        "policyRefs": [],
+        "decidedAt": "2026-10-25T12:00:00Z",
+        "resumeCondition": "current preflight, replacement verification, and explicit finish"
+    });
+    record_recovery_decision(directory.path(), work_item_id, &retry, &runtime)
+        .expect("bind retry to exact finish predecessor");
 }
 
 fn ready(directory: &tempfile::TempDir, id: &str) {
@@ -111,6 +194,61 @@ fn ready(directory: &tempfile::TempDir, id: &str) {
     .expect("verify");
 }
 
+fn rewrite_archived_report_digest_chain(
+    root: &std::path::Path,
+    work_item_id: &str,
+    report_bytes: &[u8],
+) {
+    let archive = root.join(".ai/work-items/archive");
+    let digest = Digest::sha256_bytes(report_bytes).to_string();
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"]["taskReportJsonDigest"] =
+        digest.clone().into();
+    let summary_bytes = serde_json::to_vec_pretty(&summary).expect("serialize Summary");
+    fs::write(&summary_path, &summary_bytes).expect("rebind Summary");
+
+    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+    let events = fs::read_to_string(&events_path).expect("events");
+    let rebound_events = events
+        .lines()
+        .map(|line| {
+            let mut event: serde_json::Value = serde_json::from_str(line).expect("event JSON");
+            if event["eventType"] == "completed" {
+                event["projectionBinding"]["taskReportJsonDigest"] = digest.clone().into();
+            }
+            serde_json::to_string(&event).expect("serialize event")
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    fs::write(&events_path, &rebound_events).expect("rebind completion event");
+
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let mut outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("Outcome")).expect("Outcome JSON");
+    outcome["taskReportDigest"] = digest.clone().into();
+    let outcome_bytes = serde_json::to_vec_pretty(&outcome).expect("serialize Outcome");
+    fs::write(&outcome_path, &outcome_bytes).expect("rebind Outcome");
+
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).expect("manifest"))
+            .expect("manifest JSON");
+    manifest["files"]["taskReportDigest"] = digest.into();
+    manifest["files"]["summaryDigest"] = Digest::sha256_bytes(&summary_bytes).to_string().into();
+    manifest["files"]["eventsDigest"] = Digest::sha256_bytes(rebound_events.as_bytes())
+        .to_string()
+        .into();
+    manifest["files"]["outcomeDigest"] = Digest::sha256_bytes(&outcome_bytes).to_string().into();
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("recompute manifest digest chain");
+}
+
 fn ready_with_source_scope(directory: &tempfile::TempDir, id: &str) {
     fs::write(directory.path().join("source.rs"), "pub fn current() {}\n").expect("source fixture");
     commit_fixture_source(directory.path(), "source.rs");
@@ -144,6 +282,63 @@ fn ready_with_source_scope(directory: &tempfile::TempDir, id: &str) {
         .join(format!(".ai/work-items/active/{id}.contract.json"));
     preflight_work_item(directory.path(), &contract).expect("preflight");
     checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.10",
+        &Digest::sha256_bytes(b"wi136-runtime"),
+    )
+    .expect("verify");
+}
+
+fn ready_with_source_scope_and_standard_checkpoints(directory: &tempfile::TempDir, id: &str) {
+    fs::write(directory.path().join("source.rs"), "pub fn current() {}\n").expect("source fixture");
+    commit_fixture_source(directory.path(), "source.rs");
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "verify checkpoint-bound report refresh",
+        "require explicit re-finish after source changes",
+        &["source.rs".into(), ".ai/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    let contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    let mut value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract).expect("Contract")).expect("Contract JSON");
+    value["checkpointPolicy"] = serde_json::json!({
+        "schemaVersion": 1,
+        "profile": "standard",
+        "requiredBeforeFinish": true,
+        "requiredStages": ["before_edit", "before_finish"],
+        "requiredChecks": []
+    });
+    fs::write(
+        &contract,
+        serde_json::to_vec_pretty(&value).expect("serialize Contract"),
+    )
+    .expect("standard checkpoint policy");
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("before-edit checkpoint");
     record_verification(
         directory.path(),
         id,
@@ -250,6 +445,28 @@ fn same_source_refresh_freezes_bytes_and_source_change_retains_predecessor() {
     )
     .expect("source change");
     commit_fixture_source(directory.path(), "source.rs");
+    let summary_before_retry: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("Summary"),
+    )
+    .expect("Summary JSON");
+    let refused = record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 2}),
+        "0.2.10",
+        &Digest::sha256_bytes(b"wi136-runtime"),
+    )
+    .expect_err("source change requires native retry and explicit finish");
+    assert!(refused.to_string().contains("native retry"), "{refused}");
+    assert_eq!(fs::read(&report_path).expect("frozen report"), first_json);
+    assert_eq!(
+        fs::read(&markdown_path).expect("frozen Markdown"),
+        first_markdown
+    );
+
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    preflight_work_item(directory.path(), &contract_path).expect("current source preflight");
+    record_fixture_retry(&directory, work_item_id);
     let evidence = record_verification(
         directory.path(),
         work_item_id,
@@ -257,7 +474,8 @@ fn same_source_refresh_freezes_bytes_and_source_change_retains_predecessor() {
         "0.2.10",
         &Digest::sha256_bytes(b"wi136-runtime"),
     )
-    .expect("source-changing native verification refresh");
+    .expect("replacement verification after native retry");
+    finish_work_item(directory.path(), work_item_id).expect("explicit re-finish");
 
     let summary: serde_json::Value = serde_json::from_slice(
         &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("Summary"),
@@ -312,8 +530,80 @@ fn same_source_refresh_freezes_bytes_and_source_change_retains_predecessor() {
         events[1].projection_binding.as_ref(),
         Some(&current_binding)
     );
+    assert_eq!(summary_before_retry["state"], "finish_ready");
     archive_work_item(directory.path(), work_item_id)
         .expect("archive validates current projection and retained predecessor bytes");
+}
+
+#[test]
+fn source_change_during_finish_refresh_requires_explicit_checkpoint_and_finish() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-STRICT-REFRESH";
+    ready_with_source_scope_and_standard_checkpoints(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id)
+        .expect("initial finish with required checkpoints");
+    let active = directory.path().join(".ai/work-items/active");
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let before: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary before"))
+            .expect("Summary JSON");
+    assert_eq!(before["state"], "finish_ready");
+    assert!(
+        before["checkpointEvidence"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|entry| { entry["stage"] == "before_finish" })
+    );
+
+    fs::write(
+        directory.path().join("source.rs"),
+        "pub fn changed() -> bool { true }\n",
+    )
+    .expect("source change");
+    commit_fixture_source(directory.path(), "source.rs");
+    let report_path = active.join(format!("{work_item_id}.task-report.json"));
+    let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let original_report = fs::read(&report_path).expect("original report");
+    let original_markdown = fs::read(&markdown_path).expect("original Markdown");
+    let refused = record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 2}),
+        "0.2.10",
+        &Digest::sha256_bytes(b"wi136-runtime"),
+    )
+    .expect_err("record_verification must not fabricate a replacement finish");
+    assert!(refused.to_string().contains("native retry"), "{refused}");
+
+    let after: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary after"))
+            .expect("Summary JSON");
+    assert_eq!(
+        after, before,
+        "refused refresh must preserve lifecycle facts"
+    );
+    assert_eq!(
+        fs::read(report_path).expect("report after"),
+        original_report
+    );
+    assert_eq!(
+        fs::read(markdown_path).expect("Markdown after"),
+        original_markdown
+    );
+    let archive_error = archive_work_item(directory.path(), work_item_id).expect_err(
+        "source-changing refresh has not produced the required before-finish checkpoint",
+    );
+    assert!(
+        archive_error
+            .to_string()
+            .contains("checkpoint evidence is invalid"),
+        "expected the missing before-finish checkpoint to block archive, got {archive_error}"
+    );
+    assert_eq!(
+        after["state"], "finish_ready",
+        "a refused refresh must leave the existing finish state and evidence untouched"
+    );
 }
 
 #[derive(Clone)]
@@ -1382,6 +1672,371 @@ fn archived_projection_policy_removal_is_rejected_even_with_updated_manifest_dig
     let outcome = outcome_v2(directory.path(), work_item_id).expect("archived Outcome");
     assert_eq!(outcome.state, OutcomeState::Unknown);
     assert_eq!(outcome.decision_state, Some(DecisionState::Red));
+}
+
+#[test]
+fn current_archive_cannot_be_relabelled_legacy_by_committing_self_selected_markers() {
+    let directory = repository();
+    let work_item_id = "WI-OUTCOME-LEGACY-SELECTOR";
+    ready(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+
+    let archive = directory.path().join(".ai/work-items/archive");
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{work_item_id}.verification.json"));
+    let original_evidence = fs::read(&evidence_path).expect("original verification receipt");
+    let original_archive_paths = [
+        format!(".ai/work-items/archive/{work_item_id}.archive.json"),
+        format!(".ai/work-items/archive/{work_item_id}.contract.json"),
+        format!(".ai/work-items/archive/{work_item_id}.summary.json"),
+        format!(".ai/work-items/archive/{work_item_id}.outcome.json"),
+        format!(".ai/work-items/archive/{work_item_id}.events.jsonl"),
+        format!(".ai/work-items/archive/{work_item_id}.task-report.json"),
+        format!(".ai/work-items/archive/{work_item_id}.task-report.md"),
+        format!(".ai/evidence/{work_item_id}.verification.json"),
+    ];
+    let mut git_add = Command::new("git");
+    git_add.arg("add").arg("-f").arg("--");
+    git_add.args(&original_archive_paths);
+    assert!(
+        git_add
+            .current_dir(directory.path())
+            .status()
+            .expect("stage original archive and receipt")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "-m",
+                "anchor original archive and verification receipt",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("commit original archive anchor")
+            .success()
+    );
+
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    summary
+        .as_object_mut()
+        .expect("Summary object")
+        .remove("taskOutcomeProjectionPolicy");
+    summary["lifecycleFacts"]
+        .as_object_mut()
+        .expect("lifecycle facts")
+        .remove("taskOutcomeProjectionFinishBinding");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("serialize Summary"),
+    )
+    .expect("remove policy and finish binding in fixture");
+
+    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+    let events = fs::read_to_string(&events_path).expect("event stream");
+    let downgraded_events = events
+        .lines()
+        .map(|line| {
+            let mut event: serde_json::Value = serde_json::from_str(line).expect("event JSON");
+            event
+                .as_object_mut()
+                .expect("event object")
+                .remove("projectionBinding");
+            serde_json::to_string(&event).expect("serialize event")
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    fs::write(&events_path, &downgraded_events).expect("remove event bindings in fixture");
+
+    let markdown_path = archive.join(format!("{work_item_id}.task-report.md"));
+    let markdown = fs::read_to_string(&markdown_path).expect("Markdown");
+    let legacy_markdown = markdown
+        .split_once("## Usage\n")
+        .map(|(prefix, _)| format!("{prefix}\n"))
+        .expect("current report has a Usage section");
+    fs::write(&markdown_path, legacy_markdown.as_bytes()).expect("legacy-style Markdown fixture");
+
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let mut outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("Outcome")).expect("Outcome JSON");
+    outcome["taskReportMarkdownDigest"] = Digest::sha256_bytes(legacy_markdown.as_bytes())
+        .to_string()
+        .into();
+    let outcome_bytes = serde_json::to_vec_pretty(&outcome).expect("serialize Outcome");
+    fs::write(&outcome_path, &outcome_bytes).expect("update local Outcome digest");
+
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).expect("manifest"))
+            .expect("manifest JSON");
+    manifest["files"]["summaryDigest"] =
+        Digest::sha256_bytes(&fs::read(&summary_path).expect("rewritten Summary"))
+            .to_string()
+            .into();
+    manifest["files"]["eventsDigest"] = Digest::sha256_bytes(downgraded_events.as_bytes())
+        .to_string()
+        .into();
+    manifest["files"]["outcomeDigest"] = Digest::sha256_bytes(&outcome_bytes).to_string().into();
+    manifest["files"]["taskReportMarkdownDigest"] =
+        Digest::sha256_bytes(legacy_markdown.as_bytes())
+            .to_string()
+            .into();
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("recompute local manifest digests");
+
+    // The fixture models a hostile but ordinary follow-up commit containing
+    // only the rewritten archive. The original verification receipt remains
+    // present at the earlier fixed revision and is byte-for-byte unchanged.
+    let mut git_add = Command::new("git");
+    git_add.arg("add").arg("-f").arg("--");
+    git_add.args(&original_archive_paths[..7]);
+    assert!(
+        git_add
+            .current_dir(directory.path())
+            .status()
+            .expect("stage tampered archive fixture")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "-m",
+                "tamper archive and claim legacy format",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("commit tampered archive fixture")
+            .success()
+    );
+
+    let observed = outcome_v2(directory.path(), work_item_id).expect("read archived Outcome");
+    assert_ne!(
+        observed.state,
+        OutcomeState::Verified,
+        "a commit created after policy removal must not become a fixed historical legacy anchor"
+    );
+    assert_eq!(
+        fs::read(evidence_path).expect("verification receipt unchanged"),
+        original_evidence
+    );
+}
+
+#[test]
+fn archived_task_report_unknown_schema_is_rejected_after_local_digest_rewrite() {
+    let directory = repository();
+    let work_item_id = "WI-OUTCOME-JSON-SCHEMA-DOWNGRADE";
+    ready(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+
+    let archive = directory.path().join(".ai/work-items/archive");
+    let report_path = archive.join(format!("{work_item_id}.task-report.json"));
+    let mut report: serde_json::Value =
+        serde_json::from_slice(&fs::read(&report_path).expect("report")).expect("report JSON");
+    report["schemaVersion"] = serde_json::json!(999);
+    let report_bytes = serde_json::to_vec_pretty(&report).expect("serialize report");
+    fs::write(&report_path, &report_bytes).expect("set unsupported report schema");
+
+    let report_digest = Digest::sha256_bytes(&report_bytes).to_string();
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"]["taskReportJsonDigest"] =
+        report_digest.clone().into();
+    let summary_bytes = serde_json::to_vec_pretty(&summary).expect("serialize Summary");
+    fs::write(&summary_path, &summary_bytes).expect("update local finish binding");
+
+    let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+    let events = fs::read_to_string(&events_path).expect("events");
+    let rebound_events = events
+        .lines()
+        .map(|line| {
+            let mut event: serde_json::Value = serde_json::from_str(line).expect("event JSON");
+            if event["eventType"] == "completed" {
+                event["projectionBinding"]["taskReportJsonDigest"] = report_digest.clone().into();
+            }
+            serde_json::to_string(&event).expect("serialize event")
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    fs::write(&events_path, &rebound_events).expect("update local event binding");
+
+    let outcome_path = archive.join(format!("{work_item_id}.outcome.json"));
+    let mut outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).expect("Outcome")).expect("Outcome JSON");
+    outcome["taskReportDigest"] = Digest::sha256_bytes(&report_bytes).to_string().into();
+    let outcome_bytes = serde_json::to_vec_pretty(&outcome).expect("serialize Outcome");
+    fs::write(&outcome_path, &outcome_bytes).expect("update local Outcome digest");
+
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).expect("manifest"))
+            .expect("manifest JSON");
+    manifest["files"]["taskReportDigest"] = report_digest.into();
+    manifest["files"]["summaryDigest"] = Digest::sha256_bytes(&summary_bytes).to_string().into();
+    manifest["files"]["eventsDigest"] = Digest::sha256_bytes(rebound_events.as_bytes())
+        .to_string()
+        .into();
+    manifest["files"]["outcomeDigest"] = Digest::sha256_bytes(&outcome_bytes).to_string().into();
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+    )
+    .expect("recompute local manifest digests");
+
+    let observed = outcome_v2(directory.path(), work_item_id).expect("read archived Outcome");
+    assert_ne!(
+        observed.state,
+        OutcomeState::Verified,
+        "canonical JSON formatting does not validate the report schema version"
+    );
+}
+
+#[test]
+fn archived_task_report_truncation_is_rejected_after_local_digest_rewrite() {
+    let directory = repository();
+    let work_item_id = "WI-OUTCOME-JSON-TRUNCATED";
+    ready(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+
+    let archive = directory.path().join(".ai/work-items/archive");
+    let report_path = archive.join(format!("{work_item_id}.task-report.json"));
+    let truncated = br#"{"format":"ai-cockpit.task-outcome","schemaVersion":1"#;
+    fs::write(&report_path, truncated).expect("truncate report bytes");
+    rewrite_archived_report_digest_chain(directory.path(), work_item_id, truncated);
+
+    let observed = outcome_v2(directory.path(), work_item_id).expect("read archived Outcome");
+    assert_ne!(
+        observed.state,
+        OutcomeState::Verified,
+        "a truncated report remains invalid after local digest bindings are recomputed"
+    );
+}
+
+#[test]
+fn archived_projection_policy_downgrade_and_foreign_identity_are_rejected_after_rebinding() {
+    for attack in [
+        "policy_schema",
+        "json_schema",
+        "markdown_renderer",
+        "repository",
+        "contract",
+        "source_snapshot",
+        "producer_runtime",
+    ] {
+        let directory = repository();
+        let work_item_id = format!("WI-PROJECTION-POLICY-{attack}").to_ascii_uppercase();
+        ready(&directory, &work_item_id);
+        finish_work_item(directory.path(), &work_item_id).expect("finish");
+        archive_work_item(directory.path(), &work_item_id).expect("archive");
+
+        let archive = directory.path().join(".ai/work-items/archive");
+        let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+                .expect("Summary JSON");
+        {
+            let policy = &mut summary["taskOutcomeProjectionPolicy"];
+            match attack {
+                "policy_schema" => policy["schemaVersion"] = serde_json::json!(0),
+                "json_schema" => policy["jsonSchemaVersion"] = serde_json::json!(2),
+                "markdown_renderer" => policy["markdownRendererVersion"] = serde_json::json!(1),
+                "repository" => {
+                    policy["repositoryId"] = Digest::sha256_bytes(b"foreign repository")
+                        .to_string()
+                        .into()
+                }
+                "contract" => {
+                    policy["contractDigest"] =
+                        Digest::sha256_bytes(b"foreign Contract").to_string().into()
+                }
+                "source_snapshot" => {
+                    policy["sourceSnapshotDigest"] =
+                        Digest::sha256_bytes(b"foreign source snapshot")
+                            .to_string()
+                            .into()
+                }
+                "producer_runtime" => {
+                    policy["producerRuntimeDigest"] =
+                        Digest::sha256_bytes(b"foreign Runtime").to_string().into()
+                }
+                _ => unreachable!("test case is listed above"),
+            }
+        }
+        if attack == "source_snapshot" {
+            let foreign = summary["taskOutcomeProjectionPolicy"]["sourceSnapshotDigest"]
+                .as_str()
+                .expect("source snapshot")
+                .to_owned();
+            summary["checkpointRepositorySnapshotDigest"] = foreign.clone().into();
+            summary["preflightRepositorySnapshotDigest"] = foreign.into();
+        }
+        let policy_digest = cockpit_protocol::digest_json(&summary["taskOutcomeProjectionPolicy"])
+            .expect("policy digest");
+        summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"]["projectionPolicyDigest"] =
+            policy_digest.to_string().into();
+        let summary_bytes = serde_json::to_vec_pretty(&summary).expect("serialize Summary");
+        fs::write(&summary_path, &summary_bytes).expect("rebind Summary");
+
+        let events_path = archive.join(format!("{work_item_id}.events.jsonl"));
+        let events = fs::read_to_string(&events_path).expect("events");
+        let rebound_events = events
+            .lines()
+            .map(|line| {
+                let mut event: serde_json::Value = serde_json::from_str(line).expect("event JSON");
+                if event["eventType"] == "completed" {
+                    event["projectionBinding"]["projectionPolicyDigest"] =
+                        policy_digest.to_string().into();
+                }
+                serde_json::to_string(&event).expect("serialize event")
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+            + "\n";
+        fs::write(&events_path, &rebound_events).expect("rebind completion event");
+
+        let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+        let mut manifest: serde_json::Value =
+            serde_json::from_slice(&fs::read(&manifest_path).expect("manifest"))
+                .expect("manifest JSON");
+        manifest["files"]["summaryDigest"] =
+            Digest::sha256_bytes(&summary_bytes).to_string().into();
+        manifest["files"]["eventsDigest"] = Digest::sha256_bytes(rebound_events.as_bytes())
+            .to_string()
+            .into();
+        fs::write(
+            &manifest_path,
+            serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
+        )
+        .expect("recompute local manifest digests");
+
+        let observed = outcome_v2(directory.path(), &work_item_id).expect("read archived Outcome");
+        assert_ne!(
+            observed.state,
+            OutcomeState::Verified,
+            "locally rebound {attack} policy must still fail against fixed Contract, source, Runtime, or supported versions"
+        );
+    }
 }
 
 #[test]

@@ -5707,7 +5707,8 @@ fn apply_historical_material_projection(
         return Err(post_merge_sync_error(
             root,
             format!(
-                "historical material projection remains blocked or unknown: unknowns={:?}, findings={:?}, unavailable={}, blocked={}",
+                "historical material projection remains blocked or unknown: blockers={:?}, unknowns={:?}, findings={:?}, unavailable={}, blocked={}",
+                decision.blockers,
                 decision.unknowns,
                 projection.finding_codes,
                 projection.projection_unavailable,
@@ -5817,6 +5818,8 @@ fn validate_layout_finish_semantics(
     );
     let mut summary = git_json(root, parent, &format!("{active}.summary.json"))?;
     let observed = git_json(root, finish, &format!("{target}.summary.json"))?;
+    let historical_projection_policy_absent = observed["taskOutcomeProjectionPolicy"].is_null()
+        && observed["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"].is_null();
     let evidence_path = format!(".ai/evidence/{id}.verification.json");
     let evidence = git_json(root, finish, &evidence_path)?;
     let manifest = git_json(
@@ -5851,6 +5854,17 @@ fn validate_layout_finish_semantics(
             &snapshot,
         )?;
         summary = read_json(&isolated.join(format!("{active}.summary.json")))?;
+        if historical_projection_policy_absent {
+            // Reconstruct the fixed legacy finish projection without the
+            // current verifier's policy side effect. The legacy decision is
+            // bound to the exact Git-loaded finish Summary above; archived
+            // compatibility validation separately requires its fixed Git
+            // revision/receipt anchor. Current-format callers cannot choose
+            // this branch through report metadata.
+            if let Some(summary) = summary.as_object_mut() {
+                summary.remove("taskOutcomeProjectionPolicy");
+            }
+        }
         // The recorder's clock is nondeterministic, but the captured refresh
         // time must be between this verification and the recorded finish.
         let refresh = observed["preflightAt"]
@@ -6132,22 +6146,44 @@ fn validate_layout_finish_semantics(
         }
         Some(expected_binding)
     };
-    if projection_binding.is_some() && actual_markdown != markdown {
-        return Err(super::task_outcome_projection_mismatch(
-            &root.join(format!("{target}.task-report.md")),
-            "Markdown",
-            "ai-cockpit.task-outcome-markdown/v2",
-            &markdown,
-            &actual_markdown,
-        ));
+    if projection_binding.is_some() {
+        if actual_markdown != markdown {
+            return Err(super::task_outcome_projection_mismatch(
+                &root.join(format!("{target}.task-report.md")),
+                "Markdown",
+                "ai-cockpit.task-outcome-markdown/v2",
+                &markdown,
+                &actual_markdown,
+            ));
+        }
+    } else {
+        let fixed_runtime_version = evidence["runtimeVersion"].as_str().ok_or_else(|| {
+            post_merge_sync_error(
+                root,
+                "fixed historical verification Runtime version is missing",
+            )
+        })?;
+        let legacy_markdown =
+            super::task_outcome_markdown_legacy_for_runtime(&report, fixed_runtime_version)
+                .map_err(|message| post_merge_sync_error(root, message))?
+                .into_bytes();
+        if actual_markdown != legacy_markdown {
+            return Err(super::task_outcome_projection_mismatch(
+                &root.join(format!("{target}.task-report.md")),
+                "Markdown",
+                "ai-cockpit.task-outcome-markdown/v1",
+                &legacy_markdown,
+                &actual_markdown,
+            ));
+        }
     }
     if let Some(binding) = &projection_binding {
         summary["lifecycleFacts"]["taskOutcomeProjectionFinishBinding"] =
             serde_json::to_value(binding)
                 .map_err(|error| post_merge_sync_error(root, error.to_string()))?;
     } else if let Some(facts) = summary["lifecycleFacts"].as_object_mut() {
-        // Finite legacy route: fixed finish Git objects and the archive
-        // manifest bind the raw Markdown bytes. Never re-render or backfill.
+        // Finite legacy route: the fixed finish Git objects select the exact
+        // v1 Markdown renderer. Never re-render or backfill stored bytes.
         facts.remove("taskOutcomeProjectionFinishBinding");
     }
     let mut expected_summary = serde_json::to_vec_pretty(&summary)
@@ -7565,6 +7601,24 @@ mod post_merge_sync_tests {
     fn post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts() {
         let fixture = real_combined_checkout();
         let root = &fixture.repository;
+        let mut invalid_successors = Vec::new();
+        for successor_id in [
+            "WI-754-runtime-recovery-digest-revalidation",
+            "WI-903-precheckpoint-contract-scope",
+            "WI-937-outcome-archive-delivery-facts",
+        ] {
+            let manifest_path = root.join(format!(
+                ".ai/work-items/archive/{successor_id}.archive.json"
+            ));
+            let manifest = crate::read_json(&manifest_path).expect("successor archive manifest");
+            if let Err(error) = crate::verify_archive_manifest(root, successor_id, &manifest) {
+                invalid_successors.push(format!("{successor_id}: {error}"));
+            }
+        }
+        assert!(
+            invalid_successors.is_empty(),
+            "historical successor archive validation failures: {invalid_successors:?}"
+        );
         let sync = real_combined_sync(root);
         super::validate_post_merge_layout_stages(root, "WI-1078-v1-0-1-post-merge-sync-finalization", &sync)
             .expect("actual combined artifacts and frozen prior attempts must validate against a synthetic clean advanced-base merge");
