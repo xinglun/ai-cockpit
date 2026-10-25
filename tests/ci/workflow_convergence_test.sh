@@ -104,6 +104,70 @@ for suite in ("boundaries", "repository-library"):
 assert windows_aggregate.count("skip-decompress: true") == 2
 assert windows_aggregate.count("digest-mismatch: error") == 2
 
+# Execute the exact aggregation program with bounded same-run ZIP fixtures;
+# metadata existence alone must not hide a failed, cancelled or missing suite.
+import copy
+import os
+import stat
+import zipfile
+aggregate_step = windows_aggregate.split("      - name: Verify complete same-run Windows suite receipts\n", 1)[1]
+aggregate_lines = aggregate_step.split("        run: |\n", 1)[1].splitlines()
+assert all(not line or line.startswith("          ") for line in aggregate_lines)
+aggregate_shell = "\n".join(line[10:] if line else "" for line in aggregate_lines) + "\n"
+with tempfile.TemporaryDirectory(prefix="windows-suite-aggregation-") as temporary:
+    fixture_root = Path(temporary)
+    tested, source, base = "a"*40, "b"*40, "c"*40
+    binding = {"schemaVersion":1,"kind":"ci_revision_binding","eventName":"pull_request",
+        "sourceHeadRevision":source,"routeHeadRevision":source,"testedRevision":tested,
+        "eventBaseRevision":base,"testedBaseRevision":base,"testedParents":[base,source]}
+    suites = ("boundaries", "repository-library")
+    def exercise(case, mutate=None, result_state="success", skip=None, broken_zip=None, push=False):
+        directory = fixture_root / case
+        directory.mkdir()
+        for suite in suites:
+            if skip == suite:
+                continue
+            output = directory / "target/windows-results" / suite
+            output.mkdir(parents=True)
+            actual_binding = copy.deepcopy(binding)
+            if push:
+                actual_binding.update(eventName="push",sourceHeadRevision=tested,
+                    routeHeadRevision=tested,eventBaseRevision="",testedParents=[base])
+            result = {"schemaVersion":1,"state":"passed","suite":suite,"binding":actual_binding,
+                "repository":"fixture/repo","runId":"1234","runAttempt":"1"}
+            if mutate and suite == "boundaries":
+                mutate(actual_binding, result)
+            with zipfile.ZipFile(output/"artifact.zip", "w") as archive:
+                archive.writestr("ci-revision-binding.json",json.dumps(actual_binding))
+                if broken_zip != "missing-result" or suite != "boundaries":
+                    info = zipfile.ZipInfo("windows-suite-result.json")
+                    if broken_zip == "symlink" and suite == "boundaries":
+                        info.external_attr = (stat.S_IFLNK | 0o777) << 16
+                    archive.writestr(info,json.dumps(result))
+                if broken_zip == "extra" and suite == "boundaries":
+                    archive.writestr("unrelated.json", "{}")
+        environment = dict(os.environ,SUITES_RESULT=result_state,EVENT_NAME="push" if push else "pull_request",
+            GITHUB_SHA=tested,PR_HEAD_SHA=source,PR_BASE_SHA=base,GITHUB_REPOSITORY="fixture/repo",
+            GITHUB_RUN_ID="1234",GITHUB_RUN_ATTEMPT="1")
+        return subprocess.run(["bash","-c",aggregate_shell],cwd=directory,env=environment,
+            capture_output=True,text=True)
+    for case, push in (("complete-pr",False),("complete-push",True)):
+        valid = exercise(case,push=push)
+        assert valid.returncode == 0, valid.stderr
+    for state in ("failure","cancelled","skipped",""):
+        assert exercise("matrix-"+(state or "missing"),result_state=state).returncode != 0
+    for suite in suites:
+        assert exercise("missing-"+suite,skip=suite).returncode != 0
+    for broken in ("missing-result","symlink","extra"):
+        assert exercise("archive-"+broken,broken_zip=broken).returncode != 0
+    for field,value in (("state","failed"),("repository","foreign/repo"),("runId","old"),
+                        ("runAttempt","2"),("suite","foreign")):
+        assert exercise("result-"+field,lambda b,r,f=field,v=value:r.update({f:v})).returncode != 0
+    for field,value in (("sourceHeadRevision","d"*40),("testedRevision","d"*40),
+                        ("eventBaseRevision","d"*40),("testedParents",[base]),
+                        ("testedBaseRevision","d"*40)):
+        assert exercise("binding-"+field,lambda b,r,f=field,v=value:b.update({f:v})).returncode != 0
+
 # Independent hosted validations fan out from the immutable route artifact;
 # no validation job waits for another validation job.
 validation_jobs = ("quality", "windows-runtime-suites", "v1-behavioral-oracle")

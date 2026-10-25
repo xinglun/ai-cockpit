@@ -47,7 +47,7 @@ assert "name: upload repository gate diagnostics" in workflow_text
 assert "name: repository-gate-diagnostics" in workflow_text
 assert "target/repository-gate-diagnostics/*.log" in workflow_text
 quality_job = workflow_text.split("  quality:\n", 1)[1].split(
-    "\n  windows-runtime:\n", 1
+    "\n  windows-runtime-suites:\n", 1
 )[0]
 assert "fetch-depth: 0" in quality_job, (
     "the quality job must fetch the immutable legacy Runtime baseline"
@@ -57,11 +57,13 @@ windows_runtime_job = workflow_text.split("  windows-runtime-suites:\n", 1)[1].s
 )[0]
 assert (
     "- name: verify Windows directory-handle containment regressions\n"
+    "        if: matrix.suite == 'repository-library'\n"
     "        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-repository --lib"
     in windows_runtime_job
 ), "the windows-runtime job must execute repository library containment regressions"
 assert (
     "- name: verify Windows process and composition lifecycle boundaries\n"
+    "        if: matrix.suite == 'boundaries'\n"
     "        run: python tests/ci/run_no_warnings.py -- cargo test --locked -p cockpit-verification --lib --test execution --test composition"
     in windows_runtime_job
 ), "the windows-runtime job must execute composition lifecycle regressions"
