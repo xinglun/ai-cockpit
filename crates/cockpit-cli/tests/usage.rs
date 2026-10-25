@@ -146,6 +146,15 @@ fn usage_import_reads_completed_response_counters_without_claiming_trusted_meter
     assert_eq!(receipt["tokenAssurance"], "caller_claim");
     assert_eq!(receipt["modelAssurance"], "caller_claim");
     assert!(receipt["sourceObservedAt"].is_null());
+    let mcp = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":71,"method":"tools/call","params":{
+            "name":"work_item_usage_import","arguments":{"request":input}
+        }}),
+        root.path(),
+        &runtime(env!("CARGO_BIN_EXE_ai-cockpit")),
+    );
+    assert_eq!(mcp["result"]["isError"], false, "{mcp}");
+    assert_eq!(mcp["result"]["structuredContent"], receipt);
 }
 
 #[test]
