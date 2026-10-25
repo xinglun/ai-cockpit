@@ -148,6 +148,74 @@ fn usage_import_reads_completed_response_counters_without_claiming_trusted_meter
     assert!(receipt["sourceObservedAt"].is_null());
 }
 
+#[test]
+fn usage_import_rejects_invalid_source_counters_before_publishing_a_receipt() {
+    for (mutation, expected) in [
+        (
+            serde_json::json!({"status": "in_progress"}),
+            "completed response",
+        ),
+        (
+            serde_json::json!({"usage": {"input_tokens": -1}}),
+            "unsigned integer",
+        ),
+        (
+            serde_json::json!({"usage": {"input_tokens": 1.5}}),
+            "unsigned integer",
+        ),
+        (
+            serde_json::json!({"usage": {"input_tokens": 1, "output_tokens": 2,
+            "input_tokens_details": {"cached_tokens": 2}}}),
+            "subset",
+        ),
+        (
+            serde_json::json!({"usage": {"input_tokens": 1, "output_tokens": 2,
+            "output_tokens_details": {"reasoning_tokens": 3}}}),
+            "subset",
+        ),
+        (
+            serde_json::json!({"usage": {"input_tokens": 1, "output_tokens": 2,
+            "total_tokens": 4}}),
+            "total",
+        ),
+    ] {
+        let root = fixture();
+        let mut response = serde_json::json!({"object":"response", "id":"resp_boundary",
+            "status":"completed", "model":"fixture-model", "usage":null});
+        for (key, value) in mutation.as_object().expect("mutation") {
+            response[key] = value.clone();
+        }
+        let source = serde_json::to_vec(&response).expect("source");
+        fs::write(root.path().join(".ai/evidence/usage-source.json"), &source).expect("source");
+        let input = serde_json::json!({"schemaVersion":1,
+            "repositoryId":cockpit_repository::repository_id(root.path()).to_string(),
+            "workItemId":"WI-CLI-MCP-USAGE", "sourceFormat":"openai-response-json-v1",
+            "sourceRef":".ai/evidence/usage-source.json", "sourceDigest":Digest::sha256_bytes(&source),
+            "role":"implementer", "phase":"implementation"});
+        let path = root.path().join("usage-import.json");
+        fs::write(&path, serde_json::to_vec(&input).expect("request")).expect("request");
+        let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+            .args(["work-item", "usage", "import", "--repo"])
+            .arg(root.path())
+            .arg("--input")
+            .arg(path)
+            .output()
+            .expect("import");
+        assert!(!output.status.success());
+        assert!(
+            String::from_utf8_lossy(&output.stderr).contains(expected),
+            "expected {expected}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert!(
+            cockpit_repository::read_work_item_usage(root.path(), "WI-CLI-MCP-USAGE", None)
+                .expect("read only")
+                .receipt_refs
+                .is_empty()
+        );
+    }
+}
+
 fn runtime(binary: &str) -> RuntimeContext {
     let bytes = fs::read(binary).expect("CLI binary bytes");
     RuntimeContext {
