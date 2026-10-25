@@ -547,3 +547,9 @@ Runtime 在原生命周期锁内，将独立 `delegatedReview` 绑定到原生 p
 交付完成、撤回或截止时间最早发生时结束授权。通过 controls 记录 `taskAuthorizationTermination`，含 `schemaVersion:1`、当前 `grantId`、`decision:"withdrawn"` 或 `"completed"`、明确 `caller`、`reason`。不可变绑定记录幂等，只缩小权限，不恢复授权、不制造业务成功。每个边界检查期限；剩余时间不足以容纳不可变的声明预算时，不启动子进程。已运行的操作在安全边界观察处理，不盲目回滚。
 
 归档后仅允许已声明的剩余交付／资源操作；真实原生真人 close 后，只保留预授权的原生收尾发布和辅助清理，不能重新修改业务源码。收尾交付结束应记录 completed，撤回或到期则停止。真人关闭单独决定。本能力显式选择，本 WI 不用它自批、不替换共享 Runtime、不启用外部 B 或生产权限。
+
+### 显式用量来源导入
+
+`ai-cockpit work-item usage import --repo <repository> --input <request.json>` 与 MCP `work_item_usage_import` 共用严格的 `UsageImportRequest`。提供 schemaVersion 1、repositoryId、workItemId、sourceFormat `openai-response-json-v1`、仓库内安全相对路径 sourceRef、精确 sourceDigest、role 和 phase；actor、configuredModel 可选。不得覆盖 token 计数、reportedModel、sourceEventId 或可信度。
+
+有限来源为单个 completed Responses 对象，以响应 ID 标识调用而不是文件名。计数取自 usage；缓存和推理是子集，不重复加总。重放幂等，冲突或跨 WI 绑定拒绝。来源字节及标签仍是调用方声明，不是认证计量；缺失计数保持未知。累计 Codex JSONL、宿主未导出及缺失历史用量不做估算。不引入后台 API、凭据或会话目录读取。关闭后仍拒绝普通登记，原冻结报告保留；查询默认仅返回安全元数据和引用，不返回来源原文。

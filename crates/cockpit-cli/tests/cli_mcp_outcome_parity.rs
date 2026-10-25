@@ -97,6 +97,7 @@ fn public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidde
         for name in [
             "work_item_outcome",
             "work_item_usage_record",
+            "work_item_usage_import",
             "audit_query",
             "displayTimezone",
             "| `display-timezone` |",

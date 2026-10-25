@@ -215,8 +215,10 @@ pub use interface_description::{
 
 pub use interface_description::interface_description::{
     AUDIT_EXPORT_SURFACE, AUDIT_QUERY_SURFACE, CAPABILITY_SHOW_SURFACE_VALUES,
-    WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION, WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
-    WORK_ITEM_USAGE_RECORD_SURFACE, interface_description_for_surface,
+    WORK_ITEM_USAGE_IMPORT_INPUT_DESCRIPTION, WORK_ITEM_USAGE_IMPORT_REQUEST_DESCRIPTION,
+    WORK_ITEM_USAGE_IMPORT_SURFACE, WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION,
+    WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION, WORK_ITEM_USAGE_RECORD_SURFACE,
+    interface_description_for_surface, work_item_usage_import_interface_description,
     work_item_usage_record_interface_description,
 };
 

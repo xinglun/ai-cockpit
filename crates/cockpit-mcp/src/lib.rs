@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 35] = [
+const TOOL_NAMES: [&str; 36] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -22,6 +22,7 @@ const TOOL_NAMES: [&str; 35] = [
     "preflight",
     "work_item_controls",
     "work_item_usage_record",
+    "work_item_usage_import",
     "work_item_material_review_plan",
     "work_item_material_review_record",
     "work_item_activation_recovery_plan",
@@ -695,6 +696,10 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_usage_import" => object_schema(
+            json!({"request": cockpit_protocol::usage::usage_import_request_schema()}),
+            &["request"],
+        ),
         "work_item_usage_record" => object_schema(
             json!({
                 "request": cockpit_protocol::usage::usage_record_request_schema(),
@@ -943,6 +948,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
             cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
         ),
         (
+            "work_item_usage_import",
+            cockpit_protocol::WORK_ITEM_USAGE_IMPORT_REQUEST_DESCRIPTION,
+        ),
+        (
             "work_item_material_review_plan",
             "Build the canonical read-only committed-source material-review request for an active Work Item.",
         ),
@@ -1064,6 +1073,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_usage_record" => Some(&["request"][..]),
+        "work_item_usage_import" => Some(&["request"][..]),
         "work_item_material_review_plan" => Some(&["workItemId"][..]),
         "work_item_material_review_record" => Some(&["workItemId", "decision"][..]),
         "work_item_activation_recovery_plan" => Some(&["workItemId"][..]),
@@ -1303,6 +1313,18 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_controls" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             require_exactly_one_object_alias(object, &["controls", "input"], name)?;
+        }
+        "work_item_usage_import" => {
+            let value = object.get("request").ok_or_else(|| {
+                "invalid arguments for work_item_usage_import: request is required".to_owned()
+            })?;
+            let request: cockpit_protocol::UsageImportRequest =
+                serde_json::from_value(value.clone()).map_err(|error| {
+                    format!("invalid arguments for work_item_usage_import: {error}")
+                })?;
+            request.validate().map_err(|error| {
+                format!("invalid arguments for work_item_usage_import: {error}")
+            })?;
         }
         "work_item_usage_record" => {
             let value = object.get("request").ok_or_else(|| {
@@ -2170,6 +2192,16 @@ pub fn handle_request_for_repo(
             .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
         "work_item_controls" => require_compatible(repo, runtime)
             .and_then(|_| work_item_controls(repo, &arguments, runtime)),
+        "work_item_usage_import" => require_compatible(repo, runtime).and_then(|_| {
+            let request: cockpit_protocol::UsageImportRequest =
+                serde_json::from_value(arguments["request"].clone())
+                    .map_err(|error| format!("invalid usage import request: {error}"))?;
+            cockpit_repository::import_work_item_usage(repo, &request, runtime)
+                .map_err(|error| error.to_string())
+                .and_then(|receipt| {
+                    serde_json::to_value(receipt).map_err(|error| error.to_string())
+                })
+        }),
         "work_item_usage_record" => require_compatible(repo, runtime).and_then(|_| {
             let request: cockpit_protocol::UsageRecordRequest =
                 serde_json::from_value(arguments["request"].clone())

@@ -87,3 +87,40 @@ fn historical_report_without_usage_remains_byte_compatible() {
         bytes
     );
 }
+
+#[test]
+fn usage_import_metadata_cannot_override_source_counts_or_assurance() {
+    let valid = serde_json::json!({"schemaVersion":1,
+        "repositoryId":Digest::sha256_bytes(b"repository"),"workItemId":"WI-IMPORT",
+        "sourceFormat":"openai-response-json-v1","sourceRef":".ai/evidence/source.json",
+        "sourceDigest":Digest::sha256_bytes(b"source"),"role":"implementer","phase":"implementation"});
+    let request: cockpit_protocol::UsageImportRequest =
+        serde_json::from_value(valid.clone()).expect("request");
+    request.validate().expect("safe import metadata");
+    for field in [
+        "inputTokens",
+        "outputTokens",
+        "reportedModel",
+        "sourceEventId",
+        "sourceObservedAt",
+        "tokenAssurance",
+    ] {
+        let mut invalid = valid.clone();
+        invalid[field] = serde_json::json!("caller override");
+        assert!(
+            serde_json::from_value::<cockpit_protocol::UsageImportRequest>(invalid).is_err(),
+            "{field}"
+        );
+    }
+    for source in ["../secret", "/absolute", "path\\secret"] {
+        let mut invalid = request.clone();
+        invalid.source_ref = source.into();
+        assert!(invalid.validate().is_err(), "{source}");
+    }
+    let mut unsupported = request;
+    unsupported.source_format = "codex-exec-jsonl-v1".into();
+    assert!(
+        unsupported.validate().is_err(),
+        "cumulative source is unsupported"
+    );
+}

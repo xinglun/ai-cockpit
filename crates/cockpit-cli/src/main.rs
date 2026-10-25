@@ -947,7 +947,7 @@ enum WorkItemUsageCommand {
     Import {
         #[arg(long)]
         repo: PathBuf,
-        #[arg(long)]
+        #[arg(long, help = cockpit_protocol::WORK_ITEM_USAGE_IMPORT_INPUT_DESCRIPTION)]
         input: PathBuf,
     },
     /// Append one strict UsageRecordRequest JSON claim.

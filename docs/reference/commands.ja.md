@@ -594,3 +594,9 @@ WI 間の期限／取消と外部 B は対象外。隔離テストでの確認�
 認可は交付完了・撤回・期限の最初の事象で終了します。controls の `taskAuthorizationTermination` に `schemaVersion:1`、現在の `grantId`、`decision:"withdrawn"` または `"completed"`、明示 caller、reason を記録します。不変の記録は冪等で、権限を狭めるだけであり、認可復活や業務成功を作りません。各境界で期限を確認し、残り時間が不変の宣言済み予算より短い場合は子プロセスを開始しません。実行中の操作は安全な境界で観測し、盲目的にロールバックしません。
 
 archive 後は宣言済み残余交付／資源操作だけが可能です。別途有効なネイティブの人間 close 後は、事前認可済み closeout 公開と補助資源整理だけを許し、ソース作業を再開できません。交付完了時は completed を記録し、撤回や期限で停止します。人間 close は別判断です。本 WI はこの機能で自己承認せず、共有 Runtime・外部 B・本番権限を有効化しません。
+
+### 明示的な使用量ソースの取込み
+
+`ai-cockpit work-item usage import --repo <repository> --input <request.json>` と MCP `work_item_usage_import` は同じ厳密な `UsageImportRequest` を使います。schemaVersion 1、repositoryId、workItemId、sourceFormat `openai-response-json-v1`、安全なリポジトリ相対 sourceRef、正確な sourceDigest、role、phase を指定します。actor と configuredModel は任意です。token 数、reportedModel、sourceEventId、保証の上書きは許可しません。
+
+単一の completed Responses オブジェクトを有限ソースとし、ファイル名ではなく応答 ID で呼出を識別します。usage のキャッシュと推論は入力／出力の部分集合で二重加算しません。同一入力の再生は冪等、競合や別 WI は拒否します。バイトとラベルは呼出元の申告で、認証済み計測ではありません。欠けた数は不明のままで、累積 Codex JSONL、未提供のホスト出力、履歴使用量を推測しません。バックグラウンド API、資格情報、会話ディレクトリの読取りは追加しません。close 後の通常記録は禁止し、凍結済み報告を保持します。照会は標準で安全なメタデータと参照のみを返します。
