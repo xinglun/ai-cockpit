@@ -29,7 +29,6 @@ while [[ $# -gt 0 ]]; do
       esac
       shift 2 ;;
     --plan-only) plan_only=true; verify_options+=("$flag"); shift ;;
-    --archived-recovery) verify_options+=("$flag"); shift ;;
     *) printf 'unsupported managed verification argument: %s\n' "$flag" >&2; exit 2 ;;
   esac
 done
@@ -39,6 +38,9 @@ if [[ -z "$runtime" || -z "$repository" || -z "$work_item" ]]; then
 fi
 if [[ ! -x "$runtime" ]]; then
   printf 'selected Runtime is not executable: %s\n' "$runtime" >&2; exit 2
+fi
+if [[ ! "$work_item" =~ ^[A-Za-z0-9_-]+$ ]]; then
+  printf 'unsafe Work Item ID\n' >&2; exit 2
 fi
 repository=$(cd "$repository" && pwd -P)
 declare -a caller_options=()
@@ -64,7 +66,11 @@ has_action() {
     (.safeActions | index($action) != null)' <<<"$status" >/dev/null
 }
 if ! has_action run_verification && has_action run_preflight; then
-  "$runtime" preflight --repo "$repository" --work-item "$work_item" "${caller_options[@]}"
+  contract="$repository/.ai/work-items/active/$work_item.contract.json"
+  if [[ ! -f "$contract" || -L "$contract" ]]; then
+    printf 'active Contract is missing or unsafe: %s\n' "$contract" >&2; exit 1
+  fi
+  "$runtime" preflight --repo "$repository" --contract "$contract" "${caller_options[@]}"
   status=$(read_actions)
 fi
 if ! has_action run_verification; then
