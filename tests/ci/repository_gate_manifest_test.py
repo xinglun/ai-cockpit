@@ -74,6 +74,18 @@ assert ids == sorted(ids), "gate IDs must be deterministic"
 assert len(ids) == len(set(ids)), "duplicate gate ID"
 assert len(commands) == len(set(commands)), "duplicate gate command"
 assert all(entry["minimumProfile"] in manifest["profileOrder"] for entry in entries)
+prechecks_gate = next(entry for entry in entries if entry["id"] == "ci_repository_prechecks")
+assert prechecks_gate["command"] == ["tests/ci/run_repository_prechecks.sh"]
+assert prechecks_gate["minimumProfile"] == "light"
+by_id = {entry["id"]: entry for entry in entries}
+def depends_on_prechecks(gate_id, visited=None):
+    if gate_id == "ci_repository_prechecks":
+        return True
+    visited = set() if visited is None else visited
+    assert gate_id not in visited, f"cyclic gate dependencies: {gate_id}"
+    return any(depends_on_prechecks(dependency, visited | {gate_id})
+               for dependency in by_id[gate_id].get("dependsOn", []))
+assert all(depends_on_prechecks(gate_id) for gate_id in ids), "all gates must wait for the cheap barrier"
 coordination_acceptance = next(
     entry for entry in entries if entry["id"] == "conformance_cross_wi_coordination_processes"
 )
@@ -363,6 +375,38 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     assert report["state"] == "passed"
     assert report["route"]["receiptDigest"] == receipt["receiptDigest"]
     assert [gate["id"] for gate in report["gates"]] == ["fixture_true"]
+
+    # Exercise the production DAG against an actual failing cheap barrier:
+    # a failed prerequisite must not launch any expensive command, and a
+    # forged/foreign success report is not an implicit reusable admission.
+    barrier_marker = fixture / "expensive-launched"
+    barrier_gates = [
+        {"category":"ci", "id":"ci_repository_prechecks", "minimumProfile":"light",
+         "command":[sys.executable,"-c","raise SystemExit(23)"]},
+        {"category":"workspace", "id":"workspace_expensive", "minimumProfile":"light",
+         "dependsOn":["ci_repository_prechecks"],
+         "command":[sys.executable,"-c",f"from pathlib import Path; Path({str(barrier_marker)!r}).touch()"]},
+    ]
+    barrier_manifest = fixture / "barrier-manifest.json"
+    barrier_data = json.loads(fixture_manifest.read_text())
+    barrier_data["gates"] = barrier_gates
+    barrier_manifest.write_text(json.dumps(barrier_data))
+    barrier_route = route.plan_repository_route(repository=repository, manifest_path=barrier_manifest,
+        base=base, head=head, stage="pull_request", risk="normal", contract_path=None, requested_profile=None)
+    barrier_route_path = fixture / "barrier-route.json"
+    barrier_route_path.write_text(json.dumps(barrier_route))
+    barrier_report = fixture / "barrier-report.json"
+    barrier_report.write_text(json.dumps({"state":"passed", "launchedGateIds":["workspace_expensive"]}))
+    barrier_run = subprocess.run([sys.executable,str(root/"tests/ci/run_repository_gates.py"),
+        "--repo",str(repository),"--manifest",str(barrier_manifest),
+        "--route-receipt",str(barrier_route_path),"--report",str(barrier_report)],
+        capture_output=True,text=True)
+    assert barrier_run.returncode == 1, barrier_run.stderr
+    barrier_result = json.loads(barrier_report.read_text())
+    assert barrier_result["launchedGateIds"] == ["ci_repository_prechecks"]
+    assert not barrier_marker.exists()
+    blocked = next(gate for gate in barrier_result["gates"] if gate["id"] == "workspace_expensive")
+    assert blocked["state"] == "blocked" and blocked["blockedBy"] == ["ci_repository_prechecks"]
 
     # Terminal documentation projection is post-merge work: the PR route must
     # expose deferred gates without claiming they passed, while retaining the

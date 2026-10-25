@@ -28,6 +28,21 @@ def job_block(name):
     next_job = re.search(r"(?m)^  [A-Za-z0-9_-]+:\s*$", remaining)
     return workflow[start:] if next_job is None else workflow[start:start + len(marker) + next_job.start()]
 
+# The managed cheap barrier must precede the first Rust build in every
+# source context, including release-input planning before a tag source exists.
+precheck = "bash tests/ci/run_repository_prechecks.sh --repo"
+route_job = job_block("route")
+assert precheck in route_job, "CI must run cheap prechecks before the shared Rust build"
+assert route_job.index(precheck) < route_job.index("cargo build")
+release_workflow = Path(sys.argv[1]).with_name("release.yml").read_text(encoding="utf-8")
+for name in ("release_input_preflight", "release_preflight"):
+    remaining = release_workflow.split(f"  {name}:\n", 1)[1]
+    match = re.search(r"(?m)^  [A-Za-z0-9_-]+:\s*$", remaining)
+    block = remaining if match is None else remaining[:match.start()]
+    assert precheck in block, f"{name} omits canonical cheap prechecks"
+    assert block.index(precheck) < block.index("cargo build"), name
+assert 'run_repository_prechecks.sh --repo "$GITHUB_WORKSPACE/release-source"' in release_workflow
+
 # Pull-request runs must converge by cancelling only superseded runs for the
 # same PR.  Main pushes and release workflow truth must not be cancellable by
 # this policy.
